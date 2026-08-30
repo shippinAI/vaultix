@@ -1,0 +1,1 @@
+export { VaultixSecretInput } from "./VaultixSecretInput";

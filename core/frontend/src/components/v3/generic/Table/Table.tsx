@@ -1,0 +1,160 @@
+import * as React from "react";
+
+import { cn } from "@app/components/v3/utils";
+
+const Table = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"table"> & { containerClassName?: string }
+>(({ className, containerClassName, ...props }, ref) => {
+  return (
+    <div
+      ref={ref}
+      data-slot="table-container"
+      className={cn(
+        "relative thin-scrollbar w-full overflow-x-auto rounded-md border border-border bg-container",
+        containerClassName
+      )}
+    >
+      <table
+        data-slot="table"
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+      />
+    </div>
+  );
+});
+
+Table.displayName = "Table";
+
+function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn("text-sm [&_tr]:border-b [&_tr]:hover:bg-transparent", className)}
+      {...props}
+    />
+  );
+}
+
+function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+  return (
+    <tbody
+      data-slot="table-body"
+      className={cn("[&>tr:last-of-type]:border-b-0 [&>tr:last-of-type>td]:border-b-0", className)}
+      {...props}
+    />
+  );
+}
+
+function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+  return (
+    <tfoot
+      data-slot="table-footer"
+      className={cn(
+        "border-t border-border bg-foreground/[0.03] font-medium",
+        "[&>tr:last-of-type]:border-b-0 [&>tr:last-of-type>td]:border-b-0",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+const TableRow = React.forwardRef<HTMLTableRowElement, React.ComponentProps<"tr">>(
+  ({ className, ...props }, ref) => {
+    return (
+      <tr
+        ref={ref}
+        data-slot="table-row"
+        className={cn(
+          "border-b border-border transition-colors duration-75 hover:bg-container-hover data-[state=selected]:bg-container-hover",
+          props.onClick && "cursor-pointer",
+          className
+        )}
+        {...props}
+      />
+    );
+  }
+);
+
+TableRow.displayName = "TableRow";
+
+function TableHead({
+  className,
+  isTruncatable,
+  ...props
+}: React.ComponentProps<"th"> & { isTruncatable?: boolean }) {
+  return (
+    <th
+      data-slot="table-head"
+      className={cn(
+        "h-[30px] border-x-0 border-t-0 border-b border-border px-3 text-left align-middle text-xs whitespace-nowrap text-accent select-none [&:has([role=checkbox])]:pr-0",
+        "has-[>svg]:cursor-pointer [&>svg]:ml-1 [&>svg]:inline-block [&>svg:not([class*='size-'])]:size-4",
+        isTruncatable && "truncate",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function TableHeadLabel({
+  className,
+  children,
+  trailing,
+  ...props
+}: React.ComponentProps<"div"> & { trailing?: React.ReactNode }) {
+  return (
+    <div
+      data-slot="table-head-label"
+      className={cn("flex min-w-0 items-center gap-1", className)}
+      {...props}
+    >
+      <span className="min-w-0 truncate">{children}</span>
+      {trailing}
+    </div>
+  );
+}
+
+function TableCell({
+  className,
+  isTruncatable,
+  ...props
+}: React.ComponentProps<"td"> & { isTruncatable?: boolean }) {
+  return (
+    <td
+      data-slot="table-cell"
+      className={cn(
+        "h-[40px] border-b border-border px-3 align-middle whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>svg]:size-4",
+        isTruncatable && "max-w-0 truncate",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
+  return (
+    <caption
+      data-slot="table-caption"
+      className={cn(
+        "border-t border-border bg-foreground/[0.03] px-3 py-2 text-left text-xs text-muted",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableHeadLabel,
+  TableRow
+};

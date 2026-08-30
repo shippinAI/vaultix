@@ -1,0 +1,38 @@
+export enum CaType {
+  INTERNAL = "internal",
+  ACME = "acme",
+  AZURE_AD_CS = "azure-ad-cs",
+  ADCS = "adcs",
+  AWS_PCA = "aws-pca",
+  DIGICERT = "digicert",
+  AWS_ACM_PUBLIC_CA = "aws-acm-public-ca",
+  VENAFI_TPP = "venafi-tpp",
+  GODADDY = "godaddy"
+}
+
+export enum InternalCaType {
+  ROOT = "root",
+  INTERMEDIATE = "intermediate"
+}
+
+export enum CaStatus {
+  ACTIVE = "active",
+  DISABLED = "disabled",
+  PENDING_CERTIFICATE = "pending-certificate"
+}
+
+export enum CaRenewalType {
+  EXISTING = "existing"
+}
+
+export enum CaRenewalStatus {
+  PENDING = "pending",
+  SUCCESS = "success",
+  FAILED = "failed"
+}
+
+export enum CaCapability {
+  ISSUE_CERTIFICATES = "issue-certificates",
+  REVOKE_CERTIFICATES = "revoke-certificates",
+  RENEW_CERTIFICATES = "renew-certificates"
+}

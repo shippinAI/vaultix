@@ -1,0 +1,835 @@
+import { z } from "zod";
+
+import { IdentityAuthMethod, IdentityUaClientSecretsSchema, IdentityUniversalAuthsSchema } from "@app/db/schemas";
+import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { ApiDocsTags, UNIVERSAL_AUTH } from "@app/lib/api-docs";
+import { UnauthorizedError } from "@app/lib/errors";
+import { logger } from "@app/lib/logger";
+import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
+import { slugSchema } from "@app/server/lib/schemas";
+import { getTelemetryDistinctId } from "@app/server/lib/telemetry";
+import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
+import { ActorType, AuthMode } from "@app/services/auth/auth-type";
+import { TIdentityTrustedIp } from "@app/services/identity/identity-types";
+import { MAX_UA_CLIENT_SECRET_TTL_SECONDS } from "@app/services/identity-ua/identity-ua-types";
+import { isSuperAdmin } from "@app/services/super-admin/super-admin-fns";
+import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
+
+export const sanitizedClientSecretSchema = IdentityUaClientSecretsSchema.pick({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  description: true,
+  clientSecretPrefix: true,
+  clientSecretNumUses: true,
+  clientSecretNumUsesLimit: true,
+  clientSecretTTL: true,
+  identityUAId: true,
+  isClientSecretRevoked: true
+});
+
+export const registerIdentityUaRouter = async (server: FastifyZodProvider) => {
+  server.route({
+    method: "POST",
+    url: "/universal-auth/login",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      hide: false,
+      operationId: "loginWithUniversalAuth",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Login with Universal Auth for machine identity",
+      body: z.object({
+        clientId: z.string().trim().describe(UNIVERSAL_AUTH.LOGIN.clientId),
+        clientSecret: z.string().trim().describe(UNIVERSAL_AUTH.LOGIN.clientSecret),
+        organizationSlug: slugSchema().optional().describe(UNIVERSAL_AUTH.LOGIN.organizationSlug)
+      }),
+      response: {
+        200: z.object({
+          accessToken: z.string(),
+          expiresIn: z.coerce.number(),
+          accessTokenMaxTTL: z.coerce.number(),
+          tokenType: z.literal("Bearer")
+        })
+      }
+    },
+    handler: async (req) => {
+      try {
+        const {
+          identityUa,
+          accessToken,
+          identityAccessToken,
+          validClientSecretInfo,
+          identity,
+          accessTokenTTL,
+          accessTokenMaxTTL
+        } = await server.services.identityUa.login({
+          ...req.body,
+          ip: req.realIp,
+          userAgent: req.auditLogInfo.userAgent,
+          userAgentType: req.auditLogInfo.userAgentType
+        });
+
+        await server.services.auditLog.createAuditLog({
+          ...req.auditLogInfo,
+          actor: {
+            type: ActorType.IDENTITY,
+            metadata: {
+              identityId: identityUa.identityId,
+              name: identity.name
+            }
+          },
+          orgId: identity.orgId,
+          event: {
+            type: EventType.LOGIN_IDENTITY_UNIVERSAL_AUTH,
+            metadata: {
+              clientSecretId: validClientSecretInfo.id,
+              identityId: identityUa.identityId,
+              identityAccessTokenId: identityAccessToken.id,
+              identityUniversalAuthId: identityUa.id
+            }
+          }
+        });
+
+        void server.services.telemetry
+          .sendPostHogEvents({
+            event: PostHogEventTypes.MachineIdentityLogin,
+            distinctId: `identity-${identityUa.identityId}`,
+            organizationId: identity.orgId,
+            properties: {
+              identityId: identityUa.identityId,
+              orgId: identity.orgId,
+              authMethod: IdentityAuthMethod.UNIVERSAL_AUTH
+            }
+          })
+          .catch((error) => {
+            logger.error(error, `Failed to send telemetry event [identityId=${identityUa.identityId}]`);
+          });
+
+        return {
+          accessToken,
+          tokenType: "Bearer" as const,
+          expiresIn: accessTokenTTL,
+          accessTokenMaxTTL
+        };
+      } catch (error) {
+        if (
+          error instanceof UnauthorizedError &&
+          error.detail?.orgId &&
+          error.detail?.identityId &&
+          error.detail?.identityName
+        ) {
+          await server.services.auditLog.createAuditLog({
+            ...req.auditLogInfo,
+            actor: {
+              type: ActorType.IDENTITY,
+              metadata: {
+                identityId: error.detail.identityId as string,
+                name: error.detail.identityName as string
+              }
+            },
+            orgId: error.detail.orgId as string,
+            event: {
+              type: EventType.LOGIN_IDENTITY_UNIVERSAL_AUTH_FAILED,
+              metadata: {
+                clientId: req.body.clientId,
+                identityId: error.detail.identityId as string,
+                reasonCode: error.detail.reasonCode as string,
+                message: error.message
+              }
+            }
+          });
+        }
+        throw error;
+      }
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/universal-auth/identities/:identityId",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "attachUniversalAuth",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Attach Universal Auth configuration onto machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().trim().describe(UNIVERSAL_AUTH.ATTACH.identityId)
+      }),
+      body: z
+        .object({
+          clientSecretTrustedIps: z
+            .object({
+              ipAddress: z.string().trim()
+            })
+            .array()
+            .min(1)
+            .default([{ ipAddress: "0.0.0.0/0" }, { ipAddress: "::/0" }])
+            .describe(UNIVERSAL_AUTH.ATTACH.clientSecretTrustedIps),
+          accessTokenTrustedIps: z
+            .object({
+              ipAddress: z.string().trim()
+            })
+            .array()
+            .min(1)
+            .default([{ ipAddress: "0.0.0.0/0" }, { ipAddress: "::/0" }])
+            .describe(UNIVERSAL_AUTH.ATTACH.accessTokenTrustedIps),
+          accessTokenTTL: z
+            .number()
+            .int()
+            .min(0)
+            .max(315360000)
+            .default(2592000)
+            .describe(UNIVERSAL_AUTH.ATTACH.accessTokenTTL), // 30 days
+          accessTokenMaxTTL: z
+            .number()
+            .int()
+            .min(0)
+            .max(315360000)
+            .default(2592000)
+            .describe(UNIVERSAL_AUTH.ATTACH.accessTokenMaxTTL), // 30 days
+          accessTokenNumUsesLimit: z
+            .number()
+            .int()
+            .min(0)
+            .default(0)
+            .describe(UNIVERSAL_AUTH.ATTACH.accessTokenNumUsesLimit),
+          accessTokenPeriod: z.number().int().min(0).default(0).describe(UNIVERSAL_AUTH.ATTACH.accessTokenPeriod),
+          lockoutEnabled: z.boolean().default(true).describe(UNIVERSAL_AUTH.ATTACH.lockoutEnabled),
+          lockoutThreshold: z.number().min(1).max(30).default(3).describe(UNIVERSAL_AUTH.ATTACH.lockoutThreshold),
+          lockoutDurationSeconds: z
+            .number()
+            .min(30)
+            .max(86400)
+            .default(300)
+            .describe(UNIVERSAL_AUTH.ATTACH.lockoutDurationSeconds),
+          lockoutCounterResetSeconds: z
+            .number()
+            .min(5)
+            .max(3600)
+            .default(30)
+            .describe(UNIVERSAL_AUTH.ATTACH.lockoutCounterResetSeconds)
+        })
+        .refine(
+          (val) => val.accessTokenTTL <= val.accessTokenMaxTTL,
+          "Access Token TTL cannot be greater than Access Token Max TTL."
+        ),
+      response: {
+        200: z.object({
+          identityUniversalAuth: IdentityUniversalAuthsSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const identityUniversalAuth = await server.services.identityUa.attachUniversalAuth({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorOrgId: req.permission.orgId,
+        actorAuthMethod: req.permission.authMethod,
+        ...req.body,
+        identityId: req.params.identityId,
+        isActorSuperAdmin: isSuperAdmin(req.auth)
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: identityUniversalAuth.orgId,
+        event: {
+          type: EventType.ADD_IDENTITY_UNIVERSAL_AUTH,
+          metadata: {
+            identityId: identityUniversalAuth.identityId,
+            accessTokenTTL: identityUniversalAuth.accessTokenTTL,
+            accessTokenMaxTTL: identityUniversalAuth.accessTokenMaxTTL,
+            accessTokenTrustedIps: identityUniversalAuth.accessTokenTrustedIps as TIdentityTrustedIp[],
+            clientSecretTrustedIps: identityUniversalAuth.clientSecretTrustedIps as TIdentityTrustedIp[],
+            accessTokenNumUsesLimit: identityUniversalAuth.accessTokenNumUsesLimit,
+            lockoutEnabled: identityUniversalAuth.lockoutEnabled,
+            lockoutThreshold: identityUniversalAuth.lockoutThreshold,
+            lockoutDurationSeconds: identityUniversalAuth.lockoutDurationSeconds,
+            lockoutCounterResetSeconds: identityUniversalAuth.lockoutCounterResetSeconds
+          }
+        }
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.MachineIdentityAuthMethodAttached,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: identityUniversalAuth.orgId,
+          properties: {
+            identityId: identityUniversalAuth.identityId,
+            orgId: identityUniversalAuth.orgId,
+            authMethod: IdentityAuthMethod.UNIVERSAL_AUTH
+          }
+        })
+        .catch((error) => {
+          logger.error(error, `Failed to send telemetry event [identityId=${identityUniversalAuth.identityId}]`);
+        });
+
+      return { identityUniversalAuth };
+    }
+  });
+
+  server.route({
+    method: "PATCH",
+    url: "/universal-auth/identities/:identityId",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "updateUniversalAuth",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Update Universal Auth configuration on machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.UPDATE.identityId)
+      }),
+      body: z
+        .object({
+          clientSecretTrustedIps: z
+            .object({
+              ipAddress: z.string().trim()
+            })
+            .array()
+            .min(1)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.clientSecretTrustedIps),
+          accessTokenTrustedIps: z
+            .object({
+              ipAddress: z.string().trim()
+            })
+            .array()
+            .min(1)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.accessTokenTrustedIps),
+          accessTokenTTL: z
+            .number()
+            .int()
+            .min(0)
+            .max(315360000)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.accessTokenTTL),
+          accessTokenNumUsesLimit: z
+            .number()
+            .int()
+            .min(0)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.accessTokenNumUsesLimit),
+          accessTokenMaxTTL: z
+            .number()
+            .int()
+            .min(0)
+            .max(315360000)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.accessTokenMaxTTL),
+          accessTokenPeriod: z
+            .number()
+            .int()
+            .min(0)
+            .max(315360000)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.accessTokenPeriod),
+          lockoutEnabled: z.boolean().optional().describe(UNIVERSAL_AUTH.UPDATE.lockoutEnabled),
+          lockoutThreshold: z.number().min(1).max(30).optional().describe(UNIVERSAL_AUTH.UPDATE.lockoutThreshold),
+          lockoutDurationSeconds: z
+            .number()
+            .min(30)
+            .max(86400)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.lockoutDurationSeconds),
+          lockoutCounterResetSeconds: z
+            .number()
+            .min(5)
+            .max(3600)
+            .optional()
+            .describe(UNIVERSAL_AUTH.UPDATE.lockoutCounterResetSeconds)
+        })
+        .refine(
+          (val) => (val.accessTokenMaxTTL && val.accessTokenTTL ? val.accessTokenTTL <= val.accessTokenMaxTTL : true),
+          "Access Token TTL cannot be greater than Access Token Max TTL."
+        ),
+      response: {
+        200: z.object({
+          identityUniversalAuth: IdentityUniversalAuthsSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const identityUniversalAuth = await server.services.identityUa.updateUniversalAuth({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorOrgId: req.permission.orgId,
+        actorAuthMethod: req.permission.authMethod,
+        ...req.body,
+        identityId: req.params.identityId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: identityUniversalAuth.orgId,
+        event: {
+          type: EventType.UPDATE_IDENTITY_UNIVERSAL_AUTH,
+          metadata: {
+            identityId: identityUniversalAuth.identityId,
+            accessTokenTTL: identityUniversalAuth.accessTokenTTL,
+            accessTokenMaxTTL: identityUniversalAuth.accessTokenMaxTTL,
+            accessTokenTrustedIps: identityUniversalAuth.accessTokenTrustedIps as TIdentityTrustedIp[],
+            clientSecretTrustedIps: identityUniversalAuth.clientSecretTrustedIps as TIdentityTrustedIp[],
+            accessTokenNumUsesLimit: identityUniversalAuth.accessTokenNumUsesLimit,
+            lockoutEnabled: identityUniversalAuth.lockoutEnabled,
+            lockoutThreshold: identityUniversalAuth.lockoutThreshold,
+            lockoutDurationSeconds: identityUniversalAuth.lockoutDurationSeconds,
+            lockoutCounterResetSeconds: identityUniversalAuth.lockoutCounterResetSeconds
+          }
+        }
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.MachineIdentityAuthMethodUpdated,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: identityUniversalAuth.orgId,
+          properties: {
+            identityId: identityUniversalAuth.identityId,
+            orgId: identityUniversalAuth.orgId,
+            authMethod: IdentityAuthMethod.UNIVERSAL_AUTH
+          }
+        })
+        .catch((error) => {
+          logger.error(error, `Failed to send telemetry event [identityId=${identityUniversalAuth.identityId}]`);
+        });
+
+      return { identityUniversalAuth };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/universal-auth/identities/:identityId",
+    config: {
+      rateLimit: readLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "getUniversalAuth",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Retrieve Universal Auth configuration on machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.RETRIEVE.identityId)
+      }),
+      response: {
+        200: z.object({
+          identityUniversalAuth: IdentityUniversalAuthsSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const identityUniversalAuth = await server.services.identityUa.getIdentityUniversalAuth({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorAuthMethod: req.permission.authMethod,
+        actorOrgId: req.permission.orgId,
+        identityId: req.params.identityId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: identityUniversalAuth.orgId,
+        event: {
+          type: EventType.GET_IDENTITY_UNIVERSAL_AUTH,
+          metadata: {
+            identityId: identityUniversalAuth.identityId
+          }
+        }
+      });
+
+      return { identityUniversalAuth };
+    }
+  });
+
+  server.route({
+    method: "DELETE",
+    url: "/universal-auth/identities/:identityId",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "deleteUniversalAuth",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Delete Universal Auth configuration on machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.REVOKE.identityId)
+      }),
+      response: {
+        200: z.object({
+          identityUniversalAuth: IdentityUniversalAuthsSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const identityUniversalAuth = await server.services.identityUa.revokeIdentityUniversalAuth({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorAuthMethod: req.permission.authMethod,
+        actorOrgId: req.permission.orgId,
+        identityId: req.params.identityId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: identityUniversalAuth.orgId,
+        event: {
+          type: EventType.REVOKE_IDENTITY_UNIVERSAL_AUTH,
+          metadata: {
+            identityId: identityUniversalAuth.identityId
+          }
+        }
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.MachineIdentityAuthMethodRevoked,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: identityUniversalAuth.orgId,
+          properties: {
+            identityId: identityUniversalAuth.identityId,
+            orgId: identityUniversalAuth.orgId,
+            authMethod: IdentityAuthMethod.UNIVERSAL_AUTH
+          }
+        })
+        .catch((error) => {
+          logger.error(error, `Failed to send telemetry event [identityId=${identityUniversalAuth.identityId}]`);
+        });
+
+      return { identityUniversalAuth };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/universal-auth/identities/:identityId/client-secrets",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "createUniversalAuthClientSecret",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Create Universal Auth Client Secret for machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.CREATE_CLIENT_SECRET.identityId)
+      }),
+      body: z.object({
+        description: z.string().trim().default("").describe(UNIVERSAL_AUTH.CREATE_CLIENT_SECRET.description),
+        numUsesLimit: z.number().min(0).default(0).describe(UNIVERSAL_AUTH.CREATE_CLIENT_SECRET.numUsesLimit),
+        ttl: z
+          .number()
+          .min(0)
+          .max(MAX_UA_CLIENT_SECRET_TTL_SECONDS)
+          .default(0)
+          .describe(UNIVERSAL_AUTH.CREATE_CLIENT_SECRET.ttl)
+      }),
+      response: {
+        200: z.object({
+          clientSecret: z.string(),
+          clientSecretData: sanitizedClientSecretSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const { clientSecret, clientSecretData, orgId } =
+        await server.services.identityUa.createUniversalAuthClientSecret({
+          actor: req.permission.type,
+          actorId: req.permission.id,
+          actorAuthMethod: req.permission.authMethod,
+          actorOrgId: req.permission.orgId,
+          identityId: req.params.identityId,
+          ...req.body
+        });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId,
+        event: {
+          type: EventType.CREATE_IDENTITY_UNIVERSAL_AUTH_CLIENT_SECRET,
+          metadata: {
+            identityId: req.params.identityId,
+            clientSecretId: clientSecretData.id
+          }
+        }
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.MachineIdentityClientSecretCreated,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: orgId,
+          properties: {
+            identityId: req.params.identityId,
+            orgId
+          }
+        })
+        .catch((error) => {
+          logger.error(error, `Failed to send telemetry event [identityId=${req.params.identityId}]`);
+        });
+
+      return { clientSecret, clientSecretData };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/universal-auth/identities/:identityId/client-secrets",
+    config: {
+      rateLimit: readLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "listUniversalAuthClientSecrets",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "List Universal Auth Client Secrets for machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.LIST_CLIENT_SECRETS.identityId)
+      }),
+      response: {
+        200: z.object({
+          clientSecretData: sanitizedClientSecretSchema.array()
+        })
+      }
+    },
+    handler: async (req) => {
+      const { clientSecrets: clientSecretData, orgId } = await server.services.identityUa.getUniversalAuthClientSecrets(
+        {
+          actor: req.permission.type,
+          actorId: req.permission.id,
+          actorAuthMethod: req.permission.authMethod,
+          actorOrgId: req.permission.orgId,
+          identityId: req.params.identityId
+        }
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId,
+        event: {
+          type: EventType.GET_IDENTITY_UNIVERSAL_AUTH_CLIENT_SECRETS,
+          metadata: {
+            identityId: req.params.identityId
+          }
+        }
+      });
+      return { clientSecretData };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/universal-auth/identities/:identityId/client-secrets/:clientSecretId",
+    config: {
+      rateLimit: readLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "getUniversalAuthClientSecret",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Get Universal Auth Client Secret for machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.GET_CLIENT_SECRET.identityId),
+        clientSecretId: z.string().describe(UNIVERSAL_AUTH.GET_CLIENT_SECRET.clientSecretId)
+      }),
+      response: {
+        200: z.object({
+          clientSecretData: sanitizedClientSecretSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const clientSecretData = await server.services.identityUa.getUniversalAuthClientSecretById({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorAuthMethod: req.permission.authMethod,
+        actorOrgId: req.permission.orgId,
+        identityId: req.params.identityId,
+        clientSecretId: req.params.clientSecretId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: clientSecretData.orgId,
+        event: {
+          type: EventType.GET_IDENTITY_UNIVERSAL_AUTH_CLIENT_SECRET_BY_ID,
+          metadata: {
+            identityId: clientSecretData.identityId,
+            clientSecretId: clientSecretData.id
+          }
+        }
+      });
+
+      return { clientSecretData };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/universal-auth/identities/:identityId/client-secrets/:clientSecretId/revoke",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "revokeUniversalAuthClientSecret",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Revoke Universal Auth Client Secrets for machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.REVOKE_CLIENT_SECRET.identityId),
+        clientSecretId: z.string().describe(UNIVERSAL_AUTH.REVOKE_CLIENT_SECRET.clientSecretId)
+      }),
+      response: {
+        200: z.object({
+          clientSecretData: sanitizedClientSecretSchema
+        })
+      }
+    },
+    handler: async (req) => {
+      const clientSecretData = await server.services.identityUa.revokeUniversalAuthClientSecret({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorAuthMethod: req.permission.authMethod,
+        actorOrgId: req.permission.orgId,
+        identityId: req.params.identityId,
+        clientSecretId: req.params.clientSecretId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: clientSecretData.orgId,
+        event: {
+          type: EventType.REVOKE_IDENTITY_UNIVERSAL_AUTH_CLIENT_SECRET,
+          metadata: {
+            identityId: clientSecretData.identityId,
+            clientSecretId: clientSecretData.id
+          }
+        }
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.MachineIdentityClientSecretRevoked,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: clientSecretData.orgId,
+          properties: {
+            identityId: clientSecretData.identityId,
+            orgId: clientSecretData.orgId
+          }
+        })
+        .catch((error) => {
+          logger.error(error, `Failed to send telemetry event [identityId=${clientSecretData.identityId}]`);
+        });
+
+      return { clientSecretData };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/universal-auth/identities/:identityId/clear-lockouts",
+    config: {
+      rateLimit: writeLimit
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    schema: {
+      hide: false,
+      operationId: "clearUniversalAuthLockouts",
+      tags: [ApiDocsTags.UniversalAuth],
+      description: "Clear Universal Auth Lockouts for machine identity",
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
+      params: z.object({
+        identityId: z.string().describe(UNIVERSAL_AUTH.CLEAR_CLIENT_LOCKOUTS.identityId)
+      }),
+      response: {
+        200: z.object({
+          deleted: z.number()
+        })
+      }
+    },
+    handler: async (req) => {
+      const clearLockoutsData = await server.services.identityUa.clearUniversalAuthLockouts({
+        actor: req.permission.type,
+        actorId: req.permission.id,
+        actorAuthMethod: req.permission.authMethod,
+        actorOrgId: req.permission.orgId,
+        identityId: req.params.identityId
+      });
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: clearLockoutsData.orgId,
+        event: {
+          type: EventType.CLEAR_IDENTITY_UNIVERSAL_AUTH_LOCKOUTS,
+          metadata: {
+            identityId: clearLockoutsData.identityId
+          }
+        }
+      });
+
+      return clearLockoutsData;
+    }
+  });
+};

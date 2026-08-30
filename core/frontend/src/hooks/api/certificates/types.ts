@@ -1,0 +1,312 @@
+import {
+  CertExtendedKeyUsage,
+  CertificateRequestStatus,
+  CertKeyUsage,
+  CertSource,
+  CertStatus
+} from "./enums";
+
+export type TCertificateSubject = {
+  commonName?: string;
+  organization?: string;
+  organizationalUnit?: string;
+  country?: string;
+  state?: string;
+  locality?: string;
+  domainComponents?: string[];
+};
+
+export type TCertificateFingerprints = {
+  sha256: string;
+  sha1?: string;
+};
+
+export type TCertificateSource = CertSource | null;
+
+export type TCertificate = {
+  id: string;
+  caId: string;
+  certificateTemplateId?: string;
+  profileId?: string;
+  status: CertStatus;
+  friendlyName: string;
+  commonName: string;
+  subjectAltNames: string;
+  altNames?: string;
+  serialNumber: string;
+  notBefore: string;
+  notAfter: string;
+  keyUsages: CertKeyUsage[];
+  extendedKeyUsages: CertExtendedKeyUsage[];
+  renewBeforeDays?: number;
+  renewedBy?: string;
+  renewedFromCertificateId?: string;
+  renewedByCertificateId?: string;
+  renewalError?: string;
+  hasPrivateKey?: boolean;
+  keyAlgorithm?: string | null;
+  signatureAlgorithm?: string | null;
+  subject?: TCertificateSubject;
+  fingerprints?: TCertificateFingerprints;
+  basicConstraints?: {
+    isCA: boolean;
+    pathLength?: number;
+  };
+  caName?: string | null;
+  profileName?: string | null;
+  enrollmentType?: string | null;
+  caType?: "internal" | "external" | null;
+  applicationId?: string | null;
+  applicationName?: string | null;
+  source?: TCertificateSource;
+  discoveryMetadata?: {
+    issuerCommonName?: string;
+    issuerOrganization?: string;
+    [key: string]: unknown;
+  } | null;
+  metadata?: Array<{ key: string; value: string }>;
+};
+
+export type TCertificateByIdResponse = {
+  certificate: TCertificate;
+};
+
+export type TDeleteCertDTO = {
+  id: string;
+};
+
+export type TRevokeCertDTO = {
+  id: string;
+  revocationReason: string;
+};
+
+export type TImportCertificateDTO = {
+  certificatePem: string;
+  privateKeyPem?: string;
+  chainPem?: string;
+
+  pkiCollectionId?: string;
+  friendlyName?: string;
+  applicationId?: string;
+};
+
+export type TImportCertificateResponse = {
+  certificate: string;
+  certificateChain?: string;
+  privateKey?: string;
+  serialNumber: string;
+};
+
+export type TRenewCertificateDTO = {
+  certificateId: string;
+};
+
+export type TRenewCertificateResponse = {
+  certificate: string;
+  issuingCaCertificate: string;
+  certificateChain: string;
+  privateKey?: string;
+  serialNumber: string;
+  certificateId: string;
+  projectId: string;
+  certificateRequestId?: string;
+};
+
+export type TUpdateRenewalConfigDTO = {
+  certificateId: string;
+  renewBeforeDays?: number;
+  enableAutoRenewal?: boolean;
+};
+
+export type TDownloadPkcs12DTO = {
+  certificateId: string;
+  password: string;
+  alias: string;
+};
+
+export type TUnifiedCertificateIssuanceDTO = {
+  profileId: string;
+  applicationId?: string;
+  csr?: string;
+  attributes?: {
+    commonName?: string | null;
+    organization?: string | null;
+    organizationalUnit?: string | null;
+    country?: string | null;
+    state?: string | null;
+    locality?: string | null;
+    domainComponents?: string[];
+    keyUsages?: string[];
+    extendedKeyUsages?: string[];
+    altNames?: Array<{
+      type: string;
+      value: string;
+    }>;
+    signatureAlgorithm?: string;
+    keyAlgorithm?: string;
+    subjectAlternativeNames?: Array<{
+      type: string;
+      value: string;
+    }>;
+    ttl?: string;
+    notBefore?: string;
+    notAfter?: string;
+  };
+  removeRootsFromChain?: boolean;
+  metadata?: Array<{ key: string; value: string }>;
+};
+
+export type TUnifiedCertificateResponse = {
+  certificate: {
+    certificate: string;
+    issuingCaCertificate: string;
+    certificateChain: string;
+    privateKey?: string;
+    serialNumber: string;
+    certificateId: string;
+  };
+  certificateRequestId: string;
+};
+
+export type TCertificateRequestResponse = {
+  certificateRequestId: string;
+  status: "pending_approval" | "pending" | "issued" | "failed" | "rejected";
+  projectId: string;
+};
+
+export type TUnifiedCertificateIssuanceResponse =
+  | TUnifiedCertificateResponse
+  | TCertificateRequestResponse;
+
+export type TCertificateRequestDetails = {
+  status: "pending" | "issued" | "failed" | "pending_approval" | "rejected";
+  certificate: string | null;
+  certificateId: string | null;
+  privateKey: string | null;
+  serialNumber: string | null;
+  errorMessage: string | null;
+  pendingMessage: string | null;
+  commonName: string | null;
+  organization: string | null;
+  organizationalUnit: string | null;
+  country: string | null;
+  state: string | null;
+  locality: string | null;
+  domainComponents: string[] | null;
+  basicConstraints: {
+    isCA: boolean;
+    pathLength?: number;
+  } | null;
+  createdAt: string;
+  updatedAt: string;
+  metadata?: Array<{ key: string; value: string }>;
+};
+
+export type TUpdateCertificateDTO = {
+  certificateId: string;
+  metadata: Array<{ key: string; value: string }>;
+};
+
+export type TCertificateRequestListItem = {
+  id: string;
+  status: "pending_approval" | "pending" | "pending_validation" | "issued" | "failed" | "rejected";
+  commonName: string | null;
+  altNames: string | null;
+  profileId: string | null;
+  profileName: string | null;
+  caId: string | null;
+  certificateId: string | null;
+  approvalRequestId: string | null;
+  errorMessage: string | null;
+  pendingMessage: string | null;
+  createdAt: string;
+  updatedAt: string;
+  certificate: {
+    id: string;
+    serialNumber: string;
+    status: string;
+  } | null;
+};
+
+export type TCancelCertificateRequestResponse = {
+  status: "pending_approval" | "pending" | "pending_validation" | "issued" | "failed" | "rejected";
+  cancelled: boolean;
+  errorMessage: string | null;
+};
+
+export type TListCertificateRequestsResponse = {
+  certificateRequests: TCertificateRequestListItem[];
+  totalCount: number;
+};
+
+export type TListCertificateRequestsParams = {
+  offset?: number;
+  limit?: number;
+  search?: string;
+  status?: "pending" | "issued" | "failed";
+  fromDate?: Date;
+  toDate?: Date;
+  profileIds?: string[];
+  applicationId?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  metadataFilter?: Array<{ key: string; value?: string }>;
+};
+
+export type TDashboardDistribution = {
+  id?: string;
+  label: string;
+  count: number;
+};
+
+export type TExpirationBucket = {
+  bucket: string;
+  count: number;
+};
+
+export type TDashboardStats = {
+  totals: {
+    total: number;
+    active: number;
+    expiringSoon: number;
+    expired: number;
+    revoked: number;
+  };
+  expiringSoonNoAutoRenewal: number;
+  expiredNotRenewed: number;
+  distributions: {
+    byEnrollmentMethod: TDashboardDistribution[];
+    byAlgorithm: TDashboardDistribution[];
+    byCA: TDashboardDistribution[];
+    byStatus: TDashboardDistribution[];
+  };
+  expirationBuckets: TExpirationBucket[];
+  validityBuckets?: TExpirationBucket[];
+};
+
+export type TActivityTrendPoint = {
+  period: string;
+  issued: number;
+  expired: number;
+  revoked: number;
+  renewed: number;
+};
+
+export type TActivityTrendResponse = {
+  periods: TActivityTrendPoint[];
+};
+
+export type TPqcTrendPoint = {
+  period: string;
+  pqc: number;
+  nonPqc: number;
+};
+
+export type TPqcTrendResponse = {
+  periods: TPqcTrendPoint[];
+};
+
+export type TTriggerCertificateRequestValidationResponse = {
+  status: CertificateRequestStatus;
+  orderStatus?: string;
+};

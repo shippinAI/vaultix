@@ -1,0 +1,105 @@
+# Vaultix = Infisical MIT core, renamed, owned (core/).
+# Panel is the Shippin overlay (PIN, lessons, Clyffy). It is not the vault.
+#
+# Images (after Actions → GHCR on shippinAI/vaultix):
+#   ghcr.io/shippinai/vaultix
+#   ghcr.io/shippinai/vaultix-panel
+# Override to build from this tree: unset VAULTIX_ENGINE_IMAGE / VAULTIX_PANEL_IMAGE
+# and `compose up --build`.
+#
+# Self:   copy self.env.example → vaultix.env
+# Hosted: copy hosted.env.example → vaultix.env
+#
+# Owner: AngryVibes LLC. Host: shippin.ai.
+
+name: vaultix
+
+services:
+  backend:
+    image: ${VAULTIX_ENGINE_IMAGE:-ghcr.io/shippinai/vaultix:latest}
+    build:
+      context: ../core
+      dockerfile: Dockerfile.standalone-vaultix
+      args:
+        VAULTIX_PLATFORM_VERSION: "0.162.19"
+    restart: unless-stopped
+    env_file:
+      - ./vaultix.env
+    environment:
+      NODE_ENV: production
+      TELEMETRY_ENABLED: "false"
+      LICENSE_SERVER_V2_MODE: "off"
+      LICENSE_SERVER_URL: ""
+      SITE_URL: ${SITE_URL:-https://vaultix.shippin.cloud}
+      SMTP_FROM_NAME: Vaultix
+      SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-vaultix@shippin.cloud}
+      DB_CONNECTION_URI: postgres://${POSTGRES_USER:-vaultix}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-vaultix}
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "127.0.0.1:8200:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/api/status || exit 1"]
+      start_period: 120s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  panel:
+    image: ${VAULTIX_PANEL_IMAGE:-ghcr.io/shippinai/vaultix-panel:latest}
+    build:
+      context: ../panel
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./vaultix.env
+    environment:
+      VAULTIX_PANEL_LISTEN: ":8201"
+      VAULTIX_PANEL_STATE: /var/lib/vaultix/state.json
+      VAULTIX_PANEL_AUDIT: /var/lib/vaultix/audit.jsonl
+      VAULTIX_PANEL_REGISTRY: /etc/vaultix/instances.json
+      VAULTIX_MANAGER_STATE: /var/lib/vaultix/manager.json
+      VAULTIX_DATABASE_URL: postgres://${POSTGRES_USER:-vaultix}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-vaultix}
+      VAULTIX_LOCAL_URL: http://backend:8080
+      VAULTIX_SKU: ${VAULTIX_SKU:-self}
+      VAULTIX_LABEL: ${VAULTIX_LABEL:-}
+      VAULTIX_PUBLIC_HOST: ${VAULTIX_PUBLIC_HOST:-}
+      VAULTIX_LICENSE_TIER: ${VAULTIX_LICENSE_TIER:-community}
+      NOMEN_OIDC_ISSUER: ${NOMEN_OIDC_ISSUER:-}
+    ports:
+      - "127.0.0.1:8201:8201"
+    volumes:
+      - vaultix-state:/var/lib/vaultix
+      - ./instances.json:/etc/vaultix/instances.json:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  redis:
+    image: docker.io/library/redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis-data:/data
+
+  db:
+    image: docker.io/library/postgres:16.6-alpine
+    restart: unless-stopped
+    env_file:
+      - ./vaultix.env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  pg_data:
+  redis-data:
+  vaultix-state:

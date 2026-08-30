@@ -1,0 +1,79 @@
+import { useFormContext } from "react-hook-form";
+
+import { SecretRotation } from "@app/hooks/api/secretRotationsV2";
+
+import { TSecretRotationV2Form } from "../schemas";
+import { Auth0ClientSecretRotationParametersFields } from "./Auth0ClientSecretRotationParametersFields";
+import { AwsIamUserSecretRotationParametersFields } from "./AwsIamUserSecretRotationParametersFields";
+import { AzureClientSecretRotationParametersFields } from "./AzureClientSecretRotationParametersFields";
+import { CloudflareApiTokenRotationParametersFields } from "./CloudflareApiTokenRotationParametersFields";
+import { CloudflareR2AccessKeyRotationParametersFields } from "./CloudflareR2AccessKeyRotationParametersFields";
+import { ConvexAccessKeyRotationParametersFields } from "./ConvexAccessKeyRotationParametersFields";
+import { DatabricksServicePrincipalSecretRotationParametersFields } from "./DatabricksServicePrincipalSecretRotationParametersFields";
+import { DatadogApiKeyRotationParametersFields } from "./DatadogApiKeyRotationParametersFields";
+import { DatadogApplicationKeySecretRotationParametersFields } from "./DatadogApplicationKeySecretRotationParametersFields";
+import { DbtServiceTokenRotationParametersFields } from "./DbtServiceTokenRotationParametersFields";
+import { FireworksApiKeyRotationParametersFields } from "./FireworksApiKeyRotationParametersFields";
+import { HpIloRotationParametersFields } from "./HpIloRotationParametersFields";
+import { LdapPasswordRotationParametersFields } from "./LdapPasswordRotationParametersFields";
+import { LiteLLMApiKeyRotationParametersFields } from "./LiteLLMApiKeyRotationParametersFields";
+import { MongoRotationParametersFields } from "./MongoRotationParametersFields";
+import { OktaClientSecretRotationParametersFields } from "./OktaClientSecretRotationParametersFields";
+import { OpenAIServiceAccountRotationParametersFields } from "./OpenAIServiceAccountRotationParametersFields";
+import { OpenRouterApiKeyRotationParametersFields } from "./OpenRouterApiKeyRotationParametersFields";
+import { RedisCredentialsRotationParametersFields } from "./RedisCredentialsRotationParametersFields";
+import { SalesforceOauthCredentialsRotationParametersFields } from "./SalesforceOauthCredentialsRotationParametersFields";
+import { SqlCredentialsRotationParametersFields } from "./shared";
+import { SnowflakeUserKeyPairRotationParametersFields } from "./SnowflakeUserKeyPairRotationParametersFields";
+import { SupabaseApiKeyRotationParametersFields } from "./SupabaseApiKeyRotationParametersFields";
+import { UnixLinuxLocalAccountRotationParametersFields } from "./UnixLinuxLocalAccountRotationParametersFields";
+import { WindowsLocalAccountRotationParametersFields } from "./WindowsLocalAccountRotationParametersFields";
+
+const COMPONENT_MAP: Record<SecretRotation, React.FC> = {
+  [SecretRotation.PostgresCredentials]: SqlCredentialsRotationParametersFields,
+  [SecretRotation.MsSqlCredentials]: SqlCredentialsRotationParametersFields,
+  [SecretRotation.MySqlCredentials]: SqlCredentialsRotationParametersFields,
+  [SecretRotation.OracleDBCredentials]: SqlCredentialsRotationParametersFields,
+  [SecretRotation.Auth0ClientSecret]: Auth0ClientSecretRotationParametersFields,
+  [SecretRotation.AzureClientSecret]: AzureClientSecretRotationParametersFields,
+  [SecretRotation.LdapPassword]: LdapPasswordRotationParametersFields,
+  [SecretRotation.AwsIamUserSecret]: AwsIamUserSecretRotationParametersFields,
+  [SecretRotation.OktaClientSecret]: OktaClientSecretRotationParametersFields,
+  [SecretRotation.RedisCredentials]: RedisCredentialsRotationParametersFields,
+  [SecretRotation.MongoDBCredentials]: MongoRotationParametersFields,
+  [SecretRotation.DatabricksServicePrincipalSecret]:
+    DatabricksServicePrincipalSecretRotationParametersFields,
+  [SecretRotation.UnixLinuxLocalAccount]: UnixLinuxLocalAccountRotationParametersFields,
+  [SecretRotation.DbtServiceToken]: DbtServiceTokenRotationParametersFields,
+  [SecretRotation.WindowsLocalAccount]: WindowsLocalAccountRotationParametersFields,
+  [SecretRotation.OpenRouterApiKey]: OpenRouterApiKeyRotationParametersFields,
+  [SecretRotation.LiteLLMApiKey]: LiteLLMApiKeyRotationParametersFields,
+  [SecretRotation.OpenAIServiceAccount]: OpenAIServiceAccountRotationParametersFields,
+  [SecretRotation.HpIloLocalAccount]: HpIloRotationParametersFields,
+  [SecretRotation.SupabaseApiKey]: SupabaseApiKeyRotationParametersFields,
+  [SecretRotation.SalesforceOauthCredentials]: SalesforceOauthCredentialsRotationParametersFields,
+  [SecretRotation.DatadogApplicationKeySecret]: DatadogApplicationKeySecretRotationParametersFields,
+  [SecretRotation.DatadogApiKey]: DatadogApiKeyRotationParametersFields,
+  [SecretRotation.ConvexAccessKey]: ConvexAccessKeyRotationParametersFields,
+  [SecretRotation.FireworksApiKey]: FireworksApiKeyRotationParametersFields,
+  [SecretRotation.SnowflakeUserKeyPair]: SnowflakeUserKeyPairRotationParametersFields,
+  [SecretRotation.CloudflareApiToken]: CloudflareApiTokenRotationParametersFields,
+  [SecretRotation.CloudflareR2AccessKey]: CloudflareR2AccessKeyRotationParametersFields
+};
+
+export const SecretRotationV2ParametersFields = () => {
+  const { watch } = useFormContext<TSecretRotationV2Form>();
+
+  const rotationType = watch("type");
+
+  const Component = COMPONENT_MAP[rotationType];
+
+  return (
+    <>
+      <p className="mb-4 text-sm text-bunker-300">
+        Configure the required parameters for this Secret Rotation.
+      </p>
+      <Component />
+    </>
+  );
+};

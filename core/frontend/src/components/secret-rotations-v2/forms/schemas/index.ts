@@ -1,0 +1,130 @@
+import { z } from "zod";
+
+import { Auth0ClientSecretRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/auth0-client-secret-rotation-schema";
+import { AwsIamUserSecretRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/aws-iam-user-secret-rotation-schema";
+import { AzureClientSecretRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/azure-client-secret-rotation-schema";
+import { DatabricksServicePrincipalSecretRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/databricks-service-principal-secret-rotation-schema";
+import { LdapPasswordRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/ldap-password-rotation-schema";
+import { MongoDBCredentialsRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/mongodb-credentials-rotation-schema";
+import { MsSqlCredentialsRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/mssql-credentials-rotation-schema";
+import { MySqlCredentialsRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/mysql-credentials-rotation-schema";
+import { PostgresCredentialsRotationSchema } from "@app/components/secret-rotations-v2/forms/schemas/postgres-credentials-rotation-schema";
+import { SecretRotation } from "@app/hooks/api/secretRotationsV2";
+import { HpIloRotationMethod } from "@app/hooks/api/secretRotationsV2/types/hp-ilo-rotation";
+import { LdapPasswordRotationMethod } from "@app/hooks/api/secretRotationsV2/types/ldap-password-rotation";
+import { UnixLinuxLocalAccountRotationMethod } from "@app/hooks/api/secretRotationsV2/types/unix-linux-local-account-rotation";
+import { WindowsLocalAccountRotationMethod } from "@app/hooks/api/secretRotationsV2/types/windows-local-account-rotation";
+
+import { CloudflareApiTokenRotationSchema } from "./cloudflare-api-token-rotation-schema";
+import { CloudflareR2AccessKeyRotationSchema } from "./cloudflare-r2-access-key-rotation-schema";
+import { ConvexAccessKeyRotationSchema } from "./convex-access-key-rotation-schema";
+import { DatadogApiKeyRotationSchema } from "./datadog-api-key-rotation-schema";
+import { DatadogApplicationKeySecretRotationSchema } from "./datadog-application-key-secret-rotation-schema";
+import { DbtServiceTokenRotationSchema } from "./dbt-service-token-rotation-schema";
+import { FireworksApiKeyRotationSchema } from "./fireworks-api-key-rotation-schema";
+import { HpIloRotationSchema } from "./hp-ilo-rotation-schema";
+import { LiteLLMApiKeyRotationSchema } from "./litellm-api-key-rotation-schema";
+import { OktaClientSecretRotationSchema } from "./okta-client-secret-rotation-schema";
+import { OpenRouterApiKeyRotationSchema } from "./open-router-api-key-rotation-schema";
+import { OpenAIServiceAccountRotationSchema } from "./openai-service-account-rotation-schema";
+import { OracleDBCredentialsRotationSchema } from "./oracledb-credentials-rotation-schema";
+import { RedisCredentialsRotationSchema } from "./redis-credentials-rotation-schema";
+import { SalesforceOauthCredentialsRotationSchema } from "./salesforce-oauth-credentials-rotation-schema";
+import { SnowflakeUserKeyPairRotationSchema } from "./snowflake-user-key-pair-rotation-schema";
+import { SupabaseApiKeyRotationSchema } from "./supabase-api-key-rotation-schema";
+import { UnixLinuxLocalAccountRotationSchema } from "./unix-linux-local-account-rotation-schema";
+import { WindowsLocalAccountRotationSchema } from "./windows-local-account-rotation-schema";
+
+export const SecretRotationV2FormSchema = (isUpdate: boolean) =>
+  z
+    .intersection(
+      z.discriminatedUnion("type", [
+        Auth0ClientSecretRotationSchema,
+        AzureClientSecretRotationSchema,
+        PostgresCredentialsRotationSchema,
+        MsSqlCredentialsRotationSchema,
+        MySqlCredentialsRotationSchema,
+        OracleDBCredentialsRotationSchema,
+        LdapPasswordRotationSchema,
+        AwsIamUserSecretRotationSchema,
+        OktaClientSecretRotationSchema,
+        RedisCredentialsRotationSchema,
+        MongoDBCredentialsRotationSchema,
+        DatabricksServicePrincipalSecretRotationSchema,
+        UnixLinuxLocalAccountRotationSchema,
+        DbtServiceTokenRotationSchema,
+        WindowsLocalAccountRotationSchema,
+        OpenRouterApiKeyRotationSchema,
+        LiteLLMApiKeyRotationSchema,
+        OpenAIServiceAccountRotationSchema,
+        HpIloRotationSchema,
+        SupabaseApiKeyRotationSchema,
+        SalesforceOauthCredentialsRotationSchema,
+        DatadogApplicationKeySecretRotationSchema,
+        DatadogApiKeyRotationSchema,
+        ConvexAccessKeyRotationSchema,
+        FireworksApiKeyRotationSchema,
+        SnowflakeUserKeyPairRotationSchema,
+        CloudflareApiTokenRotationSchema,
+        CloudflareR2AccessKeyRotationSchema
+      ]),
+      z.object({ id: z.string().optional() })
+    )
+    .superRefine((val, ctx) => {
+      if (isUpdate) return;
+
+      // this has to go on union or breaks discrimination
+      if (val.type === SecretRotation.LdapPassword) {
+        if (
+          val.parameters.rotationMethod === LdapPasswordRotationMethod.TargetPrincipal &&
+          !val.temporaryParameters?.password
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Password required",
+            path: ["temporaryParameters", "password"]
+          });
+        }
+      }
+
+      if (val.type === SecretRotation.UnixLinuxLocalAccount) {
+        if (
+          val.parameters.rotationMethod === UnixLinuxLocalAccountRotationMethod.LoginAsTarget &&
+          !val.temporaryParameters?.password
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Password required",
+            path: ["temporaryParameters", "password"]
+          });
+        }
+      }
+
+      if (val.type === SecretRotation.WindowsLocalAccount) {
+        if (
+          val.parameters.rotationMethod === WindowsLocalAccountRotationMethod.LoginAsTarget &&
+          !val.temporaryParameters?.password
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Password required",
+            path: ["temporaryParameters", "password"]
+          });
+        }
+      }
+
+      if (val.type === SecretRotation.HpIloLocalAccount) {
+        if (
+          val.parameters.rotationMethod === HpIloRotationMethod.LoginAsTarget &&
+          !val.temporaryParameters?.password
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Password required",
+            path: ["temporaryParameters", "password"]
+          });
+        }
+      }
+    });
+
+export type TSecretRotationV2Form = z.infer<ReturnType<typeof SecretRotationV2FormSchema>>;

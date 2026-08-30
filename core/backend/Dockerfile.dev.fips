@@ -1,0 +1,25 @@
+ARG TOOLCHAIN_IMAGE=ghcr.io/infisical/backend-fips-toolchain:main
+FROM ${TOOLCHAIN_IMAGE}
+
+# ? App setup
+
+WORKDIR /app
+
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+
+COPY dev-entrypoint.sh dev-entrypoint.sh
+RUN chmod +x dev-entrypoint.sh
+
+RUN npm install
+
+COPY . .
+
+ENV HOST=0.0.0.0
+ENV OPENSSL_CONF=/app/nodejs.fips.cnf
+ENV OPENSSL_MODULES=/usr/local/lib/ossl-modules
+# ENV NODE_OPTIONS=--force-fips # Note(Daniel): We can't set this on the node options because it may break for existing folks using the infisical/infisical-fips image. Instead we call crypto.setFips(true) at runtime.
+ENV FIPS_ENABLED=true
+
+ENTRYPOINT ["/app/dev-entrypoint.sh"]
+CMD ["npm", "run", "dev:docker"]

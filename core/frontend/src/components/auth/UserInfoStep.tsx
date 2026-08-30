@@ -1,0 +1,314 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, Eye, EyeOff, X } from "lucide-react";
+import { z } from "zod";
+
+import { PasswordField } from "@app/components/auth/PasswordField";
+import { createPasswordSchema } from "@app/components/utilities/checks/password/passwordPolicy";
+import { usePasswordBreachCheck } from "@app/components/utilities/checks/password/usePasswordBreachCheck";
+import {
+  AnimatedCollapse,
+  Button,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput
+} from "@app/components/v3";
+import { useServerConfig } from "@app/context";
+import { isVaultixCloud } from "@app/helpers/platform";
+import { getHubSpotUtk } from "@app/helpers/utmTracking";
+import { TPasswordPolicy } from "@app/hooks/api/admin/types";
+import { useCompleteAccountSignup } from "@app/hooks/api/auth/queries";
+import { fetchOrganizations } from "@app/hooks/api/organization/queries";
+import { GenericResourceNameSchema } from "@app/lib/schemas";
+
+import SecurityClient from "../utilities/SecurityClient";
+import { AuthPagePanel } from "./AuthPagePanel";
+
+const createUserInfoFormSchema = (isInvite: boolean, passwordPolicy: TPasswordPolicy) =>
+  z
+    .object({
+      firstName: z.string().trim().min(1, "First name is required"),
+      lastName: z.string().trim().optional(),
+      organizationName: isInvite ? z.string().optional() : GenericResourceNameSchema,
+      password: createPasswordSchema(passwordPolicy),
+      confirmPassword: z.string().min(1, "Please confirm your password")
+    })
+    .refine(({ password, confirmPassword }) => password === confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"]
+    });
+
+type UserInfoFormData = z.infer<ReturnType<typeof createUserInfoFormSchema>>;
+
+interface UserInfoStepProps {
+  onComplete: (orgId?: string) => void;
+  email: string;
+  isInvite?: boolean;
+  inviteOrganizationName?: string;
+}
+
+export default function UserInfoStep({
+  onComplete,
+  email,
+  isInvite = false,
+  inviteOrganizationName
+}: UserInfoStepProps): JSX.Element {
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const { config } = useServerConfig();
+  const { mutateAsync: completeSignup, isPending: isLoading } = useCompleteAccountSignup();
+  const { t } = useTranslation();
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+    formState: { dirtyFields, errors, submitCount }
+  } = useForm<UserInfoFormData>({
+    resolver: zodResolver(createUserInfoFormSchema(isInvite, config.passwordPolicy)),
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      organizationName: "",
+      password: "",
+      confirmPassword: ""
+    }
+  });
+
+  const passwordValue = watch("password");
+  const { breachStatus: passwordBreachStatus, validatePassword } = usePasswordBreachCheck({
+    password: passwordValue,
+    policy: config.passwordPolicy
+  });
+  const confirmPasswordValue = watch("confirmPassword");
+  const showDangerState = submitCount > 0;
+  const showOrganizationNameError =
+    (showDangerState || Boolean(dirtyFields.organizationName)) && Boolean(errors.organizationName);
+  const doPasswordsMatch =
+    confirmPasswordValue.length > 0 && passwordValue === confirmPasswordValue;
+  const isPasswordValidated =
+    passwordBreachStatus === "safe" || passwordBreachStatus === "unavailable";
+  const canSubmit = isPasswordValidated && !isLoading;
+  const normalizedInviteOrganizationName = inviteOrganizationName?.trim();
+  const inviteOrganizationLabel = normalizedInviteOrganizationName || "an organization";
+  const stepTitle = t("signup.step3-message");
+  const submitLabel = isInvite ? String(t("signup.signup")) : "Continue";
+
+  const onSubmit = async (formData: UserInfoFormData) => {
+    const latestBreachStatus = await validatePassword(formData.password);
+    if (latestBreachStatus === "breached") {
+      setError("password", {
+        type: "validate",
+        message: "This password was found in a known data breach."
+      });
+      return;
+    }
+
+    const response = await completeSignup({
+      type: "email",
+      email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName ?? "",
+      organizationName: formData.organizationName || undefined,
+      hubspotUtk: getHubSpotUtk()
+    });
+
+    SecurityClient.setSignupToken("");
+    SecurityClient.setToken(response.token);
+
+    if (isVaultixCloud()) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "signup_completed" });
+    }
+
+    const userOrgs = await fetchOrganizations();
+    const orgId = userOrgs[0]?.id;
+
+    if (orgId) {
+      localStorage.setItem("orgData.id", orgId);
+    }
+
+    onComplete(orgId);
+  };
+
+  return (
+    <div className="mx-auto flex w-full flex-col items-center justify-center">
+      <AuthPagePanel>
+        <CardHeader className={isInvite ? "mb-6 gap-2" : "mb-4 gap-2"}>
+          <CardTitle
+            role="heading"
+            aria-level={1}
+            className="ml-0.5 min-w-0 flex-nowrap font-alliance text-2xl font-normal break-words"
+          >
+            {isInvite ? (
+              <>
+                <span className="shrink-0 bg-linear-to-b from-white to-bunker-200 bg-clip-text text-transparent opacity-70">
+                  Join
+                </span>
+                <span
+                  className="min-w-0 truncate bg-linear-to-b from-white to-bunker-200 bg-clip-text text-transparent"
+                  title={inviteOrganizationLabel}
+                >
+                  {inviteOrganizationLabel}
+                </span>
+              </>
+            ) : (
+              <span className="bg-linear-to-b from-white to-bunker-200 bg-clip-text text-transparent">
+                {stepTitle}
+              </span>
+            )}
+          </CardTitle>
+          {isInvite ? (
+            <CardDescription className="ml-0.5 font-alliance text-base break-words text-accent">
+              Set up your Vaultix account
+            </CardDescription>
+          ) : null}
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field data-invalid={showDangerState && Boolean(errors.firstName)}>
+              <FieldLabel className="sr-only" htmlFor="signup-first-name">
+                First Name
+              </FieldLabel>
+              <Input
+                variant="outlined"
+                {...register("firstName")}
+                id="signup-first-name"
+                placeholder="First Name"
+                autoComplete="given-name"
+                isError={showDangerState && Boolean(errors.firstName)}
+              />
+              {showDangerState && errors.firstName ? (
+                <FieldError>{errors.firstName.message}</FieldError>
+              ) : null}
+            </Field>
+            <Field data-invalid={showDangerState && Boolean(errors.lastName)}>
+              <FieldLabel className="sr-only" htmlFor="signup-last-name">
+                Last Name
+              </FieldLabel>
+              <Input
+                variant="outlined"
+                {...register("lastName")}
+                id="signup-last-name"
+                placeholder="Last Name"
+                autoComplete="family-name"
+                isError={showDangerState && Boolean(errors.lastName)}
+              />
+              {showDangerState && errors.lastName ? (
+                <FieldError>{errors.lastName.message}</FieldError>
+              ) : null}
+            </Field>
+          </div>
+          {isInvite && (
+            <Field>
+              <FieldLabel className="sr-only" htmlFor="signup-email">
+                Email
+              </FieldLabel>
+              <Input variant="outlined" id="signup-email" type="email" value={email} disabled />
+            </Field>
+          )}
+          {!isInvite && (
+            <Field data-invalid={showOrganizationNameError}>
+              <FieldLabel className="sr-only" htmlFor="signup-organization-name">
+                Organization Name
+              </FieldLabel>
+              <Input
+                variant="outlined"
+                {...register("organizationName")}
+                id="signup-organization-name"
+                placeholder="Organization Name"
+                maxLength={64}
+                autoComplete="organization"
+                isError={showOrganizationNameError}
+              />
+              {showOrganizationNameError && errors.organizationName ? (
+                <FieldError>{errors.organizationName.message}</FieldError>
+              ) : null}
+            </Field>
+          )}
+          <PasswordField
+            variant="outlined"
+            id="new-password"
+            value={passwordValue}
+            policy={config.passwordPolicy}
+            breachStatus={passwordBreachStatus}
+            placeholder="••••••••"
+            registration={register("password")}
+            error={showDangerState ? errors.password : undefined}
+            submitCount={submitCount}
+          />
+          <AnimatedCollapse
+            isOpen={isPasswordValidated}
+            contentClassName={isPasswordValidated ? "overflow-visible" : undefined}
+          >
+            <Field data-invalid={showDangerState && Boolean(errors.confirmPassword)}>
+              <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+              <InputGroup variant="outlined">
+                <InputGroupInput
+                  {...register("confirmPassword")}
+                  id="confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                  aria-invalid={showDangerState && Boolean(errors.confirmPassword)}
+                />
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton
+                    onClick={() => setShowConfirmPassword((current) => !current)}
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide password confirmation"
+                        : "Show password confirmation"
+                    }
+                  >
+                    {showConfirmPassword ? <EyeOff /> : <Eye />}
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+              <AnimatedCollapse isOpen={confirmPasswordValue.length > 0}>
+                <div className="flex items-start gap-2 pt-1 text-xs" aria-live="polite">
+                  {doPasswordsMatch ? (
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-success" />
+                  ) : (
+                    <X className="mt-0.5 size-3.5 shrink-0 text-danger" />
+                  )}
+                  <span className={doPasswordsMatch ? "text-muted" : "text-danger"}>
+                    {doPasswordsMatch ? "Passwords match" : "Passwords do not match"}
+                  </span>
+                </div>
+              </AnimatedCollapse>
+              {showDangerState && errors.confirmPassword ? (
+                <FieldError>{errors.confirmPassword.message}</FieldError>
+              ) : null}
+            </Field>
+          </AnimatedCollapse>
+          <Button
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+            variant="project"
+            size="lg"
+            isFullWidth
+            isPending={isLoading}
+            isDisabled={!canSubmit}
+          >
+            {submitLabel}
+          </Button>
+        </CardContent>
+      </AuthPagePanel>
+    </div>
+  );
+}

@@ -1,0 +1,220 @@
+import { AppConnection } from "@app/hooks/api/appConnections/enums";
+import { SecretRotation, TSecretRotationV2 } from "@app/hooks/api/secretRotationsV2";
+
+export const SECRET_ROTATION_MAP: Record<
+  SecretRotation,
+  { name: string; image: string; size: number }
+> = {
+  [SecretRotation.PostgresCredentials]: {
+    name: "PostgreSQL Credentials",
+    image: "Postgres.png",
+    size: 45
+  },
+  [SecretRotation.MsSqlCredentials]: {
+    name: "Microsoft SQL Server Credentials",
+    image: "MsSql.png",
+    size: 50
+  },
+  [SecretRotation.MySqlCredentials]: {
+    name: "MySQL Credentials",
+    image: "MySql.png",
+    size: 50
+  },
+  [SecretRotation.OracleDBCredentials]: {
+    name: "OracleDB Credentials",
+    image: "Oracle.png",
+    size: 50
+  },
+  [SecretRotation.Auth0ClientSecret]: {
+    name: "Auth0 Client Secret",
+    image: "Auth0.png",
+    size: 35
+  },
+  [SecretRotation.AzureClientSecret]: {
+    name: "Azure Client Secret",
+    image: "Microsoft Azure.png",
+    size: 65
+  },
+  [SecretRotation.LdapPassword]: {
+    name: "LDAP Password",
+    image: "LDAP.png",
+    size: 65
+  },
+  [SecretRotation.AwsIamUserSecret]: {
+    name: "AWS IAM User Secret",
+    image: "Amazon Web Services.png",
+    size: 50
+  },
+  [SecretRotation.OktaClientSecret]: {
+    name: "Okta Client Secret",
+    image: "Okta.png",
+    size: 50
+  },
+  [SecretRotation.RedisCredentials]: {
+    name: "Redis Credentials",
+    image: "Redis.png",
+    size: 50
+  },
+  [SecretRotation.MongoDBCredentials]: {
+    name: "MongoDB Credentials",
+    image: "MongoDB.png",
+    size: 50
+  },
+  [SecretRotation.DatabricksServicePrincipalSecret]: {
+    name: "Databricks Service Principal",
+    image: "Databricks.png",
+    size: 50
+  },
+  [SecretRotation.UnixLinuxLocalAccount]: {
+    name: "Unix/Linux Local Account",
+    image: "SSH.png",
+    size: 50
+  },
+  [SecretRotation.DbtServiceToken]: {
+    name: "DBT Service Token",
+    image: "DBT.png",
+    size: 50
+  },
+  [SecretRotation.WindowsLocalAccount]: {
+    name: "Windows Local Account",
+    image: "Windows.png",
+    size: 50
+  },
+  [SecretRotation.OpenRouterApiKey]: {
+    name: "OpenRouter API Key",
+    image: "OpenRouter.png",
+    size: 50
+  },
+  [SecretRotation.LiteLLMApiKey]: {
+    name: "LiteLLM API Key",
+    image: "LiteLLM.png",
+    size: 50
+  },
+  [SecretRotation.OpenAIServiceAccount]: {
+    name: "OpenAI Service Account",
+    image: "OpenAI.png",
+    size: 50
+  },
+  [SecretRotation.HpIloLocalAccount]: {
+    name: "HP iLO Local Account",
+    image: "SSH.png",
+    size: 50
+  },
+  [SecretRotation.SupabaseApiKey]: {
+    name: "Supabase API Key",
+    image: "Supabase.png",
+    size: 50
+  },
+  [SecretRotation.SalesforceOauthCredentials]: {
+    name: "Salesforce OAuth Credentials",
+    image: "Salesforce.png",
+    size: 50
+  },
+  [SecretRotation.DatadogApplicationKeySecret]: {
+    name: "Datadog Application Key",
+    image: "DatadogWhite.png",
+    size: 50
+  },
+  [SecretRotation.DatadogApiKey]: {
+    name: "Datadog API Key",
+    image: "DatadogWhite.png",
+    size: 50
+  },
+  [SecretRotation.ConvexAccessKey]: {
+    name: "Convex Access Key",
+    image: "Convex.png",
+    size: 50
+  },
+  [SecretRotation.FireworksApiKey]: {
+    name: "Fireworks Secret",
+    image: "Fireworks.png",
+    size: 50
+  },
+  [SecretRotation.SnowflakeUserKeyPair]: {
+    name: "Snowflake User Key Pair",
+    image: "Snowflake.png",
+    size: 50
+  },
+  [SecretRotation.CloudflareApiToken]: {
+    name: "Cloudflare API Token",
+    image: "Cloudflare.png",
+    size: 50
+  },
+  [SecretRotation.CloudflareR2AccessKey]: {
+    name: "Cloudflare R2 Access Key",
+    image: "Cloudflare.png",
+    size: 50
+  }
+};
+
+export const SECRET_ROTATION_CONNECTION_MAP: Record<SecretRotation, AppConnection> = {
+  [SecretRotation.PostgresCredentials]: AppConnection.Postgres,
+  [SecretRotation.MsSqlCredentials]: AppConnection.MsSql,
+  [SecretRotation.MySqlCredentials]: AppConnection.MySql,
+  [SecretRotation.OracleDBCredentials]: AppConnection.OracleDB,
+  [SecretRotation.Auth0ClientSecret]: AppConnection.Auth0,
+  [SecretRotation.AzureClientSecret]: AppConnection.AzureClientSecrets,
+  [SecretRotation.LdapPassword]: AppConnection.LDAP,
+  [SecretRotation.AwsIamUserSecret]: AppConnection.AWS,
+  [SecretRotation.OktaClientSecret]: AppConnection.Okta,
+  [SecretRotation.RedisCredentials]: AppConnection.Redis,
+  [SecretRotation.MongoDBCredentials]: AppConnection.MongoDB,
+  [SecretRotation.DatabricksServicePrincipalSecret]: AppConnection.Databricks,
+  [SecretRotation.UnixLinuxLocalAccount]: AppConnection.SSH,
+  [SecretRotation.DbtServiceToken]: AppConnection.Dbt,
+  [SecretRotation.WindowsLocalAccount]: AppConnection.SMB,
+  [SecretRotation.OpenRouterApiKey]: AppConnection.OpenRouter,
+  [SecretRotation.LiteLLMApiKey]: AppConnection.LiteLLM,
+  [SecretRotation.OpenAIServiceAccount]: AppConnection.OpenAI,
+  [SecretRotation.HpIloLocalAccount]: AppConnection.SSH,
+  [SecretRotation.SupabaseApiKey]: AppConnection.Supabase,
+  [SecretRotation.SalesforceOauthCredentials]: AppConnection.Salesforce,
+  [SecretRotation.DatadogApplicationKeySecret]: AppConnection.Datadog,
+  [SecretRotation.DatadogApiKey]: AppConnection.Datadog,
+  [SecretRotation.ConvexAccessKey]: AppConnection.Convex,
+  [SecretRotation.FireworksApiKey]: AppConnection.Fireworks,
+  [SecretRotation.SnowflakeUserKeyPair]: AppConnection.Snowflake,
+  [SecretRotation.CloudflareApiToken]: AppConnection.Cloudflare,
+  [SecretRotation.CloudflareR2AccessKey]: AppConnection.Cloudflare
+};
+
+// if a rotation can potentially have downtime due to rotating a single credential set this to false
+export const IS_ROTATION_DUAL_CREDENTIALS: Record<SecretRotation, boolean> = {
+  [SecretRotation.PostgresCredentials]: true,
+  [SecretRotation.MsSqlCredentials]: true,
+  [SecretRotation.MySqlCredentials]: true,
+  [SecretRotation.OracleDBCredentials]: true,
+  [SecretRotation.Auth0ClientSecret]: false,
+  [SecretRotation.AzureClientSecret]: true,
+  [SecretRotation.LdapPassword]: false,
+  [SecretRotation.AwsIamUserSecret]: true,
+  [SecretRotation.OktaClientSecret]: true,
+  [SecretRotation.RedisCredentials]: true,
+  [SecretRotation.MongoDBCredentials]: true,
+  [SecretRotation.DatabricksServicePrincipalSecret]: true,
+  [SecretRotation.UnixLinuxLocalAccount]: false,
+  [SecretRotation.DbtServiceToken]: true,
+  [SecretRotation.WindowsLocalAccount]: false,
+  [SecretRotation.OpenRouterApiKey]: true,
+  [SecretRotation.LiteLLMApiKey]: true,
+  [SecretRotation.OpenAIServiceAccount]: true,
+  [SecretRotation.HpIloLocalAccount]: false,
+  [SecretRotation.SupabaseApiKey]: true,
+  [SecretRotation.SalesforceOauthCredentials]: true,
+  [SecretRotation.DatadogApplicationKeySecret]: true,
+  [SecretRotation.DatadogApiKey]: true,
+  [SecretRotation.ConvexAccessKey]: true,
+  [SecretRotation.FireworksApiKey]: true,
+  [SecretRotation.SnowflakeUserKeyPair]: true,
+  [SecretRotation.CloudflareApiToken]: true,
+  [SecretRotation.CloudflareR2AccessKey]: true
+};
+
+export const getRotateAtLocal = ({ hours, minutes }: TSecretRotationV2["rotateAtUtc"]) => {
+  const now = new Date();
+
+  // convert utc rotation time to local datetime
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes, 0, 0)
+  );
+};

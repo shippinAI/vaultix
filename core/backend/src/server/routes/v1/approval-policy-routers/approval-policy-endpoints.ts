@@ -1,0 +1,766 @@
+import { z } from "zod";
+
+import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { BadRequestError } from "@app/lib/errors";
+import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
+import { getTelemetryDistinctId } from "@app/server/lib/telemetry";
+import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
+import { ApprovalPolicyScope, ApprovalPolicyType } from "@app/services/approval-policy/approval-policy-enums";
+import {
+  TApprovalPolicyInputs,
+  TCreatePolicyDTO,
+  TCreateRequestDTO,
+  TUpdatePolicyDTO
+} from "@app/services/approval-policy/approval-policy-types";
+import {
+  CreateCertRequestPolicySchema,
+  UpdateCertRequestPolicySchema
+} from "@app/services/approval-policy/cert-request/cert-request-policy-schemas";
+import {
+  CreateCodeSigningPolicySchema,
+  UpdateCodeSigningPolicySchema
+} from "@app/services/approval-policy/code-signing/code-signing-policy-schemas";
+import {
+  CreatePamAccessPolicySchema,
+  UpdatePamAccessPolicySchema
+} from "@app/services/approval-policy/pam-access/pam-access-policy-schemas";
+import { AuthMode } from "@app/services/auth/auth-type";
+import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
+
+type TCreatePolicySchema =
+  | typeof CreatePamAccessPolicySchema
+  | typeof CreateCertRequestPolicySchema
+  | typeof CreateCodeSigningPolicySchema;
+type TUpdatePolicySchema =
+  | typeof UpdatePamAccessPolicySchema
+  | typeof UpdateCertRequestPolicySchema
+  | typeof UpdateCodeSigningPolicySchema;
+
+export const registerApprovalPolicyEndpoints = ({
+  server,
+  policyType,
+  createPolicySchema,
+  updatePolicySchema,
+  policyResponseSchema,
+  createRequestSchema,
+  requestResponseSchema,
+  grantResponseSchema,
+  inputsSchema,
+  checkPolicyMatchResponseSchema
+}: {
+  server: FastifyZodProvider;
+  policyType: ApprovalPolicyType;
+  createPolicySchema: TCreatePolicySchema;
+  updatePolicySchema: TUpdatePolicySchema;
+  policyResponseSchema: z.ZodObject<z.ZodRawShape>;
+  createRequestSchema: z.ZodType<TCreateRequestDTO>;
+  requestResponseSchema: z.ZodObject<z.ZodRawShape>;
+  grantResponseSchema: z.ZodObject<z.ZodRawShape>;
+  inputsSchema: z.ZodType<TApprovalPolicyInputs>;
+  checkPolicyMatchResponseSchema: z.ZodObject<z.ZodRawShape>;
+}) => {
+  // Policies
+  server.route({
+    method: "POST",
+    url: "/",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "createApprovalPolicy",
+      description: "Create approval policy",
+      body: createPolicySchema,
+      response: {
+        200: z.object({
+          policy: policyResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { policy } = await server.services.approvalPolicy.create(
+        policyType,
+        req.body as TCreatePolicyDTO,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: policy.projectId,
+        event: {
+          type: EventType.APPROVAL_POLICY_CREATE,
+          metadata: {
+            policyType,
+            name: policy.name
+          }
+        }
+      });
+
+      if (policyType === ApprovalPolicyType.CertRequest || policyType === ApprovalPolicyType.CertCodeSigning) {
+        await server.services.telemetry.sendPostHogEvents({
+          event: PostHogEventTypes.PkiApprovalPolicyCreated,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: req.permission.orgId,
+          properties: {
+            policyType,
+            orgId: req.permission.orgId
+          }
+        });
+      }
+
+      return { policy };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "listApprovalPolicies",
+      description: "List approval policies",
+      querystring: z.object({
+        scope: z.nativeEnum(ApprovalPolicyScope),
+        id: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          policies: z.array(policyResponseSchema)
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { policies, projectId } = await server.services.approvalPolicy.list(
+        policyType,
+        req.query.scope,
+        req.query.id,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId,
+        event: {
+          type: EventType.APPROVAL_POLICY_LIST,
+          metadata: {
+            policyType,
+            count: policies.length
+          }
+        }
+      });
+
+      return { policies };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/:policyId",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "getApprovalPolicy",
+      description: "Get approval policy",
+      params: z.object({
+        policyId: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          policy: policyResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { policy } = await server.services.approvalPolicy.getById(req.params.policyId, req.permission);
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: policy.projectId,
+        event: {
+          type: EventType.APPROVAL_POLICY_GET,
+          metadata: {
+            policyType,
+            policyId: policy.id,
+            name: policy.name
+          }
+        }
+      });
+
+      return { policy };
+    }
+  });
+
+  server.route({
+    method: "PATCH",
+    url: "/:policyId",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "updateApprovalPolicy",
+      description: "Update approval policy",
+      params: z.object({
+        policyId: z.string().uuid()
+      }),
+      body: updatePolicySchema,
+      response: {
+        200: z.object({
+          policy: policyResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { policy } = await server.services.approvalPolicy.updateById(
+        req.params.policyId,
+        req.body as TUpdatePolicyDTO,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: policy.projectId,
+        event: {
+          type: EventType.APPROVAL_POLICY_UPDATE,
+          metadata: {
+            policyType,
+            policyId: policy.id,
+            name: policy.name
+          }
+        }
+      });
+
+      return { policy };
+    }
+  });
+
+  server.route({
+    method: "DELETE",
+    url: "/:policyId",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "deleteApprovalPolicy",
+      description: "Delete approval policy",
+      params: z.object({
+        policyId: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          policyId: z.string().uuid()
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { policyId, projectId } = await server.services.approvalPolicy.deleteById(
+        req.params.policyId,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId,
+        event: {
+          type: EventType.APPROVAL_POLICY_DELETE,
+          metadata: {
+            policyType,
+            policyId
+          }
+        }
+      });
+
+      return { policyId };
+    }
+  });
+
+  // Requests
+  server.route({
+    method: "GET",
+    url: "/requests",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "listApprovalRequests",
+      description: "List approval requests",
+      querystring: z.object({
+        scope: z.nativeEnum(ApprovalPolicyScope),
+        id: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          requests: z.array(requestResponseSchema)
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { requests, projectId } = await server.services.approvalPolicy.listRequests(
+        policyType,
+        req.query.scope,
+        req.query.id,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_LIST,
+          metadata: {
+            policyType,
+            count: requests.length
+          }
+        }
+      });
+
+      return { requests };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "createApprovalRequest",
+      description: "Create approval request",
+      body: createRequestSchema,
+      response: {
+        200: z.object({
+          request: requestResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN]),
+    handler: async (req) => {
+      let requesterName: string;
+      let requesterEmail: string;
+      let machineIdentityId: string | undefined;
+
+      if (req.auth.authMode === AuthMode.JWT) {
+        requesterName = `${req.auth.user.firstName ?? ""} ${req.auth.user.lastName ?? ""}`.trim();
+        requesterEmail = req.auth.user.email ?? "";
+      } else if (req.auth.authMode === AuthMode.IDENTITY_ACCESS_TOKEN) {
+        requesterName = req.auth.identityName ?? "Machine Identity";
+        requesterEmail = "";
+        machineIdentityId = req.auth.identityId;
+      } else {
+        throw new BadRequestError({ message: "Unsupported auth mode for approval requests." });
+      }
+
+      const { request } = await server.services.approvalPolicy.createRequest(
+        policyType,
+        {
+          requesterName,
+          requesterEmail,
+          machineIdentityId,
+          ...req.body
+        },
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: request.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_CREATE,
+          metadata: {
+            policyType,
+            justification: req.body.justification || undefined,
+            requestDuration: req.body.requestDuration || "infinite"
+          }
+        }
+      });
+
+      return { request };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/requests/:requestId",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "getApprovalRequest",
+      description: "Get approval request",
+      params: z.object({
+        requestId: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          request: requestResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { request } = await server.services.approvalPolicy.getRequestById(req.params.requestId, req.permission);
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: request.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_GET,
+          metadata: {
+            policyType,
+            requestId: request.id,
+            status: request.status
+          }
+        }
+      });
+
+      return { request };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests/:requestId/approve",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "approveApprovalRequest",
+      description: "Approve approval request",
+      params: z.object({
+        requestId: z.string().uuid()
+      }),
+      body: z.object({
+        comment: z.string().optional(),
+        bypassReason: z.string().min(10).max(500).optional()
+      }),
+      response: {
+        200: z.object({
+          request: requestResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { request, bypassMetadata } = await server.services.approvalPolicy.approveRequest(
+        req.params.requestId,
+        req.body,
+        req.permission,
+        policyType
+      );
+
+      if (request.isBreakGlass && bypassMetadata) {
+        await server.services.auditLog.createAuditLog({
+          ...req.auditLogInfo,
+          orgId: req.permission.orgId,
+          projectId: request.projectId,
+          event: {
+            type: EventType.PAM_ACCESS_POLICY_BYPASSED,
+            metadata: {
+              policyType,
+              policyId: request.policyId ?? null,
+              requestId: request.id,
+              granteeUserId: req.permission.id,
+              ...bypassMetadata
+            }
+          }
+        });
+      } else {
+        await server.services.auditLog.createAuditLog({
+          ...req.auditLogInfo,
+          orgId: req.permission.orgId,
+          projectId: request.projectId,
+          event: {
+            type: EventType.APPROVAL_REQUEST_APPROVE,
+            metadata: {
+              policyType,
+              requestId: req.params.requestId,
+              comment: req.body.comment
+            }
+          }
+        });
+      }
+
+      if (policyType === ApprovalPolicyType.CertRequest || policyType === ApprovalPolicyType.CertCodeSigning) {
+        await server.services.telemetry.sendPostHogEvents({
+          event: PostHogEventTypes.PkiApprovalRequestReviewed,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: req.permission.orgId,
+          properties: {
+            decision: "approved",
+            orgId: req.permission.orgId
+          }
+        });
+      }
+
+      return { request };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests/:requestId/reject",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "rejectApprovalRequest",
+      description: "Reject approval request",
+      params: z.object({
+        requestId: z.string().uuid()
+      }),
+      body: z.object({
+        comment: z.string().optional()
+      }),
+      response: {
+        200: z.object({
+          request: requestResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { request } = await server.services.approvalPolicy.rejectRequest(
+        req.params.requestId,
+        req.body,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: request.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_REJECT,
+          metadata: {
+            policyType,
+            requestId: req.params.requestId,
+            comment: req.body.comment
+          }
+        }
+      });
+
+      if (policyType === ApprovalPolicyType.CertRequest || policyType === ApprovalPolicyType.CertCodeSigning) {
+        await server.services.telemetry.sendPostHogEvents({
+          event: PostHogEventTypes.PkiApprovalRequestReviewed,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: req.permission.orgId,
+          properties: {
+            decision: "rejected",
+            orgId: req.permission.orgId
+          }
+        });
+      }
+
+      return { request };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests/:requestId/cancel",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "cancelApprovalRequest",
+      description: "Cancel approval request",
+      params: z.object({
+        requestId: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          request: requestResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { request } = await server.services.approvalPolicy.cancelRequest(req.params.requestId, req.permission);
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: request.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_CANCEL,
+          metadata: {
+            policyType,
+            requestId: req.params.requestId
+          }
+        }
+      });
+
+      return { request };
+    }
+  });
+
+  // Grants
+  server.route({
+    method: "GET",
+    url: "/grants",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "listApprovalGrants",
+      description: "List approval grants",
+      querystring: z.object({
+        scope: z.nativeEnum(ApprovalPolicyScope),
+        id: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          grants: z.array(grantResponseSchema)
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { grants, projectId } = await server.services.approvalPolicy.listGrants(
+        policyType,
+        req.query.scope,
+        req.query.id,
+        req.permission
+      );
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_GRANT_LIST,
+          metadata: {
+            policyType,
+            count: grants.length
+          }
+        }
+      });
+
+      return { grants };
+    }
+  });
+
+  server.route({
+    method: "GET",
+    url: "/grants/:grantId",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "getApprovalGrant",
+      description: "Get approval grant",
+      params: z.object({
+        grantId: z.string().uuid()
+      }),
+      response: {
+        200: z.object({
+          grant: grantResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { grant } = await server.services.approvalPolicy.getGrantById(req.params.grantId, req.permission);
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: grant.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_GRANT_GET,
+          metadata: {
+            policyType,
+            grantId: grant.id,
+            status: grant.status
+          }
+        }
+      });
+
+      return { grant };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/grants/:grantId/revoke",
+    config: {
+      rateLimit: writeLimit
+    },
+    schema: {
+      operationId: "revokeApprovalGrant",
+      description: "Revoke approval grant",
+      params: z.object({
+        grantId: z.string().uuid()
+      }),
+      body: z.object({
+        revocationReason: z.string().optional()
+      }),
+      response: {
+        200: z.object({
+          grant: grantResponseSchema
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const { grant } = await server.services.approvalPolicy.revokeGrant(req.params.grantId, req.body, req.permission);
+
+      await server.services.auditLog.createAuditLog({
+        ...req.auditLogInfo,
+        orgId: req.permission.orgId,
+        projectId: grant.projectId,
+        event: {
+          type: EventType.APPROVAL_REQUEST_GRANT_REVOKE,
+          metadata: {
+            policyType,
+            grantId: grant.id,
+            revocationReason: req.body.revocationReason
+          }
+        }
+      });
+
+      return { grant };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/check-policy-match",
+    config: {
+      rateLimit: readLimit
+    },
+    schema: {
+      operationId: "checkApprovalPolicyMatch",
+      description: "Check if a resource path matches any approval policy and if the user has an active grant",
+      body: z.object({
+        projectId: z.string().uuid(),
+        inputs: inputsSchema
+      }),
+      response: {
+        200: checkPolicyMatchResponseSchema
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const result = await server.services.approvalPolicy.checkPolicyMatch(policyType, req.body, req.permission);
+
+      return result;
+    }
+  });
+};

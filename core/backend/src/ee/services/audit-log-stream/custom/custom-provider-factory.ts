@@ -1,0 +1,102 @@
+import { RawAxiosRequestHeaders } from "axios";
+
+import { request } from "@app/lib/config/request";
+import { BadRequestError } from "@app/lib/errors";
+
+import { AUDIT_LOG_STREAM_BATCH_TIMEOUT, AUDIT_LOG_STREAM_TIMEOUT } from "../../audit-log/audit-log-queue";
+import { blockAuditLogStreamInternalIps } from "../audit-log-stream-fns";
+import {
+  TLogStreamFactoryBatchStreamLog,
+  TLogStreamFactoryGetProviderBatchLimit,
+  TLogStreamFactoryStreamLog,
+  TLogStreamFactoryValidateCredentials
+} from "../audit-log-stream-types";
+import { TCustomProviderCredentials } from "./custom-provider-types";
+
+export const CustomProviderFactory = () => {
+  const validateCredentials: TLogStreamFactoryValidateCredentials<TCustomProviderCredentials> = async ({
+    credentials
+  }) => {
+    const { url, headers } = credentials;
+
+    await blockAuditLogStreamInternalIps(url);
+
+    const streamHeaders: RawAxiosRequestHeaders = { "Content-Type": "application/json" };
+    if (headers.length) {
+      headers.forEach(({ key, value }) => {
+        streamHeaders[key] = value;
+      });
+    }
+
+    await request
+      .post(
+        url,
+        { ping: "ok" },
+        {
+          headers: streamHeaders,
+          timeout: AUDIT_LOG_STREAM_TIMEOUT,
+          maxRedirects: 0
+        }
+      )
+      .catch((err) => {
+        throw new BadRequestError({ message: `Failed to connect with upstream source: ${(err as Error)?.message}` });
+      });
+
+    return credentials;
+  };
+
+  const batchStreamLog: TLogStreamFactoryBatchStreamLog<TCustomProviderCredentials> = async ({
+    credentials,
+    auditLogs
+  }) => {
+    if (auditLogs.length === 0) return;
+
+    const { url, headers } = credentials;
+
+    await blockAuditLogStreamInternalIps(url);
+
+    const streamHeaders: RawAxiosRequestHeaders = { "Content-Type": "application/json" };
+
+    if (headers.length) {
+      headers.forEach(({ key, value }) => {
+        streamHeaders[key] = value;
+      });
+    }
+
+    await request.post(url, auditLogs, {
+      headers: streamHeaders,
+      timeout: AUDIT_LOG_STREAM_BATCH_TIMEOUT
+    });
+  };
+
+  const streamLog: TLogStreamFactoryStreamLog<TCustomProviderCredentials> = async ({ credentials, auditLog }) => {
+    const { url, headers } = credentials;
+
+    await blockAuditLogStreamInternalIps(url);
+
+    const streamHeaders: RawAxiosRequestHeaders = { "Content-Type": "application/json" };
+
+    if (headers.length) {
+      headers.forEach(({ key, value }) => {
+        streamHeaders[key] = value;
+      });
+    }
+
+    await request.post(url, auditLog, {
+      headers: streamHeaders,
+      timeout: AUDIT_LOG_STREAM_TIMEOUT
+    });
+  };
+
+  const getProviderBatchLimit: TLogStreamFactoryGetProviderBatchLimit = () => ({
+    maxLogs: 400,
+    maxBytes: 700 * 1024
+  });
+
+  return {
+    validateCredentials,
+    batchStreamLog,
+    streamLog,
+    getProviderBatchLimit
+  };
+};

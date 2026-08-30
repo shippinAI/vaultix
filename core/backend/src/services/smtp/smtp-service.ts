@@ -1,0 +1,262 @@
+import { render } from "@react-email/components";
+import { createTransport } from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
+import React from "react";
+
+import { getConfig } from "@app/lib/config/env";
+import { InternalServerError } from "@app/lib/errors";
+import { logger } from "@app/lib/logger";
+
+import {
+  AccessApprovalRequestTemplate,
+  AccessApprovalRequestUpdatedTemplate,
+  AccessPamRequestBypassedTemplate,
+  AccessPamRequestTemplate,
+  AccountDeletionConfirmationTemplate,
+  AlertNotificationTemplate,
+  AuditLogMigrationAlertTemplate,
+  AuditReportTemplate,
+  CredentialRotationFailedTemplate,
+  EmailChangeExistingAccountTemplate,
+  EmailChangeRequestNotificationTemplate,
+  EmailMfaTemplate,
+  EmailVerificationTemplate,
+  ExternalImportFailedTemplate,
+  ExternalImportStartedTemplate,
+  ExternalImportSucceededTemplate,
+  HealthAlertTemplate,
+  HoneyTokenTriggeredTemplate,
+  IntegrationSyncFailedTemplate,
+  MfaRecoveryCodeUsedTemplate,
+  NewDeviceLoginTemplate,
+  OAuthPasswordResetTemplate,
+  OrgAdminBreakglassAccessTemplate,
+  OrgAdminProjectFolderGrantAccessTemplate,
+  OrganizationAssignmentTemplate,
+  OrganizationInvitationTemplate,
+  PasswordResetTemplate,
+  PasswordSetupTemplate,
+  PkiApprovalRequestNeedsReviewTemplate,
+  PkiExpirationAlertTemplate,
+  ProjectAccessRequestTemplate,
+  ProjectInvitationTemplate,
+  ScimTokenExpiryNoticeTemplate,
+  ScimUserProvisionedTemplate,
+  SecretApprovalRequestBypassedTemplate,
+  SecretApprovalRequestNeedsReviewTemplate,
+  SecretLeakIncidentTemplate,
+  SecretReminderTemplate,
+  SecretRequestCompletedTemplate,
+  SecretRotationFailedTemplate,
+  SecretScanningScanFailedTemplate,
+  SecretScanningSecretsDetectedTemplate,
+  SecretSyncFailedTemplate,
+  ServiceTokenExpiryNoticeTemplate,
+  SignupEmailVerificationTemplate,
+  SignupExistingAccountTemplate,
+  SubOrganizationInvitationTemplate,
+  UnlockAccountTemplate
+} from "./emails";
+import DynamicSecretLeaseRevocationFailedTemplate from "./emails/DynamicSecretLeaseRevocationFailedTemplate";
+
+export type TSmtpConfig = SMTPTransport.Options;
+export type TSmtpAttachment = {
+  filename: string;
+  content: Buffer | string;
+  contentType?: string;
+};
+export type TSmtpSendMail = {
+  template: SmtpTemplates;
+  subjectLine: string;
+  recipients: string[];
+  substitutions: object;
+  attachments?: TSmtpAttachment[];
+};
+export type TSmtpService = ReturnType<typeof smtpServiceFactory>;
+
+export enum SmtpTemplates {
+  SignupEmailVerification = "signupEmailVerification",
+  SignupExistingAccount = "signupExistingAccount",
+  EmailVerification = "emailVerification",
+  EmailChangeRequestNotification = "emailChangeRequestNotification",
+  EmailChangeExistingAccount = "emailChangeExistingAccount",
+  SecretReminder = "secretReminder",
+  EmailMfa = "emailMfa",
+  MfaRecoveryCodeUsed = "mfaRecoveryCodeUsed",
+  UnlockAccount = "unlockAccount",
+  AccessApprovalRequest = "accessApprovalRequest",
+  AccessApprovalRequestUpdated = "accessApprovalRequestUpdated",
+  AccessSecretRequestBypassed = "accessSecretRequestBypassed",
+  AccessPamRequestBypassed = "accessPamRequestBypassed",
+  AccessPamRequest = "accessPamRequest",
+  PkiApprovalRequestNeedsReview = "pkiApprovalRequestNeedsReview",
+  SecretApprovalRequestNeedsReview = "secretApprovalRequestNeedsReview",
+  // HistoricalSecretList = "historicalSecretLeakIncident", not used anymore?
+  NewDeviceJoin = "newDevice",
+  OrgInvite = "organizationInvitation",
+  SubOrgInvite = "subOrganizationInvitation",
+  OrgAssignment = "organizationAssignment",
+  OAuthPasswordReset = "oAuthPasswordReset",
+  ResetPassword = "passwordReset",
+  SetupPassword = "passwordSetup",
+  SecretLeakIncident = "secretLeakIncident",
+  WorkspaceInvite = "workspaceInvitation",
+  ScimUserProvisioned = "scimUserProvisioned",
+  ScimTokenExpired = "scimTokenExpired",
+  PkiExpirationAlert = "pkiExpirationAlert",
+  IntegrationSyncFailed = "integrationSyncFailed",
+  SecretSyncFailed = "secretSyncFailed",
+  ExternalImportSuccessful = "externalImportSuccessful",
+  ExternalImportFailed = "externalImportFailed",
+  ExternalImportStarted = "externalImportStarted",
+  SecretRequestCompleted = "secretRequestCompleted",
+  SecretRotationFailed = "secretRotationFailed",
+  ProjectAccessRequest = "projectAccess",
+  OrgAdminProjectDirectAccess = "orgAdminProjectFolderGrantAccess",
+  OrgAdminBreakglassAccess = "orgAdminBreakglassAccess",
+  ServiceTokenExpired = "serviceTokenExpired",
+  SecretScanningV2ScanFailed = "secretScanningV2ScanFailed",
+  SecretScanningV2SecretsDetected = "secretScanningV2SecretsDetected",
+  AccountDeletionConfirmation = "accountDeletionConfirmation",
+  HealthAlert = "healthAlert",
+  DynamicSecretLeaseRevocationFailed = "dynamicSecretLeaseRevocationFailed",
+  CredentialRotationFailed = "credentialRotationFailed",
+  AuditLogMigrationAlert = "auditLogMigrationAlert",
+  HoneyTokenTriggered = "honeyTokenTriggered",
+  AuditReport = "auditReport",
+  AlertNotification = "alertNotification"
+}
+
+export enum SmtpHost {
+  Sendgrid = "smtp.sendgrid.net",
+  Mailgun = "smtp.mailgun.org",
+  SocketLabs = "smtp.socketlabs.com",
+  Zohomail = "smtp.zoho.com",
+  Gmail = "smtp.gmail.com",
+  Office365 = "smtp.office365.com"
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const EmailTemplateMap: Record<SmtpTemplates, React.FC<any>> = {
+  [SmtpTemplates.OrgInvite]: OrganizationInvitationTemplate,
+  [SmtpTemplates.SubOrgInvite]: SubOrganizationInvitationTemplate,
+  [SmtpTemplates.OrgAssignment]: OrganizationAssignmentTemplate,
+  [SmtpTemplates.NewDeviceJoin]: NewDeviceLoginTemplate,
+  [SmtpTemplates.SignupEmailVerification]: SignupEmailVerificationTemplate,
+  [SmtpTemplates.SignupExistingAccount]: SignupExistingAccountTemplate,
+  [SmtpTemplates.EmailMfa]: EmailMfaTemplate,
+  [SmtpTemplates.MfaRecoveryCodeUsed]: MfaRecoveryCodeUsedTemplate,
+  [SmtpTemplates.AccessApprovalRequest]: AccessApprovalRequestTemplate,
+  [SmtpTemplates.AccessApprovalRequestUpdated]: AccessApprovalRequestUpdatedTemplate,
+  [SmtpTemplates.EmailVerification]: EmailVerificationTemplate,
+  [SmtpTemplates.EmailChangeRequestNotification]: EmailChangeRequestNotificationTemplate,
+  [SmtpTemplates.EmailChangeExistingAccount]: EmailChangeExistingAccountTemplate,
+  [SmtpTemplates.ExternalImportFailed]: ExternalImportFailedTemplate,
+  [SmtpTemplates.ExternalImportStarted]: ExternalImportStartedTemplate,
+  [SmtpTemplates.ExternalImportSuccessful]: ExternalImportSucceededTemplate,
+  [SmtpTemplates.AccessSecretRequestBypassed]: SecretApprovalRequestBypassedTemplate,
+  [SmtpTemplates.AccessPamRequestBypassed]: AccessPamRequestBypassedTemplate,
+  [SmtpTemplates.AccessPamRequest]: AccessPamRequestTemplate,
+  [SmtpTemplates.PkiApprovalRequestNeedsReview]: PkiApprovalRequestNeedsReviewTemplate,
+  [SmtpTemplates.IntegrationSyncFailed]: IntegrationSyncFailedTemplate,
+  [SmtpTemplates.OrgAdminBreakglassAccess]: OrgAdminBreakglassAccessTemplate,
+  [SmtpTemplates.SecretLeakIncident]: SecretLeakIncidentTemplate,
+  [SmtpTemplates.WorkspaceInvite]: ProjectInvitationTemplate,
+  [SmtpTemplates.ScimUserProvisioned]: ScimUserProvisionedTemplate,
+  [SmtpTemplates.ScimTokenExpired]: ScimTokenExpiryNoticeTemplate,
+  [SmtpTemplates.SecretRequestCompleted]: SecretRequestCompletedTemplate,
+  [SmtpTemplates.UnlockAccount]: UnlockAccountTemplate,
+  [SmtpTemplates.ServiceTokenExpired]: ServiceTokenExpiryNoticeTemplate,
+  [SmtpTemplates.SecretReminder]: SecretReminderTemplate,
+  [SmtpTemplates.SecretRotationFailed]: SecretRotationFailedTemplate,
+  [SmtpTemplates.SecretSyncFailed]: SecretSyncFailedTemplate,
+  [SmtpTemplates.OrgAdminProjectDirectAccess]: OrgAdminProjectFolderGrantAccessTemplate,
+  [SmtpTemplates.ProjectAccessRequest]: ProjectAccessRequestTemplate,
+  [SmtpTemplates.SecretApprovalRequestNeedsReview]: SecretApprovalRequestNeedsReviewTemplate,
+  [SmtpTemplates.OAuthPasswordReset]: OAuthPasswordResetTemplate,
+  [SmtpTemplates.ResetPassword]: PasswordResetTemplate,
+  [SmtpTemplates.SetupPassword]: PasswordSetupTemplate,
+  [SmtpTemplates.PkiExpirationAlert]: PkiExpirationAlertTemplate,
+  [SmtpTemplates.SecretScanningV2ScanFailed]: SecretScanningScanFailedTemplate,
+  [SmtpTemplates.SecretScanningV2SecretsDetected]: SecretScanningSecretsDetectedTemplate,
+  [SmtpTemplates.AccountDeletionConfirmation]: AccountDeletionConfirmationTemplate,
+  [SmtpTemplates.HealthAlert]: HealthAlertTemplate,
+  [SmtpTemplates.DynamicSecretLeaseRevocationFailed]: DynamicSecretLeaseRevocationFailedTemplate,
+  [SmtpTemplates.CredentialRotationFailed]: CredentialRotationFailedTemplate,
+  [SmtpTemplates.AuditLogMigrationAlert]: AuditLogMigrationAlertTemplate,
+  [SmtpTemplates.HoneyTokenTriggered]: HoneyTokenTriggeredTemplate,
+  [SmtpTemplates.AuditReport]: AuditReportTemplate,
+  [SmtpTemplates.AlertNotification]: AlertNotificationTemplate
+};
+
+export const smtpServiceFactory = (cfg: TSmtpConfig) => {
+  const smtp = createTransport(cfg);
+  const isSmtpOn = Boolean(cfg.host);
+
+  const sendMail = async ({ substitutions, recipients, template, subjectLine, attachments }: TSmtpSendMail) => {
+    const appCfg = getConfig();
+
+    const EmailTemplate = EmailTemplateMap[template];
+
+    if (!EmailTemplate) {
+      throw new Error(`Email template ${template} not found`);
+    }
+
+    const htmlToSend = await render(
+      React.createElement(EmailTemplate, {
+        ...substitutions,
+        isCloud: appCfg.isCloud,
+        siteUrl: appCfg.SITE_URL
+      })
+    );
+
+    if (isSmtpOn) {
+      await smtp.sendMail({
+        from: cfg.from,
+        to: recipients.join(", "),
+        subject: subjectLine,
+        html: htmlToSend,
+        attachments
+      });
+    } else {
+      logger.info("SMTP is not configured. Outputting it in terminal");
+      logger.info({
+        from: cfg.from,
+        to: recipients.join(", "),
+        subject: subjectLine,
+        html: htmlToSend
+      });
+    }
+  };
+
+  const verify = async () => {
+    const isConnected = smtp
+      .verify()
+      .then(async () => {
+        logger.info("SMTP connected");
+        return true;
+      })
+      .catch((err: Error) => {
+        logger.error("SMTP error");
+        logger.error(err);
+        return false;
+      });
+
+    return isConnected;
+  };
+
+  return { sendMail, verify };
+};
+
+export const throwIfSmtpError = (err: unknown, logMessage: string) => {
+  logger.error(err, logMessage);
+  const { isCloud } = getConfig();
+  // We must always throw so the user is not left waiting for an email that never arrives.
+  // On cloud, we show a generic message to avoid exposing internal misconfiguration details.
+  throw new InternalServerError({
+    message: isCloud
+      ? "We could not send you an email. Please try again later."
+      : "Failed to send email. This is likely due to a misconfigured SMTP server. Please check your SMTP settings and try again.",
+    name: "SmtpError"
+  });
+};

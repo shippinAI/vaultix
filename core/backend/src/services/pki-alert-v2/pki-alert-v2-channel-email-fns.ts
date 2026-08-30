@@ -1,0 +1,112 @@
+import { getConfig } from "@app/lib/config/env";
+import { delay } from "@app/lib/delay";
+import { logger } from "@app/lib/logger";
+import { RETRYABLE_NETWORK_ERRORS } from "@app/lib/retry/network-errors";
+import { SmtpTemplates, TSmtpService } from "@app/services/smtp/smtp-service";
+
+import { PKI_ALERT_RETRY_CONFIG } from "./pki-alert-v2-constants";
+import {
+  getRevocationReasonLabel,
+  PkiAlertEventType,
+  TAlertInfo,
+  TCertificatePreview,
+  TChannelResult,
+  TEmailChannelConfig
+} from "./pki-alert-v2-types";
+import { buildAlertViewUrl } from "./pki-alert-v2-url-fns";
+
+const getEmailEventLabel = (eventType: PkiAlertEventType): string => {
+  switch (eventType) {
+    case PkiAlertEventType.ISSUANCE:
+      return "Issuance";
+    case PkiAlertEventType.RENEWAL:
+      return "Renewal";
+    case PkiAlertEventType.REVOCATION:
+      return "Revocation";
+    case PkiAlertEventType.EXPIRATION:
+    default:
+      return "Expiration";
+  }
+};
+
+const isEmailErrorRetryable = (err: Error): boolean => {
+  const msg = err.message.toLowerCase();
+  if (RETRYABLE_NETWORK_ERRORS.some((code) => msg.includes(code.toLowerCase()))) return true;
+  if (msg.includes("timeout") || msg.includes("connection")) return true;
+  if (["421", "450", "451", "452"].some((code) => msg.includes(code))) return true;
+  return false;
+};
+
+export const sendEmailNotification = async (
+  smtpService: Pick<TSmtpService, "sendMail">,
+  config: TEmailChannelConfig,
+  alert: TAlertInfo,
+  alertBeforeDays: number,
+  matchingCertificates: TCertificatePreview[],
+  eventType: PkiAlertEventType = PkiAlertEventType.EXPIRATION
+): Promise<void> => {
+  const eventLabel = getEmailEventLabel(eventType);
+  const appCfg = getConfig();
+  const viewUrl = buildAlertViewUrl(appCfg.SITE_URL ?? "https://vaultix.shippin.cloud", alert);
+
+  await smtpService.sendMail({
+    recipients: config.recipients,
+    subjectLine: `Vaultix Certificate ${eventLabel} Alert - ${alert.name}`,
+    substitutions: {
+      alertName: alert.name,
+      alertBeforeDays,
+      viewUrl,
+      eventLabel,
+      items: matchingCertificates.map((cert) => ({
+        type: "Certificate",
+        friendlyName: cert.commonName,
+        serialNumber: cert.serialNumber,
+        expiryDate: cert.notAfter.toLocaleDateString(),
+        ...(eventType === PkiAlertEventType.REVOCATION
+          ? { revocationReason: getRevocationReasonLabel(cert.revocationReason) }
+          : {})
+      }))
+    },
+    template: SmtpTemplates.PkiExpirationAlert
+  });
+};
+
+export const sendEmailNotificationWithRetry = async (
+  smtpService: Pick<TSmtpService, "sendMail">,
+  config: TEmailChannelConfig,
+  alert: TAlertInfo,
+  alertBeforeDays: number,
+  matchingCertificates: TCertificatePreview[],
+  channelId: string,
+  eventType: PkiAlertEventType = PkiAlertEventType.EXPIRATION
+): Promise<TChannelResult> => {
+  const { maxRetries, delayMs } = PKI_ALERT_RETRY_CONFIG;
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await sendEmailNotification(smtpService, config, alert, alertBeforeDays, matchingCertificates, eventType);
+      return { success: true };
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+
+      if (!isEmailErrorRetryable(lastError)) {
+        logger.info({ channelId, error: lastError.message }, "PKI email error is not retryable (permanent SMTP error)");
+        return { success: false, error: lastError.message };
+      }
+
+      logger.info(
+        { channelId, attempt, maxRetries, error: lastError.message },
+        `PKI email failed, ${attempt < maxRetries ? `retrying in ${delayMs}ms` : "no more retries"}`
+      );
+
+      if (attempt < maxRetries) {
+        // eslint-disable-next-line no-await-in-loop
+        await delay(delayMs);
+      }
+    }
+  }
+
+  return { success: false, error: lastError?.message };
+};

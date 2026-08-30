@@ -1,0 +1,255 @@
+import { ProjectPermissionSecretActions } from "@app/context/ProjectPermissionContext/types";
+import { TDynamicSecret } from "@app/hooks/api/dynamicSecret/types";
+import { OrderByDirection } from "@app/hooks/api/generic/types";
+import { TDashboardHoneyToken } from "@app/hooks/api/honeyTokens/types";
+import { TDashboardProxiedService } from "@app/hooks/api/proxiedServices/types";
+import { TSecretFolder } from "@app/hooks/api/secretFolders/types";
+import { TSecretImport } from "@app/hooks/api/secretImports/types";
+import { TSecretRotationV2 } from "@app/hooks/api/secretRotationsV2";
+import { SecretV3Raw, SecretV3RawSanitized } from "@app/hooks/api/secrets/types";
+
+export type DashboardProjectSecretsOverviewResponse = {
+  folders?: (TSecretFolder & { environment: string })[];
+  dynamicSecrets?: (TDynamicSecret & { environment: string })[];
+  secrets?: SecretV3Raw[];
+  imports?: TSecretImport[];
+  totalSecretCount?: number;
+  totalFolderCount?: number;
+  totalDynamicSecretCount?: number;
+  totalImportCount?: number;
+  secretRotations?: (TSecretRotationV2 & {
+    secrets: (SecretV3Raw | null)[];
+  })[];
+  totalSecretRotationCount?: number;
+  honeyTokens?: TDashboardHoneyToken[];
+  totalHoneyTokenCount?: number;
+  proxiedServices?: TDashboardProxiedService[];
+  totalProxiedServiceCount?: number;
+  totalCount: number;
+  totalUniqueSecretsInPage: number;
+  totalUniqueDynamicSecretsInPage: number;
+  totalUniqueFoldersInPage: number;
+  totalUniqueSecretImportsInPage: number;
+  importedByEnvs?: { environment: string; importedBy: ProjectSecretsImportedBy[] }[];
+  usedBySecretSyncs?: UsedBySecretSyncs[];
+  totalUniqueSecretRotationsInPage: number;
+};
+
+export type UsedBySecretSyncs = {
+  name: string;
+  destination: string;
+  environment: string;
+  id: string;
+  path: string;
+};
+
+export type DashboardProjectSecretsDetailsResponse = {
+  imports?: TSecretImport[];
+  folders?: TSecretFolder[];
+  dynamicSecrets?: TDynamicSecret[];
+  secrets?: SecretV3Raw[];
+  secretRotations?: (TSecretRotationV2 & {
+    secrets: (SecretV3Raw | null)[];
+  })[];
+  honeyTokens?: TDashboardHoneyToken[];
+  proxiedServices?: TDashboardProxiedService[];
+  totalImportCount?: number;
+  totalFolderCount?: number;
+  totalDynamicSecretCount?: number;
+  totalSecretCount?: number;
+  totalSecretRotationCount?: number;
+  totalHoneyTokenCount?: number;
+  totalProxiedServiceCount?: number;
+  totalCount: number;
+  importedBy?: ProjectSecretsImportedBy[];
+  usedBySecretSyncs?: UsedBySecretSyncs[];
+};
+
+export type ProjectSecretsImportedBy = {
+  environment: { name: string; slug: string };
+  project?: { name: string; slug: string; id: string };
+  folders: {
+    name: string;
+    secrets?: { secretId: string; referencedSecretKey: string; referencedSecretEnv: string }[];
+    isImported: boolean;
+  }[];
+};
+
+export type DashboardProjectSecretsByKeys = {
+  secrets: SecretV3Raw[];
+};
+
+export type DashboardProjectSecretsOverview = Omit<
+  DashboardProjectSecretsOverviewResponse,
+  "secrets" | "secretRotations"
+> & {
+  secrets?: (SecretV3RawSanitized & { sourceEnv?: string })[];
+  secretRotations?: (TSecretRotationV2 & {
+    secrets: (SecretV3RawSanitized | null)[];
+  })[];
+  honeyTokens?: TDashboardHoneyToken[];
+  proxiedServices?: TDashboardProxiedService[];
+};
+
+export type DashboardProjectSecretsDetails = Omit<
+  DashboardProjectSecretsDetailsResponse,
+  "secrets"
+> & {
+  secrets?: SecretV3RawSanitized[];
+  secretRotations?: (TSecretRotationV2 & {
+    secrets: (SecretV3RawSanitized | null)[];
+  })[];
+  honeyTokens?: TDashboardHoneyToken[];
+  proxiedServices?: TDashboardProxiedService[];
+};
+
+export enum DashboardSecretsOrderBy {
+  Name = "name"
+}
+
+export type TGetDashboardProjectSecretsOverviewDTO = {
+  projectId: string;
+  secretPath: string;
+  offset?: number;
+  limit?: number;
+  orderBy?: DashboardSecretsOrderBy;
+  orderDirection?: OrderByDirection;
+  search?: string;
+  tags?: Record<string, boolean>;
+  includeSecrets?: boolean;
+  includeFolders?: boolean;
+  includeDynamicSecrets?: boolean;
+  includeImports?: boolean;
+  includeSecretRotations?: boolean;
+  includeHoneyTokens?: boolean;
+  includeProxiedServices?: boolean;
+  environments: string[];
+};
+
+export type TGetDashboardProjectSecretsDetailsDTO = Omit<
+  TGetDashboardProjectSecretsOverviewDTO,
+  "environments"
+> & {
+  environment: string;
+  includeImports?: boolean;
+  tags: Record<string, boolean>;
+};
+
+export type TDashboardProjectSecretsQuickSearchResponse = {
+  folders: (TSecretFolder & { envId: string; path: string })[];
+  dynamicSecrets: (TDynamicSecret & { environment: string; path: string })[];
+  secretRotations: TSecretRotationV2[];
+  secrets: SecretV3Raw[];
+};
+
+export type TDashboardProjectSecretsQuickSearch = {
+  folders: Record<string, TDashboardProjectSecretsQuickSearchResponse["folders"]>;
+  secrets: Record<string, SecretV3RawSanitized[]>;
+  dynamicSecrets: Record<string, TDashboardProjectSecretsQuickSearchResponse["dynamicSecrets"]>;
+  secretRotations: Record<string, TDashboardProjectSecretsQuickSearchResponse["secretRotations"]>;
+};
+
+export type TGetDashboardProjectSecretsQuickSearchDTO = {
+  projectId: string;
+  secretPath: string;
+  tags: Record<string, boolean>;
+  search: string;
+  environments: string[];
+};
+
+// per-condition match operator; only exact-match ("is") is supported today (mirrors the backend)
+export enum SecretMetadataSearchOperator {
+  Is = "is"
+}
+
+// combinator applied across all conditions
+export enum SecretMetadataSearchLogicalOperator {
+  And = "and",
+  Or = "or"
+}
+
+export type TSecretMetadataSearchFilter = {
+  key: string;
+  value: string;
+  operator: SecretMetadataSearchOperator;
+};
+
+export type TSearchSecretsByMetadataDTO = {
+  projectId: string;
+  operator: SecretMetadataSearchLogicalOperator;
+  filters: TSecretMetadataSearchFilter[];
+  tags: Record<string, boolean>;
+};
+
+export type TMetadataMatchedSecret = {
+  secretId: string;
+  secretKey: string;
+  environment: string;
+  secretPath: string;
+  metadata: { key: string; value: string | null }[];
+};
+
+export type TSearchSecretsByMetadataResponse = {
+  secrets: TMetadataMatchedSecret[];
+};
+
+export type TGetDashboardProjectSecretsByKeys = {
+  projectId: string;
+  secretPath: string;
+  environment: string;
+  keys: string[];
+};
+
+export type TGetAccessibleSecretsDTO = {
+  projectId: string;
+  secretPath: string;
+  environment: string;
+  recursive?: boolean;
+  filterByAction:
+    | ProjectPermissionSecretActions.DescribeSecret
+    | ProjectPermissionSecretActions.ReadValue;
+};
+
+export type TGetSecretValueDTO = {
+  projectId: string;
+  secretKey: string;
+  environment: string;
+  secretPath: string;
+  isOverride?: boolean;
+};
+
+export type DashboardSecretValue =
+  | {
+      value: string;
+      valueOverride: undefined;
+    }
+  | {
+      value: undefined;
+      valueOverride: string;
+    };
+
+export type FolderMoveBlockingType =
+  | "dynamic_secret"
+  | "secret_rotation"
+  | "honey_token"
+  | "secret_import"
+  | "secret_approval_policy";
+
+export type FolderMoveEligibilityResponse = {
+  canMove: boolean;
+  folderName: string;
+  blockingType?: FolderMoveBlockingType;
+  blockingPath?: string;
+  // present only when the eligibility check was given a destination
+  destinationBlocked?: boolean;
+  // the destination policy's path/name are disclosed only when the actor may read that path
+  destinationBlockingPath?: string;
+  destinationPolicyName?: string;
+};
+
+export type TFolderMoveDestinationCheck = {
+  folderId: string;
+  folderName: string;
+  destinationEnvironment: string;
+  destinationPath: string;
+};

@@ -1,0 +1,60 @@
+export const getDefaultOnPremFeatures = () => {
+  return {
+    _id: null,
+    slug: null,
+    tier: -1,
+    workspaceLimit: null,
+    workspacesUsed: 0,
+    secretSyncLimit: null,
+    maxInternalCas: null,
+    maxPamAccounts: null,
+    pam: null,
+    certManager: null,
+    secretsTemporaryAccess: null,
+    enterprisePamAccount: null,
+    pkiCodeSigning: null,
+    memberLimit: null,
+    membersUsed: 0,
+    identityLimit: null,
+    identitiesUsed: 0,
+    environmentLimit: null,
+    environmentsUsed: 0,
+    secretVersioning: true,
+    pitRecovery: false,
+    ipAllowlisting: true,
+    rbac: false,
+    customRateLimits: false,
+    customAlerts: false,
+    auditLogs: false,
+    auditLogsRetentionDays: 0,
+    samlSSO: true,
+    oidcSSO: true,
+    scim: true,
+    ldap: true,
+    groups: false,
+    status: null,
+    trial_end: null,
+    has_used_trial: true,
+    secretApproval: true,
+    secretRotation: true,
+    caCrl: false,
+    enterpriseSecretSyncs: false,
+    enterpriseCertificateSyncs: false,
+    enterpriseAppConnections: true,
+    machineIdentityAuthTemplates: false,
+    pkiLegacyTemplates: false,
+    emailDomainVerification: true,
+    honeyTokens: false,
+    honeyTokenLimit: 0,
+    gatewayPool: false,
+    fips: true
+  };
+};
+
+export const setupLicenseRequestWithStore = () => {};
+
+export const getLicenseKeyConfig = () => {
+  return {
+    isValid: false
+  };
+};

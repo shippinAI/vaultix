@@ -1,0 +1,278 @@
+import { z } from "zod";
+
+import { VAULTIX_PROVIDER_GITHUB_ACCESS_TOKEN } from "@app/lib/config/const";
+import { getConfig } from "@app/lib/config/env";
+import { UnauthorizedError } from "@app/lib/errors";
+import { authRateLimit } from "@app/server/config/rateLimiter";
+import { addAuthOriginDomainCookie } from "@app/server/lib/cookie";
+import { getUserAgentType } from "@app/server/plugins/audit-log";
+import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
+import { AuthMode } from "@app/services/auth/auth-type";
+import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
+
+export const registerLoginRouter = async (server: FastifyZodProvider) => {
+  server.route({
+    method: "POST",
+    url: "/login1",
+    config: {
+      rateLimit: authRateLimit
+    },
+    schema: {
+      operationId: "loginGenServerPublicKeyV3",
+      body: z.object({
+        email: z.string().trim(),
+        providerAuthToken: z.string().trim().optional(),
+        clientPublicKey: z.string().trim()
+      }),
+      response: {
+        200: z.object({
+          serverPublicKey: z.string().nullish(),
+          salt: z.string().nullish()
+        })
+      }
+    },
+    handler: async (req) => {
+      const { serverPublicKey, salt } = await server.services.login.loginGenServerPublicKey({
+        email: req.body.email,
+        clientPublicKey: req.body.clientPublicKey,
+        providerAuthToken: req.body.providerAuthToken
+      });
+
+      return { serverPublicKey, salt };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/select-organization",
+    config: {
+      rateLimit: authRateLimit
+    },
+    schema: {
+      operationId: "selectOrganizationV3",
+      body: z.object({
+        organizationId: z.string().trim(),
+        userAgent: z.enum(["cli"]).optional()
+      }),
+      response: {
+        200: z.object({
+          token: z.string(),
+          isMfaEnabled: z.boolean(),
+          mfaMethod: z.string().optional()
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT], { requireOrg: false }),
+    handler: async (req, res) => {
+      const cfg = getConfig();
+
+      if (req.auth.authMode !== AuthMode.JWT) {
+        throw new UnauthorizedError({ message: "Invalid auth mode" });
+      }
+
+      const tokens = await server.services.login.selectOrganization({
+        userAgent: req.body.userAgent ?? req.headers["user-agent"],
+        organizationId: req.body.organizationId,
+        ipAddress: req.realIp,
+        userId: req.auth.userId,
+        userAuthMethod: req.auth.authMethod,
+        actorOrgId: req.auth.orgId,
+        isMfaVerified: req.auth.isMfaVerified,
+        mfaMethod: req.auth.mfaMethod
+      });
+
+      if (tokens.isMfaEnabled) {
+        return {
+          token: tokens.mfa as string,
+          isMfaEnabled: true,
+          mfaMethod: tokens.mfaMethod
+        };
+      }
+
+      const githubOauthAccessToken = req.cookies[VAULTIX_PROVIDER_GITHUB_ACCESS_TOKEN];
+      if (githubOauthAccessToken) {
+        await server.services.githubOrgSync
+          .syncUserGroups(req.body.organizationId, tokens.user.id, githubOauthAccessToken)
+          .finally(() => {
+            void res.setCookie(VAULTIX_PROVIDER_GITHUB_ACCESS_TOKEN, "", {
+              httpOnly: true,
+              path: "/api",
+              sameSite: "strict",
+              secure: cfg.HTTPS_ENABLED,
+              maxAge: 0
+            });
+          });
+      }
+
+      void res.setCookie("jid", tokens.refresh, {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: cfg.HTTPS_ENABLED
+      });
+
+      addAuthOriginDomainCookie(res);
+
+      void res.cookie("infisical-project-assume-privileges", "", {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: cfg.HTTPS_ENABLED,
+        maxAge: 0
+      });
+
+      return { token: tokens.access, isMfaEnabled: false };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/login2",
+    config: {
+      rateLimit: authRateLimit
+    },
+    schema: {
+      operationId: "loginExchangeClientProofV3",
+      body: z.object({
+        email: z.string().toLowerCase().trim(),
+        providerAuthToken: z.string().trim().optional(),
+        clientProof: z.string().trim(),
+        captchaToken: z.string().trim().optional(),
+        password: z.string().trim()
+      }),
+      response: {
+        200: z.object({
+          encryptionVersion: z.number().default(1).nullish(),
+          protectedKey: z.string().nullish(),
+          protectedKeyIV: z.string().nullish(),
+          protectedKeyTag: z.string().nullish(),
+          publicKey: z.string().nullish(),
+          encryptedPrivateKey: z.string().nullish(),
+          iv: z.string().nullish(),
+          tag: z.string().nullish(),
+          token: z.string()
+        })
+      }
+    },
+    handler: async (req, res) => {
+      const userAgent = req.headers["user-agent"];
+      if (!userAgent) throw new Error("user agent header is required");
+
+      const { tokens, user } = await server.services.login.login({
+        email: req.body.email,
+        password: req.body.password,
+        ip: req.realIp,
+        userAgent,
+        captchaToken: req.body.captchaToken
+      });
+      const appCfg = getConfig();
+
+      const loginDistinctId = user.username ?? user.email ?? "";
+      if (loginDistinctId) {
+        void server.services.telemetry.identifyUser(
+          loginDistinctId,
+          {
+            email: user.email ?? undefined,
+            username: user.username,
+            userId: user.id
+          },
+          { skipDedup: true }
+        );
+
+        void server.services.telemetry.sendPostHogEvents({
+          event: PostHogEventTypes.UserLoginV2,
+          distinctId: loginDistinctId,
+          properties: {
+            email: req.body.email,
+            channel: getUserAgentType(userAgent)
+          }
+        });
+      }
+
+      void res.setCookie("jid", tokens.refreshToken, {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: appCfg.HTTPS_ENABLED
+      });
+
+      addAuthOriginDomainCookie(res);
+      void res.cookie("infisical-project-assume-privileges", "", {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: appCfg.HTTPS_ENABLED,
+        maxAge: 0
+      });
+
+      return { token: tokens.accessToken, encryptionVersion: 2 };
+    }
+  });
+
+  // New login route that doesn't use SRP
+  server.route({
+    method: "POST",
+    url: "/login",
+    config: {
+      rateLimit: authRateLimit
+    },
+    schema: {
+      operationId: "loginV3",
+      body: z.object({
+        email: z.string().trim(),
+        password: z.string().trim(),
+        captchaToken: z.string().trim().optional()
+      }),
+      response: {
+        200: z.object({
+          accessToken: z.string()
+        })
+      }
+    },
+    handler: async (req, res) => {
+      const userAgent = req.headers["user-agent"];
+      if (!userAgent) throw new Error("user agent header is required");
+
+      const { tokens, user } = await server.services.login.login({
+        email: req.body.email,
+        password: req.body.password,
+        ip: req.realIp,
+        userAgent,
+        captchaToken: req.body.captchaToken
+      });
+      const appCfg = getConfig();
+
+      const loginDistinctId = user.username ?? user.email ?? "";
+      if (loginDistinctId) {
+        void server.services.telemetry.identifyUser(
+          loginDistinctId,
+          {
+            email: user.email ?? undefined,
+            username: user.username,
+            userId: user.id
+          },
+          { skipDedup: true }
+        );
+      }
+
+      void res.setCookie("jid", tokens.refreshToken, {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: appCfg.HTTPS_ENABLED
+      });
+
+      addAuthOriginDomainCookie(res);
+
+      void res.cookie("infisical-project-assume-privileges", "", {
+        httpOnly: true,
+        path: "/api",
+        sameSite: "strict",
+        secure: appCfg.HTTPS_ENABLED,
+        maxAge: 0
+      });
+
+      return { accessToken: tokens.accessToken };
+    }
+  });
+};

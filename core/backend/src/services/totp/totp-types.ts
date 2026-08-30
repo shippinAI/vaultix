@@ -1,0 +1,21 @@
+export type TRegisterUserTotpDTO = {
+  userId: string;
+};
+
+export type TVerifyUserTotpConfigDTO = {
+  userId: string;
+  totp: string;
+};
+
+export type TGetUserTotpConfigDTO = {
+  userId: string;
+};
+
+export type TVerifyUserTotpDTO = {
+  userId: string;
+  totp: string;
+};
+
+export type TDeleteUserTotpConfigDTO = {
+  userId: string;
+};

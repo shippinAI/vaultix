@@ -1,0 +1,112 @@
+import { format } from "date-fns";
+import { CheckIcon, ClipboardListIcon } from "lucide-react";
+
+import { Tooltip } from "@app/components/v2";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Detail,
+  DetailGroup,
+  DetailLabel,
+  DetailValue,
+  IconButton
+} from "@app/components/v3";
+import { useProject } from "@app/context";
+import { useTimedReset } from "@app/hooks";
+import { ProjectType } from "@app/hooks/api/projects/types";
+import { TWorkspaceUser } from "@app/hooks/api/types";
+
+type Props = {
+  membership: TWorkspaceUser;
+};
+
+export const ProjectMemberDetailsSection = ({ membership }: Props) => {
+  const { currentProject } = useProject();
+  const isCertManager = currentProject?.type === ProjectType.CertificateManager;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
+  const [_copyId, isCopyingId, setCopyTextId] = useTimedReset<string>({
+    initialState: "Copy ID to clipboard"
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
+  const [_copyEmail, isCopyingEmail, setCopyEmail] = useTimedReset<string>({
+    initialState: "Copy email to clipboard"
+  });
+
+  const {
+    user: { email, username, firstName, lastName, id: userId }
+  } = membership;
+
+  const name = firstName || lastName ? `${firstName} ${lastName}`.trim() : null;
+
+  return (
+    <Card className="w-full lg:max-w-[24rem]">
+      <CardHeader className="border-b">
+        <CardTitle>Details</CardTitle>
+        <CardDescription>User membership details</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <DetailGroup>
+          <Detail>
+            <DetailLabel>Name</DetailLabel>
+            <DetailValue>{name || <span className="text-muted">—</span>}</DetailValue>
+          </Detail>
+          <Detail>
+            <DetailLabel>ID</DetailLabel>
+            <DetailValue className="flex items-center gap-x-1">
+              {membership.user.id}
+              <Tooltip content="Copy user ID to clipboard">
+                <IconButton
+                  onClick={() => {
+                    navigator.clipboard.writeText(userId);
+                    setCopyTextId("Copied");
+                  }}
+                  variant="ghost"
+                  size="xs"
+                >
+                  {/* TODO(scott): color this should be a button variant and create re-usable copy button */}
+                  {isCopyingId ? <CheckIcon /> : <ClipboardListIcon className="text-label" />}
+                </IconButton>
+              </Tooltip>
+            </DetailValue>
+          </Detail>
+          <Detail>
+            <DetailLabel>Email</DetailLabel>
+            <DetailValue className="flex items-center gap-x-1">
+              {email}
+              <Tooltip content="Copy user email to clipboard">
+                <IconButton
+                  onClick={() => {
+                    navigator.clipboard.writeText(email);
+                    setCopyEmail("Copied");
+                  }}
+                  variant="ghost"
+                  size="xs"
+                >
+                  {/* TODO(scott): color this should be a button variant and create re-usable copy button */}
+                  {isCopyingEmail ? <CheckIcon /> : <ClipboardListIcon className="text-label" />}
+                </IconButton>
+              </Tooltip>
+            </DetailValue>
+          </Detail>
+          {username !== email && (
+            <Detail>
+              <DetailLabel>Username</DetailLabel>
+              <DetailValue>{username || <span className="text-muted">—</span>}</DetailValue>
+            </Detail>
+          )}
+          <Detail>
+            <DetailLabel>
+              {isCertManager ? "Joined certificate manager" : "Joined project"}
+            </DetailLabel>
+            <DetailValue>{format(membership.createdAt, "PPpp")}</DetailValue>
+          </Detail>
+        </DetailGroup>
+      </CardContent>
+    </Card>
+  );
+};

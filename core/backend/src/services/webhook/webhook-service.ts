@@ -1,0 +1,300 @@
+import { ForbiddenError } from "@casl/ability";
+
+import { ActionProjectType, TWebhooksInsert } from "@app/db/schemas";
+import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { ProjectPermissionActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
+import { logger } from "@app/lib/logger";
+import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
+import { requestMemoize } from "@app/lib/request-context/request-memoizer";
+import { blockLocalAndPrivateIpAddresses } from "@app/lib/validator";
+
+import { TKmsServiceFactory } from "../kms/kms-service";
+import { KmsDataKey } from "../kms/kms-types";
+import { TProjectDALFactory } from "../project/project-dal";
+import { TProjectEnvDALFactory } from "../project-env/project-env-dal";
+import { TWebhookDALFactory } from "./webhook-dal";
+import { decryptWebhookDetails, getWebhookPayload, triggerWebhookRequest } from "./webhook-fns";
+import {
+  SUBSCRIBABLE_WEBHOOK_EVENTS,
+  TCreateWebhookDTO,
+  TDeleteWebhookDTO,
+  TGetWebhookByIdDTO,
+  TListWebhookDTO,
+  TSubscribableWebhookEvent,
+  TTestWebhookDTO,
+  TUpdateWebhookDTO,
+  WebhookEvents
+} from "./webhook-types";
+
+type TWebhookServiceFactoryDep = {
+  webhookDAL: TWebhookDALFactory;
+  projectEnvDAL: TProjectEnvDALFactory;
+  projectDAL: Pick<TProjectDALFactory, "findById">;
+  permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
+  kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
+};
+
+export type TWebhookServiceFactory = ReturnType<typeof webhookServiceFactory>;
+
+export const webhookServiceFactory = ({
+  webhookDAL,
+  projectEnvDAL,
+  permissionService,
+  projectDAL,
+  kmsService
+}: TWebhookServiceFactoryDep) => {
+  const subscribableEvents = new Set<string>(SUBSCRIBABLE_WEBHOOK_EVENTS);
+
+  // `eventsFilter` on the API mirrors the DB's `filteredEvents` column: both are the allowlist
+  // of events that should trigger the webhook. Empty array => no events are filtered out
+  // (webhook fires on everything subscribable).
+  const withEventsFilter = <T extends { filteredEvents?: string[] | null }>(webhook: T) => ({
+    ...webhook,
+    eventsFilter: (webhook.filteredEvents ?? [])
+      .filter((eventName): eventName is TSubscribableWebhookEvent => subscribableEvents.has(eventName))
+      .map((eventName) => ({ eventName }))
+  });
+
+  const createWebhook = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    projectId,
+    webhookUrl,
+    environment,
+    secretPath,
+    webhookSecretKey,
+    type,
+    eventsFilter
+  }: TCreateWebhookDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Create, ProjectPermissionSub.Webhooks);
+    const env = await projectEnvDAL.findOne({ projectId, slug: environment });
+    if (!env)
+      throw new NotFoundError({
+        message: `Environment with slug '${environment}' in project with ID '${projectId}' not found`
+      });
+
+    await blockLocalAndPrivateIpAddresses(webhookUrl);
+    const { encryptor: secretManagerEncryptor } = await kmsService.createCipherPairWithDataKey({
+      type: KmsDataKey.SecretManager,
+      projectId
+    });
+
+    const filteredEvents = eventsFilter?.map((e) => e.eventName) ?? [];
+
+    const insertDoc: TWebhooksInsert = {
+      envId: env.id,
+      isDisabled: false,
+      secretPath: secretPath || "/",
+      type,
+      encryptedUrl: secretManagerEncryptor({ plainText: Buffer.from(webhookUrl) }).cipherTextBlob,
+      filteredEvents
+    };
+
+    if (webhookSecretKey) {
+      insertDoc.encryptedPassKey = secretManagerEncryptor({ plainText: Buffer.from(webhookSecretKey) }).cipherTextBlob;
+    }
+
+    const webhook = await webhookDAL.create(insertDoc);
+    return { ...withEventsFilter(webhook), projectId, environment: env };
+  };
+
+  const updateWebhook = async ({
+    actorId,
+    actor,
+    actorOrgId,
+    actorAuthMethod,
+    id,
+    isDisabled,
+    eventsFilter
+  }: TUpdateWebhookDTO) => {
+    const webhook = await webhookDAL.findById(id);
+    if (!webhook) throw new NotFoundError({ message: `Webhook with ID '${id}' not found` });
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: webhook.projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Webhooks);
+
+    const filteredEvents = eventsFilter?.map((e) => e.eventName);
+
+    const updateData = {
+      ...(isDisabled !== undefined ? { isDisabled } : {}),
+      ...(filteredEvents !== undefined ? { filteredEvents } : {})
+    };
+
+    const updatedWebhook = await webhookDAL.updateById(id, updateData);
+    return withEventsFilter({ ...webhook, ...updatedWebhook });
+  };
+
+  const deleteWebhook = async ({ id, actor, actorId, actorAuthMethod, actorOrgId }: TDeleteWebhookDTO) => {
+    const webhook = await webhookDAL.findById(id);
+    if (!webhook) throw new NotFoundError({ message: `Webhook with ID '${id}' not found` });
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: webhook.projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Delete, ProjectPermissionSub.Webhooks);
+
+    const deletedWebhook = await webhookDAL.deleteById(id);
+    return withEventsFilter({ ...webhook, ...deletedWebhook });
+  };
+
+  const testWebhook = async ({ id, actor, actorId, actorAuthMethod, actorOrgId }: TTestWebhookDTO) => {
+    const webhook = await webhookDAL.findById(id);
+    if (!webhook) throw new NotFoundError({ message: `Webhook with ID '${id}' not found` });
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: webhook.projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    const project = await requestMemoize(requestMemoKeys.projectFindById(webhook.projectId), () =>
+      projectDAL.findById(webhook.projectId)
+    );
+    const { decryptor: secretManagerDecryptor } = await kmsService.createCipherPairWithDataKey({
+      type: KmsDataKey.SecretManager,
+      projectId: project.id
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.Webhooks);
+    let webhookError: string | undefined;
+    try {
+      const payload = getWebhookPayload({
+        type: WebhookEvents.TestEvent,
+        payload: {
+          projectName: project.name,
+          projectId: webhook.projectId,
+          environment: webhook.environment.slug,
+          environmentName: webhook.environment.name,
+          secretPath: webhook.secretPath,
+          type: webhook.type
+        }
+      });
+
+      if (!payload) throw new BadRequestError({ message: "Failed to get webhook payload for test event" });
+
+      await triggerWebhookRequest(
+        webhook,
+        (value) => secretManagerDecryptor({ cipherTextBlob: value }).toString(),
+        payload
+      );
+    } catch (err) {
+      webhookError = err instanceof Error ? err.message : String(err);
+      logger.warn(
+        { webhookId: webhook.id, projectId: webhook.projectId, environment: webhook.environment.slug, err },
+        `Webhook test delivery failed [webhookId=${webhook.id}] [projectId=${webhook.projectId}] [environment=${webhook.environment.slug}] [error=${webhookError}]`
+      );
+    }
+    const isSuccess = !webhookError;
+    const updatedWebhook = await webhookDAL.updateById(webhook.id, {
+      lastStatus: isSuccess ? "success" : "failed",
+      lastRunErrorMessage: isSuccess ? null : webhookError
+    });
+    return withEventsFilter({ ...webhook, ...updatedWebhook });
+  };
+
+  const listWebhooks = async ({
+    actorId,
+    actor,
+    actorOrgId,
+    actorAuthMethod,
+    projectId,
+    secretPath,
+    environment
+  }: TListWebhookDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.Webhooks);
+
+    const webhooks = await webhookDAL.findAllWebhooks(projectId, environment, secretPath);
+    const { decryptor: secretManagerDecryptor } = await kmsService.createCipherPairWithDataKey({
+      type: KmsDataKey.SecretManager,
+      projectId
+    });
+
+    return webhooks.map((w) => {
+      const { url } = decryptWebhookDetails(w, (value) => secretManagerDecryptor({ cipherTextBlob: value }).toString());
+      return {
+        ...withEventsFilter(w),
+        url
+      };
+    });
+  };
+
+  const getWebhookById = async ({ id, actor, actorId, actorAuthMethod, actorOrgId }: TGetWebhookByIdDTO) => {
+    // Unauthorized callers get the same 404 as a missing webhook so the endpoint can't be used to enumerate webhook IDs.
+    const notFound = new NotFoundError({ message: `Webhook with ID '${id}' not found` });
+
+    const webhook = await webhookDAL.findById(id);
+    if (!webhook) {
+      throw notFound;
+    }
+
+    try {
+      const { permission } = await permissionService.getProjectPermission({
+        actor,
+        actorId,
+        projectId: webhook.projectId,
+        actorAuthMethod,
+        actorOrgId,
+        actionProjectType: ActionProjectType.Any
+      });
+      ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.Webhooks);
+    } catch (error) {
+      if (error instanceof ForbiddenError || error instanceof ForbiddenRequestError) {
+        throw notFound;
+      }
+      throw error;
+    }
+
+    const { decryptor: secretManagerDecryptor } = await kmsService.createCipherPairWithDataKey({
+      type: KmsDataKey.SecretManager,
+      projectId: webhook.projectId
+    });
+    const { url } = decryptWebhookDetails(webhook, (value) =>
+      secretManagerDecryptor({ cipherTextBlob: value }).toString()
+    );
+
+    return { ...withEventsFilter(webhook), url };
+  };
+
+  return {
+    createWebhook,
+    deleteWebhook,
+    listWebhooks,
+    getWebhookById,
+    updateWebhook,
+    testWebhook
+  };
+};

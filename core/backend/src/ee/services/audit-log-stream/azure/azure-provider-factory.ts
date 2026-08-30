@@ -1,0 +1,113 @@
+import { RawAxiosRequestHeaders } from "axios";
+
+import { request } from "@app/lib/config/request";
+import { BadRequestError } from "@app/lib/errors";
+
+import { AUDIT_LOG_STREAM_BATCH_TIMEOUT, AUDIT_LOG_STREAM_TIMEOUT } from "../../audit-log/audit-log-queue";
+import { blockAuditLogStreamInternalIps } from "../audit-log-stream-fns";
+import {
+  TLogStreamFactoryBatchStreamLog,
+  TLogStreamFactoryGetProviderBatchLimit,
+  TLogStreamFactoryValidateCredentials
+} from "../audit-log-stream-types";
+import { TAzureProviderCredentials } from "./azure-provider-types";
+
+function buildAzureEvent(event: { createdAt?: Date | string } & Record<string, unknown>) {
+  return {
+    ...event,
+    TimeGenerated: (event.createdAt ? new Date(event.createdAt) : new Date()).toISOString()
+  };
+}
+
+function createPayload(event: { createdAt?: Date | string } & Record<string, unknown>) {
+  return [buildAzureEvent(event)];
+}
+
+async function getAzureToken(tenantId: string, clientId: string, clientSecret: string) {
+  const { data } = await request.post<{ access_token: string }>(
+    `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+    new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: "https://monitor.azure.com/.default"
+    }),
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }
+  );
+
+  return data.access_token;
+}
+
+export const AzureProviderFactory = () => {
+  const validateCredentials: TLogStreamFactoryValidateCredentials<TAzureProviderCredentials> = async ({
+    credentials
+  }) => {
+    const { tenantId, clientId, clientSecret, dceUrl, dcrId, cltName } = credentials;
+
+    await blockAuditLogStreamInternalIps(dceUrl);
+
+    const token = await getAzureToken(tenantId, clientId, clientSecret);
+
+    const streamHeaders: RawAxiosRequestHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    };
+
+    await request
+      .post(
+        `${dceUrl}/dataCollectionRules/${dcrId}/streams/Custom-${cltName}_CL?api-version=2023-01-01`,
+        createPayload({ ping: "ok" }),
+        {
+          headers: streamHeaders,
+          timeout: AUDIT_LOG_STREAM_TIMEOUT
+        }
+      )
+      .catch((err) => {
+        throw new BadRequestError({ message: `Failed to connect with Azure: ${(err as Error)?.message}` });
+      });
+
+    return credentials;
+  };
+
+  const batchStreamLog: TLogStreamFactoryBatchStreamLog<TAzureProviderCredentials> = async ({
+    credentials,
+    auditLogs
+  }) => {
+    if (auditLogs.length === 0) return;
+
+    const { tenantId, clientId, clientSecret, dceUrl, dcrId, cltName } = credentials;
+
+    await blockAuditLogStreamInternalIps(dceUrl);
+
+    const token = await getAzureToken(tenantId, clientId, clientSecret);
+
+    const streamHeaders: RawAxiosRequestHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    };
+
+    await request.post(
+      `${dceUrl}/dataCollectionRules/${dcrId}/streams/Custom-${cltName}_CL?api-version=2023-01-01`,
+      auditLogs.map(buildAzureEvent),
+      {
+        headers: streamHeaders,
+        timeout: AUDIT_LOG_STREAM_BATCH_TIMEOUT
+      }
+    );
+  };
+
+  const getProviderBatchLimit: TLogStreamFactoryGetProviderBatchLimit = () => ({
+    maxLogs: 400,
+    maxBytes: 700 * 1024
+  });
+
+  return {
+    validateCredentials,
+    batchStreamLog,
+    getProviderBatchLimit
+  };
+};

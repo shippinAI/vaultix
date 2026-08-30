@@ -1,0 +1,251 @@
+import { TProjectPermission } from "@app/lib/types";
+import {
+  CERT_EXTENDED_KEY_USAGES,
+  CERT_SUBJECT_ALTERNATIVE_NAMES,
+  CertExtendedKeyUsage,
+  CertSubjectAlternativeNameType,
+  TAltNameType
+} from "@app/services/certificate-common/certificate-constants";
+
+import { TKmsServiceFactory } from "../kms/kms-service";
+import { TProjectDALFactory } from "../project/project-dal";
+import { TCertificateSecretDALFactory } from "./certificate-secret-dal";
+
+export enum CertStatus {
+  ACTIVE = "active",
+  EXPIRED = "expired",
+  REVOKED = "revoked"
+}
+
+export enum CertKeyAlgorithm {
+  RSA_2048 = "RSA_2048",
+  RSA_3072 = "RSA_3072",
+  RSA_4096 = "RSA_4096",
+  ECDSA_P256 = "EC_prime256v1",
+  ECDSA_P384 = "EC_secp384r1",
+  ECDSA_P521 = "EC_secp521r1",
+  ML_DSA_44 = "ML-DSA-44",
+  ML_DSA_65 = "ML-DSA-65",
+  ML_DSA_87 = "ML-DSA-87",
+  SLH_DSA_SHA2_128F = "SLH-DSA-SHA2-128f",
+  SLH_DSA_SHA2_128S = "SLH-DSA-SHA2-128s",
+  SLH_DSA_SHA2_192F = "SLH-DSA-SHA2-192f",
+  SLH_DSA_SHA2_192S = "SLH-DSA-SHA2-192s",
+  SLH_DSA_SHA2_256F = "SLH-DSA-SHA2-256f",
+  SLH_DSA_SHA2_256S = "SLH-DSA-SHA2-256s",
+  SLH_DSA_SHAKE_128F = "SLH-DSA-SHAKE-128f",
+  SLH_DSA_SHAKE_128S = "SLH-DSA-SHAKE-128s",
+  SLH_DSA_SHAKE_192F = "SLH-DSA-SHAKE-192f",
+  SLH_DSA_SHAKE_192S = "SLH-DSA-SHAKE-192s",
+  SLH_DSA_SHAKE_256F = "SLH-DSA-SHAKE-256f",
+  SLH_DSA_SHAKE_256S = "SLH-DSA-SHAKE-256s"
+}
+
+export enum CertKeyType {
+  RSA = "RSA",
+  ECDSA = "ECDSA",
+  ML_DSA = "ML-DSA",
+  SLH_DSA = "SLH-DSA"
+}
+
+export enum CertSignatureAlgorithm {
+  RSA_SHA256 = "RSA-SHA256",
+  RSA_SHA384 = "RSA-SHA384",
+  RSA_SHA512 = "RSA-SHA512",
+  ECDSA_SHA256 = "ECDSA-SHA256",
+  ECDSA_SHA384 = "ECDSA-SHA384",
+  ECDSA_SHA512 = "ECDSA-SHA512",
+  ML_DSA_44 = "ML-DSA-44",
+  ML_DSA_65 = "ML-DSA-65",
+  ML_DSA_87 = "ML-DSA-87",
+  SLH_DSA_SHA2_128F = "SLH-DSA-SHA2-128f",
+  SLH_DSA_SHA2_128S = "SLH-DSA-SHA2-128s",
+  SLH_DSA_SHA2_192F = "SLH-DSA-SHA2-192f",
+  SLH_DSA_SHA2_192S = "SLH-DSA-SHA2-192s",
+  SLH_DSA_SHA2_256F = "SLH-DSA-SHA2-256f",
+  SLH_DSA_SHA2_256S = "SLH-DSA-SHA2-256s",
+  SLH_DSA_SHAKE_128F = "SLH-DSA-SHAKE-128f",
+  SLH_DSA_SHAKE_128S = "SLH-DSA-SHAKE-128s",
+  SLH_DSA_SHAKE_192F = "SLH-DSA-SHAKE-192f",
+  SLH_DSA_SHAKE_192S = "SLH-DSA-SHAKE-192s",
+  SLH_DSA_SHAKE_256F = "SLH-DSA-SHAKE-256f",
+  SLH_DSA_SHAKE_256S = "SLH-DSA-SHAKE-256s"
+}
+
+export enum CertKeyUsage {
+  DIGITAL_SIGNATURE = "digitalSignature",
+  KEY_ENCIPHERMENT = "keyEncipherment",
+  NON_REPUDIATION = "nonRepudiation",
+  DATA_ENCIPHERMENT = "dataEncipherment",
+  KEY_AGREEMENT = "keyAgreement",
+  KEY_CERT_SIGN = "keyCertSign",
+  CRL_SIGN = "cRLSign",
+  ENCIPHER_ONLY = "encipherOnly",
+  DECIPHER_ONLY = "decipherOnly"
+}
+
+export enum CertSignatureType {
+  RSA = "RSA",
+  ECDSA = "ECDSA",
+  ML_DSA = "ML-DSA",
+  SLH_DSA = "SLH-DSA"
+}
+
+export const CertExtendedKeyUsageOIDToName: Record<string, CertExtendedKeyUsage> = Object.fromEntries(
+  Object.values(CERT_EXTENDED_KEY_USAGES).map(({ oid, legacyName }) => [oid, legacyName])
+);
+
+export const CertExtendedKeyUsageNameToOID: Record<CertExtendedKeyUsage, string> = Object.fromEntries(
+  Object.values(CERT_EXTENDED_KEY_USAGES).map(({ oid, legacyName }) => [legacyName, oid])
+) as Record<CertExtendedKeyUsage, string>;
+
+export enum CrlReason {
+  UNSPECIFIED = "UNSPECIFIED",
+  KEY_COMPROMISE = "KEY_COMPROMISE",
+  CA_COMPROMISE = "CA_COMPROMISE",
+  AFFILIATION_CHANGED = "AFFILIATION_CHANGED",
+  SUPERSEDED = "SUPERSEDED",
+  CESSATION_OF_OPERATION = "CESSATION_OF_OPERATION",
+  CERTIFICATE_HOLD = "CERTIFICATE_HOLD",
+  // REMOVE_FROM_CRL = "REMOVE_FROM_CRL",
+  PRIVILEGE_WITHDRAWN = "PRIVILEGE_WITHDRAWN",
+  A_A_COMPROMISE = "A_A_COMPROMISE"
+}
+
+export type TGetCertDTO = {
+  id?: string;
+  serialNumber?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TDeleteCertDTO = {
+  id?: string;
+  serialNumber?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TRevokeCertDTO = {
+  id?: string;
+  serialNumber?: string;
+  thumbprint?: string;
+  revocationReason: CrlReason;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TAssignCertToApplicationDTO = {
+  certificateId: string;
+  applicationId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCertBodyDTO = {
+  id?: string;
+  serialNumber?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TImportCertDTO = {
+  projectId?: string;
+  projectSlug?: string;
+  applicationId?: string;
+
+  friendlyName?: string;
+  pkiCollectionId?: string;
+
+  certificatePem: string;
+  privateKeyPem?: string;
+  chainPem?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCertPrivateKeyDTO = {
+  id?: string;
+  serialNumber?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCertBundleDTO = {
+  id?: string;
+  serialNumber?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCertPkcs12DTO = {
+  id?: string;
+  serialNumber?: string;
+  password: string;
+  alias: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCertificateCredentialsDTO = {
+  certId: string;
+  projectId: string;
+  certificateSecretDAL: Pick<TCertificateSecretDALFactory, "findOne">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey">;
+};
+
+export { CertExtendedKeyUsage, CertSubjectAlternativeNameType, TAltNameType };
+
+const SAN_TYPE_TO_X509_TYPE = Object.fromEntries(
+  Object.entries(CERT_SUBJECT_ALTERNATIVE_NAMES).map(([sanType, { generalNameType }]) => [sanType, generalNameType])
+) as Record<CertSubjectAlternativeNameType, TAltNameType>;
+
+const X509_TYPE_TO_SAN_TYPE = new Map<TAltNameType, CertSubjectAlternativeNameType>(
+  Object.entries(SAN_TYPE_TO_X509_TYPE).map(([sanType, legacyType]) => [
+    legacyType,
+    sanType as CertSubjectAlternativeNameType
+  ])
+);
+
+export const mapLegacyAltNameType = (legacyType: TAltNameType): CertSubjectAlternativeNameType => {
+  const sanType = X509_TYPE_TO_SAN_TYPE.get(legacyType);
+  if (!sanType) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    throw new Error(`Unknown legacy alt name type: ${legacyType}`);
+  }
+  return sanType;
+};
+
+export const mapSanTypeToX509Type = (sanType: CertSubjectAlternativeNameType): TAltNameType =>
+  SAN_TYPE_TO_X509_TYPE[sanType] ?? TAltNameType.DNS;
+
+export const getSanOtherNameOid = (sanType: CertSubjectAlternativeNameType): string | undefined =>
+  CERT_SUBJECT_ALTERNATIVE_NAMES[sanType]?.otherNameOid;
+
+export type TAltNameMapping = {
+  type: TAltNameType;
+  value: string;
+};
+
+export enum ACMESANType {
+  DNS = "dns",
+  IP = "ip"
+}
+
+export enum CertificateOrderStatus {
+  PENDING = "pending",
+  PROCESSING = "processing",
+  VALID = "valid",
+  INVALID = "invalid"
+}
+
+export type TCertificateSubject = {
+  commonName?: string;
+  organization?: string;
+  organizationalUnit?: string;
+  country?: string;
+  state?: string;
+  locality?: string;
+  domainComponents?: string[];
+};
+
+export type TCertificateFingerprints = {
+  sha256: string;
+  sha1?: string;
+};
+
+export type TCertificateBasicConstraints = {
+  isCA: boolean;
+  pathLength?: number;
+};
+
+export type TParsedCertificateBody = {
+  subject?: TCertificateSubject;
+  fingerprints?: TCertificateFingerprints;
+  basicConstraints?: TCertificateBasicConstraints;
+  keyUsages?: CertKeyUsage[];
+  extendedKeyUsages?: CertExtendedKeyUsage[];
+};

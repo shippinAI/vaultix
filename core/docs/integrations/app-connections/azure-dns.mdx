@@ -1,0 +1,96 @@
+---
+title: "Azure DNS Connection"
+description: "Learn how to configure an Azure DNS Connection for Infisical."
+---
+
+Infisical supports connecting to Azure DNS using a Service Principal with Client Secrets for secure access to manage DNS records in your Azure DNS zones.
+
+<Accordion title="Client Secret Authentication">
+  To use client secret authentication, ensure your Azure Service Principal has the required permissions to manage DNS records in your Azure DNS Zone.
+
+  <Note>If you want to configure automatic client secret rotation for this App Connection, you also need to grant either `Application.ReadWrite.OwnedBy` or `Application.ReadWrite.All` permissions.</Note>
+
+  **Prerequisites:**
+  - Set up Azure and have an existing DNS Zone.
+  - An Azure Service Principal (App Registration) with a Client Secret.
+
+  <Steps>
+    <Step title="Navigate to your DNS Zone">
+      In the Azure Portal, navigate to your DNS Zone that you want to use for ACME DNS validation. Click on **Access control (IAM)** in the left sidebar, then click **Add** > **Add role assignment**.
+
+      ![Navigate to DNS Zone](/images/app-connections/azure-dns/azure-dns-zone.png)
+    </Step>
+    <Step title="Assign DNS Zone Contributor Role">
+      Search for and select the **DNS Zone Contributor** role, then click **Next**.
+
+      ![Select DNS Zone Contributor Role](/images/app-connections/azure-dns/azure-dns-role.png)
+    </Step>
+    <Step title="Select your Service Principal">
+      Click **Select members**, search for your App Registration (Service Principal), select it, and click **Select**.
+
+      ![Select Service Principal](/images/app-connections/azure-dns/azure-dns-select-sp.png)
+
+      Click **Review + assign** to complete the role assignment.
+    </Step>
+  </Steps>
+</Accordion>
+
+## Setup Azure DNS Connection in Infisical
+
+<Steps>
+  <Step title="Navigate to App Connections">
+    Navigate to the **App Connections** page in the desired project.
+    ![App Connections Tab](/images/app-connections/general/add-connection.png)
+  </Step>
+  <Step title="Add Connection">
+    Select the **Azure DNS Connection** option from the connection options modal.
+    ![Select Azure DNS Connection](/images/app-connections/azure-dns/azure-dns-app-connection-select.png)
+  </Step>
+  <Step title="Create Connection">
+    Fill in the **Tenant ID**, **Client ID**, **Client Secret**, and **Subscription ID** fields with the credentials from your Azure Service Principal.
+
+    ![Connect to Azure DNS](/images/app-connections/azure-dns/azure-dns-app-connection-form.png)
+
+    <Tip>
+      You can find your **Subscription ID** in the Azure Portal under **Subscriptions**. The **Tenant ID** and **Client ID** can be found in your App Registration's **Overview** page.
+    </Tip>
+
+    <Tip>
+        You can optionally enable **Automatic Credential Rotation** for this connection. See the [Automatic Credential Rotation](#automatic-credential-rotation) section below for details.
+    </Tip>
+  </Step>
+  <Step title="Connection Created">
+    Your **Azure DNS Connection** is now available for use in your Infisical projects.
+    ![Azure DNS Connection Created](/images/app-connections/azure-dns/azure-dns-app-connection-created.png)
+  </Step>
+</Steps>
+
+## Automatic Credential Rotation
+
+Infisical can automatically rotate the Client Secret of your Azure application on a recurring schedule. When enabled, Infisical will immediately generate a new Client Secret on connection creation and revoke the original one, ensuring that no external party retains access using the credentials you provided.
+
+<Steps>
+    <Step title="Locate the Key ID of your Client Secret">
+        Before enabling rotation, you'll need the **Key ID** of the Client Secret you are using to authenticate. Navigate to your App Registration in the Azure Portal, then go to **Certificates & secrets**. Copy the **Secret ID** (Key ID) of the secret you are providing to Infisical.
+
+        ![Azure Client Secret Key ID](/images/app-connections/azure-dns/credential-rotation-key-id.png)
+    </Step>
+    <Step title="Enable Automatic Credential Rotation">
+        When creating or editing your connection, toggle on the **Automatic Credential Rotation** switch.
+
+        ![Enable Automatic Credential Rotation](/images/app-connections/azure-dns/credential-rotation-toggle.png)
+    </Step>
+    <Step title="Provide the Client Secret Key ID">
+        Enter the **Key ID** you copied in the previous step into the **Client Secret Key ID** field. Infisical uses this to revoke your original secret after generating a new one.
+
+        ![Client Secret Key ID Field](/images/app-connections/azure-dns/credential-rotation-key-id-field.png)
+    </Step>
+    <Step title="Configure the Rotation Schedule">
+        Set the **Rotation Interval** (in days) to define how often the credential should be rotated, and set **Rotate At** to the local time of day at which the rotation should occur.
+
+        - **Rotation Interval** - How many days between each rotation.
+        - **Rotate At** - The local time of day at which the rotation will be triggered.
+
+        ![Rotation Schedule](/images/app-connections/azure-dns/credential-rotation-schedule.png)
+    </Step>
+</Steps>

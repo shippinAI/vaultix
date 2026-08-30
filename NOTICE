@@ -1,0 +1,14 @@
+Vaultix
+Owner: AngryVibes LLC. Host: shippin.ai. Stamp: A SHIPPIN.AI SERVICE.
+
+The secrets engine in core/ is a derivative of Infisical MIT, pin v0.162.19.
+See core/LICENSE (MIT). git remotes on core/: none.
+
+Customer chrome, overlay (panel/), branding, GHCR names, and shippin.ai
+hosting are Vaultix. Do not attribute leftover vendor names to end-users.
+
+Images:
+  ghcr.io/shippinai/vaultix
+  ghcr.io/shippinai/vaultix-panel
+
+Grant transcription (operator-supplied, not rewritten): legal/

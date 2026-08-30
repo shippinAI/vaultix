@@ -1,0 +1,346 @@
+import { AppConnection } from "@app/services/app-connection/app-connection-enums";
+import { buildAwsConnectionConfig, getAwsAccountId } from "@app/services/app-connection/aws/aws-connection-fns";
+import { TAwsConnection } from "@app/services/app-connection/aws/aws-connection-types";
+import { GcpSyncScope } from "@app/services/secret-sync/gcp/gcp-sync-enums";
+import { SecretSync, SecretSyncPlanType } from "@app/services/secret-sync/secret-sync-enums";
+import { DestinationDuplicateCheckFn } from "@app/services/secret-sync/secret-sync-types";
+
+export const SECRET_SYNC_NAME_MAP: Record<SecretSync, string> = {
+  [SecretSync.AWSParameterStore]: "AWS Parameter Store",
+  [SecretSync.AWSSecretsManager]: "AWS Secrets Manager",
+  [SecretSync.GitHub]: "GitHub",
+  [SecretSync.GCPSecretManager]: "GCP Secret Manager",
+  [SecretSync.AzureKeyVault]: "Azure Key Vault",
+  [SecretSync.AzureAppConfiguration]: "Azure App Configuration",
+  [SecretSync.AzureDevOps]: "Azure DevOps",
+  [SecretSync.Databricks]: "Databricks",
+  [SecretSync.Humanitec]: "Humanitec",
+  [SecretSync.TerraformCloud]: "Terraform Cloud",
+  [SecretSync.Camunda]: "Camunda",
+  [SecretSync.Vercel]: "Vercel",
+  [SecretSync.Windmill]: "Windmill",
+  [SecretSync.HCVault]: "Hashicorp Vault",
+  [SecretSync.TeamCity]: "TeamCity",
+  [SecretSync.OCIVault]: "OCI Vault",
+  [SecretSync.OnePass]: "1Password",
+  [SecretSync.Heroku]: "Heroku",
+  [SecretSync.Render]: "Render",
+  [SecretSync.Flyio]: "Fly.io",
+  [SecretSync.TriggerDev]: "Trigger.dev",
+  [SecretSync.GitLab]: "GitLab",
+  [SecretSync.CloudflarePages]: "Cloudflare Pages",
+  [SecretSync.CloudflareWorkers]: "Cloudflare Workers",
+  [SecretSync.Supabase]: "Supabase",
+  [SecretSync.Rundeck]: "Rundeck",
+  [SecretSync.Zabbix]: "Zabbix",
+  [SecretSync.Railway]: "Railway",
+  [SecretSync.Checkly]: "Checkly",
+  [SecretSync.DigitalOceanAppPlatform]: "Digital Ocean App Platform",
+  [SecretSync.Netlify]: "Netlify",
+  [SecretSync.Northflank]: "Northflank",
+  [SecretSync.Bitbucket]: "Bitbucket",
+  [SecretSync.LaravelForge]: "Laravel Forge",
+  [SecretSync.Chef]: "Chef",
+  [SecretSync.OctopusDeploy]: "Octopus Deploy",
+  [SecretSync.CircleCI]: "CircleCI",
+  [SecretSync.AzureEntraIdScim]: "Azure Entra ID SCIM",
+  [SecretSync.ExternalVaultix]: "Vaultix",
+  [SecretSync.OVH]: "OVH",
+  [SecretSync.Devin]: "Devin",
+  [SecretSync.Ona]: "Ona",
+  [SecretSync.TravisCI]: "Travis CI",
+  [SecretSync.Snowflake]: "Snowflake",
+  [SecretSync.HasuraCloud]: "Hasura Cloud",
+  [SecretSync.Qovery]: "Qovery",
+  [SecretSync.Cloud66]: "Cloud 66",
+  [SecretSync.Spacelift]: "Spacelift"
+};
+
+export const SECRET_SYNC_CONNECTION_MAP: Record<SecretSync, AppConnection> = {
+  [SecretSync.AWSParameterStore]: AppConnection.AWS,
+  [SecretSync.AWSSecretsManager]: AppConnection.AWS,
+  [SecretSync.GitHub]: AppConnection.GitHub,
+  [SecretSync.GCPSecretManager]: AppConnection.GCP,
+  [SecretSync.AzureKeyVault]: AppConnection.AzureKeyVault,
+  [SecretSync.AzureAppConfiguration]: AppConnection.AzureAppConfiguration,
+  [SecretSync.AzureDevOps]: AppConnection.AzureDevOps,
+  [SecretSync.Databricks]: AppConnection.Databricks,
+  [SecretSync.Humanitec]: AppConnection.Humanitec,
+  [SecretSync.TerraformCloud]: AppConnection.TerraformCloud,
+  [SecretSync.Camunda]: AppConnection.Camunda,
+  [SecretSync.Vercel]: AppConnection.Vercel,
+  [SecretSync.Windmill]: AppConnection.Windmill,
+  [SecretSync.HCVault]: AppConnection.HCVault,
+  [SecretSync.TeamCity]: AppConnection.TeamCity,
+  [SecretSync.OCIVault]: AppConnection.OCI,
+  [SecretSync.OnePass]: AppConnection.OnePass,
+  [SecretSync.Heroku]: AppConnection.Heroku,
+  [SecretSync.Render]: AppConnection.Render,
+  [SecretSync.Flyio]: AppConnection.Flyio,
+  [SecretSync.TriggerDev]: AppConnection.TriggerDev,
+  [SecretSync.GitLab]: AppConnection.GitLab,
+  [SecretSync.CloudflarePages]: AppConnection.Cloudflare,
+  [SecretSync.CloudflareWorkers]: AppConnection.Cloudflare,
+  [SecretSync.Supabase]: AppConnection.Supabase,
+  [SecretSync.Rundeck]: AppConnection.Rundeck,
+  [SecretSync.Zabbix]: AppConnection.Zabbix,
+  [SecretSync.Railway]: AppConnection.Railway,
+  [SecretSync.Checkly]: AppConnection.Checkly,
+  [SecretSync.DigitalOceanAppPlatform]: AppConnection.DigitalOcean,
+  [SecretSync.Netlify]: AppConnection.Netlify,
+  [SecretSync.Northflank]: AppConnection.Northflank,
+  [SecretSync.Bitbucket]: AppConnection.Bitbucket,
+  [SecretSync.LaravelForge]: AppConnection.LaravelForge,
+  [SecretSync.Chef]: AppConnection.Chef,
+  [SecretSync.OctopusDeploy]: AppConnection.OctopusDeploy,
+  [SecretSync.CircleCI]: AppConnection.CircleCI,
+  [SecretSync.AzureEntraIdScim]: AppConnection.AzureEntraId,
+  [SecretSync.ExternalVaultix]: AppConnection.ExternalVaultix,
+  [SecretSync.OVH]: AppConnection.OVH,
+  [SecretSync.Devin]: AppConnection.Devin,
+  [SecretSync.Ona]: AppConnection.Ona,
+  [SecretSync.TravisCI]: AppConnection.TravisCI,
+  [SecretSync.Snowflake]: AppConnection.Snowflake,
+  [SecretSync.HasuraCloud]: AppConnection.HasuraCloud,
+  [SecretSync.Qovery]: AppConnection.Qovery,
+  [SecretSync.Cloud66]: AppConnection.Cloud66,
+  [SecretSync.Spacelift]: AppConnection.Spacelift
+};
+
+export const SECRET_SYNC_PLAN_MAP: Record<SecretSync, SecretSyncPlanType> = {
+  [SecretSync.AWSParameterStore]: SecretSyncPlanType.Regular,
+  [SecretSync.AWSSecretsManager]: SecretSyncPlanType.Regular,
+  [SecretSync.GitHub]: SecretSyncPlanType.Regular,
+  [SecretSync.GCPSecretManager]: SecretSyncPlanType.Regular,
+  [SecretSync.AzureKeyVault]: SecretSyncPlanType.Regular,
+  [SecretSync.AzureAppConfiguration]: SecretSyncPlanType.Regular,
+  [SecretSync.AzureDevOps]: SecretSyncPlanType.Regular,
+  [SecretSync.Databricks]: SecretSyncPlanType.Regular,
+  [SecretSync.Humanitec]: SecretSyncPlanType.Regular,
+  [SecretSync.TerraformCloud]: SecretSyncPlanType.Regular,
+  [SecretSync.Camunda]: SecretSyncPlanType.Regular,
+  [SecretSync.Vercel]: SecretSyncPlanType.Regular,
+  [SecretSync.Windmill]: SecretSyncPlanType.Regular,
+  [SecretSync.HCVault]: SecretSyncPlanType.Regular,
+  [SecretSync.TeamCity]: SecretSyncPlanType.Regular,
+  [SecretSync.OCIVault]: SecretSyncPlanType.Enterprise,
+  [SecretSync.OnePass]: SecretSyncPlanType.Regular,
+  [SecretSync.Heroku]: SecretSyncPlanType.Regular,
+  [SecretSync.Render]: SecretSyncPlanType.Regular,
+  [SecretSync.Flyio]: SecretSyncPlanType.Regular,
+  [SecretSync.TriggerDev]: SecretSyncPlanType.Regular,
+  [SecretSync.GitLab]: SecretSyncPlanType.Regular,
+  [SecretSync.CloudflarePages]: SecretSyncPlanType.Regular,
+  [SecretSync.CloudflareWorkers]: SecretSyncPlanType.Regular,
+  [SecretSync.Supabase]: SecretSyncPlanType.Regular,
+  [SecretSync.Rundeck]: SecretSyncPlanType.Regular,
+  [SecretSync.Zabbix]: SecretSyncPlanType.Regular,
+  [SecretSync.Railway]: SecretSyncPlanType.Regular,
+  [SecretSync.Checkly]: SecretSyncPlanType.Regular,
+  [SecretSync.DigitalOceanAppPlatform]: SecretSyncPlanType.Regular,
+  [SecretSync.Netlify]: SecretSyncPlanType.Regular,
+  [SecretSync.Northflank]: SecretSyncPlanType.Regular,
+  [SecretSync.Bitbucket]: SecretSyncPlanType.Regular,
+  [SecretSync.LaravelForge]: SecretSyncPlanType.Regular,
+  [SecretSync.Chef]: SecretSyncPlanType.Enterprise,
+  [SecretSync.OctopusDeploy]: SecretSyncPlanType.Regular,
+  [SecretSync.CircleCI]: SecretSyncPlanType.Regular,
+  [SecretSync.AzureEntraIdScim]: SecretSyncPlanType.Regular,
+  [SecretSync.ExternalVaultix]: SecretSyncPlanType.Regular,
+  [SecretSync.OVH]: SecretSyncPlanType.Regular,
+  [SecretSync.Devin]: SecretSyncPlanType.Regular,
+  [SecretSync.Ona]: SecretSyncPlanType.Regular,
+  [SecretSync.TravisCI]: SecretSyncPlanType.Regular,
+  [SecretSync.Snowflake]: SecretSyncPlanType.Regular,
+  [SecretSync.HasuraCloud]: SecretSyncPlanType.Regular,
+  [SecretSync.Qovery]: SecretSyncPlanType.Regular,
+  [SecretSync.Cloud66]: SecretSyncPlanType.Regular,
+  [SecretSync.Spacelift]: SecretSyncPlanType.Regular
+};
+
+export const SECRET_SYNC_SKIP_FIELDS_MAP: Record<SecretSync, string[]> = {
+  [SecretSync.AWSParameterStore]: [],
+  [SecretSync.AWSSecretsManager]: ["mappingBehavior"],
+  [SecretSync.GitHub]: [],
+  [SecretSync.GCPSecretManager]: ["scope", "locationId", "userReplicaLocationIds"],
+  [SecretSync.AzureKeyVault]: [],
+  [SecretSync.AzureAppConfiguration]: ["label"],
+  [SecretSync.AzureDevOps]: ["devopsProjectName"],
+  [SecretSync.Databricks]: [],
+  [SecretSync.Humanitec]: [],
+  [SecretSync.TerraformCloud]: ["variableSetName", "workspaceName"],
+  [SecretSync.Camunda]: [],
+  [SecretSync.Vercel]: ["appName"],
+  [SecretSync.Windmill]: [],
+  [SecretSync.HCVault]: [],
+  [SecretSync.TeamCity]: [],
+  [SecretSync.OCIVault]: [],
+  [SecretSync.OnePass]: ["valueLabel"],
+  [SecretSync.Heroku]: ["appName"],
+  [SecretSync.Render]: [],
+  [SecretSync.Flyio]: [],
+  [SecretSync.TriggerDev]: [],
+  [SecretSync.GitLab]: [
+    "projectName",
+    "shouldProtectSecrets",
+    "shouldMaskSecrets",
+    "shouldHideSecrets",
+    "targetEnvironment",
+    "groupName",
+    "groupId",
+    "projectId"
+  ],
+  [SecretSync.CloudflarePages]: [],
+  [SecretSync.CloudflareWorkers]: [],
+  [SecretSync.Supabase]: ["projectName"],
+  [SecretSync.Rundeck]: [],
+  [SecretSync.Zabbix]: ["hostName", "macroType"],
+  [SecretSync.Railway]: ["projectName", "environmentName", "serviceName"],
+  [SecretSync.Checkly]: ["groupName", "accountName"],
+  [SecretSync.DigitalOceanAppPlatform]: ["appName"],
+  [SecretSync.Netlify]: ["accountName", "siteName"],
+  [SecretSync.Northflank]: [],
+  [SecretSync.Bitbucket]: [],
+  [SecretSync.LaravelForge]: [],
+  [SecretSync.Chef]: [],
+  [SecretSync.OctopusDeploy]: [],
+  [SecretSync.CircleCI]: [],
+  [SecretSync.AzureEntraIdScim]: [],
+  [SecretSync.ExternalVaultix]: [],
+  [SecretSync.OVH]: [],
+  [SecretSync.Devin]: [],
+  [SecretSync.Ona]: ["projectName"],
+  [SecretSync.TravisCI]: ["repositorySlug"],
+  [SecretSync.Snowflake]: [],
+  [SecretSync.HasuraCloud]: ["projectName"],
+  [SecretSync.Qovery]: ["organizationName", "projectName", "environmentName"],
+  [SecretSync.Cloud66]: ["stackName"],
+  [SecretSync.Spacelift]: ["contextName"]
+};
+
+const defaultDuplicateCheck: DestinationDuplicateCheckFn = async () => true;
+const awsDuplicateCheck: DestinationDuplicateCheckFn = async ({ existingSync, newSync, decryptConnection }) => {
+  if (!newSync.connectionId) return true;
+
+  if (existingSync.connectionId === newSync.connectionId) {
+    return true;
+  }
+
+  if (!existingSync.connectionId) return false;
+
+  const [existingConn, newConn] = await Promise.all([
+    decryptConnection(existingSync.connectionId),
+    decryptConnection(newSync.connectionId)
+  ]);
+
+  const existingAwsConn = existingConn as TAwsConnection;
+  const newAwsConn = newConn as TAwsConnection;
+
+  const [existingAccountId, newAccountId] = await Promise.all([
+    getAwsAccountId(buildAwsConnectionConfig(existingAwsConn, existingAwsConn.credentials)),
+    getAwsAccountId(buildAwsConnectionConfig(newAwsConn, newAwsConn.credentials))
+  ]);
+
+  if (!existingAccountId || !newAccountId) return false;
+
+  return existingAccountId === newAccountId;
+};
+
+const gcpDuplicateCheck: DestinationDuplicateCheckFn = async ({ existingSync, newSync }) => {
+  const existingConfig = existingSync.destinationConfig;
+  const newConfig = newSync.destinationConfig;
+
+  if (existingConfig.projectId !== newConfig.projectId) return false;
+
+  if (newConfig.scope === GcpSyncScope.Region) {
+    return existingConfig.scope === GcpSyncScope.Region && existingConfig.locationId === newConfig.locationId;
+  }
+
+  return existingConfig.scope === GcpSyncScope.Global;
+};
+
+export const DESTINATION_DUPLICATE_CHECK_MAP: Record<SecretSync, DestinationDuplicateCheckFn> = {
+  [SecretSync.AWSParameterStore]: awsDuplicateCheck,
+  [SecretSync.AWSSecretsManager]: awsDuplicateCheck,
+  [SecretSync.GitHub]: defaultDuplicateCheck,
+  [SecretSync.GCPSecretManager]: gcpDuplicateCheck,
+  [SecretSync.AzureKeyVault]: defaultDuplicateCheck,
+  [SecretSync.AzureAppConfiguration]: defaultDuplicateCheck,
+  [SecretSync.AzureDevOps]: defaultDuplicateCheck,
+  [SecretSync.Databricks]: defaultDuplicateCheck,
+  [SecretSync.Humanitec]: defaultDuplicateCheck,
+  [SecretSync.TerraformCloud]: defaultDuplicateCheck,
+  [SecretSync.Camunda]: defaultDuplicateCheck,
+  [SecretSync.Vercel]: defaultDuplicateCheck,
+  [SecretSync.Windmill]: defaultDuplicateCheck,
+  [SecretSync.HCVault]: defaultDuplicateCheck,
+  [SecretSync.TeamCity]: defaultDuplicateCheck,
+  [SecretSync.OCIVault]: defaultDuplicateCheck,
+  [SecretSync.OnePass]: defaultDuplicateCheck,
+  [SecretSync.Heroku]: defaultDuplicateCheck,
+  [SecretSync.Render]: defaultDuplicateCheck,
+  [SecretSync.Flyio]: defaultDuplicateCheck,
+  [SecretSync.TriggerDev]: defaultDuplicateCheck,
+  [SecretSync.GitLab]: async ({ existingSync, newSync }) => {
+    const existingConfig = existingSync.destinationConfig;
+    const newConfig = newSync.destinationConfig;
+
+    const existingTargetEnv = existingConfig.targetEnvironment as string | undefined;
+    const newTargetEnv = newConfig.targetEnvironment as string | undefined;
+
+    const wildcardValues = ["*", ""];
+
+    if (
+      (newConfig.scope as string) === "group"
+        ? existingConfig.groupId !== newConfig.groupId
+        : existingConfig.projectId !== newConfig.projectId
+    )
+      return false;
+
+    // If either has wildcard, it conflicts with any targetEnvironment
+    if (
+      !existingTargetEnv ||
+      !newTargetEnv ||
+      wildcardValues.includes(existingTargetEnv) ||
+      wildcardValues.includes(newTargetEnv)
+    ) {
+      return true;
+    }
+
+    return existingTargetEnv === newTargetEnv;
+  },
+  [SecretSync.CloudflarePages]: defaultDuplicateCheck,
+  [SecretSync.CloudflareWorkers]: defaultDuplicateCheck,
+  [SecretSync.Supabase]: defaultDuplicateCheck,
+  [SecretSync.Rundeck]: defaultDuplicateCheck,
+  [SecretSync.Zabbix]: defaultDuplicateCheck,
+  [SecretSync.Railway]: defaultDuplicateCheck,
+  [SecretSync.Checkly]: defaultDuplicateCheck,
+  [SecretSync.DigitalOceanAppPlatform]: defaultDuplicateCheck,
+  [SecretSync.Netlify]: defaultDuplicateCheck,
+  [SecretSync.Northflank]: defaultDuplicateCheck,
+  [SecretSync.Bitbucket]: defaultDuplicateCheck,
+  [SecretSync.LaravelForge]: defaultDuplicateCheck,
+  [SecretSync.Chef]: defaultDuplicateCheck,
+  [SecretSync.OctopusDeploy]: defaultDuplicateCheck,
+  [SecretSync.CircleCI]: defaultDuplicateCheck,
+  [SecretSync.AzureEntraIdScim]: defaultDuplicateCheck,
+  [SecretSync.ExternalVaultix]: defaultDuplicateCheck,
+  [SecretSync.OVH]: defaultDuplicateCheck,
+  [SecretSync.Devin]: defaultDuplicateCheck,
+  [SecretSync.Ona]: defaultDuplicateCheck,
+  [SecretSync.TravisCI]: defaultDuplicateCheck,
+  [SecretSync.Snowflake]: defaultDuplicateCheck,
+  [SecretSync.HasuraCloud]: defaultDuplicateCheck,
+  [SecretSync.Qovery]: defaultDuplicateCheck,
+  [SecretSync.Cloud66]: defaultDuplicateCheck,
+  [SecretSync.Spacelift]: defaultDuplicateCheck
+};
+
+/**
+ * Destinations that require a daily retry when their last sync has failed.
+ * These providers may be unavailable due to network partitions or temporary
+ * outages that outlast the normal BullMQ retry window, so the resource-cleanup
+ * queue re-enqueues them once per day until they succeed.
+ */
+export const SECRET_SYNC_DAILY_RETRY_DESTINATIONS = new Set<SecretSync>([SecretSync.ExternalVaultix]);

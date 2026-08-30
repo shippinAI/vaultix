@@ -1,0 +1,220 @@
+import { SetStateAction, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { CheckIcon, ChevronsUpDownIcon, PlusIcon } from "lucide-react";
+
+import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
+import { ProjectPermissionCan } from "@app/components/permissions";
+import {
+  Button,
+  Checkbox,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@app/components/v3";
+import { cn } from "@app/components/v3/utils";
+import {
+  ProjectPermissionActions,
+  ProjectPermissionSub,
+  useProject,
+  useSubscription
+} from "@app/context";
+import { usePopUp } from "@app/hooks";
+import { projectKeys } from "@app/hooks/api";
+import { ProjectEnv } from "@app/hooks/api/types";
+import { AddEnvironmentModal } from "@app/pages/secret-manager/SettingsPage/components/EnvironmentSection/AddEnvironmentModal";
+
+type Props = {
+  selectedEnvs: ProjectEnv[];
+  setSelectedEnvs: (value: SetStateAction<ProjectEnv[]>) => void;
+  isDisabled?: boolean;
+};
+
+export function EnvironmentSelect({ selectedEnvs, setSelectedEnvs, isDisabled }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const {
+    currentProject: { environments: projectEnvs, id: projectId }
+  } = useProject();
+  const { subscription } = useSubscription();
+  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp([
+    "createEnvironment",
+    "upgradePlan"
+  ] as const);
+  const queryClient = useQueryClient();
+
+  const isMoreEnvironmentsAllowed =
+    subscription?.environmentLimit && projectEnvs
+      ? projectEnvs.length < subscription.environmentLimit
+      : true;
+
+  const handleAddEnvironment = () => {
+    setIsOpen(false);
+    if (isMoreEnvironmentsAllowed) {
+      handlePopUpOpen("createEnvironment");
+    } else {
+      handlePopUpOpen("upgradePlan");
+    }
+  };
+
+  let label: string;
+
+  if (selectedEnvs.length === 1) {
+    label = selectedEnvs[0].name;
+  } else if (selectedEnvs.length > 0 && selectedEnvs.length < projectEnvs.length) {
+    label = `${selectedEnvs.length} Environments`;
+  } else {
+    label = "All Environments";
+  }
+
+  const handleSelectAll = () => setSelectedEnvs([]);
+
+  const handleSwitchEnv = (envId: string) => {
+    setSelectedEnvs((prev) => {
+      const selectedEnv = projectEnvs.find((env) => env.id === envId);
+
+      if (!selectedEnv) return prev;
+
+      // switching to the sole selected environment clears back to all
+      return prev.length === 1 && prev[0].id === envId ? [] : [selectedEnv];
+    });
+  };
+
+  const handleToggleEnv = (envId: string) => {
+    setSelectedEnvs((prev) => {
+      const selectedEnv = projectEnvs.find((env) => env.id === envId);
+
+      if (!selectedEnv) return prev;
+
+      return prev.some((env) => env.id === envId)
+        ? prev.filter((env) => env.id !== envId)
+        : [...prev, selectedEnv];
+    });
+  };
+
+  return (
+    <>
+      <AddEnvironmentModal
+        isOpen={popUp.createEnvironment.isOpen}
+        onOpenChange={(open) => handlePopUpToggle("createEnvironment", open)}
+        onComplete={async (newEnv) => {
+          await queryClient.refetchQueries({
+            queryKey: projectKeys.getProjectById(projectId)
+          });
+          setSelectedEnvs([newEnv]);
+        }}
+      />
+      <UpgradePlanModal
+        isOpen={popUp.upgradePlan.isOpen}
+        onOpenChange={(open) => handlePopUpToggle("upgradePlan", open)}
+        text="Your current plan does not include access to adding custom environments. To unlock this feature, please upgrade to Vaultix Pro plan."
+      />
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <Tooltip open={isDisabled ? undefined : false}>
+          <TooltipTrigger>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={isOpen}
+                disabled={isDisabled}
+                className="w-[180px] justify-between"
+              >
+                <span className="truncate">{label}</span>
+                <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+          </TooltipTrigger>
+          <TooltipContent>Save or discard pending changes to switch environments</TooltipContent>
+        </Tooltip>
+        <PopoverContent align="start" className="p-0">
+          <Command>
+            <CommandInput
+              value={inputValue}
+              onValueChange={setInputValue}
+              placeholder="Filter environments"
+            />
+            <CommandList>
+              <CommandEmpty>No environment found.</CommandEmpty>
+              {Boolean(projectEnvs.length) && !inputValue && (
+                <>
+                  <CommandGroup>
+                    <CommandItem forceMount keywords={[]} onSelect={handleSelectAll}>
+                      All Environments
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4",
+                          !selectedEnvs.length ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  </CommandGroup>
+                  <CommandSeparator />
+                </>
+              )}
+              <CommandGroup>
+                {projectEnvs.map((env) => (
+                  <CommandItem
+                    key={env.id}
+                    value={env.id}
+                    onSelect={handleSwitchEnv}
+                    keywords={[env.name, env.slug]}
+                  >
+                    <Tooltip delayDuration={500} disableHoverableContent>
+                      <TooltipTrigger asChild>
+                        <span className="truncate">{env.name}</span>
+                      </TooltipTrigger>
+                      <TooltipContent side="right" className="max-w-2xl break-all">
+                        {env.name}
+                      </TooltipContent>
+                    </Tooltip>
+                    <Checkbox
+                      className="ml-auto"
+                      variant="project"
+                      aria-label={`Select ${env.name}`}
+                      isChecked={selectedEnvs.some((e) => e.id === env.id)}
+                      onCheckedChange={() => handleToggleEnv(env.id)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+            <CommandSeparator alwaysRender />
+            <CommandGroup forceMount>
+              <ProjectPermissionCan
+                I={ProjectPermissionActions.Create}
+                a={ProjectPermissionSub.Environments}
+              >
+                {(isAllowed) => (
+                  <CommandItem
+                    forceMount
+                    keywords={[]}
+                    disabled={!isAllowed}
+                    onSelect={handleAddEnvironment}
+                  >
+                    <PlusIcon className="h-4 w-4 shrink-0" />
+                    <span>Add Environment</span>
+                  </CommandItem>
+                )}
+              </ProjectPermissionCan>
+            </CommandGroup>
+            <div className="border-t border-border px-2 py-1.5 text-[10px] text-muted">
+              Use the checkboxes to select multiple environments.
+            </div>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </>
+  );
+}

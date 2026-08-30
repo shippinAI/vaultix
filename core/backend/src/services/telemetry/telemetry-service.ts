@@ -1,0 +1,710 @@
+import { requestContext } from "@fastify/request-context";
+import { PostHog } from "posthog-node";
+
+import { TEmailDomainDALFactory } from "@app/ee/services/email-domain/email-domain-dal";
+import { EmailDomainStatus } from "@app/ee/services/email-domain/email-domain-types";
+import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
+import { InstanceType } from "@app/ee/services/license/license-types";
+import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
+import { getConfig } from "@app/lib/config/env";
+import { request } from "@app/lib/config/request";
+import { crypto } from "@app/lib/crypto/cryptography";
+import { logger } from "@app/lib/logger";
+import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
+import { RequestContextKey } from "@app/lib/request-context/request-context-keys";
+import { requestMemoize } from "@app/lib/request-context/request-memoizer";
+import { ActorType } from "@app/services/auth/auth-type";
+import { TOrgDALFactory } from "@app/services/org/org-dal";
+import { getServerCfg } from "@app/services/super-admin/super-admin-service";
+
+import { HubSpotSignupMethod, PostHogEventTypes, TPostHogEvent, TSecretModifiedEvent } from "./telemetry-types";
+
+export const TELEMETRY_SECRET_PROCESSED_KEY = "telemetry-secret-processed";
+export const TELEMETRY_SECRET_OPERATIONS_KEY = "telemetry-secret-operations";
+
+export const POSTHOG_AGGREGATED_EVENTS = [
+  PostHogEventTypes.SecretPulled,
+  PostHogEventTypes.MachineIdentityLogin,
+  PostHogEventTypes.IssueCert,
+  PostHogEventTypes.SignCert,
+  PostHogEventTypes.PkiSyncExecuted,
+  PostHogEventTypes.CertificateRequestCreated,
+  PostHogEventTypes.CmekEncrypt,
+  PostHogEventTypes.CmekDecrypt
+];
+
+// Properties that should be used as additional grouping dimensions during aggregation.
+// Instead of being histogram'd (e.g. {"netscaler": 2}), these properties are included
+// in the grouping key so each unique value produces its own aggregated event with the
+// property as a flat string — enabling clean PostHog breakdowns.
+const AGGREGATION_BREAKDOWN_DIMENSIONS: Partial<Record<PostHogEventTypes, string[]>> = {
+  [PostHogEventTypes.PkiSyncExecuted]: ["destination"],
+  [PostHogEventTypes.IssueCert]: ["enrollmentType", "operation"]
+};
+
+// Bucket configuration
+const TELEMETRY_BUCKET_COUNT = 30;
+const TELEMETRY_BUCKET_NAMES = Array.from(
+  { length: TELEMETRY_BUCKET_COUNT },
+  (_, i) => `bucket-${i.toString().padStart(2, "0")}`
+);
+
+type AggregatedEventData = Record<string, unknown>;
+type SingleEventData = {
+  distinctId: string;
+  event: string;
+  properties: unknown;
+  organizationId: string;
+  organizationName?: string;
+};
+
+export type TTelemetryServiceFactory = ReturnType<typeof telemetryServiceFactory>;
+export type TTelemetryServiceFactoryDep = {
+  keyStore: Pick<
+    TKeyStoreFactory,
+    "incrementBy" | "deleteItemsByKeyIn" | "setItemWithExpiry" | "setItemWithExpiryNX" | "getKeysByPattern" | "getItems"
+  >;
+  licenseService: Pick<TLicenseServiceFactory, "getInstanceType" | "getPlan">;
+  orgDAL: Pick<TOrgDALFactory, "findOrgById">;
+  emailDomainDAL: Pick<TEmailDomainDALFactory, "find">;
+};
+
+const getBucketForDistinctId = (distinctId: string): string => {
+  // Use SHA-256 hash for consistent distribution
+  const hash = crypto.nativeCrypto.createHash("sha256").update(distinctId).digest("hex");
+
+  // Take first 8 characters and convert to number for better distribution
+  const hashNumber = parseInt(hash.substring(0, 8), 16);
+  const bucketIndex = hashNumber % TELEMETRY_BUCKET_COUNT;
+
+  return TELEMETRY_BUCKET_NAMES[bucketIndex];
+};
+
+export const createTelemetryEventKey = (event: string, distinctId: string): string => {
+  const bucketId = getBucketForDistinctId(distinctId);
+  return KeyStorePrefixes.TelemetryEvent(event, bucketId, distinctId, crypto.nativeCrypto.randomUUID());
+};
+
+export enum DeploymentType {
+  USCloud = "us-cloud",
+  EUCloud = "eu-cloud",
+  Dedicated = "dedicated",
+  SelfHosted = "self-hosted"
+}
+
+/**
+ * Computes the deployment type based on the instance type and environment configuration.
+ * - US Cloud: instanceType is Cloud and INTERNAL_REGION is "us" (or unset, defaults to US)
+ * - EU Cloud: instanceType is Cloud and INTERNAL_REGION is "eu"
+ * - Dedicated: VAULTIX_DEDICATED is true
+ * - Self-Hosted: everything else
+ */
+const getDeploymentType = (
+  instanceType: InstanceType,
+  appConfig: { VAULTIX_CLOUD: boolean; VAULTIX_DEDICATED: boolean; INTERNAL_REGION?: string }
+) => {
+  if (instanceType === InstanceType.Cloud) {
+    return appConfig.INTERNAL_REGION === "eu" ? DeploymentType.EUCloud : DeploymentType.USCloud;
+  }
+  if (appConfig.VAULTIX_DEDICATED) {
+    return DeploymentType.Dedicated;
+  }
+  return DeploymentType.SelfHosted;
+};
+
+export const telemetryServiceFactory = ({
+  keyStore,
+  licenseService,
+  orgDAL,
+  emailDomainDAL
+}: TTelemetryServiceFactoryDep) => {
+  const appCfg = getConfig();
+
+  let instanceIdPromise: Promise<string | undefined> | undefined;
+  const getInstanceId = (): Promise<string | undefined> => {
+    if (appCfg.VAULTIX_CLOUD) return Promise.resolve(undefined);
+    if (!instanceIdPromise) {
+      instanceIdPromise = getServerCfg()
+        .then(({ instanceId }) => instanceId)
+        .catch(() => {
+          instanceIdPromise = undefined;
+          return undefined;
+        });
+    }
+    return instanceIdPromise;
+  };
+
+  if (appCfg.isProductionMode && !appCfg.TELEMETRY_ENABLED) {
+    // eslint-disable-next-line
+    console.log(`
+To improve, Vaultix collects telemetry data about general usage.
+This helps us understand how the product is doing and guide our product development to create the best possible platform; it also helps us demonstrate growth as we support Vaultix as open-source software.
+To opt into telemetry, you can set "TELEMETRY_ENABLED=true" within the environment variables.
+`);
+  }
+
+  const postHog = appCfg.TELEMETRY_ENABLED
+    ? new PostHog(appCfg.POSTHOG_PROJECT_API_KEY, { host: appCfg.POSTHOG_HOST })
+    : undefined;
+
+  // used for email marketting email sending purpose
+  const sendLoopsEvent = async (email: string, firstName?: string, lastName?: string) => {
+    if (appCfg.isProductionMode && appCfg.LOOPS_API_KEY) {
+      try {
+        await request.post(
+          "https://app.loops.so/api/v1/events/send",
+          {
+            eventName: "Sign Up",
+            email,
+            firstName,
+            lastName
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${appCfg.LOOPS_API_KEY}`
+            }
+          }
+        );
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+  };
+
+  const sendHubSpotSignupEvent = async (
+    email: string,
+    signupMethod: HubSpotSignupMethod,
+    firstName?: string,
+    lastName?: string,
+    hubspotUtk?: string
+  ) => {
+    const instanceType = licenseService.getInstanceType();
+    if (
+      appCfg.isProductionMode &&
+      instanceType === InstanceType.Cloud &&
+      appCfg.HUBSPOT_PORTAL_ID &&
+      appCfg.HUBSPOT_SIGNUP_FORM_ID
+    ) {
+      try {
+        const fields: { name: string; value: string }[] = [
+          { name: "email", value: email },
+          { name: "signup_method", value: signupMethod }
+        ];
+
+        const optionalFields: Record<string, string | undefined> = {
+          firstname: firstName,
+          lastname: lastName
+        };
+
+        for (const [name, value] of Object.entries(optionalFields)) {
+          if (value) fields.push({ name, value });
+        }
+
+        const context: Record<string, string> = {
+          pageUri: `${appCfg.SITE_URL || "https://vaultix.shippin.cloud"}/signup`,
+          pageName: "App Signup"
+        };
+
+        // Include the HubSpot tracking cookie to link this submission
+        // to the visitor's browsing session for proper attribution
+        if (hubspotUtk) {
+          context.hutk = hubspotUtk;
+        }
+
+        await request.post(
+          `https://api.hsforms.com/submissions/v3/integration/submit/${appCfg.HUBSPOT_PORTAL_ID}/${appCfg.HUBSPOT_SIGNUP_FORM_ID}`,
+          {
+            fields,
+            context
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        );
+      } catch (error) {
+        logger.error(error, "Failed to send HubSpot signup event");
+      }
+    }
+  };
+
+  const getOrgGroupProperties = async (orgId: string, orgName?: string): Promise<Record<string, unknown>> => {
+    const properties: Record<string, unknown> = {};
+    if (orgName) {
+      properties.name = orgName;
+    }
+
+    const instanceType = licenseService.getInstanceType();
+    properties.is_cloud = instanceType === InstanceType.Cloud;
+    properties.instance_type = instanceType;
+    properties.deployment_type = getDeploymentType(instanceType, appCfg);
+    if (appCfg.INTERNAL_REGION) {
+      properties.region = appCfg.INTERNAL_REGION;
+    }
+
+    try {
+      const org = await requestMemoize(requestMemoKeys.orgFindOrgById(orgId), () => orgDAL.findOrgById(orgId));
+      if (org) {
+        if (!properties.name) {
+          properties.name = org.name;
+        }
+        properties.created_at = org.createdAt.toISOString();
+      }
+    } catch (error) {
+      logger.error(error, "Failed to fetch org details for PostHog group properties");
+    }
+
+    try {
+      const plan = await licenseService.getPlan(orgId);
+      properties.plan = plan.slug ?? "free";
+      properties.seat_count = plan.membersUsed;
+    } catch (error) {
+      logger.error(error, "Failed to fetch org plan for PostHog group properties");
+    }
+
+    try {
+      const verifiedDomains = await emailDomainDAL.find({ orgId, status: EmailDomainStatus.Verified });
+      if (verifiedDomains.length > 0) {
+        properties.domain = verifiedDomains[0].domain;
+      }
+    } catch (error) {
+      logger.error(error, "Failed to fetch org domain for PostHog group properties");
+    }
+
+    return properties;
+  };
+
+  const sendPostHogEvents = async (event: TPostHogEvent) => {
+    if (!appCfg.VAULTIX_CLOUD && postHog) {
+      if (
+        [
+          PostHogEventTypes.SecretPulled,
+          PostHogEventTypes.SecretCreated,
+          PostHogEventTypes.SecretDeleted,
+          PostHogEventTypes.SecretUpdated
+        ].includes(event.event)
+      ) {
+        try {
+          await keyStore.incrementBy(
+            TELEMETRY_SECRET_PROCESSED_KEY,
+            (event as TSecretModifiedEvent).properties.numberOfSecrets
+          );
+          await keyStore.incrementBy(TELEMETRY_SECRET_OPERATIONS_KEY, 1);
+        } catch (error) {
+          logger.error(error, "Failed to increment telemetry secret counters in Redis");
+        }
+      }
+    }
+
+    if (!postHog) return;
+
+    // Per-event deduplication: only the first caller within the TTL window proceeds.
+    // Used to throttle read/poll-heavy events (e.g. Audit Logs Viewed) so a single
+    // actor generates at most one event per window while still being marked active.
+    // Placed after the `!postHog` guard so instances with telemetry disabled never
+    // touch Redis.
+    if (event.dedup) {
+      try {
+        const wasSet = await keyStore.setItemWithExpiryNX(event.dedup.key, event.dedup.ttlSeconds, "1");
+        if (!wasSet) return;
+      } catch (error) {
+        logger.error(error, `Failed to check telemetry dedup cache for event=${event.event}`);
+      }
+    }
+
+    // Resolve org name: prefer explicit value, fall back to request context
+    const resolvedOrgName = event.organizationName ?? requestContext.get(RequestContextKey.OrgName);
+
+    if (POSTHOG_AGGREGATED_EVENTS.includes(event.event)) {
+      const eventKey = createTelemetryEventKey(event.event, event.distinctId);
+      await keyStore.setItemWithExpiry(
+        eventKey,
+        KeyStoreTtls.TelemetryAggregatedEventInSeconds,
+        JSON.stringify({
+          distinctId: event.distinctId,
+          event: event.event,
+          properties: event.properties,
+          organizationId: event.organizationId,
+          ...(resolvedOrgName ? { organizationName: resolvedOrgName } : {})
+        })
+      );
+    } else {
+      // Skip groupIdentify entirely when the event is marked anonymous.
+      //
+      // posthog-node implements `groupIdentify` as a regular capture of a
+      // `$groupidentify` event keyed by the supplied `distinctId`. For an
+      // anonymous-share viewer of an org-scoped share, that `distinctId`
+      // is the synthesised `anonymous-<shareId>` value, so calling
+      // groupIdentify here would create exactly the per-share person
+      // record we are trying to suppress — defeating the
+      // `$process_person_profile: false` flag we set on the explicit
+      // capture below. Org-level attribution on the captured event itself
+      // is still preserved via the `groups` field, so analytics that
+      // slice by organization continue to work; only the periodic refresh
+      // of the org's group properties is skipped on this code path.
+      // Authenticated events for the same org refresh those properties
+      // frequently anyway, so there is no analytical loss.
+      if (event.organizationId && !event.anonymous) {
+        const orgId = event.organizationId;
+        // Dedup groupIdentify: only fire once per org per hour to avoid redundant DB/API calls
+        const groupIdentifyCacheKey = KeyStorePrefixes.TelemetryGroupIdentify(orgId);
+        void keyStore
+          .setItemWithExpiryNX(groupIdentifyCacheKey, KeyStoreTtls.TelemetryGroupIdentifyInSeconds, "1")
+          .then((wasSet) => {
+            if (wasSet) {
+              return getOrgGroupProperties(orgId, resolvedOrgName).then((groupProperties) => {
+                postHog.groupIdentify({
+                  groupType: "organization",
+                  groupKey: orgId,
+                  properties: groupProperties,
+                  distinctId: event.distinctId
+                });
+              });
+            }
+            return undefined;
+          })
+          .catch((error) => {
+            logger.error(error, "Failed to identify PostHog organization");
+          });
+      }
+      // When `anonymous` is set, we still record the event but instruct
+      // PostHog not to create or update a person record for the synthesised
+      // distinctId. This prevents per-request distinctIds (e.g. the
+      // `anonymous-<shareId>` keys used by unauthenticated public secret
+      // shares) from inflating the person count while preserving event
+      // counts, funnels, and breakdowns.
+      const instanceId = await getInstanceId();
+      const baseProperties = event.anonymous
+        ? { ...event.properties, $process_person_profile: false }
+        : event.properties;
+      const properties = instanceId ? { ...baseProperties, instanceId } : baseProperties;
+
+      postHog.capture({
+        event: event.event,
+        distinctId: event.distinctId,
+        properties,
+        ...(event.organizationId ? { groups: { organization: event.organizationId } } : {})
+      });
+    }
+  };
+
+  const aggregateGroupProperties = (events: SingleEventData[], excludeKeys: string[] = []): AggregatedEventData => {
+    const aggregatedData: AggregatedEventData = {};
+
+    // Set the total count
+    aggregatedData.count = events.length;
+
+    events.forEach((event) => {
+      if (!event.properties) return;
+
+      Object.entries(event.properties as Record<string, unknown>).forEach(([key, value]: [string, unknown]) => {
+        // Skip properties that are used as breakdown dimensions (they're set as flat values on the event)
+        if (excludeKeys.includes(key)) return;
+        if (Array.isArray(value)) {
+          // For arrays, count occurrences of each item
+          const existingCounts =
+            aggregatedData[key] &&
+            typeof aggregatedData[key] === "object" &&
+            aggregatedData[key]?.constructor === Object
+              ? (aggregatedData[key] as Record<string, number>)
+              : {};
+
+          value.forEach((item) => {
+            const itemKey = typeof item === "object" ? JSON.stringify(item) : String(item);
+            existingCounts[itemKey] = (existingCounts[itemKey] || 0) + 1;
+          });
+
+          aggregatedData[key] = existingCounts;
+        } else if (typeof value === "object" && value?.constructor === Object) {
+          // For objects, count occurrences of each field value
+          const existingCounts =
+            aggregatedData[key] &&
+            typeof aggregatedData[key] === "object" &&
+            aggregatedData[key]?.constructor === Object
+              ? (aggregatedData[key] as Record<string, number>)
+              : {};
+
+          if (value) {
+            Object.values(value).forEach((fieldValue) => {
+              const valueKey = typeof fieldValue === "object" ? JSON.stringify(fieldValue) : String(fieldValue);
+              existingCounts[valueKey] = (existingCounts[valueKey] || 0) + 1;
+            });
+          }
+          aggregatedData[key] = existingCounts;
+        } else if (typeof value === "number") {
+          // For numbers, add to existing sum
+          aggregatedData[key] = ((aggregatedData[key] as number) || 0) + value;
+        } else if (value !== undefined && value !== null) {
+          // For other types (strings, booleans, etc.), count occurrences
+          const stringValue = String(value);
+          const existingValue = aggregatedData[key];
+
+          if (!existingValue) {
+            aggregatedData[key] = { [stringValue]: 1 };
+          } else if (existingValue && typeof existingValue === "object" && existingValue.constructor === Object) {
+            const countObject = existingValue as Record<string, number>;
+            countObject[stringValue] = (countObject[stringValue] || 0) + 1;
+          } else {
+            const oldValue = String(existingValue);
+            aggregatedData[key] = {
+              [oldValue]: 1,
+              [stringValue]: 1
+            };
+          }
+        }
+      });
+    });
+
+    return aggregatedData;
+  };
+
+  const processBucketEvents = async (eventType: string, bucketId: string) => {
+    if (!postHog) return 0;
+
+    try {
+      const bucketPattern = KeyStorePrefixes.TelemetryEventByBucketPattern(eventType, bucketId);
+      const bucketKeys = await keyStore.getKeysByPattern(bucketPattern);
+
+      if (bucketKeys.length === 0) return 0;
+
+      const bucketEvents = await keyStore.getItems(bucketKeys);
+      let bucketEventsParsed: SingleEventData[] = [];
+
+      try {
+        bucketEventsParsed = bucketEvents
+          .filter((event) => event !== null)
+          .map((event) => JSON.parse(event as string) as SingleEventData);
+      } catch (error) {
+        logger.error(error, `Failed to parse bucket events for ${eventType} in ${bucketId}`);
+        return 0;
+      }
+
+      const eventsGrouped = new Map<string, SingleEventData[]>();
+
+      const breakdownDimensions = AGGREGATION_BREAKDOWN_DIMENSIONS[eventType as PostHogEventTypes] || [];
+
+      bucketEventsParsed.forEach((event) => {
+        const breakdownValues: Record<string, string> = {};
+        if (breakdownDimensions.length > 0 && event.properties) {
+          const props = event.properties as Record<string, unknown>;
+          for (const dim of breakdownDimensions) {
+            if (props[dim] !== undefined && props[dim] !== null) {
+              breakdownValues[dim] = String(props[dim]);
+            }
+          }
+        }
+        const key = JSON.stringify({ id: event.distinctId, org: event.organizationId, ...breakdownValues });
+        if (!eventsGrouped.has(key)) {
+          eventsGrouped.set(key, []);
+        }
+        eventsGrouped.get(key)!.push(event);
+      });
+
+      if (eventsGrouped.size === 0) return 0;
+
+      // Cache org group properties per orgId to avoid redundant DB/API calls
+      // when multiple users share the same org within a bucket
+      const orgPropertiesCache = new Map<string, Record<string, unknown>>();
+
+      const instanceId = await getInstanceId();
+
+      for (const [eventsKey, events] of eventsGrouped) {
+        const key = JSON.parse(eventsKey) as { id: string; org?: string; [dim: string]: string | undefined };
+        if (key.org) {
+          try {
+            // Dedup groupIdentify across all paths: only fire once per org per hour
+            const groupIdentifyCacheKey = KeyStorePrefixes.TelemetryGroupIdentify(key.org);
+            // eslint-disable-next-line no-await-in-loop
+            const wasSet = await keyStore.setItemWithExpiryNX(
+              groupIdentifyCacheKey,
+              KeyStoreTtls.TelemetryGroupIdentifyInSeconds,
+              "1"
+            );
+            if (wasSet) {
+              let groupProperties = orgPropertiesCache.get(key.org);
+              if (!groupProperties) {
+                const orgName = events[0]?.organizationName;
+                // eslint-disable-next-line no-await-in-loop
+                groupProperties = await getOrgGroupProperties(key.org, orgName);
+                orgPropertiesCache.set(key.org, groupProperties);
+              }
+              postHog.groupIdentify({
+                groupType: "organization",
+                groupKey: key.org,
+                properties: groupProperties,
+                distinctId: key.id
+              });
+            }
+          } catch (error) {
+            logger.error(error, "Failed to identify PostHog organization");
+          }
+        }
+        const properties = aggregateGroupProperties(events, breakdownDimensions);
+
+        // Attach breakdown dimension values as flat properties on the aggregated event
+        for (const dim of breakdownDimensions) {
+          if (key[dim] !== undefined) {
+            properties[dim] = key[dim];
+          }
+        }
+
+        // Always attach orgId as a flat property so aggregated events are filterable by organization
+        if (key.org) {
+          properties.orgId = key.org;
+        }
+
+        if (instanceId) {
+          properties.instanceId = instanceId;
+        }
+
+        postHog.capture({
+          event: `${eventType} aggregated`,
+          distinctId: key.id,
+          properties,
+          ...(key.org ? { groups: { organization: key.org } } : {})
+        });
+      }
+
+      // Clean up processed data for this bucket
+      await keyStore.deleteItemsByKeyIn(bucketKeys);
+
+      logger.info(`Processed ${bucketEventsParsed.length} events from bucket ${bucketId} for ${eventType}`);
+      return bucketEventsParsed.length;
+    } catch (error) {
+      logger.error(error, `Failed to process bucket ${bucketId} for ${eventType}`);
+      return 0;
+    }
+  };
+
+  const BUCKET_CONCURRENCY = 5;
+
+  const processAggregatedEvents = async () => {
+    if (!postHog) return;
+
+    for (const eventType of POSTHOG_AGGREGATED_EVENTS) {
+      let totalProcessed = 0;
+      logger.info(`Starting bucket processing for ${eventType}`);
+
+      for (let i = 0; i < TELEMETRY_BUCKET_NAMES.length; i += BUCKET_CONCURRENCY) {
+        const batch = TELEMETRY_BUCKET_NAMES.slice(i, i + BUCKET_CONCURRENCY);
+        // eslint-disable-next-line no-await-in-loop
+        const results = await Promise.all(batch.map((bucketId) => processBucketEvents(eventType, bucketId)));
+        totalProcessed += results.reduce((sum, n) => sum + n, 0);
+      }
+
+      logger.info(`Completed processing ${totalProcessed} total events for ${eventType}`);
+    }
+  };
+
+  // Shorter TTL for in-memory fallback to bound memory growth during Redis outages
+  const IN_MEMORY_IDENTIFY_FALLBACK_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+  // In-memory fallback dedup set to limit blast radius during Redis outages
+  const inMemoryIdentifyDedup = new Set<string>();
+
+  const identifyUser = async (
+    distinctId: string,
+    properties: {
+      email?: string;
+      username?: string;
+      userId?: string;
+      firstName?: string;
+      lastName?: string;
+      isMfaEnabled?: boolean;
+      isEmailVerified?: boolean;
+      superAdmin?: boolean;
+    },
+    { skipDedup }: { skipDedup?: boolean } = {}
+  ) => {
+    if (postHog && distinctId) {
+      if (!skipDedup) {
+        try {
+          const cacheKey = KeyStorePrefixes.TelemetryIdentify(distinctId);
+          // Atomic SET NX + EX: only the first caller within the TTL window proceeds
+          const wasSet = await keyStore.setItemWithExpiryNX(
+            cacheKey,
+            KeyStoreTtls.TelemetryIdentifyIdentityInSeconds,
+            "1"
+          );
+          if (!wasSet) return;
+        } catch (error) {
+          logger.error(error, `Failed to check PostHog identify dedup cache for distinctId=${distinctId}`);
+          // In-memory fallback to limit blast radius during Redis outage
+          if (inMemoryIdentifyDedup.has(distinctId)) return;
+          inMemoryIdentifyDedup.add(distinctId);
+          const timer = setTimeout(() => inMemoryIdentifyDedup.delete(distinctId), IN_MEMORY_IDENTIFY_FALLBACK_TTL_MS);
+          timer.unref();
+        }
+      }
+      try {
+        postHog.identify({ distinctId, properties });
+      } catch (err) {
+        logger.error(err, `Failed to call postHog.identify for distinctId=${distinctId}`);
+      }
+    }
+  };
+
+  // In-memory fallback dedup set to limit blast radius during Redis outages
+  const inMemoryIdentityDedup = new Set<string>();
+
+  const identifyIdentity = async (
+    identityId: string,
+    properties: {
+      name?: string;
+      authMethod?: string;
+    }
+  ) => {
+    if (postHog && identityId) {
+      const dedupKey = `${identityId}-${properties.authMethod ?? ""}`;
+      try {
+        const cacheKey = KeyStorePrefixes.TelemetryIdentifyIdentity(dedupKey);
+        // Atomic SET NX + EX: only the first caller within the TTL window proceeds
+        const wasSet = await keyStore.setItemWithExpiryNX(
+          cacheKey,
+          KeyStoreTtls.TelemetryIdentifyIdentityInSeconds,
+          "1"
+        );
+        if (!wasSet) return;
+      } catch (error) {
+        logger.error(error, `Failed to check PostHog identity dedup cache [identityId=${identityId}]`);
+        // In-memory fallback to limit blast radius during Redis outage
+        if (inMemoryIdentityDedup.has(dedupKey)) return;
+        inMemoryIdentityDedup.add(dedupKey);
+        const timer = setTimeout(() => inMemoryIdentityDedup.delete(dedupKey), IN_MEMORY_IDENTIFY_FALLBACK_TTL_MS);
+        timer.unref();
+        // falls through intentionally: first caller during Redis outage still identifies
+      }
+
+      const distinctId = `identity-${identityId}`;
+      const enrichedProperties = {
+        ...properties,
+        actorType: ActorType.IDENTITY,
+        ...(properties.name ? { name: `[Machine Identity] ${properties.name}` } : {})
+      };
+      try {
+        postHog.identify({ distinctId, properties: enrichedProperties });
+      } catch (err) {
+        logger.error(err, `Failed to call postHog.identify for machine identity [identityId=${identityId}]`);
+      }
+    }
+  };
+
+  const flushAll = async () => {
+    if (postHog) {
+      await postHog.shutdown();
+    }
+  };
+
+  return {
+    sendLoopsEvent,
+    sendHubSpotSignupEvent,
+    sendPostHogEvents,
+    identifyUser,
+    identifyIdentity,
+    processAggregatedEvents,
+    flushAll,
+    getBucketForDistinctId
+  };
+};

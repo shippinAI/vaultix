@@ -1,0 +1,517 @@
+import RE2 from "re2";
+import { z, ZodSchema } from "zod";
+
+import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
+import { BadRequestError } from "@app/lib/errors";
+import { TAppConnectionDALFactory } from "@app/services/app-connection/app-connection-dal";
+import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";
+import { TCertificateSyncDALFactory } from "@app/services/certificate-sync/certificate-sync-dal";
+import { TKmsServiceFactory } from "@app/services/kms/kms-service";
+
+import { AWS_CERTIFICATE_MANAGER_PKI_SYNC_LIST_OPTION } from "./aws-certificate-manager/aws-certificate-manager-pki-sync-constants";
+import { awsCertificateManagerPkiSyncFactory } from "./aws-certificate-manager/aws-certificate-manager-pki-sync-fns";
+import { AWS_ELASTIC_LOAD_BALANCER_PKI_SYNC_LIST_OPTION } from "./aws-elastic-load-balancer/aws-elastic-load-balancer-pki-sync-constants";
+import { awsElasticLoadBalancerPkiSyncFactory } from "./aws-elastic-load-balancer/aws-elastic-load-balancer-pki-sync-fns";
+import { AWS_SECRETS_MANAGER_PKI_SYNC_LIST_OPTION } from "./aws-secrets-manager/aws-secrets-manager-pki-sync-constants";
+import { awsSecretsManagerPkiSyncFactory } from "./aws-secrets-manager/aws-secrets-manager-pki-sync-fns";
+import { AZURE_KEY_VAULT_PKI_SYNC_LIST_OPTION } from "./azure-key-vault/azure-key-vault-pki-sync-constants";
+import { azureKeyVaultPkiSyncFactory } from "./azure-key-vault/azure-key-vault-pki-sync-fns";
+import { chefPkiSyncFactory } from "./chef/chef-pki-sync-fns";
+import { CHEF_PKI_SYNC_LIST_OPTION } from "./chef/chef-pki-sync-list-constants";
+import { CLOUDFLARE_CUSTOM_CERTIFICATE_PKI_SYNC_LIST_OPTION } from "./cloudflare-custom-certificate/cloudflare-custom-certificate-pki-sync-constants";
+import { cloudflareCustomCertificatePkiSyncFactory } from "./cloudflare-custom-certificate/cloudflare-custom-certificate-pki-sync-fns";
+import { F5_BIG_IP_PKI_SYNC_LIST_OPTION } from "./f5-big-ip/f5-big-ip-pki-sync-constants";
+import { f5BigIpPkiSyncFactory } from "./f5-big-ip/f5-big-ip-pki-sync-fns";
+import { KEMP_LOADMASTER_PKI_SYNC_LIST_OPTION } from "./kemp-loadmaster/kemp-loadmaster-pki-sync-constants";
+import { kempLoadMasterPkiSyncFactory } from "./kemp-loadmaster/kemp-loadmaster-pki-sync-fns";
+import { LINUX_SERVER_PKI_SYNC_LIST_OPTION } from "./linux-server/linux-server-pki-sync-constants";
+import { linuxServerPkiSyncFactory } from "./linux-server/linux-server-pki-sync-fns";
+import { NETSCALER_PKI_SYNC_LIST_OPTION } from "./netscaler/netscaler-pki-sync-constants";
+import { netScalerPkiSyncFactory } from "./netscaler/netscaler-pki-sync-fns";
+import { NUTANIX_PRISM_CENTRAL_PKI_SYNC_LIST_OPTION } from "./nutanix-prism-central/nutanix-prism-central-pki-sync-constants";
+import { nutanixPrismCentralPkiSyncFactory } from "./nutanix-prism-central/nutanix-prism-central-pki-sync-fns";
+import {
+  buildManagedCertificateNameRegexSource,
+  SHORT_UUID_NAME_REGEX_FRAGMENT,
+  UUID_NAME_REGEX_FRAGMENT
+} from "./pki-sync-certificate-name-fns";
+import { PkiSync } from "./pki-sync-enums";
+import { PkiSyncError } from "./pki-sync-errors";
+import { TCertificateMap, TPkiSyncSyncResult, TPkiSyncWithCredentials } from "./pki-sync-types";
+import { WINDOWS_SERVER_PKI_SYNC_LIST_OPTION } from "./windows-server/windows-server-pki-sync-constants";
+import { windowsServerPkiSyncFactory } from "./windows-server/windows-server-pki-sync-fns";
+
+const ENTERPRISE_PKI_SYNCS: PkiSync[] = [];
+
+const PKI_SYNC_LIST_OPTIONS = {
+  [PkiSync.AzureKeyVault]: AZURE_KEY_VAULT_PKI_SYNC_LIST_OPTION,
+  [PkiSync.AwsCertificateManager]: AWS_CERTIFICATE_MANAGER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.AwsSecretsManager]: AWS_SECRETS_MANAGER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.AwsElasticLoadBalancer]: AWS_ELASTIC_LOAD_BALANCER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.Chef]: CHEF_PKI_SYNC_LIST_OPTION,
+  [PkiSync.CloudflareCustomCertificate]: CLOUDFLARE_CUSTOM_CERTIFICATE_PKI_SYNC_LIST_OPTION,
+  [PkiSync.NetScaler]: NETSCALER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.F5BigIp]: F5_BIG_IP_PKI_SYNC_LIST_OPTION,
+  [PkiSync.KempLoadMaster]: KEMP_LOADMASTER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.LinuxServer]: LINUX_SERVER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.WindowsServer]: WINDOWS_SERVER_PKI_SYNC_LIST_OPTION,
+  [PkiSync.NutanixPrismCentral]: NUTANIX_PRISM_CENTRAL_PKI_SYNC_LIST_OPTION
+};
+
+export const enterprisePkiSyncCheck = async (
+  licenseService: Pick<TLicenseServiceFactory, "getPlan">,
+  orgId: string,
+  pkiSyncDestination: PkiSync,
+  errorMessage?: string
+) => {
+  const plan = await licenseService.getPlan(orgId);
+
+  if (!plan.enterpriseCertificateSyncs && ENTERPRISE_PKI_SYNCS.includes(pkiSyncDestination)) {
+    throw new BadRequestError({
+      message: errorMessage || "Failed to create PKI sync due to plan restriction. Upgrade plan to create PKI sync."
+    });
+  }
+};
+
+export const listPkiSyncOptions = () => {
+  return Object.values(PKI_SYNC_LIST_OPTIONS).sort((a, b) => a.name.localeCompare(b.name));
+};
+
+export const getPkiSyncProviderCapabilities = (destination: PkiSync) => {
+  const providerOption = PKI_SYNC_LIST_OPTIONS[destination];
+  if (!providerOption) {
+    throw new BadRequestError({ message: `Unsupported PKI sync destination: ${destination}` });
+  }
+
+  return {
+    canImportCertificates: providerOption.canImportCertificates,
+    canRemoveCertificates: providerOption.canRemoveCertificates,
+    canRunPostSyncCommand: providerOption.canRunPostSyncCommand
+  };
+};
+
+export const getPkiSyncMaxCertificates = (destination: PkiSync): number | undefined => {
+  const providerOption = PKI_SYNC_LIST_OPTIONS[destination];
+  if (providerOption && "maxCertificates" in providerOption) {
+    return providerOption.maxCertificates;
+  }
+  return undefined;
+};
+
+export const matchesSchema = <T extends ZodSchema>(schema: T, data: unknown): data is z.infer<T> => {
+  return schema.safeParse(data).success;
+};
+
+const MAX_SYNC_MESSAGE_LENGTH = 255;
+
+export const truncateSyncMessage = (message: string): string =>
+  message.length > MAX_SYNC_MESSAGE_LENGTH ? `${message.slice(0, MAX_SYNC_MESSAGE_LENGTH - 3)}...` : message;
+
+export const parsePkiSyncErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (typeof error === "string") {
+    return error;
+  }
+
+  return "An unknown error occurred during PKI sync operation";
+};
+
+export const matchesCertificateNameSchema = (name: string, schema?: string): boolean => {
+  if (!schema) return true;
+
+  const pattern = buildManagedCertificateNameRegexSource(schema, {
+    uuid: UUID_NAME_REGEX_FRAGMENT,
+    shortUuid: SHORT_UUID_NAME_REGEX_FRAGMENT,
+    freeText: "[a-zA-Z0-9._-]*"
+  });
+
+  return new RE2(`^${pattern}$`).test(name);
+};
+
+const checkPkiSyncDestination = (pkiSync: TPkiSyncWithCredentials, destination: PkiSync): void => {
+  if (pkiSync.destination !== destination) {
+    throw new Error(`Invalid PKI sync destination: ${pkiSync.destination}`);
+  }
+};
+
+export const PkiSyncFns = {
+  getCertificates: async (
+    pkiSync: TPkiSyncWithCredentials,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    dependencies: {
+      appConnectionDAL: Pick<TAppConnectionDALFactory, "findById" | "updateById">;
+      kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
+      certificateDAL: TCertificateDALFactory;
+      certificateSyncDAL: TCertificateSyncDALFactory;
+    }
+  ): Promise<TCertificateMap> => {
+    switch (pkiSync.destination) {
+      case PkiSync.AzureKeyVault: {
+        throw new Error(
+          "Azure Key Vault does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      case PkiSync.AwsCertificateManager: {
+        throw new Error(
+          "AWS Certificate Manager does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      case PkiSync.AwsSecretsManager: {
+        throw new Error("AWS Secrets Manager does not support importing certificates into Vaultix");
+      }
+      case PkiSync.Chef: {
+        throw new Error(
+          "Chef does not support importing certificates into Vaultix (private keys cannot be extracted securely)"
+        );
+      }
+      case PkiSync.AwsElasticLoadBalancer: {
+        throw new Error(
+          "AWS Elastic Load Balancer does not support importing certificates into Vaultix (certificates are stored in ACM)"
+        );
+      }
+      case PkiSync.CloudflareCustomCertificate: {
+        throw new Error(
+          "Cloudflare Custom SSL Certificate does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      case PkiSync.NetScaler: {
+        throw new Error(
+          "NetScaler does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      case PkiSync.F5BigIp: {
+        throw new Error("F5 BIG-IP does not support importing certificates into Vaultix");
+      }
+      case PkiSync.KempLoadMaster: {
+        throw new Error(
+          "Kemp LoadMaster does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      case PkiSync.LinuxServer: {
+        throw new Error("Linux Server does not support importing certificates into Vaultix");
+      }
+      case PkiSync.WindowsServer: {
+        throw new Error("Windows Server does not support importing certificates into Vaultix");
+      }
+      case PkiSync.NutanixPrismCentral: {
+        throw new Error(
+          "Nutanix Prism Central does not support importing certificates into Vaultix (private keys cannot be extracted)"
+        );
+      }
+      default:
+        throw new Error(`Unsupported PKI sync destination: ${String(pkiSync.destination)}`);
+    }
+  },
+
+  syncCertificates: async (
+    pkiSync: TPkiSyncWithCredentials,
+    certificateMap: TCertificateMap,
+    dependencies: {
+      appConnectionDAL: Pick<TAppConnectionDALFactory, "findById" | "updateById">;
+      kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
+      certificateDAL: TCertificateDALFactory;
+      certificateSyncDAL: TCertificateSyncDALFactory;
+      gatewayV2Service?: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
+      gatewayPoolService?: Pick<TGatewayPoolServiceFactory, "resolveEffectiveGatewayId">;
+    }
+  ): Promise<TPkiSyncSyncResult> => {
+    switch (pkiSync.destination) {
+      case PkiSync.AzureKeyVault: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AzureKeyVault as PkiSync);
+        const azureKeyVaultPkiSync = azureKeyVaultPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        return azureKeyVaultPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.AwsCertificateManager: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsCertificateManager as PkiSync);
+        const awsCertificateManagerPkiSync = awsCertificateManagerPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        return awsCertificateManagerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.AwsSecretsManager: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsSecretsManager as PkiSync);
+        const awsSecretsManagerPkiSync = awsSecretsManagerPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        return awsSecretsManagerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.Chef: {
+        checkPkiSyncDestination(pkiSync, PkiSync.Chef as PkiSync);
+        const chefPkiSync = chefPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return chefPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.AwsElasticLoadBalancer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsElasticLoadBalancer as PkiSync);
+        const awsElasticLoadBalancerPkiSync = awsElasticLoadBalancerPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        return awsElasticLoadBalancerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.CloudflareCustomCertificate: {
+        checkPkiSyncDestination(pkiSync, PkiSync.CloudflareCustomCertificate as PkiSync);
+        const cloudflareCustomCertificatePkiSync = cloudflareCustomCertificatePkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        return cloudflareCustomCertificatePkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.NetScaler: {
+        checkPkiSyncDestination(pkiSync, PkiSync.NetScaler as PkiSync);
+        const netScalerPkiSync = netScalerPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return netScalerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.F5BigIp: {
+        checkPkiSyncDestination(pkiSync, PkiSync.F5BigIp as PkiSync);
+        const f5BigIpPkiSync = f5BigIpPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return f5BigIpPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.KempLoadMaster: {
+        checkPkiSyncDestination(pkiSync, PkiSync.KempLoadMaster as PkiSync);
+        const kempLoadMasterPkiSync = kempLoadMasterPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return kempLoadMasterPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.LinuxServer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.LinuxServer as PkiSync);
+        const linuxServerPkiSync = linuxServerPkiSyncFactory({
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return linuxServerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.WindowsServer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.WindowsServer as PkiSync);
+        if (!dependencies.gatewayV2Service) {
+          throw new Error("Windows Server sync requires a gateway to reach the host.");
+        }
+        const windowsServerPkiSync = windowsServerPkiSyncFactory({
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return windowsServerPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      case PkiSync.NutanixPrismCentral: {
+        checkPkiSyncDestination(pkiSync, PkiSync.NutanixPrismCentral as PkiSync);
+        const nutanixPkiSync = nutanixPrismCentralPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        return nutanixPkiSync.syncCertificates(pkiSync, certificateMap);
+      }
+      default:
+        throw new Error(`Unsupported PKI sync destination: ${String(pkiSync.destination)}`);
+    }
+  },
+
+  removeCertificates: async (
+    pkiSync: TPkiSyncWithCredentials,
+    certificateNames: string[],
+    dependencies: {
+      appConnectionDAL: Pick<TAppConnectionDALFactory, "findById" | "updateById">;
+      kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
+      certificateSyncDAL: TCertificateSyncDALFactory;
+      certificateDAL: TCertificateDALFactory;
+      certificateMap: TCertificateMap;
+      gatewayV2Service?: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
+      gatewayPoolService?: Pick<TGatewayPoolServiceFactory, "resolveEffectiveGatewayId">;
+    }
+  ): Promise<void> => {
+    switch (pkiSync.destination) {
+      case PkiSync.AzureKeyVault: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AzureKeyVault as PkiSync);
+        const azureKeyVaultPkiSync = azureKeyVaultPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        await azureKeyVaultPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.AwsCertificateManager: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsCertificateManager as PkiSync);
+        const awsCertificateManagerPkiSync = awsCertificateManagerPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        await awsCertificateManagerPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.AwsSecretsManager: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsSecretsManager as PkiSync);
+        const awsSecretsManagerPkiSync = awsSecretsManagerPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        await awsSecretsManagerPkiSync.removeCertificates(pkiSync, dependencies.certificateMap);
+        break;
+      }
+      case PkiSync.Chef: {
+        checkPkiSyncDestination(pkiSync, PkiSync.Chef as PkiSync);
+        const chefPkiSync = chefPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await chefPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.AwsElasticLoadBalancer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.AwsElasticLoadBalancer as PkiSync);
+        const awsElasticLoadBalancerPkiSync = awsElasticLoadBalancerPkiSyncFactory({
+          appConnectionDAL: dependencies.appConnectionDAL,
+          kmsService: dependencies.kmsService,
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        await awsElasticLoadBalancerPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.CloudflareCustomCertificate: {
+        checkPkiSyncDestination(pkiSync, PkiSync.CloudflareCustomCertificate as PkiSync);
+        const cloudflareCustomCertificatePkiSync = cloudflareCustomCertificatePkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL
+        });
+        await cloudflareCustomCertificatePkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.NetScaler: {
+        checkPkiSyncDestination(pkiSync, PkiSync.NetScaler as PkiSync);
+        const netScalerPkiSync = netScalerPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await netScalerPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.F5BigIp: {
+        checkPkiSyncDestination(pkiSync, PkiSync.F5BigIp as PkiSync);
+        const f5BigIpPkiSync = f5BigIpPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await f5BigIpPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.KempLoadMaster: {
+        checkPkiSyncDestination(pkiSync, PkiSync.KempLoadMaster as PkiSync);
+        const kempLoadMasterPkiSync = kempLoadMasterPkiSyncFactory({
+          certificateDAL: dependencies.certificateDAL,
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await kempLoadMasterPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.LinuxServer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.LinuxServer as PkiSync);
+        const linuxServerPkiSync = linuxServerPkiSyncFactory({
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await linuxServerPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.WindowsServer: {
+        checkPkiSyncDestination(pkiSync, PkiSync.WindowsServer as PkiSync);
+        if (!dependencies.gatewayV2Service) {
+          throw new Error("Windows Server sync requires a gateway to reach the host.");
+        }
+        const windowsServerPkiSync = windowsServerPkiSyncFactory({
+          certificateSyncDAL: dependencies.certificateSyncDAL,
+          gatewayV2Service: dependencies.gatewayV2Service,
+          gatewayPoolService: dependencies.gatewayPoolService
+        });
+        await windowsServerPkiSync.removeCertificates(pkiSync, certificateNames, {
+          certificateMap: dependencies.certificateMap
+        });
+        break;
+      }
+      case PkiSync.NutanixPrismCentral: {
+        throw new PkiSyncError({
+          shouldRetry: false,
+          message: "Nutanix Prism Central does not support removing certificates"
+        });
+      }
+      default:
+        throw new Error(`Unsupported PKI sync destination: ${String(pkiSync.destination)}`);
+    }
+  }
+};

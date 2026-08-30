@@ -1,0 +1,291 @@
+ARG POSTHOG_HOST=https://app.posthog.com
+ARG POSTHOG_API_KEY=posthog-api-key
+ARG INTERCOM_ID=intercom-id
+ARG CAPTCHA_SITE_KEY=captcha-site-key
+
+FROM node:22.22.0-trixie-slim AS base
+
+# Fixes NPM vulnerability: https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230
+RUN npm install -g npm@10.9.0
+
+FROM base AS frontend-dependencies
+
+WORKDIR /app
+
+COPY frontend/package.json frontend/package-lock.json  ./
+
+# Install dependencies
+RUN npm ci --ignore-scripts
+
+# Rebuild the source code only when needed
+FROM base AS frontend-builder
+WORKDIR /app
+
+# Copy dependencies
+COPY --from=frontend-dependencies /app/node_modules ./node_modules
+# Copy all files
+COPY /frontend .
+
+ENV NODE_ENV production
+ARG POSTHOG_HOST
+ENV VITE_POSTHOG_HOST $POSTHOG_HOST
+ARG POSTHOG_API_KEY
+ENV VITE_POSTHOG_API_KEY $POSTHOG_API_KEY
+ARG INTERCOM_ID
+ENV VITE_INTERCOM_ID $INTERCOM_ID
+ARG VAULTIX_PLATFORM_VERSION
+ENV VAULTIX_PLATFORM_VERSION $VAULTIX_PLATFORM_VERSION
+ENV VITE_VAULTIX_PLATFORM_VERSION $VAULTIX_PLATFORM_VERSION
+ARG CAPTCHA_SITE_KEY
+ENV VITE_CAPTCHA_SITE_KEY $CAPTCHA_SITE_KEY
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+
+# Build
+RUN npm run build
+
+# Production image
+FROM base AS frontend-runner
+WORKDIR /app
+
+RUN groupadd --system --gid 1001 nodejs
+RUN useradd --system --uid 1001 --gid nodejs non-root-user
+
+COPY --from=frontend-builder --chown=non-root-user:nodejs /app/dist ./
+
+USER 1001
+
+##
+## BACKEND
+##
+
+# Go sidecar build (parallel stage)
+FROM golang:1.26-trixie AS go-builder
+WORKDIR /app
+COPY backend-go/go.mod backend-go/go.sum ./
+RUN go mod download
+COPY backend-go/ .
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-s -w" -o /go-sidecar ./cmd/infisical/main.go
+
+# Oracle Instant Client (parallel stage — downloads while other stages build)
+FROM debian:trixie-slim AS oracle
+RUN apt-get update && apt-get install -y unzip wget ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "amd64" ]; then \
+        ORACLE_ZIP="instantclient-basic-linux.x64-23.26.0.0.0.zip" && \
+        EXPECTED_SHA="d6c79cbcf0ff209363e779855c690d4fc730aed847e9198a2c439bcf34760af5"; \
+    elif [ "$ARCH" = "arm64" ]; then \
+        ORACLE_ZIP="instantclient-basic-linux.arm64-23.26.0.0.0.zip" && \
+        EXPECTED_SHA="9c9a32051e97f087016fb334b7ad5c0aea8511ca8363afd8e0dc6ec4fc515c32"; \
+    fi && \
+    ORACLE_URL="https://download.oracle.com/otn_software/linux/instantclient/2326000/${ORACLE_ZIP}" && \
+    wget -q "$ORACLE_URL" && \
+    echo "$EXPECTED_SHA  $ORACLE_ZIP" | sha256sum -c - && \
+    mkdir -p /opt/oracle && \
+    unzip "$ORACLE_ZIP" -d /opt/oracle && \
+    rm "$ORACLE_ZIP"
+
+FROM base AS backend-build
+
+ENV ChrystokiConfigurationPath=/usr/safenet/lunaclient/
+
+WORKDIR /app
+
+# Install all required dependencies for build
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    unixodbc \
+    freetds-bin \
+    unixodbc-dev \
+    libc-dev \
+    freetds-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd --system --gid 1001 nodejs
+RUN useradd --system --uid 1001 --gid nodejs non-root-user
+
+COPY backend/package*.json ./
+RUN npm ci
+
+COPY /backend .
+COPY --chown=non-root-user:nodejs standalone-entrypoint.sh standalone-entrypoint.sh
+RUN npm i -g tsconfig-paths
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+RUN npm run build
+
+# Bake in-app announcements + their images at build time so self-hosted / air-gapped
+# instances don't make any outbound calls to Contentful at runtime. No-ops silently
+# if Contentful secrets are not supplied (cloud / dev builds). Secrets are passed
+# via BuildKit --mount=type=secret so they never enter any image layer or SLSA
+# provenance attestation.
+RUN --mount=type=secret,id=contentful_space_id,required=false \
+    --mount=type=secret,id=contentful_delivery_token,required=false \
+    --mount=type=secret,id=contentful_environment,required=false \
+    CONTENTFUL_SPACE_ID="$(cat /run/secrets/contentful_space_id 2>/dev/null || true)" \
+    CONTENTFUL_DELIVERY_TOKEN="$(cat /run/secrets/contentful_delivery_token 2>/dev/null || true)" \
+    CONTENTFUL_ENVIRONMENT="$(cat /run/secrets/contentful_environment 2>/dev/null || true)" \
+    npm run bake:announcements
+
+# Production dependencies (runs in parallel with backend-build)
+FROM base AS backend-prod-deps
+
+WORKDIR /app
+
+# Install build tools needed to compile native modules during npm ci
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    unixodbc \
+    freetds-bin \
+    unixodbc-dev \
+    libc-dev \
+    freetds-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY backend/package*.json ./
+RUN npm ci --omit=dev
+
+# Production stage
+FROM base AS backend-runner
+
+ENV ChrystokiConfigurationPath=/usr/safenet/lunaclient/
+
+WORKDIR /app
+
+# Only runtime libraries needed — no compilation happens here
+RUN apt-get update && apt-get install -y \
+    unixodbc \
+    freetds-bin \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configure ODBC
+RUN printf "[FreeTDS]\nDescription = FreeTDS Driver\nDriver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\nSetup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so\nFileUsage = 1\n" > /etc/odbcinst.ini
+
+COPY --from=backend-build /app .
+RUN rm -rf ./node_modules ./bdd ./e2e-test
+COPY --from=backend-prod-deps /app/node_modules ./node_modules
+
+RUN mkdir frontend-build
+
+# Production stage
+FROM base AS production
+
+# Runtime dependencies + build tools needed for PQC OpenSSL build
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    bash \
+    curl \
+    git \
+    unixodbc \
+    freetds-bin \
+    wget \
+    perl \
+    build-essential \
+    libssl-dev \
+    openssh-client \
+    libaio1t64 \
+    smbclient \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Oracle Instant Client from parallel stage
+COPY --from=oracle /opt/oracle /opt/oracle
+RUN ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "amd64" ]; then \
+        ln -sf /lib/x86_64-linux-gnu/libaio.so.1t64 /lib/x86_64-linux-gnu/libaio.so.1; \
+    elif [ "$ARCH" = "arm64" ]; then \
+        ln -sf /lib/aarch64-linux-gnu/libaio.so.1t64 /lib/aarch64-linux-gnu/libaio.so.1; \
+    fi && \
+    echo /opt/oracle/instantclient_23_26 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+    ldconfig
+
+# Build OpenSSL 3.5.6 for PQC (ML-DSA / SLH-DSA) certificate support.
+# Installed to /opt/openssl-pqc so it does not conflict with the system OpenSSL.
+WORKDIR /tmp/openssl-build
+RUN wget -q https://github.com/openssl/openssl/releases/download/openssl-3.5.6/openssl-3.5.6.tar.gz \
+    && echo "deae7c80cba99c4b4f940ecadb3c3338b13cb77418409238e57d7f31f2a3b736  openssl-3.5.6.tar.gz" | sha256sum -c - \
+    && tar -xf openssl-3.5.6.tar.gz \
+    && cd openssl-3.5.6 \
+    && ./Configure --prefix=/opt/openssl-pqc --openssldir=/opt/openssl-pqc/ssl no-docs \
+    && make -j"$(nproc)" \
+    && make install_sw \
+    && cd / \
+    && rm -rf /tmp/openssl-build
+
+WORKDIR /
+
+# Configure ODBC in production
+RUN printf "[FreeTDS]\nDescription = FreeTDS Driver\nDriver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\nSetup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so\nFileUsage = 1\n" > /etc/odbcinst.ini
+
+# Setup user permissions
+RUN groupadd --system --gid 1001 nodejs \
+  && useradd --system --uid 1001 --gid nodejs non-root-user
+
+# Give non-root-user permission to update SSL certs
+RUN chown -R non-root-user /etc/ssl/certs \
+    && chmod -R u+rwx /etc/ssl/certs \
+    && chown non-root-user /usr/sbin/update-ca-certificates \
+    && chmod u+rx /usr/sbin/update-ca-certificates
+
+## set pre baked keys
+ARG POSTHOG_API_KEY
+ENV POSTHOG_API_KEY=$POSTHOG_API_KEY
+ARG INTERCOM_ID=intercom-id
+ENV INTERCOM_ID=$INTERCOM_ID
+ARG CAPTCHA_SITE_KEY
+ENV CAPTCHA_SITE_KEY=$CAPTCHA_SITE_KEY
+
+COPY --from=backend-runner /app /backend
+COPY --from=frontend-runner /app ./backend/frontend-build
+COPY --from=go-builder /go-sidecar /backend/go-sidecar
+
+# Make export-assets script executable for CDN asset extraction
+RUN chmod +x /backend/scripts/export-assets.sh
+
+ARG VAULTIX_PLATFORM_VERSION=0.162.19
+ENV VAULTIX_PLATFORM_VERSION $VAULTIX_PLATFORM_VERSION
+
+ARG DD_GIT_REPOSITORY_URL
+ENV DD_GIT_REPOSITORY_URL $DD_GIT_REPOSITORY_URL
+
+ARG DD_GIT_COMMIT_SHA
+ENV DD_GIT_COMMIT_SHA $DD_GIT_COMMIT_SHA
+
+# OCI Image Labels — Vaultix (AngryVibes LLC / shippin.ai)
+LABEL org.opencontainers.image.title="Vaultix"
+LABEL org.opencontainers.image.description="Shippin secrets you own"
+LABEL org.opencontainers.image.url="https://vaultix.shippin.cloud"
+LABEL org.opencontainers.image.documentation="https://shippin.ai"
+LABEL org.opencontainers.image.source="https://github.com/shippinAI/vaultix"
+LABEL org.opencontainers.image.vendor="AngryVibes LLC"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.base.name="node:22.22.0-trixie-slim"
+
+LABEL org.opencontainers.image.version="${VAULTIX_PLATFORM_VERSION}"
+LABEL org.opencontainers.image.revision="${DD_GIT_COMMIT_SHA}"
+
+ENV PORT 8080
+ENV HOST=0.0.0.0
+ENV HTTPS_ENABLED false
+ENV NODE_ENV production
+ENV STANDALONE_BUILD true
+ENV STANDALONE_MODE true
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV ChrystokiConfigurationPath=/usr/safenet/lunaclient/
+
+WORKDIR /backend
+
+ENV TELEMETRY_ENABLED false
+ENV LICENSE_SERVER_URL=""
+ENV LICENSE_SERVER_V2_MODE=off
+
+EXPOSE 8080
+EXPOSE 443
+
+# Use numeric UID so Kubernetes can verify the image runs as non-root
+USER 1001
+
+CMD ["./standalone-entrypoint.sh"]

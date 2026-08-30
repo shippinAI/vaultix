@@ -1,0 +1,46 @@
+---
+title: "Certificate Lifecycle"
+description: "Understand the stages a certificate goes through from discovery to retirement."
+---
+
+A certificate moves through several stages during its lifetime — from discovery to retirement. Not every stage is required. You can start issuing certificates without discovery, and many certificates simply expire without needing explicit revocation.
+
+## Discovery
+
+Find existing certificates across your infrastructure — web servers, load balancers, services, and devices. A complete inventory prevents outages from forgotten certificates and creates the foundation for automation and monitoring.
+
+[Learn more about Certificate Discovery →](/documentation/platform/pki/discovery/overview)
+
+## Enrollment
+
+Request and issue a certificate from a CA. Enrollment can be **CSR-based** (client generates the key pair locally and submits a signing request) or **CSR-less** (CA generates the key pair and returns it with the certificate). Depending on your environment, enrollment can be manual via API or UI, or fully automated using protocols like ACME, EST, or SCEP.
+
+[Learn more about Enrollment Methods →](/documentation/platform/pki/applications/enrollment-methods/overview)
+
+## Approval
+
+An optional human review step before certificates are issued. Approval policies are configured within an [Application](/documentation/platform/pki/applications/overview) for a specific certificate profile. Requests are placed in a pending state until the required approvers review and approve them. This enforces separation of duties, adds oversight for sensitive systems, and helps meet compliance requirements. [Machine identities](/documentation/platform/identities/machine-identities) can bypass approval when automated issuance is required.
+
+[Learn more about Approval Policies →](/documentation/platform/pki/applications/approvals)
+
+## Deployment
+
+Install issued certificates on the systems that need them — web servers, load balancers, internal services. Deployment can be manual or automated through agents and pipelines. Certificate Syncs can automatically push certificates to cloud stores like AWS Secrets Manager, Azure Key Vault, and Cloudflare.
+
+[Learn more about Certificate Syncs →](/documentation/platform/pki/applications/certificate-syncs/overview)
+
+## Renewal
+
+Replace a certificate before it expires to maintain trust and availability. Renewal can reuse the same key pair or rotate to a new one. In Infisical, renewal can be **server-driven** (Infisical auto-renews and syncs to external systems) or **client-driven** (an agent or workload initiates renewal when key material needs to stay under client control).
+
+## Revocation
+
+Invalidate a certificate when it's compromised, misconfigured, or no longer needed. The CA publishes revocation status through CRLs (Certificate Revocation Lists) or OCSP (Online Certificate Status Protocol) so clients know not to trust the certificate. A new certificate can be issued and deployed as a replacement.
+
+[Learn more about CRL Distribution →](/documentation/platform/pki/ca/crl-distribution)
+
+## Retirement
+
+Remove a certificate from the system when it's no longer needed or has expired. Certificate Cleanup can automate the removal of expired certificates to keep your inventory clean.
+
+[Learn more about Certificate Cleanup →](/documentation/platform/pki/settings/certificate-cleanup)

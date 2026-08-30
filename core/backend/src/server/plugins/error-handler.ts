@@ -1,0 +1,356 @@
+import { ForbiddenError, PureAbility } from "@casl/ability";
+import { requestContext } from "@fastify/request-context";
+import opentelemetry from "@opentelemetry/api";
+import fastifyPlugin from "fastify-plugin";
+import jwt from "jsonwebtoken";
+import { ZodError } from "zod";
+
+import { AcmeError } from "@app/ee/services/pki-acme/pki-acme-errors";
+import { getConfig } from "@app/lib/config/env";
+import {
+  BadRequestError,
+  CryptographyError,
+  DatabaseError,
+  ForbiddenRequestError,
+  GatewayTimeoutError,
+  InternalServerError,
+  NotFoundError,
+  OidcAuthError,
+  PermissionBoundaryError,
+  PolicyViolationError,
+  RateLimitError,
+  ScimRequestError,
+  UnauthorizedError
+} from "@app/lib/errors";
+import { classifyError } from "@app/lib/errors/classify";
+import { hasPostgresErrorCode, PostgresErrorCode } from "@app/lib/errors/postgres";
+import { RequestContextKey } from "@app/lib/request-context/request-context-keys";
+import { coreHttpErrorCounter, rateLimitExceededCounter } from "@app/lib/telemetry/metrics";
+
+enum JWTErrors {
+  JwtExpired = "jwt expired",
+  JwtMalformed = "jwt malformed",
+  InvalidAlgorithm = "invalid algorithm"
+}
+
+enum HttpStatusCodes {
+  BadRequest = 400,
+  NotFound = 404,
+  Unauthorized = 401,
+  Forbidden = 403,
+  UnprocessableContent = 422,
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  InternalServerError = 500,
+  GatewayTimeout = 504,
+  TooManyRequests = 429
+}
+
+export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider) => {
+  const appCfg = getConfig();
+
+  const apiMeter = opentelemetry.metrics.getMeter("API");
+  const errorHistogram = apiMeter.createHistogram("API_errors", {
+    description: "API errors by type, status code, and name",
+    unit: "1"
+  });
+
+  const infisicalMeter = opentelemetry.metrics.getMeter("Vaultix");
+  const errorCounter = infisicalMeter.createCounter("infisical.http.server.error.count", {
+    description: "Total number of API errors in Vaultix (covers both human users and machine identities)",
+    unit: "{error}"
+  });
+
+  server.setErrorHandler((error: Error, req, res) => {
+    // Expected client errors don't need stack traces. Log them without the Error object to
+    // avoid stack serialization; keep full-stack logging for unexpected / server errors.
+    const isExpectedClientError =
+      error instanceof BadRequestError ||
+      error instanceof NotFoundError ||
+      error instanceof UnauthorizedError ||
+      error instanceof ForbiddenError ||
+      error instanceof ForbiddenRequestError ||
+      error instanceof PermissionBoundaryError ||
+      error instanceof ZodError ||
+      error instanceof RateLimitError ||
+      error instanceof PolicyViolationError ||
+      (error instanceof ScimRequestError && error.status < 500) ||
+      (error instanceof AcmeError && error.status < 500) ||
+      error instanceof jwt.JsonWebTokenError;
+
+    if (isExpectedClientError) {
+      // Log structured fields (NOT the Error instance) so these stay searchable by name/route
+      // without serializing a stack
+      req.log.warn(
+        {
+          reqId: req.id,
+          errorName: error.name,
+          errorMessage: error.message,
+          route: req.routeOptions?.url,
+          method: req.method,
+          orgId: req.auth?.orgId,
+          realIp: req.realIp,
+          actor: req.auth?.actor,
+          details: (error as { details?: unknown }).details
+        },
+        `client error: ${error.name}`
+      );
+    } else {
+      req.log.error(error);
+    }
+
+    if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
+      const { method } = req;
+      const route = req.routeOptions.url;
+      const errorType =
+        error instanceof jwt.JsonWebTokenError ? "TokenError" : error.constructor.name || "UnknownError";
+
+      errorHistogram.record(1, {
+        route,
+        method,
+        type: errorType,
+        name: error.name
+      });
+
+      const orgId = requestContext.get(RequestContextKey.OrgId);
+      const orgName = requestContext.get(RequestContextKey.OrgName);
+      const userAuthInfo = requestContext.get(RequestContextKey.UserAuthInfo);
+      const identityAuthInfo = requestContext.get(RequestContextKey.IdentityAuthInfo);
+      const projectDetails = requestContext.get(RequestContextKey.ProjectDetails);
+
+      const attributes: Record<string, string | number> = {
+        "http.request.method": method,
+        "http.route": route ?? "",
+        "error.type": errorType,
+        "error.name": error.name
+      };
+
+      if (orgId) {
+        attributes["infisical.organization.id"] = orgId;
+      }
+      if (orgName) {
+        attributes["infisical.organization.name"] = orgName;
+      }
+
+      if (userAuthInfo) {
+        if (userAuthInfo.userId) {
+          attributes["infisical.user.id"] = userAuthInfo.userId;
+        }
+        if (userAuthInfo.email) {
+          attributes["infisical.user.email"] = userAuthInfo.email;
+        }
+      }
+
+      if (identityAuthInfo) {
+        if (identityAuthInfo.identityId) {
+          attributes["infisical.identity.id"] = identityAuthInfo.identityId;
+        }
+        if (identityAuthInfo.identityName) {
+          attributes["infisical.identity.name"] = identityAuthInfo.identityName;
+        }
+        if (identityAuthInfo.authMethod) {
+          attributes["infisical.auth.method"] = identityAuthInfo.authMethod;
+        }
+      }
+
+      if (projectDetails) {
+        if (projectDetails.id) {
+          attributes["infisical.project.id"] = projectDetails.id;
+        }
+        if (projectDetails.name) {
+          attributes["infisical.project.name"] = projectDetails.name;
+        }
+      }
+
+      const userAgent = req.headers["user-agent"];
+      if (userAgent) {
+        attributes["user_agent.original"] = userAgent;
+      }
+
+      if (req.realIp) {
+        attributes["client.address"] = req.realIp;
+      }
+
+      errorCounter.add(1, attributes);
+
+      const coreAttrs: Record<string, string | number> = {
+        "http.request.method": method,
+        "http.route": route ?? "unknown",
+        "error.type": classifyError(error)
+      };
+      coreHttpErrorCounter.add(1, coreAttrs);
+    }
+
+    if (error instanceof BadRequestError) {
+      void res.status(HttpStatusCodes.BadRequest).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.BadRequest,
+        message: error.message,
+        error: error.name,
+        details: error.details
+      });
+    } else if (error instanceof NotFoundError) {
+      void res
+        .status(HttpStatusCodes.NotFound)
+        .send({ reqId: req.id, statusCode: HttpStatusCodes.NotFound, message: error.message, error: error.name });
+    } else if (error instanceof UnauthorizedError) {
+      void res.status(HttpStatusCodes.Unauthorized).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.Unauthorized,
+        message: error.message,
+        error: error.name
+      });
+    } else if (error instanceof DatabaseError) {
+      // A value that overflows its varchar(n) column is bad input, not a server fault. Route-level Zod
+      // schemas are the intended guard, but where one is missing or drifts from the column width this
+      // keeps the response a validation failure instead of an opaque 500.
+      if (hasPostgresErrorCode(error, PostgresErrorCode.StringDataRightTruncation)) {
+        void res.status(HttpStatusCodes.UnprocessableContent).send({
+          reqId: req.id,
+          statusCode: HttpStatusCodes.UnprocessableContent,
+          error: "ValidationFailure",
+          message: "One or more field values exceed the maximum length allowed for this resource"
+        });
+      } else {
+        void res.status(HttpStatusCodes.InternalServerError).send({
+          reqId: req.id,
+          statusCode: HttpStatusCodes.InternalServerError,
+          message: "Something went wrong",
+          error: error.name
+        });
+      }
+    } else if (error instanceof InternalServerError) {
+      void res.status(HttpStatusCodes.InternalServerError).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.InternalServerError,
+        message: error.message ?? "Something went wrong",
+        error: error.name
+      });
+    } else if (error instanceof GatewayTimeoutError) {
+      void res.status(HttpStatusCodes.GatewayTimeout).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.GatewayTimeout,
+        message: error.message,
+        error: error.name
+      });
+    } else if (error instanceof ZodError) {
+      void res.status(HttpStatusCodes.UnprocessableContent).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.UnprocessableContent,
+        error: "ValidationFailure",
+        message: error.issues
+      });
+    } else if (error instanceof ForbiddenError) {
+      void res.status(HttpStatusCodes.Forbidden).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.Forbidden,
+        error: "PermissionDenied",
+        message: `You are not allowed to ${error.action} on ${error.subjectType}`,
+        details: (error.ability as PureAbility).rulesFor(error.action as string, error.subjectType).map((el) => ({
+          action: el.action,
+          inverted: el.inverted,
+          subject: el.subject,
+          conditions: el.conditions
+        }))
+      });
+    } else if (error instanceof ForbiddenRequestError || error instanceof PermissionBoundaryError) {
+      void res.status(HttpStatusCodes.Forbidden).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.Forbidden,
+        message: error.message,
+        error: error.name,
+        details: error?.details
+      });
+    } else if (error instanceof RateLimitError) {
+      rateLimitExceededCounter.add(1, {
+        "http.route": req.routeOptions.url ?? "unknown",
+        "http.request.method": req.method
+      });
+      void res.status(HttpStatusCodes.TooManyRequests).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.TooManyRequests,
+        message: error.message,
+        error: error.name
+      });
+    } else if (error instanceof ScimRequestError) {
+      void res.status(error.status).send({
+        reqId: req.id,
+        schemas: error.schemas,
+        status: error.status,
+        detail: error.detail,
+        mutability: error.mutability
+      });
+    } else if (error instanceof OidcAuthError) {
+      void res.status(HttpStatusCodes.InternalServerError).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.InternalServerError,
+        message: error.message,
+        error: error.name
+      });
+    } else if (error instanceof CryptographyError) {
+      void res.status(HttpStatusCodes.BadRequest).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.BadRequest,
+        message: error.message,
+        error: error.name
+      });
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      let errorMessage = error.message;
+
+      if (error.message === JWTErrors.JwtExpired) {
+        errorMessage = "Your token has expired. Please re-authenticate.";
+      } else if (error.message === JWTErrors.JwtMalformed) {
+        errorMessage =
+          "The provided access token is malformed. Please use a valid token or generate a new one and try again.";
+      } else if (error.message === JWTErrors.InvalidAlgorithm) {
+        errorMessage =
+          "The access token is signed with an invalid algorithm. Please provide a valid token and try again.";
+      }
+
+      void res.status(HttpStatusCodes.Forbidden).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.Forbidden,
+        error: "TokenError",
+        message: errorMessage
+      });
+    } else if (error instanceof AcmeError) {
+      void res
+        .type("application/problem+json")
+        .status(error.status)
+        .send({
+          reqId: req.id,
+          error: error.name,
+          status: error.status,
+          type: `urn:ietf:params:acme:error:${error.type}`,
+          detail: error.message
+        });
+    } else if (error instanceof PolicyViolationError) {
+      void res.status(HttpStatusCodes.Forbidden).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.Forbidden,
+        error: "PolicyViolationError",
+        message: error.message,
+        details: error.details
+      });
+    } else if (
+      error instanceof SyntaxError &&
+      req.method === "POST" &&
+      (req.url === "/api/v1/cert-manager/certificates" || req.url === "/api/v1/cert-manager/certificates/")
+    ) {
+      // JSON parsing error on certificate endpoint - likely malformed CSR with literal newlines
+      void res.status(HttpStatusCodes.BadRequest).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.BadRequest,
+        message:
+          "Invalid JSON in request body. If you are sending a Certificate Signing Request (CSR), ensure newlines are escaped as \\n characters, not literal line breaks.",
+        error: "BadRequestError"
+      });
+    } else {
+      void res.status(HttpStatusCodes.InternalServerError).send({
+        reqId: req.id,
+        statusCode: HttpStatusCodes.InternalServerError,
+        error: "InternalServerError",
+        message: "Something went wrong"
+      });
+    }
+  });
+});

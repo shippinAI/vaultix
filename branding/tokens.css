@@ -1,0 +1,8 @@
+:root {
+  --vaultix-bg: oklch(0.18 0.02 250);
+  --vaultix-fg: oklch(0.95 0.01 90);
+  --vaultix-mute: oklch(0.72 0.02 250);
+  --vaultix-line: oklch(0.35 0.02 250);
+  --vaultix-accent: oklch(0.78 0.12 85);
+  --vaultix-paper: oklch(0.22 0.02 250);
+}

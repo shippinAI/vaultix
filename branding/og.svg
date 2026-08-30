@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Vaultix — secrets you own">
+  <rect width="1200" height="630" fill="#161822"/>
+  <rect x="80" y="180" width="120" height="108" rx="18" fill="none" stroke="#e2b84a" stroke-width="8"/>
+  <path d="M112 180 v-16 a32 32 0 0 1 64 0 v16" fill="none" stroke="#e2b84a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="140" cy="242" r="12" fill="#e2b84a"/>
+  <rect x="136" y="242" width="8" height="24" rx="2" fill="#e2b84a"/>
+  <text x="240" y="250" font-family="ui-sans-serif, system-ui, sans-serif" font-size="96" font-weight="700" fill="#f4f1ea" letter-spacing="0.08em">VAULTIX</text>
+  <text x="240" y="310" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="500" fill="#e2b84a">Secrets you own. Never in chat.</text>
+  <text x="240" y="480" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#9aa0b4" letter-spacing="0.14em">A SHIPPIN.AI SERVICE · ANGRYVIBES LLC</text>
+</svg>

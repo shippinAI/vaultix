@@ -1,0 +1,1037 @@
+---
+title: "Monitoring and Telemetry Setup"
+description: "Learn how to set up monitoring and telemetry for your self-hosted Infisical instance using Grafana, Prometheus, and OpenTelemetry."
+---
+
+Infisical provides comprehensive monitoring and telemetry capabilities to help you monitor the health, performance, and usage of your self-hosted instance. This guide covers setting up monitoring using Grafana with two different telemetry collection approaches.
+
+## Overview
+
+Infisical exports metrics in **OpenTelemetry (OTEL) format**, which provides maximum flexibility for your monitoring infrastructure. While this guide focuses on Grafana, the OTEL format means you can easily integrate with:
+
+- **Cloud-native monitoring**: AWS CloudWatch, Google Cloud Monitoring, Azure Monitor
+- **Observability platforms**: Datadog, New Relic, Splunk, Dynatrace
+- **Custom backends**: Any system that supports OTEL ingestion
+- **Traditional monitoring**: Prometheus, Grafana (as covered in this guide)
+
+Infisical supports two telemetry collection methods:
+
+1. **Pull-based (Prometheus)**: Exposes metrics on a dedicated endpoint for Prometheus to scrape
+2. **Push-based (OTLP)**: Sends metrics to an OpenTelemetry Collector via OTLP protocol
+
+Both approaches provide the same metrics data in OTEL format, so you can choose the one that best fits your infrastructure and monitoring strategy.
+
+## Prerequisites
+
+- Self-hosted Infisical instance running
+- Access to deploy monitoring services (Prometheus, Grafana, etc.)
+- Basic understanding of Prometheus and Grafana
+
+## Setup
+
+### Environment Variables
+
+Configure the following environment variables in your Infisical backend:
+
+```bash
+# Enable telemetry collection
+OTEL_TELEMETRY_COLLECTION_ENABLED=true
+
+# Choose export type: "prometheus" or "otlp"
+OTEL_EXPORT_TYPE=prometheus
+```
+
+<Tabs>
+  <Tab title="Pull-based Monitoring (Prometheus)">
+    This approach exposes metrics on port 9464 at the `/metrics` endpoint, allowing Prometheus to scrape the data. The metrics are exposed in Prometheus format but originate from OpenTelemetry instrumentation.
+
+    ### Configuration
+
+<Steps>
+  <Step title="Enable Prometheus export in Infisical">
+```bash
+OTEL_TELEMETRY_COLLECTION_ENABLED=true
+OTEL_EXPORT_TYPE=prometheus
+```
+  </Step>
+
+  <Step title="Expose the metrics port">
+    Expose the metrics port in your Infisical backend:
+
+    - **Docker**: Expose port 9464
+    - **Kubernetes**: Create a service exposing port 9464
+    - **Other**: Ensure port 9464 is accessible to your monitoring stack
+  </Step>
+
+  <Step title="Create Prometheus configuration">
+Create `prometheus.yml`:
+
+```yaml
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+  - job_name: "infisical"
+    scrape_interval: 30s
+    static_configs:
+      - targets: ["infisical-backend:9464"] # Adjust hostname/port based on your deployment
+    metrics_path: "/metrics"
+```
+
+<Note>
+Replace `infisical-backend:9464` with the actual hostname and port where your Infisical backend is running. This could be:
+
+- **Docker Compose**: `infisical-backend:9464` (service name)
+- **Kubernetes**: `infisical-backend.default.svc.cluster.local:9464` (service name)
+- **Bare Metal**: `192.168.1.100:9464` (actual IP address)
+- **Cloud**: `your-infisical.example.com:9464` (domain name)
+</Note>
+  </Step>
+</Steps>
+
+    ### Deployment Options
+
+    Once you've configured Infisical to expose metrics, you'll need to deploy Prometheus to scrape and store them. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
+
+    <Tabs>
+      <Tab title="Docker Compose">
+        ```yaml
+        services:
+          prometheus:
+            image: prom/prometheus:latest
+            ports:
+              - "9090:9090"
+            volumes:
+              - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+            command:
+              - "--config.file=/etc/prometheus/prometheus.yml"
+
+          grafana:
+            image: grafana/grafana:latest
+            ports:
+              - "3000:3000"
+            environment:
+              - GF_SECURITY_ADMIN_USER=admin
+              - GF_SECURITY_ADMIN_PASSWORD=admin
+        ```
+      </Tab>
+      <Tab title="Kubernetes">
+        ```yaml
+        # prometheus-deployment.yaml
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: prometheus
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: prometheus
+          template:
+            metadata:
+              labels:
+                app: prometheus
+            spec:
+              containers:
+                - name: prometheus
+                  image: prom/prometheus:latest
+                  ports:
+                    - containerPort: 9090
+                  volumeMounts:
+                    - name: config
+                      mountPath: /etc/prometheus
+              volumes:
+                - name: config
+                  configMap:
+                    name: prometheus-config
+
+        ---
+        # prometheus-service.yaml
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: prometheus
+        spec:
+          selector:
+            app: prometheus
+          ports:
+            - port: 9090
+              targetPort: 9090
+          type: ClusterIP
+        ```
+      </Tab>
+      <Tab title="Helm">
+        ```bash
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        helm install prometheus prometheus-community/prometheus \
+          --set server.config.global.scrape_interval=30s \
+          --set server.config.scrape_configs[0].job_name=infisical \
+          --set server.config.scrape_configs[0].static_configs[0].targets[0]=infisical-backend:9464
+        ```
+      </Tab>
+    </Tabs>
+
+  </Tab>
+  <Tab title="Push-based Monitoring (OTLP)">
+    This approach sends metrics directly to an OpenTelemetry Collector via the OTLP protocol. This gives you the most flexibility as you can configure the collector to export to multiple backends simultaneously.
+
+    ### Configuration
+
+<Steps>
+  <Step title="Enable OTLP export in Infisical">
+```bash
+OTEL_TELEMETRY_COLLECTION_ENABLED=true
+OTEL_EXPORT_TYPE=otlp
+OTEL_EXPORT_OTLP_ENDPOINT=http://otel-collector:4318/v1/metrics
+OTEL_COLLECTOR_BASIC_AUTH_USERNAME=infisical
+OTEL_COLLECTOR_BASIC_AUTH_PASSWORD=infisical
+OTEL_OTLP_PUSH_INTERVAL=30000
+```
+  </Step>
+
+  <Step title="Create OpenTelemetry Collector configuration">
+Create `otel-collector-config.yaml`:
+
+```yaml
+extensions:
+  health_check:
+  pprof:
+  zpages:
+  basicauth/server:
+    htpasswd:
+      inline: |
+        your_username:your_password
+
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        auth:
+          authenticator: basicauth/server
+
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: otel-collector
+          scrape_interval: 30s
+          static_configs:
+            - targets: [infisical-backend:9464]
+          metric_relabel_configs:
+            - action: labeldrop
+              regex: "service_instance_id|service_name"
+
+processors:
+  batch:
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    auth:
+      authenticator: basicauth/server
+    resource_to_telemetry_conversion:
+      enabled: true
+
+service:
+  extensions: [basicauth/server, health_check, pprof, zpages]
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
+```
+
+<Warning>
+Replace `your_username:your_password` with your chosen credentials. These must match the values you set in Infisical's `OTEL_COLLECTOR_BASIC_AUTH_USERNAME` and `OTEL_COLLECTOR_BASIC_AUTH_PASSWORD` environment variables.
+</Warning>
+  </Step>
+
+  <Step title="Create Prometheus configuration">
+Create Prometheus configuration for the collector:
+
+```yaml
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+  - job_name: "otel-collector"
+    scrape_interval: 30s
+    static_configs:
+      - targets: ["otel-collector:8889"] # Adjust hostname/port based on your deployment
+    metrics_path: "/metrics"
+```
+
+<Note>
+Replace `otel-collector:8889` with the actual hostname and port where your OpenTelemetry Collector is running. This could be:
+
+- **Docker Compose**: `otel-collector:8889` (service name)
+- **Kubernetes**: `otel-collector.default.svc.cluster.local:8889` (service name)
+- **Bare Metal**: `192.168.1.100:8889` (actual IP address)
+- **Cloud**: `your-collector.example.com:8889` (domain name)
+</Note>
+  </Step>
+</Steps>
+
+    ### Deployment Options
+
+    After configuring Infisical and the OpenTelemetry Collector, you'll need to deploy the collector to receive metrics from Infisical. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
+
+    <Tabs>
+      <Tab title="Docker Compose">
+        ```yaml
+        services:
+          otel-collector:
+            image: otel/opentelemetry-collector-contrib:latest
+            ports:
+              - 4318:4318 # OTLP http receiver
+              - 8889:8889 # Prometheus exporter metrics
+            volumes:
+              - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml:ro
+            command:
+              - "--config=/etc/otelcol-contrib/config.yaml"
+        ```
+      </Tab>
+      <Tab title="Kubernetes">
+        ```yaml
+        # otel-collector-deployment.yaml
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: otel-collector
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: otel-collector
+          template:
+            metadata:
+              labels:
+                app: otel-collector
+            spec:
+              containers:
+                - name: otel-collector
+                  image: otel/opentelemetry-collector-contrib:latest
+                  ports:
+                    - containerPort: 4318
+                    - containerPort: 8889
+                  volumeMounts:
+                    - name: config
+                      mountPath: /etc/otelcol-contrib
+              volumes:
+                - name: config
+                  configMap:
+                    name: otel-collector-config
+        ```
+      </Tab>
+      <Tab title="Helm">
+        ```bash
+        helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+        helm install otel-collector open-telemetry/opentelemetry-collector \
+          --set config.receivers.otlp.protocols.http.endpoint=0.0.0.0:4318 \
+          --set config.exporters.prometheus.endpoint=0.0.0.0:8889
+        ```
+      </Tab>
+    </Tabs>
+
+  </Tab>
+</Tabs>
+
+## Available Metrics
+
+Infisical emits metrics on two OpenTelemetry meters simultaneously. Choose which to scrape based on your deployment scale.
+
+- **High-cardinality, per-actor meters:** the `Infisical` and `API` meters' original metrics (`infisical.http.server.request.*`, `infisical.http.server.error.count`, `infisical.secret.read.count`, `infisical.auth.attempt.count`, `infisical.kmip.operation.count`) include per-actor labels such as `user.email`, `identity.name`, `client.address`, `user_agent.original`, `organization.name`, `project.name`, `secret.path`, and `secret.name`. The `SecretSyncs`, `PkiSyncs`, and `Integrations` meters likewise carry unbounded labels such as `syncId`. Useful for self-hosted deployments where you want per-user visibility directly in Grafana. May become expensive at large scale (many users, identities, or IPs) due to label cardinality.
+- **`InfisicalCore` meter (bounded-cardinality):** all newer metrics (queue, audit log, alert dispatch, permission cache, secret cache, rate limit, build info, `infisical.core.http.error.count`, authentication latency, token renewal, SSO config changes, SCIM provisioning, and database connection pool) use **only bounded enums and static route templates** as labels (e.g. HTTP method, parameterized `http.route`, error type, outcome). A strict allowlist drops every other attribute at the SDK level, so **no tenant or actor identifiers are emitted**; no organization ID, project IDs, names, emails, IPs, or user agents. This keeps the series count independent of how many organizations, users, or identities you have. Per-org and per-actor detail is available in audit logs instead.
+
+All meters emit at the same time. If you are a self-hosted instance and find the per-actor labels useful, keep using the high-cardinality metrics. For larger or multi-tenant deployments, scrape only the `InfisicalCore` metrics to keep cardinality under control.
+
+To eliminate the in-memory cost of the high-cardinality meters entirely, set `OTEL_DROP_HIGH_CARDINALITY_METERS=true`. When enabled, the SDK discards all data points from the `Infisical`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only `InfisicalCore` metrics are emitted. Defaults to `false`.
+
+For per-user / per-identity / per-IP / per-project breakdowns, query the audit log table. It carries `actorId`, `actorType`, `projectId`, `ip`, `userAgent` and full event detail. Metrics give you the *rate* and *latency*; audit logs give you the *who* and *where*.
+
+### Resource attributes (every metric)
+
+Every emitted metric carries these resource-level attributes (no per-metric cardinality cost):
+
+- `service.name` — the fixed identifier for the Infisical backend service
+- `service.version` — the release version or git SHA of the running Infisical instance
+- `git.commit.sha` — the exact commit the build was produced from, when available
+- `deployment.environment` — the environment the instance is running in (e.g. `production`, `staging`, `development`)
+
+### Core API Metrics
+
+These metrics track all HTTP API requests to Infisical, including request counts, latency, and errors. Use these to monitor overall API health, identify performance bottlenecks, and track usage patterns across users and machine identities.
+
+<AccordionGroup>
+  <Accordion title="Total API Requests">
+    **Metric Name**: `infisical.http.server.request.count`
+
+    **Type**: Counter
+
+    **Unit**: `{request}`
+
+    **Description**: Total number of API requests to Infisical (covers both human users and machine identities)
+
+    **Attributes**:
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.organization.name` (string): Organization name (e.g., "Platform Engineering Team")
+      - `infisical.user.id` (string, optional): User ID if human user
+      - `infisical.user.email` (string, optional): User email (e.g., "jane.doe@cisco.com")
+      - `infisical.identity.id` (string, optional): Machine identity ID
+      - `infisical.identity.name` (string, optional): Machine identity name (e.g., "prod-k8s-operator")
+      - `infisical.auth.method` (string, optional): Auth method used
+      - `http.request.method` (string): HTTP method (GET, POST, PUT, DELETE)
+      - `http.route` (string): API endpoint route pattern
+      - `http.response.status_code` (int): HTTP status code
+      - `infisical.project.id` (string, optional): Project ID
+      - `infisical.project.name` (string, optional): Project name
+      - `user_agent.original` (string, optional): User agent string
+      - `client.address` (string, optional): IP address
+  </Accordion>
+
+  <Accordion title="Request Duration">
+    **Metric Name**: `infisical.http.server.request.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s` (seconds)
+
+    **Description**: API request latency
+
+    **Buckets**: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+
+    **Attributes**:
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.organization.name` (string): Organization name
+      - `infisical.user.id` (string, optional): User ID if human user
+      - `infisical.user.email` (string, optional): User email
+      - `infisical.identity.id` (string, optional): Machine identity ID
+      - `infisical.identity.name` (string, optional): Machine identity name
+      - `http.request.method` (string): HTTP method
+      - `http.route` (string): API endpoint route pattern
+      - `http.response.status_code` (int): HTTP status code
+      - `infisical.project.id` (string, optional): Project ID
+      - `infisical.project.name` (string, optional): Project name
+  </Accordion>
+
+  <Accordion title="API Errors by Actor">
+    **Metric Name**: `infisical.http.server.error.count`
+    
+    **Type**: Counter
+    
+    **Unit**: `{error}`
+    
+    **Description**: API errors grouped by actor (for identifying misconfigured services)
+    
+    **Attributes**:
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.organization.name` (string): Organization name
+      - `infisical.user.id` (string, optional): User ID if human
+      - `infisical.user.email` (string, optional): User email
+      - `infisical.identity.id` (string, optional): Identity ID if machine
+      - `infisical.identity.name` (string, optional): Identity name
+      - `http.route` (string): API endpoint where error occurred
+      - `http.request.method` (string): HTTP method
+      - `error.type` (string): Error category/type (client_error, server_error, auth_error, rate_limit_error, etc.)
+      - `infisical.project.id` (string, optional): Project ID
+      - `infisical.project.name` (string, optional): Project name
+      - `client.address` (string, optional): IP address
+      - `user_agent.original` (string, optional): User agent information
+  </Accordion>
+
+  <Accordion title="API Errors (InfisicalCore)">
+    **Metric Name**: `infisical.core.http.error.count`
+
+    **Type**: Counter
+
+    **Unit**: `{error}`
+
+    **Description**: API errors with bounded error classification. The low-cardinality counterpart to `infisical.http.server.error.count`; same error volume, but labels are restricted to the InfisicalCore allowlist so the series count stays independent of org/user/identity count. Use this for alerting and dashboards at scale; use `infisical.http.server.error.count` (high-cardinality meter) when you need per-actor attribution. For per-org error breakdowns, query the audit log.
+
+    **Attributes**:
+      - `http.request.method` (string): HTTP method
+      - `http.route` (string): Parameterized route template where the error occurred (e.g. `/api/v1/secrets/:secretName`), never the raw path
+      - `error.type` (string): Bounded error classification
+  </Accordion>
+</AccordionGroup>
+
+### Secret Operations Metrics
+
+These metrics provide visibility into secret access patterns, helping you understand which secrets are being accessed, by whom, and from where. Essential for security auditing and access pattern analysis.
+
+<AccordionGroup>
+  <Accordion title="Secret Read Operations">
+    **Metric Name**: `infisical.secret.read.count`
+    
+    **Type**: Counter
+    
+    **Unit**: `{operation}`
+    
+    **Description**: Number of secret read operations
+    
+    **Attributes**:
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.organization.name` (string): Organization name
+      - `infisical.project.id` (string): Project ID
+      - `infisical.project.name` (string): Project name (e.g., "payment-service-secrets")
+      - `infisical.environment` (string): Environment (dev, staging, prod)
+      - `infisical.secret.path` (string): Path to secrets (e.g., "/microservice-a/database")
+      - `infisical.secret.name` (string, optional): Name of secret
+      - `infisical.user.id` (string, optional): User ID if human
+      - `infisical.user.email` (string, optional): User email
+      - `infisical.identity.id` (string, optional): Machine identity ID
+      - `infisical.identity.name` (string, optional): Machine identity name
+      - `user_agent.original` (string, optional): User agent/SDK information
+      - `client.address` (string, optional): IP address
+  </Accordion>
+</AccordionGroup>
+
+### Authentication Metrics
+
+These metrics track authentication attempts and outcomes, enabling you to monitor login success rates, detect potential security threats, and identify authentication issues.
+
+<AccordionGroup>
+  <Accordion title="Login Attempts">
+    **Metric Name**: `infisical.auth.attempt.count`
+    
+    **Type**: Counter
+    
+    **Unit**: `{attempt}`
+    
+    **Description**: Authentication attempts (both successful and failed)
+    
+    **Attributes**:
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.organization.name` (string): Organization name
+      - `infisical.user.id` (string, optional): User ID if human (if identifiable)
+      - `infisical.user.email` (string, optional): User email (if identifiable)
+      - `infisical.identity.id` (string, optional): Identity ID if machine (if identifiable)
+      - `infisical.identity.name` (string, optional): Identity name (if identifiable)
+      - `infisical.auth.method` (string): Authentication method attempted
+      - `infisical.auth.result` (string): success or failure
+      - `error.type` (string, optional): Reason for failure if failed (invalid_credentials, expired_token, invalid_token, etc.)
+      - `client.address` (string): IP address
+      - `user_agent.original` (string, optional): User agent/client information
+      - `infisical.auth.attempt.username` (string, optional): Attempted username/email (if available)
+  </Accordion>
+  <Accordion title="Authentication Latency (InfisicalCore)">
+    **Metric Name**: `infisical.auth.attempt.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s` (seconds)
+
+    **Description**: Authentication attempt latency by method and result. External verifications (SAML, OIDC, Kubernetes, AWS, GCP, Azure, OCI, AliCloud, ...) include the IdP/provider network round trip, so this is what tells you "SAML logins suddenly got slow" or "Kubernetes auth verification is timing out". Covers every user and machine identity login flow, including LDAP user login.
+
+    **Attributes** (bounded):
+      - `infisical.auth.method` (string): Authentication method (`email`, `saml`, `oidc`, `google`, `github`, `gitlab`, `ldap`, `universal-auth`, `kubernetes-auth`, `aws-auth`, `gcp-auth`, `azure-auth`, `oci-auth`, `alicloud-auth`, `tls-cert-auth`, `oidc-auth`, `jwt-auth`, `ldap-auth`, `spiffe-auth`)
+      - `infisical.auth.result` (string): `success` or `failure`
+      - `error.type` (string, optional): Bounded failure classification (present on failures)
+  </Accordion>
+  <Accordion title="Token Renewal (InfisicalCore)">
+    **Metric Name**: `infisical.auth.token.renewal.count`
+
+    **Type**: Counter
+
+    **Unit**: `{renewal}`
+
+    **Description**: Machine identity access token renewal attempts by outcome. Distinct from `infisical.auth.attempt.*`, which tracks initial logins.
+
+    **Attributes** (bounded):
+      - `outcome` (string): `success` or `failure`
+      - `infisical.auth.method` (string, optional): Identity auth method when known
+      - `error.type` (string, optional): Bounded failure classification (present on failures)
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  The `infisical.auth.attempt.count` counter lives on the high-cardinality `Infisical` meter, while
+  `infisical.auth.attempt.duration` and `infisical.auth.token.renewal.count` live on the bounded
+  `InfisicalCore` meter. There is no per-identity "active identity" gauge: there is no reliable
+  last-authenticated timestamp in the schema, so monthly/weekly active identity counts are best derived
+  from the `infisical.auth.attempt.*` series in your metrics backend (e.g. `count by (...)` over a time
+  window) rather than a snapshot gauge.
+</Note>
+
+### SSO Configuration Metrics (InfisicalCore)
+
+These metrics track changes to SSO configuration, helping you detect unexpected reconfiguration of identity providers.
+
+<AccordionGroup>
+  <Accordion title="SSO Config Changes">
+    **Metric Name**: `infisical.sso.config.change.count`
+
+    **Type**: Counter
+
+    **Unit**: `{change}`
+
+    **Description**: SSO configuration create/update events by provider.
+
+    **Attributes** (bounded):
+      - `sso.provider` (string): `saml`, `oidc`, or `ldap`
+      - `sso.action` (string): `create` or `update`
+  </Accordion>
+</AccordionGroup>
+
+### SCIM Provisioning Metrics (InfisicalCore)
+
+These metrics track SCIM provisioning operations (user and group lifecycle), enabling you to monitor directory-sync throughput and failures.
+
+<AccordionGroup>
+  <Accordion title="SCIM Operations">
+    **Metric Name**: `infisical.scim.operation.count`
+
+    **Type**: Counter
+
+    **Unit**: `{operation}`
+
+    **Description**: SCIM provisioning operations by type and outcome.
+
+    **Attributes** (bounded):
+      - `scim.operation` (string): `create_user`, `update_user`, `replace_user`, `delete_user`, `create_group`, `update_group`, `replace_group`, `delete_group`
+      - `outcome` (string): `success` or `failure`
+      - `error.type` (string, optional): Bounded failure classification (present on failures)
+  </Accordion>
+  <Accordion title="SCIM Operation Latency">
+    **Metric Name**: `infisical.scim.operation.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s` (seconds)
+
+    **Description**: Latency of SCIM provisioning operations. Same attributes as `infisical.scim.operation.count`.
+  </Accordion>
+</AccordionGroup>
+
+### Database Metrics (InfisicalCore)
+
+This metric provides visibility into connection pool health. Query latency is intentionally not emitted, as managed databases (for example, Amazon RDS Performance Insights) already report per-statement latency at the server.
+
+<AccordionGroup>
+  <Accordion title="Connection Pool">
+    **Metric Name**: `infisical.db.pool.connections`
+
+    **Type**: Observable Gauge
+
+    **Unit**: `{connection}`
+
+    **Description**: Knex/tarn connection pool counts, observed on each export. Watch `pending` rising with `used` saturated for pool exhaustion.
+
+    **Attributes** (bounded):
+      - `db.pool.state` (string): `used`, `free`, or `pending`
+  </Accordion>
+</AccordionGroup>
+
+### Key Management Interoperability Protocol Metrics
+
+These metrics track Key Management Interoperability Protocol (KMIP) operations, providing visibility into key management activities including key creation, retrieval, activation, revocation, and destruction.
+
+<AccordionGroup>
+  <Accordion title="KMIP Operations">
+    **Metric Name**: `infisical.kmip.operation.count`
+    
+    **Type**: Counter
+    
+    **Unit**: `{operation}`
+    
+    **Description**: Number of KMIP operations performed
+    
+    **Attributes**:
+      - `infisical.kmip.operation.type` (string): Operation type (`create`, `get`, `get_attributes`, `activate`, `revoke`, `destroy`, `locate`, `register`)
+      - `infisical.organization.id` (string): Organization ID
+      - `infisical.project.id` (string): Project ID
+      - `infisical.kmip.client.id` (string): KMIP client ID performing the operation
+      - `infisical.kmip.object.id` (string, optional): Managed object/key ID
+      - `infisical.kmip.object.name` (string, optional): Managed object/key name
+      - `infisical.identity.id` (string, optional): Machine identity ID
+      - `infisical.identity.name` (string, optional): Machine identity name
+      - `user_agent.original` (string, optional): User agent string
+      - `client.address` (string, optional): Client IP address
+  </Accordion>
+</AccordionGroup>
+
+### Integration & Secret Sync Metrics
+
+These metrics monitor secret synchronization operations between Infisical and external systems, helping you track sync health, identify integration failures, and troubleshoot connectivity issues.
+
+<AccordionGroup>
+  <Accordion title="integration_secret_sync_errors">
+    Integration secret sync error count
+
+    - **Labels**: `version`, `integration`, `integrationId`, `type`, `status`, `name`, `projectId`
+    - **Example**: Monitor integration sync failures across different services
+  </Accordion>
+
+  <Accordion title="secret_sync_sync_secrets_errors">
+    Secret sync operation error count
+
+    - **Labels**: `version`, `destination`, `syncId`, `projectId`, `type`, `status`, `name`
+    - **Example**: Track secret sync failures to external systems
+  </Accordion>
+
+  <Accordion title="secret_sync_import_secrets_errors">
+    Secret import operation error count
+
+    - **Labels**: `version`, `destination`, `syncId`, `projectId`, `type`, `status`, `name`
+    - **Example**: Monitor secret import failures
+  </Accordion>
+
+  <Accordion title="secret_sync_remove_secrets_errors">
+    Secret removal operation error count
+    
+    - **Labels**: `version`, `destination`, `syncId`, `projectId`, `type`, `status`, `name`
+    - **Example**: Track secret removal operation failures
+  </Accordion>
+</AccordionGroup>
+
+### Job Queue Metrics (InfisicalCore)
+
+These metrics give per-queue visibility into BullMQ worker health: throughput, latency, contention, failures, and stalls. Use these to detect stuck workers, queue backlog, and which queues are failing.
+
+<AccordionGroup>
+  <Accordion title="Queue Job Count">
+    **Metric Name**: `infisical.queue.job.count`
+
+    **Type**: Counter
+
+    **Unit**: `{job}`
+
+    **Description**: Jobs processed by outcome.
+
+    **Attributes**:
+      - `queue.name` (string): e.g. `audit-log`, `secret-sync`, `secret-rotation-v2`
+      - `job.name` (string): BullMQ job name
+      - `outcome` (string): `completed` or `failed`
+  </Accordion>
+
+  <Accordion title="Queue Job Duration">
+    **Metric Name**: `infisical.queue.job.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s`
+
+    **Description**: Job processing duration (worker pickup to completion). Skipped on framework-level failures where `processedOn` is undefined, so the histogram is not polluted with phantom zero-duration points.
+
+    **Attributes**: `queue.name`, `job.name`, `outcome`
+  </Accordion>
+
+  <Accordion title="Queue Job Wait">
+    **Metric Name**: `infisical.queue.job.wait`
+
+    **Type**: Histogram
+
+    **Unit**: `s`
+
+    **Description**: Time the job spent waiting for a worker (queue contention). Subtracts the configured `job.opts.delay` so intentional scheduling doesn't inflate percentiles. Only recorded on `completed` jobs.
+
+    **Attributes**: `queue.name`, `job.name`
+  </Accordion>
+
+  <Accordion title="Queue Job Failure (classified)">
+    **Metric Name**: `infisical.queue.job.failure.count`
+
+    **Type**: Counter
+
+    **Unit**: `{failure}`
+
+    **Description**: Failures classified by error type. Alert when `attempts.exhausted="true"` — those are real failures (all retries spent), not transient errors.
+
+    **Attributes**:
+      - `queue.name`, `job.name`
+      - `error.type` (string): one of `validation`, `auth`, `permission`, `not_found`, `rate_limit`, `db`, `timeout`, `network`, `cryptography`, `policy`, `scim`, `oidc`, `internal`, `unknown`
+      - `attempts.exhausted` (string): `"true"` or `"false"`
+  </Accordion>
+
+  <Accordion title="Queue Stalled">
+    **Metric Name**: `infisical.queue.stalled.count`
+
+    **Type**: Counter
+
+    **Unit**: `{job}`
+
+    **Description**: Stalled jobs (the worker's lock on a job expired without completing it). Strongest signal of a stuck worker, OOM, or network partition. Previously invisible.
+
+    **Attributes**: `queue.name`
+  </Accordion>
+
+  <Accordion title="Queue Depth">
+    **Metric Name**: `infisical.queue.depth`
+
+    **Type**: Observable Gauge
+
+    **Unit**: `{job}`
+
+    **Description**: Current number of jobs in each queue state. The SDK invokes the callback on each scrape / push interval.
+
+    **Attributes**:
+      - `queue.name` (string)
+      - `queue.state` (string): `waiting`, `active`, `delayed`, `failed`, `completed`, etc.
+  </Accordion>
+</AccordionGroup>
+
+### Audit Log Metrics (InfisicalCore)
+
+End-to-end audit-log pipeline observability: how many events get enqueued per event type / actor, how long persistence takes, and how many are ultimately dropped.
+
+<AccordionGroup>
+  <Accordion title="Audit Log Enqueued">
+    **Metric Name**: `infisical.audit_log.enqueued.count`
+
+    **Type**: Counter
+
+    **Unit**: `{event}`
+
+    **Description**: Audit log events enqueued to BullMQ for persistence.
+
+    **Attributes**:
+      - `audit_log.event_type` (string): e.g. `LOGIN_USER`, `CREATE_SECRET`, ...
+      - `audit_log.actor_type` (string): `user`, `identity`, `service`
+  </Accordion>
+
+  <Accordion title="Audit Log Persist Duration">
+    **Metric Name**: `infisical.audit_log.persist.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s`
+
+    **Description**: Latency from worker pickup to durable storage.
+
+    **Attributes**:
+      - `audit_log.backend` (string): `postgres` or `clickhouse`
+      - `audit_log.event_type` (string)
+  </Accordion>
+
+  <Accordion title="Audit Log Dropped">
+    **Metric Name**: `infisical.audit_log.dropped.count`
+
+    **Type**: Counter
+
+    **Unit**: `{event}`
+
+    **Description**: Audit log events that exhausted BullMQ retries and were not persisted. **Operators should alert when this is non-zero** — a dropped audit event is a compliance signal.
+
+    **Attributes**:
+      - `audit_log.event_type` (string)
+      - `audit_log.drop_reason` (string): `max_retries`
+  </Accordion>
+</AccordionGroup>
+
+### Audit Log Stream Metrics (InfisicalCore)
+
+Per-provider observability for the audit-log stream feature (Datadog, Splunk, Custom HTTP, Azure, Cribl).
+
+<AccordionGroup>
+  <Accordion title="Audit Log Stream Delivery">
+    **Metric Name**: `infisical.audit_log_stream.delivery.count`
+
+    **Type**: Counter
+
+    **Unit**: `{delivery}`
+
+    **Description**: Per-provider stream delivery attempts.
+
+    **Attributes**:
+      - `audit_log_stream.provider` (string): `datadog`, `splunk`, `custom`, `azure`, `cribl`
+      - `audit_log_stream.id` (string): stream config ID (on the exhausted-drop counter)
+      - `outcome` (string): `success` or `failure`
+      - `error.type` (string, only on failure): one of the closed enum values
+  </Accordion>
+
+  <Accordion title="Audit Log Stream Delivery Duration">
+    **Metric Name**: `infisical.audit_log_stream.delivery.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s`
+
+    **Description**: Per-provider stream delivery latency (HTTP round trip to the SIEM).
+
+    **Attributes**: `audit_log_stream.provider`, `outcome`, `error.type` (on failure)
+  </Accordion>
+</AccordionGroup>
+
+### Alert Dispatch Metrics (InfisicalCore)
+
+Every "notify me when X happens" alert (credential expiry and anything else built on the alert module) is delivered by a dispatch job. This metric records how each job ended, so you can tell a dropped notification apart from a job that had nothing to send.
+
+<AccordionGroup>
+  <Accordion title="Alert Dispatch Outcome">
+    **Metric Name**: `infisical.alert.dispatch.outcome.count`
+
+    **Type**: Counter
+
+    **Unit**: `{job}`
+
+    **Description**: Alert dispatch jobs by resource type and outcome.
+
+    **Attributes**:
+      - `type` (string): the alert's resource type, e.g. `identity.authentication`
+      - `outcome` (string): one of the closed enum values below
+
+    **Outcomes**:
+
+    | Outcome | Meaning |
+    |---------|---------|
+    | `delivery_success` | Every channel the run touched delivered. |
+    | `delivery_partial` | At least one channel failed, so the notification was dropped on that channel. Dedup is per channel and target, so the next run retries only the failed channels. |
+    | `delivery_failed` | No channel delivered — the whole run dropped. |
+    | `alert_not_found` | The alert was deleted between enqueue and run. |
+    | `alert_disabled` | The alert was disabled between enqueue and run. |
+    | `no_provider` | No provider is registered for the alert's resource type. A misconfiguration. |
+    | `no_due_targets` | Nothing matched the alert condition this run. |
+    | `no_channels` | The alert has no enabled channels, so the run is skipped before scanning. |
+    | `no_recipients` | Every channel in the run was email with no resolvable recipient — the recipients left the organization, or the recipient group emptied out. |
+    | `all_deduped` | Targets matched, but all had already been alerted inside the dedup window. |
+
+    **What to alarm on**: `delivery_failed` and `delivery_partial`. Both mean a channel could not be reached and a notification was dropped. Keep `no_recipients` out of that alarm — it is customer configuration drift, not a delivery fault, and it needs a nudge to the organization rather than a page to you.
+
+    Track the `delivery_*` share of the total separately, as a health signal rather than an alarm: a persistently low ratio means the cron is enqueueing mostly no-op jobs and should pre-filter instead.
+  </Accordion>
+</AccordionGroup>
+
+### Permission Cache Metrics (InfisicalCore)
+
+The CASL permission cache uses a fingerprint-based two-tier scheme. These metrics tell you whether the cache is doing its job.
+
+<AccordionGroup>
+  <Accordion title="Permission Cache Lookup">
+    **Metric Name**: `infisical.permission_cache.lookup.count`
+
+    **Type**: Counter
+
+    **Unit**: `{lookup}`
+
+    **Description**: Per-lookup branch: `marker_hit` (fast path, 0 DB reads), `fingerprint_match` (1 DB read, cached data returned), `full_refetch` (full DB re-fetch), or `fingerprint_error` (fingerprint fetch failed, bypassing cache).
+
+    **Attributes**:
+      - `cache.result` (string): `marker_hit`, `fingerprint_match`, `full_refetch`, `fingerprint_error`
+  </Accordion>
+
+  <Accordion title="Permission Cache Fingerprint Duration">
+    **Metric Name**: `infisical.permission_cache.fingerprint.duration`
+
+    **Type**: Histogram
+
+    **Unit**: `s`
+
+    **Description**: Time to compute the lightweight permission fingerprint (1 DB read on marker expiry).
+  </Accordion>
+</AccordionGroup>
+
+### Secret Cache Metrics (InfisicalCore)
+
+The secret service caches encrypted secret payloads to avoid redundant decryption on repeated reads. These metrics tell you whether the cache is effective and whether entries are being skipped for exceeding the size cap.
+
+<AccordionGroup>
+  <Accordion title="Secret Cache Access">
+    **Metric Name**: `infisical.secret.cache.access.count`
+
+    **Type**: Counter
+
+    **Unit**: `{access}`
+
+    **Description**: Secret service-layer cache accesses by outcome. `not_modified` (client revalidation returned 304), `hit` (served from cache), or `miss` (cache empty/stale, full read performed).
+
+    **Attributes**:
+      - `cache.result` (string): `not_modified`, `hit`, `miss`
+  </Accordion>
+
+  <Accordion title="Secret Cache Entry Bytes">
+    **Metric Name**: `infisical.secret.cache.entry.bytes`
+
+    **Type**: Histogram
+
+    **Unit**: `By`
+
+    **Description**: Encrypted secret cache entry size computed at write time. Use this to size the cache and tune the per-entry byte cap.
+  </Accordion>
+
+  <Accordion title="Secret Cache Oversize Skip">
+    **Metric Name**: `infisical.secret.cache.oversize_skip.count`
+
+    **Type**: Counter
+
+    **Unit**: `{skip}`
+
+    **Description**: Secret cache writes skipped because the entry exceeded the max byte cap. A high rate means large payloads are never being cached and will always incur a full read.
+  </Accordion>
+</AccordionGroup>
+
+### Rate Limit Metrics (InfisicalCore)
+
+<AccordionGroup>
+  <Accordion title="Rate Limit Exceeded">
+    **Metric Name**: `infisical.rate_limit.exceeded.count`
+
+    **Type**: Counter
+
+    **Unit**: `{request}`
+
+    **Description**: HTTP 429 responses (rate limit exceeded). Labels are intentionally bounded to `http.route` only — for per-actor breakdowns, query the audit log.
+
+    **Attributes**:
+      - `http.route` (string)
+      - `http.request.method` (string)
+  </Accordion>
+</AccordionGroup>
+
+### Build Info (InfisicalCore)
+
+<AccordionGroup>
+  <Accordion title="Build Info">
+    **Metric Name**: `infisical.build.info`
+
+    **Type**: Observable Gauge
+
+    **Description**: Always emits `1`. The labels carry the deployed version, git SHA, and Node version. Use this to filter Grafana dashboards by deployed version without paying per-metric cardinality.
+
+    **Attributes**:
+      - `service.version` (string)
+      - `git.commit.sha` (string)
+      - `node.version` (string)
+  </Accordion>
+</AccordionGroup>
+
+### Node Runtime Metrics (auto)
+
+Heap usage, GC pause, event loop lag, and other Node runtime metrics are auto-emitted via `@opentelemetry/instrumentation-runtime-node`. Metric names follow the OTel runtime semantic conventions (`nodejs.eventloop.delay.*`, `v8js.heap.size.*`, etc.).
+
+### System Metrics
+
+These low-level HTTP metrics are automatically collected by OpenTelemetry's instrumentation layer, providing baseline performance data for all HTTP traffic.
+
+<AccordionGroup>
+  <Accordion title="http_server_duration">
+    HTTP server request duration metrics (histogram buckets, count, sum)
+  </Accordion>
+  
+  <Accordion title="http_client_duration">
+    HTTP client request duration metrics (histogram buckets, count, sum)
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<Accordion title="Metrics not appearing">
+  If your metrics are not showing up in Prometheus or your monitoring system, check the following:
+
+  - Verify `OTEL_TELEMETRY_COLLECTION_ENABLED=true` is set in your Infisical environment variables
+  - Ensure the correct `OTEL_EXPORT_TYPE` is set (`prometheus` or `otlp`)
+  - Check network connectivity between Infisical and your monitoring services (Prometheus or OTLP collector)
+  - For pull-based monitoring: Verify port 9464 is exposed and accessible
+  - For push-based monitoring: Verify the OTLP endpoint URL is correct and reachable
+  - Check Infisical backend logs for any errors related to metrics export
+</Accordion>
+
+<Accordion title="Authentication errors">
+  If you're experiencing authentication errors with the OpenTelemetry Collector:
+
+  - Verify basic auth credentials in your OTLP configuration match between Infisical and the collector
+  - Check that `OTEL_COLLECTOR_BASIC_AUTH_USERNAME` and `OTEL_COLLECTOR_BASIC_AUTH_PASSWORD` match the credentials in your `otel-collector-config.yaml`
+  - Ensure the htpasswd format in the collector configuration is correct
+  - Test the collector endpoint manually using curl with the same credentials to verify they work
+</Accordion>

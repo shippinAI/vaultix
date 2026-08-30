@@ -1,0 +1,411 @@
+import { Knex } from "knex";
+import { z } from "zod";
+
+import { TCertificates } from "@app/db/schemas";
+import { TCertificateAuthorityCrlDALFactory } from "@app/ee/services/certificate-authority-crl/certificate-authority-crl-dal";
+import { TProjectPermission } from "@app/lib/types";
+import { ActorAuthMethod, ActorType } from "@app/services/auth/auth-type";
+import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";
+import {
+  CertExtendedKeyUsage,
+  CertKeyAlgorithm,
+  CertKeyUsage,
+  CertSignatureAlgorithm
+} from "@app/services/certificate/certificate-types";
+import type { THsmConnectorServiceFactory } from "@app/services/hsm-connector/hsm-connector-service";
+import { TKmsServiceFactory } from "@app/services/kms/kms-service";
+import { TProjectDALFactory } from "@app/services/project/project-dal";
+import { CertKeySource } from "@app/services/signer/signer-enums";
+
+import { TCertificateAuthorityCertDALFactory } from "../certificate-authority-cert-dal";
+import { TCertificateAuthorityDALFactory } from "../certificate-authority-dal";
+import { CaRenewalType, CaStatus, CaType, InternalCaType } from "../certificate-authority-enums";
+import { TCertificateAuthoritySecretDALFactory } from "../certificate-authority-secret-dal";
+import {
+  CreateInternalCertificateAuthoritySchema,
+  InternalCertificateAuthoritySchema,
+  UpdateInternalCertificateAuthoritySchema
+} from "./internal-certificate-authority-schemas";
+
+export type TInternalCertificateAuthority = z.infer<typeof InternalCertificateAuthoritySchema>;
+
+export type TInternalCertificateAuthorityInput = z.infer<typeof CreateInternalCertificateAuthoritySchema>;
+
+export type TCreateInternalCertificateAuthorityDTO = z.infer<typeof CreateInternalCertificateAuthoritySchema>;
+
+export type TUpdateInternalCertificateAuthorityDTO = z.infer<typeof UpdateInternalCertificateAuthoritySchema>;
+
+export type TCreateCaDTO =
+  | {
+      isInternal: true;
+      projectId: string;
+      type: InternalCaType;
+      friendlyName?: string;
+      name?: string;
+      commonName: string;
+      organization: string;
+      ou: string;
+      country: string;
+      province: string;
+      locality: string;
+      notBefore?: string;
+      notAfter?: string;
+      maxPathLength?: number | null;
+      keyAlgorithm: CertKeyAlgorithm;
+      keySource?: CertKeySource;
+      hsmConnectorId?: string;
+      crlDistributionPointUrls?: string[];
+      disableManagedCrlDistributionPointUrl?: boolean;
+    }
+  | ({
+      isInternal: false;
+      projectId?: string;
+      projectSlug?: string;
+      type: InternalCaType;
+      friendlyName?: string;
+      name?: string;
+      commonName: string;
+      organization: string;
+      ou: string;
+      country: string;
+      province: string;
+      locality: string;
+      notBefore?: string;
+      notAfter?: string;
+      maxPathLength?: number | null;
+      keyAlgorithm: CertKeyAlgorithm;
+      keySource?: CertKeySource;
+      hsmConnectorId?: string;
+      crlDistributionPointUrls?: string[];
+      disableManagedCrlDistributionPointUrl?: boolean;
+    } & Omit<TProjectPermission, "projectId">);
+
+export type TGetCaDTO = {
+  caId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TUpdateCaDTO =
+  | {
+      isInternal: true;
+      caId: string;
+      name?: string;
+      status?: CaStatus;
+      crlDistributionPointUrls?: string[];
+      disableManagedCrlDistributionPointUrl?: boolean;
+    }
+  | ({
+      isInternal: false;
+      caId: string;
+      name?: string;
+      status?: CaStatus;
+      crlDistributionPointUrls?: string[];
+      disableManagedCrlDistributionPointUrl?: boolean;
+    } & Omit<TProjectPermission, "projectId">);
+
+export type TDeleteCaDTO = {
+  caId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGenerateRootCaCertificateDTO = {
+  caId: string;
+  notBefore: string;
+  notAfter: string;
+  maxPathLength?: number | null;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCaCsrDTO = {
+  isInternal?: boolean;
+  maxPathLength?: number;
+} & (
+  | {
+      isInternal: true;
+      caId: string;
+      actorId?: undefined;
+      actorAuthMethod?: undefined;
+      actor?: undefined;
+      actorOrgId?: undefined;
+    }
+  | ({
+      isInternal?: false;
+      caId: string;
+    } & Omit<TProjectPermission, "projectId">)
+);
+
+export type TRenewCaCertDTO =
+  | {
+      isInternal: true;
+      caId: string;
+      notAfter: string;
+      type?: CaRenewalType;
+      actorId?: undefined;
+      actorAuthMethod?: undefined;
+      actor?: undefined;
+      actorOrgId?: undefined;
+    }
+  | ({
+      isInternal?: false;
+      caId: string;
+      notAfter: string;
+      type: CaRenewalType;
+    } & Omit<TProjectPermission, "projectId">);
+
+export type TGetCaCertsDTO = {
+  caId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCaCertDTO = {
+  caId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TGetCaCertByIdDTO = {
+  caId: string;
+  certId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TSignIntermediateDTO = {
+  isInternal?: boolean;
+} & (
+  | {
+      isInternal: true;
+      caId: string;
+      csr: string;
+      notBefore?: string;
+      notAfter: string;
+      maxPathLength: number;
+      actorId?: undefined;
+      actorAuthMethod?: undefined;
+      actor?: undefined;
+      actorOrgId?: undefined;
+    }
+  | ({
+      isInternal?: false;
+      caId: string;
+      csr: string;
+      notBefore?: string;
+      notAfter: string;
+      maxPathLength: number;
+    } & Omit<TProjectPermission, "projectId">)
+);
+
+export type TImportCertToCaDTO = {
+  isInternal?: boolean;
+  parentCaId?: string;
+} & (
+  | {
+      isInternal: true;
+      caId: string;
+      certificate: string;
+      certificateChain: string;
+      parentCaId?: string | undefined;
+      actorId?: undefined;
+      actorAuthMethod?: undefined;
+      actor?: undefined;
+      actorOrgId?: undefined;
+    }
+  | ({
+      isInternal?: false;
+      caId: string;
+      certificate: string;
+      certificateChain: string;
+      parentCaId?: string;
+    } & Omit<TProjectPermission, "projectId">)
+);
+
+export type TBasicConstraints = {
+  isCA: boolean;
+  pathLength?: number;
+} | null;
+
+type TIssueCertFromCaBaseDTO = {
+  caId?: string;
+  certificateTemplateId?: string;
+  pkiCollectionId?: string;
+  friendlyName?: string;
+  commonName: string;
+  altNames: string;
+  ttl: string;
+  notBefore?: string;
+  notAfter?: string;
+  keyUsages?: CertKeyUsage[];
+  extendedKeyUsages?: CertExtendedKeyUsage[];
+  signatureAlgorithm?: CertSignatureAlgorithm;
+  keyAlgorithm?: CertKeyAlgorithm;
+  isFromProfile?: boolean;
+  profileId?: string;
+  basicConstraints?: TBasicConstraints;
+  pathLength?: number | null;
+  organization?: string;
+  country?: string;
+  state?: string;
+  locality?: string;
+  ou?: string;
+  domainComponents?: string[];
+  tx?: Knex;
+};
+
+export type TIssueCertFromCaDTO =
+  | (TIssueCertFromCaBaseDTO & {
+      internal: true;
+      actor?: ActorType;
+      actorId?: string;
+      actorAuthMethod?: ActorAuthMethod;
+      actorOrgId?: string;
+    })
+  | (TIssueCertFromCaBaseDTO & {
+      internal?: false;
+    } & Omit<TProjectPermission, "projectId">);
+
+export type TSignCertFromCaDTO =
+  | {
+      isInternal: true;
+      caId?: string;
+      csr: string;
+      certificateTemplateId?: string;
+      pkiCollectionId?: string;
+      friendlyName?: string;
+      commonName?: string;
+      altNames?: string;
+      ttl?: string;
+      notBefore?: string;
+      notAfter?: string;
+      keyUsages?: CertKeyUsage[];
+      extendedKeyUsages?: CertExtendedKeyUsage[];
+      signatureAlgorithm?: string;
+      keyAlgorithm?: string;
+      isFromProfile?: boolean;
+      profileId?: string;
+      basicConstraints?: TBasicConstraints;
+      pathLength?: number | null;
+      subjectOverride?: string;
+      tx?: Knex;
+      /**
+       * Runs inside the same transaction that writes the certificate rows, after they are created
+       * but before it commits. Use this to record caller-side bookkeeping (profile linkage,
+       * certificate request status, metadata) atomically with the certificate itself, without
+       * having to hold a transaction open across the CA key access and signing that precede it.
+       * Throwing from here rolls the certificate back.
+       */
+      onPersisted?: (cert: TCertificates, tx: Knex) => Promise<void>;
+    }
+  | ({
+      isInternal: false;
+      caId?: string;
+      csr: string;
+      certificateTemplateId?: string;
+      pkiCollectionId?: string;
+      friendlyName?: string;
+      commonName?: string;
+      altNames: string;
+      ttl: string;
+      notBefore?: string;
+      notAfter?: string;
+      keyUsages?: CertKeyUsage[];
+      extendedKeyUsages?: CertExtendedKeyUsage[];
+      signatureAlgorithm?: string;
+      keyAlgorithm?: string;
+      isFromProfile?: boolean;
+      profileId?: string;
+      basicConstraints?: TBasicConstraints;
+      pathLength?: number | null;
+      subjectOverride?: string;
+      tx?: Knex;
+      /** See the `onPersisted` note on the internal variant above. */
+      onPersisted?: (cert: TCertificates, tx: Knex) => Promise<void>;
+    } & Omit<TProjectPermission, "projectId">);
+
+export type TGetCaCertificateTemplatesDTO = {
+  caId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TDNParts = {
+  commonName?: string;
+  organization?: string;
+  ou?: string;
+  country?: string;
+  province?: string;
+  locality?: string;
+  domainComponents?: string[];
+};
+
+export type TGetCaCredentialsDTO = {
+  caId: string;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "findByIdWithAssociatedCa">;
+  certificateAuthoritySecretDAL: Pick<TCertificateAuthoritySecretDALFactory, "findOne">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey">;
+  signatureAlgorithm?: RsaHashedImportParams | EcKeyImportParams;
+};
+
+export type TGetCaSignerDTO = {
+  caId: string;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "findByIdWithAssociatedCa">;
+  certificateAuthoritySecretDAL: Pick<TCertificateAuthoritySecretDALFactory, "findOne">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey">;
+  hsmConnectorService: Pick<THsmConnectorServiceFactory, "sign">;
+  signatureAlgorithm?: RsaHashedImportParams | EcKeyImportParams;
+};
+
+export type TGetCaCertChainsDTO = {
+  caId: string;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "findById">;
+  certificateAuthorityCertDAL: Pick<TCertificateAuthorityCertDALFactory, "find">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey">;
+};
+
+export type TGetCaCertChainDTO = {
+  caCertId: string;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "findById">;
+  certificateAuthorityCertDAL: Pick<TCertificateAuthorityCertDALFactory, "findById">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey">;
+};
+
+export type TRebuildCaCrlDTO = {
+  caId: string;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "findByIdWithAssociatedCa">;
+  certificateAuthorityCrlDAL: Pick<TCertificateAuthorityCrlDALFactory, "update">;
+  certificateAuthoritySecretDAL: Pick<TCertificateAuthoritySecretDALFactory, "findOne">;
+  projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "transaction">;
+  certificateDAL: Pick<TCertificateDALFactory, "find">;
+  kmsService: Pick<TKmsServiceFactory, "generateKmsKey" | "decryptWithKmsKey" | "encryptWithKmsKey">;
+  hsmConnectorService: Pick<THsmConnectorServiceFactory, "sign">;
+};
+
+export type TRotateCaCrlTriggerDTO = {
+  caId: string;
+  rotationIntervalDays: number;
+};
+
+export type TOrderCertificateForSubscriberDTO = {
+  subscriberId: string;
+  caType: CaType;
+};
+
+export type TIssueCertWithTemplateDTO = {
+  commonName: string;
+  altNames: string;
+  ttl: string;
+  notBefore?: string;
+  notAfter?: string;
+  keyUsages?: CertKeyUsage[];
+  extendedKeyUsages?: CertExtendedKeyUsage[];
+};
+
+type TCaReference = {
+  id: string;
+  projectId: string;
+  dn: string;
+};
+
+export type TIssueCertFromCaResponse = {
+  certificate: string;
+  certificateChain: string;
+  issuingCaCertificate: string;
+  privateKey: string;
+  serialNumber: string;
+  certificateId: string;
+  ca: TCaReference;
+  commonName: string;
+};

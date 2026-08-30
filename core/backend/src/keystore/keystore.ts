@@ -1,0 +1,632 @@
+import type { Cluster } from "ioredis";
+import { Redis } from "ioredis";
+import { Knex } from "knex";
+
+import { buildRedisFromConfig, TRedisConfigKeys } from "@app/lib/config/redis";
+import { pgAdvisoryLockHashText } from "@app/lib/crypto/hashtext";
+import { applyJitter } from "@app/lib/dates";
+import { delay as delayMs } from "@app/lib/delay";
+import { ms } from "@app/lib/ms";
+import { ExecutionResult, Redlock, Settings } from "@app/lib/red-lock";
+
+import { TKeyValueStoreDALFactory } from "./key-value-store-dal";
+
+export const PgSqlLock = {
+  BootUpMigration: 2023,
+  SuperAdminInit: 2024,
+  KmsRootKeyInit: 2025,
+  SanitizedSchemaGeneration: 2026,
+  EmailDomainCreationLock: () => pgAdvisoryLockHashText(`org-email-domain-creation`),
+  OrgGatewayRootCaInit: (orgId: string) => pgAdvisoryLockHashText(`org-gateway-root-ca:${orgId}`),
+  OrgGatewayCertExchange: (orgId: string) => pgAdvisoryLockHashText(`org-gateway-cert-exchange:${orgId}`),
+  SecretRotationV2Creation: (folderId: string) => pgAdvisoryLockHashText(`secret-rotation-v2-creation:${folderId}`),
+  CreateProject: (orgId: string) => pgAdvisoryLockHashText(`create-project:${orgId}`),
+  CreateFolder: (envId: string, projectId: string) => pgAdvisoryLockHashText(`create-folder:${envId}-${projectId}`),
+  InstanceRelayConfigInit: () => pgAdvisoryLockHashText("instance-relay-config-init"),
+  OrgGatewayV2Init: (orgId: string) => pgAdvisoryLockHashText(`org-gateway-v2-init:${orgId}`),
+  OrgRelayConfigInit: (orgId: string) => pgAdvisoryLockHashText(`org-relay-config-init:${orgId}`),
+  OrgKmipInit: (orgId: string) => pgAdvisoryLockHashText(`org-kmip-init:${orgId}`),
+  GatewayPamSessionKey: (gatewayId: string) => pgAdvisoryLockHashText(`gateway-pam-session-key:${gatewayId}`),
+  IdentityLogin: (identityId: string, nonce: string) => pgAdvisoryLockHashText(`identity-login:${identityId}:${nonce}`),
+  PamResourceSshCaInit: (resourceId: string) => pgAdvisoryLockHashText(`pam-resource-ssh-ca-init:${resourceId}`),
+  CreateIdentity: (orgId: string) => pgAdvisoryLockHashText(`create-identity:${orgId}`),
+  CreateGateway: (orgId: string) => pgAdvisoryLockHashText(`create-gateway:${orgId}`),
+  AccessSharedSecret: (sharedSecretId: string) => pgAdvisoryLockHashText(`access-shared-secret:${sharedSecretId}`),
+  KmsOrgKeyCreation: (orgId: string) => pgAdvisoryLockHashText(`kms-org-key:${orgId}`),
+  KmsOrgDataKeyCreation: (orgId: string) => pgAdvisoryLockHashText(`kms-org-data-key:${orgId}`),
+  KmsProjectKeyCreation: (projectId: string) => pgAdvisoryLockHashText(`kms-project-key:${projectId}`),
+  KmsProjectDataKeyCreation: (projectId: string) => pgAdvisoryLockHashText(`kms-project-data-key:${projectId}`),
+  ScimGroupUpdate: (groupId: string) => pgAdvisoryLockHashText(`scim-group-update:${groupId}`),
+  LastAdminGuard: (scope: "org", scopeId: string) => pgAdvisoryLockHashText(`last-admin-guard:${scope}:${scopeId}`),
+  AuditReportRequest: (projectId: string) => pgAdvisoryLockHashText(`audit-report-request:${projectId}`),
+  OrgAgentProxyConfigInit: (orgId: string) => pgAdvisoryLockHashText(`org-agent-proxy-config-init:${orgId}`)
+} as const;
+
+// all the key prefixes used must be set here to avoid conflict
+export const KeyStorePrefixes = {
+  SecretReplication: "secret-replication-import-lock",
+  FolderTreeCheckpoint: (envId: string) => `folder-tree-checkpoint-${envId}`,
+
+  WaitUntilReadyProjectEnvironmentOperation: (projectId: string) =>
+    `wait-until-ready-project-environments-operation-${projectId}`,
+  ProjectEnvironmentLock: (projectId: string) => `project-environment-lock-${projectId}` as const,
+  SyncSecretIntegrationLock: (projectId: string, environmentSlug: string, secretPath: string) =>
+    `sync-integration-mutex-${projectId}-${environmentSlug}-${secretPath}` as const,
+  SyncSecretIntegrationLastRunTimestamp: (projectId: string, environmentSlug: string, secretPath: string) =>
+    `sync-integration-last-run-${projectId}-${environmentSlug}-${secretPath}` as const,
+  SecretSyncLock: (syncId: string) => `secret-sync-mutex-${syncId}` as const,
+  PkiSyncLock: (syncId: string) => `pki-sync-mutex-${syncId}` as const,
+  AppConnectionConcurrentJobs: (connectionId: string) => `app-connection-concurrency-${connectionId}` as const,
+  SecretRotationLock: (rotationId: string) => `secret-rotation-v2-mutex-${rotationId}` as const,
+  PamAccountRotationLock: (accountId: string) => `pam-account-rotation-mutex-${accountId}` as const,
+  SecretScanningLock: (dataSourceId: string, resourceExternalId: string) =>
+    `secret-scanning-v2-mutex-${dataSourceId}-${resourceExternalId}` as const,
+  IdentityLockoutLock: (lockoutKey: string) => `identity-lockout-lock-${lockoutKey}` as const,
+  CaOrderCertificateForSubscriberLock: (subscriberId: string) =>
+    `ca-order-certificate-for-subscriber-lock-${subscriberId}` as const,
+  SecretSyncLastRunTimestamp: (syncId: string) => `secret-sync-last-run-${syncId}` as const,
+  IdentityAccessTokenStatusUpdate: (identityAccessTokenId: string) =>
+    `identity-access-token-status:${identityAccessTokenId}`,
+  IdentityTokenUsesRemaining: (identityId: string, jti: string) =>
+    `identity-token-uses-remaining:${identityId}:${jti}` as const,
+  IdentityRevocationVersion: (identityId: string) => `identity-revocation-version:${identityId}` as const,
+  IdentityRevocationVerdict: (identityId: string, fingerprint: string) =>
+    `identity-revocation-verdict:${identityId}:${fingerprint}` as const,
+  IdentityTrustedIps: (identityId: string, authMethod: string) =>
+    `identity-trusted-ips:${identityId}:${authMethod}` as const,
+  IdentityUaClientSecretUsageDebounce: (clientSecretId: string) =>
+    `identity-ua-client-secret-usage-debounce:${clientSecretId}` as const,
+  ProxiedServiceUsageDebounce: (serviceId: string) => `proxied-service-usage-debounce:${serviceId}` as const,
+  ServiceTokenStatusUpdate: (serviceTokenId: string) => `service-token-status:${serviceTokenId}`,
+  GatewayIdentityCredential: (identityId: string) => `gateway-credentials:${identityId}`,
+  ActiveSSEConnectionsSet: (projectId: string, identityId: string) =>
+    `sse-connections:${projectId}:${identityId}` as const,
+  ActiveSSEConnections: (projectId: string, identityId: string, connectionId: string) =>
+    `sse-connections:${projectId}:${identityId}:${connectionId}` as const,
+  RecentAnnouncements: "announcements:recent" as const,
+
+  AlertChannelTestCooldown: (orgId: string, actorId: string, channelType: string) =>
+    `alert-channel-test-cooldown:${orgId}:${actorId}:${channelType}` as const,
+
+  ProjectPermissionMarker: (projectId: string, actorType: string, actorId: string, actionProjectType: string) =>
+    `project-permission-marker:${projectId}:${actorType}:${actorId}:${actionProjectType}` as const,
+  ProjectPermissionData: (projectId: string, actorType: string, actorId: string, actionProjectType: string) =>
+    `project-permission-data:${projectId}:${actorType}:${actorId}:${actionProjectType}` as const,
+
+  KmsProjectSecretManagerMaterial: (projectId: string) => `kms-project-sm-material:${projectId}` as const,
+
+  PkiAcmeNonce: (nonce: string) => `pki-acme-nonce:${nonce}` as const,
+  ScepIntuneAccess: (connectionId: string, connectionUpdatedAt: Date) =>
+    `scep-intune-access:${connectionId}:${connectionUpdatedAt.getTime()}` as const,
+  MfaSession: (mfaSessionId: string) => `mfa-session:${mfaSessionId}` as const,
+  MfaCodeResendCooldown: (userId: string) => `mfa-code-resend-cooldown:${userId}` as const,
+  WebAuthnChallenge: (userId: string) => `webauthn-challenge:${userId}` as const,
+  UserMfaLockoutLock: (userId: string) => `user-mfa-lockout-lock:${userId}` as const,
+  UserMfaUnlockEmailSent: (userId: string) => `user-mfa-unlock-email-sent:${userId}` as const,
+  UserStepUpMfaAttempts: (userId: string) => `user-step-up-mfa-attempts:${userId}` as const,
+  UserStepUpMfaLockout: (userId: string) => `user-step-up-mfa-lockout:${userId}` as const,
+  RecentMfaAuth: (userId: string, tokenVersionId: string) => `recent-mfa-auth:${userId}:${tokenVersionId}` as const,
+  UsedTotpCode: (userId: string, code: string) => `used-totp-code:${userId}:${code}` as const,
+  UsedAccountRecoveryToken: (userId: string, jti: string) => `used-account-recovery-token:${userId}:${jti}` as const,
+  UsedGitHubManifestState: (jti: string) => `used-github-manifest-state:${jti}` as const,
+  GitHubManifestNameLock: (orgId: string, projectId: string | null, name: string) =>
+    `github-manifest-name-lock:${orgId}:${projectId ?? "org"}:${name}` as const,
+
+  // OAuth 2.0 authorization server (Vaultix as an OAuth provider)
+  OauthAuthorizationCode: (code: string) => `oauth-authorization-code:${code}` as const,
+
+  // Project SSE Connection Rate Limiting
+  ProjectSSEConnectionsSet: (projectId: string) => `project-sse-connections:${projectId}` as const,
+  ProjectSSEConnectionsLockoutKey: (projectId: string) => `project-sse-connections:lockout:${projectId}` as const,
+  ProjectSSEConnection: (projectId: string, connectionId: string) =>
+    `project-sse-conn:${projectId}:${connectionId}` as const,
+
+  ProjectDeleteLock: (projectId: string) => `project-delete-lock-${projectId}` as const,
+
+  TelemetryIdentifyIdentity: (dedupKey: string) => `telemetry-identify-identity:${dedupKey}` as const,
+  TelemetryGroupIdentify: (orgId: string) => `telemetry-group-identify:${orgId}` as const,
+  TelemetryAuditLogsViewed: (orgId: string, distinctId: string) =>
+    `telemetry-audit-logs-viewed:${orgId}:${distinctId}` as const,
+  TelemetryIdentify: (distinctId: string) => `telemetry-identify:${distinctId}` as const,
+  SecretEtag: (projectId: string, dayStamp: string) => `secret-etag:${projectId}:${dayStamp}` as const,
+  SecretPermissionFingerprint: (projectId: string, actorType: string, actorId: string) =>
+    `secret-perm-fingerprint:${projectId}:${actorType}:${actorId}` as const,
+
+  PamAwsIamAccessKeyId: (sessionId: string) => `pam-aws-iam-access-key-id:${sessionId}` as const,
+  PamDefaultProject: (orgId: string) => `pam-default-project:${orgId}` as const,
+
+  CertDashboardStats: (projectId: string) => `cert-dashboard-stats:${projectId}` as const,
+  CertActivityTrend: (projectId: string, range: string) => `cert-activity-trend:${projectId}:${range}` as const,
+  CertPqcTrend: (projectId: string, range: string) => `cert-pqc-trend:${projectId}:${range}` as const,
+  RefreshTokenGrace: (sessionId: string) => `refresh-token-grace:${sessionId}` as const,
+  EmailSignupOtpHash: (hash: string) => `email-signup-otp:${hash}:hash` as const,
+  EmailSignupOtpLock: (hash: string) => `email-signup-otp:${hash}:lock` as const,
+  EmailSignupResendCooldown: (hash: string) => `email-signup-otp:${hash}:cd` as const,
+  InsightsCache: (projectId: string, endpoint: string) => `insights-cache:${projectId}:${endpoint}` as const,
+
+  AdminConfig: "infisical-admin-cfg",
+  UpdateCheckLatestVersion: "update-check-latest-version",
+  InvalidatingCache: "invalidating-cache",
+  SecretManagerCachePattern: "secret-manager:*",
+  AuditLogMigrationAlert: "audit-log-migration-alert-last-row-count",
+  LicenseCloudPlan: (orgId: string) => `infisical-cloud-plan-${orgId}` as const,
+  // Set after a billing mutation to flag the org's plan cache for stale-while-revalidate reads.
+  LicenseCachePassThrough: (orgId: string) => `license-cache-passthrough-${orgId}` as const,
+  // Single-flight guard so only one background revalidation runs per org per lock window.
+  LicenseCacheRevalidateLock: (orgId: string) => `license-cache-revalidate-lock-${orgId}` as const,
+  // Throttles the demand-driven usage reconciliation (fired from getPlan) to once per org per interval.
+  LicenseUsageReconcileMarker: (orgId: string) => `license-usage-reconcile-${orgId}` as const,
+  LicenseUsageLastReported: (orgId: string, featureKey: string) =>
+    `license-usage-last-reported-${orgId}-${featureKey}` as const,
+  IdentityLockoutState: (identityId: string, authMethod: string, slug: string) =>
+    `lockout:identity:${identityId}:${authMethod}:${slug}` as const,
+  IdentityLockoutStateByMethodPattern: (identityId: string, authMethod: string) =>
+    `lockout:identity:${identityId}:${authMethod}:*` as const,
+  IdentityLockoutStatePattern: (identityId: string) => `lockout:identity:${identityId}:*` as const,
+
+  TelemetryEvent: (event: string, bucketId: string, distinctId: string, uuid: string) =>
+    `telemetry-event-${event}-${bucketId}-${distinctId}-${uuid}` as const,
+  TelemetryEventByBucketPattern: (event: string, bucketId: string) => `telemetry-event-${event}-${bucketId}-*` as const,
+
+  AuditLogStreamFlushDebounce: (streamId: string) => `audit-log-stream:${streamId}:flush-debounce` as const,
+  AuditLogIngestConsumerLock: "audit-log-ingest:consumer-lock" as const
+};
+
+export const KeyStoreTtls = {
+  SetSyncSecretIntegrationLastRunTimestampInSeconds: 60,
+  SetSecretSyncLastRunTimestampInSeconds: 60,
+  AccessTokenStatusUpdateInSeconds: 120,
+  IdentityRevocationVerdictBaseInSeconds: 600, // 10 minutes
+  IdentityRevocationVerdictJitterInSeconds: 120, // +/- 2 minutes
+  IdentityRevocationVersionInSeconds: 604800, // 7 days
+  IdentityTrustedIpsInSeconds: 300, // 5 minutes
+  ProjectPermissionMarkerTtlSeconds: 10, // 10 seconds - short-lived marker for fingerprint validation
+  ProjectPermissionDataTtlSeconds: 600, // 10 minutes - longer-lived data payload
+
+  MfaSessionInSeconds: 300, // 5 minutes
+  RecentMfaAuthInSeconds: 600, // 10 minutes
+  MfaCodeResendCooldownInSeconds: 60, // 1 minute
+  AlertChannelTestCooldownInSeconds: 60, // 1 minute
+
+  WebAuthnChallengeInSeconds: 300, // 5 minutes
+  UsedTotpCodeInSeconds: 120, // covers the full ±30s acceptance window (window:1 → 90s) with margin
+  ProjectSSEConnectionTtlSeconds: 180, // Must be > heartbeat interval (60s) * 2
+  TelemetryIdentifyIdentityInSeconds: 86400, // 24 hours
+  RefreshTokenGraceInSeconds: 10,
+  EmailSignupOtpInSeconds: 300, // 5 minutes
+  EmailSignupResendCooldownInSeconds: 60, // 1 minute
+  InsightsCacheInSeconds: 300, // 5 minutes
+  InsightsDuplicationCacheInSeconds: 3600, // 1 hour
+  AdminConfigInSeconds: 60,
+  UpdateCheckLatestVersionInSeconds: 1209600, // 14 days (survives one missed weekly check)
+  InvalidatingCacheInSeconds: 1800, // 30 minutes max lock for cache invalidation job
+  AuditLogMigrationAlertInSeconds: 604800, // 7 days
+  LicenseCloudPlanInSeconds: 900, // 15 minutes
+  PamDefaultProjectInSeconds: 300, // 5 minutes
+  // How long reads stay in stale-while-revalidate mode after a billing mutation (covers Stripe reconciliation).
+  LicenseCachePassThroughInSeconds: 180, // 3 minutes
+  // Longer window for redirect-to-Stripe-checkout paths, where the purchase applies via webhook only
+  // after the customer finishes the hosted checkout/card-setup (which can take a few minutes).
+  LicenseCachePassThroughCheckoutInSeconds: 900, // 15 minutes
+  // Throttle window for the single-flight background revalidation.
+  LicenseCacheRevalidateLockInSeconds: 10,
+  // How often a billable org's usage is re-emitted for reconciliation (demand-driven from getPlan).
+  LicenseUsageReconcileIntervalInSeconds: 21600, // 6 hours
+  LicenseUsageLastReportedInSeconds: 604800, // 7 days
+  OauthAuthorizationCodeInSeconds: 600, // 10 minutes
+  DashboardCacheInSeconds: 600, // 10 minutes
+  ProjectEnvironmentOperationMarkerInSeconds: 10,
+  UserMfaUnlockEmailSentInSeconds: 300, // 5 minutes
+  StepUpMfaAttemptWindowInSeconds: 300, // 5 minutes - rolling window for counting failed step-up attempts
+  StepUpMfaLockoutInSeconds: 300, // 5 minutes - temporary lockout after too many failed step-up attempts
+  TelemetryGroupIdentifyInSeconds: 3600, // 1 hour
+  TelemetryAuditLogsViewedInSeconds: 3600, // 1 hour
+  TelemetryAggregatedEventInSeconds: 1800, // 30 minutes
+  SecretEtagInSeconds: 900, // 15 minutes
+  PkiAcmeNonceInSeconds: 300, // 5 minutes
+  GatewayRelayCredentialInSeconds: 600, // 10 minutes - TURN credential lifetime
+  SecretReplicationSuccessInSeconds: 10
+};
+
+type TDeleteItems = {
+  pattern: string;
+  batchSize?: number;
+  delay?: number;
+  jitter?: number;
+};
+
+type TWaitTillReady = {
+  key: string;
+  waitingCb?: () => void;
+  keyCheckCb: (val: string | null) => boolean;
+  waitIteration?: number;
+  delay?: number;
+  jitter?: number;
+};
+
+export type TKeyStoreFactory = {
+  setItem: (key: string, value: string | number | Buffer, prefix?: string) => Promise<"OK">;
+  getItem: (key: string, prefix?: string) => Promise<string | null>;
+  getItemPrimary: (key: string, prefix?: string) => Promise<string | null>;
+  getItems: (keys: string[], prefix?: string) => Promise<(string | null)[]>;
+  setExpiry: (key: string, expiryInSeconds: number) => Promise<number>;
+  ttl: (key: string) => Promise<number>;
+  setItemWithExpiry: (
+    key: string,
+    expiryInSeconds: number | string,
+    value: string | number | Buffer,
+    prefix?: string
+  ) => Promise<"OK">;
+  setItemWithExpiryNX: (
+    key: string,
+    expiryInSeconds: number | string,
+    value: string | number | Buffer,
+    prefix?: string
+  ) => Promise<"OK" | null>;
+  deleteItem: (key: string) => Promise<number>;
+  deleteItemsByKeyIn: (keys: string[]) => Promise<number>;
+  deleteItems: (arg: TDeleteItems) => Promise<number>;
+  incrementBy: (key: string, value: number) => Promise<number>;
+  incrementByAndRefreshExpiryIfUnderLimit: (key: string, limit: number, expiryInSeconds: number) => Promise<number>;
+  decrementByOrDelete: (key: string) => Promise<number>;
+  incrementByWithExpiry: (key: string, value: number, expiryInSeconds: number) => Promise<number>;
+  incrementSeededWithExpiry: (key: string, seed: number, expiryInSeconds: number) => Promise<number>;
+  getKeysByPattern: (pattern: string, limit?: number) => Promise<string[]>;
+  // list operations
+  listPush: (key: string, value: string) => Promise<number>;
+  listRange: (key: string, start: number, stop: number) => Promise<string[]>;
+  listRemove: (key: string, count: number, value: string) => Promise<number>;
+  listLength: (key: string) => Promise<number>;
+  // stream operations
+  streamAdd: (key: string, id: string, fieldValue: Record<string, string>, maxLen?: number) => Promise<string | null>;
+  streamRange: (key: string, start: string, end: string, count?: number) => Promise<[string, string[]][]>;
+  streamTrim: (key: string, minId: string, inclusive?: boolean) => Promise<number>;
+  streamCollect: (
+    key: string,
+    batchSize: number,
+    maxEntries: number
+  ) => Promise<{ entries: [string, string[]][]; lastId: string | null }>;
+  // hash operations
+  hashSet: (key: string, field: string, value: string) => Promise<number>;
+  hashGet: (key: string, field: string) => Promise<string | null>;
+  // pg
+  pgIncrementBy: (key: string, dto: { incr?: number; expiry?: string; tx?: Knex }) => Promise<number>;
+  pgGetIntItem: (key: string, prefix?: string) => Promise<number | undefined>;
+  // locks
+  acquireLock(
+    resources: string[],
+    duration: number,
+    settings?: Partial<Settings>
+  ): Promise<{ release: () => Promise<ExecutionResult> }>;
+  waitTillReady: ({ key, waitingCb, keyCheckCb, waitIteration, delay, jitter }: TWaitTillReady) => Promise<void>;
+};
+
+const pickPrimaryOrSecondaryRedis = (primary: Redis | Cluster, secondaries?: Array<Redis | Cluster>) => {
+  if (!secondaries || !secondaries.length) return primary;
+  const selectedReplica = secondaries[Math.floor(Math.random() * secondaries.length)];
+  return selectedReplica;
+};
+
+interface TKeyStoreFactoryDTO extends TRedisConfigKeys {
+  REDIS_READ_REPLICAS?: { host: string; port: number }[];
+}
+
+export const keyStoreFactory = (
+  redisConfigKeys: TKeyStoreFactoryDTO,
+  keyValueStoreDAL: TKeyValueStoreDALFactory
+): TKeyStoreFactory => {
+  const primaryRedis = buildRedisFromConfig(redisConfigKeys, "keystore");
+
+  const redisReadReplicas = redisConfigKeys.REDIS_READ_REPLICAS?.map((el) => {
+    const replicaName = `keystore-replica:${el.host}:${el.port}`;
+
+    if (redisConfigKeys.REDIS_URL) {
+      const primaryNode = new URL(redisConfigKeys?.REDIS_URL);
+      primaryNode.hostname = el.host;
+      primaryNode.port = String(el.port);
+      return buildRedisFromConfig({ ...redisConfigKeys, REDIS_URL: primaryNode.toString() }, replicaName);
+    }
+
+    if (redisConfigKeys.REDIS_SENTINEL_HOSTS) {
+      return buildRedisFromConfig({ ...redisConfigKeys, REDIS_SENTINEL_HOSTS: [el] }, replicaName);
+    }
+
+    return buildRedisFromConfig({ ...redisConfigKeys, REDIS_CLUSTER_HOSTS: [el] }, replicaName);
+  });
+  const redisLock = new Redlock([primaryRedis], { retryCount: 2, retryDelay: 200 });
+
+  const setItem = async (key: string, value: string | number | Buffer, prefix?: string) =>
+    primaryRedis.set(prefix ? `${prefix}:${key}` : key, value);
+
+  const getItem = async (key: string, prefix?: string) =>
+    pickPrimaryOrSecondaryRedis(primaryRedis, redisReadReplicas).get(prefix ? `${prefix}:${key}` : key);
+
+  const getItemPrimary = async (key: string, prefix?: string) => primaryRedis.get(prefix ? `${prefix}:${key}` : key);
+
+  const getItems = async (keys: string[], prefix?: string) =>
+    pickPrimaryOrSecondaryRedis(primaryRedis, redisReadReplicas).mget(
+      keys.map((key) => (prefix ? `${prefix}:${key}` : key))
+    );
+
+  const setItemWithExpiry = async (
+    key: string,
+    expiryInSeconds: number | string,
+    value: string | number | Buffer,
+    prefix?: string
+  ) => primaryRedis.set(prefix ? `${prefix}:${key}` : key, value, "EX", expiryInSeconds);
+
+  const setItemWithExpiryNX = async (
+    key: string,
+    expiryInSeconds: number | string,
+    value: string | number | Buffer,
+    prefix?: string
+  ) => primaryRedis.set(prefix ? `${prefix}:${key}` : key, value, "EX", expiryInSeconds, "NX");
+
+  const deleteItem = async (key: string) => primaryRedis.del(key);
+
+  const deleteItemsByKeyIn = async (keys: string[]) => {
+    if (keys.length === 0) return 0;
+    return primaryRedis.del(keys);
+  };
+
+  const deleteItems = async ({ pattern, batchSize = 500, delay = 1500, jitter = 200 }: TDeleteItems) => {
+    let cursor = "0";
+    let totalDeleted = 0;
+
+    do {
+      // Await in loop is needed so that Redis is not overwhelmed
+      // eslint-disable-next-line no-await-in-loop
+      const [nextCursor, keys] = await primaryRedis.scan(cursor, "MATCH", pattern, "COUNT", 1000); // Count should be 1000 - 5000 for prod loads
+      cursor = nextCursor;
+
+      for (let i = 0; i < keys.length; i += batchSize) {
+        const batch = keys.slice(i, i + batchSize);
+        const pipeline = primaryRedis.pipeline();
+        for (const key of batch) {
+          pipeline.unlink(key);
+        }
+        // eslint-disable-next-line no-await-in-loop
+        await pipeline.exec();
+        totalDeleted += batch.length;
+
+        // eslint-disable-next-line no-await-in-loop
+        await delayMs(Math.max(0, applyJitter(delay, jitter)));
+      }
+    } while (cursor !== "0");
+
+    return totalDeleted;
+  };
+
+  const incrementBy = async (key: string, value: number) => primaryRedis.incrby(key, value);
+
+  // Atomic admit: INCR by 1; if the post-INCR count is over the cap, DECR back and
+  // signal rejection without touching EXPIRE — so failed probes against an orphaned
+  // counter cannot keep refreshing its TTL. Otherwise refresh the TTL alongside the
+  // successful admit. Returns -1 for rejection, otherwise the post-INCR count.
+  const INCREMENT_AND_REFRESH_EXPIRY_IF_UNDER_LIMIT_SCRIPT = `
+    local count = redis.call("INCR", KEYS[1])
+    if count > tonumber(ARGV[1]) then
+      redis.call("DECR", KEYS[1])
+      return -1
+    end
+    redis.call("EXPIRE", KEYS[1], ARGV[2])
+    return count
+  `;
+
+  // Atomic release: DECR but never below 0, and never leave a no-TTL key behind. If
+  // the counter is missing or already ≤ 1, DEL so the next admit creates a fresh
+  // key with a fresh TTL. Does NOT touch EXPIRE — the slot is being released.
+  const DECREMENT_OR_DELETE_SCRIPT = `
+    local current = redis.call("GET", KEYS[1])
+    if not current or tonumber(current) <= 1 then
+      redis.call("DEL", KEYS[1])
+      return 0
+    end
+    return redis.call("DECR", KEYS[1])
+  `;
+
+  const incrementByAndRefreshExpiryIfUnderLimit = async (
+    key: string,
+    limit: number,
+    expiryInSeconds: number
+  ): Promise<number> => {
+    const result = await primaryRedis.eval(
+      INCREMENT_AND_REFRESH_EXPIRY_IF_UNDER_LIMIT_SCRIPT,
+      1,
+      key,
+      limit,
+      expiryInSeconds
+    );
+    return Number(result);
+  };
+
+  const decrementByOrDelete = async (key: string): Promise<number> => {
+    const result = await primaryRedis.eval(DECREMENT_OR_DELETE_SCRIPT, 1, key);
+    return Number(result);
+  };
+
+  const INCREMENT_WITH_EXPIRY = `
+    local v = redis.call('INCRBY', KEYS[1], ARGV[1])
+    redis.call('EXPIRE', KEYS[1], ARGV[2])
+    return v
+  `;
+
+  // Atomically increment key and (re)set TTL on every call so the expiry rolls forward with each write.
+  const incrementByWithExpiry = async (key: string, value: number, expiryInSeconds: number): Promise<number> => {
+    const result = await primaryRedis.eval(INCREMENT_WITH_EXPIRY, 1, key, String(value), String(expiryInSeconds));
+    return result as number;
+  };
+
+  // Timestamp-seeded INCR. When the key is missing (INCR returns 1) it rebases
+  // the counter by `seed` (a caller-supplied Date.now()), so a resurrected key
+  // restarts above any value it held before and a stale cached allow stamped
+  // with an old version can never match again.
+  const INCREMENT_SEEDED_WITH_EXPIRY = `
+    local v = redis.call('INCR', KEYS[1])
+    if v == 1 then
+      v = redis.call('INCRBY', KEYS[1], ARGV[1])
+    end
+    redis.call('EXPIRE', KEYS[1], ARGV[2])
+    return v
+  `;
+
+  const incrementSeededWithExpiry = async (key: string, seed: number, expiryInSeconds: number): Promise<number> => {
+    const result = await primaryRedis.eval(INCREMENT_SEEDED_WITH_EXPIRY, 1, key, String(seed), String(expiryInSeconds));
+    return Number(result);
+  };
+
+  const setExpiry = async (key: string, expiryInSeconds: number) => primaryRedis.expire(key, expiryInSeconds);
+
+  const ttl = async (key: string) => primaryRedis.ttl(key);
+
+  const getKeysByPattern = async (pattern: string, limit?: number) => {
+    let cursor = "0";
+    const allKeys: string[] = [];
+
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const [nextCursor, keys] = await pickPrimaryOrSecondaryRedis(primaryRedis, redisReadReplicas).scan(
+        cursor,
+        "MATCH",
+        pattern,
+        "COUNT",
+        1000
+      );
+      cursor = nextCursor;
+      allKeys.push(...keys);
+
+      if (limit && allKeys.length >= limit) {
+        return allKeys.slice(0, limit);
+      }
+    } while (cursor !== "0");
+
+    return allKeys;
+  };
+
+  const pgIncrementBy: TKeyStoreFactory["pgIncrementBy"] = async (key, { incr = 1, tx, expiry }) => {
+    const expiresAt = expiry ? new Date(Date.now() + ms(expiry)) : undefined;
+    return keyValueStoreDAL.incrementBy(key, { incr, expiresAt, tx });
+  };
+
+  const pgGetIntItem = async (key: string, prefix?: string) =>
+    keyValueStoreDAL.findOneInt(prefix ? `${prefix}:${key}` : key);
+
+  const hashSet = async (key: string, field: string, value: string) => primaryRedis.hset(key, field, value);
+
+  const hashGet = async (key: string, field: string) => primaryRedis.hget(key, field);
+
+  // List operations
+  const listPush = async (key: string, value: string) => primaryRedis.rpush(key, value);
+
+  const listRange = async (key: string, start: number, stop: number) =>
+    pickPrimaryOrSecondaryRedis(primaryRedis, redisReadReplicas).lrange(key, start, stop);
+
+  const listRemove = async (key: string, count: number, value: string) => primaryRedis.lrem(key, count, value);
+
+  const listLength = async (key: string) => pickPrimaryOrSecondaryRedis(primaryRedis, redisReadReplicas).llen(key);
+
+  // Stream operations
+  const streamAdd = async (key: string, id: string, fieldValue: Record<string, string>, maxLen = 1_000_000) => {
+    const args: string[] = [];
+    for (const [field, value] of Object.entries(fieldValue)) {
+      args.push(field, value);
+    }
+    return primaryRedis.xadd(key, "MAXLEN", "~", maxLen, id, ...args);
+  };
+
+  const streamRange = async (key: string, start: string, end: string, count?: number) => {
+    if (count) {
+      return primaryRedis.xrange(key, start, end, "COUNT", count);
+    }
+    return primaryRedis.xrange(key, start, end);
+  };
+
+  const streamTrim = async (key: string, minId: string, inclusive = false) => {
+    let id = minId;
+    if (inclusive) {
+      const [ts, seq] = minId.split("-");
+      id = `${ts}-${Number(seq) + 1}`;
+    }
+    return primaryRedis.xtrim(key, "MINID", id);
+  };
+
+  const streamCollect = async (key: string, batchSize: number, maxEntries: number) => {
+    let lastId: string | null = null;
+    const allEntries: [string, string[]][] = [];
+
+    for (let i = 0; i < Math.ceil(maxEntries / batchSize); i += 1) {
+      const start: string = lastId ? `(${lastId}` : "-";
+      // eslint-disable-next-line no-await-in-loop
+      const batch: [string, string[]][] = await primaryRedis.xrange(key, start, "+", "COUNT", batchSize);
+
+      if (batch.length === 0) break;
+
+      allEntries.push(...batch);
+      // eslint-disable-next-line prefer-destructuring
+      lastId = batch[batch.length - 1][0];
+
+      if (allEntries.length >= maxEntries || batch.length < batchSize) break;
+    }
+
+    return { entries: allEntries, lastId };
+  };
+
+  const waitTillReady = async ({
+    key,
+    waitingCb,
+    keyCheckCb,
+    waitIteration = 10,
+    delay = 1000,
+    jitter = 200
+  }: TWaitTillReady) => {
+    let attempts = 0;
+    let isReady = keyCheckCb(await getItem(key));
+    while (!isReady) {
+      if (attempts > waitIteration) return;
+      // eslint-disable-next-line
+      await new Promise((resolve) => {
+        waitingCb?.();
+        setTimeout(resolve, Math.max(0, applyJitter(delay, jitter)));
+      });
+      attempts += 1;
+      // eslint-disable-next-line
+      isReady = keyCheckCb(await getItem(key));
+    }
+  };
+
+  return {
+    setItem,
+    getItem,
+    getItemPrimary,
+    setExpiry,
+    ttl,
+    setItemWithExpiry,
+    setItemWithExpiryNX,
+    deleteItem,
+    deleteItems,
+    incrementBy,
+    incrementByAndRefreshExpiryIfUnderLimit,
+    decrementByOrDelete,
+    incrementByWithExpiry,
+    incrementSeededWithExpiry,
+    acquireLock(resources: string[], duration: number, settings?: Partial<Settings>) {
+      return redisLock.acquire(resources, duration, settings);
+    },
+    waitTillReady,
+    getKeysByPattern,
+    deleteItemsByKeyIn,
+    getItems,
+    pgGetIntItem,
+    pgIncrementBy,
+    hashSet,
+    hashGet,
+    listPush,
+    listRange,
+    listRemove,
+    listLength,
+    streamAdd,
+    streamRange,
+    streamTrim,
+    streamCollect
+  };
+};

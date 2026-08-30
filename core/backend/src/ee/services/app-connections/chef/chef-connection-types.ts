@@ -1,0 +1,55 @@
+import z from "zod";
+
+import { TChefDataBagItemContent } from "@app/ee/services/secret-sync/chef";
+import { DiscriminativePick } from "@app/lib/types";
+
+import { AppConnection } from "../../../../services/app-connection/app-connection-enums";
+import {
+  ChefConnectionSchema,
+  CreateChefConnectionSchema,
+  ValidateChefConnectionCredentialsSchema
+} from "./chef-connection-schemas";
+
+export type TChefConnection = z.infer<typeof ChefConnectionSchema>;
+
+export type TChefConnectionInput = z.infer<typeof CreateChefConnectionSchema> & {
+  app: AppConnection.Chef;
+};
+
+export type TValidateChefConnectionCredentialsSchema = typeof ValidateChefConnectionCredentialsSchema;
+
+export type TChefConnectionConfig = DiscriminativePick<
+  TChefConnectionInput,
+  "method" | "app" | "credentials" | "gatewayId" | "gatewayPoolId"
+> & {
+  orgId: string;
+};
+
+export type TChefDataBag = {
+  name: string;
+};
+
+export type TChefDataBagItem = {
+  name: string;
+};
+
+export type TGetChefDataBagItem = {
+  serverUrl?: string;
+  userName: string;
+  privateKey: string;
+  orgName: string;
+  dataBagName: string;
+  dataBagItemName: string;
+  gatewayId?: string | null;
+};
+
+export type TUpdateChefDataBagItem = {
+  serverUrl?: string;
+  userName: string;
+  privateKey: string;
+  orgName: string;
+  dataBagName: string;
+  dataBagItemName: string;
+  data: TChefDataBagItemContent;
+  gatewayId?: string | null;
+};

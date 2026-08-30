@@ -1,0 +1,17 @@
+# Customer-facing strings. Leftover vendor names stay out of the panel.
+product: Vaultix
+umbrella: Shippin
+legal_owner: AngryVibes LLC
+service_of: shippin.ai
+cloud_host: shippin.ai
+public_host: vaultix.shippin.cloud
+public_host_alias: vaultix.shippin.ai
+tagline: Secrets you own. Never in chat.
+stamp: A SHIPPIN.AI SERVICE
+forbidden_in_customer_ui:
+  - Infisical
+  - Authentik
+  - HashiCorp Vault
+  - Clerk
+  - Zitadel
+  - Tessera

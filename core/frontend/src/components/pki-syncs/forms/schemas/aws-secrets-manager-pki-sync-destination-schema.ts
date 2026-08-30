@@ -1,0 +1,97 @@
+import { z } from "zod";
+
+import { PkiSync } from "@app/hooks/api/pkiSyncs";
+
+import { BasePkiSyncSchema } from "./base-pki-sync-schema";
+
+const AwsSecretsManagerFieldMappingsSchema = z.object({
+  certificate: z.string().min(1, "Certificate field name is required").default("certificate"),
+  privateKey: z.string().min(1, "Private key field name is required").default("private_key"),
+  certificateChain: z
+    .string()
+    .min(1, "Certificate chain field name is required")
+    .default("certificate_chain"),
+  caCertificate: z
+    .string()
+    .min(1, "CA certificate field name is required")
+    .default("ca_certificate")
+});
+
+const AwsSecretsManagerSyncOptionsSchema = z.object({
+  canImportCertificates: z.boolean().default(false),
+  canRemoveCertificates: z.boolean().default(true),
+  includeRootCa: z.boolean().default(false),
+  preserveSecretOnRenewal: z.boolean().default(true),
+  updateExistingCertificates: z.boolean().default(true),
+  certificateNameSchema: z
+    .string()
+    .trim()
+    .min(1, "Certificate name schema is required")
+    .refine(
+      (val) => {
+        const allowedOptionalPlaceholders = [
+          "{{profileId}}",
+          "{{applicationId}}",
+          "{{applicationName}}",
+          "{{commonName}}"
+        ];
+
+        const allowedPlaceholdersRegexPart = [
+          "{{certificateId}}",
+          "{{shortCertificateId}}",
+          ...allowedOptionalPlaceholders
+        ]
+          .map((p) => p.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
+          .join("|");
+
+        const allowedContentRegex = new RegExp(
+          `^([a-zA-Z0-9_\\-]|${allowedPlaceholdersRegexPart})*$`
+        );
+        const contentIsValid = allowedContentRegex.test(val);
+
+        const certificateIdIsPresent =
+          val.includes("{{certificateId}}") || val.includes("{{shortCertificateId}}");
+        return contentIsValid && certificateIdIsPresent;
+      },
+      {
+        message:
+          "Certificate name schema must include the {{certificateId}} or {{shortCertificateId}} placeholder. It can also include {{profileId}}, {{applicationId}}, {{applicationName}}, and {{commonName}} placeholders. Only alphanumeric characters (a-z, A-Z, 0-9), hyphens (-), and underscores (_) are allowed besides the placeholders."
+      }
+    ),
+  fieldMappings: AwsSecretsManagerFieldMappingsSchema.optional().default({
+    certificate: "certificate",
+    privateKey: "private_key",
+    certificateChain: "certificate_chain",
+    caCertificate: "ca_certificate"
+  })
+});
+
+export const AwsSecretsManagerPkiSyncDestinationSchema = BasePkiSyncSchema(
+  AwsSecretsManagerSyncOptionsSchema
+).merge(
+  z.object({
+    destination: z.literal(PkiSync.AwsSecretsManager),
+    destinationConfig: z.object({
+      region: z.string().min(1, "AWS region is required")
+    })
+  })
+);
+
+export const UpdateAwsSecretsManagerPkiSyncDestinationSchema =
+  AwsSecretsManagerPkiSyncDestinationSchema.partial().merge(
+    z.object({
+      name: z
+        .string()
+        .trim()
+        .min(1, "Name is required")
+        .max(255, "Name must be less than 255 characters"),
+      destination: z.literal(PkiSync.AwsSecretsManager),
+      connection: z.object({
+        id: z.string().uuid("Invalid connection ID format"),
+        name: z
+          .string()
+          .min(1, "Connection name is required")
+          .max(255, "Connection name must be less than 255 characters")
+      })
+    })
+  );

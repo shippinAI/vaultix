@@ -1,0 +1,241 @@
+import { Identity } from "@app/hooks/api/identities/types";
+import { OrgMembershipStatus } from "@app/hooks/api/organization/types";
+
+import { Organization, User } from "../types";
+
+export enum LoginMethod {
+  EMAIL = "email",
+  GOOGLE = "google",
+  GITHUB = "github",
+  GITLAB = "gitlab",
+  SAML = "saml",
+  LDAP = "ldap",
+  OIDC = "oidc"
+}
+
+export enum SuperAdminErrorCode {
+  AuthMethodLockout = "SUPER_ADMIN_AUTH_METHOD_LOCKOUT"
+}
+
+export type TPasswordPolicyRequirement = {
+  code: string;
+  message: string;
+  validationMessage: string;
+  isPrimary: boolean;
+  patterns: string[];
+  flags?: string;
+  maxConsecutiveCharacters?: number;
+  shouldMatch: boolean;
+};
+
+export type TPasswordPolicy = {
+  requirements: TPasswordPolicyRequirement[];
+};
+
+export type OrganizationWithProjects = Organization & {
+  members: {
+    user: {
+      id: string;
+      email: string | null;
+      username: string;
+      firstName: string | null;
+      lastName: string | null;
+    };
+    membershipId: string;
+    status: OrgMembershipStatus;
+    role: string;
+    roleId: string | null;
+  }[];
+  projects: {
+    name: string;
+    id: string;
+    slug: string;
+    createdAt: string;
+  }[];
+};
+
+export type TGetOrganizationsResponse = {
+  organizations: OrganizationWithProjects[];
+  total: number;
+};
+
+export type TGetIdentitiesResponse = {
+  identities: Identity[];
+  total: number;
+};
+
+export type TGetUsersResponse = {
+  users: User[];
+  total: number;
+};
+
+export type TServerConfig = {
+  initialized: boolean;
+  allowSignUp: boolean;
+  allowedSignUpDomain?: string | null;
+  disableAuditLogStorage: boolean;
+  defaultAuthOrgSlug: string | null;
+  defaultAuthOrgId: string | null;
+  defaultAuthOrgAuthMethod?: string | null;
+  defaultAuthOrgAuthEnforced?: boolean | null;
+  enabledLoginMethods: LoginMethod[] | null;
+  passwordPolicy: TPasswordPolicy;
+  authConsentContent?: string;
+  pageFrameContent?: string;
+  invalidatingCache: boolean;
+  envOverrides?: Record<string, string>;
+  isPublicSecretSharingDisabled?: boolean;
+  licenseServerV2Enabled?: boolean;
+  isCrossProjectSecretSharingEnabled?: boolean;
+  // populated on self-hosted instances when a newer release than the running version exists
+  latestAvailableVersion?: string | null;
+  // Super admin-only fields (omitted for non-super-admin callers)
+  instanceId?: string;
+  createdAt?: string;
+  trustSamlEmails?: boolean;
+  trustLdapEmails?: boolean;
+  trustOidcEmails?: boolean;
+  onboardingCompleted?: boolean;
+  isSecretScanningDisabled?: boolean;
+  kubernetesAutoFetchServiceAccountToken?: boolean;
+  isMigrationModeOn?: boolean;
+  fipsEnabled?: boolean;
+  paramsFolderSecretDetectionEnabled?: boolean;
+  isOfflineUsageReportsEnabled?: boolean;
+};
+
+export type TUpdateServerConfigDTO = {
+  slackClientId?: string;
+  slackClientSecret?: string;
+  microsoftTeamsAppId?: string;
+  microsoftTeamsClientSecret?: string;
+  microsoftTeamsBotId?: string;
+  gitHubAppConnectionClientId?: string;
+  gitHubAppConnectionClientSecret?: string;
+  gitHubAppConnectionSlug?: string;
+  gitHubAppConnectionId?: string;
+  gitHubAppConnectionPrivateKey?: string;
+  envOverrides?: Record<string, string>;
+} & Partial<TServerConfig>;
+
+export type TCreateAdminUserDTO = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName?: string;
+  organizationName?: string;
+};
+
+export type AdminGetOrganizationsFilters = {
+  searchTerm?: string;
+  limit?: number;
+  offset?: number;
+};
+
+export type AdminGetUsersFilters = {
+  limit?: number;
+  offset?: number;
+  searchTerm?: string;
+  adminsOnly?: boolean;
+};
+
+export type AdminGetIdentitiesFilters = {
+  limit?: number;
+  offset?: number;
+  searchTerm?: string;
+};
+
+export type AdminEmailDomain = {
+  id: string;
+  orgId: string;
+  domain: string;
+  verificationMethod: string;
+  status: string;
+  verifiedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  orgName: string | null;
+};
+
+export type AdminGetEmailDomainsFilters = {
+  limit?: number;
+  offset?: number;
+  searchTerm?: string;
+};
+
+export type TGetEmailDomainsResponse = {
+  emailDomains: AdminEmailDomain[];
+  total: number;
+};
+
+export type TAdminCreateEmailDomainDTO = {
+  orgId: string;
+  domain: string;
+};
+
+export type AdminIntegrationsConfig = {
+  slack: {
+    clientId: string;
+    clientSecret: string;
+  };
+  microsoftTeams: {
+    appId: string;
+    clientSecret: string;
+    botId: string;
+  };
+  gitHubAppConnection: {
+    clientId: string;
+    clientSecret: string;
+    appSlug: string;
+    appId: string;
+    privateKey: string;
+  };
+};
+
+export type TGetServerRootKmsEncryptionDetails = {
+  strategies: {
+    strategy: RootKeyEncryptionStrategy;
+    enabled: boolean;
+  }[];
+};
+
+export enum RootKeyEncryptionStrategy {
+  Software = "SOFTWARE",
+  HSM = "HSM"
+}
+
+export enum CacheType {
+  ALL = "all",
+  SECRETS = "secrets"
+}
+
+export type TInvalidateCacheDTO = {
+  type: CacheType;
+};
+
+export type TGetInvalidatingCacheStatus = {
+  invalidating: boolean;
+};
+
+export interface TGetEnvOverrides {
+  [key: string]: {
+    name: string;
+    fields: { key: string; value: string; hasEnvEntry: boolean; description?: string }[];
+  };
+}
+
+export type TUsageReportResponse = {
+  filename: string;
+  csvContent: string;
+  signature: string;
+};
+
+export type TCreateOrganizationDTO = {
+  name: string;
+  inviteAdminEmails: string[];
+};
+
+export type TResendOrgInviteDTO = {
+  organizationId: string;
+  membershipId: string;
+};
