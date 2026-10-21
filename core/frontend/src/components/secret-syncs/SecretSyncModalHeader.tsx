@@ -1,0 +1,40 @@
+import { DocumentationLinkBadge } from "@app/components/v3";
+import { SECRET_SYNC_MAP } from "@app/helpers/secretSyncs";
+import { SecretSync } from "@app/hooks/api/secretSyncs";
+
+type Props = {
+  destination: SecretSync;
+  isConfigured: boolean;
+  showDocLink?: boolean;
+};
+
+export const SecretSyncModalHeader = ({ destination, isConfigured, showDocLink = true }: Props) => {
+  const destinationDetails = SECRET_SYNC_MAP[destination];
+
+  return (
+    <div className="flex w-full items-start gap-2">
+      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-container">
+        <img
+          alt={`${destinationDetails.name} logo`}
+          src={`/images/integrations/${destinationDetails.image}`}
+          className="h-7 w-7 object-contain"
+        />
+      </div>
+      <div>
+        <div className="flex items-center gap-x-2 text-mineshaft-300">
+          {destinationDetails.name} Sync
+          {showDocLink && (
+            <DocumentationLinkBadge
+              href={`https://vaultix.shippin.cloud/docs/integrations/secret-syncs/${destination}`}
+            />
+          )}
+        </div>
+        <p className="text-sm leading-4 text-mineshaft-400">
+          {isConfigured
+            ? `Edit ${destinationDetails.name} Sync`
+            : `Sync secrets to ${destinationDetails.name}`}
+        </p>
+      </div>
+    </div>
+  );
+};

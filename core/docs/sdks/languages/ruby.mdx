@@ -1,0 +1,396 @@
+---
+title: "Infisical Ruby SDK"
+sidebarTitle: "Ruby"
+icon: "/images/sdks/languages/ruby.svg"
+---
+
+If you're working with Ruby, the official Infisical Ruby SDK package is the easiest way to fetch and work with secrets for your application.
+
+- [Package](https://rubygems.org/gems/infisical-sdk)
+- [Github Repository](https://github.com/Infisical/ruby-sdk)
+
+# Basic Usage
+
+```ruby
+require "infisical"
+
+client = Infisical::Client.new
+
+# Authenticate with a machine identity
+client.auth.universal_auth_login(
+  client_id: ENV.fetch("INFISICAL_CLIENT_ID"),
+  client_secret: ENV.fetch("INFISICAL_CLIENT_SECRET")
+)
+
+# Fetch a secret by name
+secret = client.secrets.get(
+  "API_KEY",
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev"
+)
+
+puts secret.secret_value
+```
+
+This example demonstrates how to use the Infisical Ruby SDK in a simple Ruby application. The application retrieves a secret named `API_KEY` from the `dev` environment of the `YOUR_PROJECT_ID` project.
+
+<Warning>
+  We do not recommend hardcoding your [Machine Identity
+  Tokens](/documentation/platform/identities/machine-identities). Setting it as
+  an environment variable would be best.
+</Warning>
+
+# Installation
+
+The SDK requires Ruby 3.0.0 or higher.
+
+```console
+$ gem install infisical-sdk
+```
+
+Or add it to your Gemfile:
+
+```ruby
+gem "infisical-sdk"
+```
+
+# Configuration
+
+Require the SDK and create a client instance. The require path is `"infisical"`.
+
+```ruby
+require "infisical"
+
+client = Infisical::Client.new(
+  site_url: "https://app.infisical.com" # Optional, defaults to https://app.infisical.com
+)
+```
+
+### Configuration Options
+
+<ParamField query="options" type="object">
+  <Expandable title="properties">
+    <ParamField query="site_url" type="string" optional default="https://app.infisical.com">
+      The URL of the Infisical instance. Set this to your instance URL when self-hosting Infisical.
+    </ParamField>
+
+    <ParamField query="timeout" type="integer" optional default="10">
+      The timeout, in seconds, for HTTP requests made by the SDK.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+# Authentication
+
+The SDK authenticates as a [machine identity](/documentation/platform/identities/machine-identities). The most common authentication method is Universal Auth, which uses a client ID and client secret. If you already have a valid access token, you can also set it on the client directly.
+
+### Universal Auth
+
+Log in with a machine identity's client ID and client secret. On success, the returned access token is stored on the client and used for all subsequent requests.
+
+```ruby
+client.auth.universal_auth_login(
+  client_id: ENV.fetch("INFISICAL_CLIENT_ID"),
+  client_secret: ENV.fetch("INFISICAL_CLIENT_SECRET")
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="client_id" type="string" required>
+      The client ID of your machine identity.
+    </ParamField>
+
+    <ParamField query="client_secret" type="string" required>
+      The client secret of your machine identity.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Access Token
+
+If you already have a valid access token, set it on the client directly instead of logging in. This does not make a network request.
+
+```ruby
+client.auth.access_token("YOUR_ACCESS_TOKEN")
+```
+
+**Parameters**
+
+<ParamField query="access_token" type="string" required>
+  The access token to authenticate with. This should not include the `Bearer` prefix.
+</ParamField>
+
+# Secrets
+
+### List Secrets
+
+`client.secrets.list(options)`
+
+Retrieve all secrets within a project and environment. Returns an array of secret objects sorted by key.
+
+```ruby
+secrets = client.secrets.list(
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev",
+  secret_path: "/"
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="project_id" type="string" required>
+      The ID of the project where the secrets live.
+    </ParamField>
+
+    <ParamField query="environment" type="string" required>
+      The slug name (dev, prod, etc.) of the environment from where secrets should be fetched.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string" optional default="/">
+      The path from where secrets should be fetched.
+    </ParamField>
+
+    <ParamField query="include_imports" type="boolean" optional default="true">
+      Whether or not to include imported secrets from the current path. Read about [secret import](/documentation/platform/secret-reference).
+    </ParamField>
+
+    <ParamField query="recursive" type="boolean" optional default="false">
+      Whether or not to fetch secrets recursively from the specified path. Please note that there's a 20-depth limit for recursive fetching.
+    </ParamField>
+
+    <ParamField query="attach_to_process_env" type="boolean" optional default="false">
+      Whether or not to set the fetched secrets to the process environment (`ENV`). Only variables that are unset or empty are populated.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Retrieve Secret
+
+`client.secrets.get(secret_name, options)`
+
+Retrieve a single secret by name. Raises `Infisical::NotFoundError` if the secret does not exist.
+
+```ruby
+secret = client.secrets.get(
+  "API_KEY",
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev"
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="secret_name" type="string" required>
+      The name of the secret to retrieve. Passed as the first positional argument.
+    </ParamField>
+
+    <ParamField query="project_id" type="string" required>
+      The ID of the project where the secret lives.
+    </ParamField>
+
+    <ParamField query="environment" type="string" required>
+      The slug name (dev, prod, etc.) of the environment from where the secret should be fetched.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string" optional default="/">
+      The path from where the secret should be fetched.
+    </ParamField>
+
+    <ParamField query="include_imports" type="boolean" optional default="true">
+      Whether or not to include imported secrets when resolving the secret.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Create Secret
+
+`client.secrets.create(secret_name, secret_value, options)`
+
+Create a new secret. Returns the created secret.
+
+```ruby
+secret = client.secrets.create(
+  "API_KEY",
+  "SECRET_VALUE",
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev"
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="secret_name" type="string" required>
+      The name of the secret to create. Passed as the first positional argument.
+    </ParamField>
+
+    <ParamField query="secret_value" type="string" required>
+      The value of the secret. Passed as the second positional argument.
+    </ParamField>
+
+    <ParamField query="project_id" type="string" required>
+      The ID of the project where the secret will be created.
+    </ParamField>
+
+    <ParamField query="environment" type="string" required>
+      The slug name (dev, prod, etc.) of the environment where the secret will be created.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string" optional default="/">
+      The path where the secret should be created.
+    </ParamField>
+
+    <ParamField query="secret_comment" type="string" optional>
+      A comment to associate with the secret.
+    </ParamField>
+
+    <ParamField query="skip_multiline_encoding" type="boolean" optional>
+      Whether or not to skip multiline encoding for the secret value.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Update Secret
+
+`client.secrets.update(secret_name, options)`
+
+Update an existing secret's value, rename it, or both. You must provide at least one of `secret_value` or `new_secret_name`, otherwise an `ArgumentError` is raised. Returns the updated secret.
+
+```ruby
+secret = client.secrets.update(
+  "API_KEY",
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev",
+  secret_value: "UPDATED_SECRET_VALUE"
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="secret_name" type="string" required>
+      The name of the secret to update. Passed as the first positional argument.
+    </ParamField>
+
+    <ParamField query="project_id" type="string" required>
+      The ID of the project where the secret lives.
+    </ParamField>
+
+    <ParamField query="environment" type="string" required>
+      The slug name (dev, prod, etc.) of the environment where the secret lives.
+    </ParamField>
+
+    <ParamField query="secret_value" type="string" optional>
+      The new value of the secret. Required unless `new_secret_name` is provided.
+    </ParamField>
+
+    <ParamField query="new_secret_name" type="string" optional>
+      A new name for the secret. Required unless `secret_value` is provided.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string" optional default="/">
+      The path where the secret lives.
+    </ParamField>
+
+    <ParamField query="skip_multiline_encoding" type="boolean" optional>
+      Whether or not to skip multiline encoding for the new secret value.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Delete Secret
+
+`client.secrets.delete(secret_name, options)`
+
+Delete a secret by name. Raises `Infisical::NotFoundError` if the secret does not exist. Returns the deleted secret.
+
+```ruby
+secret = client.secrets.delete(
+  "API_KEY",
+  project_id: "YOUR_PROJECT_ID",
+  environment: "dev"
+)
+```
+
+**Parameters**
+
+<ParamField query="Parameters" type="object">
+  <Expandable title="properties">
+    <ParamField query="secret_name" type="string" required>
+      The name of the secret to delete. Passed as the first positional argument.
+    </ParamField>
+
+    <ParamField query="project_id" type="string" required>
+      The ID of the project where the secret lives.
+    </ParamField>
+
+    <ParamField query="environment" type="string" required>
+      The slug name (dev, prod, etc.) of the environment where the secret lives.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string" optional default="/">
+      The path where the secret lives.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### The Secret object
+
+Every secret operation returns an `Infisical::Models::Secret` with the following readers:
+
+<ParamField query="Secret" type="object">
+  <Expandable title="properties">
+    <ParamField query="secret_key" type="string">
+      The name of the secret.
+    </ParamField>
+
+    <ParamField query="secret_value" type="string">
+      The value of the secret.
+    </ParamField>
+
+    <ParamField query="secret_comment" type="string">
+      The comment associated with the secret.
+    </ParamField>
+
+    <ParamField query="secret_path" type="string">
+      The path the secret lives at.
+    </ParamField>
+
+    <ParamField query="environment" type="string">
+      The environment slug the secret belongs to.
+    </ParamField>
+
+    <ParamField query="workspace" type="string">
+      The ID of the project the secret belongs to.
+    </ParamField>
+
+    <ParamField query="version" type="integer">
+      The version number of the secret.
+    </ParamField>
+
+    <ParamField query="type" type="string">
+      The secret type, either `shared` or `personal`.
+    </ParamField>
+
+    <ParamField query="id" type="string">
+      The unique ID of the secret.
+    </ParamField>
+
+    <ParamField query="created_at" type="string">
+      When the secret was created.
+    </ParamField>
+
+    <ParamField query="updated_at" type="string">
+      When the secret was last updated.
+    </ParamField>
+  </Expandable>
+</ParamField>

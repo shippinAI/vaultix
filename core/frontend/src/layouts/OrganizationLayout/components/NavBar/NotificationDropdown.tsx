@@ -1,0 +1,134 @@
+import { useMemo } from "react";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "@tanstack/react-router";
+import { Bell, BellIcon } from "lucide-react";
+
+import {
+  ContentLoader,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from "@app/components/v2";
+import { IconButton } from "@app/components/v3";
+import {
+  useDeleteNotification,
+  useMarkAllNotificationsAsRead,
+  useUpdateNotification
+} from "@app/hooks/api/notifications/mutations";
+import { useGetMyNotifications } from "@app/hooks/api/notifications/queries";
+import { isCriticalNotification } from "@app/hooks/api/notifications/types";
+
+import { Notification } from "./Notification";
+
+export const NotificationDropdown = () => {
+  const router = useRouter();
+
+  const { data: notifications, isLoading } = useGetMyNotifications();
+  const { mutate: markAllAsRead } = useMarkAllNotificationsAsRead();
+  const { mutate: updateNotification } = useUpdateNotification();
+  const { mutate: deleteNotification } = useDeleteNotification();
+
+  const unreadCount = useMemo(
+    () => notifications?.filter((n) => !n.isRead).length || 0,
+    [notifications]
+  );
+
+  const criticalCount = useMemo(
+    () => notifications?.filter((n) => !n.isRead && isCriticalNotification(n.type)).length || 0,
+    [notifications]
+  );
+
+  const hasCritical = criticalCount > 0;
+
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <IconButton variant="outline" size="sm" aria-label="Notifications" className="relative">
+          {unreadCount > 0 ? <BellIcon className="text-warning" /> : <Bell />}
+          {unreadCount > 0 && (
+            <span
+              aria-hidden="true"
+              className="absolute -top-0.5 -right-0.5 z-10 size-2 rounded-full bg-warning ring-2 ring-background"
+            />
+          )}
+        </IconButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        side="bottom"
+        className="z-999 mt-3 flex h-[550px] w-[400px] overflow-hidden rounded-lg"
+      >
+        <div className="flex w-full flex-col">
+          <div className="flex items-center justify-between border-b border-mineshaft-500 px-3 py-2">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-white">Notifications</span>
+              {hasCritical && (
+                <span className="rounded-full bg-red-700 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                  {criticalCount > 99 ? "99+" : criticalCount} critical
+                </span>
+              )}
+            </div>
+            <button
+              type="button"
+              className="text-xs font-medium text-mineshaft-300 hover:text-primary-400 disabled:pointer-events-none disabled:opacity-50"
+              onClick={(e) => {
+                e.preventDefault();
+                markAllAsRead();
+              }}
+              disabled={unreadCount === 0}
+            >
+              Mark all as read
+            </button>
+          </div>
+          <div className="flex h-full w-full overflow-auto">
+            {isLoading && (
+              <div className="flex h-full w-full items-center justify-center">
+                <ContentLoader className="pointer-events-none" lottieClassName="size-10" />
+              </div>
+            )}
+            {!isLoading && notifications?.length === 0 && (
+              <div className="flex h-full w-full flex-col items-center justify-center">
+                <FontAwesomeIcon icon={faBell} size="3x" className="text-mineshaft-400" />
+                <span className="mt-4 text-sm text-mineshaft-300">No new notifications</span>
+                <span className="text-xs text-mineshaft-400">
+                  We&apos;ll let you know when something important happens.
+                </span>
+              </div>
+            )}
+            {!isLoading && notifications && notifications.length > 0 && (
+              <div className="flex w-full flex-col">
+                {notifications.map((notification) => (
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    key={notification.id}
+                    onClick={() => {
+                      if (!notification.isRead) {
+                        updateNotification({ notificationId: notification.id, isRead: true });
+                      }
+                      if (notification.link) {
+                        router.navigate({ to: notification.link });
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter") return;
+                      if (!notification.isRead) {
+                        updateNotification({ notificationId: notification.id, isRead: true });
+                      }
+                      if (notification.link) {
+                        router.navigate({ to: notification.link });
+                      }
+                    }}
+                  >
+                    <Notification notification={notification} onDelete={deleteNotification} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

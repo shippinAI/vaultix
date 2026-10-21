@@ -1,0 +1,457 @@
+import RE2 from "re2";
+import { z } from "zod";
+
+import { PAGERDUTY_INTEGRATION_KEY_ERROR, pagerDutyIntegrationKeyRegex } from "@app/lib/pagerduty/integration-key";
+import { TGenericPermission } from "@app/lib/types";
+
+const createSecureNameValidator = () => {
+  // Validates name format: lowercase alphanumeric characters with optional hyphens
+  // Pattern: starts and ends with alphanumeric, allows hyphens between segments
+  // Examples: "my-alert", "alert1", "test-alert-2"
+  const nameRegex = new RE2("^[a-z0-9]+(?:-[a-z0-9]+)*$");
+  return (value: string) => nameRegex.test(value);
+};
+
+export const createSecureAlertBeforeValidator = () => {
+  // Validates alertBefore duration format: number followed by time unit
+  // Pattern: one or more digits followed by d(days), w(weeks), m(months), or y(years)
+  // Examples: "30d", "2w", "6m", "1y"
+  const alertBeforeRegex = new RE2("^\\d+[dwmy]$");
+  return (value: string) => {
+    if (value.length > 32) return false;
+    return alertBeforeRegex.test(value);
+  };
+};
+
+export enum PkiAlertEventType {
+  EXPIRATION = "expiration",
+  RENEWAL = "renewal",
+  ISSUANCE = "issuance",
+  REVOCATION = "revocation"
+}
+
+export enum PkiAlertChannelType {
+  EMAIL = "email",
+  WEBHOOK = "webhook",
+  SLACK = "slack",
+  PAGERDUTY = "pagerduty"
+}
+
+export enum PkiFilterOperator {
+  EQUALS = "equals",
+  MATCHES = "matches",
+  CONTAINS = "contains",
+  STARTS_WITH = "starts_with",
+  ENDS_WITH = "ends_with"
+}
+
+export enum PkiFilterField {
+  PROFILE_NAME = "profile_name",
+  COMMON_NAME = "common_name",
+  SAN = "san",
+  INCLUDE_CAS = "include_cas"
+}
+
+export enum CertificateOrigin {
+  UNKNOWN = "unknown",
+  PROFILE = "profile",
+  IMPORT = "import",
+  CA = "ca"
+}
+
+export enum PkiAlertRunStatus {
+  SUCCESS = "success",
+  FAILED = "failed"
+}
+
+export enum PkiWebhookEventType {
+  CERTIFICATE_EXPIRATION = "com.infisical.pki.certificate.expiration",
+  CERTIFICATE_ISSUANCE = "com.infisical.pki.certificate.issuance",
+  CERTIFICATE_RENEWAL = "com.infisical.pki.certificate.renewal",
+  CERTIFICATE_REVOCATION = "com.infisical.pki.certificate.revocation",
+  CERTIFICATE_TEST = "com.infisical.pki.certificate.test"
+}
+
+export const alertEventTypeToWebhookEventType: Record<PkiAlertEventType, PkiWebhookEventType> = {
+  [PkiAlertEventType.EXPIRATION]: PkiWebhookEventType.CERTIFICATE_EXPIRATION,
+  [PkiAlertEventType.ISSUANCE]: PkiWebhookEventType.CERTIFICATE_ISSUANCE,
+  [PkiAlertEventType.RENEWAL]: PkiWebhookEventType.CERTIFICATE_RENEWAL,
+  [PkiAlertEventType.REVOCATION]: PkiWebhookEventType.CERTIFICATE_REVOCATION
+};
+
+// Alert info used across event types
+export type TAlertInfo = {
+  id: string;
+  name: string;
+  alertBefore?: string;
+  projectId: string;
+  orgId: string;
+  applicationId?: string;
+  applicationName?: string;
+};
+
+// Certificate data for webhook payloads
+export type TCertificateData = {
+  id: string;
+  serialNumber: string;
+  commonName: string;
+  san: string[];
+  profileName: string | null;
+  notBefore: string;
+  notAfter: string;
+  status: string;
+  daysUntilExpiry: number;
+  revokedAt?: string;
+  revocationReason?: string;
+};
+
+export type TPkiWebhookPayload = {
+  // Required CloudEvents attributes
+  specversion: "1.0";
+  type: PkiWebhookEventType;
+  source: string;
+  id: string;
+
+  // Optional CloudEvents attributes
+  time: string;
+  datacontenttype: "application/json";
+  subject: string;
+
+  // Event data
+  data: {
+    alert: Omit<TAlertInfo, "projectId" | "orgId" | "applicationName">;
+    certificates: TCertificateData[];
+    metadata: {
+      totalCertificates: number;
+      viewUrl: string;
+    };
+  };
+};
+
+export const NotificationConfigSchema = z.object({
+  enableDailyNotification: z.boolean().default(false)
+});
+
+export type TNotificationConfig = z.infer<typeof NotificationConfigSchema>;
+
+export const PkiFilterRuleSchema = z.object({
+  field: z.nativeEnum(PkiFilterField),
+  operator: z.nativeEnum(PkiFilterOperator),
+  value: z.union([z.string(), z.array(z.string()), z.boolean()])
+});
+
+export type TPkiFilterRule = z.infer<typeof PkiFilterRuleSchema>;
+
+export const PkiFiltersSchema = z.array(PkiFilterRuleSchema);
+export type TPkiFilters = z.infer<typeof PkiFiltersSchema>;
+
+export const EmailChannelConfigSchema = z.object({
+  recipients: z.array(z.string().email()).min(1).max(10)
+});
+
+export const WebhookChannelConfigSchema = z.object({
+  url: z
+    .string()
+    .url()
+    .refine((url) => url.startsWith("https://"), "Webhook URL must use HTTPS"),
+  signingSecret: z.string().max(256).optional().nullable()
+});
+
+// Response type for webhook config - signingSecret is replaced with hasSigningSecret
+export type TWebhookChannelConfigResponse = {
+  url: string;
+  hasSigningSecret: boolean;
+};
+
+export const SlackChannelConfigSchema = z.object({
+  webhookUrl: z
+    .string()
+    .url()
+    .refine((url) => url.startsWith("https://"), "Slack webhook URL must use HTTPS")
+    .refine((url) => {
+      try {
+        const parsed = new URL(url);
+        return parsed.hostname === "hooks.slack.com";
+      } catch {
+        return false;
+      }
+    }, "Slack webhook URL must be from hooks.slack.com")
+});
+
+export const PagerDutyChannelConfigSchema = z.object({
+  integrationKey: z.string().refine((val) => pagerDutyIntegrationKeyRegex.test(val), PAGERDUTY_INTEGRATION_KEY_ERROR)
+});
+
+export type TPagerDutyChannelConfig = z.infer<typeof PagerDutyChannelConfigSchema>;
+
+export const ChannelConfigSchema = z.union([
+  EmailChannelConfigSchema,
+  WebhookChannelConfigSchema,
+  SlackChannelConfigSchema,
+  PagerDutyChannelConfigSchema
+]);
+
+export type TEmailChannelConfig = z.infer<typeof EmailChannelConfigSchema>;
+export type TWebhookChannelConfig = z.infer<typeof WebhookChannelConfigSchema>;
+export type TSlackChannelConfig = z.infer<typeof SlackChannelConfigSchema>;
+export type TChannelConfig = z.infer<typeof ChannelConfigSchema>;
+
+export const CreateChannelSchema = z.object({
+  id: z.string().uuid().optional(),
+  channelType: z.nativeEnum(PkiAlertChannelType),
+  config: ChannelConfigSchema,
+  enabled: z.boolean().default(true)
+});
+
+export type TCreateChannel = z.infer<typeof CreateChannelSchema>;
+
+export const BasePkiAlertV2Schema = z.object({
+  name: z
+    .string()
+    .min(1)
+    .max(255)
+    .refine(createSecureNameValidator(), "Must be a valid name (lowercase, numbers, hyphens only)"),
+  description: z.string().max(1000).optional(),
+  eventType: z.nativeEnum(PkiAlertEventType),
+  alertBefore: z
+    .string()
+    .refine(createSecureAlertBeforeValidator(), "Must be in format like '30d', '1w', '3m', '1y'")
+    .optional(),
+  filters: PkiFiltersSchema,
+  enabled: z.boolean().default(true),
+  notificationConfig: NotificationConfigSchema.nullable().optional(),
+  channels: z
+    .array(CreateChannelSchema)
+    .min(1, "At least one notification channel is required")
+    .max(10)
+    .refine((channels) => channels.some((ch) => ch.enabled), "At least one notification channel must be enabled")
+});
+
+export const CreatePkiAlertV2Schema = BasePkiAlertV2Schema.superRefine((data, ctx) => {
+  if (data.eventType === PkiAlertEventType.EXPIRATION && !data.alertBefore) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "alertBefore is required for expiration alerts",
+      path: ["alertBefore"]
+    });
+  }
+});
+
+export type TCreatePkiAlertV2 = z.infer<typeof CreatePkiAlertV2Schema>;
+
+export const UpdatePkiAlertV2Schema = BasePkiAlertV2Schema.partial();
+export type TUpdatePkiAlertV2 = z.infer<typeof UpdatePkiAlertV2Schema>;
+
+export const PkiAlertV2ResponseSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  description: z.string().nullable(),
+  eventType: z.nativeEnum(PkiAlertEventType),
+  alertBefore: z.string().optional(),
+  filters: z.array(PkiFilterRuleSchema),
+  enabled: z.boolean(),
+  projectId: z.string(),
+  applicationId: z.string().uuid().nullable().optional(),
+  notificationConfig: NotificationConfigSchema.nullable(),
+  channels: z.array(
+    z.object({
+      id: z.string().uuid(),
+      channelType: z.nativeEnum(PkiAlertChannelType),
+      config: z.record(z.any()),
+      enabled: z.boolean(),
+      createdAt: z.date(),
+      updatedAt: z.date()
+    })
+  ),
+  lastRun: z
+    .object({
+      timestamp: z.date(),
+      status: z.nativeEnum(PkiAlertRunStatus),
+      error: z.string().nullable()
+    })
+    .nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date()
+});
+
+export type TCreateAlertV2DTO = TGenericPermission & {
+  projectId: string;
+  applicationId?: string;
+} & TCreatePkiAlertV2;
+
+export type TUpdateAlertV2DTO = TGenericPermission & {
+  alertId: string;
+  applicationId?: string;
+} & TUpdatePkiAlertV2;
+
+export type TGetAlertV2DTO = TGenericPermission & {
+  alertId: string;
+  applicationId?: string;
+};
+
+export type TDeleteAlertV2DTO = TGenericPermission & {
+  alertId: string;
+  applicationId?: string;
+};
+
+export type TListAlertsV2DTO = TGenericPermission & {
+  projectId: string;
+  search?: string;
+  eventType?: PkiAlertEventType;
+  enabled?: boolean;
+  limit?: number;
+  offset?: number;
+  applicationId?: string | null;
+};
+
+export type TListMatchingCertificatesDTO = TGenericPermission & {
+  alertId: string;
+  limit?: number;
+  offset?: number;
+};
+
+export type TListCurrentMatchingCertificatesDTO = TGenericPermission & {
+  projectId: string;
+  filters: TPkiFilters;
+  alertBefore?: string;
+  limit?: number;
+  offset?: number;
+};
+
+export type TCertificatePreview = {
+  id: string;
+  serialNumber: string;
+  commonName: string;
+  san: string[];
+  profileName: string | null;
+  enrollmentType: CertificateOrigin | null;
+  notBefore: Date;
+  notAfter: Date;
+  status: string;
+  revokedAt?: Date | null;
+  revocationReason?: number | null;
+};
+
+// Channel config type for responses (webhook has hasSigningSecret instead of signingSecret)
+export type TChannelConfigResponse =
+  | TEmailChannelConfig
+  | TWebhookChannelConfigResponse
+  | TSlackChannelConfig
+  | TPagerDutyChannelConfig;
+
+export type TLastRun = {
+  timestamp: Date;
+  status: PkiAlertRunStatus;
+  error: string | null;
+};
+
+export type TAlertV2Response = {
+  id: string;
+  name: string;
+  description: string | null;
+  eventType: PkiAlertEventType;
+  alertBefore?: string;
+  filters: TPkiFilters;
+  enabled: boolean;
+  projectId: string;
+  applicationId: string | null;
+  channels: Array<{
+    id: string;
+    channelType: PkiAlertChannelType;
+    config: TChannelConfigResponse;
+    enabled: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  }>;
+  notificationConfig: { enableDailyNotification: boolean } | null;
+  lastRun: TLastRun | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type TListAlertsV2Response = {
+  alerts: TAlertV2Response[];
+  total: number;
+};
+
+export type TListMatchingCertificatesResponse = {
+  certificates: TCertificatePreview[];
+  total: number;
+};
+
+export type TTestWebhookConfigDTO = TGenericPermission & {
+  projectId: string;
+  applicationId?: string;
+  url: string;
+  signingSecret?: string;
+};
+
+export type TChannelResult = { success: boolean; error?: string };
+
+export type TBuildSlackPayloadParams = {
+  alert: TAlertInfo;
+  certificates: TCertificatePreview[];
+  eventType: PkiAlertEventType;
+  appUrl?: string;
+};
+
+export type TPagerDutyPayload = {
+  routing_key: string;
+  event_action: "trigger";
+  dedup_key: string;
+  payload: {
+    summary: string;
+    severity: "critical" | "error" | "warning" | "info";
+    source: string;
+    timestamp: string;
+    component: string;
+    group: string;
+    class: string;
+    custom_details: {
+      alert_name: string;
+      alert_before?: string;
+      total_certificates: number;
+      certificates: Array<{
+        common_name: string;
+        serial_number: string;
+        expires_at: string;
+        days_until_expiry: number;
+      }>;
+      view_url: string;
+    };
+  };
+  links: Array<{ href: string; text: string }>;
+};
+
+// RFC 5280 CRL reason code to human-readable label
+const CRL_REASON_LABELS: Record<number, string> = {
+  0: "Unspecified",
+  1: "Key Compromise",
+  2: "CA Compromise",
+  3: "Affiliation Changed",
+  4: "Superseded",
+  5: "Cessation of Operation",
+  6: "Certificate Hold",
+  8: "Remove from CRL",
+  9: "Privilege Withdrawn",
+  10: "AA Compromise"
+};
+
+export const getRevocationReasonLabel = (code?: number | null): string | undefined => {
+  if (code == null) return undefined;
+  return CRL_REASON_LABELS[code] ?? `Unknown (${code})`;
+};
+
+export type TBuildPagerDutyPayloadParams = {
+  alert: TAlertInfo;
+  certificates: TCertificatePreview[];
+  integrationKey: string;
+  eventType: PkiAlertEventType;
+  appUrl?: string;
+};
+
+export type TPkiCertificateEventPayload = {
+  certificateId: string;
+  projectId: string;
+  eventType: PkiAlertEventType;
+};

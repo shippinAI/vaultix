@@ -1,0 +1,35 @@
+export enum SecretRotation {
+  PostgresCredentials = "postgres-credentials",
+  MsSqlCredentials = "mssql-credentials",
+  MySqlCredentials = "mysql-credentials",
+  OracleDBCredentials = "oracledb-credentials",
+  Auth0ClientSecret = "auth0-client-secret",
+  AzureClientSecret = "azure-client-secret",
+  LdapPassword = "ldap-password",
+  AwsIamUserSecret = "aws-iam-user-secret",
+  OktaClientSecret = "okta-client-secret",
+  RedisCredentials = "redis-credentials",
+  MongoDBCredentials = "mongodb-credentials",
+  DatabricksServicePrincipalSecret = "databricks-service-principal-secret",
+  UnixLinuxLocalAccount = "unix-linux-local-account",
+  DbtServiceToken = "dbt-service-token",
+  WindowsLocalAccount = "windows-local-account",
+  OpenRouterApiKey = "open-router-api-key",
+  LiteLLMApiKey = "litellm-api-key",
+  OpenAIServiceAccount = "openai-service-account",
+  HpIloLocalAccount = "hp-ilo-local-account",
+  SupabaseApiKey = "supabase-api-key",
+  SalesforceOauthCredentials = "salesforce-oauth-credentials",
+  DatadogApplicationKeySecret = "datadog-application-key-secret",
+  DatadogApiKey = "datadog-api-key",
+  ConvexAccessKey = "convex-access-key",
+  FireworksApiKey = "fireworks-api-key",
+  SnowflakeUserKeyPair = "snowflake-user-key-pair",
+  CloudflareApiToken = "cloudflare-api-token",
+  CloudflareR2AccessKey = "cloudflare-r2-access-key"
+}
+
+export enum SecretRotationStatus {
+  Success = "success",
+  Failed = "failed"
+}

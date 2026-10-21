@@ -1,0 +1,45 @@
+import { z } from "zod";
+
+import { PkiSync } from "../pki-sync/pki-sync-enums";
+
+/**
+ * AWS Elastic Load Balancer specific sync metadata
+ * - isDefault: When true, this certificate will be set as the default certificate
+ */
+export const AwsElbSyncMetadataSchema = z.object({
+  isDefault: z.boolean().optional()
+});
+
+export type TAwsElbSyncMetadata = z.infer<typeof AwsElbSyncMetadataSchema>;
+
+export const BaseSyncMetadataSchema = z.object({}).catchall(z.unknown());
+
+/**
+ * Server destinations (Linux/Windows) record the absolute paths of the files they delivered, so
+ * removal targets exactly what was written
+ */
+export const ServerSyncMetadataSchema = z.object({
+  files: z.array(z.string()).optional()
+});
+
+export const SyncMetadataSchema = AwsElbSyncMetadataSchema.extend(ServerSyncMetadataSchema.shape)
+  .catchall(z.unknown())
+  .nullable()
+  .optional();
+
+export type TSyncMetadata = z.infer<typeof SyncMetadataSchema>;
+
+export const getSyncMetadataSchemaForDestination = (destination: PkiSync) => {
+  switch (destination) {
+    case PkiSync.AwsElasticLoadBalancer:
+      return AwsElbSyncMetadataSchema.nullable().optional();
+    default:
+      return BaseSyncMetadataSchema.nullable().optional();
+  }
+};
+
+export const validateSyncMetadata = (destination: PkiSync, metadata: unknown): boolean => {
+  const schema = getSyncMetadataSchemaForDestination(destination);
+  const result = schema.safeParse(metadata);
+  return result.success;
+};

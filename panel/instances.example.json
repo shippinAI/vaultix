@@ -1,0 +1,9 @@
+[
+  {
+    "id": "vaultix-prod",
+    "name": "Vaultix",
+    "host": "127.0.0.1",
+    "url": "self",
+    "lastBackup": "cron 03:15 UTC -> /opt/vaultix/backups/"
+  }
+]

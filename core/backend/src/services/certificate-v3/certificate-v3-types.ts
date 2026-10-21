@@ -1,0 +1,163 @@
+import { TProjectPermission } from "@app/lib/types";
+
+import {
+  CertExtendedKeyUsageType,
+  CertificateRequestStatus,
+  CertKeyUsageType,
+  CertSubjectAlternativeNameType
+} from "../certificate-common/certificate-constants";
+import { EnrollmentType } from "../certificate-profile/certificate-profile-types";
+
+export type TIssueCertificateFromProfileDTO = {
+  profileId: string;
+  certificateRequest: {
+    commonName?: string;
+    organization?: string;
+    organizationalUnit?: string;
+    country?: string;
+    state?: string;
+    locality?: string;
+    domainComponents?: string[];
+    keyUsages?: CertKeyUsageType[];
+    extendedKeyUsages?: CertExtendedKeyUsageType[];
+    altNames?: Array<{
+      type: CertSubjectAlternativeNameType;
+      value: string;
+    }>;
+    validity: {
+      ttl: string;
+    };
+    notBefore?: Date;
+    notAfter?: Date;
+    signatureAlgorithm?: string;
+    keyAlgorithm?: string;
+    basicConstraints?: {
+      isCA: boolean;
+      pathLength?: number;
+    };
+  };
+  metadata?: Array<{ key: string; value: string }>;
+  removeRootsFromChain?: boolean;
+  applicationId?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TSignCertificateFromProfileDTO = {
+  profileId: string;
+  csr: string;
+  validity: {
+    ttl: string;
+  };
+  notBefore?: Date;
+  notAfter?: Date;
+  enrollmentType: EnrollmentType;
+  metadata?: Array<{ key: string; value: string }>;
+  removeRootsFromChain?: boolean;
+  basicConstraints?: {
+    isCA: boolean;
+    pathLength?: number;
+  };
+  applicationId?: string;
+  /**
+   * Links the certificate request this issuance creates back to its ACME order, so a crash between
+   * signing and persistence can be reconciled by `checkAndSyncAcmeOrderStatus`.
+   */
+  acmeOrderId?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TOrderCertificateFromProfileDTO = {
+  profileId: string;
+  certificateOrder: {
+    altNames: Array<{
+      type: CertSubjectAlternativeNameType;
+      value: string;
+    }>;
+    validity: {
+      ttl: string;
+    };
+    commonName?: string;
+    keyUsages?: CertKeyUsageType[];
+    extendedKeyUsages?: CertExtendedKeyUsageType[];
+    notBefore?: Date;
+    notAfter?: Date;
+    signatureAlgorithm?: string;
+    keyAlgorithm?: string;
+    template?: string;
+    csr?: string;
+    basicConstraints?: {
+      isCA: boolean;
+      pathLength?: number;
+    };
+    organization?: string;
+    organizationalUnit?: string;
+    country?: string;
+    state?: string;
+    locality?: string;
+  };
+  metadata?: Array<{ key: string; value: string }>;
+  removeRootsFromChain?: boolean;
+  applicationId?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TCertificateIssuanceResponse = {
+  status: CertificateRequestStatus;
+  certificateRequestId: string;
+  projectId: string;
+  profileName: string;
+  commonName?: string;
+  certificate?: string;
+  issuingCaCertificate?: string;
+  certificateChain?: string;
+  privateKey?: string;
+  serialNumber?: string;
+  certificateId?: string;
+  message?: string;
+};
+
+export type TCertificateIssuedResponse = TCertificateIssuanceResponse & {
+  status: CertificateRequestStatus.ISSUED;
+  certificate: string;
+  issuingCaCertificate: string;
+  certificateChain: string;
+  serialNumber: string;
+  certificateId: string;
+};
+
+export type TCertificatePendingApprovalResponse = TCertificateIssuanceResponse & {
+  status: CertificateRequestStatus.PENDING_APPROVAL;
+};
+
+export type TRenewCertificateDTO = {
+  certificateId: string;
+  removeRootsFromChain?: boolean;
+  certificateRequestId?: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TUpdateRenewalConfigDTO = {
+  certificateId: string;
+  renewBeforeDays: number;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TDisableRenewalConfigDTO = {
+  certificateId: string;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TRenewalConfigResponse = {
+  projectId: string;
+  renewBeforeDays: number;
+  commonName: string;
+};
+
+export type TDisableRenewalResponse = {
+  projectId: string;
+  commonName: string;
+};
+
+export type TUpdateCertificateDTO = {
+  certificateId: string;
+  metadata?: Array<{ key: string; value: string }>;
+} & Omit<TProjectPermission, "projectId">;
+
+export type TAltNameEntry = {
+  type: CertSubjectAlternativeNameType;
+  value: string;
+};

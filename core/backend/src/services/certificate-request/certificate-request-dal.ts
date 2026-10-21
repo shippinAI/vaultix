@@ -1,0 +1,520 @@
+import { Knex } from "knex";
+
+import { TDbClient } from "@app/db";
+import { TableName, TCertificateRequests, TCertificates } from "@app/db/schemas";
+import { DatabaseError } from "@app/lib/errors";
+import { sanitizeSqlLikeString } from "@app/lib/fn/string";
+import { ormify, selectAllTableCols } from "@app/lib/knex";
+import {
+  applyProcessedPermissionRulesToQuery,
+  type ProcessedPermissionRules
+} from "@app/lib/knex/permission-filter-utils";
+import { ApprovalRequestStatus } from "@app/services/approval-policy/approval-policy-enums";
+import { CaStatus } from "@app/services/certificate-authority/certificate-authority-enums";
+import { applyMetadataFilter } from "@app/services/resource-metadata/resource-metadata-fns";
+
+import { CertificateRequestStatus } from "./certificate-request-types";
+
+type TCertificateRequestWithCertificate = TCertificateRequests & {
+  certificate: TCertificates | null;
+  profileName: string | null;
+};
+
+const expandStatusFilter = (status: string): string[] => {
+  if (status === CertificateRequestStatus.PENDING) {
+    return [
+      CertificateRequestStatus.PENDING,
+      CertificateRequestStatus.PENDING_APPROVAL,
+      CertificateRequestStatus.PENDING_VALIDATION
+    ];
+  }
+  return [status];
+};
+
+type TCertificateRequestQueryResult = TCertificateRequests & {
+  certId: string | null;
+  certSerialNumber: string | null;
+  certStatus: string | null;
+  profileName: string | null;
+};
+
+export type TCertificateRequestDALFactory = ReturnType<typeof certificateRequestDALFactory>;
+
+export const certificateRequestDALFactory = (db: TDbClient) => {
+  const certificateRequestOrm = ormify(db, TableName.CertificateRequests);
+
+  const findByIdWithCertificate = async (id: string): Promise<TCertificateRequestWithCertificate | null> => {
+    try {
+      const result = (await db(TableName.CertificateRequests)
+        .leftJoin(
+          TableName.Certificate,
+          `${TableName.CertificateRequests}.certificateId`,
+          `${TableName.Certificate}.id`
+        )
+        .leftJoin(
+          TableName.PkiCertificateProfile,
+          `${TableName.CertificateRequests}.profileId`,
+          `${TableName.PkiCertificateProfile}.id`
+        )
+        .where(`${TableName.CertificateRequests}.id`, id)
+        .select(selectAllTableCols(TableName.CertificateRequests))
+        .select(db.ref("slug").withSchema(TableName.PkiCertificateProfile).as("profileName"))
+        .select(db.ref("id").withSchema(TableName.Certificate).as("certId"))
+        .select(db.ref("serialNumber").withSchema(TableName.Certificate).as("certSerialNumber"))
+        .select(db.ref("status").withSchema(TableName.Certificate).as("certStatus"))
+        .first()) as TCertificateRequestQueryResult | undefined;
+
+      if (!result) return null;
+
+      const { certId, certSerialNumber, certStatus, profileName, ...certificateRequestData } = result;
+
+      const certificate: TCertificates | null = certId
+        ? ({
+            id: certId,
+            serialNumber: certSerialNumber,
+            status: certStatus
+          } as TCertificates)
+        : null;
+
+      return {
+        ...certificateRequestData,
+        profileName: profileName || null,
+        certificate
+      };
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Find certificate request by ID with certificate" });
+    }
+  };
+
+  const findPendingByProjectId = async (projectId: string): Promise<TCertificateRequests[]> => {
+    try {
+      return (await db(TableName.CertificateRequests)
+        .where({ projectId, status: "pending" })
+        .orderBy("createdAt", "desc")) as TCertificateRequests[];
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Find pending certificate requests by project ID" });
+    }
+  };
+
+  const transitionFromPending = async (
+    id: string,
+    status: string,
+    errorMessage?: string,
+    tx?: Knex
+  ): Promise<TCertificateRequests | null> => {
+    try {
+      const updateData: Partial<TCertificateRequests> = { status, pendingMessage: null };
+      if (errorMessage !== undefined) {
+        updateData.errorMessage = errorMessage;
+      }
+      const [updated] = await (tx || db)(TableName.CertificateRequests)
+        .where({ id })
+        .whereIn("status", [CertificateRequestStatus.PENDING, CertificateRequestStatus.PENDING_VALIDATION])
+        .update(updateData)
+        .returning("*");
+      return updated ?? null;
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Transition certificate request from pending status" });
+    }
+  };
+
+  const setPendingMessage = async (id: string, pendingMessage: string, tx?: Knex): Promise<void> => {
+    try {
+      await (tx || db)(TableName.CertificateRequests)
+        .where({ id })
+        .whereIn("status", [CertificateRequestStatus.PENDING, CertificateRequestStatus.PENDING_VALIDATION])
+        .update({ pendingMessage });
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Set certificate request pending message" });
+    }
+  };
+
+  const transitionToPendingValidation = async (
+    id: string,
+    fields: Partial<TCertificateRequests>,
+    tx?: Knex
+  ): Promise<TCertificateRequests | null> => {
+    try {
+      const [updated] = await (tx || db)(TableName.CertificateRequests)
+        .where({ id })
+        .where("status", CertificateRequestStatus.PENDING)
+        .update({ ...fields, status: CertificateRequestStatus.PENDING_VALIDATION })
+        .returning("*");
+      return updated ?? null;
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Transition certificate request to pending validation" });
+    }
+  };
+
+  const attachCertificate = async (
+    id: string,
+    certificateId: string,
+    tx?: Knex
+  ): Promise<TCertificateRequests | null> => {
+    try {
+      const [updated] = await (tx || db)(TableName.CertificateRequests)
+        .where({ id })
+        .whereIn("status", [
+          CertificateRequestStatus.PENDING,
+          CertificateRequestStatus.PENDING_VALIDATION,
+          CertificateRequestStatus.ISSUED
+        ])
+        .update({ certificateId, status: CertificateRequestStatus.ISSUED, pendingMessage: null })
+        .returning("*");
+      return updated ?? null;
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Attach certificate to request" });
+    }
+  };
+
+  const findByProjectId = async (
+    projectId: string,
+    options: {
+      offset?: number;
+      limit?: number;
+      search?: string;
+      status?: string;
+      fromDate?: Date;
+      toDate?: Date;
+      profileIds?: string[];
+      applicationId?: string;
+      metadataFilter?: Array<{ key: string; value?: string }>;
+    } = {},
+    processedRules?: ProcessedPermissionRules,
+    tx?: Knex
+  ): Promise<TCertificateRequests[]> => {
+    try {
+      const {
+        offset = 0,
+        limit = 20,
+        search,
+        status,
+        fromDate,
+        toDate,
+        profileIds,
+        applicationId,
+        metadataFilter
+      } = options;
+
+      let query = (tx || db)(TableName.CertificateRequests)
+        .leftJoin(
+          TableName.PkiCertificateProfile,
+          `${TableName.CertificateRequests}.profileId`,
+          `${TableName.PkiCertificateProfile}.id`
+        )
+        .where(`${TableName.CertificateRequests}.projectId`, projectId);
+
+      if (profileIds && profileIds.length > 0) {
+        query = query.whereIn(`${TableName.CertificateRequests}.profileId`, profileIds);
+      }
+
+      if (applicationId) {
+        query = query.where(`${TableName.CertificateRequests}.applicationId`, applicationId);
+      }
+
+      if (search) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const sanitizedSearch = sanitizeSqlLikeString(search);
+        query = query.where((builder) => {
+          void builder
+            .whereILike(`${TableName.CertificateRequests}.commonName`, `%${sanitizedSearch}%`)
+            .orWhereRaw(`"${TableName.CertificateRequests}"."altNames"::text ILIKE ?`, [`%${sanitizedSearch}%`]);
+        });
+      }
+
+      if (status) {
+        query = query.whereIn(`${TableName.CertificateRequests}.status`, expandStatusFilter(status));
+      }
+
+      if (fromDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, ">=", fromDate);
+      }
+
+      if (toDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, "<=", toDate);
+      }
+
+      query = query
+        .select(selectAllTableCols(TableName.CertificateRequests))
+        .select(db.ref("slug").withSchema(TableName.PkiCertificateProfile).as("profileName"));
+
+      if (metadataFilter && metadataFilter.length > 0) {
+        query = applyMetadataFilter(query, metadataFilter, "certificateRequestId", TableName.CertificateRequests);
+      }
+
+      if (processedRules) {
+        query = applyProcessedPermissionRulesToQuery(
+          query,
+          TableName.CertificateRequests,
+          processedRules
+        ) as typeof query;
+      }
+
+      const certificateRequests = await query.orderBy("createdAt", "desc").offset(offset).limit(limit);
+
+      return certificateRequests;
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Find certificate requests by project ID" });
+    }
+  };
+
+  const countByProjectId = async (
+    projectId: string,
+    options: {
+      search?: string;
+      status?: string;
+      fromDate?: Date;
+      toDate?: Date;
+      profileIds?: string[];
+      applicationId?: string;
+      metadataFilter?: Array<{ key: string; value?: string }>;
+    } = {},
+    processedRules?: ProcessedPermissionRules,
+    tx?: Knex
+  ): Promise<number> => {
+    try {
+      const { search, status, fromDate, toDate, profileIds, applicationId, metadataFilter } = options;
+
+      let query = (tx || db)(TableName.CertificateRequests)
+        .leftJoin(
+          TableName.PkiCertificateProfile,
+          `${TableName.CertificateRequests}.profileId`,
+          `${TableName.PkiCertificateProfile}.id`
+        )
+        .where(`${TableName.CertificateRequests}.projectId`, projectId);
+      if (profileIds && profileIds.length > 0) {
+        query = query.whereIn(`${TableName.CertificateRequests}.profileId`, profileIds);
+      }
+
+      if (applicationId) {
+        query = query.where(`${TableName.CertificateRequests}.applicationId`, applicationId);
+      }
+
+      if (search) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const sanitizedSearch = sanitizeSqlLikeString(search);
+        query = query.where((builder) => {
+          void builder
+            .whereILike(`${TableName.CertificateRequests}.commonName`, `%${sanitizedSearch}%`)
+            .orWhereRaw(`"${TableName.CertificateRequests}"."altNames"::text ILIKE ?`, [`%${sanitizedSearch}%`]);
+        });
+      }
+
+      if (status) {
+        query = query.whereIn(`${TableName.CertificateRequests}.status`, expandStatusFilter(status));
+      }
+
+      if (fromDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, ">=", fromDate);
+      }
+
+      if (toDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, "<=", toDate);
+      }
+
+      if (metadataFilter && metadataFilter.length > 0) {
+        query = applyMetadataFilter(query, metadataFilter, "certificateRequestId", TableName.CertificateRequests);
+      }
+
+      if (processedRules) {
+        query = applyProcessedPermissionRulesToQuery(
+          query,
+          TableName.CertificateRequests,
+          processedRules
+        ) as typeof query;
+      }
+
+      const result = await query.count("*").first();
+      const count = (result as unknown as Record<string, unknown>)?.count;
+      return parseInt(String(count || "0"), 10);
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Count certificate requests by project ID" });
+    }
+  };
+
+  const findByProjectIdWithCertificate = async (
+    projectId: string,
+    options: {
+      offset?: number;
+      limit?: number;
+      search?: string;
+      status?: string;
+      fromDate?: Date;
+      toDate?: Date;
+      profileIds?: string[];
+      applicationId?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
+      metadataFilter?: Array<{ key: string; value?: string }>;
+    } = {},
+    processedRules?: ProcessedPermissionRules,
+    tx?: Knex
+  ): Promise<TCertificateRequestWithCertificate[]> => {
+    try {
+      const {
+        offset = 0,
+        limit = 20,
+        search,
+        status,
+        fromDate,
+        toDate,
+        profileIds,
+        applicationId,
+        sortBy = "createdAt",
+        sortOrder = "desc",
+        metadataFilter
+      } = options;
+
+      let query: Knex.QueryBuilder = (tx || db)(TableName.CertificateRequests)
+        .leftJoin(
+          TableName.Certificate,
+          `${TableName.CertificateRequests}.certificateId`,
+          `${TableName.Certificate}.id`
+        )
+        .leftJoin(
+          TableName.PkiCertificateProfile,
+          `${TableName.CertificateRequests}.profileId`,
+          `${TableName.PkiCertificateProfile}.id`
+        );
+
+      if (profileIds && profileIds.length > 0) {
+        query = query.whereIn(`${TableName.CertificateRequests}.profileId`, profileIds);
+      }
+
+      if (applicationId) {
+        query = query.where(`${TableName.CertificateRequests}.applicationId`, applicationId);
+      }
+
+      query = query
+        .select(selectAllTableCols(TableName.CertificateRequests))
+        .select(db.ref("slug").withSchema(TableName.PkiCertificateProfile).as("profileName"))
+        .select(db.ref("id").withSchema(TableName.Certificate).as("certId"))
+        .select(db.ref("serialNumber").withSchema(TableName.Certificate).as("certSerialNumber"))
+        .select(db.ref("status").withSchema(TableName.Certificate).as("certStatus"))
+        .where(`${TableName.CertificateRequests}.projectId`, projectId);
+
+      if (search) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const sanitizedSearch = sanitizeSqlLikeString(search);
+        query = query.where((builder) => {
+          void builder
+            .whereILike(`${TableName.CertificateRequests}.commonName`, `%${sanitizedSearch}%`)
+            .orWhereRaw(`"${TableName.CertificateRequests}"."altNames"::text ILIKE ?`, [`%${sanitizedSearch}%`]);
+        });
+      }
+
+      if (status) {
+        query = query.whereIn(`${TableName.CertificateRequests}.status`, expandStatusFilter(status));
+      }
+
+      if (fromDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, ">=", fromDate);
+      }
+
+      if (toDate) {
+        query = query.where(`${TableName.CertificateRequests}.createdAt`, "<=", toDate);
+      }
+
+      if (metadataFilter && metadataFilter.length > 0) {
+        query = applyMetadataFilter(query, metadataFilter, "certificateRequestId", TableName.CertificateRequests);
+      }
+
+      if (processedRules) {
+        query = applyProcessedPermissionRulesToQuery(query, TableName.CertificateRequests, processedRules);
+      }
+
+      const allowedSortColumns = ["createdAt", "updatedAt", "status", "commonName"];
+      const safeSortBy = allowedSortColumns.includes(sortBy) ? sortBy : "createdAt";
+      const safeSortOrder = sortOrder === "asc" || sortOrder === "desc" ? sortOrder : "desc";
+
+      const results = (await query
+        .orderBy(`${TableName.CertificateRequests}.${safeSortBy}`, safeSortOrder)
+        .offset(offset)
+        .limit(limit)) as TCertificateRequestQueryResult[];
+
+      return results.map((row): TCertificateRequestWithCertificate => {
+        const { certId, certSerialNumber, certStatus, profileName: rowProfileName, ...certificateRequestData } = row;
+
+        const certificate: TCertificates | null = certId
+          ? ({
+              id: certId,
+              serialNumber: certSerialNumber,
+              status: certStatus
+            } as TCertificates)
+          : null;
+
+        return {
+          ...certificateRequestData,
+          profileName: rowProfileName || null,
+          certificate
+        };
+      });
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Find certificate requests by project ID with certificates" });
+    }
+  };
+
+  const markExpiredApprovalRequests = async (): Promise<number> => {
+    try {
+      const result = await db(TableName.CertificateRequests)
+        .where("status", CertificateRequestStatus.PENDING_APPROVAL)
+        .whereIn(
+          "approvalRequestId",
+          db.select("id").from(TableName.ApprovalRequests).where("status", ApprovalRequestStatus.Expired)
+        )
+        .update({ status: CertificateRequestStatus.REJECTED, errorMessage: "Approval request expired" });
+
+      return result;
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Mark certificate requests with expired approval" });
+    }
+  };
+
+  const findPendingValidationByCaType = async (
+    caType: string,
+    options: { limit?: number; afterCreatedAt?: Date } = {}
+  ): Promise<TCertificateRequests[]> => {
+    try {
+      const query = db(TableName.CertificateRequests)
+        .join(
+          TableName.CertificateAuthority,
+          `${TableName.CertificateRequests}.caId`,
+          `${TableName.CertificateAuthority}.id`
+        )
+        .join(
+          TableName.ExternalCertificateAuthority,
+          `${TableName.CertificateAuthority}.id`,
+          `${TableName.ExternalCertificateAuthority}.caId`
+        )
+        .where(`${TableName.CertificateRequests}.status`, CertificateRequestStatus.PENDING_VALIDATION)
+        .where(`${TableName.ExternalCertificateAuthority}.type`, caType)
+        .where(`${TableName.CertificateAuthority}.status`, CaStatus.ACTIVE)
+        .select(selectAllTableCols(TableName.CertificateRequests))
+        .orderBy(`${TableName.CertificateRequests}.createdAt`, "asc");
+
+      if (options.afterCreatedAt) {
+        void query.where(`${TableName.CertificateRequests}.createdAt`, ">", options.afterCreatedAt);
+      }
+      if (options.limit) void query.limit(options.limit);
+
+      return (await query) as TCertificateRequests[];
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Find pending validation certificate requests by CA type" });
+    }
+  };
+
+  return {
+    ...certificateRequestOrm,
+    findByIdWithCertificate,
+    findPendingByProjectId,
+    findPendingValidationByCaType,
+    transitionFromPending,
+    setPendingMessage,
+    transitionToPendingValidation,
+    attachCertificate,
+    findByProjectId,
+    countByProjectId,
+    findByProjectIdWithCertificate,
+    markExpiredApprovalRequests
+  };
+};

@@ -1,0 +1,183 @@
+{{- $sessionPath := .Values.gateway.pamSessionRecordingsDirectory | default "/var/lib/infisical/session_recordings" }}
+{{- $usePVC := and .Values.persistence.enabled (or .Values.gateway.enrollment.method .Values.persistence.existingClaim) }}
+{{- if eq .Values.gateway.enrollment.method "token" }}
+  {{- if not .Values.persistence.enabled }}
+    {{- fail "persistence.enabled must be true when gateway.enrollment.method is 'token'. The enrollment token is single-use and credentials must persist across pod restarts." }}
+  {{- end }}
+  {{- if not (or .Values.gateway.enrollment.token.value .Values.gateway.enrollment.token.existingSecretRef) }}
+    {{- fail "gateway.enrollment.token.value or gateway.enrollment.token.existingSecretRef is required when gateway.enrollment.method is 'token'." }}
+  {{- end }}
+{{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "infisical-gateway.fullname" . }}
+  labels:
+    {{- include "infisical-gateway.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.gateway.enrollment.method }}
+  replicas: 1
+  {{- end }}
+  {{- if $usePVC }}
+  strategy:
+    type: Recreate
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "infisical-gateway.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "infisical-gateway.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "infisical-gateway.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- if $usePVC }}
+        - name: gateway-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "infisical-gateway.fullname" .)) }}
+        {{- else if .Values.gateway.enrollment.method }}
+        - name: gateway-credentials
+          emptyDir: {}
+        {{- end }}
+        - name: infisical-cache
+          emptyDir: {}
+        {{- if and (not $usePVC) (not (hasPrefix "/var/lib/infisical" $sessionPath)) }}
+        - name: session-recordings
+          emptyDir: {}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.gateway.enrollment.method }}
+          {{- if or .Values.gateway.enrollment.credentialsSecretRef .Values.extraEnvFrom }}
+          envFrom:
+            {{- if .Values.gateway.enrollment.credentialsSecretRef }}
+            - secretRef:
+                name: {{ .Values.gateway.enrollment.credentialsSecretRef }}
+            {{- end }}
+            {{- with .Values.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+          env:
+            - name: HOME
+              value: /home/infisical
+            {{- if eq .Values.gateway.enrollment.method "token" }}
+            - name: INFISICAL_ENROLLMENT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.gateway.enrollment.token.existingSecretRef | default (printf "%s-enrollment-token" (include "infisical-gateway.fullname" .)) }}
+                  key: {{ .Values.gateway.enrollment.token.secretKey | default "enrollment-token" }}
+            {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          args:
+            - gateway
+            - start
+            - {{ required "gateway.name is required when gateway.enrollment.method is set" .Values.gateway.name | quote }}
+            - --enroll-method={{ .Values.gateway.enrollment.method }}
+            - --domain={{ required "gateway.domain is required when gateway.enrollment.method is set" .Values.gateway.domain }}
+            {{- if eq .Values.gateway.enrollment.method "token" }}
+            - --token=$(INFISICAL_ENROLLMENT_TOKEN)
+            {{- end }}
+            {{- if eq .Values.gateway.enrollment.method "aws" }}
+            - --gateway-id={{ required "gateway.enrollment.aws.gatewayId is required when gateway.enrollment.method is 'aws'" .Values.gateway.enrollment.aws.gatewayId }}
+            {{- end }}
+            {{- if .Values.gateway.relayName }}
+            - --target-relay-name={{ .Values.gateway.relayName }}
+            {{- end }}
+            - --pam-session-recording-path={{ $sessionPath }}
+            {{- with .Values.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            {{- if $usePVC }}
+            - name: gateway-data
+              mountPath: /home/infisical
+              subPath: credentials
+            {{- else }}
+            - name: gateway-credentials
+              mountPath: /home/infisical
+            {{- end }}
+            - name: infisical-cache
+              mountPath: /var/lib/infisical
+            {{- if $usePVC }}
+            - name: gateway-data
+              mountPath: {{ $sessionPath }}
+              subPath: session-recordings
+            {{- else if not (hasPrefix "/var/lib/infisical" $sessionPath) }}
+            - name: session-recordings
+              mountPath: {{ $sessionPath }}
+            {{- end }}
+          {{- else }}
+          args:
+            - gateway
+            - start
+            - --pam-session-recording-path={{ $sessionPath }}
+            {{- with .Values.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secret.name }}
+            {{- with .Values.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: infisical-cache
+              mountPath: /var/lib/infisical
+            {{- if $usePVC }}
+            - name: gateway-data
+              mountPath: {{ $sessionPath }}
+              subPath: session-recordings
+            {{- else if not (hasPrefix "/var/lib/infisical" $sessionPath) }}
+            - name: session-recordings
+              mountPath: {{ $sessionPath }}
+            {{- end }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

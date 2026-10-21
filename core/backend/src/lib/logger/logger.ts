@@ -1,0 +1,177 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// logger follows a singleton pattern
+// easier to use it that's all.
+import { requestContext } from "@fastify/request-context";
+import pino, { Logger } from "pino";
+
+import { RequestContextKey } from "@app/lib/request-context/request-context-keys";
+
+const logLevelToSeverityLookup: Record<string, string> = {
+  "10": "TRACE",
+  "20": "DEBUG",
+  "30": "INFO",
+  "40": "WARNING",
+  "50": "ERROR",
+  "60": "CRITICAL"
+};
+
+// akhilmhdh:
+// The logger is not placed in the main app config to avoid a circular dependency.
+// The config requires the logger to display errors when an invalid environment is supplied.
+// On the other hand, the logger needs the config to obtain credentials for AWS or other transports.
+// By keeping the logger separate, it becomes an independent package.
+
+// We define our own custom logger interface to enforce structure to the logging methods.
+
+export interface CustomLogger extends Omit<Logger, "info" | "error" | "warn" | "debug"> {
+  info: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (obj: unknown, msg?: string, ...args: any[]): void;
+  };
+
+  error: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (obj: unknown, msg?: string, ...args: any[]): void;
+  };
+  warn: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (obj: unknown, msg?: string, ...args: any[]): void;
+  };
+  debug: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (obj: unknown, msg?: string, ...args: any[]): void;
+  };
+}
+
+// eslint-disable-next-line import/no-mutable-exports
+export let logger: Readonly<CustomLogger>;
+
+const redactedKeys = [
+  "accessToken",
+  "authToken",
+  "serviceToken",
+  "identityAccessToken",
+  "token",
+  "privateKey",
+  "serverPrivateKey",
+  "plainPrivateKey",
+  "plainProjectKey",
+  "encryptedPrivateKey",
+  "userPrivateKey",
+  "protectedKey",
+  "decryptKey",
+  "encryptedProjectKey",
+  "encryptedSymmetricKey",
+  "encryptedPrivateKey",
+  "backupPrivateKey",
+  "secretKey",
+  "SecretKey",
+  "botPrivateKey",
+  "encryptedKey",
+  "plaintextProjectKey",
+  "accessKey",
+  "accessKeyId",
+  "secretAccessKey",
+  "sessionToken",
+  "botKey",
+  "decryptedSecret",
+  "secrets",
+  "key",
+  "password",
+  "config",
+  "bindPass",
+  "bindDN",
+  "x-vault-token",
+  "X-VAULT-TOKEN"
+];
+
+const UNKNOWN_REQUEST_ID = "UNKNOWN_REQUEST_ID";
+
+const extractReqId = () => {
+  try {
+    return requestContext.get(RequestContextKey.ReqId) || UNKNOWN_REQUEST_ID;
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log("failed to get request context", err);
+    return UNKNOWN_REQUEST_ID;
+  }
+};
+
+const extractOrgId = () => {
+  try {
+    return requestContext.get(RequestContextKey.OrgId);
+  } catch {
+    return "";
+  }
+};
+
+export const initLogger = () => {
+  const targets: pino.TransportMultiOptions["targets"][number][] = [
+    {
+      level: "info",
+      target: "pino/file",
+      options: {
+        destination: 1,
+        mkdir: true
+      }
+    }
+  ];
+
+  const transport = pino.transport({
+    targets
+  });
+
+  const wrapLogger = (originalLogger: Logger): CustomLogger => {
+    // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+    originalLogger.info = (obj: unknown, msg?: string, ...args: any[]) => {
+      return originalLogger.child({ reqId: extractReqId(), orgId: extractOrgId() }).info(obj, msg, ...args);
+    };
+
+    // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+    originalLogger.error = (obj: unknown, msg?: string, ...args: any[]) => {
+      return originalLogger.child({ reqId: extractReqId(), orgId: extractOrgId() }).error(obj, msg, ...args);
+    };
+
+    // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+    originalLogger.warn = (obj: unknown, msg?: string, ...args: any[]) => {
+      return originalLogger.child({ reqId: extractReqId(), orgId: extractOrgId() }).warn(obj, msg, ...args);
+    };
+
+    // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
+    originalLogger.debug = (obj: unknown, msg?: string, ...args: any[]) => {
+      return originalLogger.child({ reqId: extractReqId(), orgId: extractOrgId() }).debug(obj, msg, ...args);
+    };
+
+    return originalLogger;
+  };
+
+  logger = pino(
+    {
+      mixin(_context, level) {
+        return { severity: logLevelToSeverityLookup[level] || logLevelToSeverityLookup["30"] };
+      },
+      level: process.env.PINO_LOG_LEVEL || "info",
+      formatters: {
+        bindings: (bindings) => ({
+          pid: bindings.pid,
+          hostname: bindings.hostname
+          // node_version: process.version
+        })
+      },
+      // redact until depth of three
+      // Keys with special characters (hyphens) need bracket notation for fast-redact
+      redact: redactedKeys.flatMap((key) => {
+        if (key.includes("-")) {
+          const k = `["${key}"]`;
+          return [k, `*${k}`, `*.*${k}`];
+        }
+        return [key, `*.${key}`, `*.*.${key}`];
+      })
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    transport
+  );
+
+  return wrapLogger(logger);
+};

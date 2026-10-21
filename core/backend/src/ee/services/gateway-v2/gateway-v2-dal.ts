@@ -1,0 +1,92 @@
+import { Knex } from "knex";
+
+import { TDbClient } from "@app/db";
+import { GatewaysV2Schema, TableName, TGatewaysV2 } from "@app/db/schemas";
+import { DatabaseError } from "@app/lib/errors";
+import { buildFindFilter, ormify, selectAllTableCols, TFindFilter, TFindOpt } from "@app/lib/knex";
+
+import { HEARTBEAT_BUFFER_SECONDS } from "./gateway-v2-constants";
+
+export type TGatewayV2DALFactory = ReturnType<typeof gatewayV2DalFactory>;
+
+export const gatewayV2DalFactory = (db: TDbClient) => {
+  const orm = ormify(db, TableName.GatewayV2);
+
+  const find = async (
+    filter: TFindFilter<TGatewaysV2> & { isHeartbeatStale?: boolean },
+    { offset, limit, sort, tx }: TFindOpt<TGatewaysV2> = {}
+  ) => {
+    try {
+      const { isHeartbeatStale, ...regularFilter } = filter;
+
+      const query = (tx || db.replicaNode())(TableName.GatewayV2)
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        .where(buildFindFilter(regularFilter, TableName.GatewayV2))
+        .leftJoin(TableName.Identity, `${TableName.Identity}.id`, `${TableName.GatewayV2}.identityId`)
+        .select(selectAllTableCols(TableName.GatewayV2))
+        .select(db.ref("name").withSchema(TableName.Identity).as("identityName"));
+
+      if (isHeartbeatStale) {
+        // Gateway is stale when: heartbeat + heartbeatTTL + buffer < NOW(), OR heartbeatTTL = 0
+        // Only consider gateways that have heartbeat (registered and probed at least once)
+        void query.whereNotNull(`${TableName.GatewayV2}.heartbeat`);
+        void query.where((builder) => {
+          void builder
+            .where(
+              db.raw(
+                `"${TableName.GatewayV2}"."heartbeat" + make_interval(secs => COALESCE("${TableName.GatewayV2}"."heartbeatTTL", 0) + ${HEARTBEAT_BUFFER_SECONDS}) < NOW()`
+              )
+            )
+            .orWhere(`${TableName.GatewayV2}.heartbeatTTL`, 0);
+        });
+        // Notification cooldown: only alert if never alerted or last alert was over 1 hour ago
+        void query.where((v) => {
+          void v
+            .whereNull(`${TableName.GatewayV2}.healthAlertedAt`)
+            .orWhere(`${TableName.GatewayV2}.healthAlertedAt`, "<", db.raw("NOW() - interval '1 hour'"));
+        });
+      }
+
+      if (limit) void query.limit(limit);
+      if (offset) void query.offset(offset);
+      if (sort) {
+        void query.orderBy(sort.map(([column, order, nulls]) => ({ column: column as string, order, nulls })));
+      }
+
+      const docs = await query;
+
+      return docs.map((el) => ({
+        ...GatewaysV2Schema.parse(el),
+        identity: el.identityId ? { id: el.identityId, name: el.identityName } : null
+      }));
+    } catch (error) {
+      throw new DatabaseError({ error, name: `${TableName.GatewayV2}: Find` });
+    }
+  };
+
+  const findById = async (id: string, tx?: Knex) => {
+    try {
+      const doc = await (tx || db.replicaNode())(TableName.GatewayV2)
+        .join(TableName.Organization, `${TableName.GatewayV2}.orgId`, `${TableName.Organization}.id`)
+        .where(`${TableName.GatewayV2}.id`, id)
+        .select(selectAllTableCols(TableName.GatewayV2))
+        .select(db.ref("name").withSchema(TableName.Organization).as("orgName"))
+        .first();
+
+      return doc;
+    } catch (error) {
+      throw new DatabaseError({ error, name: `${TableName.GatewayV2}: Find by id` });
+    }
+  };
+
+  const countByOrgId = async (orgId: string, tx?: Knex) => {
+    try {
+      const result = await (tx || db.replicaNode())(TableName.GatewayV2).where({ orgId }).count("id").first();
+      return parseInt(String(result?.count || "0"), 10);
+    } catch (error) {
+      throw new DatabaseError({ error, name: `${TableName.GatewayV2}: Count by org id` });
+    }
+  };
+
+  return { ...orm, find, findById, countByOrgId };
+};

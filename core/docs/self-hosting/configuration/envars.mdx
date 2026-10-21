@@ -1,0 +1,1124 @@
+---
+title: "Environment Variables"
+description: "Read how to configure environment variables for self-hosted Infisical."
+---
+
+Infisical accepts all configuration via environment variables. For a minimal self-hosted instance, at least `ENCRYPTION_KEY`, `AUTH_SECRET`, `DB_CONNECTION_URI`, and `REDIS_URL` must be defined.
+However, you can configure additional settings to activate more features as needed.
+
+## General platform
+
+Used to configure platform-specific security and operational settings.
+
+<ParamField query="ENCRYPTION_KEY" type="string" default="none" required>
+  Must be a random 16-byte hex string. Can be generated with `openssl rand -hex
+  16`.
+
+  <Warning>
+    For FIPS-enabled deployments, `ENCRYPTION_KEY` must be a 256-bit
+    base64-encoded key instead. Generate it with `openssl rand -base64 32`.
+  </Warning>
+</ParamField>
+
+<ParamField query="AUTH_SECRET" type="string" default="none" required>
+  Must be a random 32-byte base64 string. Can be generated with `openssl rand
+  -base64 32`.
+</ParamField>
+
+<ParamField query="SITE_URL" type="string" default="none" required>
+  Must be an absolute URL including the protocol (e.g.
+  https://app.infisical.com).
+</ParamField>
+
+<ParamField query="PORT" type="int" default="8080" optional>
+  Specifies the internal port on which the application listens.
+</ParamField>
+
+<ParamField query="HOST" type="string" default="localhost" optional>
+  Specifies the network interface Infisical will bind to when accepting incoming connections.
+
+By default, Infisical binds to `localhost`, which restricts access to connections from the same machine.
+
+To make the application accessible externally (e.g., for self-hosted deployments), set this to `0.0.0.0`, which tells the server to listen on all network interfaces.
+
+Example values:
+
+- `localhost` (default, same as `127.0.0.1`)
+- `0.0.0.0` (all interfaces, accessible externally)
+- `192.168.1.100` (specific interface IP)
+
+</ParamField>
+
+<ParamField query="TELEMETRY_ENABLED" type="string" default="true" optional>
+  Telemetry helps us improve Infisical, but if you want to disable it, you may set
+  this to `false`.
+</ParamField>
+
+<ParamField query="DISABLE_UPDATE_CHECK" type="bool" default="false" optional>
+  Self-hosted instances check GitHub for the latest Infisical release once a week
+  (and once at startup) and show a subtle indicator in the UI when a newer version
+  is available. Set this to `true` to disable the check; no request is made to
+  GitHub when disabled.
+
+  Air-gapped deployments should set this to `true` to suppress the outbound
+  request entirely. Instances configured with an offline license disable the
+  check automatically.
+</ParamField>
+
+<ParamField
+  query="ALLOW_INTERNAL_IP_CONNECTIONS"
+  type="bool"
+  default="false"
+  optional
+>
+  Global escape hatch that permits App Connections, Dynamic Secrets, and PKI
+  Certificate Discovery jobs to connect to internal/private IP addresses on the
+  **direct egress** path.
+
+  For reaching private resources, prefer the [Gateway](/documentation/platform/gateways/overview),
+  which tunnels traffic through an agent inside your network and does not require
+  opening any internal IP range on the Infisical instance. Use this flag (or the
+  more targeted `DYNAMIC_SECRET_ALLOW_INTERNAL_IP` / `AUDIT_LOG_STREAM_ALLOW_INTERNAL_IP`
+  flags) only for the features that egress directly, without a Gateway.
+
+  <Warning>
+    Relaxes the SSRF protection. In addition to allowing private IPs, enabling
+    this also disables DNS-rebinding pin protection for the affected direct-egress
+    path (validation and connection may resolve to different IPs). Only enable it
+    if you trust the users who can configure these integrations, and scope it as
+    narrowly as possible using the per-feature flags.
+  </Warning>
+</ParamField>
+
+<ParamField
+  query="DYNAMIC_SECRET_ALLOW_INTERNAL_IP"
+  type="bool"
+  default="false"
+  optional
+>
+  Narrower, per-feature variant of `ALLOW_INTERNAL_IP_CONNECTIONS` that permits
+  only Dynamic Secrets to connect to internal/private IP addresses. Prefer this
+  over the global flag when only Dynamic Secrets need internal access.
+
+  <Warning>
+    Relaxes the SSRF protection for the Dynamic Secrets path, including disabling
+    DNS-rebinding pin protection for that path. Prefer the [Gateway](/documentation/platform/gateways/overview)
+    for private resources.
+  </Warning>
+</ParamField>
+
+<ParamField
+  query="SAFE_REQUEST_FORCE_DIRECT_EGRESS"
+  type="bool"
+  default="false"
+  optional
+>
+  Forces outbound requests made through Infisical's SSRF-safe HTTP client (App
+  Connections, Webhooks, Audit Log Streams, and similar direct-egress features)
+  to bypass any ambient forward proxy (sets axios `proxy: false`). This guarantees
+  the request connects to the exact IP that passed SSRF validation, closing a gap
+  where an `HTTP_PROXY` / `HTTPS_PROXY` would re-resolve the target and defeat the
+  IP pin.
+
+  Defaults to `false` so an operator-configured forward proxy keeps working.
+
+  <Note>
+    Enable this only if your instance does **not** rely on an outbound
+    `HTTP_PROXY` / `HTTPS_PROXY` for egress. When a proxy is in use, the IP pin
+    cannot extend past the proxy (the proxy resolves the target itself), so
+    leaving this off is the correct choice for proxied deployments.
+  </Note>
+</ParamField>
+
+<ParamField
+  query="KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN"
+  type="bool"
+  default="false"
+  optional
+>
+  Determines whether your Infisical instance can automatically read the service
+  account token of the pod it's running on. Used for features such as the IRSA
+  auth method.
+</ParamField>
+
+<ParamField query="TRUSTED_PROXY_CIDRS" type="string" optional>
+  Comma-separated list of trusted reverse-proxy CIDRs or named ranges whose forwarded-IP headers (e.g. `X-Forwarded-For`) Infisical will honor.
+
+  Accepted values are IPv4/IPv6 CIDR notation or the named aliases `loopback`, `linklocal`, and `uniquelocal`.
+
+  ```
+  TRUSTED_PROXY_CIDRS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+  ```
+
+  When set, only requests arriving from a socket address within this list will have their forwarded-IP headers respected. Requests from any other source fall back to using the raw socket IP. This prevents IP allowlist bypass via spoofed proxy headers.
+
+  When unset, Infisical trusts all forwarded-IP headers (legacy behavior, preserved for backwards compatibility with existing self-hosted deployments).
+
+  <Warning>
+    If your deployment sits behind a reverse proxy (e.g. Nginx, AWS ALB, Cloudflare), you should set this to the CIDR range of your proxy to prevent clients from spoofing their source IP. Leaving this unset is only safe when Infisical is not reachable directly from the internet.
+  </Warning>
+</ParamField>
+
+## CORS
+
+Cross-Origin Resource Sharing (CORS) is a security feature that allows web applications running on one domain to access resources from another domain.
+The following environment variables can be used to configure the Infisical REST API to allow or restrict access to resources from different origins.
+
+<ParamField query="CORS_ALLOWED_ORIGINS" type="string" optional>
+
+Specify a list of origins that are allowed to access the Infisical API.
+
+An example value would be `CORS_ALLOWED_ORIGINS=["https://example.com"]`.
+
+Defaults to the same value as your `SITE_URL` environment variable.
+
+</ParamField>
+
+<ParamField query="CORS_ALLOWED_METHODS" type="string" optional>
+  Array of HTTP methods allowed for CORS requests.
+
+Defaults to reflecting the headers specified in the request's Access-Control-Request-Headers header.
+
+</ParamField>
+
+## Data Layer
+
+The platform uses Postgres to persist all of its data and Redis for caching and background tasks.
+
+### PostgreSQL
+
+<Info>
+  Please note that the database user you create must be granted all privileges
+  on the Infisical database. This includes the ability to create new schemas,
+  create, update, delete, modify tables and indexes, etc.
+</Info>
+
+<ParamField query="DB_CONNECTION_URI" type="string" default="" required>
+  Postgres database connection string.
+</ParamField>
+
+<ParamField query="DB_ROOT_CERT" type="string" default="" optional>
+  Configure the SSL certificate for securing a Postgres connection by first encoding it in base64.
+  Use the following command to encode your certificate: `echo "<certificate>" | base64`
+
+  Many cloud providers provide a CA certificate for their data regions that you can use to secure your connection with SSL.
+
+  <AccordionGroup>
+    <Accordion title="AWS RDS">
+      If you're hosting your database on AWS RDS, you can use their publicly available CA certificate as the database root certificate.
+
+      You can find all the available CA certificates for AWS RDS on the official [AWS RDS documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html).
+
+      As an example, if your RDS cluster is hosted in `us-east-1` _(US East, N. Virginia)_, you can use the following root certificate: https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem.
+
+      All the available CA certificates can be found in the AWS RDS documentation linked above.
+
+      Remember to base64 encode the certificate before setting it as the `DB_ROOT_CERT` environment variable. `cat /path/to/certificate.pem | base64`.
+
+      ```bash
+      DB_ROOT_CERT=LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1 # .... (base64-encoded certificate)
+      DB_CONNECTION_URI=<rds-endpoint>?sslmode=verify-ca # or verify-full depending on your security policies
+      ```
+    </Accordion>
+  </AccordionGroup>
+</ParamField>
+
+<ParamField query="DB_READ_REPLICAS" type="string" default="" optional>
+  Postgres database read replica connection strings. It accepts a JSON string.
+```
+DB_READ_REPLICAS=[{"DB_CONNECTION_URI":""}]
+```
+  <Expandable title="Format">
+	  <ParamField query="DB_CONNECTION_URI" type="string" default="" required>
+	    Postgres read replica connection string.
+    </ParamField>
+    <ParamField query="DB_ROOT_CERT" type="string" default="" optional>
+      Configure the SSL certificate for securing a Postgres replica connection by first encoding it in base64.
+	    Use the following command to encode your certificate: `echo "<certificate>" | base64`
+
+      If not provided it will use master SSL certificate.
+    </ParamField>
+
+  </Expandable>
+</ParamField>
+
+#### Connection pool sizing (Optional)
+
+Each Infisical instance keeps its own pool of Postgres connections. The defaults suit a small deployment and
+most self-hosters never need to change them, but they become relevant once you run many instances: pools are
+**per instance**, so the total number of connections your database sees grows with your instance count.
+
+Work out your total like this:
+
+```
+per instance = DB_POOL_MAX
+             + (DB_REPLICA_POOL_MAX x number of read replicas)
+             + AUDIT_LOGS_DB_POOL_MAX   (only if AUDIT_LOGS_DB_CONNECTION_URI is set)
+
+total        = per instance x number of instances
+```
+
+Then compare that total against your database's `max_connections` (`SHOW max_connections;`). Two things are
+easy to miss:
+
+- **Rolling deploys briefly double the total.** Old and new instances both hold pools while the rollout
+  completes, so size against roughly twice your steady-state number.
+- **Autoscaling sets the ceiling, not your current instance count.** If you autoscale, do the math with the
+  maximum replica count, not today's.
+
+Aim to keep the peak comfortably under `max_connections`, leaving headroom for migrations, admin tools, and
+your own `psql` sessions. If you are close to the limit, **lower `DB_POOL_MAX`** rather than raising
+`max_connections`: each Postgres connection costs memory on the server, and a large number of mostly-idle
+connections wastes it. If instead you see queries queueing while your database is idle, the pool is too small
+and raising it is the right move.
+
+<Tip>
+  Prefer scaling reads with `DB_READ_REPLICAS` over enlarging the primary pool. A connection pooler such as
+  PgBouncer or RDS Proxy is only worth the extra hop and failure domain once instance count alone pushes you
+  near `max_connections`, and note that a pooler in transaction mode does **not** reclaim connections held
+  open inside a transaction.
+</Tip>
+
+<ParamField query="DB_POOL_MIN" type="int" default="0" optional>
+  Minimum connections kept open in the primary database pool. `0` lets idle connections close, which is
+  usually what you want. Raise it only to avoid connection-setup latency on bursty traffic, and be aware that
+  a non-zero value holds connections open on the server even while the instance is idle.
+</ParamField>
+
+<ParamField query="DB_POOL_MAX" type="int" default="10" optional>
+  Maximum connections in the primary database pool. Must be at least `1` and greater than or equal to
+  `DB_POOL_MIN`.
+</ParamField>
+
+<ParamField query="DB_REPLICA_POOL_MIN" type="int" default="0" optional>
+  Minimum connections kept open per read replica pool. Applies to each replica in `DB_READ_REPLICAS`
+  individually.
+</ParamField>
+
+<ParamField query="DB_REPLICA_POOL_MAX" type="int" default="10" optional>
+  Maximum connections **per read replica**. With three replicas and the default of `10`, each instance can
+  open up to 30 replica connections in addition to its primary pool.
+</ParamField>
+
+### Audit Log PostgreSQL (Optional)
+
+<ParamField query="AUDIT_LOGS_DB_CONNECTION_URI" type="string" optional>
+  Separate PostgreSQL connection string for audit log storage. If not set, audit logs are stored in the main database.
+</ParamField>
+
+<ParamField query="AUDIT_LOGS_DB_ROOT_CERT" type="string" optional>
+  Base64-encoded CA certificate for the audit log PostgreSQL database connection. Only needed if `AUDIT_LOGS_DB_CONNECTION_URI` is set.
+</ParamField>
+
+<ParamField query="AUDIT_LOGS_DB_POOL_MIN" type="int" default="0" optional>
+  Minimum connections kept open in the audit log database pool. Only used when
+  `AUDIT_LOGS_DB_CONNECTION_URI` is set.
+</ParamField>
+
+<ParamField query="AUDIT_LOGS_DB_POOL_MAX" type="int" default="10" optional>
+  Maximum connections in the audit log database pool. Only used when `AUDIT_LOGS_DB_CONNECTION_URI` is set.
+  This pool is separate from the primary pool, so it adds to your per-instance total.
+</ParamField>
+
+### ClickHouse (Optional)
+
+ClickHouse can be used as an alternative audit log storage backend for high-volume deployments. See the [ClickHouse Setup Guide](/documentation/platform/audit-logs-clickhouse-setup) for more details.
+
+<ParamField query="CLICKHOUSE_URL" type="string" optional>
+  ClickHouse connection URL. Example: `http://user:password@host:8123/database`
+</ParamField>
+
+<ParamField query="CLICKHOUSE_AUDIT_LOG_ENABLED" type="string" default="true">
+  Enable inserting audit logs into ClickHouse. Defaults to `true` when `CLICKHOUSE_URL` is set.
+</ParamField>
+
+<ParamField query="CLICKHOUSE_AUDIT_LOG_TABLE_NAME" type="string" default="audit_logs">
+  ClickHouse table name for audit logs.
+</ParamField>
+
+<ParamField query="CLICKHOUSE_AUDIT_LOG_ENGINE" type="string" default="ReplacingMergeTree">
+  ClickHouse engine for the audit logs table, used during table creation. Example: `ReplacingMergeTree` or `SharedReplacingMergeTree('/clickhouse/tables/{uuid}/{shard}', '{replica}')`.
+</ParamField>
+
+<ParamField query="CLICKHOUSE_AUDIT_LOG_INSERT_SETTINGS" type="string" optional>
+  ClickHouse insert settings as a JSON string. Applied when inserting audit logs.
+
+  Default: `{"async_insert":1,"wait_for_async_insert":0,"date_time_input_format":"best_effort"}`
+</ParamField>
+
+### Audit Log Behavior
+
+<ParamField query="DISABLE_POSTGRES_AUDIT_LOG_STORAGE" type="string" default="false">
+  Disable storing audit logs in PostgreSQL. When set to `true`, audit logs are not written to PostgreSQL but are still sent to ClickHouse (if configured) and any configured [audit log streams](/documentation/platform/audit-log-streams/audit-log-streams).
+</ParamField>
+
+<ParamField query="AUDIT_LOG_STREAMS_ENABLED" type="string" default="true">
+  Enable sending audit logs to external [audit log streams](/documentation/platform/audit-log-streams/audit-log-streams). When set to `false`, no events are sent to configured stream destinations, but PostgreSQL and ClickHouse storage are unaffected.
+</ParamField>
+
+<ParamField query="DISABLE_AUDIT_LOG_GENERATION" type="string" default="false">
+  Disable audit log generation entirely. When set to `true`, no audit log events are produced — neither PostgreSQL, ClickHouse, nor audit log streams will receive events.
+</ParamField>
+
+<ParamField query="AUDIT_LOG_STREAM_ALLOW_INTERNAL_IP" type="bool" default="false" optional>
+  Determines whether Audit Log Streams are permitted to connect with internal/private IP addresses.
+
+  <Warning>
+    Relaxes the SSRF protection. Only enable it if you trust the users who can configure streams.
+  </Warning>
+</ParamField>
+
+### Redis
+
+Redis is used for caching and background tasks. You can use either a standalone Redis instance, Redis Sentinel, or Redis Cluster setup.
+
+Redis is required: the instance will not start unless one of `REDIS_URL`, `REDIS_SENTINEL_HOSTS`, or
+`REDIS_CLUSTER_HOSTS` is set.
+
+<Info>
+An **active-passive** setup is recommended for Redis. Infisical has not been tested with an **active-active** Redis setup, which may result in undocumented behavior.
+</Info>
+
+<Tabs>
+  <Tab title="Redis Standalone">
+    <ParamField query="REDIS_URL" type="string" default="none" required>
+      Redis connection string. For SSL/TLS connections, use the `rediss://` protocol (note the double 's').
+      
+      Examples:
+      - Without SSL: `redis://localhost:6379`
+      - With SSL: `rediss://localhost:6379`
+      - With authentication: `redis://:password@localhost:6379`
+      - With SSL and authentication: `rediss://:password@localhost:6379`
+    </ParamField>
+  </Tab>
+  <Tab title="Redis Sentinel">
+    <ParamField
+      query="REDIS_SENTINEL_HOSTS"
+      type="string"
+      default="none"
+      required
+    >
+      Comma-separated list of Sentinel host:port pairs. ```
+      192.168.65.254:26379,192.168.65.254:26380 ```
+    </ParamField>
+    <ParamField
+      query="REDIS_SENTINEL_MASTER_NAME"
+      type="string"
+      default="mymaster"
+    >
+      The name of the Redis master set monitored by Sentinel
+    </ParamField>
+    <ParamField query="REDIS_SENTINEL_ENABLE_TLS" type="bool" default="false">
+      Whether to use TLS/SSL for Redis Sentinel connection
+    </ParamField>
+    <ParamField query="REDIS_SENTINEL_USERNAME" type="string" default="none">
+      Authentication username for Redis Sentinel
+    </ParamField>
+    <ParamField query="REDIS_SENTINEL_PASSWORD" type="string" default="none">
+      Authentication password for Redis Sentinel
+    </ParamField>
+    <ParamField query="REDIS_USERNAME" type="string" default="none">
+      Authentication username for Redis Node
+    </ParamField>
+    <ParamField query="REDIS_PASSWORD" type="string" default="none">
+      Authentication password for Redis Node
+    </ParamField>
+  </Tab>
+  <Tab title="Redis Cluster">
+    <ParamField
+      query="REDIS_CLUSTER_HOSTS"
+      type="string"
+      default="none"
+      required
+    >
+      Comma-separated list of Redis Cluster host:port pairs. ```
+      192.168.65.254:26379,192.168.65.254:26380 ```
+    </ParamField>
+    <ParamField query="REDIS_CLUSTER_ENABLE_TLS" type="boolean" default="false">
+      Enable Redis TLS encryption on connection.
+    </ParamField>
+    <ParamField query="REDIS_CLUSTER_AWS_ELASTICACHE_DNS_LOOKUP_MODE" type="boolean" default="false">
+      Enable this if you are using in-transit encryption for an AWS ElastiCache cluster. For more information, refer to the [ioredis documentation](https://github.com/redis/ioredis?tab=readme-ov-file#special-note-aws-elasticache-clusters-with-tls).
+    </ParamField>
+    <ParamField query="REDIS_USERNAME" type="string" default="none">
+      Authentication username for Redis Node
+    </ParamField>
+    <ParamField query="REDIS_PASSWORD" type="string" default="none">
+      Authentication password for Redis Node
+    </ParamField>
+  </Tab>
+  <Tab title="Redis Read Replica">
+    <ParamField
+      query="REDIS_READ_REPLICAS"
+      type="string"
+      default="none"
+      optional
+    >
+      Comma-separated list of Redis read replicas host:port pairs. ```
+      192.168.65.254:26379,192.168.65.254:26380 ```
+    </ParamField>
+
+    Parameters such as username, password, TLS, and Redis type are inherited from the primary instance.
+
+  </Tab>
+</Tabs>
+
+### Redis with SSL/TLS
+
+To connect to Redis with SSL/TLS, use the `rediss://` protocol (note the double 's') in your connection string.
+
+If your Redis server uses a certificate signed by a private CA or a self-signed certificate, set the `NODE_EXTRA_CA_CERTS` environment variable to the path of your CA certificate file:
+
+```bash
+REDIS_URL=rediss://your-redis-host:6379
+NODE_EXTRA_CA_CERTS=/path/to/ca.crt
+```
+
+For Redis Sentinel or Cluster mode, use the `REDIS_SENTINEL_ENABLE_TLS` or `REDIS_CLUSTER_ENABLE_TLS` environment variables respectively.
+
+## Email Service
+
+Without email configuration, Infisical's core functions like sign-up/login and secret operations work, but this disables multi-factor authentication, email invites for projects, alerts for suspicious logins, and all other email-dependent features.
+
+<Accordion title="Generic Configuration">
+<ParamField query="SMTP_HOST" type="string" default="none" optional>
+  Hostname to connect to for establishing SMTP connections
+</ParamField>
+
+<ParamField query="SMTP_PORT" type="string" default="587" optional>
+  Port to connect to for establishing SMTP connections
+</ParamField>
+
+<ParamField query="SMTP_USERNAME" type="string" default="none" optional>
+  Credential to connect to host (e.g. you@example.com)
+</ParamField>
+
+<ParamField query="SMTP_PASSWORD" type="string" default="none" optional>
+  Credential to connect to host
+</ParamField>
+
+<ParamField query="SMTP_FROM_ADDRESS" type="string" default="none" optional>
+  Email address to be used for sending emails
+</ParamField>
+
+<ParamField query="SMTP_FROM_NAME" type="string" default="none" optional>
+  Name label to be used in From field (e.g. Team)
+</ParamField>
+
+<ParamField query="SMTP_HELO_HOST" type="string" default="none" optional>
+  Hostname that Infisical announces in the SMTP `EHLO`/`HELO` greeting. When
+  unset, the underlying mailer falls back to the operating system hostname.
+  Inside containers (e.g. Cloud Run, Kubernetes) the OS hostname is typically a
+  random container ID, which can be rejected by SMTP relays that validate the
+  sender hostname (such as Gmail SMTP relay with sender-hostname checks). Set
+  this to a valid FQDN that the relay accepts.
+</ParamField>
+
+<ParamField query="SMTP_IGNORE_TLS" type="bool" default="false" optional>
+  If this is `true` and `SMTP_PORT` is not 465 then TLS is not used even if the
+  server supports STARTTLS extension.
+</ParamField>
+
+<ParamField query="SMTP_REQUIRE_TLS" type="bool" default="true" optional>
+  If this is `true` and `SMTP_PORT` is not 465 then Infisical tries to use
+  STARTTLS even if the server does not advertise support for it. If the
+  connection cannot be encrypted, then the message is not sent.
+</ParamField>
+
+<ParamField
+  query="SMTP_TLS_REJECT_UNAUTHORIZED"
+  type="bool"
+  default="true"
+  optional
+>
+  If this is `true`, Infisical will validate the server's SSL/TLS certificate
+  and reject the connection if the certificate is invalid or not trusted. If set
+  to `false`, the client will accept the server's certificate regardless of its
+  validity, which can be useful in development or testing environments but is
+  not recommended for production use.
+</ParamField>
+
+<ParamField query="SMTP_CUSTOM_CA_CERT" type="string" default="none" optional>
+    If your SMTP server uses a certificate signed by a custom Certificate Authority, you should set this variable so that Infisical can trust the custom CA.
+
+    This variable **must be a base64-encoded PEM certificate**. Use the following command to encode your certificate: `echo "<certificate>" | base64`
+
+    Infisical strongly recommends using the following variables alongside this one for maximum security:
+    - `SMTP_REQUIRE_TLS=true`
+    - `SMTP_TLS_REJECT_UNAUTHORIZED=true`
+
+</ParamField>
+</Accordion>
+
+<Accordion title="Twilio SendGrid">
+
+1. Create an account and configure [SendGrid](https://sendgrid.com) to send emails.
+2. Create a SendGrid API Key under Settings > [API Keys](https://app.sendgrid.com/settings/api_keys)
+3. Set a name for your API Key, we recommend using "Infisical," and select the "Restricted Key" option. You will need to enable the "Mail Send" permission as shown below:
+
+![creating sendgrid api key](../../images/self-hosting/configuration/email/email-sendgrid-create-key.png)
+
+![setting sendgrid api key restriction](../../images/self-hosting/configuration/email/email-sendgrid-restrictions.png)
+
+4. With the API Key, you can now set your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.sendgrid.net
+SMTP_USERNAME=apikey
+SMTP_PASSWORD=SG.rqFsfjxYPiqE1lqZTgD_lz7x8IVLx # your SendGrid API Key from step above
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+SMTP_FROM_NAME=Infisical
+```
+
+  <Info>
+    Remember that you will need to restart Infisical for this to work properly.
+  </Info>
+</Accordion>
+
+<Accordion title="Mailgun">
+  1. Create an account and configure [Mailgun](https://www.mailgun.com) to send emails.
+  2. Obtain your Mailgun credentials in Sending > Overview > SMTP
+
+![obtain mailhog api key estriction](../../images/self-hosting/configuration/email/email-mailhog-credentials.png)
+
+3. With your Mailgun credentials, you can now set up your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.mailgun.org # obtained from credentials page
+SMTP_USERNAME=postmaster@example.mailgun.org # obtained from credentials page
+SMTP_PASSWORD=password # obtained from credentials page
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+SMTP_FROM_NAME=Infisical
+```
+
+</Accordion>
+
+<Accordion title="AWS SES">
+  <Steps>
+    <Step title="Create a verified identity">
+      This will be used to verify the email you are sending from.
+      ![Create SES identity](../../images/self-hosting/configuration/email/ses-create-identity.png)
+      <Info>
+        If AWS SES is in sandbox mode, you will only be able to send emails to verified identities.
+      </Info>
+    </Step>
+    <Step title="Create an account and configure AWS SES">
+      Create an IAM user for SMTP authentication and obtain SMTP credentials in SMTP settings > Create SMTP credentials
+
+      ![opening AWS SES console](../../images/self-hosting/configuration/email/email-aws-ses-console.png)
+
+      ![creating AWS IAM SES user](../../images/self-hosting/configuration/email/email-aws-ses-user.png)
+    </Step>
+    <Step title="Set up your SMTP environment variables">
+      With your AWS SES SMTP credentials, you can now set up your SMTP environment variables for your Infisical instance.
+
+      ```
+      SMTP_HOST=email-smtp.ap-northeast-1.amazonaws.com # SMTP endpoint obtained from SMTP settings
+      SMTP_USERNAME=xxx # your SMTP username
+      SMTP_PASSWORD=xxx # your SMTP password
+      SMTP_PORT=465
+      SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+      SMTP_FROM_NAME=Infisical
+      ```
+    </Step>
+
+  </Steps>
+
+  <Info>
+    Remember that you will need to restart Infisical for this to work properly.
+  </Info>
+</Accordion>
+
+<Accordion title="SocketLabs">
+  1. Create an account and configure [SocketLabs](https://www.socketlabs.com/) to send emails.
+  2. From the dashboard, navigate to SMTP Credentials > SMTP & APIs > SMTP Credentials to obtain your SocketLabs SMTP credentials.
+
+![opening SocketLabs dashboard](../../images/self-hosting/configuration/email/email-socketlabs-dashboard.png)
+
+![obtaining SocketLabs credentials](../../images/self-hosting/configuration/email/email-socketlabs-credentials.png)
+
+3. With your SocketLabs SMTP credentials, you can now set up your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.socketlabs.com
+SMTP_USERNAME=username # obtained from your credentials
+SMTP_PASSWORD=password # obtained from your credentials
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+SMTP_FROM_NAME=Infisical
+```
+
+{" "}
+
+<Note>
+  The `SMTP_FROM_ADDRESS` environment variable should be an email for an
+  authenticated domain under Configuration > Domain Management in SocketLabs.
+  For example, if you're using SocketLabs in sandbox mode, then you may use an
+  email like `team@sandbox.socketlabs.dev`.
+</Note>
+
+![SocketLabs domain management](../../images/self-hosting/configuration/email/email-socketlabs-domains.png)
+
+  <Info>
+    Remember that you will need to restart Infisical for this to work properly.
+  </Info>
+</Accordion>
+
+<Accordion title="Resend">
+  1. Create an account on [Resend](https://resend.com).
+  2. Add a [Domain](https://resend.com/domains).
+
+![adding resend domain](../../images/self-hosting/configuration/email/email-resend-create-domain.png)
+
+3. Create an [API Key](https://resend.com/api-keys).
+
+![creating resend api key](../../images/self-hosting/configuration/email/email-resend-create-key.png)
+
+4. Go to the [SMTP page](https://resend.com/settings/smtp) and copy the values.
+
+![go to resend smtp settings](../../images/self-hosting/configuration/email/email-resend-smtp-settings.png)
+
+5. With the API Key, you can now set your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.resend.com
+SMTP_USERNAME=resend
+SMTP_PASSWORD=YOUR_API_KEY
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+SMTP_FROM_NAME=Infisical
+```
+
+    <Info>
+      Remember that you will need to restart Infisical for this to work properly.
+    </Info>
+
+</Accordion>
+
+<Accordion title="Gmail">
+  Create an account and enable "less secure app access" in Gmail Account Settings > Security. This will allow
+  applications like Infisical to authenticate with Gmail via your username and password.
+
+![Gmail secure app access](../../images/self-hosting/configuration/email/email-gmail-app-access.png)
+
+With your Gmail username and password, you can set your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.gmail.com
+SMTP_USERNAME=hey@gmail.com # your email
+SMTP_PASSWORD=password # your password
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@gmail.com
+SMTP_FROM_NAME=Infisical
+```
+
+  <Warning>
+    As per the [notice](https://support.google.com/accounts/answer/6010255?hl=en) by Google, you should note that using Gmail credentials for SMTP configuration
+    will only work for Google Workspace or Google Cloud Identity customers as of May 30, 2022.
+
+Put differently, the SMTP configuration is only possible with business (not personal) Gmail credentials.
+
+  </Warning>
+</Accordion>
+
+<Accordion title="Office365">
+  1. Create an account and configure [Office365](https://www.office.com/) to send emails.
+
+2. With your login credentials, you can now set up your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.office365.com
+SMTP_USERNAME=username@yourdomain.com # your username
+SMTP_PASSWORD=password # your password
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=username@yourdomain.com
+SMTP_FROM_NAME=Infisical
+```
+
+</Accordion>
+
+<Accordion title="Zoho Mail">
+  1. Create an account and configure [Zoho Mail](https://www.zoho.com/mail/) to send emails.
+
+2. With your email credentials, you can now set up your SMTP environment variables:
+
+```
+SMTP_HOST=smtp.zoho.com
+SMTP_USERNAME=username # your email
+SMTP_PASSWORD=password # your password
+SMTP_PORT=587
+SMTP_FROM_ADDRESS=hey@example.com # your personal Zoho email or domain-based email linked to Zoho Mail
+SMTP_FROM_NAME=Infisical
+```
+
+{" "}
+
+<Note>
+  You can use either your personal Zoho email address like `you@zohomail.com` or
+  a domain-based email address like `you@yourdomain.com`. If using a
+  domain-based email address, then please make sure that you've configured and
+  verified it with Zoho Mail.
+</Note>
+
+  <Info>
+    Remember that you will need to restart Infisical for this to work properly.
+  </Info>
+</Accordion>
+
+<Accordion title="SMTP2Go">
+1. Create an account and configure [SMTP2Go](https://www.smtp2go.com/) to send emails.
+2. Turn on SMTP authentication
+```
+SMTP_HOST=mail.smtp2go.com
+SMTP_PORT=You can use one of the following ports: 2525, 80, 25, 8025, or 587
+SMTP_USERNAME=username #Your SMTP2GO account's SMTP username
+SMTP_PASSWORD=password #Your SMTP2GO account's SMTP password
+SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
+SMTP_FROM_NAME=Infisical
+```
+{" "}
+
+<Note>
+Optional (for TLS/SSL):
+
+TLS: Available on the same ports (2525, 80, 25, 8025, or 587)
+SSL: Available on ports 465, 8465, and 443
+
+</Note>
+</Accordion>
+
+## Authentication
+
+By default, users can only log in via the email/password-based login method.
+To log in to Infisical with OAuth providers such as Google, configure the associated variables.
+
+<ParamField query="DEFAULT_SAML_ORG_SLUG" type="string">
+
+When set, all visits to the Infisical login page will automatically redirect users of your Infisical instance to the SAML identity provider associated with the specified organization slug.
+
+</ParamField>
+
+<Accordion title="Google">
+  Follow the detailed guide to configure [Google SSO](/documentation/platform/sso/google).
+
+  <ParamField query="CLIENT_ID_GOOGLE_LOGIN" type="string" default="none" optional>
+  OAuth2 client ID for Google login
+  </ParamField>
+  <ParamField query="CLIENT_SECRET_GOOGLE_LOGIN" type="string" default="none" optional>
+    OAuth2 client secret for Google login
+  </ParamField>
+</Accordion>
+
+<Accordion title="GitHub">
+  Follow the detailed guide to configure [GitHub SSO](/documentation/platform/sso/github).
+
+  <ParamField query="CLIENT_ID_GITHUB_LOGIN" type="string" default="none" optional>
+    OAuth2 client ID for GitHub login
+  </ParamField>
+  <ParamField query="CLIENT_SECRET_GITHUB_LOGIN" type="string" default="none" optional>
+    OAuth2 client secret for GitHub login
+  </ParamField>
+</Accordion>
+
+<Accordion title="GitLab">
+  Follow the detailed guide to configure [GitLab SSO](/documentation/platform/sso/gitlab).
+
+  <ParamField query="CLIENT_ID_GITLAB_LOGIN" type="string" default="none" optional>
+    OAuth2 client ID for GitLab login
+  </ParamField>
+  <ParamField query="CLIENT_SECRET_GITLAB_LOGIN" type="string" default="none" optional>
+    OAuth2 client secret for GitLab login
+  </ParamField>
+  <ParamField query="URL_GITLAB_LOGIN" type="string" default="https://gitlab.com" optional>
+    URL of your self-hosted instance of GitLab where the OAuth application is registered
+  </ParamField>
+</Accordion>
+
+<Accordion title="Okta SAML">
+  Requires enterprise license. Please contact sales@infisical.com to get more
+  information.
+</Accordion>
+
+<Accordion title="Azure SAML">
+  Requires enterprise license. Please contact sales@infisical.com to get more
+  information.
+</Accordion>
+
+<Accordion title="JumpCloud SAML">
+  Requires enterprise license. Please contact sales@infisical.com to get more
+  information.
+</Accordion>
+
+## App Connections
+
+You can configure third-party app connections for re-use across Infisical Projects.
+
+<Accordion title="AWS Assume Role Connection">
+    <ParamField query="INF_APP_CONNECTION_AWS_ACCESS_KEY_ID" type="string" default="none" optional>
+        The AWS IAM User access key ID for assuming roles
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_AWS_SECRET_ACCESS_KEY" type="string" default="none" optional>
+        The AWS IAM User secret key for assuming roles
+    </ParamField>
+
+</Accordion>
+
+<Accordion title="GitHub App Connection">
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_ID" type="string" default="none" optional>
+        The ID of the GitHub App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_SLUG" type="string" default="none" optional>
+        The slug of the GitHub App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_CLIENT_ID" type="string" default="none" optional>
+        The client ID for the GitHub App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_CLIENT_SECRET" type="string" default="none" optional>
+        The client secret for the GitHub App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_PRIVATE_KEY" type="string" default="none" optional>
+        The private key for the GitHub App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_APP_HOST" type="string" default="github.com" optional>
+        The hostname of the GitHub instance where the shared GitHub App is registered. Only required when the shared GitHub App is registered on a GitHub Enterprise Server (GHES) instance rather than github.com (e.g. `github.mycompany.com`). Defaults to `github.com` when not set.
+    </ParamField>
+
+</Accordion>
+
+<Accordion title="GitHub Radar App Connection">
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_ID" type="string" default="none" optional>
+        The ID of the GitHub Radar App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_SLUG" type="string" default="none" optional>
+        The slug of the GitHub Radar App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_ID" type="string" default="none" optional>
+        The client ID for the GitHub Radar App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_SECRET" type="string" default="none" optional>
+        The client secret for the GitHub Radar App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_PRIVATE_KEY" type="string" default="none" optional>
+        The private key for the GitHub Radar App
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_RADAR_APP_WEBHOOK_SECRET" type="string" default="none" optional>
+        The webhook secret configured for payload verification in the GitHub Radar App
+    </ParamField>
+
+</Accordion>
+
+<Accordion title="GitHub OAuth Connection">
+    <ParamField query="INF_APP_CONNECTION_GITHUB_OAUTH_CLIENT_ID" type="string" default="none" optional>
+        The OAuth2 client ID for GitHub OAuth Connection
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITHUB_OAUTH_CLIENT_SECRET" type="string" default="none" optional>
+        The OAuth2 client secret for GitHub OAuth Connection
+    </ParamField>
+
+</Accordion>
+
+<Accordion title="GitLab OAuth Connection">
+    <ParamField query="INF_APP_CONNECTION_GITLAB_OAUTH_CLIENT_ID" type="string" default="none" optional>
+        The Application ID of your GitLab OAuth application.
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_GITLAB_OAUTH_CLIENT_SECRET" type="string" default="none" optional>
+        The Secret of your GitLab OAuth application.
+    </ParamField>
+
+</Accordion>
+
+<Accordion title="Heroku OAuth Connection">
+    <ParamField query="INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_ID" type="string" default="none" optional>
+        The Application ID of your Heroku OAuth application.
+    </ParamField>
+
+    <ParamField query="INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_SECRET" type="string" default="none" optional>
+        The Secret of your Heroku OAuth application.
+    </ParamField>
+</Accordion>
+
+## Secret Scanning
+
+<Accordion title="GitHub">
+  <ParamField query="SECRET_SCANNING_GIT_APP_ID" type="string" default="none" optional>
+    The App ID of your GitHub App.
+  </ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_GIT_APP_SLUG"
+  type="string"
+  default="none"
+  optional
+>
+  The slug of your GitHub App.
+</ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_PRIVATE_KEY"
+  type="string"
+  default="none"
+  optional
+>
+  A private key for your GitHub App.
+</ParamField>
+
+  <ParamField query="SECRET_SCANNING_WEBHOOK_SECRET" type="string" default="none" optional>
+    The webhook secret of your GitHub App.
+  </ParamField>
+</Accordion>
+
+<Accordion title="Scan limits">
+  These bound the resources a single scan can consume. The defaults only trip on outliers — a
+  repository large enough to exhaust a worker — so most deployments never need to change them.
+
+<Note>
+  The limits apply from the release that introduces them, on existing instances too. A repository
+  above `SECRET_SCANNING_MAX_REPO_SIZE_MB` that scanned before the upgrade is now rejected — before
+  cloning when the provider reports a size, otherwise once the clone is measured on disk — and the
+  scanner runs under a memory ceiling it previously did not have. If you scan repositories larger
+  than the defaults, raise both values or set them to `0` for the previous unbounded behaviour.
+</Note>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_SCAN_TIMEOUT_MS"
+  type="number"
+  default="600000"
+  optional
+>
+  How long, in milliseconds, a single scan may run before it is cancelled and
+  the scan is marked failed. Defaults to `600000` (10 minutes).
+</ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_CLONE_TIMEOUT_MS"
+  type="number"
+  default="600000"
+  optional
+>
+  How long, in milliseconds, cloning a repository may take before it is
+  cancelled and the scan is marked failed. Defaults to `600000` (10 minutes).
+</ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_MEMORY_LIMIT_MB"
+  type="number"
+  default="2048"
+  optional
+>
+  Soft memory ceiling for the scanner process, in MB. It collects garbage more
+  aggressively as it approaches this limit rather than growing. Defaults to
+  `2048` (2 GB). Set to `0` to disable.
+</ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_CPU_THREADS"
+  type="number"
+  default="1"
+  optional
+>
+  Maximum CPU threads a scan may use, applied to both the scanner process and
+  the repository clone. Scans share the instance with the API, so raising this
+  makes scans faster at the cost of API responsiveness during a scan. Defaults
+  to `1`. Set to `0` to remove the cap.
+</ParamField>
+
+{" "}
+
+<ParamField
+  query="SECRET_SCANNING_MAX_REPO_SIZE_MB"
+  type="number"
+  default="5120"
+  optional
+>
+  Repositories larger than this many MB are rejected instead of scanned.
+  Defaults to `5120` (5 GB). Set to `0` to disable.
+</ParamField>
+
+  <ParamField query="SECRET_SCANNING_STUCK_SCAN_TIMEOUT_MS" type="number" default="3600000" optional>
+    How long, in milliseconds, a scan may stay in progress before it is assumed dead — its worker
+    was killed — and marked failed. Defaults to `3600000` (1 hour). Must exceed the clone and scan
+    timeouts plus the time a scan spends measuring the repository and writing its results; the
+    server refuses to start otherwise.
+  </ParamField>
+</Accordion>
+
+## Observability
+
+You can configure Infisical to collect and expose telemetry data for analytics and monitoring.
+
+<ParamField
+  query="OTEL_TELEMETRY_COLLECTION_ENABLED"
+  type="string"
+  default="false"
+>
+  Whether to collect and expose telemetry data.
+</ParamField>
+
+<ParamField query="OTEL_EXPORT_TYPE" type="enum" optional>
+  Supported types are `prometheus` and `otlp`.
+
+If the export type is set to `prometheus`, metric data will be exposed on port 9464 at the `/metrics` path.
+
+If the export type is set to `otlp`, you will have to configure a value for `OTEL_EXPORT_OTLP_ENDPOINT`.
+
+</ParamField>
+
+<ParamField query="OTEL_EXPORT_OTLP_ENDPOINT" type="string">
+  Where telemetry data is pushed for collection. This is only
+  applicable when `OTEL_EXPORT_TYPE` is set to `otlp`.
+</ParamField>
+
+<ParamField query="OTEL_COLLECTOR_BASIC_AUTH_USERNAME" type="string">
+  The username for authenticating with the telemetry collector.
+</ParamField>
+<ParamField query="OTEL_COLLECTOR_BASIC_AUTH_PASSWORD" type="string">
+  The password for authenticating with the telemetry collector.
+</ParamField>
+
+<ParamField query="OTEL_DROP_HIGH_CARDINALITY_METERS" type="string" default="false" optional>
+  When set to `true`, the SDK discards all data points from the high-cardinality, per-actor `Infisical`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only bounded-cardinality `InfisicalCore` metrics are emitted. Useful for large or multi-tenant deployments where per-actor label cardinality is too expensive. See [Monitoring & Telemetry](/self-hosting/guides/monitoring-telemetry#available-metrics) for details.
+</ParamField>
+
+## Identity Auth Method
+
+<ParamField
+  query="IDENTITY_TLS_CERT_AUTH_CLIENT_CERTIFICATE_HEADER_KEY"
+  type="string"
+  default="x-identity-tls-cert-auth-client-cert"
+>
+  The TLS header used to propagate the client certificate from the load balancer
+  to the server.
+</ParamField>
+
+## Environment Variable Overrides
+
+If you can't directly access and modify environment variables, you can update them using the [Server Admin Console](/documentation/platform/admin-panel/server-admin).
+
+![Environment Variables Overrides Page](../../images/self-hosting/configuration/overrides/page.png)

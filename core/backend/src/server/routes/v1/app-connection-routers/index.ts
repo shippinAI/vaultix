@@ -1,0 +1,174 @@
+import { registerChefConnectionRouter } from "@app/ee/routes/v1/app-connection-routers/chef-connection-router";
+import { registerOCIConnectionRouter } from "@app/ee/routes/v1/app-connection-routers/oci-connection-router";
+import { registerOracleDBConnectionRouter } from "@app/ee/routes/v1/app-connection-routers/oracledb-connection-router";
+import { AppConnection } from "@app/services/app-connection/app-connection-enums";
+
+import { registerOnePassConnectionRouter } from "./1password-connection-router";
+import { registerADCSConnectionRouter } from "./adcs-connection-router";
+import { registerAnthropicConnectionRouter } from "./anthropic-connection-router";
+import { registerAuth0ConnectionRouter } from "./auth0-connection-router";
+import { registerAwsConnectionRouter } from "./aws-connection-router";
+import { registerAzureADCSConnectionRouter } from "./azure-adcs-connection-router";
+import { registerAzureAppConfigurationConnectionRouter } from "./azure-app-configuration-connection-router";
+import { registerAzureClientSecretsConnectionRouter } from "./azure-client-secrets-connection-router";
+import { registerAzureDevOpsConnectionRouter } from "./azure-devops-connection-router";
+import { registerAzureDnsConnectionRouter } from "./azure-dns-connection-router";
+import { registerAzureEntraIdConnectionRouter } from "./azure-entra-id-connection-router";
+import { registerAzureKeyVaultConnectionRouter } from "./azure-key-vault-connection-router";
+import { registerBitbucketConnectionRouter } from "./bitbucket-connection-router";
+import { registerCamundaConnectionRouter } from "./camunda-connection-router";
+import { registerChecklyConnectionRouter } from "./checkly-connection-router";
+import { registerCircleCIConnectionRouter } from "./circleci-connection-router";
+import { registerCloud66ConnectionRouter } from "./cloud-66-connection-router";
+import { registerCloudflareConnectionRouter } from "./cloudflare-connection-router";
+import { registerConvexConnectionRouter } from "./convex-connection-router";
+import { registerDatabricksConnectionRouter } from "./databricks-connection-router";
+import { registerDatadogConnectionRouter } from "./datadog-connection-router";
+import { registerDbtConnectionRouter } from "./dbt-connection-router";
+import { registerDevinConnectionRouter } from "./devin-connection-router";
+import { registerDigiCertConnectionRouter } from "./digicert-connection-router";
+import { registerDigitalOceanConnectionRouter } from "./digital-ocean-connection-router";
+import { registerDNSMadeEasyConnectionRouter } from "./dns-made-easy-connection-router";
+import { registerDopplerConnectionRouter } from "./doppler-connection-router";
+import { registerExternalVaultixConnectionRouter } from "./external-infisical-connection-router";
+import { registerF5BigIpConnectionRouter } from "./f5-big-ip-connection-router";
+import { registerFireworksConnectionRouter } from "./fireworks-connection-router";
+import { registerFlyioConnectionRouter } from "./flyio-connection-router";
+import { registerGcpConnectionRouter } from "./gcp-connection-router";
+import { registerGitHubConnectionRouter } from "./github-connection-router";
+import { registerGitHubRadarConnectionRouter } from "./github-radar-connection-router";
+import { registerGitLabConnectionRouter } from "./gitlab-connection-router";
+import { registerGoDaddyConnectionRouter } from "./godaddy-connection-router";
+import { registerHasuraCloudConnectionRouter } from "./hasura-cloud-connection-router";
+import { registerHCVaultConnectionRouter } from "./hc-vault-connection-router";
+import { registerHerokuConnectionRouter } from "./heroku-connection-router";
+import { registerHumanitecConnectionRouter } from "./humanitec-connection-router";
+import { registerKempLoadMasterConnectionRouter } from "./kemp-loadmaster-connection-router";
+import { registerLaravelForgeConnectionRouter } from "./laravel-forge-connection-router";
+import { registerLdapConnectionRouter } from "./ldap-connection-router";
+import { registerLiteLLMConnectionRouter } from "./litellm-connection-router";
+import { registerMicrosoftIntuneConnectionRouter } from "./microsoft-intune-connection-router";
+import { registerMongoDBConnectionRouter } from "./mongodb-connection-router";
+import { registerMsSqlConnectionRouter } from "./mssql-connection-router";
+import { registerMySqlConnectionRouter } from "./mysql-connection-router";
+import { registerNetlifyConnectionRouter } from "./netlify-connection-router";
+import { registerNetScalerConnectionRouter } from "./netscaler-connection-router";
+import { registerNorthflankConnectionRouter } from "./northflank-connection-router";
+import { registerNutanixPrismCentralConnectionRouter } from "./nutanix-prism-central-connection-router";
+import { registerOctopusDeployConnectionRouter } from "./octopus-deploy-connection-router";
+import { registerOktaConnectionRouter } from "./okta-connection-router";
+import { registerOnaConnectionRouter } from "./ona-connection-router";
+import { registerOpenRouterConnectionRouter } from "./open-router-connection-router";
+import { registerOpenAIConnectionRouter } from "./openai-connection-router";
+import { registerOvhConnectionRouter } from "./ovh-connection-router";
+import { registerPostgresConnectionRouter } from "./postgres-connection-router";
+import { registerQoveryConnectionRouter } from "./qovery-connection-router";
+import { registerRailwayConnectionRouter } from "./railway-connection-router";
+import { registerRedisConnectionRouter } from "./redis-connection-router";
+import { registerRenderConnectionRouter } from "./render-connection-router";
+import { registerRundeckConnectionRouter } from "./rundeck-connection-router";
+import { registerSalesforceConnectionRouter } from "./salesforce-connection-router";
+import { registerSmbConnectionRouter } from "./smb-connection-router";
+import { registerSnowflakeConnectionRouter } from "./snowflake-connection-router";
+import { registerSpaceliftConnectionRouter } from "./spacelift-connection-router";
+import { registerSshConnectionRouter } from "./ssh-connection-router";
+import { registerSupabaseConnectionRouter } from "./supabase-connection-router";
+import { registerTeamCityConnectionRouter } from "./teamcity-connection-router";
+import { registerTerraformCloudConnectionRouter } from "./terraform-cloud-router";
+import { registerTravisCIConnectionRouter } from "./travis-ci-connection-router";
+import { registerTriggerDevConnectionRouter } from "./trigger-dev-connection-router";
+import { registerVenafiConnectionRouter } from "./venafi-connection-router";
+import { registerVenafiTppConnectionRouter } from "./venafi-tpp-connection-router";
+import { registerVercelConnectionRouter } from "./vercel-connection-router";
+import { registerWindmillConnectionRouter } from "./windmill-connection-router";
+import { registerWinRMConnectionRouter } from "./winrm-connection-router";
+import { registerZabbixConnectionRouter } from "./zabbix-connection-router";
+
+export * from "./app-connection-router";
+
+export const APP_CONNECTION_REGISTER_ROUTER_MAP: Record<AppConnection, (server: FastifyZodProvider) => Promise<void>> =
+  {
+    [AppConnection.AWS]: registerAwsConnectionRouter,
+    [AppConnection.GitHub]: registerGitHubConnectionRouter,
+    [AppConnection.GitHubRadar]: registerGitHubRadarConnectionRouter,
+    [AppConnection.GCP]: registerGcpConnectionRouter,
+    [AppConnection.AzureKeyVault]: registerAzureKeyVaultConnectionRouter,
+    [AppConnection.AzureAppConfiguration]: registerAzureAppConfigurationConnectionRouter,
+    [AppConnection.AzureClientSecrets]: registerAzureClientSecretsConnectionRouter,
+    [AppConnection.AzureDevOps]: registerAzureDevOpsConnectionRouter,
+    [AppConnection.AzureADCS]: registerAzureADCSConnectionRouter,
+    [AppConnection.ADCS]: registerADCSConnectionRouter,
+    [AppConnection.AzureDNS]: registerAzureDnsConnectionRouter,
+    [AppConnection.Databricks]: registerDatabricksConnectionRouter,
+    [AppConnection.Humanitec]: registerHumanitecConnectionRouter,
+    [AppConnection.TerraformCloud]: registerTerraformCloudConnectionRouter,
+    [AppConnection.Vercel]: registerVercelConnectionRouter,
+    [AppConnection.Postgres]: registerPostgresConnectionRouter,
+    [AppConnection.MsSql]: registerMsSqlConnectionRouter,
+    [AppConnection.MySql]: registerMySqlConnectionRouter,
+    [AppConnection.Camunda]: registerCamundaConnectionRouter,
+    [AppConnection.Windmill]: registerWindmillConnectionRouter,
+    [AppConnection.Auth0]: registerAuth0ConnectionRouter,
+    [AppConnection.HCVault]: registerHCVaultConnectionRouter,
+    [AppConnection.LDAP]: registerLdapConnectionRouter,
+    [AppConnection.TeamCity]: registerTeamCityConnectionRouter,
+    [AppConnection.OCI]: registerOCIConnectionRouter,
+    [AppConnection.OracleDB]: registerOracleDBConnectionRouter,
+    [AppConnection.OnePass]: registerOnePassConnectionRouter,
+    [AppConnection.Heroku]: registerHerokuConnectionRouter,
+    [AppConnection.Render]: registerRenderConnectionRouter,
+    [AppConnection.LaravelForge]: registerLaravelForgeConnectionRouter,
+    [AppConnection.Flyio]: registerFlyioConnectionRouter,
+    [AppConnection.TriggerDev]: registerTriggerDevConnectionRouter,
+    [AppConnection.GitLab]: registerGitLabConnectionRouter,
+    [AppConnection.Cloudflare]: registerCloudflareConnectionRouter,
+    [AppConnection.DNSMadeEasy]: registerDNSMadeEasyConnectionRouter,
+    [AppConnection.Bitbucket]: registerBitbucketConnectionRouter,
+    [AppConnection.Zabbix]: registerZabbixConnectionRouter,
+    [AppConnection.Railway]: registerRailwayConnectionRouter,
+    [AppConnection.Checkly]: registerChecklyConnectionRouter,
+    [AppConnection.Supabase]: registerSupabaseConnectionRouter,
+    [AppConnection.DigitalOcean]: registerDigitalOceanConnectionRouter,
+    [AppConnection.Netlify]: registerNetlifyConnectionRouter,
+    [AppConnection.Northflank]: registerNorthflankConnectionRouter,
+    [AppConnection.Okta]: registerOktaConnectionRouter,
+    [AppConnection.Redis]: registerRedisConnectionRouter,
+    [AppConnection.MongoDB]: registerMongoDBConnectionRouter,
+    [AppConnection.Chef]: registerChefConnectionRouter,
+    [AppConnection.OctopusDeploy]: registerOctopusDeployConnectionRouter,
+    [AppConnection.SSH]: registerSshConnectionRouter,
+    [AppConnection.Dbt]: registerDbtConnectionRouter,
+    [AppConnection.SMB]: registerSmbConnectionRouter,
+    [AppConnection.WinRM]: registerWinRMConnectionRouter,
+    [AppConnection.OpenRouter]: registerOpenRouterConnectionRouter,
+    [AppConnection.OpenAI]: registerOpenAIConnectionRouter,
+    [AppConnection.CircleCI]: registerCircleCIConnectionRouter,
+    [AppConnection.Cloud66]: registerCloud66ConnectionRouter,
+    [AppConnection.AzureEntraId]: registerAzureEntraIdConnectionRouter,
+    [AppConnection.MicrosoftIntune]: registerMicrosoftIntuneConnectionRouter,
+    [AppConnection.Venafi]: registerVenafiConnectionRouter,
+    [AppConnection.VenafiTpp]: registerVenafiTppConnectionRouter,
+    [AppConnection.ExternalVaultix]: registerExternalVaultixConnectionRouter,
+    [AppConnection.Doppler]: registerDopplerConnectionRouter,
+    [AppConnection.NetScaler]: registerNetScalerConnectionRouter,
+    [AppConnection.KempLoadMaster]: registerKempLoadMasterConnectionRouter,
+    [AppConnection.Anthropic]: registerAnthropicConnectionRouter,
+    [AppConnection.OVH]: registerOvhConnectionRouter,
+    [AppConnection.Devin]: registerDevinConnectionRouter,
+    [AppConnection.Ona]: registerOnaConnectionRouter,
+    [AppConnection.DigiCert]: registerDigiCertConnectionRouter,
+    [AppConnection.GoDaddy]: registerGoDaddyConnectionRouter,
+    [AppConnection.TravisCI]: registerTravisCIConnectionRouter,
+    [AppConnection.Salesforce]: registerSalesforceConnectionRouter,
+    [AppConnection.Snowflake]: registerSnowflakeConnectionRouter,
+    [AppConnection.Datadog]: registerDatadogConnectionRouter,
+    [AppConnection.F5BigIp]: registerF5BigIpConnectionRouter,
+    [AppConnection.Convex]: registerConvexConnectionRouter,
+    [AppConnection.Rundeck]: registerRundeckConnectionRouter,
+    [AppConnection.HasuraCloud]: registerHasuraCloudConnectionRouter,
+    [AppConnection.Qovery]: registerQoveryConnectionRouter,
+    [AppConnection.LiteLLM]: registerLiteLLMConnectionRouter,
+    [AppConnection.Fireworks]: registerFireworksConnectionRouter,
+    [AppConnection.NutanixPrismCentral]: registerNutanixPrismCentralConnectionRouter,
+    [AppConnection.Spacelift]: registerSpaceliftConnectionRouter
+  };

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vaultix — secrets you own</title>
+  <meta name="application-name" content="Vaultix" />
+  <meta name="description" content="Vaultix. Secrets you own. A shippin.ai service by AngryVibes LLC." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="mark.svg" />
+  <meta property="og:title" content="Vaultix" />
+  <meta property="og:description" content="Secrets you own. Never in chat." />
+  <meta property="og:image" content="og.svg" />
+  <style>
+    :root {
+      --bg: oklch(0.18 0.02 250);
+      --fg: oklch(0.95 0.01 90);
+      --mute: oklch(0.72 0.02 250);
+      --line: oklch(0.35 0.02 250);
+      --accent: oklch(0.78 0.12 85);
+      --paper: oklch(0.22 0.02 250);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, sans-serif;
+      background: var(--bg); color: var(--fg); line-height: 1.45;
+    }
+    main { max-width: 42rem; margin: 0 auto; padding: 1.5rem; }
+    .wordmark { height: 2.6rem; display: block; margin: 0 0 .75rem; }
+    .mute { color: var(--mute); font-size: .9rem; }
+    .stamp, .card, .step, .glossary {
+      border: 1px solid var(--line); background: var(--paper);
+      border-radius: .5rem; padding: .9rem 1rem; margin: .75rem 0;
+    }
+    .stamp { display: flex; justify-content: space-between; gap: 1rem; font-size: .85rem; }
+    button {
+      background: var(--accent); color: var(--bg); border: 0;
+      border-radius: .35rem; padding: .5rem .9rem; font-weight: 650; cursor: pointer;
+    }
+    button[disabled] { opacity: .45; cursor: not-allowed; }
+    ol { padding-left: 1.2rem; }
+    .refused { color: oklch(0.75 0.15 25); }
+    label { display: block; margin: .4rem 0 .2rem; font-size: .85rem; color: var(--mute); }
+    input {
+      width: 100%; padding: .4rem .5rem; border-radius: .3rem;
+      border: 1px solid var(--line); background: var(--bg); color: var(--fg);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="wordmark" src="wordmark.svg" alt="Vaultix — A SHIPPIN.AI SERVICE, AngryVibes LLC" />
+    <p class="mute">Clyffy teaches by doing. The catalog answers. A model is not the setup wizard.</p>
+    <div id="root">Loading viewport…</div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

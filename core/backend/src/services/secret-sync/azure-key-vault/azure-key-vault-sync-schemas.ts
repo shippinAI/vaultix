@@ -1,0 +1,71 @@
+import { z } from "zod";
+
+import { SecretSyncs } from "@app/lib/api-docs";
+import { isValidAzureKeyVaultUrl } from "@app/lib/validator";
+import { AppConnection } from "@app/services/app-connection/app-connection-enums";
+import { SecretSync } from "@app/services/secret-sync/secret-sync-enums";
+import {
+  BaseSecretSyncSchema,
+  GenericCreateSecretSyncFieldsSchema,
+  GenericUpdateSecretSyncFieldsSchema
+} from "@app/services/secret-sync/secret-sync-schemas";
+import { TSyncOptionsConfig } from "@app/services/secret-sync/secret-sync-types";
+
+import { SECRET_SYNC_NAME_MAP } from "../secret-sync-maps";
+
+const AzureKeyVaultSyncDestinationConfigSchema = z.object({
+  vaultBaseUrl: z
+    .string()
+    .url("Invalid vault base URL format")
+    .min(1, "Vault base URL required")
+    .refine(isValidAzureKeyVaultUrl, {
+      message: "Vault base URL must be a valid Azure Key Vault URL (https://<vault-name>.vault.azure.net)"
+    })
+    .describe(SecretSyncs.DESTINATION_CONFIG.AZURE_KEY_VAULT.vaultBaseUrl)
+});
+
+const AzureKeyVaultSyncOptionsSchema = z.object({
+  disableCertificateImport: z
+    .boolean()
+    .optional()
+    .describe(SecretSyncs.ADDITIONAL_SYNC_OPTIONS.AZURE_KEY_VAULT.disableCertificateImport)
+});
+
+const AzureKeyVaultSyncOptionsConfig: TSyncOptionsConfig = { canImportSecrets: true };
+
+export const AzureKeyVaultSyncSchema = BaseSecretSyncSchema(
+  SecretSync.AzureKeyVault,
+  AzureKeyVaultSyncOptionsConfig,
+  AzureKeyVaultSyncOptionsSchema
+)
+  .extend({
+    destination: z.literal(SecretSync.AzureKeyVault),
+    destinationConfig: AzureKeyVaultSyncDestinationConfigSchema
+  })
+  .describe(JSON.stringify({ title: SECRET_SYNC_NAME_MAP[SecretSync.AzureKeyVault] }));
+
+export const CreateAzureKeyVaultSyncSchema = GenericCreateSecretSyncFieldsSchema(
+  SecretSync.AzureKeyVault,
+  AzureKeyVaultSyncOptionsConfig,
+  AzureKeyVaultSyncOptionsSchema
+).extend({
+  destinationConfig: AzureKeyVaultSyncDestinationConfigSchema
+});
+
+export const UpdateAzureKeyVaultSyncSchema = GenericUpdateSecretSyncFieldsSchema(
+  SecretSync.AzureKeyVault,
+  AzureKeyVaultSyncOptionsConfig,
+  AzureKeyVaultSyncOptionsSchema
+).extend({
+  destinationConfig: AzureKeyVaultSyncDestinationConfigSchema.optional()
+});
+
+export const AzureKeyVaultSyncListItemSchema = z
+  .object({
+    name: z.literal("Azure Key Vault"),
+    connection: z.literal(AppConnection.AzureKeyVault),
+    destination: z.literal(SecretSync.AzureKeyVault),
+    canImportSecrets: z.literal(true),
+    canRemoveSecretsOnDeletion: z.literal(true)
+  })
+  .describe(JSON.stringify({ title: SECRET_SYNC_NAME_MAP[SecretSync.AzureKeyVault] }));

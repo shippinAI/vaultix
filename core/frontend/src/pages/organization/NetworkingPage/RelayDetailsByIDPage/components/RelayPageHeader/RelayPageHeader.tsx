@@ -1,0 +1,218 @@
+import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { BanIcon, CopyIcon, EllipsisIcon, TrashIcon } from "lucide-react";
+
+import { createNotification } from "@app/components/notifications";
+import { OrgPermissionCan } from "@app/components/permissions";
+import { PageHeader } from "@app/components/v2";
+import {
+  Alert,
+  AlertDescription,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogConfirmationField,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Field,
+  FieldLabel,
+  Input
+} from "@app/components/v3";
+import {
+  OrgPermissionSubjects,
+  OrgRelayPermissionActions
+} from "@app/context/OrgPermissionContext/types";
+import { usePopUp } from "@app/hooks";
+import { useDeleteRelayById, useRevokeRelayAccess } from "@app/hooks/api/relays";
+import { TRelayWithAuthMethod } from "@app/hooks/api/relays/types";
+
+export const RelayPageHeader = ({
+  relay,
+  orgId
+}: {
+  relay: TRelayWithAuthMethod;
+  orgId: string;
+}) => {
+  const navigate = useNavigate();
+  const { mutateAsync: deleteRelay, isPending: isDeleting } = useDeleteRelayById();
+  const { mutateAsync: revokeRelay, isPending: isRevoking } = useRevokeRelayAccess();
+  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp([
+    "deleteRelay",
+    "revokeRelay"
+  ] as const);
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
+
+  const onDelete = async () => {
+    try {
+      await deleteRelay(relay.id);
+      createNotification({ type: "success", text: "Successfully deleted relay" });
+      navigate({
+        to: "/organizations/$orgId/networking",
+        params: { orgId },
+        search: { selectedTab: "relays" }
+      });
+    } catch {
+      createNotification({ type: "error", text: "Failed to delete relay" });
+    }
+  };
+
+  const onRevoke = async () => {
+    try {
+      await revokeRelay({ relayId: relay.id });
+      createNotification({ type: "success", text: "Relay access revoked" });
+      handlePopUpToggle("revokeRelay", false);
+    } catch {
+      createNotification({ type: "error", text: "Failed to revoke relay access" });
+    }
+  };
+
+  const { canRevoke } = relay;
+
+  return (
+    <>
+      <PageHeader
+        scope="org"
+        title={relay.name}
+        description="Relay configuration and authentication"
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              Options
+              <EllipsisIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                navigator.clipboard.writeText(relay.id);
+                createNotification({ type: "info", text: "Relay ID copied to clipboard" });
+              }}
+            >
+              <CopyIcon />
+              Copy Relay ID
+            </DropdownMenuItem>
+            {canRevoke && (
+              <OrgPermissionCan
+                I={OrgRelayPermissionActions.RevokeRelayAccess}
+                a={OrgPermissionSubjects.Relay}
+              >
+                {(isAllowed) => (
+                  <DropdownMenuItem
+                    variant="danger"
+                    isDisabled={!isAllowed}
+                    onClick={() => handlePopUpOpen("revokeRelay")}
+                  >
+                    <BanIcon />
+                    Revoke Access
+                  </DropdownMenuItem>
+                )}
+              </OrgPermissionCan>
+            )}
+            <OrgPermissionCan
+              I={OrgRelayPermissionActions.DeleteRelays}
+              a={OrgPermissionSubjects.Relay}
+            >
+              {(isAllowed) => (
+                <DropdownMenuItem
+                  variant="danger"
+                  isDisabled={!isAllowed}
+                  onClick={() => handlePopUpOpen("deleteRelay")}
+                >
+                  <TrashIcon />
+                  Delete Relay
+                </DropdownMenuItem>
+              )}
+            </OrgPermissionCan>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </PageHeader>
+
+      <AlertDialog
+        open={popUp.deleteRelay.isOpen}
+        onOpenChange={(open) => {
+          if (!open) setDeleteConfirmation("");
+          handlePopUpToggle("deleteRelay", open);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Relay?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently removes the relay from your organization.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogConfirmationField>
+            <Field>
+              <FieldLabel htmlFor="delete-relay-confirmation" size="sm">
+                <span>
+                  Type &quot;<span className="text-foreground">{relay.name}</span>&quot; to confirm.
+                </span>
+              </FieldLabel>
+              <Input
+                id="delete-relay-confirmation"
+                value={deleteConfirmation}
+                onChange={(event) => setDeleteConfirmation(event.target.value)}
+                placeholder={relay.name}
+                autoComplete="off"
+                autoFocus
+              />
+            </Field>
+          </AlertDialogConfirmationField>
+          <Alert variant="danger" appearance="borderless">
+            <AlertDescription>Deleting this relay cannot be undone.</AlertDescription>
+          </Alert>
+          <AlertDialogFooter>
+            <AlertDialogCancel isDisabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              variant="danger"
+              isPending={isDeleting}
+              isDisabled={deleteConfirmation !== relay.name}
+              onClick={(event) => {
+                event.preventDefault();
+                onDelete();
+              }}
+            >
+              Delete Relay
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog
+        open={popUp.revokeRelay.isOpen}
+        onOpenChange={(open) => handlePopUpToggle("revokeRelay", open)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Revoke Relay Access?</AlertDialogTitle>
+            <AlertDialogDescription>
+              The relay will be disconnected and active tokens invalidated. It must re-authenticate
+              to reconnect.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel isDisabled={isRevoking}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              variant="danger"
+              isPending={isRevoking}
+              onClick={(event) => {
+                event.preventDefault();
+                onRevoke();
+              }}
+            >
+              Revoke Access
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
+};

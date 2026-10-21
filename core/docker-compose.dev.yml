@@ -1,0 +1,440 @@
+version: "3.9"
+
+services:
+  nginx:
+    container_name: infisical-dev-nginx
+    image: nginx
+    restart: "always"
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/default.dev.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: infisical
+      POSTGRES_USER: infisical
+      POSTGRES_DB: infisical
+
+  redis:
+    image: redis
+    container_name: infisical-dev-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.12.5
+    container_name: infisical-dev-clickhouse
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server
+    environment:
+      - CLICKHOUSE_DB=infisical
+      - CLICKHOUSE_USER=infisical
+      - CLICKHOUSE_PASSWORD=infisical
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    profiles: [clickhouse]
+
+  redis-commander:
+    container_name: infisical-dev-redis-commander
+    image: rediscommander/redis-commander
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8085:8081"
+
+  bull-board:
+    container_name: infisical-dev-bull-board
+    image: venatum/bull-board:3.3.7
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - BULL_VERSION=BULLMQ
+      - BULL_PREFIX=bull
+    ports:
+      - "3008:3000"
+    profiles: [queue]
+
+  db-test:
+    profiles: ["test"]
+    image: postgres:14-alpine
+    ports:
+      - "5430:5432"
+    environment:
+      POSTGRES_PASSWORD: infisical
+      POSTGRES_USER: infisical
+      POSTGRES_DB: infisical-test
+    command: postgres -c max_locks_per_transaction=512
+
+  backend:
+    container_name: infisical-dev-api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev.fips
+      args:
+        TOOLCHAIN_IMAGE: ${TOOLCHAIN_IMAGE:-ghcr.io/infisical/backend-fips-toolchain:main}
+    depends_on:
+      db:
+        condition: service_started
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+    ports:
+      - 4000:4000
+      - 9464:9464 # for OTEL collection of Prometheus metrics
+      - 9229:9229 # For debugger access
+    environment:
+      - NODE_ENV=development
+      - DB_CONNECTION_URI=postgres://infisical:infisical@db/infisical?sslmode=disable
+      - TELEMETRY_ENABLED=false
+      # Dev-only: lets the backend accept PingFederate's self-signed cert when testing
+      # OIDC locally via `make up-dev-pingfed`. NEVER set this in production.
+      # - NODE_TLS_REJECT_UNAUTHORIZED=0
+    volumes:
+      - ./backend/src:/app/src
+      - softhsm_tokens:/etc/softhsm2/tokens # SoftHSM tokens are stored in a volume to persist across container restarts
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "pf.local:host-gateway" # PingFederate dev container — resolves the same on host and inside compose
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.dev.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    profiles: [metrics]
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+    profiles: [metrics-otel]
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_LOG_LEVEL=debug
+    ports:
+      - "3005:3000"
+    volumes:
+      - "grafana_storage:/var/lib/grafana"
+    profiles: [metrics]
+
+  frontend:
+    container_name: infisical-dev-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend/src:/app/src/ # mounted whole src to avoid missing reload on new files
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+    env_file: .env
+
+  backend-go:
+    container_name: infisical-dev-api-go
+    build:
+      context: ./backend-go
+      dockerfile: Dockerfile.dev.fips
+    depends_on:
+      db:
+        condition: service_started
+      redis:
+        condition: service_started
+      backend:
+        condition: service_healthy
+    ports:
+      - 4040:4040
+    volumes:
+      - ./backend-go:/app
+    environment:
+      - DB_CONNECTION_URI=postgres://infisical:infisical@db/infisical?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    profiles: [go]
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: pass
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+
+  smtp-server:
+    container_name: infisical-dev-smtp-server
+    image: lytrax/mailhog:latest # https://github.com/mailhog/MailHog/issues/353#issuecomment-821137362
+    restart: always
+    logging:
+      driver: "none" # disable saving logs
+    ports:
+      - 1025:1025 # SMTP server
+      - 8025:8025 # Web UI
+
+  openldap:
+    # note: more advanced configuration is available
+    # Starts empty (base dc=ldap,dc=com + admin only). Seed test users/groups with
+    # `make seed-dev-ldap` once it is up. See sso.md.
+    image: osixia/openldap:1.5.0
+    restart: always
+    environment:
+      LDAP_ORGANISATION: LDAP
+      LDAP_DOMAIN: ldap.com
+      LDAP_ADMIN_PASSWORD: admin
+    ports:
+      - 389:389
+      - 636:636
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+    profiles: [ldap]
+
+  phpldapadmin:
+    # username: cn=admin,dc=ldap,dc=com, pass is admin
+    image: osixia/phpldapadmin:latest
+    restart: always
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
+    ports:
+      - 6433:80
+    depends_on:
+      - openldap
+    profiles: [ldap]
+
+  keycloak:
+    # Admin console: http://localhost:8088 (admin / admin).
+    # On boot it imports the pre-seeded `infisical` realm (client `infisical-dev`,
+    # users jdoe/asmith) from the mounted realm file. The container has no volume,
+    # so the realm is re-imported fresh on every start. See sso.md.
+    image: quay.io/keycloak/keycloak:26.1.0
+    restart: always
+    environment:
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      # Pin the browser-facing (frontend) URL so the OIDC issuer and authorization endpoint are
+      # always http://localhost:8088, while backchannel calls (discovery/token/jwks) use whatever
+      # URL the caller connected with. The backend therefore reaches Keycloak over the internal
+      # compose network (keycloak:8080) yet the browser is sent to localhost:8088, so no
+      # keycloak.local /etc/hosts entry is needed. See sso.md.
+      - KC_HOSTNAME=http://localhost:8088
+      - KC_HOSTNAME_BACKCHANNEL_DYNAMIC=true
+    command: start-dev --import-realm
+    ports:
+      - 8088:8080
+    volumes:
+      - ./docker/keycloak/realm-infisical.json:/opt/keycloak/data/import/realm-infisical.json:ro
+    profiles: [oidc]
+
+  keycloak-config:
+    # Dev-only one-shot: Keycloak's built-in `master` realm (the admin console) defaults to
+    # sslRequired=external, which blocks http://localhost:8088 on Docker Desktop because the
+    # container sees published-port traffic as a non-local client IP ("HTTPS required" page).
+    # The realm import can't fix this (master already exists, so the bootstrap import skips it),
+    # so we flip it with kcadm once Keycloak is up. The imported `infisical` realm is already
+    # sslRequired=none, so the OIDC login flow itself is unaffected. See sso.md.
+    image: quay.io/keycloak/keycloak:26.1.0
+    depends_on:
+      - keycloak
+    restart: "no"
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        until /opt/keycloak/bin/kcadm.sh config credentials \
+          --server http://keycloak:8080 --realm master --user admin --password admin >/dev/null 2>&1; do
+          echo "waiting for keycloak..."; sleep 3;
+        done
+        /opt/keycloak/bin/kcadm.sh update realms/master -s sslRequired=NONE \
+          && echo "master realm sslRequired=NONE (dev only)"
+    profiles: [oidc]
+
+  pingfederate:
+    # Requires free Ping Identity DevOps credentials — register at
+    # https://devops.pingidentity.com/how-to/devopsRegistration/
+    # then set PING_IDENTITY_DEVOPS_USER and PING_IDENTITY_DEVOPS_KEY in your .env.
+    # Alternatively, leave both unset to run in Trial Product mode using the
+    # bundled license from pingidentity-server-profiles (expires periodically).
+    # Admin console: https://localhost:9999/pingfederate (administrator / 2FederateM0re)
+    # Runtime endpoint (SAML/OIDC/SCIM): https://localhost:9031
+    image: pingidentity/pingfederate:2604
+    restart: always
+    environment:
+      - PING_IDENTITY_ACCEPT_EULA=YES
+      - PING_IDENTITY_DEVOPS_USER=${PING_IDENTITY_DEVOPS_USER}
+      - PING_IDENTITY_DEVOPS_KEY=${PING_IDENTITY_DEVOPS_KEY}
+      - SERVER_PROFILE_URL=https://github.com/pingidentity/pingidentity-server-profiles.git
+      - SERVER_PROFILE_PATH=getting-started/pingfederate
+      # Enable Outbound Provisioning runtime for SCIM testing.
+      # Maps to pf.provisioner.mode in run.properties. STANDALONE = single node.
+      - PF_PROVISIONER_MODE=STANDALONE
+    ports:
+      - 9999:9999 # admin console
+      - 9031:9031 # runtime (SAML/OIDC/SCIM)
+    volumes:
+      - pingfederate_data:/opt/out
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles: [pingfed]
+
+  samba-ad:
+    # Samba 4 Active Directory Domain Controller for SCIM/SSO testing.
+    # Bootstraps an ACME.LOCAL domain on first start (~60s).
+    # Admin: Administrator / value of SAMBA_ADMIN_PASSWORD (defaults to Passw0rd!).
+    # Reachable from compose network at samba-ad:389; from host at localhost:1389.
+    image: nowsci/samba-domain:latest
+    container_name: infisical-dev-samba-ad
+    hostname: dc1
+    cap_add:
+      - SYS_ADMIN
+    privileged: true
+    environment:
+      - DOMAIN=ACME.LOCAL
+      - DOMAIN_DC=dc=acme,dc=local
+      - DOMAINPASS=${SAMBA_ADMIN_PASSWORD:-Passw0rd!}
+      - DNSFORWARDER=8.8.8.8
+      - HOSTIP=0.0.0.0
+      - INSECURELDAP=true # dev only — allows ldap:// without TLS
+    ports:
+      - 1389:389 # ldap (mapped off 389 to coexist with the openldap profile)
+      - 1636:636 # ldaps
+      - 88:88 # kerberos
+      - 88:88/udp
+    volumes:
+      - samba_data:/var/lib/samba
+      - samba_etc:/etc/samba/external
+    profiles: [ad]
+
+  # Authentik: open-source IdP for SAML + real (non-mock) SCIM provisioning. Admin UI at
+  # http://localhost:9100 (akadmin / password123!), API token `authentik-dev-bootstrap-token`.
+  # Has its own Postgres and reuses the dev Redis (DB 1). Configure via blueprints or its API.
+  # See sso.md.
+  authentik-postgres:
+    image: postgres:16-alpine
+    container_name: infisical-dev-authentik-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: authentik
+      POSTGRES_USER: authentik
+      POSTGRES_PASSWORD: authentik
+    volumes:
+      - authentik_postgres:/var/lib/postgresql/data
+    profiles: [saml]
+
+  authentik-server:
+    image: ghcr.io/goauthentik/server:2026.2.2
+    container_name: infisical-dev-authentik-server
+    restart: unless-stopped
+    command: server
+    environment:
+      AUTHENTIK_SECRET_KEY: insecure-dev-only-key-do-not-use-in-prod-0000000000
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: authentik
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_REDIS__DB: "1"
+      AUTHENTIK_BOOTSTRAP_PASSWORD: password123!
+      AUTHENTIK_BOOTSTRAP_TOKEN: authentik-dev-bootstrap-token
+      AUTHENTIK_BOOTSTRAP_EMAIL: admin@saml.com
+    ports:
+      - 9100:9000
+    depends_on:
+      - authentik-postgres
+      - redis
+    profiles: [saml]
+
+  authentik-worker:
+    image: ghcr.io/goauthentik/server:2026.2.2
+    container_name: infisical-dev-authentik-worker
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: insecure-dev-only-key-do-not-use-in-prod-0000000000
+      AUTHENTIK_POSTGRESQL__HOST: authentik-postgres
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: authentik
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_REDIS__DB: "1"
+      AUTHENTIK_BOOTSTRAP_PASSWORD: password123!
+      AUTHENTIK_BOOTSTRAP_TOKEN: authentik-dev-bootstrap-token
+      AUTHENTIK_BOOTSTRAP_EMAIL: admin@saml.com
+    depends_on:
+      - authentik-postgres
+      - redis
+    profiles: [saml]
+
+volumes:
+  postgres-data:
+    driver: local
+  redis_data:
+    driver: local
+  clickhouse_data:
+    driver: local
+  clickhouse_logs:
+    driver: local
+  ldap_data:
+  ldap_config:
+  pingfederate_data:
+  samba_data:
+  samba_etc:
+  grafana_storage:
+  softhsm_tokens:
+    driver: local
+  authentik_postgres:
+    driver: local

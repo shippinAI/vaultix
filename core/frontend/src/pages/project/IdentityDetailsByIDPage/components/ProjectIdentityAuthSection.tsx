@@ -1,0 +1,149 @@
+import { subject } from "@casl/ability";
+import { PlusIcon } from "lucide-react";
+
+import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
+import { ProjectPermissionCan } from "@app/components/permissions";
+import {
+  Button,
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle
+} from "@app/components/v3";
+import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/context";
+import { IdentityAuthMethod, TProjectIdentity } from "@app/hooks/api";
+import { usePopUp, UsePopUpState } from "@app/hooks/usePopUp";
+import { IdentityAuthMethodModal } from "@app/pages/organization/AccessManagementPage/components/OrgIdentityTab/components/IdentitySection/IdentityAuthMethodModal";
+import { IdentityAuthMethodsTable } from "@app/views/IdentityAuthMethods";
+
+type Props = {
+  identity: TProjectIdentity;
+  refetchIdentity: () => void;
+};
+
+export const ProjectIdentityAuthenticationSection = ({ identity, refetchIdentity }: Props) => {
+  const { popUp, handlePopUpToggle, handlePopUpOpen } = usePopUp([
+    "identityAuthMethod",
+    "upgradePlan"
+  ]);
+
+  const hasAuthMethods = Boolean(identity.authMethods.length);
+
+  // The auth-method forms invalidate the project identity query using the route's :projectId, which
+  // PAM's identity route doesn't carry (its project is internal), so this card can go stale there.
+  // Refetch whenever the sheet closes to keep the method list in sync on every product.
+  const handleAuthMethodPopUpToggle = (
+    popUpName: keyof UsePopUpState<["identityAuthMethod", "upgradePlan"]>,
+    state?: boolean
+  ) => {
+    handlePopUpToggle(popUpName, state);
+    if (popUpName === "identityAuthMethod" && !state) {
+      refetchIdentity();
+    }
+  };
+
+  return (
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Authentication</CardTitle>
+          <CardDescription>Configure authentication methods</CardDescription>
+          {hasAuthMethods &&
+            !Object.values(IdentityAuthMethod).every((method) =>
+              identity.authMethods.includes(method)
+            ) && (
+              <CardAction>
+                <ProjectPermissionCan
+                  I={ProjectPermissionIdentityActions.Edit}
+                  a={subject(ProjectPermissionSub.Identity, {
+                    identityId: identity.id
+                  })}
+                >
+                  {(isAllowed) => (
+                    <Button
+                      variant="outline"
+                      isFullWidth
+                      size="xs"
+                      isDisabled={!isAllowed}
+                      onClick={() => {
+                        handlePopUpOpen("identityAuthMethod", {
+                          identityId: identity.id,
+                          name: identity.name,
+                          allAuthMethods: identity.authMethods
+                        });
+                      }}
+                    >
+                      <PlusIcon />
+                      Add Auth Method
+                    </Button>
+                  )}
+                </ProjectPermissionCan>
+              </CardAction>
+            )}
+        </CardHeader>
+        <CardContent>
+          {identity.authMethods.length > 0 ? (
+            <IdentityAuthMethodsTable
+              identityId={identity.id}
+              identityName={identity.name}
+              authMethods={identity.authMethods}
+              activeLockoutAuthMethods={identity.activeLockoutAuthMethods}
+              onMutated={refetchIdentity}
+            />
+          ) : (
+            <Empty className="border">
+              <EmptyHeader>
+                <EmptyTitle>This machine identity has no auth methods configured</EmptyTitle>
+                <EmptyDescription>Add an auth method to use this machine identity</EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <ProjectPermissionCan
+                  I={ProjectPermissionIdentityActions.Edit}
+                  a={subject(ProjectPermissionSub.Identity, {
+                    identityId: identity.id
+                  })}
+                >
+                  {(isAllowed) => (
+                    <Button
+                      variant="project"
+                      size="xs"
+                      isDisabled={!isAllowed}
+                      onClick={() => {
+                        handlePopUpOpen("identityAuthMethod", {
+                          identityId: identity.id,
+                          name: identity.name,
+                          allAuthMethods: identity.authMethods
+                        });
+                      }}
+                    >
+                      <PlusIcon />
+                      Add Auth Method
+                    </Button>
+                  )}
+                </ProjectPermissionCan>
+              </EmptyContent>
+            </Empty>
+          )}
+        </CardContent>
+      </Card>
+      <IdentityAuthMethodModal
+        popUp={popUp}
+        handlePopUpOpen={handlePopUpOpen}
+        handlePopUpToggle={handleAuthMethodPopUpToggle}
+      />
+      <UpgradePlanModal
+        isOpen={popUp.upgradePlan.isOpen}
+        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
+        text={(popUp.upgradePlan?.data as { description: string })?.description}
+        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
+      />
+    </>
+  );
+};

@@ -1,0 +1,5 @@
+vaultix
+vaultix-panel
+**/*_test.go
+.git
+*.exe

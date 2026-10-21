@@ -1,0 +1,620 @@
+import { Job } from "bullmq";
+
+import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import {
+  TChefSync,
+  TChefSyncInput,
+  TChefSyncListItem,
+  TChefSyncWithCredentials
+} from "@app/ee/services/secret-sync/chef";
+import {
+  TOCIVaultSync,
+  TOCIVaultSyncInput,
+  TOCIVaultSyncListItem,
+  TOCIVaultSyncWithCredentials
+} from "@app/ee/services/secret-sync/oci-vault";
+import { QueueJobs } from "@app/queue";
+import { ResourceMetadataDTO } from "@app/services/resource-metadata/resource-metadata-schema";
+import {
+  TAwsSecretsManagerSync,
+  TAwsSecretsManagerSyncInput,
+  TAwsSecretsManagerSyncListItem,
+  TAwsSecretsManagerSyncWithCredentials
+} from "@app/services/secret-sync/aws-secrets-manager";
+import {
+  TCamundaSync,
+  TCamundaSyncInput,
+  TCamundaSyncListItem,
+  TCamundaSyncWithCredentials
+} from "@app/services/secret-sync/camunda";
+import {
+  TDatabricksSync,
+  TDatabricksSyncInput,
+  TDatabricksSyncListItem,
+  TDatabricksSyncWithCredentials
+} from "@app/services/secret-sync/databricks";
+import {
+  TGitHubSync,
+  TGitHubSyncInput,
+  TGitHubSyncListItem,
+  TGitHubSyncWithCredentials
+} from "@app/services/secret-sync/github";
+import { TSecretSyncDALFactory } from "@app/services/secret-sync/secret-sync-dal";
+import { SecretSync, SecretSyncImportBehavior } from "@app/services/secret-sync/secret-sync-enums";
+import {
+  TWindmillSync,
+  TWindmillSyncInput,
+  TWindmillSyncListItem,
+  TWindmillSyncWithCredentials
+} from "@app/services/secret-sync/windmill";
+
+import { TAppConnectionDALFactory } from "../app-connection/app-connection-dal";
+import { TAppConnection } from "../app-connection/app-connection-types";
+import { TKmsServiceFactory } from "../kms/kms-service";
+import { TSecretV2BridgeDALFactory } from "../secret-v2-bridge/secret-v2-bridge-dal";
+import {
+  TOnePassSync,
+  TOnePassSyncInput,
+  TOnePassSyncListItem,
+  TOnePassSyncWithCredentials
+} from "./1password/1password-sync-types";
+import {
+  TAwsParameterStoreSync,
+  TAwsParameterStoreSyncInput,
+  TAwsParameterStoreSyncListItem,
+  TAwsParameterStoreSyncWithCredentials
+} from "./aws-parameter-store";
+import {
+  TAzureAppConfigurationSync,
+  TAzureAppConfigurationSyncInput,
+  TAzureAppConfigurationSyncListItem,
+  TAzureAppConfigurationSyncWithCredentials
+} from "./azure-app-configuration";
+import {
+  TAzureDevOpsSync,
+  TAzureDevOpsSyncInput,
+  TAzureDevOpsSyncListItem,
+  TAzureDevOpsSyncWithCredentials
+} from "./azure-devops";
+import {
+  TAzureEntraIdScimSync,
+  TAzureEntraIdScimSyncInput,
+  TAzureEntraIdScimSyncListItem,
+  TAzureEntraIdScimSyncWithCredentials
+} from "./azure-entra-id-scim";
+import {
+  TAzureKeyVaultSync,
+  TAzureKeyVaultSyncInput,
+  TAzureKeyVaultSyncListItem,
+  TAzureKeyVaultSyncWithCredentials
+} from "./azure-key-vault";
+import {
+  TBitbucketSync,
+  TBitbucketSyncInput,
+  TBitbucketSyncListItem,
+  TBitbucketSyncWithCredentials
+} from "./bitbucket/bitbucket-sync-types";
+import {
+  TChecklySync,
+  TChecklySyncInput,
+  TChecklySyncListItem,
+  TChecklySyncWithCredentials
+} from "./checkly/checkly-sync-types";
+import { TCircleCISync, TCircleCISyncInput, TCircleCISyncListItem, TCircleCISyncWithCredentials } from "./circleci";
+import {
+  TCloud66Sync,
+  TCloud66SyncInput,
+  TCloud66SyncListItem,
+  TCloud66SyncWithCredentials
+} from "./cloud66/cloud66-sync-types";
+import {
+  TCloudflarePagesSync,
+  TCloudflarePagesSyncInput,
+  TCloudflarePagesSyncListItem,
+  TCloudflarePagesSyncWithCredentials
+} from "./cloudflare-pages/cloudflare-pages-types";
+import {
+  TCloudflareWorkersSync,
+  TCloudflareWorkersSyncInput,
+  TCloudflareWorkersSyncListItem,
+  TCloudflareWorkersSyncWithCredentials
+} from "./cloudflare-workers";
+import { TDevinSync, TDevinSyncInput, TDevinSyncListItem, TDevinSyncWithCredentials } from "./devin/devin-sync-types";
+import {
+  TDigitalOceanAppPlatformSyncInput,
+  TDigitalOceanAppPlatformSyncListItem,
+  TDigitalOceanAppPlatformSyncWithCredentials
+} from "./digital-ocean-app-platform/digital-ocean-app-platform-sync-types";
+import {
+  TExternalVaultixSync,
+  TExternalVaultixSyncInput,
+  TExternalVaultixSyncListItem,
+  TExternalVaultixSyncWithCredentials
+} from "./external-infisical";
+import { TFlyioSync, TFlyioSyncInput, TFlyioSyncListItem, TFlyioSyncWithCredentials } from "./flyio/flyio-sync-types";
+import { TGcpSync, TGcpSyncInput, TGcpSyncListItem, TGcpSyncWithCredentials } from "./gcp";
+import { TGitLabSync, TGitLabSyncInput, TGitLabSyncListItem, TGitLabSyncWithCredentials } from "./gitlab";
+import {
+  THasuraCloudSync,
+  THasuraCloudSyncInput,
+  THasuraCloudSyncListItem,
+  THasuraCloudSyncWithCredentials
+} from "./hasura-cloud/hasura-cloud-sync-types";
+import {
+  THCVaultSync,
+  THCVaultSyncInput,
+  THCVaultSyncListItem,
+  THCVaultSyncWithCredentials
+} from "./hc-vault/hc-vault-sync-types";
+import { THerokuSync, THerokuSyncInput, THerokuSyncListItem, THerokuSyncWithCredentials } from "./heroku";
+import {
+  THumanitecSync,
+  THumanitecSyncInput,
+  THumanitecSyncListItem,
+  THumanitecSyncWithCredentials
+} from "./humanitec";
+import {
+  TLaravelForgeSync,
+  TLaravelForgeSyncInput,
+  TLaravelForgeSyncListItem,
+  TLaravelForgeSyncWithCredentials
+} from "./laravel-forge";
+import { TNetlifySync, TNetlifySyncInput, TNetlifySyncListItem, TNetlifySyncWithCredentials } from "./netlify";
+import {
+  TNorthflankSync,
+  TNorthflankSyncInput,
+  TNorthflankSyncListItem,
+  TNorthflankSyncWithCredentials
+} from "./northflank";
+import {
+  TOctopusDeploySync,
+  TOctopusDeploySyncInput,
+  TOctopusDeploySyncListItem,
+  TOctopusDeploySyncWithCredentials
+} from "./octopus-deploy";
+import { TOnaSync, TOnaSyncInput, TOnaSyncListItem, TOnaSyncWithCredentials } from "./ona";
+import { TOvhSync, TOvhSyncInput, TOvhSyncListItem, TOvhSyncWithCredentials } from "./ovh";
+import { TQoverySync, TQoverySyncInput, TQoverySyncListItem, TQoverySyncWithCredentials } from "./qovery";
+import {
+  TRailwaySync,
+  TRailwaySyncInput,
+  TRailwaySyncListItem,
+  TRailwaySyncWithCredentials
+} from "./railway/railway-sync-types";
+import {
+  TRenderSync,
+  TRenderSyncInput,
+  TRenderSyncListItem,
+  TRenderSyncWithCredentials
+} from "./render/render-sync-types";
+import {
+  TRundeckSync,
+  TRundeckSyncInput,
+  TRundeckSyncListItem,
+  TRundeckSyncWithCredentials
+} from "./rundeck/rundeck-sync-types";
+import {
+  TSnowflakeSync,
+  TSnowflakeSyncInput,
+  TSnowflakeSyncListItem,
+  TSnowflakeSyncWithCredentials
+} from "./snowflake";
+import {
+  TSpaceliftSync,
+  TSpaceliftSyncInput,
+  TSpaceliftSyncListItem,
+  TSpaceliftSyncWithCredentials
+} from "./spacelift";
+import {
+  TSupabaseSync,
+  TSupabaseSyncInput,
+  TSupabaseSyncListItem,
+  TSupabaseSyncWithCredentials
+} from "./supabase/supabase-sync-types";
+import {
+  TTeamCitySync,
+  TTeamCitySyncInput,
+  TTeamCitySyncListItem,
+  TTeamCitySyncWithCredentials
+} from "./teamcity/teamcity-sync-types";
+import {
+  TTerraformCloudSync,
+  TTerraformCloudSyncInput,
+  TTerraformCloudSyncListItem,
+  TTerraformCloudSyncWithCredentials
+} from "./terraform-cloud";
+import { TTravisCISync, TTravisCISyncInput, TTravisCISyncListItem, TTravisCISyncWithCredentials } from "./travis-ci";
+import {
+  TTriggerDevSync,
+  TTriggerDevSyncInput,
+  TTriggerDevSyncListItem,
+  TTriggerDevSyncWithCredentials
+} from "./trigger-dev/trigger-dev-sync-types";
+import { TVercelSync, TVercelSyncInput, TVercelSyncListItem, TVercelSyncWithCredentials } from "./vercel";
+import { TZabbixSync, TZabbixSyncInput, TZabbixSyncListItem, TZabbixSyncWithCredentials } from "./zabbix";
+
+export type TSecretSync =
+  | TAwsParameterStoreSync
+  | TAwsSecretsManagerSync
+  | TGitHubSync
+  | TGcpSync
+  | TAzureKeyVaultSync
+  | TChefSync
+  | TAzureAppConfigurationSync
+  | TAzureDevOpsSync
+  | TDatabricksSync
+  | THumanitecSync
+  | TTerraformCloudSync
+  | TCamundaSync
+  | TVercelSync
+  | TQoverySync
+  | TLaravelForgeSync
+  | TWindmillSync
+  | THCVaultSync
+  | TTeamCitySync
+  | TOCIVaultSync
+  | TOnePassSync
+  | THerokuSync
+  | TRenderSync
+  | TFlyioSync
+  | TTriggerDevSync
+  | TGitLabSync
+  | TCloudflarePagesSync
+  | TCloudflareWorkersSync
+  | TZabbixSync
+  | TRailwaySync
+  | TChecklySync
+  | TSupabaseSync
+  | TRundeckSync
+  | TNetlifySync
+  | TNorthflankSync
+  | TBitbucketSync
+  | TOctopusDeploySync
+  | TCircleCISync
+  | TAzureEntraIdScimSync
+  | TExternalVaultixSync
+  | TOvhSync
+  | TDevinSync
+  | TOnaSync
+  | TTravisCISync
+  | TSnowflakeSync
+  | THasuraCloudSync
+  | TCloud66Sync
+  | TSpaceliftSync;
+
+export type TSecretSyncWithCredentials =
+  | TAwsParameterStoreSyncWithCredentials
+  | TAwsSecretsManagerSyncWithCredentials
+  | TGitHubSyncWithCredentials
+  | TGcpSyncWithCredentials
+  | TAzureKeyVaultSyncWithCredentials
+  | TChefSyncWithCredentials
+  | TAzureAppConfigurationSyncWithCredentials
+  | TAzureDevOpsSyncWithCredentials
+  | TDatabricksSyncWithCredentials
+  | THumanitecSyncWithCredentials
+  | TTerraformCloudSyncWithCredentials
+  | TCamundaSyncWithCredentials
+  | TVercelSyncWithCredentials
+  | TQoverySyncWithCredentials
+  | TWindmillSyncWithCredentials
+  | THCVaultSyncWithCredentials
+  | TTeamCitySyncWithCredentials
+  | TOCIVaultSyncWithCredentials
+  | TOnePassSyncWithCredentials
+  | THerokuSyncWithCredentials
+  | TRenderSyncWithCredentials
+  | TFlyioSyncWithCredentials
+  | TTriggerDevSyncWithCredentials
+  | TGitLabSyncWithCredentials
+  | TCloudflarePagesSyncWithCredentials
+  | TCloudflareWorkersSyncWithCredentials
+  | TZabbixSyncWithCredentials
+  | TRailwaySyncWithCredentials
+  | TChecklySyncWithCredentials
+  | TSupabaseSyncWithCredentials
+  | TRundeckSyncWithCredentials
+  | TDigitalOceanAppPlatformSyncWithCredentials
+  | TNetlifySyncWithCredentials
+  | TNorthflankSyncWithCredentials
+  | TBitbucketSyncWithCredentials
+  | TLaravelForgeSyncWithCredentials
+  | TOctopusDeploySyncWithCredentials
+  | TCircleCISyncWithCredentials
+  | TAzureEntraIdScimSyncWithCredentials
+  | TExternalVaultixSyncWithCredentials
+  | TOvhSyncWithCredentials
+  | TDevinSyncWithCredentials
+  | TOnaSyncWithCredentials
+  | TTravisCISyncWithCredentials
+  | TSnowflakeSyncWithCredentials
+  | THasuraCloudSyncWithCredentials
+  | TCloud66SyncWithCredentials
+  | TSpaceliftSyncWithCredentials;
+
+export type TSecretSyncInput =
+  | TAwsParameterStoreSyncInput
+  | TAwsSecretsManagerSyncInput
+  | TGitHubSyncInput
+  | TGcpSyncInput
+  | TAzureKeyVaultSyncInput
+  | TChefSyncInput
+  | TAzureAppConfigurationSyncInput
+  | TAzureDevOpsSyncInput
+  | TDatabricksSyncInput
+  | THumanitecSyncInput
+  | TTerraformCloudSyncInput
+  | TCamundaSyncInput
+  | TVercelSyncInput
+  | TQoverySyncInput
+  | TWindmillSyncInput
+  | THCVaultSyncInput
+  | TTeamCitySyncInput
+  | TOCIVaultSyncInput
+  | TOnePassSyncInput
+  | THerokuSyncInput
+  | TRenderSyncInput
+  | TFlyioSyncInput
+  | TTriggerDevSyncInput
+  | TGitLabSyncInput
+  | TCloudflarePagesSyncInput
+  | TCloudflareWorkersSyncInput
+  | TZabbixSyncInput
+  | TRailwaySyncInput
+  | TChecklySyncInput
+  | TSupabaseSyncInput
+  | TRundeckSyncInput
+  | TDigitalOceanAppPlatformSyncInput
+  | TNetlifySyncInput
+  | TNorthflankSyncInput
+  | TBitbucketSyncInput
+  | TLaravelForgeSyncInput
+  | TOctopusDeploySyncInput
+  | TCircleCISyncInput
+  | TAzureEntraIdScimSyncInput
+  | TExternalVaultixSyncInput
+  | TOvhSyncInput
+  | TDevinSyncInput
+  | TOnaSyncInput
+  | TTravisCISyncInput
+  | TSnowflakeSyncInput
+  | THasuraCloudSyncInput
+  | TCloud66SyncInput
+  | TSpaceliftSyncInput;
+
+export type TSecretSyncListItem =
+  | TAwsParameterStoreSyncListItem
+  | TAwsSecretsManagerSyncListItem
+  | TGitHubSyncListItem
+  | TGcpSyncListItem
+  | TAzureKeyVaultSyncListItem
+  | TChefSyncListItem
+  | TAzureAppConfigurationSyncListItem
+  | TAzureDevOpsSyncListItem
+  | TDatabricksSyncListItem
+  | THumanitecSyncListItem
+  | TTerraformCloudSyncListItem
+  | TCamundaSyncListItem
+  | TVercelSyncListItem
+  | TQoverySyncListItem
+  | TLaravelForgeSyncListItem
+  | TWindmillSyncListItem
+  | THCVaultSyncListItem
+  | TTeamCitySyncListItem
+  | TOCIVaultSyncListItem
+  | TOnePassSyncListItem
+  | THerokuSyncListItem
+  | TRenderSyncListItem
+  | TFlyioSyncListItem
+  | TTriggerDevSyncListItem
+  | TGitLabSyncListItem
+  | TCloudflarePagesSyncListItem
+  | TCloudflareWorkersSyncListItem
+  | TZabbixSyncListItem
+  | TRailwaySyncListItem
+  | TChecklySyncListItem
+  | TSupabaseSyncListItem
+  | TRundeckSyncListItem
+  | TDigitalOceanAppPlatformSyncListItem
+  | TNetlifySyncListItem
+  | TNorthflankSyncListItem
+  | TBitbucketSyncListItem
+  | TOctopusDeploySyncListItem
+  | TCircleCISyncListItem
+  | TAzureEntraIdScimSyncListItem
+  | TExternalVaultixSyncListItem
+  | TOvhSyncListItem
+  | TDevinSyncListItem
+  | TOnaSyncListItem
+  | TTravisCISyncListItem
+  | TSnowflakeSyncListItem
+  | THasuraCloudSyncListItem
+  | TCloud66SyncListItem
+  | TSpaceliftSyncListItem;
+
+export type TSyncOptionsConfig = {
+  canImportSecrets: boolean;
+  canRemoveSecretsOnDeletion?: boolean;
+  supportsKeySchema?: boolean;
+  supportsDisableSecretDeletion?: boolean;
+};
+
+export type TListSecretSyncsByProjectId = {
+  projectId: string;
+  destination?: SecretSync;
+};
+
+export type TListSecretSyncsByFolderId = {
+  projectId: string;
+  secretPath: string;
+  environment: string;
+  destination?: SecretSync;
+};
+
+export type TFindSecretSyncByIdDTO = {
+  syncId: string;
+  destination: SecretSync;
+};
+
+export type TFindSecretSyncByNameDTO = {
+  syncName: string;
+  projectId: string;
+  destination: SecretSync;
+};
+
+export type TCreateSecretSyncDTO = Pick<TSecretSync, "syncOptions" | "destinationConfig" | "name" | "connectionId"> & {
+  destination: SecretSync;
+  projectId: string;
+  secretPath: string;
+  environment: string;
+  isAutoSyncEnabled?: boolean;
+};
+
+export type TUpdateSecretSyncDTO = Partial<Omit<TCreateSecretSyncDTO, "projectId">> & {
+  syncId: string;
+  destination: SecretSync;
+};
+
+export type TDeleteSecretSyncDTO = {
+  destination: SecretSync;
+  syncId: string;
+  removeSecrets: boolean;
+};
+
+export type TCheckDuplicateDestinationDTO = {
+  destination: SecretSync;
+  destinationConfig: Record<string, unknown>;
+  connectionId?: string | null;
+  excludeSyncId?: string;
+  projectId: string;
+};
+
+export enum SecretSyncStatus {
+  Pending = "pending",
+  Running = "running",
+  Succeeded = "succeeded",
+  Failed = "failed"
+}
+
+export enum SecretSyncAction {
+  SyncSecrets = "sync-secrets",
+  ImportSecrets = "import-secrets",
+  RemoveSecrets = "remove-secrets"
+}
+
+export type TSyncSecretsResult = {
+  createdSecretKeys: string[];
+  updatedSecretKeys: string[];
+  deletedSecretKeys: string[];
+};
+
+export type TSecretSyncRaw = NonNullable<Awaited<ReturnType<TSecretSyncDALFactory["findById"]>>>;
+
+export type TQueueSecretSyncsByPathDTO = {
+  secretPath: string;
+  environmentSlug: string;
+  projectId: string;
+};
+
+export type TQueueSecretSyncSyncSecretsByIdDTO = {
+  syncId: string;
+  failedToAcquireLockCount?: number;
+  auditLogInfo?: AuditLogInfo;
+};
+
+export type TTriggerSecretSyncSyncSecretsByIdDTO = {
+  destination: SecretSync;
+} & TQueueSecretSyncSyncSecretsByIdDTO;
+
+export type TQueueSecretSyncImportSecretsByIdDTO = {
+  syncId: string;
+  importBehavior: SecretSyncImportBehavior;
+  auditLogInfo?: AuditLogInfo;
+};
+
+export type TTriggerSecretSyncImportSecretsByIdDTO = {
+  destination: SecretSync;
+} & TQueueSecretSyncImportSecretsByIdDTO;
+
+export type TQueueSecretSyncRemoveSecretsByIdDTO = {
+  syncId: string;
+  auditLogInfo?: AuditLogInfo;
+  deleteSyncOnComplete?: boolean;
+};
+
+export type TTriggerSecretSyncRemoveSecretsByIdDTO = {
+  destination: SecretSync;
+} & TQueueSecretSyncRemoveSecretsByIdDTO;
+
+export type TQueueSendSecretSyncActionFailedNotificationsDTO = {
+  secretSync: TSecretSyncRaw;
+  auditLogInfo?: AuditLogInfo;
+  action: SecretSyncAction;
+};
+
+export type TSecretSyncSyncSecretsDTO = Job<TQueueSecretSyncSyncSecretsByIdDTO, void, QueueJobs.SecretSyncSyncSecrets>;
+export type TSecretSyncImportSecretsDTO = Job<
+  TQueueSecretSyncImportSecretsByIdDTO,
+  void,
+  QueueJobs.SecretSyncSyncSecrets
+>;
+export type TSecretSyncRemoveSecretsDTO = Job<
+  TQueueSecretSyncRemoveSecretsByIdDTO,
+  void,
+  QueueJobs.SecretSyncSyncSecrets
+>;
+
+export type TSendSecretSyncFailedNotificationsJobDTO = Job<
+  TQueueSendSecretSyncActionFailedNotificationsDTO,
+  void,
+  QueueJobs.SecretSyncSendActionFailedNotifications
+>;
+
+export type TSecretMap = Record<
+  string,
+  {
+    value: string;
+    id?: string;
+    comment?: string;
+    skipMultilineEncoding?: boolean | null | undefined;
+    secretMetadata?: ResourceMetadataDTO;
+  }
+>;
+
+export type DuplicateCheckSyncFields = {
+  connectionId: string | null;
+  destinationConfig: Record<string, unknown>;
+};
+
+export type DestinationDuplicateCheckFn = (opts: {
+  existingSync: DuplicateCheckSyncFields;
+  newSync: DuplicateCheckSyncFields;
+  decryptConnection: (connectionId: string) => Promise<TAppConnection>;
+}) => Promise<boolean>;
+
+export type TPreSaveTransformDeps = {
+  secretV2BridgeDAL: Pick<TSecretV2BridgeDALFactory, "findOne">;
+  appConnectionDAL: Pick<TAppConnectionDALFactory, "findById" | "updateById">;
+  kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
+};
+
+export type TPreSaveTransformSyncOptionsParams = {
+  syncOptions: Record<string, unknown> | undefined;
+  existingSyncOptions?: Record<string, unknown>;
+  folderId: string;
+};
+
+export type TPreSaveTransformDestinationConfigParams = {
+  destinationConfig: Record<string, unknown> | undefined;
+  connectionId: string;
+};
+
+export type TPreSaveTransformSyncOptionsFn = (
+  params: TPreSaveTransformSyncOptionsParams,
+  deps: TPreSaveTransformDeps
+) => Promise<Record<string, unknown> | undefined>;
+
+export type TPreSaveTransformDestinationConfigFn = (
+  params: TPreSaveTransformDestinationConfigParams,
+  deps: TPreSaveTransformDeps
+) => Promise<Record<string, unknown> | undefined>;

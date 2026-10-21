@@ -1,0 +1,700 @@
+import { useMemo, useState } from "react";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { createNotification } from "@app/components/notifications";
+import { Button } from "@app/components/v3";
+import { APP_CONNECTION_MAP } from "@app/helpers/appConnections";
+import { useScopeVariant } from "@app/hooks";
+import {
+  TAppConnection,
+  useCreateAppConnection,
+  useUpdateAppConnection
+} from "@app/hooks/api/appConnections";
+import { AppConnection } from "@app/hooks/api/appConnections/enums";
+import { DiscriminativePick } from "@app/types";
+
+import { OnePassConnectionForm } from "./1PasswordConnectionForm";
+import { AdcsConnectionForm } from "./AdcsConnectionForm";
+import { AnthropicConnectionForm } from "./AnthropicConnectionForm";
+import { AppConnectionFormProvider } from "./AppConnectionFormContext";
+import { Auth0ConnectionForm } from "./Auth0ConnectionForm";
+import { AwsConnectionForm } from "./AwsConnectionForm";
+import { AzureADCSConnectionForm } from "./AzureADCSConnectionForm";
+import { AzureAppConfigurationConnectionForm } from "./AzureAppConfigurationConnectionForm";
+import { AzureClientSecretsConnectionForm } from "./AzureClientSecretsConnectionForm";
+import { AzureDevOpsConnectionForm } from "./AzureDevOpsConnectionForm";
+import { AzureDNSConnectionForm } from "./AzureDNSConnectionForm";
+import { AzureEntraIdConnectionForm } from "./AzureEntraIdConnectionForm";
+import { AzureKeyVaultConnectionForm } from "./AzureKeyVaultConnectionForm";
+import { BitbucketConnectionForm } from "./BitbucketConnectionForm";
+import { CamundaConnectionForm } from "./CamundaConnectionForm";
+import { ChecklyConnectionForm } from "./ChecklyConnectionForm";
+import { ChefConnectionForm } from "./ChefConnectionForm";
+import { CircleCIConnectionForm } from "./CircleCIConnectionForm";
+import { Cloud66ConnectionForm } from "./Cloud66ConnectionForm";
+import { CloudflareConnectionForm } from "./CloudflareConnectionForm";
+import { ConvexConnectionForm } from "./ConvexConnectionForm";
+import { DatabricksConnectionForm } from "./DatabricksConnectionForm";
+import { DatadogConnectionForm } from "./DatadogConnectionForm";
+import { DbtConnectionForm } from "./DbtConnectionForm";
+import { DevinConnectionForm } from "./DevinConnectionForm";
+import { DigiCertConnectionForm } from "./DigiCertConnectionForm";
+import { DigitalOceanConnectionForm } from "./DigitalOceanConnectionForm";
+import { DNSMadeEasyConnectionForm } from "./DNSMadeEasyConnectionForm";
+import { DopplerConnectionForm } from "./DopplerConnectionForm";
+import { ExternalVaultixConnectionForm } from "./ExternalVaultixConnectionForm";
+import { F5BigIpConnectionForm } from "./F5BigIpConnectionForm";
+import { FireworksConnectionForm } from "./FireworksConnectionForm";
+import { FlyioConnectionForm } from "./FlyioConnectionForm";
+import { GcpConnectionForm } from "./GcpConnectionForm";
+import { GitHubConnectionForm } from "./GitHubConnectionForm";
+import { GitHubRadarConnectionForm } from "./GitHubRadarConnectionForm";
+import { GitLabConnectionForm } from "./GitLabConnectionForm";
+import { GoDaddyConnectionForm } from "./GoDaddyConnectionForm";
+import { HasuraCloudConnectionForm } from "./HasuraCloudConnectionForm";
+import { HCVaultConnectionForm } from "./HCVaultConnectionForm";
+import { HerokuConnectionForm } from "./HerokuAppConnectionForm";
+import { HumanitecConnectionForm } from "./HumanitecConnectionForm";
+import { KempLoadMasterConnectionForm } from "./KempLoadMasterConnectionForm";
+import { LaravelForgeConnectionForm } from "./LaravelForgeConnectionForm";
+import { LdapConnectionForm } from "./LdapConnectionForm";
+import { LiteLLMConnectionForm } from "./LiteLLMConnectionForm";
+import { MicrosoftIntuneConnectionForm } from "./MicrosoftIntuneConnectionForm";
+import { MongoDBConnectionForm } from "./MongoDBConnectionForm";
+import { MsSqlConnectionForm } from "./MsSqlConnectionForm";
+import { MySqlConnectionForm } from "./MySqlConnectionForm";
+import { NetlifyConnectionForm } from "./NetlifyConnectionForm";
+import { NetScalerConnectionForm } from "./NetScalerConnectionForm";
+import { NorthflankConnectionForm } from "./NorthflankConnectionForm";
+import { NutanixPrismCentralConnectionForm } from "./NutanixPrismCentralConnectionForm";
+import { OCIConnectionForm } from "./OCIConnectionForm";
+import { OctopusDeployConnectionForm } from "./OctopusDeployConnectionForm";
+import { OktaConnectionForm } from "./OktaConnectionForm";
+import { OnaConnectionForm } from "./OnaConnectionForm";
+import { OpenAIConnectionForm } from "./OpenAIConnectionForm";
+import { OpenRouterConnectionForm } from "./OpenRouterConnectionForm";
+import { OracleDBConnectionForm } from "./OracleDBConnectionForm";
+import { OVHConnectionForm } from "./OVHConnectionForm";
+import { PostgresConnectionForm } from "./PostgresConnectionForm";
+import { QoveryConnectionForm } from "./QoveryConnectionForm";
+import { RailwayConnectionForm } from "./RailwayConnectionForm";
+import { RedisConnectionForm } from "./RedisConnectionForm";
+import { RenderConnectionForm } from "./RenderConnectionForm";
+import { RundeckConnectionForm } from "./RundeckConnectionForm";
+import { SalesforceConnectionForm } from "./SalesforceConnectionForm";
+import { SmbConnectionForm } from "./SmbConnectionForm";
+import { SnowflakeConnectionForm } from "./SnowflakeConnectionForm";
+import { SpaceliftConnectionForm } from "./SpaceliftConnectionForm";
+import { SshConnectionForm } from "./SshConnectionForm";
+import { SupabaseConnectionForm } from "./SupabaseConnectionForm";
+import { TeamCityConnectionForm } from "./TeamCityConnectionForm";
+import { TerraformCloudConnectionForm } from "./TerraformCloudConnectionForm";
+import { TravisCIConnectionForm } from "./TravisCIConnectionForm";
+import { TriggerDevConnectionForm } from "./TriggerDevConnectionForm";
+import { VenafiConnectionForm } from "./VenafiConnectionForm";
+import { VenafiTppConnectionForm } from "./VenafiTppConnectionForm";
+import { VercelConnectionForm } from "./VercelConnectionForm";
+import { WindmillConnectionForm } from "./WindmillConnectionForm";
+import { WinRMConnectionForm } from "./WinRMConnectionForm";
+import { ZabbixConnectionForm } from "./ZabbixConnectionForm";
+
+type AppConnectionFormData = DiscriminativePick<
+  TAppConnection,
+  | "method"
+  | "name"
+  | "app"
+  | "credentials"
+  | "isPlatformManagedCredentials"
+  | "isAutoRotationEnabled"
+> & {
+  rotation?: {
+    rotationInterval: number;
+    rotateAtUtc: { hours: number; minutes: number };
+  };
+  configuration?: Record<string, unknown>;
+};
+
+const RotationConfirmation = ({
+  onConfirm,
+  onCancel,
+  isSubmitting
+}: {
+  onConfirm: () => void;
+  onCancel: () => void;
+  isSubmitting: boolean;
+}) => {
+  const scopeVariant = useScopeVariant();
+
+  return (
+    <div className="p-4">
+      <div className="flex flex-col rounded-xs border border-l-2 border-mineshaft-600 border-l-primary bg-mineshaft-700/80 px-4 py-3">
+        <div className="mb-1 flex items-center text-sm">
+          <FontAwesomeIcon icon={faInfoCircle} size="sm" className="mr-1.5 text-primary" />
+          Automatic Credential Rotation
+        </div>
+        <p className="bor mt-1 text-sm text-bunker-200">
+          Enabling automatic credential rotation will give Vaultix full control over the lifecycle
+          of this credential. Vaultix will automatically rotate the credential on the schedule you
+          configured and you will no longer be able to manage it manually. The original credential
+          provided will be revoked and replaced.
+        </p>
+      </div>
+      <div className="mt-4 flex gap-3">
+        <Button
+          onClick={onConfirm}
+          variant={scopeVariant}
+          isPending={isSubmitting}
+          isDisabled={isSubmitting}
+        >
+          I Understand
+        </Button>
+        <Button variant="outline" onClick={onCancel} isDisabled={isSubmitting}>
+          Cancel
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+type FormProps = {
+  onComplete: (appConnection: TAppConnection) => void;
+} & ({ appConnection: TAppConnection } | { app: AppConnection });
+
+type CreateFormProps = FormProps & {
+  app: AppConnection;
+  projectId?: string;
+};
+type UpdateFormProps = FormProps & {
+  appConnection: TAppConnection;
+};
+
+const CreateForm = ({ app, onComplete, projectId }: CreateFormProps) => {
+  const [pendingFormData, setPendingFormData] = useState<AppConnectionFormData | null>(null);
+  const [isConfirmSubmitting, setIsConfirmSubmitting] = useState(false);
+  const createAppConnection = useCreateAppConnection();
+  const { name: appName } = APP_CONNECTION_MAP[app];
+
+  const submitForm = async (formData: AppConnectionFormData) => {
+    const connection = await createAppConnection.mutateAsync({
+      ...formData,
+      projectId
+    });
+    createNotification({
+      text: `Successfully added ${appName} Connection`,
+      type: "success"
+    });
+    onComplete(connection);
+  };
+
+  const onSubmit = async (formData: AppConnectionFormData) => {
+    if (formData.isAutoRotationEnabled) {
+      setPendingFormData(formData);
+      return;
+    }
+    await submitForm(formData);
+  };
+
+  const renderForm = () => {
+    switch (app) {
+      case AppConnection.AWS:
+        return <AwsConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.GitHub:
+        return <GitHubConnectionForm projectId={projectId} onSubmit={onSubmit} />;
+      case AppConnection.GitHubRadar:
+        return <GitHubRadarConnectionForm projectId={projectId} />;
+      case AppConnection.GCP:
+        return <GcpConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.AzureKeyVault:
+        return <AzureKeyVaultConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.AzureAppConfiguration:
+        return <AzureAppConfigurationConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.AzureADCS:
+        return <AzureADCSConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.ADCS:
+        return <AdcsConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.WinRM:
+        return <WinRMConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Databricks:
+        return <DatabricksConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Humanitec:
+        return <HumanitecConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.TerraformCloud:
+        return <TerraformCloudConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Vercel:
+        return <VercelConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Postgres:
+        return <PostgresConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.MsSql:
+        return <MsSqlConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.MySql:
+        return <MySqlConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OracleDB:
+        return <OracleDBConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Camunda:
+        return <CamundaConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.AzureClientSecrets:
+        return <AzureClientSecretsConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.AzureDevOps:
+        return <AzureDevOpsConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.Windmill:
+        return <WindmillConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Auth0:
+        return <Auth0ConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.HCVault:
+        return <HCVaultConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.LDAP:
+        return <LdapConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.TeamCity:
+        return <TeamCityConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OCI:
+        return <OCIConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OnePass:
+        return <OnePassConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Heroku:
+        return <HerokuConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.HasuraCloud:
+        return <HasuraCloudConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Render:
+        return <RenderConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.LaravelForge:
+        return <LaravelForgeConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Flyio:
+        return <FlyioConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.TriggerDev:
+        return <TriggerDevConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.GitLab:
+        return <GitLabConnectionForm onSubmit={onSubmit} projectId={projectId} />;
+      case AppConnection.Cloudflare:
+        return <CloudflareConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.DNSMadeEasy:
+        return <DNSMadeEasyConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Spacelift:
+        return <SpaceliftConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.AzureDNS:
+        return <AzureDNSConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Bitbucket:
+        return <BitbucketConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Zabbix:
+        return <ZabbixConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Railway:
+        return <RailwayConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Checkly:
+        return <ChecklyConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Chef:
+        return <ChefConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Supabase:
+        return <SupabaseConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.DigitalOcean:
+        return <DigitalOceanConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Netlify:
+        return <NetlifyConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Northflank:
+        return <NorthflankConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Okta:
+        return <OktaConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Redis:
+        return <RedisConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.MongoDB:
+        return <MongoDBConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OctopusDeploy:
+        return <OctopusDeployConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Qovery:
+        return <QoveryConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.SSH:
+        return <SshConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Dbt:
+        return <DbtConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.SMB:
+        return <SmbConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OpenRouter:
+        return <OpenRouterConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OpenAI:
+        return <OpenAIConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Anthropic:
+        return <AnthropicConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.LiteLLM:
+        return <LiteLLMConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Fireworks:
+        return <FireworksConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Devin:
+        return <DevinConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.CircleCI:
+        return <CircleCIConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Cloud66:
+        return <Cloud66ConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Venafi:
+        return <VenafiConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.VenafiTpp:
+        return <VenafiTppConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.AzureEntraId:
+        return <AzureEntraIdConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.MicrosoftIntune:
+        return <MicrosoftIntuneConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.ExternalVaultix:
+        return <ExternalVaultixConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Doppler:
+        return <DopplerConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.NetScaler:
+        return <NetScalerConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.KempLoadMaster:
+        return <KempLoadMasterConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.OVH:
+        return <OVHConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Ona:
+        return <OnaConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.DigiCert:
+        return <DigiCertConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.GoDaddy:
+        return <GoDaddyConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.TravisCI:
+        return <TravisCIConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Salesforce:
+        return <SalesforceConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Snowflake:
+        return <SnowflakeConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Datadog:
+        return <DatadogConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.F5BigIp:
+        return <F5BigIpConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Convex:
+        return <ConvexConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.Rundeck:
+        return <RundeckConnectionForm onSubmit={onSubmit} />;
+      case AppConnection.NutanixPrismCentral:
+        return <NutanixPrismCentralConnectionForm onSubmit={onSubmit} />;
+      default:
+        throw new Error(`Unhandled App ${app}`);
+    }
+  };
+
+  return (
+    <>
+      {pendingFormData && (
+        <RotationConfirmation
+          onConfirm={async () => {
+            setIsConfirmSubmitting(true);
+            try {
+              await submitForm(pendingFormData);
+            } catch {
+              // Error is handled by the mutation's onError handler
+            } finally {
+              setIsConfirmSubmitting(false);
+            }
+          }}
+          onCancel={() => setPendingFormData(null)}
+          isSubmitting={isConfirmSubmitting}
+        />
+      )}
+      <div
+        className={
+          pendingFormData
+            ? "hidden"
+            : "flex flex-1 flex-col [&>form]:flex [&>form]:flex-1 [&>form]:flex-col [&>form]:px-4 [&>form]:pt-4"
+        }
+      >
+        {renderForm()}
+      </div>
+    </>
+  );
+};
+
+const UpdateForm = ({ appConnection, onComplete }: UpdateFormProps) => {
+  const [pendingFormData, setPendingFormData] = useState<AppConnectionFormData | null>(null);
+  const [isConfirmSubmitting, setIsConfirmSubmitting] = useState(false);
+  const updateAppConnection = useUpdateAppConnection();
+  const { name: appName } = APP_CONNECTION_MAP[appConnection.app];
+
+  const submitForm = async (formData: AppConnectionFormData) => {
+    const connection = await updateAppConnection.mutateAsync({
+      connectionId: appConnection.id,
+      ...formData
+    });
+    createNotification({
+      text: `Successfully updated ${appName} Connection`,
+      type: "success"
+    });
+    onComplete(connection);
+  };
+
+  const onSubmit = async (formData: AppConnectionFormData) => {
+    if (formData.isAutoRotationEnabled && !appConnection.isAutoRotationEnabled) {
+      setPendingFormData(formData);
+      return;
+    }
+    await submitForm(formData);
+  };
+
+  const renderForm = () => {
+    switch (appConnection.app) {
+      case AppConnection.AWS:
+        return <AwsConnectionForm appConnection={appConnection} onSubmit={onSubmit} />;
+      case AppConnection.GitHub:
+        return (
+          <GitHubConnectionForm
+            appConnection={appConnection}
+            projectId={appConnection.projectId}
+            onSubmit={onSubmit}
+          />
+        );
+      case AppConnection.GitHubRadar:
+        return (
+          <GitHubRadarConnectionForm
+            appConnection={appConnection}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.GCP:
+        return <GcpConnectionForm appConnection={appConnection} onSubmit={onSubmit} />;
+      case AppConnection.AzureKeyVault:
+        return (
+          <AzureKeyVaultConnectionForm
+            appConnection={appConnection}
+            onSubmit={onSubmit}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.AzureAppConfiguration:
+        return (
+          <AzureAppConfigurationConnectionForm
+            appConnection={appConnection}
+            onSubmit={onSubmit}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.AzureADCS:
+        return <AzureADCSConnectionForm appConnection={appConnection} onSubmit={onSubmit} />;
+      case AppConnection.ADCS:
+        return <AdcsConnectionForm appConnection={appConnection} onSubmit={onSubmit} />;
+      case AppConnection.WinRM:
+        return <WinRMConnectionForm appConnection={appConnection} onSubmit={onSubmit} />;
+      case AppConnection.Databricks:
+        return <DatabricksConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Humanitec:
+        return <HumanitecConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.TerraformCloud:
+        return <TerraformCloudConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Vercel:
+        return <VercelConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Postgres:
+        return <PostgresConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.MsSql:
+        return <MsSqlConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.MySql:
+        return <MySqlConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OracleDB:
+        return <OracleDBConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Camunda:
+        return <CamundaConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.AzureClientSecrets:
+        return (
+          <AzureClientSecretsConnectionForm
+            appConnection={appConnection}
+            onSubmit={onSubmit}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.AzureDevOps:
+        return (
+          <AzureDevOpsConnectionForm
+            appConnection={appConnection}
+            onSubmit={onSubmit}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.Windmill:
+        return <WindmillConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Auth0:
+        return <Auth0ConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.HCVault:
+        return <HCVaultConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.LDAP:
+        return <LdapConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.TeamCity:
+        return <TeamCityConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OCI:
+        return <OCIConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OnePass:
+        return <OnePassConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Heroku:
+        return (
+          <HerokuConnectionForm
+            onSubmit={onSubmit}
+            appConnection={appConnection}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.HasuraCloud:
+        return <HasuraCloudConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Render:
+        return <RenderConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.LaravelForge:
+        return <LaravelForgeConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Flyio:
+        return <FlyioConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.TriggerDev:
+        return <TriggerDevConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.GitLab:
+        return (
+          <GitLabConnectionForm
+            onSubmit={onSubmit}
+            appConnection={appConnection}
+            projectId={appConnection.projectId}
+          />
+        );
+      case AppConnection.Cloudflare:
+        return <CloudflareConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.DNSMadeEasy:
+        return <DNSMadeEasyConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Spacelift:
+        return <SpaceliftConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.AzureDNS:
+        return <AzureDNSConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Bitbucket:
+        return <BitbucketConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Zabbix:
+        return <ZabbixConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Railway:
+        return <RailwayConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Checkly:
+        return <ChecklyConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Chef:
+        return <ChefConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Supabase:
+        return <SupabaseConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.DigitalOcean:
+        return <DigitalOceanConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Northflank:
+        return <NorthflankConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Okta:
+        return <OktaConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Redis:
+        return <RedisConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.MongoDB:
+        return <MongoDBConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OctopusDeploy:
+        return <OctopusDeployConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Qovery:
+        return <QoveryConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.SSH:
+        return <SshConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Dbt:
+        return <DbtConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.SMB:
+        return <SmbConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OpenRouter:
+        return <OpenRouterConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OpenAI:
+        return <OpenAIConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Anthropic:
+        return <AnthropicConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.LiteLLM:
+        return <LiteLLMConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Fireworks:
+        return <FireworksConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Devin:
+        return <DevinConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.CircleCI:
+        return <CircleCIConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Cloud66:
+        return <Cloud66ConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.ExternalVaultix:
+        return (
+          <ExternalVaultixConnectionForm onSubmit={onSubmit} appConnection={appConnection} />
+        );
+      case AppConnection.Doppler:
+        return <DopplerConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.NetScaler:
+        return <NetScalerConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.KempLoadMaster:
+        return <KempLoadMasterConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.OVH:
+        return <OVHConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Ona:
+        return <OnaConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.DigiCert:
+        return <DigiCertConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.GoDaddy:
+        return <GoDaddyConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.TravisCI:
+        return <TravisCIConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Salesforce:
+        return <SalesforceConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Snowflake:
+        return <SnowflakeConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Datadog:
+        return <DatadogConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.F5BigIp:
+        return <F5BigIpConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Convex:
+        return <ConvexConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Rundeck:
+        return <RundeckConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.NutanixPrismCentral:
+        return (
+          <NutanixPrismCentralConnectionForm onSubmit={onSubmit} appConnection={appConnection} />
+        );
+      case AppConnection.Venafi:
+        return <VenafiConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.VenafiTpp:
+        return <VenafiTppConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.Netlify:
+        return <NetlifyConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      case AppConnection.MicrosoftIntune:
+        return <MicrosoftIntuneConnectionForm onSubmit={onSubmit} appConnection={appConnection} />;
+      default:
+        throw new Error(`Unhandled App ${(appConnection as TAppConnection).app}`);
+    }
+  };
+
+  return (
+    <>
+      {pendingFormData && (
+        <RotationConfirmation
+          onConfirm={async () => {
+            setIsConfirmSubmitting(true);
+            try {
+              await submitForm(pendingFormData);
+            } catch {
+              // Error is handled by the mutation's onError handler
+            } finally {
+              setIsConfirmSubmitting(false);
+            }
+          }}
+          onCancel={() => setPendingFormData(null)}
+          isSubmitting={isConfirmSubmitting}
+        />
+      )}
+      <div
+        className={
+          pendingFormData
+            ? "hidden"
+            : "flex flex-1 flex-col [&>form]:flex [&>form]:flex-1 [&>form]:flex-col [&>form]:px-4 [&>form]:pt-4"
+        }
+      >
+        {renderForm()}
+      </div>
+    </>
+  );
+};
+
+type Props = { onCancel: () => void; projectId?: string } & Pick<FormProps, "onComplete"> &
+  (
+    | { app: AppConnection; appConnection?: undefined }
+    | { app?: undefined; appConnection: TAppConnection }
+  );
+export const AppConnectionForm = ({ onCancel, projectId, ...props }: Props) => {
+  const { app, appConnection } = props;
+
+  const contextValue = useMemo(() => ({ onCancel }), [onCancel]);
+
+  return (
+    <AppConnectionFormProvider value={contextValue}>
+      {appConnection ? (
+        <UpdateForm {...props} appConnection={appConnection} />
+      ) : (
+        <CreateForm {...props} app={app} projectId={projectId} />
+      )}
+    </AppConnectionFormProvider>
+  );
+};

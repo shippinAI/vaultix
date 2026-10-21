@@ -1,0 +1,130 @@
+import * as React from "react";
+import { forwardRef } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "cva";
+
+import { Lottie } from "@app/components/v2/Lottie";
+import { cn } from "@app/components/v3/utils";
+
+const buttonVariants = cva(
+  cn(
+    "relative inline-flex items-center overflow-visible rounded-md active:scale-[0.99] justify-center border cursor-pointer whitespace-nowrap",
+    " text-sm transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0",
+    "[&>svg]:pointer-events-none  [&>svg]:shrink-0",
+    "focus-visible:ring-ring outline-0 focus-visible:ring-2 select-none",
+    "has-[[data-slot=button-badge]]:my-1.5 has-[[data-slot=button-badge]]:outline-1 has-[[data-slot=button-badge]]:outline-offset-4 has-[[data-slot=button-badge]]:outline-accent/60 has-[[data-slot=button-badge]]:outline-solid"
+  ),
+  {
+    variants: {
+      variant: {
+        outline:
+          "text-foreground hover:bg-foreground/10 border-border hover:border-foreground/20 data-[state=open]:bg-foreground/10 data-[state=open]:border-foreground/20",
+        ghost:
+          "text-foreground hover:bg-foreground/10 border-transparent data-[state=open]:bg-foreground/10",
+        neutral:
+          "border-neutral/25 bg-neutral/10 text-foreground hover:bg-neutral/15 hover:border-neutral/30 data-[state=open]:bg-neutral/15 data-[state=open]:border-neutral/30",
+        project:
+          "border-project/25 bg-project/10 text-foreground hover:bg-project/15 hover:border-project/30 data-[state=open]:bg-project/15 data-[state=open]:border-project/30",
+        org: "border-org/25 bg-org/10 text-foreground hover:bg-org/15 hover:border-org/30 data-[state=open]:bg-org/15 data-[state=open]:border-org/30",
+        "sub-org":
+          "border-sub-org/25 bg-sub-org/10 text-foreground hover:bg-sub-org/15 hover:border-sub-org/30 data-[state=open]:bg-sub-org/15 data-[state=open]:border-sub-org/30",
+        success:
+          "border-success/25 bg-success/10 text-foreground hover:bg-success/15 hover:border-success/30 data-[state=open]:bg-success/15 data-[state=open]:border-success/30",
+        info: "border-info/25 bg-info/10 text-foreground hover:bg-info/15 hover:border-info/30 data-[state=open]:bg-info/15 data-[state=open]:border-info/30",
+        warning:
+          "border-warning/25 bg-warning/10 text-foreground hover:bg-warning/15 hover:border-warning/30 data-[state=open]:bg-warning/15 data-[state=open]:border-warning/30",
+        danger:
+          "border-danger/25 bg-danger/10 text-foreground hover:bg-danger/15 hover:border-danger/30 data-[state=open]:bg-danger/15 data-[state=open]:border-danger/30",
+        pam: "border-product-pam/30 bg-product-pam/25 text-foreground hover:bg-product-pam/30 hover:border-product-pam/35 data-[state=open]:bg-product-pam/30 data-[state=open]:border-product-pam/35",
+        // Tinted from --product-color, which the caller must set inline (e.g. a billing catalog
+        // product's color) since the palette isn't knowable at build time.
+        product:
+          "border-(--product-color)/30 bg-(--product-color)/25 text-foreground hover:bg-(--product-color)/30 hover:border-(--product-color)/35 data-[state=open]:bg-(--product-color)/30 data-[state=open]:border-(--product-color)/35"
+      },
+      size: {
+        xs: "h-7 gap-2 rounded-sm px-2 text-xs [&>svg]:size-3",
+        sm: "h-8 gap-2 px-2.5 text-sm [&>svg]:size-3",
+        md: "h-9 gap-2 px-3 text-sm [&>svg]:size-3.5",
+        lg: "h-10 gap-2 px-3 text-sm [&>svg]:size-4"
+      },
+      isPending: {
+        true: "text-transparent"
+      },
+      isFullWidth: {
+        true: "w-full",
+        false: "w-fit"
+      }
+    },
+    defaultVariants: {
+      variant: "outline",
+      size: "md"
+    }
+  }
+);
+
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    isPending?: boolean;
+    isFullWidth?: boolean;
+    isDisabled?: boolean;
+    asChild?: boolean;
+  } & (
+    | {
+        asChild: true;
+        isPending?: never;
+      }
+    | {
+        asChild?: false;
+        isPending?: boolean;
+      }
+  );
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant = "outline",
+      size = "md",
+      isPending = false,
+      isFullWidth = false,
+      isDisabled = false,
+      children: _children,
+      asChild = false,
+      type = "button",
+      ...props
+    },
+    ref
+  ): JSX.Element => {
+    const Comp = asChild ? Slot : "button";
+
+    const children = asChild ? (
+      _children
+    ) : (
+      <>
+        {_children}
+        {isPending && (
+          <Lottie icon="vaultix_loading_white" isAutoPlay className="absolute w-8 rounded-xl" />
+        )}
+      </>
+    );
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        type={type}
+        disabled={isDisabled || isPending}
+        className={cn(buttonVariants({ variant, size, className, isPending, isFullWidth }))}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  }
+);
+
+Button.displayName = "Button";
+
+export { Button, type ButtonProps, buttonVariants };

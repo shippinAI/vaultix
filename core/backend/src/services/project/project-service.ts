@@ -1,0 +1,2362 @@
+import { createMongoAbility, ForbiddenError, MongoAbility, RawRuleOf, subject } from "@casl/ability";
+import { PackRule, unpackRules } from "@casl/ability/extra";
+import slugify from "@sindresorhus/slugify";
+
+import {
+  AccessScope,
+  ActionProjectType,
+  OrganizationActionScope,
+  OrgMembershipRole,
+  ProjectMembershipRole,
+  ProjectType,
+  ProjectVersion,
+  ResourceType,
+  TableName,
+  TProjectEnvironments,
+  TProjects
+} from "@app/db/schemas";
+import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
+import {
+  OrgPermissionActions,
+  OrgPermissionProjectActions,
+  OrgPermissionSubjects
+} from "@app/ee/services/permission/org-permission";
+import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/ee/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import {
+  ProjectPermissionActions,
+  ProjectPermissionCertificateActions,
+  ProjectPermissionCertificateAuthorityActions,
+  ProjectPermissionMemberActions,
+  ProjectPermissionPkiSubscriberActions,
+  ProjectPermissionPkiTemplateActions,
+  ProjectPermissionSecretActions,
+  ProjectPermissionSet,
+  ProjectPermissionSub
+} from "@app/ee/services/permission/project-permission";
+import {
+  ResourcePermissionCertificateActions,
+  ResourcePermissionSub
+} from "@app/ee/services/permission/resource-permission";
+import {
+  VaultixProjectTemplate,
+  TProjectTemplateServiceFactory
+} from "@app/ee/services/project-template/project-template-types";
+import { KeyStorePrefixes, KeyStoreTtls, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
+import { withCache } from "@app/lib/cache/with-cache";
+import { getProcessedPermissionRules } from "@app/lib/casl/permission-filter-utils";
+import { getConfig } from "@app/lib/config/env";
+import { crypto } from "@app/lib/crypto/cryptography";
+import { DatabaseErrorCode } from "@app/lib/error-codes";
+import { BadRequestError, DatabaseError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
+import { groupBy } from "@app/lib/fn";
+import { alphaNumericNanoId } from "@app/lib/nanoid";
+import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
+import { requestMemoize } from "@app/lib/request-context/request-memoizer";
+import { OrgServiceActor, TProjectPermission } from "@app/lib/types";
+import { PamIdentities, SecretIdentities } from "@app/services/license-client";
+import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
+import { TPkiSubscriberDALFactory } from "@app/services/pki-subscriber/pki-subscriber-dal";
+
+import { TGroupDALFactory } from "../../ee/services/group/group-dal";
+import { ActorAuthMethod, ActorType } from "../auth/auth-type";
+import { TCertificateDALFactory } from "../certificate/certificate-dal";
+import { TCertificateAuthorityDALFactory } from "../certificate-authority/certificate-authority-dal";
+import { expandInternalCa } from "../certificate-authority/certificate-authority-fns";
+import { TCertificateTemplateDALFactory } from "../certificate-template/certificate-template-dal";
+import { TIdentityDALFactory } from "../identity/identity-dal";
+import { TKmsServiceFactory } from "../kms/kms-service";
+import { TMembershipRoleDALFactory } from "../membership/membership-role-dal";
+import { TMembershipGroupDALFactory } from "../membership-group/membership-group-dal";
+import { TMembershipIdentityDALFactory } from "../membership-identity/membership-identity-dal";
+import { TMembershipUserDALFactory } from "../membership-user/membership-user-dal";
+import { validateMicrosoftTeamsChannelsSchema } from "../microsoft-teams/microsoft-teams-fns";
+import { TMicrosoftTeamsIntegrationDALFactory } from "../microsoft-teams/microsoft-teams-integration-dal";
+import { TProjectMicrosoftTeamsConfigDALFactory } from "../microsoft-teams/project-microsoft-teams-config-dal";
+import { TNotificationServiceFactory } from "../notification/notification-service";
+import { NotificationType } from "../notification/notification-types";
+import { TOrgDALFactory } from "../org/org-dal";
+import { TPkiAlertDALFactory } from "../pki-alert/pki-alert-dal";
+import { TPkiCollectionDALFactory } from "../pki-collection/pki-collection-dal";
+import { TProjectEnvDALFactory } from "../project-env/project-env-dal";
+import { TProjectMembershipDALFactory } from "../project-membership/project-membership-dal";
+import { getPredefinedRoles } from "../project-role/project-role-fns";
+import { TRoleDALFactory } from "../role/role-dal";
+import { ROOT_FOLDER_NAME, TSecretFolderDALFactory } from "../secret-folder/secret-folder-dal";
+import { TProjectSlackConfigDALFactory } from "../slack/project-slack-config-dal";
+import { validateSlackChannelsField } from "../slack/slack-auth-validators";
+import { TSlackIntegrationDALFactory } from "../slack/slack-integration-dal";
+import { SmtpTemplates, TSmtpService } from "../smtp/smtp-service";
+import { TUserDALFactory } from "../user/user-dal";
+import { WorkflowIntegration, WorkflowIntegrationStatus } from "../workflow-integration/workflow-integration-types";
+import { TProjectAccessRequestDALFactory } from "./project-access-request-dal";
+import { TProjectDALFactory } from "./project-dal";
+import { TProjectQueueFactory } from "./project-queue";
+import {
+  ProjectFilterType,
+  TCreateProjectDTO,
+  TDeleteProjectDTO,
+  TDeleteProjectWorkflowIntegration,
+  TEnableSecretBlindIndexDTO,
+  TGetActivityTrendDTO,
+  TGetDashboardStatsDTO,
+  TGetProjectDTO,
+  TGetProjectKmsKey,
+  TGetProjectWorkflowIntegrationConfig,
+  TListProjectAlertsDTO,
+  TListProjectCasDTO,
+  TListProjectCertificateTemplatesDTO,
+  TListProjectCertsDTO,
+  TListProjectPkiSubscribersDTO,
+  TListProjectsDTO,
+  TLoadProjectKmsBackupDTO,
+  TProjectAccessRequestDTO,
+  TSearchProjectsDTO,
+  TToggleProjectAutoCapitalizationDTO,
+  TToggleProjectDeleteProtectionDTO,
+  TUpdateAuditLogsRetentionDTO,
+  TUpdateProjectDTO,
+  TUpdateProjectKmsDTO,
+  TUpdateProjectNameDTO,
+  TUpdateProjectVersionLimitDTO,
+  TUpdateProjectWorkflowIntegration,
+  TUpgradeProjectDTO
+} from "./project-types";
+
+export const DEFAULT_PROJECT_ENVS = [
+  { name: "Development", slug: "dev" },
+  { name: "Staging", slug: "staging" },
+  { name: "Production", slug: "prod" }
+];
+
+type TProjectServiceFactoryDep = {
+  projectDAL: TProjectDALFactory;
+  projectQueue: TProjectQueueFactory;
+  userDAL: TUserDALFactory;
+  folderDAL: Pick<TSecretFolderDALFactory, "insertMany" | "findByProjectId">;
+  projectEnvDAL: Pick<TProjectEnvDALFactory, "insertMany" | "find">;
+  projectMembershipDAL: Pick<TProjectMembershipDALFactory, "findProjectGhostUser" | "findAllProjectMembers">;
+  membershipUserDAL: Pick<TMembershipUserDALFactory, "create" | "findOne" | "delete" | "find" | "insertMany">;
+  membershipGroupDAL: Pick<TMembershipGroupDALFactory, "delete" | "insertMany">;
+  groupDAL: Pick<TGroupDALFactory, "find">;
+  identityDAL: Pick<TIdentityDALFactory, "find" | "create">;
+  membershipIdentityDAL: Pick<TMembershipIdentityDALFactory, "create" | "findOne" | "insertMany">;
+  membershipRoleDAL: Pick<TMembershipRoleDALFactory, "create" | "insertMany">;
+  projectSlackConfigDAL: Pick<
+    TProjectSlackConfigDALFactory,
+    "findOne" | "transaction" | "updateById" | "create" | "delete"
+  >;
+  projectMicrosoftTeamsConfigDAL: Pick<
+    TProjectMicrosoftTeamsConfigDALFactory,
+    "findOne" | "transaction" | "updateById" | "create" | "delete"
+  >;
+  slackIntegrationDAL: Pick<TSlackIntegrationDALFactory, "findById" | "findByIdWithWorkflowIntegrationDetails">;
+  microsoftTeamsIntegrationDAL: Pick<
+    TMicrosoftTeamsIntegrationDALFactory,
+    "findById" | "findByIdWithWorkflowIntegrationDetails"
+  >;
+  pkiSubscriberDAL: Pick<TPkiSubscriberDALFactory, "find">;
+  certificateAuthorityDAL: Pick<TCertificateAuthorityDALFactory, "find" | "findWithAssociatedCa">;
+  certificateDAL: Pick<
+    TCertificateDALFactory,
+    | "find"
+    | "countCertificatesInProject"
+    | "findWithPrivateKeyInfo"
+    | "findActiveCertificatesForSync"
+    | "countActiveCertificatesForSync"
+    | "getDashboardStats"
+    | "getActivityTrend"
+    | "getPqcTrend"
+  >;
+  certificateTemplateDAL: Pick<TCertificateTemplateDALFactory, "getCertTemplatesByProjectId">;
+  pkiAlertDAL: Pick<TPkiAlertDALFactory, "find">;
+  pkiCollectionDAL: Pick<TPkiCollectionDALFactory, "find">;
+  permissionService: TPermissionServiceFactory;
+  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "invalidateGetPlan">;
+  smtpService: Pick<TSmtpService, "sendMail">;
+  orgDAL: Pick<TOrgDALFactory, "findOne" | "findEffectiveOrgMembership">;
+  keyStore: Pick<TKeyStoreFactory, "deleteItem" | "acquireLock" | "getItem" | "setItemWithExpiry" | "ttl">;
+  roleDAL: Pick<TRoleDALFactory, "find" | "insertMany" | "delete">;
+  kmsService: Pick<
+    TKmsServiceFactory,
+    | "updateProjectSecretManagerKmsKey"
+    | "getProjectKeyBackup"
+    | "loadProjectKeyBackup"
+    | "getKmsById"
+    | "getProjectSecretManagerKmsKeyId"
+    | "deleteInternalKms"
+    | "createCipherPairWithDataKey"
+  >;
+  projectTemplateService: TProjectTemplateServiceFactory;
+  notificationService: Pick<TNotificationServiceFactory, "createUserNotifications">;
+  projectAccessRequestDAL: Pick<
+    TProjectAccessRequestDALFactory,
+    "upsertPendingRequest" | "findPendingForRequesterInOrg"
+  >;
+  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
+};
+
+export type TProjectServiceFactory = ReturnType<typeof projectServiceFactory>;
+
+// Cosmetic overrides for requestProjectAccess; unlisted types fall back to the raw type/name.
+const PROJECT_ACCESS_REQUEST_URL_SLUGS: Partial<Record<ProjectType, string>> = {
+  [ProjectType.SecretManager]: "secret-management",
+  [ProjectType.CertificateManager]: "cert-manager"
+};
+
+const PROJECT_ACCESS_REQUEST_PRODUCT_LABELS: Partial<Record<ProjectType, string>> = {
+  [ProjectType.CertificateManager]: "Certificate Manager",
+  [ProjectType.PAM]: "Privileged Access Manager"
+};
+
+export const projectServiceFactory = ({
+  projectDAL,
+  projectQueue,
+  permissionService,
+  orgDAL,
+  userDAL,
+  folderDAL,
+  projectMembershipDAL,
+  projectEnvDAL,
+  licenseService,
+  certificateAuthorityDAL,
+  certificateDAL,
+  certificateTemplateDAL,
+  pkiCollectionDAL,
+  pkiAlertDAL,
+  pkiSubscriberDAL,
+  keyStore,
+  kmsService,
+  projectSlackConfigDAL,
+  projectMicrosoftTeamsConfigDAL,
+  slackIntegrationDAL,
+  microsoftTeamsIntegrationDAL,
+  projectTemplateService,
+  smtpService,
+  notificationService,
+  identityDAL,
+  membershipIdentityDAL,
+  membershipUserDAL,
+  membershipGroupDAL,
+  membershipRoleDAL,
+  roleDAL,
+  groupDAL,
+  projectAccessRequestDAL,
+  usageMeteringService
+}: TProjectServiceFactoryDep) => {
+  /*
+   * Create workspace. Make user the admin
+   * */
+  const createProject = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    projectName: workspaceName,
+    projectDescription: workspaceDescription,
+    slug: projectSlug,
+    kmsKeyId,
+    tx: trx,
+    createDefaultEnvs = true,
+    template = VaultixProjectTemplate.Default,
+    type = ProjectType.SecretManager,
+    hasDeleteProtection
+  }: TCreateProjectDTO) => {
+    const organization = await orgDAL.findOne({ id: actorOrgId });
+    const { permission } = await permissionService.getOrgPermission({
+      scope: OrganizationActionScope.Any,
+      actor,
+      actorId,
+      orgId: organization.id,
+      actorAuthMethod,
+      actorOrgId
+    });
+
+    if (
+      permission.cannot(OrgPermissionActions.Create, OrgPermissionSubjects.Workspace) &&
+      permission.cannot(OrgPermissionProjectActions.Create, OrgPermissionSubjects.Project)
+    ) {
+      throw new ForbiddenRequestError({ message: "You don't have permission to create a project" });
+    }
+
+    const results = await (trx || projectDAL).transaction(async (tx) => {
+      await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.CreateProject(organization.id)]);
+
+      // Check workspace limit inside the transaction after acquiring the lock
+      // We count directly from the database to get the accurate count, not the cached plan value
+      const plan = await licenseService.getPlan(organization.id);
+      if (plan.workspaceLimit !== null && type === ProjectType.SecretManager) {
+        const currentProjectCount = await projectDAL.countOfBillableOrgProjects(organization.id, tx);
+        if (currentProjectCount >= plan.workspaceLimit) {
+          throw new BadRequestError({
+            message: "Failed to create workspace due to plan limit reached. Upgrade plan to add more workspaces."
+          });
+        }
+      }
+
+      if (kmsKeyId) {
+        const kms = await kmsService.getKmsById(kmsKeyId, tx);
+
+        if (kms.orgId !== organization.id) {
+          throw new ForbiddenRequestError({
+            message: "KMS does not belong in the organization"
+          });
+        }
+      }
+
+      let projectTemplate: Awaited<ReturnType<typeof projectTemplateService.findProjectTemplateByName>> | null = null;
+
+      switch (template) {
+        case VaultixProjectTemplate.Default:
+          projectTemplate = null;
+          break;
+        default:
+          projectTemplate = await projectTemplateService.findProjectTemplateByName(template, {
+            id: actorId,
+            orgId: organization.id,
+            type: actor,
+            authMethod: actorAuthMethod
+          });
+      }
+
+      const slug = projectSlug || slugify(`${workspaceName}-${alphaNumericNanoId(4)}`);
+
+      let project: TProjects;
+      try {
+        project = await projectDAL.create(
+          {
+            name: workspaceName,
+            type,
+            description: workspaceDescription,
+            orgId: organization.id,
+            slug,
+            kmsSecretManagerKeyId: kmsKeyId,
+            version: ProjectVersion.V3,
+            pitVersionLimit: 10,
+            hasDeleteProtection
+          },
+          tx
+        );
+      } catch (err) {
+        if (err instanceof DatabaseError) {
+          const code = (err.error as { code?: string })?.code;
+          if (code === DatabaseErrorCode.UniqueViolation) {
+            throw new BadRequestError({
+              message: `A project with the slug "${slug}" already exists in your organization. Please choose a different name or slug.`
+            });
+          }
+          if (code === DatabaseErrorCode.StringDataRightTruncation) {
+            throw new BadRequestError({
+              message: "One or more fields exceed the allowed length. Please shorten and try again."
+            });
+          }
+        }
+        throw err;
+      }
+
+      // set default environments and root folder for provided environments
+      let envs: TProjectEnvironments[] = [];
+      let creatorAddedViaTemplate = false;
+
+      if (projectTemplate) {
+        if (projectTemplate.environments) {
+          envs = await projectEnvDAL.insertMany(
+            projectTemplate.environments.map((env) => ({ ...env, projectId: project.id })),
+            tx
+          );
+          await folderDAL.insertMany(
+            envs.map(({ id }) => ({ name: ROOT_FOLDER_NAME, envId: id, version: 1 })),
+            tx
+          );
+        }
+        await roleDAL.insertMany(
+          projectTemplate.packedRoles.map((role) => ({
+            ...role,
+            permissions: JSON.stringify(role.permissions),
+            projectId: project.id
+          })),
+          tx
+        );
+
+        // Add template users to the project
+        const templateHasAdmin = projectTemplate.users?.some((u) => u.roles.includes(ProjectMembershipRole.Admin));
+
+        if (projectTemplate.users?.length) {
+          const templateUsernames = projectTemplate.users.map((u) => u.username.toLowerCase());
+          const users = await userDAL.find({
+            $in: { username: templateUsernames }
+          });
+
+          // If template has an admin, include the creator in template users, otherwise exclude them
+          const usersToProcess = templateHasAdmin ? users : users.filter((u) => u.id !== actorId);
+          const userIds = usersToProcess.map((u) => u.id);
+
+          if (userIds.length) {
+            const orgMemberships = await membershipUserDAL.find(
+              {
+                scopeOrgId: project.orgId,
+                scope: AccessScope.Organization,
+                $in: { actorUserId: userIds }
+              },
+              { tx }
+            );
+
+            const userIdToOrgMembership = new Map(orgMemberships.map((m) => [m.actorUserId, m]));
+            const usersToAdd = usersToProcess.filter((u) => userIdToOrgMembership.has(u.id));
+
+            if (templateHasAdmin && usersToAdd.some((u) => u.id === actorId)) {
+              creatorAddedViaTemplate = true;
+            }
+
+            if (usersToAdd.length) {
+              const usernameToRoles = new Map(projectTemplate.users.map((u) => [u.username.toLowerCase(), u.roles]));
+
+              // Create project memberships
+              const projectMemberships = await membershipUserDAL.insertMany(
+                usersToAdd.map((user) => ({
+                  scopeProjectId: project.id,
+                  actorUserId: user.id,
+                  scope: AccessScope.Project,
+                  scopeOrgId: project.orgId
+                })),
+                tx
+              );
+
+              const projectRoles = await roleDAL.find({ projectId: project.id }, { tx });
+              const roleSlugToId = new Map(projectRoles.map((r) => [r.slug, r.id]));
+
+              // Create role assignments for each membership
+              const roleAssignments: { membershipId: string; role: string; customRoleId?: string }[] = [];
+              for (const membership of projectMemberships) {
+                const user = usersToAdd.find((u) => u.id === membership.actorUserId);
+                if (user) {
+                  const roles = usernameToRoles.get(user.username.toLowerCase()) ?? [];
+
+                  for (const roleSlug of roles) {
+                    if (Object.values(ProjectMembershipRole).includes(roleSlug as ProjectMembershipRole)) {
+                      roleAssignments.push({
+                        membershipId: membership.id,
+                        role: roleSlug
+                      });
+                    } else {
+                      const customRoleId = roleSlugToId.get(roleSlug);
+                      if (customRoleId) {
+                        roleAssignments.push({
+                          membershipId: membership.id,
+                          role: ProjectMembershipRole.Custom,
+                          customRoleId
+                        });
+                      }
+                    }
+                  }
+                }
+              }
+
+              if (roleAssignments.length) {
+                await membershipRoleDAL.insertMany(roleAssignments, tx);
+              }
+            }
+          }
+        }
+
+        // Add template groups to the project
+        if (projectTemplate.groups?.length) {
+          const templateGroupSlugs = projectTemplate.groups.map((g) => g.groupSlug.toLowerCase());
+          const groups = await groupDAL.find({
+            orgId: project.orgId,
+            $in: { slug: templateGroupSlugs }
+          });
+
+          if (groups.length) {
+            const groupSlugToRoles = new Map(projectTemplate.groups.map((g) => [g.groupSlug.toLowerCase(), g.roles]));
+
+            // Create group memberships
+            const groupProjectMemberships = await membershipGroupDAL.insertMany(
+              groups.map((group) => ({
+                scopeProjectId: project.id,
+                actorGroupId: group.id,
+                scope: AccessScope.Project,
+                scopeOrgId: project.orgId
+              })),
+              tx
+            );
+
+            const projectRoles = await roleDAL.find({ projectId: project.id }, { tx });
+            const roleSlugToId = new Map(projectRoles.map((r) => [r.slug, r.id]));
+
+            // Create role assignments for each group membership
+            const groupRoleAssignments: { membershipId: string; role: string; customRoleId?: string }[] = [];
+            for (const membership of groupProjectMemberships) {
+              const group = groups.find((g) => g.id === membership.actorGroupId);
+              if (group) {
+                const roles = groupSlugToRoles.get(group.slug.toLowerCase()) ?? [];
+
+                for (const roleSlug of roles) {
+                  if (Object.values(ProjectMembershipRole).includes(roleSlug as ProjectMembershipRole)) {
+                    groupRoleAssignments.push({
+                      membershipId: membership.id,
+                      role: roleSlug
+                    });
+                  } else {
+                    const customRoleId = roleSlugToId.get(roleSlug);
+                    if (customRoleId) {
+                      groupRoleAssignments.push({
+                        membershipId: membership.id,
+                        role: ProjectMembershipRole.Custom,
+                        customRoleId
+                      });
+                    }
+                  }
+                }
+              }
+            }
+
+            if (groupRoleAssignments.length) {
+              await membershipRoleDAL.insertMany(groupRoleAssignments, tx);
+            }
+          }
+        }
+
+        // Add template (org owned) identities to the project
+        if (projectTemplate.identities?.length) {
+          const templateIdentityIds = projectTemplate.identities.map((i) => i.identityId);
+          const orgIdentities = await identityDAL.find({
+            orgId: project.orgId,
+            $in: { id: templateIdentityIds }
+          });
+
+          if (orgIdentities.length) {
+            const identityIdToRoles = new Map(projectTemplate.identities.map((i) => [i.identityId, i.roles]));
+
+            // Create org identity memberships
+            const identityProjectMemberships = await membershipIdentityDAL.insertMany(
+              orgIdentities.map((identity) => ({
+                scopeProjectId: project.id,
+                actorIdentityId: identity.id,
+                scope: AccessScope.Project,
+                scopeOrgId: project.orgId
+              })),
+              tx
+            );
+
+            const projectRoles = await roleDAL.find({ projectId: project.id }, { tx });
+            const roleSlugToId = new Map(projectRoles.map((r) => [r.slug, r.id]));
+
+            // Create role assignments for each identity membership
+            const identityRoleAssignments: { membershipId: string; role: string; customRoleId?: string }[] = [];
+            for (const membership of identityProjectMemberships) {
+              const identity = orgIdentities.find((i) => i.id === membership.actorIdentityId);
+              if (identity) {
+                const roles = identityIdToRoles.get(identity.id) ?? [];
+
+                for (const roleSlug of roles) {
+                  if (Object.values(ProjectMembershipRole).includes(roleSlug as ProjectMembershipRole)) {
+                    identityRoleAssignments.push({
+                      membershipId: membership.id,
+                      role: roleSlug
+                    });
+                  } else {
+                    const customRoleId = roleSlugToId.get(roleSlug);
+                    if (customRoleId) {
+                      identityRoleAssignments.push({
+                        membershipId: membership.id,
+                        role: ProjectMembershipRole.Custom,
+                        customRoleId
+                      });
+                    }
+                  }
+                }
+              }
+            }
+
+            if (identityRoleAssignments.length) {
+              await membershipRoleDAL.insertMany(identityRoleAssignments, tx);
+            }
+          }
+        }
+
+        // Add template (project owned) identities to the project
+        if (projectTemplate.projectManagedIdentities?.length) {
+          const projectRoles = await roleDAL.find({ projectId: project.id }, { tx });
+          const roleSlugToId = new Map(projectRoles.map((r) => [r.slug, r.id]));
+
+          for await (const templateIdentity of projectTemplate.projectManagedIdentities) {
+            const newIdentity = await identityDAL.create(
+              {
+                name: templateIdentity.name,
+                orgId: project.orgId,
+                projectId: project.id
+              },
+              tx
+            );
+
+            const orgMembership = await membershipIdentityDAL.create(
+              {
+                scope: AccessScope.Organization,
+                actorIdentityId: newIdentity.id,
+                scopeOrgId: project.orgId
+              },
+              tx
+            );
+
+            const projectMembership = await membershipIdentityDAL.create(
+              {
+                scope: AccessScope.Project,
+                actorIdentityId: newIdentity.id,
+                scopeOrgId: project.orgId,
+                scopeProjectId: project.id
+              },
+              tx
+            );
+
+            const roleAssignments: { membershipId: string; role: string; customRoleId?: string }[] = [];
+
+            roleAssignments.push({
+              membershipId: orgMembership.id,
+              role: OrgMembershipRole.NoAccess
+            });
+
+            for (const roleSlug of templateIdentity.roles) {
+              if (Object.values(ProjectMembershipRole).includes(roleSlug as ProjectMembershipRole)) {
+                roleAssignments.push({
+                  membershipId: projectMembership.id,
+                  role: roleSlug
+                });
+              } else {
+                const customRoleId = roleSlugToId.get(roleSlug);
+                if (customRoleId) {
+                  roleAssignments.push({
+                    membershipId: projectMembership.id,
+                    role: ProjectMembershipRole.Custom,
+                    customRoleId
+                  });
+                }
+              }
+            }
+
+            if (roleAssignments.length) {
+              await membershipRoleDAL.insertMany(roleAssignments, tx);
+            }
+          }
+        }
+      } else if (createDefaultEnvs) {
+        envs = await projectEnvDAL.insertMany(
+          DEFAULT_PROJECT_ENVS.map((el, i) => ({ ...el, projectId: project.id, position: i + 1 })),
+          tx
+        );
+        await folderDAL.insertMany(
+          envs.map(({ id }) => ({ name: ROOT_FOLDER_NAME, envId: id, version: 1 })),
+          tx
+        );
+      }
+
+      // If the project is being created by a user, add the user to the project as an admin
+      // Skip this if the creator was already added via template with their configured roles
+      if (actor === ActorType.USER && !creatorAddedViaTemplate) {
+        // Find public key of user
+        const user = await userDAL.findUserEncKeyByUserId(actorId);
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Create a membership for the user
+        const userProjectMembership = await membershipUserDAL.create(
+          {
+            scopeProjectId: project.id,
+            actorUserId: user.id,
+            scope: AccessScope.Project,
+            scopeOrgId: project.orgId
+          },
+          tx
+        );
+        await membershipRoleDAL.create(
+          { membershipId: userProjectMembership.id, role: ProjectMembershipRole.Admin },
+          tx
+        );
+      }
+
+      // If the project is being created by an identity, add the identity to the project as an admin
+      else if (actor === ActorType.IDENTITY) {
+        const identityOrgMembership = await orgDAL.findEffectiveOrgMembership({
+          actorType: ActorType.IDENTITY,
+          actorId,
+          orgId: project.orgId,
+          tx
+        });
+
+        if (!identityOrgMembership) {
+          throw new NotFoundError({
+            message: `Failed to find identity with id '${actorId}'`
+          });
+        }
+
+        const identityProjectMembership = await membershipIdentityDAL.create(
+          {
+            actorIdentityId: actorId,
+            scopeProjectId: project.id,
+            scope: AccessScope.Project,
+            scopeOrgId: project.orgId
+          },
+          tx
+        );
+
+        await membershipRoleDAL.create(
+          {
+            membershipId: identityProjectMembership.id,
+            role: ProjectMembershipRole.Admin
+          },
+          tx
+        );
+      }
+
+      // no need to invalidate if there was no limit
+      if (plan.workspaceLimit) {
+        await licenseService.invalidateGetPlan(organization.id);
+      }
+      return {
+        ...project,
+        environments: envs,
+        deletedEnvironments: [] as {
+          id: string;
+          name: string;
+          slug: string;
+          deleteAfter: Date;
+          softDeletedAt: Date;
+          deletedBy:
+            | {
+                type: "user";
+                id: string;
+                email: string | null;
+                username: string | null;
+                firstName: string | null;
+                lastName: string | null;
+              }
+            | { type: "identity"; id: string; name: string }
+            | null;
+        }[],
+        _id: project.id
+      };
+    });
+
+    await keyStore.deleteItem(KeyStorePrefixes.LicenseCloudPlan(actorOrgId));
+    // A new project seeds its creator (plus any template members/identities); emit so a new
+    // secret-manager or PAM project's seats are metered. Org-scoped (not emitForProject) to avoid racing
+    // the just-committed row; the counter filters by project type.
+    usageMeteringService.emit(results.orgId, SecretIdentities.key);
+    usageMeteringService.emit(results.orgId, PamIdentities.key);
+    return results;
+  };
+
+  const deleteProject = async ({ actor, actorId, actorOrgId, actorAuthMethod, filter }: TDeleteProjectDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Delete, ProjectPermissionSub.Project);
+
+    if (project.hasDeleteProtection) {
+      throw new ForbiddenRequestError({
+        message: "Project delete protection is enabled"
+      });
+    }
+
+    // PAM projects are managed (one per org); deleting would also cascade FK-referenced migrated data.
+    if (project.type === ProjectType.PAM) {
+      throw new BadRequestError({
+        message: "Privileged Access Manager projects cannot be deleted."
+      });
+    }
+
+    if (project.type === ProjectType.CertificateManager) {
+      const certManagerProjects = await projectDAL.find({
+        orgId: project.orgId,
+        type: ProjectType.CertificateManager
+      });
+      if (certManagerProjects.length <= 1) {
+        throw new BadRequestError({
+          message:
+            "Cannot delete the last Certificate Manager project in this organization. Create another Certificate Manager project first."
+        });
+      }
+      const org = await orgDAL.findOne({ id: project.orgId });
+      if (org?.defaultCertManagerProjectId === project.id) {
+        throw new BadRequestError({
+          message:
+            "Cannot delete the active Certificate Manager project. Set another project as active in Organization Settings → Certificate Manager first."
+        });
+      }
+    }
+
+    let lock: Awaited<ReturnType<typeof keyStore.acquireLock>> | undefined;
+    try {
+      lock = await keyStore.acquireLock([KeyStorePrefixes.ProjectDeleteLock(project.id)], 30_000, {
+        retryCount: 0
+      });
+    } catch {
+      throw new BadRequestError({
+        message: "Project is already being deleted."
+      });
+    }
+
+    try {
+      // "Real delete" from the caller's perspective: this returns immediately (one UPDATE) and the
+      // project disappears from every read, but the expensive cascade runs asynchronously in the
+      // hard-delete worker. deleteAfter = now marks it immediately eligible for the next worker tick
+      // (no grace period). The slug is freed so a same-named project can be recreated right away.
+      const now = new Date();
+      const softDeletedProject = await projectDAL.softDeleteById(project.id, {
+        deleteAfter: now,
+        softDeletedAt: now,
+        deletedByActorType: actor,
+        deletedByActorId: actorId,
+        slug: `del-${alphaNumericNanoId(20)}`
+      });
+
+      if (!softDeletedProject) {
+        throw new NotFoundError({ message: `Project with ID '${project.id}' not found` });
+      }
+
+      // refresh the cached plan so the freed workspace slot is reflected immediately
+      // (countOfOrgProjects now excludes soft-deleted projects)
+      await keyStore.deleteItem(KeyStorePrefixes.LicenseCloudPlan(actorOrgId));
+      // The soft-deleted project drops out of the meters' counts, so its members no longer count.
+      usageMeteringService.emit(project.orgId, SecretIdentities.key);
+      usageMeteringService.emit(project.orgId, PamIdentities.key);
+      return { ...softDeletedProject, slug: project.slug };
+    } finally {
+      await lock.release();
+    }
+  };
+
+  const getProjects = async ({ actorId, actor, includeRoles, actorAuthMethod, actorOrgId, type }: TListProjectsDTO) => {
+    const workspaces = (
+      actor === ActorType.IDENTITY
+        ? await projectDAL.findIdentityProjects(actorId, actorOrgId, type)
+        : await projectDAL.findUserProjects(actorId, actorOrgId, type)
+    ).map((workspace) => ({
+      ...workspace,
+      deletedEnvironments: [] as {
+        id: string;
+        name: string;
+        slug: string;
+        deleteAfter: Date;
+        softDeletedAt: Date;
+        deletedBy:
+          | {
+              type: "user";
+              id: string;
+              email: string | null;
+              username: string | null;
+              firstName: string | null;
+              lastName: string | null;
+            }
+          | { type: "identity"; id: string; name: string }
+          | null;
+      }[]
+    }));
+
+    if (includeRoles) {
+      const { permission } = await permissionService.getOrgPermission({
+        scope: OrganizationActionScope.Any,
+        actor,
+        actorId,
+        orgId: actorOrgId,
+        actorAuthMethod,
+        actorOrgId
+      });
+
+      // `includeRoles` is specifically used by organization admins when inviting new users to the organizations to avoid looping redundant api calls.
+      ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.Member);
+      const customRoles = await roleDAL.find({
+        $in: {
+          projectId: workspaces.map((workspace) => workspace.id)
+        }
+      });
+
+      const workspaceMappedToRoles = groupBy(customRoles, (role) => role.projectId as string);
+
+      const workspacesWithRoles = await Promise.all(
+        workspaces.map(async (workspace) => {
+          return {
+            ...workspace,
+            roles: [
+              ...(workspaceMappedToRoles[workspace.id] || []),
+              ...getPredefinedRoles({ projectId: workspace.id, projectType: workspace.type as ProjectType })
+            ]
+          };
+        })
+      );
+
+      return workspacesWithRoles;
+    }
+
+    return workspaces;
+  };
+
+  const getAProject = async ({ actorId, actorOrgId, actorAuthMethod, filter, actor }: TGetProjectDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+
+    await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    const deletedEnvironments = await projectDAL.findProjectDeletedEnvironments(project.id);
+
+    return { ...project, deletedEnvironments };
+  };
+
+  const updateProject = async ({ actor, actorId, actorOrgId, actorAuthMethod, update, filter }: TUpdateProjectDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+
+    const { permission, hasRole } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    if (update.secretDetectionIgnoreValues && !hasRole(ProjectMembershipRole.Admin)) {
+      throw new ForbiddenRequestError({
+        message: "Only admins can update secret detection ignore values"
+      });
+    }
+
+    if (project.type === ProjectType.CertificateManager && !hasRole(ProjectMembershipRole.Admin)) {
+      throw new ForbiddenRequestError({
+        message: "Only admins can update Certificate Manager project settings"
+      });
+    }
+
+    try {
+      const updatedProject = await projectDAL.updateById(project.id, {
+        name: update.name,
+        description: update.description,
+        autoCapitalization: update.autoCapitalization,
+        enforceCapitalization: update.autoCapitalization,
+        hasDeleteProtection: update.hasDeleteProtection,
+        slug: update.slug,
+        secretSharing: update.secretSharing,
+        defaultProduct: update.defaultProduct,
+        showSnapshotsLegacy: update.showSnapshotsLegacy,
+        secretDetectionIgnoreValues: update.secretDetectionIgnoreValues,
+        pitVersionLimit: update.pitVersionLimit,
+        enforceEncryptedSecretManagerSecretMetadata: update.enforceEncryptedSecretManagerSecretMetadata
+      });
+
+      return updatedProject;
+    } catch (err) {
+      if (err instanceof DatabaseError) {
+        const code = (err.error as { code?: string })?.code;
+        if (code === DatabaseErrorCode.UniqueViolation) {
+          throw new BadRequestError({
+            message: `Failed to update project. A project with the slug "${update.slug}" already exists in your organization. Please choose a different slug.`
+          });
+        }
+        if (code === DatabaseErrorCode.StringDataRightTruncation) {
+          throw new BadRequestError({
+            message: "One or more fields exceed the allowed length. Please shorten and try again."
+          });
+        }
+      }
+      throw err;
+    }
+  };
+
+  const toggleAutoCapitalization = async ({
+    projectId,
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    autoCapitalization
+  }: TToggleProjectAutoCapitalizationDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    const updatedProject = await projectDAL.updateById(projectId, {
+      autoCapitalization,
+      enforceCapitalization: autoCapitalization
+    });
+
+    return updatedProject;
+  };
+
+  const toggleDeleteProtection = async ({
+    projectId,
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    hasDeleteProtection
+  }: TToggleProjectDeleteProtectionDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    const updatedProject = await projectDAL.updateById(projectId, { hasDeleteProtection });
+
+    return updatedProject;
+  };
+
+  const updateVersionLimit = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    pitVersionLimit,
+    workspaceSlug
+  }: TUpdateProjectVersionLimitDTO) => {
+    const project = await projectDAL.findProjectBySlug(workspaceSlug, actorOrgId);
+    if (!project) {
+      throw new NotFoundError({
+        message: `Project with slug '${workspaceSlug}' not found`
+      });
+    }
+
+    const { hasRole } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    if (!hasRole(ProjectMembershipRole.Admin))
+      throw new ForbiddenRequestError({
+        message: "Insufficient privileges, only admins are allowed to take this action"
+      });
+
+    return projectDAL.updateById(project.id, { pitVersionLimit });
+  };
+
+  const updateAuditLogsRetention = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    auditLogsRetentionDays,
+    filter
+  }: TUpdateAuditLogsRetentionDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    if (!project) {
+      throw new NotFoundError({
+        message: `Project not found`
+      });
+    }
+
+    const { hasRole } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    if (!hasRole(ProjectMembershipRole.Admin)) {
+      throw new ForbiddenRequestError({
+        message: "Insufficient privileges, only admins are allowed to take this action"
+      });
+    }
+
+    const plan = await licenseService.getPlan(project.orgId);
+    if (!plan.auditLogs || auditLogsRetentionDays > plan.auditLogsRetentionDays) {
+      throw new BadRequestError({
+        message: "Failed to update audit logs retention due to plan limit reached. Upgrade plan to increase."
+      });
+    }
+
+    return projectDAL.updateById(project.id, { auditLogsRetentionDays });
+  };
+
+  const updateName = async ({
+    projectId,
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    name
+  }: TUpdateProjectNameDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    const updatedProject = await projectDAL.updateById(projectId, { name });
+    return updatedProject;
+  };
+
+  const upgradeProject = async ({
+    projectId,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId,
+    userPrivateKey
+  }: TUpgradeProjectDTO) => {
+    const { permission, hasRole } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Delete, ProjectPermissionSub.Project);
+
+    if (!hasRole(ProjectMembershipRole.Admin)) {
+      throw new ForbiddenRequestError({
+        message: "User must be admin"
+      });
+    }
+
+    const encryptedPrivateKey = crypto.encryption().symmetric().encryptWithRootEncryptionKey(userPrivateKey);
+
+    await projectQueue.upgradeProject({
+      projectId,
+      startedByUserId: actorId,
+      encryptedPrivateKey: {
+        encryptedKey: encryptedPrivateKey.ciphertext,
+        encryptedKeyIv: encryptedPrivateKey.iv,
+        encryptedKeyTag: encryptedPrivateKey.tag,
+        keyEncoding: encryptedPrivateKey.encoding
+      }
+    });
+  };
+
+  const extractProjectIdFromSlug = async ({
+    projectSlug,
+    projectId,
+    actorId,
+    actorAuthMethod,
+    actor,
+    actorOrgId
+  }: {
+    projectSlug?: string;
+    projectId?: string;
+    actorId: string;
+    actorAuthMethod: ActorAuthMethod;
+    actor: ActorType;
+    actorOrgId: string;
+  }) => {
+    if (projectId) return projectId;
+    if (!projectSlug) throw new BadRequestError({ message: "You must provide projectSlug or workspaceId" });
+    const project = await getAProject({
+      filter: {
+        type: ProjectFilterType.SLUG,
+        orgId: actorOrgId,
+        slug: projectSlug
+      },
+      actorId,
+      actorAuthMethod,
+      actor,
+      actorOrgId
+    });
+
+    if (!project) throw new NotFoundError({ message: `No project found with slug ${projectSlug}` });
+    return project.id;
+  };
+
+  const getProjectUpgradeStatus = async ({
+    projectId,
+    actor,
+    actorAuthMethod,
+    actorOrgId,
+    actorId
+  }: TProjectPermission) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+    throwIfMissingSecretReadValueOrDescribePermission(permission, ProjectPermissionSecretActions.DescribeSecret);
+
+    const project = await projectDAL.findProjectById(projectId);
+
+    if (!project) {
+      throw new NotFoundError({
+        message: `Project with ID '${projectId}' not found`
+      });
+    }
+
+    return project.upgradeStatus || null;
+  };
+
+  /**
+   * Return list of CAs for project
+   */
+  const listProjectCas = async ({
+    status,
+    friendlyName,
+    commonName,
+    limit = 25,
+    offset = 0,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    filter,
+    actor
+  }: TListProjectCasDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(
+      ProjectPermissionCertificateAuthorityActions.Read,
+      ProjectPermissionSub.CertificateAuthorities
+    );
+
+    const cas = await certificateAuthorityDAL.findWithAssociatedCa(
+      {
+        [`${TableName.CertificateAuthority}.projectId` as "projectId"]: projectId,
+        $notNull: [`${TableName.InternalCertificateAuthority}.id` as "id"],
+        ...(status && { [`${TableName.CertificateAuthority}.status` as "status"]: status }),
+        ...(friendlyName && {
+          [`${TableName.InternalCertificateAuthority}.friendlyName` as "friendlyName"]: friendlyName
+        }),
+        ...(commonName && { [`${TableName.InternalCertificateAuthority}.commonName` as "commonName"]: commonName })
+      },
+      { offset, limit, sort: [["updatedAt", "desc"]] }
+    );
+
+    return cas.map((ca) => expandInternalCa(ca));
+  };
+
+  /**
+   * Return list of certificates for project
+   */
+  const listProjectCertificates = async ({
+    limit = 25,
+    offset = 0,
+    friendlyName,
+    commonName,
+    forPkiSync = false,
+    search,
+    status,
+    profileIds,
+    fromDate,
+    toDate,
+    metadataFilter,
+    extendedKeyUsage,
+    keyAlgorithm,
+    signatureAlgorithm,
+    keySizes,
+    caIds,
+    enrollmentTypes,
+    source,
+    notAfterFrom,
+    notAfterTo,
+    notBeforeFrom,
+    notBeforeTo,
+    applicationId,
+    applicationIds,
+    sortBy,
+    sortOrder,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    filter,
+    actor
+  }: TListProjectCertsDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    const scopedToSingleApplication = Boolean(applicationId);
+    let allowedByResource = false;
+    let projectPermission: Awaited<ReturnType<typeof permissionService.getProjectPermission>>["permission"] | null =
+      null;
+
+    if (scopedToSingleApplication) {
+      const { permission: resourcePermission } = await permissionService.getResourcePermission({
+        actor,
+        actorId,
+        projectId,
+        resourceType: ResourceType.CertificateApplication,
+        resourceId: applicationId!,
+        actorAuthMethod,
+        actorOrgId
+      });
+      if (resourcePermission.can(ResourcePermissionCertificateActions.Read, ResourcePermissionSub.Certificates)) {
+        allowedByResource = true;
+      }
+    }
+
+    if (!allowedByResource) {
+      const { permission } = await permissionService.getProjectPermission({
+        actor,
+        actorId,
+        projectId,
+        actorAuthMethod,
+        actorOrgId,
+        actionProjectType: ActionProjectType.CertificateManager
+      });
+      projectPermission = permission;
+      ForbiddenError.from(permission).throwUnlessCan(
+        ProjectPermissionCertificateActions.Read,
+        ProjectPermissionSub.Certificates
+      );
+    }
+
+    const regularFilters = {
+      projectId,
+      ...(friendlyName && { friendlyName }),
+      ...(commonName && { commonName }),
+      ...(search && { search }),
+      ...(status && {
+        status: Array.isArray(status) ? status : status.split(",").map((s) => s.trim())
+      }),
+      ...(profileIds && { profileIds }),
+      ...(fromDate && { fromDate }),
+      ...(toDate && { toDate }),
+      ...(metadataFilter && { metadataFilter }),
+      ...(extendedKeyUsage && { extendedKeyUsage }),
+      ...(keyAlgorithm && { keyAlgorithm }),
+      ...(signatureAlgorithm && { signatureAlgorithm }),
+      ...(keySizes && keySizes.length > 0 && { keySizes }),
+      ...(caIds && { caIds }),
+      ...(enrollmentTypes && { enrollmentTypes }),
+      ...(source && { source }),
+      ...(notAfterFrom && { notAfterFrom }),
+      ...(notAfterTo && { notAfterTo }),
+      ...(notBeforeFrom && { notBeforeFrom }),
+      ...(notBeforeTo && { notBeforeTo }),
+      ...(applicationId && { applicationId }),
+      ...(applicationIds && applicationIds.length > 0 && { applicationIds })
+    };
+    const permissionFilters =
+      allowedByResource || !projectPermission
+        ? undefined
+        : getProcessedPermissionRules(
+            projectPermission,
+            ProjectPermissionCertificateActions.Read,
+            ProjectPermissionSub.Certificates
+          );
+
+    const ALLOWED_SORT_COLUMNS = new Set([
+      "notAfter",
+      "notBefore",
+      "createdAt",
+      "commonName",
+      "serialNumber",
+      "keyAlgorithm",
+      "status"
+    ]);
+    const validatedSortBy = sortBy && ALLOWED_SORT_COLUMNS.has(sortBy) ? sortBy : "notAfter";
+    const validatedSortOrder = sortOrder === "asc" ? "asc" : "desc";
+
+    const certificates = forPkiSync
+      ? await certificateDAL.findActiveCertificatesForSync(regularFilters, { offset, limit }, permissionFilters)
+      : await certificateDAL.findWithPrivateKeyInfo(
+          regularFilters,
+          {
+            offset,
+            limit,
+            sort: [[validatedSortBy, validatedSortOrder]]
+          },
+          permissionFilters
+        );
+
+    const countFilter = {
+      projectId,
+      ...(regularFilters.friendlyName && { friendlyName: String(regularFilters.friendlyName) }),
+      ...(regularFilters.commonName && { commonName: String(regularFilters.commonName) }),
+      ...(regularFilters.search && { search: String(regularFilters.search) }),
+      ...(regularFilters.status && { status: regularFilters.status }),
+      ...(regularFilters.profileIds && { profileIds: regularFilters.profileIds }),
+      ...(regularFilters.fromDate && { fromDate: regularFilters.fromDate }),
+      ...(regularFilters.toDate && { toDate: regularFilters.toDate }),
+      ...(regularFilters.metadataFilter && { metadataFilter: regularFilters.metadataFilter }),
+      ...(regularFilters.extendedKeyUsage && { extendedKeyUsage: String(regularFilters.extendedKeyUsage) }),
+      ...(regularFilters.keyAlgorithm && { keyAlgorithm: regularFilters.keyAlgorithm }),
+      ...(regularFilters.signatureAlgorithm && { signatureAlgorithm: String(regularFilters.signatureAlgorithm) }),
+      ...(regularFilters.keySizes && { keySizes: regularFilters.keySizes }),
+      ...(regularFilters.caIds && { caIds: regularFilters.caIds }),
+      ...(regularFilters.enrollmentTypes && { enrollmentTypes: regularFilters.enrollmentTypes }),
+      ...(regularFilters.source && { source: regularFilters.source }),
+      ...(regularFilters.notAfterFrom && { notAfterFrom: regularFilters.notAfterFrom }),
+      ...(regularFilters.notAfterTo && { notAfterTo: regularFilters.notAfterTo }),
+      ...(regularFilters.notBeforeFrom && { notBeforeFrom: regularFilters.notBeforeFrom }),
+      ...(regularFilters.notBeforeTo && { notBeforeTo: regularFilters.notBeforeTo }),
+      ...(regularFilters.applicationId && { applicationId: regularFilters.applicationId }),
+      ...(regularFilters.applicationIds && { applicationIds: regularFilters.applicationIds })
+    };
+
+    const count = forPkiSync
+      ? await certificateDAL.countActiveCertificatesForSync(countFilter)
+      : await certificateDAL.countCertificatesInProject(countFilter, permissionFilters);
+
+    return {
+      certificates,
+      totalCount: count
+    };
+  };
+
+  const getDashboardStats = async ({ filter, actorId, actorOrgId, actorAuthMethod, actor }: TGetDashboardStatsDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(
+      ProjectPermissionCertificateActions.Read,
+      ProjectPermissionSub.Certificates
+    );
+
+    return withCache({
+      keyStore,
+      key: KeyStorePrefixes.CertDashboardStats(projectId),
+      ttlSeconds: KeyStoreTtls.DashboardCacheInSeconds,
+      fetcher: () => certificateDAL.getDashboardStats(projectId)
+    });
+  };
+
+  const getActivityTrend = async ({
+    filter,
+    range = "30d",
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    actor
+  }: TGetActivityTrendDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(
+      ProjectPermissionCertificateActions.Read,
+      ProjectPermissionSub.Certificates
+    );
+
+    const rangeDaysMap: Record<string, number> = { "7d": 7, "30d": 30, "6m": 180 };
+    const daysBack = rangeDaysMap[range];
+
+    return withCache({
+      keyStore,
+      key: KeyStorePrefixes.CertActivityTrend(projectId, range),
+      ttlSeconds: KeyStoreTtls.DashboardCacheInSeconds,
+      fetcher: () => certificateDAL.getActivityTrend(projectId, daysBack)
+    });
+  };
+
+  const getPqcTrend = async ({
+    filter,
+    range = "30d",
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    actor
+  }: TGetActivityTrendDTO) => {
+    const project = await projectDAL.findProjectByFilter(filter);
+    const projectId = project.id;
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(
+      ProjectPermissionCertificateActions.Read,
+      ProjectPermissionSub.Certificates
+    );
+
+    const rangeDaysMap: Record<string, number> = { "7d": 7, "30d": 30, "6m": 180 };
+    const daysBack = rangeDaysMap[range];
+
+    return withCache({
+      keyStore,
+      key: KeyStorePrefixes.CertPqcTrend(projectId, range),
+      ttlSeconds: KeyStoreTtls.DashboardCacheInSeconds,
+      fetcher: () => certificateDAL.getPqcTrend(projectId, daysBack)
+    });
+  };
+
+  /**
+   * Return list of (PKI) alerts configured for project
+   */
+  const listProjectAlerts = async ({
+    projectId,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId
+  }: TListProjectAlertsDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.PkiAlerts);
+
+    const alerts = await pkiAlertDAL.find({ projectId });
+
+    return {
+      alerts
+    };
+  };
+
+  /**
+   * Return list of PKI collections for project
+   */
+  const listProjectPkiCollections = async ({
+    projectId,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId
+  }: TListProjectAlertsDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.PkiCollections);
+
+    const pkiCollections = await pkiCollectionDAL.find({ projectId });
+
+    return {
+      pkiCollections
+    };
+  };
+
+  /**
+   * Return list of PKI subscribers for project
+   */
+  const listProjectPkiSubscribers = async ({
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    actor,
+    projectId
+  }: TListProjectPkiSubscribersDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    const allowedSubscribers = [];
+
+    // (dangtony98): room to optimize
+    const subscribers = await pkiSubscriberDAL.find({ projectId });
+
+    for (const subscriber of subscribers) {
+      const canRead = permission.can(
+        ProjectPermissionPkiSubscriberActions.Read,
+        subject(ProjectPermissionSub.PkiSubscribers, {
+          name: subscriber.name
+        })
+      );
+      if (canRead) {
+        allowedSubscribers.push(subscriber);
+      }
+    }
+
+    return allowedSubscribers;
+  };
+
+  /**
+   * Return list of certificate templates for project
+   */
+  const listProjectCertificateTemplates = async ({
+    projectId,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    actor
+  }: TListProjectCertificateTemplatesDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.CertificateManager
+    });
+
+    const certificateTemplates = await certificateTemplateDAL.getCertTemplatesByProjectId(projectId);
+
+    return {
+      certificateTemplates: certificateTemplates.filter((el) =>
+        permission.can(
+          ProjectPermissionPkiTemplateActions.Read,
+          subject(ProjectPermissionSub.CertificateTemplates, { name: el.name })
+        )
+      )
+    };
+  };
+
+  const updateProjectKmsKey = async ({
+    projectId,
+    kms,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId
+  }: TUpdateProjectKmsDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Kms);
+
+    const secretManagerKmsKey = await kmsService.updateProjectSecretManagerKmsKey({
+      projectId,
+      kms
+    });
+
+    return {
+      secretManagerKmsKey
+    };
+  };
+
+  const getProjectKmsBackup = async ({
+    projectId,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId
+  }: TProjectPermission) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Kms);
+
+    const plan = await licenseService.getPlan(actorOrgId);
+    if (!plan.externalKms) {
+      throw new BadRequestError({
+        message: "Failed to get KMS backup due to plan restriction. Upgrade to the enterprise plan."
+      });
+    }
+
+    const kmsBackup = await kmsService.getProjectKeyBackup(projectId);
+    return kmsBackup;
+  };
+
+  const loadProjectKmsBackup = async ({
+    projectId,
+    actor,
+    actorId,
+    actorAuthMethod,
+    actorOrgId,
+    backup
+  }: TLoadProjectKmsBackupDTO) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Kms);
+
+    const plan = await licenseService.getPlan(actorOrgId);
+    if (!plan.externalKms) {
+      throw new BadRequestError({
+        message: "Failed to load KMS backup due to plan restriction. Upgrade to the enterprise plan."
+      });
+    }
+
+    const kmsBackup = await kmsService.loadProjectKeyBackup(projectId, backup);
+    return kmsBackup;
+  };
+
+  const getProjectKmsKeys = async ({ projectId, actor, actorId, actorAuthMethod, actorOrgId }: TGetProjectKmsKey) => {
+    await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    const kmsKeyId = await kmsService.getProjectSecretManagerKmsKeyId(projectId, undefined, true);
+    const kmsKey = await kmsService.getKmsById(kmsKeyId);
+
+    return { secretManagerKmsKey: kmsKey };
+  };
+
+  const getProjectWorkflowIntegrationConfig = async ({
+    actorId,
+    actor,
+    actorOrgId,
+    actorAuthMethod,
+    projectId,
+    integration
+  }: TGetProjectWorkflowIntegrationConfig) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Read, ProjectPermissionSub.Settings);
+
+    if (integration === WorkflowIntegration.SLACK) {
+      const config = await projectSlackConfigDAL.findOne({
+        projectId
+      });
+
+      if (!config) {
+        throw new NotFoundError({
+          message: `Workflow integration config for project '${projectId}' and integration '${integration}' not found`
+        });
+      }
+
+      return {
+        ...config,
+        integration,
+        integrationId: config.slackIntegrationId
+      };
+    }
+
+    if (integration === WorkflowIntegration.MICROSOFT_TEAMS) {
+      const config = await projectMicrosoftTeamsConfigDAL.findOne({
+        projectId
+      });
+
+      if (!config) {
+        throw new NotFoundError({
+          message: `Workflow integration config for project '${projectId}' and integration '${integration}' not found`
+        });
+      }
+
+      return {
+        ...config,
+        integration,
+        integrationId: config.microsoftTeamsIntegrationId
+      };
+    }
+
+    throw new BadRequestError({
+      message: `Integration type '${integration as string}' not supported`
+    });
+  };
+
+  const updateProjectWorkflowIntegration = async ({
+    actorId,
+    actor,
+    actorOrgId,
+    actorAuthMethod,
+    projectId,
+    integration,
+    integrationId,
+    isAccessRequestNotificationEnabled,
+    accessRequestChannels,
+    isSecretRequestNotificationEnabled,
+    secretRequestChannels,
+    secretSyncErrorChannels,
+    isSecretSyncErrorNotificationEnabled
+  }: TUpdateProjectWorkflowIntegration & {
+    // workaround intersection type while we don't have the microsoft teams integration for failed secret syncs
+    isSecretSyncErrorNotificationEnabled?: boolean;
+    secretSyncErrorChannels?: string;
+  }) => {
+    const project = await requestMemoize(requestMemoKeys.projectFindById(projectId), () =>
+      projectDAL.findById(projectId)
+    );
+    if (!project) {
+      throw new NotFoundError({
+        message: `Project with ID '${projectId}' not found`
+      });
+    }
+
+    if (integration === WorkflowIntegration.SLACK) {
+      const { permission } = await permissionService.getProjectPermission({
+        actor,
+        actorId,
+        projectId,
+        actorAuthMethod,
+        actorOrgId,
+        actionProjectType: ActionProjectType.Any
+      });
+
+      ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+      const sanitizedAccessRequestChannels = validateSlackChannelsField.parse(accessRequestChannels);
+      const sanitizedSecretRequestChannels = validateSlackChannelsField.parse(secretRequestChannels);
+      const sanitizedSecretSyncErrorChannels = validateSlackChannelsField.parse(secretSyncErrorChannels);
+
+      const slackIntegration = await slackIntegrationDAL.findByIdWithWorkflowIntegrationDetails(integrationId);
+
+      if (!slackIntegration) {
+        throw new NotFoundError({
+          message: `Slack integration with ID '${integrationId}' not found`
+        });
+      }
+
+      if (slackIntegration.orgId !== actorOrgId) {
+        throw new ForbiddenRequestError({
+          message: "Selected slack integration is not in the same organization"
+        });
+      }
+
+      if (slackIntegration.orgId !== project.orgId) {
+        throw new ForbiddenRequestError({
+          message: "Selected slack integration is not in the same organization"
+        });
+      }
+
+      const updatedWorkflowIntegration = await projectSlackConfigDAL.transaction(async (tx) => {
+        const slackConfig = await projectSlackConfigDAL.findOne(
+          {
+            projectId
+          },
+          tx
+        );
+
+        if (slackConfig) {
+          return projectSlackConfigDAL.updateById(
+            slackConfig.id,
+            {
+              slackIntegrationId: integrationId,
+              isAccessRequestNotificationEnabled,
+              accessRequestChannels: sanitizedAccessRequestChannels,
+              isSecretRequestNotificationEnabled,
+              secretRequestChannels: sanitizedSecretRequestChannels,
+              isSecretSyncErrorNotificationEnabled,
+              secretSyncErrorChannels: sanitizedSecretSyncErrorChannels
+            },
+            tx
+          );
+        }
+
+        return projectSlackConfigDAL.create(
+          {
+            projectId,
+            slackIntegrationId: integrationId,
+            isAccessRequestNotificationEnabled,
+            accessRequestChannels: sanitizedAccessRequestChannels,
+            isSecretRequestNotificationEnabled,
+            secretRequestChannels: sanitizedSecretRequestChannels,
+            isSecretSyncErrorNotificationEnabled,
+            secretSyncErrorChannels: sanitizedSecretSyncErrorChannels
+          },
+          tx
+        );
+      });
+
+      return {
+        ...updatedWorkflowIntegration,
+        accessRequestChannels: sanitizedAccessRequestChannels,
+        secretRequestChannels: sanitizedSecretRequestChannels,
+        secretSyncErrorChannels: sanitizedSecretSyncErrorChannels,
+        integrationId: slackIntegration.id,
+        integration: WorkflowIntegration.SLACK
+      } as const;
+    }
+    if (integration === WorkflowIntegration.MICROSOFT_TEAMS) {
+      const { permission } = await permissionService.getProjectPermission({
+        actor,
+        actorId,
+        projectId,
+        actorAuthMethod,
+        actorOrgId,
+        actionProjectType: ActionProjectType.Any
+      });
+
+      ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+      if (isAccessRequestNotificationEnabled && !accessRequestChannels) {
+        throw new BadRequestError({
+          message: "Access request channels are required when access request notifications are enabled"
+        });
+      }
+
+      if (isSecretRequestNotificationEnabled && !secretRequestChannels) {
+        throw new BadRequestError({
+          message: "Secret request channels are required when secret request notifications are enabled"
+        });
+      }
+
+      if (!secretRequestChannels && !accessRequestChannels) {
+        throw new BadRequestError({
+          message: "At least one of access request channels or secret request channels is required"
+        });
+      }
+
+      const microsoftTeamsIntegration =
+        await microsoftTeamsIntegrationDAL.findByIdWithWorkflowIntegrationDetails(integrationId);
+
+      if (!microsoftTeamsIntegration) {
+        throw new NotFoundError({
+          message: `Microsoft Teams integration with ID '${integrationId}' not found`
+        });
+      }
+
+      if (microsoftTeamsIntegration.status !== WorkflowIntegrationStatus.INSTALLED) {
+        throw new BadRequestError({
+          message: "Microsoft Teams integration is not properly installed in your tenant."
+        });
+      }
+
+      if (microsoftTeamsIntegration.orgId !== actorOrgId) {
+        throw new ForbiddenRequestError({
+          message: "Selected Microsoft Teams integration is not in the same organization"
+        });
+      }
+
+      if (microsoftTeamsIntegration.orgId !== project.orgId) {
+        throw new ForbiddenRequestError({
+          message: "Selected Microsoft Teams integration is not in the same organization"
+        });
+      }
+
+      const sanitizedAccessRequestChannels = validateMicrosoftTeamsChannelsSchema.parse(accessRequestChannels);
+      const sanitizedSecretRequestChannels = validateMicrosoftTeamsChannelsSchema.parse(secretRequestChannels);
+
+      const updatedWorkflowIntegration = await projectMicrosoftTeamsConfigDAL.transaction(async (tx) => {
+        const microsoftTeamsConfig = await projectMicrosoftTeamsConfigDAL.findOne(
+          {
+            projectId
+          },
+          tx
+        );
+
+        if (microsoftTeamsConfig) {
+          return projectMicrosoftTeamsConfigDAL.updateById(
+            microsoftTeamsConfig.id,
+            {
+              microsoftTeamsIntegrationId: integrationId,
+              isAccessRequestNotificationEnabled,
+              accessRequestChannels: sanitizedAccessRequestChannels || {},
+              isSecretRequestNotificationEnabled,
+              secretRequestChannels: sanitizedSecretRequestChannels || {}
+            },
+            tx
+          );
+        }
+
+        return projectMicrosoftTeamsConfigDAL.create(
+          {
+            projectId,
+            microsoftTeamsIntegrationId: integrationId,
+            isAccessRequestNotificationEnabled,
+            accessRequestChannels: sanitizedAccessRequestChannels || {},
+            isSecretRequestNotificationEnabled,
+            secretRequestChannels: sanitizedSecretRequestChannels || {}
+          },
+          tx
+        );
+      });
+
+      return {
+        ...updatedWorkflowIntegration,
+        accessRequestChannels: sanitizedAccessRequestChannels,
+        secretRequestChannels: sanitizedSecretRequestChannels,
+        integrationId: microsoftTeamsIntegration.id,
+        integration: WorkflowIntegration.MICROSOFT_TEAMS
+      } as const;
+    }
+
+    throw new BadRequestError({
+      message: `Integration type '${integration as string}' not supported`
+    });
+  };
+
+  const deleteProjectWorkflowIntegration = async ({
+    actorId,
+    actor,
+    actorOrgId,
+    actorAuthMethod,
+    projectId,
+    integrationId,
+    integration
+  }: TDeleteProjectWorkflowIntegration) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.Any
+    });
+
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Delete, ProjectPermissionSub.Settings);
+
+    if (integration === WorkflowIntegration.SLACK) {
+      const [deletedIntegration] = await projectSlackConfigDAL.delete({
+        projectId,
+        slackIntegrationId: integrationId
+      });
+
+      return deletedIntegration;
+    }
+
+    if (integration === WorkflowIntegration.MICROSOFT_TEAMS) {
+      const [deletedIntegration] = await projectMicrosoftTeamsConfigDAL.delete({
+        projectId,
+        microsoftTeamsIntegrationId: integrationId
+      });
+
+      return deletedIntegration;
+    }
+
+    throw new BadRequestError({
+      message: `Integration with ID '${integrationId}' not found`
+    });
+  };
+
+  const searchProjects = async ({
+    name,
+    offset,
+    permission,
+    limit,
+    type,
+    orderBy,
+    orderDirection,
+    projectIds
+  }: TSearchProjectsDTO) => {
+    // check user belong to org
+    await permissionService.getOrgPermission({
+      actor: permission.type,
+      actorId: permission.id,
+      orgId: permission.orgId,
+      actorAuthMethod: permission.authMethod,
+      scope: OrganizationActionScope.Any,
+      actorOrgId: permission.orgId
+    });
+
+    return projectDAL.searchProjects({
+      limit,
+      offset,
+      name,
+      type,
+      projectIds,
+      orgId: permission.orgId,
+      actor: permission.type,
+      actorId: permission.id,
+      sortBy: orderBy,
+      sortDir: orderDirection
+    });
+  };
+
+  const requestProjectAccess = async ({ permission, comment, projectId }: TProjectAccessRequestDTO) => {
+    const project = await requestMemoize(requestMemoKeys.projectFindById(projectId), () =>
+      projectDAL.findById(projectId)
+    );
+    if (!project) {
+      throw new NotFoundError({
+        message: `Project with ID ${projectId} not found`
+      });
+    }
+    // check user belong to org and has permission to request project access
+    const { permission: orgPermission } = await permissionService.getOrgPermission({
+      actor: permission.type,
+      actorId: permission.id,
+      orgId: project.orgId,
+      actorAuthMethod: permission.authMethod,
+      actorOrgId: permission.orgId,
+      scope: OrganizationActionScope.Any
+    });
+    ForbiddenError.from(orgPermission).throwUnlessCan(
+      OrgPermissionProjectActions.RequestAccess,
+      OrgPermissionSubjects.Project
+    );
+
+    const projectMember = await permissionService
+      .getProjectPermission({
+        actor: permission.type,
+        actorId: permission.id,
+        projectId,
+        actionProjectType: ActionProjectType.Any,
+        actorAuthMethod: permission.authMethod,
+        actorOrgId: permission.orgId
+      })
+      .catch(() => {
+        return null;
+      });
+    if (projectMember) throw new BadRequestError({ message: "User already has access to the project" });
+
+    const projectMembers = await projectMembershipDAL.findAllProjectMembers(projectId);
+
+    let filteredProjectMembers = projectMembers
+      .filter((member) => member.roles.some((role) => role.role === ProjectMembershipRole.Admin))
+      .map((el) => el.user.email!);
+    if (filteredProjectMembers.length === 0) {
+      const customRolesWithMemberCreate = await roleDAL.find({ projectId });
+      const customRoleSlugsCanCreate = customRolesWithMemberCreate
+        .filter((role) => {
+          try {
+            const permissions = (
+              typeof role.permissions === "string"
+                ? (JSON.parse(role.permissions) as PackRule<RawRuleOf<MongoAbility<ProjectPermissionSet>>>[])
+                : role.permissions
+            ) as PackRule<RawRuleOf<MongoAbility<ProjectPermissionSet>>>[];
+
+            const ability = createMongoAbility<MongoAbility<ProjectPermissionSet>>(
+              unpackRules<RawRuleOf<MongoAbility<ProjectPermissionSet>>>(permissions)
+            );
+            return ability.can(ProjectPermissionMemberActions.Create, ProjectPermissionSub.Member);
+          } catch {
+            return false;
+          }
+        })
+        .map((role) => role.slug);
+
+      if (customRoleSlugsCanCreate.length > 0) {
+        const usersWithCustomCreateMemberRole = projectMembers
+          .filter((member) =>
+            member.roles.some((role) => role.customRoleSlug && customRoleSlugsCanCreate.includes(role.customRoleSlug))
+          )
+          .map((el) => el.user.email!)
+          .filter(Boolean);
+
+        if (usersWithCustomCreateMemberRole.length > 0) {
+          filteredProjectMembers = usersWithCustomCreateMemberRole;
+        }
+      }
+    }
+
+    if (filteredProjectMembers.length === 0) {
+      throw new BadRequestError({
+        message:
+          "No users in this project have permission to grant you access. Please contact an organization administrator to assign the necessary permissions."
+      });
+    }
+
+    const org = await orgDAL.findOne({ id: permission.orgId });
+    const userDetails = await requestMemoize(requestMemoKeys.userFindById(permission.id), () =>
+      userDAL.findById(permission.id)
+    );
+    const appCfg = getConfig();
+
+    const projectTypeUrl = PROJECT_ACCESS_REQUEST_URL_SLUGS[project.type as ProjectType] ?? project.type;
+    const encodedRequesterEmail = encodeURIComponent(userDetails.email ?? "");
+
+    // PAM is a per-org singleton with no project-scoped route, unlike other product types
+    const callbackPath =
+      project.type === ProjectType.PAM
+        ? `/organizations/${project.orgId}/pam/access-management?selectedTab=members&requesterEmail=${encodedRequesterEmail}`
+        : `/organizations/${project.orgId}/projects/${projectTypeUrl}/${project.id}/access-management?selectedTab=members&requesterEmail=${encodedRequesterEmail}`;
+
+    const productLabel = PROJECT_ACCESS_REQUEST_PRODUCT_LABELS[project.type as ProjectType] ?? null;
+    const notificationTitle = productLabel ? `${productLabel} Access Request` : "Project Access Request";
+    const notificationBody = productLabel
+      ? `**${userDetails.firstName} ${userDetails.lastName}** (${userDetails.email}) has requested access to **${productLabel}**.`
+      : `**${userDetails.firstName} ${userDetails.lastName}** (${userDetails.email}) has requested access to the project **${project.name}**.`;
+
+    await projectAccessRequestDAL.upsertPendingRequest({
+      projectId,
+      requesterUserId: permission.id,
+      comment: comment ?? null
+    });
+
+    await notificationService.createUserNotifications(
+      projectMembers
+        .filter((member) => member.roles.some((role) => role.role === ProjectMembershipRole.Admin))
+        .map((member) => ({
+          userId: member.userId,
+          orgId: project.orgId,
+          type: NotificationType.PROJECT_ACCESS_REQUEST,
+          title: notificationTitle,
+          body: notificationBody,
+          link: callbackPath
+        }))
+    );
+
+    await smtpService.sendMail({
+      template: SmtpTemplates.ProjectAccessRequest,
+      recipients: filteredProjectMembers,
+      subjectLine: notificationTitle,
+      substitutions: {
+        requesterName: `${userDetails.firstName} ${userDetails.lastName}`,
+        requesterEmail: userDetails.email,
+        projectName: project?.name,
+        orgName: org?.name,
+        note: comment,
+        callback_url: `${appCfg.SITE_URL}${callbackPath}`,
+        ...(productLabel ? { productLabel } : {})
+      }
+    });
+  };
+
+  const getMyPendingProjectAccessRequests = async ({ permission }: { permission: OrgServiceActor }) => {
+    if (permission.type !== ActorType.USER) {
+      return { requests: [] as { projectId: string; createdAt: Date }[] };
+    }
+    const requests = await projectAccessRequestDAL.findPendingForRequesterInOrg(permission.id, permission.orgId);
+    return { requests };
+  };
+
+  const enableSecretBlindIndex = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    projectId
+  }: TEnableSecretBlindIndexDTO) => {
+    const project = await projectDAL.findById(projectId);
+    if (!project) throw new NotFoundError({ message: `Project with ID '${projectId}' not found` });
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.SecretManager
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    if (project.secretBlindIndexEnabled) {
+      throw new BadRequestError({ message: "Secret blind indexing is already enabled for this project" });
+    }
+
+    await projectQueue.startSecretBlindIndexMigration(project.id);
+  };
+
+  const getSecretBlindIndexMigrationStatus = async ({
+    actor,
+    actorId,
+    actorOrgId,
+    actorAuthMethod,
+    projectId
+  }: TEnableSecretBlindIndexDTO) => {
+    const project = await projectDAL.findById(projectId);
+    if (!project) throw new NotFoundError({ message: `Project with ID '${projectId}' not found` });
+
+    const { permission } = await permissionService.getProjectPermission({
+      actor,
+      actorId,
+      projectId: project.id,
+      actorAuthMethod,
+      actorOrgId,
+      actionProjectType: ActionProjectType.SecretManager
+    });
+    ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Settings);
+
+    return projectQueue.getJobState(project.id);
+  };
+
+  return {
+    createProject,
+    deleteProject,
+    getProjects,
+    updateProject,
+    getProjectUpgradeStatus,
+    getAProject,
+    toggleAutoCapitalization,
+    toggleDeleteProtection,
+    updateName,
+    upgradeProject,
+    listProjectCas,
+    listProjectCertificates,
+    getDashboardStats,
+    getActivityTrend,
+    getPqcTrend,
+    listProjectAlerts,
+    listProjectPkiCollections,
+    listProjectCertificateTemplates,
+    listProjectPkiSubscribers,
+    updateVersionLimit,
+    updateAuditLogsRetention,
+    updateProjectKmsKey,
+    getProjectKmsBackup,
+    loadProjectKmsBackup,
+    getProjectKmsKeys,
+    getProjectWorkflowIntegrationConfig,
+    updateProjectWorkflowIntegration,
+    deleteProjectWorkflowIntegration,
+    requestProjectAccess,
+    getMyPendingProjectAccessRequests,
+    searchProjects,
+    extractProjectIdFromSlug,
+    enableSecretBlindIndex,
+    getSecretBlindIndexMigrationStatus
+  };
+};

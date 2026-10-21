@@ -1,0 +1,45 @@
+import RE2 from "re2";
+import { z } from "zod";
+
+import { getConfig } from "@app/lib/config/env";
+import { isValidIp } from "@app/lib/ip";
+
+import { AcmeAccountDoesNotExistError } from "./pki-acme-errors";
+
+export const buildUrl = (profileId: string, path: string, applicationId?: string): string => {
+  const appCfg = getConfig();
+  const baseUrl = appCfg.SITE_URL ?? "";
+  if (applicationId) {
+    return `${baseUrl}/api/v1/cert-manager/acme/applications/${applicationId}/profiles/${profileId}${path}`;
+  }
+  return `${baseUrl}/api/v1/cert-manager/acme/profiles/${profileId}${path}`;
+};
+
+export const extractAccountIdFromKid = (kid: string, profileId: string, applicationId?: string): string => {
+  const kidPrefix = buildUrl(profileId, "/accounts/", applicationId);
+  if (!kid.startsWith(kidPrefix)) {
+    throw new AcmeAccountDoesNotExistError({ message: "KID must start with the profile account URL" });
+  }
+  return z.string().uuid().parse(kid.slice(kidPrefix.length));
+};
+
+export const validateIpIdentifier = (identifier: string): boolean => {
+  return isValidIp(identifier);
+};
+
+export const validateDnsIdentifier = (identifier: string): boolean => {
+  let domain = identifier;
+
+  if (domain.startsWith("*.")) {
+    domain = domain.slice(2);
+    if (domain.length === 0) {
+      return false;
+    }
+  } else if (domain.includes("*")) {
+    return false;
+  }
+
+  const labelPattern = new RE2(/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/);
+  const labels = domain.split(".");
+  return labels.every((label) => label.length >= 1 && label.length <= 63 && labelPattern.test(label));
+};

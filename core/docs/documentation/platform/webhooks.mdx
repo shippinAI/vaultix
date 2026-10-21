@@ -1,0 +1,88 @@
+---
+title: "Webhooks"
+description: "Learn the fundamentals of Infisical webhooks."
+---
+
+Webhooks can be used to trigger changes to your integrations when secrets are modified, providing smooth integration with other third-party applications.
+
+![webhooks](../../images/webhooks.png)
+
+To create a webhook for a particular project, go to `Project Settings > Webhooks`.
+
+Infisical supports three webhook types: General, Slack, and Microsoft Teams. Use General for any HTTPS endpoint; use Slack with [Incoming Webhook](https://api.slack.com/messaging/webhooks); use Microsoft Teams with an [incoming webhook (with Workflows)](https://support.microsoft.com/en-us/office/create-incoming-webhooks-with-workflows-for-microsoft-teams-8ae491c7-0394-4861-ba59-055e33f75498). When you create a webhook, you can limit it to an environment and optional folder path so it runs only when secrets change in that scope.
+
+![webhook-create](../../images/webhook-create.png)
+
+## Secret Key Verification
+
+A secret key is a way for users to verify that a webhook request was sent by Infisical and is intended for the correct integration.
+
+When you provide a secret key, Infisical will sign the payload of the webhook request using the key and attach a header called `x-infisical-signature` to the request with a payload.
+
+The header will be in the format `t=<timestamp>;<signature>`. You can then generate the signature yourself by generating a SHA256 hash of the payload with the secret key that you know.
+
+If the signature in the header matches the signature that you generated, then you can be sure that the request was sent by Infisical and is intended for your integration. The timestamp in the header ensures that the request is not replayed.
+
+## Event Filtering
+
+By default, webhooks trigger on every supported event. You can narrow this down under **Advanced Settings** when creating a webhook, and only receive the events you care about. You can also change the events on existing webhooks by clicking **Edit** and selecting the events you want.
+
+Supported events:
+
+- **Secret Modified** (`secrets.modified`) — triggered when secrets in the configured scope are created, updated, or deleted.
+- **Secret Rotation Failed** (`secrets.rotation-failed`) — triggered when a secret rotation in the configured scope fails.
+- **Honey Token Triggered** (`honey-token.triggered`) — triggered when a honey token is activated.
+
+### Webhook Payload Format
+
+```json
+{
+	"event": "secrets.modified",
+	"project": {
+		"workspaceId": "the workspace id",
+		"environment": "project environment (slug)",
+		"environmentName": "project environment (name)",
+		"secretPath": "project folder path",
+		"changedBy": "Actor that changed the secret",
+		"changedByActorType": "The actor type that triggered the change. Possible values: `service`, `user`, `identity`."
+	},
+	"timestamp": ""
+}
+```
+
+
+```json
+{
+	"event": "secrets.rotation-failed",
+	"project": {
+		"projectId": "the project id",
+		"projectName": "the project name",
+		"environment": "project environment",
+		"environmentName": "project environment (name)",
+		"secretPath": "project folder path",
+		"rotationName": "name of the failed rotation",
+		"errorMessage": "error details",
+		"triggeredManually": false
+	},
+	"timestamp": ""
+}
+```
+
+```json
+{
+	"event": "honey-token.triggered",
+	"project": {
+		"projectId": "the project id",
+		"projectName": "the project name",
+		"environment": "project environment (slug)",
+		"environmentName": "project environment (name)",
+		"secretPath": "project folder path"
+	},
+	"honeyToken": {
+		"name": "name of the honey token",
+		"eventName": "the AWS event that triggered the honey token",
+		"sourceIp": "IP address of the caller",
+		"awsRegion": "AWS region where the event occurred"
+	}
+}
+```

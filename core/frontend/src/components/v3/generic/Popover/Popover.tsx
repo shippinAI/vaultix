@@ -1,0 +1,47 @@
+import * as React from "react";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+
+import { cn } from "../../utils";
+
+function Popover({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+}
+
+const PopoverTrigger = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Trigger>,
+  React.ComponentProps<typeof PopoverPrimitive.Trigger>
+>(({ ...props }, ref) => (
+  <PopoverPrimitive.Trigger ref={ref} data-slot="popover-trigger" {...props} />
+));
+PopoverTrigger.displayName = "PopoverTrigger";
+
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  container,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Content> & {
+  container?: React.ComponentProps<typeof PopoverPrimitive.Portal>["container"];
+}) {
+  return (
+    <PopoverPrimitive.Portal container={container}>
+      <PopoverPrimitive.Content
+        data-slot="popover-content"
+        align={align}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-lg border border-border bg-popover p-4 text-foreground shadow-md outline-hidden data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+          className
+        )}
+        {...props}
+      />
+    </PopoverPrimitive.Portal>
+  );
+}
+
+function PopoverAnchor({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
+  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
+}
+
+export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger };

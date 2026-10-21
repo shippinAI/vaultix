@@ -1,0 +1,438 @@
+// weird commonjs-related error in the CI requires us to do the import like this
+import knex from "knex";
+import { v4 as uuidv4 } from "uuid";
+
+import { TDbClient } from "@app/db";
+import { TableName, TAuditLogs, TAuditLogsInsert } from "@app/db/schemas";
+import { getConfig } from "@app/lib/config/env";
+import { DatabaseError, GatewayTimeoutError } from "@app/lib/errors";
+import { chunkArray } from "@app/lib/fn";
+import { ormify, selectAllTableCols, TOrmify } from "@app/lib/knex";
+import { logger } from "@app/lib/logger";
+import { ActorType } from "@app/services/auth/auth-type";
+
+import { ACTOR_TYPE_TO_METADATA_ID_KEY, EventType, filterableSecretEvents } from "./audit-log-types";
+
+type TAggregateQuery = {
+  orgId: string;
+  projectId: string;
+  eventTypes: EventType[];
+  startDate: string;
+  endDate: string;
+};
+
+export interface TAuditLogDALFactory extends Omit<TOrmify<TableName.AuditLog>, "find"> {
+  pruneAuditLog: () => Promise<void>;
+  getApproximateRowCount: () => Promise<number>;
+  batchCreate: (logs: TAuditLogsInsert[]) => Promise<void>;
+  find: (
+    arg: Omit<TFindQuery, "actor" | "eventType"> & {
+      actorId?: string | undefined;
+      actorType?: ActorType | undefined;
+      secretPath?: string | undefined;
+      secretKey?: string | undefined;
+      eventType?: EventType[] | undefined;
+      eventMetadata?: Record<string, string> | undefined;
+      pamScope?: TPamAuditLogScope | undefined;
+    },
+    tx?: knex.Knex
+  ) => Promise<TAuditLogs[]>;
+  countByDateAndActor: (
+    arg: TAggregateQuery,
+    tx?: knex.Knex
+  ) => Promise<{ date: string; actor: string; actorMetadata: unknown; count: number }[]>;
+  countByIpAddress: (arg: TAggregateQuery, tx?: knex.Knex) => Promise<{ ipAddress: string; count: number }[]>;
+  countByAuthMethod: (
+    arg: TAggregateQuery,
+    tx?: knex.Knex
+  ) => Promise<{ actor: string; actorMetadata: unknown; count: number }[]>;
+}
+
+type TFindQuery = {
+  actor?: string;
+  projectId?: string;
+  environment?: string;
+  orgId: string;
+  eventType?: string;
+  startDate: string;
+  endDate: string;
+  userAgentType?: string;
+  limit?: number;
+  offset?: number;
+};
+
+export type TPamAuditLogScope = {
+  accountIds: string[];
+  folderIds: string[];
+  includeProductLevel: boolean;
+};
+
+const QUERY_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
+const AUDIT_LOG_PRUNE_BATCH_SIZE = 10000;
+const MAX_RETRY_ON_FAILURE = 3;
+const AUDIT_LOG_BATCH_INSERT_CHUNK_SIZE = 1000;
+
+export const auditLogDALFactory = (db: TDbClient) => {
+  const auditLogOrm = ormify(db, TableName.AuditLog);
+
+  const find: TAuditLogDALFactory["find"] = async (
+    {
+      orgId,
+      projectId,
+      environment,
+      userAgentType,
+      startDate,
+      endDate,
+      limit = 20,
+      offset = 0,
+      actorId,
+      actorType,
+      secretPath,
+      secretKey,
+      eventType,
+      eventMetadata,
+      pamScope
+    },
+    tx
+  ) => {
+    try {
+      // Find statements
+      const sqlQuery = (tx || db.replicaNode())(TableName.AuditLog)
+        .where(`${TableName.AuditLog}.orgId`, orgId)
+        .whereRaw(`"${TableName.AuditLog}"."createdAt" >= ?::timestamptz`, [startDate])
+        .andWhereRaw(`"${TableName.AuditLog}"."createdAt" < ?::timestamptz`, [endDate])
+        // eslint-disable-next-line func-names
+        .where(function () {
+          if (projectId) {
+            void this.where(`${TableName.AuditLog}.projectId`, projectId);
+          }
+        });
+
+      if (userAgentType) {
+        void sqlQuery.where("userAgentType", userAgentType);
+      }
+
+      // PAM resource scoping: account logs by accountId, folder logs by folderId, and resource-less
+      // (product-level) logs only for product admins
+      if (pamScope) {
+        const metaColumn = `"${TableName.AuditLog}"."eventMetadata"`;
+        const placeholders = (values: string[]) => values.map(() => "?").join(", ");
+        void sqlQuery.where((scope) => {
+          let matched = false;
+          if (pamScope.accountIds.length) {
+            matched = true;
+            void scope.orWhereRaw(
+              `${metaColumn}->>'accountId' IN (${placeholders(pamScope.accountIds)})`,
+              pamScope.accountIds
+            );
+          }
+          if (pamScope.folderIds.length) {
+            matched = true;
+            void scope.orWhere((folderScope) => {
+              void folderScope
+                .whereRaw(`jsonb_exists(${metaColumn}, 'folderId')`)
+                .whereRaw(`NOT jsonb_exists(${metaColumn}, 'accountId')`)
+                .whereRaw(`${metaColumn}->>'folderId' IN (${placeholders(pamScope.folderIds)})`, pamScope.folderIds);
+            });
+          }
+          if (pamScope.includeProductLevel) {
+            matched = true;
+            void scope.orWhere((productScope) => {
+              void productScope
+                .whereRaw(`NOT jsonb_exists(${metaColumn}, 'accountId')`)
+                .whereRaw(`NOT jsonb_exists(${metaColumn}, 'folderId')`);
+            });
+          }
+          if (!matched) {
+            void scope.whereRaw("1 = 0");
+          }
+        });
+      }
+
+      // Select statements
+      void sqlQuery
+        .select(selectAllTableCols(TableName.AuditLog))
+        .limit(limit)
+        .offset(offset)
+        .orderBy(`${TableName.AuditLog}.createdAt`, "desc");
+
+      // Special case: Filter by actor ID
+      if (actorId) {
+        const metadataKey = actorType
+          ? ACTOR_TYPE_TO_METADATA_ID_KEY[actorType]
+          : ACTOR_TYPE_TO_METADATA_ID_KEY[ActorType.USER];
+        if (metadataKey) {
+          void sqlQuery.whereRaw(`"actorMetadata" @> jsonb_build_object(?::text, ?::text)`, [metadataKey, actorId]);
+        }
+      }
+
+      // Special case: Filter by key/value pairs in eventMetadata field
+      if (eventMetadata && Object.keys(eventMetadata).length) {
+        Object.entries(eventMetadata).forEach(([key, value]) => {
+          void sqlQuery.whereRaw(`"eventMetadata" @> jsonb_build_object(?::text, ?::text)`, [key, value]);
+        });
+      }
+
+      const eventIsSecretType = !eventType?.length || eventType.some((event) => filterableSecretEvents.includes(event));
+      // We only want to filter for environment/secretPath/secretKey if the user is either checking for all event types
+
+      // ? Note(daniel): use the `eventMetadata" @> ?::jsonb` approach to properly use our GIN index
+      if (projectId && eventIsSecretType) {
+        if (environment || secretPath) {
+          // Handle both environment and secret path together to only use the GIN index once
+          void sqlQuery.whereRaw(`"eventMetadata" @> ?::jsonb`, [
+            JSON.stringify({
+              ...(environment && { environment }),
+              ...(secretPath && { secretPath })
+            })
+          ]);
+        }
+
+        // Handle secret key separately to include the OR condition
+        if (secretKey) {
+          void sqlQuery.whereRaw(
+            `("eventMetadata" @> ?::jsonb
+            OR "eventMetadata"->'secrets' @> ?::jsonb)`,
+            [JSON.stringify({ secretKey }), JSON.stringify([{ secretKey }])]
+          );
+        }
+      }
+
+      // Filter by actor type
+      if (actorType) {
+        void sqlQuery.where("actor", actorType);
+      }
+
+      // Filter by event types
+      if (eventType?.length) {
+        void sqlQuery.whereIn("eventType", eventType);
+      }
+
+      // we timeout long running queries to prevent DB resource issues (2 minutes)
+      const docs = await sqlQuery.timeout(1000 * 120);
+
+      return docs;
+    } catch (error) {
+      if (error instanceof knex.KnexTimeoutError) {
+        throw new GatewayTimeoutError({
+          error,
+          message: "Failed to fetch audit logs due to timeout. Add more search filters."
+        });
+      }
+
+      throw new DatabaseError({ error });
+    }
+  };
+
+  // delete all audit log that have expired
+  const pruneAuditLog: TAuditLogDALFactory["pruneAuditLog"] = async () => {
+    const today = new Date();
+    let deletedAuditLogIds: { id: string }[] = [];
+    let numberOfRetryOnFailure = 0;
+    let isRetrying = false;
+
+    logger.info(`daily-resource-cleanup: audit log started`);
+    do {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        deletedAuditLogIds = await db.transaction(async (trx) => {
+          await trx.raw(`SET LOCAL statement_timeout = ${QUERY_TIMEOUT_MS}`);
+
+          const findExpiredLogSubQuery = trx(TableName.AuditLog)
+            .where("expiresAt", "<", today)
+            .where("createdAt", "<", today) // to use audit log partition
+            .select("id")
+            .limit(AUDIT_LOG_PRUNE_BATCH_SIZE);
+
+          // eslint-disable-next-line no-await-in-loop
+          const results = await trx(TableName.AuditLog).whereIn("id", findExpiredLogSubQuery).del().returning("id");
+
+          return results;
+        });
+
+        numberOfRetryOnFailure = 0; // reset
+      } catch (error) {
+        numberOfRetryOnFailure += 1;
+        deletedAuditLogIds = [];
+        logger.error(error, "Failed to delete audit log on pruning");
+      } finally {
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => {
+          setTimeout(resolve, 10); // time to breathe for db
+        });
+      }
+      isRetrying = numberOfRetryOnFailure > 0;
+    } while (deletedAuditLogIds.length > 0 || (isRetrying && numberOfRetryOnFailure < MAX_RETRY_ON_FAILURE));
+    logger.info(`daily-resource-cleanup: audit log completed`);
+  };
+
+  const getApproximateRowCount: TAuditLogDALFactory["getApproximateRowCount"] = async () => {
+    try {
+      // Sum across parent + all partitions via pg_inherits
+      const result = await db.raw<{ rows: Array<{ count: string | number }> }>(
+        `SELECT COALESCE(SUM(s.n_live_tup), 0)::bigint AS count
+         FROM pg_stat_user_tables s
+         JOIN pg_class c ON s.relname = c.relname
+         WHERE c.oid = ?::regclass
+            OR c.oid IN (SELECT inhrelid FROM pg_inherits WHERE inhparent = ?::regclass)`,
+        [TableName.AuditLog, TableName.AuditLog]
+      );
+
+      const count = Number(result.rows?.[0]?.count ?? 0);
+      if (count > 0) return count;
+
+      // Fallback: reltuples (handles never-analyzed tables returning -1)
+      const fallback = await db.raw<{ rows: Array<{ count: string | number }> }>(
+        `SELECT COALESCE(SUM(GREATEST(c.reltuples, 0)), 0)::bigint AS count
+         FROM pg_class c
+         WHERE c.oid = ?::regclass
+            OR c.oid IN (SELECT inhrelid FROM pg_inherits WHERE inhparent = ?::regclass)`,
+        [TableName.AuditLog, TableName.AuditLog]
+      );
+      return Number(fallback.rows?.[0]?.count ?? 0);
+    } catch (error) {
+      logger.error(error, "Failed to get approximate audit log row count");
+      return 0;
+    }
+  };
+
+  const create: TAuditLogDALFactory["create"] = async (tx) => {
+    const config = getConfig();
+
+    if (config.DISABLE_POSTGRES_AUDIT_LOG_STORAGE) {
+      return {
+        ...tx,
+        id: uuidv4(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+    }
+
+    return auditLogOrm.create(tx);
+  };
+
+  const batchCreate: TAuditLogDALFactory["batchCreate"] = async (logs) => {
+    if (logs.length === 0) return;
+    if (getConfig().DISABLE_POSTGRES_AUDIT_LOG_STORAGE) return;
+
+    try {
+      await db.transaction(async (tx) => {
+        for (const chunk of chunkArray(logs, AUDIT_LOG_BATCH_INSERT_CHUNK_SIZE)) {
+          // eslint-disable-next-line no-await-in-loop
+          await tx(TableName.AuditLog).insert(chunk).onConflict().ignore();
+        }
+      });
+    } catch (error) {
+      throw new DatabaseError({ error, name: "auditLogBulkInsert" });
+    }
+  };
+
+  const countByDateAndActor = async (
+    {
+      orgId,
+      projectId,
+      eventTypes,
+      startDate,
+      endDate
+    }: {
+      orgId: string;
+      projectId: string;
+      eventTypes: EventType[];
+      startDate: string;
+      endDate: string;
+    },
+    tx?: knex.Knex
+  ) => {
+    const rows = await (tx || db.replicaNode())(TableName.AuditLog)
+      .where(`${TableName.AuditLog}.orgId`, orgId)
+      .where(`${TableName.AuditLog}.projectId`, projectId)
+      .whereIn(`${TableName.AuditLog}.eventType`, eventTypes)
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" >= ?::timestamptz`, [startDate])
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" < ?::timestamptz`, [endDate])
+      .select(
+        db.raw(`DATE("${TableName.AuditLog}"."createdAt") as date`),
+        `${TableName.AuditLog}.actor`,
+        `${TableName.AuditLog}.actorMetadata`
+      )
+      .groupByRaw(
+        `DATE("${TableName.AuditLog}"."createdAt"), "${TableName.AuditLog}"."actor", "${TableName.AuditLog}"."actorMetadata"`
+      )
+      .select(db.raw("COUNT(*)::int as count"))
+      .timeout(1000 * 120);
+
+    return rows as { date: string; actor: string; actorMetadata: unknown; count: number }[];
+  };
+
+  const countByIpAddress = async (
+    {
+      orgId,
+      projectId,
+      eventTypes,
+      startDate,
+      endDate
+    }: {
+      orgId: string;
+      projectId: string;
+      eventTypes: EventType[];
+      startDate: string;
+      endDate: string;
+    },
+    tx?: knex.Knex
+  ) => {
+    const rows = await (tx || db.replicaNode())(TableName.AuditLog)
+      .where(`${TableName.AuditLog}.orgId`, orgId)
+      .where(`${TableName.AuditLog}.projectId`, projectId)
+      .whereIn(`${TableName.AuditLog}.eventType`, eventTypes)
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" >= ?::timestamptz`, [startDate])
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" < ?::timestamptz`, [endDate])
+      .whereNotNull(`${TableName.AuditLog}.ipAddress`)
+      .select(`${TableName.AuditLog}.ipAddress`)
+      .groupBy(`${TableName.AuditLog}.ipAddress`)
+      .select(db.raw("COUNT(*)::int as count"))
+      .timeout(1000 * 120);
+
+    return rows as { ipAddress: string; count: number }[];
+  };
+
+  const countByAuthMethod = async (
+    {
+      orgId,
+      projectId,
+      eventTypes,
+      startDate,
+      endDate
+    }: {
+      orgId: string;
+      projectId: string;
+      eventTypes: EventType[];
+      startDate: string;
+      endDate: string;
+    },
+    tx?: knex.Knex
+  ) => {
+    const rows = await (tx || db.replicaNode())(TableName.AuditLog)
+      .where(`${TableName.AuditLog}.orgId`, orgId)
+      .where(`${TableName.AuditLog}.projectId`, projectId)
+      .whereIn(`${TableName.AuditLog}.eventType`, eventTypes)
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" >= ?::timestamptz`, [startDate])
+      .whereRaw(`"${TableName.AuditLog}"."createdAt" < ?::timestamptz`, [endDate])
+      .select(`${TableName.AuditLog}.actor`, `${TableName.AuditLog}.actorMetadata`)
+      .groupBy(`${TableName.AuditLog}.actor`, `${TableName.AuditLog}.actorMetadata`)
+      .select(db.raw("COUNT(*)::int as count"))
+      .timeout(1000 * 120);
+
+    return rows as { actor: string; actorMetadata: unknown; count: number }[];
+  };
+
+  return {
+    ...auditLogOrm,
+    create,
+    batchCreate,
+    pruneAuditLog,
+    getApproximateRowCount,
+    find,
+    countByDateAndActor,
+    countByIpAddress,
+    countByAuthMethod
+  };
+};

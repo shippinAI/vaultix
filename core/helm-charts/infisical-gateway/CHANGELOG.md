@@ -1,0 +1,42 @@
+## 1.3.0 (August 5, 2026)
+* Added `extraArgs` for appending additional command-line arguments to the gateway container.
+
+## 1.2.0 (July 17, 2026)
+* Added `extraEnv` for injecting additional environment variables into the gateway container.
+* Added `extraEnvFrom` for loading environment variables from Secrets or ConfigMaps.
+* Added `extraObjects` for deploying additional Kubernetes manifests alongside the chart.
+
+## 1.1.0 (May 11, 2026)
+* Added support for the new enrollment-based gateway registration flow (`gateway.enrollment.method: token` or `aws`).
+* Added PersistentVolumeClaim support (`persistence.*`) for credential storage across pod restarts.
+* Added optional Secret template for inline enrollment token values (`gateway.enrollment.token.value`).
+* Updated default CLI image version from `0.43.39` to `0.43.84`.
+* The legacy machine identity flow (`secret.name` with envFrom) remains fully supported when `gateway.enrollment.method` is unset.
+
+## 1.0.4 (December 9, 2025)
+* Updated default CLI image version from `0.43.0` to `0.43.39`.
+* Added new `gateway.pamSessionRecordingsDirectory`, allowing users to specify the folder where temporary session recording files for PAM are stored. Defaults to `/var/lib/infisical/session_recordings`
+* Added volume mounts for the user-specified `pamSessionRecordingsDirectory` path, and `/var/lib/infisical` for cached relay data.
+
+## 1.0.3 (November 14, 2025)
+* Added support for setting the image repository by setting `image.repository`. Defaults to `infisical/cli`.
+
+## 0.0.41 (June 10, 2025)
+* Added new gateway action for fully off-loading CA certificate, cluster URL, and token management to the gateway.
+* Structural improvements
+
+## 0.0.4 (June 7th, 2025)
+* Improvements to HTTP proxy error handling.
+
+## 0.0.3 (June 6, 2025)
+
+* Minor fix for handling malformed URLs for HTTP forwarding.
+
+## 0.0.2 (June 6, 2025)
+
+* Bumped default CLI image version from 0.41.1 -> 0.41.8.
+   * This new image version supports using the gateway as a token reviewer for the Identity Kubernetes Auth method. 
+
+## 0.0.1 (May 1, 2025)
+
+* Initial helm release.

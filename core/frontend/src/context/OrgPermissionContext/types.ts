@@ -1,0 +1,228 @@
+import { ForcedSubject, MongoAbility } from "@casl/ability";
+
+export enum OrgPermissionActions {
+  Read = "read",
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete"
+}
+
+export enum OrgPermissionSsoActions {
+  Read = "read",
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+  BypassSsoEnforcement = "bypass-sso-enforcement"
+}
+
+export enum OrgPermissionBillingActions {
+  Read = "read",
+  ManageBilling = "manage-billing"
+}
+
+export enum OrgGatewayPermissionActions {
+  // is there a better word for this. This mean can an identity be a gateway
+  CreateGateways = "create-gateways",
+  ListGateways = "list-gateways",
+  EditGateways = "edit-gateways",
+  DeleteGateways = "delete-gateways",
+  AttachGateways = "attach-gateways",
+  RevokeGatewayAccess = "revoke-gateway-access"
+}
+
+export enum OrgGatewayPoolPermissionActions {
+  CreateGatewayPools = "create-gateway-pools",
+  ListGatewayPools = "list-gateway-pools",
+  EditGatewayPools = "edit-gateway-pools",
+  DeleteGatewayPools = "delete-gateway-pools",
+  AttachGatewayPools = "attach-gateway-pools"
+}
+
+export enum OrgRelayPermissionActions {
+  CreateRelays = "create-relays",
+  ListRelays = "list-relays",
+  EditRelays = "edit-relays",
+  DeleteRelays = "delete-relays",
+  RevokeRelayAccess = "revoke-relay-access"
+}
+
+export enum OrgKmipServerPermissionActions {
+  CreateKmipServers = "create-kmip-servers",
+  ListKmipServers = "list-kmip-servers",
+  EditKmipServers = "edit-kmip-servers",
+  DeleteKmipServers = "delete-kmip-servers",
+  RevokeKmipServerAccess = "revoke-kmip-server-access"
+}
+
+export enum OrgPermissionMachineIdentityAuthTemplateActions {
+  ListTemplates = "list-templates",
+  CreateTemplates = "create-templates",
+  EditTemplates = "edit-templates",
+  DeleteTemplates = "delete-templates",
+  UnlinkTemplates = "unlink-templates",
+  AttachTemplates = "attach-templates"
+}
+
+export enum OrgPermissionSubjects {
+  Workspace = "workspace",
+  Project = "project",
+  Role = "role",
+  Member = "member",
+  Settings = "settings",
+  IncidentAccount = "incident-contact",
+  Scim = "scim",
+  Sso = "sso",
+  Ldap = "ldap",
+  Groups = "groups",
+  Billing = "billing",
+  SecretScanning = "secret-scanning",
+  Identity = "identity",
+  Kms = "kms",
+  AdminConsole = "organization-admin-console",
+  AuditLogs = "audit-logs",
+  ProjectTemplates = "project-templates",
+  AppConnections = "app-connections",
+  Kmip = "kmip",
+  KmipServer = "kmip-server",
+  Gateway = "gateway",
+  GatewayPool = "gateway-pool",
+  Relay = "relay",
+  SecretShare = "secret-share",
+  GithubOrgSync = "github-org-sync",
+  GithubOrgSyncManual = "github-org-sync-manual",
+  MachineIdentityAuthTemplate = "machine-identity-auth-template",
+  SubOrganization = "sub-organization",
+  EmailDomains = "email-domains",
+  CertManager = "certificate-manager",
+  HoneyTokens = "honey-tokens",
+  OauthClients = "oauth-clients"
+}
+
+export enum OrgPermissionCertManagerActions {
+  Read = "read",
+  ManageInstance = "manage-instance",
+  ManageSettings = "manage-settings"
+}
+
+export enum OrgPermissionEmailDomainActions {
+  Read = "read",
+  Create = "create",
+  VerifyDomain = "verify-domain",
+  Delete = "delete"
+}
+
+export enum OrgPermissionHoneyTokenActions {
+  Setup = "setup"
+}
+
+export enum OrgPermissionProjectActions {
+  Create = "create",
+  RequestAccess = "request-access"
+}
+
+export enum OrgPermissionAdminConsoleAction {
+  AccessAllProjects = "access-all-projects"
+}
+
+export enum OrgPermissionSecretShareAction {
+  ManageSettings = "manage-settings"
+}
+
+export enum OrgPermissionAppConnectionActions {
+  Read = "read",
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+  Connect = "connect",
+  RotateCredentials = "rotate-credentials"
+}
+
+export enum OrgPermissionAuditLogsActions {
+  Read = "read"
+}
+
+// TODO: remove once KMIP clients are fully migrated to KMIP servers (OrgKmipServerPermissionActions).
+// This only gates the legacy KMIP proxy flow.
+export enum OrgPermissionKmipActions {
+  Proxy = "proxy"
+}
+
+export enum OrgPermissionIdentityActions {
+  Read = "read",
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+  GrantPrivileges = "grant-privileges",
+  RevokeAuth = "revoke-auth",
+  CreateToken = "create-token",
+  GetToken = "get-token",
+  DeleteToken = "delete-token"
+}
+
+export enum OrgPermissionGroupActions {
+  Read = "read",
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+  GrantPrivileges = "grant-privileges",
+  AddMembers = "add-members",
+  RemoveMembers = "remove-members"
+}
+
+export enum OrgPermissionSubOrgActions {
+  Create = "create",
+  Edit = "edit",
+  Delete = "delete",
+  DirectAccess = "direct-access",
+  LinkGroup = "link-group"
+}
+
+export type AppConnectionSubjectFields = {
+  connectionId: string;
+};
+
+export type OrgPermissionSet =
+  | [OrgPermissionActions.Create, OrgPermissionSubjects.Workspace]
+  | [OrgPermissionProjectActions, OrgPermissionSubjects.Project]
+  | [OrgPermissionActions.Read, OrgPermissionSubjects.Workspace]
+  | [OrgPermissionActions, OrgPermissionSubjects.Role]
+  | [OrgPermissionActions, OrgPermissionSubjects.Member]
+  | [OrgPermissionActions, OrgPermissionSubjects.Settings]
+  | [OrgPermissionActions, OrgPermissionSubjects.IncidentAccount]
+  | [OrgPermissionActions, OrgPermissionSubjects.Scim]
+  | [OrgPermissionActions, OrgPermissionSubjects.GithubOrgSync]
+  | [OrgPermissionActions, OrgPermissionSubjects.GithubOrgSyncManual]
+  | [OrgPermissionSsoActions, OrgPermissionSubjects.Sso]
+  | [OrgPermissionActions, OrgPermissionSubjects.Ldap]
+  | [OrgPermissionGroupActions, OrgPermissionSubjects.Groups]
+  | [OrgPermissionActions, OrgPermissionSubjects.SecretScanning]
+  | [OrgPermissionBillingActions, OrgPermissionSubjects.Billing]
+  | [OrgPermissionActions, OrgPermissionSubjects.Kms]
+  | [OrgPermissionAdminConsoleAction, OrgPermissionSubjects.AdminConsole]
+  | [OrgPermissionAuditLogsActions, OrgPermissionSubjects.AuditLogs]
+  | [OrgPermissionActions, OrgPermissionSubjects.ProjectTemplates]
+  | [OrgPermissionIdentityActions, OrgPermissionSubjects.Identity]
+  | [OrgPermissionKmipActions, OrgPermissionSubjects.Kmip]
+  | [OrgKmipServerPermissionActions, OrgPermissionSubjects.KmipServer]
+  | [
+      OrgPermissionMachineIdentityAuthTemplateActions,
+      OrgPermissionSubjects.MachineIdentityAuthTemplate
+    ]
+  | [OrgGatewayPermissionActions, OrgPermissionSubjects.Gateway]
+  | [OrgGatewayPoolPermissionActions, OrgPermissionSubjects.GatewayPool]
+  | [OrgRelayPermissionActions, OrgPermissionSubjects.Relay]
+  | [OrgPermissionSecretShareAction, OrgPermissionSubjects.SecretShare]
+  | [
+      OrgPermissionAppConnectionActions,
+      (
+        | OrgPermissionSubjects.AppConnections
+        | (ForcedSubject<OrgPermissionSubjects.AppConnections> & AppConnectionSubjectFields)
+      )
+    ]
+  | [OrgPermissionSubOrgActions, OrgPermissionSubjects.SubOrganization]
+  | [OrgPermissionEmailDomainActions, OrgPermissionSubjects.EmailDomains]
+  | [OrgPermissionCertManagerActions, OrgPermissionSubjects.CertManager]
+  | [OrgPermissionHoneyTokenActions, OrgPermissionSubjects.HoneyTokens]
+  | [OrgPermissionActions, OrgPermissionSubjects.OauthClients];
+
+export type TOrgPermission = MongoAbility<OrgPermissionSet>;

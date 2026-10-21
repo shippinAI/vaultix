@@ -1,0 +1,174 @@
+export enum EnrollmentType {
+  API = "api",
+  EST = "est",
+  ACME = "acme",
+  SCEP = "scep"
+}
+
+export enum IssuerType {
+  CA = "ca",
+  SELF_SIGNED = "self-signed"
+}
+
+export enum ScepChallengeType {
+  STATIC = "static",
+  DYNAMIC = "dynamic",
+  MICROSOFT_INTUNE = "microsoft-intune"
+}
+
+export type TCertificateProfileDefaults = {
+  ttlDays?: number;
+  commonName?: string;
+  keyAlgorithm?: string;
+  signatureAlgorithm?: string;
+  keyUsages?: string[];
+  extendedKeyUsages?: string[];
+  basicConstraints?: { isCA: boolean; pathLength?: number };
+  organization?: string;
+  organizationalUnit?: string;
+  country?: string;
+  state?: string;
+  locality?: string;
+  subjectAltNames?: { type: string; value: string }[];
+  domainComponents?: string[];
+};
+
+export type TCertificateProfile = {
+  id: string;
+  projectId: string;
+  caId: string | null;
+  certificatePolicyId: string;
+  slug: string;
+  description?: string;
+  enrollmentType: EnrollmentType;
+  issuerType: IssuerType;
+  estConfigId?: string;
+  apiConfigId?: string;
+  createdAt: string;
+  updatedAt: string;
+  externalConfigs?: Record<string, unknown> | null;
+  defaults?: TCertificateProfileDefaults | null;
+  certificateAuthority?: {
+    id: string;
+    projectId?: string;
+    status: string;
+    name: string;
+    isExternal?: boolean;
+    externalType?: string | null;
+  };
+};
+
+export type TCertificateProfileWithDetails = TCertificateProfile & {
+  certificateAuthority?: {
+    id: string;
+    projectId?: string;
+    status: string;
+    name: string;
+    isExternal?: boolean;
+    externalType?: string | null;
+  };
+  certificatePolicy?: {
+    id: string;
+    projectId: string;
+    name: string;
+    description?: string;
+  };
+  estConfig?: {
+    id: string;
+    disableBootstrapCaValidation: boolean;
+    passphrase?: string;
+    caChain: string;
+  };
+  apiConfig?: {
+    id: string;
+    autoRenew: boolean;
+    renewBeforeDays?: number;
+  };
+  acmeConfig?: {
+    id: string;
+    directoryUrl: string;
+    skipDnsOwnershipVerification?: boolean;
+    skipEabBinding?: boolean;
+  };
+  scepConfig?: {
+    id: string;
+    scepEndpointUrl: string;
+    raCertificatePem: string;
+    raCertExpiresAt: string;
+    includeCaCertInResponse: boolean;
+    allowCertBasedRenewal: boolean;
+    challengeType: ScepChallengeType;
+    challengeEndpointUrl?: string;
+    dynamicChallengeExpiryMinutes?: number;
+    dynamicChallengeMaxPending?: number;
+  };
+};
+
+export type TCreateCertificateProfileDTO = {
+  caId?: string;
+  certificatePolicyId: string;
+  slug: string;
+  description?: string;
+  issuerType: IssuerType;
+  externalConfigs?: Record<string, unknown> | null;
+  defaults?: TCertificateProfileDefaults | null;
+};
+
+export type TUpdateCertificateProfileDTO = {
+  profileId: string;
+  slug?: string;
+  description?: string;
+  issuerType?: IssuerType;
+  externalConfigs?: Record<string, unknown> | null;
+  defaults?: TCertificateProfileDefaults | null;
+};
+
+export type TDeleteCertificateProfileDTO = {
+  profileId: string;
+};
+
+export type TListCertificateProfilesDTO = {
+  limit?: number;
+  offset?: number;
+  search?: string;
+  includeConfigs?: boolean;
+  enrollmentType?: EnrollmentType;
+  issuerType?: IssuerType;
+  caId?: string;
+  applicationId?: string;
+};
+
+export type TGetCertificateProfileByIdDTO = {
+  profileId: string;
+};
+
+export type TGetCertificateProfileBySlugDTO = {
+  slug: string;
+};
+
+export type TRevealAcmeEabSecretDTO = {
+  profileId: string;
+};
+
+export type TProfileCertificate = {
+  id: string;
+  serialNumber: string;
+  cn: string;
+  status: string;
+  notBefore: string;
+  notAfter: string;
+  isRevoked: boolean;
+  createdAt: string;
+};
+
+export type TGetProfileCertificatesDTO = {
+  profileId: string;
+  offset?: number;
+  limit?: number;
+  status?: "active" | "expired" | "revoked";
+  search?: string;
+};
+
+export type TGetProfileMetricsDTO = {
+  profileId: string;
+};

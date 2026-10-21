@@ -1,0 +1,232 @@
+import { OrderByDirection } from "@app/hooks/api/generic/types";
+
+import { TProjectRole } from "../roles/types";
+
+export enum ProjectVersion {
+  V1 = 1,
+  V2 = 2,
+  V3 = 3
+}
+
+export enum ProjectType {
+  SecretManager = "secret-manager",
+  CertificateManager = "cert-manager",
+  KMS = "kms",
+  SecretScanning = "secret-scanning",
+  PAM = "pam"
+}
+
+export enum ProjectUserMembershipTemporaryMode {
+  Relative = "relative"
+}
+
+export type Project = {
+  __v: number;
+  id: string;
+  name: string;
+  type: ProjectType;
+  description?: string;
+  orgId: string;
+  version: ProjectVersion;
+  upgradeStatus: string | null;
+  updatedAt: string;
+  autoCapitalization: boolean;
+  environments: ProjectEnv[];
+  deletedEnvironments: ProjectDeletedEnv[];
+  pitVersionLimit: number;
+  auditLogsRetentionDays: number;
+  slug: string;
+  createdAt: string;
+  roles?: TProjectRole[];
+  hasDeleteProtection: boolean;
+  secretSharing: boolean;
+  showSnapshotsLegacy: boolean;
+  secretDetectionIgnoreValues: string[];
+  enforceEncryptedSecretManagerSecretMetadata: boolean;
+};
+
+export type ProjectEnv = {
+  id: string;
+  name: string;
+  slug: string;
+};
+
+export type ProjectDeletedEnvActor =
+  | {
+      type: "user";
+      id: string;
+      email: string | null;
+      username: string | null;
+      firstName: string | null;
+      lastName: string | null;
+    }
+  | { type: "identity"; id: string; name: string };
+
+export type ProjectDeletedEnv = ProjectEnv & {
+  deleteAfter: string;
+  softDeletedAt: string;
+  deletedBy: ProjectDeletedEnvActor | null;
+};
+
+export type ProjectTag = { id: string; name: string; slug: string };
+
+export type NameWorkspaceSecretsDTO = {
+  projectId: string;
+  secretsToUpdate: {
+    secretName: string;
+    secretId: string;
+  }[];
+};
+
+export type TGetUpgradeProjectStatusDTO = {
+  projectId: string;
+  onSuccess?: (data?: { status: string }) => void;
+  enabled?: boolean;
+  refetchInterval?: number;
+};
+
+// mutation dto
+export type CreateWorkspaceDTO = {
+  projectName: string;
+  type: ProjectType;
+  projectDescription?: string;
+  kmsKeyId?: string;
+  template?: string;
+};
+
+export type UpdateProjectDTO = {
+  projectId: string;
+  newProjectName?: string;
+  newProjectDescription?: string;
+  newSlug?: string;
+  secretSharing?: boolean;
+  showSnapshotsLegacy?: boolean;
+  secretDetectionIgnoreValues?: string[];
+  pitVersionLimit?: number;
+  autoCapitalization?: boolean;
+  hasDeleteProtection?: boolean;
+  enforceEncryptedSecretManagerSecretMetadata?: boolean;
+};
+
+export type UpdatePitVersionLimitDTO = { projectSlug: string; pitVersionLimit: number };
+export type UpdateAuditLogsRetentionDTO = { projectId: string; auditLogsRetentionDays: number };
+export type ToggleAutoCapitalizationDTO = { projectID: string; state: boolean };
+export type ToggleDeleteProjectProtectionDTO = { projectID: string; state: boolean };
+
+export type DeleteWorkspaceDTO = { projectID: string };
+
+export type CreateEnvironmentDTO = {
+  projectId: string;
+  name: string;
+  slug: string;
+};
+
+export type ReorderEnvironmentsDTO = {
+  projectId: string;
+  environmentSlug: string;
+  environmentName: string;
+  otherEnvironmentSlug: string;
+  otherEnvironmentName: string;
+};
+
+export type UpdateEnvironmentDTO = {
+  projectId: string;
+  id: string;
+  name?: string;
+  slug?: string;
+  position?: number;
+};
+
+export type DeleteEnvironmentDTO = { projectId: string; id: string; hardDelete?: boolean };
+
+export type RestoreEnvironmentDTO = { projectId: string; id: string };
+
+export type TUpdateWorkspaceUserRoleDTO = {
+  membershipId: string;
+  projectId: string;
+  projectType?: string;
+  roles: (
+    | {
+        role: string;
+        isTemporary?: false;
+      }
+    | {
+        role: string;
+        isTemporary: true;
+        temporaryMode: ProjectUserMembershipTemporaryMode;
+        temporaryRange: string;
+        temporaryAccessStartTime: string;
+      }
+  )[];
+};
+
+export type TUpdateWorkspaceGroupRoleDTO = {
+  groupId: string;
+  projectId: string;
+  projectType?: string;
+  roles: (
+    | {
+        role: string;
+        isTemporary?: false;
+      }
+    | {
+        role: string;
+        isTemporary: true;
+        temporaryMode: ProjectUserMembershipTemporaryMode;
+        temporaryRange: string;
+        temporaryAccessStartTime: string;
+      }
+  )[];
+};
+
+export type TListProjectIdentitiesDTO = {
+  projectId: string;
+  projectType?: string;
+  offset?: number;
+  limit?: number;
+  orderBy?: ProjectIdentityOrderBy;
+  orderDirection?: OrderByDirection;
+  search?: string;
+  roles?: string[];
+};
+
+export enum ProjectIdentityOrderBy {
+  Name = "name"
+}
+export type TSearchProjectsDTO = {
+  name?: string;
+  limit?: number;
+  offset?: number;
+  projectIds?: string[];
+  type?: ProjectType;
+  options?: { enabled?: boolean };
+  orderBy?: ProjectIdentityOrderBy;
+  orderDirection?: OrderByDirection;
+};
+
+export type TPermissionAuditSourceType = "role" | "group_role" | "additional_privilege";
+
+export type TPermissionAuditSource = {
+  id: string;
+  type: TPermissionAuditSourceType;
+  name: string;
+  slug?: string;
+  groupId?: string;
+  groupName?: string;
+  isTemporary: boolean;
+  temporaryAccessStartTime?: string;
+  temporaryAccessEndTime?: string;
+  permissions: unknown[];
+};
+
+export type TGetMembershipPermissionAuditResponse = {
+  sources: TPermissionAuditSource[];
+};
+
+export type TGetIdentityPermissionAuditResponse = {
+  sources: TPermissionAuditSource[];
+};
+
+export type TMyPendingProjectAccessRequestsResponse = {
+  requests: { projectId: string; createdAt: string }[];
+};

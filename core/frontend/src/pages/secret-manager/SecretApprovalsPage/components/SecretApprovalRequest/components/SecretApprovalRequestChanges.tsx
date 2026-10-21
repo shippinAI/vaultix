@@ -1,0 +1,747 @@
+/* eslint-disable no-nested-ternary */
+import { Fragment, useEffect, useRef, useState } from "react";
+import { format } from "date-fns";
+import {
+  BanIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  GitMergeIcon,
+  GitPullRequestClosedIcon,
+  GitPullRequestIcon,
+  HourglassIcon,
+  InfoIcon,
+  KeyRoundIcon,
+  MessageSquareIcon,
+  ShieldAlertIcon,
+  UserXIcon
+} from "lucide-react";
+
+import { createNotification } from "@app/components/notifications";
+import {
+  Alert,
+  AlertTitle,
+  Badge,
+  Button,
+  ButtonGroup,
+  Detail,
+  DetailGroup,
+  DetailLabel,
+  DetailValue,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+  Field,
+  FieldLabel,
+  IconButton,
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemGroup,
+  ItemSeparator,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  Skeleton,
+  TextArea,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@app/components/v3";
+import { cn } from "@app/components/v3/utils";
+import { useProject, useUser } from "@app/context";
+import {
+  useGetSecretApprovalRequestDetails,
+  useGetSecretImports,
+  usePerformSecretApprovalRequestMerge,
+  useUpdateSecretApprovalReviewStatus
+} from "@app/hooks/api";
+import { ApprovalStatus, CommitType } from "@app/hooks/api/types";
+import { formatReservedPaths, parsePathFromReplicatedPath } from "@app/lib/fn/string";
+
+import { SecretApprovalRequestAction } from "./SecretApprovalRequestAction";
+import { SecretApprovalRequestChangeItem } from "./SecretApprovalRequestChangeItem";
+
+export const generateCommitText = (commits: { op: CommitType }[] = [], isReplicated = false) => {
+  if (isReplicated) {
+    return (
+      <span className="flex items-center">
+        <Badge variant="info">
+          {commits.length} Secret{commits.length > 1 ? "s" : ""} Pending Import
+        </Badge>
+      </span>
+    );
+  }
+
+  const score: Record<string, number> = {};
+  commits.forEach(({ op }) => {
+    score[op] = (score?.[op] || 0) + 1;
+  });
+
+  const changeBadges = (
+    [
+      { count: score[CommitType.CREATE] ?? 0, label: "Add", variant: "success" },
+      { count: score[CommitType.UPDATE] ?? 0, label: "Update", variant: "warning" },
+      { count: score[CommitType.DELETE] ?? 0, label: "Delete", variant: "danger" }
+    ] as const
+  ).filter(({ count }) => count > 0);
+
+  return (
+    <span className="flex items-center gap-1.5">
+      {changeBadges.map(({ label, count, variant }) => (
+        <Badge key={label} variant={variant}>
+          {count} {label}
+        </Badge>
+      ))}
+    </span>
+  );
+};
+
+const getReviewStatusBadge = (status?: ApprovalStatus) => {
+  if (status === ApprovalStatus.APPROVED)
+    return (
+      <Badge variant="success">
+        <CheckIcon />
+        Approved
+      </Badge>
+    );
+  if (status === ApprovalStatus.REJECTED)
+    return (
+      <Badge variant="danger">
+        <BanIcon />
+        Rejected
+      </Badge>
+    );
+  return (
+    <Badge variant="warning">
+      <HourglassIcon />
+      Pending
+    </Badge>
+  );
+};
+
+const TruncatedSecretPath = ({ value }: { value: string }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Tooltip
+      open={open}
+      onOpenChange={(next) => {
+        const el = ref.current;
+        const isTruncated = !!el && el.scrollWidth > el.clientWidth;
+        setOpen(next && isTruncated);
+      }}
+    >
+      <TooltipTrigger asChild>
+        <div ref={ref} className="truncate text-sm text-foreground">
+          {value}
+        </div>
+      </TooltipTrigger>
+      <TooltipContent className="max-w-xs break-words">{value}</TooltipContent>
+    </Tooltip>
+  );
+};
+
+type Props = {
+  approvalRequestId: string;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export const SecretApprovalRequestChanges = ({
+  approvalRequestId,
+  isOpen,
+  onOpenChange
+}: Props) => {
+  const { user: userSession } = useUser();
+  const { currentProject, projectId } = useProject();
+  const [comment, setComment] = useState("");
+  const [willMerge, setWillMerge] = useState(false);
+  const [isReviewPopoverOpen, setIsReviewPopoverOpen] = useState(false);
+
+  // Reset the review draft whenever the request changes (or the sheet closes, which
+  // sets approvalRequestId to "") so state never carries over to a different request.
+  useEffect(() => {
+    setComment("");
+    setIsReviewPopoverOpen(false);
+  }, [approvalRequestId]);
+
+  const { data: secretApprovalRequestDetails, isPending: isLoading } =
+    useGetSecretApprovalRequestDetails({
+      id: approvalRequestId,
+      options: { enabled: isOpen }
+    });
+
+  const approvalSecretPath = parsePathFromReplicatedPath(
+    secretApprovalRequestDetails?.secretPath || ""
+  );
+  const { data: secretImports } = useGetSecretImports({
+    environment: secretApprovalRequestDetails?.environment || "",
+    projectId,
+    path: approvalSecretPath,
+    options: { enabled: isOpen && Boolean(secretApprovalRequestDetails?.environment) }
+  });
+
+  const replicatedImport = secretApprovalRequestDetails?.isReplicated
+    ? secretImports?.find(
+        (el) => secretApprovalRequestDetails?.secretPath?.includes(el.id) && el.isReplication
+      )
+    : undefined;
+
+  const {
+    mutateAsync: updateSecretApprovalRequestStatus,
+    isPending: isUpdatingRequestStatus,
+    variables
+  } = useUpdateSecretApprovalReviewStatus();
+
+  const { mutateAsync: performSecretApprovalMerge } = usePerformSecretApprovalRequestMerge();
+
+  const handleReview = async (
+    status: ApprovalStatus,
+    { notify = true }: { notify?: boolean } = {}
+  ) => {
+    if (!secretApprovalRequestDetails) return;
+    await updateSecretApprovalRequestStatus({
+      id: approvalRequestId,
+      status,
+      comment,
+      projectId
+    });
+    if (notify) {
+      createNotification({
+        type: "success",
+        text: `Successfully ${status} the request`
+      });
+    }
+    setComment("");
+    setIsReviewPopoverOpen(false);
+  };
+
+  const handleApproveAndMerge = async () => {
+    if (!secretApprovalRequestDetails) return;
+    try {
+      setWillMerge(true);
+      await handleReview(ApprovalStatus.APPROVED, { notify: false });
+      await performSecretApprovalMerge({
+        projectId,
+        id: secretApprovalRequestDetails.id,
+        environment: secretApprovalRequestDetails.environment,
+        secretPath: secretApprovalRequestDetails.secretPath
+      });
+      createNotification({
+        type: "success",
+        text: "Successfully merged the request"
+      });
+    } catch {
+      // Approval or merge failed, error already shown via mutation
+    } finally {
+      setWillMerge(false);
+    }
+  };
+
+  const reviewedUsers = secretApprovalRequestDetails?.reviewers?.reduce<
+    Record<
+      string,
+      { status: ApprovalStatus; comment: string; isOrgMembershipActive: boolean; createdAt: Date }
+    >
+  >(
+    (prev, curr) => ({
+      ...prev,
+      [curr.userId]: {
+        status: curr.status,
+        comment: curr.comment,
+        isOrgMembershipActive: curr.isOrgMembershipActive,
+        createdAt: curr.createdAt
+      }
+    }),
+    {}
+  );
+
+  const isCommitter = secretApprovalRequestDetails?.committerUserId === userSession.id;
+  const shouldBlockSelfReview =
+    secretApprovalRequestDetails?.policy?.allowedSelfApprovals === false && isCommitter;
+  const canApprove = secretApprovalRequestDetails?.policy?.approvers?.some(
+    ({ userId }) => userId === userSession.id
+  );
+  const isBypasser =
+    !secretApprovalRequestDetails?.policy?.bypassers ||
+    !secretApprovalRequestDetails.policy.bypassers.length ||
+    secretApprovalRequestDetails.policy.bypassers.some(({ userId }) => userId === userSession.id);
+
+  const hasMerged = secretApprovalRequestDetails?.hasMerged;
+  const approvalsRequired = secretApprovalRequestDetails?.policy?.approvals ?? 0;
+  const isMergable =
+    approvalsRequired <=
+    (secretApprovalRequestDetails?.policy?.approvers?.filter(
+      ({ userId }) => reviewedUsers?.[userId]?.status === ApprovalStatus.APPROVED
+    ).length ?? 0);
+  const isMergableUponApprove =
+    approvalsRequired <=
+    (secretApprovalRequestDetails?.policy?.approvers?.filter(
+      ({ userId }) =>
+        userId === userSession.id || reviewedUsers?.[userId]?.status === ApprovalStatus.APPROVED
+    ).length ?? 0);
+
+  const isApproving = variables?.status === ApprovalStatus.APPROVED && isUpdatingRequestStatus;
+  const isRejecting = variables?.status === ApprovalStatus.REJECTED && isUpdatingRequestStatus;
+  const actionInFlight = isUpdatingRequestStatus || willMerge;
+
+  const myReview = reviewedUsers?.[userSession.id];
+
+  // Opening the review popover (via the "Review changes" / "Update review" trigger) seeds the
+  // draft with any existing review comment so editing starts from the current value.
+  const handleReviewPopoverOpenChange = (open: boolean) => {
+    if (open) setComment(myReview?.comment ?? "");
+    setIsReviewPopoverOpen(open);
+  };
+
+  const canReview = Boolean(
+    secretApprovalRequestDetails &&
+      !hasMerged &&
+      secretApprovalRequestDetails.status === "open" &&
+      !shouldBlockSelfReview &&
+      canApprove
+  );
+
+  const importSource = `${replicatedImport?.importEnv?.slug ?? ""} ${
+    replicatedImport?.importPath ?? ""
+  }`.trim();
+  const isReplicated = secretApprovalRequestDetails?.isReplicated;
+  const getChangesStatusAlert = () => {
+    if (hasMerged) {
+      return {
+        variant: "success" as const,
+        icon: <CheckIcon />,
+        title: isReplicated
+          ? `These changes were approved and added to the secret import from ${importSource}.`
+          : "These secret changes were approved and applied to the target environment and path."
+      };
+    }
+
+    if (secretApprovalRequestDetails?.status === "close") {
+      return {
+        variant: "danger" as const,
+        icon: <GitPullRequestClosedIcon />,
+        title: isReplicated
+          ? "This change request was closed. These changes were not added to the secret import."
+          : "This change request was closed. These secret changes were not applied to the target environment and path."
+      };
+    }
+
+    return {
+      variant: "info" as const,
+      icon: <InfoIcon />,
+      title: isReplicated
+        ? `A secret import in this environment has pending changes from its source at ${importSource}. Approving will add them to that import.`
+        : "These secret changes are pending approval. Approving will apply them to the target environment and path."
+    };
+  };
+  const changesStatusAlert = getChangesStatusAlert();
+
+  const committerUser = secretApprovalRequestDetails?.committerUser;
+  const environmentName = secretApprovalRequestDetails
+    ? (currentProject?.environments.find(
+        (env) => env.slug === secretApprovalRequestDetails.environment
+      )?.name ?? secretApprovalRequestDetails.environment)
+    : "";
+
+  // Build the reviewer list: required approvers first, then any extra reviewers.
+  const reviewerRows = secretApprovalRequestDetails
+    ? [
+        ...secretApprovalRequestDetails.policy.approvers
+          .filter((approver) => !(shouldBlockSelfReview && approver.userId === userSession.id))
+          .map((approver) => ({
+            userId: approver.userId,
+            firstName: approver.firstName,
+            lastName: approver.lastName,
+            email: approver.email,
+            isOrgMembershipActive: approver.isOrgMembershipActive,
+            isRequired: true
+          })),
+        ...secretApprovalRequestDetails.reviewers
+          .filter(
+            (reviewer) =>
+              !secretApprovalRequestDetails.policy.approvers.some(
+                ({ userId }) => userId === reviewer.userId
+              )
+          )
+          .map((reviewer) => ({
+            userId: reviewer.userId,
+            firstName: reviewer.firstName,
+            lastName: reviewer.lastName,
+            email: reviewer.email,
+            isOrgMembershipActive: reviewer.isOrgMembershipActive,
+            isRequired: false
+          }))
+      ]
+    : [];
+
+  const reviewForm = (
+    <div className="flex flex-col gap-3">
+      <span className="text-sm font-medium text-foreground">
+        {myReview ? "Update your review" : "Finish your review"}
+      </span>
+      <Field>
+        <FieldLabel htmlFor="review-comment">Comment (optional)</FieldLabel>
+        <TextArea
+          id="review-comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Leave a comment..."
+          rows={3}
+        />
+      </Field>
+      <div className="flex gap-2">
+        <ButtonGroup>
+          {isMergableUponApprove ? (
+            <>
+              <Button
+                variant="project"
+                size="sm"
+                isPending={willMerge}
+                isDisabled={actionInFlight}
+                onClick={handleApproveAndMerge}
+              >
+                <GitMergeIcon />
+                Approve & Merge
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <IconButton
+                    variant="project"
+                    size="sm"
+                    aria-label="More approval options"
+                    isDisabled={actionInFlight}
+                  >
+                    <ChevronDownIcon />
+                  </IconButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="z-[80]">
+                  <DropdownMenuItem onClick={() => handleReview(ApprovalStatus.APPROVED)}>
+                    <CheckIcon />
+                    Approve
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button
+              variant="project"
+              size="sm"
+              isPending={isApproving && !willMerge}
+              isDisabled={actionInFlight}
+              onClick={() => handleReview(ApprovalStatus.APPROVED)}
+            >
+              <CheckIcon />
+              Approve
+            </Button>
+          )}
+        </ButtonGroup>
+        <Button
+          variant="danger"
+          size="sm"
+          isPending={isRejecting}
+          isDisabled={actionInFlight}
+          onClick={() => handleReview(ApprovalStatus.REJECTED)}
+        >
+          <BanIcon />
+          Reject
+        </Button>
+      </div>
+    </div>
+  );
+
+  // GitHub-style review entry point that opens the review form in a popover. When the user has
+  // already reviewed, the "Update Review" button sits top-right of the "Your review" section
+  // header; otherwise the "Review Changes" button sits below the prompt.
+  const reviewPopover = canReview ? (
+    <Popover open={isReviewPopoverOpen} onOpenChange={handleReviewPopoverOpenChange}>
+      <PopoverTrigger asChild>
+        <Button variant={myReview ? "outline" : "project"} size="sm" className="shrink-0">
+          <GitPullRequestIcon />
+          {myReview ? "Update Review" : "Review Changes"}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align={myReview ? "end" : "start"} className="z-[70] w-96">
+        {reviewForm}
+      </PopoverContent>
+    </Popover>
+  ) : null;
+
+  const reviewControls = canReview ? (
+    <div className="-mx-4 mt-auto flex shrink-0 flex-col gap-3 border-t border-border px-4 pt-4">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm font-medium text-foreground">Your review</span>
+        {myReview && reviewPopover}
+      </div>
+      {myReview ? (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            {getReviewStatusBadge(myReview.status)}
+            {myReview.createdAt && (
+              <span className="text-xs text-muted">
+                {format(new Date(myReview.createdAt), "MMM d, yyyy h:mm aa")}
+              </span>
+            )}
+          </div>
+          {myReview.comment && (
+            <p className="text-sm whitespace-pre-wrap text-foreground/75">{myReview.comment}</p>
+          )}
+        </div>
+      ) : (
+        <>
+          <p className="text-sm text-muted">You haven&apos;t reviewed these changes yet.</p>
+          <div className="flex">{reviewPopover}</div>
+        </>
+      )}
+    </div>
+  ) : null;
+
+  return (
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <SheetContent className="flex h-full w-full flex-col gap-0 overflow-hidden sm:max-w-8xl">
+        <SheetHeader className="border-b">
+          <SheetTitle className="flex items-center gap-2 pr-8">
+            Change Request
+            {secretApprovalRequestDetails && (
+              <span className="text-sm font-normal text-muted">
+                #{secretApprovalRequestDetails.slug}
+              </span>
+            )}
+          </SheetTitle>
+          {secretApprovalRequestDetails && (
+            <div className="flex flex-wrap items-center gap-2">
+              {generateCommitText(
+                secretApprovalRequestDetails.commits,
+                secretApprovalRequestDetails.isReplicated
+              )}
+              <SheetDescription>
+                Opened by{" "}
+                {committerUser ? (
+                  <>
+                    {committerUser.firstName} ({committerUser.email})
+                  </>
+                ) : (
+                  "Deleted User"
+                )}
+              </SheetDescription>
+            </div>
+          )}
+        </SheetHeader>
+
+        {isLoading ? (
+          <div className="flex thin-scrollbar flex-1 flex-col gap-4 overflow-y-auto p-4">
+            <Skeleton className="h-14 w-full" />
+            <Skeleton className="h-40 w-full" />
+            <Skeleton className="h-24 w-full" />
+          </div>
+        ) : !secretApprovalRequestDetails ? (
+          <div className="flex flex-1 items-center justify-center p-4">
+            <Empty className="border">
+              <EmptyHeader>
+                <EmptyTitle>Failed to load change request</EmptyTitle>
+                <EmptyDescription>Please close this panel and try again.</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          </div>
+        ) : (
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            <div className="flex w-96 shrink-0 flex-col gap-6 overflow-hidden border-r border-border p-4">
+              <DetailGroup className="shrink-0">
+                <Detail>
+                  <DetailLabel>Status</DetailLabel>
+                  <DetailValue>
+                    {" "}
+                    {hasMerged ? (
+                      <span className="flex flex-wrap items-center gap-1.5">
+                        <Badge variant="success">
+                          <GitMergeIcon />
+                          Merged
+                        </Badge>
+                        {secretApprovalRequestDetails.bypassReason && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>
+                                <Badge variant="warning">
+                                  <ShieldAlertIcon />
+                                  Bypassed
+                                </Badge>
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>Merged without the required approvals.</TooltipContent>
+                          </Tooltip>
+                        )}
+                      </span>
+                    ) : secretApprovalRequestDetails.status === "close" ? (
+                      <Badge variant="danger">
+                        <GitPullRequestClosedIcon />
+                        Closed
+                      </Badge>
+                    ) : (
+                      <Badge variant="info">
+                        <GitPullRequestIcon />
+                        Open
+                      </Badge>
+                    )}
+                  </DetailValue>
+                </Detail>
+                <Detail>
+                  <DetailLabel>Environment</DetailLabel>
+                  <DetailValue>{environmentName}</DetailValue>
+                </Detail>
+                <Detail>
+                  <DetailLabel>Secret Path</DetailLabel>
+                  <TruncatedSecretPath
+                    value={
+                      secretApprovalRequestDetails.isReplicated
+                        ? approvalSecretPath
+                        : formatReservedPaths(secretApprovalRequestDetails.secretPath)
+                    }
+                  />
+                </Detail>
+                {secretApprovalRequestDetails.commitMessage && (
+                  <Detail>
+                    <DetailLabel>Message</DetailLabel>
+                    <DetailValue className="break-words whitespace-pre-wrap">
+                      {secretApprovalRequestDetails.commitMessage}
+                    </DetailValue>
+                  </Detail>
+                )}
+              </DetailGroup>
+
+              {reviewerRows.length > 0 && (
+                <div className="flex min-h-0 flex-col gap-2">
+                  <span className="shrink-0 text-sm font-medium text-foreground">Reviewers</span>
+                  <ItemGroup className="min-h-0 thin-scrollbar gap-0 overflow-y-auto rounded-lg border border-border bg-container">
+                    {reviewerRows.map((row, index) => {
+                      const reviewer = reviewedUsers?.[row.userId];
+                      const displayName =
+                        [row.firstName, row.lastName].filter(Boolean).join(" ") || row.email;
+                      return (
+                        <Fragment key={`reviewer-${row.userId}`}>
+                          {index > 0 && <ItemSeparator className="m-0" />}
+                          <Item className="rounded-none border-0">
+                            <ItemContent className="min-w-0">
+                              <div
+                                className={cn(
+                                  "flex items-center gap-1.5 text-sm",
+                                  !row.isOrgMembershipActive && "opacity-50"
+                                )}
+                              >
+                                <span className="truncate text-foreground">{displayName}</span>
+                                {row.isRequired && <span className="text-danger">*</span>}
+                                {!row.isOrgMembershipActive && (
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <UserXIcon className="size-3.5 shrink-0 text-muted" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      This user has been deactivated and no longer has an active
+                                      organization membership.
+                                    </TooltipContent>
+                                  </Tooltip>
+                                )}
+                              </div>
+                            </ItemContent>
+                            <ItemActions>
+                              {reviewer?.comment && (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <MessageSquareIcon className="size-3.5 text-muted" />
+                                  </TooltipTrigger>
+                                  <TooltipContent className="max-w-sm break-words">
+                                    {reviewer.comment}
+                                  </TooltipContent>
+                                </Tooltip>
+                              )}
+                              {reviewer ? (
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <span>{getReviewStatusBadge(reviewer.status)}</span>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    Reviewed{" "}
+                                    {format(new Date(reviewer.createdAt), "MMM d, yyyy h:mm aa")}
+                                  </TooltipContent>
+                                </Tooltip>
+                              ) : (
+                                getReviewStatusBadge(undefined)
+                              )}
+                            </ItemActions>
+                          </Item>
+                        </Fragment>
+                      );
+                    })}
+                  </ItemGroup>
+                </div>
+              )}
+              {reviewControls}
+            </div>
+
+            <div className="flex min-h-0 thin-scrollbar flex-1 flex-col gap-4 overflow-y-auto p-4">
+              <Alert variant={changesStatusAlert.variant}>
+                {changesStatusAlert.icon}
+                <AlertTitle>{changesStatusAlert.title}</AlertTitle>
+              </Alert>
+              <div>
+                <div className="mb-3 flex items-center gap-2 border-b border-border pb-2">
+                  <KeyRoundIcon className="size-4 text-accent" />
+                  <span className="flex-1 text-xs font-semibold tracking-wider text-accent uppercase">
+                    Secrets
+                  </span>
+                  <Badge variant="neutral">{secretApprovalRequestDetails.commits.length}</Badge>
+                </div>
+                <div className="space-y-2">
+                  {secretApprovalRequestDetails.commits.map(
+                    ({ op, secretVersion, secret, ...newVersion }, index) => (
+                      <SecretApprovalRequestChangeItem
+                        op={op}
+                        conflicts={secretApprovalRequestDetails.conflicts}
+                        hasMerged={hasMerged}
+                        secretVersion={secretVersion}
+                        presentSecretVersionNumber={secret?.version || 0}
+                        newVersion={newVersion}
+                        key={`${op}-${index + 1}-${secretVersion?.id}`}
+                      />
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {secretApprovalRequestDetails && (
+          <SheetFooter className="flex-col border-t">
+            <SecretApprovalRequestAction
+              canApprove={canApprove}
+              isCommitter={isCommitter}
+              isBypasser={isBypasser}
+              approvalRequestId={secretApprovalRequestDetails.id}
+              hasMerged={hasMerged}
+              approvals={secretApprovalRequestDetails.policy.approvals || 0}
+              status={secretApprovalRequestDetails.status}
+              isMergable={isMergable}
+              statusChangeByEmail={secretApprovalRequestDetails.statusChangedByUser?.email}
+              enforcementLevel={secretApprovalRequestDetails.policy.enforcementLevel}
+              bypassReason={secretApprovalRequestDetails.bypassReason}
+              environment={secretApprovalRequestDetails.environment}
+              secretPath={secretApprovalRequestDetails.secretPath}
+            />
+          </SheetFooter>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+};

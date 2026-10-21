@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vaultix — instance manager</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: oklch(0.18 0.02 250);
+      --fg: oklch(0.95 0.01 90);
+      --mute: oklch(0.72 0.02 250);
+      --line: oklch(0.35 0.02 250);
+      --accent: oklch(0.78 0.12 85);
+      --paper: oklch(0.22 0.02 250);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+    main { max-width: 48rem; margin: 0 auto; padding: 1.5rem; }
+    .wordmark { height: 2.6rem; }
+    .mute { color: var(--mute); }
+    .card { border: 1px solid var(--line); background: var(--paper); border-radius: .5rem; padding: 1rem; margin: .75rem 0; }
+    a { color: var(--accent); }
+    table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    th, td { text-align: left; padding: .4rem .3rem; border-bottom: 1px solid var(--line); }
+    input, select, button { padding: .4rem .6rem; margin-right: .4rem; }
+    button { background: var(--accent); color: var(--bg); border: 0; border-radius: .35rem; font-weight: 650; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="wordmark" src="/viewport/wordmark.svg" alt="Vaultix — A SHIPPIN.AI SERVICE, AngryVibes LLC" />
+    <p class="mute">Instance manager. Name boxes here. Secrets stay on each instance’s <a href="/viewport/">configure path</a>.</p>
+    <div id="stamp" class="card">Loading…</div>
+    <div class="card">
+      <h2>Instances</h2>
+      <table>
+        <thead><tr><th>Label</th><th>SKU</th><th>Host</th><th>Tier</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="mute">Naming does not provision a VM. Hosted host is {label}.vaultix.shippin.cloud.</p>
+      <p>
+        <input id="label" placeholder="workshop" />
+        <select id="sku"><option value="self">self</option><option value="hosted">hosted</option></select>
+        <button id="add">Name instance</button>
+      </p>
+      <pre id="log" class="mute"></pre>
+    </div>
+  </main>
+  <script>
+    const ident = () => localStorage.getItem("vaultix-identity") || "operator";
+    const headers = () => ({
+      "Content-Type": "application/json",
+      "X-Vaultix-Identity": ident(),
+      "X-Vaultix-Elevated": sessionStorage.getItem("vaultix-elevated") || "",
+    });
+    async function boot() {
+      const me = await fetch("/api/v1/vaultix/instance").then((r) => r.json());
+      const stamp = document.getElementById("stamp");
+      stamp.innerHTML = "<strong>" + me.instance.owner + "</strong> · " + me.instance.host +
+        "<br>SKU " + me.instance.sku + (me.instance.hub ? " (hub)" : "") +
+        " · " + me.instance.publicHost + " · license " + me.license.tier;
+      await refresh();
+    }
+    async function refresh() {
+      const data = await fetch("/api/v1/vaultix/manager/instances", { headers: headers() }).then((r) => r.json());
+      const tb = document.getElementById("rows");
+      tb.innerHTML = "";
+      (data.instances || []).forEach((it) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + (it.label || it.id) + (it.self ? " (this)" : "") + "</td><td>" +
+          it.sku + "</td><td>" + it.publicHost + "</td><td>" + it.tier + "</td>";
+        tb.append(tr);
+      });
+    }
+    document.getElementById("add").onclick = async () => {
+      const body = { label: document.getElementById("label").value, sku: document.getElementById("sku").value };
+      const res = await fetch("/api/v1/vaultix/manager/instances", { method: "POST", headers: headers(), body: JSON.stringify(body) });
+      const json = await res.json();
+      document.getElementById("log").textContent = JSON.stringify(json);
+      await refresh();
+    };
+    boot();
+  </script>
+</body>
+</html>

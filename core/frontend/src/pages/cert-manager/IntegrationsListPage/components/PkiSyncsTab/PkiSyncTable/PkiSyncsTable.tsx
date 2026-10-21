@@ -1,0 +1,426 @@
+import { useMemo, useState } from "react";
+import {
+  CheckCircle2Icon,
+  ChevronDownIcon,
+  FilterIcon,
+  RotateCwIcon,
+  SearchIcon,
+  TriangleAlertIcon
+} from "lucide-react";
+import { twMerge } from "tailwind-merge";
+
+import { createNotification } from "@app/components/notifications";
+import {
+  DeletePkiSyncModal,
+  PkiSyncImportCertificatesModal,
+  PkiSyncRemoveCertificatesModal
+} from "@app/components/pki-syncs";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+  IconButton,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Pagination,
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@app/components/v3";
+import { PKI_SYNC_MAP } from "@app/helpers/pkiSyncs";
+import {
+  getUserTablePreference,
+  PreferenceKey,
+  setUserTablePreference
+} from "@app/helpers/userTablePreferences";
+import { usePagination, usePopUp, useResetPageHelper } from "@app/hooks";
+import { OrderByDirection } from "@app/hooks/api/generic/types";
+import {
+  PkiSync,
+  PkiSyncStatus,
+  TPkiSync,
+  useTriggerPkiSyncSyncCertificates,
+  useUpdatePkiSync
+} from "@app/hooks/api/pkiSyncs";
+
+import { getPkiSyncDestinationColValues } from "./helpers";
+import { PkiSyncRow } from "./PkiSyncRow";
+
+enum PkiSyncsOrderBy {
+  Destination = "destination",
+  Name = "name",
+  Status = "status"
+}
+
+type PkiSyncFilters = {
+  destinations: PkiSync[];
+  status: PkiSyncStatus[];
+};
+
+const getSyncStatusOrderValue = (syncStatus: PkiSyncStatus | null) => {
+  switch (syncStatus) {
+    case PkiSyncStatus.Failed:
+      return 0;
+    case PkiSyncStatus.Pending:
+    case PkiSyncStatus.Running:
+      return 1;
+    case PkiSyncStatus.Succeeded:
+      return 2;
+    default:
+      return 3;
+  }
+};
+
+type Props = {
+  pkiSyncs: TPkiSync[];
+  applicationName?: string;
+};
+
+const STATUS_ICON_MAP = {
+  [PkiSyncStatus.Succeeded]: { Icon: CheckCircle2Icon, className: "text-success", name: "Synced" },
+  [PkiSyncStatus.Failed]: { Icon: TriangleAlertIcon, className: "text-danger", name: "Not Synced" },
+  [PkiSyncStatus.Pending]: { Icon: RotateCwIcon, className: "text-warning", name: "Syncing" },
+  [PkiSyncStatus.Running]: { Icon: RotateCwIcon, className: "text-warning", name: "Syncing" }
+};
+
+export const PkiSyncsTable = ({ pkiSyncs, applicationName }: Props) => {
+  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp([
+    "deleteSync",
+    "importCertificates",
+    "removeCertificates"
+  ] as const);
+  const triggerSync = useTriggerPkiSyncSyncCertificates();
+  const updateSync = useUpdatePkiSync();
+
+  const [filters, setFilters] = useState<PkiSyncFilters>({
+    destinations: [],
+    status: []
+  });
+
+  const {
+    search,
+    setSearch,
+    setPage,
+    page,
+    perPage,
+    setPerPage,
+    offset,
+    orderDirection,
+    toggleOrderDirection,
+    orderBy,
+    setOrderDirection,
+    setOrderBy
+  } = usePagination<PkiSyncsOrderBy>(PkiSyncsOrderBy.Name, {
+    initPerPage: getUserTablePreference("pkiSyncTable", PreferenceKey.PerPage, 20)
+  });
+
+  const handlePerPageChange = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setUserTablePreference("pkiSyncTable", PreferenceKey.PerPage, newPerPage);
+  };
+
+  const filteredPkiSyncs = useMemo(
+    () =>
+      pkiSyncs
+        .filter((pkiSync) => {
+          const { destination, name, syncStatus } = pkiSync;
+
+          if (filters.destinations.length && !filters.destinations.includes(destination))
+            return false;
+
+          if (filters.status.length && (!syncStatus || !filters.status.includes(syncStatus))) {
+            return false;
+          }
+
+          const searchValue = search.trim().toLowerCase();
+
+          const destinationValues = getPkiSyncDestinationColValues(pkiSync);
+
+          return (
+            (PKI_SYNC_MAP[destination]?.name || "Unknown Service")
+              .toLowerCase()
+              .includes(searchValue) ||
+            name.toLowerCase().includes(searchValue) ||
+            (pkiSync.appConnectionName &&
+              pkiSync.appConnectionName.toLowerCase().includes(searchValue)) ||
+            destinationValues.primaryText.toLowerCase().includes(searchValue) ||
+            destinationValues.secondaryText?.toLowerCase().includes(searchValue)
+          );
+        })
+        .sort((a, b) => {
+          const [syncOne, syncTwo] = orderDirection === OrderByDirection.ASC ? [a, b] : [b, a];
+
+          switch (orderBy) {
+            case PkiSyncsOrderBy.Destination:
+              return getPkiSyncDestinationColValues(syncOne)
+                .primaryText.toLowerCase()
+                .localeCompare(getPkiSyncDestinationColValues(syncTwo).primaryText.toLowerCase());
+            case PkiSyncsOrderBy.Status:
+              if (!syncOne.syncStatus && syncTwo.syncStatus) return 1;
+              if (syncOne.syncStatus && !syncTwo.syncStatus) return -1;
+              if (!syncOne.syncStatus && !syncTwo.syncStatus) return 0;
+
+              return (
+                getSyncStatusOrderValue(syncOne.syncStatus) -
+                getSyncStatusOrderValue(syncTwo.syncStatus)
+              );
+            case PkiSyncsOrderBy.Name:
+            default:
+              return syncOne.name.toLowerCase().localeCompare(syncTwo.name.toLowerCase());
+          }
+        }),
+    [pkiSyncs, orderDirection, search, orderBy, filters]
+  );
+
+  useResetPageHelper({
+    totalCount: filteredPkiSyncs.length,
+    offset,
+    setPage
+  });
+
+  const handleSort = (column: PkiSyncsOrderBy) => {
+    if (column === orderBy) {
+      toggleOrderDirection();
+      return;
+    }
+
+    setOrderBy(column);
+    setOrderDirection(OrderByDirection.ASC);
+  };
+
+  const renderSortIcon = (col: PkiSyncsOrderBy) => (
+    <ChevronDownIcon
+      className={twMerge(
+        orderDirection === OrderByDirection.DESC && orderBy === col && "rotate-180",
+        orderBy !== col && "opacity-30",
+        "transition-transform"
+      )}
+    />
+  );
+
+  const isTableFiltered = Boolean(filters.destinations.length || filters.status.length);
+
+  const handleDelete = (pkiSync: TPkiSync) => handlePopUpOpen("deleteSync", pkiSync);
+
+  const handleTriggerImportCertificates = (pkiSync: TPkiSync) =>
+    handlePopUpOpen("importCertificates", pkiSync);
+
+  const handleTriggerRemoveCertificates = (pkiSync: TPkiSync) =>
+    handlePopUpOpen("removeCertificates", pkiSync);
+
+  const handleToggleEnableSync = async (pkiSync: TPkiSync) => {
+    const destinationName = PKI_SYNC_MAP[pkiSync.destination].name;
+
+    const isAutoSyncEnabled = !pkiSync.isAutoSyncEnabled;
+
+    await updateSync.mutateAsync({
+      syncId: pkiSync.id,
+      projectId: pkiSync.projectId,
+      destination: pkiSync.destination,
+      isAutoSyncEnabled
+    });
+
+    createNotification({
+      text: `Successfully ${isAutoSyncEnabled ? "enabled" : "disabled"} auto-sync for ${destinationName} Sync`,
+      type: "success"
+    });
+  };
+
+  const handleTriggerSync = async (pkiSync: TPkiSync) => {
+    const destinationName = PKI_SYNC_MAP[pkiSync.destination].name;
+
+    await triggerSync.mutateAsync({
+      syncId: pkiSync.id,
+      destination: pkiSync.destination,
+      projectId: pkiSync.projectId
+    });
+
+    createNotification({
+      text: `Successfully triggered ${destinationName} Sync`,
+      type: "success"
+    });
+  };
+
+  return (
+    <div>
+      <div className="mb-4 flex gap-2">
+        <InputGroup className="flex-1">
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search certificate syncs..."
+          />
+        </InputGroup>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <IconButton
+              aria-label="Filter certificate syncs"
+              variant={isTableFiltered ? "project" : "outline"}
+            >
+              <FilterIcon />
+            </IconButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="max-h-[70vh] thin-scrollbar overflow-y-auto" align="end">
+            <DropdownMenuLabel>Status</DropdownMenuLabel>
+            {[PkiSyncStatus.Running, PkiSyncStatus.Succeeded, PkiSyncStatus.Failed].map(
+              (status) => (
+                <DropdownMenuCheckboxItem
+                  checked={filters.status.includes(status)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setFilters((prev) => ({
+                      ...prev,
+                      status: prev.status.includes(status)
+                        ? prev.status.filter((s) => s !== status)
+                        : [...prev.status, status]
+                    }));
+                  }}
+                  key={status}
+                >
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      const { Icon, className } = STATUS_ICON_MAP[status];
+                      return <Icon className={`size-3.5 ${className}`} />;
+                    })()}
+                    <span className="capitalize">{STATUS_ICON_MAP[status].name}</span>
+                  </div>
+                </DropdownMenuCheckboxItem>
+              )
+            )}
+            <DropdownMenuLabel>Service</DropdownMenuLabel>
+            {pkiSyncs.length ? (
+              [...new Set(pkiSyncs.map(({ destination }) => destination))].map((destination) => {
+                const { name, image } = PKI_SYNC_MAP[destination];
+
+                return (
+                  <DropdownMenuCheckboxItem
+                    checked={filters.destinations.includes(destination)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFilters((prev) => ({
+                        ...prev,
+                        destinations: prev.destinations.includes(destination)
+                          ? prev.destinations.filter((a) => a !== destination)
+                          : [...prev.destinations, destination]
+                      }));
+                    }}
+                    key={destination}
+                  >
+                    <div className="flex items-center gap-2">
+                      <img
+                        alt={`${name} integration`}
+                        src={`/images/integrations/${image}`}
+                        className="h-4 w-4"
+                      />
+                      <span>{name}</span>
+                    </div>
+                  </DropdownMenuCheckboxItem>
+                );
+              })
+            ) : (
+              <DropdownMenuLabel className="font-normal text-mineshaft-400">
+                No Certificate Syncs Configured
+              </DropdownMenuLabel>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      {filteredPkiSyncs.length ? (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-2" />
+              <TableHead
+                className="w-1/2 cursor-pointer"
+                onClick={() => handleSort(PkiSyncsOrderBy.Name)}
+              >
+                Name
+                {renderSortIcon(PkiSyncsOrderBy.Name)}
+              </TableHead>
+              <TableHead
+                className="w-1/4 cursor-pointer"
+                onClick={() => handleSort(PkiSyncsOrderBy.Destination)}
+              >
+                Destination
+                {renderSortIcon(PkiSyncsOrderBy.Destination)}
+              </TableHead>
+              <TableHead
+                className="w-1/4 min-w-42 cursor-pointer"
+                onClick={() => handleSort(PkiSyncsOrderBy.Status)}
+              >
+                Status
+                {renderSortIcon(PkiSyncsOrderBy.Status)}
+              </TableHead>
+              <TableHead className="w-5" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredPkiSyncs.slice(offset, perPage * page).map((pkiSync) => (
+              <PkiSyncRow
+                key={pkiSync.id}
+                pkiSync={pkiSync}
+                onDelete={handleDelete}
+                onTriggerSyncCertificates={handleTriggerSync}
+                onTriggerImportCertificates={handleTriggerImportCertificates}
+                onTriggerRemoveCertificates={handleTriggerRemoveCertificates}
+                onToggleEnable={handleToggleEnableSync}
+                applicationName={applicationName}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyTitle>
+              {pkiSyncs.length ? "No syncs match search..." : "No syncs configured yet"}
+            </EmptyTitle>
+            <EmptyDescription>
+              {pkiSyncs.length
+                ? "Try adjusting your search or filters"
+                : "Create a sync to get started"}
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      )}
+      {Boolean(filteredPkiSyncs.length) && (
+        <Pagination
+          count={filteredPkiSyncs.length}
+          page={page}
+          perPage={perPage}
+          onChangePage={setPage}
+          onChangePerPage={handlePerPageChange}
+        />
+      )}
+      <DeletePkiSyncModal
+        onOpenChange={(isOpen) => handlePopUpToggle("deleteSync", isOpen)}
+        isOpen={popUp.deleteSync.isOpen}
+        pkiSync={popUp.deleteSync.data}
+      />
+      {popUp.importCertificates.data && (
+        <PkiSyncImportCertificatesModal
+          onOpenChange={(isOpen) => handlePopUpToggle("importCertificates", isOpen)}
+          isOpen={popUp.importCertificates.isOpen}
+          pkiSync={popUp.importCertificates.data}
+        />
+      )}
+      <PkiSyncRemoveCertificatesModal
+        onOpenChange={(isOpen) => handlePopUpToggle("removeCertificates", isOpen)}
+        isOpen={popUp.removeCertificates.isOpen}
+        pkiSync={popUp.removeCertificates.data}
+      />
+    </div>
+  );
+};

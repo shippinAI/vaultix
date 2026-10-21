@@ -1,0 +1,77 @@
+import { z } from "zod";
+
+import { PkiSync } from "@app/hooks/api/pkiSyncs";
+
+import { BasePkiSyncSchema } from "./base-pki-sync-schema";
+
+const AzureKeyVaultSyncOptionsSchema = z.object({
+  canImportCertificates: z.boolean().default(false),
+  canRemoveCertificates: z.boolean().default(true),
+  includeRootCa: z.boolean().default(false),
+  enableVersioning: z.boolean().default(true),
+  certificateNameSchema: z
+    .string()
+    .trim()
+    .min(1, "Certificate name schema is required")
+    .refine(
+      (val) => {
+        const allowedOptionalPlaceholders = [
+          "{{profileId}}",
+          "{{applicationId}}",
+          "{{applicationName}}",
+          "{{commonName}}"
+        ];
+
+        const allowedPlaceholdersRegexPart = [
+          "{{certificateId}}",
+          "{{shortCertificateId}}",
+          ...allowedOptionalPlaceholders
+        ]
+          .map((p) => p.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
+          .join("|");
+
+        const allowedContentRegex = new RegExp(
+          `^([a-zA-Z0-9_\\-/]|${allowedPlaceholdersRegexPart})*$`
+        );
+        const contentIsValid = allowedContentRegex.test(val);
+
+        const certificateIdIsPresent =
+          val.includes("{{certificateId}}") || val.includes("{{shortCertificateId}}");
+        return contentIsValid && certificateIdIsPresent;
+      },
+      {
+        message:
+          "Certificate name schema must include the {{certificateId}} or {{shortCertificateId}} placeholder. It can also include {{profileId}}, {{applicationId}}, {{applicationName}}, and {{commonName}} placeholders. Only alphanumeric characters (a-z, A-Z, 0-9), dashes (-), underscores (_), and slashes (/) are allowed besides the placeholders."
+      }
+    )
+});
+
+export const AzureKeyVaultPkiSyncDestinationSchema = BasePkiSyncSchema(
+  AzureKeyVaultSyncOptionsSchema
+).merge(
+  z.object({
+    destination: z.literal(PkiSync.AzureKeyVault),
+    destinationConfig: z.object({
+      vaultBaseUrl: z.string().min(1, "Vault base URL is required").url("Valid URL is required")
+    })
+  })
+);
+
+export const UpdateAzureKeyVaultPkiSyncDestinationSchema =
+  AzureKeyVaultPkiSyncDestinationSchema.partial().merge(
+    z.object({
+      name: z
+        .string()
+        .trim()
+        .min(1, "Name is required")
+        .max(255, "Name must be less than 255 characters"),
+      destination: z.literal(PkiSync.AzureKeyVault),
+      connection: z.object({
+        id: z.string().uuid("Invalid connection ID format"),
+        name: z
+          .string()
+          .min(1, "Connection name is required")
+          .max(255, "Connection name must be less than 255 characters")
+      })
+    })
+  );

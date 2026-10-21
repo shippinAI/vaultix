@@ -1,0 +1,241 @@
+import { packRules } from "@casl/ability/extra";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { apiRequest } from "@app/config/request";
+
+import { accessApprovalKeys } from "./queries";
+import {
+  TAccessApproval,
+  TAccessApprovalRequest,
+  TCreateAccessPolicyDTO,
+  TCreateAccessRequestDTO,
+  TDeleteSecretPolicyDTO,
+  TUpdateAccessPolicyDTO,
+  TUpdateAccessRequestDTO
+} from "./types";
+
+export const useCreateAccessApprovalPolicy = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<object, object, TCreateAccessPolicyDTO>({
+    mutationFn: async ({
+      environments,
+      projectSlug,
+      approvals,
+      approvers,
+      bypassers,
+      name,
+      secretPath,
+      enforcementLevel,
+      allowedSelfApprovals,
+      approvalsRequired,
+      maxTimePeriod,
+      requestExpirationTime
+    }) => {
+      const { data } = await apiRequest.post("/api/v1/access-approvals/policies", {
+        environments,
+        projectSlug,
+        approvals,
+        bypassers,
+        approvers,
+        secretPath,
+        name,
+        enforcementLevel,
+        allowedSelfApprovals,
+        approvalsRequired,
+        maxTimePeriod,
+        requestExpirationTime
+      });
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalPolicies(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+    }
+  });
+};
+
+export const useUpdateAccessApprovalPolicy = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<object, object, TUpdateAccessPolicyDTO>({
+    mutationFn: async ({
+      id,
+      approvers,
+      bypassers,
+      approvals,
+      name,
+      secretPath,
+      enforcementLevel,
+      allowedSelfApprovals,
+      approvalsRequired,
+      environments,
+      maxTimePeriod,
+      requestExpirationTime
+    }) => {
+      const { data } = await apiRequest.patch(`/api/v1/access-approvals/policies/${id}`, {
+        approvals,
+        approvers,
+        bypassers,
+        secretPath,
+        name,
+        enforcementLevel,
+        allowedSelfApprovals,
+        approvalsRequired,
+        environments,
+        maxTimePeriod,
+        requestExpirationTime
+      });
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalPolicies(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+    }
+  });
+};
+
+export const useDeleteAccessApprovalPolicy = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<object, object, TDeleteSecretPolicyDTO>({
+    mutationFn: async ({ id }) => {
+      const { data } = await apiRequest.delete(`/api/v1/access-approvals/policies/${id}`);
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalPolicies(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+    }
+  });
+};
+
+export const useCreateAccessRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation<object, object, TCreateAccessRequestDTO>({
+    mutationFn: async ({ projectSlug, ...request }) => {
+      const { data } = await apiRequest.post<TAccessApproval>(
+        "/api/v1/access-approvals/requests",
+        {
+          ...request,
+          permissions: request.permissions ? packRules(request.permissions) : undefined
+        },
+        {
+          params: {
+            projectSlug
+          }
+        }
+      );
+
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+    }
+  });
+};
+
+export const useUpdateAccessRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation<TAccessApprovalRequest, object, TUpdateAccessRequestDTO>({
+    mutationFn: async ({ requestId, ...payload }) => {
+      const { data } = await apiRequest.patch<{ approval: TAccessApprovalRequest }>(
+        `/api/v1/access-approvals/requests/${requestId}`,
+        payload
+      );
+
+      return data.approval;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+    }
+  });
+};
+
+export const useRevokeAccessRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    object,
+    object,
+    {
+      requestId: string;
+      projectSlug: string;
+    }
+  >({
+    mutationFn: async ({ requestId }) => {
+      const { data } = await apiRequest.post(
+        `/api/v1/access-approvals/requests/${requestId}/revoke`
+      );
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+    }
+  });
+};
+
+export const useReviewAccessRequest = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    object,
+    object,
+    {
+      requestId: string;
+      status: "approved" | "rejected";
+      projectSlug: string;
+      bypassReason?: string;
+    }
+  >({
+    mutationFn: async ({ requestId, status, bypassReason }) => {
+      const { data } = await apiRequest.post(
+        `/api/v1/access-approvals/requests/${requestId}/review`,
+        {
+          status,
+          bypassReason
+        }
+      );
+      return data;
+    },
+    onSuccess: (_, { projectSlug }) => {
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestsAllForProject(projectSlug)
+      });
+      queryClient.invalidateQueries({
+        queryKey: accessApprovalKeys.getAccessApprovalRequestCount(projectSlug)
+      });
+    }
+  });
+};

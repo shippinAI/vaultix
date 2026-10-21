@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "shippin.vaultix.api.v1",
+  "serviceId": "shippin.vaultix",
+  "title": "Vaultix canonical API namespace and naming rules",
+  "adr": "docs/0011-owned-engine.md",
+  "generatedFrom": {
+    "engine": "panel/internal/vault",
+    "tables": "vaultix_*",
+    "leftoverInventory": "leftover/upstream.core.v0.162.19.endpoints.tsv"
+  },
+  "naming": {
+    "publicRoutePrefix": "/api/v1/vaultix/",
+    "publicRoutePattern": "^/api/v1/vaultix/[a-z][a-z0-9-]*(/([a-z][a-z0-9-]*|\\{[a-zA-Z][a-zA-Z0-9]*\\}))*$",
+    "segmentStyle": "kebab-case",
+    "pathParamStyle": "{camelCase}",
+    "capabilityPattern": "^vaultix\\.[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)*$",
+    "auditActionPattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$",
+    "contractIdPattern": "^shippin\\.vaultix\\.panel\\.v[0-9]+$"
+  },
+  "boundaries": {
+    "rule": "The Vaultix store is panel/internal/vault on vaultix_* tables. Leftover external wire dialect appears in exactly one file (import only). Brand tokens for leftover products never appear in a route, capability, package, env var name, or audit action.",
+    "wireQuarantine": ["panel/internal/core/wire.go"],
+    "brandTokenAllowedAsData": [],
+    "brandTokenForbiddenIn": [
+      "contract routes and capabilities",
+      "package and directory names under panel/",
+      "environment variable names",
+      "audit action names",
+      "compose service names"
+    ]
+  },
+  "folders": {
+    "contracts/": "Panel contracts only, one JSON per major version, named shippin.vaultix.panel.vN.json",
+    "docs/": "Numbered ADRs 000N-kebab-title.md; status header; never renumbered. 0011 owns the engine.",
+    "schemas/": "This file. Leftover inventories live under leftover/",
+    "panel/": "The Vaultix instance: Go engine + HTTP. internal/vault is the store. internal/core is leftover import dialect only.",
+    "compose/": "Deploy units. Service names are Vaultix-branded. No leftover product image.",
+    "leftover/": "Capability dump we may read. Do not run. Do not grow.",
+    "scripts/": "Operator scripts for this instance"
+  },
+  "domains": [
+    {
+      "domain": "session",
+      "vaultixRoutes": "/api/v1/vaultix/session/*",
+      "upstreamGroups": [],
+      "disposition": "vaultix-native",
+      "phase": "live",
+      "notes": "PIN step-up is ours. Identity is Nomen OIDC."
+    },
+    {
+      "domain": "instances",
+      "vaultixRoutes": "/api/v1/vaultix/instances",
+      "upstreamGroups": [],
+      "disposition": "vaultix-native",
+      "phase": "live",
+      "notes": "Overview registry + health probe. Metadata only."
+    },
+    {
+      "domain": "link",
+      "vaultixRoutes": "/api/v1/vaultix/link, /api/v1/vaultix/import",
+      "upstreamGroups": [],
+      "disposition": "vaultix-native",
+      "phase": "live",
+      "notes": "Optional one-way import from an external leftover source into vaultix_*."
+    },
+    {
+      "domain": "secrets",
+      "vaultixRoutes": "/api/v1/vaultix/projects/{projectId}/secrets/*",
+      "upstreamGroups": ["Secrets", "Folders", "Secret Imports", "Secret Tags", "Environments"],
+      "upstreamPrefixes": ["/api/v3/secrets", "/api/v4/secrets", "/api/v1/folders", "/api/v2/folders", "/api/v1/secret-imports", "/api/v2/secret-imports"],
+      "disposition": "vaultix-native",
+      "phase": "live",
+      "notes": "The product core. vaultix_* rows, AES-GCM at rest. Values never on GET. Redeem is the only value return."
+    },
+    {
+      "domain": "projects",
+      "vaultixRoutes": "/api/v1/vaultix/projects/*",
+      "upstreamGroups": ["Projects", "Project Users", "Project Roles", "Project Identities", "Project Templates", "Project Identity Membership"],
+      "upstreamPrefixes": ["/api/v1/workspace", "/api/v2/workspace", "/api/v1/projects"],
+      "disposition": "vaultix-native",
+      "phase": "live",
+      "notes": "Boxes (one per app) on vaultix_boxes. Membership is a Nomen principal."
+    },
+    {
+      "domain": "identities",
+      "vaultixRoutes": "/api/v1/vaultix/identities/*",
+      "upstreamGroups": ["Identities", "Universal Auth", "Token Auth", "Kubernetes Auth", "OIDC Auth", "JWT Auth", "AWS Auth", "GCP Auth", "Azure Auth", "Alibaba Cloud Auth", "OCI Auth", "SPIFFE Auth", "TLS Certificate Auth", "LDAP Auth"],
+      "upstreamPrefixes": ["/api/v1/identities", "/api/v2/identities", "/api/v1/auth"],
+      "disposition": "adopt-minimal",
+      "phase": "B",
+      "notes": "Machine identities power inject and the link. Panel exposes create/rotate for universal auth only; the exotic cloud-auth methods stay operator-side."
+    },
+    {
+      "domain": "org",
+      "vaultixRoutes": "/api/v1/vaultix/org/*",
+      "upstreamGroups": ["Organizations", "Organization Roles", "Organization Identity Membership", "Sub Organizations"],
+      "upstreamPrefixes": ["/api/v1/organization", "/api/v2/organizations"],
+      "disposition": "adopt-minimal",
+      "phase": "C",
+      "notes": "One org per estate. Sub-orgs are ee — refused. Roles map to Tessera scopes."
+    },
+    {
+      "domain": "connections",
+      "vaultixRoutes": "/api/v1/vaultix/connections/*",
+      "upstreamGroups": ["App Connections"],
+      "upstreamPrefixes": ["/api/v1/app-connections"],
+      "disposition": "adopt-later",
+      "phase": "C",
+      "notes": "83 core providers; chef/oci/oracledb are ee and refused. Surface only providers the estate uses."
+    },
+    {
+      "domain": "syncs",
+      "vaultixRoutes": "/api/v1/vaultix/syncs/*",
+      "upstreamGroups": ["Secret Syncs"],
+      "upstreamPrefixes": ["/api/v1/secret-syncs"],
+      "disposition": "adopt-later",
+      "phase": "C",
+      "notes": "49 core providers; chef/oci-vault are ee and refused. Push model competes with our inject — decide per estate."
+    },
+    {
+      "domain": "sharing",
+      "vaultixRoutes": "/api/v1/vaultix/sharing/*",
+      "upstreamGroups": ["Secret Sharing"],
+      "upstreamPrefixes": ["/api/v1/secret-sharing", "/api/v1/shared-secrets"],
+      "disposition": "adopt-later",
+      "phase": "C",
+      "notes": "Good vibe-coder feature (share a secret once, expiring). Low risk."
+    },
+    {
+      "domain": "integrations-legacy",
+      "vaultixRoutes": null,
+      "upstreamGroups": ["Integrations"],
+      "upstreamPrefixes": ["/api/v1/integration", "/api/v1/integration-auth"],
+      "disposition": "park",
+      "notes": "Upstream is deprecating these in favor of app-connections/syncs. Do not build on them."
+    },
+    {
+      "domain": "pki",
+      "vaultixRoutes": null,
+      "upstreamGroups": ["PKI Certificate Authorities", "PKI Certificates", "PKI Applications", "PKI Signers", "PKI Syncs", "PKI Subscribers", "PKI ACME", "PKI Alerting", "PKI Discovery", "PKI Certificate Templates", "PKI Certificate Profiles", "PKI Certificate Collections", "PKI Certificate Policies", "PKI Installations", "Cert Manager"],
+      "disposition": "refuse",
+      "refill": "step-ca + Caddy own certs in the estate (doc 0003). ~470 operations we never surface."
+    },
+    {
+      "domain": "kms",
+      "vaultixRoutes": null,
+      "upstreamGroups": ["KMS Keys", "KMS Signing", "KMS Encryption", "HSM Connectors"],
+      "disposition": "park",
+      "refill": "Out of scope until an estate asks (doc 0003: HSM/KMIP parked)."
+    },
+    {
+      "domain": "admin-instance",
+      "vaultixRoutes": null,
+      "upstreamGroups": ["(untagged)"],
+      "upstreamPrefixes": ["/api/v1/admin", "/api/v1/announcement", "/api/v1/alerts", "/api/v1/notifications"],
+      "disposition": "operator-only",
+      "notes": "Instance administration stays on the operator path; never in the panel contract."
+    },
+    {
+      "domain": "ee-refused",
+      "vaultixRoutes": null,
+      "upstreamGroups": ["Secret Rotations", "Secret Scanning", "Groups", "SCIM", "SAML SSO", "OIDC SSO", "LDAP SSO", "Dynamic Secrets", "Gateways", "Audit Logs", "Identity Specific Privileges", "Identity Specific Privileges V2", "Project Groups"],
+      "upstreamPrefixes": ["/api/v1/sso", "/api/v1/scim", "/api/v1/ldap", "/api/v1/groups", "/api/v1/dynamic-secrets", "/api/v2/secret-rotations", "/api/v2/secret-scanning", "/api/v1/secret-approvals", "/api/v1/secret-approval-requests", "/api/v1/access-approvals", "/api/v1/audit-log-streams", "/api/v1/pit", "/api/v3/gateways", "/api/v1/gateway-pools", "/api/v1/relays", "/api/v1/kmip", "/api/v1/external-kms", "/api/v1/honey-tokens", "/api/v1/insights", "/api/v1/sub-organizations", "/api/v1/email-domains", "/api/v1/rate-limit", "/api/v1/identity-templates"],
+      "disposition": "refuse-ee",
+      "refill": "Doc 0003 gap ledger: Nomen (SSO/OIDC), Nomen directory, Shippin panel approvals, our rotator, our inject tickets, pg_dump+escrow (PIT), our audit log, Zuul+Caddy (gateway/IP). License/membership: doc 0013."
+    }
+  ],
+  "phases": {
+    "live": "Served by panel today (contract v1).",
+    "B": "Panel facade grows domain-by-domain; wire.go gains per-domain constants; contract v1 extended additively.",
+    "C": "Fork rebrand: the core serves /api/v1/vaultix/* natively; wire.go flips to native paths; upstream namespace behind a compat flag.",
+    "D": "Upstream namespace off. CLI/SDK point at the Vaultix namespace only."
+  }
+}
