@@ -4,7 +4,12 @@ import (
 	"net/http"
 
 	"shippin.cloud/vaultix/panel/internal/manager"
+	"shippin.cloud/vaultix/panel/internal/tenantprefix"
 )
+
+func (s *Server) getTenant(w http.ResponseWriter, _ *http.Request) {
+	writeJSON(w, http.StatusOK, tenantprefix.FromEnv())
+}
 
 func (s *Server) getInstance(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{
