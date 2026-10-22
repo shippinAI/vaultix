@@ -65,6 +65,27 @@ const names = async (db: Knex) => {
   return rows.map((row: { name: string }) => row.name);
 };
 
+// The backend tsconfig asks ts-node to typecheck with `files: true`, which
+// keeps a language-service program for all of src/. Requiring the migration
+// set that way climbs past the default ~2GB vitest worker heap (OOM around
+// file 350 of ~500) before SQL runs. Transpile-only compiles the same files
+// at about 550MB. Each migrate gets its own pool, closed before the next
+// prefix, so three knex clients are not live during the heavy work.
+const registerMigrations = async () => {
+  process.env.TS_NODE_TRANSPILE_ONLY = "true";
+  process.env.TS_NODE_FILES = "false";
+  await import("ts-node/register");
+};
+
+const migratePrefix = async (prefix: string) => {
+  const db = openDb(prefix);
+  try {
+    await db.migrate.latest();
+  } finally {
+    await db.destroy();
+  }
+};
+
 describeIf("DB_TABLE_PREFIX isolation", () => {
   const clients: Knex[] = [];
 
@@ -73,16 +94,15 @@ describeIf("DB_TABLE_PREFIX isolation", () => {
   });
 
   test("migrates an unprefixed schema and two prefixes in one database without sharing rows", async () => {
-    await import("ts-node/register");
+    await registerMigrations();
+    await migratePrefix("");
+    await migratePrefix("t1");
+    await migratePrefix("t2");
 
     const plain = openDb("");
     const tenantA = openDb("t1");
     const tenantB = openDb("t2");
     clients.push(plain, tenantA, tenantB);
-
-    await plain.migrate.latest();
-    await tenantA.migrate.latest();
-    await tenantB.migrate.latest();
 
     const plainOrg = await seedTenant(plain, "plain");
     const orgA = await seedTenant(tenantA, "alpha");
