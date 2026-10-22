@@ -55,7 +55,7 @@ We do not copy Doppler’s seat math, their referral program, or their hosted-on
 
 ## Honest exit
 
-A tenant on shared shippin.cloud (one Postgres, table prefix `acme_`) can leave with the same archive a dedicated VM uses.
+A tenant on shared shippin.cloud (one Postgres, table prefix `vx_<shortid>_`) can leave with the same archive a dedicated VM uses.
 
 1. Export that prefix only, plus the root key material sealed inside the archive.
 2. Import onto a fresh instance. The destination prefix may be empty (dedicated database) or a new prefix.
@@ -63,6 +63,31 @@ A tenant on shared shippin.cloud (one Postgres, table prefix `acme_`) can leave 
 4. `compose/vaultix.yml` is the self-host path. They run it. Shippin is then optional.
 
 Redis queues and cache are not in the archive. Secret bytes live in Postgres. A restored instance starts with an empty Redis and the same secrets.
+
+## Readable tenant prefixes
+
+Shared-database mode (`VX_ISOLATION=prefix`) uses one prefix per tenant: `vx_<shortid>_`. `<shortid>` is 1–8 characters, lowercase letters and digits, so the stem fits the engine’s 11-character limit. Example: `vx_ab12_organizations`, `vx_ab12_secrets_v2`, `vx_ab12_vaultix_migrations`.
+
+The manager shows that prefix and the physical names. A person can see which tables belong to which tenant without reading SQL. A dedicated instance leaves the prefix empty and owns the whole database. An older stem still runs, and the manager says it is not the readable form.
+
+## Login is Nomen
+
+`vaultix login` is a device-code flow against Nomen (Zitadel OIDC). The CLI prints a browser link and a short code. The user signs in once. The CLI stores the access token in the keyring and does not ask for a password or a pasted token.
+
+Nomen is the identity provider for Vaultix by default (`NOMEN_OIDC_ISSUER`, hosted default `https://auth.shippin.ai`), so Shippin and wiredFRONT services share one community identity. The same binary answers as `infisical` when installed under that name. Machine identities keep `login --universal` (client id and secret on stdin). That path is for workloads, not for people.
+
+## Vaultix looks like Vaultix
+
+The panel is the product surface: light paper, one copper accent, one column, the next command in a copyable line. That is the Doppler lesson (finish the task, name the config, show the command) in Vaultix colors and the Vaultix wordmark. The engine’s React app stays until a later slice replaces a screen. No second vendor’s chrome.
+
+## Infisical Cloud import
+
+Infisical Cloud does not hand over a `pg_dump`. Two ways in, both counts-only on the way back:
+
+1. An export JSON (projects, environments, folders, secrets) applied onto this instance.
+2. The machine-identity API pull already on `POST /api/v1/vaultix/link` and `POST /api/v1/vaultix/import`.
+
+Values are written into the vault. The report lists how many projects, environments, and secrets moved.
 
 ## Onboarding design (build this before a visual rewrite)
 
@@ -83,19 +108,24 @@ Visual rules for the slice:
 
 Later slices, each its own PR: stale-secret health, activity in plain words, config compare, sync toggle. Not this page.
 
-## Phases
+## Phase 2 queue
 
-| Phase | Work | Size | Depends on |
+Each row is its own pull request.
+
+| | Work | Size | Depends on |
 | --- | --- | --- | --- |
-| 0 | Detach phone-home and `DB_TABLE_PREFIX` for shared Postgres | L, in review | — |
+| 0 | Detach phone-home and `DB_TABLE_PREFIX` | L, in review | — |
 | 1 | This roadmap | S | — |
-| 2 | Encrypted backup and restore: prefixed tenant or whole dedicated database, sealed keys, schedule, API, CLI, manager button | M | Phase 0 for prefix-aware dumps |
-| 3 | Portability: same archive, destination prefix, root-key re-wrap, compose self-host doc | M | Phase 2 |
-| 4 | Doppler token import, Infisical export JSON import, config inheritance, references, `vaultix run --config` | M | CLI that already exists. Import writes through the panel vault, counts only |
-| 5 | Onboarding slice from the design above | S | None |
-| 6 | Health scan, activity feed, compare, sync toggle | M each | Phase 5’s page can link them. Each is its own PR |
-| 7 | Extend `ee/` features in place where a Shippin flow needs them (approvals, rotation, dynamic secrets, roles) | L | Waiver recorded in `NOTICE`. Do not replace the permission service |
-| Parked | HSM / KMIP wrap changes, a second SAML stack | — | The modules stay. Changing wrap or adding a parallel IdP waits for a reviewed reason |
+| a | Readable prefixes `vx_<shortid>_`, shown in the manager with the physical table names | S | The prefix rewriter |
+| b | `vaultix login` device flow via Nomen. `infisical` argv0 and `--universal` stay | M | — |
+| c | Vaultix visual system on the panel, including the three-step welcome | M | The design above |
+| d | Infisical Cloud import: export JSON, and the machine-identity API pull | M | Counts only. Cloud has no `pg_dump` |
+| e | Encrypted backup and restore for one prefix or a dedicated database | M | Prefix rewriter for prefixed dumps |
+| f | Portability: same archive, destination prefix, root-key re-wrap, compose self-host | M | Backup |
+| g | Doppler ergonomics: inheritance, references, `vaultix run --config`, Doppler token import | M | CLI that already exists |
+| h | Health scan, activity, compare, sync toggle | M each | Welcome page can link them |
+| 7 | Extend `ee/` features in place where a Shippin flow needs them | L | Waiver in `NOTICE`. Do not replace the permission service |
+| Parked | HSM / KMIP wrap changes, a second SAML stack | — | The modules stay. Wrap changes and a parallel IdP wait for a reviewed reason |
 
 ## What we will not do
 
