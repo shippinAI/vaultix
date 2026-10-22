@@ -16,7 +16,7 @@ Same move as Tradere’s mail core: we run **our** tree.
 | `core/` | The secrets engine. Infisical MIT core, renamed. UI title Vaultix. `keySource` vaultix. License server empty. |
 | `db/` | Owned schema overlay (already rebranded). Copied into `core/backend/src/db`. |
 | `panel/` | Shippin overlay: PIN, lessons, Clyffy, manager. Talks to core via `internal/core/wire.go`. |
-| `ee/` in core | Their paid tree. We do not ship it as “included.” |
+| `ee/` in core | Their paid tree. Ships only with a valid Infisical license key. |
 
 ## 2. Rebrand that must hold
 

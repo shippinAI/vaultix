@@ -5,4 +5,5 @@ as **Vaultix**. git remotes: none. Customer chrome: Vaultix. License
 phone-home: off.
 
 Do not add an `origin` remote to github.com/Infisical/infisical.
-Do not ship `backend/src/ee` as included Vaultix.
+`backend/src/ee` is Infisical's enterprise tree. It ships only with a valid
+Infisical license key, and its license check stays exactly as upstream wrote it.

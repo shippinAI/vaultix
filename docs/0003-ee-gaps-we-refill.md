@@ -2,8 +2,9 @@
 
 **Status:** living ledger (2026-08-29)
 **Owner:** AngryVibes LLC. **Host:** shippin.ai. **Product:** Vaultix.
-**Rule:** we do **not** copy leftover `ee/`. We refill gaps as Vaultix
-modules behind `shippin.vaultix.panel.v1`. Activation is a **Vaultix
+**Rule:** leftover `ee/` features run only with a valid Infisical license
+key, and the license check is never patched. Without that license, we refill
+gaps as Vaultix modules behind `shippin.vaultix.panel.v1`. Activation is a **Vaultix
 license / shippin.ai membership** (doc 0013), not a leftover license
 server and not an env flag alone.
 
@@ -64,12 +65,13 @@ Discoverable at `GET /api/v1/vaultix/capabilities` (valve states) and
 `GET /api/v1/vaultix/usage` (meter view). All tested: closed = no-op,
 open = enforces.
 
-## Upstream `ee/` we will not copy
+## Upstream `ee/` (licensed separately by Infisical)
 
 Checked out on the host at `/opt/vaultix/upstream/infisical` (`v0.162.19`). LICENSE still carves out any `ee/` tree. Actual modules under `backend/src/ee/services/` (and a smaller Go set under `backend-go/internal/ee/`):
 
 SAML, SCIM, LDAP, OIDC add-on, license, access-approval, secret-approval, secret-rotation-v2, dynamic-secret, audit-log-stream, pit (point-in-time), gateway/gateway-v2, hsm, kmip, pam-*, pki-*, trusted-ip, rate-limit, honey-token, insights, sub-org.
 
 Those are leftover product holes. Vaultix refills them with Nomen + this
-panel + Zuul + our backup — not by vendoring that folder. Activation:
+panel + Zuul + our backup, or run that folder under a valid Infisical
+license key. Activation:
 doc 0013.

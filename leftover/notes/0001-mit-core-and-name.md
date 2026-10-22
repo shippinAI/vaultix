@@ -14,13 +14,13 @@ The **runtime** is the owned engine — see
 |------|------------|----------------|
 | **Vaultix** | Shippin secrets product | Infisical, Vault, Warden |
 | **Infisical Cloud** | Where operator secrets sit *today* | The customer brand |
-| **Infisical `ee/`** | Their enterprise tree | Not in the free Vaultix image |
+| **Infisical `ee/`** | Their enterprise tree | Only with a valid Infisical license key |
 
 Same pattern as Zuul / NetBird: customers see Vaultix. Operators may say Infisical when talking to the upstream tree.
 
 ## 2. What we are allowed to do
 
-Infisical’s public repo is MIT **with the exception of `ee/`**. We may use, copy, modify, brand, and self-host the MIT core. We do **not** ship `ee/` features (SAML/SCIM/HSM/rotation add-ons that sit behind their paid license) as “Vaultix included.”
+Infisical’s public repo is MIT **with the exception of `ee/`**. We may use, copy, modify, brand, and self-host the MIT core. `ee/` features (SAML/SCIM/HSM/PAM/rotation add-ons that sit behind their paid license) ship only with a valid Infisical license key, never by patching the license check.
 
 If we need those later, that is a separate buy-or-build decision. It is not a reason to stall the free core.
 

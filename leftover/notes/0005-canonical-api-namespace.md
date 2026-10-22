@@ -18,7 +18,7 @@ against the upstream source tree — sparse scratchpad inspection only; the
 | Tree | Operations | Meaning |
 |------|-----------:|---------|
 | MIT core | 1,804 | Ours to use, brand, and front |
-| `ee/` | 477 | Not ours to ship (doc 0001/0003) — refused, refilled with Shippin modules |
+| `ee/` | 477 | Licensed separately (doc 0001/0003): runs only with a valid Infisical license key, otherwise refilled with Shippin modules |
 
 Where the bulk sits: App Connections (666 ops, per-provider), Secret Syncs
 (434), Secret Rotations (285, **ee**), PKI + cert-manager (~470, refused for
