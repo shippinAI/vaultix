@@ -43,7 +43,7 @@ const initTelemetryInstrumentation = ({
 
   const resource = defaultResource().merge(
     resourceFromAttributes({
-      [ATTR_SERVICE_NAME]: "infisical-core",
+      [ATTR_SERVICE_NAME]: "vaultix-core",
       [ATTR_SERVICE_VERSION]: serviceVersion,
       "git.commit.sha": process.env.DD_GIT_COMMIT_SHA || "unknown"
     })

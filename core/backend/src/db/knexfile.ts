@@ -7,6 +7,7 @@ import path from "path";
 import { initLogger } from "@app/lib/logger";
 
 import { DbApplicationName } from "./instance";
+import { createPrefixedPgClient } from "./prefixed-pg-client";
 
 // Update with your config settings. .
 dotenv.config({
@@ -18,9 +19,11 @@ dotenv.config({
 
 initLogger();
 
+const client = createPrefixedPgClient(process.env.DB_TABLE_PREFIX);
+
 export default {
   development: {
-    client: "postgres",
+    client,
     connection: {
       connectionString: process.env.DB_CONNECTION_URI,
       host: process.env.DB_HOST,
@@ -49,7 +52,7 @@ export default {
     }
   },
   production: {
-    client: "postgres",
+    client,
     connection: {
       connectionString: process.env.DB_CONNECTION_URI,
       host: process.env.DB_HOST,

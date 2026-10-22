@@ -9,7 +9,8 @@ export const initPostHog = () => {
       if (
         envConfig.ENV === "production" &&
         envConfig.TELEMETRY_CAPTURING_ENABLED === true &&
-        envConfig.POSTHOG_API_KEY
+        envConfig.POSTHOG_API_KEY &&
+        envConfig.POSTHOG_HOST
       ) {
         posthog.init(envConfig.POSTHOG_API_KEY, {
           api_host: envConfig.POSTHOG_HOST

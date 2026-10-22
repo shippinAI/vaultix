@@ -98,6 +98,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev.fips
       args:
+        # Dev FIPS build cache only. Not the runtime image. Vaultix does not republish this toolchain.
         TOOLCHAIN_IMAGE: ${TOOLCHAIN_IMAGE:-ghcr.io/infisical/backend-fips-toolchain:main}
     depends_on:
       db:

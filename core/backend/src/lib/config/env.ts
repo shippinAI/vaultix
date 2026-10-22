@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { applyPrefix, normalizeTablePrefix } from "@app/db/table-prefix";
 import { THsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { initializePqcSupport } from "@app/lib/crypto/pqc";
@@ -63,7 +64,9 @@ const envSchema = z
       .default("false")
       .transform((el) => el === "true"),
     DISABLE_PUBLIC_SECRET_SHARING: zodStrBool.default("false"),
-    DISABLE_UPDATE_CHECK: zodStrBool.default("false"),
+    DISABLE_UPDATE_CHECK: zodStrBool.default("true"),
+    // Optional GitHub-compatible releases endpoint ({ tag_name }). Unset means no update check.
+    VAULTIX_UPDATE_CHECK_URL: zpStr(z.string().optional()),
     REDIS_URL: zpStr(z.string().optional()),
     REDIS_USERNAME: zpStr(z.string().optional()),
     REDIS_PASSWORD: zpStr(z.string().optional()),
@@ -166,6 +169,14 @@ const envSchema = z
     DB_USER: zpStr(z.string().describe("Postgres database username").optional()),
     DB_PASSWORD: zpStr(z.string().describe("Postgres database password").optional()),
     DB_NAME: zpStr(z.string().describe("Postgres database name").optional()),
+    DB_TABLE_PREFIX: z
+      .string()
+      .max(12)
+      .optional()
+      .default("")
+      .describe(
+        "Physical-name prefix so several Vaultix instances can share one Postgres database. Empty keeps historical unprefixed names."
+      ),
     DB_READ_REPLICAS: zpStr(z.string().describe("Postgres read replicas").optional()),
     DB_POOL_MIN: z.coerce.number().int().min(0).default(0).describe("Minimum primary Postgres pool connections"),
     DB_POOL_MAX: z.coerce.number().int().min(1).default(10).describe("Maximum primary Postgres pool connections"),
@@ -258,16 +269,16 @@ const envSchema = z
     // Ensure that the SITE_URL never ends with a trailing slash
     SITE_URL: zpStr(z.string().transform((val) => (val ? removeTrailingSlash(val) : val))).optional(),
     // Telemetry
-    TELEMETRY_ENABLED: zodStrBool.default("true"),
-    POSTHOG_HOST: zpStr(z.string().optional().default("https://app.posthog.com")),
-    POSTHOG_PROJECT_API_KEY: zpStr(z.string().optional().default("phc_swoSUd69FLA4ztGPkBhnNHDVbrssfPkuYEGCquN33FCX")),
+    TELEMETRY_ENABLED: zodStrBool.default("false"),
+    POSTHOG_HOST: zpStr(z.string().optional().default("")),
+    POSTHOG_PROJECT_API_KEY: zpStr(z.string().optional().default("")),
     LOOPS_API_KEY: zpStr(z.string().optional()),
     // HubSpot Forms API for capturing signups
     HUBSPOT_PORTAL_ID: zpStr(z.string().optional()),
     HUBSPOT_SIGNUP_FORM_ID: zpStr(z.string().optional()),
     // In-app announcements (Contentful). Public read-only delivery token; safe to bake in defaults.
     // Self-hosted admins can disable outbound calls with ANNOUNCEMENTS_ENABLED=false.
-    ANNOUNCEMENTS_ENABLED: zodStrBool.default("true"),
+    ANNOUNCEMENTS_ENABLED: zodStrBool.default("false"),
     CONTENTFUL_SPACE_ID: zpStr(z.string().optional()),
     CONTENTFUL_DELIVERY_TOKEN: zpStr(z.string().optional()),
     CONTENTFUL_ENVIRONMENT: zpStr(z.string().optional().default("master")),
@@ -550,7 +561,7 @@ const envSchema = z
     SHOULD_USE_DATADOG_TRACER: zodStrBool.default("false"),
     DATADOG_PROFILING_ENABLED: zodStrBool.default("false"),
     DATADOG_ENV: zpStr(z.string().optional().default("prod")),
-    DATADOG_SERVICE: zpStr(z.string().optional().default("infisical-core")),
+    DATADOG_SERVICE: zpStr(z.string().optional().default("vaultix-core")),
     DATADOG_HOSTNAME: zpStr(z.string().optional()),
 
     // PIT
@@ -621,6 +632,16 @@ const envSchema = z
 
     const scanBudgetMs =
       data.SECRET_SCANNING_CLONE_TIMEOUT_MS + data.SECRET_SCANNING_SCAN_TIMEOUT_MS + SECRET_SCANNING_SCAN_OVERHEAD_MS;
+    try {
+      normalizeTablePrefix(data.DB_TABLE_PREFIX);
+    } catch (err) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["DB_TABLE_PREFIX"],
+        message: err instanceof Error ? err.message : "Invalid DB_TABLE_PREFIX"
+      });
+    }
+
     if (data.SECRET_SCANNING_STUCK_SCAN_TIMEOUT_MS <= scanBudgetMs) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -629,85 +650,94 @@ const envSchema = z
       });
     }
   })
-  .transform((data) => ({
-    ...data,
-    SALT_ROUNDS: data.SALT_ROUNDS || data.BCRYPT_SALT_ROUND || 12,
-    DISABLE_POSTGRES_AUDIT_LOG_STORAGE:
-      data.DISABLE_POSTGRES_AUDIT_LOG_STORAGE ?? data.DISABLE_AUDIT_LOG_STORAGE ?? false,
-    DB_READ_REPLICAS: data.DB_READ_REPLICAS
-      ? databaseReadReplicaSchema.parse(JSON.parse(data.DB_READ_REPLICAS))
-      : undefined,
-    // Inferred from the legacy license server key; needs a new signal once License Server v2 fully replaces it.
-    isCloud: Boolean(data.LICENSE_SERVER_KEY || data.LICENSE_SERVER_V2_SERVICE_KEY),
-    isLicenseDualReadEnabled: data.LICENSE_SERVER_V2_MODE === "read-compare",
-    isSmtpConfigured: Boolean(data.SMTP_HOST),
-    isRedisConfigured: Boolean(data.REDIS_URL || data.REDIS_SENTINEL_HOSTS || data.REDIS_CLUSTER_HOSTS),
-    isClickHouseConfigured: Boolean(data.CLICKHOUSE_URL),
-    isDevelopmentMode: data.NODE_ENV === "development",
-    isTestMode: data.NODE_ENV === "test",
-    isRotationDevelopmentMode:
-      (data.NODE_ENV === "development" && data.ROTATION_DEVELOPMENT_MODE) || data.NODE_ENV === "test",
-    isDailyResourceCleanUpDevelopmentMode:
-      data.NODE_ENV === "development" && data.DAILY_RESOURCE_CLEAN_UP_DEVELOPMENT_MODE,
-    isAcmeDevelopmentMode: data.NODE_ENV === "development" && data.ACME_DEVELOPMENT_MODE,
-    isProductionMode: data.NODE_ENV === "production" || IS_PACKAGED,
-    isRedisSentinelMode: Boolean(data.REDIS_SENTINEL_HOSTS),
-    isBddNockApiEnabled: data.NODE_ENV !== "production" && data.BDD_NOCK_API_ENABLED,
-    REDIS_SENTINEL_HOSTS: data.REDIS_SENTINEL_HOSTS?.trim()
-      ?.split(",")
-      .map((el) => {
-        const [host, port] = el.trim().split(":");
-        return { host: host.trim(), port: Number(port.trim()) };
-      }),
-    REDIS_CLUSTER_HOSTS: data.REDIS_CLUSTER_HOSTS?.trim()
-      ?.split(",")
-      .map((el) => {
-        const [host, port] = el.trim().split(":");
-        return { host: host.trim(), port: Number(port.trim()) };
-      }),
-    REDIS_READ_REPLICAS: data.REDIS_READ_REPLICAS?.trim()
-      ?.split(",")
-      .map((el) => {
-        const [host, port] = el.trim().split(":");
-        return { host: host.trim(), port: Number(port.trim()) };
-      }),
-    isSecretScanningConfigured:
-      Boolean(data.SECRET_SCANNING_GIT_APP_ID) &&
-      Boolean(data.SECRET_SCANNING_PRIVATE_KEY) &&
-      Boolean(data.SECRET_SCANNING_WEBHOOK_SECRET),
-    isSecretScanningV2Configured:
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_ID) &&
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_PRIVATE_KEY) &&
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_SLUG) &&
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_ID) &&
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_SECRET) &&
-      Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_WEBHOOK_SECRET),
-    isSecondaryInstance: Boolean(data.VAULTIX_PRIMARY_INSTANCE_URL),
-    isHsmConfigured:
-      Boolean(data.HSM_LIB_PATH) && Boolean(data.HSM_PIN) && Boolean(data.HSM_KEY_LABEL) && data.HSM_SLOT !== undefined,
-    samlDefaultOrgSlug: data.DEFAULT_SAML_ORG_SLUG,
-    SECRET_SCANNING_ORG_WHITELIST: data.SECRET_SCANNING_ORG_WHITELIST?.split(","),
-    PARAMS_FOLDER_SECRET_DETECTION_ENABLED: (data.PARAMS_FOLDER_SECRET_DETECTION_PATHS?.length ?? 0) > 0,
-    INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_ID:
-      data.INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
-    INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_SECRET:
-      data.INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
-    INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_ID:
-      data.INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
-    INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_SECRET:
-      data.INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
-    INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_ID:
-      data.INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
-    INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_SECRET:
-      data.INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
-    INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_ID:
-      data.INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
-    INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_SECRET:
-      data.INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
-    INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_ID: data.INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_ID || data.CLIENT_ID_HEROKU,
-    INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_SECRET:
-      data.INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_SECRET || data.CLIENT_SECRET_HEROKU
-  }));
+  .transform((data) => {
+    const tablePrefix = normalizeTablePrefix(data.DB_TABLE_PREFIX);
+    return {
+      ...data,
+      DB_TABLE_PREFIX: tablePrefix,
+      CLICKHOUSE_AUDIT_LOG_TABLE_NAME: applyPrefix(tablePrefix, data.CLICKHOUSE_AUDIT_LOG_TABLE_NAME),
+      SALT_ROUNDS: data.SALT_ROUNDS || data.BCRYPT_SALT_ROUND || 12,
+      DISABLE_POSTGRES_AUDIT_LOG_STORAGE:
+        data.DISABLE_POSTGRES_AUDIT_LOG_STORAGE ?? data.DISABLE_AUDIT_LOG_STORAGE ?? false,
+      DB_READ_REPLICAS: data.DB_READ_REPLICAS
+        ? databaseReadReplicaSchema.parse(JSON.parse(data.DB_READ_REPLICAS))
+        : undefined,
+      // Inferred from the legacy license server key; needs a new signal once License Server v2 fully replaces it.
+      isCloud: Boolean(data.LICENSE_SERVER_KEY || data.LICENSE_SERVER_V2_SERVICE_KEY),
+      isLicenseDualReadEnabled: data.LICENSE_SERVER_V2_MODE === "read-compare",
+      isSmtpConfigured: Boolean(data.SMTP_HOST),
+      isRedisConfigured: Boolean(data.REDIS_URL || data.REDIS_SENTINEL_HOSTS || data.REDIS_CLUSTER_HOSTS),
+      isClickHouseConfigured: Boolean(data.CLICKHOUSE_URL),
+      isDevelopmentMode: data.NODE_ENV === "development",
+      isTestMode: data.NODE_ENV === "test",
+      isRotationDevelopmentMode:
+        (data.NODE_ENV === "development" && data.ROTATION_DEVELOPMENT_MODE) || data.NODE_ENV === "test",
+      isDailyResourceCleanUpDevelopmentMode:
+        data.NODE_ENV === "development" && data.DAILY_RESOURCE_CLEAN_UP_DEVELOPMENT_MODE,
+      isAcmeDevelopmentMode: data.NODE_ENV === "development" && data.ACME_DEVELOPMENT_MODE,
+      isProductionMode: data.NODE_ENV === "production" || IS_PACKAGED,
+      isRedisSentinelMode: Boolean(data.REDIS_SENTINEL_HOSTS),
+      isBddNockApiEnabled: data.NODE_ENV !== "production" && data.BDD_NOCK_API_ENABLED,
+      REDIS_SENTINEL_HOSTS: data.REDIS_SENTINEL_HOSTS?.trim()
+        ?.split(",")
+        .map((el) => {
+          const [host, port] = el.trim().split(":");
+          return { host: host.trim(), port: Number(port.trim()) };
+        }),
+      REDIS_CLUSTER_HOSTS: data.REDIS_CLUSTER_HOSTS?.trim()
+        ?.split(",")
+        .map((el) => {
+          const [host, port] = el.trim().split(":");
+          return { host: host.trim(), port: Number(port.trim()) };
+        }),
+      REDIS_READ_REPLICAS: data.REDIS_READ_REPLICAS?.trim()
+        ?.split(",")
+        .map((el) => {
+          const [host, port] = el.trim().split(":");
+          return { host: host.trim(), port: Number(port.trim()) };
+        }),
+      isSecretScanningConfigured:
+        Boolean(data.SECRET_SCANNING_GIT_APP_ID) &&
+        Boolean(data.SECRET_SCANNING_PRIVATE_KEY) &&
+        Boolean(data.SECRET_SCANNING_WEBHOOK_SECRET),
+      isSecretScanningV2Configured:
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_ID) &&
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_PRIVATE_KEY) &&
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_SLUG) &&
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_ID) &&
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_CLIENT_SECRET) &&
+        Boolean(data.INF_APP_CONNECTION_GITHUB_RADAR_APP_WEBHOOK_SECRET),
+      isSecondaryInstance: Boolean(data.VAULTIX_PRIMARY_INSTANCE_URL),
+      isHsmConfigured:
+        Boolean(data.HSM_LIB_PATH) &&
+        Boolean(data.HSM_PIN) &&
+        Boolean(data.HSM_KEY_LABEL) &&
+        data.HSM_SLOT !== undefined,
+      samlDefaultOrgSlug: data.DEFAULT_SAML_ORG_SLUG,
+      SECRET_SCANNING_ORG_WHITELIST: data.SECRET_SCANNING_ORG_WHITELIST?.split(","),
+      PARAMS_FOLDER_SECRET_DETECTION_ENABLED: (data.PARAMS_FOLDER_SECRET_DETECTION_PATHS?.length ?? 0) > 0,
+      INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_ID:
+        data.INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
+      INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_SECRET:
+        data.INF_APP_CONNECTION_AZURE_DEVOPS_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
+      INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_ID:
+        data.INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
+      INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_SECRET:
+        data.INF_APP_CONNECTION_AZURE_CLIENT_SECRETS_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
+      INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_ID:
+        data.INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
+      INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_SECRET:
+        data.INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
+      INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_ID:
+        data.INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_ID || data.INF_APP_CONNECTION_AZURE_CLIENT_ID,
+      INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_SECRET:
+        data.INF_APP_CONNECTION_AZURE_APP_CONFIGURATION_CLIENT_SECRET || data.INF_APP_CONNECTION_AZURE_CLIENT_SECRET,
+      INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_ID:
+        data.INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_ID || data.CLIENT_ID_HEROKU,
+      INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_SECRET:
+        data.INF_APP_CONNECTION_HEROKU_OAUTH_CLIENT_SECRET || data.CLIENT_SECRET_HEROKU
+    };
+  });
 
 export type TEnvConfig = Readonly<z.infer<typeof envSchema>>;
 let envCfg: TEnvConfig;

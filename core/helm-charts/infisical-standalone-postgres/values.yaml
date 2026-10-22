@@ -15,7 +15,9 @@ infisical:
     enabled: false
 
     image:
-      # -- Infisical Infisical CLI image tag version
+      # Upstream Infisical CLI. Used only when autoBootstrap.enabled is true
+      # (default false). This is not the Vaultix server image.
+      repository: infisical/cli
       tag: "0.41.86"
 
     # -- Template for the data/stringData section of the Kubernetes secret. Available functions: encodeBase64
@@ -63,9 +65,9 @@ infisical:
 
   image:
     # -- Image repository for the Infisical service
-    repository: infisical/infisical
-    # -- Specific version tag of the Infisical image. View the latest version here https://hub.docker.com/r/infisical/infisical
-    tag: "v0.158.0"
+    repository: ghcr.io/shippinai/vaultix
+    # -- Vaultix image tag built from this fork (Infisical MIT pin v0.162.19).
+    tag: "0.162.19"
     # -- Pulls image only if not already present on the node
     pullPolicy: IfNotPresent
     # -- Secret references for pulling the image, if needed

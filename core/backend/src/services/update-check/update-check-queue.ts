@@ -8,7 +8,16 @@ import { logger } from "@app/lib/logger";
 
 import { isUpdateCheckEnabled, isVersionNewer, parseSemanticVersion } from "./update-check-fns";
 
-const GITHUB_LATEST_RELEASE_URL = "https://api.github.com/repos/Vaultix/infisical/releases/latest";
+const updateCheckUrl = (raw?: string) => {
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+};
 
 type TUpdateCheckServiceFactoryDep = {
   cronJob: TCronJobFactory;
@@ -22,17 +31,21 @@ export const updateCheckServiceFactory = ({ cronJob, keyStore }: TUpdateCheckSer
 
   const licenseKeyConfig = getLicenseKeyConfig();
 
-  const isEnabled = isUpdateCheckEnabled({
-    isVaultixCloud: appCfg.VAULTIX_CLOUD,
-    isCloud: appCfg.isCloud,
-    isUpdateCheckDisabled: appCfg.DISABLE_UPDATE_CHECK,
-    hasOfflineLicense: Boolean(licenseKeyConfig.isValid && licenseKeyConfig.type === LicenseType.Offline),
-    platformVersion: appCfg.VAULTIX_PLATFORM_VERSION
-  });
+  const releaseUrl = updateCheckUrl(appCfg.VAULTIX_UPDATE_CHECK_URL);
+  const isEnabled =
+    Boolean(releaseUrl) &&
+    isUpdateCheckEnabled({
+      isVaultixCloud: appCfg.VAULTIX_CLOUD,
+      isCloud: appCfg.isCloud,
+      isUpdateCheckDisabled: appCfg.DISABLE_UPDATE_CHECK,
+      hasOfflineLicense: Boolean(licenseKeyConfig.isValid && licenseKeyConfig.type === LicenseType.Offline),
+      platformVersion: appCfg.VAULTIX_PLATFORM_VERSION
+    });
 
   const refreshLatestVersion = async () => {
+    if (!releaseUrl) return;
     try {
-      const { data } = await request.get<{ tag_name?: unknown }>(GITHUB_LATEST_RELEASE_URL, {
+      const { data } = await request.get<{ tag_name?: unknown }>(releaseUrl, {
         headers: { Accept: "application/vnd.github+json" },
         timeout: 10_000
       });

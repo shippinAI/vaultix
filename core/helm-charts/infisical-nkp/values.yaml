@@ -5,13 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: infisical/infisical
-  tag: "v0.162.11"
+  repository: ghcr.io/shippinai/vaultix
+  tag: "0.162.19"
   pullPolicy: IfNotPresent
 
 # Non-secret application configuration (rendered into a ConfigMap).
 config:
-  siteUrl: "https://infisical.example.com"
+  siteUrl: "https://vaultix.example.com"
   port: 8080
   telemetryEnabled: false
 

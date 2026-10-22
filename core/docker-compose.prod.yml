@@ -9,7 +9,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
-    image: infisical/infisical:latest # PIN THIS TO A SPECIFIC TAG
+    image: ghcr.io/shippinai/vaultix:0.162.19
     pull_policy: always
     env_file: .env
     ports:

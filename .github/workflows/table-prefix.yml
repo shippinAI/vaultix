@@ -1,0 +1,50 @@
+# Prove DB_TABLE_PREFIX: existing unit tests with no prefix, then two prefixed
+# schemas plus an unprefixed schema migrated in one Postgres database.
+name: table-prefix
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  prefix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: vaultix
+          POSTGRES_PASSWORD: vaultix
+          POSTGRES_DB: vaultix
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U vaultix -d vaultix"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: core/backend/package-lock.json
+      - name: Install backend dependencies
+        working-directory: core/backend
+        run: npm ci --no-audit --no-fund
+      - name: Unit tests (no table prefix)
+        working-directory: core/backend
+        run: npm run test:unit
+      - name: Shared-database prefix isolation
+        working-directory: core/backend
+        env:
+          DB_CONNECTION_URI: postgres://vaultix:vaultix@127.0.0.1:5432/vaultix
+          ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef
+        run: npx vitest run -c vitest.unit.config.mts --pool=forks --maxWorkers=1 src/db/table-prefix.integration.test.ts

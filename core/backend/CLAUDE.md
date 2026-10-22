@@ -410,7 +410,7 @@ OpenTelemetry metric setup lives in `src/lib/telemetry/`. Instruments are define
 
 ### Database Configuration
 
-Knex config in `src/db/knexfile.ts`. Loads `.env.migration` then `.env`. Supports `DB_CONNECTION_URI` or individual host/port/user/name/password fields. Optional SSL via `DB_ROOT_CERT` (base64-encoded CA cert). Connection pool: min 2, max 10. Migrations table: `infisical_migrations`. Separate audit log DB supported via `auditlog-migration:*` scripts. ClickHouse for analytics (optional).
+Knex config in `src/db/knexfile.ts`. Loads `.env.migration` then `.env`. Supports `DB_CONNECTION_URI` or individual host/port/user/name/password fields. Optional SSL via `DB_ROOT_CERT` (base64-encoded CA cert). The CLI knex pool is min 2, max 10. The running server uses `DB_POOL_MIN` (default 0) and `DB_POOL_MAX` (default 10). Migrations table: `vaultix_migrations`, prefixed when `DB_TABLE_PREFIX` is set. Separate audit log DB supported via `auditlog-migration:*` scripts. ClickHouse for analytics (optional).
 
 Migrations in `src/db/migrations/`. Auto-generated Zod schemas in `src/db/schemas/`.
 

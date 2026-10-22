@@ -19,7 +19,7 @@ services:
           
   infisical:
     container_name: infisical-backend
-    image: infisical/infisical:v0.60.1-postgres
+    image: ghcr.io/shippinai/vaultix:0.162.19
     env_file: .env
     networks:
       - infisical
