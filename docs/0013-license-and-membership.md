@@ -41,8 +41,7 @@ No leftover `LICENSE_SERVER_URL`. No phone-home.
 Community is the product a vibe coder needs: one box per app, inject
 not paste, Clyffy teaches in the viewport.
 
-Enterprise is not leftover `ee/`. It is the valves and later surfaces
-in doc 0003 / 0010, licensed here:
+The engine’s `ee/` tree stays and is operated under the Infisical waiver recorded in `NOTICE`. Do not strip it. Panel enterprise is the valves and later surfaces in doc 0003 / 0010, licensed here:
 
 | Feature | Requires |
 | --- | --- |
