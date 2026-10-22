@@ -260,23 +260,25 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
   };
 
   const prefixStringLiteral = (content: string): string => {
-    const lower = content.toLowerCase();
-    if (lower.startsWith(prefix)) return content;
+    const { body, stripped } = splitPublicQualifier(content);
+    const lower = body.toLowerCase();
+    if (lower.startsWith(prefix)) return stripped ? body : content;
     for (const table of tablesByLength) {
       if (!lower.startsWith(table)) continue;
       const next = lower.charAt(table.length);
       if (next === "" || next === "_" || next === "%") {
-        return fitIdent(prefix, table) + content.slice(table.length);
+        return fitIdent(prefix, table) + body.slice(table.length);
       }
     }
-    return classify(content) ?? content;
+    return classify(body) ?? content;
   };
 
   const rewriteCatalogString = (content: string, codeTail: string): string => {
+    const { body } = splitPublicQualifier(content);
     const tail = codeTail.replace(/"/g, "");
-    if (/(?:indexname|conname|tgname|relname)\s*=\s*$/i.test(tail) && IDENT_RE.test(content)) {
-      if (content.toLowerCase().startsWith(prefix)) return content;
-      return classify(content) ?? fitIdent(prefix, content);
+    if (/(?:indexname|conname|tgname|relname)\s*=\s*$/i.test(tail) && IDENT_RE.test(body)) {
+      if (body.toLowerCase().startsWith(prefix)) return body;
+      return classify(body) ?? fitIdent(prefix, body);
     }
     return prefixStringLiteral(content);
   };
@@ -291,11 +293,13 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
   };
 
   const prefixBound = (kind: BindingKind, value: unknown): unknown => {
-    if (kind === null || typeof value !== "string" || !IDENT_RE.test(value)) return value;
-    if (value.toLowerCase().startsWith(prefix)) return value;
-    const classified = classify(value);
+    if (kind === null || typeof value !== "string") return value;
+    const { body } = splitPublicQualifier(value);
+    if (!IDENT_RE.test(body)) return value;
+    if (body.toLowerCase().startsWith(prefix)) return body;
+    const classified = classify(body);
     if (classified) return classified;
-    if (kind === "object") return fitIdent(prefix, value);
+    if (kind === "object") return fitIdent(prefix, body);
     return value;
   };
 
@@ -381,6 +385,23 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
       note(rendered);
     };
 
+    const shouldDropPublic = (name: string) => {
+      const lower = name.toLowerCase();
+      if (SCHEMA_QUALIFIERS.has(lower)) return false;
+      if (lower.startsWith(prefix)) return true;
+      if (classify(name)) return true;
+      return expectName;
+    };
+
+    /** `public.users` becomes the prefixed unqualified name so search_path picks the schema. */
+    const consumePublicQualifier = (afterSchema: number) => {
+      const peeked = peekDotIdent(sql, afterSchema);
+      if (!peeked || !shouldDropPublic(peeked.content)) return false;
+      emitIdent(peeked.content, peeked.quoted);
+      i = peeked.end;
+      return true;
+    };
+
     while (i < sql.length) {
       const ch = sql[i];
 
@@ -410,7 +431,7 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
       }
       if (ch === "'") {
         const { content, end } = readSingleQuoted(sql, i);
-        const next = strings ? rewriteCatalogString(content, codeTail) : content;
+        const next = strings || isRegclassCast(sql, end) ? rewriteCatalogString(content, codeTail) : content;
         out += `'${next.replace(/'/g, "''")}'`;
         note("''");
         i = end;
@@ -418,6 +439,7 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
       }
       if (ch === '"') {
         const { content, end } = readDoubleQuoted(sql, i);
+        if (content.toLowerCase() === "public" && consumePublicQualifier(end)) continue;
         emitIdent(content, true);
         i = end;
         continue;
@@ -442,6 +464,7 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
         while (j < sql.length && isIdentPart(sql[j])) j += 1;
         const word = sql.slice(i, j);
         const lower = word.toLowerCase();
+        if (lower === "public" && consumePublicQualifier(j)) continue;
         // Routine names stay prefixed even when the next token is `(`.
         // Other call targets (count, gen_random_uuid, pg_advisory_xact_lock) do not.
         if (routines.has(lower)) {
@@ -474,6 +497,39 @@ export const createSqlPrefixer = (prefix: string): SqlPrefixer => {
 
 const isIdentStart = (ch: string) => /[A-Za-z_]/.test(ch);
 const isIdentPart = (ch: string) => /[A-Za-z0-9_]/.test(ch);
+
+/** `'public.users'` → body `users`. Other schemas stay qualified. */
+const splitPublicQualifier = (content: string): { body: string; stripped: boolean } => {
+  if (content.length >= 7 && content.slice(0, 7).toLowerCase() === "public.") {
+    const rest = content.slice(7);
+    if (/^[A-Za-z_]/.test(rest)) return { body: rest, stripped: true };
+  }
+  return { body: content, stripped: false };
+};
+
+const isRegclassCast = (sql: string, pos: number) => {
+  let k = pos;
+  while (k < sql.length && (sql[k] === " " || sql[k] === "\n" || sql[k] === "\t" || sql[k] === "\r")) k += 1;
+  return sql.slice(k, k + 10).toLowerCase() === "::regclass";
+};
+
+type PeekedIdent = { content: string; quoted: boolean; end: number };
+
+const peekDotIdent = (sql: string, pos: number): PeekedIdent | null => {
+  let k = pos;
+  while (k < sql.length && (sql[k] === " " || sql[k] === "\n" || sql[k] === "\t" || sql[k] === "\r")) k += 1;
+  if (sql[k] !== ".") return null;
+  k += 1;
+  while (k < sql.length && (sql[k] === " " || sql[k] === "\n" || sql[k] === "\t" || sql[k] === "\r")) k += 1;
+  if (sql[k] === '"') {
+    const read = readDoubleQuoted(sql, k);
+    return { content: read.content, quoted: true, end: read.end };
+  }
+  if (!isIdentStart(sql[k] ?? "")) return null;
+  let j = k + 1;
+  while (j < sql.length && isIdentPart(sql[j])) j += 1;
+  return { content: sql.slice(k, j), quoted: false, end: j };
+};
 
 /** An identifier followed by `(` is a function or keyword call, not a table. */
 const isKeywordContext = (sql: string, end: number) => {
@@ -588,7 +644,9 @@ const bindingKinds = (sql: string, count: number): BindingKind[] => {
       }
     }
     if (ch === "?" && sql[i - 1] !== "\\") {
-      kinds.push(kindBeforePlaceholder(visible));
+      let kind = kindBeforePlaceholder(visible);
+      if (kind === null && isRegclassCast(sql, i + 1)) kind = "table";
+      kinds.push(kind);
       visible += "?";
       i += 1;
       continue;

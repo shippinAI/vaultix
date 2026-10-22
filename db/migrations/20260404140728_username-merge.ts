@@ -5,6 +5,36 @@ import { AccessScope, TableName } from "../schemas";
 
 const MIGRATION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
+const splitRegclass = (input: string): string[] => {
+  const parts: string[] = [];
+  let current = "";
+  let quoted = false;
+  for (let i = 0; i < input.length; i += 1) {
+    const ch = input[i];
+    const doubled = ch === '"' && quoted && input[i + 1] === '"';
+    if (doubled) {
+      current += '"';
+      i += 1;
+    } else if (ch === '"') {
+      quoted = !quoted;
+    } else if (ch === "." && !quoted) {
+      parts.push(current);
+      current = "";
+    } else {
+      current += ch;
+    }
+  }
+  if (current) parts.push(current);
+  return parts;
+};
+
+/** Quote regclass::text. Drop a leading public schema so search_path resolves the tenant. */
+const quoteRegclass = (regclassText: string): string => {
+  const parts = splitRegclass(regclassText);
+  const names = parts.length >= 2 && parts[0].toLowerCase() === "public" ? parts.slice(1) : parts;
+  return names.map((part) => `"${part.replace(/"/g, '""')}"`).join(".");
+};
+
 export async function up(knex: Knex): Promise<void> {
   const result = await knex.raw("SHOW statement_timeout");
   const originalTimeout = result.rows[0].statement_timeout;
@@ -81,10 +111,10 @@ export async function up(knex: Knex): Promise<void> {
         ON a.attrelid = c.conrelid
        AND a.attnum = ANY(c.conkey)
     WHERE c.contype = 'f'
-      AND c.confrelid = 'public.users'::regclass
+      AND c.confrelid = 'users'::regclass
       AND c.confkey = ARRAY(
           SELECT attnum FROM pg_attribute
-          WHERE attrelid = 'public.users'::regclass AND attname = 'id'
+          WHERE attrelid = 'users'::regclass AND attname = 'id'
       )
   `);
     const userFkReferences = fkRefs.rows as { table_name: string; column_name: string }[];
@@ -199,7 +229,7 @@ export async function up(knex: Knex): Promise<void> {
         await knex.raw("SAVEPOINT fk_reassign");
         await knex.raw(
           `
-          UPDATE "${ref.table_name}"
+          UPDATE ${quoteRegclass(ref.table_name)}
           SET "${ref.column_name}" = CASE "${ref.column_name}" ${caseClauses} END
           WHERE "${ref.column_name}" = ANY(?)
         `,

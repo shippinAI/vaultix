@@ -74,6 +74,31 @@ func TestRewriteIndexAndRoutine(t *testing.T) {
 	}
 }
 
+func TestPublicQualifierBecomesUnqualified(t *testing.T) {
+	p := testPrefixer(t)
+	if got := p.Rewrite(`select public.users from public.users`); got != `select t1_users from t1_users` {
+		t.Fatalf("qualified table: %s", got)
+	}
+	if got := p.Rewrite(`select "public"."users"`); got != `select "t1_users"` {
+		t.Fatalf("quoted qualifier: %s", got)
+	}
+	cast := `AND c.confrelid = 'public.users'::regclass AND attrelid = 'users'::regclass`
+	want := `AND c.confrelid = 't1_users'::regclass AND attrelid = 't1_users'::regclass`
+	if got := p.Rewrite(cast); got != want {
+		t.Fatalf("regclass: %s", got)
+	}
+	if got := p.Rewrite(`SELECT 'pg_class'::regclass`); got != `SELECT 'pg_class'::regclass` {
+		t.Fatalf("catalog cast: %s", got)
+	}
+	if got := p.Rewrite(`select * from information_schema.tables where table_schema = current_schema()`); got != `select * from information_schema.tables where table_schema = current_schema()` {
+		t.Fatalf("information_schema: %s", got)
+	}
+	idx := p.Rewrite(`create index "public"."idx_foo" on "users" ("id")`)
+	if idx != `create index "t1_idx_foo" on "t1_users" ("id")` {
+		t.Fatalf("index qualifier: %s", idx)
+	}
+}
+
 func TestEmptyPrefixIsIdentity(t *testing.T) {
 	p, err := New("", []string{"users"}, nil)
 	if err != nil {

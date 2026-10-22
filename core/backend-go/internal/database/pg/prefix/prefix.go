@@ -180,8 +180,12 @@ func (p *Prefixer) forceObjectName(original string) string {
 }
 
 func (p *Prefixer) prefixStringLiteral(content string) string {
-	lower := strings.ToLower(content)
+	body, stripped := splitPublicQualifier(content)
+	lower := strings.ToLower(body)
 	if strings.HasPrefix(lower, p.prefix) {
+		if stripped {
+			return body
+		}
 		return content
 	}
 	for _, table := range p.ordered {
@@ -193,25 +197,51 @@ func (p *Prefixer) prefixStringLiteral(content string) string {
 			next = lower[len(table) : len(table)+1]
 		}
 		if next == "" || next == "_" || next == "%" {
-			return FitIdent(p.prefix, table) + content[len(table):]
+			return FitIdent(p.prefix, table) + body[len(table):]
 		}
 	}
-	if next, ok := p.classify(content); ok {
+	if next, ok := p.classify(body); ok {
 		return next
 	}
 	return content
 }
 
 func (p *Prefixer) rewriteCatalogString(content, codeTail string) string {
+	body, _ := splitPublicQualifier(content)
 	tail := strings.ReplaceAll(codeTail, `"`, "")
-	if catalogNameAssign.MatchString(tail) && identRe.MatchString(content) {
-		if strings.HasPrefix(strings.ToLower(content), p.prefix) {
-			return content
+	if catalogNameAssign.MatchString(tail) && identRe.MatchString(body) {
+		if strings.HasPrefix(strings.ToLower(body), p.prefix) {
+			return body
 		}
-		if next, ok := p.classify(content); ok {
+		if next, ok := p.classify(body); ok {
 			return next
 		}
-		return FitIdent(p.prefix, content)
+		return FitIdent(p.prefix, body)
 	}
 	return p.prefixStringLiteral(content)
+}
+
+// splitPublicQualifier turns `public.users` into `users`. Other schemas stay qualified.
+func splitPublicQualifier(content string) (body string, stripped bool) {
+	if len(content) >= 7 && strings.EqualFold(content[:7], "public.") {
+		rest := content[7:]
+		if rest != "" && isIdentStart(rest[0]) {
+			return rest, true
+		}
+	}
+	return content, false
+}
+
+func (p *Prefixer) shouldDropPublic(name string, expectName bool) bool {
+	lower := strings.ToLower(name)
+	if _, schema := schemaQualifiers[lower]; schema {
+		return false
+	}
+	if strings.HasPrefix(lower, p.prefix) {
+		return true
+	}
+	if _, ok := p.classify(name); ok {
+		return true
+	}
+	return expectName
 }

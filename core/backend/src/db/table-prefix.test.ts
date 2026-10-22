@@ -37,9 +37,8 @@ describe("createSqlPrefixer", () => {
     expect(prefixer.prefixSql(`select "alerts"."projectId" from "alerts"`)).toBe(
       `select "t1_alerts"."projectId" from "t1_alerts"`
     );
-    expect(prefixer.prefixSql(`select public.users from public.users`)).toBe(
-      `select public.t1_users from public.t1_users`
-    );
+    expect(prefixer.prefixSql(`select public.users from public.users`)).toBe(`select t1_users from t1_users`);
+    expect(prefixer.prefixSql(`select "public"."users" from public."users"`)).toBe(`select "t1_users" from "t1_users"`);
   });
 
   test("prefixes primary keys, foreign keys, and knex-style constraint names", () => {
@@ -62,7 +61,9 @@ describe("createSqlPrefixer", () => {
     expect(prefixer.prefixSql(`drop index concurrently if exists "idx_a"`)).toBe(
       `drop index concurrently if exists "t1_idx_a"`
     );
-    expect(prefixer.prefixSql(`create index "public"."idx_foo" on "users" ("id")`)).toContain(`"t1_idx_foo"`);
+    expect(prefixer.prefixSql(`create index "public"."idx_foo" on "users" ("id")`)).toBe(
+      `create index "t1_idx_foo" on "t1_users" ("id")`
+    );
     expect(
       prefixer.prefixSql(
         `CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_identity_access_tokens_num_uses_with_limit\nON identity_access_tokens ("id")\nWHERE "accessTokenNumUses" >= "identity_access_tokens"."accessTokenNumUsesLimit"`
@@ -116,6 +117,45 @@ describe("createSqlPrefixer", () => {
     expect(prefixer.prefixSql(`insert into "secrets_v2" ("key") values ('users_token')`)).toBe(
       `insert into "t1_secrets_v2" ("key") values ('users_token')`
     );
+  });
+
+  test("rewrites username-merge regclass casts to an unqualified prefixed table", () => {
+    const prefixer = prefixed();
+    const hardcoded = `AND c.confrelid = 'public.users'::regclass AND attrelid = 'public.users'::regclass`;
+    expect(prefixer.prefixSql(hardcoded)).toBe(
+      `AND c.confrelid = 't1_users'::regclass AND attrelid = 't1_users'::regclass`
+    );
+    const unqualified = `AND c.confrelid = 'users'::regclass AND c.conrelid::regclass::text = 'users'`;
+    expect(prefixer.prefixSql(unqualified)).toBe(
+      `AND c.confrelid = 't1_users'::regclass AND c.conrelid::regclass::text = 'users'`
+    );
+    expect(prefixer.prefixSql(`SELECT 'pg_class'::regclass`)).toBe(`SELECT 'pg_class'::regclass`);
+    expect(
+      prefixer.prefixBindings(`WHERE c.oid = ?::regclass OR inhparent = ?::regclass`, ["audit_logs", "public.users"])
+    ).toEqual(["t1_audit_logs", "t1_users"]);
+    expect(prefixer.prefixBindings(`WHERE c.oid = ?::regclass`, ["pg_class"])).toEqual(["pg_class"]);
+
+    const migration = readFileSync(path.join(__dirname, "migrations/20260404140728_username-merge.ts"), "utf8");
+    const mirror = readFileSync(
+      path.join(__dirname, "../../../../db/migrations/20260404140728_username-merge.ts"),
+      "utf8"
+    );
+    expect(migration).toBe(mirror);
+    expect(migration).not.toContain("'public.users'::regclass");
+    expect(migration).toContain("'users'::regclass");
+    expect(migration).toContain("quoteRegclass(ref.table_name)");
+
+    const fkQuery = `SELECT c.conrelid::regclass::text AS table_name
+    FROM pg_constraint c
+    WHERE c.confrelid = 'users'::regclass
+      AND c.confkey = ARRAY(
+          SELECT attnum FROM pg_attribute
+          WHERE attrelid = 'public.users'::regclass AND attname = 'id'
+      )`;
+    const rewritten = prefixer.prefixSql(fkQuery);
+    expect(rewritten).toContain("c.confrelid = 't1_users'::regclass");
+    expect(rewritten).toContain("attrelid = 't1_users'::regclass");
+    expect(rewritten).not.toContain("public.");
   });
 
   test("does not rewrite statement settings, information_schema, or advisory locks", () => {

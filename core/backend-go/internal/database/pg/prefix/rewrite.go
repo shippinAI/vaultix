@@ -145,7 +145,7 @@ func (p *Prefixer) rewrite(sql string, rewriteStrings bool) string {
 		if ch == '\'' {
 			content, end := readSingleQuoted(sql, i)
 			next := content
-			if stringsOn {
+			if stringsOn || isRegclassCast(sql, end) {
 				next = p.rewriteCatalogString(content, codeTail)
 			}
 			out.WriteString("'" + strings.ReplaceAll(next, "'", "''") + "'")
@@ -155,6 +155,13 @@ func (p *Prefixer) rewrite(sql string, rewriteStrings bool) string {
 		}
 		if ch == '"' {
 			content, end := readDoubleQuoted(sql, i)
+			if strings.EqualFold(content, "public") {
+				if next, quoted, nextEnd, ok := peekDotIdent(sql, end); ok && p.shouldDropPublic(next, expectName) {
+					emitIdent(next, quoted)
+					i = nextEnd
+					continue
+				}
+			}
 			emitIdent(content, true)
 			i = end
 			continue
@@ -183,6 +190,13 @@ func (p *Prefixer) rewrite(sql string, rewriteStrings bool) string {
 			}
 			word := sql[i:j]
 			lower := strings.ToLower(word)
+			if lower == "public" {
+				if next, quoted, end, ok := peekDotIdent(sql, j); ok && p.shouldDropPublic(next, expectName) {
+					emitIdent(next, quoted)
+					i = end
+					continue
+				}
+			}
 			_, routine := p.routines[lower]
 			_, table := p.tables[lower]
 			_, keyword := sqlKeywords[lower]
@@ -217,6 +231,51 @@ func isIdentStart(ch byte) bool {
 
 func isIdentPart(ch byte) bool {
 	return isIdentStart(ch) || (ch >= '0' && ch <= '9')
+}
+
+func isRegclassCast(sql string, pos int) bool {
+	k := pos
+	for k < len(sql) && isSpace(sql[k]) {
+		k++
+	}
+	const cast = "::regclass"
+	if k+len(cast) > len(sql) {
+		return false
+	}
+	return strings.EqualFold(sql[k:k+len(cast)], cast)
+}
+
+func peekDotIdent(sql string, pos int) (content string, quoted bool, end int, ok bool) {
+	k := pos
+	for k < len(sql) && isSpace(sql[k]) {
+		k++
+	}
+	if k >= len(sql) || sql[k] != '.' {
+		return "", false, 0, false
+	}
+	k++
+	for k < len(sql) && isSpace(sql[k]) {
+		k++
+	}
+	if k >= len(sql) {
+		return "", false, 0, false
+	}
+	if sql[k] == '"' {
+		content, end = readDoubleQuoted(sql, k)
+		return content, true, end, true
+	}
+	if !isIdentStart(sql[k]) {
+		return "", false, 0, false
+	}
+	j := k + 1
+	for j < len(sql) && isIdentPart(sql[j]) {
+		j++
+	}
+	return sql[k:j], false, j, true
+}
+
+func isSpace(ch byte) bool {
+	return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r'
 }
 
 func isKeywordContext(sql string, end int) bool {
