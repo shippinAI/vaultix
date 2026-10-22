@@ -9,7 +9,7 @@
 | `favicon.svg` | Tab icon (`GET /favicon.svg`) |
 | `wordmark.svg` | Header |
 | `og.svg` | Share card |
-| `tokens.css` | Viewport colors |
+| `tokens.css` | Paper colors. Panel serves the same values as `brand.css` |
 
 Served by the instance at `/viewport/` and `/branding/{name}`.
 Do not put leftover vendor marks here.

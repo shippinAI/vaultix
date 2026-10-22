@@ -7,6 +7,31 @@ import (
 	"testing"
 )
 
+func TestPaperBrandMatchesWelcome(t *testing.T) {
+	css, err := os.ReadFile("brand.css")
+	if err != nil {
+		t.Fatal(err)
+	}
+	tokens, err := os.ReadFile(filepath.Join("..", "..", "..", "..", "branding", "tokens.css"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	const paper = "--vaultix-bg: oklch(0.97 0.01 95)"
+	if !strings.Contains(string(css), paper) || !strings.Contains(string(tokens), paper) {
+		t.Fatal("panel brand.css and branding/tokens.css drifted")
+	}
+	page, err := os.ReadFile("welcome.html")
+	if err != nil {
+		t.Fatal(err)
+	}
+	text := string(page)
+	for _, need := range []string{"Name the app.", "Put a key.", "vaultix run --config dev -- npm run dev", "Vaultix"} {
+		if !strings.Contains(text, need) {
+			t.Fatalf("welcome missing %s", need)
+		}
+	}
+}
+
 func TestWordmarkIsVaultix(t *testing.T) {
 	raw, err := Files.ReadFile("wordmark.svg")
 	if err != nil {

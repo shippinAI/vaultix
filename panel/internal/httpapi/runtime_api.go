@@ -90,6 +90,10 @@ func (s *Server) brandFile(w http.ResponseWriter, r *http.Request) {
 	s.serveAsset(w, r, name)
 }
 
+func (s *Server) welcomePage(w http.ResponseWriter, r *http.Request) {
+	s.serveAsset(w, r, "welcome.html")
+}
+
 func (s *Server) viewportPage(w http.ResponseWriter, r *http.Request) {
 	name := strings.Trim(strings.TrimPrefix(r.URL.Path, "/viewport/"), "/")
 	if name == "" {
@@ -116,6 +120,8 @@ func (s *Server) serveAsset(w http.ResponseWriter, r *http.Request, name string)
 		ctype = "text/javascript; charset=utf-8"
 	case strings.HasSuffix(name, ".svg"):
 		ctype = "image/svg+xml"
+	case strings.HasSuffix(name, ".css"):
+		ctype = "text/css; charset=utf-8"
 	}
 	w.Header().Set("Cache-Control", "public, max-age=3600")
 	w.Header().Set("Content-Type", ctype)

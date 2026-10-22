@@ -96,6 +96,10 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /api/v1/vaultix/mcp/manifest", s.withUser(s.mcpManifest))
 	mux.HandleFunc("POST /api/v1/vaultix/mcp", s.withUser(s.mcpRPC))
 	mux.HandleFunc("GET /viewport/", s.viewportPage)
+	mux.HandleFunc("GET /welcome/", s.welcomePage)
+	mux.HandleFunc("GET /welcome", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/welcome/", http.StatusFound)
+	})
 	mux.HandleFunc("GET /viewport", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/viewport/", http.StatusFound)
 	})
