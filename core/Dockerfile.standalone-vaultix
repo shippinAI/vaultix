@@ -1,5 +1,5 @@
-ARG POSTHOG_HOST=https://app.posthog.com
-ARG POSTHOG_API_KEY=posthog-api-key
+ARG POSTHOG_HOST=
+ARG POSTHOG_API_KEY=
 ARG INTERCOM_ID=intercom-id
 ARG CAPTCHA_SITE_KEY=captcha-site-key
 
@@ -273,7 +273,7 @@ ENV HTTPS_ENABLED false
 ENV NODE_ENV production
 ENV STANDALONE_BUILD true
 ENV STANDALONE_MODE true
-ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NODE_OPTIONS="--max-old-space-size=768"
 ENV ChrystokiConfigurationPath=/usr/safenet/lunaclient/
 
 WORKDIR /backend

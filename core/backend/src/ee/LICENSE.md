@@ -1,23 +1,23 @@
-The Vaultix Enterprise license (the “Enterprise License”)
-Copyright (c) 2022 Vaultix Inc
+The Infisical Enterprise license (the “Enterprise License”)
+Copyright (c) 2022 Infisical Inc
 
-With regard to the Vaultix Software:
+With regard to the Infisical Software:
 
 This software and associated documentation files (the "Software") may only be
 used in production, if you (and any entity that you represent) have agreed to,
-and are in compliance with, the Vaultix Subscription Terms of Service, available
-at https://vaultix.shippin.cloud/terms (the “Enterprise Terms”), or other
-agreement governing the use of the Software, as agreed by you and Vaultix,
-and otherwise have a valid Vaultix Enterprise License for the
+and are in compliance with, the Infisical Subscription Terms of Service, available
+at https://infisical.com/terms (the “Enterprise Terms”), or other
+agreement governing the use of the Software, as agreed by you and Infisical,
+and otherwise have a valid Infisical Enterprise License for the
 correct number of user seats. Subject to the foregoing sentence, you are free to
-modify this Software and publish patches to the Software. You agree that Vaultix
+modify this Software and publish patches to the Software. You agree that Infisical
 and/or its licensors (as applicable) retain all right, title and interest in and
 to all such modifications and/or patches, and all such modifications and/or
 patches may only be used, copied, modified, displayed, distributed, or otherwise
-exploited with a valid Infiscial Enterprise subscription for the correct
+exploited with a valid Infisical Enterprise subscription for the correct
 number of user seats. Notwithstanding the foregoing, you may copy and modify
 the Software for development and testing purposes, without requiring a
-subscription. You agree that Vaultix and/or its licensors (as applicable) retain
+subscription. You agree that Infisical and/or its licensors (as applicable) retain
 all right, title and interest in and to all such modifications. You are not
 granted any other rights beyond what is expressly stated herein. Subject to the
 foregoing, it is forbidden to copy, merge, publish, distribute, sublicense,
@@ -31,6 +31,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-For all third party components incorporated into the Vaultix Software, those
+For all third party components incorporated into the Infisical Software, those
 components are licensed under the original license provided by the owner of the
 applicable component.

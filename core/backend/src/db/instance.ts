@@ -1,5 +1,7 @@
 import knex, { Knex } from "knex";
 
+import { createPrefixedPgClient } from "./prefixed-pg-client";
+
 const parseSslConfig = (dbConnectionUri: string, dbRootCert?: string) => {
   let modifiedDbConnectionUri = dbConnectionUri;
   let sslConfig: { rejectUnauthorized: boolean; ca: string } | boolean = dbRootCert
@@ -27,10 +29,10 @@ const parseSslConfig = (dbConnectionUri: string, dbRootCert?: string) => {
 export type TDbPoolConfig = { min: number; max: number };
 
 export const DbApplicationName = {
-  Primary: "infisical-core",
-  Replica: "infisical-core-replica",
-  AuditLog: "infisical-core-audit",
-  Migrator: "infisical-core-migrator"
+  Primary: "vaultix-core",
+  Replica: "vaultix-core-replica",
+  AuditLog: "vaultix-core-audit",
+  Migrator: "vaultix-core-migrator"
 } as const;
 
 const DEFAULT_POOL: TDbPoolConfig = { min: 0, max: 10 };
@@ -73,8 +75,10 @@ export const initDbConnection = ({
 
   const { modifiedDbConnectionUri, sslConfig } = parseSslConfig(dbConnectionUri, dbRootCert);
 
+  const client = createPrefixedPgClient(process.env.DB_TABLE_PREFIX);
+
   db = knex({
-    client: "pg",
+    client,
     connection: {
       connectionString: modifiedDbConnectionUri,
       host: process.env.DB_HOST,
@@ -100,7 +104,7 @@ export const initDbConnection = ({
     );
 
     return knex({
-      client: "pg",
+      client,
       connection: {
         connectionString: replicaUri,
         ssl: replicaSslConfig,
@@ -131,7 +135,7 @@ export const initAuditLogDbConnection = ({
   // this was causing issue with files like `snapshot-dal` `findRecursivelySnapshots` this i am explicitly putting the any and unknown[]
   // eslint-disable-next-line
   const db: Knex<any, unknown[]> = knex({
-    client: "pg",
+    client: createPrefixedPgClient(process.env.DB_TABLE_PREFIX),
     connection: {
       connectionString: modifiedDbConnectionUri,
       host: process.env.AUDIT_LOGS_DB_HOST,

@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import type { Knex } from "knex";
 import path from "path";
 
+import { createPrefixedPgClient } from "./prefixed-pg-client";
+
 // Update with your config settings. .
 dotenv.config({
   path: path.join(__dirname, "../../../.env.migration")
@@ -21,9 +23,11 @@ if (!process.env.AUDIT_LOGS_DB_CONNECTION_URI && !process.env.AUDIT_LOGS_DB_HOST
 
 console.info("Executing migration on audit log database...");
 
+const client = createPrefixedPgClient(process.env.DB_TABLE_PREFIX);
+
 export default {
   development: {
-    client: "postgres",
+    client,
     connection: {
       connectionString: process.env.AUDIT_LOGS_DB_CONNECTION_URI,
       host: process.env.AUDIT_LOGS_DB_HOST,
@@ -50,7 +54,7 @@ export default {
     }
   },
   production: {
-    client: "postgres",
+    client,
     connection: {
       connectionString: process.env.AUDIT_LOGS_DB_CONNECTION_URI,
       host: process.env.AUDIT_LOGS_DB_HOST,

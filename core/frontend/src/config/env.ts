@@ -18,7 +18,7 @@ export const envConfig = {
     );
   },
   get POSTHOG_HOST() {
-    return import.meta.env.VITE_POSTHOG_HOST! || "https://app.posthog.com";
+    return import.meta.env.VITE_POSTHOG_HOST || "";
   },
   get TELEMETRY_CAPTURING_ENABLED() {
     return (

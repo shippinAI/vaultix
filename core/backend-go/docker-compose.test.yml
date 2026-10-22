@@ -24,7 +24,7 @@ services:
       retries: 5
 
   backend-nodejs:
-    image: infisical/infisical:latest
+    image: ghcr.io/shippinai/vaultix:0.162.19
     depends_on:
       db:
         condition: service_healthy

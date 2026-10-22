@@ -46,7 +46,7 @@ spec:
           echo "Infisical is ready! Proceeding with bootstrap..."
       containers:
         - name: infisical-bootstrap
-          image: "infisical/cli:{{ $infisicalValues.autoBootstrap.image.tag }}"
+          image: "{{ $infisicalValues.autoBootstrap.image.repository }}:{{ $infisicalValues.autoBootstrap.image.tag }}"
           imagePullPolicy: {{ $infisicalValues.image.pullPolicy | default "IfNotPresent" }}
           {{- with $infisicalValues.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}

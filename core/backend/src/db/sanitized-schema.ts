@@ -5,7 +5,9 @@ import RE2 from "re2";
 
 import { PgSqlLock } from "@app/keystore/keystore";
 
-const SANITIZED_SCHEMA = "analytics";
+import { applyPrefix, normalizeTablePrefix } from "./table-prefix";
+
+const sanitizedSchemaName = () => applyPrefix(normalizeTablePrefix(process.env.DB_TABLE_PREFIX), "analytics");
 
 type TArgs = {
   db: Knex;
@@ -26,7 +28,7 @@ export const acquireSanitizedSchemaLock = async ({ db, logger }: TArgs): Promise
 };
 
 export const dropSanitizedSchema = async ({ db, logger }: TArgs): Promise<void> => {
-  await db.raw(`DROP SCHEMA IF EXISTS "${SANITIZED_SCHEMA}" CASCADE`);
+  await db.raw(`DROP SCHEMA IF EXISTS "${sanitizedSchemaName()}" CASCADE`);
   logger.info("Dropped existing sanitized schema");
 };
 
@@ -59,7 +61,7 @@ export const createSanitizedSchema = async ({ db, logger }: TArgs): Promise<void
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const config = await loadConfig(path.join(__dirname, "sanitized-schema.yaml"));
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  const sql = generateSQL(config, { targetSchema: SANITIZED_SCHEMA });
+  const sql = generateSQL(config, { targetSchema: sanitizedSchemaName() });
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   validateGeneratedSQL(sql);
@@ -86,7 +88,7 @@ export const grantSanitizedSchemaAccess = async ({ db, logger, role }: TGrantArg
   const { generateGrantReadAccessSQL } = await import("@infisical/pg-view-generator");
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  const sql = generateGrantReadAccessSQL(SANITIZED_SCHEMA, role);
+  const sql = generateGrantReadAccessSQL(sanitizedSchemaName(), role);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await db.raw(sql);
   logger.info(`Granted read access on sanitized schema to role: ${role}`);

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/jackc/pgx/v5"
@@ -15,6 +16,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/infisical/api/internal/config"
+	"github.com/infisical/api/internal/database/pg/prefix"
 )
 
 // Querier is implemented by both *pgxpool.Pool and pgx.Tx.
@@ -25,35 +27,67 @@ type Querier interface {
 	Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error)
 }
 
+// Handle is the subset of *pgxpool.Pool that services use. An empty
+// DB_TABLE_PREFIX returns the pool itself. A prefix returns a wrapper that
+// rewrites physical names before Postgres sees the statement.
+type Handle interface {
+	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
+	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
+	Exec(ctx context.Context, sql string, arguments ...any) (pgconn.CommandTag, error)
+	Begin(ctx context.Context) (pgx.Tx, error)
+	Ping(ctx context.Context) error
+}
+
 type DB interface {
-	Primary() *pgxpool.Pool
-	Replica() *pgxpool.Pool
+	Primary() Handle
+	Replica() Handle
 	ReplicaCount() int
 	Close()
 }
 
 // pgDatabase wraps a primary pgxpool and zero or more read-replica pools.
 type pgDatabase struct {
-	primary  *pgxpool.Pool
-	replicas []*pgxpool.Pool
+	primary      Handle
+	primaryPool  *pgxpool.Pool
+	replicas     []Handle
+	replicaPools []*pgxpool.Pool
 }
 
 // NewPostgresDB creates a connection pool for the primary database and optional read replicas.
 // primaryRootCert is used as fallback for replicas that don't specify their own cert.
 func NewPostgresDB(ctx context.Context, primaryURI, primaryRootCert string, readReplicas []config.DBReadReplica) (DB, error) {
-	primaryPool, err := openPool(ctx, primaryURI, primaryRootCert)
+	prefixer, err := prefix.Load(os.Getenv("DB_TABLE_PREFIX"))
+	if err != nil {
+		return nil, err
+	}
+	var rewrite func(string) string
+	if prefixer.Prefix() != "" {
+		rewrite = prefixer.Rewrite
+	}
+
+	primaryMin, primaryMax, err := poolLimits("DB_POOL_MIN", "DB_POOL_MAX", 0, 10)
+	if err != nil {
+		return nil, err
+	}
+	replicaMin, replicaMax, err := poolLimits("DB_REPLICA_POOL_MIN", "DB_REPLICA_POOL_MAX", primaryMin, primaryMax)
+	if err != nil {
+		return nil, err
+	}
+
+	primaryPool, err := openPool(ctx, primaryURI, primaryRootCert, primaryMin, primaryMax)
 	if err != nil {
 		return nil, fmt.Errorf("primary db: %w", err)
 	}
 
 	replicaPools := make([]*pgxpool.Pool, 0, len(readReplicas))
+	replicaHandles := make([]Handle, 0, len(readReplicas))
 	for i, r := range readReplicas {
 		rootCert := r.DBRootCert
 		if rootCert == "" {
 			rootCert = primaryRootCert
 		}
 
-		pool, err := openPool(ctx, r.DBConnectionURI, rootCert)
+		pool, err := openPool(ctx, r.DBConnectionURI, rootCert, replicaMin, replicaMax)
 		if err != nil {
 			primaryPool.Close()
 			for _, p := range replicaPools {
@@ -62,21 +96,24 @@ func NewPostgresDB(ctx context.Context, primaryURI, primaryRootCert string, read
 			return nil, fmt.Errorf("read replica %d: %w", i, err)
 		}
 		replicaPools = append(replicaPools, pool)
+		replicaHandles = append(replicaHandles, wrapPool(pool, rewrite))
 	}
 
 	return &pgDatabase{
-		primary:  primaryPool,
-		replicas: replicaPools,
+		primary:      wrapPool(primaryPool, rewrite),
+		primaryPool:  primaryPool,
+		replicas:     replicaHandles,
+		replicaPools: replicaPools,
 	}, nil
 }
 
-// Primary returns the primary database pool for writes.
-func (db *pgDatabase) Primary() *pgxpool.Pool {
+// Primary returns the primary database handle for writes.
+func (db *pgDatabase) Primary() Handle {
 	return db.primary
 }
 
-// Replica returns a random read-replica pool, or the primary if no replicas are configured.
-func (db *pgDatabase) Replica() *pgxpool.Pool {
+// Replica returns a random read-replica handle, or the primary if no replicas are configured.
+func (db *pgDatabase) Replica() Handle {
 	if len(db.replicas) == 0 {
 		return db.primary
 	}
@@ -90,8 +127,8 @@ func (db *pgDatabase) ReplicaCount() int {
 
 // Close closes all connection pools (primary + replicas).
 func (db *pgDatabase) Close() {
-	db.primary.Close()
-	for _, r := range db.replicas {
+	db.primaryPool.Close()
+	for _, r := range db.replicaPools {
 		r.Close()
 	}
 }
@@ -103,7 +140,7 @@ func (db *pgDatabase) Close() {
 //   - Otherwise when a cert is provided but sslmode is something else (e.g. require), the CA is trusted
 //     but server identity is not strictly verified (InsecureSkipVerify = true).
 //   - The sslmode param is stripped from the URI before passing to pgx (pgx handles TLS via its own config).
-func openPool(ctx context.Context, connURI, dbRootCert string) (*pgxpool.Pool, error) {
+func openPool(ctx context.Context, connURI, dbRootCert string, minConns, maxConns int32) (*pgxpool.Pool, error) {
 	modifiedURI, tlsCfg, err := parseSslConfig(connURI, dbRootCert)
 	if err != nil {
 		return nil, err
@@ -114,8 +151,14 @@ func openPool(ctx context.Context, connURI, dbRootCert string) (*pgxpool.Pool, e
 		return nil, fmt.Errorf("parsing connection URI: %w", err)
 	}
 
-	poolCfg.MinConns = 0
-	poolCfg.MaxConns = 10
+	poolCfg.MinConns = minConns
+	poolCfg.MaxConns = maxConns
+	if poolCfg.ConnConfig.RuntimeParams == nil {
+		poolCfg.ConnConfig.RuntimeParams = map[string]string{}
+	}
+	if poolCfg.ConnConfig.RuntimeParams["application_name"] == "" {
+		poolCfg.ConnConfig.RuntimeParams["application_name"] = "vaultix-core"
+	}
 
 	if tlsCfg != nil {
 		poolCfg.ConnConfig.TLSConfig = tlsCfg

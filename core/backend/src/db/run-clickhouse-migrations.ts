@@ -20,6 +20,7 @@ import { initLogger } from "@app/lib/logger";
 
 import { buildClickHouseFromConfig } from "../lib/config/clickhouse";
 import { ensureClickHouseSchema } from "./clickhouse-migration-runner";
+import { applyPrefix, normalizeTablePrefix } from "./table-prefix";
 
 dotenv.config({
   path: path.join(__dirname, "../../../.env.migration")
@@ -48,7 +49,10 @@ const main = async () => {
   }
 
   const engine = process.env.CLICKHOUSE_AUDIT_LOG_ENGINE || DEFAULT_ENGINE;
-  const tableName = process.env.CLICKHOUSE_AUDIT_LOG_TABLE_NAME || DEFAULT_TABLE_NAME;
+  const tableName = applyPrefix(
+    normalizeTablePrefix(process.env.DB_TABLE_PREFIX),
+    process.env.CLICKHOUSE_AUDIT_LOG_TABLE_NAME || DEFAULT_TABLE_NAME
+  );
 
   // eslint-disable-next-line no-console
   console.info("Ensuring ClickHouse schema...");
