@@ -7,6 +7,11 @@ See core/LICENSE (MIT). git remotes on core/: none.
 Customer chrome, overlay (panel/), branding, GHCR names, and shippin.ai
 hosting are Vaultix. Do not attribute leftover vendor names to end-users.
 
+Enterprise code under core/backend/src/ee/ and core/backend-go ee packages
+stays under Infisical's enterprise notice (those license files are intact).
+Shippin / AngryVibes LLC (dba wiredFRONT) operates that ee/ code under a
+waiver from Infisical. The waiver text is not stored in this repo.
+
 Images:
   ghcr.io/shippinai/vaultix
   ghcr.io/shippinai/vaultix-panel

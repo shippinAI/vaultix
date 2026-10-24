@@ -2,35 +2,39 @@
 
 **Status:** living ledger (2026-08-29)
 **Owner:** AngryVibes LLC. **Host:** shippin.ai. **Product:** Vaultix.
-**Rule:** we do **not** copy leftover `ee/`. We refill gaps as Vaultix
-modules behind `shippin.vaultix.panel.v1`. Activation is a **Vaultix
-license / shippin.ai membership** (doc 0013), not a leftover license
-server and not an env flag alone.
+**Rule:** `ee/` stays in Vaultix. Shippin / AngryVibes LLC (dba
+wiredFRONT) operates it under a waiver from Infisical. The waiver text
+is not in the repo; the record is `NOTICE`. Infisical’s license files
+stay intact. Do not strip `ee/` and do not clean-room rewrite it.
+Shippin additions (panel, backup, portability, Nomen login, onboarding)
+are what make the product different. Panel valves still open only with
+a **Vaultix license / shippin.ai membership** (doc 0013), not a leftover
+license server and not an env flag alone.
 
 Identity is **Nomen**. Mesh is **Zuul**. Certs stay step-ca / Caddy.
 
 ## Gap ledger
 
-| Gap they keep / charge for | Why a vibe coder needs it | Vaultix refill (ours) | Phase |
+| Gap they keep / charge for | Why a vibe coder needs it | What we do with it | Phase |
 |----------------------------|---------------------------|------------------------|-------|
 | White-label / product name | Must say Vaultix (AngryVibes LLC / shippin.ai) | Trust stamp + panel chrome | now |
-| SAML / SSO enforcement | One login with the rest of Shippin | Nomen OIDC | next |
-| SCIM / LDAP | Seat join/leave without a human | Nomen directory (Tessera authored into Nomen) → Vaultix box membership | later |
-| Approval workflows / access requests | “Can I use the prod OpenAI key?” | Shippin panel approval on `vaultix.secret.inject` | later |
-| Secret rotation as a product | Keys die; apps must not | Inject handle + rotate lesson + our rotator, not their `ee` rotator | next |
-| Dynamic secrets (DB creds that expire) | Real workspaces, not pasted URLs | Our short-lived inject tickets | later |
-| Point-in-time recovery | They deleted the wrong key | `pg_dump` + encryption-key escrow + tested restore | now |
-| Audit export / SIEM stream | Teach “who saw this key” | Our audit log on the panel contract | next |
-| Custom roles | Tenant admin vs builder vs CI | Nomen roles / scopes | later |
-| IP allowlists / gateways | Phone mesh + workspace only | Zuul + Caddy, not their gateway product | next |
-| HSM / KMIP | Not a Lovable lesson | Out of scope until an estate asks | parked |
-| Cloud identity caps (5 seats / 3 projects) | Their SaaS meter | Self-host MIT: no such meter. Do not re-introduce it | now (do not copy) |
-| PAM / cert manager as extra SKUs | Upsell | Not Vaultix. Certs stay step-ca / Caddy | parked |
+| SAML / SSO enforcement | One login with the rest of Shippin | Keep ee SAML/OIDC. Nomen stays Shippin’s login. Do not add a second stack | next |
+| SCIM / LDAP | Seat join/leave without a human | Keep ee SCIM/LDAP. Nomen directory still authors membership | later |
+| Approval workflows / access requests | “Can I use the prod OpenAI key?” | Keep ee approvals. Panel gate on `vaultix.secret.inject` stays grant-closed | later |
+| Secret rotation as a product | Keys die; apps must not | Keep the ee rotator. The inject lesson teaches it | next |
+| Dynamic secrets (DB creds that expire) | Real workspaces, not pasted URLs | Keep ee leases. Short-lived inject tickets stay the vibe-coder path | later |
+| Point-in-time recovery | They deleted the wrong key | Keep PIT. Our encrypted backup is the portable exit beside it | now |
+| Audit export / SIEM stream | Teach “who saw this key” | Keep the ee stream. Panel audit stays on the contract | next |
+| Custom roles | Tenant admin vs builder vs CI | Keep the ee permission service and extend it in place. Nomen names the person | later |
+| IP allowlists / gateways | Phone mesh + workspace only | Keep ee gateway and trusted IP. Zuul + Caddy stay the Shippin mesh | next |
+| HSM / KMIP | Not a Lovable lesson | Kept. Software root key stays the default until an estate asks for a wrap change | parked |
+| Cloud identity caps (5 seats / 3 projects) | Their SaaS meter | Community stays unlimited. Do not turn the meter on | now |
+| PAM / cert manager as extra SKUs | Upsell | Kept in the tree. Secrets stay what we lead with. Mesh certs stay step-ca / Caddy | parked |
 
 ## What we refuse
 
-- Shipping `ee/` and calling it free Vaultix  
-- Re-implementing SAML when Nomen already is the IdP
+- Stripping `ee/`, relicensing it, or pasting the waiver text into the repo  
+- Adding a second SAML stack beside the ee modules. Nomen stays Shippin’s login
 - Opening leftover vendor license servers
 - Putting secret **values** in the Shippin catalog GET  
 - Teaching paste-into-Lovable as a workaround for a missing feature  
@@ -64,12 +68,10 @@ Discoverable at `GET /api/v1/vaultix/capabilities` (valve states) and
 `GET /api/v1/vaultix/usage` (meter view). All tested: closed = no-op,
 open = enforces.
 
-## Upstream `ee/` we will not copy
+## Upstream `ee/` we keep
 
-Checked out on the host at `/opt/vaultix/upstream/infisical` (`v0.162.19`). LICENSE still carves out any `ee/` tree. Actual modules under `backend/src/ee/services/` (and a smaller Go set under `backend-go/internal/ee/`):
+`core/LICENSE` still carves `ee/` out of the MIT grant. The enterprise notice stays Infisical’s. Modules under `core/backend/src/ee/services/` (and the smaller Go set under `core/backend-go/internal/ee/`):
 
 SAML, SCIM, LDAP, OIDC add-on, license, access-approval, secret-approval, secret-rotation-v2, dynamic-secret, audit-log-stream, pit (point-in-time), gateway/gateway-v2, hsm, kmip, pam-*, pki-*, trusted-ip, rate-limit, honey-token, insights, sub-org.
 
-Those are leftover product holes. Vaultix refills them with Nomen + this
-panel + Zuul + our backup — not by vendoring that folder. Activation:
-doc 0013.
+Those modules stay. We build on them. Nomen, this panel, Zuul, and our backup are the Shippin layer on top, not a replacement tree. Activation of panel valves: doc 0013. The waiver that covers operating `ee/` is recorded in `NOTICE`.
