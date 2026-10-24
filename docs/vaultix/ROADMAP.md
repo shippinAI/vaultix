@@ -38,7 +38,7 @@ v0.166.8 may have moved a few of these after our pin. We do not fetch upstream t
 
 ## What Doppler does better
 
-Doppler is a managed service. It does not self-host. That is our opening, not a defect to copy. Where they win today:
+Doppler is a managed service. Since June 2026 it also sells an on-prem install, Enterprise only, with no public install docs. Free self-hosting is still our opening, not a defect to copy. Where they win today:
 
 | Doppler | Why it feels better | Vaultix fold-in |
 | --- | --- | --- |
@@ -52,6 +52,40 @@ Doppler is a managed service. It does not self-host. That is our opening, not a 
 | Sync that looks like a toggle | Connect AWS, it stays connected | One-click flow over the MIT connectors that already exist. Later slice |
 
 We do not copy Doppler’s seat math, their referral program, or their hosted-only assumption.
+
+## Gaps this roadmap did not list (inventory 2026-10-24)
+
+Checked against the sourced inventory in [`../references/2026-10-24-doppler-infisical-inventory.md`](../references/2026-10-24-doppler-infisical-inventory.md).
+Infisical upstream is at v0.167.2; our pin stays v0.162.19 and production stays v0.166.8 until a reviewed upgrade.
+
+| Gap | Who has it | Vaultix answer | Size |
+| --- | --- | --- | --- |
+| Branch and personal configs (`dev_alice` off `dev`) | Doppler, all plans | Part of row g: a personal child config per member, inheriting its parent | M |
+| Typed values and restricted visibility | Doppler | Type and visibility on the secret record; restricted values never render again, inject only | M |
+| Redact history | Doppler | Owner can redact past values of one secret; versions keep metadata | S |
+| Offline fallback snapshot | Doppler (passphrase file), Infisical (proxy cache) | `vaultix run --fallback`: the encrypted local store already exists; add a passphrase-sealed export for images | S |
+| Share links and secret requests | Doppler Share; Infisical sharing + requests | Covered by "AI needs a secret" below; plain share links ride on the same one-time page | M |
+| Agent credential brokering | Infisical Agent Vault (paid per request) | Inject redeem already keeps values out of the model; add a broker that attaches the credential on the outbound call, free | L |
+| Machine auth for CI and clouds | Infisical (k8s, AWS, GCP, Azure, OIDC/JWT, SPIFFE, TLS) | Keep the engine methods; document GitHub Actions OIDC first | S |
+| Event stream | Infisical SSE (Ent), Doppler webhooks | Events free on every instance: requested, approved, denied, injected, rotated; feeds approvals and agents | M |
+| SDKs, k8s operator, CSI, Terraform | Infisical (9 SDKs), Doppler (2) | Keep the engine's; publish under Vaultix names after the brand slice | M |
+| Compare across environments, value search | Both | Row h | M |
+
+## AI first: what neither of them does
+
+1. **"AI needs a secret" requests.** An agent files a request by name and purpose. The owner gets a
+   push, opens one Vaultix page, enters or picks the value and confirms with a passkey. Vaultix stores
+   it and hands it straight to the command that needs it (inject redeem). The agent receives an event
+   ("provided", "used"), never the value. No secret ever passes through chat.
+2. **Import from where tools already keep credentials.** `vaultix import --scan` runs on the user's
+   machine and lists what it finds, names and masked values only: project `.env` files,
+   `~/.aws/credentials`, `~/.config/gh/hosts.yml`, `~/.npmrc`, `~/.docker/config.json`,
+   `~/.git-credentials`, `~/.netrc`, `~/.kube/config`, SSH keys, the Claude Code and Codex credential
+   files, Windows Credential Manager and the macOS keychain (with the user's permission). The user ticks
+   what to keep; Vaultix creates the secrets in the right project and environment and can replace the
+   plaintext files with `vaultix run` injection, keeping a backup. Nothing leaves the machine except
+   the values approved. AI subscription sign-ins are stored as a backup for that user only, never
+   reused by another tool.
 
 ## Honest exit
 
@@ -124,6 +158,9 @@ Each row is its own pull request.
 | f | Portability: same archive, destination prefix, root-key re-wrap, compose self-host | M | Backup |
 | g | Doppler ergonomics: inheritance, references, `vaultix run --config`, Doppler token import | M | CLI that already exists |
 | h | Health scan, activity, compare, sync toggle | M each | Welcome page can link them |
+| i | "AI needs a secret" requests: request, push, one-time page, inject, events | M | Inject redeem, push channel |
+| j | `vaultix import --scan` with review and file replacement | M | CLI store |
+| k | Event stream on every instance | M | — |
 | 7 | Extend `ee/` features in place where a Shippin flow needs them | L | Waiver in `NOTICE`. Do not replace the permission service |
 | Parked | HSM / KMIP wrap changes, a second SAML stack | — | The modules stay. Wrap changes and a parallel IdP wait for a reviewed reason |
 
