@@ -1,9 +1,9 @@
 ---
 title: "Azure DNS Connection"
-description: "Learn how to configure an Azure DNS Connection for Infisical."
+description: "Learn how to configure an Azure DNS Connection for vaultix."
 ---
 
-Infisical supports connecting to Azure DNS using a Service Principal with Client Secrets for secure access to manage DNS records in your Azure DNS zones.
+vaultix supports connecting to Azure DNS using a Service Principal with Client Secrets for secure access to manage DNS records in your Azure DNS zones.
 
 <Accordion title="Client Secret Authentication">
   To use client secret authentication, ensure your Azure Service Principal has the required permissions to manage DNS records in your Azure DNS Zone.
@@ -35,7 +35,7 @@ Infisical supports connecting to Azure DNS using a Service Principal with Client
   </Steps>
 </Accordion>
 
-## Setup Azure DNS Connection in Infisical
+## Setup Azure DNS Connection in vaultix
 
 <Steps>
   <Step title="Navigate to App Connections">
@@ -60,18 +60,18 @@ Infisical supports connecting to Azure DNS using a Service Principal with Client
     </Tip>
   </Step>
   <Step title="Connection Created">
-    Your **Azure DNS Connection** is now available for use in your Infisical projects.
+    Your **Azure DNS Connection** is now available for use in your vaultix projects.
     ![Azure DNS Connection Created](/images/app-connections/azure-dns/azure-dns-app-connection-created.png)
   </Step>
 </Steps>
 
 ## Automatic Credential Rotation
 
-Infisical can automatically rotate the Client Secret of your Azure application on a recurring schedule. When enabled, Infisical will immediately generate a new Client Secret on connection creation and revoke the original one, ensuring that no external party retains access using the credentials you provided.
+vaultix can automatically rotate the Client Secret of your Azure application on a recurring schedule. When enabled, vaultix will immediately generate a new Client Secret on connection creation and revoke the original one, ensuring that no external party retains access using the credentials you provided.
 
 <Steps>
     <Step title="Locate the Key ID of your Client Secret">
-        Before enabling rotation, you'll need the **Key ID** of the Client Secret you are using to authenticate. Navigate to your App Registration in the Azure Portal, then go to **Certificates & secrets**. Copy the **Secret ID** (Key ID) of the secret you are providing to Infisical.
+        Before enabling rotation, you'll need the **Key ID** of the Client Secret you are using to authenticate. Navigate to your App Registration in the Azure Portal, then go to **Certificates & secrets**. Copy the **Secret ID** (Key ID) of the secret you are providing to vaultix.
 
         ![Azure Client Secret Key ID](/images/app-connections/azure-dns/credential-rotation-key-id.png)
     </Step>
@@ -81,7 +81,7 @@ Infisical can automatically rotate the Client Secret of your Azure application o
         ![Enable Automatic Credential Rotation](/images/app-connections/azure-dns/credential-rotation-toggle.png)
     </Step>
     <Step title="Provide the Client Secret Key ID">
-        Enter the **Key ID** you copied in the previous step into the **Client Secret Key ID** field. Infisical uses this to revoke your original secret after generating a new one.
+        Enter the **Key ID** you copied in the previous step into the **Client Secret Key ID** field. vaultix uses this to revoke your original secret after generating a new one.
 
         ![Client Secret Key ID Field](/images/app-connections/azure-dns/credential-rotation-key-id-field.png)
     </Step>

@@ -1,33 +1,33 @@
 ---
 title: "Jamf Pro with SCEP"
 sidebarTitle: "Enroll Devices with Jamf Pro"
-description: "Distribute certificates to managed devices using Infisical SCEP enrollment with Jamf Pro."
+description: "Distribute certificates to managed devices using vaultix SCEP enrollment with Jamf Pro."
 ---
 
-Issue and distribute certificates to devices managed by [Jamf Pro](https://www.jamf.com/products/jamf-pro/) using Infisical's SCEP enrollment. Jamf Pro acts as the SCEP client on behalf of your managed devices, automatically distributing certificates without manual intervention.
+Issue and distribute certificates to devices managed by [Jamf Pro](https://www.jamf.com/products/jamf-pro/) using vaultix's SCEP enrollment. Jamf Pro acts as the SCEP client on behalf of your managed devices, automatically distributing certificates without manual intervention.
 
 <Info>
   This guide assumes you have an Application with [SCEP enrollment](/documentation/platform/pki/applications/enrollment-methods/scep) configured.
 </Info>
 
-Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro. Dynamic challenges provide stronger security with unique, one-time-use passwords for each device.
+vaultix supports both **static** and **dynamic** SCEP challenges with Jamf Pro. Dynamic challenges provide stronger security with unique, one-time-use passwords for each device.
 
 ## Prerequisites
 
 - A Jamf Pro instance with administrative access
-- An Application in Infisical with [SCEP enrollment](/documentation/platform/pki/applications/enrollment-methods/scep) configured
+- An Application in vaultix with [SCEP enrollment](/documentation/platform/pki/applications/enrollment-methods/scep) configured
 - One or more devices enrolled in Jamf Pro
 - For dynamic challenges: A [Machine Identity](/documentation/platform/identities/machine-identities) with access to your Application
 
 ## Guide
 
 <Steps>
-    <Step title="Gather SCEP details from Infisical">
+    <Step title="Gather SCEP details from vaultix">
         In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with SCEP enrollment and gather the following values:
 
         | Credential | Purpose |
         |------------|---------|
-        | **SCEP URL** | The SCEP endpoint URL (e.g., `https://app.infisical.com/scep/applications/{application-id}/profiles/{profile-id}/pkiclient.exe`) |
+        | **SCEP URL** | The SCEP endpoint URL (e.g., `https://app.vaultix.com/scep/applications/{application-id}/profiles/{profile-id}/pkiclient.exe`) |
 
         <Tabs>
             <Tab title="Static Challenge">
@@ -48,7 +48,7 @@ Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro
                 1. In Jamf Pro, navigate to **Settings** > **Global Management** > **Webhooks**.
                 2. Click **+ New** to create a new webhook.
                 3. Configure the webhook with the following settings:
-                    - **Display Name**: A descriptive name (e.g., `Infisical SCEP Challenge`).
+                    - **Display Name**: A descriptive name (e.g., `vaultix SCEP Challenge`).
                     - **Enabled**: Check this box.
                     - **Webhook URL**: Enter the **Challenge Endpoint URL** from above.
                     - **Authentication Type**: Select **Header Authentication**.
@@ -86,11 +86,11 @@ Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro
     </Step>
 
     <Step title="Configure the SCEP payload">
-        Fill in the SCEP payload fields using the values from your Infisical SCEP enrollment:
+        Fill in the SCEP payload fields using the values from your vaultix SCEP enrollment:
 
         ![SCEP configuration — URL, Name, and Subject fields](/images/platform/pki/integrations/jamf-pro/scep-config-top.png)
 
-        - **URL**: Enter your Infisical SCEP endpoint URL (e.g., `https://app.infisical.com/scep/applications/{application-id}/profiles/{profile-id}/pkiclient.exe`).
+        - **URL**: Enter your vaultix SCEP endpoint URL (e.g., `https://app.vaultix.com/scep/applications/{application-id}/profiles/{profile-id}/pkiclient.exe`).
         - **Name**: Enter a descriptive name for the SCEP instance (e.g., `CA-IDENT`). This value is used internally by the device to identify the SCEP configuration.
         - **Subject**: Enter the distinguished name for the certificate in X.500 format (e.g., `O=CompanyName, CN=Foo`). Adjust the subject components to match your organization's naming convention.
         - **Subject Alternative Names (Optional)**: Add any SANs if required by your certificate policy.
@@ -100,7 +100,7 @@ Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro
         <Tabs>
             <Tab title="Static Challenge">
                 - **Challenge Type**: Select **Static** from the dropdown.
-                - **Challenge**: Enter the **Challenge Password** from your Infisical SCEP enrollment.
+                - **Challenge**: Enter the **Challenge Password** from your vaultix SCEP enrollment.
                 - **Verify Challenge**: Re-enter the challenge password to confirm.
 
                 ![SCEP configuration — Challenge and certificate options](/images/platform/pki/integrations/jamf-pro/scep-config-challenge.png)
@@ -144,7 +144,7 @@ Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro
     <Step title="Save and distribute">
         Click **Save** to create the configuration profile. Jamf Pro will automatically distribute the profile to all devices within the defined scope.
 
-        Each targeted device will contact Infisical's SCEP server, authenticate using the challenge password, and receive a certificate issued by your Infisical Certificate Manager, all without manual intervention on the device.
+        Each targeted device will contact vaultix's SCEP server, authenticate using the challenge password, and receive a certificate issued by your vaultix Certificate Manager, all without manual intervention on the device.
     </Step>
 
     <Step title="Verify certificate installation">
@@ -154,7 +154,7 @@ Infisical supports both **static** and **dynamic** SCEP challenges with Jamf Pro
 
         Click on the profile to view its details, including the SCEP enrollment settings, the issued certificate, and its expiration date.
 
-        ![Certificate details showing the issued certificate from Infisical](/images/platform/pki/integrations/jamf-pro/mac-certificate-details.png)
+        ![Certificate details showing the issued certificate from vaultix](/images/platform/pki/integrations/jamf-pro/mac-certificate-details.png)
 
         You can also verify the certificate was issued by checking the **Certificate Inventory** tab in your Application. The certificate enrolled via Jamf Pro will appear in the list.
     </Step>

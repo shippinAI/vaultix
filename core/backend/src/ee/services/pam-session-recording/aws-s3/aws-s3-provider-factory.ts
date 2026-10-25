@@ -55,7 +55,7 @@ export const AwsS3RecordingStorageProvider: TPamRecordingStorageProvider = () =>
         new PutObjectCommand({
           Bucket: config.bucket,
           Key: testKey,
-          Body: Buffer.from("infisical-pam-recording-config-test"),
+          Body: Buffer.from("vaultix-pam-recording-config-test"),
           ContentType: "application/octet-stream"
         })
       );

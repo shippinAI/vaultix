@@ -38,7 +38,7 @@ export type TAlertPayload = {
   };
   eventKey: string; // dot-namespaced event, e.g. "pki.certificate.expiration"
   eventLabel: string; // human label, e.g. "Expiration"
-  webhookType: string; // CloudEvents `type` string, e.g. "com.infisical.pki.certificate.expiration"
+  webhookType: string; // CloudEvents `type` string, e.g. "com.vaultix.pki.certificate.expiration"
   resourceKind: string; // display noun, e.g. "Certificate", "Client Secret"
   resourceOwnerKind: string; // display noun of the entity the alert is configured on, e.g. "Machine Identity"
   severity: TAlertSeverity;

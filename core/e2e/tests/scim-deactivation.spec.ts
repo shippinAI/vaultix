@@ -14,7 +14,7 @@ const TEST_LAST_NAME = "DeactivationTest";
 
 const makeExternalId = (): string => {
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  return `e2e-deact-${runId}@infisical-e2e.test`;
+  return `e2e-deact-${runId}@vaultix-e2e.test`;
 };
 
 const waitForAcsPostResponse = (page: Page): Promise<Response> =>

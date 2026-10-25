@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/server/api/platform/projects"
-	"github.com/infisical/api/internal/services/permission"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/server/api/platform/projects"
+	"github.com/vaultix/api/internal/services/permission"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var stack *infra.Stack

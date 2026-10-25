@@ -84,7 +84,7 @@ export const projectCleanupQueueFactory = ({
   // Per-pod, last-tick value: only the pod that won the cron redlock updates this; other pods report 0.
   // Alarms must aggregate with max() across pods, else a "stuck at cap" backlog gets diluted to ~0.
   let lastDiscoveryCount = 0;
-  const discoveryGauge = meter.createObservableGauge("infisical.project_cleanup.discovered", {
+  const discoveryGauge = meter.createObservableGauge("vaultix.project_cleanup.discovered", {
     description:
       "Expired projects found on last discovery tick (capped at discovery batch). Sustained value at the cap = backlog remains.",
     unit: "{project}"

@@ -151,7 +151,7 @@ export const KubernetesProvider = ({
               headers: {
                 "Content-Type": "application/json",
                 ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                  ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                  ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                   : { Authorization: `Bearer ${providerInputs.clusterToken}` })
               },
               ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -196,7 +196,7 @@ export const KubernetesProvider = ({
               headers: {
                 "Content-Type": "application/json",
                 ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                  ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                  ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                   : { Authorization: `Bearer ${providerInputs.clusterToken}` })
               },
               ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -222,7 +222,7 @@ export const KubernetesProvider = ({
               headers: {
                 "Content-Type": "application/json",
                 ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                  ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                  ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                   : { Authorization: `Bearer ${providerInputs.clusterToken}` })
               },
               ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -243,7 +243,7 @@ export const KubernetesProvider = ({
                 headers: {
                   "Content-Type": "application/json",
                   ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                    ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                    ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                     : { Authorization: `Bearer ${providerInputs.clusterToken}` })
                 },
                 ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -262,7 +262,7 @@ export const KubernetesProvider = ({
                 headers: {
                   "Content-Type": "application/json",
                   ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                    ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                    ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                     : { Authorization: `Bearer ${providerInputs.clusterToken}` })
                 },
                 ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -280,7 +280,7 @@ export const KubernetesProvider = ({
             headers: {
               "Content-Type": "application/json",
               ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                 : { Authorization: `Bearer ${providerInputs.clusterToken}` })
             },
             ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -318,7 +318,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -472,7 +472,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -517,7 +517,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -543,7 +543,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -584,7 +584,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -710,7 +710,7 @@ export const KubernetesProvider = ({
             headers: {
               "Content-Type": "application/json",
               ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-                ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                 : { Authorization: `Bearer ${providerInputs.clusterToken}` })
             },
             ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -727,7 +727,7 @@ export const KubernetesProvider = ({
           headers: {
             "Content-Type": "application/json",
             ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-              ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+              ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
               : { Authorization: `Bearer ${providerInputs.clusterToken}` })
           },
           ...(providerInputs.authMethod === KubernetesAuthMethod.Api
@@ -745,7 +745,7 @@ export const KubernetesProvider = ({
         headers: {
           "Content-Type": "application/json",
           ...(providerInputs.authMethod === KubernetesAuthMethod.Gateway
-            ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+            ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
             : { Authorization: `Bearer ${providerInputs.clusterToken}` })
         },
         ...(providerInputs.authMethod === KubernetesAuthMethod.Api

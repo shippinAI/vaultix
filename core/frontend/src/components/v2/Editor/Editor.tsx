@@ -93,7 +93,7 @@ export const Editor = forwardRef<HTMLDivElement, Props>(
   (
     {
       children,
-      namespace = "infisical-editor",
+      namespace = "vaultix-editor",
       className,
       containerClassName,
       isRounded = true,

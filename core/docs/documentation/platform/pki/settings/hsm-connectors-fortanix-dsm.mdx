@@ -1,24 +1,24 @@
 ---
 title: "Fortanix DSM"
 sidebarTitle: "Fortanix DSM"
-description: "Connect Infisical to Fortanix Data Security Manager via an HSM Connector."
+description: "Connect vaultix to Fortanix Data Security Manager via an HSM Connector."
 ---
 
-Infisical connects to Fortanix Data Security Manager (DSM) through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors). Once connected, Infisical features that support HSM-backed keys can generate and use keys that stay in your Fortanix DSM. This guide covers the full setup: installing the Fortanix PKCS#11 driver on a [Gateway](/documentation/platform/gateways/overview) inside your network, pointing it at your DSM, and creating the Connector in Infisical.
+vaultix connects to Fortanix Data Security Manager (DSM) through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors). Once connected, vaultix features that support HSM-backed keys can generate and use keys that stay in your Fortanix DSM. This guide covers the full setup: installing the Fortanix PKCS#11 driver on a [Gateway](/documentation/platform/gateways/overview) inside your network, pointing it at your DSM, and creating the Connector in vaultix.
 
 ## Prerequisites
 
 - A Fortanix DSM account with a group and an application configured for PKCS#11 access.
-- A host inside your network that can reach your DSM endpoint over HTTPS, where you can install the Fortanix PKCS#11 client and run an [Infisical Gateway](/documentation/platform/gateways/overview).
-- Permission to create HSM Connectors in Infisical (`HSM Connectors > Create`).
+- A host inside your network that can reach your DSM endpoint over HTTPS, where you can install the Fortanix PKCS#11 client and run an [vaultix Gateway](/documentation/platform/gateways/overview).
+- Permission to create HSM Connectors in vaultix (`HSM Connectors > Create`).
 
 ## How it works
 
-Infisical reaches your DSM through the HSM Connector. Each operation goes from Infisical to the Connector, which routes it to a Gateway inside your network. The Gateway loads the Fortanix PKCS#11 driver, runs the operation against your DSM, and returns the result. DSM is reached only through the Connector and its Gateway, never from Infisical directly.
+vaultix reaches your DSM through the HSM Connector. Each operation goes from vaultix to the Connector, which routes it to a Gateway inside your network. The Gateway loads the Fortanix PKCS#11 driver, runs the operation against your DSM, and returns the result. DSM is reached only through the Connector and its Gateway, never from vaultix directly.
 
 ```mermaid
 flowchart LR
-    Infisical["Infisical"]
+    vaultix["vaultix"]
     Connector["HSM Connector"]
     subgraph Gateway["Gateway host (your network)"]
         Driver["Fortanix PKCS#11 driver"]
@@ -26,7 +26,7 @@ flowchart LR
         Conf -- "points driver at DSM" --> Driver
     end
     DSM["Fortanix DSM"]
-    Infisical --> Connector
+    vaultix --> Connector
     Connector -- "API key (sent as the PIN)" --> Driver
     Driver -- "connects and authenticates" --> DSM
 ```
@@ -34,9 +34,9 @@ flowchart LR
 Two pieces of configuration are involved, and they are separate:
 
 - **The driver's config file (`pkcs11.conf`) on the Gateway host** tells the Fortanix driver which DSM endpoint to connect to. This is the standard Fortanix client configuration that any PKCS#11 application uses.
-- **The Connector's PIN in Infisical** is your Fortanix API key. The Gateway passes it to DSM as the PKCS#11 login credential.
+- **The Connector's PIN in vaultix** is your Fortanix API key. The Gateway passes it to DSM as the PKCS#11 login credential.
 
-Your API key is a credential, so it goes only in Infisical as the PIN. It does not belong in `pkcs11.conf`.
+Your API key is a credential, so it goes only in vaultix as the PIN. It does not belong in `pkcs11.conf`.
 
 ## Set up the connection
 
@@ -44,9 +44,9 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
   <Step title="Get your Fortanix application API key">
     In the Fortanix DSM dashboard, go to **Apps**, open the application you use for PKCS#11 access, and find the **API Key** section. Click **View API Key Details** to copy the key, or **Regenerate** to create a new one.
 
-    The application can only use keys in the groups it belongs to (shown in the **Groups** section of the app), so make sure the keys you want Infisical to use live in a group this app can access.
+    The application can only use keys in the groups it belongs to (shown in the **Groups** section of the app), so make sure the keys you want vaultix to use live in a group this app can access.
 
-    You will enter this API key in Infisical as the Connector's PIN in the final step.
+    You will enter this API key in vaultix as the Connector's PIN in the final step.
   </Step>
 
   <Step title="Install the driver and point it at your DSM">
@@ -64,7 +64,7 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
     api_endpoint = "https://amer.smartkey.io"
     ```
 
-    This is the only setting the driver needs here. Infisical supplies the API key as the PIN in the final step.
+    This is the only setting the driver needs here. vaultix supplies the API key as the PIN in the final step.
   </Step>
 
   <Step title="Start the Gateway with the driver attached">
@@ -73,20 +73,20 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
     <Tabs>
       <Tab title="Linux (systemd)">
         ```bash
-        sudo infisical gateway systemd install <gateway-name> \
+        sudo vaultix gateway systemd install <gateway-name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain> \
+          --domain=<your-vaultix-domain> \
           --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
         sudo systemctl start <gateway-name>
         ```
       </Tab>
       <Tab title="Foreground">
         ```bash
-        infisical gateway start <gateway-name> \
+        vaultix gateway start <gateway-name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain> \
+          --domain=<your-vaultix-domain> \
           --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
         ```
       </Tab>
@@ -95,7 +95,7 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
     The Gateway logs a line confirming the PKCS#11 module loaded.
   </Step>
 
-  <Step title="Create the HSM Connector in Infisical">
+  <Step title="Create the HSM Connector in vaultix">
     In **Certificate Manager > Settings > HSM Connectors**, click **Add HSM Connector** and fill in:
 
     | Field | Value |
@@ -104,7 +104,7 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
     | **Gateway** | The Gateway you started above (or a Pool that contains it). |
     | **Slot label** | `Fortanix Token` by default. If you configured a custom token label, use that value instead. |
     | **PIN** | Your Fortanix application API key from Step 1. |
-    | **Key label prefix** | Optional prefix added to every key label Infisical creates in this slot. |
+    | **Key label prefix** | Optional prefix added to every key label vaultix creates in this slot. |
   </Step>
 </Steps>
 
@@ -121,7 +121,7 @@ Your API key is a credential, so it goes only in Infisical as the PIN. It does n
     On Fortanix DSM the value is `Fortanix Token`.
   </Accordion>
   <Accordion title="Login to the HSM failed">
-    The PIN must be your Fortanix application API key, not the DSM account password. If you regenerated the API key in the Fortanix dashboard, update the Connector's PIN in Infisical to match.
+    The PIN must be your Fortanix application API key, not the DSM account password. If you regenerated the API key in the Fortanix dashboard, update the Connector's PIN in vaultix to match.
   </Accordion>
   <Accordion title="The Gateway can't reach DSM">
     Check `api_endpoint` in `/etc/fortanix/pkcs11.conf`. It must point to your DSM region and be reachable over HTTPS from the Gateway host.

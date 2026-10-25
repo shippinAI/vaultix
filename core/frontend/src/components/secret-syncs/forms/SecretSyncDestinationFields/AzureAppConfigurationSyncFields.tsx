@@ -75,7 +75,7 @@ export const AzureAppConfigurationSyncFields = () => {
               </Tooltip>
             </FieldLabel>
             <FieldContent>
-              <Input {...field} placeholder="infisical-secret" isError={Boolean(error)} />
+              <Input {...field} placeholder="vaultix-secret" isError={Boolean(error)} />
               <FieldError errors={[error]} />
             </FieldContent>
           </Field>

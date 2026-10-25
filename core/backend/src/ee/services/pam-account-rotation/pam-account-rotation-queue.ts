@@ -29,8 +29,8 @@ export const pamAccountRotationQueueServiceFactory = async ({
 }: TPamAccountRotationQueueServiceFactoryDep) => {
   const appCfg = getConfig();
 
-  const meter = opentelemetry.metrics.getMeter("InfisicalCore");
-  const pendingGauge = meter.createObservableGauge("infisical.pam_credential_rotation.pending", {
+  const meter = opentelemetry.metrics.getMeter("vaultixCore");
+  const pendingGauge = meter.createObservableGauge("vaultix.pam_credential_rotation.pending", {
     description: "PAM accounts overdue for rotation (nextRotationAt <= now). Sustained growth = drain can't keep up.",
     unit: "{account}"
   });

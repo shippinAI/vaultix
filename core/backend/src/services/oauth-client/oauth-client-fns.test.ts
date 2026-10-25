@@ -91,8 +91,8 @@ describe("isRegisteredRedirectUri", () => {
   test("matches exact URI", () => {
     expect(
       isRegisteredRedirectUri(
-        ["https://coder.example.com/external-auth/infisical/callback"],
-        "https://coder.example.com/external-auth/infisical/callback"
+        ["https://coder.example.com/external-auth/vaultix/callback"],
+        "https://coder.example.com/external-auth/vaultix/callback"
       )
     ).toBe(true);
   });
@@ -104,7 +104,7 @@ describe("isRegisteredRedirectUri", () => {
   test("rejects unregistered URI", () => {
     expect(
       isRegisteredRedirectUri(
-        ["https://coder.example.com/external-auth/infisical/callback"],
+        ["https://coder.example.com/external-auth/vaultix/callback"],
         "https://evil.example.com/callback"
       )
     ).toBe(false);

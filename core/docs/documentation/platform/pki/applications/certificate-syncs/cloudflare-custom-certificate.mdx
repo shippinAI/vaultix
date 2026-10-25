@@ -21,7 +21,7 @@ Deploy custom SSL certificates to your Cloudflare zones. Certificates synced to 
 ## Create a Cloudflare Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **Cloudflare Custom Certificate** option.
@@ -55,7 +55,7 @@ Deploy custom SSL certificates to your Cloudflare zones. Certificates synced to 
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/cloudflare-custom-certificate \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/cloudflare-custom-certificate \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -111,7 +111,7 @@ Deploy custom SSL certificates to your Cloudflare zones. Certificates synced to 
 
 The Cloudflare Custom Certificate Sync provides:
 
-- **Automatic Deployment**: Deploy certificates in Infisical to Cloudflare as Custom certificates.
+- **Automatic Deployment**: Deploy certificates in vaultix to Cloudflare as Custom certificates.
 - **Certificate Updates**: Update certificates in Cloudflare when renewals occur.
 - **Expiration Handling**: Optionally remove expired certificates from Cloudflare (if enabled).
 - **Chain Management**: Properly bundle certificate chains for optimal browser compatibility.
@@ -131,12 +131,12 @@ You can manually trigger certificate synchronization to Cloudflare using the syn
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/cloudflare-custom-certificate/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/cloudflare-custom-certificate/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
-<Accordion title="Can I import certificates from Cloudflare back into Infisical?">
-  Cloudflare does not support importing certificates back into Infisical
+<Accordion title="Can I import certificates from Cloudflare back into vaultix?">
+  Cloudflare does not support importing certificates back into vaultix
   due to security limitations where private keys cannot be extracted from Cloudflare.
 </Accordion>
 

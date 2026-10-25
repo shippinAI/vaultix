@@ -1,10 +1,10 @@
 ---
 title: "Gateway Deployment"
-description: "Complete guide to deploying Infisical Gateways including network configuration and firewall requirements"
+description: "Complete guide to deploying vaultix Gateways including network configuration and firewall requirements"
 ---
 
-Infisical Gateways enables secure communication between your private resources and the Infisical platform without exposing inbound ports in your network.
-This guide covers everything you need to deploy and configure Infisical Gateways.
+vaultix Gateways enables secure communication between your private resources and the vaultix platform without exposing inbound ports in your network.
+This guide covers everything you need to deploy and configure vaultix Gateways.
 
 <Tip>
   For a complete Helm chart reference for Kubernetes deployments, see the [Gateway Helm chart documentation](/self-hosting/helm-charts/gateway).
@@ -15,7 +15,7 @@ This guide covers everything you need to deploy and configure Infisical Gateways
 <Steps>
   <Step title="Set Up a Relay Server">
     Ensure a relay server is running and accessible before you deploy any gateways. You have two options:
-    - **Managed relay (Infisical Cloud, US/EU only):** If you are using Infisical Cloud in the US or EU regions, you can use the provided managed relay.
+    - **Managed relay (vaultix Cloud, US/EU only):** If you are using vaultix Cloud in the US or EU regions, you can use the provided managed relay.
     - **Self-hosted relay:** For all other cases, you must deploy your own relay server. See the [Relay Deployment Guide](/documentation/platform/gateways/relay-deployment).
   </Step>
   <Step title="Create the Gateway in the UI">
@@ -29,8 +29,8 @@ This guide covers everything you need to deploy and configure Infisical Gateways
         - **AWS**: the gateway authenticates by signing an `sts:GetCallerIdentity` request with whatever AWS credentials it can resolve on the host (instance role, env vars, shared profile). Configure the allowed principal ARNs and/or account IDs that match your hosts.
     5. Click **Show deploy command** in the **Deployment** card. Pick a relay (or "Auto Select Relay") and copy the generated CLI command.
   </Step>
-  <Step title="Install the Infisical CLI">
-    Make sure the Infisical CLI is installed on the target machine. See the [CLI Installation Guide](/cli/overview) for instructions.
+  <Step title="Install the vaultix CLI">
+    Make sure the vaultix CLI is installed on the target machine. See the [CLI Installation Guide](/cli/overview) for instructions.
   </Step>
   <Step title="Configure Network & Firewall">
     Ensure your network and firewall settings allow the gateway to connect to all required services. All connections are outbound only; no inbound ports need to be opened.
@@ -38,11 +38,11 @@ This guide covers everything you need to deploy and configure Infisical Gateways
     | Protocol | Destination                          | Port | Purpose                                    |
     | -------- | ------------------------------------ | ---- | ------------------------------------------ |
     | TCP      | Relay Server IP/Hostname             | 2222 | SSH reverse tunnel establishment           |
-    | TCP      | Infisical instance host (US/EU, other)  | 443  | API communication and certificate requests |
+    | TCP      | vaultix instance host (US/EU, other)  | 443  | API communication and certificate requests |
 
     For managed relays, allow outbound traffic to the provided relay server IP/hostname. For self-hosted relays, allow outbound traffic to your own relay server address.
 
-    If you are in a corporate environment with strict egress filtering, ensure outbound TCP 2222 to relay servers and outbound HTTPS 443 to Infisical API endpoints are allowed.
+    If you are in a corporate environment with strict egress filtering, ensure outbound TCP 2222 to relay servers and outbound HTTPS 443 to vaultix API endpoints are allowed.
 
     <Tip>
       For the full connection model, a complete port reference, and firewall details (including self-hosted relays and HTTP forward proxies), see the [Network Architecture](/documentation/platform/gateways/network-architecture) page.
@@ -58,25 +58,25 @@ This guide covers everything you need to deploy and configure Infisical Gateways
         <Tabs>
           <Tab title="Linux (Production)">
             ```bash
-            sudo infisical gateway systemd install <gateway-name> \
+            sudo vaultix gateway systemd install <gateway-name> \
               --enroll-method=token \
               --token=<enrollment-token> \
-              --domain=<your-infisical-domain>
+              --domain=<your-vaultix-domain>
             sudo systemctl start <gateway-name>
             ```
           </Tab>
           <Tab title="Foreground">
             ```bash
-            infisical gateway start <gateway-name> \
+            vaultix gateway start <gateway-name> \
               --enroll-method=token \
               --token=<enrollment-token> \
-              --domain=<your-infisical-domain>
+              --domain=<your-vaultix-domain>
             ```
           </Tab>
           <Tab title="Kubernetes (Helm)">
-            Install the Infisical Helm chart repository:
+            Install the vaultix Helm chart repository:
             ```bash
-            helm repo add infisical https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+            helm repo add vaultix https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/
             helm repo update
             ```
 
@@ -88,11 +88,11 @@ This guide covers everything you need to deploy and configure Infisical Gateways
 
             Install the gateway:
             ```bash
-            helm install infisical-gateway infisical/infisical-gateway \
+            helm install vaultix-gateway vaultix/vaultix-gateway \
               --set gateway.name=<gateway-name> \
               --set gateway.enrollment.method=token \
               --set gateway.enrollment.token.existingSecretRef=gateway-enrollment-token \
-              --set gateway.domain=<your-infisical-domain>
+              --set gateway.domain=<your-vaultix-domain>
             ```
 
             <Info>
@@ -101,11 +101,11 @@ This guide covers everything you need to deploy and configure Infisical Gateways
 
             You can also pass the token inline (the chart creates the Secret for you):
             ```bash
-            helm install infisical-gateway infisical/infisical-gateway \
+            helm install vaultix-gateway vaultix/vaultix-gateway \
               --set gateway.name=<gateway-name> \
               --set gateway.enrollment.method=token \
               --set gateway.enrollment.token.value=<enrollment-token> \
-              --set gateway.domain=<your-infisical-domain>
+              --set gateway.domain=<your-vaultix-domain>
             ```
           </Tab>
         </Tabs>
@@ -116,40 +116,40 @@ This guide covers everything you need to deploy and configure Infisical Gateways
         <Tabs>
           <Tab title="Linux (Production)">
             ```bash
-            sudo infisical gateway systemd install <gateway-name> \
+            sudo vaultix gateway systemd install <gateway-name> \
               --enroll-method=aws \
               --gateway-id=<gateway-id> \
-              --domain=<your-infisical-domain>
+              --domain=<your-vaultix-domain>
             sudo systemctl start <gateway-name>
             ```
           </Tab>
           <Tab title="Foreground">
             ```bash
-            infisical gateway start <gateway-name> \
+            vaultix gateway start <gateway-name> \
               --enroll-method=aws \
               --gateway-id=<gateway-id> \
-              --domain=<your-infisical-domain>
+              --domain=<your-vaultix-domain>
             ```
           </Tab>
           <Tab title="Kubernetes (Helm)">
-            Install the Infisical Helm chart repository:
+            Install the vaultix Helm chart repository:
             ```bash
-            helm repo add infisical https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+            helm repo add vaultix https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/
             helm repo update
             ```
 
             Install the gateway with [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html):
             ```bash
-            helm install infisical-gateway infisical/infisical-gateway \
+            helm install vaultix-gateway vaultix/vaultix-gateway \
               --set gateway.name=<gateway-name> \
               --set gateway.enrollment.method=aws \
               --set gateway.enrollment.aws.gatewayId=<gateway-id> \
-              --set gateway.domain=<your-infisical-domain> \
+              --set gateway.domain=<your-vaultix-domain> \
               --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::<account-id>:role/<role-name>
             ```
 
             <Info>
-              Ensure the IAM role's trust policy allows the Kubernetes service account to assume it, and that the role's ARN or account ID is in the gateway's AWS auth allowlist in the Infisical UI.
+              Ensure the IAM role's trust policy allows the Kubernetes service account to assume it, and that the role's ARN or account ID is in the gateway's AWS auth allowlist in the vaultix UI.
             </Info>
           </Tab>
         </Tabs>
@@ -171,7 +171,7 @@ This guide covers everything you need to deploy and configure Infisical Gateways
   <Step title="Verify Your Gateway Deployment">
     After deployment, verify your gateway is working:
     1. **Check logs** for "Gateway started successfully" message.
-    2. **Verify registration** in the Infisical UI. Navigate to **Networking > Gateways** and confirm the gateway shows a "Healthy" status.
+    2. **Verify registration** in the vaultix UI. Navigate to **Networking > Gateways** and confirm the gateway shows a "Healthy" status.
     3. **Test connectivity** by creating a resource that uses the gateway to access a private service.
   </Step>
 </Steps>
@@ -194,7 +194,7 @@ To migrate a gateway to a different host with zero downtime: click **Show deploy
 No inbound ports need to be opened for gateways. The gateway only makes outbound connections:
 
 - **Outbound SSH** to relay servers on port 2222
-- **Outbound HTTPS** to Infisical API endpoints on port 443
+- **Outbound HTTPS** to vaultix API endpoints on port 443
 - **SSH reverse tunnels** handle all communication - no return traffic configuration needed
 
 This design maintains security by avoiding the need for inbound firewall rules that could expose your network to external threats.
@@ -208,9 +208,9 @@ Test relay connectivity and outbound API access from the gateway:
   ```bash
   nc -zv <relay-ip> 2222
   ```
-2. Test outbound API access (replace with your Infisical domain if different):
+2. Test outbound API access (replace with your vaultix domain if different):
   ```bash
-  curl -I https://app.infisical.com
+  curl -I https://app.vaultix.com
   ```
 </Accordion>
 
@@ -249,16 +249,16 @@ Enrollment tokens expire after 1 hour. If the token expires before deployment, o
 <Accordion title="Where are gateway credentials stored?">
 For **token-method** gateways, the access token and domain are saved to a config file scoped by gateway name:
 
-- **Running as root/sudo:** `/etc/infisical/gateways/<gateway-name>.conf`
-- **Running as a regular user:** `~/.infisical/gateways/<gateway-name>.conf`
+- **Running as root/sudo:** `/etc/vaultix/gateways/<gateway-name>.conf`
+- **Running as a regular user:** `~/.vaultix/gateways/<gateway-name>.conf`
 
 For **AWS-method** gateways, no JWT is persisted to disk. The gateway re-authenticates by signing a fresh STS request on every start using the host's AWS credentials. Only the gateway id and domain are stored locally.
 
-For systemd-based installations, the configuration is at `/etc/infisical/gateways/<gateway-name>.conf`. All config files are created with restricted permissions (0600).
+For systemd-based installations, the configuration is at `/etc/vaultix/gateways/<gateway-name>.conf`. All config files are created with restricted permissions (0600).
 </Accordion>
 
 <Accordion title="Can I run multiple gateways on the same machine?">
-Yes. Each gateway stores its credentials in a separate config file scoped by name (e.g., `~/.infisical/gateways/my-gateway.conf`). You can enroll and start multiple gateways in separate terminal sessions using different names.
+Yes. Each gateway stores its credentials in a separate config file scoped by name (e.g., `~/.vaultix/gateways/my-gateway.conf`). You can enroll and start multiple gateways in separate terminal sessions using different names.
 </Accordion>
 
 <Accordion title="What happens if there is a network interruption?">

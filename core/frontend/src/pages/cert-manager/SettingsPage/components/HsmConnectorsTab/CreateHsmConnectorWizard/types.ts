@@ -13,7 +13,7 @@ export const INITIAL_WIZARD_STATE: WizardState = {
   reachedFrom: "",
   slotLabel: "",
   pin: "",
-  keyNamePrefix: "infisical-"
+  keyNamePrefix: "vaultix-"
 };
 
 export type WizardStep = {

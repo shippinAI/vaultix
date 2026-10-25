@@ -10,8 +10,8 @@ const (
 	UserAgentTypeCLI        UserAgentType = "cli"
 	UserAgentTypeK8Operator UserAgentType = "k8-operator"
 	UserAgentTypeTerraform  UserAgentType = "terraform"
-	UserAgentTypePythonSDK  UserAgentType = "InfisicalPythonSDK"
-	UserAgentTypeNodeSDK    UserAgentType = "InfisicalNodeSDK"
+	UserAgentTypePythonSDK  UserAgentType = "vaultixPythonSDK"
+	UserAgentTypeNodeSDK    UserAgentType = "vaultixNodeSDK"
 	UserAgentTypeOther      UserAgentType = "other"
 )
 

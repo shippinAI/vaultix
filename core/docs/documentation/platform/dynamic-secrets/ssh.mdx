@@ -3,11 +3,11 @@ title: "SSH Certificates"
 description: "Learn how to dynamically generate short-lived SSH certificates."
 ---
 
-The Infisical SSH dynamic secret allows you to generate ephemeral SSH certificates on demand, signed by an auto-generated Certificate Authority (CA). Instead of distributing static SSH keys, each lease produces a short-lived private key and a signed certificate that expires automatically.
+The vaultix SSH dynamic secret allows you to generate ephemeral SSH certificates on demand, signed by an auto-generated Certificate Authority (CA). Instead of distributing static SSH keys, each lease produces a short-lived private key and a signed certificate that expires automatically.
 
 ## How It Works
 
-When you create an SSH dynamic secret, Infisical generates an internal CA key pair. Target hosts are configured to trust this CA. When a lease is requested, Infisical generates an ephemeral key pair, signs the public key with the CA, and returns the private key and signed certificate. The certificate expires when the lease TTL ends — no manual key rotation or revocation needed.
+When you create an SSH dynamic secret, vaultix generates an internal CA key pair. Target hosts are configured to trust this CA. When a lease is requested, vaultix generates an ephemeral key pair, signs the public key with the CA, and returns the private key and signed certificate. The certificate expires when the lease TTL ends — no manual key rotation or revocation needed.
 
 ## Set up Dynamic Secrets with SSH
 
@@ -65,27 +65,27 @@ When you create an SSH dynamic secret, Infisical generates an internal CA key pa
 
 	Run the provided command on each target host:
 	```bash
-	curl -H "Authorization: Bearer <your-token>" "https://<your-infisical-url>/api/v1/dynamic-secrets/ssh-ca-setup/<dynamic-secret-id>" | sudo bash
+	curl -H "Authorization: Bearer <your-token>" "https://<your-vaultix-url>/api/v1/dynamic-secrets/ssh-ca-setup/<dynamic-secret-id>" | sudo bash
 	```
 
 	This script will:
-	- Write the CA public key to `/etc/ssh/infisical_ca.pub`
-	- Add `TrustedUserCAKeys /etc/ssh/infisical_ca.pub` to `/etc/ssh/sshd_config`
+	- Write the CA public key to `/etc/ssh/vaultix_ca.pub`
+	- Add `TrustedUserCAKeys /etc/ssh/vaultix_ca.pub` to `/etc/ssh/sshd_config`
 	- Validate the SSH configuration and restart the SSH service
 
 	**Option B — Manual setup**
 
 	1. Copy the CA public key (available via the eye icon in the setup modal or the edit form)
-	2. Save it to `/etc/ssh/infisical_ca.pub` on the target host
+	2. Save it to `/etc/ssh/vaultix_ca.pub` on the target host
 	3. Add the following line to `/etc/ssh/sshd_config`:
 	   ```
-	   TrustedUserCAKeys /etc/ssh/infisical_ca.pub
+	   TrustedUserCAKeys /etc/ssh/vaultix_ca.pub
 	   ```
 	4. Restart the SSH service
 
 	You can also retrieve the CA public key programmatically:
 	```bash
-	curl -H "Authorization: Bearer <your-token>" "https://<your-infisical-url>/api/v1/dynamic-secrets/ssh-ca-public-key/<dynamic-secret-id>"
+	curl -H "Authorization: Bearer <your-token>" "https://<your-vaultix-url>/api/v1/dynamic-secrets/ssh-ca-public-key/<dynamic-secret-id>"
 	```
 	This returns a JSON response: `{ "caPublicKey": "ssh-ed25519 AAAA..." }`
   </Step>
@@ -139,7 +139,7 @@ When you create an SSH dynamic secret, Infisical generates an internal CA key pa
 You can also create SSH dynamic secret leases using the CLI:
 
 ```bash
-infisical dynamic-secrets lease create <secret-name> \
+vaultix dynamic-secrets lease create <secret-name> \
   --projectId=<project-id> \
   --env=dev \
   --principals=root,deploy
@@ -160,7 +160,7 @@ This will allow you to see the expiration time of the lease or delete the lease 
 ![View Leases Expiry](/images/platform/dynamic-secrets/ssh/lease-expiry.png)
 
 <Note>
-	SSH certificates are time-bound and expire automatically. Revoking a lease in Infisical removes the record, but the certificate remains valid until its TTL expires.
+	SSH certificates are time-bound and expire automatically. Revoking a lease in vaultix removes the record, but the certificate remains valid until its TTL expires.
 </Note>
 
 ## Edit Dynamic Secret

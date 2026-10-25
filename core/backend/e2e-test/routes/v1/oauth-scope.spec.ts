@@ -22,7 +22,7 @@ const signOauthToken = (scopes: string[]) =>
     { expiresIn: "1h" }
   );
 
-// GET /api/v3/secrets/raw — the secret-read endpoint `infisical run` calls at runtime. This is one
+// GET /api/v3/secrets/raw — the secret-read endpoint `vaultix run` calls at runtime. This is one
 // of the few routes that explicitly opts into AuthMode.OAUTH, so a delegated token can reach it; the
 // secrets:read scope then narrows the (admin) ability down to read-only.
 const readSecrets = async (token: string) =>

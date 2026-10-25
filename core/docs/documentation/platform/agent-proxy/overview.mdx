@@ -4,7 +4,7 @@ sidebarTitle: "Overview"
 description: "Give AI agents and untrusted code execution environments access without handing over your secrets."
 ---
 
-The **Infisical Agent Proxy** is a credential broker for AI agents and untrusted code execution environments. It sits between your AI agents and the APIs they call including LLM providers, GitHub, Slack, and more.
+The **vaultix Agent Proxy** is a credential broker for AI agents and untrusted code execution environments. It sits between your AI agents and the APIs they call including LLM providers, GitHub, Slack, and more.
 
 Agents like Claude Code or OpenClaw route HTTP requests through the proxy, which swaps dummy credentials for real ones (or replaces auth headers entirely), before forwarding the request to the target service.
 
@@ -20,7 +20,7 @@ Agents like Claude Code or OpenClaw route HTTP requests through the proxy, which
                                     |  credential values
                                     v
                              +-------------+
-                             |  Infisical  |
+                             |  vaultix  |
                              +-------------+
 ```
 
@@ -30,17 +30,17 @@ Traditional secrets management involves returning credentials back to applicatio
 
 This is not suitable for AI agents because they are vulnerable to credential exfiltration via [prompt injection](https://en.wikipedia.org/wiki/Prompt_injection); an attacker could craft a malicious prompt or payload and exfiltrate credentials from an agent back to the attacker.
 
-Enter Infisical Agent Proxy - a proxy service backed by Infisical that prevents credential exfiltration by brokering access to credentials stored in Infisical at the network boundary.
+Enter vaultix Agent Proxy - a proxy service backed by vaultix that prevents credential exfiltration by brokering access to credentials stored in vaultix at the network boundary.
 
-## What you configure in Infisical
+## What you configure in vaultix
 
 Two things, and they are the same no matter where your agent runs:
 
-1. Add the credential as a secret in Infisical; this can be a static secret or a [dynamic secret](/documentation/platform/dynamic-secrets/overview).
+1. Add the credential as a secret in vaultix; this can be a static secret or a [dynamic secret](/documentation/platform/dynamic-secrets/overview).
 
 2. Configure a [proxied service](/documentation/platform/agent-proxy/proxied-services). This defines the external service (`api.anthropic.com`, `api.github.com`, `slack.com`, and so on) that Agent Proxy brokers access to, and how the credential is applied to requests bound for it.
 
-Then you route your agent's traffic through Agent Proxy. The agent needs no code changes: the [Infisical CLI](/cli/overview) launches it with its HTTP clients pointed at the proxy, and the proxy applies the real credential to matching requests on the way out.
+Then you route your agent's traffic through Agent Proxy. The agent needs no code changes: the [vaultix CLI](/cli/overview) launches it with its HTTP clients pointed at the proxy, and the proxy applies the real credential to matching requests on the way out.
 
 ## Where the proxy runs
 
@@ -53,15 +53,15 @@ The Quickstart starts with the parts both need, then hands you this choice at th
 | Object              | What it is                                                                                                                                                                                                 |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Proxied service** | A config that maps a host to the secret the proxy applies, static or [dynamic](/documentation/platform/agent-proxy/proxied-services#using-dynamic-secrets). Defined next to your secrets in the dashboard. |
-| **Agent proxy**     | The forward proxy in the [Infisical CLI](/cli/overview) that attaches credentials to outbound requests. Runs on a host in your network, or on your own machine for the duration of a local run.            |
+| **Agent proxy**     | The forward proxy in the [vaultix CLI](/cli/overview) that attaches credentials to outbound requests. Runs on a host in your network, or on your own machine for the duration of a local run.            |
 | **Agent**           | Any program that respects `HTTPS_PROXY`: Claude Code, Codex, OpenClaw, Hermes, or any other untrusted workload.                                                                                            |
 
 <Warning>
-  The Agent Proxy is distinct from similarly named Infisical components:
+  The Agent Proxy is distinct from similarly named vaultix components:
 
-    - The [Infisical Agent](/integrations/platforms/infisical-agent) fetches secrets to disk for applications.
-    - The [Infisical Proxy](/integrations/platforms/infisical-proxy) caches the Infisical API.
-    - [Gateways](/documentation/platform/gateways/overview) let Infisical reach into private networks.
+    - The [vaultix Agent](/integrations/platforms/vaultix-agent) fetches secrets to disk for applications.
+    - The [vaultix Proxy](/integrations/platforms/vaultix-proxy) caches the vaultix API.
+    - [Gateways](/documentation/platform/gateways/overview) let vaultix reach into private networks.
 
 </Warning>
 

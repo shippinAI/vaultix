@@ -15,14 +15,14 @@ import (
 	"time"
 )
 
-// Environment variables for Infisical test credentials.
+// Environment variables for vaultix test credentials.
 const (
-	EnvInfisicalTestAPIURL       = "INFISICAL_TEST_API_URL"
-	EnvInfisicalTestClientID     = "INFISICAL_TEST_IDENTITY_CLIENT_ID"
-	EnvInfisicalTestClientSecret = "INFISICAL_TEST_IDENTITY_CLIENT_SECRET"
-	EnvInfisicalTestProjectID    = "INFISICAL_TEST_PROJECT_ID"
+	EnvvaultixTestAPIURL       = "vaultix_TEST_API_URL"
+	EnvvaultixTestClientID     = "vaultix_TEST_IDENTITY_CLIENT_ID"
+	EnvvaultixTestClientSecret = "vaultix_TEST_IDENTITY_CLIENT_SECRET"
+	EnvvaultixTestProjectID    = "vaultix_TEST_PROJECT_ID"
 
-	DefaultInfisicalAPIURL = "https://app.infisical.com"
+	DefaultvaultixAPIURL = "https://app.vaultix.com"
 	TestEnvironment        = "default"
 )
 
@@ -32,8 +32,8 @@ const (
 	SecretPathSecretManager = "/secretmanager"
 )
 
-// infisicalClient handles authentication and fetching secrets from Infisical.
-type infisicalClient struct {
+// vaultixClient handles authentication and fetching secrets from vaultix.
+type vaultixClient struct {
 	httpClient  *http.Client
 	apiURL      string
 	accessToken string
@@ -41,53 +41,53 @@ type infisicalClient struct {
 }
 
 var (
-	infisicalClientOnce     sync.Once
-	infisicalClientInstance *infisicalClient
-	errInfisicalClient      error
+	vaultixClientOnce     sync.Once
+	vaultixClientInstance *vaultixClient
+	errvaultixClient      error
 )
 
-// getInfisicalClient returns a singleton authenticated Infisical client.
-func getInfisicalClient() (*infisicalClient, error) {
-	infisicalClientOnce.Do(func() {
-		infisicalClientInstance, errInfisicalClient = initInfisicalClient()
+// getvaultixClient returns a singleton authenticated vaultix client.
+func getvaultixClient() (*vaultixClient, error) {
+	vaultixClientOnce.Do(func() {
+		vaultixClientInstance, errvaultixClient = initvaultixClient()
 	})
-	return infisicalClientInstance, errInfisicalClient
+	return vaultixClientInstance, errvaultixClient
 }
 
-func initInfisicalClient() (*infisicalClient, error) {
-	clientID := os.Getenv(EnvInfisicalTestClientID)
-	clientSecret := os.Getenv(EnvInfisicalTestClientSecret)
-	projectID := os.Getenv(EnvInfisicalTestProjectID)
+func initvaultixClient() (*vaultixClient, error) {
+	clientID := os.Getenv(EnvvaultixTestClientID)
+	clientSecret := os.Getenv(EnvvaultixTestClientSecret)
+	projectID := os.Getenv(EnvvaultixTestProjectID)
 
 	if clientID == "" || clientSecret == "" {
 		return nil, fmt.Errorf(
-			"skipping: Infisical test credentials not configured. "+
+			"skipping: vaultix test credentials not configured. "+
 				"Set %s and %s environment variables to enable cloud provider tests",
-			EnvInfisicalTestClientID, EnvInfisicalTestClientSecret,
+			EnvvaultixTestClientID, EnvvaultixTestClientSecret,
 		)
 	}
 
 	if projectID == "" {
 		return nil, fmt.Errorf(
-			"skipping: Infisical test project not configured. "+
+			"skipping: vaultix test project not configured. "+
 				"Set %s environment variable to enable cloud provider tests",
-			EnvInfisicalTestProjectID,
+			EnvvaultixTestProjectID,
 		)
 	}
 
-	apiURL := os.Getenv(EnvInfisicalTestAPIURL)
+	apiURL := os.Getenv(EnvvaultixTestAPIURL)
 	if apiURL == "" {
-		apiURL = DefaultInfisicalAPIURL
+		apiURL = DefaultvaultixAPIURL
 	}
 
 	httpClient := &http.Client{Timeout: 30 * time.Second}
 
 	accessToken, err := authenticate(context.Background(), httpClient, apiURL, clientID, clientSecret)
 	if err != nil {
-		return nil, fmt.Errorf("skipping: failed to authenticate with Infisical: %w", err)
+		return nil, fmt.Errorf("skipping: failed to authenticate with vaultix: %w", err)
 	}
 
-	return &infisicalClient{
+	return &vaultixClient{
 		httpClient:  httpClient,
 		apiURL:      apiURL,
 		accessToken: accessToken,
@@ -130,7 +130,7 @@ func authenticate(ctx context.Context, client *http.Client, apiURL, clientID, cl
 }
 
 // listSecrets fetches secrets from the specified path.
-func (c *infisicalClient) listSecrets(ctx context.Context, secretPath string) (map[string]string, error) {
+func (c *vaultixClient) listSecrets(ctx context.Context, secretPath string) (map[string]string, error) {
 	secretsURL := fmt.Sprintf("%s/api/v3/secrets/raw?workspaceId=%s&environment=%s&secretPath=%s",
 		c.apiURL,
 		url.QueryEscape(c.projectID),
@@ -172,24 +172,24 @@ func (c *infisicalClient) listSecrets(ctx context.Context, secretPath string) (m
 	return secretMap, nil
 }
 
-// InfisicalSecrets provides access to test secrets from a specific folder path.
-type InfisicalSecrets struct {
+// vaultixSecrets provides access to test secrets from a specific folder path.
+type vaultixSecrets struct {
 	secrets map[string]string
 }
 
 var (
 	platformSecretsOnce     sync.Once
-	platformSecretsInstance *InfisicalSecrets
+	platformSecretsInstance *vaultixSecrets
 	errPlatformSecrets      error
 
 	secretManagerSecretsOnce     sync.Once
-	secretManagerSecretsInstance *InfisicalSecrets
+	secretManagerSecretsInstance *vaultixSecrets
 	errSecretManagerSecrets      error
 )
 
 // GetPlatformSecrets returns secrets from the /platform folder.
 // Skips the test if credentials are not configured.
-func GetPlatformSecrets(t *testing.T) *InfisicalSecrets {
+func GetPlatformSecrets(t *testing.T) *vaultixSecrets {
 	t.Helper()
 
 	platformSecretsOnce.Do(func() {
@@ -205,7 +205,7 @@ func GetPlatformSecrets(t *testing.T) *InfisicalSecrets {
 
 // GetSecretManagerSecrets returns secrets from the /secretmanager folder.
 // Skips the test if credentials are not configured.
-func GetSecretManagerSecrets(t *testing.T) *InfisicalSecrets {
+func GetSecretManagerSecrets(t *testing.T) *vaultixSecrets {
 	t.Helper()
 
 	secretManagerSecretsOnce.Do(func() {
@@ -219,8 +219,8 @@ func GetSecretManagerSecrets(t *testing.T) *InfisicalSecrets {
 	return secretManagerSecretsInstance
 }
 
-func loadSecrets(path string) (*InfisicalSecrets, error) {
-	client, err := getInfisicalClient()
+func loadSecrets(path string) (*vaultixSecrets, error) {
+	client, err := getvaultixClient()
 	if err != nil {
 		return nil, err
 	}
@@ -230,26 +230,26 @@ func loadSecrets(path string) (*InfisicalSecrets, error) {
 		return nil, fmt.Errorf("skipping: failed to list secrets from %s: %w", path, err)
 	}
 
-	return &InfisicalSecrets{secrets: secrets}, nil
+	return &vaultixSecrets{secrets: secrets}, nil
 }
 
 // Get returns a secret value by key. Returns empty string if not found.
-func (s *InfisicalSecrets) Get(key string) string {
+func (s *vaultixSecrets) Get(key string) string {
 	return s.secrets[key]
 }
 
 // Require returns a secret value by key, or skips the test if not found.
-func (s *InfisicalSecrets) Require(t *testing.T, key string) string {
+func (s *vaultixSecrets) Require(t *testing.T, key string) string {
 	t.Helper()
 	value, ok := s.secrets[key]
 	if !ok || value == "" {
-		t.Skipf("skipping: required secret %q not found in Infisical test project", key)
+		t.Skipf("skipping: required secret %q not found in vaultix test project", key)
 	}
 	return value
 }
 
 // Has returns true if the secret exists and is non-empty.
-func (s *InfisicalSecrets) Has(key string) bool {
+func (s *vaultixSecrets) Has(key string) bool {
 	value, ok := s.secrets[key]
 	return ok && value != ""
 }

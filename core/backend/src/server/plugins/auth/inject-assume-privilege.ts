@@ -6,7 +6,7 @@ import { AuthMode } from "@app/services/auth/auth-type";
 
 export const injectAssumePrivilege = fp(async (server: FastifyZodProvider) => {
   server.addHook("onRequest", async (req, res) => {
-    const assumeRoleCookie = req.cookies["infisical-project-assume-privileges"];
+    const assumeRoleCookie = req.cookies["vaultix-project-assume-privileges"];
     try {
       if (req?.auth?.authMode === AuthMode.JWT && assumeRoleCookie) {
         const decodedToken = await server.services.assumePrivileges.verifyAssumePrivilegeToken(
@@ -21,7 +21,7 @@ export const injectAssumePrivilege = fp(async (server: FastifyZodProvider) => {
       }
     } catch (error) {
       req.log.error({ error }, "Failed to verify assume privilege token");
-      void res.clearCookie("infisical-project-assume-privileges");
+      void res.clearCookie("vaultix-project-assume-privileges");
     }
   });
 });

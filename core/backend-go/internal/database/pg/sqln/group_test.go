@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/fn"
+	"github.com/vaultix/api/internal/libs/fn"
 )
 
 type Tag struct {

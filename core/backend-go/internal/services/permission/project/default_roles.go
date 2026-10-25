@@ -1,6 +1,6 @@
 package project
 
-import "github.com/infisical/gocasl"
+import "github.com/vaultix/gocasl"
 
 // ss is a shorthand for gocasl.StringOrSlice to keep rule definitions compact.
 func ss(vals ...string) gocasl.StringOrSlice { return vals }

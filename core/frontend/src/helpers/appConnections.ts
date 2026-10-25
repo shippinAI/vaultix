@@ -65,7 +65,7 @@ import { DigiCertConnectionMethod } from "@app/hooks/api/appConnections/types/di
 import { DigitalOceanConnectionMethod } from "@app/hooks/api/appConnections/types/digital-ocean";
 import { DNSMadeEasyConnectionMethod } from "@app/hooks/api/appConnections/types/dns-made-easy-connection";
 import { DopplerConnectionMethod } from "@app/hooks/api/appConnections/types/doppler-connection";
-import { ExternalVaultixConnectionMethod } from "@app/hooks/api/appConnections/types/external-infisical-connection";
+import { ExternalVaultixConnectionMethod } from "@app/hooks/api/appConnections/types/external-vaultix-connection";
 import { F5BigIpConnectionMethod } from "@app/hooks/api/appConnections/types/f5-big-ip-connection";
 import { FireworksConnectionMethod } from "@app/hooks/api/appConnections/types/fireworks-connection";
 import { GoDaddyConnectionMethod } from "@app/hooks/api/appConnections/types/godaddy-connection";

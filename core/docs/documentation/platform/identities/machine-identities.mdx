@@ -1,20 +1,20 @@
 ---
 title: Machine Identities
-description: "Learn how to use Machine Identities to programmatically interact with Infisical."
+description: "Learn how to use Machine Identities to programmatically interact with vaultix."
 ---
 
 ## Concept
 
-An Infisical machine identity is an entity that represents a workload or application that require access to various resources in Infisical. This is conceptually similar to an IAM user in AWS or service account in Google Cloud Platform (GCP).
+An vaultix machine identity is an entity that represents a workload or application that require access to various resources in vaultix. This is conceptually similar to an IAM user in AWS or service account in Google Cloud Platform (GCP).
 
-Each identity must authenticate with the Infisical API using a supported authentication method like [Token Auth](/documentation/platform/identities/token-auth), [Universal Auth](/documentation/platform/identities/universal-auth), [Kubernetes Auth](/documentation/platform/identities/kubernetes-auth), [AWS Auth](/documentation/platform/identities/aws-auth), [Azure Auth](/documentation/platform/identities/azure-auth), or [GCP Auth](/documentation/platform/identities/gcp-auth) to get back a short-lived access token to be used in subsequent requests.
+Each identity must authenticate with the vaultix API using a supported authentication method like [Token Auth](/documentation/platform/identities/token-auth), [Universal Auth](/documentation/platform/identities/universal-auth), [Kubernetes Auth](/documentation/platform/identities/kubernetes-auth), [AWS Auth](/documentation/platform/identities/aws-auth), [Azure Auth](/documentation/platform/identities/azure-auth), or [GCP Auth](/documentation/platform/identities/gcp-auth) to get back a short-lived access token to be used in subsequent requests.
 
 ![Organization Identities](/images/platform/organization/organization-machine-identities.png)
 
 Key Features:
 
 - Role Assignment: Identities must be assigned [roles](/documentation/platform/access-controls/role-based-access-controls). These roles determine the scope of access to resources, either at the organization level or project level.
-- Auth/Token Configuration: Identities must be configured with corresponding authentication methods and access token properties to securely interact with the Infisical API.
+- Auth/Token Configuration: Identities must be configured with corresponding authentication methods and access token properties to securely interact with the vaultix API.
 - Expiry Alerting: Identities with expiring credentials can notify your team ahead of time via [Credential Expiry Alerts](#credential-expiry-alerts).
 
 ## Scopes
@@ -35,8 +35,8 @@ perform organization-level operations. Organization-level identities are useful 
 
         1. Creating the identity with a name and [role](/documentation/platform/access-controls/role-based-access-controls) in Project > Access Control > Machine Identities.
         This step also involves configuring an authentication method for it.
-        2. Authenticating the identity with the Infisical API based on the configured authentication method on it and receiving a short-lived access token back.
-        3. Authenticating subsequent requests with the Infisical API using the short-lived access token.
+        2. Authenticating the identity with the vaultix API based on the configured authentication method on it and receiving a short-lived access token back.
+        3. Authenticating subsequent requests with the vaultix API using the short-lived access token.
     </Tab>
     <Tab title="Organization Identities">
         A typical workflow for using organization identities consists of four steps:
@@ -44,17 +44,17 @@ perform organization-level operations. Organization-level identities are useful 
         1. Creating the identity with a name and [role](/documentation/platform/access-controls/role-based-access-controls) in Organization > Access Control > Machine Identities.
         This step also involves configuring an authentication method for it.
         2. Adding the identity to the project(s) you want it to have access to.
-        3. Authenticating the identity with the Infisical API based on the configured authentication method on it and receiving a short-lived access token back.
-        4. Authenticating subsequent requests with the Infisical API using the short-lived access token.
+        3. Authenticating the identity with the vaultix API based on the configured authentication method on it and receiving a short-lived access token back.
+        4. Authenticating subsequent requests with the vaultix API using the short-lived access token.
     </Tab>
 </Tabs>
 
 ## Authentication Methods
 
-To interact with various resources in Infisical, Machine Identities can authenticate with the Infisical API using:
+To interact with various resources in vaultix, Machine Identities can authenticate with the vaultix API using:
 
-- [Token Auth](/documentation/platform/identities/token-auth): A platform-agnostic, simple authentication method suitable to authenticate with Infisical using a token.
-- [Universal Auth](/documentation/platform/identities/universal-auth): A platform-agnostic authentication method suitable to authenticate with Infisical using a Client ID and Client Secret.
+- [Token Auth](/documentation/platform/identities/token-auth): A platform-agnostic, simple authentication method suitable to authenticate with vaultix using a token.
+- [Universal Auth](/documentation/platform/identities/universal-auth): A platform-agnostic authentication method suitable to authenticate with vaultix using a Client ID and Client Secret.
 - [Kubernetes Auth](/documentation/platform/identities/kubernetes-auth): A Kubernetes-native authentication method for applications (e.g. pods).
 - [AWS Auth](/documentation/platform/identities/aws-auth): An AWS-native authentication method for AWS services (e.g. EC2, Lambda functions, etc.).
 - [Azure Auth](/documentation/platform/identities/azure-auth): An Azure-native authentication method for Azure resources (e.g. Azure VMs, Azure App Services, Azure Functions, Azure Kubernetes Service, etc.).
@@ -76,12 +76,12 @@ Machine identity access tokens can be invalidated before their natural expiry. A
 - Delete the identity, which revokes all of its active access tokens.
 - Remove the credential the token was issued from, such as deleting a Universal Auth client secret or removing an authentication method from the identity.
 
-Once revoked, the token is rejected on subsequent authenticated requests and can no longer be renewed. The revocation is persisted in Infisical's database, which is the source of truth consulted on every authentication check.
+Once revoked, the token is rejected on subsequent authenticated requests and can no longer be renewed. The revocation is persisted in vaultix's database, which is the source of truth consulted on every authentication check.
 
 <Note>
-  To keep authentication fast under high request volume, Infisical caches the result of each revocation check in Redis for a short period. Under normal operation a revocation takes effect immediately, because revoking a token also invalidates any cached decision for that identity.
+  To keep authentication fast under high request volume, vaultix caches the result of each revocation check in Redis for a short period. Under normal operation a revocation takes effect immediately, because revoking a token also invalidates any cached decision for that identity.
 
-  In the rare case where this cache invalidation cannot be performed (for example, a transient Redis disruption during the revoke), the database still records the revocation, but Infisical may continue to accept that exact token until its cached result expires, which takes at most 12 minutes. After that, the check is re-evaluated against the database and the token is rejected.
+  In the rare case where this cache invalidation cannot be performed (for example, a transient Redis disruption during the revoke), the database still records the revocation, but vaultix may continue to accept that exact token until its cached result expires, which takes at most 12 minutes. After that, the check is re-evaluated against the database and the token is rejected.
 
   If you need a revocation to take effect with no propagation delay even under those conditions, rotate the underlying credential (delete the Universal Auth client secret) or delete the identity, both of which invalidate the affected tokens regardless of cache state.
 </Note>
@@ -128,12 +128,12 @@ An alert delivers through one or more channels, up to 10 per alert. Add at least
 
 ### Webhook Payload
 
-Webhook deliveries are [CloudEvents](https://cloudevents.io/) 1.0 JSON documents with the type `com.infisical.identity.authentication.expiration`. Every credential due for this run is listed in `data.items`:
+Webhook deliveries are [CloudEvents](https://cloudevents.io/) 1.0 JSON documents with the type `com.vaultix.identity.authentication.expiration`. Every credential due for this run is listed in `data.items`:
 
 ```json
 {
   "specversion": "1.0",
-  "type": "com.infisical.identity.authentication.expiration",
+  "type": "com.vaultix.identity.authentication.expiration",
   "source": "/alerts/1bd09748-1d5b-4642-8034-f4ca88f59996",
   "id": "3f2a91c4-7e6b-4d18-9a55-08c1d4e2b7f0",
   "time": "2026-08-16T00:00:04.512Z",
@@ -159,16 +159,16 @@ Webhook deliveries are [CloudEvents](https://cloudevents.io/) 1.0 JSON documents
     ],
     "metadata": {
       "totalItems": 1,
-      "viewUrl": "https://app.infisical.com/organizations/18b65352-ad1e-43d5-830f-65c72245c3a3/identities/c6002a8c-4571-4660-b169-f891f4734851"
+      "viewUrl": "https://app.vaultix.com/organizations/18b65352-ad1e-43d5-830f-65c72245c3a3/identities/c6002a8c-4571-4660-b169-f891f4734851"
     }
   }
 }
 ```
 
-When a signing secret is set, Infisical signs the request and sends it in the `x-infisical-signature` header:
+When a signing secret is set, vaultix signs the request and sends it in the `x-vaultix-signature` header:
 
 ```
-x-infisical-signature: t=1786924804512,v1=9f8c1d...e3
+x-vaultix-signature: t=1786924804512,v1=9f8c1d...e3
 ```
 
 `t` is a Unix timestamp in **milliseconds**, and `v1` is `HMAC-SHA256("<t>.<raw-request-body>", <signing-secret>)` as a hex digest. Recompute it over the raw body rather than a re-serialized copy, then compare against `v1` before trusting the payload and reject stale timestamps.
@@ -185,9 +185,9 @@ You can learn more about how to do this in the CLI quickstart [here](/cli/usage)
 </Accordion>
 
 <Accordion title="What is the difference between an identity and service token?">
-  A service token is a project-level authentication method that is being deprecated in favor of identities. The service token method will be removed in the future in accordance with the deprecation notice and timeline stated [here](https://infisical.com/blog/deprecating-api-keys).
+  A service token is a project-level authentication method that is being deprecated in favor of identities. The service token method will be removed in the future in accordance with the deprecation notice and timeline stated [here](https://vaultix.com/blog/deprecating-api-keys).
 
-  Amongst many differences, identities provide broader access over the Infisical API, utilizes the same
+  Amongst many differences, identities provide broader access over the vaultix API, utilizes the same
   permission system as user identities, and come with a significantly larger number of configurable authentication and security features.
 
   If you're looking for a simple authentication method, similar to service tokens, that can be bound onto an identity, we recommend checking out [Token Auth](/documentation/platform/identities/token-auth).

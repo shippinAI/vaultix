@@ -1,4 +1,4 @@
-import ldapjs from "@infisical/ldapjs";
+import ldapjs from "@vaultix/ldapjs";
 import handlebars from "handlebars";
 import ldif from "ldif";
 import { customAlphabet } from "nanoid";

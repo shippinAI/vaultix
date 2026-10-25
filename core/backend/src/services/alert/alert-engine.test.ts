@@ -75,7 +75,7 @@ const makeProvider = (targets: TTarget[], onFindDueTargets?: () => void): IResou
     },
     eventKey: "test.resource.expiration",
     eventLabel: "Expiration",
-    webhookType: "com.infisical.test.resource.expiration",
+    webhookType: "com.vaultix.test.resource.expiration",
     resourceKind: "Test Resource",
     resourceOwnerKind: "Test Owner",
     severity: "warning",

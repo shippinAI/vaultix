@@ -31,7 +31,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-06-24T20:54:25.584Z

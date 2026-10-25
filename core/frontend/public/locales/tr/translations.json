@@ -119,7 +119,7 @@
     "click-to-start": "Sırlarınızı senkronize etmeye başlamak için bir entegrasyona tıklayın.",
     "click-to-setup": "Kurulum talimatlarını almak için bir frameworke tıklayın.",
     "grant-access-to-secrets": "Vaultix'a sırlarınıza erişim izni verin",
-    "why-infisical-needs-access": "Çoğu cloud entegrasyonu, Vaultix'ın sırlarınızı aktarabilmek için sırlarınızı deşifre etmesini gerektirir.",
+    "why-vaultix-needs-access": "Çoğu cloud entegrasyonu, Vaultix'ın sırlarınızı aktarabilmek için sırlarınızı deşifre etmesini gerektirir.",
     "grant-access-button": "Erişim izni ver"
   },
   "login": {

@@ -107,8 +107,8 @@ import { ValidateDNSMadeEasyConnectionCredentialsSchema } from "./dns-made-easy/
 import { dnsMadeEasyConnectionService } from "./dns-made-easy/dns-made-easy-connection-service";
 import { ValidateDopplerConnectionCredentialsSchema } from "./doppler/doppler-connection-schema";
 import { dopplerConnectionService } from "./doppler/doppler-connection-service";
-import { ValidateExternalVaultixConnectionCredentialsSchema } from "./external-infisical";
-import { externalVaultixConnectionService } from "./external-infisical/external-infisical-connection-service";
+import { ValidateExternalVaultixConnectionCredentialsSchema } from "./external-vaultix";
+import { externalVaultixConnectionService } from "./external-vaultix/external-vaultix-connection-service";
 import { ValidateF5BigIpConnectionCredentialsSchema } from "./f5-big-ip";
 import { ValidateFireworksConnectionCredentialsSchema } from "./fireworks";
 import { fireworksConnectionService } from "./fireworks/fireworks-connection-service";

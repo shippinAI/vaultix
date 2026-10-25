@@ -13,13 +13,13 @@ Deploy certificates to Citrix NetScaler ADC appliances via the NITRO API. Certif
 ## Prerequisites
 
 - A [NetScaler Connection](/integrations/app-connections/netscaler) with NITRO API access
-- The NetScaler must be accessible over HTTPS from Infisical (directly or via an [Infisical Gateway](/documentation/platform/gateways/overview))
+- The NetScaler must be accessible over HTTPS from vaultix (directly or via an [vaultix Gateway](/documentation/platform/gateways/overview))
 - User account with permissions to manage SSL certificates and bind them to vservers
 
 ## Create a NetScaler Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **NetScaler** option.
@@ -31,7 +31,7 @@ Deploy certificates to Citrix NetScaler ADC appliances via the NITRO API. Certif
         4. Configure the **Sync Options**:
             - **Enable Removal of Expired/Revoked Certificates**: Remove certificates from the destination if they are no longer active.
             - **Preserve Certificate on Renewal**: Update the existing certkey object in place, preserving name and vServer bindings.
-            - **Certificate Name Schema**: Customize `sslcertkey` names using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}`. Defaults to `Infisical-{{certificateId}}`. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
+            - **Certificate Name Schema**: Customize `sslcertkey` names using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}`. Defaults to `vaultix-{{certificateId}}`. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
             - **Auto-Sync Enabled**: Automatically sync certificates when changes occur.
 
         5. Configure the **Details**:
@@ -54,7 +54,7 @@ Deploy certificates to Citrix NetScaler ADC appliances via the NITRO API. Certif
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/netscaler \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/netscaler \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -114,7 +114,7 @@ Deploy certificates to Citrix NetScaler ADC appliances via the NITRO API. Certif
 
 The NetScaler Certificate Sync provides:
 
-- **Automatic Deployment**: Deploy certificates in Infisical to NetScaler `sslcertkey` objects with customizable naming.
+- **Automatic Deployment**: Deploy certificates in vaultix to NetScaler `sslcertkey` objects with customizable naming.
 - **Certificate Updates**: Update certificates on NetScaler when renewals occur, with optional in-place replacement.
 - **vServer Binding**: Automatically bind certificates to SSL virtual servers for seamless load balancer integration.
 - **Expiration Handling**: Optionally remove expired or revoked certificates from NetScaler (if enabled).
@@ -128,24 +128,24 @@ The NetScaler Certificate Sync provides:
 
 ## How It Works
 
-Infisical automatically keeps your NetScaler certificates in sync:
+vaultix automatically keeps your NetScaler certificates in sync:
 
 - Uploads certificates, with their private keys, to the NetScaler appliance.
 - Optionally binds them to an SSL virtual server for HTTPS termination.
-- Optionally removes certificates that are no longer active in Infisical.
+- Optionally removes certificates that are no longer active in vaultix.
 
 Changes are saved to the running configuration so they persist across reboots.
 
 ## Certificate Renewal Behavior
 
-When a certificate is renewed in Infisical, the behavior depends on the **Preserve Certificate on Renewal** option:
+When a certificate is renewed in vaultix, the behavior depends on the **Preserve Certificate on Renewal** option:
 
 - **Preserve enabled (default)**: The existing certkey object is updated in place with the new certificate content. The certkey name and any vServer bindings are preserved. This is ideal for production environments where services reference the certkey by name.
 - **Preserve disabled**: A new certkey object is created with a unique name. The original certkey remains on the NetScaler. Both certificates coexist until the original is revoked or removed.
 
 ## Removing Certificates
 
-When certificate removal is enabled and a certificate is no longer active in Infisical:
+When certificate removal is enabled and a certificate is no longer active in vaultix:
 
 1. Unbinds the certificate from any configured SSL virtual server.
 2. Deletes the `sslcertkey` object.
@@ -161,12 +161,12 @@ You can manually trigger certificate synchronization to NetScaler using the sync
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/netscaler/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/netscaler/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
-<Accordion title="Can I import certificates from NetScaler back into Infisical?">
-  NetScaler does not support importing certificates back into Infisical
+<Accordion title="Can I import certificates from NetScaler back into vaultix?">
+  NetScaler does not support importing certificates back into vaultix
   due to the nature of NetScaler appliances where private keys cannot be
   extracted from the system.
 </Accordion>

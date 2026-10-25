@@ -4,7 +4,7 @@ import {
   TExternalVaultixSync,
   TExternalVaultixSyncInput,
   UpdateExternalVaultixSyncSchema
-} from "@app/services/secret-sync/external-infisical";
+} from "@app/services/secret-sync/external-vaultix";
 import { SecretSync } from "@app/services/secret-sync/secret-sync-enums";
 
 import { registerSyncSecretsEndpoints } from "./secret-sync-endpoints";

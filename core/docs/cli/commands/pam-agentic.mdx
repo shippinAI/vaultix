@@ -4,34 +4,34 @@ description: "Run an AI agent against your PAM accounts through local, brokered 
 ---
 
 ```bash
-infisical pam agentic access [flags] -- <agent command>
+vaultix pam agentic access [flags] -- <agent command>
 ```
 
 ## Description
 
 Open every PAM account the caller can launch as a local connection point, then start your agent. The agent connects to the accounts its task needs; the CLI never connects to an account itself, and no credential reaches the agent.
 
-Claude Code, Codex, and Gemini receive their instructions in their own format. Any other agent, including one you developed, reads them from the file named by `INFISICAL_PAM_CONTEXT_FILE`, which every run exports.
+Claude Code, Codex, and Gemini receive their instructions in their own format. Any other agent, including one you developed, reads them from the file named by `vaultix_PAM_CONTEXT_FILE`, which every run exports.
 
 Everything after `--` is the command that starts your agent. The separator is required whenever that command has flags of its own.
 
 ```bash
 # a coding agent, with every account you can launch
-infisical pam agentic access -- claude
+vaultix pam agentic access -- claude
 
 # another coding agent, its own flags, two accounts
-infisical pam agentic access --account prod/orders-db,prod/bastion -- codex --model gpt-5
+vaultix pam agentic access --account prod/orders-db,prod/bastion -- codex --model gpt-5
 
 # your own agent, unattended, as a machine identity
-export INFISICAL_AUTH_METHOD=universal-auth
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=<client-id>
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=<client-secret>
+export vaultix_AUTH_METHOD=universal-auth
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID=<client-id>
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET=<client-secret>
 
-infisical pam agentic access --reason "nightly triage agent" -- python triage_agent.py
+vaultix pam agentic access --reason "nightly triage agent" -- python triage_agent.py
 ```
 
 <Note>
-  For the full picture, including what the agent is told, what the sandbox does and does not protect, and how gated accounts behave mid-run, see [AI Agents](/documentation/platform/pam/ai-agents/overview). To open a single account for yourself instead, use [`infisical pam access`](/cli/commands/pam).
+  For the full picture, including what the agent is told, what the sandbox does and does not protect, and how gated accounts behave mid-run, see [AI Agents](/documentation/platform/pam/ai-agents/overview). To open a single account for yourself instead, use [`vaultix pam access`](/cli/commands/pam).
 </Note>
 
 ## Flags
@@ -44,7 +44,7 @@ infisical pam agentic access --reason "nightly triage agent" -- python triage_ag
 
     ```bash
     # Example
-    infisical pam agentic access --account prod/orders-db --account prod/bastion -- claude
+    vaultix pam agentic access --account prod/orders-db --account prod/bastion -- claude
     ```
   </Accordion>
 
@@ -55,7 +55,7 @@ infisical pam agentic access --reason "nightly triage agent" -- python triage_ag
 
     ```bash
     # Example
-    infisical pam agentic access --duration 30m -- claude
+    vaultix pam agentic access --duration 30m -- claude
     ```
   </Accordion>
 
@@ -64,28 +64,28 @@ infisical pam agentic access --reason "nightly triage agent" -- python triage_ag
 
     ```bash
     # Example
-    infisical pam agentic access --reason "investigating INC-4021" -- claude
+    vaultix pam agentic access --reason "investigating INC-4021" -- claude
     ```
   </Accordion>
 
   <Accordion title="--agent">
-    Override agent detection. Accepts `claude`, `codex`, `gemini`, or `generic`. Detection normally comes from the command name, so this is for a wrapper script or an unusual binary name. An agent of your own needs nothing here: it reads `INFISICAL_PAM_CONTEXT_FILE` regardless.
+    Override agent detection. Accepts `claude`, `codex`, `gemini`, or `generic`. Detection normally comes from the command name, so this is for a wrapper script or an unusual binary name. An agent of your own needs nothing here: it reads `vaultix_PAM_CONTEXT_FILE` regardless.
 
     ```bash
     # Example
-    infisical pam agentic access --agent claude -- ./my-claude-wrapper.sh
+    vaultix pam agentic access --agent claude -- ./my-claude-wrapper.sh
     ```
   </Accordion>
 
   <Accordion title="--token">
     Run as a machine identity using an access token you already have. Service tokens are rejected.
 
-    Set `INFISICAL_UNIVERSAL_AUTH_ACCESS_TOKEN` (or `INFISICAL_TOKEN`) instead of passing the flag, so the token stays out of your shell history and out of process listings.
+    Set `vaultix_UNIVERSAL_AUTH_ACCESS_TOKEN` (or `vaultix_TOKEN`) instead of passing the flag, so the token stays out of your shell history and out of process listings.
 
     ```bash
     # Example
-    export INFISICAL_UNIVERSAL_AUTH_ACCESS_TOKEN=<access-token>
-    infisical pam agentic access -- claude
+    export vaultix_UNIVERSAL_AUTH_ACCESS_TOKEN=<access-token>
+    vaultix pam agentic access -- claude
     ```
   </Accordion>
 
@@ -98,20 +98,20 @@ infisical pam agentic access --reason "nightly triage agent" -- python triage_ag
 
     | Input | Flag | Environment variable |
     |---|---|---|
-    | Auth method | `--auth-method` | `INFISICAL_AUTH_METHOD` |
-    | Client ID | `--client-id` | `INFISICAL_UNIVERSAL_AUTH_CLIENT_ID` |
-    | Client secret | `--client-secret` | `INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET` |
-    | Machine identity ID | `--machine-identity-id` | `INFISICAL_MACHINE_IDENTITY_ID` |
-    | Kubernetes token path | `--service-account-token-path` | `INFISICAL_KUBERNETES_SERVICE_ACCOUNT_TOKEN_PATH` |
-    | GCP IAM key file path | `--service-account-key-file-path` | `INFISICAL_GCP_IAM_SERVICE_ACCOUNT_KEY_FILE_PATH` |
-    | JWT (`oidc-auth`, `jwt-auth`) | `--jwt` | `INFISICAL_JWT` |
-    | LDAP credentials | `--ldap-username`, `--ldap-password` | `INFISICAL_LDAP_USERNAME`, `INFISICAL_LDAP_PASSWORD` |
+    | Auth method | `--auth-method` | `vaultix_AUTH_METHOD` |
+    | Client ID | `--client-id` | `vaultix_UNIVERSAL_AUTH_CLIENT_ID` |
+    | Client secret | `--client-secret` | `vaultix_UNIVERSAL_AUTH_CLIENT_SECRET` |
+    | Machine identity ID | `--machine-identity-id` | `vaultix_MACHINE_IDENTITY_ID` |
+    | Kubernetes token path | `--service-account-token-path` | `vaultix_KUBERNETES_SERVICE_ACCOUNT_TOKEN_PATH` |
+    | GCP IAM key file path | `--service-account-key-file-path` | `vaultix_GCP_IAM_SERVICE_ACCOUNT_KEY_FILE_PATH` |
+    | JWT (`oidc-auth`, `jwt-auth`) | `--jwt` | `vaultix_JWT` |
+    | LDAP credentials | `--ldap-username`, `--ldap-password` | `vaultix_LDAP_USERNAME`, `vaultix_LDAP_PASSWORD` |
 
     ```bash
     # Example
-    export INFISICAL_AUTH_METHOD=kubernetes
-    export INFISICAL_MACHINE_IDENTITY_ID=<identity-id>
-    infisical pam agentic access -- claude
+    export vaultix_AUTH_METHOD=kubernetes
+    export vaultix_MACHINE_IDENTITY_ID=<identity-id>
+    vaultix pam agentic access -- claude
     ```
   </Accordion>
 
@@ -134,16 +134,16 @@ infisical pam agentic access --reason "nightly triage agent" -- python triage_ag
   <Accordion title="--log-file">
     Where to write proxy logs while the agent runs.
 
-    Default value: `~/.infisical/pam-agentic/access.log`
+    Default value: `~/.vaultix/pam-agentic/access.log`
 
     ```bash
     # Example
-    infisical pam agentic access --log-file /tmp/pam.log -- claude
+    vaultix pam agentic access --log-file /tmp/pam.log -- claude
     ```
   </Accordion>
 
   <Accordion title="--domain">
-    Domain of your self-hosted Infisical instance. If not specified, defaults to Infisical Cloud.
+    Domain of your self-hosted vaultix instance. If not specified, defaults to vaultix Cloud.
   </Accordion>
 </AccordionGroup>
 

@@ -15,11 +15,11 @@ import (
 	"github.com/jackc/pgx/v5"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/keystore"
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/services/assumeprivilege"
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/keystore"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/assumeprivilege"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 // maxMachineIdentityTokenAge is the maximum TTL in seconds for identity access tokens.

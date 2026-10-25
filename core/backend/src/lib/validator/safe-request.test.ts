@@ -21,7 +21,7 @@ const { lookupMock, configState, verifyHostInputValidityMock, requestRequestMock
     isDevelopmentMode: false,
     ALLOW_INTERNAL_IP_CONNECTIONS: false,
     SAFE_REQUEST_FORCE_DIRECT_EGRESS: false,
-    SITE_URL: "https://infisical.example",
+    SITE_URL: "https://vaultix.example",
     REDIS_URL: "redis://internal-redis:6379",
     DB_HOST: "internal-db",
     isHsmConfigured: false

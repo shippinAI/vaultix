@@ -27,7 +27,7 @@ export const AppConnectionsBrowser = () => {
       slug: "aws",
       path: "/integrations/app-connections/aws",
       description:
-        "Learn how to connect your AWS applications to pull secrets from Infisical.",
+        "Learn how to connect your AWS applications to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -35,7 +35,7 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-key-vault",
       path: "/integrations/app-connections/azure-key-vault",
       description:
-        "Learn how to connect your Azure Key Vault to pull secrets from Infisical.",
+        "Learn how to connect your Azure Key Vault to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -43,7 +43,7 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-app-configuration",
       path: "/integrations/app-connections/azure-app-configuration",
       description:
-        "Learn how to connect your Azure App Configuration to pull secrets from Infisical.",
+        "Learn how to connect your Azure App Configuration to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -51,7 +51,7 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-client-secrets",
       path: "/integrations/app-connections/azure-client-secrets",
       description:
-        "Learn how to connect your Azure Client Secrets to pull secrets from Infisical.",
+        "Learn how to connect your Azure Client Secrets to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -59,7 +59,7 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-devops",
       path: "/integrations/app-connections/azure-devops",
       description:
-        "Learn how to connect your Azure DevOps to pull secrets from Infisical.",
+        "Learn how to connect your Azure DevOps to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -67,7 +67,7 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-adcs",
       path: "/integrations/app-connections/azure-adcs",
       description:
-        "Learn how to connect your Azure ADCS to pull secrets from Infisical.",
+        "Learn how to connect your Azure ADCS to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -82,7 +82,7 @@ export const AppConnectionsBrowser = () => {
       slug: "gcp",
       path: "/integrations/app-connections/gcp",
       description:
-        "Learn how to connect your GCP applications to pull secrets from Infisical.",
+        "Learn how to connect your GCP applications to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -90,7 +90,7 @@ export const AppConnectionsBrowser = () => {
       slug: "hashicorp-vault",
       path: "/integrations/app-connections/hashicorp-vault",
       description:
-        "Learn how to connect your HashiCorp Vault to pull secrets from Infisical.",
+        "Learn how to connect your HashiCorp Vault to pull secrets from vaultix.",
       category: "Security",
     },
     {
@@ -98,7 +98,7 @@ export const AppConnectionsBrowser = () => {
       slug: "1password",
       path: "/integrations/app-connections/1password",
       description:
-        "Learn how to connect your 1Password to pull secrets from Infisical.",
+        "Learn how to connect your 1Password to pull secrets from vaultix.",
       category: "Security",
     },
     {
@@ -106,7 +106,7 @@ export const AppConnectionsBrowser = () => {
       slug: "vercel",
       path: "/integrations/app-connections/vercel",
       description:
-        "Learn how to connect your Vercel application to pull secrets from Infisical.",
+        "Learn how to connect your Vercel application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -114,7 +114,7 @@ export const AppConnectionsBrowser = () => {
       slug: "netlify",
       path: "/integrations/app-connections/netlify",
       description:
-        "Learn how to connect your Netlify application to pull secrets from Infisical.",
+        "Learn how to connect your Netlify application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -122,7 +122,7 @@ export const AppConnectionsBrowser = () => {
       slug: "railway",
       path: "/integrations/app-connections/railway",
       description:
-        "Learn how to connect your Railway application to pull secrets from Infisical.",
+        "Learn how to connect your Railway application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -130,7 +130,7 @@ export const AppConnectionsBrowser = () => {
       slug: "flyio",
       path: "/integrations/app-connections/flyio",
       description:
-        "Learn how to connect your Fly.io application to pull secrets from Infisical.",
+        "Learn how to connect your Fly.io application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -138,7 +138,7 @@ export const AppConnectionsBrowser = () => {
       slug: "render",
       path: "/integrations/app-connections/render",
       description:
-        "Learn how to connect your Render application to pull secrets from Infisical.",
+        "Learn how to connect your Render application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -146,7 +146,7 @@ export const AppConnectionsBrowser = () => {
       slug: "heroku",
       path: "/integrations/app-connections/heroku",
       description:
-        "Learn how to connect your Heroku application to pull secrets from Infisical.",
+        "Learn how to connect your Heroku application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -154,7 +154,7 @@ export const AppConnectionsBrowser = () => {
       slug: "dbt",
       path: "/integrations/app-connections/dbt",
       description:
-        "Learn how to connect your DBT application to pull secrets from Infisical.",
+        "Learn how to connect your DBT application to pull secrets from vaultix.",
       category: "Data Analytics",
     },
     {
@@ -162,7 +162,7 @@ export const AppConnectionsBrowser = () => {
       slug: "digital-ocean",
       path: "/integrations/app-connections/digital-ocean",
       description:
-        "Learn how to connect your DigitalOcean application to pull secrets from Infisical.",
+        "Learn how to connect your DigitalOcean application to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -170,7 +170,7 @@ export const AppConnectionsBrowser = () => {
       slug: "supabase",
       path: "/integrations/app-connections/supabase",
       description:
-        "Learn how to connect your Supabase application to pull secrets from Infisical.",
+        "Learn how to connect your Supabase application to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -178,7 +178,7 @@ export const AppConnectionsBrowser = () => {
       slug: "checkly",
       path: "/integrations/app-connections/checkly",
       description:
-        "Learn how to connect your Checkly application to pull secrets from Infisical.",
+        "Learn how to connect your Checkly application to pull secrets from vaultix.",
       category: "Monitoring",
     },
     {
@@ -186,7 +186,7 @@ export const AppConnectionsBrowser = () => {
       slug: "github",
       path: "/integrations/app-connections/github",
       description:
-        "Learn how to connect your GitHub application to pull secrets from Infisical.",
+        "Learn how to connect your GitHub application to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -194,7 +194,7 @@ export const AppConnectionsBrowser = () => {
       slug: "github-radar",
       path: "/integrations/app-connections/github-radar",
       description:
-        "Learn how to connect your GitHub Radar to pull secrets from Infisical.",
+        "Learn how to connect your GitHub Radar to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -202,7 +202,7 @@ export const AppConnectionsBrowser = () => {
       slug: "gitlab",
       path: "/integrations/app-connections/gitlab",
       description:
-        "Learn how to connect your GitLab application to pull secrets from Infisical.",
+        "Learn how to connect your GitLab application to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -210,7 +210,7 @@ export const AppConnectionsBrowser = () => {
       slug: "teamcity",
       path: "/integrations/app-connections/teamcity",
       description:
-        "Learn how to connect your TeamCity to pull secrets from Infisical.",
+        "Learn how to connect your TeamCity to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -218,7 +218,7 @@ export const AppConnectionsBrowser = () => {
       slug: "bitbucket",
       path: "/integrations/app-connections/bitbucket",
       description:
-        "Learn how to connect your Bitbucket to pull secrets from Infisical.",
+        "Learn how to connect your Bitbucket to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -226,7 +226,7 @@ export const AppConnectionsBrowser = () => {
       slug: "terraform-cloud",
       path: "/integrations/app-connections/terraform-cloud",
       description:
-        "Learn how to connect your Terraform Cloud to pull secrets from Infisical.",
+        "Learn how to connect your Terraform Cloud to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -234,7 +234,7 @@ export const AppConnectionsBrowser = () => {
       slug: "cloudflare",
       path: "/integrations/app-connections/cloudflare",
       description:
-        "Learn how to connect your Cloudflare application to pull secrets from Infisical.",
+        "Learn how to connect your Cloudflare application to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -242,7 +242,7 @@ export const AppConnectionsBrowser = () => {
       slug: "circleci",
       path: "/integrations/app-connections/circleci",
       description:
-        "Learn how to connect your CircleCI application to pull secrets from Infisical.",
+        "Learn how to connect your CircleCI application to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -250,21 +250,21 @@ export const AppConnectionsBrowser = () => {
       slug: "databricks",
       path: "/integrations/app-connections/databricks",
       description:
-        "Learn how to connect your Databricks to pull secrets from Infisical.",
+        "Learn how to connect your Databricks to pull secrets from vaultix.",
       category: "Data Analytics",
     },
     {
       name: "DNS Made Easy",
       slug: "dns-made-easy",
       path: "/integrations/app-connections/dns-made-easy",
-      description: "Learn how to connect Infisical to DNS Made Easy.",
+      description: "Learn how to connect vaultix to DNS Made Easy.",
       category: "Networking & DNS",
     },
     {
       name: "Azure DNS",
       slug: "azure-dns",
       path: "/integrations/app-connections/azure-dns",
-      description: "Learn how to connect Infisical to Azure DNS for ACME DNS validation.",
+      description: "Learn how to connect vaultix to Azure DNS for ACME DNS validation.",
       category: "Networking & DNS",
     },
     {
@@ -272,7 +272,7 @@ export const AppConnectionsBrowser = () => {
       slug: "windmill",
       path: "/integrations/app-connections/windmill",
       description:
-        "Learn how to connect your Windmill to pull secrets from Infisical.",
+        "Learn how to connect your Windmill to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -280,7 +280,7 @@ export const AppConnectionsBrowser = () => {
       slug: "camunda",
       path: "/integrations/app-connections/camunda",
       description:
-        "Learn how to connect your Camunda to pull secrets from Infisical.",
+        "Learn how to connect your Camunda to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -288,7 +288,7 @@ export const AppConnectionsBrowser = () => {
       slug: "humanitec",
       path: "/integrations/app-connections/humanitec",
       description:
-        "Learn how to connect your Humanitec to pull secrets from Infisical.",
+        "Learn how to connect your Humanitec to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -296,7 +296,7 @@ export const AppConnectionsBrowser = () => {
       slug: "oci",
       path: "/integrations/app-connections/oci",
       description:
-        "Learn how to connect your OCI applications to pull secrets from Infisical.",
+        "Learn how to connect your OCI applications to pull secrets from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -304,7 +304,7 @@ export const AppConnectionsBrowser = () => {
       slug: "zabbix",
       path: "/integrations/app-connections/zabbix",
       description:
-        "Learn how to connect your Zabbix to pull secrets from Infisical.",
+        "Learn how to connect your Zabbix to pull secrets from vaultix.",
       category: "Monitoring",
     },
     {
@@ -312,7 +312,7 @@ export const AppConnectionsBrowser = () => {
       slug: "mysql",
       path: "/integrations/app-connections/mysql",
       description:
-        "Learn how to connect your MySQL database to pull secrets from Infisical.",
+        "Learn how to connect your MySQL database to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -320,7 +320,7 @@ export const AppConnectionsBrowser = () => {
       slug: "postgres",
       path: "/integrations/app-connections/postgres",
       description:
-        "Learn how to connect your PostgreSQL database to pull secrets from Infisical.",
+        "Learn how to connect your PostgreSQL database to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -328,7 +328,7 @@ export const AppConnectionsBrowser = () => {
       slug: "mssql",
       path: "/integrations/app-connections/mssql",
       description:
-        "Learn how to connect your SQL Server database to pull secrets from Infisical.",
+        "Learn how to connect your SQL Server database to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -336,14 +336,14 @@ export const AppConnectionsBrowser = () => {
       slug: "oracledb",
       path: "/integrations/app-connections/oracledb",
       description:
-        "Learn how to connect your Oracle database to pull secrets from Infisical.",
+        "Learn how to connect your Oracle database to pull secrets from vaultix.",
       category: "Databases",
     },
     {
       name: "Redis",
       slug: "redis",
       path: "/integrations/app-connections/redis",
-      description: "Learn how to connect Redis to pull secrets from Infisical.",
+      description: "Learn how to connect Redis to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -351,7 +351,7 @@ export const AppConnectionsBrowser = () => {
       slug: "ldap",
       path: "/integrations/app-connections/ldap",
       description:
-        "Learn how to connect your LDAP to pull secrets from Infisical.",
+        "Learn how to connect your LDAP to pull secrets from vaultix.",
       category: "Directory Services",
     },
     {
@@ -359,7 +359,7 @@ export const AppConnectionsBrowser = () => {
       slug: "auth0",
       path: "/integrations/app-connections/auth0",
       description:
-        "Learn how to connect your Auth0 to pull secrets from Infisical.",
+        "Learn how to connect your Auth0 to pull secrets from vaultix.",
       category: "Identity & Auth",
     },
     {
@@ -367,7 +367,7 @@ export const AppConnectionsBrowser = () => {
       slug: "okta",
       path: "/integrations/app-connections/okta",
       description:
-        "Learn how to connect your Okta to pull secrets from Infisical.",
+        "Learn how to connect your Okta to pull secrets from vaultix.",
       category: "Identity & Auth",
     },
     {
@@ -375,7 +375,7 @@ export const AppConnectionsBrowser = () => {
       slug: "salesforce",
       path: "/integrations/app-connections/salesforce",
       description:
-        "Learn how to connect your Salesforce to pull secrets from Infisical.",
+        "Learn how to connect your Salesforce to pull secrets from vaultix.",
       category: "SaaS",
     },
     {
@@ -383,7 +383,7 @@ export const AppConnectionsBrowser = () => {
       slug: "openrouter",
       path: "/integrations/app-connections/openrouter",
       description:
-        "Learn how to connect OpenRouter (unified LLM router) to manage and rotate API keys with Infisical.",
+        "Learn how to connect OpenRouter (unified LLM router) to manage and rotate API keys with vaultix.",
       category: "AI & LLM",
     },
     {
@@ -391,7 +391,7 @@ export const AppConnectionsBrowser = () => {
       slug: "laravel-forge",
       path: "/integrations/app-connections/laravel-forge",
       description:
-        "Learn how to connect your Laravel Forge to pull secrets from Infisical.",
+        "Learn how to connect your Laravel Forge to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -399,7 +399,7 @@ export const AppConnectionsBrowser = () => {
       slug: "chef",
       path: "/integrations/app-connections/chef",
       description:
-        "Learn how to connect your Chef to pull secrets from Infisical.",
+        "Learn how to connect your Chef to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -407,7 +407,7 @@ export const AppConnectionsBrowser = () => {
       slug: "northflank",
       path: "/integrations/app-connections/northflank",
       description:
-        "Learn how to connect your Northflank projects to pull secrets from Infisical.",
+        "Learn how to connect your Northflank projects to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
@@ -415,7 +415,7 @@ export const AppConnectionsBrowser = () => {
       slug: "nutanix-prism-central",
       path: "/integrations/app-connections/nutanix-prism-central",
       description:
-        "Learn how to connect your Nutanix Prism Central to push certificates from Infisical.",
+        "Learn how to connect your Nutanix Prism Central to push certificates from vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -423,21 +423,21 @@ export const AppConnectionsBrowser = () => {
       slug: "ona",
       path: "/integrations/app-connections/ona",
       description:
-        "Learn how to connect your Ona (Gitpod) workspaces to pull secrets from Infisical.",
+        "Learn how to connect your Ona (Gitpod) workspaces to pull secrets from vaultix.",
       category: "Hosting",
     },
     {
       name: "MongoDB",
       slug: "mongodb",
       path: "/integrations/app-connections/mongodb",
-      description: "Learn how to connect your MongoDB to pull secrets from Infisical.",
+      description: "Learn how to connect your MongoDB to pull secrets from vaultix.",
       category: "Databases"
     },
     {
       name: "Octopus Deploy",
       slug: "octopus-deploy",
       path: "/integrations/app-connections/octopus-deploy",
-      description: "Learn how to connect your Octopus Deploy to pull secrets from Infisical.",
+      description: "Learn how to connect your Octopus Deploy to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -452,15 +452,15 @@ export const AppConnectionsBrowser = () => {
       slug: "azure-entra-id",
       path: "/integrations/app-connections/azure-entra-id",
       description:
-        "Learn how to connect your Azure Entra ID to manage SCIM tokens with Infisical.",
+        "Learn how to connect your Azure Entra ID to manage SCIM tokens with vaultix.",
       category: "Identity & Auth",
     },
     {
-      name: "Infisical",
-      slug: "external-infisical",
-      path: "/integrations/app-connections/external-infisical",
+      name: "vaultix",
+      slug: "external-vaultix",
+      path: "/integrations/app-connections/external-vaultix",
       description:
-        "Learn how to connect a remote Infisical instance to sync secrets between Infisical projects.",
+        "Learn how to connect a remote vaultix instance to sync secrets between vaultix projects.",
       category: "Security",
     },
     {
@@ -468,7 +468,7 @@ export const AppConnectionsBrowser = () => {
       slug: "doppler",
       path: "/integrations/app-connections/doppler",
       description:
-        "Learn how to connect Doppler for migrating data from Doppler to Infisical.",
+        "Learn how to connect Doppler for migrating data from Doppler to vaultix.",
       category: "DevOps Tools",
     }, 
     {
@@ -476,7 +476,7 @@ export const AppConnectionsBrowser = () => {
       slug: "ovh",
       path: "/integrations/app-connections/ovh",
       description:
-        "Learn how to connect OVH Cloud to pull secrets from OVH Secret Manager to Infisical.",
+        "Learn how to connect OVH Cloud to pull secrets from OVH Secret Manager to vaultix.",
       category: "Cloud Providers",
     },
     {
@@ -484,7 +484,7 @@ export const AppConnectionsBrowser = () => {
       slug: "travis-ci",
       path: "/integrations/app-connections/travis-ci",
       description:
-        "Learn how to connect Travis CI to pull secrets from Infisical.",
+        "Learn how to connect Travis CI to pull secrets from vaultix.",
       category: "CI/CD",
     },
     {
@@ -492,7 +492,7 @@ export const AppConnectionsBrowser = () => {
       slug: "snowflake",
       path: "/integrations/app-connections/snowflake",
       description:
-        "Learn how to connect Snowflake to pull secrets from Infisical.",
+        "Learn how to connect Snowflake to pull secrets from vaultix.",
       category: "Databases",
     },
     {
@@ -500,7 +500,7 @@ export const AppConnectionsBrowser = () => {
       slug: "datadog",
       path: "/integrations/app-connections/datadog",
       description:
-        "Learn how to connect Datadog to pull secrets from Infisical.",
+        "Learn how to connect Datadog to pull secrets from vaultix.",
       category: "Monitoring",
     },
     {
@@ -508,7 +508,7 @@ export const AppConnectionsBrowser = () => {
       slug: "convex",
       path: "/integrations/app-connections/convex",
       description:
-        "Learn how to connect Convex to manage and rotate access keys with Infisical.",
+        "Learn how to connect Convex to manage and rotate access keys with vaultix.",
       category: "SaaS",
     },
     {
@@ -516,7 +516,7 @@ export const AppConnectionsBrowser = () => {
       slug: "trigger-dev",
       path: "/integrations/app-connections/trigger-dev",
       description:
-        "Learn how to connect your Trigger.dev account to sync secrets from Infisical.",
+        "Learn how to connect your Trigger.dev account to sync secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -524,7 +524,7 @@ export const AppConnectionsBrowser = () => {
       slug: "anthropic",
       path: "/integrations/app-connections/anthropic",
       description:
-        "Learn how to connect Anthropic to manage and rotate API keys with Infisical.",
+        "Learn how to connect Anthropic to manage and rotate API keys with vaultix.",
       category: "AI & LLM",
     },
     {
@@ -532,7 +532,7 @@ export const AppConnectionsBrowser = () => {
       slug: "devin",
       path: "/integrations/app-connections/devin",
       description:
-        "Learn how to connect Devin to manage and rotate API keys with Infisical.",
+        "Learn how to connect Devin to manage and rotate API keys with vaultix.",
       category: "AI & LLM",
     },
     {
@@ -540,7 +540,7 @@ export const AppConnectionsBrowser = () => {
       slug: "fireworks",
       path: "/integrations/app-connections/fireworks",
       description:
-        "Learn how to connect Fireworks AI to manage and rotate API keys with Infisical.",
+        "Learn how to connect Fireworks AI to manage and rotate API keys with vaultix.",
       category: "AI & LLM",
     },
     {
@@ -548,7 +548,7 @@ export const AppConnectionsBrowser = () => {
       slug: "digicert",
       path: "/integrations/app-connections/digicert",
       description:
-        "Learn how to connect DigiCert to issue and manage certificates with Infisical.",
+        "Learn how to connect DigiCert to issue and manage certificates with vaultix.",
       category: "Security",
     },
     {
@@ -556,7 +556,7 @@ export const AppConnectionsBrowser = () => {
       slug: "venafi",
       path: "/integrations/app-connections/venafi",
       description:
-        "Learn how to connect Venafi TLS Protect Cloud to manage certificates with Infisical.",
+        "Learn how to connect Venafi TLS Protect Cloud to manage certificates with vaultix.",
       category: "Security",
     },
     {
@@ -564,7 +564,7 @@ export const AppConnectionsBrowser = () => {
       slug: "venafi-tpp",
       path: "/integrations/app-connections/venafi-tpp",
       description:
-        "Learn how to connect Venafi Trust Protection Platform (TPP) to manage certificates with Infisical.",
+        "Learn how to connect Venafi Trust Protection Platform (TPP) to manage certificates with vaultix.",
       category: "Security",
     },
     {
@@ -572,7 +572,7 @@ export const AppConnectionsBrowser = () => {
       slug: "f5-big-ip",
       path: "/integrations/app-connections/f5-big-ip",
       description:
-        "Learn how to connect F5 BIG-IP to deploy and manage certificates with Infisical.",
+        "Learn how to connect F5 BIG-IP to deploy and manage certificates with vaultix.",
       category: "Networking & DNS",
     },
     {
@@ -580,7 +580,7 @@ export const AppConnectionsBrowser = () => {
       slug: "netscaler",
       path: "/integrations/app-connections/netscaler",
       description:
-        "Learn how to connect NetScaler to deploy and manage certificates with Infisical.",
+        "Learn how to connect NetScaler to deploy and manage certificates with vaultix.",
       category: "Networking & DNS",
     },
     {
@@ -588,7 +588,7 @@ export const AppConnectionsBrowser = () => {
       slug: "godaddy",
       path: "/integrations/app-connections/godaddy",
       description:
-        "Learn how to connect GoDaddy to Infisical for ACME DNS validation.",
+        "Learn how to connect GoDaddy to vaultix for ACME DNS validation.",
       category: "Networking & DNS",
     }, 
     {
@@ -596,7 +596,7 @@ export const AppConnectionsBrowser = () => {
       slug: "rundeck",
       path: "/integrations/app-connections/rundeck",
       description:
-        "Learn how to connect Rundeck to pull secrets from Infisical.",
+        "Learn how to connect Rundeck to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
@@ -604,35 +604,35 @@ export const AppConnectionsBrowser = () => {
       slug: "qovery",
       path: "/integrations/app-connections/qovery",
       description:
-        "Learn how to connect Qovery to pull secrets from Infisical.",
+        "Learn how to connect Qovery to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
       name: "Cloud 66",
       slug: "cloud-66",
       path: "/integrations/app-connections/cloud-66",
-      description: "Learn how to connect Cloud66 to pull secrets from Infisical.",
+      description: "Learn how to connect Cloud66 to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
     {
       name: "Hasura Cloud",
       slug: "hasura-cloud",
       path: "/integrations/app-connections/hasura-cloud",
-      description: "Learn how to connect Hasura Cloud to pull secrets from Infisical.",
+      description: "Learn how to connect Hasura Cloud to pull secrets from vaultix.",
       category: "Platform",
     },
     {
       name: "LiteLLM",
       slug: "litellm",
       path: "/integrations/app-connections/litellm",
-      description: "Learn how to connect LiteLLM to pull secrets from Infisical.",
+      description: "Learn how to connect LiteLLM to pull secrets from vaultix.",
       category: "AI & LLM",
     },
     {
       name: "OpenAI",
       slug: "openai",
       path: "/integrations/app-connections/openai",
-      description: "Learn how to connect OpenAI to manage and rotate API keys with Infisical.",
+      description: "Learn how to connect OpenAI to manage and rotate API keys with vaultix.",
       category: "AI & LLM",
     },
     {
@@ -640,7 +640,7 @@ export const AppConnectionsBrowser = () => {
       slug: "spacelift",
       path: "/integrations/app-connections/spacelift",
       description:
-        "Learn how to connect Spacelift to pull secrets from Infisical.",
+        "Learn how to connect Spacelift to pull secrets from vaultix.",
       category: "DevOps Tools",
     },
   ].sort(function (a, b) {

@@ -1,14 +1,14 @@
 ---
 title: "Microsoft Power Apps"
-description: "Fetch secrets from Infisical in Microsoft Power Apps through an Azure Function and a custom connector."
+description: "Fetch secrets from vaultix in Microsoft Power Apps through an Azure Function and a custom connector."
 ---
 
-Power Apps has no native way to fetch secrets from Infisical, and hardcoding secrets in app logic exposes them to anyone with collaboration rights. This integration places an Azure Function between your Power App and Infisical: the function fetches secrets with the [Infisical .NET SDK](/sdks/languages/dotnet), and the Power App calls the function through a custom connector.
+Power Apps has no native way to fetch secrets from vaultix, and hardcoding secrets in app logic exposes them to anyone with collaboration rights. This integration places an Azure Function between your Power App and vaultix: the function fetches secrets with the [vaultix .NET SDK](/sdks/languages/dotnet), and the Power App calls the function through a custom connector.
 
 ## How It Works
 
 1. The Power App invokes an Azure Function through a custom connector.
-2. The function authenticates with Infisical using a [machine identity](/documentation/platform/identities/machine-identities) and fetches the secret it needs.
+2. The function authenticates with vaultix using a [machine identity](/documentation/platform/identities/machine-identities) and fetches the secret it needs.
 3. The function either returns the secret to the app or uses it directly to call the target service.
 
 There are two patterns for the last step:
@@ -22,7 +22,7 @@ There are two patterns for the last step:
 
 - A Microsoft Power App
 - An Azure subscription
-- A [machine identity](/documentation/platform/identities/machine-identities) with access to your Infisical project
+- A [machine identity](/documentation/platform/identities/machine-identities) with access to your vaultix project
 
 ## Setup
 
@@ -56,19 +56,19 @@ The code above is written for the older runtime. You may need to change the runt
 
 Finally, publish the Swagger (API) definitions and enable cross-origin resource sharing (CORS). The wildcard option allows all hosts; restrict it for production use.
 
-### 2. Fetch Secrets from Infisical
+### 2. Fetch Secrets from vaultix
 
-Add the [Infisical .NET SDK](/sdks/languages/dotnet) to the function so it can fetch secrets:
+Add the [vaultix .NET SDK](/sdks/languages/dotnet) to the function so it can fetch secrets:
 
 ```csharp
-using Infisical.Sdk;
-using Infisical.Sdk.Model;
+using vaultix.Sdk;
+using vaultix.Sdk.Model;
 
-var settings = new InfisicalSdkSettingsBuilder()
-    // .WithHostUri("https://your-infisical-instance.com") // Optional. Defaults to https://app.infisical.com
+var settings = new vaultixSdkSettingsBuilder()
+    // .WithHostUri("https://your-vaultix-instance.com") // Optional. Defaults to https://app.vaultix.com
     .Build();
 
-var client = new InfisicalClient(settings);
+var client = new vaultixClient(settings);
 
 await client.Auth().UniversalAuth().LoginAsync(
     "<machine-identity-client-id>",
@@ -108,4 +108,4 @@ Create the custom connector from the data pane in Power Apps using **Create from
 
 Fill out the fields with the information for your function. The combination boxes populate in order: select the subscription (tied to the account used to create the Power App), then the Azure Functions service, then the function itself.
 
-Your Power App can now call the function through the connector and use secrets from Infisical without ever storing them in the app.
+Your Power App can now call the function through the connector and use secrets from vaultix without ever storing them in the app.

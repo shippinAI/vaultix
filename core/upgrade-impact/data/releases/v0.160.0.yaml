@@ -13,7 +13,7 @@ dbSchemaChanges:
     description: Startup adds PKI application tables and columns, including new
       links from certificates, requests, alerts, syncs, enrollment configs, and
       inventory views to applications.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -24,7 +24,7 @@ dbSchemaChanges:
     description: Certificate Manager moves from multiple projects to single instance per organizations. Organizations without a cert-manager project get a new default
       "Certificate Manager" instance during migration. Organizations with exactly
       one existing cert-manager project get it set as the default Certificate Manager instance.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -37,7 +37,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-18T13:15:44.974Z

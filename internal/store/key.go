@@ -37,7 +37,10 @@ func fileKey(p string) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-		return k, os.WriteFile(p, []byte(hex.EncodeToString(k)+"\n"), 0o600)
+		if err := os.WriteFile(p, []byte(hex.EncodeToString(k)+"\n"), 0o600); err != nil {
+			return nil, err
+		}
+		return k, os.Chmod(p, 0o600)
 	}
 	if err != nil {
 		return nil, err

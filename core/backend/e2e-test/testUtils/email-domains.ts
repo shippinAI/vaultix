@@ -11,7 +11,7 @@ export const seedVerifiedEmailDomain = async (orgId: string, domain: string, kne
       domain: domain.toLowerCase(),
       verificationMethod: "dns-txt",
       verificationCode: crypto.randomBytes(16).toString("hex"),
-      verificationRecordName: `_infisical-verification.${domain}`,
+      verificationRecordName: `_vaultix-verification.${domain}`,
       status: "verified",
       verifiedAt: new Date(),
       codeExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)

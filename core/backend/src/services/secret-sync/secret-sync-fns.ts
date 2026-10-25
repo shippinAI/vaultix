@@ -60,7 +60,7 @@ import {
   DIGITAL_OCEAN_APP_PLATFORM_SYNC_LIST_OPTION,
   DigitalOceanAppPlatformSyncFns
 } from "./digital-ocean-app-platform";
-import { EXTERNAL_VAULTIX_SYNC_LIST_OPTION, ExternalVaultixSyncFns } from "./external-infisical";
+import { EXTERNAL_VAULTIX_SYNC_LIST_OPTION, ExternalVaultixSyncFns } from "./external-vaultix";
 import { FLYIO_SYNC_LIST_OPTION, FlyioSyncFns } from "./flyio";
 import { GCP_SYNC_LIST_OPTION } from "./gcp";
 import { gcpPreSaveTransformDestinationConfig, GcpSyncFns } from "./gcp/gcp-sync-fns";

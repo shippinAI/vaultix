@@ -1,5 +1,5 @@
 {
-  "realm": "infisical",
+  "realm": "vaultix",
   "enabled": true,
   "sslRequired": "none",
   "registrationAllowed": false,
@@ -7,14 +7,14 @@
   "duplicateEmailsAllowed": false,
   "clients": [
     {
-      "clientId": "infisical-dev",
-      "name": "Infisical (dev)",
-      "description": "Pre-seeded OIDC client for local Infisical SSO testing. See sso.md.",
+      "clientId": "vaultix-dev",
+      "name": "vaultix (dev)",
+      "description": "Pre-seeded OIDC client for local vaultix SSO testing. See sso.md.",
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "infisical-dev-client-secret",
+      "secret": "vaultix-dev-client-secret",
       "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
       "redirectUris": [

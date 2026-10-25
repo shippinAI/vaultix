@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run the renamed Infisical engine from core/ without Docker.
+# Run the renamed vaultix engine from core/ without Docker.
 # Overlay (PIN / Clyffy / manager) is scripts/up.sh → panel, not this process.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -13,7 +13,7 @@ fi
 
 # unixODBC: the engine's odbc native module needs libodbc.so.2 (package unixodbc).
 if ! ldconfig -p 2>/dev/null | grep -q 'libodbc.so.2'; then
-  echo "libodbc.so.2 missing — install unixodbc (Infisical odbc binding)" >&2
+  echo "libodbc.so.2 missing — install unixodbc (vaultix odbc binding)" >&2
   exit 2
 fi
 

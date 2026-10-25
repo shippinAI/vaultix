@@ -6,40 +6,40 @@ description: "Add and connect to AWS accounts via IAM role assumption."
 
 AWS IAM accounts let you manage access to AWS through IAM role assumption. Users can open the AWS console directly or use the CLI to get temporary credentials, and every access is logged.
 
-Infisical assumes the IAM role you configure directly, then returns short-lived STS credentials. Those credentials work with the AWS CLI and can also be exchanged for a federated AWS Management Console sign-in URL.
+vaultix assumes the IAM role you configure directly, then returns short-lived STS credentials. Those credentials work with the AWS CLI and can also be exchanged for a federated AWS Management Console sign-in URL.
 
 <Note>
-AWS IAM accounts do not require a Gateway. Infisical communicates directly with the AWS STS API.
+AWS IAM accounts do not require a Gateway. vaultix communicates directly with the AWS STS API.
 </Note>
 
 ## How It Works
 
-When a user accesses an AWS IAM account, Infisical assumes the account's IAM role using AWS STS and returns the temporary credentials:
+When a user accesses an AWS IAM account, vaultix assumes the account's IAM role using AWS STS and returns the temporary credentials:
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant Infisical
+    participant vaultix
     participant Role as IAM Role<br/>(Your AWS Account)
     participant Console as AWS Console
-    User->>Infisical: Request AWS access
-    Infisical->>Role: AssumeRole (with ExternalId = Org ID)
-    Role-->>Infisical: Temporary credentials
-    Infisical-->>User: Return credentials (CLI)
-    Infisical->>Console: Exchange for federation URL (Console)
-    Console-->>Infisical: Signed console URL
-    Infisical-->>User: Return console URL
+    User->>vaultix: Request AWS access
+    vaultix->>Role: AssumeRole (with ExternalId = Org ID)
+    Role-->>vaultix: Temporary credentials
+    vaultix-->>User: Return credentials (CLI)
+    vaultix->>Console: Exchange for federation URL (Console)
+    Console-->>vaultix: Signed console URL
+    vaultix-->>User: Return console URL
 ```
 
-There is a single role per account. Its trust policy allows Infisical to assume it, scoped by an **External ID** set to your **Infisical Organization ID**. The External ID prevents [confused deputy attacks](https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html), where another Infisical customer could otherwise trick Infisical into assuming your role.
+There is a single role per account. Its trust policy allows vaultix to assume it, scoped by an **External ID** set to your **vaultix Organization ID**. The External ID prevents [confused deputy attacks](https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html), where another vaultix customer could otherwise trick vaultix into assuming your role.
 
 ## Prerequisites
 
-Before adding the account in Infisical, create the IAM role in your AWS account with a trust policy that allows Infisical to assume it.
+Before adding the account in vaultix, create the IAM role in your AWS account with a trust policy that allows vaultix to assume it.
 
 <Steps>
   <Step title="Create the role with a trust policy">
-    Create an IAM role (e.g., `infisical-pam-readonly`) with the following trust policy. Replace `<INFISICAL_AWS_ACCOUNT_ID>` with the Infisical account ID for your region and `<YOUR_INFISICAL_ORG_ID>` with your Infisical Organization ID.
+    Create an IAM role (e.g., `vaultix-pam-readonly`) with the following trust policy. Replace `<vaultix_AWS_ACCOUNT_ID>` with the vaultix account ID for your region and `<YOUR_vaultix_ORG_ID>` with your vaultix Organization ID.
 
     ```json
     {
@@ -47,12 +47,12 @@ Before adding the account in Infisical, create the IAM role in your AWS account 
       "Statement": [{
         "Effect": "Allow",
         "Principal": {
-          "AWS": "arn:aws:iam::<INFISICAL_AWS_ACCOUNT_ID>:root"
+          "AWS": "arn:aws:iam::<vaultix_AWS_ACCOUNT_ID>:root"
         },
         "Action": "sts:AssumeRole",
         "Condition": {
           "StringEquals": {
-            "sts:ExternalId": "<YOUR_INFISICAL_ORG_ID>"
+            "sts:ExternalId": "<YOUR_vaultix_ORG_ID>"
           }
         }
       }]
@@ -60,10 +60,10 @@ Before adding the account in Infisical, create the IAM role in your AWS account 
     ```
 
     <Warning>
-      Always include the External ID condition. Without it, another Infisical customer could potentially trick Infisical into assuming your role.
+      Always include the External ID condition. Without it, another vaultix customer could potentially trick vaultix into assuming your role.
     </Warning>
 
-    **Infisical AWS Account IDs:**
+    **vaultix AWS Account IDs:**
 
     | Region | Account ID |
     |--------|------------|
@@ -71,16 +71,16 @@ Before adding the account in Infisical, create the IAM role in your AWS account 
     | EU | `345594589636` |
 
     <Note>
-      **For Dedicated Instances**: Your AWS account ID differs from the ones listed above. Contact Infisical support to obtain your dedicated AWS account ID.
+      **For Dedicated Instances**: Your AWS account ID differs from the ones listed above. Contact vaultix support to obtain your dedicated AWS account ID.
     </Note>
     <Note>
-      **For Self-Hosted Instances**: Use the AWS account ID where your Infisical instance is deployed. This is the account that hosts your Infisical infrastructure and will be assuming the role.
+      **For Self-Hosted Instances**: Use the AWS account ID where your vaultix instance is deployed. This is the account that hosts your vaultix infrastructure and will be assuming the role.
     </Note>
 
-    You can find your Infisical Organization ID under **Organization Settings**.
+    You can find your vaultix Organization ID under **Organization Settings**.
   </Step>
   <Step title="Attach permissions to the role">
-    Attach whatever permissions policies define what this role can do in AWS. These are the permissions users receive when they access this account through Infisical.
+    Attach whatever permissions policies define what this role can do in AWS. These are the permissions users receive when they access this account through vaultix.
   </Step>
 </Steps>
 
@@ -97,7 +97,7 @@ Before adding the account in Infisical, create the IAM role in your AWS account 
     | Field | Description |
     |-------|-------------|
     | **Name** | A descriptive name (e.g., `prod-admin-access`) |
-    | **Role ARN** | The ARN of the IAM role Infisical assumes for this account (e.g., `arn:aws:iam::123456789012:role/infisical-pam-readonly`) |
+    | **Role ARN** | The ARN of the IAM role vaultix assumes for this account (e.g., `arn:aws:iam::123456789012:role/vaultix-pam-readonly`) |
   </Step>
   <Step title="Save">
     Click **Create**.
@@ -131,19 +131,19 @@ All actions performed with the credentials are logged in [AWS CloudTrail](https:
     The CLI writes temporary credentials to your AWS credentials file as a named profile:
 
     ```bash
-    infisical pam access my-folder/prod-admin-access
+    vaultix pam access my-folder/prod-admin-access
     ```
 
-    This creates a profile named `infisical-pam/my-folder/prod-admin-access` in `~/.aws/credentials`. Use it with the AWS CLI:
+    This creates a profile named `vaultix-pam/my-folder/prod-admin-access` in `~/.aws/credentials`. Use it with the AWS CLI:
 
     ```bash
-    aws s3 ls --profile "infisical-pam/my-folder/prod-admin-access"
+    aws s3 ls --profile "vaultix-pam/my-folder/prod-admin-access"
     ```
 
     Or set the `AWS_PROFILE` environment variable:
 
     ```bash
-    export AWS_PROFILE="infisical-pam/my-folder/prod-admin-access"
+    export AWS_PROFILE="vaultix-pam/my-folder/prod-admin-access"
     aws sts get-caller-identity
     ```
 

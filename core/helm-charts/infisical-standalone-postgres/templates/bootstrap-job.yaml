@@ -1,5 +1,5 @@
-{{- $infisicalValues := .Values.infisical }}
-{{- if $infisicalValues.autoBootstrap.enabled }}
+{{- $vaultixValues := .Values.vaultix }}
+{{- if $vaultixValues.autoBootstrap.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -20,47 +20,47 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
         helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     spec:
-      serviceAccountName: {{ include "infisical.serviceAccountName" . }}
-    {{- with $infisicalValues.podSecurityContext }}
+      serviceAccountName: {{ include "vaultix.serviceAccountName" . }}
+    {{- with $vaultixValues.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- if $infisicalValues.image.imagePullSecrets }}
+    {{- if $vaultixValues.image.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml $infisicalValues.image.imagePullSecrets | nindent 6 }}
+        {{- toYaml $vaultixValues.image.imagePullSecrets | nindent 6 }}
     {{- end }}
       restartPolicy: OnFailure
       initContainers:
-      - name: wait-for-infisical
+      - name: wait-for-vaultix
         image: curlimages/curl:8.14.1
-        {{- with $infisicalValues.containerSecurityContext }}
+        {{- with $vaultixValues.containerSecurityContext }}
         securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         command: ['sh', '-c']
         args:
         - |
-          echo "Waiting for Infisical to be ready..."
-          until curl -f http://{{ include "infisical.fullname" . }}:8080/api/status; do
-            echo "Infisical not ready yet, retrying in 10 seconds..."
+          echo "Waiting for vaultix to be ready..."
+          until curl -f http://{{ include "vaultix.fullname" . }}:8080/api/status; do
+            echo "vaultix not ready yet, retrying in 10 seconds..."
             sleep 10
           done
-          echo "Infisical is ready! Proceeding with bootstrap..."
+          echo "vaultix is ready! Proceeding with bootstrap..."
       containers:
-        - name: infisical-bootstrap
-          image: "infisical/cli:{{ $infisicalValues.autoBootstrap.image.tag }}"
-          imagePullPolicy: {{ $infisicalValues.image.pullPolicy | default "IfNotPresent" }}
-          {{- with $infisicalValues.containerSecurityContext }}
+        - name: vaultix-bootstrap
+          image: "vaultix/cli:{{ $vaultixValues.autoBootstrap.image.tag }}"
+          imagePullPolicy: {{ $vaultixValues.image.pullPolicy | default "IfNotPresent" }}
+          {{- with $vaultixValues.containerSecurityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
           {{- end }}
           args:
             - bootstrap
-            - --domain=http://{{ include "infisical.fullname" . }}:8080
+            - --domain=http://{{ include "vaultix.fullname" . }}:8080
             - --output=k8-secret
-            - --k8-secret-name={{ $infisicalValues.autoBootstrap.secretDestination.name }}
-            - --k8-secret-namespace={{ $infisicalValues.autoBootstrap.secretDestination.namespace | default .Release.Namespace }}
-            - --organization={{ $infisicalValues.autoBootstrap.organization }}
-            - --k8-secret-template={{ $infisicalValues.autoBootstrap.secretTemplate }}
+            - --k8-secret-name={{ $vaultixValues.autoBootstrap.secretDestination.name }}
+            - --k8-secret-namespace={{ $vaultixValues.autoBootstrap.secretDestination.namespace | default .Release.Namespace }}
+            - --organization={{ $vaultixValues.autoBootstrap.organization }}
+            - --k8-secret-template={{ $vaultixValues.autoBootstrap.secretTemplate }}
             - --ignore-if-bootstrapped=true
           envFrom:
             - secretRef:
-                name: {{ $infisicalValues.autoBootstrap.credentialSecret.name }}
+                name: {{ $vaultixValues.autoBootstrap.credentialSecret.name }}
 {{- end }}

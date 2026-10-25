@@ -130,7 +130,7 @@ import {
   TExternalVaultixSyncInput,
   TExternalVaultixSyncListItem,
   TExternalVaultixSyncWithCredentials
-} from "./external-infisical";
+} from "./external-vaultix";
 import { TFlyioSync, TFlyioSyncInput, TFlyioSyncListItem, TFlyioSyncWithCredentials } from "./flyio/flyio-sync-types";
 import { TGcpSync, TGcpSyncInput, TGcpSyncListItem, TGcpSyncWithCredentials } from "./gcp";
 import { TGitLabSync, TGitLabSyncInput, TGitLabSyncListItem, TGitLabSyncWithCredentials } from "./gitlab";

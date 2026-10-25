@@ -1,21 +1,21 @@
 ---
 title: "Manage secrets with the Kubernetes Operator"
 sidebarTitle: "Kubernetes Operator"
-description: "Learn how to pull, push, and generate dynamic secrets in Kubernetes with the Infisical Operator."
+description: "Learn how to pull, push, and generate dynamic secrets in Kubernetes with the vaultix Operator."
 ---
 
 In this tutorial, you will:
 
-- Install the Infisical Kubernetes Operator and set up a Machine Identity with Kubernetes Auth.
-- Connect the operator to Infisical with the `InfisicalConnection` and `InfisicalAuth` CRDs.
-- Pull a secret from Infisical into your cluster with the `InfisicalStaticSecret` CRD and consume it from a demo app.
-- Push a Kubernetes Secret back to Infisical with the `InfisicalPushSecret` CRD.
-- Generate a dynamic database credential in your cluster with the `InfisicalDynamicSecret` CRD.
+- Install the vaultix Kubernetes Operator and set up a Machine Identity with Kubernetes Auth.
+- Connect the operator to vaultix with the `vaultixConnection` and `vaultixAuth` CRDs.
+- Pull a secret from vaultix into your cluster with the `vaultixStaticSecret` CRD and consume it from a demo app.
+- Push a Kubernetes Secret back to vaultix with the `vaultixPushSecret` CRD.
+- Generate a dynamic database credential in your cluster with the `vaultixDynamicSecret` CRD.
 
 <Note>
-  This tutorial's pull path uses the operator's `v1beta1` decoupled model: an [`InfisicalConnection`](/integrations/platforms/kubernetes/infisical-connection-crd) says where your Infisical instance is, an [`InfisicalAuth`](/integrations/platforms/kubernetes/infisical-auth-crd) says how the operator authenticates, and an [`InfisicalStaticSecret`](/integrations/platforms/kubernetes/infisical-static-secret-crd) says which secrets sync where.
+  This tutorial's pull path uses the operator's `v1beta1` decoupled model: an [`vaultixConnection`](/integrations/platforms/kubernetes/vaultix-connection-crd) says where your vaultix instance is, an [`vaultixAuth`](/integrations/platforms/kubernetes/vaultix-auth-crd) says how the operator authenticates, and an [`vaultixStaticSecret`](/integrations/platforms/kubernetes/vaultix-static-secret-crd) says which secrets sync where.
 
-  Pushing and dynamic secrets have no `v1beta1` equivalents, so those sections use the `v1alpha1` [`InfisicalPushSecret`](/integrations/platforms/kubernetes/infisical-push-secret-crd) and [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dynamic-secret-crd) CRDs, which each carry their own inline `authentication` block. See the [Kubernetes Operator overview](/integrations/platforms/kubernetes/overview) for the other CRDs and authentication methods.
+  Pushing and dynamic secrets have no `v1beta1` equivalents, so those sections use the `v1alpha1` [`vaultixPushSecret`](/integrations/platforms/kubernetes/vaultix-push-secret-crd) and [`vaultixDynamicSecret`](/integrations/platforms/kubernetes/vaultix-dynamic-secret-crd) CRDs, which each carry their own inline `authentication` block. See the [Kubernetes Operator overview](/integrations/platforms/kubernetes/overview) for the other CRDs and authentication methods.
 </Note>
 
 ## Prerequisites
@@ -23,35 +23,35 @@ In this tutorial, you will:
 Before you begin, make sure you have:
 
 - [helm](https://helm.sh/docs/intro/install/), [kubectl](https://kubernetes.io/docs/tasks/tools/), and [jq](https://jqlang.github.io/jq/download/) installed.
-- Access to a running Kubernetes cluster that `kubectl` is pointed at, with an API server reachable from your Infisical instance. Confirm with `kubectl cluster-info`.
-- Access to an Infisical instance, either [Infisical Cloud](/documentation/getting-started/overview) or a [self-hosted instance](/self-hosting/overview).
-- A PostgreSQL database reachable from your Infisical instance, for the dynamic-secret step.
+- Access to a running Kubernetes cluster that `kubectl` is pointed at, with an API server reachable from your vaultix instance. Confirm with `kubectl cluster-info`.
+- Access to an vaultix instance, either [vaultix Cloud](/documentation/getting-started/overview) or a [self-hosted instance](/self-hosting/overview).
+- A PostgreSQL database reachable from your vaultix instance, for the dynamic-secret step.
 
 <Warning>
-  **Network reachability matters in both directions.** Kubernetes Auth works by having the Infisical backend call your cluster's TokenReview API at the Kubernetes Host URL you configure later, and the operator calls your Infisical instance's API from inside the cluster.
+  **Network reachability matters in both directions.** Kubernetes Auth works by having the vaultix backend call your cluster's TokenReview API at the Kubernetes Host URL you configure later, and the operator calls your vaultix instance's API from inside the cluster.
 
-  If you use Infisical Cloud, a local kind, minikube, or Docker Desktop cluster is not reachable and will not work as-is. Use a cluster with a reachable API endpoint, or self-host Infisical somewhere that can reach the cluster. The same applies to the PostgreSQL database for the dynamic-secret step: it must be reachable from your Infisical instance, not just from your cluster, so use a database with a public or peered address.
+  If you use vaultix Cloud, a local kind, minikube, or Docker Desktop cluster is not reachable and will not work as-is. Use a cluster with a reachable API endpoint, or self-host vaultix somewhere that can reach the cluster. The same applies to the PostgreSQL database for the dynamic-secret step: it must be reachable from your vaultix instance, not just from your cluster, so use a database with a public or peered address.
 </Warning>
 
 <Info>
-  [Dynamic Secrets](/documentation/platform/dynamic-secrets/overview) are available under the **Pro Tier** and **Enterprise Tier** on Infisical Cloud.
+  [Dynamic Secrets](/documentation/platform/dynamic-secrets/overview) are available under the **Pro Tier** and **Enterprise Tier** on vaultix Cloud.
 
-  If you're self-hosting Infisical, contact team@infisical.com to purchase an enterprise license.
+  If you're self-hosting vaultix, contact team@vaultix.com to purchase an enterprise license.
 </Info>
 
 # Set up the operator and identity groundwork
 
 <Steps titleSize="h3">
-  <Step title="Install the Infisical Operator">
-    The [Infisical Operator](/integrations/platforms/kubernetes/overview) runs inside your cluster and reconciles the secret-synchronization resources you create.
+  <Step title="Install the vaultix Operator">
+    The [vaultix Operator](/integrations/platforms/kubernetes/overview) runs inside your cluster and reconciles the secret-synchronization resources you create.
 
     ```bash
-    helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+    helm repo add vaultix-helm-charts 'https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/'
     helm repo update
-    helm install infisical-operator infisical-helm-charts/secrets-operator
+    helm install vaultix-operator vaultix-helm-charts/secrets-operator
     ```
 
-    The Helm chart installs every operator CRD, including the `v1beta1` `InfisicalConnection`, `InfisicalAuth`, and `InfisicalStaticSecret` kinds this tutorial uses for the pull path.
+    The Helm chart installs every operator CRD, including the `v1beta1` `vaultixConnection`, `vaultixAuth`, and `vaultixStaticSecret` kinds this tutorial uses for the pull path.
 
     Confirm the operator pod is running:
 
@@ -59,31 +59,31 @@ Before you begin, make sure you have:
     kubectl get pods -n default
     ```
 
-    You should see a pod whose name begins with `infisical-opera-controller-manager-` in the `Running` state with `1/1` ready:
+    You should see a pod whose name begins with `vaultix-opera-controller-manager-` in the `Running` state with `1/1` ready:
 
     ```text
     NAME                                                  READY   STATUS    RESTARTS   AGE
-    infisical-opera-controller-manager-xxxxxxxxxx-xxxxx   1/1     Running   0          30s
+    vaultix-opera-controller-manager-xxxxxxxxxx-xxxxx   1/1     Running   0          30s
     ```
 
     <Note>
-      The `infisical-opera` prefix comes from the Helm release and chart names truncated to 15 characters, so a different release name changes it. `helm install` also uses your current kubeconfig namespace: if the pod is not under `-n default`, run `kubectl get pods -A | grep infisical` to find it, and adjust the `-n` flag in later commands to match.
+      The `vaultix-opera` prefix comes from the Helm release and chart names truncated to 15 characters, so a different release name changes it. `helm install` also uses your current kubeconfig namespace: if the pod is not under `-n default`, run `kubectl get pods -A | grep vaultix` to find it, and adjust the `-n` flag in later commands to match.
     </Note>
   </Step>
 
   <Step title="Create a Machine Identity">
-    The operator authenticates to Infisical with a [Machine Identity](/documentation/platform/identities/machine-identities) using the [Kubernetes Auth method](/documentation/platform/identities/kubernetes-auth).
+    The operator authenticates to vaultix with a [Machine Identity](/documentation/platform/identities/machine-identities) using the [Kubernetes Auth method](/documentation/platform/identities/kubernetes-auth).
 
-    1. Log in to [Infisical](https://app.infisical.com/).
+    1. Log in to [vaultix](https://app.vaultix.com/).
     2. Select **Access Control** from the left navigation pane.
     3. Open the **Machine Identities** tab and create an identity. Give it a name and assign it the **Member** organization role. You grant it project-level access in the next step.
     4. Copy the **Identity ID** and record it. It lands in two different places later:
-        - **Pull path**: you store it in a Kubernetes Secret named `kubernetes-credentials`. The `InfisicalAuth` CRD reads it from there through `identityIdRef`. It is never pasted inline for pull.
+        - **Pull path**: you store it in a Kubernetes Secret named `kubernetes-credentials`. The `vaultixAuth` CRD reads it from there through `identityIdRef`. It is never pasted inline for pull.
         - **Push and dynamic**: you paste it inline as `identityId` in each CRD's `authentication.kubernetesAuth` block.
     5. Select the identity, then add a **Kubernetes Auth** method with these values:
-        - **Allowed Service Account Names**: `infisical-service-account`
+        - **Allowed Service Account Names**: `vaultix-service-account`
         - **Allowed Namespaces**: `default`
-        - **Kubernetes Host URL**: the control-plane URL from `kubectl cluster-info`. It is the line beginning "Kubernetes control plane is running at". This URL must be reachable from your Infisical instance, as covered in the prerequisites.
+        - **Kubernetes Host URL**: the control-plane URL from `kubectl cluster-info`. It is the line beginning "Kubernetes control plane is running at". This URL must be reachable from your vaultix instance, as covered in the prerequisites.
         - **Token Reviewer JWT** and **CA Certificate**: leave both blank for now. You generate these in the next steps and return to paste them in. The **CA Certificate** field is on the **Advanced** tab.
 
     <Note>
@@ -95,7 +95,7 @@ Before you begin, make sure you have:
     1. Navigate back to **Overview** and select **Add New Project**.
         - Enter a **Project Name** and select **Secrets Management** as the product type.
         - Add a description (optional).
-    2. Open the project and add a secret. Use these values so they match the `InfisicalStaticSecret` CRD later in this tutorial:
+    2. Open the project and add a secret. Use these values so they match the `vaultixStaticSecret` CRD later in this tutorial:
         - **Key**: `SMTP_HOST`
         - **Value**: `smtp@gmail.com`
         - **Environment**: `Production`
@@ -112,8 +112,8 @@ Before you begin, make sure you have:
   <Step title="Create service accounts, RBAC, and tokens">
     The Kubernetes Auth method needs two Kubernetes service accounts:
 
-    - `infisical-token-reviewer`: its JWT lets the **Infisical backend** call the Kubernetes TokenReview API to validate tokens presented by the operator. It serves both the pull path and the push/dynamic path.
-    - `infisical-service-account`: the identity the operator presents when it authenticates to Infisical.
+    - `vaultix-token-reviewer`: its JWT lets the **vaultix backend** call the Kubernetes TokenReview API to validate tokens presented by the operator. It serves both the pull path and the push/dynamic path.
+    - `vaultix-service-account`: the identity the operator presents when it authenticates to vaultix.
 
     Create the token-reviewer service account:
 
@@ -122,7 +122,7 @@ Before you begin, make sure you have:
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-      name: infisical-token-reviewer
+      name: vaultix-token-reviewer
       namespace: default
     EOF
     ```
@@ -134,29 +134,29 @@ Before you begin, make sure you have:
     apiVersion: v1
     kind: Secret
     metadata:
-      name: infisical-token-reviewer-token
+      name: vaultix-token-reviewer-token
       namespace: default
       annotations:
-        kubernetes.io/service-account.name: infisical-token-reviewer
+        kubernetes.io/service-account.name: vaultix-token-reviewer
     type: kubernetes.io/service-account-token
     EOF
     ```
 
-    Bind the token-reviewer service account to the built-in `system:auth-delegator` ClusterRole. This lets the Infisical backend, acting with this service account's JWT, submit TokenReview requests. Without this binding, TokenReview calls are denied.
+    Bind the token-reviewer service account to the built-in `system:auth-delegator` ClusterRole. This lets the vaultix backend, acting with this service account's JWT, submit TokenReview requests. Without this binding, TokenReview calls are denied.
 
     ```bash
     kubectl apply -f - <<'EOF'
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: infisical-token-reviewer-binding
+      name: vaultix-token-reviewer-binding
     roleRef:
       apiGroup: rbac.authorization.k8s.io
       kind: ClusterRole
       name: system:auth-delegator
     subjects:
       - kind: ServiceAccount
-        name: infisical-token-reviewer
+        name: vaultix-token-reviewer
         namespace: default
     EOF
     ```
@@ -168,16 +168,16 @@ Before you begin, make sure you have:
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-      name: infisical-service-account
+      name: vaultix-service-account
       namespace: default
     ---
     apiVersion: v1
     kind: Secret
     metadata:
-      name: infisical-service-account-token
+      name: vaultix-service-account-token
       namespace: default
       annotations:
-        kubernetes.io/service-account.name: infisical-service-account
+        kubernetes.io/service-account.name: vaultix-service-account
     type: kubernetes.io/service-account-token
     EOF
     ```
@@ -185,18 +185,18 @@ Before you begin, make sure you have:
     Associate the token secret with the service account:
 
     ```bash
-    kubectl patch serviceaccount infisical-service-account \
-      -p '{"secrets": [{"name": "infisical-service-account-token"}]}' -n default
+    kubectl patch serviceaccount vaultix-service-account \
+      -p '{"secrets": [{"name": "vaultix-service-account-token"}]}' -n default
     ```
 
-    You should see `serviceaccount/infisical-service-account patched`.
+    You should see `serviceaccount/vaultix-service-account patched`.
 
     <Note>
-      The `infisical-service-account-token` Secret and the `kubectl patch` serve only the `v1alpha1` push and dynamic CRDs, which read the service account's stored token. The `v1beta1` pull path does not use them: `InfisicalAuth` mints a short-lived token (10 minutes) through the Kubernetes TokenRequest API on every login.
+      The `vaultix-service-account-token` Secret and the `kubectl patch` serve only the `v1alpha1` push and dynamic CRDs, which read the service account's stored token. The `v1beta1` pull path does not use them: `vaultixAuth` mints a short-lived token (10 minutes) through the Kubernetes TokenRequest API on every login.
     </Note>
 
     <Note>
-      The service-account names and namespaces above must match the **Allowed Service Account Names** (`infisical-service-account`) and **Allowed Namespaces** (`default`) you set on the Kubernetes Auth method. They must also match the `serviceAccountRef` in the `InfisicalAuth` CRD and in the push and dynamic CRDs' inline `kubernetesAuth` blocks. Do not rename them.
+      The service-account names and namespaces above must match the **Allowed Service Account Names** (`vaultix-service-account`) and **Allowed Namespaces** (`default`) you set on the Kubernetes Auth method. They must also match the `serviceAccountRef` in the `vaultixAuth` CRD and in the push and dynamic CRDs' inline `kubernetesAuth` blocks. Do not rename them.
     </Note>
   </Step>
 
@@ -204,18 +204,18 @@ Before you begin, make sure you have:
     Confirm the two service accounts exist:
 
     ```bash
-    kubectl get serviceaccount -n default | grep infisical
+    kubectl get serviceaccount -n default | grep vaultix
     ```
 
-    You should see `infisical-token-reviewer` and `infisical-service-account` (alongside the operator's own `infisical-opera-controller-manager` service account).
+    You should see `vaultix-token-reviewer` and `vaultix-service-account` (alongside the operator's own `vaultix-opera-controller-manager` service account).
 
     Confirm the two token secrets exist:
 
     ```bash
-    kubectl get secrets -n default | grep infisical
+    kubectl get secrets -n default | grep vaultix
     ```
 
-    You should see `infisical-token-reviewer-token` and `infisical-service-account-token`, each of type `kubernetes.io/service-account-token`. The operator's own Helm release secret (`sh.helm.release.v1.infisical-operator...`) also matches the grep; ignore it.
+    You should see `vaultix-token-reviewer-token` and `vaultix-service-account-token`, each of type `kubernetes.io/service-account-token`. The operator's own Helm release secret (`sh.helm.release.v1.vaultix-operator...`) also matches the grep; ignore it.
   </Step>
 
   <Step title="Wire up the Kubernetes Auth method">
@@ -224,18 +224,18 @@ Before you begin, make sure you have:
     Print the Token Reviewer JWT:
 
     ```bash
-    kubectl get secret infisical-token-reviewer-token -n default \
+    kubectl get secret vaultix-token-reviewer-token -n default \
       -o jsonpath='{.data.token}' | base64 -d
     ```
 
     Print the cluster CA certificate:
 
     ```bash
-    kubectl get secret infisical-token-reviewer-token -n default \
+    kubectl get secret vaultix-token-reviewer-token -n default \
       -o jsonpath='{.data.ca\.crt}' | base64 -d
     ```
 
-    Then, in Infisical:
+    Then, in vaultix:
 
     1. Open the Machine Identity and open its **Kubernetes Auth** method for editing.
     2. Paste the decoded JWT into the **Token Reviewer JWT** field.
@@ -243,59 +243,59 @@ Before you begin, make sure you have:
     4. Save the configuration.
 
     <Info>
-      The **CA Certificate** field is optional and pairs with the **Verify TLS Certificate** toggle on the **Advanced** tab. When that toggle is on, Infisical validates the Kubernetes API server's TLS certificate against this CA. You can save with the CA left empty, but for production keep verification on and provide the cluster CA.
+      The **CA Certificate** field is optional and pairs with the **Verify TLS Certificate** toggle on the **Advanced** tab. When that toggle is on, vaultix validates the Kubernetes API server's TLS certificate against this CA. You can save with the CA left empty, but for production keep verification on and provide the cluster CA.
     </Info>
 
     After saving, the Machine Identity can authenticate operator requests.
   </Step>
 </Steps>
 
-## Connect the operator to Infisical
+## Connect the operator to vaultix
 
-The `v1beta1` pull path splits connection and authentication into two reusable objects. The [`InfisicalConnection`](/integrations/platforms/kubernetes/infisical-connection-crd) records where your Infisical instance is. The [`InfisicalAuth`](/integrations/platforms/kubernetes/infisical-auth-crd) records how the operator authenticates to it. Any number of `InfisicalStaticSecret` resources can then share the same pair.
+The `v1beta1` pull path splits connection and authentication into two reusable objects. The [`vaultixConnection`](/integrations/platforms/kubernetes/vaultix-connection-crd) records where your vaultix instance is. The [`vaultixAuth`](/integrations/platforms/kubernetes/vaultix-auth-crd) records how the operator authenticates to it. Any number of `vaultixStaticSecret` resources can then share the same pair.
 
 <Steps titleSize="h3">
-  <Step title="Create the InfisicalConnection">
-    Save the manifest below as `infisical-connection.yaml`:
+  <Step title="Create the vaultixConnection">
+    Save the manifest below as `vaultix-connection.yaml`:
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1beta1
-    kind: InfisicalConnection
+    apiVersion: secrets.vaultix.com/v1beta1
+    kind: vaultixConnection
     metadata:
-      name: infisical-connection
+      name: vaultix-connection
       namespace: default
     spec:
-      address: https://app.infisical.com
+      address: https://app.vaultix.com
     ```
 
     <Note>
-      If you self-host Infisical, set `spec.address` to your instance's base URL instead, for example `https://infisical.example.com`. Provide the base URL only, without a trailing `/api`. The `InfisicalStaticSecret` pull path uses `spec.address` exactly as written and appends the API path itself, so an address that ends in `/api` produces failing requests to `/api/api/...`. For the same reason, always set `spec.address` explicitly. The operator's `INFISICAL_HOST_API` fallback, which the Helm chart sets to `https://app.infisical.com/api`, ends in `/api` and does not work for the pull path.
+      If you self-host vaultix, set `spec.address` to your instance's base URL instead, for example `https://vaultix.example.com`. Provide the base URL only, without a trailing `/api`. The `vaultixStaticSecret` pull path uses `spec.address` exactly as written and appends the API path itself, so an address that ends in `/api` produces failing requests to `/api/api/...`. For the same reason, always set `spec.address` explicitly. The operator's `vaultix_HOST_API` fallback, which the Helm chart sets to `https://app.vaultix.com/api`, ends in `/api` and does not work for the pull path.
     </Note>
 
     Apply the resource:
 
     ```bash
-    kubectl apply -f infisical-connection.yaml
+    kubectl apply -f vaultix-connection.yaml
     ```
 
-    On each reconcile, the operator health-checks the instance by calling `<address>/api/status` and sets the `secrets.infisical.com/IsReady` condition on the result. Healthy connections are re-checked every 5 minutes. Confirm the connection is ready:
+    On each reconcile, the operator health-checks the instance by calling `<address>/api/status` and sets the `secrets.vaultix.com/IsReady` condition on the result. Healthy connections are re-checked every 5 minutes. Confirm the connection is ready:
 
     ```bash
-    kubectl get infisicalconnection infisical-connection -n default
+    kubectl get vaultixconnection vaultix-connection -n default
     ```
 
     You should see `True` in the `READY` column:
 
     ```text
     NAME                   AGE   ADDRESS                     READY
-    infisical-connection   10s   https://app.infisical.com   True
+    vaultix-connection   10s   https://app.vaultix.com   True
     ```
 
     If `READY` is not `True`, see the Troubleshooting section at the end of this tutorial.
   </Step>
 
   <Step title="Store the Identity ID in a Kubernetes Secret">
-    In `v1beta1`, the Machine Identity ID is never written inline in a manifest. `InfisicalAuth` reads it from a Kubernetes Secret through a reference. Create that Secret now. Replace `your-identity-id` with the Identity ID you recorded:
+    In `v1beta1`, the Machine Identity ID is never written inline in a manifest. `vaultixAuth` reads it from a Kubernetes Secret through a reference. Create that Secret now. Replace `your-identity-id` with the Identity ID you recorded:
 
     ```bash
     kubectl apply -f - <<'EOF'
@@ -319,18 +319,18 @@ The `v1beta1` pull path splits connection and authentication into two reusable o
     You should see `["identityId"]`.
   </Step>
 
-  <Step title="Create the InfisicalAuth">
-    The `InfisicalAuth` ties everything together: it references the connection, names the auth method, points at the Identity ID Secret, and names the service account the operator presents. Save the manifest below as `infisical-auth.yaml`:
+  <Step title="Create the vaultixAuth">
+    The `vaultixAuth` ties everything together: it references the connection, names the auth method, points at the Identity ID Secret, and names the service account the operator presents. Save the manifest below as `vaultix-auth.yaml`:
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1beta1
-    kind: InfisicalAuth
+    apiVersion: secrets.vaultix.com/v1beta1
+    kind: vaultixAuth
     metadata:
-      name: infisical-auth
+      name: vaultix-auth
       namespace: default
     spec:
-      infisicalConnectionRef:
-        name: infisical-connection
+      vaultixConnectionRef:
+        name: vaultix-connection
         namespace: default
       method: kubernetes
       kubernetes:
@@ -339,56 +339,56 @@ The `v1beta1` pull path splits connection and authentication into two reusable o
           namespace: default
           key: identityId
         serviceAccountRef:
-          name: infisical-service-account
+          name: vaultix-service-account
           namespace: default
     ```
 
     Field notes:
 
     - `identityIdRef` names the Secret (`name`, `namespace`) and the data key (`key`) holding the Identity ID. There is no inline `identityId` field in `v1beta1`.
-    - `serviceAccountRef` must name the `infisical-service-account` you created. The operator mints a fresh 10-minute token for it via the TokenRequest API on every login.
-    - `method` selects the authentication method; this tutorial uses `kubernetes`. See the [`InfisicalAuth` reference](/integrations/platforms/kubernetes/infisical-auth-crd) for the other methods.
+    - `serviceAccountRef` must name the `vaultix-service-account` you created. The operator mints a fresh 10-minute token for it via the TokenRequest API on every login.
+    - `method` selects the authentication method; this tutorial uses `kubernetes`. See the [`vaultixAuth` reference](/integrations/platforms/kubernetes/vaultix-auth-crd) for the other methods.
 
     Apply the resource:
 
     ```bash
-    kubectl apply -f infisical-auth.yaml
+    kubectl apply -f vaultix-auth.yaml
     ```
 
-    On reconcile, the operator performs a real login against the connection. The referenced `InfisicalConnection` must be ready first. Confirm the auth is ready:
+    On reconcile, the operator performs a real login against the connection. The referenced `vaultixConnection` must be ready first. Confirm the auth is ready:
 
     ```bash
-    kubectl get infisicalauth infisical-auth -n default
+    kubectl get vaultixauth vaultix-auth -n default
     ```
 
     You should see `True` in the `READY` column:
 
     ```text
     NAME             CONNECTION             METHOD       AGE   READY
-    infisical-auth   infisical-connection   kubernetes   10s   True
+    vaultix-auth   vaultix-connection   kubernetes   10s   True
     ```
 
-    For detail, `kubectl describe infisicalauth infisical-auth -n default` shows the `secrets.infisical.com/IsReady` and `secrets.infisical.com/AuthMethod` conditions. If the login fails, this is where the error message lands; see Troubleshooting.
+    For detail, `kubectl describe vaultixauth vaultix-auth -n default` shows the `secrets.vaultix.com/IsReady` and `secrets.vaultix.com/AuthMethod` conditions. If the login fails, this is where the error message lands; see Troubleshooting.
   </Step>
 </Steps>
 
-## Pull a secret with the InfisicalStaticSecret CRD
+## Pull a secret with the vaultixStaticSecret CRD
 
-The [`InfisicalStaticSecret`](/integrations/platforms/kubernetes/infisical-static-secret-crd) CRD tells the operator to fetch secrets from Infisical (`sources`) and write them into native Kubernetes objects (`targets`). It authenticates through the `InfisicalAuth` you just created.
+The [`vaultixStaticSecret`](/integrations/platforms/kubernetes/vaultix-static-secret-crd) CRD tells the operator to fetch secrets from vaultix (`sources`) and write them into native Kubernetes objects (`targets`). It authenticates through the `vaultixAuth` you just created.
 
 <Steps titleSize="h3">
-  <Step title="Create the InfisicalStaticSecret resource">
-    Save the manifest below as `infisical-static-secret.yaml`. Replace `your-project-slug` and the environment slug you confirmed (`prod` unless yours differs).
+  <Step title="Create the vaultixStaticSecret resource">
+    Save the manifest below as `vaultix-static-secret.yaml`. Replace `your-project-slug` and the environment slug you confirmed (`prod` unless yours differs).
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1beta1
-    kind: InfisicalStaticSecret
+    apiVersion: secrets.vaultix.com/v1beta1
+    kind: vaultixStaticSecret
     metadata:
-      name: infisical-static-secret-demo
+      name: vaultix-static-secret-demo
       namespace: default
     spec:
-      infisicalAuthRef:
-        name: infisical-auth
+      vaultixAuthRef:
+        name: vaultix-auth
         namespace: default
       syncOptions:
         refreshInterval: 1m
@@ -408,7 +408,7 @@ The [`InfisicalStaticSecret`](/integrations/platforms/kubernetes/infisical-stati
 
     | Recorded value | Where it's used |
     |---|---|
-    | Identity ID | `identityId` key in the `kubernetes-credentials` Secret (via `InfisicalAuth`'s `identityIdRef`) |
+    | Identity ID | `identityId` key in the `kubernetes-credentials` Secret (via `vaultixAuth`'s `identityIdRef`) |
     | Project slug | `spec.sources[].projectSlug` |
     | Environment slug | `spec.sources[].environmentSlug` |
 
@@ -421,22 +421,22 @@ The [`InfisicalStaticSecret`](/integrations/platforms/kubernetes/infisical-stati
     Apply the resource:
 
     ```bash
-    kubectl apply -f infisical-static-secret.yaml
+    kubectl apply -f vaultix-static-secret.yaml
     ```
   </Step>
 
-  <Step title="Verify the InfisicalStaticSecret synced">
+  <Step title="Verify the vaultixStaticSecret synced">
     Confirm the resource synced. If the `SYNCED` column is empty at first, wait a few seconds for the first reconcile and run it again:
 
     ```bash
-    kubectl get infisicalstaticsecret infisical-static-secret-demo -n default
+    kubectl get vaultixstaticsecret vaultix-static-secret-demo -n default
     ```
 
     You should see `True` in the `SYNCED` column:
 
     ```text
     NAME                           AGE   AUTH METHOD   SYNCED   AFFECTED DEPLOYMENTS
-    infisical-static-secret-demo   15s   kubernetes    True     0 deployments were redeployed due to secret changes
+    vaultix-static-secret-demo   15s   kubernetes    True     0 deployments were redeployed due to secret changes
     ```
 
     Confirm the operator created the managed secret:
@@ -504,15 +504,15 @@ The [`InfisicalStaticSecret`](/integrations/platforms/kubernetes/infisical-stati
     kubectl exec -it $(kubectl get pod -l app=nginx -n default -o jsonpath='{.items[0].metadata.name}') -n default -- env | grep SMTP
     ```
 
-    You should see `SMTP_HOST=smtp@gmail.com`. The pull sync from Infisical to Kubernetes now works end to end.
+    You should see `SMTP_HOST=smtp@gmail.com`. The pull sync from vaultix to Kubernetes now works end to end.
   </Step>
 </Steps>
 
-## Push a secret with the InfisicalPushSecret CRD
+## Push a secret with the vaultixPushSecret CRD
 
-The [`InfisicalPushSecret`](/integrations/platforms/kubernetes/infisical-push-secret-crd) CRD does the reverse: it reads a Kubernetes Secret and writes its values into Infisical.
+The [`vaultixPushSecret`](/integrations/platforms/kubernetes/vaultix-push-secret-crd) CRD does the reverse: it reads a Kubernetes Secret and writes its values into vaultix.
 
-This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` objects; it carries its own inline `authentication` block with the Identity ID pasted as a plain `identityId` string.
+This `v1alpha1` CRD does not use the `vaultixConnection` or `vaultixAuth` objects; it carries its own inline `authentication` block with the Identity ID pasted as a plain `identityId` string.
 
 <Steps titleSize="h3">
   <Step title="Create the source Kubernetes Secret">
@@ -537,12 +537,12 @@ This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` ob
     ```
   </Step>
 
-  <Step title="Create the InfisicalPushSecret resource">
+  <Step title="Create the vaultixPushSecret resource">
     Save the manifest below as `push-secret.yaml`. Replace `your-identity-id` and `your-project-slug`, and set `environmentSlug` to the environment you want to push into (the slug you confirmed earlier).
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1alpha1
-    kind: InfisicalPushSecret
+    apiVersion: secrets.vaultix.com/v1alpha1
+    kind: vaultixPushSecret
     metadata:
       name: push-secret-demo
       namespace: default
@@ -557,7 +557,7 @@ This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` ob
         kubernetesAuth:
           identityId: your-identity-id
           serviceAccountRef:
-            name: infisical-service-account
+            name: vaultix-service-account
             namespace: default
       push:
         secret:
@@ -565,13 +565,13 @@ This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` ob
           secretNamespace: default
     ```
 
-    Note the differences from the pull flow you built with `InfisicalStaticSecret`:
+    Note the differences from the pull flow you built with `vaultixStaticSecret`:
 
     - **Authentication is inline.** The CRD carries its own `authentication.kubernetesAuth` block, with the Identity ID as a plain `identityId` string and the same `serviceAccountRef`. The shared connection and auth objects are not in play here.
     - Scope lives under `spec.destination` (`projectSlug`, `environmentSlug`, `secretsPath`) instead of `spec.sources`, and the environment field is `environmentSlug`.
     - The direction reverses: `push.secret` names the source Kubernetes Secret to read from, and there are no `targets`.
-    - `updatePolicy: Replace` makes the operator overwrite values that already exist in Infisical. Without it, pre-existing Infisical secrets are left untouched.
-    - `deletionPolicy: Delete` makes the operator remove the pushed secrets from Infisical when you delete this CRD. This matters during cleanup.
+    - `updatePolicy: Replace` makes the operator overwrite values that already exist in vaultix. Without it, pre-existing vaultix secrets are left untouched.
+    - `deletionPolicy: Delete` makes the operator remove the pushed secrets from vaultix when you delete this CRD. This matters during cleanup.
     - `push.secret.secretName` must match the source secret you created (`push-secret-demo`).
 
     <Note>
@@ -579,7 +579,7 @@ This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` ob
     </Note>
 
     <Note>
-      If you self-host Infisical, point this CRD at your instance with the optional `spec.hostAPI` field, or set the `hostAPI` Helm value for the operator. When neither is set, the operator's default is `https://app.infisical.com/api`.
+      If you self-host vaultix, point this CRD at your instance with the optional `spec.hostAPI` field, or set the `hostAPI` Helm value for the operator. When neither is set, the operator's default is `https://app.vaultix.com/api`.
     </Note>
 
     Apply the resource:
@@ -589,36 +589,36 @@ This `v1alpha1` CRD does not use the `InfisicalConnection` or `InfisicalAuth` ob
     ```
   </Step>
 
-  <Step title="Verify the push reached Infisical">
-    Open your project in Infisical, select the environment you pushed to, and confirm `API_KEY` now appears. The operator pushes when you apply the resource and again whenever it changes; it does not re-sync on a timer unless you set `spec.resyncInterval` (for example `1m`). If `API_KEY` is missing, check the resource's status conditions and the operator logs as described in [Troubleshooting](#troubleshooting).
+  <Step title="Verify the push reached vaultix">
+    Open your project in vaultix, select the environment you pushed to, and confirm `API_KEY` now appears. The operator pushes when you apply the resource and again whenever it changes; it does not re-sync on a timer unless you set `spec.resyncInterval` (for example `1m`). If `API_KEY` is missing, check the resource's status conditions and the operator logs as described in [Troubleshooting](#troubleshooting).
 
-    ![Infisical project secrets dashboard showing the pushed API_KEY secret](/images/push-secret.png)
+    ![vaultix project secrets dashboard showing the pushed API_KEY secret](/images/push-secret.png)
   </Step>
 </Steps>
 
-## Generate a dynamic secret with the InfisicalDynamicSecret CRD
+## Generate a dynamic secret with the vaultixDynamicSecret CRD
 
-The [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dynamic-secret-crd) CRD tells the operator to create and lease a [Dynamic Secret](/documentation/platform/dynamic-secrets/overview), then write the lease credentials into a Kubernetes Secret that any workload can consume. Like the push CRD, it is a `v1alpha1` resource with its own inline `authentication` block; the shared connection and auth objects are not used here.
+The [`vaultixDynamicSecret`](/integrations/platforms/kubernetes/vaultix-dynamic-secret-crd) CRD tells the operator to create and lease a [Dynamic Secret](/documentation/platform/dynamic-secrets/overview), then write the lease credentials into a Kubernetes Secret that any workload can consume. Like the push CRD, it is a `v1alpha1` resource with its own inline `authentication` block; the shared connection and auth objects are not used here.
 
 <Steps titleSize="h3">
-  <Step title="Create the dynamic secret in Infisical">
+  <Step title="Create the dynamic secret in vaultix">
     1. In your project, open the dropdown next to **Add Secret** and select **Add Dynamic Secret**.
     2. Select **SQL Database**, then [**PostgreSQL**](/documentation/platform/dynamic-secrets/postgresql) as the provider.
-    3. Enter your database's **Host**, **Port**, **User**, **Password**, and **Database Name**. The database must be network-reachable from your Infisical instance, as noted in the prerequisites.
+    3. Enter your database's **Host**, **Port**, **User**, **Password**, and **Database Name**. The database must be network-reachable from your vaultix instance, as noted in the prerequisites.
     4. In the CA (SSL) section, upload your database's CA certificate if it enforces TLS with a custom CA. If it does not require a custom CA, leave this empty.
     5. Set the **Secret Name** to `dynamic-secret-lease`.
     6. Select the environment matching the slug you confirmed earlier.
 
-    ![Infisical add dynamic secret modal with PostgreSQL connection fields](/images/dynamic-secret.png)
+    ![vaultix add dynamic secret modal with PostgreSQL connection fields](/images/dynamic-secret.png)
   </Step>
 
-  <Step title="Create the InfisicalDynamicSecret resource">
+  <Step title="Create the vaultixDynamicSecret resource">
     Three names are in play. Keep them straight:
 
     | Name | Where it lives | Value in this tutorial |
     |---|---|---|
-    | Infisical dynamic secret name | Set in the Infisical UI above | `dynamic-secret-lease` |
-    | CRD `dynamicSecret.secretName` | Must equal the Infisical name | `dynamic-secret-lease` |
+    | vaultix dynamic secret name | Set in the vaultix UI above | `dynamic-secret-lease` |
+    | CRD `dynamicSecret.secretName` | Must equal the vaultix name | `dynamic-secret-lease` |
     | CRD `managedSecretReference.secretName` | The Kubernetes Secret the operator creates | `dynamic-secret-test` |
 
     The verify command reads the Kubernetes Secret, so it uses `managedSecretReference.secretName`.
@@ -626,8 +626,8 @@ The [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dyna
     Save the manifest below as `dynamic-secret.yaml`. Replace `your-identity-id` and `your-project-slug`, and set `environmentSlug` to your confirmed slug.
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1alpha1
-    kind: InfisicalDynamicSecret
+    apiVersion: secrets.vaultix.com/v1alpha1
+    kind: vaultixDynamicSecret
     metadata:
       name: dynamic-secret-demo
       namespace: default
@@ -641,7 +641,7 @@ The [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dyna
         kubernetesAuth:
           identityId: your-identity-id
           serviceAccountRef:
-            name: infisical-service-account
+            name: vaultix-service-account
             namespace: default
       managedSecretReference:
         secretName: dynamic-secret-test
@@ -654,7 +654,7 @@ The [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dyna
 
     - The authentication block is the same inline shape as the push CRD, and the environment field is `environmentSlug`. Here `projectSlug`/`environmentSlug`/`secretsPath` live under `spec.dynamicSecret`.
     - `leaseRevocationPolicy: Revoke` revokes the lease when you delete the resource, which matters for cleanup. Omit it to leave leases in place.
-    - `leaseTTL` is optional. When omitted, the operator sends no TTL and the lease uses the dynamic secret's own default TTL configured in Infisical.
+    - `leaseTTL` is optional. When omitted, the operator sends no TTL and the lease uses the dynamic secret's own default TTL configured in vaultix.
     - Like the push CRD, it accepts `spec.hostAPI` for self-hosted instances.
 
     Apply the resource:
@@ -681,10 +681,10 @@ The [`InfisicalDynamicSecret`](/integrations/platforms/kubernetes/infisical-dyna
 
 Confirm the shared objects are healthy and all three workflows succeeded:
 
-- **Connection**: `kubectl get infisicalconnection infisical-connection -n default` shows `True` in the `READY` column.
-- **Auth**: `kubectl get infisicalauth infisical-auth -n default` shows `True` in the `READY` column.
+- **Connection**: `kubectl get vaultixconnection vaultix-connection -n default` shows `True` in the `READY` column.
+- **Auth**: `kubectl get vaultixauth vaultix-auth -n default` shows `True` in the `READY` column.
 - **Pull**: `kubectl exec -it $(kubectl get pod -l app=nginx -n default -o jsonpath='{.items[0].metadata.name}') -n default -- env | grep SMTP` prints `SMTP_HOST=smtp@gmail.com`.
-- **Push**: `API_KEY` appears in your Infisical project's environment.
+- **Push**: `API_KEY` appears in your vaultix project's environment.
 - **Dynamic**: `kubectl get secret dynamic-secret-test -n default -o jsonpath='{.data}' | jq` shows lease credentials.
 
 If all five checks pass, you have synced secrets in both directions and generated a leased database credential from Kubernetes.
@@ -694,45 +694,45 @@ If all five checks pass, you have synced secrets in both directions and generate
 If a sync does not produce the expected result, inspect the resources' status conditions and the operator logs before changing anything. For the pull path, diagnose in dependency order: connection first, then auth, then the static secret. Each resource only becomes ready after the one it references.
 
 <AccordionGroup>
-  <Accordion title="The InfisicalConnection is not Ready">
+  <Accordion title="The vaultixConnection is not Ready">
     Describe the resource and read its conditions:
 
     ```bash
-    kubectl describe infisicalconnection infisical-connection -n default
+    kubectl describe vaultixconnection vaultix-connection -n default
     ```
 
-    The operator sets `secrets.infisical.com/IsReady` from a health check: it calls `<address>/api/status` and expects a successful response. If `IsReady` is `False`, the condition message names the error. Common causes:
+    The operator sets `secrets.vaultix.com/IsReady` from a health check: it calls `<address>/api/status` and expects a successful response. If `IsReady` is `False`, the condition message names the error. Common causes:
 
-    - The address is wrong, or the Infisical instance is not reachable from inside the cluster (this direction is the operator calling Infisical).
-    - `spec.address` is empty and the operator's `INFISICAL_HOST_API` environment variable is not set. The error message says exactly this.
+    - The address is wrong, or the vaultix instance is not reachable from inside the cluster (this direction is the operator calling vaultix).
+    - `spec.address` is empty and the operator's `vaultix_HOST_API` environment variable is not set. The error message says exactly this.
     - A self-hosted instance uses a custom CA the operator does not trust. Reference the CA via `spec.tls.caCertificate`.
 
     Healthy connections are re-checked every 5 minutes, so a recovered instance can take a few minutes to show `Ready` again.
   </Accordion>
-  <Accordion title="The InfisicalAuth is not ready or authentication fails">
+  <Accordion title="The vaultixAuth is not ready or authentication fails">
     Describe the resource and read its conditions:
 
     ```bash
-    kubectl describe infisicalauth infisical-auth -n default
+    kubectl describe vaultixauth vaultix-auth -n default
     ```
 
-    The operator sets `secrets.infisical.com/IsReady` (the login result) and `secrets.infisical.com/AuthMethod` (the method in use). If `IsReady` is `False`, check these causes in order:
+    The operator sets `secrets.vaultix.com/IsReady` (the login result) and `secrets.vaultix.com/AuthMethod` (the method in use). If `IsReady` is `False`, check these causes in order:
 
-    - The referenced `InfisicalConnection` is not ready. The auth cannot log in until the connection's `IsReady` condition is `True`; fix the connection first.
+    - The referenced `vaultixConnection` is not ready. The auth cannot log in until the connection's `IsReady` condition is `True`; fix the connection first.
     - `identityIdRef` points at a missing Secret or key, or the stored Identity ID is wrong. Confirm with `kubectl get secret kubernetes-credentials -n default -o jsonpath='{.data.identityId}' | base64 -d`.
     - The Kubernetes Auth method is not fully wired: the **Token Reviewer JWT** was never pasted, or the service-account name or namespace does not match the **Allowed Service Account Names** / **Allowed Namespaces** you configured.
-    - **The cluster's API server is not reachable from the Infisical instance.** Kubernetes Auth requires the Infisical backend to call your cluster's TokenReview API at the **Kubernetes Host URL**. If you pasted a local address such as `https://127.0.0.1:6443` while using Infisical Cloud, every login fails even though the JWT and names are correct. Revisit the prerequisites.
+    - **The cluster's API server is not reachable from the vaultix instance.** Kubernetes Auth requires the vaultix backend to call your cluster's TokenReview API at the **Kubernetes Host URL**. If you pasted a local address such as `https://127.0.0.1:6443` while using vaultix Cloud, every login fails even though the JWT and names are correct. Revisit the prerequisites.
   </Accordion>
-  <Accordion title="The managed secret is missing or the InfisicalStaticSecret is not syncing">
+  <Accordion title="The managed secret is missing or the vaultixStaticSecret is not syncing">
     Describe the resource and read its conditions:
 
     ```bash
-    kubectl describe infisicalstaticsecret infisical-static-secret-demo -n default
+    kubectl describe vaultixstaticsecret vaultix-static-secret-demo -n default
     ```
 
-    The operator sets `secrets.infisical.com/LastReconcileStatus`: `True` with reason `OK` on success, or `False` with a "Reconciliation failed" message naming the error. Common causes:
+    The operator sets `secrets.vaultix.com/LastReconcileStatus`: `True` with reason `OK` on success, or `False` with a "Reconciliation failed" message naming the error. Common causes:
 
-    - The referenced `InfisicalAuth` is not ready. The static secret cannot sync until the auth's `IsReady` condition is `True`; work up the chain.
+    - The referenced `vaultixAuth` is not ready. The static secret cannot sync until the auth's `IsReady` condition is `True`; work up the chain.
     - A wrong `projectSlug`, `environmentSlug`, or `secretPath` in `sources`, or the Machine Identity lacks access to the project.
     - A source sets both or neither of `projectId`/`projectSlug`; exactly one is required.
 
@@ -742,23 +742,23 @@ If a sync does not produce the expected result, inspect the resources' status co
     kubectl logs -l control-plane=controller-manager -n default
     ```
   </Accordion>
-  <Accordion title="The push to Infisical did not appear">
+  <Accordion title="The push to vaultix did not appear">
     Describe the push resource:
 
     ```bash
-    kubectl describe infisicalpushsecret push-secret-demo -n default
+    kubectl describe vaultixpushsecret push-secret-demo -n default
     ```
 
-    Check the `secrets.infisical.com/Authenticated` and `secrets.infisical.com/Reconcile` conditions. Read the `Reconcile` condition's Reason and Message rather than its `True`/`False` status: on failure this condition reports `Status=True` with `Reason=Error`, the opposite of the usual Kubernetes convention, and the message names the error. Confirm `push.secret.secretName` matches an existing Kubernetes Secret and that `destination.projectSlug` and `destination.environmentSlug` are correct. If you self-host, confirm `spec.hostAPI` (or the Helm `hostAPI` value) points at your instance; otherwise the operator targets `https://app.infisical.com/api`.
+    Check the `secrets.vaultix.com/Authenticated` and `secrets.vaultix.com/Reconcile` conditions. Read the `Reconcile` condition's Reason and Message rather than its `True`/`False` status: on failure this condition reports `Status=True` with `Reason=Error`, the opposite of the usual Kubernetes convention, and the message names the error. Confirm `push.secret.secretName` matches an existing Kubernetes Secret and that `destination.projectSlug` and `destination.environmentSlug` are correct. If you self-host, confirm `spec.hostAPI` (or the Helm `hostAPI` value) points at your instance; otherwise the operator targets `https://app.vaultix.com/api`.
   </Accordion>
   <Accordion title="The dynamic secret lease was not created">
     Describe the dynamic-secret resource:
 
     ```bash
-    kubectl describe infisicaldynamicsecret dynamic-secret-demo -n default
+    kubectl describe vaultixdynamicsecret dynamic-secret-demo -n default
     ```
 
-    The operator sets `secrets.infisical.com/Authenticated`, `secrets.infisical.com/LeaseCreated`, and `secrets.infisical.com/LeaseRenewal`. A failed `LeaseCreated` carries whatever error lease creation returned, commonly an unreachable database or wrong connection credentials. Confirm the database is reachable from your Infisical instance and that the connection details entered in the UI are correct.
+    The operator sets `secrets.vaultix.com/Authenticated`, `secrets.vaultix.com/LeaseCreated`, and `secrets.vaultix.com/LeaseRenewal`. A failed `LeaseCreated` carries whatever error lease creation returned, commonly an unreachable database or wrong connection credentials. Confirm the database is reachable from your vaultix instance and that the connection details entered in the UI are correct.
   </Accordion>
 </AccordionGroup>
 
@@ -766,16 +766,16 @@ If a sync does not produce the expected result, inspect the resources' status co
 
 Remove the resources this tutorial created so you do not leave an active database lease or orphaned objects behind. Delete consumers before the objects they reference, so nothing reconciles against a missing dependency.
 
-1. Delete the sync resources. Deleting the `InfisicalDynamicSecret` with `leaseRevocationPolicy: Revoke` revokes the active database lease.
+1. Delete the sync resources. Deleting the `vaultixDynamicSecret` with `leaseRevocationPolicy: Revoke` revokes the active database lease.
 
     <Warning>
-      Because the push CRD was created with `deletionPolicy: Delete`, deleting it also removes the pushed `API_KEY` secret from your Infisical project. If you pushed into a shared environment, make sure that is what you want.
+      Because the push CRD was created with `deletionPolicy: Delete`, deleting it also removes the pushed `API_KEY` secret from your vaultix project. If you pushed into a shared environment, make sure that is what you want.
     </Warning>
 
     ```bash
-    kubectl delete infisicaldynamicsecret dynamic-secret-demo -n default
-    kubectl delete infisicalpushsecret push-secret-demo -n default
-    kubectl delete infisicalstaticsecret infisical-static-secret-demo -n default
+    kubectl delete vaultixdynamicsecret dynamic-secret-demo -n default
+    kubectl delete vaultixpushsecret push-secret-demo -n default
+    kubectl delete vaultixstaticsecret vaultix-static-secret-demo -n default
     ```
 
     Because the static secret's target used `creationPolicy: Owner`, the managed `managed-secret` is deleted along with the CRD.
@@ -783,8 +783,8 @@ Remove the resources this tutorial created so you do not leave an active databas
 2. Delete the auth object, then the connection it references:
 
     ```bash
-    kubectl delete infisicalauth infisical-auth -n default
-    kubectl delete infisicalconnection infisical-connection -n default
+    kubectl delete vaultixauth vaultix-auth -n default
+    kubectl delete vaultixconnection vaultix-connection -n default
     ```
 
 3. Delete the demo app and the remaining secrets, including the Identity ID Secret:
@@ -797,25 +797,25 @@ Remove the resources this tutorial created so you do not leave an active databas
 4. Delete the service accounts, their token secrets, and the ClusterRoleBinding:
 
     ```bash
-    kubectl delete secret infisical-token-reviewer-token infisical-service-account-token -n default
-    kubectl delete serviceaccount infisical-token-reviewer infisical-service-account -n default
-    kubectl delete clusterrolebinding infisical-token-reviewer-binding
+    kubectl delete secret vaultix-token-reviewer-token vaultix-service-account-token -n default
+    kubectl delete serviceaccount vaultix-token-reviewer vaultix-service-account -n default
+    kubectl delete clusterrolebinding vaultix-token-reviewer-binding
     ```
 
 5. Uninstall the operator:
 
     ```bash
-    helm uninstall infisical-operator
+    helm uninstall vaultix-operator
     ```
 
-6. In Infisical, delete the dynamic secret, the demo Machine Identity, and the demo Project if you no longer need them.
+6. In vaultix, delete the dynamic secret, the demo Machine Identity, and the demo Project if you no longer need them.
 
 ## Next steps
 
-- [InfisicalConnection CRD reference](/integrations/platforms/kubernetes/infisical-connection-crd)
-- [InfisicalAuth CRD reference](/integrations/platforms/kubernetes/infisical-auth-crd)
-- [InfisicalStaticSecret CRD reference](/integrations/platforms/kubernetes/infisical-static-secret-crd)
-- [InfisicalPushSecret CRD reference](/integrations/platforms/kubernetes/infisical-push-secret-crd)
-- [InfisicalDynamicSecret CRD reference](/integrations/platforms/kubernetes/infisical-dynamic-secret-crd)
-- [InfisicalSecret CRD reference (v1alpha1 pull)](/integrations/platforms/kubernetes/infisical-secret-crd)
+- [vaultixConnection CRD reference](/integrations/platforms/kubernetes/vaultix-connection-crd)
+- [vaultixAuth CRD reference](/integrations/platforms/kubernetes/vaultix-auth-crd)
+- [vaultixStaticSecret CRD reference](/integrations/platforms/kubernetes/vaultix-static-secret-crd)
+- [vaultixPushSecret CRD reference](/integrations/platforms/kubernetes/vaultix-push-secret-crd)
+- [vaultixDynamicSecret CRD reference](/integrations/platforms/kubernetes/vaultix-dynamic-secret-crd)
+- [vaultixSecret CRD reference (v1alpha1 pull)](/integrations/platforms/kubernetes/vaultix-secret-crd)
 - [Kubernetes Auth for Machine Identities](/documentation/platform/identities/kubernetes-auth)

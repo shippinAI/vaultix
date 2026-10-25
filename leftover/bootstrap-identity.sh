@@ -20,7 +20,7 @@ set -euo pipefail
 MODE="${1:?mode: read|write}"
 BASE="${2:?base url}"
 case "$BASE" in
-  *infisical.com*|*github.com/Infisical*|*github.com/infisical*)
+  *vaultix.com*|*github.com/vaultix*|*github.com/vaultix*)
     echo "refused: no connection to a snapshot host" >&2
     exit 2
     ;;

@@ -1,14 +1,14 @@
 ---
 title: "Key Management Service (KMS)"
 sidebarTitle: "Overview"
-description: "Learn how to manage and use cryptographic keys with Infisical."
+description: "Learn how to manage and use cryptographic keys with vaultix."
 ---
 
 ## Concept
 
-Infisical can be used as a Key Management System (KMS), referred to as Infisical KMS, to centralize management of keys to be used for cryptographic operations like encryption/decryption.
+vaultix can be used as a Key Management System (KMS), referred to as vaultix KMS, to centralize management of keys to be used for cryptographic operations like encryption/decryption.
 
-By default your Infisical data such as projects and the data within them are encrypted at rest using Infisical's own KMS. This ensures that your data is secure and protected from unauthorized access.
+By default your vaultix data such as projects and the data within them are encrypted at rest using vaultix's own KMS. This ensures that your data is secure and protected from unauthorized access.
 
 If you are on-premise, your KMS root key will be created at random with the `ROOT_ENCRYPTION_KEY` environment variable. You can also use a Hardware Security Module (HSM), to create the root key. Read more about [HSM](/self-hosting/guides/hsm-integration). 
 
@@ -19,14 +19,14 @@ If you are on-premise, your KMS root key will be created at random with the `ROO
 
 ## Workflow
 
-The typical workflow for using Infisical KMS consists of the following steps:
+The typical workflow for using vaultix KMS consists of the following steps:
 
 1. Creating a KMS key. As part of this step, you specify a name for the key and the encryption algorithm meant to be used for it (e.g. `AES-GCM-128`, `AES-GCM-256`).
-2. Encryption: To encrypt data, you would make a request to the Infisical KMS API endpoint, specifying the base64-encoded plaintext and the intended key to use for encryption; the API would return the base64-encoded ciphertext.
-3. Decryption: To decrypt data, you would make a request to the Infisical KMS API endpoint, specifying the base64-encoded ciphertext and the intended key to use for decryption; the API would return the base64-encoded plaintext.
+2. Encryption: To encrypt data, you would make a request to the vaultix KMS API endpoint, specifying the base64-encoded plaintext and the intended key to use for encryption; the API would return the base64-encoded ciphertext.
+3. Decryption: To decrypt data, you would make a request to the vaultix KMS API endpoint, specifying the base64-encoded ciphertext and the intended key to use for decryption; the API would return the base64-encoded plaintext.
 
 <Note>
-  Note that this workflow can be executed via the Infisical UI or manually such
+  Note that this workflow can be executed via the vaultix UI or manually such
   as via API.
 </Note>
 
@@ -37,11 +37,11 @@ The typical workflow for using Infisical KMS consists of the following steps:
 In the following steps, we explore how to generate a key and use it to encrypt data.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Creating a KMS key">
                 Navigate to Project > Key Management and tap on the **Add Key** button.
-                ![kms add key button](/images/platform/kms/infisical-kms/kms-add-key.png)
+                ![kms add key button](/images/platform/kms/vaultix-kms/kms-add-key.png)
 
                 Specify your key details. Here's some guidance on each field:
 
@@ -49,16 +49,16 @@ In the following steps, we explore how to generate a key and use it to encrypt d
                 - Key Usage: The type of key to create (e.g `Encrypt/Decrypt` for encryption, `Sign/Verify` for signing, and `Generate/Verify MAC` for message authentication codes).
                 - Algorithm: The encryption algorithm associated with the key (e.g. `AES-GCM-256`).
                 - Description: An optional description of what the intended usage is for the key.
-                - Allow Export: Whether the raw key material can be exported later. When disabled, the key material can never leave Infisical, regardless of permissions. This cannot be changed after the key is created.
+                - Allow Export: Whether the raw key material can be exported later. When disabled, the key material can never leave vaultix, regardless of permissions. This cannot be changed after the key is created.
 
-                ![kms add key modal](/images/platform/kms/infisical-kms/kms-add-key-modal.png)
+                ![kms add key modal](/images/platform/kms/vaultix-kms/kms-add-key-modal.png)
             </Step>
             <Step title="Encrypting data with the KMS key">
                 Once your key is generated, open the options menu for the newly created key and select encrypt data.
-                ![kms key options](/images/platform/kms/infisical-kms/kms-key-options.png)
+                ![kms key options](/images/platform/kms/vaultix-kms/kms-key-options.png)
 
                 Populate the text area with your data and tap on the Encrypt button.
-                ![kms encrypt data](/images/platform/kms/infisical-kms/kms-encrypt-data.png)
+                ![kms encrypt data](/images/platform/kms/vaultix-kms/kms-encrypt-data.png)
 
                 <Note>
                     If your data is already Base64 encoded make sure to toggle the respective switch on to avoid
@@ -66,7 +66,7 @@ In the following steps, we explore how to generate a key and use it to encrypt d
                 </Note>
 
                 Copy and store the encrypted data.
-                ![kms encrypted data](/images/platform/kms/infisical-kms/kms-encrypted-data.png)
+                ![kms encrypted data](/images/platform/kms/vaultix-kms/kms-encrypted-data.png)
             </Step>
         </Steps>
     </Tab>
@@ -80,7 +80,7 @@ In the following steps, we explore how to generate a key and use it to encrypt d
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys \
+                --url https://app.vaultix.com/api/v1/kms/keys \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "projectId": "<project-id>",
@@ -121,7 +121,7 @@ In the following steps, we explore how to generate a key and use it to encrypt d
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/encrypt \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/encrypt \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "plaintext": "lUFHM5Ggwo6TOfpuN1S==" // base64 encoded plaintext
@@ -143,24 +143,24 @@ In the following steps, we explore how to generate a key and use it to encrypt d
 
 ### Guide to Decrypting Data
 
-In the following steps, we explore how to use decrypt data using an existing key in Infisical KMS.
+In the following steps, we explore how to use decrypt data using an existing key in vaultix KMS.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Accessing your key">
                 Navigate to Project > Key Management and open the options menu for the key used to encrypt the data
                 you want to decrypt.
-                ![kms key options](/images/platform/kms/infisical-kms/kms-decrypt-options.png)
+                ![kms key options](/images/platform/kms/vaultix-kms/kms-decrypt-options.png)
 
             </Step>
             <Step title="Decrypting your data">
                 Paste your encrypted data into the text area and tap on the Decrypt button. Optionally, if your data was
                 originally plain text, enable the decode Base64 switch.
-                ![kms decrypt data](/images/platform/kms/infisical-kms/kms-decrypt-data.png)
+                ![kms decrypt data](/images/platform/kms/vaultix-kms/kms-decrypt-data.png)
 
                 Your decrypted data will be displayed and can be copied for use.
-                ![kms decrypted data](/images/platform/kms/infisical-kms/kms-decrypted-data.png)
+                ![kms decrypted data](/images/platform/kms/vaultix-kms/kms-decrypted-data.png)
 
             </Step>
         </Steps>
@@ -176,7 +176,7 @@ In the following steps, we explore how to use decrypt data using an existing key
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/decrypt \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/decrypt \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "ciphertext": "HwFHwSFHwlMF6TOfp==" // base64 encoded ciphertext
@@ -204,11 +204,11 @@ In the following steps, we explore how to use decrypt data using an existing key
 In the following steps, we explore how to generate a key and use it to sign data.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Creating a KMS key">
                 Navigate to Project > Key Management and tap on the **Add Key** button.
-                ![kms add key button](/images/platform/kms/infisical-kms/kms-add-key.png)
+                ![kms add key button](/images/platform/kms/vaultix-kms/kms-add-key.png)
 
                 Specify your key details. Here's some guidance on each field:
 
@@ -217,15 +217,15 @@ In the following steps, we explore how to generate a key and use it to sign data
                 - Algorithm: The signing algorithm associated with the key (e.g. `RSA_4096`).
                 - Description: An optional description of what the intended usage is for the key.
 
-                ![kms add key modal](/images/platform/kms/infisical-kms/signing/add-new-rsa-key.png)
+                ![kms add key modal](/images/platform/kms/vaultix-kms/signing/add-new-rsa-key.png)
             </Step>
 
             <Step title="Signing data with the KMS key">
               Once your key is generated, open the options menu for the newly created key and select sign data.
-              ![kms key options](/images/platform/kms/infisical-kms/signing/sign-options.png)
+              ![kms key options](/images/platform/kms/vaultix-kms/signing/sign-options.png)
 
               Populate the text area with your data and tap on the Sign button.
-              ![kms sign data](/images/platform/kms/infisical-kms/signing/sign-data-modal.png)
+              ![kms sign data](/images/platform/kms/vaultix-kms/signing/sign-data-modal.png)
 
               Make sure to select the appropriate signing algorithm that will be used to sign the data.
               Supported signing algorithms are:
@@ -251,7 +251,7 @@ In the following steps, we explore how to generate a key and use it to sign data
                ML-DSA is a NIST-standardized post-quantum digital signature algorithm. Unlike RSA and ECC, each ML-DSA key variant has exactly one signing algorithm (itself), and does not use a separate hash algorithm.
 
                <Info>
-                ML-DSA algorithms are an enterprise feature. Self-hosted users can contact [sales@infisical.com](mailto:sales@infisical.com) to purchase an enterprise license.
+                ML-DSA algorithms are an enterprise feature. Self-hosted users can contact [sales@vaultix.com](mailto:sales@vaultix.com) to purchase an enterprise license.
                </Info>
 
                In this example, we'll use the `RSASSA PSS SHA 512` signing algorithm.
@@ -262,7 +262,7 @@ In the following steps, we explore how to generate a key and use it to sign data
               </Note>
 
                Copy and store the signature of your data.
-               ![kms signed data](/images/platform/kms/infisical-kms/signing/copy-signature.png)
+               ![kms signed data](/images/platform/kms/vaultix-kms/signing/copy-signature.png)
             </Step>
         </Steps>
     </Tab>
@@ -277,7 +277,7 @@ In the following steps, we explore how to generate a key and use it to sign data
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/sign \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/sign \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "data": "SGVsbG8sIFdvcmxkIQ==", // base64 encoded data
@@ -306,23 +306,23 @@ In the following steps, we explore how to generate a key and use it to sign data
 
 ### Guide to Verifying Data
 
-In the following steps, we explore how to verify data using an existing key in Infisical KMS.
+In the following steps, we explore how to verify data using an existing key in vaultix KMS.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Accessing your key">
                 Navigate to Project > Key Management and open the options menu for the key used to sign the data
                 you want to verify.
-                ![kms key options](/images/platform/kms/infisical-kms/signing/sign-options.png)
+                ![kms key options](/images/platform/kms/vaultix-kms/signing/sign-options.png)
             </Step>
 
             <Step title="Verifying data with the KMS key">
                 Paste your signature and data into the text areas and tap on the Verify button.
-                ![kms verify data](/images/platform/kms/infisical-kms/signing/verify-data-modal.png)
+                ![kms verify data](/images/platform/kms/vaultix-kms/signing/verify-data-modal.png)
 
                 Your verification result will be displayed and can be copied for use.
-                ![kms verified data](/images/platform/kms/infisical-kms/signing/signature-verified.png)
+                ![kms verified data](/images/platform/kms/vaultix-kms/signing/signature-verified.png)
 
                 If the signature is invalid, you'll see an error message indicating that the signature is invalid, and the "Signature Status" field will be `Invalid`.
             </Step>
@@ -339,7 +339,7 @@ In the following steps, we explore how to verify data using an existing key in I
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/verify \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/verify \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "data": "SGVsbG8sIFdvcmxkIQ==", // base64 encoded data
@@ -375,11 +375,11 @@ HMAC keys generate and verify hash-based message authentication codes, which con
 In the following steps, we explore how to generate a key and use it to produce a MAC.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Creating a KMS key">
                 Navigate to Project > Key Management and tap on the **Add Key** button.
-                ![kms add key button](/images/platform/kms/infisical-kms/kms-add-key.png)
+                ![kms add key button](/images/platform/kms/vaultix-kms/kms-add-key.png)
 
                 Specify your key details. Here's some guidance on each field:
 
@@ -387,7 +387,7 @@ In the following steps, we explore how to generate a key and use it to produce a
                 - Key Usage: Select `Generate/Verify MAC`.
                 - Algorithm: The HMAC algorithm associated with the key (e.g. `HMAC_SHA_256`). Supported algorithms are `HMAC_SHA_1`, `HMAC_SHA_224`, `HMAC_SHA_256`, `HMAC_SHA_384`, and `HMAC_SHA_512`.
                 - Description: An optional description of what the intended usage is for the key.
-                - Allow Export: Whether the raw key material can be exported later. When disabled, the key material can never leave Infisical, regardless of permissions. This cannot be changed after the key is created.
+                - Allow Export: Whether the raw key material can be exported later. When disabled, the key material can never leave vaultix, regardless of permissions. This cannot be changed after the key is created.
             </Step>
             <Step title="Generating a MAC with the KMS key">
                 Once your key is generated, open the options menu for the newly created key and select generate MAC.
@@ -414,7 +414,7 @@ In the following steps, we explore how to generate a key and use it to produce a
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/generate-mac \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/generate-mac \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "data": "SGVsbG8sIFdvcmxkIQ==" // base64 encoded data
@@ -437,10 +437,10 @@ In the following steps, we explore how to generate a key and use it to produce a
 
 ### Guide to Verifying a MAC
 
-In the following steps, we explore how to verify a MAC using an existing key in Infisical KMS.
+In the following steps, we explore how to verify a MAC using an existing key in vaultix KMS.
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Accessing your key">
                 Navigate to Project > Key Management and open the options menu for the key used to generate the MAC
@@ -464,7 +464,7 @@ In the following steps, we explore how to verify a MAC using an existing key in 
 
                 ```bash Request
                 curl --request POST \
-                --url https://app.infisical.com/api/v1/kms/keys/<key-id>/verify-mac \
+                --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/verify-mac \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "data": "SGVsbG8sIFdvcmxkIQ==", // base64 encoded data
@@ -493,7 +493,7 @@ Every KMS key tracks a version, starting at 1. Rotating a key generates new cryp
 How rotation behaves:
 
 - New encrypt operations use the latest key material.
-- All previous key material versions are retained inside Infisical, and decrypt operations automatically use the version that encrypted the ciphertext. Existing ciphertexts remain decryptable through Infisical without re-encryption.
+- All previous key material versions are retained inside vaultix, and decrypt operations automatically use the version that encrypted the ciphertext. Existing ciphertexts remain decryptable through vaultix without re-encryption.
 - Rotation does not re-encrypt data that was already encrypted with the key. If you need ciphertexts to use the new material, decrypt and re-encrypt them.
 
 To rotate a key:
@@ -505,13 +505,13 @@ To rotate a key:
 Keys can also be rotated programmatically via the [rotate key API endpoint](/api-reference/endpoints/kms/keys/rotate).
 
 <Note>
-  Rotation is supported for encrypt-decrypt keys with Infisical-managed key material. Sign-verify and
+  Rotation is supported for encrypt-decrypt keys with vaultix-managed key material. Sign-verify and
   generate-verify-MAC keys should be rotated manually by creating a new key and updating your applications
   to use it.
 </Note>
 
 <Warning>
-  Previous key material versions are retained only inside the Infisical instance where the key lives, and decrypt operations that resolve old versions automatically work only through Infisical's encrypt/decrypt API. Two workflows take key material outside of Infisical and only ever receive the current version, so rotation affects them:
+  Previous key material versions are retained only inside the vaultix instance where the key lives, and decrypt operations that resolve old versions automatically work only through vaultix's encrypt/decrypt API. Two workflows take key material outside of vaultix and only ever receive the current version, so rotation affects them:
 
   - **Exported or imported key material.** [Bulk export](#bulk-export) and the private-key export endpoints return only the current key material, and [bulk import](#bulk-import) creates a key at version 1. A key exported before rotation, or imported into another instance, will not carry its earlier versions, so ciphertexts encrypted under those earlier versions cannot be decrypted from the exported material alone. If you rely on exported material for escrow or disaster recovery, re-export after each rotation and keep every exported version.
 
@@ -520,14 +520,14 @@ Keys can also be rotated programmatically via the [rotate key API endpoint](/api
 
 ## Bulk Export & Import
 
-Infisical KMS supports bulk export and bulk import of key material, allowing you to export multiple keys at once or import keys in bulk from an external file.
+vaultix KMS supports bulk export and bulk import of key material, allowing you to export multiple keys at once or import keys in bulk from an external file.
 
 ### Bulk Export
 
 1. Navigate to **Project > Key Management**.
 2. Use the checkboxes to select the keys you want to export (up to 100 at a time).
 3. Click the **Export** button that appears in the action bar above the table.
-![kms bulk export](/images/platform/kms/infisical-kms/kms-bulk-export.png)
+![kms bulk export](/images/platform/kms/vaultix-kms/kms-bulk-export.png)
 4. A `.json` file is downloaded containing the key metadata and key material.
 
 The exported file is a JSON array where each entry is one of the following shapes:
@@ -574,9 +574,9 @@ The exported file is a JSON array where each entry is one of the following shape
 2. In the top-right of the keys table, click the dropdown arrow next to **Add Key** and select **Import Keys**.
 3. Upload a `.json` file matching the export format described above (drag and drop, or click to browse).
    Each entry may also include an optional `"isExportable": false` field to import the key as non-exportable.
-![kms import modal](/images/platform/kms/infisical-kms/kms-import-modal.png)
+![kms import modal](/images/platform/kms/vaultix-kms/kms-import-modal.png)
 4. A preview of the keys to be imported is shown, along with any validation errors.
-![kms import preview](/images/platform/kms/infisical-kms/kms-import-preview.png)
+![kms import preview](/images/platform/kms/vaultix-kms/kms-import-preview.png)
 5. Click **Import** to create the keys in the project.
 
 <Note>
@@ -586,16 +586,16 @@ The exported file is a JSON array where each entry is one of the following shape
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="Is my data stored in Infisical KMS?">
-    No. Infisical's KMS only provides cryptographic services and does not store
+  <Accordion title="Is my data stored in vaultix KMS?">
+    No. vaultix's KMS only provides cryptographic services and does not store
     any encrypted or decrypted data.
   </Accordion>
-  <Accordion title="Can key material be accessed outside of Infisical KMS?">
-    No. Infisical's KMS will never expose your keys, encrypted or decrypted, to
+  <Accordion title="Can key material be accessed outside of vaultix KMS?">
+    No. vaultix's KMS will never expose your keys, encrypted or decrypted, to
     external sources.
   </Accordion>
-  <Accordion title="What algorithms does Infisical KMS support?">
-    Infisical supports the following key algorithms:
+  <Accordion title="What algorithms does vaultix KMS support?">
+    vaultix supports the following key algorithms:
 
     **Signing and verification:**
     - `RSA_4096`
@@ -616,11 +616,11 @@ The exported file is a JSON array where each entry is one of the following shape
     - `HMAC_SHA_512`
 
     <Info>
-      ML-DSA algorithms are an enterprise feature. Self-hosted users can contact [sales@infisical.com](mailto:sales@infisical.com) to purchase an enterprise license.
+      ML-DSA algorithms are an enterprise feature. Self-hosted users can contact [sales@vaultix.com](mailto:sales@vaultix.com) to purchase an enterprise license.
     </Info>
   </Accordion>
-  <Accordion title="How do I sign and verify a digest using the Infisical KMS?">
-    To sign and verify a digest using the Infisical KMS, you can use the `Sign` and `Verify` endpoints respectively.
+  <Accordion title="How do I sign and verify a digest using the vaultix KMS?">
+    To sign and verify a digest using the vaultix KMS, you can use the `Sign` and `Verify` endpoints respectively.
     You will need to pass `"isDigest": true` in the request body to indicate that you are signing or verifying a digest.
     The data you are signing or verifying will need to be a base64 encoded digest of the data you wish to sign or verify.
     It's important that the digest is created using the same hashing algorithm as the signing algorithm. As an example, you would create the digest with `SHA512` if you are using the `RSASSA_PKCS1_V1_5_SHA_512` signing algorithm.
@@ -634,7 +634,7 @@ The exported file is a JSON array where each entry is one of the following shape
 
     ```bash Request
     curl --request POST \
-    --url https://app.infisical.com/api/v1/kms/keys/<key-id>/sign \
+    --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/sign \
     --header 'Content-Type: application/json' \
     --data '{
     "data": <digest-output-of-openssl-command>,
@@ -657,7 +657,7 @@ The exported file is a JSON array where each entry is one of the following shape
 
     ```bash Request
     curl --request POST \
-    --url https://app.infisical.com/api/v1/kms/keys/<key-id>/verify \
+    --url https://app.vaultix.com/api/v1/kms/keys/<key-id>/verify \
     --header 'Content-Type: application/json' \
     --data '{
     "data": <digest-output-of-openssl-command>,

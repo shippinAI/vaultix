@@ -1,6 +1,6 @@
 ---
 title: "General LDAP"
-description: "Learn how to log in to Infisical with LDAP."
+description: "Learn how to log in to vaultix with LDAP."
 ---
 
 <Note>
@@ -9,21 +9,21 @@ description: "Learn how to log in to Infisical with LDAP."
 </Note>
 
 <Info>
-  LDAP is a paid feature. If you're using Infisical Cloud, then it is available
-  under the **Enterprise Tier**. If you're self-hosting Infisical, then you
-  should contact sales@infisical.com to purchase an enterprise license to use
+  LDAP is a paid feature. If you're using vaultix Cloud, then it is available
+  under the **Enterprise Tier**. If you're self-hosting vaultix, then you
+  should contact sales@vaultix.com to purchase an enterprise license to use
   it.
 </Info>
 
-You can configure your organization in Infisical to have members authenticate with the platform via [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
+You can configure your organization in vaultix to have members authenticate with the platform via [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
 
 Prerequisites:
 
 - You must have an email address to use LDAP, regardless of whether or not you use that email address to sign in.
 
 <Steps>
-   <Step title="Prepare the LDAP configuration in Infisical">
-        In Infisical, head to the **Single Sign-On (SSO)** page and select the **General** tab. Select **Connect** for **LDAP**.
+   <Step title="Prepare the LDAP configuration in vaultix">
+        In vaultix, head to the **Single Sign-On (SSO)** page and select the **General** tab. Select **Connect** for **LDAP**.
 
         ![LDAP SSO Connect](../../../images/sso/connect-ldap.png)
 
@@ -34,7 +34,7 @@ Prerequisites:
         Here's some guidance for each field:
 
         - URL: The LDAP server to connect to such as `ldap://ldap.your-org.com`, `ldaps://ldap.myorg.com:636` (for connection over SSL/TLS), etc.
-        - Bind DN: The distinguished name of object to bind when performing the user search such as `cn=infisical,ou=Users,dc=acme,dc=com`.
+        - Bind DN: The distinguished name of object to bind when performing the user search such as `cn=vaultix,ou=Users,dc=acme,dc=com`.
         - Bind Pass: The password to use along with `Bind DN` when performing the user search.
         - User Search Base / User DN: Base DN under which to perform user search such as `ou=Users,dc=acme,dc=com`.
         - Unique User Attribute: The attribute to use as the unique identifier of LDAP users such as `sAMAccountName`, `cn`, `uid`, `objectGUID` ... If left blank, defaults to `uidNumber`
@@ -44,43 +44,43 @@ Prerequisites:
         - CA Certificate: The CA certificate to use when verifying the LDAP server certificate.
 
      <Note>
-          The **Group Search Base / Group DN** and **Group Filter** fields are both required if you wish to sync LDAP groups to Infisical.
+          The **Group Search Base / Group DN** and **Group Filter** fields are both required if you wish to sync LDAP groups to vaultix.
      </Note>
 
    </Step>
    <Step title="Test the LDAP connection">
       Once you've filled out the LDAP configuration, you can test that part of the configuration is correct by pressing the **Test Connection** button.
 
-      Infisical will attempt to bind to the LDAP server using the provided **URL**, **Bind DN**, and **Bind Pass**. If the operation is successful, then Infisical will display a success message; if not, then Infisical will display an error message and provide a fuller error in the server logs.
+      vaultix will attempt to bind to the LDAP server using the provided **URL**, **Bind DN**, and **Bind Pass**. If the operation is successful, then vaultix will display a success message; if not, then vaultix will display an error message and provide a fuller error in the server logs.
 
         ![LDAP test connection](/images/platform/ldap/ldap-test-connection.png)
     </Step>
 
-   <Step title="Define mappings from LDAP groups to groups in Infisical">
-     In order to sync LDAP groups to Infisical, head to the **LDAP Group Mappings** section to define mappings from LDAP groups to groups in Infisical.
+   <Step title="Define mappings from LDAP groups to groups in vaultix">
+     In order to sync LDAP groups to vaultix, head to the **LDAP Group Mappings** section to define mappings from LDAP groups to groups in vaultix.
      
      ![LDAP group mappings section](/images/platform/ldap/ldap-group-mappings-section.png)
      
-     Group mappings ensure that users who log into Infisical via LDAP are added to or removed from the Infisical group(s) that corresponds to the LDAP group(s) they are a member of.
+     Group mappings ensure that users who log into vaultix via LDAP are added to or removed from the vaultix group(s) that corresponds to the LDAP group(s) they are a member of.
      
      ![LDAP group mappings table](/images/platform/ldap/ldap-group-mappings-table.png)
      
      Each group mapping consists of two parts: 
      - LDAP Group CN: The common name of the LDAP group to map.
-     - Infisical Group: The Infisical group to map the LDAP group to.
+     - vaultix Group: The vaultix group to map the LDAP group to.
      
-     For example, suppose you want to automatically add a user who is part of the LDAP group with CN `Engineers` to the Infisical group `Engineers` when the user sets up their account with Infisical.
+     For example, suppose you want to automatically add a user who is part of the LDAP group with CN `Engineers` to the vaultix group `Engineers` when the user sets up their account with vaultix.
      
-     In this case, you would specify a mapping from the LDAP group with CN `Engineers` to the Infisical group `Engineers`.
-     Now when the user logs into Infisical via LDAP, Infisical will check the LDAP groups that the user is a part of whilst referencing the group mappings you created earlier. Since the user is a member of the LDAP group with CN `Engineers`, they will be added to the Infisical group `Engineers`.
-     In the future, if the user is no longer part of the LDAP group with CN `Engineers`, they will be removed from the Infisical group `Engineers` upon their next login.
+     In this case, you would specify a mapping from the LDAP group with CN `Engineers` to the vaultix group `Engineers`.
+     Now when the user logs into vaultix via LDAP, vaultix will check the LDAP groups that the user is a part of whilst referencing the group mappings you created earlier. Since the user is a member of the LDAP group with CN `Engineers`, they will be added to the vaultix group `Engineers`.
+     In the future, if the user is no longer part of the LDAP group with CN `Engineers`, they will be removed from the vaultix group `Engineers` upon their next login.
      <Note>
-          Prior to defining any group mappings, ensure that you've created the Infisical groups that you want to map the LDAP groups to.
-          You can read more about creating (user) groups in Infisical [here](/documentation/platform/groups).
+          Prior to defining any group mappings, ensure that you've created the vaultix groups that you want to map the LDAP groups to.
+          You can read more about creating (user) groups in vaultix [here](/documentation/platform/groups).
      </Note>
    </Step>
-   <Step title="Enable LDAP in Infisical">
-        Enabling LDAP allows members in your organization to log into Infisical via LDAP.
+   <Step title="Enable LDAP in vaultix">
+        Enabling LDAP allows members in your organization to log into vaultix via LDAP.
         ![LDAP toggle](/images/platform/ldap/ldap-toggle.png)
    </Step>
 </Steps>

@@ -1,28 +1,28 @@
 ---
 title: "Django"
-description: "How to use Infisical to inject environment variables and secrets into a Django app."
+description: "How to use vaultix to inject environment variables and secrets into a Django app."
 ---
 
 Prerequisites:
 
-- Set up and add envars to [Infisical Cloud](https://app.infisical.com)
+- Set up and add envars to [vaultix Cloud](https://app.vaultix.com)
 - [Install the CLI](/cli/overview)
 
-## Initialize Infisical for your [Django](https://www.djangoproject.com) project
+## Initialize vaultix for your [Django](https://www.djangoproject.com) project
 
 ```bash
 # navigate to the root of your of your project 
 cd /path/to/project
 
-# then initialize Infisical
-infisical init
+# then initialize vaultix
+vaultix init
 ```
 
-## Start your application as usual but with Infisical
+## Start your application as usual but with vaultix
 
 ```bash
-infisical run -- <your application start command>
+vaultix run -- <your application start command>
 
 # Example
-infisical run -- python manage.py runserver
+vaultix run -- python manage.py runserver
 ```

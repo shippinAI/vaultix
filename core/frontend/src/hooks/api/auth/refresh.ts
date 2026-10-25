@@ -6,7 +6,7 @@ import { GetAuthTokenAPI } from "./types";
 
 // BroadcastChannel for cross-tab token synchronization
 const tokenBroadcastChannel =
-  typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("infisical-token-refresh") : null;
+  typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("vaultix-token-refresh") : null;
 
 // Listen for token updates from other tabs
 if (tokenBroadcastChannel) {

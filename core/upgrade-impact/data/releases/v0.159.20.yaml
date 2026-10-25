@@ -13,7 +13,7 @@ dbSchemaChanges:
     description: Adds a nullable `reason` column to `pam_sessions`. Existing rows
       remain valid and startup applies it only if the table exists and the
       column is missing.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -24,7 +24,7 @@ dbSchemaChanges:
     description: Adds a nullable `encryptedPrivateKey` column to
       `certificate_requests`. Existing rows remain valid and startup applies it
       only if the table exists and the column is missing.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -35,7 +35,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:49:59.071Z

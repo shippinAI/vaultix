@@ -1,6 +1,6 @@
 ### Available helper functions
 
-The Infisical Secrets Operator exposes a wide range of helper functions to make it easier to work with secrets in Kubernetes.
+The vaultix Secrets Operator exposes a wide range of helper functions to make it easier to work with secrets in Kubernetes.
 
 <AccordionGroup>
 
@@ -275,11 +275,11 @@ The Infisical Secrets Operator exposes a wide range of helper functions to make 
 </Accordion>
 
 <Accordion title="secretFrom">
-  <Note>This function is only available in `v1beta1` resources (e.g. `InfisicalStaticSecret`).</Note>
+  <Note>This function is only available in `v1beta1` resources (e.g. `vaultixStaticSecret`).</Note>
 
-  Resolves a secret from a specific folder path within the Infisical project. Takes a path and a secret name as parameters, and returns the secret's value by default. You can optionally use `.Value` or `.SecretPath` accessors on the result -- if omitted, `.Value` is used.
+  Resolves a secret from a specific folder path within the vaultix project. Takes a path and a secret name as parameters, and returns the secret's value by default. You can optionally use `.Value` or `.SecretPath` accessors on the result -- if omitted, `.Value` is used.
 
-  This is especially useful when multiple secrets share the same key, either from recursive fetches across different paths or from multiple sources. In both cases, the merge strategy only keeps the first occurrence (read more [here](/integrations/platforms/kubernetes/infisical-static-secret-crd#sources)), so `secretFrom` lets you explicitly select the one you need by its full path.
+  This is especially useful when multiple secrets share the same key, either from recursive fetches across different paths or from multiple sources. In both cases, the merge strategy only keeps the first occurrence (read more [here](/integrations/platforms/kubernetes/vaultix-static-secret-crd#sources)), so `secretFrom` lets you explicitly select the one you need by its full path.
 
   <Note>
     If multiple sources contain a secret with the same name and path, the secret from the first source listed in the `sources` array will be used.
@@ -308,7 +308,7 @@ The Infisical Secrets Operator exposes a wide range of helper functions to make 
 
 ### Sprig functions
 
-The Infisical Secrets Operator integrates with the [Sprig library](https://github.com/Masterminds/sprig) to provide additional helper functions.
+The vaultix Secrets Operator integrates with the [Sprig library](https://github.com/Masterminds/sprig) to provide additional helper functions.
 
 <Note>
   We've removed `expandEnv` and `env` from the supported functions for security reasons.

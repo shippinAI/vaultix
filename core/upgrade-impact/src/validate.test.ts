@@ -40,7 +40,7 @@ const makeRelease = (overrides: Partial<ReleaseImpact> = {}): ReleaseImpact => {
     deploymentNotes: [],
     knownIssues: [],
     generatedBy: {
-      generator: "@infisical/upgrade-impact",
+      generator: "@vaultix/upgrade-impact",
       generatorVersion: "1",
       model: "test",
       generatedAt: "2026-04-29T00:00:00.000Z",

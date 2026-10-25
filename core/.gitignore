@@ -5,7 +5,7 @@ node_modules
 .env.dev
 .env.gamma
 .env.prod
-.env.infisical
+.env.vaultix
 .env.migration
 *~
 *.swp
@@ -54,12 +54,12 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .vercel
-.env.infisical
+.env.vaultix
 
-# Infisical init
-.infisical.json
+# vaultix init
+.vaultix.json
 
-.infisicalignore
+.vaultixignore
 
 # Editor specific
 .vscode/*
@@ -69,10 +69,10 @@ yarn-error.log*
 frontend-build
 
 *.tgz
-cli/infisical-merge
-cli/test/infisical-merge
+cli/vaultix-merge
+cli/test/vaultix-merge
 /backend/binary
-backend/bdd/.bdd-infisical-bootstrap-result.json
+backend/bdd/.bdd-vaultix-bootstrap-result.json
 upgrade-impact/.local-output/
 
 /npm/bin

@@ -83,7 +83,7 @@ export const CriblProviderAuditLogStreamForm = ({ auditLogStream, onSubmit }: Pr
                   <TooltipContent className="max-w-sm">
                     To derive your Stream URL: Obtain your Cribl hostname (e.g. cribl.example.com),
                     Vaultix HTTP data source port (e.g. 20000), and HTTP event API path (e.g.
-                    /infisical).
+                    /vaultix).
                     <br />
                     <br />
                     If your Vaultix Data Source has TLS enabled, then use the https protocol.
@@ -93,7 +93,7 @@ export const CriblProviderAuditLogStreamForm = ({ auditLogStream, onSubmit }: Pr
               <Input
                 id="cribl-url"
                 {...field}
-                placeholder="http://default.main.example.cribl.cloud:20000/infisical/_bulk"
+                placeholder="http://default.main.example.cribl.cloud:20000/vaultix/_bulk"
                 isError={Boolean(error?.message)}
               />
               <FieldError errors={[error]} />

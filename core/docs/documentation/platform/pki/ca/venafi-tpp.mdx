@@ -1,15 +1,15 @@
 ---
 title: "Venafi TPP"
-description: "Learn how to issue and manage certificates using a self-hosted Venafi Trust Protection Platform (TPP) instance with Infisical."
+description: "Learn how to issue and manage certificates using a self-hosted Venafi Trust Protection Platform (TPP) instance with vaultix."
 ---
 
-Issue and manage certificates using a self-hosted Venafi Trust Protection Platform (TPP) instance as an external CA, with support for airgapped environments via Infisical Gateway.
+Issue and manage certificates using a self-hosted Venafi Trust Protection Platform (TPP) instance as an external CA, with support for airgapped environments via vaultix Gateway.
 
 ## Prerequisites
 
 - A [Venafi TPP Connection](/integrations/app-connections/venafi-tpp) configured in your organization
 - A policy folder in your TPP instance configured with an appropriate CA template
-- Network connectivity from Infisical (or an Infisical Gateway) to the TPP server
+- Network connectivity from vaultix (or an vaultix Gateway) to the TPP server
 
 ## Setting Up Venafi TPP as an External CA
 
@@ -64,10 +64,10 @@ Once your Venafi TPP CA is set up, you can issue certificates by creating a prof
     - Fill in the certificate details (common name, SANs, TTL)
     - Click **Submit**
 
-    The certificate request is submitted to TPP asynchronously. Infisical will authenticate with TPP, submit the CSR to the configured policy folder, and retrieve the signed certificate.
+    The certificate request is submitted to TPP asynchronously. vaultix will authenticate with TPP, submit the CSR to the configured policy folder, and retrieve the signed certificate.
 
     <Note>
-      Certificate issuance is asynchronous. Infisical will poll TPP for the signed certificate for
+      Certificate issuance is asynchronous. vaultix will poll TPP for the signed certificate for
       up to ~5 minutes. Ensure your TPP policy folder is configured for automatic approval.
     </Note>
   </Step>

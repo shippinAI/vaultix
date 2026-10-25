@@ -37,7 +37,7 @@ export const buildTestAlertPayload = ({
     },
     eventKey: "alert.channel.test",
     eventLabel: "Expiry",
-    webhookType: "com.infisical.alert.channel.test",
+    webhookType: "com.vaultix.alert.channel.test",
     resourceKind: "Sample Credential",
     resourceOwnerKind: "resource",
     severity: "info",

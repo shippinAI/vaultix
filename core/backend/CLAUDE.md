@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-This is the **backend** package of the Infisical monorepo — a Fastify 4 API server with TypeScript, PostgreSQL via Knex, and BullMQ queues.
+This is the **backend** package of the vaultix monorepo — a Fastify 4 API server with TypeScript, PostgreSQL via Knex, and BullMQ queues.
 
 The backend code quality guide is imported below, so it is always in context for work in this package. **Check every change against it, whatever the change is, before calling the task done.** This file covers *where* code goes and *which* pattern to follow; the quality guide covers the minimum any implementation has to handle. It is a deliberately non-exhaustive floor, so the topics it happens to cover are not a filter for whether it applies.
 
@@ -34,7 +34,7 @@ CI (`.github/workflows/run-backend-tests.yml`) runs the e2e suite inside a FIPS 
 from `Dockerfile.dev.fips`. The expensive, rarely-changing parts of that image (SoftHSM2,
 Oracle Instant Client, the FIPS OpenSSL 3.1.2 build and the PQC OpenSSL 3.5.6 build) live in
 **`Dockerfile.fips-toolchain`**, which is published to
-`ghcr.io/infisical/backend-fips-toolchain` for amd64 and arm64 by
+`ghcr.io/vaultix/backend-fips-toolchain` for amd64 and arm64 by
 `.github/workflows/publish-fips-toolchain.yml` on pushes to `main`.
 
 `Dockerfile.dev.fips` consumes it via the `TOOLCHAIN_IMAGE` build arg, so CI and local dev
@@ -49,11 +49,11 @@ pull the toolchain instead of spending ~15min compiling it. Consequences worth k
   image blobs there evicts the `node_modules` caches of every workflow.
 - **The published image is an internal CI build cache, not a supported artifact.** It is
   public only so CI and local dev can pull it; it carries no support or compatibility
-  guarantee. It is *not* the FIPS product image; that one is `infisical/infisical-fips`,
-  built from `Dockerfile.fips.standalone-infisical`. OCI labels on the image say the same.
+  guarantee. It is *not* the FIPS product image; that one is `vaultix/vaultix-fips`,
+  built from `Dockerfile.fips.standalone-vaultix`. OCI labels on the image say the same.
 - **Keep every third-party fetch pinned and checksummed.** SoftHSM2 is pinned to a commit
   SHA (tags are mutable); both OpenSSL tarballs and the Oracle Instant Client zip are
-  SHA256-verified; the Infisical CLI apt package is version-pinned. Oracle Instant Client
+  SHA256-verified; the vaultix CLI apt package is version-pinned. Oracle Instant Client
   is redistributed under the Oracle Free Distribution, Hosting, and Use Terms, which
   require the license to travel with it, so `/opt/oracle/instantclient_23_26/BASIC_LICENSE`
   must not be removed.
@@ -282,7 +282,7 @@ Recurring work runs through the cron manager in `src/lib/cron/cron-job.ts` (`cro
    };
    ```
 
-3. Add a corresponding alarm in the infrastructure repo so the new job is monitored. Follow the existing pattern in `infisical-shared-cloud/modules/redis_alarms/main.tf` — every cron job must have an alarm defined there. Don't ship a new cron job without wiring up its alarm.
+3. Add a corresponding alarm in the infrastructure repo so the new job is monitored. Follow the existing pattern in `vaultix-shared-cloud/modules/redis_alarms/main.tf` — every cron job must have an alarm defined there. Don't ship a new cron job without wiring up its alarm.
 
 **Handler contract**:
 - Each scheduled fire runs exactly once across the fleet: pods race for a per-run redlock, the winner executes the handler, and the others no-op. You don't need in-handler locking to guard against concurrent pods.
@@ -334,7 +334,7 @@ Pattern:
 - **Only manually chunk-delete a table whose inbound FKs are all `CASCADE`/`SET NULL`.** A table with a `DEFERRABLE NO ACTION` inbound FK (e.g. `secret_rotation_v2_secret_mappings.secretId → secrets_v2`) must be left to the final `deleteById` cascade, which resolves the deferred check at COMMIT across the whole tree; deleting its parent outside that tree fails the check. Use `SET LOCAL statement_timeout` per batch so the bound can't leak to pooled connections. (Example: `secret_versions_v2` is chunked by `folderId` because all its inbound FKs are CASCADE/SET NULL and it has no `folderId`/`secretId` FK back to the project, so the project cascade would otherwise orphan it.)
 - **A non-deferrable `NO ACTION`/`RESTRICT` inbound FK is unsafe under cascading deletes; make it `DEFERRABLE INITIALLY DEFERRED`.** It is checked at end of *statement*, so within one cascading `DELETE` a parent branch can be processed before a sibling branch deletes the referencer, raising "update or delete on X violates FK on Y". When a CASCADE child of the deleted root is itself referenced by `NO ACTION`/`RESTRICT` FKs, declare those FKs `.deferrable("deferred")` so the check runs at COMMIT after the cascade completes (a *direct* parent delete is still blocked while a referencer remains). Audit **all** inbound `NO ACTION`/`RESTRICT` FKs of such a parent, not just one.
 - **Index every FK referencing column that participates in a cascade.** Postgres does **not** auto-index FK columns. A cascade fires a **per-row** RI trigger on each child, so an unindexed child means one seq-scan *per deleted parent row*, which blows past `statement_timeout` on a chunked delete. Before chunk-deleting a large table, enumerate **every** inbound FK, including helper-generated ones: `createJunctionTable` (`src/db/utils.ts`) creates CASCADE FK columns with **no index** on either side, so every junction table needs explicit FK indexes. For a mostly-NULL nullable FK, a partial index `WHERE col IS NOT NULL` serves the cascade lookup at a fraction of the size/write cost.
-- **Observe the backlog, not just the queue.** Queue depth caps at the discovery batch size, so it can't reveal the true backlog. Record the discovery result from the cron tick itself (e.g. `infisical.project_cleanup.discovered` / `infisical.project_env_cleanup.discovered` on the `InfisicalCore` meter: last batch size, capped at the discovery LIMIT). **Alert when the gauge stays at the cap** — it means the drain rate can't keep up (raise concurrency/limiter) or a mass-delete is in progress.
+- **Observe the backlog, not just the queue.** Queue depth caps at the discovery batch size, so it can't reveal the true backlog. Record the discovery result from the cron tick itself (e.g. `vaultix.project_cleanup.discovered` / `vaultix.project_env_cleanup.discovered` on the `vaultixCore` meter: last batch size, capped at the discovery LIMIT). **Alert when the gauge stays at the cap** — it means the drain rate can't keep up (raise concurrency/limiter) or a mass-delete is in progress.
 
 ### Error Handling
 
@@ -400,17 +400,17 @@ Key plugins in `src/server/plugins/`:
 OpenTelemetry metric setup lives in `src/lib/telemetry/`. Instruments are defined in `metrics.ts` (resolved lazily so they bind to the real MeterProvider installed by `instrumentation.ts` after boot).
 
 **Meter split by cardinality:**
-- **`InfisicalCore`** — the meter for all new metrics. A strict attribute allowlist (`INFISICAL_CORE_METER_ATTRIBUTES` in `telemetry-attributes.ts`) is applied via an SDK View, so **only bounded labels survive** — HTTP method, parameterized `http.route` template, and low-cardinality enums. This is the single choke point: any attribute passed at a call site that isn't in the allowlist is silently dropped.
-- **Legacy `Infisical` / `API` / `SecretSyncs` / `PkiSyncs` / `Integrations`** — have no View and carry unbounded per-actor labels. Dropped wholesale via `OTEL_DROP_HIGH_CARDINALITY_METERS=true` in multi-tenant/cloud.
+- **`vaultixCore`** — the meter for all new metrics. A strict attribute allowlist (`vaultix_CORE_METER_ATTRIBUTES` in `telemetry-attributes.ts`) is applied via an SDK View, so **only bounded labels survive** — HTTP method, parameterized `http.route` template, and low-cardinality enums. This is the single choke point: any attribute passed at a call site that isn't in the allowlist is silently dropped.
+- **Legacy `vaultix` / `API` / `SecretSyncs` / `PkiSyncs` / `Integrations`** — have no View and carry unbounded per-actor labels. Dropped wholesale via `OTEL_DROP_HIGH_CARDINALITY_METERS=true` in multi-tenant/cloud.
 
-**Rules for InfisicalCore metrics:**
+**Rules for vaultixCore metrics:**
 - **No per-tenant / per-actor identifiers** as labels — no org id, user id/email, identity id, ip, user agent, request id, or free-form values (e.g. environment slug). These scale series count with customer count, which breaks CloudWatch's 1000-datapoint-per-OTLP-request limit and drives per-GB ingestion cost. Use the **audit log table** for per-org / per-actor breakdowns.
 - Adding a new label means adding it to the allowlist in `telemetry-attributes.ts`. Only add **bounded** keys (fixed enums / static route templates), and document why.
 - `http.route` must be the parameterized template (`req.routeOptions.url`), never the raw request path.
 
 ### Database Configuration
 
-Knex config in `src/db/knexfile.ts`. Loads `.env.migration` then `.env`. Supports `DB_CONNECTION_URI` or individual host/port/user/name/password fields. Optional SSL via `DB_ROOT_CERT` (base64-encoded CA cert). Connection pool: min 2, max 10. Migrations table: `infisical_migrations`. Separate audit log DB supported via `auditlog-migration:*` scripts. ClickHouse for analytics (optional).
+Knex config in `src/db/knexfile.ts`. Loads `.env.migration` then `.env`. Supports `DB_CONNECTION_URI` or individual host/port/user/name/password fields. Optional SSL via `DB_ROOT_CERT` (base64-encoded CA cert). Connection pool: min 2, max 10. Migrations table: `vaultix_migrations`. Separate audit log DB supported via `auditlog-migration:*` scripts. ClickHouse for analytics (optional).
 
 Migrations in `src/db/migrations/`. Auto-generated Zod schemas in `src/db/schemas/`.
 

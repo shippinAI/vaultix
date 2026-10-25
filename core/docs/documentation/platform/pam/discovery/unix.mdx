@@ -6,7 +6,7 @@ description: "Scan Linux and Unix hosts over SSH for local accounts and import t
 
 Linux/Unix discovery scans a set of Linux and Unix hosts over SSH, enumerates their local accounts, stages them for review, and lets you import them into PAM as [SSH accounts](/documentation/platform/pam/accounts/ssh). Because there is no central directory to read from, you point a source at the hosts to scan and the [SSH accounts](/documentation/platform/pam/accounts/ssh) to scan with.
 
-All scan traffic is tunneled through an Infisical [Gateway](/documentation/platform/gateways/overview).
+All scan traffic is tunneled through an vaultix [Gateway](/documentation/platform/gateways/overview).
 
 ## How It Works
 
@@ -59,7 +59,7 @@ Discovery surfaces only accounts that can be logged into. Because it reads only 
 
 Trigger a scan manually with **Scan Now** from the source's row menu or its detail panel. Scans run in the background, and a source can only have one scan running at a time.
 
-If the source is on a **Daily** or **Weekly** schedule, Infisical also scans it automatically when its interval has elapsed. **Manual** sources are only scanned when you trigger them.
+If the source is on a **Daily** or **Weekly** schedule, vaultix also scans it automatically when its interval has elapsed. **Manual** sources are only scanned when you trigger them.
 
 ## Importing Accounts
 

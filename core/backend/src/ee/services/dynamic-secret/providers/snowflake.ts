@@ -102,8 +102,8 @@ export const SnowflakeProvider = (): TDynamicProviderFns => {
       decryptedDynamicSecretInputs: inputs,
       dynamicSecret,
       identity,
-      // Username must start with an ascii letter, so we prepend the username with "infisical_"
-      usernamePrefix: "infisical_"
+      // Username must start with an ascii letter, so we prepend the username with "vaultix_"
+      usernamePrefix: "vaultix_"
     });
     const password = generatePassword();
 

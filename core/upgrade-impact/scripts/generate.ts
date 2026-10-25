@@ -16,7 +16,7 @@ import { loadPackageEnv } from "../src/env.js";
 import { compareVersions, isStableVersion } from "../src/git.js";
 import { ReleaseImpact, ReleaseImpactSchema, ReleaseIndex, ReleaseIndexSchema } from "../src/schema.js";
 
-const GENERATOR_NAME = "@infisical/upgrade-impact";
+const GENERATOR_NAME = "@vaultix/upgrade-impact";
 const GENERATOR_VERSION = "1";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

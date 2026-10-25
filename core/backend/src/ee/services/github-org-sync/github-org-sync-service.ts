@@ -290,8 +290,8 @@ export const githubOrgSyncServiceFactory = ({
     const config = await githubOrgSyncDAL.findOne({ orgId });
     if (!config || !config?.isActive) return;
 
-    const infisicalUserGroups = await userGroupMembershipDAL.findGroupMembershipsByUserIdInOrg(userId, orgId);
-    const infisicalUserGroupSet = new Set(infisicalUserGroups.map((el) => el.groupName));
+    const vaultixUserGroups = await userGroupMembershipDAL.findGroupMembershipsByUserIdInOrg(userId, orgId);
+    const vaultixUserGroupSet = new Set(vaultixUserGroups.map((el) => el.groupName));
 
     const octoRest = new OctokitRest({
       auth: accessToken,
@@ -359,16 +359,16 @@ export const githubOrgSyncServiceFactory = ({
     } = data;
     const githubUserTeams = teams?.edges?.map((el) => el.node.name.toLowerCase()) || [];
     const githubUserTeamSet = new Set(githubUserTeams);
-    const githubUserTeamOnInfisical = await groupDAL.find({ orgId, $in: { name: githubUserTeams } });
-    const githubUserTeamOnInfisicalGroupByName = groupBy(githubUserTeamOnInfisical, (i) => i.name);
+    const githubUserTeamOnvaultix = await groupDAL.find({ orgId, $in: { name: githubUserTeams } });
+    const githubUserTeamOnvaultixGroupByName = groupBy(githubUserTeamOnvaultix, (i) => i.name);
 
     const newTeams = githubUserTeams.filter(
-      (el) => !infisicalUserGroupSet.has(el) && !Object.hasOwn(githubUserTeamOnInfisicalGroupByName, el)
+      (el) => !vaultixUserGroupSet.has(el) && !Object.hasOwn(githubUserTeamOnvaultixGroupByName, el)
     );
     const updateTeams = githubUserTeams.filter(
-      (el) => !infisicalUserGroupSet.has(el) && Object.hasOwn(githubUserTeamOnInfisicalGroupByName, el)
+      (el) => !vaultixUserGroupSet.has(el) && Object.hasOwn(githubUserTeamOnvaultixGroupByName, el)
     );
-    const removeFromTeams = infisicalUserGroups.filter((el) => !githubUserTeamSet.has(el.groupName));
+    const removeFromTeams = vaultixUserGroups.filter((el) => !githubUserTeamSet.has(el.groupName));
 
     if (newTeams.length || updateTeams.length || removeFromTeams.length) {
       if (newTeams.length) {
@@ -413,7 +413,7 @@ export const githubOrgSyncServiceFactory = ({
         await groupDAL.transaction(async (tx) => {
           await userGroupMembershipDAL.insertMany(
             updateTeams.map((el) => ({
-              groupId: githubUserTeamOnInfisicalGroupByName[el][0].id,
+              groupId: githubUserTeamOnvaultixGroupByName[el][0].id,
               userId
             })),
             tx
@@ -710,11 +710,11 @@ export const githubOrgSyncServiceFactory = ({
 
     const allGithubTeamNames = Array.from(new Set(teams?.edges?.map((edge) => edge.node.name.toLowerCase()) || []));
 
-    const existingTeamsOnInfisical = await groupDAL.find({
+    const existingTeamsOnvaultix = await groupDAL.find({
       orgId: orgPermission.orgId,
       $in: { name: allGithubTeamNames }
     });
-    const existingTeamsMap = groupBy(existingTeamsOnInfisical, (i) => i.name);
+    const existingTeamsMap = groupBy(existingTeamsOnvaultix, (i) => i.name);
 
     const teamsToCreate = allGithubTeamNames.filter((teamName) => !(teamName in existingTeamsMap));
     const createdTeams = new Set<string>();

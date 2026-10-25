@@ -1,10 +1,10 @@
 ---
 title: "CSI Provider"
 sidebarTitle: "CSI Provider"
-description: "Deploy the Infisical CSI Provider on Kubernetes using the official Helm chart."
+description: "Deploy the vaultix CSI Provider on Kubernetes using the official Helm chart."
 ---
 
-The Infisical CSI Provider integrates with the [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/) to mount Infisical secrets directly into Kubernetes pods as files, without creating Kubernetes Secret resources.
+The vaultix CSI Provider integrates with the [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/) to mount vaultix secrets directly into Kubernetes pods as files, without creating Kubernetes Secret resources.
 
 For usage details including `SecretProviderClass` configuration and pod mounting, see the [CSI Provider documentation](/integrations/platforms/kubernetes-csi).
 
@@ -23,7 +23,7 @@ For usage details including `SecretProviderClass` configuration and pod mounting
         ```bash
         helm install csi secrets-store-csi-driver/secrets-store-csi-driver \
           --namespace kube-system \
-          --set "tokenRequests[0].audience=infisical" \
+          --set "tokenRequests[0].audience=vaultix" \
           --set enableSecretRotation=true \
           --set rotationPollInterval=2m \
           --set "syncSecret.enabled=true"
@@ -46,18 +46,18 @@ For usage details including `SecretProviderClass` configuration and pod mounting
     </Tabs>
   </Step>
 
-  <Step title="Install the Infisical CSI Provider">
+  <Step title="Install the vaultix CSI Provider">
     ```bash
-    helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+    helm repo add vaultix-helm-charts 'https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/'
     helm repo update
 
-    helm install infisical-csi-provider infisical-helm-charts/infisical-csi-provider
+    helm install vaultix-csi-provider vaultix-helm-charts/vaultix-csi-provider
     ```
   </Step>
 
   <Step title="Verify the deployment">
     ```bash
-    kubectl get pods -n kube-system -l app=infisical-csi-provider
+    kubectl get pods -n kube-system -l app=vaultix-csi-provider
     ```
   </Step>
 </Steps>
@@ -65,16 +65,16 @@ For usage details including `SecretProviderClass` configuration and pod mounting
 ## Uninstall
 
 ```bash
-helm uninstall infisical-csi-provider
+helm uninstall vaultix-csi-provider
 ```
 
 ## Configuration Reference
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `name` | `infisical-csi-provider` | Name of the CSI provider deployment. |
+| `name` | `vaultix-csi-provider` | Name of the CSI provider deployment. |
 | `namespace` | `kube-system` | Namespace for the provider. |
-| `image.repository` | `infisical/infisical-csi-provider` | Container image. |
+| `image.repository` | `vaultix/vaultix-csi-provider` | Container image. |
 | `image.tag` | `v0.0.7` | Image tag. |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy. |
 | `resources.requests.cpu` | `50m` | CPU request. |
@@ -90,22 +90,22 @@ helm uninstall infisical-csi-provider
 
 ```yaml
 # Name of the CSI provider deployment
-name: infisical-csi-provider
+name: vaultix-csi-provider
 # Namespace where CSI provider will be deployed
 namespace: kube-system
 
 # Container image configuration
 image:
-  repository: infisical/infisical-csi-provider
+  repository: vaultix/vaultix-csi-provider
   tag: v0.0.7
   pullPolicy: IfNotPresent
 
-# Infisical provider arguments
+# vaultix provider arguments
 args:
-  - -endpoint=/provider/infisical.sock
+  - -endpoint=/provider/vaultix.sock
 
 # Unix domain socket path for CSI driver communication
-endpoint: /provider/infisical.sock
+endpoint: /provider/vaultix.sock
 
 # Resource limits and requests
 resources:

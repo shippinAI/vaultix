@@ -80,8 +80,8 @@ describe("matchesCertificateNameSchema (managed-certificate detection for cleanu
 
   test("matches UUIDs whether dash-stripped or raw (AWS Secrets Manager stores the dashed form)", () => {
     const dashed = "550e8400-e29b-41d4-a716-446655440000";
-    expect(matchesCertificateNameSchema(`infisical-${HEX}`, "infisical-{{certificateId}}")).toBe(true);
-    expect(matchesCertificateNameSchema(`infisical-${dashed}`, "infisical-{{certificateId}}")).toBe(true);
+    expect(matchesCertificateNameSchema(`vaultix-${HEX}`, "vaultix-{{certificateId}}")).toBe(true);
+    expect(matchesCertificateNameSchema(`vaultix-${dashed}`, "vaultix-{{certificateId}}")).toBe(true);
   });
 
   test("common-name slot uses a constrained charset, not a greedy .*", () => {

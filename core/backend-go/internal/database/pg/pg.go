@@ -14,7 +14,7 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/infisical/api/internal/config"
+	"github.com/vaultix/api/internal/config"
 )
 
 // Querier is implemented by both *pgxpool.Pool and pgx.Tx.

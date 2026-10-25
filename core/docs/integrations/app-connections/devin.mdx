@@ -1,9 +1,9 @@
 ---
 title: "Devin Connection"
-description: "Learn how to configure a Devin connection for Infisical."
+description: "Learn how to configure a Devin connection for vaultix."
 ---
 
-[Devin](https://devin.ai/) is an AI software engineer from Cognition. Infisical supports connecting to Devin using a service-user **API Key**, which is used to push secrets into a Devin organization via [Devin Secret Sync](/integrations/secret-syncs/devin).
+[Devin](https://devin.ai/) is an AI software engineer from Cognition. vaultix supports connecting to Devin using a service-user **API Key**, which is used to push secrets into a Devin organization via [Devin Secret Sync](/integrations/secret-syncs/devin).
 
 ## Prerequisites
 
@@ -13,24 +13,24 @@ description: "Learn how to configure a Devin connection for Infisical."
 
 <Steps>
     <Step title="Create a Service User">
-        In your Devin organization settings, create a service user that Infisical will act as. Fill in the service user details and submit the form.
+        In your Devin organization settings, create a service user that vaultix will act as. Fill in the service user details and submit the form.
 
         ![Devin Service User](/images/app-connections/devin/step-1.png)
     </Step>
     <Step title="Copy the API Key">
-        Devin displays the new service user's API key immediately after creation. Copy the key, it begins with the `cog_` prefix and will only be shown once. Store it securely; you will use it when creating the Infisical connection.
+        Devin displays the new service user's API key immediately after creation. Copy the key, it begins with the `cog_` prefix and will only be shown once. Store it securely; you will use it when creating the vaultix connection.
 
         ![Devin API Key](/images/app-connections/devin/step-2.png)
     </Step>
 </Steps>
 
-## Create Devin Connection in Infisical
+## Create Devin Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, go to **Organization Settings** → **App Connections** (or the **Integrations** → **App Connections** tab in your project).
+                In your vaultix dashboard, go to **Organization Settings** → **App Connections** (or the **Integrations** → **App Connections** tab in your project).
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -48,7 +48,7 @@ description: "Learn how to configure a Devin connection for Infisical."
                 ![Devin Connection Form](/images/app-connections/devin/devin-app-connection-form.png)
             </Step>
             <Step title="Connection Created">
-                After clicking Create, your **Devin Connection** is established and ready to use with your Infisical project.
+                After clicking Create, your **Devin Connection** is established and ready to use with your vaultix project.
             </Step>
         </Steps>
     </Tab>
@@ -59,7 +59,7 @@ description: "Learn how to configure a Devin connection for Infisical."
 
         ```bash Request
         curl --request POST \
-          --url https://app.infisical.com/api/v1/app-connections/devin \
+          --url https://app.vaultix.com/api/v1/app-connections/devin \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-devin-connection",

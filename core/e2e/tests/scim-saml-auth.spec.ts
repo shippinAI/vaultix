@@ -16,14 +16,14 @@ import { createScimUser, deleteScimUser, ensureScimUserAbsent } from "../helpers
 // same value as `email` to the IdP and `externalId`/`userName` to SCIM.
 // Email domain must match the verified row the seed script created in
 // email_domains for the e2e org. `.test` (RFC 2606) avoids any collision
-// with real Infisical domain rows that might be claimed by other orgs.
+// with real vaultix domain rows that might be claimed by other orgs.
 const TEST_FIRST_NAME = "E2E";
 const TEST_LAST_NAME = "ScimUser";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 const makeExternalId = (): string => {
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  return `e2e-${runId}@infisical-e2e.test`;
+  return `e2e-${runId}@vaultix-e2e.test`;
 };
 
 // Decodes a JWT payload without verifying the signature. The signature is

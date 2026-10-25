@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 
-	"github.com/infisical/api/internal/services/permission/project"
+	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // roleWithPermissions pairs a role slug with its optional custom permissions JSON.

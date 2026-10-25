@@ -33,8 +33,8 @@ RUN apt-get update && apt-get install -y \
     tdsodbc \
     opensc \
     smbclient \
-    && curl -1sLf 'https://artifacts-cli.infisical.com/setup.deb.sh' | bash \
-    && apt-get update && apt-get install -y infisical=0.43.79 \
+    && curl -1sLf 'https://artifacts-cli.vaultix.com/setup.deb.sh' | bash \
+    && apt-get update && apt-get install -y vaultix=0.43.79 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create libaio symlink for Oracle Instant Client

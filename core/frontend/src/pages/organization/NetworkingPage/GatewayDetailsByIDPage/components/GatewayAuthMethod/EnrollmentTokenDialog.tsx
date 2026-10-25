@@ -74,12 +74,12 @@ export const EnrollmentTokenContent = ({
 
   const cliCommand = useMemo(() => {
     const relayPart = resolvedRelayName ? ` --target-relay-name=${resolvedRelayName}` : "";
-    return `infisical gateway start ${gatewayName} --enroll-method=token --token=${enrollmentToken}${relayPart} --domain=${siteURL}`;
+    return `vaultix gateway start ${gatewayName} --enroll-method=token --token=${enrollmentToken}${relayPart} --domain=${siteURL}`;
   }, [gatewayName, enrollmentToken, resolvedRelayName, siteURL]);
 
   const systemdInstallCommand = useMemo(() => {
     const relayPart = resolvedRelayName ? ` --target-relay-name=${resolvedRelayName}` : "";
-    return `sudo infisical gateway systemd install ${gatewayName} --enroll-method=token --token=${enrollmentToken}${relayPart} --domain=${siteURL}`;
+    return `sudo vaultix gateway systemd install ${gatewayName} --enroll-method=token --token=${enrollmentToken}${relayPart} --domain=${siteURL}`;
   }, [gatewayName, enrollmentToken, resolvedRelayName, siteURL]);
 
   const startServiceCommand = `sudo systemctl start ${gatewayName}`;

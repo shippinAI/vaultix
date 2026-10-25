@@ -10,8 +10,8 @@ import (
 
 	"github.com/doordash-oss/oapi-codegen-dd/v3/pkg/runtime"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/libs/requestid"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/requestid"
 )
 
 // ErrorHandler implements the OapiErrorHandler interface for all handlers.

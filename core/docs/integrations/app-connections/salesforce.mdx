@@ -1,9 +1,9 @@
 ---
 title: "Salesforce Connection"
-description: "Learn how to configure a Salesforce Connection for Infisical."
+description: "Learn how to configure a Salesforce Connection for vaultix."
 ---
 
-Infisical supports the OAuth 2.0 [Client Credentials](https://help.salesforce.com/s/articleView?id=xcloud.remoteaccess_oauth_client_credentials_flow.htm&type=5) flow to connect with your Salesforce org.
+vaultix supports the OAuth 2.0 [Client Credentials](https://help.salesforce.com/s/articleView?id=xcloud.remoteaccess_oauth_client_credentials_flow.htm&type=5) flow to connect with your Salesforce org.
 
 ## Configure a Connected App in Salesforce
 
@@ -76,14 +76,14 @@ Infisical supports the OAuth 2.0 [Client Credentials](https://help.salesforce.co
     </Step>
 </Steps>
 
-## Setup Salesforce Connection in Infisical
+## Setup Salesforce Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to **App Connections** in your organization or project.
 
         2. Select the **Salesforce Connection** option.
-        ![Select Salesforce Connection](/images/app-connections/salesforce/search-infisical.png)
+        ![Select Salesforce Connection](/images/app-connections/salesforce/search-vaultix.png)
 
         3. Enter your **Instance URL**, **Consumer Key**, and **Consumer Secret** from the previous section, then click **Connect to Salesforce**.
         ![Create Salesforce Connection](/images/app-connections/salesforce/fillup-info.png)
@@ -99,7 +99,7 @@ Infisical supports the OAuth 2.0 [Client Credentials](https://help.salesforce.co
 
         ```bash Request
         curl    --request POST \
-        --url https://app.infisical.com/api/v1/app-connections/salesforce \
+        --url https://app.vaultix.com/api/v1/app-connections/salesforce \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-salesforce-connection",

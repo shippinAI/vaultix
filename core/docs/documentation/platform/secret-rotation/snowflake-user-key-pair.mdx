@@ -9,7 +9,7 @@ description: "Learn how to automatically rotate a Snowflake user's RSA key pair.
   This rotation maintains two active credential sets with overlapping validity, ensuring zero-downtime during rotation cycles. It uses Snowflake's two public-key slots (`RSA_PUBLIC_KEY` and `RSA_PUBLIC_KEY_2`), alternating between them on each rotation so the retired key pair stays valid until the next cycle.
 </Note>
 
-Infisical's Snowflake User Key Pair rotation generates an **RSA key pair** (2048-bit or 4096-bit, defaulting to 2048) and assigns its public key to a target Snowflake user for [key-pair authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth). On each rotation, Infisical generates a fresh key pair, writes the public key to the currently-inactive slot on the user, and maps the new private and public keys to the secrets of your choice.
+vaultix's Snowflake User Key Pair rotation generates an **RSA key pair** (2048-bit or 4096-bit, defaulting to 2048) and assigns its public key to a target Snowflake user for [key-pair authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth). On each rotation, vaultix generates a fresh key pair, writes the public key to the currently-inactive slot on the user, and maps the new private and public keys to the secrets of your choice.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Infisical's Snowflake User Key Pair rotation generates an **RSA key pair** (2048
 2. Decide on the target user whose key pair you want to rotate. New users are created as key-pair-only `SERVICE` users.
 
     <Note>
-        Users created by Infisical are not deleted when their credentials are revoked.
+        Users created by vaultix are not deleted when their credentials are revoked.
     </Note>
 
     <Warning>
@@ -27,16 +27,16 @@ Infisical's Snowflake User Key Pair rotation generates an **RSA key pair** (2048
         before creating the rotation.
     </Warning>
 
-3. Ensure your network security policies allow incoming requests from Infisical to your Snowflake account, if network restrictions apply.
+3. Ensure your network security policies allow incoming requests from vaultix to your Snowflake account, if network restrictions apply.
 
     <Warning>
-        Only the RSA public key is written to Snowflake. The generated private key is stored solely in the mapped Infisical secret and is never persisted to Snowflake.
+        Only the RSA public key is written to Snowflake. The generated private key is stored solely in the mapped vaultix secret and is never persisted to Snowflake.
     </Warning>
 
-## Create a Snowflake User Key Pair Rotation in Infisical
+## Create a Snowflake User Key Pair Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
 
@@ -83,7 +83,7 @@ Infisical's Snowflake User Key Pair rotation generates an **RSA key pair** (2048
 
         ```bash Request
         curl --request POST \
-        --url https://us.infisical.com/api/v2/secret-rotations/snowflake-user-key-pair \
+        --url https://us.vaultix.com/api/v2/secret-rotations/snowflake-user-key-pair \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-snowflake-rotation",

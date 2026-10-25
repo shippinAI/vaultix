@@ -1,29 +1,29 @@
 ---
 title: "Sign with OpenSSL"
 sidebarTitle: "Sign Files with OpenSSL"
-description: "Use the Infisical PKCS#11 module with OpenSSL's pkcs11 engine for general-purpose signing."
+description: "Use the vaultix PKCS#11 module with OpenSSL's pkcs11 engine for general-purpose signing."
 ---
 
 <Info>
   This guide assumes your Product Admin has already created a [Signer](/documentation/platform/pki/code-signing/signers) and assigned you to it. If the signer has an approval policy, you'll also need [active access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) before signing.
 </Info>
 
-Use OpenSSL with the Infisical PKCS#11 module via the `libp11` engine for general-purpose signing. OpenSSL is a versatile foundation for signing any file format, useful when you need raw signatures, custom signing pipelines, or integration with tools that wrap OpenSSL.
+Use OpenSSL with the vaultix PKCS#11 module via the `libp11` engine for general-purpose signing. OpenSSL is a versatile foundation for signing any file format, useful when you need raw signatures, custom signing pipelines, or integration with tools that wrap OpenSSL.
 
 ## Prerequisites
 
 - A [Signer](/documentation/platform/pki/code-signing/signers) created by your Product Admin
 - [Active signing access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) (if an approval policy is attached)
 - A [machine identity](/documentation/platform/identities/machine-identities) added to the Signer
-- The Infisical [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
+- The vaultix [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
 - OpenSSL 1.1.1 or later
 - `libp11` (OpenSSL PKCS#11 engine)
 
 ## Step 1: Set Up Authentication
 
-Configure the Infisical PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
+Configure the vaultix PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
 
-Create `/etc/infisical/pkcs11.conf` (or set `INFISICAL_CONFIG` to point elsewhere):
+Create `/etc/vaultix/pkcs11.conf` (or set `vaultix_CONFIG` to point elsewhere):
 
 ```yaml
 auth:
@@ -39,8 +39,8 @@ signer:
 You can also pass the credentials via environment variables:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
 ```
 
 <Note>
@@ -85,7 +85,7 @@ The output confirms the engine is loaded:
 
 ## Step 3: Create an OpenSSL Configuration
 
-Create an OpenSSL config file `infisical-openssl.cnf` to set up the PKCS#11 engine:
+Create an OpenSSL config file `vaultix-openssl.cnf` to set up the PKCS#11 engine:
 
 ```ini
 openssl_conf = openssl_init
@@ -98,14 +98,14 @@ pkcs11 = pkcs11_section
 
 [pkcs11_section]
 engine_id = pkcs11
-MODULE_PATH = /usr/local/lib/libinfisical-pkcs11.so
+MODULE_PATH = /usr/local/lib/libvaultix-pkcs11.so
 init = 0
 ```
 
 Set this as the active OpenSSL config:
 
 ```bash
-export OPENSSL_CONF=/path/to/infisical-openssl.cnf
+export OPENSSL_CONF=/path/to/vaultix-openssl.cnf
 ```
 
 ## Step 4: Sign a File
@@ -151,7 +151,7 @@ Extract the public key or certificate from PKCS#11, then verify:
 
 ```bash
 # Extract the certificate and public key
-pkcs11-tool --module /usr/local/lib/libinfisical-pkcs11.so \
+pkcs11-tool --module /usr/local/lib/libvaultix-pkcs11.so \
   --slot 0 --read-object --type cert --label release-signer \
   --output-file cert.der
 openssl x509 -inform DER -in cert.der -pubkey -noout > pubkey.pem
@@ -203,10 +203,10 @@ openssl cms -sign \
 ## CI/CD Integration
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="${INFISICAL_CLIENT_ID}"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="${INFISICAL_CLIENT_SECRET}"
-export INFISICAL_CONFIG="/path/to/pkcs11.conf"
-export OPENSSL_CONF="/path/to/infisical-openssl.cnf"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="${vaultix_CLIENT_ID}"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="${vaultix_CLIENT_SECRET}"
+export vaultix_CONFIG="/path/to/pkcs11.conf"
+export OPENSSL_CONF="/path/to/vaultix-openssl.cnf"
 
 # Sign release artifacts
 for file in dist/*.tar.gz; do
@@ -221,7 +221,7 @@ done
 
 ## Troubleshooting
 
-For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/infisical-pkcs11.log"`) to get detailed output.
+For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/vaultix-pkcs11.log"`) to get detailed output.
 
 <AccordionGroup>
   <Accordion title="Engine 'pkcs11' not found or key errors">

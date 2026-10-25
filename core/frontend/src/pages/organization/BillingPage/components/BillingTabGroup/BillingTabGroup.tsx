@@ -9,8 +9,8 @@ import { BillingReceiptsTab } from "../BillingReceiptsTab";
 import { BillingSelfHostedTab } from "../BillingSelfHostedTab";
 
 const tabs = [
-  { name: "Vaultix Cloud", key: "tab-infisical-cloud" },
-  { name: "Vaultix Self-Hosted", key: "tab-infisical-self-hosted" },
+  { name: "Vaultix Cloud", key: "tab-vaultix-cloud" },
+  { name: "Vaultix Self-Hosted", key: "tab-vaultix-self-hosted" },
   { name: "Receipts", key: "tab-receipts" },
   { name: "Billing details", key: "tab-billing-details" }
 ];

@@ -1,4 +1,4 @@
-{{- $sessionPath := .Values.gateway.pamSessionRecordingsDirectory | default "/var/lib/infisical/session_recordings" }}
+{{- $sessionPath := .Values.gateway.pamSessionRecordingsDirectory | default "/var/lib/vaultix/session_recordings" }}
 {{- $usePVC := and .Values.persistence.enabled (or .Values.gateway.enrollment.method .Values.persistence.existingClaim) }}
 {{- if eq .Values.gateway.enrollment.method "token" }}
   {{- if not .Values.persistence.enabled }}
@@ -11,9 +11,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "infisical-gateway.fullname" . }}
+  name: {{ include "vaultix-gateway.fullname" . }}
   labels:
-    {{- include "infisical-gateway.labels" . | nindent 4 }}
+    {{- include "vaultix-gateway.labels" . | nindent 4 }}
 spec:
   {{- if .Values.gateway.enrollment.method }}
   replicas: 1
@@ -24,7 +24,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "infisical-gateway.selectorLabels" . | nindent 6 }}
+      {{- include "vaultix-gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -32,7 +32,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "infisical-gateway.labels" . | nindent 8 }}
+        {{- include "vaultix-gateway.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -41,7 +41,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "infisical-gateway.serviceAccountName" . }}
+      serviceAccountName: {{ include "vaultix-gateway.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -50,14 +50,14 @@ spec:
         {{- if $usePVC }}
         - name: gateway-data
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "infisical-gateway.fullname" .)) }}
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "vaultix-gateway.fullname" .)) }}
         {{- else if .Values.gateway.enrollment.method }}
         - name: gateway-credentials
           emptyDir: {}
         {{- end }}
-        - name: infisical-cache
+        - name: vaultix-cache
           emptyDir: {}
-        {{- if and (not $usePVC) (not (hasPrefix "/var/lib/infisical" $sessionPath)) }}
+        {{- if and (not $usePVC) (not (hasPrefix "/var/lib/vaultix" $sessionPath)) }}
         - name: session-recordings
           emptyDir: {}
         {{- end }}
@@ -82,12 +82,12 @@ spec:
           {{- end }}
           env:
             - name: HOME
-              value: /home/infisical
+              value: /home/vaultix
             {{- if eq .Values.gateway.enrollment.method "token" }}
-            - name: INFISICAL_ENROLLMENT_TOKEN
+            - name: vaultix_ENROLLMENT_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.gateway.enrollment.token.existingSecretRef | default (printf "%s-enrollment-token" (include "infisical-gateway.fullname" .)) }}
+                  name: {{ .Values.gateway.enrollment.token.existingSecretRef | default (printf "%s-enrollment-token" (include "vaultix-gateway.fullname" .)) }}
                   key: {{ .Values.gateway.enrollment.token.secretKey | default "enrollment-token" }}
             {{- end }}
             {{- with .Values.extraEnv }}
@@ -100,7 +100,7 @@ spec:
             - --enroll-method={{ .Values.gateway.enrollment.method }}
             - --domain={{ required "gateway.domain is required when gateway.enrollment.method is set" .Values.gateway.domain }}
             {{- if eq .Values.gateway.enrollment.method "token" }}
-            - --token=$(INFISICAL_ENROLLMENT_TOKEN)
+            - --token=$(vaultix_ENROLLMENT_TOKEN)
             {{- end }}
             {{- if eq .Values.gateway.enrollment.method "aws" }}
             - --gateway-id={{ required "gateway.enrollment.aws.gatewayId is required when gateway.enrollment.method is 'aws'" .Values.gateway.enrollment.aws.gatewayId }}
@@ -115,19 +115,19 @@ spec:
           volumeMounts:
             {{- if $usePVC }}
             - name: gateway-data
-              mountPath: /home/infisical
+              mountPath: /home/vaultix
               subPath: credentials
             {{- else }}
             - name: gateway-credentials
-              mountPath: /home/infisical
+              mountPath: /home/vaultix
             {{- end }}
-            - name: infisical-cache
-              mountPath: /var/lib/infisical
+            - name: vaultix-cache
+              mountPath: /var/lib/vaultix
             {{- if $usePVC }}
             - name: gateway-data
               mountPath: {{ $sessionPath }}
               subPath: session-recordings
-            {{- else if not (hasPrefix "/var/lib/infisical" $sessionPath) }}
+            {{- else if not (hasPrefix "/var/lib/vaultix" $sessionPath) }}
             - name: session-recordings
               mountPath: {{ $sessionPath }}
             {{- end }}
@@ -154,13 +154,13 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           volumeMounts:
-            - name: infisical-cache
-              mountPath: /var/lib/infisical
+            - name: vaultix-cache
+              mountPath: /var/lib/vaultix
             {{- if $usePVC }}
             - name: gateway-data
               mountPath: {{ $sessionPath }}
               subPath: session-recordings
-            {{- else if not (hasPrefix "/var/lib/infisical" $sessionPath) }}
+            {{- else if not (hasPrefix "/var/lib/vaultix" $sessionPath) }}
             - name: session-recordings
               mountPath: {{ $sessionPath }}
             {{- end }}

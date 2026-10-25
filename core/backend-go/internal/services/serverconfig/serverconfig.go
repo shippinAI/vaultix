@@ -12,8 +12,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/libs/errutil"
 )
 
 var adminConfigDBUUID = uuid.MustParse("00000000-0000-0000-0000-000000000000")
@@ -22,7 +22,7 @@ const (
 	// PgLockSuperAdminInit is the advisory lock ID used during config initialization.
 	PgLockSuperAdminInit int64 = 2024
 
-	adminConfigCacheKey = "infisical-admin-cfg"
+	adminConfigCacheKey = "vaultix-admin-cfg"
 	adminConfigCacheTTL = 60 * time.Second
 )
 

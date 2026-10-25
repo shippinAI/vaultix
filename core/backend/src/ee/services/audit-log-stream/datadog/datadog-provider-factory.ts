@@ -20,7 +20,7 @@ function createPayload(event: Record<string, unknown>) {
 
   return {
     ...event,
-    hostname: new URL(appCfg.SITE_URL || "http://infisical").hostname,
+    hostname: new URL(appCfg.SITE_URL || "http://vaultix").hostname,
     ddsource: "vaultix",
     service: "vaultix",
     ddtags

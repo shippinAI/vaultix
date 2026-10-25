@@ -22,4 +22,4 @@ Feature: ACME Cert Profile
   Scenario: Enable ACME enrollment on an application and reveal the EAB secret
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account

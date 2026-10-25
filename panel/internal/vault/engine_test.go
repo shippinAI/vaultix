@@ -22,7 +22,7 @@ func TestTablesPrefixedVaultix(t *testing.T) {
 	if found < 4 {
 		t.Fatalf("expected vaultix_ tables, found %d", found)
 	}
-	if strings.Contains(strings.ToLower(Schema), "infisical") {
+	if strings.Contains(strings.ToLower(Schema), "vaultix") {
 		t.Fatal("schema carries leftover brand")
 	}
 }

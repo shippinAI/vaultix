@@ -1,6 +1,6 @@
 import { isIP } from "node:net";
 
-import ldap from "@infisical/ldapjs";
+import ldap from "@vaultix/ldapjs";
 
 import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
 import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
@@ -101,7 +101,7 @@ export const normalizeLdapUrl = (url: string): string => {
 
 /**
  * Extracts the root domain (last two labels) from a hostname.
- * e.g. "dc1.test.com" → "test.com", "americas.infisical.local" → "infisical.local"
+ * e.g. "dc1.test.com" → "test.com", "americas.vaultix.local" → "vaultix.local"
  * Returns null for IPs or single-label hostnames where a suffix check isn't meaningful.
  */
 const getRootDomain = (hostname: string): string | null => {

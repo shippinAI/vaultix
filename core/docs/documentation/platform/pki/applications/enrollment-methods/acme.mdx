@@ -8,7 +8,7 @@ description: "Issue certificates using the ACME protocol with Certbot, cert-mana
   New to Certificate Manager? Start with [Issue Your First Certificate](/documentation/platform/pki/quick-starts/issue-first-certificate).
 </Tip>
 
-Use the ACME enrollment method to request and renew certificates automatically using standard ACME clients. Infisical acts as an ACME server, compatible with tools like Certbot, cert-manager, and any [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555/)-compliant client.
+Use the ACME enrollment method to request and renew certificates automatically using standard ACME clients. vaultix acts as an ACME server, compatible with tools like Certbot, cert-manager, and any [RFC 8555](https://datatracker.ietf.org/doc/html/rfc8555/)-compliant client.
 
 <Info>
   ACME enrollment is configured on profiles attached to your [Application](/documentation/platform/pki/applications/overview). Product Admins attach [profiles](/documentation/platform/pki/settings/profiles), and Application Admins configure enrollment methods on those profiles.
@@ -52,7 +52,7 @@ Install an [ACME client](https://letsencrypt.org/docs/client-options/) on your s
     In the modal, click **Add enrollment method** and select **ACME**.
   </Step>
   <Step title="Configure domain validation">
-    By default, Infisical verifies domain ownership using the [HTTP-01 challenge](https://letsencrypt.org/docs/challenge-types/#http-01-challenge).
+    By default, vaultix verifies domain ownership using the [HTTP-01 challenge](https://letsencrypt.org/docs/challenge-types/#http-01-challenge).
     
     | Option | Description |
     |--------|-------------|
@@ -64,7 +64,7 @@ Install an [ACME client](https://letsencrypt.org/docs/client-options/) on your s
     </Warning>
     
     <Note>
-      Skipping validation here is different from [External ACME CA integrations](/documentation/platform/pki/ca/acme-ca). When using an external ACME CA (like Let's Encrypt), Infisical must always complete DNS-01 challenges with the upstream CA.
+      Skipping validation here is different from [External ACME CA integrations](/documentation/platform/pki/ca/acme-ca). When using an external ACME CA (like Let's Encrypt), vaultix must always complete DNS-01 challenges with the upstream CA.
     </Note>
   </Step>
   <Step title="Get ACME credentials">
@@ -120,17 +120,17 @@ Configure your ACME client with the credentials from the previous step.
     apiVersion: cert-manager.io/v1
     kind: ClusterIssuer
     metadata:
-      name: infisical-acme
+      name: vaultix-acme
     spec:
       acme:
         server: "<ACME Directory URL>"
         email: admin@example.com
         privateKeySecretRef:
-          name: infisical-acme-account
+          name: vaultix-acme-account
         externalAccountBinding:
           keyID: "<EAB Key Identifier>"
           keySecretRef:
-            name: infisical-eab-secret
+            name: vaultix-eab-secret
             key: secret
           keyAlgorithm: HS256
         solvers:
@@ -142,14 +142,14 @@ Configure your ACME client with the credentials from the previous step.
     Create the EAB secret:
     
     ```bash
-    kubectl create secret generic infisical-eab-secret \
+    kubectl create secret generic vaultix-eab-secret \
       --from-literal=secret="<EAB Secret>"
     ```
     
     For full setup, see [Kubernetes cert-manager guide](/documentation/platform/pki/guides/applications/k8s-cert-manager-acme).
   </Tab>
   <Tab title="Other Clients">
-    Any [RFC 8555-compliant ACME client](https://letsencrypt.org/docs/client-options/) works with Infisical. Configure your client with:
+    Any [RFC 8555-compliant ACME client](https://letsencrypt.org/docs/client-options/) works with vaultix. Configure your client with:
     
     1. **Server/Directory URL**: Your ACME Directory URL
     2. **External Account Binding (EAB)**: Use the KID and Secret

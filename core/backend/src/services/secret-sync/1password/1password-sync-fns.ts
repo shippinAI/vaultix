@@ -75,7 +75,7 @@ const createOnePassItem = async ({
       vault: {
         id: vaultId
       },
-      tags: ["synced-from-infisical"],
+      tags: ["synced-from-vaultix"],
       fields: [
         {
           label: valueLabel,
@@ -113,7 +113,7 @@ const updateOnePassItem = async ({
       vault: {
         id: vaultId
       },
-      tags: ["synced-from-infisical"],
+      tags: ["synced-from-vaultix"],
       fields: [
         ...otherFields,
         {

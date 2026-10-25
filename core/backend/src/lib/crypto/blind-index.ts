@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 
-const BLIND_INDEX_CONTEXT = "infisical-secret-value-blind-index-v1";
+const BLIND_INDEX_CONTEXT = "vaultix-secret-value-blind-index-v1";
 
 /**
  * Derives a blind index key from the KMS data key using HKDF.

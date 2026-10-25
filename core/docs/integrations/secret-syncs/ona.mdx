@@ -1,16 +1,16 @@
 ---
 title: "Ona Sync"
-description: "Learn how to configure an Ona Sync for Infisical."
+description: "Learn how to configure an Ona Sync for vaultix."
 ---
 
 **Prerequisites:**
 
-- Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+- Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
 - Create an [Ona Connection](/integrations/app-connections/ona)
 
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add Sync">
                 Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -42,13 +42,13 @@ description: "Learn how to configure an Ona Sync for Infisical."
 
                 ![Configure Sync Options](/images/secret-syncs/ona/ona-options.png)
 
-                - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync. Ona Sync only supports **Overwrite Destination Secrets**. Any environment-variable secrets at the destination that are not present in Infisical will be removed on the first sync.
+                - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync. Ona Sync only supports **Overwrite Destination Secrets**. Any environment-variable secrets at the destination that are not present in vaultix will be removed on the first sync.
                 - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
                 <Note>
-                    We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                    We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
                 </Note>
                 - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-                - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+                - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
             </Step>
             <Step title="Configure details">
                 Configure the **Details** of your Ona Sync, then click **Next**.
@@ -77,7 +77,7 @@ description: "Learn how to configure an Ona Sync for Infisical."
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/secret-syncs/ona \
+                --url https://app.vaultix.com/api/v1/secret-syncs/ona \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-ona-sync",
@@ -89,7 +89,7 @@ description: "Learn how to configure an Ona Sync for Infisical."
                     "isAutoSyncEnabled": true,
                     "syncOptions": {
                         "initialSyncBehavior": "overwrite-destination",
-                        "keySchema": "INFISICAL_{{secretKey}}"
+                        "keySchema": "vaultix_{{secretKey}}"
                     },
                     "destinationConfig": {
                         "projectId": "ona-project-uuid",
@@ -126,7 +126,7 @@ description: "Learn how to configure an Ona Sync for Infisical."
                 "lastRemovedAt": null,
                 "syncOptions": {
                     "initialSyncBehavior": "overwrite-destination",
-                    "keySchema": "INFISICAL_{{secretKey}}",
+                    "keySchema": "vaultix_{{secretKey}}",
                     "disableSecretDeletion": false
                 },
                 "projectId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",

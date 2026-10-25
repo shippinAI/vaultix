@@ -25,7 +25,7 @@ Store certificates in Azure Key Vault as certificate objects. Certificates synce
 ## Create a Key Vault Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **Azure Key Vault** option.
@@ -65,7 +65,7 @@ Store certificates in Azure Key Vault as certificate objects. Certificates synce
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/azure-key-vault \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/azure-key-vault \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -125,7 +125,7 @@ Store certificates in Azure Key Vault as certificate objects. Certificates synce
 
 The Azure Key Vault Certificate Sync provides:
 
-- **Automatic Deployment**: Deploy certificates in Infisical to Azure Key Vault.
+- **Automatic Deployment**: Deploy certificates in vaultix to Azure Key Vault.
 - **Certificate Updates**: Update certificates in Azure Key Vault when renewals occur.
 - **Expiration Handling**: Optionally remove expired certificates from Azure Key Vault (if enabled).
 - **Format Preservation**: Maintain certificate format and metadata during sync operations.
@@ -145,12 +145,12 @@ You can manually trigger certificate synchronization to Azure Key Vault using th
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/azure-key-vault/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/azure-key-vault/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
-<Accordion title="Can I import certificates from Azure Key Vault back into Infisical?">
-  Azure Key Vault does not support importing certificates back into Infisical
+<Accordion title="Can I import certificates from Azure Key Vault back into vaultix?">
+  Azure Key Vault does not support importing certificates back into vaultix
   due to security limitations where private keys cannot be extracted from Azure
   Key Vault.
 </Accordion>

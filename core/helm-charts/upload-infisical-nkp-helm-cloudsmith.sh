@@ -6,7 +6,7 @@ if [ -z "$CLOUDSMITH_API_KEY" ] || [ -z "$CLOUDSMITH_USERNAME" ]; then
     exit 1
 fi
 
-cd "infisical-nkp"
+cd "vaultix-nkp"
 helm dependency update
 helm package .
 
@@ -16,7 +16,7 @@ echo "$CLOUDSMITH_API_KEY" | helm registry login helm.oci.cloudsmith.io \
 
 for i in *.tgz; do
     [ -f "$i" ] || break
-    helm push "$i" oci://helm.oci.cloudsmith.io/infisical/helm-charts
+    helm push "$i" oci://helm.oci.cloudsmith.io/vaultix/helm-charts
 done
 
 helm registry logout helm.oci.cloudsmith.io

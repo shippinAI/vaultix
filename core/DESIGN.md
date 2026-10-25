@@ -1,7 +1,7 @@
-# Infisical Design System (v3)
+# vaultix Design System (v3)
 
 This document captures the v3 visual language and product voice used across
-Infisical. It is the single reference for engineers, designers, and AI coding
+vaultix. It is the single reference for engineers, designers, and AI coding
 agents producing new UI or user-visible copy.
 
 **Source of truth for tokens:** [`frontend/src/index.css`](frontend/src/index.css) (`@theme` block).
@@ -13,7 +13,7 @@ agents producing new UI or user-visible copy.
 
 ## 1. Visual Theme & Atmosphere
 
-Infisical is a security tool for operators. The interface reads like
+vaultix is a security tool for operators. The interface reads like
 infrastructure: dense, calm, and legible. Decorative treatments are reserved
 for brand-forward surfaces such as authentication and onboarding; the core
 product remains utilitarian. Dark is the native medium; the page canvas is

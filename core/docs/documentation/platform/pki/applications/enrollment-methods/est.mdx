@@ -31,7 +31,7 @@ Use the EST enrollment method to issue and renew certificates for enterprise dev
   </Card>
 </CardGroup>
 
-Infisical's EST service implements [RFC 7030](https://datatracker.ietf.org/doc/html/rfc7030) with the following endpoints:
+vaultix's EST service implements [RFC 7030](https://datatracker.ietf.org/doc/html/rfc7030) with the following endpoints:
 
 | Endpoint | Purpose |
 |----------|---------|
@@ -49,11 +49,11 @@ Infisical's EST service implements [RFC 7030](https://datatracker.ietf.org/doc/h
       If your devices don't have bootstrap certificates, you can disable bootstrap validation in the EST configuration (less secure).
     </Note>
   </Step>
-  <Step title="Trust Infisical's EST server">
-    Devices must trust the TLS certificates used by Infisical's EST server.
+  <Step title="Trust vaultix's EST server">
+    Devices must trust the TLS certificates used by vaultix's EST server.
     
     <Note>
-      For Infisical Cloud, configure devices to trust [Amazon root CA certificates](https://www.amazontrust.com/repository).
+      For vaultix Cloud, configure devices to trust [Amazon root CA certificates](https://www.amazontrust.com/repository).
     </Note>
   </Step>
 </Steps>
@@ -86,7 +86,7 @@ Infisical's EST service implements [RFC 7030](https://datatracker.ietf.org/doc/h
     </Warning>
   </Step>
   <Step title="Get EST endpoints">
-    After saving, Infisical provides EST endpoint URLs that you can view in the enrollment configuration. The endpoints follow the EST standard paths:
+    After saving, vaultix provides EST endpoint URLs that you can view in the enrollment configuration. The endpoints follow the EST standard paths:
     
     - `/cacerts` — retrieve CA certificates
     - `/simpleenroll` — initial enrollment
@@ -106,7 +106,7 @@ Configure your EST client with the profile ID and passphrase.
   <Tab title="Initial Enrollment">
     For new devices with a bootstrap certificate:
     
-    1. Configure the EST server URL: `https://app.infisical.com:8443/.well-known/est/{profile-id}`
+    1. Configure the EST server URL: `https://app.vaultix.com:8443/.well-known/est/{profile-id}`
     2. Set EST username to any value (e.g., `device-001`)
     3. Set EST password to your **EST Passphrase**
     4. Use the bootstrap/manufacturer certificate for client authentication
@@ -118,7 +118,7 @@ Configure your EST client with the profile ID and passphrase.
       -u "device-001:<EST-passphrase>" \
       --data-binary @device.csr \
       -H "Content-Type: application/pkcs10" \
-      "https://app.infisical.com:8443/.well-known/est/{profile-id}/simpleenroll"
+      "https://app.vaultix.com:8443/.well-known/est/{profile-id}/simpleenroll"
     ```
     
     <Note>
@@ -137,17 +137,17 @@ Configure your EST client with the profile ID and passphrase.
       -u "device-001:<EST-passphrase>" \
       --data-binary @device.csr \
       -H "Content-Type: application/pkcs10" \
-      "https://app.infisical.com:8443/.well-known/est/{profile-id}/simplereenroll"
+      "https://app.vaultix.com:8443/.well-known/est/{profile-id}/simplereenroll"
     ```
   </Tab>
   <Tab title="Get CA Chain">
     Retrieve the CA certificate chain for validation:
     
     ```bash
-    curl "https://app.infisical.com:8443/.well-known/est/{profile-id}/cacerts"
+    curl "https://app.vaultix.com:8443/.well-known/est/{profile-id}/cacerts"
     ```
     
-    Use this chain to validate certificates issued by Infisical.
+    Use this chain to validate certificates issued by vaultix.
   </Tab>
 </Tabs>
 

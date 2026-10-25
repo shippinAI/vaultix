@@ -37,7 +37,7 @@ const ORG_NAME = "SAML Org";
 const DOMAIN = "saml.com";
 const ADMIN_EMAIL = "admin@saml.com";
 const PASSWORD = process.env.SEED_SSO_USER_PASSWORD || "password123!";
-const GROUP_NAME = "infisical-saml";
+const GROUP_NAME = "vaultix-saml";
 const APP_SLUG = "vaultix";
 const TEST_USERS = [
   { username: "john@saml.com", email: "john@saml.com", name: "John Doe" },
@@ -214,7 +214,7 @@ const main = async () => {
 
     // ---- Authentik: SAML provider (ACS -> Vaultix, NameID = email) ----
     const samlBody = {
-      name: "infisical-saml",
+      name: "vaultix-saml",
       authorization_flow: authFlow,
       invalidation_flow: invalidationFlow,
       acs_url: `${SITE_URL}/api/v1/sso/saml2/${SAML_CONFIG_ID}`,
@@ -230,7 +230,7 @@ const main = async () => {
       name_id_mapping: emailMapping,
       property_mappings: [emailMapping, firstNameMapping, lastNameMapping]
     };
-    let samlProviderPk = await akFindPk(`/providers/saml/?name=infisical-saml`);
+    let samlProviderPk = await akFindPk(`/providers/saml/?name=vaultix-saml`);
     if (samlProviderPk) {
       await akSend("PATCH", `/providers/saml/${samlProviderPk}/`, samlBody);
     } else {
@@ -269,7 +269,7 @@ const main = async () => {
       `/propertymappings/provider/scim/?search=${encodeURIComponent("default SCIM Mapping: Group")}`
     );
     const scimBody = {
-      name: "infisical-scim",
+      name: "vaultix-scim",
       url: VAULTIX_SCIM_URL,
       token: scimToken,
       exclude_users_service_account: true,
@@ -282,7 +282,7 @@ const main = async () => {
     // create tolerates "provider with this name already exists" (a concurrent run or residual provider)
     // by deleting again and retrying once.
     const deleteScimProvider = async () => {
-      const pk = await akFindPk(`/providers/scim/?name=infisical-scim`);
+      const pk = await akFindPk(`/providers/scim/?name=vaultix-scim`);
       if (pk) await fetch(`${AK}/providers/scim/${pk}/`, { method: "DELETE", headers: akHeaders });
     };
     await deleteScimProvider();
@@ -329,7 +329,7 @@ const main = async () => {
     if (!backendUp) logger.warn(`Vaultix backend not reachable at ${healthUrl}; SCIM sync may not provision.`);
 
     // ---- Provision + verify, with retries. Touch each test user to fire Authentik's per-object SCIM
-    // sync (the user + their groups, i.e. infisical-saml). The sync is async, so poll Vaultix and
+    // sync (the user + their groups, i.e. vaultix-saml). The sync is async, so poll Vaultix and
     // re-touch for a few rounds: a transient miss (backend mid-restart, etc.) self-heals instead of
     // silently provisioning nothing. Per-object sync also keeps it scoped (no full-sync built-in-group
     // noise); the SCIM provider stays linked to the app as its backchannel provider. ----
@@ -346,8 +346,8 @@ const main = async () => {
       // rounds until the users it references exist in Vaultix).
       // eslint-disable-next-line no-await-in-loop
       await Promise.all([
-        ...userPks.map((pk) => akSend("PATCH", `/core/users/${pk}/`, { attributes: { infisicalResync: round } })),
-        akSend("PATCH", `/core/groups/${groupPk}/`, { attributes: { infisicalResync: round } })
+        ...userPks.map((pk) => akSend("PATCH", `/core/users/${pk}/`, { attributes: { vaultixResync: round } })),
+        akSend("PATCH", `/core/groups/${groupPk}/`, { attributes: { vaultixResync: round } })
       ]);
       // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {

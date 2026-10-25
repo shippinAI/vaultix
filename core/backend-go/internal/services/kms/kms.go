@@ -13,11 +13,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/ee/services/externalkms"
-	"github.com/infisical/api/internal/libs/crypto/cipher"
-	"github.com/infisical/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/ee/services/externalkms"
+	"github.com/vaultix/api/internal/libs/crypto/cipher"
+	"github.com/vaultix/api/internal/libs/errutil"
 )
 
 // KmsRootConfigUUID is the fixed UUID for the single kms_root_config row.

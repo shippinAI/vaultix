@@ -4,7 +4,7 @@ sidebarTitle: "Set Up HTTPS for Windows"
 description: "Issue TLS certificates for Windows Server using ACME enrollment with win-acme."
 ---
 
-Set up automatic TLS certificates for your [Windows Server](https://www.microsoft.com/en-us/windows-server) using Infisical and [win-acme](https://www.win-acme.com/). Win-acme offers excellent integration with IIS and Windows Certificate Store.
+Set up automatic TLS certificates for your [Windows Server](https://www.microsoft.com/en-us/windows-server) using vaultix and [win-acme](https://www.win-acme.com/). Win-acme offers excellent integration with IIS and Windows Certificate Store.
 
 <Info>
   This guide assumes you have an Application with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured.
@@ -13,23 +13,23 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
 ## Prerequisites
 
 - A Windows Server instance with administrative access
-- An Application in Infisical with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
-- Network connectivity from your Windows Server to Infisical
+- An Application in vaultix with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
+- Network connectivity from your Windows Server to vaultix
 
 ## Guide
 
 <Steps>
-    <Step title="Get ACME Credentials from Infisical">
+    <Step title="Get ACME Credentials from vaultix">
         In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with ACME enrollment, then click **Reveal ACME EAB** to view the credentials:
 
         | Credential | Purpose |
         |------------|---------|
-        | **ACME Directory URL** | The URL win-acme uses to communicate with Infisical |
+        | **ACME Directory URL** | The URL win-acme uses to communicate with vaultix |
         | **EAB Key Identifier (KID)** | Identifies your ACME account |
         | **EAB Secret** | Authenticates your ACME client |
 
         <Note>
-            Keep your EAB credentials secure. They authenticate your ACME client with Infisical and are unique to each enrollment.
+            Keep your EAB credentials secure. They authenticate your ACME client with vaultix and are unique to each enrollment.
         </Note>
     </Step>
 
@@ -60,17 +60,17 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
     </Step>
 
     <Step title="Request Certificate Using Command Line">
-        Run the following win-acme command to request a certificate from Infisical:
+        Run the following win-acme command to request a certificate from vaultix:
 
         ```powershell
-        wacs.exe --target manual --host example.infisical.com --baseuri "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pemfiles --pemfilespath "C:\certificates" --verbose
+        wacs.exe --target manual --host example.vaultix.com --baseuri "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pemfiles --pemfilespath "C:\certificates" --verbose
         ```
 
         For guidance on each parameter:
 
         - `--target manual`: Specifies manual target configuration for domain specification.
         - `--host`: The domain name for which the certificate is being requested.
-        - `--baseuri`: The Infisical ACME directory URL from Step 1. This instructs win-acme to communicate with Infisical's ACME server instead of other ACME providers.
+        - `--baseuri`: The vaultix ACME directory URL from Step 1. This instructs win-acme to communicate with vaultix's ACME server instead of other ACME providers.
         - `--eab-key-identifier`: Your External Account Binding (EAB) Key Identifier from Step 1.
         - `--eab-key`: The EAB secret associated with the KID from Step 1.
         - `--validation selfhosting`: Uses self-hosting validation method to solve the [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) challenge.
@@ -78,12 +78,12 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
         - `--pemfilespath`: Directory where certificates will be saved on your Windows Server.
         - `--verbose`: Enables detailed logging for troubleshooting and monitoring the certificate request process.
 
-        The win-acme command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to Infisical for certificate issuance. Win-acme stores the private key and resulting leaf certificate and full certificate chain in the specified directory path.
+        The win-acme command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to vaultix for certificate issuance. Win-acme stores the private key and resulting leaf certificate and full certificate chain in the specified directory path.
 
         <Note>
             Replace the placeholder values with your actual configuration:
-            - `example.infisical.com`: Your actual domain name
-            - `https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory`: Your Infisical ACME endpoint from Step 1
+            - `example.vaultix.com`: Your actual domain name
+            - `https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory`: Your vaultix ACME endpoint from Step 1
             - `your-eab-key-identifier` and `your-eab-secret`: Your External Account Binding credentials from Step 1
             - `C:\certificates`: Your desired certificate storage location
         </Note>
@@ -97,35 +97,35 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
                 Store certificates directly in the [Windows Certificate Store](https://docs.microsoft.com/en-us/windows-hardware/drivers/install/certificate-stores) for integration with IIS and other Windows services:
 
                 ```powershell
-                wacs.exe --target manual --host example.infisical.com --baseuri "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store certificatestore --verbose
+                wacs.exe --target manual --host example.vaultix.com --baseuri "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store certificatestore --verbose
                 ```
             </Tab>
             <Tab title="PFX Files">
                 Generate [PFX files](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/certutil) with password protection for easy deployment across Windows environments:
 
                 ```powershell
-                wacs.exe --target manual --host example.infisical.com --baseuri "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pfxfile --pfxfilepath "C:\certificates" --pfxpassword "your-secure-password" --verbose
+                wacs.exe --target manual --host example.vaultix.com --baseuri "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pfxfile --pfxfilepath "C:\certificates" --pfxpassword "your-secure-password" --verbose
                 ```
             </Tab>
             <Tab title="IIS Central SSL">
                 For IIS Central SSL store integration in high-scale environments:
 
                 ```powershell
-                wacs.exe --target manual --host example.infisical.com --baseuri "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store centralssl --centralsslstore "C:\CentralSSL" --verbose
+                wacs.exe --target manual --host example.vaultix.com --baseuri "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store centralssl --centralsslstore "C:\CentralSSL" --verbose
                 ```
             </Tab>
         </Tabs>
     </Step>
 
     <Step title="Configure Automatic Renewal">
-        Win-acme can automatically create a [Windows Scheduled Task](https://docs.microsoft.com/en-us/windows/win32/taskschd/about-the-task-scheduler) for certificate renewal. Because win-acme stores the ACME server URL and EAB credentials from your initial request, renewal will automatically use the same Infisical ACME configuration—no additional settings are required.
+        Win-acme can automatically create a [Windows Scheduled Task](https://docs.microsoft.com/en-us/windows/win32/taskschd/about-the-task-scheduler) for certificate renewal. Because win-acme stores the ACME server URL and EAB credentials from your initial request, renewal will automatically use the same vaultix ACME configuration—no additional settings are required.
 
         **Option 1: Enable during initial certificate request**
 
         Include the `--setuptaskscheduler` parameter in your initial command to automatically create the renewal task:
 
         ```powershell
-        wacs.exe --target manual --host example.infisical.com --baseuri "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pemfiles --pemfilespath "C:\certificates" --setuptaskscheduler --verbose
+        wacs.exe --target manual --host example.vaultix.com --baseuri "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" --eab-key-identifier "your-eab-key-identifier" --eab-key "your-eab-secret" --validation selfhosting --store pemfiles --pemfilespath "C:\certificates" --setuptaskscheduler --verbose
         ```
 
         **Option 2: Test manual renewal**
@@ -136,7 +136,7 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
         wacs.exe --renew --force --verbose
         ```
 
-        This command simulates the full renewal process and verifies that win-acme can successfully contact Infisical and renew your certificate using the stored configuration.
+        This command simulates the full renewal process and verifies that win-acme can successfully contact vaultix and renew your certificate using the stored configuration.
 
         **Option 3: Verify scheduled task creation**
 
@@ -169,10 +169,10 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
                 ```
 
                 You should see files like:
-                - `example.infisical.com-crt.pem` (certificate)
-                - `example.infisical.com-key.pem` (private key)
-                - `example.infisical.com-chain.pem` (complete certificate chain)
-                - `example.infisical.com-chain-only.pem` (only certificate chain)
+                - `example.vaultix.com-crt.pem` (certificate)
+                - `example.vaultix.com-key.pem` (private key)
+                - `example.vaultix.com-chain.pem` (complete certificate chain)
+                - `example.vaultix.com-chain-only.pem` (only certificate chain)
 
                 ![Windows Server Generated PEM files](/images/platform/pki/integrations/windows-server/certificates-created.png)
             </Tab>
@@ -180,7 +180,7 @@ Set up automatic TLS certificates for your [Windows Server](https://www.microsof
                 If you used the certificate store option, check that the certificate was properly installed using PowerShell:
 
                 ```powershell
-                Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -like "*example.infisical.com*"}
+                Get-ChildItem -Path Cert:\LocalMachine\My | Where-Object {$_.Subject -like "*example.vaultix.com*"}
                 ```
 
                 The certificate should appear in the [Local Computer Personal certificate store](https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/working-with-certificates#certificate-stores), making it available for use with IIS, other Windows services, and applications that integrate with the Windows Certificate Store.

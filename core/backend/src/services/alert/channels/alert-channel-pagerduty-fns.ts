@@ -51,7 +51,7 @@ export const buildPagerDutyEvent = (
   payload: {
     summary: `${payload.summary} — ${item.title}`.slice(0, PAGERDUTY_SUMMARY_MAX_LENGTH),
     severity: payload.severity,
-    source: `infisical-${payload.alert.resourceType}`,
+    source: `vaultix-${payload.alert.resourceType}`,
     timestamp: new Date().toISOString(),
     component: payload.resourceKind,
     group: payload.alert.projectId ?? payload.alert.orgId,

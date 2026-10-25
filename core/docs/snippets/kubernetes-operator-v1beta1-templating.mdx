@@ -2,8 +2,8 @@ import KubernetesOperatorTemplatingHelpers from "/snippets/kubernetes-operator-t
 
 ## Templating
 
-Fetching secrets from Infisical as-is via the operator may not be enough. This is where templating functionality may be helpful.
-Using Go templates, you can format, combine, and create new key-value pairs from secrets fetched from Infisical before storing them as Kubernetes Secrets or ConfigMaps.
+Fetching secrets from vaultix as-is via the operator may not be enough. This is where templating functionality may be helpful.
+Using Go templates, you can format, combine, and create new key-value pairs from secrets fetched from vaultix before storing them as Kubernetes Secrets or ConfigMaps.
 
 When a template is set, only the keys defined in `template.data` are included in the output.
 When no template is set, all fetched secrets are included as-is.
@@ -11,7 +11,7 @@ When no template is set, all fetched secrets are included as-is.
 Each secret is available in the template context as `.SECRET_KEY`, which is an object with two accessors:
 
 - `.Value`: the secret value.
-- `.SecretPath`: the path of the secret in Infisical.
+- `.SecretPath`: the path of the secret in vaultix.
 
 ### Key/value template map
 

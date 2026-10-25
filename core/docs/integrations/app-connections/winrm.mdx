@@ -1,14 +1,14 @@
 ---
 title: "Windows (WinRM) Connection"
-description: "Learn how to configure a Windows (WinRM) Connection for Infisical."
+description: "Learn how to configure a Windows (WinRM) Connection for vaultix."
 ---
 
-Infisical supports connecting to Windows hosts over WinRM to deliver certificates. The connection always routes through an [Infisical Gateway](/documentation/platform/gateways/overview) inside your network, which reaches the host and runs the WinRM session on Infisical's behalf. By default it uses HTTP with NTLM message encryption, which keeps the certificate and key confidential without a server certificate. HTTPS is also supported.
+vaultix supports connecting to Windows hosts over WinRM to deliver certificates. The connection always routes through an [vaultix Gateway](/documentation/platform/gateways/overview) inside your network, which reaches the host and runs the WinRM session on vaultix's behalf. By default it uses HTTP with NTLM message encryption, which keeps the certificate and key confidential without a server certificate. HTTPS is also supported.
 
 ## Setup
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Gather WinRM Details">
         You will need the following for the target Windows host:
@@ -23,7 +23,7 @@ Infisical supports connecting to Windows hosts over WinRM to deliver certificate
         </Note>
       </Step>
       <Step title="Navigate to App Connections">
-        In the Infisical dashboard, navigate to **Organization Settings** > **App Connections** and click **Add Connection**.
+        In the vaultix dashboard, navigate to **Organization Settings** > **App Connections** and click **Add Connection**.
       </Step>
       <Step title="Select Windows (WinRM)">
         Select the **Windows (WinRM)** option from the list of available connections.
@@ -36,7 +36,7 @@ Infisical supports connecting to Windows hosts over WinRM to deliver certificate
         - **Username** and **Password**: The Windows account credentials.
         - **Enable SSL**: Off (default) uses HTTP with NTLM message encryption, which needs no server certificate. On uses HTTPS.
         - **SSL Certificate** (HTTPS only): Optional CA certificate (PEM). Leave empty to verify the listener against the system trust store, or paste the listener's certificate to verify a self-signed WinRM HTTPS listener.
-        - **Reject Unauthorized** (HTTPS only): When on (default), Infisical only connects if the listener presents a valid, trusted certificate.
+        - **Reject Unauthorized** (HTTPS only): When on (default), vaultix only connects if the listener presents a valid, trusted certificate.
 
         Click **Connect to Windows (WinRM)** to validate and save your connection.
       </Step>
@@ -54,7 +54,7 @@ Infisical supports connecting to Windows hosts over WinRM to deliver certificate
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/winrm \
+      --url https://app.vaultix.com/api/v1/app-connections/winrm \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{
@@ -64,7 +64,7 @@ Infisical supports connecting to Windows hosts over WinRM to deliver certificate
           "credentials": {
               "host": "win01.corp.example.com",
               "port": 5985,
-              "username": "DOMAIN\\svc-infisical",
+              "username": "DOMAIN\\svc-vaultix",
               "password": "[PASSWORD]",
               "sslEnabled": false,
               "sslRejectUnauthorized": true
@@ -83,5 +83,5 @@ Enable SSL to use HTTPS on port 5986. For a self-signed HTTPS listener, paste it
 ## FAQ
 
 <Accordion title="Why does this connection require a Gateway?">
-  The Gateway runs the WinRM session on Infisical's behalf, so a Gateway with access to the Windows host is always required.
+  The Gateway runs the WinRM session on vaultix's behalf, so a Gateway with access to the Windows host is always required.
 </Accordion>

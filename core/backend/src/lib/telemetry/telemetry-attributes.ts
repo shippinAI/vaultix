@@ -7,8 +7,8 @@ export const VAULTIX_CORE_METER_ATTRIBUTES = [
   "http.route",
   "http.response.status_code",
   // Bounded enums
-  "infisical.auth.method",
-  "infisical.auth.result",
+  "vaultix.auth.method",
+  "vaultix.auth.result",
   "queue.name",
   "queue.state",
   "job.name",

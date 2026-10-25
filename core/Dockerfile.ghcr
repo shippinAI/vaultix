@@ -1,4 +1,4 @@
-# GHCR engine image: Infisical MIT pin, renamed Vaultix.
+# GHCR engine image: vaultix MIT pin, renamed Vaultix.
 # Secrets UI + API. No Oracle Instant Client, no OpenSSL-from-source, no Go sidecar
 # (sidecar spawn is off). Those extras filled GitHub-hosted disks.
 # Local/full standalone remains Dockerfile.standalone-vaultix.

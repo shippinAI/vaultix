@@ -1,16 +1,16 @@
 ---
 title: "Core Components"
 sidebarTitle: "PAM Components"
-description: "Understand how Infisical PAM is structured."
+description: "Understand how vaultix PAM is structured."
 ---
 
-Infisical PAM is built around four core components: accounts, folders, account templates, and memberships. Understanding how they relate helps you set up secure, organized access to your infrastructure.
+vaultix PAM is built around four core components: accounts, folders, account templates, and memberships. Understanding how they relate helps you set up secure, organized access to your infrastructure.
 
 ## Accounts
 
-An **account** represents a single database or server you want to manage. You provide the connection details (host, port, database) and credentials (username, password), and Infisical stores them securely. Whoever connects, a person or a machine, goes through Infisical without ever seeing the underlying credentials.
+An **account** represents a single database or server you want to manage. You provide the connection details (host, port, database) and credentials (username, password), and vaultix stores them securely. Whoever connects, a person or a machine, goes through vaultix without ever seeing the underlying credentials.
 
-Infisical supports databases (PostgreSQL, MySQL, MS SQL, MongoDB, Redis), servers (SSH, Windows), Kubernetes clusters, and cloud accounts (AWS IAM, GCP, Azure).
+vaultix supports databases (PostgreSQL, MySQL, MS SQL, MongoDB, Redis), servers (SSH, Windows), Kubernetes clusters, and cloud accounts (AWS IAM, GCP, Azure).
 
 [Learn more about Accounts →](/documentation/platform/pam/accounts/overview)
 
@@ -34,7 +34,7 @@ Permissions are set at the folder level, so everyone with access to a folder can
 
 Templates are specific to an account type. This allows for type-specific policies — for example, command restrictions for SSH or query restrictions for databases in future releases.
 
-Every account uses a template of the same type. Infisical provides default templates for each account type with sensible settings, so you can start creating accounts immediately. Create custom templates when you need different rules for different environments or compliance requirements.
+Every account uses a template of the same type. vaultix provides default templates for each account type with sensible settings, so you can start creating accounts immediately. Create custom templates when you need different rules for different environments or compliance requirements.
 
 **Templates define rules, folders define access.** Accounts in the same folder can use different templates (different rules, same team access), and accounts in different folders can use the same template (same rules, different team access).
 

@@ -1,11 +1,11 @@
 ---
 title: "Project Permissions"
-description: "Comprehensive guide to Infisical's project-level permissions"
+description: "Comprehensive guide to vaultix's project-level permissions"
 ---
 
 ## Overview
 
-Infisical's project permissions system follows a role-based access control (RBAC) model built on a subject-action-object framework. At the project level, these permissions determine what actions users/machines can perform on various resources within a specific project.
+vaultix's project permissions system follows a role-based access control (RBAC) model built on a subject-action-object framework. At the project level, these permissions determine what actions users/machines can perform on various resources within a specific project.
 
 Each permission consists of:
 
@@ -520,7 +520,7 @@ Create a custom role that can only read secrets in the production environment:
 
 ```bash
 curl --request POST \
-  --url https://app.infisical.com/api/v1/projects/{projectId}/roles \
+  --url https://app.vaultix.com/api/v1/projects/{projectId}/roles \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
@@ -544,7 +544,7 @@ Create a role that can only manage secrets under `/app/config/`:
 
 ```bash
 curl --request POST \
-  --url https://app.infisical.com/api/v1/projects/{projectId}/roles \
+  --url https://app.vaultix.com/api/v1/projects/{projectId}/roles \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
@@ -568,7 +568,7 @@ Create a role that grants PAM access only to specific database resources:
 
 ```bash
 curl --request POST \
-  --url https://app.infisical.com/api/v1/projects/{projectId}/roles \
+  --url https://app.vaultix.com/api/v1/projects/{projectId}/roles \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{

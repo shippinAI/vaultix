@@ -16,15 +16,15 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
 - Create a [Cloudflare Connection](/integrations/app-connections/cloudflare). That connection is used to create and delete API tokens on your behalf during rotation.
 - The connection's API token must include:
     - **Account** - **API Tokens** - **Edit**, to create and revoke the generated tokens.
-    - **Account** - **Workers R2 Storage** - **Read**, so Infisical can list your buckets for the bucket picker.
-    - **Account** - **Account Settings** - **Read**, so Infisical can validate the connection.
+    - **Account** - **Workers R2 Storage** - **Read**, so vaultix can list your buckets for the bucket picker.
+    - **Account** - **Account Settings** - **Read**, so vaultix can validate the connection.
 
-  See the **Secret Rotation** tab under [Configure API Token and Account ID for Infisical](/integrations/app-connections/cloudflare#configure-api-token-and-account-id-for-infisical) for the exact configuration.
+  See the **Secret Rotation** tab under [Configure API Token and Account ID for vaultix](/integrations/app-connections/cloudflare#configure-api-token-and-account-id-for-vaultix) for the exact configuration.
 
-## Create a Cloudflare R2 Access Key Rotation in Infisical
+## Create a Cloudflare R2 Access Key Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
 
@@ -42,7 +42,7 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
 
         4. Set the R2 access key parameters, then click **Next**.
 
-        The **General** tab defines the key Infisical generates:
+        The **General** tab defines the key vaultix generates:
 
         - **Token Name** - The name for the generated Cloudflare API token, up to 100 characters. A timestamp is appended to each generated token so every rotation produces a distinct name in Cloudflare.
         - **Buckets** - The R2 buckets the generated key can act on. The list is fetched through your Cloudflare Connection and covers every jurisdiction your account has enabled; buckets outside the `default` jurisdiction are labelled with theirs.
@@ -61,8 +61,8 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
 
         5. Specify the secret names that the rotated credentials will be mapped to. Then click **Next**.
 
-        - **Access Key ID** - The name of the secret in Infisical where the generated access key ID will be stored.
-        - **Secret Access Key** - The name of the secret in Infisical where the generated secret access key will be stored.
+        - **Access Key ID** - The name of the secret in vaultix where the generated access key ID will be stored.
+        - **Secret Access Key** - The name of the secret in vaultix where the generated secret access key will be stored.
 
         ![Rotation Secrets Mapping](/images/secret-rotations-v2/cloudflare-r2-access-key/step-4.png)
 
@@ -82,7 +82,7 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
         ![Rotation Created](/images/secret-rotations-v2/cloudflare-r2-access-key/step-7.png)
 
         <Note>
-          Infisical sets an expiration on every token it generates, calculated as twice the rotation interval plus one day, with a minimum of 7 days. This guarantees a key can never expire while it is still the active or previous credential.
+          vaultix sets an expiration on every token it generates, calculated as twice the rotation interval plus one day, with a minimum of 7 days. This guarantees a key can never expire while it is still the active or previous credential.
         </Note>
     </Tab>
     <Tab title="API">
@@ -92,7 +92,7 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
 
         ```bash Request
         curl --request POST \
-          --url https://us.infisical.com/api/v2/secret-rotations/cloudflare-r2-access-key \
+          --url https://us.vaultix.com/api/v2/secret-rotations/cloudflare-r2-access-key \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-r2-access-key-rotation",
@@ -108,7 +108,7 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
               "minutes": 0
             },
             "parameters": {
-              "name": "infisical-r2-access-key",
+              "name": "vaultix-r2-access-key",
               "buckets": [
                 { "name": "my-bucket", "jurisdiction": "default" }
               ],
@@ -141,7 +141,7 @@ An R2 access key is a Cloudflare API token viewed through R2's S3-compatible API
             "rotateAtUtc": { "hours": 0, "minutes": 0 },
             "type": "cloudflare-r2-access-key",
             "parameters": {
-              "name": "infisical-r2-access-key",
+              "name": "vaultix-r2-access-key",
               "buckets": [
                 { "name": "my-bucket", "jurisdiction": "default" }
               ],

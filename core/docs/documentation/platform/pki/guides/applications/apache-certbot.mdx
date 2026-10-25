@@ -4,7 +4,7 @@ sidebarTitle: "Set Up HTTPS for Apache"
 description: "Issue TLS certificates for Apache HTTP Server using ACME enrollment with Certbot."
 ---
 
-Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.apache.org/) using Infisical and [Certbot](https://certbot.eff.org/). Apache has excellent Certbot integration for both certificate-only mode and automatic SSL configuration.
+Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.apache.org/) using vaultix and [Certbot](https://certbot.eff.org/). Apache has excellent Certbot integration for both certificate-only mode and automatic SSL configuration.
 
 <Info>
   This guide assumes you have an Application with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured.
@@ -13,24 +13,24 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
 ## Prerequisites
 
 - An Apache HTTP Server running on Linux with administrative access
-- An Application in Infisical with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
-- Network connectivity from your Apache server to Infisical
+- An Application in vaultix with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
+- Network connectivity from your Apache server to vaultix
 - Port 80 open for [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) validation
 
 ## Guide
 
 <Steps>
-    <Step title="Get ACME Credentials from Infisical">
+    <Step title="Get ACME Credentials from vaultix">
         In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with ACME enrollment, then click **Reveal ACME EAB** to view the credentials:
 
         | Credential | Purpose |
         |------------|---------|
-        | **ACME Directory URL** | The URL Certbot uses to communicate with Infisical |
+        | **ACME Directory URL** | The URL Certbot uses to communicate with vaultix |
         | **EAB Key Identifier (KID)** | Identifies your ACME account |
         | **EAB Secret** | Authenticates your ACME client |
 
         <Note>
-            Keep your EAB credentials secure. They authenticate your ACME client with Infisical and are unique to each enrollment.
+            Keep your EAB credentials secure. They authenticate your ACME client with vaultix and are unique to each enrollment.
         </Note>
     </Step>
 
@@ -47,15 +47,15 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
     </Step>
 
     <Step title="Request Certificate Using Certbot">
-        Run the following command to request a certificate from Infisical:
+        Run the following command to request a certificate from vaultix:
 
         ```bash
         sudo certbot certonly \
           --apache \
-          --server "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
+          --server "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
           --eab-kid "your-eab-key-identifier" \
           --eab-hmac-key "your-eab-secret" \
-          -d example.infisical.com \
+          -d example.vaultix.com \
           --email admin@example.com \
           --agree-tos \
           --non-interactive
@@ -65,7 +65,7 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
 
         - `certonly`: Instructs Certbot to request a certificate without modifying your Apache configuration files; this mode is recommended if you prefer to manage your Apache SSL configuration manually or have a complex setup.
         - `--apache`: Specifies the Apache plugin so Certbot can solve the [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) challenge by creating temporary files served by Apache.
-        - `--server`: The Infisical ACME directory URL from Step 1. This instructs Certbot to communicate with Infisical's ACME server instead of Let's Encrypt.
+        - `--server`: The vaultix ACME directory URL from Step 1. This instructs Certbot to communicate with vaultix's ACME server instead of Let's Encrypt.
         - `--eab-kid`: Your External Account Binding (EAB) Key Identifier from Step 1.
         - `--eab-hmac-key`: The EAB secret associated with the KID from Step 1.
         - `-d`: Specifies the domain name for which the certificate is being requested.
@@ -73,7 +73,7 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
         - `--agree-tos`: Accepts the ACME server's Terms of Service.
         - `--non-interactive`: Runs Certbot without prompting for user input (recommended for automation).
 
-        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to Infisical for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
+        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to vaultix for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
 
         If `--certonly` is used: Certbot does **not** modify your Apache configuration, so you must manually update your Apache virtual host to reference the new certificate files and reload the server to apply the changes.
 
@@ -81,13 +81,13 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
 
         ```apache
         <VirtualHost *:443>
-            ServerName example.infisical.com
+            ServerName example.vaultix.com
             DocumentRoot /var/www/html
 
             SSLEngine on
-            SSLCertificateFile /etc/letsencrypt/live/example.infisical.com/cert.pem
-            SSLCertificateKeyFile /etc/letsencrypt/live/example.infisical.com/privkey.pem
-            SSLCertificateChainFile /etc/letsencrypt/live/example.infisical.com/chain.pem
+            SSLCertificateFile /etc/letsencrypt/live/example.vaultix.com/cert.pem
+            SSLCertificateKeyFile /etc/letsencrypt/live/example.vaultix.com/privkey.pem
+            SSLCertificateChainFile /etc/letsencrypt/live/example.vaultix.com/chain.pem
 
             # Your existing configuration...
         </VirtualHost>
@@ -102,7 +102,7 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
 
         If `--certonly` was **not** used: Certbot uses installer mode, which attempts to automatically configure HTTPS by updating your Apache virtual host configuration and reloading the server if needed.
 
-        At this point, your Apache server should be successfully serving HTTPS using the certificate issued by Infisical.
+        At this point, your Apache server should be successfully serving HTTPS using the certificate issued by vaultix.
     </Step>
 
     <Step title="Verify Certificate Installation">
@@ -111,7 +111,7 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
         Check that the certificate files were created by Certbot:
 
         ```bash
-        sudo ls -la /etc/letsencrypt/live/example.infisical.com/
+        sudo ls -la /etc/letsencrypt/live/example.vaultix.com/
         ```
 
         You should see files like:
@@ -122,7 +122,7 @@ Set up automatic TLS certificates for your [Apache HTTP Server](https://httpd.ap
     </Step>
 
     <Step title="Renew Your Certificate with Certbot">
-        Certbot automatically installs a `systemd` timer during installation. This timer runs twice per day and checks whether any certificates are due for renewal. Because Certbot stores the ACME server URL and EAB credentials from your initial request, renewal will automatically use the same Infisical ACME configuration—no additional settings are required.
+        Certbot automatically installs a `systemd` timer during installation. This timer runs twice per day and checks whether any certificates are due for renewal. Because Certbot stores the ACME server URL and EAB credentials from your initial request, renewal will automatically use the same vaultix ACME configuration—no additional settings are required.
 
         Note that Certbot automatically renews certificates when they are within 30 days of expiration; renewal settings can be adjusted in `/etc/letsencrypt/renewal/{domain-name}.conf`.
 

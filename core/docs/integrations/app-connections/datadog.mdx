@@ -1,15 +1,15 @@
 ---
 title: "Datadog Connection"
-description: "Learn how to configure a Datadog Connection for Infisical."
+description: "Learn how to configure a Datadog Connection for vaultix."
 ---
 
-Infisical supports two methods for authenticating with Datadog:
+vaultix supports two methods for authenticating with Datadog:
 
 - **Service Access Token** (recommended): a Datadog [Service Access Token](https://docs.datadoghq.com/account_management/service-access-tokens/) issued on a Service Account and sent as a bearer token (`Authorization: Bearer <token>`).
 - **Application Keys**: a Datadog [API Key](https://docs.datadoghq.com/account_management/api-app-keys/) paired with a Service Account [Application Key](https://docs.datadoghq.com/account_management/org_settings/service_accounts/).
 
 <Note>
-    We recommend the **Service Access Token** method. Tokens are scoped, can be given an expiration, and are bound to a dedicated Service Account, so the credentials Infisical uses can be rotated and revoked independently of any individual user. The **Application Keys** method remains available for existing setups.
+    We recommend the **Service Access Token** method. Tokens are scoped, can be given an expiration, and are bound to a dedicated Service Account, so the credentials vaultix uses can be rotated and revoked independently of any individual user. The **Application Keys** method remains available for existing setups.
 </Note>
 
 ## Create Datadog Credentials
@@ -36,7 +36,7 @@ Infisical supports two methods for authenticating with Datadog:
                 Provide a name, email, and select a role for the Service Account, then click **Create Service Account**.
 
                 <Note>
-                    The Service Account's role determines which resources Infisical can access. Make sure it has access to the resources you want Infisical to manage. For secret rotation, it is required to have the `Datadog Admin Role` as a base so the token can be scoped.
+                    The Service Account's role determines which resources vaultix can access. Make sure it has access to the resources you want vaultix to manage. For secret rotation, it is required to have the `Datadog Admin Role` as a base so the token can be scoped.
                 </Note>
 
                 ![Create Service Account](/images/app-connections/datadog/create-service-account.png)
@@ -52,7 +52,7 @@ Infisical supports two methods for authenticating with Datadog:
                 ![Create Access Token](/images/app-connections/datadog/create-access-token.png)
             </Step>
             <Step title="Name the Access Token">
-                Enter a descriptive **Name** for the token (e.g. `infisical-connection`) and choose an **Expiration Date** (`1 day`, `1 month`, `1 year`, `Never`, or `Custom`).
+                Enter a descriptive **Name** for the token (e.g. `vaultix-connection`) and choose an **Expiration Date** (`1 day`, `1 month`, `1 year`, `Never`, or `Custom`).
 
                 ![Access Token Name](/images/app-connections/datadog/access-token-name.png)
             </Step>
@@ -74,7 +74,7 @@ Infisical supports two methods for authenticating with Datadog:
 
             </Step>
             <Step title="Copy the Access Token Value">
-                Datadog displays the token secret **only once** at creation time. Copy the **token value** and store it somewhere safe. You will need it when creating the Infisical connection.
+                Datadog displays the token secret **only once** at creation time. Copy the **token value** and store it somewhere safe. You will need it when creating the vaultix connection.
 
                 ![Copy Access Token](/images/app-connections/datadog/copy-access-token.png)
             </Step>
@@ -98,12 +98,12 @@ Infisical supports two methods for authenticating with Datadog:
                 ![New API Key Button](/images/app-connections/datadog/new-key-button.png)
             </Step>
             <Step title="Name the API Key">
-                Provide a descriptive name for the API Key (e.g. `infisical-connection`) and click **Create Key**.
+                Provide a descriptive name for the API Key (e.g. `vaultix-connection`) and click **Create Key**.
 
                 ![Name API Key](/images/app-connections/datadog/api-key-name-modal.png)
             </Step>
             <Step title="Copy the API Key Value">
-                Copy the generated **API Key** value and store it somewhere safe. You will need it when creating the Infisical connection.
+                Copy the generated **API Key** value and store it somewhere safe. You will need it when creating the vaultix connection.
 
                 ![Copy API Key](/images/app-connections/datadog/api-key-copy-value.png)
             </Step>
@@ -121,7 +121,7 @@ Infisical supports two methods for authenticating with Datadog:
                 Provide a name, email, and select a role for the Service Account, then click **Create Service Account**.
 
                 <Note>
-                    The Service Account's role determines which resources Infisical can access. Make sure it has access to the resources you want Infisical to manage. For secret rotation, it is required to have the `Datadog Admin Role` as a base so the **Application Key can be scoped** 
+                    The Service Account's role determines which resources vaultix can access. Make sure it has access to the resources you want vaultix to manage. For secret rotation, it is required to have the `Datadog Admin Role` as a base so the **Application Key can be scoped** 
                 </Note>
 
                 ![Create Service Account](/images/app-connections/datadog/create-service-account.png)
@@ -161,7 +161,7 @@ Infisical supports two methods for authenticating with Datadog:
 
             </Step>
             <Step title="Copy the Application Key Value">
-                Copy the **Application Key** value and store it somewhere safe. You will need it when creating the Infisical connection.
+                Copy the **Application Key** value and store it somewhere safe. You will need it when creating the vaultix connection.
 
                 ![Application Key Scopes](/images/app-connections/datadog/copy-service-account-key.png)
 
@@ -170,13 +170,13 @@ Infisical supports two methods for authenticating with Datadog:
     </Tab>
 </Tabs>
 
-## Create Datadog Connection in Infisical
+## Create Datadog Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -197,7 +197,7 @@ Infisical supports two methods for authenticating with Datadog:
                 ![Datadog Connection form](/images/app-connections/datadog/datadog-form.png)
             </Step>
             <Step title="Connection Created">
-                After clicking Create, your **Datadog Connection** is established and ready to use with your Infisical project.
+                After clicking Create, your **Datadog Connection** is established and ready to use with your vaultix project.
 
                 ![Datadog Connection form](/images/app-connections/datadog/datadog-app-connection.png)
             </Step>
@@ -211,7 +211,7 @@ Infisical supports two methods for authenticating with Datadog:
         <CodeGroup>
         ```bash Service Access Token (Recommended)
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/datadog \
+                --url https://app.vaultix.com/api/v1/app-connections/datadog \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-datadog-connection",
@@ -226,7 +226,7 @@ Infisical supports two methods for authenticating with Datadog:
 
         ```bash Application Keys
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/datadog \
+                --url https://app.vaultix.com/api/v1/app-connections/datadog \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-datadog-connection",

@@ -1,7 +1,7 @@
 import { readLimit } from "@app/server/config/rateLimiter";
 
 // The SSH and Agent Sentinel (AI MCP) products were removed (ENG-5432), but shipped
-// clients still call their endpoints: the Vaultix CLI's `infisical ssh` commands
+// clients still call their endpoints: the Vaultix CLI's `vaultix ssh` commands
 // (via go-sdk) hit /api/v1/ssh/*, and MCP clients hit /api/v1/ai/mcp/*. A bare 404
 // gives those users no hint the product is gone, so the old prefixes answer
 // 410 Gone with an explanation instead.

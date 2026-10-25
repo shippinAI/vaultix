@@ -7,7 +7,7 @@ vi.mock("@app/lib/logger", () => ({
 }));
 
 const SERVER_URL = "https://license.example.com";
-const LICENSE_KEY = "infisical_lk_test";
+const LICENSE_KEY = "vaultix_lk_test";
 
 // Build a JWT-shaped string ("header.payload.sig") whose payload carries the given exp (unix seconds).
 const makeJwt = (expSeconds: number | null): string => {

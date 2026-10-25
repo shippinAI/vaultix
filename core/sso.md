@@ -1,8 +1,8 @@
 # Local SSO Development (OIDC, SAML, SCIM, LDAP)
 
-This guide is for **contributors** who want to test Infisical's SSO flows against an
+This guide is for **contributors** who want to test vaultix's SSO flows against an
 identity provider running locally in Docker. It covers the dev containers that ship
-with `docker-compose.dev.yml`, their default credentials, what to enter in Infisical,
+with `docker-compose.dev.yml`, their default credentials, what to enter in vaultix,
 and how everything is pre-seeded so you can log in within a couple of minutes.
 
 For the **end-user / production** setup of each provider, see the product docs instead:
@@ -13,21 +13,21 @@ For the **end-user / production** setup of each provider, see the product docs i
 
 | Provider | Bring up | Seed | Provider URL | Seeded users (password `password123!`) |
 | --- | --- | --- | --- | --- |
-| Keycloak (OIDC) | `make up-dev-oidc` | realm auto-imports on boot; configure Infisical with `make seed-dev-oidc` | http://localhost:8088 (admin / admin) | john@oidc.com, alice@oidc.com, admin@oidc.com |
+| Keycloak (OIDC) | `make up-dev-oidc` | realm auto-imports on boot; configure vaultix with `make seed-dev-oidc` | http://localhost:8088 (admin / admin) | john@oidc.com, alice@oidc.com, admin@oidc.com |
 | OpenLDAP (LDAP) | `make up-dev-ldap` | `make seed-dev-ldap` | http://localhost:6433 (phpLDAPadmin) | john@ldap.com, alice@ldap.com, admin@ldap.com |
 | Authentik (SAML + SCIM) | `make up-dev-saml` | `make seed-dev-saml` | http://localhost:9100 (akadmin / password123!) | john@saml.com (SCIM), alice@saml.com (SCIM), admin@saml.com |
 
 All compose profiles also start the default stack (Postgres, Redis, backend, frontend,
-nginx), so Infisical is available at **http://localhost:8080**.
+nginx), so vaultix is available at **http://localhost:8080**.
 
 ## Prerequisites (do this once)
 
-1. **Base stack works.** You can already run `make up-dev` and reach Infisical at
+1. **Base stack works.** You can already run `make up-dev` and reach vaultix at
    http://localhost:8080. Create a instance admin account.
 
 2. **`AUTH_SECRET` and `SITE_URL` are set.** `.env.example` already ships a sample
    `AUTH_SECRET`. For SSO you must also make sure `SITE_URL` matches the URL you open
-   Infisical at, because the OIDC callback is built as `{SITE_URL}/api/v1/sso/oidc/callback`.
+   vaultix at, because the OIDC callback is built as `{SITE_URL}/api/v1/sso/oidc/callback`.
    For the standard dev stack set:
 
    ```bash
@@ -74,15 +74,15 @@ Restart the backend after either change so the license service re-reads the plan
 make up-dev-oidc
 ```
 
-Keycloak boots with the pre-seeded **`infisical`** realm imported from
-[`docker/keycloak/realm-infisical.json`](docker/keycloak/realm-infisical.json): one OIDC
+Keycloak boots with the pre-seeded **`vaultix`** realm imported from
+[`docker/keycloak/realm-vaultix.json`](docker/keycloak/realm-vaultix.json): one OIDC
 client and two users. The container has no volume, so the realm is re-imported fresh on
 every start. To reload edits to the realm file, recreate it with `docker compose -f docker-compose.dev.yml --profile oidc up -d --force-recreate keycloak keycloak-config`.
 
 A one-shot `keycloak-config` sidecar runs alongside it and sets the built-in `master` realm to
 `sslRequired=none`, so the admin console works over plain HTTP. Without this, Keycloak returns
 **"HTTPS required"** on Docker Desktop (the container sees a non-local client IP for the
-`master` realm, whose default is `external`). The `infisical` realm already ships with
+`master` realm, whose default is `external`). The `vaultix` realm already ships with
 `sslRequired: none` in its realm file, so the login flow is unaffected either way.
 
 ### Default values
@@ -91,9 +91,9 @@ A one-shot `keycloak-config` sidecar runs alongside it and sets the built-in `ma
 | --- | --- |
 | Admin console | http://localhost:8088 |
 | Admin user / password | `admin` / `admin` |
-| Realm | `infisical` |
-| Client ID | `infisical-dev` |
-| Client secret | `infisical-dev-client-secret` |
+| Realm | `vaultix` |
+| Client ID | `vaultix-dev` |
+| Client secret | `vaultix-dev-client-secret` |
 | JWT signature algorithm | `RS256` |
 | Redirect URI (registered) | `http://localhost:8080/api/v1/sso/oidc/callback` |
 | Seeded users | `john@oidc.com`, `alice@oidc.com`, `admin@oidc.com` (password `password123!`) |
@@ -111,10 +111,10 @@ edit**:
   the internal compose network, and the browser is redirected to `localhost:8088`. Discovery URL:
 
   ```
-  http://keycloak:8080/realms/infisical/.well-known/openid-configuration
+  http://keycloak:8080/realms/vaultix/.well-known/openid-configuration
   ```
 
-### Configure in Infisical
+### Configure in vaultix
 
 The fast path is to let the seed script do it. With the stack up, run:
 
@@ -122,9 +122,9 @@ The fast path is to let the seed script do it. With the stack up, run:
 make seed-dev-oidc
 ```
 
-This bootstraps everything the Infisical side needs: an `admin@oidc.com` admin (password
+This bootstraps everything the vaultix side needs: an `admin@oidc.com` admin (password
 `password123!`), a **verified** `oidc.com` email domain (required for every SSO login), and
-an **active** OIDC config pointing at the discovery URL above (client `infisical-dev`). With no
+an **active** OIDC config pointing at the discovery URL above (client `vaultix-dev`). With no
 arguments it bootstraps a dedicated `oidc` org (slug `oidc`), creating it if missing; pass
 `ORG_ID=<uuid>` to configure an existing org instead. SSO is still EE-gated, so make sure you have
 unlocked the EE features first.
@@ -134,7 +134,7 @@ Then test the login two ways:
 - **SSO:** open a fresh browser session at http://localhost:8080, choose **Continue with SSO**, and
   authenticate as any seeded Keycloak user (`john@oidc.com`, `alice@oidc.com`, or
   `admin@oidc.com`), all `password123!`. Signing in as `admin@oidc.com` links to the seeded
-  Infisical admin. You can also start the flow directly at
+  vaultix admin. You can also start the flow directly at
   `http://localhost:8080/api/v1/sso/oidc/login?orgSlug=oidc`.
 - **Password:** sign in as the seeded admin `admin@oidc.com` / `password123!` to manage the
   `oidc` org directly.
@@ -147,8 +147,8 @@ Then test the login two ways:
 2. Connect **OIDC**, choose configuration type **Discovery URL**, and fill in:
    - **Discovery Document URL:** the URL from the section above.
    - **JWT Signature Algorithm:** `RS256`.
-   - **Client ID:** `infisical-dev`.
-   - **Client Secret:** `infisical-dev-client-secret`.
+   - **Client ID:** `vaultix-dev`.
+   - **Client Secret:** `vaultix-dev-client-secret`.
    - Leave **Allowed Email Domains** empty to accept any seeded user while testing.
 3. Verify the org's `oidc.com` domain under the org domain settings, otherwise the login is
    rejected. `make seed-dev-oidc` does this for you.
@@ -166,7 +166,7 @@ make seed-dev-ldap   # adds OUs, users, and a group
 
 `make seed-dev-ldap` does two things: it applies
 [`docker/openldap/bootstrap.ldif`](docker/openldap/bootstrap.ldif) (OUs, users, group) to OpenLDAP
-with `ldapadd -c`, and it configures the Infisical side, bootstrapping a dedicated `ldap` org with
+with `ldapadd -c`, and it configures the vaultix side, bootstrapping a dedicated `ldap` org with
 an `admin@ldap.com` admin (password `password123!`), a verified `ldap.com` domain, and an
 **active** LDAP config pointing at OpenLDAP. With no arguments it targets/creates the `ldap` org;
 pass `ORG_ID=<uuid>` to configure an existing org instead. SSO is EE-gated, so unlock the EE
@@ -185,7 +185,7 @@ Browse the directory at http://localhost:6433 (phpLDAPadmin) with login
 Sign in via LDAP into the `ldap` org as any seeded directory user, all `password123!`, by uid or
 email:
 
-- `admin@ldap.com` (uid `admin`), which is also the seeded Infisical admin, so it links to that account
+- `admin@ldap.com` (uid `admin`), which is also the seeded vaultix admin, so it links to that account
 - `john` or `john@ldap.com` (John Doe)
 - `alice` or `alice@ldap.com` (Alice Smith)
 
@@ -204,7 +204,7 @@ The seed's search filter matches uid or mail, so either form works.
 | Group search base | `ou=groups,dc=ldap,dc=com` | same |
 | CA certificate | leave empty (`ldap://` has no TLS) | same |
 | Seeded users | `john`, `alice`, `admin` (password `password123!`) | same |
-| Seeded group | `infisical-users` | same |
+| Seeded group | `vaultix-users` | same |
 
 Unlike OIDC, LDAP has no browser redirect, so there is no issuer/hostname problem: the backend
 binds to the server directly. Just point `LDAP URL` at wherever the backend can reach OpenLDAP.
@@ -217,7 +217,7 @@ binds to the server directly. Just point `LDAP URL` at wherever the backend can 
 3. Verify the org's `ldap.com` domain, otherwise the login is rejected (`make seed-dev-ldap`
    does this for you).
 4. Enable LDAP, then log in as `john` / `password123!`.
-5. (Optional) Map `cn=infisical-users` to an Infisical group under the LDAP config's group
+5. (Optional) Map `cn=vaultix-users` to an vaultix group under the LDAP config's group
    mappings to test group sync.
 </details>
 
@@ -227,9 +227,9 @@ binds to the server directly. Just point `LDAP URL` at wherever the backend can 
 
 [Authentik](https://goauthentik.io) is a full identity provider with **real** SAML SSO and
 **outbound SCIM provisioning**, so unlike a mock IdP you can exercise the whole flow end to end:
-SCIM provisions users into Infisical, and SAML logs them in. Both share one `saml` org, because the
+SCIM provisions users into vaultix, and SAML logs them in. Both share one `saml` org, because the
 two are coupled. The SAML `NameID` must equal the SCIM `userName` (both the user's email), and
-Infisical only accepts SCIM provisioning once an SSO config exists for the org.
+vaultix only accepts SCIM provisioning once an SSO config exists for the org.
 
 ```bash
 make up-dev-saml     # default stack + Authentik (server, worker, its own Postgres; ~40s to ready)
@@ -238,15 +238,15 @@ make seed-dev-saml   # wires both sides and provisions the test users
 
 `make seed-dev-saml` does the whole bridge in one shot:
 
-- **Infisical side:** bootstraps a dedicated `saml` org (slug `saml`) with SCIM enabled, an
+- **vaultix side:** bootstraps a dedicated `saml` org (slug `saml`) with SCIM enabled, an
   `admin@saml.com` admin (password `password123!`), a **verified** `saml.com` domain, an **active**
   SAML config, and a SCIM token.
 - **Authentik side (via its API):** creates the `john@saml.com` / `alice@saml.com` test users in an
-  `infisical-saml` group, a **SAML provider** (ACS pointed at Infisical, `NameID` = email), and a
-  **SCIM provider** pointed at Infisical's SCIM endpoint, bound together by one `Infisical`
+  `vaultix-saml` group, a **SAML provider** (ACS pointed at vaultix, `NameID` = email), and a
+  **SCIM provider** pointed at vaultix's SCIM endpoint, bound together by one `vaultix`
   application.
 - **The two secrets that have to cross over** are handled for you: the seed reads Authentik's SAML
-  signing certificate into the Infisical SAML config, and writes the Infisical SCIM token into
+  signing certificate into the vaultix SAML config, and writes the vaultix SCIM token into
   Authentik's SCIM provider. It then provisions john/alice via SCIM, each getting a SAML alias keyed
   on their email, so SAML login matches the SCIM-provisioned account.
 
@@ -267,15 +267,15 @@ You can also start the flow directly at
 
 ### SCIM provisioning
 
-`make seed-dev-saml` provisions john/alice (as users) and the `infisical-saml` group with those
+`make seed-dev-saml` provisions john/alice (as users) and the `vaultix-saml` group with those
 members into the `saml` org. It touches each test user and the group in Authentik to fire a
-per-object SCIM sync, then **polls Infisical and retries** (up to 8 rounds) until they all land, so
+per-object SCIM sync, then **polls vaultix and retries** (up to 8 rounds) until they all land, so
 an async miss self-heals instead of being fire-and-forget; it logs `SCIM provisioning confirmed` on
-success. To add more users, create them in Authentik and add them to `infisical-saml`.
-Scoping to these objects also keeps Authentik's built-in groups out of Infisical.
+success. To add more users, create them in Authentik and add them to `vaultix-saml`.
+Scoping to these objects also keeps Authentik's built-in groups out of vaultix.
 
 The seed also **recreates** the Authentik SCIM provider on every run. Authentik stores a per-object
-"connection" (the remote SCIM id of each provisioned user/group); after an Infisical DB reset those
+"connection" (the remote SCIM id of each provisioned user/group); after an vaultix DB reset those
 point at rows that no longer exist, so Authentik would PUT to dead ids and silently provision
 nothing. Recreating clears them so objects POST fresh into the current org.
 
@@ -286,13 +286,13 @@ nothing. Recreating clears them so objects POST fresh into the current org.
 | Authentik admin | http://localhost:9100 (`akadmin` / `password123!`) |
 | Authentik API token (used by the seed) | `authentik-dev-bootstrap-token` |
 | Org | `saml` |
-| SAML entry point (browser) | `http://localhost:9100/application/saml/infisical/sso/binding/redirect/` |
-| SAML ACS (Infisical) | `http://localhost:8080/api/v1/sso/saml2/<configId>` |
+| SAML entry point (browser) | `http://localhost:9100/application/saml/vaultix/sso/binding/redirect/` |
+| SAML ACS (vaultix) | `http://localhost:8080/api/v1/sso/saml2/<configId>` |
 | NameID / SCIM userName / alias | the user's email |
-| Assertion audience | `http://localhost:8080` (= `SITE_URL`, the Infisical SP `issuer`) |
-| SCIM endpoint (Authentik → Infisical) | `http://backend:4000/api/v1/scim` |
+| Assertion audience | `http://localhost:8080` (= `SITE_URL`, the vaultix SP `issuer`) |
+| SCIM endpoint (Authentik → vaultix) | `http://backend:4000/api/v1/scim` |
 | Seeded users | `john@saml.com`, `alice@saml.com` (SCIM), `admin@saml.com` (password admin) |
-| Seeded group | `infisical-saml` (provisioned with members john/alice) |
+| Seeded group | `vaultix-saml` (provisioned with members john/alice) |
 
 ### How the networking works
 
@@ -322,9 +322,9 @@ curl -X POST http://localhost:8080/api/v1/sso/oidc/config \
   -d '{
     "organizationId": "'"$ORG_ID"'",
     "configurationType": "discoveryURL",
-    "discoveryURL": "http://keycloak:8080/realms/infisical/.well-known/openid-configuration",
-    "clientId": "infisical-dev",
-    "clientSecret": "infisical-dev-client-secret",
+    "discoveryURL": "http://keycloak:8080/realms/vaultix/.well-known/openid-configuration",
+    "clientId": "vaultix-dev",
+    "clientSecret": "vaultix-dev-client-secret",
     "jwtSignatureAlgorithm": "RS256",
     "isActive": true
   }'
@@ -374,11 +374,11 @@ curl -sI "http://localhost:8080/api/v1/sso/redirect/saml2/organizations/saml" | 
 | OIDC fails with an issuer / `iss` mismatch | The issuer is pinned to `http://localhost:8088` via Keycloak's `KC_HOSTNAME`, so the seeded config shouldn't hit this. If you overrode the discovery URL, keep the backend reaching Keycloak over the compose network (`keycloak:8080`) and leave `KC_HOSTNAME` pointing at the host the browser uses (`localhost:8088`). |
 | Redirected to a broken page after Keycloak login | `SITE_URL` does not match the app URL. Set `SITE_URL=http://localhost:8080`. |
 | Backend cannot reach the discovery URL | Inside Docker `localhost:8088` is the backend itself. Use the internal compose address `http://keycloak:8080/...` for OIDC discovery (or `ldap://openldap:389` for LDAP). |
-| Keycloak admin console (`localhost:8088`) shows "HTTPS required" | The built-in `master` realm defaults to `sslRequired=external`, which Docker Desktop's non-local client IP trips over plain HTTP. The one-shot `keycloak-config` sidecar flips it to `NONE` on every `up`; refresh once it logs `master realm sslRequired=NONE`. (The `infisical` realm is already `none`, so the login flow is unaffected.) |
+| Keycloak admin console (`localhost:8088`) shows "HTTPS required" | The built-in `master` realm defaults to `sslRequired=external`, which Docker Desktop's non-local client IP trips over plain HTTP. The one-shot `keycloak-config` sidecar flips it to `NONE` on every `up`; refresh once it logs `master realm sslRequired=NONE`. (The `vaultix` realm is already `none`, so the login flow is unaffected.) |
 | Keycloak realm/users missing after a restart | The container is ephemeral; recreate it with `docker compose -f docker-compose.dev.yml --profile oidc up -d --force-recreate keycloak keycloak-config`, or `make down` then `make up-dev-oidc`. |
 | LDAP users missing | Run `make seed-dev-ldap` after the container is up (OpenLDAP starts empty). |
 | Login rejected: email domain not in the org's accepted domains | The org has no verified domain matching the user's email. `make seed-dev-oidc` verifies `oidc.com` (the `oidc` org), `make seed-dev-ldap` verifies `ldap.com` (the `ldap` org), and `make seed-dev-saml` verifies `saml.com` (the `saml` org); pass `ORG_ID=<org>` to verify a domain for another org. See [Email Domain Verification](docs/documentation/platform/email-domain). |
-| SCIM users not appearing in the `saml` org | Re-run `make seed-dev-saml`; it recreates the Authentik SCIM provider so stale per-user connections (e.g. after an Infisical DB reset) don't dead-end on PUTs to ids that no longer exist. Provisioning also needs an active SSO config + verified domain + SCIM enabled, all set by the seed (`Neither SAML or OIDC SSO is configured` means the SAML config is missing). Provisioned users land with `invited` status; the seed polls and retries until it logs `SCIM provisioning confirmed` (if it logs `incomplete`, re-run). |
+| SCIM users not appearing in the `saml` org | Re-run `make seed-dev-saml`; it recreates the Authentik SCIM provider so stale per-user connections (e.g. after an vaultix DB reset) don't dead-end on PUTs to ids that no longer exist. Provisioning also needs an active SSO config + verified domain + SCIM enabled, all set by the seed (`Neither SAML or OIDC SSO is configured` means the SAML config is missing). Provisioned users land with `invited` status; the seed polls and retries until it logs `SCIM provisioning confirmed` (if it logs `incomplete`, re-run). |
 | SAML login fails with `assertion audience mismatch` | Authentik's SAML provider audience must equal `SITE_URL` (`http://localhost:8080`); the seed sets this. If you changed `SITE_URL`, re-run `make seed-dev-saml` so Authentik's audience and the SAML config agree. |
 | Authentik unreachable or `Token invalid/expired` during the seed | Authentik takes ~40s after `make up-dev-saml` to finish bootstrapping (the worker applies blueprints and creates the API token). Wait for http://localhost:9100 to load, then re-run `make seed-dev-saml`. |
 | Locked out after enforcing SSO | Recover via http://localhost:8080/login/admin. |

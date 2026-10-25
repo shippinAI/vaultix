@@ -1,29 +1,29 @@
 ---
 title: "Sign Container Images with cosign"
 sidebarTitle: "Sign Container Images"
-description: "Use the Infisical PKCS#11 module to sign OCI container images with Sigstore cosign."
+description: "Use the vaultix PKCS#11 module to sign OCI container images with Sigstore cosign."
 ---
 
 <Info>
   This guide assumes your Product Admin has already created a [Signer](/documentation/platform/pki/code-signing/signers) and assigned you to it. If the signer has an approval policy, you'll also need [active access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) before signing.
 </Info>
 
-Sign OCI container images using `cosign` (from the Sigstore project) with the Infisical PKCS#11 module. Container image signing is a critical part of securing software supply chains. It lets you verify that images in your registry were built by trusted pipelines.
+Sign OCI container images using `cosign` (from the Sigstore project) with the vaultix PKCS#11 module. Container image signing is a critical part of securing software supply chains. It lets you verify that images in your registry were built by trusted pipelines.
 
 ## Prerequisites
 
 - A [Signer](/documentation/platform/pki/code-signing/signers) created by your Product Admin
 - [Active signing access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) (if an approval policy is attached)
 - A [machine identity](/documentation/platform/identities/machine-identities) added to the Signer
-- The Infisical [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
+- The vaultix [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
 - `cosign` v2.0 or later, **built with PKCS#11 support** (see below)
 - Write access to an OCI-compatible container registry
 
 ## Step 1: Set Up Authentication
 
-Configure the Infisical PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
+Configure the vaultix PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
 
-Create `/etc/infisical/pkcs11.conf` (or set `INFISICAL_CONFIG` to point elsewhere):
+Create `/etc/vaultix/pkcs11.conf` (or set `vaultix_CONFIG` to point elsewhere):
 
 ```yaml
 auth:
@@ -39,8 +39,8 @@ signer:
 You can also pass the credentials via environment variables:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
 ```
 
 <Note>
@@ -85,17 +85,17 @@ First, list the available tokens and key URIs to find the correct PKCS#11 URI fo
 
 ```bash
 cosign pkcs11-tool list-tokens \
-  --module-path /usr/local/lib/libinfisical-pkcs11.so
+  --module-path /usr/local/lib/libvaultix-pkcs11.so
 
 cosign pkcs11-tool list-keys-uris \
-  --module-path /usr/local/lib/libinfisical-pkcs11.so \
+  --module-path /usr/local/lib/libvaultix-pkcs11.so \
   --slot-id 0
 ```
 
 Sign an image in your registry using the PKCS#11 key:
 
 ```bash
-export COSIGN_PKCS11_MODULE_PATH="/usr/local/lib/libinfisical-pkcs11.so"
+export COSIGN_PKCS11_MODULE_PATH="/usr/local/lib/libvaultix-pkcs11.so"
 
 cosign sign \
   --key "pkcs11:token=release-signer;object=release-signer;type=private" \
@@ -105,7 +105,7 @@ cosign sign \
 
 <Note>
   - The `--key` flag uses a PKCS#11 URI. The `token` must match your signer's token label and `object` must match the key label. Use `cosign pkcs11-tool list-keys-uris` to find the exact URI.
-  - Set `COSIGN_PKCS11_MODULE_PATH` to the absolute path of the Infisical PKCS#11 shared library.
+  - Set `COSIGN_PKCS11_MODULE_PATH` to the absolute path of the vaultix PKCS#11 shared library.
   - Use `--tlog-upload=false` if you are not using a Sigstore transparency log.
   - cosign pushes the signature to the same registry alongside the image.
   - You may need to authenticate to your container registry first (e.g., `docker login` or `cosign login`).
@@ -118,7 +118,7 @@ Verify a signed image using the public key or certificate from the signer:
 
 ```bash
 # Extract the certificate and public key from PKCS#11
-pkcs11-tool --module /usr/local/lib/libinfisical-pkcs11.so \
+pkcs11-tool --module /usr/local/lib/libvaultix-pkcs11.so \
   --slot 0 --read-object --type cert --label release-signer \
   --output-file signer-cert.der
 openssl x509 -inform DER -in signer-cert.der -pubkey -noout > pubkey.pem
@@ -139,10 +139,10 @@ cosign verify \
 Example for a container build pipeline:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="${INFISICAL_CLIENT_ID}"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="${INFISICAL_CLIENT_SECRET}"
-export INFISICAL_CONFIG="/path/to/pkcs11.conf"
-export COSIGN_PKCS11_MODULE_PATH="/usr/local/lib/libinfisical-pkcs11.so"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="${vaultix_CLIENT_ID}"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="${vaultix_CLIENT_SECRET}"
+export vaultix_CONFIG="/path/to/pkcs11.conf"
+export COSIGN_PKCS11_MODULE_PATH="/usr/local/lib/libvaultix-pkcs11.so"
 
 # Build and push the image
 docker build -t myregistry.example.com/myapp:${CI_COMMIT_TAG} .
@@ -191,7 +191,7 @@ spec:
 
 ## Troubleshooting
 
-For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/infisical-pkcs11.log"`) to get detailed output.
+For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/vaultix-pkcs11.log"`) to get detailed output.
 
 <AccordionGroup>
   <Accordion title="'unimplemented' or 'not built with pkcs11-tool support'">

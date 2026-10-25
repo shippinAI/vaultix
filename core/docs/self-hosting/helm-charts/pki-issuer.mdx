@@ -1,12 +1,12 @@
 ---
 title: "PKI Issuer (cert-manager)"
 sidebarTitle: "PKI Issuer"
-description: "Deploy the Infisical PKI Issuer for cert-manager on Kubernetes using the official Helm chart."
+description: "Deploy the vaultix PKI Issuer for cert-manager on Kubernetes using the official Helm chart."
 ---
 
-The Infisical PKI Issuer is a [cert-manager](https://cert-manager.io/) external issuer that enables automated X.509 certificate issuance and renewal through Infisical PKI. It supports both namespace-scoped (`Issuer`) and cluster-scoped (`ClusterIssuer`) resources.
+The vaultix PKI Issuer is a [cert-manager](https://cert-manager.io/) external issuer that enables automated X.509 certificate issuance and renewal through vaultix PKI. It supports both namespace-scoped (`Issuer`) and cluster-scoped (`ClusterIssuer`) resources.
 
-For more information on Infisical PKI, see the [PKI documentation](/documentation/platform/pki).
+For more information on vaultix PKI, see the [PKI documentation](/documentation/platform/pki).
 
 ## Installation
 
@@ -23,18 +23,18 @@ For more information on Infisical PKI, see the [PKI documentation](/documentatio
     ```
   </Step>
 
-  <Step title="Install the Infisical PKI Issuer">
+  <Step title="Install the vaultix PKI Issuer">
     ```bash
-    helm install infisical-pki-issuer \
-      oci://helm.oci.cloudsmith.io/infisical/helm-charts/infisical-pki-issuer \
-      --namespace infisical-pki \
+    helm install vaultix-pki-issuer \
+      oci://helm.oci.cloudsmith.io/vaultix/helm-charts/vaultix-pki-issuer \
+      --namespace vaultix-pki \
       --create-namespace
     ```
   </Step>
 
   <Step title="Verify the deployment">
     ```bash
-    kubectl get pods -n infisical-pki
+    kubectl get pods -n vaultix-pki
     ```
   </Step>
 </Steps>
@@ -42,7 +42,7 @@ For more information on Infisical PKI, see the [PKI documentation](/documentatio
 ## Uninstall
 
 ```bash
-helm uninstall infisical-pki-issuer --namespace infisical-pki
+helm uninstall vaultix-pki-issuer --namespace vaultix-pki
 ```
 
 ## Configuration Reference
@@ -50,7 +50,7 @@ helm uninstall infisical-pki-issuer --namespace infisical-pki
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `controllerManager.replicas` | `1` | Number of controller replicas. |
-| `controllerManager.manager.image.repository` | `docker.io/infisical/pki-issuer` | Container image. |
+| `controllerManager.manager.image.repository` | `docker.io/vaultix/pki-issuer` | Container image. |
 | `controllerManager.manager.image.tag` | `latest` | Image tag. |
 | `controllerManager.manager.resources.requests.cpu` | `10m` | CPU request. |
 | `controllerManager.manager.resources.requests.memory` | `64Mi` | Memory request. |
@@ -73,7 +73,7 @@ controllerManager:
         drop:
         - ALL
     image:
-      repository: docker.io/infisical/pki-issuer
+      repository: docker.io/vaultix/pki-issuer
       tag: latest
     resources:
       limits:

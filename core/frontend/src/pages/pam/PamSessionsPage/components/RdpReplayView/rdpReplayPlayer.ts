@@ -1,4 +1,4 @@
-import wasmInit, { InitOutput, RdpDecoder } from "@app/lib/ironrdp-decoder/infisical_rdp_decoder";
+import wasmInit, { InitOutput, RdpDecoder } from "@app/lib/ironrdp-decoder/vaultix_rdp_decoder";
 
 export type RdpEventType = "keyboard" | "unicode" | "mouse" | "target_frame";
 

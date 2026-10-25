@@ -5,7 +5,7 @@ description: "Learn how to dynamically generate Milvus user credentials with cus
 
 import DynamicSecretUsernameTemplateParamField from "/snippets/documentation/platform/dynamic-secrets/dynamic-secret-username-template-field.mdx";
 
-The Infisical Milvus dynamic secret allows you to generate Milvus credentials on demand, with configurable privileges scoped to the lease.
+The vaultix Milvus dynamic secret allows you to generate Milvus credentials on demand, with configurable privileges scoped to the lease.
 
 ## Prerequisites
 
@@ -93,14 +93,14 @@ The Infisical Milvus dynamic secret allows you to generate Milvus credentials on
     After submitting the form, you will see the Milvus dynamic secret created in the dashboard.
 
     <Note>
-      Infisical validates the connection by calling the Milvus `/v2/vectordb/users/describe` endpoint. If validation fails, double-check the host, port, and admin credentials.
+      vaultix validates the connection by calling the Milvus `/v2/vectordb/users/describe` endpoint. If validation fails, double-check the host, port, and admin credentials.
     </Note>
 
   </Step>
   <Step title="Generate dynamic secrets">
     Once configured, click `Generate` (or `New Lease`) on the dynamic secret to issue an on-demand credential.
 
-    Each lease creates a Milvus user with a random username and password. When you configure privileges, Infisical also creates an ephemeral role per lease, grants the configured privileges to it, and assigns the role to the user. On revoke, the user and role are deleted together.
+    Each lease creates a Milvus user with a random username and password. When you configure privileges, vaultix also creates an ephemeral role per lease, grants the configured privileges to it, and assigns the role to the user. On revoke, the user and role are deleted together.
 
     ![Provision Lease](/images/platform/dynamic-secrets/provision-lease.png)
 

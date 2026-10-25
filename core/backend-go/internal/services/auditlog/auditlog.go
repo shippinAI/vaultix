@@ -4,9 +4,9 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/queue"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/queue"
 )
 
 // Deps holds dependencies for the audit log service.

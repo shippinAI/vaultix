@@ -13,7 +13,7 @@ backend/e2e-test
 backend/src/ee/**/*.test.ts
 *.md
 !SHIPPIN.md
-img/infisical_github*
+img/vaultix_github*
 docker-compose*.yml
 .github
 .agents

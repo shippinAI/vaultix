@@ -5,7 +5,7 @@ description: "Migrate from the legacy project-based model to the new Application
 ---
 
 <Warning>
-  This guide is for existing customers on the legacy project-based model. If you're new to Infisical Certificate Manager, start with [Getting Started](/documentation/platform/pki/getting-started).
+  This guide is for existing customers on the legacy project-based model. If you're new to vaultix Certificate Manager, start with [Getting Started](/documentation/platform/pki/getting-started).
 </Warning>
 
 ## What Changed
@@ -153,9 +153,9 @@ Once you've consolidated your projects (or if you only have one), go to your **a
     Enrollment URLs now include both Application and Profile. Update your:
 
     - **ACME clients** (Certbot, [cert-manager](/documentation/platform/pki/guides/applications/k8s-cert-manager-acme), etc.)
-    - **[Infisical Agent](/documentation/platform/pki/guides/applications/infisical-agent)** — Update to reference `application-name` and `profile-name`
+    - **[vaultix Agent](/documentation/platform/pki/guides/applications/vaultix-agent)** — Update to reference `application-name` and `profile-name`
     - **EST/SCEP clients**
-    - **Terraform** — Update `infisical_pki_*` resources
+    - **Terraform** — Update `vaultix_pki_*` resources
     - **API integrations**
 
     Legacy enrollment endpoints continue to work, but new issuance should use the Application-based endpoints.
@@ -199,4 +199,4 @@ Once you've consolidated your projects (or if you only have one), go to your **a
 
 ## Need Help?
 
-If you have questions about migration, contact support@infisical.com.
+If you have questions about migration, contact support@vaultix.com.

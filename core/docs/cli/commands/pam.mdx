@@ -4,17 +4,17 @@ description: "Access a PAM-managed database, server, or cloud account from your 
 ---
 
 ```bash
-infisical pam access <path> [flags]
+vaultix pam access <path> [flags]
 ```
 
 ## Description
 
-Open one PAM-managed account for your own use, brokered through Infisical's [Gateway](/documentation/platform/gateways/overview) so you never handle its credentials. Requires `infisical login`.
+Open one PAM-managed account for your own use, brokered through vaultix's [Gateway](/documentation/platform/gateways/overview) so you never handle its credentials. Requires `vaultix login`.
 
 This single command handles every account type: the CLI adapts its behavior to whichever type the account's template defines (see [Account Types and Behavior](#account-types-and-behavior) below).
 
 <Note>
-  To open several accounts at once for an AI agent, use [`infisical pam agentic access`](/cli/commands/pam-agentic) instead, which can also authenticate as a [machine identity](/documentation/platform/identities/machine-identities) so an agent can run unattended.
+  To open several accounts at once for an AI agent, use [`vaultix pam agentic access`](/cli/commands/pam-agentic) instead, which can also authenticate as a [machine identity](/documentation/platform/identities/machine-identities) so an agent can run unattended.
 </Note>
 
 ## Arguments
@@ -32,7 +32,7 @@ This single command handles every account type: the CLI adapts its behavior to w
 
   ```bash
   # Example
-  infisical pam access production/postgres-main --duration 4h
+  vaultix pam access production/postgres-main --duration 4h
   ```
 </Accordion>
 
@@ -41,7 +41,7 @@ This single command handles every account type: the CLI adapts its behavior to w
 
   ```bash
   # Example
-  infisical pam access production/database --reason "Investigating incident INC-1234"
+  vaultix pam access production/database --reason "Investigating incident INC-1234"
   ```
 </Accordion>
 
@@ -52,7 +52,7 @@ This single command handles every account type: the CLI adapts its behavior to w
 
   ```bash
   # Example
-  infisical pam access staging/mysql-replica --port 3306
+  vaultix pam access staging/mysql-replica --port 3306
   ```
 </Accordion>
 
@@ -61,16 +61,16 @@ This single command handles every account type: the CLI adapts its behavior to w
 
   ```bash
   # Example
-  infisical pam access windows/domain-admin --target dc01.corp.local
+  vaultix pam access windows/domain-admin --target dc01.corp.local
   ```
 </Accordion>
 
 <Accordion title="--domain">
-  Domain of your self-hosted Infisical instance. If not specified, defaults to Infisical Cloud.
+  Domain of your self-hosted vaultix instance. If not specified, defaults to vaultix Cloud.
 
   ```bash
   # Example
-  infisical pam access production/database --domain https://your-infisical-instance.com
+  vaultix pam access production/database --domain https://your-vaultix-instance.com
   ```
 </Accordion>
 
@@ -84,7 +84,7 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Example
-    infisical pam access production/postgres-main --duration 2h
+    vaultix pam access production/postgres-main --duration 2h
     ```
 
     The output includes connection details and CLI examples:
@@ -102,7 +102,7 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Example
-    infisical pam access production/cache-primary --duration 2h
+    vaultix pam access production/cache-primary --duration 2h
     ```
 
     Then connect with `redis-cli` or any Redis client:
@@ -119,7 +119,7 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Start the proxy
-    infisical pam access servers/prod-bastion
+    vaultix pam access servers/prod-bastion
     ```
 
     Then connect using your SSH client:
@@ -141,10 +141,10 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Example
-    infisical pam access clusters/prod-cluster --duration 4h
+    vaultix pam access clusters/prod-cluster --duration 4h
     ```
 
-    kubectl is automatically configured with a context named `infisical-k8s-pam/folder/account-name`. Use kubectl normally:
+    kubectl is automatically configured with a context named `vaultix-k8s-pam/folder/account-name`. Use kubectl normally:
 
     ```bash
     kubectl get pods
@@ -159,19 +159,19 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Example
-    infisical pam access aws/production-role
+    vaultix pam access aws/production-role
     ```
 
-    The credentials are written as a named profile: `infisical-pam/folder/account-name`
+    The credentials are written as a named profile: `vaultix-pam/folder/account-name`
 
     Use with the AWS CLI:
 
     ```bash
     # Use --profile flag
-    aws s3 ls --profile "infisical-pam/aws/production-role"
+    aws s3 ls --profile "vaultix-pam/aws/production-role"
 
     # Or export the profile
-    export AWS_PROFILE="infisical-pam/aws/production-role"
+    export AWS_PROFILE="vaultix-pam/aws/production-role"
     aws s3 ls
     ```
 
@@ -179,11 +179,11 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
   </Accordion>
 
   <Accordion title="GCP Service Account">
-    Starts a local proxy on `127.0.0.1` and automatically configures `gcloud` to route through it (via the `proxy/*`, `auth/access_token_file`, and `core/custom_ca_certs_file` config properties). Requires the [`gcloud` CLI](https://cloud.google.com/sdk/docs/install) to be installed. All traffic is proxied through the Infisical Gateway, which injects the brokered credentials before forwarding to `googleapis.com`.
+    Starts a local proxy on `127.0.0.1` and automatically configures `gcloud` to route through it (via the `proxy/*`, `auth/access_token_file`, and `core/custom_ca_certs_file` config properties). Requires the [`gcloud` CLI](https://cloud.google.com/sdk/docs/install) to be installed. All traffic is proxied through the vaultix Gateway, which injects the brokered credentials before forwarding to `googleapis.com`.
 
     ```bash
     # Example
-    infisical pam access gcp/prod-deployer
+    vaultix pam access gcp/prod-deployer
     ```
 
     Run `gcloud` and other Google Cloud tooling as normal — no per-command configuration needed:
@@ -197,11 +197,11 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
   </Accordion>
 
   <Accordion title="Azure CLI">
-    Starts an isolated, authenticated `az` shell for the session (using a temporary `AZURE_CONFIG_DIR`, so your own `az` login is untouched). Requires the [Azure CLI (`az`)](https://learn.microsoft.com/cli/azure/install-azure-cli) to be installed. All traffic is proxied through the Infisical Gateway, which injects the brokered token before forwarding to `management.azure.com`.
+    Starts an isolated, authenticated `az` shell for the session (using a temporary `AZURE_CONFIG_DIR`, so your own `az` login is untouched). Requires the [Azure CLI (`az`)](https://learn.microsoft.com/cli/azure/install-azure-cli) to be installed. All traffic is proxied through the vaultix Gateway, which injects the brokered token before forwarding to `management.azure.com`.
 
     ```bash
     # Example
-    infisical pam access azure/prod-reader
+    vaultix pam access azure/prod-reader
     ```
 
     Run `az` as normal inside the session shell:
@@ -219,10 +219,10 @@ Based on the account's template, the CLI starts the appropriate local proxy or c
 
     ```bash
     # Single-server Windows account
-    infisical pam access windows/admin-server
+    vaultix pam access windows/admin-server
 
     # Windows AD with multiple targets
-    infisical pam access windows/domain-admin --target dc01.corp.local
+    vaultix pam access windows/domain-admin --target dc01.corp.local
     ```
 
     Connect using your preferred RDP client (e.g., Microsoft Remote Desktop, xfreerdp, Remmina).
@@ -254,7 +254,7 @@ Some PAM policies require an audit reason. Behavior:
 
 ```bash
 # Provide reason via flag
-infisical pam access production/database --reason "Investigating incident INC-1234"
+vaultix pam access production/database --reason "Investigating incident INC-1234"
 ```
 
 ## Error Messages
@@ -263,6 +263,6 @@ infisical pam access production/database --reason "Investigating incident INC-12
 |-------|-------|----------|
 | `Invalid duration format` | Malformed `--duration` value | Use formats like `1h`, `30m`, `2h30m` |
 | `a reason is required to access this account` | Policy requires reason, no TTY | Pass `--reason` flag |
-| `Gateway does not support '{type}' PAM accounts` | Gateway version too old | Upgrade Infisical Gateway |
+| `Gateway does not support '{type}' PAM accounts` | Gateway version too old | Upgrade vaultix Gateway |
 | `PAM response metadata is missing` | API response incomplete | Contact support |
 

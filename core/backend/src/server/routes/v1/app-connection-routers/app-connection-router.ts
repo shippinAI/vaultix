@@ -107,7 +107,7 @@ import {
 import {
   ExternalVaultixConnectionListItemSchema,
   SanitizedExternalVaultixConnectionSchema
-} from "@app/services/app-connection/external-infisical";
+} from "@app/services/app-connection/external-vaultix";
 import {
   F5BigIpConnectionListItemSchema,
   SanitizedF5BigIpConnectionSchema

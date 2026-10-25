@@ -59,7 +59,7 @@ describe("Admin V1 Router", () => {
         url: "/api/v1/admin/signup",
         body: {
           email: signupEmail,
-          password: "TestInfisical@123",
+          password: "Testvaultix@123",
           firstName: "Admin",
           lastName: "User",
           organizationName
@@ -83,7 +83,7 @@ describe("Admin V1 Router", () => {
         url: "/api/v1/admin/signup",
         body: {
           email: signupEmail,
-          password: "TestInfisical@123",
+          password: "Testvaultix@123",
           firstName: "Admin",
           lastName: "User"
         }

@@ -1,23 +1,23 @@
 ---
 title: "Inject secrets into a Docker application"
 sidebarTitle: "Docker"
-description: "Store secrets in Infisical and deliver them to a Dockerized application at runtime."
+description: "Store secrets in vaultix and deliver them to a Dockerized application at runtime."
 ---
 
 import ConfigureProject from "/snippets/documentation/platform/secrets-mgmt/configure-project.mdx";
 
-This guide walks you through storing secrets in Infisical and injecting them into a Dockerized application as environment variables. You can [fetch secrets when the container starts](#fetch-at-startup) or [export them from the host](#pass-with-docker-run) when you run the container.
+This guide walks you through storing secrets in vaultix and injecting them into a Dockerized application as environment variables. You can [fetch secrets when the container starts](#fetch-at-startup) or [export them from the host](#pass-with-docker-run) when you run the container.
 
 <Tip>
-  Visual learner? Watch an [overview of managing secrets in Docker with Infisical](https://www.youtube.com/watch?v=oU2nNBwlOTA).
+  Visual learner? Watch an [overview of managing secrets in Docker with vaultix](https://www.youtube.com/watch?v=oU2nNBwlOTA).
 </Tip>
 
 <Info>
 Prerequisites:
 
-- An Infisical account on [Infisical Cloud](https://app.infisical.com) or a [self-hosted instance](/self-hosting/overview)
+- An vaultix account on [vaultix Cloud](https://app.vaultix.com) or a [self-hosted instance](/self-hosting/overview)
 - [Docker](https://docs.docker.com/get-started/get-docker/) installed
-- The [Infisical CLI](/cli/overview) installed on the machine where you run Docker
+- The [vaultix CLI](/cli/overview) installed on the machine where you run Docker
 - An application or container image to run
 </Info>
 
@@ -31,7 +31,7 @@ Next, choose how Docker should receive your application secrets:
   <Tab title="Fetch at startup (Recommended)">
     <span id="fetch-at-startup"></span>
 
-    This method installs the Infisical CLI in your image and uses it to start your application. The CLI fetches secrets when the container starts and injects them into the application process.
+    This method installs the vaultix CLI in your image and uses it to start your application. The CLI fetches secrets when the container starts and injects them into the application process.
 
     <Note>
       We strongly recommend this method, since it works for both local development and automated/production environments.
@@ -53,7 +53,7 @@ Next, choose how Docker should receive your application secrets:
       </Step>
     </Steps>
 
-    Infisical creates the identity with [Universal Auth](/documentation/platform/identities/universal-auth) enabled and opens its details page.
+    vaultix creates the identity with [Universal Auth](/documentation/platform/identities/universal-auth) enabled and opens its details page.
 
     ### Create a client secret
 
@@ -75,13 +75,13 @@ Next, choose how Docker should receive your application secrets:
     </Steps>
 
     <Warning>
-      Don't add the Client ID, Client Secret, or an Infisical access token to your Dockerfile. Docker images may be shared or stored in a registry.
+      Don't add the Client ID, Client Secret, or an vaultix access token to your Dockerfile. Docker images may be shared or stored in a registry.
     </Warning>
 
     <Note>
-      Machine identity access tokens are short-lived. Token expiration doesn't affect an application after `infisical run` has fetched its secrets, but the container needs a valid token every time it starts.
+      Machine identity access tokens are short-lived. Token expiration doesn't affect an application after `vaultix run` has fetched its secrets, but the container needs a valid token every time it starts.
       
-      In automated deployments, store the Client ID and Client Secret in your deployment platform's secret store and run `infisical login` immediately before each `docker run` or `docker compose up`.
+      In automated deployments, store the Client ID and Client Secret in your deployment platform's secret store and run `vaultix login` immediately before each `docker run` or `docker compose up`.
     </Note>
 
     ### Copy your project ID
@@ -90,50 +90,50 @@ Next, choose how Docker should receive your application secrets:
 
     ### Update your Dockerfile
 
-    Add the Infisical CLI installation that matches your base image:
+    Add the vaultix CLI installation that matches your base image:
 
     <CodeGroup>
       ```dockerfile Alpine
       RUN apk add --no-cache bash wget \
-          && wget -qO- 'https://artifacts-cli.infisical.com/setup.apk.sh' | sh \
-          && apk add --no-cache infisical
+          && wget -qO- 'https://artifacts-cli.vaultix.com/setup.apk.sh' | sh \
+          && apk add --no-cache vaultix
       ```
 
       ```dockerfile Debian or Ubuntu
       RUN apt-get update \
           && apt-get install -y --no-install-recommends bash curl ca-certificates \
-          && curl -1sLf 'https://artifacts-cli.infisical.com/setup.deb.sh' | bash \
+          && curl -1sLf 'https://artifacts-cli.vaultix.com/setup.deb.sh' | bash \
           && apt-get update \
-          && apt-get install -y --no-install-recommends infisical \
+          && apt-get install -y --no-install-recommends vaultix \
           && rm -rf /var/lib/apt/lists/*
       ```
     </CodeGroup>
 
     <Tip>
-      Pin the [Infisical CLI version](https://github.com/Infisical/cli/releases) in production images to keep builds reproducible.
+      Pin the [vaultix CLI version](https://github.com/vaultix/cli/releases) in production images to keep builds reproducible.
     </Tip>
 
-    Next, wrap your application's start command with [`infisical run`](/cli/commands/run). Replace `<project-id>` with the project ID you copied earlier:
+    Next, wrap your application's start command with [`vaultix run`](/cli/commands/run). Replace `<project-id>` with the project ID you copied earlier:
 
     <CodeGroup>
       ```dockerfile Node.js
-      CMD ["infisical", "run", "--projectId=<project-id>", "--env=dev", "--", "npm", "start"]
+      CMD ["vaultix", "run", "--projectId=<project-id>", "--env=dev", "--", "npm", "start"]
       ```
 
       ```dockerfile Flask
-      CMD ["infisical", "run", "--projectId=<project-id>", "--env=dev", "--", "flask", "run", "--host=0.0.0.0"]
+      CMD ["vaultix", "run", "--projectId=<project-id>", "--env=dev", "--", "flask", "run", "--host=0.0.0.0"]
       ```
 
       ```dockerfile Go
-      CMD ["infisical", "run", "--projectId=<project-id>", "--env=dev", "--", "./app"]
+      CMD ["vaultix", "run", "--projectId=<project-id>", "--env=dev", "--", "./app"]
       ```
     </CodeGroup>
 
     <Accordion title="Run multiple startup commands">
-      Use the [`--command` option](/cli/commands/run#infisical-run:command) when your application needs to run multiple shell commands in sequence:
+      Use the [`--command` option](/cli/commands/run#vaultix-run:command) when your application needs to run multiple shell commands in sequence:
 
       ```dockerfile
-      CMD ["infisical", "run", "--projectId=<project-id>", "--env=dev", "--command", "npm run migrate && npm start"]
+      CMD ["vaultix", "run", "--projectId=<project-id>", "--env=dev", "--command", "npm run migrate && npm start"]
       ```
     </Accordion>
 
@@ -145,37 +145,37 @@ Next, choose how Docker should receive your application secrets:
     docker build -t orders-service .
     ```
 
-    On the machine where Docker runs, authenticate the machine identity and start the container using the commands for your Infisical deployment:
+    On the machine where Docker runs, authenticate the machine identity and start the container using the commands for your vaultix deployment:
 
     <CodeGroup>
-      ```bash Infisical Cloud US
-      export INFISICAL_TOKEN=$(infisical login \
+      ```bash vaultix Cloud US
+      export vaultix_TOKEN=$(vaultix login \
         --method=universal-auth \
         --client-id=<client-id> \
         --client-secret=<client-secret> \
         --plain \
         --silent)
 
-      docker run --rm --env INFISICAL_TOKEN orders-service
+      docker run --rm --env vaultix_TOKEN orders-service
       ```
 
       ```bash EU Cloud or self-hosted
-      # Use https://eu.infisical.com for EU Cloud or your self-hosted instance URL
-      export INFISICAL_DOMAIN=<your-infisical-domain>
+      # Use https://eu.vaultix.com for EU Cloud or your self-hosted instance URL
+      export vaultix_DOMAIN=<your-vaultix-domain>
 
-      export INFISICAL_TOKEN=$(infisical login \
+      export vaultix_TOKEN=$(vaultix login \
         --method=universal-auth \
         --client-id=<client-id> \
         --client-secret=<client-secret> \
         --plain \
         --silent)
 
-      docker run --rm --env INFISICAL_TOKEN --env INFISICAL_DOMAIN orders-service
+      docker run --rm --env vaultix_TOKEN --env vaultix_DOMAIN orders-service
       ```
     </CodeGroup>
 
     <Note>
-      If your self-hosted Infisical instance is running locally on the Docker host, don't set `INFISICAL_DOMAIN` to a `localhost` URL, since this will point to the container itself.
+      If your self-hosted vaultix instance is running locally on the Docker host, don't set `vaultix_DOMAIN` to a `localhost` URL, since this will point to the container itself.
       
       Instead, set it to a `host.docker.internal` URL, [which points to the container's host domain](https://docs.docker.com/desktop/features/networking/networking-how-tos/#connect-a-container-to-a-service-on-the-host).
     </Note>
@@ -191,7 +191,7 @@ Next, choose how Docker should receive your application secrets:
     <span id="pass-with-docker-run"></span>
     <span id="docker-run-interactive"></span>
 
-    Alternatively, you can run the Infisical CLI on the host and pass exported secrets to an existing image through Docker's `--env-file` option. This method doesn't require you to install the CLI in the image.
+    Alternatively, you can run the vaultix CLI on the host and pass exported secrets to an existing image through Docker's `--env-file` option. This method doesn't require you to install the CLI in the image.
 
     <Note>
       This method requires a Bash-compatible shell because it uses process substitution.
@@ -199,20 +199,20 @@ Next, choose how Docker should receive your application secrets:
 
     ### Authenticate with the CLI
 
-    Authenticate with Infisical by running [`infisical login`](/cli/commands/login):
+    Authenticate with vaultix by running [`vaultix login`](/cli/commands/login):
 
     ```bash
-    infisical login
+    vaultix login
     ```
 
     This prompts you to select your hosting option, then opens your browser to complete the login.
 
     ### Connect your project
 
-    In your application's directory, link it to the project you created by running [`infisical init`](/cli/commands/init):
+    In your application's directory, link it to the project you created by running [`vaultix init`](/cli/commands/init):
 
     ```bash
-    infisical init
+    vaultix init
     ```
 
     Follow the prompts to select your organization and project.
@@ -223,11 +223,11 @@ Next, choose how Docker should receive your application secrets:
 
     ```bash
     docker run --rm \
-      --env-file <(infisical export --env=dev --format=dotenv) \
+      --env-file <(vaultix export --env=dev --format=dotenv) \
       orders-service
     ```
 
-    Replace `orders-service` with the image you want to run. Infisical serves the exported secrets through a temporary file descriptor rather than writing a `.env` file to disk.
+    Replace `orders-service` with the image you want to run. vaultix serves the exported secrets through a temporary file descriptor rather than writing a `.env` file to disk.
 
     <Warning>
       Docker's `--env-file` option doesn't support multiline secret values. Use the startup method if your application requires multiline secrets.
@@ -241,7 +241,7 @@ Next, choose how Docker should receive your application secrets:
   <Tab title="Docker Run (CI/CD)">
     <span id="docker-run-cicd"></span>
 
-    In CI/CD and other automated environments, use a [machine identity](/documentation/platform/identities/machine-identities) to authenticate the Infisical CLI on the host. The CLI exports your application secrets and passes them to an existing image through Docker's `--env-file` option.
+    In CI/CD and other automated environments, use a [machine identity](/documentation/platform/identities/machine-identities) to authenticate the vaultix CLI on the host. The CLI exports your application secrets and passes them to an existing image through Docker's `--env-file` option.
 
     <Note>
       This method requires a Bash-compatible shell because it uses process substitution.
@@ -255,11 +255,11 @@ Next, choose how Docker should receive your application secrets:
 
     ### Authenticate with the CLI
 
-    Exchange the machine identity credentials for a short-lived access token using the commands for your Infisical deployment:
+    Exchange the machine identity credentials for a short-lived access token using the commands for your vaultix deployment:
 
     <CodeGroup>
-      ```bash Infisical Cloud US
-      export INFISICAL_TOKEN=$(infisical login \
+      ```bash vaultix Cloud US
+      export vaultix_TOKEN=$(vaultix login \
         --method=universal-auth \
         --client-id=<client-id> \
         --client-secret=<client-secret> \
@@ -268,10 +268,10 @@ Next, choose how Docker should receive your application secrets:
       ```
 
       ```bash EU Cloud or self-hosted
-      # Use https://eu.infisical.com for EU Cloud or your self-hosted instance URL
-      export INFISICAL_DOMAIN=<your-infisical-domain>
+      # Use https://eu.vaultix.com for EU Cloud or your self-hosted instance URL
+      export vaultix_DOMAIN=<your-vaultix-domain>
 
-      export INFISICAL_TOKEN=$(infisical login \
+      export vaultix_TOKEN=$(vaultix login \
         --method=universal-auth \
         --client-id=<client-id> \
         --client-secret=<client-secret> \
@@ -286,7 +286,7 @@ Next, choose how Docker should receive your application secrets:
 
     ```bash
     docker run --rm \
-      --env-file <(infisical export --projectId=<project-id> --env=dev --format=dotenv) \
+      --env-file <(vaultix export --projectId=<project-id> --env=dev --format=dotenv) \
       orders-service
     ```
 
@@ -306,15 +306,15 @@ Next, choose how Docker should receive your application secrets:
 
 If you [fetch secrets at startup](#fetch-at-startup), you can use [Docker Compose](https://docs.docker.com/compose/) to build and run one or more configured service images.
 
-[Configure each image](/integrations/platforms/docker#update-your-dockerfile) to start through `infisical run`, then configure your Compose file for your Infisical deployment:
+[Configure each image](/integrations/platforms/docker#update-your-dockerfile) to start through `vaultix run`, then configure your Compose file for your vaultix deployment:
 
 <CodeGroup>
-  ```yaml Infisical Cloud US
+  ```yaml vaultix Cloud US
   services:
     orders-service:
       build: .
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN}
+        vaultix_TOKEN: ${vaultix_TOKEN}
   ```
 
   ```yaml EU Cloud or self-hosted
@@ -322,16 +322,16 @@ If you [fetch secrets at startup](#fetch-at-startup), you can use [Docker Compos
     orders-service:
       build: .
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN}
-        INFISICAL_DOMAIN: ${INFISICAL_DOMAIN}
+        vaultix_TOKEN: ${vaultix_TOKEN}
+        vaultix_DOMAIN: ${vaultix_DOMAIN}
   ```
 </CodeGroup>
 
-Authenticate the machine identity in the same shell, then start the services using the commands for your Infisical deployment:
+Authenticate the machine identity in the same shell, then start the services using the commands for your vaultix deployment:
 
 <CodeGroup>
-  ```bash Infisical Cloud US
-  export INFISICAL_TOKEN=$(infisical login \
+  ```bash vaultix Cloud US
+  export vaultix_TOKEN=$(vaultix login \
     --method=universal-auth \
     --client-id=<client-id> \
     --client-secret=<client-secret> \
@@ -342,10 +342,10 @@ Authenticate the machine identity in the same shell, then start the services usi
   ```
 
   ```bash EU Cloud or self-hosted
-  # Use https://eu.infisical.com for EU Cloud or your self-hosted instance URL
-  export INFISICAL_DOMAIN=<your-infisical-domain>
+  # Use https://eu.vaultix.com for EU Cloud or your self-hosted instance URL
+  export vaultix_DOMAIN=<your-vaultix-domain>
 
-  export INFISICAL_TOKEN=$(infisical login \
+  export vaultix_TOKEN=$(vaultix login \
     --method=universal-auth \
     --client-id=<client-id> \
     --client-secret=<client-secret> \
@@ -357,7 +357,7 @@ Authenticate the machine identity in the same shell, then start the services usi
 </CodeGroup>
 
 <Note>
-  If your self-hosted Infisical instance is running locally on the Docker host, don't set `INFISICAL_DOMAIN` to a `localhost` URL, since this will point to the container itself.
+  If your self-hosted vaultix instance is running locally on the Docker host, don't set `vaultix_DOMAIN` to a `localhost` URL, since this will point to the container itself.
 
   Instead, set it to a `host.docker.internal` URL, [which points to the container's host domain](https://docs.docker.com/desktop/features/networking/networking-how-tos/#connect-a-container-to-a-service-on-the-host).
 </Note>
@@ -369,17 +369,17 @@ If multiple services need different access permissions, create a [machine identi
   Map each service to the access token for its machine identity:
 
 <CodeGroup>
-  ```yaml Infisical Cloud US
+  ```yaml vaultix Cloud US
   services:
     web:
       build: ./web
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN_WEB}
+        vaultix_TOKEN: ${vaultix_TOKEN_WEB}
 
     api:
       build: ./api
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN_API}
+        vaultix_TOKEN: ${vaultix_TOKEN_API}
   ```
 
   ```yaml EU Cloud or self-hosted
@@ -387,29 +387,29 @@ If multiple services need different access permissions, create a [machine identi
     web:
       build: ./web
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN_WEB}
-        INFISICAL_DOMAIN: ${INFISICAL_DOMAIN}
+        vaultix_TOKEN: ${vaultix_TOKEN_WEB}
+        vaultix_DOMAIN: ${vaultix_DOMAIN}
 
     api:
       build: ./api
       environment:
-        INFISICAL_TOKEN: ${INFISICAL_TOKEN_API}
-        INFISICAL_DOMAIN: ${INFISICAL_DOMAIN}
+        vaultix_TOKEN: ${vaultix_TOKEN_API}
+        vaultix_DOMAIN: ${vaultix_DOMAIN}
   ```
 </CodeGroup>
 
 Authenticate each identity before starting the services:
 
 <CodeGroup>
-  ```bash Infisical Cloud US
-  export INFISICAL_TOKEN_WEB=$(infisical login \
+  ```bash vaultix Cloud US
+  export vaultix_TOKEN_WEB=$(vaultix login \
     --method=universal-auth \
     --client-id=<web-client-id> \
     --client-secret=<web-client-secret> \
     --plain \
     --silent)
 
-  export INFISICAL_TOKEN_API=$(infisical login \
+  export vaultix_TOKEN_API=$(vaultix login \
     --method=universal-auth \
     --client-id=<api-client-id> \
     --client-secret=<api-client-secret> \
@@ -420,17 +420,17 @@ Authenticate each identity before starting the services:
   ```
 
   ```bash EU Cloud or self-hosted
-  # Use https://eu.infisical.com for EU Cloud or your self-hosted instance URL
-  export INFISICAL_DOMAIN=<your-infisical-domain>
+  # Use https://eu.vaultix.com for EU Cloud or your self-hosted instance URL
+  export vaultix_DOMAIN=<your-vaultix-domain>
 
-  export INFISICAL_TOKEN_WEB=$(infisical login \
+  export vaultix_TOKEN_WEB=$(vaultix login \
     --method=universal-auth \
     --client-id=<web-client-id> \
     --client-secret=<web-client-secret> \
     --plain \
     --silent)
 
-  export INFISICAL_TOKEN_API=$(infisical login \
+  export vaultix_TOKEN_API=$(vaultix login \
     --method=universal-auth \
     --client-id=<api-client-id> \
     --client-secret=<api-client-secret> \
@@ -453,7 +453,7 @@ Authenticate each identity before starting the services:
   <Card title="Machine Identities" icon="robot" href="/documentation/platform/identities/machine-identities">
     Configure workload authentication and access controls.
   </Card>
-  <Card title="Infisical Run" icon="terminal" href="/cli/commands/run">
+  <Card title="vaultix Run" icon="terminal" href="/cli/commands/run">
     Review all options for injecting secrets into an application process.
   </Card>
 </CardGroup>

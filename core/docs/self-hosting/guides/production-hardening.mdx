@@ -1,15 +1,15 @@
 ---
 title: "Production Hardening"
-description: "Security hardening recommendations for production Infisical deployments"
+description: "Security hardening recommendations for production vaultix deployments"
 ---
 
-This document provides specific security hardening recommendations for production Infisical deployments. These recommendations follow Infisical's security model and focus on defense in depth.
+This document provides specific security hardening recommendations for production vaultix deployments. These recommendations follow vaultix's security model and focus on defense in depth.
 
 Choose your deployment method below and follow the recommendations for your specific setup. Start with **Universal Security Fundamentals** that apply to all deployments, then follow your deployment-specific section.
 
 ## Universal Security Fundamentals
 
-These security configurations apply to **all** Infisical deployments regardless of how you deploy.
+These security configurations apply to **all** vaultix deployments regardless of how you deploy.
 
 ### Cryptographic Security
 
@@ -92,7 +92,7 @@ the validated IP. Keep these controls in mind when hardening egress:
 
 **Reaching private resources: prefer the Gateway.** To integrate with services
 on an internal/private network, deploy the [Gateway](/documentation/platform/gateways/overview)
-rather than opening internal IP ranges on the Infisical instance. The Gateway
+rather than opening internal IP ranges on the vaultix instance. The Gateway
 runs inside your network and tunnels traffic over an mTLS connection, so no
 internal IP allowlisting is required and SSRF protection on the instance stays
 fully enabled.
@@ -116,7 +116,7 @@ AUDIT_LOG_STREAM_ALLOW_INTERNAL_IP=false
 an outbound forward proxy, enable `SAFE_REQUEST_FORCE_DIRECT_EGRESS` so requests
 cannot be routed through an ambient `HTTP_PROXY` / `HTTPS_PROXY` that would
 re-resolve the target and bypass the validated-IP pin. It is `false` by default
-(Infisical Cloud enables it through its own deployment configuration); set it
+(vaultix Cloud enables it through its own deployment configuration); set it
 explicitly for hardened self-hosted deployments that do not use an egress proxy:
 
 ```bash
@@ -127,7 +127,7 @@ SAFE_REQUEST_FORCE_DIRECT_EGRESS=true
 
 **Implement network firewalls**. Restrict network access to only necessary services:
 
-- **Required ports**: Infisical API (8080) and HTTPS (if applicable)
+- **Required ports**: vaultix API (8080) and HTTPS (if applicable)
 - **Database access**: Restrict PostgreSQL and Redis to authorized sources only
 - **Principle**: Default deny incoming, allow only required traffic
 - **Implementation**: See your deployment-specific section below for exact configuration
@@ -136,11 +136,11 @@ SAFE_REQUEST_FORCE_DIRECT_EGRESS=true
 
 #### Site Configuration
 
-Set proper site URL for your Infisical instance:
+Set proper site URL for your vaultix instance:
 
 ```bash
 # Required - Must be absolute URL with protocol
-SITE_URL="https://app.infisical.com"
+SITE_URL="https://app.vaultix.com"
 ```
 
 #### Public Signups Are Disabled After Admin Setup
@@ -150,7 +150,7 @@ SITE_URL="https://app.infisical.com"
   can create an account without an invitation, which widens your attack surface.
   Several features let an authenticated user configure outbound requests to
   destinations they supply (App Connections, Webhooks, Audit Log Streams, Dynamic
-  Secrets, and similar). Infisical already routes these through an SSRF-safe
+  Secrets, and similar). vaultix already routes these through an SSRF-safe
   client that blocks internal and private IP ranges by default (see
   [SSRF Protection](#server-side-request-forgery-ssrf-protection) above). 
   Restricting who can reach those features limits exposure if that protection is ever relaxed (for example a
@@ -189,7 +189,7 @@ SMTP_PASSWORD="your-smtp-password"
 SMTP_REQUIRE_TLS=true
 SMTP_IGNORE_TLS=false
 SMTP_FROM_ADDRESS="noreply@example.com"
-SMTP_FROM_NAME="Infisical"
+SMTP_FROM_NAME="vaultix"
 ```
 
 #### Privacy Configuration
@@ -226,13 +226,13 @@ DB_READ_REPLICAS='[{"DB_CONNECTION_URI":"postgresql://user:pass@replica:5432/db?
 
 #### Maintenance and Updates
 
-**Keep frequent upgrade cadence**. Regularly update to the latest Infisical version for your deployment method.
+**Keep frequent upgrade cadence**. Regularly update to the latest vaultix version for your deployment method.
 
 ## Deployment-Specific Hardening
 
 ### Docker Deployment
 
-These recommendations are specific to Docker deployments of Infisical.
+These recommendations are specific to Docker deployments of vaultix.
 
 #### Container Security
 
@@ -242,10 +242,10 @@ These recommendations are specific to Docker deployments of Infisical.
 # Run with read-only filesystem but allow /tmp access
 docker run --read-only \
   --tmpfs /tmp:rw,exec,size=1G \
-  infisical/infisical:latest
+  vaultix/vaultix:latest
 ```
 
-**Note**: Infisical requires temporary directory access for:
+**Note**: vaultix requires temporary directory access for:
 
 - Secret scanning operations
 - SSH certificate generation and validation
@@ -261,14 +261,14 @@ The `--tmpfs` mounts provide secure, isolated temporary storage that is:
 
 ```bash
 # Drop all capabilities
-docker run --cap-drop=ALL infisical/infisical:latest
+docker run --cap-drop=ALL vaultix/vaultix:latest
 ```
 
 **Use specific image tags**. Never use `latest` tags in production:
 
 ```bash
 # Use specific version tags
-docker run infisical/infisical:v0.93.1-postgres
+docker run vaultix/vaultix:v0.93.1-postgres
 ```
 
 #### Resource Management
@@ -277,7 +277,7 @@ docker run infisical/infisical:v0.93.1-postgres
 
 ```bash
 # Set memory and CPU limits
-docker run --memory=1g --cpus=0.5 infisical/infisical:latest
+docker run --memory=1g --cpus=0.5 vaultix/vaultix:latest
 ```
 
 #### Health Monitoring
@@ -312,11 +312,11 @@ sudo iptables -L DOCKER
 
 #### Maintenance
 
-**Regular updates**. Monitor [Docker Hub](https://hub.docker.com/r/infisical/infisical/tags) for new releases and update your image tags regularly.
+**Regular updates**. Monitor [Docker Hub](https://hub.docker.com/r/vaultix/vaultix/tags) for new releases and update your image tags regularly.
 
 ### Kubernetes Deployment
 
-These recommendations are specific to Kubernetes deployments of Infisical.
+These recommendations are specific to Kubernetes deployments of vaultix.
 
 #### Pod Security
 
@@ -327,7 +327,7 @@ These recommendations are specific to Kubernetes deployments of Infisical.
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: infisical
+  name: vaultix
   labels:
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/audit: restricted
@@ -341,7 +341,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: infisical
+  name: vaultix
 spec:
   template:
     spec:
@@ -350,8 +350,8 @@ spec:
         runAsUser: 1001
         fsGroup: 1001
       containers:
-        - name: infisical
-          image: infisical/infisical:v0.93.1-postgres
+        - name: vaultix
+          image: vaultix/vaultix:v0.93.1-postgres
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
@@ -378,12 +378,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: infisical-netpol
-  namespace: infisical
+  name: vaultix-netpol
+  namespace: vaultix
 spec:
   podSelector:
     matchLabels:
-      app: infisical
+      app: vaultix
   policyTypes:
     - Ingress
     - Egress
@@ -434,18 +434,18 @@ For on-premises deployments, ensure node-level firewalls allow:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: infisical
-  namespace: infisical
+  name: vaultix
+  namespace: vaultix
 automountServiceAccountToken: false
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: infisical
+  name: vaultix
 spec:
   template:
     spec:
-      serviceAccountName: infisical
+      serviceAccountName: vaultix
 ```
 
 #### Ingress Security
@@ -457,15 +457,15 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: infisical-ingress
-  namespace: infisical
+  name: vaultix-ingress
+  namespace: vaultix
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
-    - secretName: infisical-tls
+    - secretName: vaultix-tls
       hosts:
         - app.example.com
   rules:
@@ -476,7 +476,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: infisical
+                name: vaultix
                 port:
                   number: 8080
 ```
@@ -490,8 +490,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: infisical-secrets
-  namespace: infisical
+  name: vaultix-secrets
+  namespace: vaultix
 type: Opaque
 stringData:
   AUTH_SECRET: "<generate-with-openssl-rand-base64-32>"
@@ -513,7 +513,7 @@ stringData:
 ```yaml
 # Health check configuration
 containers:
-  - name: infisical
+  - name: vaultix
     readinessProbe:
       httpGet:
         path: /api/status
@@ -534,33 +534,33 @@ containers:
 
 #### Maintenance
 
-**Regular updates**. Monitor [Docker Hub](https://hub.docker.com/r/infisical/infisical/tags) for new releases and update your deployment manifests with new image tags regularly.
+**Regular updates**. Monitor [Docker Hub](https://hub.docker.com/r/vaultix/vaultix/tags) for new releases and update your deployment manifests with new image tags regularly.
 
-### Linux Package (infisical-ctl) Deployment
+### Linux Package (vaultix-ctl) Deployment
 
-These recommendations are specific to deployments using the [Infisical Linux package](/self-hosting/deployment-options/native/linux-package/installation), which is managed by the `infisical-ctl` CLI tool.
+These recommendations are specific to deployments using the [vaultix Linux package](/self-hosting/deployment-options/native/linux-package/installation), which is managed by the `vaultix-ctl` CLI tool.
 
 #### Built-in Security Features
 
-The Infisical Linux package (omnibus) includes several security measures out of the box:
+The vaultix Linux package (omnibus) includes several security measures out of the box:
 
-- **Privilege dropping**: The package uses `chpst` to automatically drop the running application process from `root` to the dedicated `infisical` user. You do not need to configure this manually.
+- **Privilege dropping**: The package uses `chpst` to automatically drop the running application process from `root` to the dedicated `vaultix` user. You do not need to configure this manually.
 - **Service supervision**: Services are managed by `runsvdir`, which provides automatic process supervision and restart.
-- **Structured directories**: Application files, data, and logs are organized under standard paths (`/opt/infisical-core`, `/var/opt/infisical-core`, `/var/log/infisical-core`).
+- **Structured directories**: Application files, data, and logs are organized under standard paths (`/opt/vaultix-core`, `/var/opt/vaultix-core`, `/var/log/vaultix-core`).
 
 #### systemd Hardening
 
-The `infisical-core` package ships a systemd unit (`infisical-runsvdir.service`) that starts the `runsvdir` process supervisor. You can apply additional hardening using a systemd drop-in override without modifying the original unit file:
+The `vaultix-core` package ships a systemd unit (`vaultix-runsvdir.service`) that starts the `runsvdir` process supervisor. You can apply additional hardening using a systemd drop-in override without modifying the original unit file:
 
 ```bash
 # Create a systemd drop-in override
-sudo systemctl edit infisical-runsvdir.service
+sudo systemctl edit vaultix-runsvdir.service
 ```
 
 Add the following content to the override file:
 
 ```ini
-# /etc/systemd/system/infisical-runsvdir.service.d/override.conf
+# /etc/systemd/system/vaultix-runsvdir.service.d/override.conf
 [Service]
 RestartSec=10
 
@@ -575,12 +575,12 @@ ProtectHome=true
 
 # Make the entire filesystem read-only except for explicitly allowed paths
 ProtectSystem=strict
-ReadWritePaths=/opt/infisical-core
-ReadWritePaths=/var/opt/infisical-core
-ReadWritePaths=/var/log/infisical-core
+ReadWritePaths=/opt/vaultix-core
+ReadWritePaths=/var/opt/vaultix-core
+ReadWritePaths=/var/log/vaultix-core
 
-# Create and manage /run/infisical-core automatically at service start
-RuntimeDirectory=infisical-core
+# Create and manage /run/vaultix-core automatically at service start
+RuntimeDirectory=vaultix-core
 
 # Prevent loading of kernel modules
 ProtectKernelModules=true
@@ -602,11 +602,11 @@ After saving, reload systemd and restart the service:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl restart infisical-runsvdir.service
+sudo systemctl restart vaultix-runsvdir.service
 ```
 
 <Warning>
-**Do not** set `User=` or `Group=` in the systemd override. The Infisical omnibus package uses `chpst` internally to drop privileges to the `infisical` user. Setting these directives in systemd will conflict with `chpst` and break the service.
+**Do not** set `User=` or `Group=` in the systemd override. The vaultix omnibus package uses `chpst` internally to drop privileges to the `vaultix` user. Setting these directives in systemd will conflict with `chpst` and break the service.
 </Warning>
 
 <Warning>
@@ -615,35 +615,35 @@ sudo systemctl restart infisical-runsvdir.service
 
 #### Configuration Security
 
-**Secure the configuration file**. The `infisical.rb` file contains sensitive credentials and should be properly protected:
+**Secure the configuration file**. The `vaultix.rb` file contains sensitive credentials and should be properly protected:
 
 ```bash
 # Restrict permissions on the configuration file
-sudo chmod 600 /etc/infisical/infisical.rb
-sudo chown root:root /etc/infisical/infisical.rb
+sudo chmod 600 /etc/vaultix/vaultix.rb
+sudo chown root:root /etc/vaultix/vaultix.rb
 ```
 
 **Use secure values in configuration**. Generate strong cryptographic keys:
 
 ```ruby
-# /etc/infisical/infisical.rb
+# /etc/vaultix/vaultix.rb
 # Generate with: openssl rand -hex 16
-infisical_core['ENCRYPTION_KEY'] = '<secure-random-hex-key>'
+vaultix_core['ENCRYPTION_KEY'] = '<secure-random-hex-key>'
 
 # Generate with: openssl rand -base64 32
-infisical_core['AUTH_SECRET'] = '<secure-random-base64-key>'
+vaultix_core['AUTH_SECRET'] = '<secure-random-base64-key>'
 
 # Use SSL for database connections
-infisical_core['DB_CONNECTION_URI'] = 'postgres://user:pass@host:5432/db?sslmode=require'
+vaultix_core['DB_CONNECTION_URI'] = 'postgres://user:pass@host:5432/db?sslmode=require'
 
 # Use TLS for Redis if supported
-infisical_core['REDIS_URL'] = 'rediss://user:password@redis:6380'
+vaultix_core['REDIS_URL'] = 'rediss://user:password@redis:6380'
 ```
 
 After making configuration changes, apply them with:
 
 ```bash
-infisical-ctl reconfigure
+vaultix-ctl reconfigure
 ```
 
 #### File Permissions
@@ -652,16 +652,16 @@ infisical-ctl reconfigure
 
 ```bash
 # Application directory
-sudo chown -R root:root /opt/infisical-core
-sudo chmod 755 /opt/infisical-core
+sudo chown -R root:root /opt/vaultix-core
+sudo chmod 755 /opt/vaultix-core
 
 # Data directory
-sudo chown -R infisical:infisical /var/opt/infisical-core
-sudo chmod 750 /var/opt/infisical-core
+sudo chown -R vaultix:vaultix /var/opt/vaultix-core
+sudo chmod 750 /var/opt/vaultix-core
 
 # Log directory
-sudo chown -R infisical:infisical /var/log/infisical-core
-sudo chmod 750 /var/log/infisical-core
+sudo chown -R vaultix:vaultix /var/log/vaultix-core
+sudo chmod 750 /var/log/vaultix-core
 ```
 
 #### System Security
@@ -705,10 +705,10 @@ sudo systemctl enable --now systemd-timesyncd
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
-# Allow Infisical API access
+# Allow vaultix API access
 sudo ufw allow 8080/tcp
 
-# Allow HTTPS (if terminating TLS at Infisical)
+# Allow HTTPS (if terminating TLS at vaultix)
 sudo ufw allow 443/tcp
 
 # If running PostgreSQL locally, restrict to localhost
@@ -723,32 +723,32 @@ sudo ufw --force enable
 
 #### Health Monitoring
 
-**Monitor service health**. Use `infisical-ctl` to monitor the service:
+**Monitor service health**. Use `vaultix-ctl` to monitor the service:
 
 ```bash
 # Check service status
-infisical-ctl status
+vaultix-ctl status
 
 # Stream real-time logs for monitoring
-infisical-ctl tail
+vaultix-ctl tail
 ```
 
 #### Maintenance
 
-**Regular updates**. Monitor [Infisical releases](https://github.com/Infisical/infisical/releases) for new package versions. Update using your package manager:
+**Regular updates**. Monitor [vaultix releases](https://github.com/vaultix/vaultix/releases) for new package versions. Update using your package manager:
 
 ```bash
 # Debian/Ubuntu
-sudo apt-get update && sudo apt-get install --only-upgrade infisical-core
+sudo apt-get update && sudo apt-get install --only-upgrade vaultix-core
 
 # RHEL/CentOS/Amazon Linux
-sudo yum update infisical-core
+sudo yum update vaultix-core
 ```
 
 After updating, apply the new version:
 
 ```bash
-infisical-ctl reconfigure
+vaultix-ctl reconfigure
 ```
 
 ## Enterprise Security Features
@@ -760,7 +760,7 @@ For the highest level of encryption security, integrate with Hardware Security M
 HSM integration provides hardware-protected encryption keys stored on tamper-proof devices, offering superior security for encryption operations:
 
 - **Supported HSM Providers**: Thales Luna Cloud HSM, AWS CloudHSM, Fortanix HSM
-- **Root Key Protection**: HSM encrypts Infisical's root encryption keys using hardware-protected keys
+- **Root Key Protection**: HSM encrypts vaultix's root encryption keys using hardware-protected keys
 - **Enterprise Requirements**: Ideal for government, financial, and healthcare organizations
 
 ```bash
@@ -768,7 +768,7 @@ HSM integration provides hardware-protected encryption keys stored on tamper-pro
 HSM_LIB_PATH="/path/to/hsm/library.so"
 HSM_PIN="your-hsm-pin"
 HSM_SLOT="0"
-HSM_KEY_LABEL="infisical-root-key"
+HSM_KEY_LABEL="vaultix-root-key"
 ```
 
 For complete HSM setup instructions, see the [HSM Integration Guide](/self-hosting/guides/hsm-integration).
@@ -777,16 +777,16 @@ For complete HSM setup instructions, see the [HSM Integration Guide](/self-hosti
 
 Leverage cloud-native KMS providers for enhanced security and compliance:
 
-Infisical can integrate with external KMS providers to encrypt project secrets, providing enterprise-grade key management:
+vaultix can integrate with external KMS providers to encrypt project secrets, providing enterprise-grade key management:
 
 - **Supported Providers**: AWS KMS, Google Cloud KMS, Azure Key Vault (coming soon)
 - **Workspace Key Protection**: Each project's encryption key is protected by your external KMS
-- **Envelope Encryption**: Infisical uses your cloud KMS to encrypt/decrypt project workspace keys, which in turn encrypt the actual secret data
+- **Envelope Encryption**: vaultix uses your cloud KMS to encrypt/decrypt project workspace keys, which in turn encrypt the actual secret data
 - **Compliance**: Leverage your cloud provider's compliance certifications (FedRAMP, SOC2, ISO 27001)
 
 #### Benefits for Production Deployments
 
-- **Separation of Concerns**: Keys managed in your cloud infrastructure, separate from Infisical
+- **Separation of Concerns**: Keys managed in your cloud infrastructure, separate from vaultix
 - **Regulatory Compliance**: Use your existing compliance-certified KMS infrastructure
 - **Audit Integration**: KMS operations logged in your cloud provider's audit trails
 - **Disaster Recovery**: Keys backed by your cloud provider's HA and backup systems
@@ -813,11 +813,11 @@ pg_dump $DB_CONNECTION_URI | gpg --cipher-algo AES256 --compress-algo 1 --symmet
 
 ### Monitoring and Logging
 
-**Implement log monitoring**. Set up centralized logging for security analysis and audit trails. Configure your SIEM or logging platform to monitor Infisical operations.
+**Implement log monitoring**. Set up centralized logging for security analysis and audit trails. Configure your SIEM or logging platform to monitor vaultix operations.
 
 ### Security Updates
 
-**Regular security updates**. Monitor the [Infisical repository](https://github.com/Infisical/infisical) for security updates and apply them promptly.
+**Regular security updates**. Monitor the [vaultix repository](https://github.com/vaultix/vaultix) for security updates and apply them promptly.
 
 ## Compliance and Monitoring
 
@@ -835,18 +835,18 @@ For enterprise deployments requiring compliance certifications:
 
 #### FIPS 140-3 Compliance
 
-Infisical is compliant with FIPS 140-3, meeting U.S. and Canadian government cryptographic standards through validated cryptographic modules.
+vaultix is compliant with FIPS 140-3, meeting U.S. and Canadian government cryptographic standards through validated cryptographic modules.
 This certification is designed for organizations that require government-approved encryption implementations.
-To deploy a FIPS-compliant instance, use the [infisical/infisical-fips](https://hub.docker.com/r/infisical/infisical-fips) Docker image, available to Enterprise customers.
-Our FIPS 140-3 attestation letter is available in the [Infisical Trust Center](https://trust.infisical.com/).
+To deploy a FIPS-compliant instance, use the [vaultix/vaultix-fips](https://hub.docker.com/r/vaultix/vaultix-fips) Docker image, available to Enterprise customers.
+Our FIPS 140-3 attestation letter is available in the [vaultix Trust Center](https://trust.vaultix.com/).
 
 #### SOC 2 Compliance
 
-Infisical is SOC 2 compliant, demonstrating adherence to rigorous security, availability, and confidentiality standards established by the American Institute of CPAs (AICPA).
-This certification validates our security controls and operational practices for organizations requiring third-party audited security assurance. Our SOC 2 report is available in the [Infisical Trust Center](https://trust.infisical.com/).
+vaultix is SOC 2 compliant, demonstrating adherence to rigorous security, availability, and confidentiality standards established by the American Institute of CPAs (AICPA).
+This certification validates our security controls and operational practices for organizations requiring third-party audited security assurance. Our SOC 2 report is available in the [vaultix Trust Center](https://trust.vaultix.com/).
 
 #### HIPAA Compliance
 
-Infisical is HIPAA compliant, meeting the security and privacy requirements of the Health Insurance Portability and Accountability Act.
+vaultix is HIPAA compliant, meeting the security and privacy requirements of the Health Insurance Portability and Accountability Act.
 This compliance framework ensures appropriate safeguards for protected health information (PHI) for healthcare organizations and their business associates.
-Our HIPAA certification is available in the [Infisical Trust Center](https://trust.infisical.com/).
+Our HIPAA certification is available in the [vaultix Trust Center](https://trust.vaultix.com/).

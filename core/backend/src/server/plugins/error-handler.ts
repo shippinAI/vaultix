@@ -54,8 +54,8 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
     unit: "1"
   });
 
-  const infisicalMeter = opentelemetry.metrics.getMeter("Vaultix");
-  const errorCounter = infisicalMeter.createCounter("infisical.http.server.error.count", {
+  const vaultixMeter = opentelemetry.metrics.getMeter("Vaultix");
+  const errorCounter = vaultixMeter.createCounter("vaultix.http.server.error.count", {
     description: "Total number of API errors in Vaultix (covers both human users and machine identities)",
     unit: "{error}"
   });
@@ -125,39 +125,39 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
       };
 
       if (orgId) {
-        attributes["infisical.organization.id"] = orgId;
+        attributes["vaultix.organization.id"] = orgId;
       }
       if (orgName) {
-        attributes["infisical.organization.name"] = orgName;
+        attributes["vaultix.organization.name"] = orgName;
       }
 
       if (userAuthInfo) {
         if (userAuthInfo.userId) {
-          attributes["infisical.user.id"] = userAuthInfo.userId;
+          attributes["vaultix.user.id"] = userAuthInfo.userId;
         }
         if (userAuthInfo.email) {
-          attributes["infisical.user.email"] = userAuthInfo.email;
+          attributes["vaultix.user.email"] = userAuthInfo.email;
         }
       }
 
       if (identityAuthInfo) {
         if (identityAuthInfo.identityId) {
-          attributes["infisical.identity.id"] = identityAuthInfo.identityId;
+          attributes["vaultix.identity.id"] = identityAuthInfo.identityId;
         }
         if (identityAuthInfo.identityName) {
-          attributes["infisical.identity.name"] = identityAuthInfo.identityName;
+          attributes["vaultix.identity.name"] = identityAuthInfo.identityName;
         }
         if (identityAuthInfo.authMethod) {
-          attributes["infisical.auth.method"] = identityAuthInfo.authMethod;
+          attributes["vaultix.auth.method"] = identityAuthInfo.authMethod;
         }
       }
 
       if (projectDetails) {
         if (projectDetails.id) {
-          attributes["infisical.project.id"] = projectDetails.id;
+          attributes["vaultix.project.id"] = projectDetails.id;
         }
         if (projectDetails.name) {
-          attributes["infisical.project.name"] = projectDetails.name;
+          attributes["vaultix.project.name"] = projectDetails.name;
         }
       }
 

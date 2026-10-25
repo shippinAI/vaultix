@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/cloudflare-r2-access-key"
     Check out the configuration docs for [Cloudflare R2 Access Key Rotations](/documentation/platform/secret-rotation/cloudflare-r2-access-key) to learn how to obtain the required parameters.
 </Note>
 
-Creates a Cloudflare R2 Access Key secret rotation. Infisical will create and rotate the underlying Cloudflare API token via your [Cloudflare connection](/integrations/app-connections/cloudflare), derive the S3-compatible access key from it, and write the credentials to the specified secret path.
+Creates a Cloudflare R2 Access Key secret rotation. vaultix will create and rotate the underlying Cloudflare API token via your [Cloudflare connection](/integrations/app-connections/cloudflare), derive the S3-compatible access key from it, and write the credentials to the specified secret path.
 
 ## Request body
 
@@ -36,7 +36,7 @@ Creates a Cloudflare R2 Access Key secret rotation. Infisical will create and ro
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/cloudflare-r2-access-key \
+  --url https://us.vaultix.com/api/v2/secret-rotations/cloudflare-r2-access-key \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{
@@ -50,7 +50,7 @@ curl --request POST \
     "rotationInterval": 30,
     "rotateAtUtc": { "hours": 0, "minutes": 0 },
     "parameters": {
-      "name": "infisical-r2-access-key",
+      "name": "vaultix-r2-access-key",
       "buckets": [
         { "name": "my-bucket", "jurisdiction": "default" },
         { "name": "my-eu-bucket", "jurisdiction": "eu" }
@@ -84,7 +84,7 @@ curl --request POST \
     "rotateAtUtc": { "hours": 0, "minutes": 0 },
     "type": "cloudflare-r2-access-key",
     "parameters": {
-      "name": "infisical-r2-access-key",
+      "name": "vaultix-r2-access-key",
       "buckets": [
         { "name": "my-bucket", "jurisdiction": "default" },
         { "name": "my-eu-bucket", "jurisdiction": "eu" }

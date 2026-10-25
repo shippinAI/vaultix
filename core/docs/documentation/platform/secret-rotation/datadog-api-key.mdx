@@ -14,10 +14,10 @@ description: "Learn how to automatically rotate Datadog API Keys."
 - Create a [Datadog Connection](/integrations/app-connections/datadog) using the **API Key** method (both an API Key and an Application Key are required).
 - The Application Key used by the connection must belong to a user with permission to create and delete API keys. Set `api_keys_read` and `api_keys_write` under **API and Application Keys** in the key's scopes.
 
-## Create a Datadog API Key Rotation in Infisical
+## Create a Datadog API Key Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
 
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
@@ -70,7 +70,7 @@ description: "Learn how to automatically rotate Datadog API Keys."
 
         ```bash Request
         curl --request POST \
-        --url https://us.infisical.com/api/v2/secret-rotations/datadog-api-key \
+        --url https://us.vaultix.com/api/v2/secret-rotations/datadog-api-key \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-datadog-rotation",
@@ -86,7 +86,7 @@ description: "Learn how to automatically rotate Datadog API Keys."
                 "minutes": 0
             },
             "parameters": {
-                "name": "Infisical Rotated API Key"
+                "name": "vaultix Rotated API Key"
             },
             "secretsMapping": {
                 "apiKeyId": "DATADOG_API_KEY_ID",
@@ -141,7 +141,7 @@ description: "Learn how to automatically rotate Datadog API Keys."
                 "lastRotationMessage": null,
                 "type": "datadog-api-key",
                 "parameters": {
-                    "name": "Infisical Rotated API Key"
+                    "name": "vaultix Rotated API Key"
                 }
             }
         }

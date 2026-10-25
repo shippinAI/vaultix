@@ -1,29 +1,29 @@
 ---
 title: "Sign Git Commits and Tags with GPG"
 sidebarTitle: "Sign Git Commits with GPG"
-description: "Use the Infisical PKCS#11 module with GnuPG to sign git commits, tags, and packages."
+description: "Use the vaultix PKCS#11 module with GnuPG to sign git commits, tags, and packages."
 ---
 
 <Info>
   This guide assumes your Product Admin has already created a [Signer](/documentation/platform/pki/code-signing/signers) and assigned you to it. If the signer has an approval policy, you'll also need [active access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) before signing.
 </Info>
 
-Use GnuPG with the Infisical PKCS#11 module via `gnupg-pkcs11-scd` to sign git commits and tags, RPM/DEB packages, and any other artifact that uses GPG signatures.
+Use GnuPG with the vaultix PKCS#11 module via `gnupg-pkcs11-scd` to sign git commits and tags, RPM/DEB packages, and any other artifact that uses GPG signatures.
 
 ## Prerequisites
 
 - A [Signer](/documentation/platform/pki/code-signing/signers) created by your Product Admin (RSA keys recommended for GPG compatibility)
 - [Active signing access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) (if an approval policy is attached)
 - A [machine identity](/documentation/platform/identities/machine-identities) added to the Signer
-- The Infisical [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
+- The vaultix [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
 - GnuPG 2.2 or later
 - `gnupg-pkcs11-scd` (the PKCS#11 smart card daemon bridge)
 
 ## Step 1: Set Up Authentication
 
-Configure the Infisical PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
+Configure the vaultix PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
 
-Create `/etc/infisical/pkcs11.conf` (or set `INFISICAL_CONFIG` to point elsewhere):
+Create `/etc/vaultix/pkcs11.conf` (or set `vaultix_CONFIG` to point elsewhere):
 
 ```yaml
 auth:
@@ -39,8 +39,8 @@ signer:
 You can also pass the credentials via environment variables:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
 ```
 
 <Note>
@@ -75,12 +75,12 @@ For the full set of options, see the [PKCS#11 module configuration reference](/d
 Create `~/.gnupg/gnupg-pkcs11-scd.conf`:
 
 ```
-providers infisical
-provider-infisical-library /usr/local/lib/libinfisical-pkcs11.so
+providers vaultix
+provider-vaultix-library /usr/local/lib/libvaultix-pkcs11.so
 ```
 
 <Note>
-  On macOS, use the `.dylib` extension: `provider-infisical-library /usr/local/lib/libinfisical-pkcs11.dylib`
+  On macOS, use the `.dylib` extension: `provider-vaultix-library /usr/local/lib/libvaultix-pkcs11.dylib`
 </Note>
 
 Configure GnuPG to use the PKCS#11 smart card daemon. Edit `~/.gnupg/gpg-agent.conf`:
@@ -201,9 +201,9 @@ gpg --verify release-v1.0.0.tar.gz.asc release-v1.0.0.tar.gz
 For CI pipelines, configure the GPG agent in non-interactive mode. You need to create the key stub on each run since `GNUPGHOME` is ephemeral:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="${INFISICAL_CLIENT_ID}"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="${INFISICAL_CLIENT_SECRET}"
-export INFISICAL_CONFIG="/path/to/pkcs11.conf"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="${vaultix_CLIENT_ID}"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="${vaultix_CLIENT_SECRET}"
+export vaultix_CONFIG="/path/to/pkcs11.conf"
 
 # Set up ephemeral GPG home directory
 export GNUPGHOME=$(mktemp -d)
@@ -233,13 +233,13 @@ gpg --detach-sign --armor artifact.tar.gz
 
 <Note>
   - The `Key-Length` in the batch keygen must match your signer's key size (e.g., 2048, 3072, or 4096 for RSA).
-  - The Infisical auth environment variables must be set before the GPG agent starts, as the agent inherits the environment when `gpg-connect-agent` launches it.
+  - The vaultix auth environment variables must be set before the GPG agent starts, as the agent inherits the environment when `gpg-connect-agent` launches it.
   - For repeated CI runs, you can hardcode the key grip value since it doesn't change for a given signer.
 </Note>
 
 ## Troubleshooting
 
-For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/infisical-pkcs11.log"`) to get detailed output.
+For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/vaultix-pkcs11.log"`) to get detailed output.
 
 <AccordionGroup>
   <Accordion title="Card error or signing failures">

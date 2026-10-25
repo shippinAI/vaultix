@@ -9,10 +9,10 @@ requiresDbMigration: true
 breakingChanges: []
 dbSchemaChanges:
   - title: Webhook event filters column
-    description: Infisical adds a nullable text[] column on the webhook table for
+    description: vaultix adds a nullable text[] column on the webhook table for
       event-specific webhook delivery settings. Existing rows remain compatible
       because the column is only added when missing.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -23,7 +23,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:51:21.609Z

@@ -13,7 +13,7 @@ dbSchemaChanges:
     description: Startup adds a new external_migration_configs table and copies
       existing Vault migration config records into it with encrypted
       provider-specific config data.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -30,7 +30,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:51:02.430Z

@@ -1,14 +1,14 @@
 ---
 title: "API Enrollment"
 sidebarTitle: "API"
-description: "Issue certificates through the Infisical UI, Agent, or API with optional server-driven auto-renewal."
+description: "Issue certificates through the vaultix UI, Agent, or API with optional server-driven auto-renewal."
 ---
 
 <Tip>
   New to Certificate Manager? Start with [Issue Your First Certificate](/documentation/platform/pki/quick-starts/issue-first-certificate).
 </Tip>
 
-API enrollment is the default method for issuing certificates through the Infisical UI, the Infisical Agent, or direct API calls. It's the most flexible option — use it for manual one-off requests, automated pipelines, or server-driven auto-renewal where Infisical manages the certificate lifecycle.
+API enrollment is the default method for issuing certificates through the vaultix UI, the vaultix Agent, or direct API calls. It's the most flexible option — use it for manual one-off requests, automated pipelines, or server-driven auto-renewal where vaultix manages the certificate lifecycle.
 
 <Info>
   API enrollment is configured on profiles attached to your [Application](/documentation/platform/pki/applications/overview). Product Admins attach [profiles](/documentation/platform/pki/settings/profiles), and Application Admins configure enrollment methods on those profiles.
@@ -24,7 +24,7 @@ API enrollment is the default method for issuing certificates through the Infisi
     Issue certificates as part of deployment workflows.
   </Card>
   <Card title="Server-Driven Renewal" icon="arrows-spin">
-    Let Infisical automatically renew certificates before expiration.
+    Let vaultix automatically renew certificates before expiration.
   </Card>
   <Card title="One-Off Requests" icon="hand-pointer">
     Issue certificates manually through the UI when needed.
@@ -48,7 +48,7 @@ API enrollment is the default method for issuing certificates through the Infisi
     In the modal, click **Add enrollment method** and select **API**.
   </Step>
   <Step title="Configure auto-renewal (optional)">
-    Enable **Auto-Renewal By Default** to have Infisical automatically renew certificates before expiration.
+    Enable **Auto-Renewal By Default** to have vaultix automatically renew certificates before expiration.
     
     | Setting | Description |
     |---------|-------------|
@@ -70,7 +70,7 @@ Once API enrollment is configured, you can issue certificates through the UI or 
 </Info>
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Open certificate requests">
         In your Application, go to the **Certificate Requests** tab and click **Request**.
@@ -80,7 +80,7 @@ Once API enrollment is configured, you can issue certificates through the UI or 
         
         | Method | Description |
         |--------|-------------|
-        | **Managed** | Infisical generates and manages the private key |
+        | **Managed** | vaultix generates and manages the private key |
         | **CSR** | You provide your own Certificate Signing Request |
       </Step>
       <Step title="Fill in certificate details">
@@ -110,10 +110,10 @@ Once API enrollment is configured, you can issue certificates through the UI or 
   <Tab title="API">
     ### Issue with managed key
     
-    Let Infisical generate the private key:
+    Let vaultix generate the private key:
     
     ```bash
-    curl -X POST 'https://app.infisical.com/api/v1/cert-manager/certificates' \
+    curl -X POST 'https://app.vaultix.com/api/v1/cert-manager/certificates' \
       -H 'Authorization: Bearer <access-token>' \
       -H 'Content-Type: application/json' \
       -d '{
@@ -154,7 +154,7 @@ Once API enrollment is configured, you can issue certificates through the UI or 
     Bring your own private key:
     
     ```bash
-    curl -X POST 'https://app.infisical.com/api/v1/cert-manager/certificates' \
+    curl -X POST 'https://app.vaultix.com/api/v1/cert-manager/certificates' \
       -H 'Authorization: Bearer <access-token>' \
       -H 'Content-Type: application/json' \
       -d '{
@@ -176,10 +176,10 @@ Once API enrollment is configured, you can issue certificates through the UI or 
 
 ## Server-Driven Auto-Renewal
 
-When auto-renewal is enabled, Infisical automatically renews certificates before they expire:
+When auto-renewal is enabled, vaultix automatically renews certificates before they expire:
 
-1. Infisical monitors certificate expiration dates
-2. When a certificate is within the "Renew Before Days" threshold, Infisical issues a new certificate
+1. vaultix monitors certificate expiration dates
+2. When a certificate is within the "Renew Before Days" threshold, vaultix issues a new certificate
 3. The new certificate is pushed to any configured [certificate syncs](/documentation/platform/pki/applications/certificate-syncs/overview)
 
 <Info>

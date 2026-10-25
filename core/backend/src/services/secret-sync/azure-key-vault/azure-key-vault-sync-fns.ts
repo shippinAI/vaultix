@@ -153,19 +153,19 @@ export const azureKeyVaultSyncFactory = ({
 
     const deleteSecrets: string[] = [];
 
-    Object.keys(secretMap).forEach((infisicalKey) => {
-      const hyphenatedKey = infisicalKey.replaceAll("_", "-");
+    Object.keys(secretMap).forEach((vaultixKey) => {
+      const hyphenatedKey = vaultixKey.replaceAll("_", "-");
       if (!(hyphenatedKey in vaultSecrets)) {
         // case: secret has been created
         setSecrets.push({
           key: hyphenatedKey,
-          value: secretMap[infisicalKey].value
+          value: secretMap[vaultixKey].value
         });
-      } else if (secretMap[infisicalKey].value !== vaultSecrets[hyphenatedKey].value) {
+      } else if (secretMap[vaultixKey].value !== vaultSecrets[hyphenatedKey].value) {
         // case: secret has been updated
         setSecrets.push({
           key: hyphenatedKey,
-          value: secretMap[infisicalKey].value
+          value: secretMap[vaultixKey].value
         });
       }
     });

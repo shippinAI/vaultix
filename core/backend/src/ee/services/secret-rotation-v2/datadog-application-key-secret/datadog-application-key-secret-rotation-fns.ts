@@ -54,7 +54,7 @@ export const datadogApplicationKeySecretRotationFactory: TRotationFactory<
           data: {
             type: "application_keys",
             attributes: {
-              name: `infisical-rotation-${Date.now()}`
+              name: `vaultix-rotation-${Date.now()}`
             }
           }
         },

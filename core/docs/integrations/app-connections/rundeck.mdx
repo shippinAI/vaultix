@@ -1,9 +1,9 @@
 ---
 title: "Rundeck Connection"
-description: "Learn how to configure a Rundeck Connection for Infisical."
+description: "Learn how to configure a Rundeck Connection for vaultix."
 ---
 
-Infisical supports connecting to Rundeck using an **API Token**.
+vaultix supports connecting to Rundeck using an **API Token**.
 
 ## Generate a Rundeck API Token
 
@@ -22,7 +22,7 @@ Infisical supports connecting to Rundeck using an **API Token**.
     </Step>
     <Step title="Generate the token">
         In the **Generate New Token** dialog, enter:
-        - **Name**: a label to identify the token (e.g., `INFISICAL_TOKEN`)
+        - **Name**: a label to identify the token (e.g., `vaultix_TOKEN`)
         - **User**: the username associated with the token
         - **Roles**: comma-separated roles/groups, or leave blank to use all of your current roles
         - **Expiration in**: an optional lifetime; set to `0` for the maximum allowed duration
@@ -47,13 +47,13 @@ Infisical supports connecting to Rundeck using an **API Token**.
     </Step>
 </Steps>
 
-## Setup Rundeck Connection in Infisical
+## Setup Rundeck Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add a Rundeck Connection">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project,
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project,
                 select **App Connections**, and click **+ Add Connection**. Search for and select the
                 **Rundeck** option.
                 ![Select Rundeck Connection](/images/app-connections/rundeck/step-6.png)
@@ -70,7 +70,7 @@ Infisical supports connecting to Rundeck using an **API Token**.
                 ![Rundeck Connection Form](/images/app-connections/rundeck/step-7.png)
             </Step>
             <Step title="Connection Created">
-                Your **Rundeck Connection** is established and ready to use with your Infisical project.
+                Your **Rundeck Connection** is established and ready to use with your vaultix project.
                 ![Rundeck Connection Created](/images/app-connections/rundeck/step-8.png)
             </Step>
         </Steps>
@@ -83,7 +83,7 @@ Infisical supports connecting to Rundeck using an **API Token**.
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/rundeck \
+                --url https://app.vaultix.com/api/v1/app-connections/rundeck \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-rundeck-connection",

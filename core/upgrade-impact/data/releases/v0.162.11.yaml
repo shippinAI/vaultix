@@ -13,7 +13,7 @@ dbSchemaChanges:
     description: Adds verifyClientCertificateChain to identity TLS certificate auth
       records with a default of false. Existing configurations keep current
       single-issuer behavior.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -23,7 +23,7 @@ dbSchemaChanges:
   - title: Resource metadata search indexes
     description: Adds concurrent indexes on resource_metadata for org and secret
       lookups. These are additive and target metadata search queries.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -50,7 +50,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-21T23:00:22.174Z

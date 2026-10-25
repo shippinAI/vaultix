@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/salesforce-oauth-credentials"
     Check out the configuration docs for [Salesforce OAuth Credentials Rotations](/documentation/platform/secret-rotation/salesforce-oauth-credentials) to learn how to obtain the required parameters.
 </Note>
 
-Creates a Salesforce OAuth Credentials secret rotation. Infisical will rotate the consumer secret of the specified External Client App via your [Salesforce connection](/integrations/app-connections/salesforce) and write the rotated consumer key/secret pair to the specified secret path.
+Creates a Salesforce OAuth Credentials secret rotation. vaultix will rotate the consumer secret of the specified External Client App via your [Salesforce connection](/integrations/app-connections/salesforce) and write the rotated consumer key/secret pair to the specified secret path.
 
 ## Request body
 
@@ -31,7 +31,7 @@ Creates a Salesforce OAuth Credentials secret rotation. Infisical will rotate th
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/salesforce-oauth-credentials \
+  --url https://us.vaultix.com/api/v2/secret-rotations/salesforce-oauth-credentials \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{

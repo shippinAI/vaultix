@@ -7,12 +7,12 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/libs/fn"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/permission"
-	permsecretsvc "github.com/infisical/api/internal/services/permission/secretmanager"
-	secretsvc "github.com/infisical/api/internal/services/secretmanager/secret"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/fn"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/permission"
+	permsecretsvc "github.com/vaultix/api/internal/services/permission/secretmanager"
+	secretsvc "github.com/vaultix/api/internal/services/secretmanager/secret"
 )
 
 // PersonalOverridesBehavior controls how personal secret overrides are handled.
@@ -196,7 +196,7 @@ func filterListSecretsByPermission(secrets []secretsvc.ProcessedSecret, checker 
 
 		if !opts.ViewSecretValue || !canReadValue {
 			sec.ValueHidden = true
-			sec.Value = "<hidden-by-infisical>"
+			sec.Value = "<hidden-by-vaultix>"
 		}
 
 		filtered = append(filtered, *sec)

@@ -844,12 +844,12 @@ export const oidcConfigServiceFactory = ({
 
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": claims?.email?.toLowerCase(),
-                "infisical.user.id": loginResult.userId,
-                "infisical.organization.id": org.id,
-                "infisical.organization.name": org.name,
-                "infisical.auth.method": AuthAttemptAuthMethod.OIDC,
-                "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+                "vaultix.user.email": claims?.email?.toLowerCase(),
+                "vaultix.user.id": loginResult.userId,
+                "vaultix.organization.id": org.id,
+                "vaultix.organization.name": org.name,
+                "vaultix.auth.method": AuthAttemptAuthMethod.OIDC,
+                "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -865,11 +865,11 @@ export const oidcConfigServiceFactory = ({
           .catch((error: unknown) => {
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": claims?.email?.toLowerCase(),
-                "infisical.organization.id": org.id,
-                "infisical.organization.name": org.name,
-                "infisical.auth.method": AuthAttemptAuthMethod.OIDC,
-                "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+                "vaultix.user.email": claims?.email?.toLowerCase(),
+                "vaultix.organization.id": org.id,
+                "vaultix.organization.name": org.name,
+                "vaultix.auth.method": AuthAttemptAuthMethod.OIDC,
+                "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });

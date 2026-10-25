@@ -1,28 +1,28 @@
 ---
 title: "Sign Windows Executables with osslsigncode"
 sidebarTitle: "Sign Windows Executables"
-description: "Use the Infisical PKCS#11 module to sign Windows executables, DLLs, and MSI installers with osslsigncode."
+description: "Use the vaultix PKCS#11 module to sign Windows executables, DLLs, and MSI installers with osslsigncode."
 ---
 
 <Info>
   This guide assumes your Product Admin has already created a [Signer](/documentation/platform/pki/code-signing/signers) and assigned you to it. If the signer has an approval policy, you'll also need [active access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) before signing.
 </Info>
 
-Sign Windows Authenticode artifacts using `osslsigncode` with the Infisical PKCS#11 module. osslsigncode is a cross-platform tool that lets you sign Windows binaries from Linux and macOS, making it ideal for CI/CD pipelines that don't run on Windows.
+Sign Windows Authenticode artifacts using `osslsigncode` with the vaultix PKCS#11 module. osslsigncode is a cross-platform tool that lets you sign Windows binaries from Linux and macOS, making it ideal for CI/CD pipelines that don't run on Windows.
 
 ## Prerequisites
 
 - A [Signer](/documentation/platform/pki/code-signing/signers) created by your Product Admin
 - [Active signing access](/documentation/platform/pki/code-signing/approvals#access-lifecycle) (if an approval policy is attached)
 - A [machine identity](/documentation/platform/identities/machine-identities) added to the Signer
-- The Infisical [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
+- The vaultix [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) installed and configured
 - `osslsigncode` 2.5 or later (includes native PKCS#11 support)
 
 ## Step 1: Set Up Authentication
 
-Configure the Infisical PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
+Configure the vaultix PKCS#11 module with your machine identity credentials. Without this, the signing commands below fail with an auth error.
 
-Create `/etc/infisical/pkcs11.conf` (or set `INFISICAL_CONFIG` to point elsewhere):
+Create `/etc/vaultix/pkcs11.conf` (or set `vaultix_CONFIG` to point elsewhere):
 
 ```yaml
 auth:
@@ -38,8 +38,8 @@ signer:
 You can also pass the credentials via environment variables:
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
 ```
 
 <Note>
@@ -79,14 +79,14 @@ For the full set of options, see the [PKCS#11 module configuration reference](/d
 Use `pkcs11-tool` to list available signers and note the token label:
 
 ```bash
-pkcs11-tool --module /usr/local/lib/libinfisical-pkcs11.so --list-slots
+pkcs11-tool --module /usr/local/lib/libvaultix-pkcs11.so --list-slots
 ```
 
 ```
 Available slots:
 Slot 0 (0x0): release-signer
   token label        : release-signer
-  token manufacturer : Infisical
+  token manufacturer : vaultix
 ```
 
 ## Step 4: Sign a Windows Executable
@@ -95,7 +95,7 @@ Use `osslsigncode` with the PKCS#11 module to sign your binary:
 
 ```bash
 osslsigncode sign \
-  -pkcs11module /usr/local/lib/libinfisical-pkcs11.so \
+  -pkcs11module /usr/local/lib/libvaultix-pkcs11.so \
   -pkcs11cert "pkcs11:object=release-signer;type=cert" \
   -key "pkcs11:object=release-signer;type=private" \
   -h sha256 \
@@ -107,7 +107,7 @@ osslsigncode sign \
 ```
 
 <Note>
-  - `-pkcs11module`: Path to the Infisical PKCS#11 shared library.
+  - `-pkcs11module`: Path to the vaultix PKCS#11 shared library.
   - `-pkcs11cert` and `-key`: PKCS#11 URI referencing your signer by name. Replace `release-signer` with your signer name.
   - `-h sha256`: Hash algorithm for the signature digest.
   - `-n`: Description embedded in the signature (shown in Windows UAC prompts).
@@ -144,12 +144,12 @@ Signature verification: ok
 ## CI/CD Integration
 
 ```bash
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="${INFISICAL_CLIENT_ID}"
-export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="${INFISICAL_CLIENT_SECRET}"
-export INFISICAL_CONFIG="/path/to/pkcs11.conf"
+export vaultix_UNIVERSAL_AUTH_CLIENT_ID="${vaultix_CLIENT_ID}"
+export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="${vaultix_CLIENT_SECRET}"
+export vaultix_CONFIG="/path/to/pkcs11.conf"
 
 osslsigncode sign \
-  -pkcs11module /usr/local/lib/libinfisical-pkcs11.so \
+  -pkcs11module /usr/local/lib/libvaultix-pkcs11.so \
   -pkcs11cert "pkcs11:object=release-signer;type=cert" \
   -key "pkcs11:object=release-signer;type=private" \
   -h sha256 \
@@ -161,7 +161,7 @@ osslsigncode sign \
 
 ## Troubleshooting
 
-For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/infisical-pkcs11.log"`) to get detailed output.
+For any issue, enable debug logging in your config file (`"log_level": "debug"`, `"log_file": "/tmp/vaultix-pkcs11.log"`) to get detailed output.
 
 <AccordionGroup>
   <Accordion title="Key not found or signing errors">

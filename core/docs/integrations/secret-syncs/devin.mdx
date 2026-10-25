@@ -1,14 +1,14 @@
 ---
 title: "Devin Sync"
-description: "Learn how to configure a Devin Sync for Infisical."
+description: "Learn how to configure a Devin Sync for vaultix."
 ---
 
 **Prerequisites:**
-- Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+- Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
 - Create a [Devin Connection](/integrations/app-connections/devin)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add Sync">
                 Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -46,21 +46,21 @@ description: "Learn how to configure a Devin Sync for Infisical."
 
                 ![Configure Options](/images/secret-syncs/devin/configure-sync-options.png)
 
-                - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-                    - **Overwrite Destination Secrets**: Removes any secrets in the Devin organization not present in Infisical.
+                - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+                    - **Overwrite Destination Secrets**: Removes any secrets in the Devin organization not present in vaultix.
 
                     <Note>
-                        Devin Sync does not support importing existing secrets from Devin into Infisical. Only **Overwrite Destination Secrets** is available as an initial sync behavior.
+                        Devin Sync does not support importing existing secrets from Devin into vaultix. Only **Overwrite Destination Secrets** is available as an initial sync behavior.
                     </Note>
                     <Warning>
-                        Infisical syncs all secrets to Devin as **key-value** secrets. If a TOTP or Cookie secret in your Devin organization shares a key with a secret being synced, it will be replaced with a key-value secret. Likewise, TOTP or Cookie secrets matching your **Key Schema** will be removed during sync unless **Disable Secret Deletion** is enabled.
+                        vaultix syncs all secrets to Devin as **key-value** secrets. If a TOTP or Cookie secret in your Devin organization shares a key with a secret being synced, it will be replaced with a key-value secret. Likewise, TOTP or Cookie secrets matching your **Key Schema** will be removed during sync unless **Disable Secret Deletion** is enabled.
                     </Warning>
                 - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
                 <Note>
-                    We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                    We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
                 </Note>
                 - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-                - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the Devin organization. Enable this option if you intend to manage some secrets manually outside of Infisical.
+                - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the Devin organization. Enable this option if you intend to manage some secrets manually outside of vaultix.
             </Step>
             <Step title="Configure details">
                 Configure the **Details** of your Devin Sync, then click **Next**.
@@ -89,7 +89,7 @@ description: "Learn how to configure a Devin Sync for Infisical."
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/secret-syncs/devin \
+                --url https://app.vaultix.com/api/v1/secret-syncs/devin \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-devin-sync",

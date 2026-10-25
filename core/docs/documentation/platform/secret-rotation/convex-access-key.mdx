@@ -13,10 +13,10 @@ description: "Learn how to automatically rotate Convex access keys."
 
 - Create a [Convex Connection](/integrations/app-connections/convex) with a personal access token
 
-## Create a Convex Access Key Rotation in Infisical
+## Create a Convex Access Key Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
 
@@ -34,7 +34,7 @@ description: "Learn how to automatically rotate Convex access keys."
         4. Set the access key parameters. Then click **Next**.
         ![Rotation Parameters](/images/secret-rotations-v2/convex/03-parameters.png)
 
-            - **Name Prefix** - a prefix used when naming the generated access keys in Convex (e.g. `infisical`). A timestamp is appended to ensure uniqueness.
+            - **Name Prefix** - a prefix used when naming the generated access keys in Convex (e.g. `vaultix`). A timestamp is appended to ensure uniqueness.
 
         5. Specify the secret name that the rotated access key will be mapped to. Then click **Next**.
         ![Rotation Secrets Mapping](/images/secret-rotations-v2/convex/04-mappings.png)
@@ -61,7 +61,7 @@ description: "Learn how to automatically rotate Convex access keys."
 
         ```bash Request
         curl --request POST \
-        --url https://us.infisical.com/api/v2/secret-rotations/convex-access-key \
+        --url https://us.vaultix.com/api/v2/secret-rotations/convex-access-key \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-convex-rotation",
@@ -77,7 +77,7 @@ description: "Learn how to automatically rotate Convex access keys."
                 "minutes": 0
             },
             "parameters": {
-                "namePrefix": "infisical"
+                "namePrefix": "vaultix"
             },
             "secretsMapping": {
                 "accessKey": "CONVEX_ACCESS_KEY"
@@ -106,7 +106,7 @@ description: "Learn how to automatically rotate Convex access keys."
                 },
                 "type": "convex-access-key",
                 "parameters": {
-                    "namePrefix": "infisical"
+                    "namePrefix": "vaultix"
                 }
             }
         }

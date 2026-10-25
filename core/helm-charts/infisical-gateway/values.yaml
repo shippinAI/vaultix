@@ -1,18 +1,18 @@
 image:
-  repository: infisical/cli
+  repository: vaultix/cli
   tag: "0.43.84"
   pullPolicy: IfNotPresent
 
-# Machine identity flow: name of the K8s Secret containing env vars like INFISICAL_AUTH_METHOD, etc.
+# Machine identity flow: name of the K8s Secret containing env vars like vaultix_AUTH_METHOD, etc.
 # Only used when gateway.enrollment.method is unset.
 secret:
-  name: "infisical-gateway-environment"
+  name: "vaultix-gateway-environment"
 
 gateway:
-  # Name of the gateway created in the Infisical UI. Required when enrollment.method is set.
+  # Name of the gateway created in the vaultix UI. Required when enrollment.method is set.
   name: ""
 
-  # Infisical instance URL (e.g. https://app.infisical.com). Required when enrollment.method is set.
+  # vaultix instance URL (e.g. https://app.vaultix.com). Required when enrollment.method is set.
   domain: ""
 
   enrollment:
@@ -31,7 +31,7 @@ gateway:
 
     # AWS enrollment settings (method=aws)
     aws:
-      # Required when method=aws. Gateway ID from the Infisical UI.
+      # Required when method=aws. Gateway ID from the vaultix UI.
       gatewayId: ""
 
     # Name of a K8s Secret whose key-value pairs are injected as env vars.
@@ -42,7 +42,7 @@ gateway:
   # Specific relay to connect to. Leave empty for automatic selection.
   relayName: ""
 
-  pamSessionRecordingsDirectory: /var/lib/infisical/session_recordings
+  pamSessionRecordingsDirectory: /var/lib/vaultix/session_recordings
 
 # Persistent storage for the gateway (credentials and session recordings).
 # Required when enrollment.method=token so credentials survive pod restarts.

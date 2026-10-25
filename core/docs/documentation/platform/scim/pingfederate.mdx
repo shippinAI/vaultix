@@ -1,18 +1,18 @@
 ---
 title: "PingFederate SCIM"
-description: "Learn how to configure SCIM provisioning with PingFederate for Infisical."
+description: "Learn how to configure SCIM provisioning with PingFederate for vaultix."
 ---
 
 <Info>
     PingFederate SCIM provisioning is a paid feature.
 
-    If you're using Infisical Cloud, then it is available under the **Enterprise Tier**. If you're self-hosting Infisical,
-    then you should contact sales@infisical.com to purchase a self-hosted license to use it.
+    If you're using vaultix Cloud, then it is available under the **Enterprise Tier**. If you're self-hosting vaultix,
+    then you should contact sales@vaultix.com to purchase a self-hosted license to use it.
 </Info>
 
 <Note>
     Unlike PingOne, PingFederate is a self-hosted product. The setup below assumes you already have a running PingFederate
-    instance reachable from the server that hosts your Infisical deployment. This guide covers PingFederate 13.x; earlier
+    instance reachable from the server that hosts your vaultix deployment. This guide covers PingFederate 13.x; earlier
     versions use the same conceptual steps but the menu labels may differ slightly.
 </Note>
 
@@ -20,12 +20,12 @@ Prerequisites:
 - A running PingFederate 11.x or later installation with the Outbound Provisioning role licensed.
 - An external RDBMS (PostgreSQL, MySQL, Oracle, or SQL Server) to back the PingFederate Provisioner Data Store. Required for any non-trivial install — the embedded H2 store should only be used for local testing.
 - An Active Directory (or other LDAP) directory containing the users you want to provision, reachable from PingFederate over LDAP/LDAPS. A read-only service account with permission to query the user subtree is sufficient.
-- PingFederate's runtime must be able to reach your Infisical deployment over HTTPS at the SCIM URL Infisical issues. If PingFederate runs in a different network zone than Infisical, ensure firewall rules and DNS resolution are in place before continuing.
-- On the Infisical side, the organization must already have **SAML or OIDC SSO configured** and at least one **verified email domain** (**Settings → Organization → Email Domains**).
+- PingFederate's runtime must be able to reach your vaultix deployment over HTTPS at the SCIM URL vaultix issues. If PingFederate runs in a different network zone than vaultix, ensure firewall rules and DNS resolution are in place before continuing.
+- On the vaultix side, the organization must already have **SAML or OIDC SSO configured** and at least one **verified email domain** (**Settings → Organization → Email Domains**).
 
 <Steps>
     <Step title="Install the PingFederate SCIM Connector Add-on">
-        Infisical requires **SCIM 2.0**. PingFederate's bundled template is SCIM 1.1 only — install the SCIM Connector Add-on to add SCIM 2.0 support.
+        vaultix requires **SCIM 2.0**. PingFederate's bundled template is SCIM 1.1 only — install the SCIM Connector Add-on to add SCIM 2.0 support.
 
         **1. Download the connector**
 
@@ -95,7 +95,7 @@ Prerequisites:
     </Step>
 
     <Step title="Add your LDAP directory as a Data Store">
-        PingFederate's SCIM channel pulls users from a **source** Data Store and provisions them outbound to Infisical.
+        PingFederate's SCIM channel pulls users from a **source** Data Store and provisions them outbound to vaultix.
         Most deployments use Active Directory as the source — these steps assume AD or another LDAP directory. If you
         provision users from a relational database instead, see the JDBC note at the end of this step.
 
@@ -132,8 +132,8 @@ Prerequisites:
         </Note>
     </Step>
 
-    <Step title="Generate a SCIM token in Infisical">
-       In Infisical, head to the **Organization Settings** page and select the **Provisioning** tab. Under SCIM Configuration,
+    <Step title="Generate a SCIM token in vaultix">
+       In vaultix, head to the **Organization Settings** page and select the **Provisioning** tab. Under SCIM Configuration,
         press the **Enable SCIM provisioning** toggle to allow PingFederate to provision/deprovision users for your organization.
         
         ![SCIM enable provisioning](/images/platform/scim/scim-enable-provisioning-new.png)
@@ -169,8 +169,8 @@ Prerequisites:
 
         **3. General Info tab**
 
-        - **Partner's Entity ID (Connection ID)**: e.g. `infisical-scim`.
-        - **Connection Name**: e.g. `Infisical SCIM`.
+        - **Partner's Entity ID (Connection ID)**: e.g. `vaultix-scim`.
+        - **Connection Name**: e.g. `vaultix SCIM`.
         - Leave the rest (Base URL, Company, Contact, Application metadata) empty or default.
         - Click Next.
       
@@ -185,14 +185,14 @@ Prerequisites:
     </Step>
 
     <Step title="Configure the SCIM target">
-        Inside the Configure Provisioning wizard, the first tab is **Target** — this is where you tell PingFederate how to reach Infisical.
+        Inside the Configure Provisioning wizard, the first tab is **Target** — this is where you tell PingFederate how to reach vaultix.
 
         | Field | Value |
         |---|---|
-        | **SCIM URL** | The SCIM URL you copied from Infisical in Step 5 |
+        | **SCIM URL** | The SCIM URL you copied from vaultix in Step 5 |
         | **SCIM Version** | `2.0` |
         | **Authentication Method** | `OAuth 2 Bearer Token` |
-        | **Access Token** (under OAUTH 2 BEARER TOKEN) | The SCIM token you copied from Infisical |
+        | **Access Token** (under OAUTH 2 BEARER TOKEN) | The SCIM token you copied from vaultix |
         | **Unique User Identifier** | `userName` |
         | **Filter Expression** | `userName eq "%s"` |
         | **Authorization Header Type** | leave blank (defaults to `Bearer`) |
@@ -200,7 +200,7 @@ Prerequisites:
         | **Results Per Page** | `1000` |
         | **Provisioning Options → User Create / User Update / User Disable-Delete** | all checked |
         | **Provision Disabled Users** | unchecked |
-        | **Remove User Action** | `Disable` for a first run (changes deprovisioned users to inactive in Infisical rather than hard-deleting them). Switch to `Delete` later if you want true hard deprovisioning. |
+        | **Remove User Action** | `Disable` for a first run (changes deprovisioned users to inactive in vaultix rather than hard-deleting them). Switch to `Delete` later if you want true hard deprovisioning. |
         | **Group Name Source** | `Common Name` |
         | **Use PATCH for Group Updates** | Optional, but recommended if you provision groups. |
 
@@ -211,7 +211,7 @@ Prerequisites:
 
         <Warning>
             **The SCIM URL host must be reachable from the PingFederate runtime, not from your browser.** If PingFederate
-            runs on a different host than Infisical, make sure the hostname in the SCIM URL is one PingFederate's container
+            runs on a different host than vaultix, make sure the hostname in the SCIM URL is one PingFederate's container
             or server can actually resolve and connect to — not just one you can hit from your laptop. If you see
             "Connection refused" errors in PingFederate's `provisioner.log`, this is almost always why.
         </Warning>
@@ -226,7 +226,7 @@ Prerequisites:
 
         **1. Channel Info**
 
-        - **Channel Name**: `infisical-users` (or any identifier).
+        - **Channel Name**: `vaultix-users` (or any identifier).
         - **Max Threads**: `1` for dev, increase for production as needed.
         - **Timeout (Secs)**: `60` (default).
 
@@ -275,12 +275,12 @@ Prerequisites:
         - **Base DN**: the search root for *both* users and groups — it must contain both (use a common ancestor like the domain root if they're in different OUs). e.g. `CN=Users,DC=corp,DC=example,DC=com` for AD.
         - **Users → Group DN**: leave blank, or set to a group to provision only its members.
         - **Users → Filter**: AD `(&(objectClass=user)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))` (enabled users); OpenLDAP `(objectClass=inetOrgPerson)`.
-        - **Groups → Filter** (only if provisioning groups): AD `(objectClass=group)`; OpenLDAP `(objectClass=groupOfNames)` — **scope it** (e.g. `(&(objectClass=group)(cn=infisical-*))`) or you'll also pull AD's built-in groups. Leave **Group DN** and **Nested Search** empty (Infisical doesn't support nested groups).
+        - **Groups → Filter** (only if provisioning groups): AD `(objectClass=group)`; OpenLDAP `(objectClass=groupOfNames)` — **scope it** (e.g. `(&(objectClass=group)(cn=vaultix-*))`) or you'll also pull AD's built-in groups. Leave **Group DN** and **Nested Search** empty (vaultix doesn't support nested groups).
 
         ![source location](/images/platform/scim/pingfederate/channel-step-6.png)
 
         <Note>
-            Infisical groups are flat — members are users only (nested groups are ignored), and a member resolves only if that user was also provisioned, so keep group members in your **Users** scope. The group's CN (set by **Group Name Source**, Step 7) is what you map under **Settings → Provisioning → SCIM Group to Organization Role Mappings**.
+            vaultix groups are flat — members are users only (nested groups are ignored), and a member resolves only if that user was also provisioned, so keep group members in your **Users** scope. The group's CN (set by **Group Name Source**, Step 7) is what you map under **Settings → Provisioning → SCIM Group to Organization Role Mappings**.
         </Note>
 
         **5. Attribute Mapping**
@@ -294,7 +294,7 @@ Prerequisites:
             If the attribute you expect is missing from the dropdown, try a parent object class.
         </Note>
 
-        The minimum set Infisical requires:
+        The minimum set vaultix requires:
 
         | SCIM Field | Root Object Class (AD) | Attribute (AD) | Root Object Class (LDAP) | Attribute (LDAP) |
         |---|---|---|---|---|
@@ -311,7 +311,7 @@ Prerequisites:
         ![attribute mapping 2](/images/platform/scim/pingfederate/channel-step-8.png)
 
         <Note>
-            The `userName`'s email domain **must be a verified email domain** for your Infisical organization
+            The `userName`'s email domain **must be a verified email domain** for your vaultix organization
             (**Settings → Organization → Email Domains**). If it isn't, SCIM user creation is **rejected** with a
             `403 – "…not a part of the accepted domains…"` and the user is **not** created — groups have no such check, so
             you'll see the group sync without its members. Verify the domain **before** provisioning.
@@ -359,17 +359,17 @@ Prerequisites:
         Tail `<pf-install>/log/provisioner.log`. Look for lines like:
 
         ```
-        [GenericUserProvisioningChannel] Starting provisioning cycle for channel: infisical-users
+        [GenericUserProvisioningChannel] Starting provisioning cycle for channel: vaultix-users
         [ProvisioningEventLogger] Finished pushing user/group updates to the target. Completed in 331 ms. Total users created 2.
         ```
 
         If you see `Connection refused` or `Service Unavailable` errors, the SCIM URL host isn't reachable from PingFederate — re-check Step 7.
 
-        **2. Infisical's user list**
+        **2. vaultix's user list**
 
         Go to **Settings → Organization → Access Control → Users**. Provisioned users appear as pending (invited) accounts.
 
-        **3. Infisical's SCIM event log**
+        **3. vaultix's SCIM event log**
 
         Go to **Organization Settings → Provisioning → SCIM Events**. Each successful POST/PUT/PATCH from PingFederate appears here with the SCIM payload — useful for diagnosing attribute-mapping mistakes.
     </Step>
@@ -383,13 +383,13 @@ Prerequisites:
 
     - The SCIM URL uses `localhost` or `127.0.0.1` but PingFederate runs in a different container or on a different host.
     - DNS doesn't resolve the host from PingFederate's network zone.
-    - A firewall is blocking outbound HTTPS from PingFederate to Infisical.
+    - A firewall is blocking outbound HTTPS from PingFederate to vaultix.
 
     Fix the SCIM URL on the **Target** tab (SP Connection → Outbound Provisioning → Configure Provisioning → Target). The next sync (within the configured frequency) will use the new URL.
 </Accordion>
 
 <Accordion title="Sync runs successfully but Total users created is 0">
-    Either no users matched your **Source Location → Filter**, or every matching user already exists in Infisical (PingFederate tracks this in its Provisioner Data Store and skips re-creation).
+    Either no users matched your **Source Location → Filter**, or every matching user already exists in vaultix (PingFederate tracks this in its Provisioner Data Store and skips re-creation).
 
     To diagnose: search PingFederate's `provisioner.log` for `Processed N users` and `Users added: N` lines from the most recent cycle. A zero `Users added` count means the filter is too restrictive or change-detection thinks nothing has changed.
 
@@ -404,7 +404,7 @@ Prerequisites:
     The Root Object Class dropdown only exposes attributes defined directly on that class — not inherited ones. Common case: `sn` is defined on `person`, not `inetOrgPerson` or `user`. Change the Root Object Class to the parent class that actually defines the attribute.
 </Accordion>
 
-<Accordion title="Provisioning runs but no users land in Infisical, no errors in the logs">
+<Accordion title="Provisioning runs but no users land in vaultix, no errors in the logs">
     Most likely: either the channel or the parent SP Connection is still in `Inactive` status. Both must be Active. Confirm in both **Configure Provisioning → Manage Channels** (channel status column) and **SP Connections** list (connection status column).
 </Accordion>
 </AccordionGroup>

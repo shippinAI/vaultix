@@ -6,13 +6,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/libs/fn"
-	"github.com/infisical/api/internal/services/auditlog"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/permission"
-	permsecretsvc "github.com/infisical/api/internal/services/permission/secretmanager"
-	secretsvc "github.com/infisical/api/internal/services/secretmanager/secret"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/fn"
+	"github.com/vaultix/api/internal/services/auditlog"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/permission"
+	permsecretsvc "github.com/vaultix/api/internal/services/permission/secretmanager"
+	secretsvc "github.com/vaultix/api/internal/services/secretmanager/secret"
 )
 
 // getSecretByNameInternalOpts are the unified options for getting a secret by name.
@@ -89,7 +89,7 @@ func (h *Handler) getSecretByName(ctx context.Context, opts *getSecretByNameInte
 	// 4. Set ValueHidden
 	if !opts.ViewSecretValue || !canReadValue {
 		secret.ValueHidden = true
-		secret.Value = "<hidden-by-infisical>"
+		secret.Value = "<hidden-by-vaultix>"
 	}
 
 	// 5. Expand if requested

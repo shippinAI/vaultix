@@ -27,14 +27,14 @@ breakingChanges:
         description: Validation requests enforce TLS verification
       - type: release
         ref: v0.159.24
-        url: https://github.com/Infisical/infisical/releases/tag/v0.159.24
+        url: https://github.com/vaultix/vaultix/releases/tag/v0.159.24
         description: TLS verification fix noted
 dbSchemaChanges: []
 configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:48:23.278Z

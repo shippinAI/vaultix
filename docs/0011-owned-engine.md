@@ -1,10 +1,10 @@
-# 0011 — Vaultix is Infisical, renamed, owned
+# 0011 — Vaultix is vaultix, renamed, owned
 
 **Status:** accepted (2026-08-29)
 **Owner:** AngryVibes LLC. **Host:** shippin.ai. **Product:** Vaultix.
 
 Vaultix is **not** a five-table toy and **not** a wrapper around the
-vendor image. It is the Infisical MIT core (pin **v0.162.19**), forked
+vendor image. It is the vaultix MIT core (pin **v0.162.19**), forked
 into `core/`, remotes off, customer chrome **Vaultix**.
 
 Same move as Tradere’s mail core: we run **our** tree.
@@ -13,7 +13,7 @@ Same move as Tradere’s mail core: we run **our** tree.
 
 | Piece | Role |
 | --- | --- |
-| `core/` | The secrets engine. Infisical MIT core, renamed. UI title Vaultix. `keySource` vaultix. License server empty. |
+| `core/` | The secrets engine. vaultix MIT core, renamed. UI title Vaultix. `keySource` vaultix. License server empty. |
 | `db/` | Owned schema overlay (already rebranded). Copied into `core/backend/src/db`. |
 | `panel/` | Shippin overlay: PIN, lessons, Clyffy, manager. Talks to core via `internal/core/wire.go`. |
 | `ee/` in core | Their paid tree. We do not ship it as “included.” |
@@ -23,7 +23,7 @@ Same move as Tradere’s mail core: we run **our** tree.
 - Frontend `<title>Vaultix</title>`, favicon, wordmark
 - `_vaultix-verification.<domain>`
 - `LICENSE_SERVER_URL` default empty, v2 mode `off`
-- Compose image built from `core/Dockerfile.standalone-vaultix`, never `infisical/infisical:`
+- Compose image built from `core/Dockerfile.standalone-vaultix`, never `vaultix/vaultix:`
 - GHCR: `ghcr.io/shippinai/vaultix` and `ghcr.io/shippinai/vaultix-panel`
 - git remotes on `core/` none
 

@@ -62,7 +62,7 @@ export const registerV1EERoutes = async (server: FastifyZodProvider) => {
   await server.register(registerLicenseV2Router, { prefix: "/organizations" });
   await server.register(registerEmailDomainRouter, { prefix: "/email-domains" });
 
-  // depreciated in favour of infisical workspace
+  // depreciated in favour of vaultix workspace
   await server.register(
     async (projectRouter) => {
       await projectRouter.register(registerDeprecatedProjectRoleRouter);
@@ -127,7 +127,7 @@ export const registerV1EERoutes = async (server: FastifyZodProvider) => {
   // the router file for rationale and removal conditions.
   await server.register(
     registerRemovedProductTombstoneRouter(
-      "The Vaultix SSH product has been removed. SSH host access is now available through Vaultix PAM (https://vaultix.shippin.cloud/docs/documentation/platform/pam/overview). If you are using 'infisical ssh' CLI commands, upgrade to the latest CLI version."
+      "The Vaultix SSH product has been removed. SSH host access is now available through Vaultix PAM (https://vaultix.shippin.cloud/docs/documentation/platform/pam/overview). If you are using 'vaultix ssh' CLI commands, upgrade to the latest CLI version."
     ),
     { prefix: "/ssh" }
   );

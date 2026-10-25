@@ -1,19 +1,19 @@
 ---
-title: "infisical relay"
-description: "Relay-related commands for Infisical"
+title: "vaultix relay"
+description: "Relay-related commands for vaultix"
 ---
 
 ## Description
 
-Relay-related commands for Infisical. Relays are organization-deployed servers that route encrypted traffic between Infisical and your gateways.
+Relay-related commands for vaultix. Relays are organization-deployed servers that route encrypted traffic between vaultix and your gateways.
 
-Relays are created via the Infisical dashboard (Networking → Relays → Create Relay) and then deployed using the CLI commands below.
+Relays are created via the vaultix dashboard (Networking → Relays → Create Relay) and then deployed using the CLI commands below.
 
 ## Subcommands & flags
 
 <AccordionGroup>
-<Accordion title="infisical relay start" defaultOpen="true">
-  Run the Infisical relay component. The relay handles network traffic routing between Infisical and your gateways.
+<Accordion title="vaultix relay start" defaultOpen="true">
+  Run the vaultix relay component. The relay handles network traffic routing between vaultix and your gateways.
 
 ### Authentication
 
@@ -28,19 +28,19 @@ Relays support two enrollment methods. The enrollment method is set when creatin
     <Tabs>
       <Tab title="Foreground">
         ```bash
-        infisical relay start \
+        vaultix relay start \
           --name=<name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain>
+          --domain=<your-vaultix-domain>
         ```
       </Tab>
       <Tab title="Linux (systemd)">
         ```bash
-        sudo infisical relay systemd install <name> \
+        sudo vaultix relay systemd install <name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain>
+          --domain=<your-vaultix-domain>
         sudo systemctl start <name>
         ```
       </Tab>
@@ -57,19 +57,19 @@ Relays support two enrollment methods. The enrollment method is set when creatin
     <Tabs>
       <Tab title="Foreground">
         ```bash
-        infisical relay start \
+        vaultix relay start \
           --name=<name> \
           --enroll-method=aws \
           --relay-id=<relay-id> \
-          --domain=<your-infisical-domain>
+          --domain=<your-vaultix-domain>
         ```
       </Tab>
       <Tab title="Linux (systemd)">
         ```bash
-        sudo infisical relay systemd install <name> \
+        sudo vaultix relay systemd install <name> \
           --enroll-method=aws \
           --relay-id=<relay-id> \
-          --domain=<your-infisical-domain>
+          --domain=<your-vaultix-domain>
         sudo systemctl start <name>
         ```
       </Tab>
@@ -99,14 +99,14 @@ Relays support two enrollment methods. The enrollment method is set when creatin
   </Accordion>
 
   <Accordion title="--domain">
-    Domain of your Infisical instance. Required for self-hosted deployments.
+    Domain of your vaultix instance. Required for self-hosted deployments.
   </Accordion>
 </AccordionGroup>
 
 </Accordion>
 
-<Accordion title="infisical relay systemd" defaultOpen="false">
-  Manage systemd service for the Infisical relay on Linux systems.
+<Accordion title="vaultix relay systemd" defaultOpen="false">
+  Manage systemd service for the vaultix relay on Linux systems.
 
   ### Requirements
   - **Operating System**: Linux only
@@ -120,7 +120,7 @@ Relays support two enrollment methods. The enrollment method is set when creatin
   Install and enable a systemd service for the relay. The relay name is provided as a positional argument, and the installed service is named after it, so you can run multiple relays on the same machine. See the authentication section above for the full install commands.
 
   ```bash
-  sudo infisical relay systemd install <name> --enroll-method=token --token=<enrollment-token> --domain=<your-infisical-domain>
+  sudo vaultix relay systemd install <name> --enroll-method=token --token=<enrollment-token> --domain=<your-vaultix-domain>
   ```
 
   After installation, start and enable the service (replace `<name>` with your relay name):
@@ -139,7 +139,7 @@ Relays support two enrollment methods. The enrollment method is set when creatin
   ### Service Details
 
   - Service file: `/etc/systemd/system/<name>.service`
-  - Config directory: `/etc/infisical/relays/`
+  - Config directory: `/etc/vaultix/relays/`
   - Runs with restricted privileges and automatically restarts on failure
   - Enabled to start on boot
 </Accordion>
@@ -148,7 +148,7 @@ Relays support two enrollment methods. The enrollment method is set when creatin
   Uninstall and remove a relay's systemd service. The relay name is provided as a positional argument.
 
   ```bash
-  sudo infisical relay systemd uninstall <name>
+  sudo vaultix relay systemd uninstall <name>
   ```
 </Accordion>
 </AccordionGroup>

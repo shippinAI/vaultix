@@ -128,7 +128,7 @@ export const buildPagerDutyPayload = ({
     payload: {
       summary,
       severity,
-      source: "infisical-pki-alerts",
+      source: "vaultix-pki-alerts",
       timestamp: now.toISOString(),
       component: "certificate-manager",
       group: alert.projectId,

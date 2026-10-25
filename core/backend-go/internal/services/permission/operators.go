@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/bmatcuk/doublestar/v4"
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 )
 
 // opGlob implements the $glob operator for path matching.

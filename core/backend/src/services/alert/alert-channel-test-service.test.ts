@@ -41,7 +41,7 @@ const buildProvider = (opts?: { assertPermission?: (input: TAlertPermissionInput
         alert: { id: alert.id, name: alert.name, orgId: alert.orgId, resourceType: alert.resourceType, viewUrl },
         eventKey: "test.resource.expiration",
         eventLabel: "Expiration",
-        webhookType: "com.infisical.test.resource.expiration",
+        webhookType: "com.vaultix.test.resource.expiration",
         resourceKind: "Test Resource",
         resourceOwnerKind: "Test Owner",
         severity: "critical",

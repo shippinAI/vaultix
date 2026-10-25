@@ -25,7 +25,7 @@ export type VaultixImportData = {
     environmentId: string;
     value: string;
     folderId?: string;
-    appBlockOrderIndex?: number; // Not used for infisical import, only used for building the import structure to determine which block(s) take precedence.
+    appBlockOrderIndex?: number; // Not used for vaultix import, only used for building the import structure to determine which block(s) take precedence.
   }>;
 };
 

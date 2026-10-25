@@ -9,7 +9,7 @@ import {
 } from "@app/services/app-connection/app-connection-schemas";
 
 import { APP_CONNECTION_NAME_MAP } from "../app-connection-maps";
-import { ExternalVaultixConnectionMethod } from "./external-infisical-connection-enums";
+import { ExternalVaultixConnectionMethod } from "./external-vaultix-connection-enums";
 
 export const ExternalVaultixConnectionMachineIdentityCredentialsSchema = z.object({
   instanceUrl: z

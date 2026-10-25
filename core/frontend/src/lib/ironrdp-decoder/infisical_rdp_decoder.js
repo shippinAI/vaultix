@@ -1,4 +1,4 @@
-/* @ts-self-types="./infisical_rdp_decoder.d.ts" */
+/* @ts-self-types="./vaultix_rdp_decoder.d.ts" */
 
 export class DirtyRect {
     static __wrap(ptr) {
@@ -194,7 +194,7 @@ function __wbg_get_imports() {
     };
     return {
         __proto__: null,
-        "./infisical_rdp_decoder_bg.js": import0,
+        "./vaultix_rdp_decoder_bg.js": import0,
     };
 }
 
@@ -317,7 +317,7 @@ async function __wbg_init(module_or_path) {
     }
 
     if (module_or_path === undefined) {
-        module_or_path = new URL('infisical_rdp_decoder_bg.wasm', import.meta.url);
+        module_or_path = new URL('vaultix_rdp_decoder_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

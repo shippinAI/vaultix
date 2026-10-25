@@ -30,13 +30,13 @@ const (
 
 type Config struct {
 	// Server
-	InfisicalPlatformVersion               string
+	vaultixPlatformVersion               string
 	KubernetesAutoFetchServiceAccountToken bool
 	NodeEnv                                NodeEnv
 	Port                                   int
 	Host                                   string
 	StandaloneMode                         bool
-	InfisicalCloud                         bool
+	vaultixCloud                         bool
 	MaintenanceMode                        bool
 	DisableSecretScanning                  bool
 
@@ -241,7 +241,7 @@ type Config struct {
 	ParamsFolderSecretDetectionEntropy float64
 
 	// Secondary Instance
-	InfisicalPrimaryInstanceURL string
+	vaultixPrimaryInstanceURL string
 
 	// HSM
 	HSMLibPath  string
@@ -250,7 +250,7 @@ type Config struct {
 	HSMSlot     int
 
 	// Gateway
-	GatewayInfisicalStaticIPAddress string
+	GatewayvaultixStaticIPAddress string
 	GatewayRelayAddress             string
 	GatewayRelayRealm               string
 	GatewayRelayAuthSecret          string
@@ -397,12 +397,12 @@ func LoadConfig() (*Config, error) {
 	// Load all env vars using the builder pattern
 	l.
 		// Server
-		Optional(&cfg.InfisicalPlatformVersion, "INFISICAL_PLATFORM_VERSION", "").
+		Optional(&cfg.vaultixPlatformVersion, "vaultix_PLATFORM_VERSION", "").
 		OptionalBool(&cfg.KubernetesAutoFetchServiceAccountToken, "KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN", false).
 		OptionalInt(&cfg.Port, "PORT", 4040).
 		Optional(&cfg.Host, "HOST", "0.0.0.0").
 		OptionalBool(&cfg.StandaloneMode, "STANDALONE_MODE", false).
-		OptionalBool(&cfg.InfisicalCloud, "INFISICAL_CLOUD", false).
+		OptionalBool(&cfg.vaultixCloud, "vaultix_CLOUD", false).
 		OptionalBool(&cfg.MaintenanceMode, "MAINTENANCE_MODE", false).
 		OptionalBool(&cfg.DisableSecretScanning, "DISABLE_SECRET_SCANNING", false).
 
@@ -483,7 +483,7 @@ func LoadConfig() (*Config, error) {
 		Optional(&cfg.SMTPUsername, "SMTP_USERNAME", "").
 		Optional(&cfg.SMTPPassword, "SMTP_PASSWORD", "").
 		Optional(&cfg.SMTPFromAddress, "SMTP_FROM_ADDRESS", "").
-		Optional(&cfg.SMTPFromName, "SMTP_FROM_NAME", "Infisical").
+		Optional(&cfg.SMTPFromName, "SMTP_FROM_NAME", "vaultix").
 		OptionalBool(&cfg.SMTPIgnoreTLS, "SMTP_IGNORE_TLS", false).
 		OptionalBool(&cfg.SMTPRequireTLS, "SMTP_REQUIRE_TLS", true).
 		OptionalBool(&cfg.SMTPTLSRejectUnauthorized, "SMTP_TLS_REJECT_UNAUTHORIZED", true).
@@ -563,13 +563,13 @@ func LoadConfig() (*Config, error) {
 		Optional(&cfg.SecretScanningGitAppID, "SECRET_SCANNING_GIT_APP_ID", "").
 		Optional(&cfg.SecretScanningPrivateKey, "SECRET_SCANNING_PRIVATE_KEY", "").
 		Optional(&cfg.SecretScanningOrgWhitelist, "SECRET_SCANNING_ORG_WHITELIST", "").
-		Optional(&cfg.SecretScanningGitAppSlug, "SECRET_SCANNING_GIT_APP_SLUG", "infisical-radar").
+		Optional(&cfg.SecretScanningGitAppSlug, "SECRET_SCANNING_GIT_APP_SLUG", "vaultix-radar").
 
 		// Cross-project secret sharing
 		Optional(&cfg.CrossProjectSecretSharing, "CROSS_PROJECT_SECRET_SHARING_ORG_WHITELIST", "").
 
 		// License
-		Optional(&cfg.LicenseServerURL, "LICENSE_SERVER_URL", "https://portal.infisical.com").
+		Optional(&cfg.LicenseServerURL, "LICENSE_SERVER_URL", "https://portal.vaultix.com").
 		Optional(&cfg.LicenseServerKey, "LICENSE_SERVER_KEY", "").
 		Optional(&cfg.LicenseKey, "LICENSE_KEY", "").
 		Optional(&cfg.LicenseKeyOffline, "LICENSE_KEY_OFFLINE", "").
@@ -607,7 +607,7 @@ func LoadConfig() (*Config, error) {
 		OptionalFloat(&cfg.ParamsFolderSecretDetectionEntropy, "PARAMS_FOLDER_SECRET_DETECTION_ENTROPY", 3.7).
 
 		// Secondary Instance
-		Optional(&cfg.InfisicalPrimaryInstanceURL, "INFISICAL_PRIMARY_INSTANCE_URL", "").
+		Optional(&cfg.vaultixPrimaryInstanceURL, "vaultix_PRIMARY_INSTANCE_URL", "").
 
 		// HSM
 		Optional(&cfg.HSMLibPath, "HSM_LIB_PATH", "").
@@ -616,7 +616,7 @@ func LoadConfig() (*Config, error) {
 		OptionalInt(&cfg.HSMSlot, "HSM_SLOT", 0).
 
 		// Gateway
-		Optional(&cfg.GatewayInfisicalStaticIPAddress, "GATEWAY_INFISICAL_STATIC_IP_ADDRESS", "").
+		Optional(&cfg.GatewayvaultixStaticIPAddress, "GATEWAY_vaultix_STATIC_IP_ADDRESS", "").
 		Optional(&cfg.GatewayRelayAddress, "GATEWAY_RELAY_ADDRESS", "").
 		Optional(&cfg.GatewayRelayRealm, "GATEWAY_RELAY_REALM", "").
 		Optional(&cfg.GatewayRelayAuthSecret, "GATEWAY_RELAY_AUTH_SECRET", "").
@@ -692,7 +692,7 @@ func LoadConfig() (*Config, error) {
 		OptionalBool(&cfg.ShouldUseDatadogTracer, "SHOULD_USE_DATADOG_TRACER", false).
 		OptionalBool(&cfg.DatadogProfilingEnabled, "DATADOG_PROFILING_ENABLED", false).
 		Optional(&cfg.DatadogEnv, "DATADOG_ENV", "prod").
-		Optional(&cfg.DatadogService, "DATADOG_SERVICE", "infisical-core").
+		Optional(&cfg.DatadogService, "DATADOG_SERVICE", "vaultix-core").
 		Optional(&cfg.DatadogHostname, "DATADOG_HOSTNAME", "").
 
 		// PIT
@@ -745,7 +745,7 @@ func LoadConfig() (*Config, error) {
 	cfg.IsSmtpConfigured = cfg.SMTPHost != ""
 	cfg.IsCloud = cfg.LicenseServerKey != ""
 	cfg.IsClickHouseConfigured = cfg.ClickhouseURL != ""
-	cfg.IsSecondaryInstance = cfg.InfisicalPrimaryInstanceURL != ""
+	cfg.IsSecondaryInstance = cfg.vaultixPrimaryInstanceURL != ""
 	cfg.IsHsmConfigured = cfg.HSMLibPath != "" && cfg.HSMPin != "" && cfg.HSMKeyLabel != ""
 	cfg.IsSecretScanningConfigured = cfg.SecretScanningGitAppID != "" &&
 		cfg.SecretScanningPrivateKey != "" &&

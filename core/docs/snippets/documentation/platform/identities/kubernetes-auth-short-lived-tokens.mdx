@@ -34,29 +34,29 @@
   </Step>
   
   <Step title="Create a service account">
-    Create a reviewer service account in your Kubernetes cluster. Infisical uses this account to authenticate with the Kubernetes API Server through the TokenReview API.
+    Create a reviewer service account in your Kubernetes cluster. vaultix uses this account to authenticate with the Kubernetes API Server through the TokenReview API.
 
-    ```yaml infisical-service-account.yaml
+    ```yaml vaultix-service-account.yaml
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-      name: infisical-service-account
+      name: vaultix-service-account
       namespace: default
     ```
 
     ```bash
-    kubectl apply -f infisical-service-account.yaml
+    kubectl apply -f vaultix-service-account.yaml
     ```
   </Step>
 
   <Step title="Bind the reviewer service account">
-    Bind the service account to the `system:auth-delegator` cluster role. This allows Infisical to perform delegated authentication checks against the TokenReview API.
+    Bind the service account to the `system:auth-delegator` cluster role. This allows vaultix to perform delegated authentication checks against the TokenReview API.
 
-    ```yaml infisical-cluster-role-binding.yaml
+    ```yaml vaultix-cluster-role-binding.yaml
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-      name: infisical-service-account-role-binding
+      name: vaultix-service-account-role-binding
       namespace: default
     roleRef:
       apiGroup: rbac.authorization.k8s.io
@@ -64,11 +64,11 @@
       name: system:auth-delegator
     subjects:
       - kind: ServiceAccount
-        name: infisical-service-account
+        name: vaultix-service-account
         namespace: default
     ```
 
     ```bash
-    kubectl apply -f infisical-cluster-role-binding.yaml
+    kubectl apply -f vaultix-cluster-role-binding.yaml
     ```
   </Step>

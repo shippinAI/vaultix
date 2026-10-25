@@ -213,7 +213,7 @@ export const OauthClientModal = ({
                 <FieldLabel htmlFor="oauth-client-redirect-uris">Redirect URIs</FieldLabel>
                 <TextArea
                   id="oauth-client-redirect-uris"
-                  placeholder="https://coder.example.com/external-auth/infisical/callback"
+                  placeholder="https://coder.example.com/external-auth/vaultix/callback"
                   rows={3}
                   {...field}
                 />

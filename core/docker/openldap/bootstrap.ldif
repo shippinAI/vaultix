@@ -59,9 +59,9 @@ gidNumber: 10002
 homeDirectory: /home/admin
 userPassword: password123!
 
-dn: cn=infisical-users,ou=groups,dc=ldap,dc=com
+dn: cn=vaultix-users,ou=groups,dc=ldap,dc=com
 objectClass: groupOfNames
-cn: infisical-users
+cn: vaultix-users
 member: uid=john,ou=people,dc=ldap,dc=com
 member: uid=alice,ou=people,dc=ldap,dc=com
 member: uid=admin,ou=people,dc=ldap,dc=com

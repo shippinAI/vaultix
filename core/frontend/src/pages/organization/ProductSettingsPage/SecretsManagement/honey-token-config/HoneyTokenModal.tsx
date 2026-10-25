@@ -43,9 +43,9 @@ import {
 import { slugSchema } from "@app/lib/schemas";
 
 const CF_TEMPLATE_URL =
-  "https://infisical-static-assets.s3.us-east-1.amazonaws.com/honey-tokens/honey-tokens-v1.yaml";
+  "https://vaultix-static-assets.s3.us-east-1.amazonaws.com/honey-tokens/honey-tokens-v1.yaml";
 
-const DEFAULT_STACK_NAME = "infisical-honey-tokens";
+const DEFAULT_STACK_NAME = "vaultix-honey-tokens";
 const DEFAULT_AWS_REGION = "us-east-1";
 const WEBHOOK_SIGNING_KEY_BYTES = 32;
 

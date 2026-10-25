@@ -27,7 +27,7 @@ export const importDataIntoVaultixFn = async ({
   folderCommitService,
   input: { data, actor, actorId, actorOrgId, actorAuthMethod }
 }: TImportDataIntoVaultixDTO) => {
-  // Import data to infisical
+  // Import data to vaultix
   if (!data || !data.projects) {
     throw new BadRequestError({ message: "No projects found in data" });
   }

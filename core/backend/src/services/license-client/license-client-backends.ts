@@ -48,9 +48,9 @@ const orgScoped = (orgId: string, suffix: string): string => `/v1/organizations/
 
 // Issuer/audience/subject match the license server's in-code constants (it validates iss/aud against
 // them). They are public claims, not per-deployment config, so they live here rather than in env.
-const SERVICE_TOKEN_ISSUER = "infisical-cloud";
-const SERVICE_TOKEN_AUDIENCE = "infisical-license-server";
-const SERVICE_TOKEN_SUBJECT = "infisical-cloud";
+const SERVICE_TOKEN_ISSUER = "vaultix-cloud";
+const SERVICE_TOKEN_AUDIENCE = "vaultix-license-server";
+const SERVICE_TOKEN_SUBJECT = "vaultix-cloud";
 
 // The license server validates a short-lived RS256 service JWT (iss/aud/exp/sub) that we sign with
 // our private key and it verifies with the matching public key. Mint a fresh token per request.

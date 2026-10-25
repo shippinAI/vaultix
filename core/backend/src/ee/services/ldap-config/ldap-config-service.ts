@@ -778,10 +778,10 @@ export const ldapConfigServiceFactory = ({
 
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.user.email": dto.email,
-          "infisical.organization.id": dto.orgId,
-          "infisical.auth.method": AuthAttemptAuthMethod.LDAP,
-          "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+          "vaultix.user.email": dto.email,
+          "vaultix.organization.id": dto.orgId,
+          "vaultix.auth.method": AuthAttemptAuthMethod.LDAP,
+          "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
           "client.address": dto.ip,
           "user_agent.original": dto.userAgent
         });
@@ -798,10 +798,10 @@ export const ldapConfigServiceFactory = ({
     } catch (error) {
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.user.email": dto.email,
-          "infisical.organization.id": dto.orgId,
-          "infisical.auth.method": AuthAttemptAuthMethod.LDAP,
-          "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+          "vaultix.user.email": dto.email,
+          "vaultix.organization.id": dto.orgId,
+          "vaultix.auth.method": AuthAttemptAuthMethod.LDAP,
+          "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
           "client.address": dto.ip,
           "user_agent.original": dto.userAgent
         });

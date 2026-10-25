@@ -1,33 +1,33 @@
 ---
-title: "infisical kmip"
-description: "Run the Infisical KMIP server or manage its systemd service"
+title: "vaultix kmip"
+description: "Run the vaultix KMIP server or manage its systemd service"
 ---
 
 <Tabs>
   <Tab title="Start KMIP server">
     ```bash
-    infisical kmip start <server-name> \
+    vaultix kmip start <server-name> \
       --enroll-method=token \
       --token=<enrollment-token> \
-      --domain=<your-infisical-domain>
+      --domain=<your-vaultix-domain>
     ```
   </Tab>
   <Tab title="Start as background daemon (Linux only)">
     ```bash
-    sudo infisical kmip systemd install <server-name> \
+    sudo vaultix kmip systemd install <server-name> \
       --enroll-method=token \
       --token=<enrollment-token> \
-      --domain=<your-infisical-domain>
-    sudo systemctl start infisical-kmip
+      --domain=<your-vaultix-domain>
+    sudo systemctl start vaultix-kmip
     ```
   </Tab>
 </Tabs>
 
 ## Description
 
-The Infisical KMIP server provides Key Management Interoperability Protocol (KMIP) support for integration with KMIP-compatible clients. It acts as a proxy between your KMIP clients and Infisical KMS, enabling standardized key management operations.
+The vaultix KMIP server provides Key Management Interoperability Protocol (KMIP) support for integration with KMIP-compatible clients. It acts as a proxy between your KMIP clients and vaultix KMS, enabling standardized key management operations.
 
-The server is created in Infisical and then enrolled from the host where you run it, using either a one-time enrollment **token** or **AWS** authentication. The deploy command (including the enrollment token) can be copied from the server's detail page via **Show deploy command**.
+The server is created in vaultix and then enrolled from the host where you run it, using either a one-time enrollment **token** or **AWS** authentication. The deploy command (including the enrollment token) can be copied from the server's detail page via **Show deploy command**.
 
 The server's certificate configuration (hostnames/IPs, TTL, and key algorithm) is defined on the server entity in the UI. The CLI fetches it on start, so you do not pass it on the command line. To change the certificate, edit the configuration in the UI and restart the server.
 
@@ -36,26 +36,26 @@ For detailed information about KMIP integration, PKI setup, and client configura
 ## Subcommands & flags
 
 <AccordionGroup>
-<Accordion title="infisical kmip start" defaultOpen="true">
-  Run the Infisical KMIP server in the foreground. The server enrolls with Infisical, listens for KMIP client connections, and proxies KMIP operations to Infisical KMS.
+<Accordion title="vaultix kmip start" defaultOpen="true">
+  Run the vaultix KMIP server in the foreground. The server enrolls with vaultix, listens for KMIP client connections, and proxies KMIP operations to vaultix KMS.
 
 ```bash
-infisical kmip start <server-name> \
+vaultix kmip start <server-name> \
   --enroll-method=token \
   --token=<enrollment-token> \
-  --domain=<your-infisical-domain>
+  --domain=<your-vaultix-domain>
 ```
 
 Once started, the KMIP server will:
 
-- Authenticate to Infisical using the enrollment method you provide
+- Authenticate to vaultix using the enrollment method you provide
 - Listen for incoming KMIP client connections
-- Forward KMIP operations (Create, Get, Activate, Revoke, etc.) to Infisical KMS
+- Forward KMIP operations (Create, Get, Activate, Revoke, etc.) to vaultix KMS
 - Handle mTLS authentication for KMIP clients
 
 ### Arguments
 
-`<server-name>` (required): the name of the KMIP server, passed as the first positional argument. The name scopes where enrollment state is stored locally, so use the same value across restarts. You can alternatively supply it with the `--server-name` flag or the `INFISICAL_KMIP_SERVER_NAME` environment variable instead of positionally.
+`<server-name>` (required): the name of the KMIP server, passed as the first positional argument. The name scopes where enrollment state is stored locally, so use the same value across restarts. You can alternatively supply it with the `--server-name` flag or the `vaultix_KMIP_SERVER_NAME` environment variable instead of positionally.
 
 ### Flags
 
@@ -65,10 +65,10 @@ Once started, the KMIP server will:
 
     ```bash
     # Example
-    infisical kmip start <server-name> --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_ENROLL_METHOD`.
+    You may also set this via the environment variable `vaultix_KMIP_ENROLL_METHOD`.
 
   </Accordion>
 
@@ -79,7 +79,7 @@ Once started, the KMIP server will:
 
     ```bash
     # Example
-    infisical kmip start <server-name> --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --enroll-method=token --token=<enrollment-token>
     ```
 
   </Accordion>
@@ -89,34 +89,34 @@ Once started, the KMIP server will:
 
     ```bash
     # Example
-    infisical kmip start <server-name> --enroll-method=aws --kmip-server-id=<kmip-server-id>
+    vaultix kmip start <server-name> --enroll-method=aws --kmip-server-id=<kmip-server-id>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_SERVER_ID`.
+    You may also set this via the environment variable `vaultix_KMIP_SERVER_ID`.
 
   </Accordion>
 
   <Accordion title="--server-name">
-    Alternative to passing the server name as the positional argument (`infisical kmip start <server-name>`), which is the recommended form. The name is required, so supply it either positionally, via this flag, or via the environment variable. It scopes where enrollment state is stored locally, so use the same value across restarts.
+    Alternative to passing the server name as the positional argument (`vaultix kmip start <server-name>`), which is the recommended form. The name is required, so supply it either positionally, via this flag, or via the environment variable. It scopes where enrollment state is stored locally, so use the same value across restarts.
 
     ```bash
-    # Example (equivalent to: infisical kmip start production-kmip --enroll-method=token --token=<enrollment-token>)
-    infisical kmip start --server-name="production-kmip" --enroll-method=token --token=<enrollment-token>
+    # Example (equivalent to: vaultix kmip start production-kmip --enroll-method=token --token=<enrollment-token>)
+    vaultix kmip start --server-name="production-kmip" --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_SERVER_NAME`.
+    You may also set this via the environment variable `vaultix_KMIP_SERVER_NAME`.
 
   </Accordion>
 
   <Accordion title="--domain">
-    Domain of your self-hosted Infisical instance. If not specified, defaults to Infisical Cloud.
+    Domain of your self-hosted vaultix instance. If not specified, defaults to vaultix Cloud.
 
     ```bash
     # Example
-    infisical kmip start <server-name> --domain=https://app.your-domain.com --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --domain=https://app.your-domain.com --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_API_URL`.
+    You may also set this via the environment variable `vaultix_API_URL`.
 
   </Accordion>
 
@@ -125,10 +125,10 @@ Once started, the KMIP server will:
 
     ```bash
     # Example - listen on all interfaces
-    infisical kmip start <server-name> --listen-address="0.0.0.0:5696" --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --listen-address="0.0.0.0:5696" --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_LISTEN_ADDRESS`.
+    You may also set this via the environment variable `vaultix_KMIP_LISTEN_ADDRESS`.
 
   </Accordion>
 
@@ -139,10 +139,10 @@ Once started, the KMIP server will:
 
     ```bash
     # Example
-    infisical kmip start <server-name> --certificate-ttl="6m" --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --certificate-ttl="6m" --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_CERTIFICATE_TTL`.
+    You may also set this via the environment variable `vaultix_KMIP_CERTIFICATE_TTL`.
 
   </Accordion>
 
@@ -153,25 +153,25 @@ Once started, the KMIP server will:
 
     ```bash
     # Example
-    infisical kmip start <server-name> --hostnames-or-ips="kmip.example.com,10.0.1.50" --enroll-method=token --token=<enrollment-token>
+    vaultix kmip start <server-name> --hostnames-or-ips="kmip.example.com,10.0.1.50" --enroll-method=token --token=<enrollment-token>
     ```
 
-    You may also set this via the environment variable `INFISICAL_KMIP_HOSTNAMES_OR_IPS`.
+    You may also set this via the environment variable `vaultix_KMIP_HOSTNAMES_OR_IPS`.
 
   </Accordion>
   </AccordionGroup>
 
 </Accordion>
 
-<Accordion title="infisical kmip systemd install">
+<Accordion title="vaultix kmip systemd install">
   Install and enable the KMIP server as a systemd service. This command must be run with sudo on Linux.
 
 ```bash
-sudo infisical kmip systemd install <server-name> \
+sudo vaultix kmip systemd install <server-name> \
   --enroll-method=token \
   --token=<enrollment-token> \
-  --domain=<your-infisical-domain>
-sudo systemctl start infisical-kmip
+  --domain=<your-vaultix-domain>
+sudo systemctl start vaultix-kmip
 ```
 
 For token enrollment, the single-use token is exchanged for a long-lived access token at install time and persisted to the service config; the service reuses it on every restart. For AWS enrollment, no token is stored and the server re-authenticates via STS on each start.
@@ -184,41 +184,41 @@ For token enrollment, the single-use token is exchanged for a long-lived access 
 
 ### What it does
 
-1. Creates a config file at `/etc/infisical/kmip.conf` with the provided enrollment settings
-2. Creates a systemd service file at `/etc/systemd/system/infisical-kmip.service`
+1. Creates a config file at `/etc/vaultix/kmip.conf` with the provided enrollment settings
+2. Creates a systemd service file at `/etc/systemd/system/vaultix-kmip.service`
 3. Reloads the systemd daemon
 4. Enables the service to start on boot
 
 ### Arguments & Flags
 
-Like `infisical kmip start`, this command takes the `<server-name>` as a required positional argument (or via `--server-name` / `INFISICAL_KMIP_SERVER_NAME`). It accepts the same flags as `infisical kmip start` (documented above): `--enroll-method`, `--token`, `--kmip-server-id`, `--server-name`, `--domain`, `--listen-address`, and (for legacy machine-identity servers only) `--hostnames-or-ips` and `--certificate-ttl`.
+Like `vaultix kmip start`, this command takes the `<server-name>` as a required positional argument (or via `--server-name` / `vaultix_KMIP_SERVER_NAME`). It accepts the same flags as `vaultix kmip start` (documented above): `--enroll-method`, `--token`, `--kmip-server-id`, `--server-name`, `--domain`, `--listen-address`, and (for legacy machine-identity servers only) `--hostnames-or-ips` and `--certificate-ttl`.
 
 ### Service Details
 
 The systemd service is installed with secure defaults:
 
-- Service file: `/etc/systemd/system/infisical-kmip.service`
-- Config file: `/etc/infisical/kmip.conf`
+- Service file: `/etc/systemd/system/vaultix-kmip.service`
+- Config file: `/etc/vaultix/kmip.conf`
 - Automatically restarts on failure
 - Enabled to start on boot
 
 After installation, manage the service with standard systemd commands:
 
 ```bash
-sudo systemctl start infisical-kmip    # Start the service
-sudo systemctl stop infisical-kmip     # Stop the service
-sudo systemctl status infisical-kmip   # Check service status
-sudo systemctl disable infisical-kmip  # Disable auto-start on boot
-sudo journalctl -u infisical-kmip      # View logs
+sudo systemctl start vaultix-kmip    # Start the service
+sudo systemctl stop vaultix-kmip     # Stop the service
+sudo systemctl status vaultix-kmip   # Check service status
+sudo systemctl disable vaultix-kmip  # Disable auto-start on boot
+sudo journalctl -u vaultix-kmip      # View logs
 ```
 
 </Accordion>
 
-<Accordion title="infisical kmip systemd uninstall">
+<Accordion title="vaultix kmip systemd uninstall">
   Uninstall and remove the KMIP server systemd service. This command must be run with sudo on Linux.
 
 ```bash
-sudo infisical kmip systemd uninstall
+sudo vaultix kmip systemd uninstall
 ```
 
 ### Requirements
@@ -230,8 +230,8 @@ sudo infisical kmip systemd uninstall
 
 1. Stops the service if running
 2. Disables the service
-3. Removes the service file from `/etc/systemd/system/infisical-kmip.service`
-4. Removes the config file from `/etc/infisical/kmip.conf`
+3. Removes the service file from `/etc/systemd/system/vaultix-kmip.service`
+4. Removes the config file from `/etc/vaultix/kmip.conf`
 5. Reloads the systemd daemon
 
 </Accordion>

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "infisical.fullname" . }}-config
+  name: {{ include "vaultix.fullname" . }}-config
   labels:
-    {{- include "infisical.labels" . | nindent 4 }}
+    {{- include "vaultix.labels" . | nindent 4 }}
 data:
   SITE_URL: {{ .Values.config.siteUrl | quote }}
   PORT: {{ .Values.config.port | quote }}

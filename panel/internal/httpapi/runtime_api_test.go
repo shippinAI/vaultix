@@ -63,7 +63,7 @@ func TestMCPCatalogTool(t *testing.T) {
 		t.Fatalf("mcp call: %d %v", code, call)
 	}
 	raw, _ := json.Marshal(call)
-	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
+	if strings.Contains(strings.ToLower(string(raw)), "vaultix") {
 		t.Fatal("mcp leftover brand")
 	}
 	if !strings.Contains(string(raw), "catalog") {

@@ -1,13 +1,13 @@
 ---
 title: "Qovery Sync"
-description: "Learn how to configure a Qovery Sync for Infisical."
+description: "Learn how to configure a Qovery Sync for vaultix."
 ---
 
 **Prerequisites:**
 - Create a [Qovery Connection](/integrations/app-connections/qovery)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add Sync">
                 Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -40,11 +40,11 @@ description: "Learn how to configure a Qovery Sync for Infisical."
                 - **Environment** (optional): The environment to sync secrets to. Leave empty to sync at the **project** level, or select an environment to sync at the **environment** level.
             </Step>
             <Step title="Configure initial sync behavior">
-                Choose how Infisical should reconcile existing secrets in Qovery the first time this sync runs, then click **Continue**.
+                Choose how vaultix should reconcile existing secrets in Qovery the first time this sync runs, then click **Continue**.
 
                 ![Configure Initial Sync Behavior](/images/secret-syncs/qovery/step-4-initial-sync.png)
 
-                - **Overwrite Qovery**: On the initial sync, Infisical writes its secrets to Qovery. Depending on your configuration, this can lead to removal of secrets from Qovery.
+                - **Overwrite Qovery**: On the initial sync, vaultix writes its secrets to Qovery. Depending on your configuration, this can lead to removal of secrets from Qovery.
                 <Note>
                     Qovery does not support importing secrets, as the Qovery API never returns secret values. Overwrite is the only supported initial sync behavior.
                 </Note>
@@ -54,13 +54,13 @@ description: "Learn how to configure a Qovery Sync for Infisical."
 
                 ![Configure Sync Options](/images/secret-syncs/qovery/step-5-sync-options.png)
 
-                - **Disable secret deletion**: If enabled, Infisical will not remove secrets from Qovery during a sync. Enable this if you intend to manage some secrets manually outside of Infisical.
+                - **Disable secret deletion**: If enabled, vaultix will not remove secrets from Qovery during a sync. Enable this if you intend to manage some secrets manually outside of vaultix.
                 - **Auto-sync on changes**: If enabled, secrets will automatically be synced to Qovery when changes occur in the source. Disable to enforce manual syncing only.
-                - **Customize key names**: Add a prefix or suffix so Infisical can identify which keys in Qovery it manages. Anything else is left untouched.
+                - **Customize key names**: Add a prefix or suffix so vaultix can identify which keys in Qovery it manages. Anything else is left untouched.
                 - **Sync as environment variables**: When enabled, values are written as Qovery environment variables, whose values are readable. When disabled, they are written as environment secrets, whose values are hidden.
 
                 <Note>
-                    We highly recommend customizing key names to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                    We highly recommend customizing key names to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
                 </Note>
             </Step>
             <Step title="Configure details">
@@ -77,7 +77,7 @@ description: "Learn how to configure a Qovery Sync for Infisical."
                 ![Review Configuration](/images/secret-syncs/qovery/step-7-review.png)
             </Step>
             <Step title="Confirm sync behavior">
-                Infisical is the source of truth for synced destinations. Secrets in the destination will be overwritten, and any direct edits there may be overwritten by future syncs. Click **I Understand** to confirm.
+                vaultix is the source of truth for synced destinations. Secrets in the destination will be overwritten, and any direct edits there may be overwritten by future syncs. Click **I Understand** to confirm.
 
                 ![Confirm Sync Behavior](/images/secret-syncs/qovery/step-8-sync-behavior.png)
             </Step>
@@ -95,7 +95,7 @@ description: "Learn how to configure a Qovery Sync for Infisical."
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/secret-syncs/qovery \
+                --url https://app.vaultix.com/api/v1/secret-syncs/qovery \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-qovery-sync",

@@ -1,26 +1,26 @@
 ---
 title: "LiteLLM Connection"
-description: "Learn how to configure a LiteLLM connection for Infisical."
+description: "Learn how to configure a LiteLLM connection for vaultix."
 ---
 
-[LiteLLM](https://www.litellm.ai/) is an open-source LLM gateway that exposes a unified, OpenAI-compatible API in front of hundreds of large language models. Infisical supports connecting to a self-hosted LiteLLM proxy using an **API Key**. This connection is used to manage and rotate LiteLLM API keys via [Secret Rotation](/documentation/platform/secret-rotation/litellm-api-key).
+[LiteLLM](https://www.litellm.ai/) is an open-source LLM gateway that exposes a unified, OpenAI-compatible API in front of hundreds of large language models. vaultix supports connecting to a self-hosted LiteLLM proxy using an **API Key**. This connection is used to manage and rotate LiteLLM API keys via [Secret Rotation](/documentation/platform/secret-rotation/litellm-api-key).
 
 ## Prerequisites
 
-- A running **LiteLLM proxy** that Infisical can reach over the network, along with its base URL (e.g. `https://litellm.example.com`).
-- A **management-capable API key** for that proxy. Infisical uses this key to create, list, and delete keys on your behalf, so it must be the proxy **master key** or an admin/management key with key-management permissions. A standard virtual key limited to model completions will not work.
+- A running **LiteLLM proxy** that vaultix can reach over the network, along with its base URL (e.g. `https://litellm.example.com`).
+- A **management-capable API key** for that proxy. vaultix uses this key to create, list, and delete keys on your behalf, so it must be the proxy **master key** or an admin/management key with key-management permissions. A standard virtual key limited to model completions will not work.
 
 <Tip>
     See LiteLLM's [Virtual Keys](https://docs.litellm.ai/docs/proxy/virtual_keys) documentation for details on the proxy master key and key management.
 </Tip>
 
-## Create LiteLLM Connection in Infisical
+## Create LiteLLM Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Create a user and issue a scoped key in LiteLLM">
-                We recommend creating a dedicated user and issuing a scoped key for Infisical to manage your API keys, rather than using the master key directly. This restricts Infisical's access to only the routes it needs.
+                We recommend creating a dedicated user and issuing a scoped key for vaultix to manage your API keys, rather than using the master key directly. This restricts vaultix's access to only the routes it needs.
 
                 First, create a user with the `proxy_admin` role. This role is required so the key can delete keys it did not issue:
 
@@ -30,9 +30,9 @@ description: "Learn how to configure a LiteLLM connection for Infisical."
                   --header 'Authorization: Bearer <master-key>' \
                   --header 'Content-Type: application/json' \
                   --data '{
-                    "user_id": "infisical-user-rotation",
+                    "user_id": "vaultix-user-rotation",
                     "user_role": "proxy_admin",
-                    "user_alias": "infisical-proxy-admin-client"
+                    "user_alias": "vaultix-proxy-admin-client"
                   }'
                 ```
 
@@ -45,7 +45,7 @@ description: "Learn how to configure a LiteLLM connection for Infisical."
                   --header 'Content-Type: application/json' \
                   --data '{
                     "key_alias": "admin-key-rotation",
-                    "user_id": "infisical-user-rotation",
+                    "user_id": "vaultix-user-rotation",
                     "allowed_routes": [
                       "/key/generate",
                       "/key/delete",
@@ -61,14 +61,14 @@ description: "Learn how to configure a LiteLLM connection for Infisical."
 
                 <Note>
 
-                The `/models`, `/v2/team/list`, and `/user/list` routes are optional. They are only used to populate the user, team, and model dropdowns in the Infisical UI when configuring a rotation.
+                The `/models`, `/v2/team/list`, and `/user/list` routes are optional. They are only used to populate the user, team, and model dropdowns in the vaultix UI when configuring a rotation.
                 </Note>
 
 
                 Use the generated key as your **API Key** and your instance address as the **Instance URL** when creating the connection below.
             </Step>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, go to **Organization Settings** → **App Connections** (or the **Integrations** → **App Connections** tab in your project).
+                In your vaultix dashboard, go to **Organization Settings** → **App Connections** (or the **Integrations** → **App Connections** tab in your project).
 
                 ![App Connections Tab](/images/app-connections/general/revamped-app-connection-tab.png)
             </Step>
@@ -87,7 +87,7 @@ description: "Learn how to configure a LiteLLM connection for Infisical."
                 ![LiteLLM Connection Form](/images/app-connections/litellm/step-2.png)
             </Step>
             <Step title="Connection Created">
-                After clicking **Connect to LiteLLM**, Infisical validates the credentials against your LiteLLM instance. Your **LiteLLM Connection** is then ready to use for [LiteLLM API Key Secret Rotation](/documentation/platform/secret-rotation/litellm-api-key).
+                After clicking **Connect to LiteLLM**, vaultix validates the credentials against your LiteLLM instance. Your **LiteLLM Connection** is then ready to use for [LiteLLM API Key Secret Rotation](/documentation/platform/secret-rotation/litellm-api-key).
 
                 ![LiteLLM Connection Created](/images/app-connections/litellm/step-3.png)
             </Step>
@@ -100,7 +100,7 @@ description: "Learn how to configure a LiteLLM connection for Infisical."
 
         ```bash Request
         curl --request POST \
-          --url https://app.infisical.com/api/v1/app-connections/litellm \
+          --url https://app.vaultix.com/api/v1/app-connections/litellm \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-litellm-connection",

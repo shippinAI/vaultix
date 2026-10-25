@@ -9,11 +9,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/ee/services/externalkms"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/ee/services/externalkms"
+	"github.com/vaultix/api/tests/infra"
 )
 
-// Secret keys in Infisical /platform folder.
+// Secret keys in vaultix /platform folder.
 const (
 	// GCP
 	SecretGCPCredentialJSON = "EXTERNAL_KMS_GCP_CREDENTIAL_JSON"

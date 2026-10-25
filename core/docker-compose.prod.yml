@@ -9,7 +9,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
-    image: infisical/infisical:latest # PIN THIS TO A SPECIFIC TAG
+    image: vaultix/vaultix:latest # PIN THIS TO A SPECIFIC TAG
     pull_policy: always
     env_file: .env
     ports:
@@ -17,7 +17,7 @@ services:
     environment:
       - NODE_ENV=production
     networks:
-      - infisical
+      - vaultix
 
   redis:
     image: redis
@@ -27,7 +27,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
-      - infisical
+      - vaultix
     volumes:
       - redis_data:/data
 
@@ -39,7 +39,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
-      - infisical
+      - vaultix
     healthcheck:
       test: "pg_isready --username=${POSTGRES_USER} && psql --username=${POSTGRES_USER} --list"
       interval: 5s
@@ -53,4 +53,4 @@ volumes:
     driver: local
 
 networks:
-  infisical:
+  vaultix:

@@ -6,11 +6,11 @@ import { blockLocalAndPrivateIpAddresses } from "@app/lib/validator";
 import { TIdentityUaDALFactory } from "@app/services/identity-ua/identity-ua-dal";
 
 import { AppConnection } from "../app-connection-enums";
-import { ExternalVaultixConnectionMethod } from "./external-infisical-connection-enums";
+import { ExternalVaultixConnectionMethod } from "./external-vaultix-connection-enums";
 import {
   TExternalVaultixConnection,
   TExternalVaultixConnectionConfig
-} from "./external-infisical-connection-types";
+} from "./external-vaultix-connection-types";
 
 export type TRemoteProject = {
   id: string;

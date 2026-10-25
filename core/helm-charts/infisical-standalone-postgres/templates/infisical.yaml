@@ -1,63 +1,63 @@
-{{- $infisicalValues := .Values.infisical }}
+{{- $vaultixValues := .Values.vaultix }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "infisical.fullname" . }}
+  name: {{ include "vaultix.fullname" . }}
   annotations:
     updatedAt: {{ now | date "2006-01-01 MST 15:04:05" | quote }}
-    {{- with $infisicalValues.deploymentAnnotations }}
+    {{- with $vaultixValues.deploymentAnnotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
   labels:
-    {{- include "infisical.labels" . | nindent 4 }}
+    {{- include "vaultix.labels" . | nindent 4 }}
 spec:
-  replicas: {{ $infisicalValues.replicaCount }}
+  replicas: {{ $vaultixValues.replicaCount }}
   selector:
     matchLabels:
-      {{- include "infisical.matchLabels" . | nindent 6 }}
+      {{- include "vaultix.matchLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "infisical.matchLabels" . | nindent 8 }}
+        {{- include "vaultix.matchLabels" . | nindent 8 }}
       annotations:
         updatedAt: {{ now | date "2006-01-01 MST 15:04:05" | quote }}
-        {{- with $infisicalValues.podAnnotations }}
+        {{- with $vaultixValues.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      serviceAccountName: {{ include "infisical.serviceAccountName" . }}
-    {{- with $infisicalValues.podSecurityContext }}
+      serviceAccountName: {{ include "vaultix.serviceAccountName" . }}
+    {{- with $vaultixValues.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with $infisicalValues.topologySpreadConstraints }}
+    {{- with $vaultixValues.topologySpreadConstraints }}
       topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with $infisicalValues.affinity }}
+    {{- with $vaultixValues.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with $infisicalValues.tolerations }}
+    {{- with $vaultixValues.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with $infisicalValues.nodeSelector }}
+    {{- with $vaultixValues.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- if $infisicalValues.image.imagePullSecrets }}
+    {{- if $vaultixValues.image.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml $infisicalValues.image.imagePullSecrets | nindent 6 }}
+        {{- toYaml $vaultixValues.image.imagePullSecrets | nindent 6 }}
     {{- end }}
-    {{- with $infisicalValues.extraInitContainers }}
+    {{- with $vaultixValues.extraInitContainers }}
       initContainers:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
-      - name: {{ template "infisical.name" . }}-{{ $infisicalValues.name }}
-        image: "{{ $infisicalValues.image.repository }}:{{ $infisicalValues.image.tag }}"
-        imagePullPolicy: {{ $infisicalValues.image.pullPolicy }}
-        {{- with $infisicalValues.containerSecurityContext }}
+      - name: {{ template "vaultix.name" . }}-{{ $vaultixValues.name }}
+        image: "{{ $vaultixValues.image.repository }}:{{ $vaultixValues.image.tag }}"
+        imagePullPolicy: {{ $vaultixValues.image.pullPolicy }}
+        {{- with $vaultixValues.containerSecurityContext }}
         securityContext: {{- toYaml . | nindent 10 }}
         {{- end }}
         readinessProbe:
@@ -78,29 +78,29 @@ spec:
         {{- end }}
         {{- if .Values.postgresql.enabled }}
         - name: DB_CONNECTION_URI
-          value: {{ include "infisical.postgresDBConnectionString" . }}
+          value: {{ include "vaultix.postgresDBConnectionString" . }}
         {{- end }}
         {{- if .Values.redis.enabled }}
         - name: REDIS_URL
-          value: {{ include "infisical.redisConnectionString" . }}
+          value: {{ include "vaultix.redisConnectionString" . }}
         {{- end }}
-        {{- with $infisicalValues.extraEnv }}
+        {{- with $vaultixValues.extraEnv }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
         envFrom:
         - secretRef:
-            name: {{ $infisicalValues.kubeSecretRef }}
-        {{- if  $infisicalValues.resources }}
-        resources: {{- toYaml $infisicalValues.resources | nindent 12 }}
+            name: {{ $vaultixValues.kubeSecretRef }}
+        {{- if  $vaultixValues.resources }}
+        resources: {{- toYaml $vaultixValues.resources | nindent 12 }}
         {{- end }}
-        {{- with $infisicalValues.extraVolumeMounts }}
+        {{- with $vaultixValues.extraVolumeMounts }}
         volumeMounts:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-      {{- with $infisicalValues.extraContainers }}
+      {{- with $vaultixValues.extraContainers }}
         {{- toYaml . | nindent 6 }}
       {{- end }}
-      {{- with $infisicalValues.extraVolumes }}
+      {{- with $vaultixValues.extraVolumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -109,21 +109,21 @@ spec:
 apiVersion: v1
 kind: Service 
 metadata:
-  name: {{ include "infisical.fullname" . }}
+  name: {{ include "vaultix.fullname" . }}
   labels:
-    {{- include "infisical.labels" . | nindent 4 }}
-  {{- with $infisicalValues.service.annotations }}
+    {{- include "vaultix.labels" . | nindent 4 }}
+  {{- with $vaultixValues.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  type: {{ $infisicalValues.service.type }}
+  type: {{ $vaultixValues.service.type }}
   selector:
-    {{- include "infisical.matchLabels" . | nindent 8 }}
+    {{- include "vaultix.matchLabels" . | nindent 8 }}
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-      {{- if eq $infisicalValues.service.type "NodePort" }}
-      nodePort: {{ $infisicalValues.service.nodePort }}
+      {{- if eq $vaultixValues.service.type "NodePort" }}
+      nodePort: {{ $vaultixValues.service.nodePort }}
       {{- end }}

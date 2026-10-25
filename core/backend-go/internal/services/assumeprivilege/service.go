@@ -9,10 +9,10 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/permission"
-	"github.com/infisical/api/internal/services/permission/platform"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/permission"
+	"github.com/vaultix/api/internal/services/permission/platform"
 )
 
 const tokenExpiry = time.Hour // 1 hour, matches Node.js

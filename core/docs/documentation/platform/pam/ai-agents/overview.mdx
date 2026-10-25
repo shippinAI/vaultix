@@ -9,7 +9,7 @@ AI agents increasingly do work that needs privileged access: a coding agent trac
 **Agentic access** brokers that access instead. One command opens the [accounts](/documentation/platform/pam/accounts/overview) an agent is allowed to use, hands it instructions describing them, and starts it inside a sandbox:
 
 ```bash
-infisical pam agentic access -- claude
+vaultix pam agentic access -- claude
 ```
 
 From there the agent works on its own, and no credential ever reaches it. Any agent can be run this way: Claude Code, Codex, and Gemini are recognized by name and told what they can reach in their own format, and an agent you wrote yourself reads the same instructions from [an environment variable](#agents-you-build-yourself).
@@ -25,12 +25,12 @@ flowchart LR
     subgraph box["Sandbox"]
       AGENT["AI agent<br/>no credentials"]
     end
-    CLI["Infisical CLI<br/>one local port per account"]
+    CLI["vaultix CLI<br/>one local port per account"]
   end
 
   GW["Gateway<br/>adds the real credential"]
   TARGET[("Your databases<br/>and servers")]
-  INF["Infisical<br/>policies, approvals, recordings"]
+  INF["vaultix<br/>policies, approvals, recordings"]
 
   AGENT -->|"127.0.0.1:52431"| CLI
   CLI -->|"encrypted tunnel"| GW
@@ -46,7 +46,7 @@ flowchart LR
 
 ## Prerequisites
 
-- The [Infisical CLI](/cli/overview) installed, and either `infisical login` completed or a machine identity to authenticate as.
+- The [vaultix CLI](/cli/overview) installed, and either `vaultix login` completed or a machine identity to authenticate as.
 - The Connector or Admin [role](/documentation/platform/pam/concepts/access-control) on the folders or accounts the agent should reach, held by whoever the run authenticates as.
 - macOS, or Linux with [bubblewrap](https://github.com/containers/bubblewrap) installed. The sandbox comes from the operating system, so where one is unavailable the command refuses to start unless you [turn the sandbox off](#turning-the-sandbox-off) yourself.
 
@@ -54,7 +54,7 @@ flowchart LR
 
 An agent has no access of its own. It borrows the access of whoever starts the run, and that can be either of two things:
 
-- **You.** Log in with `infisical login` and the agent uses your own access. Its sessions and any access requests are attributed to you, exactly as if you had opened them yourself. This is the normal way to work with a coding agent at your terminal.
+- **You.** Log in with `vaultix login` and the agent uses your own access. Its sessions and any access requests are attributed to you, exactly as if you had opened them yourself. This is the normal way to work with a coding agent at your terminal.
 - **A [machine identity](/documentation/platform/identities/machine-identities).** For an agent that runs with nobody watching, give it an identity of its own so its sessions and requests belong to it rather than to a person. See [Running unattended](#running-unattended).
 
 Nothing else on this page changes between the two.
@@ -64,7 +64,7 @@ Nothing else on this page changes between the two.
 Everything after `--` is the command that starts your agent. By default it can reach every account you could launch a session on yourself, which is usually more than a single task needs, so narrow it with `--account`:
 
 ```bash
-infisical pam agentic access --account prod/orders-db --account prod/bastion -- claude
+vaultix pam agentic access --account prod/orders-db --account prod/bastion -- claude
 ```
 
 <Tip>
@@ -74,7 +74,7 @@ infisical pam agentic access --account prod/orders-db --account prod/bastion -- 
 Before the agent starts, the run prints what it can reach:
 
 ```text
-  Infisical PAM proxies ready for claude
+  vaultix PAM proxies ready for claude
 
     127.0.0.1:52431  prod/orders-db (PostgreSQL)
     127.0.0.1:52432  prod/bastion (SSH)
@@ -83,7 +83,7 @@ Before the agent starts, the run prints what it can reach:
   Not started:
     prod/legacy-db: you don't have permission to launch sessions for this account
 
-  Proxy logs: /Users/you/.infisical/pam-agentic/access.log
+  Proxy logs: /Users/you/.vaultix/pam-agentic/access.log
 ```
 
 Anything left out appears under **Not started** with the reason, so no account goes missing silently. One reason worth knowing in advance: an account whose [template](/documentation/platform/pam/templates/overview) requires a reason needs `--reason` on the command line, since the agent owns the terminal and there is nothing to prompt.
@@ -101,7 +101,7 @@ Agents can reach:
 Kubernetes accounts are set up for the agent automatically, so `kubectl` works inside the run without touching your own kubeconfig.
 
 <Note>
-  Accounts whose template requires **MFA** cannot be used here yet, whoever the run authenticates as. Reach those with `infisical pam access`, which prompts for MFA in the browser. Support for MFA in agent runs is planned.
+  Accounts whose template requires **MFA** cannot be used here yet, whoever the run authenticates as. Reach those with `vaultix pam access`, which prompts for MFA in the browser. Support for MFA in agent runs is planned.
 </Note>
 
 ## How the agent is told
@@ -121,12 +121,12 @@ Use `--agent` if your agent runs under a wrapper script and is not recognized by
 
 ### Agents you build yourself
 
-You are not limited to the agents above. Every run exports **`INFISICAL_PAM_CONTEXT_FILE`**, the path to that same document, so an agent that follows no convention of its own can still be told what it may reach. Read the file and put it in front of your model:
+You are not limited to the agents above. Every run exports **`vaultix_PAM_CONTEXT_FILE`**, the path to that same document, so an agent that follows no convention of its own can still be told what it may reach. Read the file and put it in front of your model:
 
 ```python
 import os
 
-with open(os.environ["INFISICAL_PAM_CONTEXT_FILE"]) as file:
+with open(os.environ["vaultix_PAM_CONTEXT_FILE"]) as file:
     pam_context = file.read()  # add this to your agent's system prompt
 ```
 
@@ -134,11 +134,11 @@ The variable is set for every run, so a wrapper around one of the agents above c
 
 ## The sandbox
 
-Instructions tell the agent where to go. The sandbox is an additional layer aimed at keeping it away from your Infisical credentials: while your login stays unreadable, an agent cannot open sessions beyond the accounts, duration, and approvals the run was started with.
+Instructions tell the agent where to go. The sandbox is an additional layer aimed at keeping it away from your vaultix credentials: while your login stays unreadable, an agent cannot open sessions beyond the accounts, duration, and approvals the run was started with.
 
 | The agent can | The agent should not be able to |
 |---|---|
-| Read and write in your working directory | Read your Infisical login or credential store |
+| Read and write in your working directory | Read your vaultix login or credential store |
 | Use its own tools, subprocesses, and state | Open PAM sessions on other accounts |
 | Reach the accounts listed when the run started | Use Docker or another container runtime |
 
@@ -146,7 +146,7 @@ Everyday development files such as `~/.aws`, `~/.ssh`, and `~/.kube` stay readab
 
 ### How far the sandbox goes
 
-The sandbox does real work. It closes the paths an agent would actually take to your Infisical credentials, it survives the agent's own subprocesses because the operating system enforces it, and nothing the agent can do from inside lifts it.
+The sandbox does real work. It closes the paths an agent would actually take to your vaultix credentials, it survives the agent's own subprocesses because the operating system enforces it, and nothing the agent can do from inside lifts it.
 
 <Note>
   **It is still defense in depth, not a guarantee.** No operating system sandbox is airtight, and this one is not an exfiltration control either, since the agent keeps its own network access. An agent built or manipulated into hunting for secrets on the host may well be stopped, and may not be.
@@ -185,11 +185,11 @@ This is also the strongest way to run an agent you do not fully trust, watched o
     Pass the credentials through the environment:
 
     ```bash
-    export INFISICAL_AUTH_METHOD=universal-auth
-    export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=<client-id>
-    export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=<client-secret>
+    export vaultix_AUTH_METHOD=universal-auth
+    export vaultix_UNIVERSAL_AUTH_CLIENT_ID=<client-id>
+    export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET=<client-secret>
 
-    infisical pam agentic access --reason "nightly triage agent" -- python triage_agent.py
+    vaultix pam agentic access --reason "nightly triage agent" -- python triage_agent.py
     ```
   </Step>
 </Steps>

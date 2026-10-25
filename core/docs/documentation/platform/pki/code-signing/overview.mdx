@@ -36,26 +36,26 @@ Each **Signer** represents a single signing identity, like `mobile-app-prod`, `f
 sequenceDiagram
     participant Tool as Signing tool<br/>(jarsigner / cosign / ...)
     participant PKCS as PKCS#11 Module
-    participant Infisical as Infisical
+    participant vaultix as vaultix
     participant CA as Certificate Authority
 
-    Note over Infisical,CA: Once, when the Signer is created
-    Infisical->>CA: Request code-signing cert
-    CA-->>Infisical: Certificate
+    Note over vaultix,CA: Once, when the Signer is created
+    vaultix->>CA: Request code-signing cert
+    CA-->>vaultix: Certificate
 
-    Note over Tool,Infisical: Per signing operation
+    Note over Tool,vaultix: Per signing operation
     Tool->>PKCS: Sign artifact
-    PKCS->>Infisical: POST /signers/{id}/sign
-    Infisical->>Infisical: Check access
-    Infisical->>Infisical: Sign
-    Infisical-->>PKCS: Signature
+    PKCS->>vaultix: POST /signers/{id}/sign
+    vaultix->>vaultix: Check access
+    vaultix->>vaultix: Sign
+    vaultix-->>PKCS: Signature
     PKCS-->>Tool: Signature attached to artifact
 ```
 
 1. A Product Admin creates a [Signer](/documentation/platform/pki/code-signing/signers) and picks the CA that issues its certificate.
 2. The Admin adds [members](/documentation/platform/pki/code-signing/signers#members) (users, machine identities, or groups) and picks a role for each.
 3. Optionally, the Admin attaches an [approval policy](/documentation/platform/pki/code-signing/approvals) so signing requires sign-off.
-4. Operators sign through the [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module), the [Windows KSP](/documentation/platform/pki/code-signing/windows-ksp) (`signtool`), or the [Sign API](/api-reference/endpoints/code-signing/signers/sign). Infisical produces the signature and records an audit entry on the Signer.
+4. Operators sign through the [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module), the [Windows KSP](/documentation/platform/pki/code-signing/windows-ksp) (`signtool`), or the [Sign API](/api-reference/endpoints/code-signing/signers/sign). vaultix produces the signature and records an audit entry on the Signer.
 
 ## Signer roles
 

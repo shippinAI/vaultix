@@ -9,11 +9,11 @@ requiresDbMigration: true
 breakingChanges: []
 dbSchemaChanges:
   - title: MFA recovery codes migration
-    description: Infisical adds account-level MFA recovery-code storage and
+    description: vaultix adds account-level MFA recovery-code storage and
       backfills existing MFA users, including users missing prior recovery
       codes. The legacy TOTP recovery-code column stays in place for rolling
       compatibility.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -23,9 +23,9 @@ dbSchemaChanges:
         path: backend/src/db/migrations/20260701120200_add-mfa-recovery-codes.ts
         description: Creates user_mfa_recovery_codes and backfills users
   - title: PKI sync credentials column
-    description: Infisical adds a nullable encryptedCredentials column to PKI sync
+    description: vaultix adds a nullable encryptedCredentials column to PKI sync
       records for new certificate sync destinations. Existing rows remain valid.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -33,10 +33,10 @@ dbSchemaChanges:
         path: backend/src/db/migrations/20260708161542_add-pki-sync-encrypted-credentials.ts
         description: Adds nullable encryptedCredentials to pki_sync
   - title: Proxied services tables
-    description: Infisical adds org agent proxy CA, proxied services, and proxied
+    description: vaultix adds org agent proxy CA, proxied services, and proxied
       service credentials tables for secrets brokering. These are additive
       tables.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -44,9 +44,9 @@ dbSchemaChanges:
         path: backend/src/db/migrations/20260710162607_create-proxied-services.ts
         description: Creates org_agent_proxy_config, proxied_services, and proxied_service_credentials tables
   - title: Users MFA methods column
-    description: Infisical drops the unused users.mfaMethods text[] column. Current
+    description: vaultix drops the unused users.mfaMethods text[] column. Current
       MFA logic does not read this column.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -57,7 +57,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-15T20:26:12.662Z

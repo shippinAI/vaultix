@@ -253,7 +253,7 @@ export const IdentityAuthTemplateModal = ({ popUp, handlePopUpToggle }: Props) =
                   name="bindDN"
                   render={({ field, fieldState: { error } }) =>
                     renderField("identity-auth-template-bind-dn", "Bind DN", field, error, {
-                      placeholder: "cn=infisical,ou=Users,dc=example,dc=com"
+                      placeholder: "cn=vaultix,ou=Users,dc=example,dc=com"
                     })
                   }
                 />

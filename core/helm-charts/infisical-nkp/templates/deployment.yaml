@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "infisical.fullname" . }}
+  name: {{ include "vaultix.fullname" . }}
   labels:
-    {{- include "infisical.labels" . | nindent 4 }}
+    {{- include "vaultix.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "infisical.selectorLabels" . | nindent 6 }}
+      {{- include "vaultix.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -16,7 +16,7 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
-        {{- include "infisical.selectorLabels" . | nindent 8 }}
+        {{- include "vaultix.selectorLabels" . | nindent 8 }}
     spec:
       {{- if or .Values.postgres.cnpg.enabled .Values.migration.enabled }}
       initContainers:
@@ -32,12 +32,12 @@ spec:
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "infisical.fullname" . }}-db-app
+                  name: {{ include "vaultix.fullname" . }}-db-app
                   key: host
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "infisical.fullname" . }}-db-app
+                  name: {{ include "vaultix.fullname" . }}-db-app
                   key: port
         {{- end }}
         {{- if .Values.migration.enabled }}
@@ -47,15 +47,15 @@ spec:
           command: ["npm", "run", "migration:latest"]
           envFrom:
             - configMapRef:
-                name: {{ include "infisical.fullname" . }}-config
+                name: {{ include "vaultix.fullname" . }}-config
             - secretRef:
-                name: {{ include "infisical.fullname" . }}-secrets
+                name: {{ include "vaultix.fullname" . }}-secrets
           env:
-            {{- include "infisical.dbEnv" . | nindent 12 }}
+            {{- include "vaultix.dbEnv" . | nindent 12 }}
         {{- end }}
       {{- end }}
       containers:
-        - name: infisical
+        - name: vaultix
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -64,11 +64,11 @@ spec:
               protocol: TCP
           envFrom:
             - configMapRef:
-                name: {{ include "infisical.fullname" . }}-config
+                name: {{ include "vaultix.fullname" . }}-config
             - secretRef:
-                name: {{ include "infisical.fullname" . }}-secrets
+                name: {{ include "vaultix.fullname" . }}-secrets
           env:
-            {{- include "infisical.dbEnv" . | nindent 12 }}
+            {{- include "vaultix.dbEnv" . | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /api/status

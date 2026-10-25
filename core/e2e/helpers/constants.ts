@@ -8,11 +8,11 @@
 // below to match — symptoms otherwise: gamma 404s on the ACS POST and the
 // IdP-initiated test fails on the redirect assertion.
 
-export const GAMMA_BASE_URL = "https://gamma.infisical.com";
+export const GAMMA_BASE_URL = "https://gamma.vaultix.com";
 
 export const E2E_ORG_SLUG = "e2e-scim-test";
 
-export const IDP_BASE_URL = "https://preview-orchestrator.infisical.workers.dev";
+export const IDP_BASE_URL = "https://preview-orchestrator.vaultix.workers.dev";
 
 // `saml_configs.id` for the gamma e2e org. Created once by the seed script;
 // the row is long-lived, so a constant is acceptable here.

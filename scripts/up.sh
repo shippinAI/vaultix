@@ -1,6 +1,6 @@
 #!/bin/bash
 # Bring up a Vaultix instance from this repo (self by default).
-# The engine is core/ (Infisical renamed). The panel is overlay only.
+# The engine is core/ (vaultix renamed). The panel is overlay only.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/compose"

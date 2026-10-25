@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/cloudflare-api-token"
     Check out the configuration docs for [Cloudflare API Token Rotations](/documentation/platform/secret-rotation/cloudflare-api-token) to learn how to obtain the required parameters.
 </Note>
 
-Creates a Cloudflare API Token secret rotation. Infisical will create and rotate API tokens via your [Cloudflare connection](/integrations/app-connections/cloudflare) and write them to the specified secret path.
+Creates a Cloudflare API Token secret rotation. vaultix will create and rotate API tokens via your [Cloudflare connection](/integrations/app-connections/cloudflare) and write them to the specified secret path.
 
 ## Request body
 
@@ -37,7 +37,7 @@ Creates a Cloudflare API Token secret rotation. Infisical will create and rotate
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/cloudflare-api-token \
+  --url https://us.vaultix.com/api/v2/secret-rotations/cloudflare-api-token \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{
@@ -51,7 +51,7 @@ curl --request POST \
     "rotationInterval": 30,
     "rotateAtUtc": { "hours": 0, "minutes": 0 },
     "parameters": {
-      "name": "infisical-rotated-token",
+      "name": "vaultix-rotated-token",
       "policies": [
         {
           "effect": "allow",
@@ -88,7 +88,7 @@ curl --request POST \
     "rotateAtUtc": { "hours": 0, "minutes": 0 },
     "type": "cloudflare-api-token",
     "parameters": {
-      "name": "infisical-rotated-token",
+      "name": "vaultix-rotated-token",
       "policies": [
         {
           "effect": "allow",

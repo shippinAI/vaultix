@@ -13,7 +13,7 @@ dbSchemaChanges:
     description: Startup adds four indexes, including three on large tables with
       extended statement and lock timeouts. These changes are additive but can
       delay startup on busy PostgreSQL instances.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -39,7 +39,7 @@ dbSchemaChanges:
       constraints. The migration sets a 10 second lock timeout and touches
       secret sync, rotation, PKI sync, migration, honey token, and PAM recording
       tables.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -52,7 +52,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-06-09T14:21:01.329Z

@@ -4,18 +4,18 @@ nameOverride: ""
 # -- Overrides the full name of the release, affecting resource names
 fullnameOverride: ""
 
-infisical:
-  # -- Enable Infisical chart deployment
+vaultix:
+  # -- Enable vaultix chart deployment
   enabled: true
   # -- Sets the name of the deployment within this chart
-  name: infisical
+  name: vaultix
 
   autoBootstrap:
-    # -- Enable auto-bootstrap of the Infisical instance
+    # -- Enable auto-bootstrap of the vaultix instance
     enabled: false
 
     image:
-      # -- Infisical Infisical CLI image tag version
+      # -- vaultix vaultix CLI image tag version
       tag: "0.41.86"
 
     # -- Template for the data/stringData section of the Kubernetes secret. Available functions: encodeBase64
@@ -23,17 +23,17 @@ infisical:
 
     secretDestination:
       # -- Name of the bootstrap secret to create in the Kubernetes cluster which will store the formatted root identity credentials
-      name: "infisical-bootstrap-secret"
+      name: "vaultix-bootstrap-secret"
 
       # -- Namespace to create the bootstrap secret in. If not provided, the secret will be created in the same namespace as the release.
       namespace: "default"
 
-    # -- Infisical organization to create in the Infisical instance during auto-bootstrap
+    # -- vaultix organization to create in the vaultix instance during auto-bootstrap
     organization: "default-org"
 
     credentialSecret:
       # -- Name of the Kubernetes secret containing the credentials for the auto-bootstrap workflow
-      name: "infisical-bootstrap-credentials"
+      name: "vaultix-bootstrap-credentials"
 
   databaseSchemaMigrationJob:
     image:
@@ -52,19 +52,19 @@ infisical:
     # -- Optional custom service account name, if existing service account is used
     name: null
 
-  # -- Override for the full name of Infisical resources in this deployment
+  # -- Override for the full name of vaultix resources in this deployment
   fullnameOverride: ""
-  # -- Custom annotations for Infisical pods
+  # -- Custom annotations for vaultix pods
   podAnnotations: {}
-  # -- Custom annotations for Infisical deployment
+  # -- Custom annotations for vaultix deployment
   deploymentAnnotations: {}
   # -- Number of pod replicas for high availability
   replicaCount: 2
 
   image:
-    # -- Image repository for the Infisical service
-    repository: infisical/infisical
-    # -- Specific version tag of the Infisical image. View the latest version here https://hub.docker.com/r/infisical/infisical
+    # -- Image repository for the vaultix service
+    repository: vaultix/vaultix
+    # -- Specific version tag of the vaultix image. View the latest version here https://hub.docker.com/r/vaultix/vaultix
     tag: "v0.158.0"
     # -- Pulls image only if not already present on the node
     pullPolicy: IfNotPresent
@@ -81,35 +81,35 @@ infisical:
   # -- Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
   topologySpreadConstraints: []
 
-  # -- Kubernetes Secret reference containing Infisical root credentials
-  kubeSecretRef: "infisical-secrets"
+  # -- Kubernetes Secret reference containing vaultix root credentials
+  kubeSecretRef: "vaultix-secrets"
 
   service:
-    # -- Custom annotations for Infisical service
+    # -- Custom annotations for vaultix service
     annotations: {}
     # -- Service type, can be changed based on exposure needs (e.g., LoadBalancer)
     type: ClusterIP
     # -- Optional node port for service when using NodePort type
     nodePort: ""
 
-  # -- Extra environment variables to set on the Infisical container. Useful for setting variables like NODE_EXTRA_CA_CERTS.
+  # -- Extra environment variables to set on the vaultix container. Useful for setting variables like NODE_EXTRA_CA_CERTS.
   # -- Example:
   # -- extraEnv:
   # --   - name: NODE_EXTRA_CA_CERTS
   # --     value: /etc/ssl/certs/ca-certificates.crt
   extraEnv: []
 
-  # -- Pod-level security context for the Infisical pod. Sets only `fsGroup` so mounted volumes
+  # -- Pod-level security context for the vaultix pod. Sets only `fsGroup` so mounted volumes
   # -- are writable by the non-root user. Other hardening lives in `containerSecurityContext`,
   # -- so `extraContainers` and `extraInitContainers` keep their original user. Set to `null` to omit.
   podSecurityContext:
     fsGroup: 1001
 
-  # -- Container-level security context for Infisical's containers, including the bootstrap Job.
+  # -- Container-level security context for vaultix's containers, including the bootstrap Job.
   # -- Secure by default and compliant with the Pod Security "restricted" standard on its own.
   # -- `readOnlyRootFilesystem` stays false because the app writes temporary files; to enable it,
-  # -- mount emptyDir volumes for writable paths like /tmp via `infisical.extraVolumes` and
-  # -- `infisical.extraVolumeMounts`. Set to `null` to omit.
+  # -- mount emptyDir volumes for writable paths like /tmp via `vaultix.extraVolumes` and
+  # -- `vaultix.extraVolumeMounts`. Set to `null` to omit.
   containerSecurityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: false
@@ -122,13 +122,13 @@ infisical:
 
   resources:
     limits:
-      # -- Memory limit for Infisical container
+      # -- Memory limit for vaultix container
       memory: 1000Mi
     requests:
-      # -- CPU request for Infisical container
+      # -- CPU request for vaultix container
       cpu: 350m
 
-  # -- Additional containers to run alongside the Infisical container (sidecars).
+  # -- Additional containers to run alongside the vaultix container (sidecars).
   # -- Useful for running auxiliary services like HSM PKCS#11 clients.
   # -- Example:
   # -- extraContainers:
@@ -139,7 +139,7 @@ infisical:
   # --         mountPath: /var/run/hsm
   extraContainers: []
 
-  # -- Additional init containers to run before the Infisical container starts.
+  # -- Additional init containers to run before the vaultix container starts.
   # -- Example:
   # -- extraInitContainers:
   # --   - name: wait-for-hsm
@@ -147,14 +147,14 @@ infisical:
   # --     command: ['sh', '-c', 'until nc -z hsm-host 9004; do sleep 2; done']
   extraInitContainers: []
 
-  # -- Additional volumes to attach to the Infisical pods.
+  # -- Additional volumes to attach to the vaultix pods.
   # -- Example:
   # -- extraVolumes:
   # --   - name: pkcs11-socket
   # --     emptyDir: {}
   extraVolumes: []
 
-  # -- Additional volume mounts for the Infisical container.
+  # -- Additional volume mounts for the vaultix container.
   # -- Example:
   # -- extraVolumeMounts:
   # --   - name: pkcs11-socket
@@ -166,7 +166,7 @@ ingress:
   enabled: true
   # -- Hostname for ingress access, e.g., app.example.com
   hostName: ""
-  # -- Specifies the ingress class. When not set, defaults to "infisical-nginx" if the bundled ingress-nginx is enabled, or "nginx" otherwise.
+  # -- Specifies the ingress class. When not set, defaults to "vaultix-nginx" if the bundled ingress-nginx is enabled, or "nginx" otherwise.
   ingressClassName: ""
 
   nginx:
@@ -199,11 +199,11 @@ postgresql:
 
   auth:
     # -- Database username for PostgreSQL
-    username: infisical
+    username: vaultix
     # -- Password for PostgreSQL database access
     password: root
-    # -- Database name for Infisical
-    database: infisicalDB
+    # -- Database name for vaultix
+    database: vaultixDB
 
   useExistingPostgresSecret:
     # -- Set to true if using an existing Kubernetes secret that contains PostgreSQL connection string
@@ -246,10 +246,10 @@ redis:
 ingress-nginx:
   controller:
     ingressClassResource:
-      # -- Use a unique IngressClass name so the bundled controller only serves Infisical's Ingress,
+      # -- Use a unique IngressClass name so the bundled controller only serves vaultix's Ingress,
       # -- not other Ingresses in the cluster that use the common "nginx" class.
-      name: infisical-nginx
-      controllerValue: k8s.io/infisical-nginx
+      name: vaultix-nginx
+      controllerValue: k8s.io/vaultix-nginx
       # -- Do not set this as the default IngressClass for the cluster
       default: false
-    ingressClass: infisical-nginx
+    ingressClass: vaultix-nginx

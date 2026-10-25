@@ -1,15 +1,15 @@
 ---
 title: "AWS ACM Public CA"
-description: "Issue and manage publicly-trusted certificates using AWS Certificate Manager (ACM) with Infisical."
+description: "Issue and manage publicly-trusted certificates using AWS Certificate Manager (ACM) with vaultix."
 ---
 
 ## Overview
 
-Infisical integrates with AWS Certificate Manager (ACM) to issue **public certificates** signed by [Amazon Trust Services](https://www.amazontrust.com/repository/). These certificates are trusted by all major browsers and operating systems out of the box, so they can be used on the public internet without users having to install anything.
+vaultix integrates with AWS Certificate Manager (ACM) to issue **public certificates** signed by [Amazon Trust Services](https://www.amazontrust.com/repository/). These certificates are trusted by all major browsers and operating systems out of the box, so they can be used on the public internet without users having to install anything.
 
 Common use cases include securing public-facing websites and APIs, terminating TLS on internet-facing load balancers, and issuing certificates for SaaS applications exposed to external users.
 
-Each certificate has a fixed 198-day validity and is generated and stored by AWS. Infisical orchestrates the full lifecycle on top: domain validation via Route 53, saving the certificate and private key into Infisical, scheduled auto-renewal, and revocation.
+Each certificate has a fixed 198-day validity and is generated and stored by AWS. vaultix orchestrates the full lifecycle on top: domain validation via Route 53, saving the certificate and private key into vaultix, scheduled auto-renewal, and revocation.
 
 <Note>
   Domain validation is performed exclusively through **Amazon Route 53**. Other DNS providers are not supported for this CA type.
@@ -48,7 +48,7 @@ Each certificate has a fixed 198-day validity and is generated and stored by AWS
   `RequestCertificate` cannot be scoped below `"*"` because the certificate ARN does not exist until after the call succeeds.
 </Note>
 
-**Route 53 connection** — needs the following on your hosted zone so Infisical can write the ACM validation CNAME records:
+**Route 53 connection** — needs the following on your hosted zone so vaultix can write the ACM validation CNAME records:
 
 ```json
 {
@@ -92,38 +92,38 @@ Each certificate has a fixed 198-day validity and is generated and stored by AWS
     Go to **Certificate Manager → Certificate Profiles** and create a profile with your AWS ACM CA as the issuing CA.
   </Step>
   <Step title="Configure an Application and Issue a Certificate">
-    Create an [Application](/documentation/platform/pki/applications/overview), attach the profile, and configure an [enrollment method](/documentation/platform/pki/applications/enrollment-methods/overview). Then submit a certificate request from within the Application. Infisical requests the certificate from ACM, writes the required CNAME(s) to Route 53, waits for ACM to finish validation, and saves the certificate and private key.
+    Create an [Application](/documentation/platform/pki/applications/overview), attach the profile, and configure an [enrollment method](/documentation/platform/pki/applications/enrollment-methods/overview). Then submit a certificate request from within the Application. vaultix requests the certificate from ACM, writes the required CNAME(s) to Route 53, waits for ACM to finish validation, and saves the certificate and private key.
   </Step>
 </Steps>
 
 ## Auto-Renewal
 
-ACM certificates expire after 198 days. There are two renewal paths that both end up producing a fresh certificate in Infisical.
+ACM certificates expire after 198 days. There are two renewal paths that both end up producing a fresh certificate in vaultix.
 
 ### AWS managed renewal
 
-AWS attempts to automatically renew ACM public certificates 45 days before expiry. This is [ACM managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/managed-renewal.html) and happens on AWS's schedule, independent of Infisical. When it succeeds, AWS issues a new certificate body and private key under the **same ARN** but with a new serial number.
+AWS attempts to automatically renew ACM public certificates 45 days before expiry. This is [ACM managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/managed-renewal.html) and happens on AWS's schedule, independent of vaultix. When it succeeds, AWS issues a new certificate body and private key under the **same ARN** but with a new serial number.
 
-The catch: AWS only updates the copy held inside ACM. The copy saved in Infisical still holds the old material until something pulls the new version out.
+The catch: AWS only updates the copy held inside ACM. The copy saved in vaultix still holds the old material until something pulls the new version out.
 
-### Infisical auto-renewal
+### vaultix auto-renewal
 
-To keep the copy stored in Infisical in sync with AWS, enable auto-renewal on the certificate profile when you create or edit it:
+To keep the copy stored in vaultix in sync with AWS, enable auto-renewal on the certificate profile when you create or edit it:
 
 - **Auto-renew**: enabled
 - **Renew before days**: how many days before expiry renewal should fire (1–30 days)
 
 Every certificate issued through that profile inherits these values. You can also override them on an individual certificate from **Certificates → Manage Renewal**.
 
-When a certificate reaches the configured threshold, Infisical reconciles it with AWS:
+When a certificate reaches the configured threshold, vaultix reconciles it with AWS:
 
-- If AWS has **already renewed** the certificate on its own, Infisical pulls in the new certificate and private key.
-- If AWS has **not yet renewed**, Infisical triggers renewal, waits for ACM to finish re-issuance, then saves the new material.
+- If AWS has **already renewed** the certificate on its own, vaultix pulls in the new certificate and private key.
+- If AWS has **not yet renewed**, vaultix triggers renewal, waits for ACM to finish re-issuance, then saves the new material.
 
 In both cases the renewed certificate is stored as a new entry linked to the original and inherits the same auto-renewal settings — so the cycle continues automatically.
 
 <Note>
-  AWS generates a fresh private key on every renewal. Infisical pulls it in each time and stores it encrypted with your organization's KMS key.
+  AWS generates a fresh private key on every renewal. vaultix pulls it in each time and stores it encrypted with your organization's KMS key.
 </Note>
 
 ## Troubleshooting
@@ -132,9 +132,9 @@ In both cases the renewed certificate is stored as a new entry linked to the ori
 
 **`Failed to access Route 53 hosted zone`** — the Route 53 connection cannot read the hosted zone, or the Hosted Zone ID is wrong. Check `route53:GetHostedZone` and that the zone is public.
 
-**Request stays pending** — DNS validation can take several minutes. Infisical retries automatically. Verify the CNAME records exist in Route 53 and that the hosted zone is authoritative for the requested domain.
+**Request stays pending** — DNS validation can take several minutes. vaultix retries automatically. Verify the CNAME records exist in Route 53 and that the hosted zone is authoritative for the requested domain.
 
-**Renewal appears stuck** — immediately after renewal is triggered, ACM may not yet have the new certificate available. Infisical treats this as transient and retries until a new serial number appears on the ARN.
+**Renewal appears stuck** — immediately after renewal is triggered, ACM may not yet have the new certificate available. vaultix treats this as transient and retries until a new serial number appears on the ARN.
 
 ## FAQ
 
@@ -144,11 +144,11 @@ In both cases the renewed certificate is stored as a new entry linked to the ori
   </Accordion>
 
   <Accordion title="Which DNS providers are supported for domain validation?">
-    Only Amazon Route 53. Infisical writes the required CNAMEs through your Route 53 connection.
+    Only Amazon Route 53. vaultix writes the required CNAMEs through your Route 53 connection.
   </Accordion>
 
   <Accordion title="Can I provide my own CSR or private key?">
-    No. ACM generates the key pair itself. Infisical pulls the certificate and private key from ACM and stores them encrypted.
+    No. ACM generates the key pair itself. vaultix pulls the certificate and private key from ACM and stores them encrypted.
   </Accordion>
 
   <Accordion title="Which key algorithms are supported?">

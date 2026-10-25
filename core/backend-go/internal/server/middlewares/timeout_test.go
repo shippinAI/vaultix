@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/libs/requestid"
+	"github.com/vaultix/api/internal/libs/requestid"
 )
 
 func TestTimeout_HandlerCompletesBeforeDeadline(t *testing.T) {

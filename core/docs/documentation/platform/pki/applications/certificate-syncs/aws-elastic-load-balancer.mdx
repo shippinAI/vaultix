@@ -23,7 +23,7 @@ Deploy certificates directly to your AWS Application Load Balancers (ALBs) and N
 ## Create an ELB Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **AWS Elastic Load Balancer** option.
@@ -61,7 +61,7 @@ Deploy certificates directly to your AWS Application Load Balancers (ALBs) and N
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -140,14 +140,14 @@ Your AWS Elastic Load Balancer Certificate Sync will:
 - **Automatic Deployment**: Deploy certificates to ACM and attach them to your configured listeners.
 - **Certificate Updates**: Update certificates in ACM and on listeners when renewals occur.
 - **Expiration Handling**: Optionally remove expired certificates from listeners and ACM (if enabled).
-- **Tagging**: Automatically tag certificates in ACM with an InfisicalCertificate tag for easy identification and management.
+- **Tagging**: Automatically tag certificates in ACM with an vaultixCertificate tag for easy identification and management.
 
 ## Setting Default Certificates
 
 You can set a certificate as the default for all configured listeners. The default certificate is used when a client connects without specifying a hostname via SNI (Server Name Indication).
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         In the sync details page, click **Set as Default** next to the certificate you want to use as the default for all configured listeners.
     </Tab>
     <Tab title="API">
@@ -155,7 +155,7 @@ You can set a certificate as the default for all configured listeners. The defau
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -167,7 +167,7 @@ You can set a certificate as the default for all configured listeners. The defau
 
         ```bash Request
         curl --request DELETE \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default \
         --header 'Authorization: Bearer <access-token>'
         ```
     </Tab>
@@ -182,12 +182,12 @@ You can manually trigger certificate synchronization to AWS Elastic Load Balance
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/aws-elastic-load-balancer/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/aws-elastic-load-balancer/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 <Note>
   AWS Elastic Load Balancer does not support importing certificates back into
-  Infisical due to security limitations where private keys cannot be extracted
-  from AWS Certificate Manager. Only certificates managed by Infisical can be
+  vaultix due to security limitations where private keys cannot be extracted
+  from AWS Certificate Manager. Only certificates managed by vaultix can be
   synced to your load balancers.
 </Note>
 

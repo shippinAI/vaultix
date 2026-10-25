@@ -8,14 +8,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: infisical-ingress
+  name: vaultix-ingress
   {{- with $ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   {{- if (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ $ingress.ingressClassName | default (ternary "infisical-nginx" "nginx" $ingress.nginx.enabled) }}
+  ingressClassName: {{ $ingress.ingressClassName | default (ternary "vaultix-nginx" "nginx" $ingress.nginx.enabled) }}
   {{- end }}
 {{- if $ingress.tls }}
   tls:
@@ -34,14 +34,14 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: {{ include "infisical.fullname" . }}
+              name: {{ include "vaultix.fullname" . }}
               port:
                 number: 8080
         - path: /ss-webhook
           pathType: Exact
           backend:
             service:
-              name: {{ include "infisical.fullname" . }}
+              name: {{ include "vaultix.fullname" . }}
               port:
                 number: 8080
       {{- if $ingress.hostName }}

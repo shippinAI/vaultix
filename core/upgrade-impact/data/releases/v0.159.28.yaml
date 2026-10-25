@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: Announcements user column
     description: Adds nullable users.lastSeenAnnouncementId for announcement
       tracking. Existing data remains valid.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -23,7 +23,7 @@ dbSchemaChanges:
     description: Adds a concurrent partial index on
       identity_access_tokens.subOrganizationId. The migration sets a 60 minute
       statement timeout and disables transactions for index creation.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -36,7 +36,7 @@ dbSchemaChanges:
     description: Backfills org-level custom roles to include the new project
       request-access permission when missing. Existing roles are updated in
       place.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -47,7 +47,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-09T01:08:18.803Z

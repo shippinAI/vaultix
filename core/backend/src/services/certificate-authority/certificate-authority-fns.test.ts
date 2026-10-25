@@ -195,7 +195,7 @@ describe("signatureAlgorithmToAlgCfg", () => {
 });
 
 describe("buildCrlDistributionPointUrls", () => {
-  const managedUrl = "https://infisical.example.com/api/v1/cert-manager/crl/123/der";
+  const managedUrl = "https://vaultix.example.com/api/v1/cert-manager/crl/123/der";
 
   it("should include managed URL by default", () => {
     const result = buildCrlDistributionPointUrls(managedUrl, null);

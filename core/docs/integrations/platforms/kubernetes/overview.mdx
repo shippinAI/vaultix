@@ -1,23 +1,23 @@
 ---
 title: "Kubernetes Operator"
 sidebarTitle: "Overview"
-description: "How to use Infisical to inject, push, and manage secrets within Kubernetes clusters"
+description: "How to use vaultix to inject, push, and manage secrets within Kubernetes clusters"
 ---
 
 import KubernetesOperatorTemplating from "/snippets/kubernetes-operator-v1beta1-templating.mdx";
 import KubernetesOperatorInstall from "/snippets/kubernetes-operator-install.mdx";
 
-The Infisical Operator is a collection of Kubernetes controllers that streamline how secrets are managed between Infisical and your Kubernetes cluster.
+The vaultix Operator is a collection of Kubernetes controllers that streamline how secrets are managed between vaultix and your Kubernetes cluster.
 It provides multiple Custom Resource Definitions (CRDs) which enable you to:
 
-- **Sync** secrets from Infisical into Kubernetes.
-- **Push** new secrets from Kubernetes to Infisical.
+- **Sync** secrets from vaultix into Kubernetes.
+- **Push** new secrets from Kubernetes to vaultix.
 - **Manage** dynamic secrets and automatically create time-bound leases.
 
-When these CRDs are configured, the Infisical Operator will continuously monitor for changes and perform necessary updates to keep your Kubernetes secrets up to date.
+When these CRDs are configured, the vaultix Operator will continuously monitor for changes and perform necessary updates to keep your Kubernetes secrets up to date.
 It can also automatically reload dependent Deployment resources whenever relevant secrets are updated.
 
-The short video below walks through how the Infisical Operator syncs secrets into your Kubernetes cluster.
+The short video below walks through how the vaultix Operator syncs secrets into your Kubernetes cluster.
 
 <br />
 
@@ -40,7 +40,7 @@ The short video below walks through how the Infisical Operator syncs secrets int
 <Note>
   If you are already using the External Secrets operator, you can view the
   integration documentation for it
-  [here](https://external-secrets.io/latest/provider/infisical/).
+  [here](https://external-secrets.io/latest/provider/vaultix/).
 </Note>
 
 <Tabs>
@@ -54,7 +54,7 @@ The short video below walks through how the Infisical Operator syncs secrets int
     - 1.29
   </Tab>
   <Tab title="Supported Kubernetes distributions">
-    The Infisical Kubernetes Operator has been tested successfully in the following hosted Kubernetes environments:
+    The vaultix Kubernetes Operator has been tested successfully in the following hosted Kubernetes environments:
 
     - Amazon Elastic Kubernetes Service (EKS)
     - Google Kubernetes Engine (GKE)
@@ -62,7 +62,7 @@ The short video below walks through how the Infisical Operator syncs secrets int
     - Oracle Container Engine for Kubernetes (OKE)
     - Red Hat OpenShift
 
-    It may work in other Kubernetes distributions, but those are not officially supported. Please report any issues [here](https://github.com/Infisical/infisical/issues).
+    It may work in other Kubernetes distributions, but those are not officially supported. Please report any issues [here](https://github.com/vaultix/vaultix/issues).
   </Tab>
 </Tabs>
 
@@ -80,9 +80,9 @@ The operator is installed via [Helm](/self-hosting/helm-charts/secrets-operator)
 
     | CRD | Description |
     | --- | ----------- |
-    | [InfisicalConnection](/integrations/platforms/kubernetes/infisical-connection-crd) | Defines how to connect to an Infisical instance (host, TLS). Referenced by other CRDs. |
-    | [InfisicalAuth](/integrations/platforms/kubernetes/infisical-auth-crd) | Defines authentication credentials for a machine identity. Referenced by other CRDs. |
-    | [InfisicalStaticSecret](/integrations/platforms/kubernetes/infisical-static-secret-crd) | Sync secrets from Infisical to a Kubernetes secret. Replaces `InfisicalSecret`. |
+    | [vaultixConnection](/integrations/platforms/kubernetes/vaultix-connection-crd) | Defines how to connect to an vaultix instance (host, TLS). Referenced by other CRDs. |
+    | [vaultixAuth](/integrations/platforms/kubernetes/vaultix-auth-crd) | Defines authentication credentials for a machine identity. Referenced by other CRDs. |
+    | [vaultixStaticSecret](/integrations/platforms/kubernetes/vaultix-static-secret-crd) | Sync secrets from vaultix to a Kubernetes secret. Replaces `vaultixSecret`. |
   </Tab>
   <Tab title="v1alpha1">
     <Warning>
@@ -91,9 +91,9 @@ The operator is installed via [Helm](/self-hosting/helm-charts/secrets-operator)
 
     | CRD | Status | Description |
     | --- | ------ | ----------- |
-    | [InfisicalSecret](/integrations/platforms/kubernetes/infisical-secret-crd) | Deprecated | Sync secrets from Infisical to a Kubernetes secret. Use [InfisicalStaticSecret](/integrations/platforms/kubernetes/infisical-static-secret-crd) (v1beta1) instead. See [migration guide](#migrating-from-v1alpha1-to-v1beta1). |
-    | [InfisicalPushSecret](/integrations/platforms/kubernetes/infisical-push-secret-crd) | Active | Push secrets from a Kubernetes secret to Infisical. |
-    | [InfisicalDynamicSecret](/integrations/platforms/kubernetes/infisical-dynamic-secret-crd) | Active | Sync dynamic secrets and create leases automatically in Kubernetes. |
+    | [vaultixSecret](/integrations/platforms/kubernetes/vaultix-secret-crd) | Deprecated | Sync secrets from vaultix to a Kubernetes secret. Use [vaultixStaticSecret](/integrations/platforms/kubernetes/vaultix-static-secret-crd) (v1beta1) instead. See [migration guide](#migrating-from-v1alpha1-to-v1beta1). |
+    | [vaultixPushSecret](/integrations/platforms/kubernetes/vaultix-push-secret-crd) | Active | Push secrets from a Kubernetes secret to vaultix. |
+    | [vaultixDynamicSecret](/integrations/platforms/kubernetes/vaultix-dynamic-secret-crd) | Active | Sync dynamic secrets and create leases automatically in Kubernetes. |
   </Tab>
 </Tabs>
 
@@ -170,9 +170,9 @@ The operator exposes standard controller-runtime metrics. For a complete list of
 - `controller_runtime_reconcile_errors_total` - Error count  
 - `controller_runtime_reconcile_time_seconds` - Reconciliation duration
 
-**v1beta1 controllers:** `InfisicalStaticSecret`, `InfisicalAuth`, `InfisicalConnection`
+**v1beta1 controllers:** `vaultixStaticSecret`, `vaultixAuth`, `vaultixConnection`
 
-**v1alpha1 controllers:** `InfisicalSecret`, `InfisicalPushSecret`, `InfisicalDynamicSecret`
+**v1alpha1 controllers:** `vaultixSecret`, `vaultixPushSecret`, `vaultixDynamicSecret`
 
 ### Example Prometheus Setup
 
@@ -190,9 +190,9 @@ The operator exposes standard controller-runtime metrics. For a complete list of
 
   <Step title="Install Operator with Metrics Enabled">
     ```bash
-    helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+    helm repo add vaultix-helm-charts 'https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/'
     
-    helm install infisical-secrets-operator infisical-helm-charts/secrets-operator \
+    helm install vaultix-secrets-operator vaultix-helm-charts/secrets-operator \
       --set telemetry.serviceMonitor.enabled=true
     ```
   </Step>
@@ -229,20 +229,20 @@ process_resident_memory_bytes / 1024 / 1024
 
 ## General Configuration
 ### Private/self-signed certificate
-To connect to Infisical instances behind a private/self-signed certificate, you can configure TLS settings
+To connect to vaultix instances behind a private/self-signed certificate, you can configure TLS settings
 to point to a CA certificate stored in a Kubernetes secret resource.
 
 <Tabs>
   <Tab title="v1beta1 (Recommended)">
-    In v1beta1, TLS is configured on the [InfisicalConnection](/integrations/platforms/kubernetes/infisical-connection-crd) resource:
+    In v1beta1, TLS is configured on the [vaultixConnection](/integrations/platforms/kubernetes/vaultix-connection-crd) resource:
 
     ```yaml
-    apiVersion: secrets.infisical.com/v1beta1
-    kind: InfisicalConnection
+    apiVersion: secrets.vaultix.com/v1beta1
+    kind: vaultixConnection
     metadata:
-      name: my-infisical-connection
+      name: my-vaultix-connection
     spec:
-      address: https://infisical.mydomain.com
+      address: https://vaultix.mydomain.com
       tls:
         caCertificate:
           name: secret-containing-ca-certificate
@@ -250,14 +250,14 @@ to point to a CA certificate stored in a Kubernetes secret resource.
           key: ca.crt
     ```
 
-    All CRDs that reference this `InfisicalConnection` will automatically use the configured TLS settings.
+    All CRDs that reference this `vaultixConnection` will automatically use the configured TLS settings.
   </Tab>
   <Tab title="v1alpha1">
     In v1alpha1, TLS is configured inline on each CRD:
 
     ```yaml
     spec:
-      hostAPI: https://app.infisical.com/api
+      hostAPI: https://app.vaultix.com/api
       tls:
         caRef:
           secretName: custom-ca-certificate
@@ -272,44 +272,44 @@ to point to a CA certificate stored in a Kubernetes secret resource.
 ## Migrating from v1alpha1 to v1beta1
 
 <Info>
-  This migration guide applies to `InfisicalSecret` only. `InfisicalPushSecret` and `InfisicalDynamicSecret` do not have v1beta1 replacements yet and should continue to be used as-is.
+  This migration guide applies to `vaultixSecret` only. `vaultixPushSecret` and `vaultixDynamicSecret` do not have v1beta1 replacements yet and should continue to be used as-is.
 </Info>
 
-The v1beta1 API introduces a cleaner separation of concerns. Instead of defining authentication and connection details inline in each secret CRD, you now create dedicated `InfisicalConnection` and `InfisicalAuth` resources that can be shared across multiple secret resources.
+The v1beta1 API introduces a cleaner separation of concerns. Instead of defining authentication and connection details inline in each secret CRD, you now create dedicated `vaultixConnection` and `vaultixAuth` resources that can be shared across multiple secret resources.
 
 ### Key changes
 
-- **Secret resource:** `InfisicalSecret` -> `InfisicalStaticSecret`
+- **Secret resource:** `vaultixSecret` -> `vaultixStaticSecret`
 
-  `InfisicalStaticSecret` replaces the v1alpha1 `InfisicalSecret` CRD. Instead of defining auth and connection settings inline, it references dedicated `InfisicalAuth` and `InfisicalConnection` resources.
+  `vaultixStaticSecret` replaces the v1alpha1 `vaultixSecret` CRD. Instead of defining auth and connection settings inline, it references dedicated `vaultixAuth` and `vaultixConnection` resources.
 
-- **Authentication:** inline `authentication` -> `InfisicalAuth`
+- **Authentication:** inline `authentication` -> `vaultixAuth`
 
-  Authentication config is now defined in a standalone `InfisicalAuth` resource that can be reused across CRDs. Authenticated credentials are cached and shared by all resources referencing the same `InfisicalAuth`.
+  Authentication config is now defined in a standalone `vaultixAuth` resource that can be reused across CRDs. Authenticated credentials are cached and shared by all resources referencing the same `vaultixAuth`.
 
-- **Connection:** inline `hostAPI` / `tls` -> `InfisicalConnection`
+- **Connection:** inline `hostAPI` / `tls` -> `vaultixConnection`
 
-  Connection config is now defined in a standalone `InfisicalConnection` resource that can be reused by auth and secret resources.
+  Connection config is now defined in a standalone `vaultixConnection` resource that can be reused by auth and secret resources.
 
 ### Migration steps
 
 <Steps>
-  <Step title="Create an InfisicalConnection resource">
-    Extract the `hostAPI` and `tls` settings from your existing CRD into a new `InfisicalConnection` resource.
-    See the [InfisicalConnection CRD](/integrations/platforms/kubernetes/infisical-connection-crd) documentation for the full spec.
+  <Step title="Create an vaultixConnection resource">
+    Extract the `hostAPI` and `tls` settings from your existing CRD into a new `vaultixConnection` resource.
+    See the [vaultixConnection CRD](/integrations/platforms/kubernetes/vaultix-connection-crd) documentation for the full spec.
   </Step>
-  <Step title="Create an InfisicalAuth resource">
-    Extract the `authentication` block from your existing CRD into a new `InfisicalAuth` resource.
-    See the [InfisicalAuth CRD](/integrations/platforms/kubernetes/infisical-auth-crd) documentation for the full spec.
+  <Step title="Create an vaultixAuth resource">
+    Extract the `authentication` block from your existing CRD into a new `vaultixAuth` resource.
+    See the [vaultixAuth CRD](/integrations/platforms/kubernetes/vaultix-auth-crd) documentation for the full spec.
   </Step>
-  <Step title="Replace InfisicalSecret with InfisicalStaticSecret">
-    Create a new `InfisicalStaticSecret` resource that references your `InfisicalConnection` and `InfisicalAuth` resources.
-    See the [InfisicalStaticSecret CRD](/integrations/platforms/kubernetes/infisical-static-secret-crd) documentation for the full spec.
+  <Step title="Replace vaultixSecret with vaultixStaticSecret">
+    Create a new `vaultixStaticSecret` resource that references your `vaultixConnection` and `vaultixAuth` resources.
+    See the [vaultixStaticSecret CRD](/integrations/platforms/kubernetes/vaultix-static-secret-crd) documentation for the full spec.
 
     If you were using templates, note that `engineVersion` is now a required field and the only accepted value is `v1`. The `includeAllSecrets` option no longer exists. Instead, you can iterate over all secrets using a bulk string template with a range loop. See the [Templating](#templating) section for details and examples.
   </Step>
   <Step title="Delete the old v1alpha1 resource">
-    Once you have verified that the new v1beta1 resources are working, delete the old `InfisicalSecret` CRD instance.
+    Once you have verified that the new v1beta1 resources are working, delete the old `vaultixSecret` CRD instance.
   </Step>
 </Steps>
 
@@ -317,7 +317,7 @@ The v1beta1 API introduces a cleaner separation of concerns. Instead of defining
 
 The managed secret created by the operator will not be deleted when the operator is uninstalled.
 
-Uninstall Infisical Helm repository 
+Uninstall vaultix Helm repository 
 ```bash
   helm uninstall <release name>
 ```

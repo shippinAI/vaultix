@@ -1,9 +1,9 @@
 ---
 title: "Ona Connection"
-description: "Learn how to configure an Ona Connection for Infisical."
+description: "Learn how to configure an Ona Connection for vaultix."
 ---
 
-Infisical supports connecting to [Ona](https://www.gitpod.io/) (Gitpod's cloud development environment platform) using a Personal Access Token (PAT).
+vaultix supports connecting to [Ona](https://www.gitpod.io/) (Gitpod's cloud development environment platform) using a Personal Access Token (PAT).
 
 ## Create an Ona Personal Access Token
 
@@ -21,7 +21,7 @@ Infisical supports connecting to [Ona](https://www.gitpod.io/) (Gitpod's cloud d
     
   </Step>
   <Step title="Create the token">
-    Click the **New Token** button and add a description for the token (eg, "infisical integration"). The token must have Read & Write access so that Infisical can apply changes in Ona.
+    Click the **New Token** button and add a description for the token (eg, "vaultix integration"). The token must have Read & Write access so that vaultix can apply changes in Ona.
 
     <Note>
      Personal access tokens have an expiration date, so you will need to manually rotate them before they expire to avoid integration downtime. Consider setting a calendar reminder for this task.
@@ -37,13 +37,13 @@ Infisical supports connecting to [Ona](https://www.gitpod.io/) (Gitpod's cloud d
   </Step>
 </Steps>
 
-## Create an Ona Connection in Infisical
+## Create an Ona Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
-        In your Infisical dashboard, open the **Integrations** tab for the desired project and select **App Connections**. Click **+ Add Connection**.
+        In your vaultix dashboard, open the **Integrations** tab for the desired project and select **App Connections**. Click **+ Add Connection**.
 
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
       </Step>
@@ -76,7 +76,7 @@ Infisical supports connecting to [Ona](https://www.gitpod.io/) (Gitpod's cloud d
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/ona \
+            --url https://app.vaultix.com/api/v1/app-connections/ona \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-ona-connection",

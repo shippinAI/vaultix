@@ -1,11 +1,11 @@
 ---
 title: "Cloudflare Connection"
-description: "Learn how to configure a Cloudflare Connection for Infisical."
+description: "Learn how to configure a Cloudflare Connection for vaultix."
 ---
 
-Infisical supports connecting to Cloudflare using API tokens and Account ID for secure access to your Cloudflare services.
+vaultix supports connecting to Cloudflare using API tokens and Account ID for secure access to your Cloudflare services.
 
-## Configure API Token and Account ID for Infisical
+## Configure API Token and Account ID for vaultix
 
 <Steps>
   <Step title="Create API Token">
@@ -27,7 +27,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
       <Tab title="Secret Sync">
         <AccordionGroup>
           <Accordion title="Cloudflare Pages">
-            Use the following permissions to grant Infisical access to sync secrets to Cloudflare Pages:
+            Use the following permissions to grant vaultix access to sync secrets to Cloudflare Pages:
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-pages-configure-permissions.png)
 
@@ -38,7 +38,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             Add these permissions to your API token and click **Continue to summary**, then **Create Token** to generate your API token.
           </Accordion>
           <Accordion title="Cloudflare Workers">
-            Use the following permissions to grant Infisical access to sync secrets to Cloudflare Workers:
+            Use the following permissions to grant vaultix access to sync secrets to Cloudflare Workers:
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-workers-configure-permissions.png)
 
@@ -53,7 +53,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
       <Tab title="PKI">
         <AccordionGroup>
           <Accordion title="ACME DNS Verification">
-            Use the following permissions to grant Infisical access to verify certificates using DNS TXT records with ACME:
+            Use the following permissions to grant vaultix access to verify certificates using DNS TXT records with ACME:
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-dns-configure-permissions.png)
 
@@ -64,7 +64,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             Add these permissions to your API token and click **Continue to summary**, then **Create Token** to generate your API token.
           </Accordion>
           <Accordion title="Certificate Sync (Custom SSL)">
-            Use the following permissions to grant Infisical access to sync certificates to Cloudflare as Custom SSL certificates:
+            Use the following permissions to grant vaultix access to sync certificates to Cloudflare as Custom SSL certificates:
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-ssl-configure-permissions.png)
 
@@ -72,7 +72,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             - **Account** - **Account Settings** - **Read**
             - **Zone** - **SSL and Certificates** - **Edit**
 
-            These permissions allow Infisical to upload, update, and delete custom SSL certificates in your Cloudflare zones.
+            These permissions allow vaultix to upload, update, and delete custom SSL certificates in your Cloudflare zones.
 
             Add these permissions to your API token and click **Continue to summary**, then **Create Token** to generate your API token.
           </Accordion>
@@ -81,7 +81,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
       <Tab title="Secret Rotation">
         <AccordionGroup>
           <Accordion title="Cloudflare API Token">
-            Use the following permissions to grant Infisical access to create and revoke Cloudflare API tokens during rotation:
+            Use the following permissions to grant vaultix access to create and revoke Cloudflare API tokens during rotation:
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-api-token-configure-permissions.png)
 
@@ -89,10 +89,10 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             - **Account** - **API Tokens** - **Edit**
             - **Account** - **Account Settings** - **Read**
 
-            The **API Tokens** - **Edit** permission is what allows Infisical to create the replacement token and revoke the previous one on each rotation cycle. Without it, rotation fails when creating the new token.
+            The **API Tokens** - **Edit** permission is what allows vaultix to create the replacement token and revoke the previous one on each rotation cycle. Without it, rotation fails when creating the new token.
 
             <Note>
-              **Account Settings** - **Read** is required so Infisical can validate the connection.
+              **Account Settings** - **Read** is required so vaultix can validate the connection.
             </Note>
 
             The generated tokens are not granted these permissions. Each rotated token only receives the access policies you configure on the [Cloudflare API Token rotation](/documentation/platform/secret-rotation/cloudflare-api-token) itself.
@@ -100,7 +100,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             Add these permissions to your API token and click **Continue to summary**, then **Create Token** to generate your API token.
           </Accordion>
           <Accordion title="Cloudflare R2 Access Key">
-            An R2 access key is a Cloudflare API token, so rotating one needs the same **API Tokens** - **Edit** permission, plus read access to R2 so Infisical can list your buckets.
+            An R2 access key is a Cloudflare API token, so rotating one needs the same **API Tokens** - **Edit** permission, plus read access to R2 so vaultix can list your buckets.
 
             ![Configure Token](/images/app-connections/cloudflare/cloudflare-r2-access-configure-permissions.png)
 
@@ -109,10 +109,10 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
             - **Account** - **Workers R2 Storage** - **Read**
             - **Account** - **Account Settings** - **Read**
 
-            **API Tokens** - **Edit** is what allows Infisical to create the replacement key and revoke the previous one on each rotation cycle. **Workers R2 Storage** - **Read** is used only to populate the bucket picker when you configure the rotation; without it the picker comes back empty and you cannot select buckets.
+            **API Tokens** - **Edit** is what allows vaultix to create the replacement key and revoke the previous one on each rotation cycle. **Workers R2 Storage** - **Read** is used only to populate the bucket picker when you configure the rotation; without it the picker comes back empty and you cannot select buckets.
 
             <Note>
-              **Account Settings** - **Read** is required so Infisical can validate the connection.
+              **Account Settings** - **Read** is required so vaultix can validate the connection.
             </Note>
 
             The generated keys are not granted these permissions. Each rotated key only receives object access to the buckets you select on the [Cloudflare R2 Access Key rotation](/documentation/platform/secret-rotation/cloudflare-r2-access-key) itself.
@@ -144,7 +144,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
   </Step>
 </Steps>
 
-## Setup Cloudflare Connection in Infisical
+## Setup Cloudflare Connection in vaultix
 
 <Steps>
   <Step title="Navigate to App Connections">
@@ -162,7 +162,7 @@ Infisical supports connecting to Cloudflare using API tokens and Account ID for 
     Cloudflare](/images/app-connections/cloudflare/cloudflare-app-connection-form.png)
   </Step>
   <Step title="Connection Created">
-    Your **Cloudflare Connection** is now available for use in your Infisical
+    Your **Cloudflare Connection** is now available for use in your vaultix
     projects. ![Cloudflare Connection
     Created](/images/app-connections/cloudflare/cloudflare-app-connection-created.png)
   </Step>

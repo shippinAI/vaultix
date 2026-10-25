@@ -48,7 +48,7 @@ import {
 import {
   ExternalVaultixSyncListItemSchema,
   ExternalVaultixSyncSchema
-} from "@app/services/secret-sync/external-infisical";
+} from "@app/services/secret-sync/external-vaultix";
 import { FlyioSyncListItemSchema, FlyioSyncSchema } from "@app/services/secret-sync/flyio";
 import { GcpSyncListItemSchema, GcpSyncSchema } from "@app/services/secret-sync/gcp";
 import { GitHubSyncListItemSchema, GitHubSyncSchema } from "@app/services/secret-sync/github";

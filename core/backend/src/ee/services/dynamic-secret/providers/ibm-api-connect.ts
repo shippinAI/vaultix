@@ -195,7 +195,7 @@ const $createApplicationCredential = async (
       client_secret: string;
     }>(
       url,
-      { title: `infisical-${Date.now()}` },
+      { title: `vaultix-${Date.now()}` },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

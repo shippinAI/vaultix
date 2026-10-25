@@ -1,6 +1,6 @@
 import { createPrivateKey, X509Certificate } from "node:crypto";
 
-import ldapjs from "@infisical/ldapjs";
+import ldapjs from "@vaultix/ldapjs";
 
 import { BadRequestError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
@@ -58,7 +58,7 @@ export const buildLdapTlsOptions = (cfg: TLdapTlsConfigInput) => {
   if (Object.keys(tlsOptions).length === 0) return undefined;
 
   // SNI is required for mTLS against multi-tenant directories (e.g. Google Workspace Secure LDAP)
-  // because @infisical/ldapjs does not propagate it from the URL. Scoped to mTLS only to avoid
+  // because @vaultix/ldapjs does not propagate it from the URL. Scoped to mTLS only to avoid
   // changing TLS handshake behavior for existing non-mTLS configs.
   if (cfg.clientCertificate || cfg.clientKeyCertificate) {
     try {

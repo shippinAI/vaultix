@@ -896,7 +896,7 @@ export const secretScanningV2ServiceFactory = ({
     if (content) {
       const tempFolder = await createTempFolder();
       try {
-        const configPath = join(tempFolder, "infisical-scan.toml");
+        const configPath = join(tempFolder, "vaultix-scan.toml");
         await writeTextToFile(configPath, content);
 
         // just checking if config parses

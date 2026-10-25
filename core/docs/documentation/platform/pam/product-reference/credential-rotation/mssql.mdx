@@ -1,7 +1,7 @@
 ---
 title: "Microsoft SQL Server Credential Rotation"
 sidebarTitle: "Microsoft SQL Server"
-description: "Rotate Microsoft SQL Server account passwords with Infisical PAM."
+description: "Rotate Microsoft SQL Server account passwords with vaultix PAM."
 ---
 
 This page covers what is specific to rotating a [Microsoft SQL Server account](/documentation/platform/pam/accounts/mssql). For how rotation is configured and scheduled, see the [overview](/documentation/platform/pam/product-reference/credential-rotation/overview).
@@ -28,9 +28,9 @@ The connection uses the account's existing connection details, including the SSL
 An example setup for a dedicated delegated rotation login:
 
 ```sql
--- the login Infisical connects as to perform rotations
-CREATE LOGIN infisical_rotator WITH PASSWORD = 'temporary_password';
-GRANT ALTER ANY LOGIN TO infisical_rotator;
+-- the login vaultix connects as to perform rotations
+CREATE LOGIN vaultix_rotator WITH PASSWORD = 'temporary_password';
+GRANT ALTER ANY LOGIN TO vaultix_rotator;
 
 -- the account whose password gets rotated
 CREATE LOGIN app_login WITH PASSWORD = 'temporary_password';

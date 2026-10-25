@@ -10,11 +10,11 @@ requiresDbMigration: true
 breakingChanges: []
 dbSchemaChanges:
   - title: Certificate authority HSM fields
-    description: Infisical adds a NOT NULL `keySource` column (default
-      'infisical') and three nullable HSM-related columns to
+    description: vaultix adds a NOT NULL `keySource` column (default
+      'vaultix') and three nullable HSM-related columns to
       certificate_authority_secret, makes encryptedPrivateKey nullable, and
       enforces a new key source check constraint.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -27,7 +27,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-06T14:58:03.360Z

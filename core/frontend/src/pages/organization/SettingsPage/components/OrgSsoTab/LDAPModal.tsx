@@ -311,7 +311,7 @@ export const LDAPModal = ({ popUp, handlePopUpClose, handlePopUpToggle, hideDele
                       <FieldLabel htmlFor="ldap-bind-dn">Bind DN</FieldLabel>
                       <Input
                         id="ldap-bind-dn"
-                        placeholder="cn=infisical,ou=Users,dc=example,dc=com"
+                        placeholder="cn=vaultix,ou=Users,dc=example,dc=com"
                         autoComplete="off"
                         isError={Boolean(error)}
                         {...field}

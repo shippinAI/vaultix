@@ -66,5 +66,5 @@ OrganizationInvitationTemplate.PreviewProps = {
   inviterUsername: "jane@shippin.ai",
   siteUrl: "https://vaultix.shippin.cloud",
   callback_url:
-    "https://vaultix.shippin.cloud/signupinvite?token=preview-token&to=john%40infisical.com&organization_id=1ae1c2c7-8068-461c-b15e-421737868a6a"
+    "https://vaultix.shippin.cloud/signupinvite?token=preview-token&to=john%40vaultix.com&organization_id=1ae1c2c7-8068-461c-b15e-421737868a6a"
 } as OrganizationInvitationTemplateProps;

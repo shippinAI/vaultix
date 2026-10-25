@@ -10,17 +10,14 @@ CLI installer removed, telemetry off. Compose pulls those names.
 `scripts/publish-github.sh` is the push. First operator still
 `/admin/signup` on the live engine.
 
-## 2026-08-29 — Infisical renamed and running as Vaultix
 
 The engine is `core/` pin v0.162.19, remotes off. Customer chrome is
-Vaultix (title, logos, support@shippin.ai, no infisical.com in
+Vaultix (title, logos, support@shippin.ai, no 
 `frontend/src`). License server empty / v2 off. Postgres database
-`vaultix_engine` holds the Infisical schema (700+ tables), not the
+`vaultix_engine` holds the tables that need to be vaultix schema (700+ tables), not the
 five overlay tables. Native run: API `http://127.0.0.1:8200`, UI
 `http://127.0.0.1:3000`. First operator: `/admin/signup`. Overlay
 on `:8201` is PIN/lessons/Clyffy/manager only.
-
-## 2026-08-29 — the engine is the renamed Infisical core
 
 The product is `core/` at pin v0.162.19, remotes off, UI title Vaultix,
 verification `_vaultix-verification`, license server off. Schema overlay

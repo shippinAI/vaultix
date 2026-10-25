@@ -3,7 +3,7 @@ Feature: Access Control
   Scenario Outline: Access resources across different account
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
     Then I memorize acme_account0.uri with jq "capture("/(?<id>[^/]+)$") | .id" as account0_id
     When I create certificate signing request as csr
     Then I add names to certificate signing request csr
@@ -35,7 +35,7 @@ Feature: Access Control
     And I put away current ACME client as client0
 
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email maidu@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account1
+    Then I register a new ACME account with email maidu@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account1
     Then I peak and memorize the next nonce as nonce
     When I send a raw ACME request to "<url>"
       """
@@ -63,7 +63,7 @@ Feature: Access Control
   Scenario Outline: Access resources across a different profiles
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
     Then I memorize acme_account0.uri with jq "capture("/(?<id>[^/]+)$") | .id" as account0_id
     When I create certificate signing request as csr
     Then I add names to certificate signing request csr
@@ -96,7 +96,7 @@ Feature: Access Control
 
     Given I have an ACME cert profile as "acme_profile1"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile1.app_id}/profiles/{acme_profile1.id}/directory"
-    Then I register a new ACME account with email maidu@infisical.com and EAB key id "{acme_profile1.eab_kid}" with secret "{acme_profile1.eab_secret}" as acme_account1
+    Then I register a new ACME account with email maidu@vaultix.com and EAB key id "{acme_profile1.eab_kid}" with secret "{acme_profile1.eab_secret}" as acme_account1
     Then I peak and memorize the next nonce as nonce
     Then I memorize <src_var> with jq "<jq>" as <dest_var>
     When I send a raw ACME request to "<url>"
@@ -126,7 +126,7 @@ Feature: Access Control
   Scenario Outline: Access resources across a different profile with the same key pair
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account0
     Then I memorize acme_account0.uri with jq "capture("/(?<id>[^/]+)$") | .id" as account0_id
     When I create certificate signing request as csr
     Then I add names to certificate signing request csr
@@ -159,7 +159,7 @@ Feature: Access Control
 
     Given I have an ACME cert profile as "acme_profile1"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile1.app_id}/profiles/{acme_profile1.id}/directory" with the key pair from client0
-    Then I register a new ACME account with email maidu@infisical.com and EAB key id "{acme_profile1.eab_kid}" with secret "{acme_profile1.eab_secret}" as acme_account1
+    Then I register a new ACME account with email maidu@vaultix.com and EAB key id "{acme_profile1.eab_kid}" with secret "{acme_profile1.eab_secret}" as acme_account1
     Then I peak and memorize the next nonce as nonce
     Then I memorize <src_var> with jq "<jq>" as <dest_var>
     When I send a raw ACME request to "<url>"
@@ -188,7 +188,7 @@ Feature: Access Control
   Scenario Outline: URL mismatch
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account
     Then I memorize acme_account.uri with jq "capture("/(?<id>[^/]+)$") | .id" as account_id
     When I create certificate signing request as csr
     Then I add names to certificate signing request csr
@@ -238,7 +238,7 @@ Feature: Access Control
   Scenario Outline: Send KID and JWK in the same time
     Given I have an ACME cert profile as "acme_profile"
     When I have an ACME client connecting to "{BASE_URL}/api/v1/cert-manager/acme/applications/{acme_profile.app_id}/profiles/{acme_profile.id}/directory"
-    Then I register a new ACME account with email fangpen@infisical.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account
+    Then I register a new ACME account with email fangpen@vaultix.com and EAB key id "{acme_profile.eab_kid}" with secret "{acme_profile.eab_secret}" as acme_account
     And I memorize acme_account.uri with jq "capture("/(?<id>[^/]+)$") | .id" as account_id
     When I create certificate signing request as csr
     Then I add names to certificate signing request csr

@@ -1,12 +1,12 @@
 ---
 title: "Google SAML"
-description: "Learn how to configure Google SAML for Infisical SSO."
+description: "Learn how to configure Google SAML for vaultix SSO."
 ---
 
 <Info>
-  Google SAML SSO feature is a paid feature. If you're using Infisical Cloud,
-  then it is available under the **Pro Tier**. If you're self-hosting Infisical,
-  then you should contact sales@infisical.com to purchase an enterprise license
+  Google SAML SSO feature is a paid feature. If you're using vaultix Cloud,
+  then it is available under the **Pro Tier**. If you're self-hosting vaultix,
+  then you should contact sales@vaultix.com to purchase an enterprise license
   to use it.
 </Info>
 
@@ -16,8 +16,8 @@ description: "Learn how to configure Google SAML for Infisical SSO."
 </Note>
 
 <Steps>
-   <Step title="Prepare the SAML SSO configuration in Infisical">
-        In Infisical, head to the **Single Sign-On (SSO)** page and select the **General** tab. Click **Connect** for **SAML** under the Connect to an Identity Provider section. Select **Google**, then click **Connect** again.
+   <Step title="Prepare the SAML SSO configuration in vaultix">
+        In vaultix, head to the **Single Sign-On (SSO)** page and select the **General** tab. Click **Connect** for **SAML** under the Connect to an Identity Provider section. Select **Google**, then click **Connect** again.
 
         ![SSO connect section](../../../images/sso/connect-saml.png)
 
@@ -32,7 +32,7 @@ description: "Learn how to configure Google SAML for Infisical SSO."
 
         ![Google SAML app creation](../../../images/sso/google-saml/create-custom-saml-app.png)
 
-        2.2. In the **App details** tab, give the application a unique name like Infisical.
+        2.2. In the **App details** tab, give the application a unique name like vaultix.
 
         ![Google SAML app naming](../../../images/sso/google-saml/name-custom-saml-app.png)
 
@@ -40,9 +40,9 @@ description: "Learn how to configure Google SAML for Infisical SSO."
 
         ![Google SAML custom app details](../../../images/sso/google-saml/custom-saml-app-config.png)
 
-        2.4. Back in Infisical, set **SSO URL** and **Certificate** to the corresponding items from step 2.3.
+        2.4. Back in vaultix, set **SSO URL** and **Certificate** to the corresponding items from step 2.3.
 
-        ![Google SAML Infisical config](../../../images/sso/google-saml/infisical-config.png)
+        ![Google SAML vaultix config](../../../images/sso/google-saml/vaultix-config.png)
 
         2.5. Back in the Google Admin console, in the **Service provider details** tab, set the **ACS URL** and **Entity ID** to the corresponding items from step 1.
 
@@ -59,7 +59,7 @@ description: "Learn how to configure Google SAML for Infisical SSO."
         ![Google SAML attribute mapping](../../../images/sso/google-saml/attribute-mapping.png)
 
         <Note>
-        If you want to sync Google groups to Infisical groups, you can also configure:
+        If you want to sync Google groups to vaultix groups, you can also configure:
         - **groups** -> **groups**
 
         This requires setting up group claims in Google Workspace. See the [Group Membership Mapping](#saml-group-membership-mapping) section below for details.
@@ -79,16 +79,16 @@ description: "Learn how to configure Google SAML for Infisical SSO."
 
         ![Google SAML user access assignment](../../../images/sso/google-saml/user-access-assign.png)
     </Step>
-    <Step title="Enable SAML SSO in Infisical">
-        Enabling SAML SSO allows members in your organization to log into Infisical via Google Workspace.
+    <Step title="Enable SAML SSO in vaultix">
+        Enabling SAML SSO allows members in your organization to log into vaultix via Google Workspace.
 
         ![Google SAML enable](../../../images/sso/google-saml/enable-saml.png)
     </Step>
-    <Step title="Enforce SAML SSO in Infisical">
-        Enforcing SAML SSO ensures that members in your organization can only access Infisical
+    <Step title="Enforce SAML SSO in vaultix">
+        Enforcing SAML SSO ensures that members in your organization can only access vaultix
         by logging into the organization via Google.
 
-        To enforce SAML SSO, you're required to test out the SAML connection by successfully authenticating at least one Google user with Infisical;
+        To enforce SAML SSO, you're required to test out the SAML connection by successfully authenticating at least one Google user with vaultix;
         Once you've completed this requirement, you can toggle the **Enforce SAML SSO** button to enforce SAML SSO.
 
         <Warning>
@@ -96,7 +96,7 @@ description: "Learn how to configure Google SAML for Infisical SSO."
             prior to enforcing SAML SSO to prevent any unintended issues.
         </Warning>
         <Info>
-            In case of a lockout, an organization admin can use the [Admin Login Portal](https://infisical.com/docs/documentation/platform/sso/overview#admin-login-portal) in the `/login/admin` path e.g. https://app.infisical.com/login/admin.
+            In case of a lockout, an organization admin can use the [Admin Login Portal](https://vaultix.com/docs/documentation/platform/sso/overview#admin-login-portal) in the `/login/admin` path e.g. https://app.vaultix.com/login/admin.
         </Info>
     </Step>
 
@@ -104,38 +104,38 @@ description: "Learn how to configure Google SAML for Infisical SSO."
 
 ## SAML Group Membership Mapping
 
-Automatically sync Google Workspace group memberships to Infisical.
+Automatically sync Google Workspace group memberships to vaultix.
 
 <Steps>
     <Step title="Add groups attribute mapping in Google">
         In your Google Admin console SAML app, go to **Attribute mapping** and add:
 
-        - **Google groups**: Include all groups you want to include in the SAML claim. Only these groups will be synced to Infisical.
+        - **Google groups**: Include all groups you want to include in the SAML claim. Only these groups will be synced to vaultix.
         - **App attribute**: `groups`
 
         ![Google SAML groups attribute mapping](../../../images/sso/google-saml/groups-attribute-mapping.png)
 
     </Step>
-    <Step title="Enable SAML Group Membership Mapping in Infisical">
-        Back in Infisical, under Organization Settings, enable **SAML Group Membership Mapping** in the **Single Sign-On (SSO)** tab.
+    <Step title="Enable SAML Group Membership Mapping in vaultix">
+        Back in vaultix, under Organization Settings, enable **SAML Group Membership Mapping** in the **Single Sign-On (SSO)** tab.
 
         ![Google SAML group membership mapping](../../../images/sso/google-saml/group-membership-mapping.png)
     </Step>
     <Step title="Group synchronization on login">
-        Once configured, Google groups will now be automatically synchronized when users log in through SAML. Users will be added to or removed from Infisical groups based on their current Google group memberships.
+        Once configured, Google groups will now be automatically synchronized when users log in through SAML. Users will be added to or removed from vaultix groups based on their current Google group memberships.
     </Step>
 </Steps>
 
 <Warning>
-Group membership changes in the SAML provider only sync with Infisical when a user logs in via SAML. For example, if you remove a user from a group in the SAML provider, this change will not be reflected in Infisical until their next SAML login. To ensure this behavior, Infisical recommends enabling Enforce SAML SSO.
+Group membership changes in the SAML provider only sync with vaultix when a user logs in via SAML. For example, if you remove a user from a group in the SAML provider, this change will not be reflected in vaultix until their next SAML login. To ensure this behavior, vaultix recommends enabling Enforce SAML SSO.
 </Warning>
 
 <Tip>
-    If you are only using one organization on your Infisical instance, you can configure a default organization in the [Server Admin Console](../admin-panel/server-admin#default-organization) to expedite SAML login.
+    If you are only using one organization on your vaultix instance, you can configure a default organization in the [Server Admin Console](../admin-panel/server-admin#default-organization) to expedite SAML login.
 </Tip>
 
 <Note>
-    If you're configuring SAML SSO on a self-hosted instance of Infisical, make
+    If you're configuring SAML SSO on a self-hosted instance of vaultix, make
     sure to set the `AUTH_SECRET` and `SITE_URL` environment variable for it to
     work:
     <div class="height:1px;"/>
@@ -143,7 +143,7 @@ Group membership changes in the SAML provider only sync with Infisical when a us
     can be a random 32-byte base64 string generated with `openssl rand -base64
     32`.
     <div class="height:1px;"/>
-    - `SITE_URL`: The absolute URL of your self-hosted instance of Infisical including the protocol (e.g. https://app.infisical.com)
+    - `SITE_URL`: The absolute URL of your self-hosted instance of vaultix including the protocol (e.g. https://app.vaultix.com)
 </Note>
 
 References:

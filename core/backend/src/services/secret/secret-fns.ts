@@ -48,7 +48,7 @@ import {
   TUpdateManySecretsRawFnFactory
 } from "./secret-types";
 
-export const VAULTIX_SECRET_VALUE_HIDDEN_MASK = "<hidden-by-infisical>";
+export const VAULTIX_SECRET_VALUE_HIDDEN_MASK = "<hidden-by-vaultix>";
 
 export const generateSecretBlindIndexBySalt = async (secretName: string, secretBlindIndexDoc: TSecretBlindIndexes) => {
   const appCfg = getConfig();

@@ -1,33 +1,33 @@
 ---
-title: "Infisical Sync"
-description: "Learn how to configure an Infisical Sync to replicate secrets between Infisical instances."
+title: "vaultix Sync"
+description: "Learn how to configure an vaultix Sync to replicate secrets between vaultix instances."
 ---
 
 **Prerequisites:**
 
-    - Set up and add secrets to [Infisical Cloud](https://app.infisical.com) or a self hosted instance
-    - Create an [Infisical Connection](/integrations/app-connections/external-infisical)
+    - Set up and add secrets to [vaultix Cloud](https://app.vaultix.com) or a self hosted instance
+    - Create an [vaultix Connection](/integrations/app-connections/external-vaultix)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
         ![Secret Syncs Tab](/images/secret-syncs/general/secret-sync-tab.png)
 
-        2. Select the **Infisical** option.
-        ![Select Infisical](/images/secret-syncs/external-infisical/select-external-infisical-option.png)
+        2. Select the **vaultix** option.
+        ![Select vaultix](/images/secret-syncs/external-vaultix/select-external-vaultix-option.png)
 
         3. Configure the **Source** from where secrets should be retrieved, then click **Next**.
-        ![Configure Source](/images/secret-syncs/external-infisical/external-infisical-source.png)
+        ![Configure Source](/images/secret-syncs/external-vaultix/external-vaultix-source.png)
 
             - **Environment**: The project environment to retrieve secrets from.
             - **Secret Path**: The folder path to retrieve secrets from.
 
 
-        4. Configure the **Destination** on the remote Infisical instance, then click **Next**.
-        ![Configure Destination](/images/secret-syncs/external-infisical/external-infisical-destination.png)
+        4. Configure the **Destination** on the remote vaultix instance, then click **Next**.
+        ![Configure Destination](/images/secret-syncs/external-vaultix/external-vaultix-destination.png)
 
-            - **Infisical Connection**: The Infisical Connection to authenticate with.
-            - **Project**: The Secret Manager project on the remote Infisical instance to sync secrets to.
+            - **vaultix Connection**: The vaultix Connection to authenticate with.
+            - **Project**: The Secret Manager project on the remote vaultix instance to sync secrets to.
             - **Environment**: The environment inside the selected remote project.
             - **Secret Path**: The folder path inside the selected environment.
         <Note>
@@ -35,39 +35,39 @@ description: "Learn how to configure an Infisical Sync to replicate secrets betw
         </Note>
 
         5. Configure the **Sync Options** to specify how secrets should be synced, then click **Next**.
-        ![Configure Options](/images/secret-syncs/external-infisical/external-infisical-options.png)
+        ![Configure Options](/images/secret-syncs/external-vaultix/external-vaultix-options.png)
 
-            - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-                - **Overwrite Destination Secrets**: Removes any secrets at the destination not present in Infisical.
-                - **Import Secrets (Prioritize Infisical)**: Imports secrets from the destination; conflicts are resolved in favor of the source Infisical instance.
+            - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+                - **Overwrite Destination Secrets**: Removes any secrets at the destination not present in vaultix.
+                - **Import Secrets (Prioritize vaultix)**: Imports secrets from the destination; conflicts are resolved in favor of the source vaultix instance.
                 - **Import Secrets (Prioritize Destination)**: Imports secrets from the destination; conflicts are resolved in favor of the remote instance.
             - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-            - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+            - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
 
-        6. Configure the **Details** of your Infisical Sync, then click **Next**.
-        ![Configure Details](/images/secret-syncs/external-infisical/external-infisical-details.png)
+        6. Configure the **Details** of your vaultix Sync, then click **Next**.
+        ![Configure Details](/images/secret-syncs/external-vaultix/external-vaultix-details.png)
 
             - **Name**: The name of your sync. Must be slug-friendly.
             - **Description**: An optional description for your sync.
 
-        7. Review your Infisical Sync configuration, then click **Create Sync**.
-        ![Confirm Configuration](/images/secret-syncs/external-infisical/external-infisical-review.png)
+        7. Review your vaultix Sync configuration, then click **Create Sync**.
+        ![Confirm Configuration](/images/secret-syncs/external-vaultix/external-vaultix-review.png)
 
-        8. If enabled, your Infisical Sync will begin syncing your secrets to the destination endpoint.
-        ![Sync Created](/images/secret-syncs/external-infisical/external-infisical-created.png)
+        8. If enabled, your vaultix Sync will begin syncing your secrets to the destination endpoint.
+        ![Sync Created](/images/secret-syncs/external-vaultix/external-vaultix-created.png)
 
     </Tab>
     <Tab title="API">
-        To create an **Infisical Sync**, make an API request to the [Create Infisical Sync](/api-reference/endpoints/secret-syncs/external-infisical/create) API endpoint.
+        To create an **vaultix Sync**, make an API request to the [Create vaultix Sync](/api-reference/endpoints/secret-syncs/external-vaultix/create) API endpoint.
 
         ### Sample request
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/secret-syncs/external-infisical \
+        --url https://app.vaultix.com/api/v1/secret-syncs/external-vaultix \
         --header 'Content-Type: application/json' \
         --data '{
-            "name": "my-infisical-sync",
+            "name": "my-vaultix-sync",
             "projectId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
             "description": "an example sync",
             "connectionId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
@@ -91,7 +91,7 @@ description: "Learn how to configure an Infisical Sync to replicate secrets betw
         {
             "secretSync": {
                 "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
-                "name": "my-infisical-sync",
+                "name": "my-vaultix-sync",
                 "description": "an example sync",
                 "isEnabled": true,
                 "version": 1,
@@ -116,8 +116,8 @@ description: "Learn how to configure an Infisical Sync to replicate secrets betw
                 },
                 "projectId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                 "connection": {
-                    "app": "external-infisical",
-                    "name": "my-infisical-connection",
+                    "app": "external-vaultix",
+                    "name": "my-vaultix-connection",
                     "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a"
                 },
                 "environment": {
@@ -129,7 +129,7 @@ description: "Learn how to configure an Infisical Sync to replicate secrets betw
                     "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                     "path": "/my-secrets"
                 },
-                "destination": "external-infisical",
+                "destination": "external-vaultix",
                 "destinationConfig": {
                     "projectId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                     "environment": "prod",

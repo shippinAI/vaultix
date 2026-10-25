@@ -89,18 +89,18 @@ export const createGatewayConnection = async (
   const appCfg = getConfig();
 
   const protocolToAlpn: Record<string, string[]> = {
-    [GatewayProxyProtocol.Http]: ["infisical-http-proxy"],
-    [GatewayProxyProtocol.Tcp]: ["infisical-tcp-proxy"],
-    [GatewayProxyProtocol.Ping]: ["infisical-ping"],
-    [GatewayProxyProtocol.Health]: ["infisical-health", "infisical-ping"],
-    [GatewayProxyProtocol.Pam]: ["infisical-pam-proxy"],
-    [GatewayProxyProtocol.PamRdpBrowser]: ["infisical-pam-rdp-browser"],
-    [GatewayProxyProtocol.PamSessionCancellation]: ["infisical-pam-session-cancellation"],
-    [GatewayProxyProtocol.Pkcs11]: ["infisical-pkcs11"],
-    [GatewayProxyProtocol.Adcs]: ["infisical-adcs"],
-    [GatewayProxyProtocol.Discovery]: ["infisical-discovery"],
-    [GatewayProxyProtocol.ConnectionTest]: ["infisical-connection-test"],
-    [GatewayProxyProtocol.WinRm]: ["infisical-winrm"]
+    [GatewayProxyProtocol.Http]: ["vaultix-http-proxy"],
+    [GatewayProxyProtocol.Tcp]: ["vaultix-tcp-proxy"],
+    [GatewayProxyProtocol.Ping]: ["vaultix-ping"],
+    [GatewayProxyProtocol.Health]: ["vaultix-health", "vaultix-ping"],
+    [GatewayProxyProtocol.Pam]: ["vaultix-pam-proxy"],
+    [GatewayProxyProtocol.PamRdpBrowser]: ["vaultix-pam-rdp-browser"],
+    [GatewayProxyProtocol.PamSessionCancellation]: ["vaultix-pam-session-cancellation"],
+    [GatewayProxyProtocol.Pkcs11]: ["vaultix-pkcs11"],
+    [GatewayProxyProtocol.Adcs]: ["vaultix-adcs"],
+    [GatewayProxyProtocol.Discovery]: ["vaultix-discovery"],
+    [GatewayProxyProtocol.ConnectionTest]: ["vaultix-connection-test"],
+    [GatewayProxyProtocol.WinRm]: ["vaultix-winrm"]
   };
 
   const tlsOptions: tls.ConnectionOptions = {

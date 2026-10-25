@@ -74,7 +74,7 @@ export const AwsIamProvider = (): TDynamicProviderFns => {
 
       const command = new AssumeRoleCommand({
         RoleArn: providerInputs.roleArn,
-        RoleSessionName: `infisical-dynamic-secret-${crypto.nativeCrypto.randomUUID()}`,
+        RoleSessionName: `vaultix-dynamic-secret-${crypto.nativeCrypto.randomUUID()}`,
         DurationSeconds: 900, // 15 mins
         ExternalId: projectId
       });
@@ -164,7 +164,7 @@ export const AwsIamProvider = (): TDynamicProviderFns => {
           await stsClient.send(
             new AssumeRoleCommand({
               RoleArn: providerInputs.roleArn,
-              RoleSessionName: `infisical-validation-${crypto.nativeCrypto.randomUUID()}`,
+              RoleSessionName: `vaultix-validation-${crypto.nativeCrypto.randomUUID()}`,
               DurationSeconds: AWS_STS_MIN_DURATION,
               ExternalId: projectId,
               ...getAssumeRoleSessionPolicyParams(providerInputs)
@@ -263,7 +263,7 @@ export const AwsIamProvider = (): TDynamicProviderFns => {
           const assumeRoleRes = await stsClient.send(
             new AssumeRoleCommand({
               RoleArn: providerInputs.roleArn,
-              RoleSessionName: `infisical-temp-cred-${crypto.nativeCrypto.randomUUID()}`,
+              RoleSessionName: `vaultix-temp-cred-${crypto.nativeCrypto.randomUUID()}`,
               DurationSeconds: durationSeconds,
               ExternalId: metadata.projectId,
               ...getAssumeRoleSessionPolicyParams(providerInputs)
@@ -397,7 +397,7 @@ export const AwsIamProvider = (): TDynamicProviderFns => {
         identity
       });
       const { policyArns, userGroups, policyDocument, awsPath, permissionBoundaryPolicyArn } = providerInputs;
-      const awsTags = [{ Key: "createdBy", Value: "infisical-dynamic-secret" }];
+      const awsTags = [{ Key: "createdBy", Value: "vaultix-dynamic-secret" }];
 
       if (providerInputs.tags && Array.isArray(providerInputs.tags)) {
         const additionalTags = providerInputs.tags.map((tag) => ({
@@ -444,7 +444,7 @@ export const AwsIamProvider = (): TDynamicProviderFns => {
           await client.send(
             new PutUserPolicyCommand({
               UserName: createUserRes.User.UserName,
-              PolicyName: `infisical-dynamic-policy-${alphaNumericNanoId(4)}`,
+              PolicyName: `vaultix-dynamic-policy-${alphaNumericNanoId(4)}`,
               PolicyDocument: policyDocument
             })
           );

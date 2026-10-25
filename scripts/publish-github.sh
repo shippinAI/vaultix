@@ -31,8 +31,8 @@ rsync -a --delete \
   --exclude 'core/.git/' \
   --exclude 'core/.github/' \
   --exclude 'core/docs/images/' \
-  --exclude 'core/Dockerfile.standalone-infisical' \
-  --exclude 'core/Dockerfile.fips.standalone-infisical' \
+  --exclude 'core/Dockerfile.standalone-vaultix' \
+  --exclude 'core/Dockerfile.fips.standalone-vaultix' \
   --exclude 'leftover/schema-dump/' \
   --exclude 'leftover/api-inventory/__pycache__/' \
   --exclude 'compose/vaultix.env' \

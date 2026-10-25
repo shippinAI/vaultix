@@ -44,7 +44,7 @@ description: "One-time organization setup for AWS honey tokens."
 
 <Note>
   The IAM permissions are scoped to users prefixed with `inf_ht_`, which is the
-  naming convention Infisical uses for honey token IAM users.
+  naming convention vaultix uses for honey token IAM users.
 </Note>
 
 ## Connect
@@ -68,7 +68,7 @@ description: "One-time organization setup for AWS honey tokens."
 
     Optionally expand **Advanced Options**:
 
-    - **CloudFormation Stack Name** (default: `infisical-honey-tokens`)
+    - **CloudFormation Stack Name** (default: `vaultix-honey-tokens`)
     - **AWS Region** (default: `us-east-1`)
 
     Click **Save**.
@@ -83,20 +83,20 @@ description: "One-time organization setup for AWS honey tokens."
     ![Deploy CloudFormation Stack Command](/images/platform/honey-tokens/cloudformation-deploy.png)
 
     <Note>
-      If you already deployed the stack and need to apply the latest Infisical CloudFormation template, run:
+      If you already deployed the stack and need to apply the latest vaultix CloudFormation template, run:
 
       ```bash
       aws cloudformation update-stack \
         --region '<region>' \
         --stack-name '<stack-name>' \
-        --template-url 'https://infisical-static-assets.s3.us-east-1.amazonaws.com/honey-tokens/honey-tokens-v1.yaml' \
+        --template-url 'https://vaultix-static-assets.s3.us-east-1.amazonaws.com/honey-tokens/honey-tokens-v1.yaml' \
         --capabilities CAPABILITY_NAMED_IAM \
         --parameters \
           ParameterKey=WebhookUrl,UsePreviousValue=true \
           ParameterKey=WebhookSigningKey,UsePreviousValue=true
       ```
 
-      Replace `--region` and `--stack-name` with the values saved in Infisical if you customized them. `UsePreviousValue=true` keeps your existing webhook settings so only the template is updated.
+      Replace `--region` and `--stack-name` with the values saved in vaultix if you customized them. `UsePreviousValue=true` keeps your existing webhook settings so only the template is updated.
     </Note>
   </Step>
   <Step title="Verify deployment">
@@ -127,7 +127,7 @@ You can also verify directly in AWS CLI:
 
 ```bash
 aws cloudformation describe-stacks \
-  --stack-name infisical-honey-tokens \
+  --stack-name vaultix-honey-tokens \
   --query "Stacks[0].StackStatus"
 ```
 

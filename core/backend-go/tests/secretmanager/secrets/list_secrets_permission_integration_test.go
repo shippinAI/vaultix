@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/tests/infra"
 )
 
 // =============================================================================
@@ -645,7 +645,7 @@ func TestViewSecretValue_False_HidesValues(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, result.Secrets, 1)
 	assert.True(t, result.Secrets[0].SecretValueHidden, "value should be hidden when viewSecretValue=false")
-	assert.Equal(t, "<hidden-by-infisical>", result.Secrets[0].SecretValue, "value should be masked when viewSecretValue=false")
+	assert.Equal(t, "<hidden-by-vaultix>", result.Secrets[0].SecretValue, "value should be masked when viewSecretValue=false")
 }
 
 func TestViewSecretValue_True_ShowsValues(t *testing.T) {

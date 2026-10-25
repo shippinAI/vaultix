@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/openai-service-account"
     Check out the configuration docs for [OpenAI Service Account Rotations](/documentation/platform/secret-rotation/openai-service-account) to learn how to obtain the required parameters.
 </Note>
 
-Creates an OpenAI Service Account secret rotation. Infisical will create and rotate project service accounts via your [OpenAI connection](/integrations/app-connections/openai) and write their API keys to the specified secret path.
+Creates an OpenAI Service Account secret rotation. vaultix will create and rotate project service accounts via your [OpenAI connection](/integrations/app-connections/openai) and write their API keys to the specified secret path.
 
 ## Request body
 
@@ -30,7 +30,7 @@ Creates an OpenAI Service Account secret rotation. Infisical will create and rot
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/openai-service-account \
+  --url https://us.vaultix.com/api/v2/secret-rotations/openai-service-account \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{

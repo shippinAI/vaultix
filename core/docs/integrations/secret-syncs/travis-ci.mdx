@@ -1,21 +1,21 @@
 ---
 title: "Travis CI Sync"
-description: "Learn how to configure a Travis CI Sync for Infisical."
+description: "Learn how to configure a Travis CI Sync for vaultix."
 ---
 
-Infisical's Travis CI Sync keeps your Travis CI repository environment variables in sync with an Infisical project. Account-level environment variables (`account_env_vars`) are not managed by this sync, only repository-scoped environment variables are.
+vaultix's Travis CI Sync keeps your Travis CI repository environment variables in sync with an vaultix project. Account-level environment variables (`account_env_vars`) are not managed by this sync, only repository-scoped environment variables are.
 
 <Note>
-    `account_env_vars` are not exposed by the Travis CI API for listing or creation, so Infisical cannot sync them. 
+    `account_env_vars` are not exposed by the Travis CI API for listing or creation, so vaultix cannot sync them. 
 </Note>
 
 **Prerequisites:**
 
-- Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+- Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
 - Create a [Travis CI Connection](/integrations/app-connections/travis-ci)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add Sync">
                 Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -53,17 +53,17 @@ Infisical's Travis CI Sync keeps your Travis CI repository environment variables
 
                 ![Configure Options](/images/secret-syncs/travis-ci/travis-ci-options.png)
 
-                - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-                    - **Overwrite Destination Secrets**: Removes any environment variables at the destination not present in Infisical.
+                - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+                    - **Overwrite Destination Secrets**: Removes any environment variables at the destination not present in vaultix.
                 <Note>
                     Travis CI does not support importing secrets.
                 </Note>
                 - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
                 <Note>
-                    We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                    We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
                 </Note>
                 - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced when changes occur at the source location. Disable to enforce manual syncing only.
-                - **Disable Secret Deletion**: If enabled, Infisical will not remove environment variables from Travis CI during a sync. Enable this option if you intend to manage some environment variables manually outside of Infisical.
+                - **Disable Secret Deletion**: If enabled, vaultix will not remove environment variables from Travis CI during a sync. Enable this option if you intend to manage some environment variables manually outside of vaultix.
             </Step>
             <Step title="Configure details">
                 Configure the **Details** of your Travis CI Sync, then click **Next**.
@@ -79,7 +79,7 @@ Infisical's Travis CI Sync keeps your Travis CI repository environment variables
                 ![Confirm Configuration](/images/secret-syncs/travis-ci/travis-ci-review.png)
             </Step>
             <Step title="Sync created">
-                If enabled, your Travis CI Sync will begin pushing your Infisical secrets to the configured repository (and branch, if scoped).
+                If enabled, your Travis CI Sync will begin pushing your vaultix secrets to the configured repository (and branch, if scoped).
 
                 ![Sync Created](/images/secret-syncs/travis-ci/travis-ci-created.png)
             </Step>
@@ -94,12 +94,12 @@ Infisical's Travis CI Sync keeps your Travis CI repository environment variables
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/secret-syncs/travis-ci \
+                --url https://app.vaultix.com/api/v1/secret-syncs/travis-ci \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-travis-ci-sync",
                     "projectId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
-                    "description": "Push Infisical secrets to the Travis CI repository",
+                    "description": "Push vaultix secrets to the Travis CI repository",
                     "connectionId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                     "environment": "dev",
                     "secretPath": "/",
@@ -123,7 +123,7 @@ Infisical's Travis CI Sync keeps your Travis CI repository environment variables
             "secretSync": {
                 "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                 "name": "my-travis-ci-sync",
-                "description": "Push Infisical secrets to the Travis CI repository",
+                "description": "Push vaultix secrets to the Travis CI repository",
                 "isAutoSyncEnabled": true,
                 "version": 1,
                 "folderId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",

@@ -37,7 +37,7 @@ const qoveryScopes = [
 ];
 
 enum TabSections {
-  VaultixSettings = "infisicalSettings",
+  VaultixSettings = "vaultixSettings",
   QoverySettings = "qoverySettings"
 }
 
@@ -412,7 +412,7 @@ export const QoveryConfigurePage = () => {
           src="/images/loading/loading.gif"
           height={70}
           width={120}
-          alt="infisical loading indicator"
+          alt="vaultix loading indicator"
         />
       ) : (
         <div className="flex h-max max-w-md flex-col rounded-md border border-mineshaft-600 bg-mineshaft-800 p-6 text-center text-mineshaft-200">

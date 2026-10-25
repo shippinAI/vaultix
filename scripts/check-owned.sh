@@ -1,6 +1,6 @@
 #!/bin/bash
 # Fail if this tree is still a leftover clone, a toy store, or customer chrome
-# still says Infisical.
+# still says vaultix.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 fail=0
@@ -9,9 +9,9 @@ bad() { printf 'FAIL  %s\n' "$*"; fail=1; }
 ok()  { printf 'ok    %s\n' "$*"; }
 
 if [[ -d "$ROOT/core/frontend" && -d "$ROOT/core/backend" ]]; then
-  ok "core/ is the Infisical MIT pin"
+  ok "core/ is the vaultix MIT pin"
 else
-  bad "core/ frontend+backend missing — Vaultix is Infisical renamed, not panel/internal/vault"
+  bad "core/ frontend+backend missing — Vaultix is vaultix renamed, not panel/internal/vault"
 fi
 
 if [[ -d "$ROOT/core/.git" ]]; then
@@ -41,14 +41,14 @@ fi
 
 if grep -q 'Dockerfile.standalone-vaultix' "$ROOT/compose/vaultix.yml" \
    && grep -q 'ghcr.io/shippinai/vaultix' "$ROOT/compose/vaultix.yml" \
-   && ! grep -q 'infisical/infisical:' "$ROOT/compose/vaultix.yml"; then
+   && ! grep -q 'vaultix/vaultix:' "$ROOT/compose/vaultix.yml"; then
   ok "compose uses ghcr.io/shippinai/vaultix (build Dockerfile.standalone-vaultix)"
 else
   bad "compose missing GHCR image or still points at leftover image"
 fi
 
 if grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/core/Dockerfile.standalone-vaultix" \
-   && ! grep -q 'artifacts-cli.infisical.com' "$ROOT/core/Dockerfile.standalone-vaultix" \
+   && ! grep -q 'artifacts-cli.vaultix.com' "$ROOT/core/Dockerfile.standalone-vaultix" \
    && grep -q 'TELEMETRY_ENABLED false' "$ROOT/core/Dockerfile.standalone-vaultix"; then
   ok "engine image is labelled Vaultix, no leftover CLI, telemetry off"
 else
@@ -81,14 +81,14 @@ else
 fi
 
 # Customer chrome: no leftover vendor name in the live UI tree (not stories, not wasm).
-hits="$(rg -n --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!**/external-infisical*' \
-  -e '\bInfisical\b' -e 'infisical\.com' -e 'support@infisical' \
+hits="$(rg -n --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!**/external-vaultix*' \
+  -e '\bvaultix\b' -e 'vaultix\.com' -e 'support@vaultix' \
   "$ROOT/core/frontend/src" "$ROOT/core/frontend/index.html" 2>/dev/null || true)"
 if [[ -n "$hits" ]]; then
-  bad "customer chrome still says Infisical:"
+  bad "customer chrome still says vaultix:"
   printf '%s\n' "$hits" | sed 's/^/      /' | head -40
 else
-  ok "frontend src has no Infisical customer chrome"
+  ok "frontend src has no vaultix customer chrome"
 fi
 
 if [[ -f "$ROOT/docs/0015-frozen-no-connection.md" ]]; then

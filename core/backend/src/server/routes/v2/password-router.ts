@@ -64,7 +64,7 @@ export const registerPasswordRouter = async (server: FastifyZodProvider) => {
         secure: appCfg.HTTPS_ENABLED
       });
 
-      void res.cookie("infisical-project-assume-privileges", "", {
+      void res.cookie("vaultix-project-assume-privileges", "", {
         httpOnly: true,
         path: "/api",
         sameSite: "strict",

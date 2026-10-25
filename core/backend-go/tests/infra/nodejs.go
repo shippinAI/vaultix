@@ -16,7 +16,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-	"github.com/infisical/api/internal/database/pg"
+	"github.com/vaultix/api/internal/database/pg"
 )
 
 // ProjectSeed contains IDs for a project created via the Node.js API.
@@ -85,7 +85,7 @@ func startNodeJS(ctx context.Context, networkName string, files []testcontainers
 	}
 
 	req := testcontainers.ContainerRequest{
-		Image:        "infisical/infisical:latest",
+		Image:        "vaultix/vaultix:latest",
 		ExposedPorts: []string{"8080/tcp"},
 		Networks:     []string{networkName},
 		NetworkAliases: map[string][]string{

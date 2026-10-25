@@ -661,7 +661,7 @@ export const signerIssuanceServiceFactory = ({
       // The alternative_order_id is deterministic per job, so placement is idempotent: if a prior
       // tick placed the order but crashed before persisting it, recover it instead of placing a
       // second (billable) order.
-      const placementRef = `infisical-signer-job-${job.id}`;
+      const placementRef = `vaultix-signer-job-${job.id}`;
       const recovered = await digicertFns.findCodeSigningOrderByReference(job.caId, placementRef);
       if (recovered) {
         logger.info(

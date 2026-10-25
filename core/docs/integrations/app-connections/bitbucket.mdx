@@ -1,12 +1,12 @@
 ---
 title: "Bitbucket Connection"
-description: "Learn how to configure a Bitbucket Connection for Infisical."
+description: "Learn how to configure a Bitbucket Connection for vaultix."
 ---
 
-Infisical supports the use of [API Tokens](https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/) to connect with Bitbucket.
+vaultix supports the use of [API Tokens](https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/) to connect with Bitbucket.
 
 <Tip>
-    Infisical recommends creating a dedicated Bitbucket account with access restricted to only the resources your use case requires.
+    vaultix recommends creating a dedicated Bitbucket account with access restricted to only the resources your use case requires.
 </Tip>
 
 ## Create Bitbucket Access Token
@@ -74,13 +74,13 @@ Infisical supports the use of [API Tokens](https://support.atlassian.com/bitbuck
     </Step>
 </Steps>
 
-## Create Bitbucket Connection in Infisical
+## Create Bitbucket Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -97,7 +97,7 @@ Infisical supports the use of [API Tokens](https://support.atlassian.com/bitbuck
                 ![Bitbucket Connection Modal](/images/app-connections/bitbucket/step-6.png)
             </Step>
             <Step title="Connection Created">
-                After clicking Create, your **Bitbucket Connection** is established and ready to use with your Infisical project.
+                After clicking Create, your **Bitbucket Connection** is established and ready to use with your vaultix project.
 
                 ![Bitbucket Connection Created](/images/app-connections/bitbucket/step-7.png)
             </Step>
@@ -110,7 +110,7 @@ Infisical supports the use of [API Tokens](https://support.atlassian.com/bitbuck
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/bitbucket \
+                --url https://app.vaultix.com/api/v1/app-connections/bitbucket \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-bitbucket-connection",

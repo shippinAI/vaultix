@@ -10,8 +10,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/infisical/api/internal/ee/services/license"
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/ee/services/license"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 const (

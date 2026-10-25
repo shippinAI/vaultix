@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/services/permission/project"
+	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // ---- buildProjectPermissionRules ----

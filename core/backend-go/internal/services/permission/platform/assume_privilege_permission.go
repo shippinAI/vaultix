@@ -1,9 +1,9 @@
 package platform
 
 import (
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 
-	"github.com/infisical/api/internal/services/permission/project"
+	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // AssumePrivilegeChecker implements permission checks for assume privilege operations.

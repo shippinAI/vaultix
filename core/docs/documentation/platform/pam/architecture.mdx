@@ -8,7 +8,7 @@ PAM uses a proxy-based architecture. Nothing connects directly to your databases
 
 ## Components
 
-**Infisical Platform** — the control plane. Stores account credentials, manages permissions, and hosts the web interface.
+**vaultix Platform** — the control plane. Stores account credentials, manages permissions, and hosts the web interface.
 
 **Gateway** — a lightweight service you deploy in your private network. It proxies connections to your databases and servers, injects credentials, and records sessions.
 
@@ -21,11 +21,11 @@ PAM uses a proxy-based architecture. Nothing connects directly to your databases
 When an actor connects to an [account](/documentation/platform/pam/accounts/overview):
 
 1. **Access is requested** — a user clicks Launch in the browser, or the CLI command runs
-2. **Infisical checks permissions** — verifies the actor has a [membership](/documentation/platform/pam/concepts/access-control) with the right role
+2. **vaultix checks permissions** — verifies the actor has a [membership](/documentation/platform/pam/concepts/access-control) with the right role
 3. **[Template](/documentation/platform/pam/templates/overview) rules are enforced** — MFA, reason requirement, session duration
 4. **Approval is checked** — a gated account also needs an approved [access request](/documentation/platform/pam/access-requests/overview)
 5. **Connection is established** — an encrypted tunnel is created between the client and Gateway
-6. **Gateway fetches credentials** — retrieves them from Infisical
+6. **Gateway fetches credentials** — retrieves them from vaultix
 7. **Gateway connects to the target** — using the credentials
 8. **Traffic flows through the Gateway** — the actor interacts with the database/server
 9. **Session is recorded** — Gateway captures and uploads session activity, attributed to the actor
@@ -37,7 +37,7 @@ The actor never sees the credentials. The database/server never sees the actor d
 The Gateway uses outbound connections only:
 
 - **No inbound ports** — your firewall doesn't need to allow any inbound traffic
-- **Outbound to Infisical** — for credential retrieval and session uploads
+- **Outbound to vaultix** — for credential retrieval and session uploads
 - **Outbound to your infrastructure** — to connect to databases and servers
 
 <Tip>
@@ -49,7 +49,7 @@ Your databases and servers stay completely isolated from the internet. The Gatew
 All connections are encrypted:
 
 - **Client to Gateway** — end-to-end encrypted tunnel
-- **Gateway to Infisical** — TLS
+- **Gateway to vaultix** — TLS
 - **Session recordings** — encrypted before upload
 
 The Relay server (which routes traffic between clients and Gateways) cannot decrypt or inspect the traffic passing through it.
@@ -61,7 +61,7 @@ Recording happens at the Gateway:
 1. Traffic flows through the Gateway
 2. Gateway captures session events
 3. Events are encrypted and cached locally
-4. Events upload to Infisical in real-time
+4. Events upload to vaultix in real-time
 5. If connectivity drops, recording continues locally and syncs when restored
 
 This ensures no data is lost, even during network issues.

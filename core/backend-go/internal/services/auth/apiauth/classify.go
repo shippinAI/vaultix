@@ -3,7 +3,7 @@ package apiauth
 import (
 	"strings"
 
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 // ClassifyToken determines the AuthMode from a raw token string using cheap checks only.

@@ -85,7 +85,7 @@ export const SshProvider = (): TDynamicProviderFns => {
       });
     }
 
-    const keyId = `infisical-${slugify(identity.name)}`;
+    const keyId = `vaultix-${slugify(identity.name)}`;
 
     // Generate ephemeral key pair with configured algorithm
     const ephemeralKeyPair = await createSshKeyPair(parsed.keyAlgorithm);

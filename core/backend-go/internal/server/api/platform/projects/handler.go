@@ -6,7 +6,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/infisical/api/internal/services/permission"
+	"github.com/vaultix/api/internal/services/permission"
 )
 
 // Compile-time check that Handler implements ServiceInterface.

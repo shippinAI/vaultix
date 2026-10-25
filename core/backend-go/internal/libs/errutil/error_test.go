@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/infisical/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/errutil"
 )
 
 func TestErrorConstructors_ReturnsCorrectStatusAndName(t *testing.T) {

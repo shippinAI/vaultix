@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 // UnifiedJWTClaims is a union of all JWT claim fields from both user and identity tokens.

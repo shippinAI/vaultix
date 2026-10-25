@@ -13,14 +13,14 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
 ## Prerequisites
 
 - A [Kemp LoadMaster Connection](/integrations/app-connections/kemp-loadmaster) with API access
-- The LoadMaster must be reachable over HTTPS from Infisical, either directly or through an [Infisical Gateway](/documentation/platform/gateways/overview)
+- The LoadMaster must be reachable over HTTPS from vaultix, either directly or through an [vaultix Gateway](/documentation/platform/gateways/overview)
 - The **API Interface** must be enabled on the LoadMaster (Certificates & Security > Remote Access > Enable API Interface)
 - A user account with permission to manage SSL certificates and, if you bind to a Virtual Service, to modify Virtual Services
 
 ## Create a Kemp LoadMaster Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **Kemp LoadMaster** option.
@@ -32,8 +32,8 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
         4. Configure the **Sync Options**:
             - **Enable Removal of Expired/Revoked Certificates**: Remove certificates from the destination if they are no longer active.
             - **Preserve Certificate on Renewal**: When a certificate is renewed, keep using the original certificate's identifier on the LoadMaster instead of generating a new name from the schema. This preserves the entry and any Virtual Service binding, and matters when your name schema is certificate-specific (for example it includes `{{certificateId}}`, which changes on renewal).
-            - **CA Certificate Name Schema**: Controls how each certificate's chain (intermediate CA certificates) is named in the LoadMaster's Intermediate Certs store, using the `{{fingerprint}}` and `{{commonName}}` placeholders. Defaults to `Infisical-ca-{{fingerprint}}`.
-            - **Certificate Name Schema**: Customize certificate identifiers using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}` or `{{shortCertificateId}}`. Defaults to `Infisical-{{certificateId}}`. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
+            - **CA Certificate Name Schema**: Controls how each certificate's chain (intermediate CA certificates) is named in the LoadMaster's Intermediate Certs store, using the `{{fingerprint}}` and `{{commonName}}` placeholders. Defaults to `vaultix-ca-{{fingerprint}}`.
+            - **Certificate Name Schema**: Customize certificate identifiers using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}` or `{{shortCertificateId}}`. Defaults to `vaultix-{{certificateId}}`. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
             - **Auto-Sync Enabled**: Automatically sync certificates when changes occur.
 
         5. Configure the **Details**:
@@ -56,7 +56,7 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/kemp-loadmaster \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/kemp-loadmaster \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -72,7 +72,7 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
             "syncOptions": {
                 "canRemoveCertificates": true,
                 "preserveItemOnRenewal": true,
-                "certificateNameSchema": "Infisical-{{certificateId}}"
+                "certificateNameSchema": "vaultix-{{certificateId}}"
             },
             "destinationConfig": {
                 "virtualServiceId": "1"
@@ -96,7 +96,7 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
                 "syncOptions": {
                     "canRemoveCertificates": true,
                     "preserveItemOnRenewal": true,
-                    "certificateNameSchema": "Infisical-{{certificateId}}"
+                    "certificateNameSchema": "vaultix-{{certificateId}}"
                 },
                 "applicationId": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
                 "connectionId": "550e8400-e29b-41d4-a716-446655440000",
@@ -116,7 +116,7 @@ Deploy certificates to Progress Kemp LoadMaster load balancers via the RESTful A
 
 The Kemp LoadMaster Certificate Sync provides:
 
-- **Automatic Deployment**: Import certificates from Infisical into the LoadMaster certificate store with customizable naming.
+- **Automatic Deployment**: Import certificates from vaultix into the LoadMaster certificate store with customizable naming.
 - **Certificate Updates**: Replace certificates on the LoadMaster when renewals occur.
 - **Virtual Service Binding**: Optionally bind certificates to a Virtual Service, alongside any certificates the LoadMaster already serves there.
 - **Expiration Handling**: Optionally remove expired or revoked certificates from the LoadMaster (if enabled).
@@ -127,23 +127,23 @@ The Kemp LoadMaster Certificate Sync provides:
 
 ## How It Works
 
-Infisical automatically keeps your LoadMaster certificates in sync:
+vaultix automatically keeps your LoadMaster certificates in sync:
 
 - Uploads certificates, with their chains and private keys, to the LoadMaster.
 - Uploads the intermediate CA certificates into the LoadMaster's Intermediate Certs store so clients receive the complete trust chain.
 - Optionally binds them to a Virtual Service for HTTPS termination.
-- Optionally removes certificates that are no longer active in Infisical.
+- Optionally removes certificates that are no longer active in vaultix.
 
 ## Certificate Renewal Behavior
 
-When a certificate is renewed in Infisical, the behavior depends on the **Preserve Certificate on Renewal** option:
+When a certificate is renewed in vaultix, the behavior depends on the **Preserve Certificate on Renewal** option:
 
 - **Preserve enabled (default)**: The renewed certificate reuses the original certificate's identifier and replaces that entry in place, so the name and any Virtual Service binding are preserved. This matters when your name schema is certificate-specific (for example it includes `{{certificateId}}`, which would otherwise resolve to a new name on renewal). Ideal for production environments.
 - **Preserve disabled**: The renewed certificate is imported under a newly generated identifier, and the original certificate remains on the LoadMaster until it is revoked or removed.
 
 ## Removing Certificates
 
-When certificate removal is enabled and a certificate is no longer active in Infisical:
+When certificate removal is enabled and a certificate is no longer active in vaultix:
 
 1. If a Virtual Service is configured, the certificate is removed from that Virtual Service's bound certificate list.
 2. The certificate is deleted from the LoadMaster certificate store.
@@ -157,16 +157,16 @@ You can manually trigger certificate synchronization to the LoadMaster using the
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/kemp-loadmaster/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/kemp-loadmaster/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
-<Accordion title="Can I import certificates from the LoadMaster back into Infisical?">
-  The LoadMaster does not support importing certificates back into Infisical, because private keys cannot be extracted from the appliance.
+<Accordion title="Can I import certificates from the LoadMaster back into vaultix?">
+  The LoadMaster does not support importing certificates back into vaultix, because private keys cannot be extracted from the appliance.
 </Accordion>
 
 <Accordion title="What happens to other certificates already bound to my Virtual Service?">
-  Certificates that this sync does not manage are left in place. Infisical reads the Virtual Service's current certificate list, keeps the certificates it does not manage, and ensures its own managed certificates are bound. This supports serving multiple certificates on one Virtual Service through SNI.
+  Certificates that this sync does not manage are left in place. vaultix reads the Virtual Service's current certificate list, keeps the certificates it does not manage, and ensures its own managed certificates are bound. This supports serving multiple certificates on one Virtual Service through SNI.
 </Accordion>
 
 ## What's Next?

@@ -35,7 +35,7 @@ make generate         # run go generate ./... for oapi-codegen
 ## Architecture
 
 ```
-cmd/infisical/main.go           # Entry point
+cmd/vaultix/main.go           # Entry point
 internal/
 ├── config/                     # Env config via koanf
 ├── database/

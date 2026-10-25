@@ -3,14 +3,14 @@ title: "Network"
 description: "Learn how to configure a Network discovery job to find certificates across your infrastructure."
 ---
 
-Network discovery scans network endpoints over TLS to discover certificates served by hosts across IP ranges and domains. Optionally, you can use an [Infisical Gateway](/documentation/platform/gateways/overview) to reach endpoints in private networks that are not accessible from the internet.
+Network discovery scans network endpoints over TLS to discover certificates served by hosts across IP ranges and domains. Optionally, you can use an [vaultix Gateway](/documentation/platform/gateways/overview) to reach endpoints in private networks that are not accessible from the internet.
 
 <Note>
-  If you are self-hosting Infisical, you can alternatively set the [`ALLOW_INTERNAL_IP_CONNECTIONS`](/self-hosting/configuration/envars#param-allow-internal-ip-connections) environment variable to `true` on your instance to scan private networks directly without a gateway.
+  If you are self-hosting vaultix, you can alternatively set the [`ALLOW_INTERNAL_IP_CONNECTIONS`](/self-hosting/configuration/envars#param-allow-internal-ip-connections) environment variable to `true` on your instance to scan private networks directly without a gateway.
 </Note>
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     1. In **Certificate Manager**, go to **Discovery** and click **Add Job**.
 
     2. Fill in the discovery job details and click **Create**:
@@ -18,7 +18,7 @@ Network discovery scans network endpoints over TLS to discover certificates serv
         - **Description**: An optional description.
         - **Targets**: Domains, IP addresses, or CIDR ranges to scan (e.g., `example.com`, `192.168.1.1`, `10.0.0.0/24`).
         - **Ports**: Ports to scan for TLS certificates. Defaults to common TLS ports if not specified.
-        - **Gateway** (optional): The Infisical Gateway for scanning private networks.
+        - **Gateway** (optional): The vaultix Gateway for scanning private networks.
         - **Auto Scan**: Enable automatic periodic scanning with a configurable interval.
 
         <Note>
@@ -39,7 +39,7 @@ Network discovery scans network endpoints over TLS to discover certificates serv
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/pki/discovery \
+      --url https://app.vaultix.com/api/v1/pki/discovery \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{
@@ -61,7 +61,7 @@ Network discovery scans network endpoints over TLS to discover certificates serv
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/pki/discovery/<discoveryId>/scan \
+      --url https://app.vaultix.com/api/v1/pki/discovery/<discoveryId>/scan \
       --header 'Authorization: Bearer <access-token>'
     ```
   </Tab>

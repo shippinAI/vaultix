@@ -30,7 +30,7 @@ import { registerDigiCertConnectionRouter } from "./digicert-connection-router";
 import { registerDigitalOceanConnectionRouter } from "./digital-ocean-connection-router";
 import { registerDNSMadeEasyConnectionRouter } from "./dns-made-easy-connection-router";
 import { registerDopplerConnectionRouter } from "./doppler-connection-router";
-import { registerExternalVaultixConnectionRouter } from "./external-infisical-connection-router";
+import { registerExternalVaultixConnectionRouter } from "./external-vaultix-connection-router";
 import { registerF5BigIpConnectionRouter } from "./f5-big-ip-connection-router";
 import { registerFireworksConnectionRouter } from "./fireworks-connection-router";
 import { registerFlyioConnectionRouter } from "./flyio-connection-router";

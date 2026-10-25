@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/infisical/api/internal/libs/requestid"
+	"github.com/vaultix/api/internal/libs/requestid"
 )
 
 // ErrorBody is the JSON response shape sent to clients on error.

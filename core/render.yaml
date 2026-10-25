@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: infisical
+    name: vaultix
     env: docker
-    dockerfilePath: ./Dockerfile.standalone-infisical
+    dockerfilePath: ./Dockerfile.standalone-vaultix
     autoDeploy: false
     # healthCheckPath: /api/status
-    repo: https://github.com/Infisical/infisical.git
+    repo: https://github.com/vaultix/vaultix.git
     envVars:
       - key: ENCRYPTION_KEY
         generateValue: true

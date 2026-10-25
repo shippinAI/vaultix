@@ -159,7 +159,7 @@ export const identityCredentialAlertProviderFactory = ({
       },
       eventKey: IDENTITY_AUTHENTICATION_EXPIRY_EVENT,
       eventLabel: "Expiration",
-      webhookType: "com.infisical.identity.authentication.expiration",
+      webhookType: "com.vaultix.identity.authentication.expiration",
       resourceKind: "Machine Identity Authentication",
       resourceOwnerKind: "Machine Identity",
       severity: severityFor(targets),

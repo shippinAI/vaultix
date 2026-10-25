@@ -1,14 +1,14 @@
 ---
 title: "Microsoft ADCS Connection"
-description: "Learn how to configure a Microsoft ADCS Connection for Infisical certificate management."
+description: "Learn how to configure a Microsoft ADCS Connection for vaultix certificate management."
 ---
 
-Connect Infisical to Microsoft Active Directory Certificate Services (AD CS) through an Infisical [Gateway](/documentation/platform/gateways/overview). The Gateway runs inside your network and communicates with the CA directly, so your AD CS server never needs to be exposed to the internet.
+Connect vaultix to Microsoft Active Directory Certificate Services (AD CS) through an vaultix [Gateway](/documentation/platform/gateways/overview). The Gateway runs inside your network and communicates with the CA directly, so your AD CS server never needs to be exposed to the internet.
 
 ## Prerequisites
 
 - A Microsoft Active Directory Certificate Services (AD CS) server (Enterprise CA)
-- An Infisical [Gateway](/documentation/platform/gateways/overview) deployed inside the network that can reach the AD CS server
+- An vaultix [Gateway](/documentation/platform/gateways/overview) deployed inside the network that can reach the AD CS server
 - A domain account with Enroll permission on the certificate templates you plan to use (and Manage CA / Certificate Manager rights if you want to revoke certificates)
 - Network reachability from the Gateway to the AD CS server on:
   - **TCP 135** (RPC endpoint mapper) and the server's **dynamic RPC port range** (default `49152-65535`) for MS-WCCE/MS-CSRA over DCOM

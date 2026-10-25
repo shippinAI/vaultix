@@ -1,9 +1,9 @@
 ---
 title: "Qovery Connection"
-description: "Learn how to configure a Qovery Connection for Infisical."
+description: "Learn how to configure a Qovery Connection for vaultix."
 ---
 
-Infisical supports the use of [Project Access Tokens](https://www.qovery.com/docs/api-reference/introduction) to connect with Qovery.
+vaultix supports the use of [Project Access Tokens](https://www.qovery.com/docs/api-reference/introduction) to connect with Qovery.
 
 ## Create Qovery Access Token
 
@@ -28,13 +28,13 @@ Infisical supports the use of [Project Access Tokens](https://www.qovery.com/doc
     </Step>
 </Steps>
 
-## Create Qovery Connection in Infisical
+## Create Qovery Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/revamped-app-connection-tab.png)
             </Step>
@@ -55,7 +55,7 @@ Infisical supports the use of [Project Access Tokens](https://www.qovery.com/doc
                 ![Qovery Connection Modal](/images/app-connections/qovery/step-6-fill-sync.png)
             </Step>
             <Step title="Connection Created">
-                After clicking Connect to Qovery, your **Qovery Connection** is established and ready to use with your Infisical project.
+                After clicking Connect to Qovery, your **Qovery Connection** is established and ready to use with your vaultix project.
                 ![Qovery App Connection](/images/app-connections/qovery/step-7-created-app-connection.png)
             </Step>
         </Steps>
@@ -67,7 +67,7 @@ Infisical supports the use of [Project Access Tokens](https://www.qovery.com/doc
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/qovery \
+                --url https://app.vaultix.com/api/v1/app-connections/qovery \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-qovery-connection",

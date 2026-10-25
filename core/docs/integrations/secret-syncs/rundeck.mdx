@@ -1,15 +1,15 @@
 ---
 title: "Rundeck Sync"
-description: "Learn how to configure a Rundeck Sync for Infisical."
+description: "Learn how to configure a Rundeck Sync for vaultix."
 ---
 
 **Prerequisites:**
 
-        - Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+        - Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
         - Create a [Rundeck Connection](/integrations/app-connections/rundeck)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click the **Add Sync** button, then choose **Rundeck** as the destination.
         ![Choose Rundeck Destination](/images/secret-syncs/rundeck/step-1.png)
 
@@ -36,10 +36,10 @@ description: "Learn how to configure a Rundeck Sync for Infisical."
                 `keys/project/web-app/production/API_KEY`.
             </Note>
 
-        4. Configure the **Initial Sync Behavior** to determine how Infisical should resolve the first sync, then click **Continue**.
+        4. Configure the **Initial Sync Behavior** to determine how vaultix should resolve the first sync, then click **Continue**.
         ![Configure Initial Sync](/images/secret-syncs/rundeck/step-4.png)
 
-            - **Overwrite Destination Secrets**: On the initial sync, Infisical writes its secrets to Rundeck. No secrets are imported from Rundeck, and depending on your configuration this can remove secrets from Rundeck.
+            - **Overwrite Destination Secrets**: On the initial sync, vaultix writes its secrets to Rundeck. No secrets are imported from Rundeck, and depending on your configuration this can remove secrets from Rundeck.
 
             <Note>
                 Rundeck Syncs do not support importing secrets from the destination — only overwrite is available.
@@ -48,9 +48,9 @@ description: "Learn how to configure a Rundeck Sync for Infisical."
         5. Configure the **Sync Options** to control how secrets are written, then click **Continue**.
         ![Configure Sync Options](/images/secret-syncs/rundeck/step-5.png)
 
-            - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from Rundeck during a sync. Enable this if you intend to manage some secrets manually outside of Infisical.
+            - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from Rundeck during a sync. Enable this if you intend to manage some secrets manually outside of vaultix.
             - **Auto-Sync on Changes**: If enabled, secrets are automatically synced to Rundeck whenever they change in the source. Turn off to sync manually only.
-            - **Customize Key Names**: Add a prefix or suffix so Infisical can identify which keys in Rundeck it manages — anything else is left untouched.
+            - **Customize Key Names**: Add a prefix or suffix so vaultix can identify which keys in Rundeck it manages — anything else is left untouched.
 
         6. Configure the **Details** of your Rundeck Sync, then click **Continue**.
         ![Configure Details](/images/secret-syncs/rundeck/step-6.png)
@@ -72,7 +72,7 @@ description: "Learn how to configure a Rundeck Sync for Infisical."
 
         ```bash Request
         curl    --request POST \
-        --url https://app.infisical.com/api/v1/secret-syncs/rundeck \
+        --url https://app.vaultix.com/api/v1/secret-syncs/rundeck \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-rundeck-sync",

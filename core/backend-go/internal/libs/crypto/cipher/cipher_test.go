@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"testing"
 
-	"github.com/infisical/api/internal/libs/crypto/cipher"
+	"github.com/vaultix/api/internal/libs/crypto/cipher"
 )
 
 func TestSymmetricEncrypt_RoundTrip(t *testing.T) {
@@ -14,7 +14,7 @@ func TestSymmetricEncrypt_RoundTrip(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	plaintext := []byte("hello infisical")
+	plaintext := []byte("hello vaultix")
 
 	blob, err := cipher.SymmetricEncrypt(plaintext, key)
 	if err != nil {

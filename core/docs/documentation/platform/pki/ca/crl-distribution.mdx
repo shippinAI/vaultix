@@ -12,19 +12,19 @@ Every certificate issued by an internal CA embeds a CRL Distribution Point (CDP)
 
 ## How It Works
 
-- The **Infisical-managed URL** is included as the primary CDP by default. It can be disabled per CA.
+- The **vaultix-managed URL** is included as the primary CDP by default. It can be disabled per CA.
 - Up to **4 mirror URLs** can be configured per CA.
 - URLs must use `http://` or `https://`.
 - Changes apply only to certificates issued **after** the update — existing certificates are not affected.
 
 <Warning>
-  Infisical only **advertises** the mirror URLs in issued certificates — it does not publish your CRL to them. You are responsible for fetching the latest CRL from Infisical and serving an up-to-date copy at every mirror URL you register. If a mirror serves a stale CRL, validators that fall back to it will get outdated revocation information and may continue to trust certificates you have already revoked.
+  vaultix only **advertises** the mirror URLs in issued certificates — it does not publish your CRL to them. You are responsible for fetching the latest CRL from vaultix and serving an up-to-date copy at every mirror URL you register. If a mirror serves a stale CRL, validators that fall back to it will get outdated revocation information and may continue to trust certificates you have already revoked.
 </Warning>
 
 ## Configure CRL Mirrors
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     Mirror URLs can be configured at CA creation time or any time after via the **CRL Distribution Points** card on the CA detail page.
 
     <Steps>
@@ -38,7 +38,7 @@ Every certificate issued by an internal CA embeds a CRL Distribution Point (CDP)
         Add one URL per row, in order of preference (clients try them in the listed order).
       </Step>
       <Step title="Disable managed CRL URL (optional)">
-        Toggle **Disable managed CRL URL** to exclude the Infisical-managed CRL endpoint from issued certificates. This is useful when the Infisical instance is not reachable by certificate consumers.
+        Toggle **Disable managed CRL URL** to exclude the vaultix-managed CRL endpoint from issued certificates. This is useful when the vaultix instance is not reachable by certificate consumers.
       </Step>
     </Steps>
   </Tab>
@@ -48,7 +48,7 @@ Every certificate issued by an internal CA embeds a CRL Distribution Point (CDP)
     ### Create CA with CRL mirrors
 
     ```bash
-    curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal' \
+    curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal' \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data-raw '{
@@ -69,7 +69,7 @@ Every certificate issued by an internal CA embeds a CRL Distribution Point (CDP)
     ### Update existing CA
 
     ```bash
-    curl --location --request PATCH 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>' \
+    curl --location --request PATCH 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>' \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data-raw '{
@@ -82,18 +82,18 @@ Every certificate issued by an internal CA embeds a CRL Distribution Point (CDP)
       }'
     ```
 
-    Setting `disableManagedCrlDistributionPointUrl` to `true` removes the Infisical-managed CRL endpoint from the CDP extension of newly issued certificates. The managed CRL endpoint itself remains available — this only controls whether its URL is advertised in certificates.
+    Setting `disableManagedCrlDistributionPointUrl` to `true` removes the vaultix-managed CRL endpoint from the CDP extension of newly issued certificates. The managed CRL endpoint itself remains available — this only controls whether its URL is advertised in certificates.
   </Tab>
 </Tabs>
 
 ## Keeping Mirrors in Sync
 
-Infisical regenerates each CA's CRL automatically — CRLs are rebuilt whenever a certificate is revoked or the existing CRL is approaching its `nextUpdate` time. To keep your mirrors useful, pull the latest CRL on a schedule and republish it at each mirror URL.
+vaultix regenerates each CA's CRL automatically — CRLs are rebuilt whenever a certificate is revoked or the existing CRL is approaching its `nextUpdate` time. To keep your mirrors useful, pull the latest CRL on a schedule and republish it at each mirror URL.
 
 ### Fetch the current CRL
 
 ```bash
-curl --location --request GET 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>/crls' \
+curl --location --request GET 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>/crls' \
   --header 'Authorization: Bearer <access-token>'
 ```
 
@@ -110,7 +110,7 @@ The response contains the PEM-encoded CRL. Write it to your mirror destination u
 # Fetch CRL and upload to S3
 
 CRL=$(curl -s -H "Authorization: Bearer $TOKEN" \
-  "https://app.infisical.com/api/v1/cert-manager/ca/internal/$CA_ID/crls")
+  "https://app.vaultix.com/api/v1/cert-manager/ca/internal/$CA_ID/crls")
 
 echo "$CRL" | aws s3 cp - s3://my-bucket/crl/internal-ca.crl \
   --content-type "application/pkix-crl"

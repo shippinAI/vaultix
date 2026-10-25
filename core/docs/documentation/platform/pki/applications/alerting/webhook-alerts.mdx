@@ -4,7 +4,7 @@ sidebarTitle: "Webhook"
 description: "Send certificate alert notifications to a webhook URL."
 ---
 
-Send certificate alert notifications to any HTTP endpoint. Webhook alerts let you integrate Infisical with your own systems, automation tools, or services that aren't directly supported.
+Send certificate alert notifications to any HTTP endpoint. Webhook alerts let you integrate vaultix with your own systems, automation tools, or services that aren't directly supported.
 
 <Info>
   Alerts are configured per Application and apply to all certificates within that Application.
@@ -47,10 +47,10 @@ Each alert type maps to a corresponding CloudEvents event type:
 
 | Alert Type | Event Type | Subject |
 |------------|------------|---------|
-| Certificate Expiration | `com.infisical.pki.certificate.expiration` | `certificate-expiration-alert` |
-| Certificate Issuance | `com.infisical.pki.certificate.issuance` | `certificate-issuance-alert` |
-| Certificate Renewal | `com.infisical.pki.certificate.renewal` | `certificate-renewal-alert` |
-| Certificate Revocation | `com.infisical.pki.certificate.revocation` | `certificate-revocation-alert` |
+| Certificate Expiration | `com.vaultix.pki.certificate.expiration` | `certificate-expiration-alert` |
+| Certificate Issuance | `com.vaultix.pki.certificate.issuance` | `certificate-issuance-alert` |
+| Certificate Renewal | `com.vaultix.pki.certificate.renewal` | `certificate-renewal-alert` |
+| Certificate Revocation | `com.vaultix.pki.certificate.revocation` | `certificate-revocation-alert` |
 
 ## Webhook Payload Format
 
@@ -61,7 +61,7 @@ Webhook notifications are sent as HTTP POST requests with a [CloudEvents](https:
     ```json
     {
       "specversion": "1.0",
-      "type": "com.infisical.pki.certificate.expiration",
+      "type": "com.vaultix.pki.certificate.expiration",
       "source": "/applications/<application-id>/alerts/<alert-id>",
       "id": "<unique-event-id>",
       "time": "2024-01-15T10:30:00.000Z",
@@ -89,7 +89,7 @@ Webhook notifications are sent as HTTP POST requests with a [CloudEvents](https:
         ],
         "metadata": {
           "totalCertificates": 1,
-          "viewUrl": "https://app.infisical.com/cert-manager/applications/<application-id>/certificates"
+          "viewUrl": "https://app.vaultix.com/cert-manager/applications/<application-id>/certificates"
         }
       }
     }
@@ -103,7 +103,7 @@ Webhook notifications are sent as HTTP POST requests with a [CloudEvents](https:
     ```json
     {
       "specversion": "1.0",
-      "type": "com.infisical.pki.certificate.issuance",
+      "type": "com.vaultix.pki.certificate.issuance",
       "source": "/applications/<application-id>/alerts/<alert-id>",
       "id": "<unique-event-id>",
       "time": "2024-06-15T14:22:00.000Z",
@@ -130,7 +130,7 @@ Webhook notifications are sent as HTTP POST requests with a [CloudEvents](https:
         ],
         "metadata": {
           "totalCertificates": 1,
-          "viewUrl": "https://app.infisical.com/cert-manager/applications/<application-id>/certificates"
+          "viewUrl": "https://app.vaultix.com/cert-manager/applications/<application-id>/certificates"
         }
       }
     }
@@ -140,10 +140,10 @@ Webhook notifications are sent as HTTP POST requests with a [CloudEvents](https:
 
 ## Webhook Signature Verification
 
-If you configure a signing secret, Infisical includes an `x-infisical-signature` header with each request:
+If you configure a signing secret, vaultix includes an `x-vaultix-signature` header with each request:
 
 ```
-x-infisical-signature: t=<timestamp>,v1=<signature>
+x-vaultix-signature: t=<timestamp>,v1=<signature>
 ```
 
 | Component | Description |

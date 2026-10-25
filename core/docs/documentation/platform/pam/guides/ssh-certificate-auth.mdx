@@ -4,7 +4,7 @@ sidebarTitle: "SSH Certificate Auth"
 description: "Configure certificate-based SSH access to eliminate static credentials."
 ---
 
-This guide walks through setting up SSH certificate authentication. Instead of managing passwords or SSH keys, Infisical mints a short-lived certificate for each [session](/documentation/platform/pam/sessions/overview) — valid only for that session, so there's nothing to rotate or revoke.
+This guide walks through setting up SSH certificate authentication. Instead of managing passwords or SSH keys, vaultix mints a short-lived certificate for each [session](/documentation/platform/pam/sessions/overview) — valid only for that session, so there's nothing to rotate or revoke.
 
 ## Prerequisites
 
@@ -31,8 +31,8 @@ This guide walks through setting up SSH certificate authentication. Instead of m
       </Tab>
       <Tab title="Manual Setup">
         1. Copy the **CA Public Key** from the account page
-        2. Save it to `/etc/ssh/infisical_ca.pub` on the server
-        3. Add to sshd_config: `TrustedUserCAKeys /etc/ssh/infisical_ca.pub`
+        2. Save it to `/etc/ssh/vaultix_ca.pub` on the server
+        3. Add to sshd_config: `TrustedUserCAKeys /etc/ssh/vaultix_ca.pub`
         4. Restart sshd: `sudo systemctl restart sshd`
       </Tab>
     </Tabs>

@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/doordash-oss/oapi-codegen-dd/v3/pkg/runtime"
-	apivalidator "github.com/infisical/api/internal/server/api/validator"
+	apivalidator "github.com/vaultix/api/internal/server/api/validator"
 )
 
 type Error struct {

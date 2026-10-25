@@ -1,23 +1,23 @@
 ---
 
-title: "Upgrade Infisical Instance"
-description: "How to upgrade Infisical self-hosted instance"
+title: "Upgrade vaultix Instance"
+description: "How to upgrade vaultix self-hosted instance"
 
 ---
 
 <Tip>
-  Planning an upgrade? Use the [Infisical Upgrade Tool](https://upgrade.infisical.com/) to map out your upgrade path and review notable changes between your current and target versions.
+  Planning an upgrade? Use the [vaultix Upgrade Tool](https://upgrade.vaultix.com/) to map out your upgrade path and review notable changes between your current and target versions.
 </Tip>
 
-Keeping your Infisical instance up to date is key to making sure you receive the latest performance improvements, security patches, and feature updates. 
+Keeping your vaultix instance up to date is key to making sure you receive the latest performance improvements, security patches, and feature updates. 
 We release updates approximately once a week, which may include new features, bug fixes, performance enhancements, and critical security patches.
 
 Since secrets management is a critical component of your infrastructure, we aim to avoid disruptive changes that will impact fetching secrets in downstream clients.
-If a release requires specific attention, a note will be attached to the corresponding [release](https://github.com/Infisical/infisical/releases) version.
+If a release requires specific attention, a note will be attached to the corresponding [release](https://github.com/vaultix/vaultix/releases) version.
 
 During an upgrade, two key components are updated:
 
-- **Infisical Application:** The core application code is updated.
+- **vaultix Application:** The core application code is updated.
 - **PostgreSQL Database Schema:** Schema migrations run automatically to ensure your database remains in sync with the updated application.
 
 > **Before You Upgrade:**  
@@ -46,12 +46,12 @@ Now, migrations run automatically during boot-up. This improvement streamlines t
    - Verify that your backup is current and accessible.
 
 2. **Plan Your Upgrade Path:**
-   - Head over to the [Infisical releases page](https://github.com/Infisical/infisical/releases) and review the releases between your current version and the one you're upgrading to.
+   - Head over to the [vaultix releases page](https://github.com/vaultix/vaultix/releases) and review the releases between your current version and the one you're upgrading to.
    - Keep an eye out for breaking changes or migration notes — these will tell you if any extra steps or configuration changes are needed before you proceed.
 
 3. **Start the Upgrade Process:**  
-   - Launch the new version of Infisical. During startup, the application will automatically compare the current database schema with the updated schema in the code.
-   - If any differences are detected, Infisical will apply the necessary migrations automatically.
+   - Launch the new version of vaultix. During startup, the application will automatically compare the current database schema with the updated schema in the code.
+   - If any differences are detected, vaultix will apply the necessary migrations automatically.
 
 4. **Multi-Instance Coordination:**  
    - In environments with multiple instances, one instance will acquire a lock and perform the migration while the other instances wait.
@@ -65,7 +65,7 @@ Now, migrations run automatically during boot-up. This improvement streamlines t
 
 ### UI Caching Issues After Upgrade
 
-After upgrading your Infisical instance, you may encounter UI-related issues such as:
+After upgrading your vaultix instance, you may encounter UI-related issues such as:
 - Strange loading behavior
 - Components not rendering correctly  
 - Unexpected errors in the browser console
@@ -87,7 +87,7 @@ These issues are often caused by browser caching of the previous version's stati
 
 ## Downgrade Considerations
 
-While we recommend staying up-to-date with the latest version, there may be scenarios where you need to downgrade your Infisical instance.
+While we recommend staying up-to-date with the latest version, there may be scenarios where you need to downgrade your vaultix instance.
 
 <Warning>
   **Database Compatibility:** Downgrading can be complex due to database schema changes. Always ensure you have proper backups before attempting any version changes.
@@ -99,15 +99,15 @@ While we recommend staying up-to-date with the latest version, there may be scen
    - Create a database snapshot/backup **before** upgrading to the target version
    - Ensure the snapshot is from a version compatible with your desired downgrade target
 
-2. **Stop Infisical Services:**
-   - Gracefully shut down all Infisical instances to prevent data corruption
+2. **Stop vaultix Services:**
+   - Gracefully shut down all vaultix instances to prevent data corruption
 
 3. **Restore Database:**
    - Restore your database from the pre-upgrade snapshot
    - **Critical:** Do not attempt to downgrade with a database that has run migrations from a newer version
 
 4. **Deploy Previous Version:**
-   - Deploy the previous Infisical version
+   - Deploy the previous vaultix version
    - Verify that the version matches the database schema in your snapshot
 
 5. **Verify Functionality:**

@@ -108,7 +108,7 @@ export const azureAppConfigurationSyncFactory = ({
       ])
     );
 
-    // add the secrets to azure app config, that are in infisical
+    // add the secrets to azure app config, that are in vaultix
     for await (const key of Object.keys(secretMap)) {
       if (!(key in azureAppConfigSecretsLabeled) || secretMap[key]?.value !== azureAppConfigSecretsLabeled[key]) {
         await request.put(
@@ -172,12 +172,12 @@ export const azureAppConfigurationSyncFactory = ({
       ).map((entry) => [entry.key, entry.value])
     );
 
-    for await (const infisicalKey of Object.keys(secretMap)) {
-      if (infisicalKey in azureAppConfigSecrets) {
+    for await (const vaultixKey of Object.keys(secretMap)) {
+      if (vaultixKey in azureAppConfigSecrets) {
         await $deleteAzureSecret(
           accessToken,
           secretSync.destinationConfig.configurationUrl,
-          infisicalKey,
+          vaultixKey,
           secretSync.destinationConfig.label
         );
       }

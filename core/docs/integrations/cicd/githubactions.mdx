@@ -1,22 +1,22 @@
 ---
 title: "GitHub Actions"
-description: "How to inject secrets from Infisical into GitHub Actions workflows using OIDC authentication"
+description: "How to inject secrets from vaultix into GitHub Actions workflows using OIDC authentication"
 ---
 
 <Note>
-  For syncing secrets **from Infisical to GitHub** (one-way sync to GitHub Secrets), use our 
+  For syncing secrets **from vaultix to GitHub** (one-way sync to GitHub Secrets), use our 
   [GitHub Secret Syncs](../secret-syncs/github) instead.
 </Note>
 
 ## Concept
 
-The [Infisical Secrets Action](https://github.com/Infisical/secrets-action) enables GitHub Actions workflows to fetch secrets from Infisical at runtime using [OpenID Connect (OIDC)](/documentation/platform/identities/oidc-auth/github) authentication with [machine identities](/documentation/platform/identities/machine-identities).
+The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) enables GitHub Actions workflows to fetch secrets from vaultix at runtime using [OpenID Connect (OIDC)](/documentation/platform/identities/oidc-auth/github) authentication with [machine identities](/documentation/platform/identities/machine-identities).
 
-Instead of storing long-lived credentials in GitHub Secrets, workflows authenticate to Infisical using short-lived OIDC tokens issued by GitHub. This eliminates the need for static API keys or tokens while providing fine-grained access control based on repository, workflow, and execution context.
+Instead of storing long-lived credentials in GitHub Secrets, workflows authenticate to vaultix using short-lived OIDC tokens issued by GitHub. This eliminates the need for static API keys or tokens while providing fine-grained access control based on repository, workflow, and execution context.
 
-Secrets are fetched dynamically during workflow execution and exposed as environment variables, existing only for the lifetime of the job. This approach centralizes secret management in Infisical while maintaining security through identity-based authentication.
+Secrets are fetched dynamically during workflow execution and exposed as environment variables, existing only for the lifetime of the job. This approach centralizes secret management in vaultix while maintaining security through identity-based authentication.
 
-The short video below provides a guided overview of using Infisical with GitHub Actions and OIDC authentication, helping you build the right mental model before diving into the diagram and setup steps.
+The short video below provides a guided overview of using vaultix with GitHub Actions and OIDC authentication, helping you build the right mental model before diving into the diagram and setup steps.
 
 <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", maxWidth: "100%" }}>
   <iframe src="https://www.youtube.com/embed/9PQmd_aoRWA" title="YouTube video player" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
@@ -31,7 +31,7 @@ The following sequence diagram illustrates the OIDC authentication workflow. The
 sequenceDiagram
   participant Client as GitHub Workflow
   participant Idp as GitHub OIDC Provider
-  participant Infis as Infisical
+  participant Infis as vaultix
 
   Client->>Idp: Step 1: Request identity token
   Idp-->>Client: Return JWT with verifiable claims
@@ -46,22 +46,22 @@ sequenceDiagram
   Note over Infis: Step 4: JWT validation
   Infis->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 5: Access Infisical API with Token
+  Note over Client,Infis: Step 5: Access vaultix API with Token
   Client->>Infis: Make authenticated requests using the short-lived access token
 ```
 
 <Note>
-  In GitHub Actions, the [Infisical Secrets Action](https://github.com/Infisical/secrets-action) handles steps 1-2 and 5, automatically fetching secrets after authentication and injecting them as environment variables into your workflow.
+  In GitHub Actions, the [vaultix Secrets Action](https://github.com/vaultix/secrets-action) handles steps 1-2 and 5, automatically fetching secrets after authentication and injecting them as environment variables into your workflow.
 </Note>
 
 ## Workflow
 
-A typical workflow for using Infisical with GitHub Actions consists of the following steps:
+A typical workflow for using vaultix with GitHub Actions consists of the following steps:
 
-1. Create a [machine identity](/documentation/platform/identities/machine-identities) in Infisical with OIDC authentication configured for your GitHub repository and workflow context.
-2. Add the machine identity to your Infisical project with appropriate permissions to access the required secrets.
-3. Configure your GitHub Actions workflow to use the [Infisical Secrets Action](https://github.com/Infisical/secrets-action) with OIDC authentication.
-4. The workflow authenticates using GitHub's OIDC token, fetches secrets from Infisical, and exposes them as environment variables for the duration of the job.
+1. Create a [machine identity](/documentation/platform/identities/machine-identities) in vaultix with OIDC authentication configured for your GitHub repository and workflow context.
+2. Add the machine identity to your vaultix project with appropriate permissions to access the required secrets.
+3. Configure your GitHub Actions workflow to use the [vaultix Secrets Action](https://github.com/vaultix/secrets-action) with OIDC authentication.
+4. The workflow authenticates using GitHub's OIDC token, fetches secrets from vaultix, and exposes them as environment variables for the duration of the job.
 
 ## How It Works
 
@@ -73,13 +73,13 @@ At a high level, the flow looks like this:
    When a workflow starts, GitHub issues a short-lived OIDC token containing identity claims about the repository, workflow, and execution context.
 
 2. **Workflow Presents Its Identity**  
-   The [Infisical Secrets Action](https://github.com/Infisical/secrets-action) sends this token to Infisical as proof of the workflow’s identity.
+   The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) sends this token to vaultix as proof of the workflow’s identity.
 
-3. **Infisical Verifies Trust**  
-   Infisical validates the token signature using GitHub’s OIDC provider and checks the token’s subject, audience, and claims against the configured [machine identity](/documentation/platform/identities/machine-identities).
+3. **vaultix Verifies Trust**  
+   vaultix validates the token signature using GitHub’s OIDC provider and checks the token’s subject, audience, and claims against the configured [machine identity](/documentation/platform/identities/machine-identities).
 
 4. **Secrets Are Issued at Runtime**  
-   If the identity matches, Infisical issues a short-lived access token. The action then uses this token to fetch only the secrets the identity is authorized to access for the requested project and environment.
+   If the identity matches, vaultix issues a short-lived access token. The action then uses this token to fetch only the secrets the identity is authorized to access for the requested project and environment.
 
 Secrets are exposed to the workflow as environment variables and exist only for the lifetime of the job.
 
@@ -87,17 +87,17 @@ Secrets are exposed to the workflow as environment variables and exist only for 
 
 Before you begin, ensure you have:
 
-- An [Infisical project](/documentation/platform/project) ([Infisical Cloud](https://app.infisical.com) or [self-hosted instance](/self-hosting/overview))
-- Secrets stored in your Infisical project
+- An [vaultix project](/documentation/platform/project) ([vaultix Cloud](https://app.vaultix.com) or [self-hosted instance](/self-hosting/overview))
+- Secrets stored in your vaultix project
 - A GitHub repository with Actions enabled
 
 ## Guide
 
-In the following steps, we explore how to configure GitHub Actions to authenticate with Infisical using OIDC and fetch secrets at runtime.
+In the following steps, we explore how to configure GitHub Actions to authenticate with vaultix using OIDC and fetch secrets at runtime.
 
 <Steps>
-  <Step title="Configure secrets in Infisical">
-    Ensure the secrets your workflow needs are stored in your Infisical project and environment (e.g., `dev`, `staging`, `prod`).
+  <Step title="Configure secrets in vaultix">
+    Ensure the secrets your workflow needs are stored in your vaultix project and environment (e.g., `dev`, `staging`, `prod`).
 
     For example, a pipeline that builds and pushes a Docker image might require:
 
@@ -113,7 +113,7 @@ In the following steps, we explore how to configure GitHub Actions to authentica
 
     To create a machine identity with OIDC authentication:
 
-    1. Navigate to your project in Infisical
+    1. Navigate to your project in vaultix
     2. Go to your project > **Access Control** > **Machine Identities**
     3. Click **Add Machine Identity to Project**
     4. Provide a name for the identity (e.g., `github-actions-workflow`)
@@ -159,7 +159,7 @@ In the following steps, we explore how to configure GitHub Actions to authentica
   </Step>
 
   <Step title="Copy the identity ID">
-    After configuring OIDC authentication, Infisical provides an **Identity ID**. This is what you'll reference in your GitHub Actions workflow.
+    After configuring OIDC authentication, vaultix provides an **Identity ID**. This is what you'll reference in your GitHub Actions workflow.
 
     Copy this value — you'll need it in the next step.
 
@@ -171,11 +171,11 @@ In the following steps, we explore how to configure GitHub Actions to authentica
 
 ## Configure GitHub Actions Workflow
 
-Now let's configure your GitHub Actions workflow to fetch secrets from Infisical.
+Now let's configure your GitHub Actions workflow to fetch secrets from vaultix.
 
 ### Basic Workflow Example
 
-Create or update a workflow file in `.github/workflows/` (e.g., `.github/workflows/infisical-demo.yml`):
+Create or update a workflow file in `.github/workflows/` (e.g., `.github/workflows/vaultix-demo.yml`):
 
 ```yaml
 name: Build and Push Docker Image
@@ -194,12 +194,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Fetch secrets from Infisical
-        uses: Infisical/secrets-action@v1.0.9
+      - name: Fetch secrets from vaultix
+        uses: vaultix/secrets-action@v1.0.9
         with:
           method: "oidc"
           identity-id: "your-identity-id-here"  # From Step 4
-          project-slug: "your-project-slug"      # Your Infisical project slug
+          project-slug: "your-project-slug"      # Your vaultix project slug
           env-slug: "dev"                        # Your environment slug
 
       - name: Login to Docker Registry
@@ -216,16 +216,16 @@ jobs:
 
 **Permissions Block**: The `id-token: write` permission is **required** for OIDC authentication. Without it, GitHub won't issue an OIDC token for the workflow run.
 
-**Infisical Secrets Action**: The [Infisical Secrets Action](https://github.com/Infisical/secrets-action) step handles:
+**vaultix Secrets Action**: The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) step handles:
 - Requesting the OIDC token from GitHub
-- Authenticating with Infisical using OIDC
+- Authenticating with vaultix using OIDC
 - Fetching secrets for the specified project and environment
 - Injecting secrets as environment variables
 
 **Action Parameters**:
 - `method: "oidc"` - Specifies OIDC authentication
-- `identity-id` - The machine identity ID from Infisical (safe to commit)
-- `project-slug` - Your Infisical project slug (found in project settings)
+- `identity-id` - The machine identity ID from vaultix (safe to commit)
+- `project-slug` - Your vaultix project slug (found in project settings)
 - `env-slug` - The environment to fetch secrets from (e.g., `dev`, `staging`, `prod`)
 
 <Note>
@@ -236,7 +236,7 @@ Authentication occurs at runtime using GitHub's OIDC token, eliminating the need
 
 ### Using Secrets in Workflows
 
-After the Infisical Secrets Action completes, secrets are available as environment variables for subsequent steps in the job. Reference them using standard environment variable syntax:
+After the vaultix Secrets Action completes, secrets are available as environment variables for subsequent steps in the job. Reference them using standard environment variable syntax:
 
 ```yaml
 - name: Run tests with database connection
@@ -259,8 +259,8 @@ If authentication fails, check:
 2. **Subject Match**: Verify the Subject in your machine identity matches the repository and context
 3. **Audience Match**: Confirm the Audience matches your GitHub organization
 4. **Identity Scope**: Ensure the identity has access to the project and environment you're requesting
-5. **Project Slug**: Verify the `project-slug` matches your Infisical project slug exactly. You can find this in your project settings.
-6. **Environment Slug**: Confirm the `env-slug` matches the exact environment name in Infisical (e.g., `dev`, `staging`, `prod`). Environment slugs are case-sensitive and must match exactly.
+5. **Project Slug**: Verify the `project-slug` matches your vaultix project slug exactly. You can find this in your project settings.
+6. **Environment Slug**: Confirm the `env-slug` matches the exact environment name in vaultix (e.g., `dev`, `staging`, `prod`). Environment slugs are case-sensitive and must match exactly.
 
 ### Debugging OIDC Tokens
 
@@ -274,10 +274,10 @@ To inspect OIDC token claims from your workflow, use GitHub's [actions-oidc-debu
 
 ### GitHub Secret Syncs
 
-If you prefer to **push secrets from Infisical to GitHub** (one-way sync), use [GitHub Secret Syncs](../secret-syncs/github). This approach syncs secrets to GitHub at the organization-level, repository-level, or repository environment-level, making them available as GitHub Secrets.
+If you prefer to **push secrets from vaultix to GitHub** (one-way sync), use [GitHub Secret Syncs](../secret-syncs/github). This approach syncs secrets to GitHub at the organization-level, repository-level, or repository environment-level, making them available as GitHub Secrets.
 
 <Note>
-  Secret Syncs push secrets **to** GitHub, while this guide shows how to fetch secrets **from** Infisical at runtime. Choose the approach that best fits your security and operational requirements.
+  Secret Syncs push secrets **to** GitHub, while this guide shows how to fetch secrets **from** vaultix at runtime. Choose the approach that best fits your security and operational requirements.
 </Note>
 
 ## Related Documentation
@@ -285,4 +285,4 @@ If you prefer to **push secrets from Infisical to GitHub** (one-way sync), use [
 - [OIDC Auth for GitHub Actions](/documentation/platform/identities/oidc-auth/github) - Detailed OIDC configuration guide
 - [Machine Identities Overview](/documentation/platform/identities/machine-identities) - Understanding machine identities
 - [GitHub Secret Syncs](../secret-syncs/github) - Syncing secrets to GitHub
-- [Infisical Secrets Action](https://github.com/Infisical/secrets-action) - Official GitHub Action repository
+- [vaultix Secrets Action](https://github.com/vaultix/secrets-action) - Official GitHub Action repository

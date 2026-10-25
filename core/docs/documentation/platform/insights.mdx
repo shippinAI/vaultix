@@ -7,12 +7,12 @@ description: "Monitor upcoming rotations, reminders, stale secrets, and secret a
 <Note>
   Secret Insights is a paid feature.
 
-  On Infisical Cloud it is available on the Pro and Enterprise plans, If you're self-hosting Infisical, contact sales@infisical.com to acquire a license.
+  On vaultix Cloud it is available on the Pro and Enterprise plans, If you're self-hosting vaultix, contact sales@vaultix.com to acquire a license.
 </Note>
 
 Secret Insights is an observability dashboard for your Secrets Management project. It surfaces the questions you care about most — *Which secrets are due for rotation? Which reminders are overdue? What hasn't been touched in months? Who's actually reading my secrets?* — and links you straight to the secrets you need to act on.
 
-The page is read-only. Every metric is computed from data already collected by Infisical (rotation schedules, reminders, secret modification times, access logs), so there's nothing to configure to start using it.
+The page is read-only. Every metric is computed from data already collected by vaultix (rotation schedules, reminders, secret modification times, access logs), so there's nothing to configure to start using it.
 
 ![Secret Insights dashboard](/images/platform/insights/overview.png)
 
@@ -167,6 +167,6 @@ This panel shows the distribution of authentication methods used to read secrets
 
 Each slice represents an auth method (for example, Universal Auth, Kubernetes Auth, AWS Auth, Token Auth, JWT). The breakdown shows the method name, percentage of total reads, and absolute request count, with a **Total** row at the bottom.
 
-You may see an **Unknown** bucket. This represents older read requests that were issued before Infisical began recording the auth method on each request. Only newer requests carry this metadata, so the Unknown share will shrink over time as historical data ages out of the 30-day window.
+You may see an **Unknown** bucket. This represents older read requests that were issued before vaultix began recording the auth method on each request. Only newer requests carry this metadata, so the Unknown share will shrink over time as historical data ages out of the 30-day window.
 
 Use this panel to understand how your workloads are authenticating, spot identities still using older auth methods you'd like to retire, and verify that auth-method migrations are taking effect.

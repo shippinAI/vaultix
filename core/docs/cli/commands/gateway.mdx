@@ -1,35 +1,35 @@
 ---
-title: "infisical gateway"
-description: "Run the Infisical gateway or manage its systemd service"
+title: "vaultix gateway"
+description: "Run the vaultix gateway or manage its systemd service"
 ---
 
 <Tabs>
   <Tab title="CLI">
     ```bash
-    infisical gateway start <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
+    vaultix gateway start <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
     ```
   </Tab>
   <Tab title="systemd">
     ```bash
-    sudo infisical gateway systemd install <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
+    sudo vaultix gateway systemd install <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
     ```
   </Tab>
 </Tabs>
 
 ## Description
 
-The Infisical gateway provides secure access to private resources using modern TCP-based SSH tunnel architecture with enhanced security and flexible deployment options.
+The vaultix gateway provides secure access to private resources using modern TCP-based SSH tunnel architecture with enhanced security and flexible deployment options.
 
 The gateway system uses SSH reverse tunnels over TCP, eliminating firewall complexity and providing excellent performance for enterprise environments.
 
 ## Subcommands & flags
 
 <AccordionGroup>
-<Accordion title="infisical gateway start" defaultOpen="true">
-  Run the Infisical gateway component within your the network where your target resources are located. The gateway establishes an SSH reverse tunnel to a relay server and provides secure access to private resources within your network.
+<Accordion title="vaultix gateway start" defaultOpen="true">
+  Run the vaultix gateway component within your the network where your target resources are located. The gateway establishes an SSH reverse tunnel to a relay server and provides secure access to private resources within your network.
 
 ```bash
-infisical gateway start <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
+vaultix gateway start <gateway-name> --enroll-method=token --token=<enrollment-token> --domain=<domain>
 ```
 
 The gateway name is provided as a positional argument.
@@ -42,7 +42,7 @@ Once started, the gateway component will:
 
 - Automatically connect to a healthy relay with the lowest latency (unless the `--target-relay-name` flag is specified)
 - Establish outbound SSH reverse tunnel to relay server (no inbound firewall rules needed)
-- Authenticate using SSH certificates issued by Infisical
+- Authenticate using SSH certificates issued by vaultix
 - Automatically reconnect if the connection is lost, and fail over to a different healthy relay if the current one becomes unreachable
 - Provide access to private resources within your network
 
@@ -58,16 +58,16 @@ Once started, the gateway component will:
             Must be `token` when using an enrollment token.
           </ParamField>
           <ParamField query="token" type="string" required>
-            The one-time enrollment token from the Infisical UI.
+            The one-time enrollment token from the vaultix UI.
           </ParamField>
           <ParamField query="domain" type="string" required>
-            The URL of your Infisical instance.
+            The URL of your vaultix instance.
           </ParamField>
       </Expandable>
     </ParamField>
 
     ```bash
-      infisical gateway start my-gateway --enroll-method=token --token=<enrollment-token> --domain=https://app.infisical.com
+      vaultix gateway start my-gateway --enroll-method=token --token=<enrollment-token> --domain=https://app.vaultix.com
     ```
 
     After enrollment, the gateway saves its credentials locally. You can safely re-run the same command to restart the gateway. It will detect the token has already been used and skip enrollment automatically.
@@ -81,19 +81,19 @@ Once started, the gateway component will:
 
     ```bash
     # Example
-    infisical gateway start my-gateway --target-relay-name=my-relay --enroll-method=token --token=<token> --domain=<domain>
+    vaultix gateway start my-gateway --target-relay-name=my-relay --enroll-method=token --token=<token> --domain=<domain>
     ```
 
-    **Note:** For Infisical Cloud users using instance relays, the relay infrastructure is already running and managed by Infisical. If using organization relays or self-hosted instance relays, you must first start a relay server. For more information on deploying relays, refer to the [Relay Deployment Guide](/documentation/platform/gateways/relay-deployment).
+    **Note:** For vaultix Cloud users using instance relays, the relay infrastructure is already running and managed by vaultix. If using organization relays or self-hosted instance relays, you must first start a relay server. For more information on deploying relays, refer to the [Relay Deployment Guide](/documentation/platform/gateways/relay-deployment).
 
   </Accordion>
 
   <Accordion title="--domain">
-    Domain of your self-hosted Infisical instance.
+    Domain of your self-hosted vaultix instance.
 
     ```bash
     # Example
-    infisical gateway start <gateway-name> --domain=https://app.your-domain.com --enroll-method=token --token=<token>
+    vaultix gateway start <gateway-name> --domain=https://app.your-domain.com --enroll-method=token --token=<token>
     ```
 
   </Accordion>
@@ -103,7 +103,7 @@ Once started, the gateway component will:
 
     ```bash
     # Example
-    infisical gateway start <gateway-name> --enroll-method=token --token=<token> --domain=<domain> --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
+    vaultix gateway start <gateway-name> --enroll-method=token --token=<token> --domain=<domain> --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
     ```
 
     See [HSM Connectors](/documentation/platform/pki/settings/hsm-connectors) for the full setup.
@@ -111,11 +111,11 @@ Once started, the gateway component will:
   </AccordionGroup>
 </Accordion>
 
-<Accordion title="infisical gateway systemd install">
+<Accordion title="vaultix gateway systemd install">
   Install and enable the gateway as a systemd service. This command must be run with sudo on Linux.
 
 ```bash
-sudo infisical gateway systemd install my-gateway --enroll-method=token --token=<enrollment-token> --domain=<domain>
+sudo vaultix gateway systemd install my-gateway --enroll-method=token --token=<enrollment-token> --domain=<domain>
 ```
 
 ### Requirements
@@ -132,27 +132,27 @@ sudo infisical gateway systemd install my-gateway --enroll-method=token --token=
 
     ```bash
     # Example
-    sudo infisical gateway systemd install my-gateway --enroll-method=token --token=<enrollment-token> --domain=<domain>
+    sudo vaultix gateway systemd install my-gateway --enroll-method=token --token=<enrollment-token> --domain=<domain>
     ```
 
   </Accordion>
 
   <Accordion title="--token">
-    The one-time enrollment token from the Infisical UI.
+    The one-time enrollment token from the vaultix UI.
 
     ```bash
     # Example
-    sudo infisical gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=<domain>
+    sudo vaultix gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=<domain>
     ```
 
   </Accordion>
 
   <Accordion title="--domain">
-    Domain of your self-hosted Infisical instance.
+    Domain of your self-hosted vaultix instance.
 
     ```bash
     # Example
-    sudo infisical gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=https://app.your-domain.com
+    sudo vaultix gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=https://app.your-domain.com
     ```
 
   </Accordion>
@@ -164,10 +164,10 @@ sudo infisical gateway systemd install my-gateway --enroll-method=token --token=
 
     ```bash
     # Example
-    sudo infisical gateway systemd install my-gateway --target-relay-name=my-relay --enroll-method=token --token=<token> --domain=<domain>
+    sudo vaultix gateway systemd install my-gateway --target-relay-name=my-relay --enroll-method=token --token=<token> --domain=<domain>
     ```
 
-    **Note:** For Infisical Cloud users using instance relays, the relay infrastructure is already running and managed by Infisical. If using organization relays or self-hosted instance relays, you must first start a relay server. For more information on deploying relays, refer to the [Relay Deployment Guide](/documentation/platform/gateways/relay-deployment).
+    **Note:** For vaultix Cloud users using instance relays, the relay infrastructure is already running and managed by vaultix. If using organization relays or self-hosted instance relays, you must first start a relay server. For more information on deploying relays, refer to the [Relay Deployment Guide](/documentation/platform/gateways/relay-deployment).
 
   </Accordion>
 
@@ -176,7 +176,7 @@ sudo infisical gateway systemd install my-gateway --enroll-method=token --token=
 
     ```bash
     # Example
-    sudo infisical gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=<domain> --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
+    sudo vaultix gateway systemd install my-gateway --enroll-method=token --token=<token> --domain=<domain> --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
     ```
 
     See [HSM Connectors](/documentation/platform/pki/settings/hsm-connectors) for the full setup.
@@ -188,7 +188,7 @@ sudo infisical gateway systemd install my-gateway --enroll-method=token --token=
 The systemd service is installed with secure defaults:
 
 - Service file: `/etc/systemd/system/<gateway-name>.service`
-- Config file: `/etc/infisical/gateways/<gateway-name>.conf`
+- Config file: `/etc/vaultix/gateways/<gateway-name>.conf`
 - Runs with restricted privileges:
   - InaccessibleDirectories=/home
   - PrivateTmp=yes
@@ -209,11 +209,11 @@ sudo systemctl disable my-gateway  # Disable auto-start on boot
 
 </Accordion>
 
-<Accordion title="infisical gateway systemd uninstall">
+<Accordion title="vaultix gateway systemd uninstall">
   Uninstall and remove the gateway systemd service. This command must be run with sudo on Linux.
 
 ```bash
-sudo infisical gateway systemd uninstall my-gateway
+sudo vaultix gateway systemd uninstall my-gateway
 ```
 
 The gateway name is provided as a positional argument.

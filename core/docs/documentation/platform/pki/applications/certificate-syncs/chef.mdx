@@ -25,7 +25,7 @@ Store certificates in Chef data bags for distribution to nodes via Chef Infra. C
 ## Create a Chef Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **Chef** option.
@@ -80,7 +80,7 @@ Store certificates in Chef data bags for distribution to nodes via Chef Infra. C
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/chef \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/chef \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -117,7 +117,7 @@ Store certificates in Chef data bags for distribution to nodes via Chef Infra. C
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/chef \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/chef \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -187,7 +187,7 @@ Store certificates in Chef data bags for distribution to nodes via Chef Infra. C
 
 The Chef Certificate Sync provides:
 
-- **Automatic Deployment**: Deploy certificates in Infisical to Chef data bags with customizable field names.
+- **Automatic Deployment**: Deploy certificates in vaultix to Chef data bags with customizable field names.
 - **Certificate Updates**: Update certificates in Chef data bags when renewals occur.
 - **Expiration Handling**: Optionally remove expired certificates from Chef data bags (if enabled).
 - **Format Preservation**: Maintain certificate format during sync operations.
@@ -209,12 +209,12 @@ You can manually trigger certificate synchronization to Chef using the sync cert
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/chef/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync certificates, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/chef/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
-<Accordion title="Can I import certificates from Chef back into Infisical?">
-  Chef does not support importing certificates back into Infisical
+<Accordion title="Can I import certificates from Chef back into vaultix?">
+  Chef does not support importing certificates back into vaultix
   due to the nature of Chef data bags where certificates are stored as data
   rather than managed certificate objects.
 </Accordion>

@@ -5,10 +5,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/infisical/api/internal/ee/services/ratelimit"
-	"github.com/infisical/api/internal/server/api/platform/projects"
-	"github.com/infisical/api/internal/server/api/shared"
-	"github.com/infisical/api/internal/services/auth/apiauth"
+	"github.com/vaultix/api/internal/ee/services/ratelimit"
+	"github.com/vaultix/api/internal/server/api/platform/projects"
+	"github.com/vaultix/api/internal/server/api/shared"
+	"github.com/vaultix/api/internal/services/auth/apiauth"
 )
 
 // RegisterPlatformRoutes initializes platform handlers and registers their routes.

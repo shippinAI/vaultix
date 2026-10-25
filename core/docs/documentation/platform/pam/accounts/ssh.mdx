@@ -47,9 +47,9 @@ SSH accounts support three authentication methods: password, public key, and cer
     The corresponding public key must be in the user's `~/.ssh/authorized_keys` on the server.
   </Tab>
   <Tab title="Certificate (Recommended)">
-    The most secure option. Instead of storing static credentials, Infisical mints a short-lived certificate for each session.
+    The most secure option. Instead of storing static credentials, vaultix mints a short-lived certificate for each session.
 
-    After creating the account, configure the server to trust Infisical's CA. The account detail page provides a setup script.
+    After creating the account, configure the server to trust vaultix's CA. The account detail page provides a setup script.
 
     See the [SSH Certificate Auth guide](/documentation/platform/pam/guides/ssh-certificate-auth) for a full walkthrough.
   </Tab>
@@ -72,7 +72,7 @@ SSH accounts support three authentication methods: password, public key, and cer
     The CLI starts a local proxy that you connect to with your SSH client.
 
     ```bash
-    infisical pam access prod-servers/web-01
+    vaultix pam access prod-servers/web-01
     ```
 
     The command outputs the local port to connect to. Then use your SSH client:

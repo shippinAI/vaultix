@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: PAM approvals schema migration
     description: Startup adds approval policy enforcement and bypass fields, plus a
       new approval policy bypassers table for PAM access workflows.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -24,7 +24,7 @@ dbSchemaChanges:
   - title: Gateway heartbeat TTL migration
     description: Startup adds gateway heartbeatTTL, backfills existing heartbeat
       rows to 1800, and removes lastHealthCheckStatus from the gateway table.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -35,13 +35,13 @@ dbSchemaChanges:
         description: Adds heartbeatTTL and drops lastHealthCheckStatus
       - type: pr
         ref: "#6432"
-        url: https://github.com/Infisical/infisical/pull/6432
+        url: https://github.com/vaultix/vaultix/pull/6432
         description: Gateway staleness timeout reduced to 5 minutes
 configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-19T19:39:10.464Z

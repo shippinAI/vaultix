@@ -4,7 +4,7 @@ description: "Configure ClickHouse as your audit log storage backend for high-vo
 ---
 
 <Info>
-This guide is for self-hosted Infisical deployments experiencing performance degradation with large audit log tables. ClickHouse is optional and only recommended for deployments with 300 million+ audit log rows.
+This guide is for self-hosted vaultix deployments experiencing performance degradation with large audit log tables. ClickHouse is optional and only recommended for deployments with 300 million+ audit log rows.
 </Info>
 
 ## Why ClickHouse?
@@ -18,11 +18,11 @@ For high-volume audit log workloads, ClickHouse provides significant advantages 
 
 1. A running ClickHouse instance. See [ClickHouse deployment documentation](https://clickhouse.com/docs/en/install) for installation options.
 2. A database created in ClickHouse for audit logs.
-3. Network connectivity from your Infisical backend to the ClickHouse instance.
+3. Network connectivity from your vaultix backend to the ClickHouse instance.
 
 ## Configuration
 
-Set the `CLICKHOUSE_URL` environment variable in your Infisical backend configuration:
+Set the `CLICKHOUSE_URL` environment variable in your vaultix backend configuration:
 
 ```bash
 CLICKHOUSE_URL=http(s)://username:password@host:port/database
@@ -30,7 +30,7 @@ CLICKHOUSE_URL=http(s)://username:password@host:port/database
 
 Example:
 ```bash
-CLICKHOUSE_URL=http://infisical:mypassword@clickhouse.internal:8123/audit_logs
+CLICKHOUSE_URL=http://vaultix:mypassword@clickhouse.internal:8123/audit_logs
 ```
 
 That's all that's needed — ClickHouse audit log writes are enabled by default once the URL is set. To customize the table name (default: `audit_logs`):
@@ -43,7 +43,7 @@ For the full list of available ClickHouse and audit log environment variables (i
 
 ## How It Works
 
-Once `CLICKHOUSE_URL` is set, audit log writes switch from PostgreSQL to ClickHouse. Events are queued in a Redis stream and batch-inserted into ClickHouse every 5 seconds via a background worker. Reads also route to ClickHouse automatically. On first startup, Infisical creates the ClickHouse table if it doesn't already exist.
+Once `CLICKHOUSE_URL` is set, audit log writes switch from PostgreSQL to ClickHouse. Events are queued in a Redis stream and batch-inserted into ClickHouse every 5 seconds via a background worker. Reads also route to ClickHouse automatically. On first startup, vaultix creates the ClickHouse table if it doesn't already exist.
 
 ### Migration Strategy
 
@@ -68,7 +68,7 @@ Enabling ClickHouse is a hard cutover. All reads immediately route to ClickHouse
 
 After configuration, verify ClickHouse integration:
 
-1. **Perform an action** in Infisical (e.g., read a secret)
+1. **Perform an action** in vaultix (e.g., read a secret)
 2. **Query ClickHouse directly** to confirm rows are being inserted
 
 If rows appear in ClickHouse, the integration is working correctly.

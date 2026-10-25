@@ -12,8 +12,8 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/network"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/database/pg"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/database/pg"
 )
 
 // licenseFeaturePath is the path to the compiled license-fns module inside the Node.js container.

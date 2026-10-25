@@ -579,10 +579,10 @@ export const authLoginServiceFactory = ({
 
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.user.email": email,
-          "infisical.user.id": user.id,
-          "infisical.auth.method": AuthAttemptAuthMethod.EMAIL,
-          "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+          "vaultix.user.email": email,
+          "vaultix.user.id": user.id,
+          "vaultix.auth.method": AuthAttemptAuthMethod.EMAIL,
+          "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
           "client.address": ip,
           "user_agent.original": userAgent
         });
@@ -604,9 +604,9 @@ export const authLoginServiceFactory = ({
     } catch (error) {
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.user.email": email,
-          "infisical.auth.method": AuthAttemptAuthMethod.EMAIL,
-          "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+          "vaultix.user.email": email,
+          "vaultix.auth.method": AuthAttemptAuthMethod.EMAIL,
+          "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
           "client.address": ip,
           "user_agent.original": userAgent
         });

@@ -26,9 +26,9 @@ type ContainerTestRunner struct {
 }
 
 // NewContainerTest creates a new container test runner.
-//   - image: full Docker image name (e.g., "infisical/go-test-backend")
-//   - insideEnvVar: env var set inside container to prevent infinite loop (e.g., "INFISICAL_HSM_TEST_INSIDE")
-//   - optInEnvVar: env var that must be "1" to run tests (e.g., "INFISICAL_RUN_HSM_CONTAINER_TEST")
+//   - image: full Docker image name (e.g., "vaultix/go-test-backend")
+//   - insideEnvVar: env var set inside container to prevent infinite loop (e.g., "vaultix_HSM_TEST_INSIDE")
+//   - optInEnvVar: env var that must be "1" to run tests (e.g., "vaultix_RUN_HSM_CONTAINER_TEST")
 func NewContainerTest(image, insideEnvVar, optInEnvVar string) *ContainerTestRunner {
 	return &ContainerTestRunner{
 		image:        image,

@@ -4,7 +4,7 @@ sidebarTitle: "Set Up HTTPS for Tomcat"
 description: "Issue TLS certificates for Apache Tomcat using ACME enrollment with Certbot."
 ---
 
-Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache.org/) application server using Infisical and [Certbot](https://certbot.eff.org/). Tomcat requires certificates to be manually configured after issuance.
+Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache.org/) application server using vaultix and [Certbot](https://certbot.eff.org/). Tomcat requires certificates to be manually configured after issuance.
 
 <Info>
   This guide assumes you have an Application with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured.
@@ -13,24 +13,24 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
 ## Prerequisites
 
 - An Apache Tomcat server running on Linux with administrative access
-- An Application in Infisical with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
-- Network connectivity from your Tomcat server to Infisical
+- An Application in vaultix with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
+- Network connectivity from your Tomcat server to vaultix
 - Port 80 open for [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) validation
 
 ## Guide
 
 <Steps>
-    <Step title="Get ACME Credentials from Infisical">
+    <Step title="Get ACME Credentials from vaultix">
         In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with ACME enrollment, then click **Reveal ACME EAB** to view the credentials:
 
         | Credential | Purpose |
         |------------|---------|
-        | **ACME Directory URL** | The URL Certbot uses to communicate with Infisical |
+        | **ACME Directory URL** | The URL Certbot uses to communicate with vaultix |
         | **EAB Key Identifier (KID)** | Identifies your ACME account |
         | **EAB Secret** | Authenticates your ACME client |
 
         <Note>
-            Keep your EAB credentials secure. They authenticate your ACME client with Infisical and are unique to each enrollment.
+            Keep your EAB credentials secure. They authenticate your ACME client with vaultix and are unique to each enrollment.
         </Note>
     </Step>
 
@@ -55,15 +55,15 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         sudo systemctl stop tomcat
         ```
 
-        Run the following command to request a certificate from Infisical:
+        Run the following command to request a certificate from vaultix:
 
         ```bash
         sudo certbot certonly \
           --standalone \
-          --server "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
+          --server "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
           --eab-kid "your-eab-key-identifier" \
           --eab-hmac-key "your-eab-secret" \
-          -d example.infisical.com \
+          -d example.vaultix.com \
           --email admin@example.com \
           --agree-tos \
           --non-interactive
@@ -73,7 +73,7 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
 
         - `certonly`: Instructs Certbot to request a certificate without modifying your Tomcat configuration; this mode is recommended because Tomcat requires manual SSL connector configuration in its server.xml file.
         - `--standalone`: Uses Certbot's standalone authenticator to solve the [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) challenge by starting a temporary web server on port 80.
-        - `--server`: The Infisical ACME directory URL from Step 1. This instructs Certbot to communicate with Infisical's ACME server instead of Let's Encrypt.
+        - `--server`: The vaultix ACME directory URL from Step 1. This instructs Certbot to communicate with vaultix's ACME server instead of Let's Encrypt.
         - `--eab-kid`: Your External Account Binding (EAB) Key Identifier from Step 1.
         - `--eab-hmac-key`: The EAB secret associated with the KID from Step 1.
         - `-d`: Specifies the domain name for which the certificate is being requested.
@@ -81,7 +81,7 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         - `--agree-tos`: Accepts the ACME server's Terms of Service.
         - `--non-interactive`: Runs Certbot without prompting for user input (recommended for automation).
 
-        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to Infisical for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
+        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to vaultix for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
 
         Because Tomcat requires manual SSL configuration, you'll need to configure the SSL connector in your Tomcat server.xml file to reference these certificate files. You can restart Tomcat after the certificate is issued, but SSL won't be enabled until you complete the server configuration.
 
@@ -101,9 +101,9 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
                    maxThreads="150"
                    SSLEnabled="true">
             <SSLHostConfig>
-                <Certificate certificateFile="/etc/letsencrypt/live/example.infisical.com/cert.pem"
-                           certificateKeyFile="/etc/letsencrypt/live/example.infisical.com/privkey.pem"
-                           certificateChainFile="/etc/letsencrypt/live/example.infisical.com/chain.pem"
+                <Certificate certificateFile="/etc/letsencrypt/live/example.vaultix.com/cert.pem"
+                           certificateKeyFile="/etc/letsencrypt/live/example.vaultix.com/privkey.pem"
+                           certificateChainFile="/etc/letsencrypt/live/example.vaultix.com/chain.pem"
                            type="RSA" />
             </SSLHostConfig>
         </Connector>
@@ -115,7 +115,7 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         sudo systemctl restart tomcat
         ```
 
-        You can verify SSL is working by accessing your Tomcat application at `https://example.infisical.com:8443`. For production deployments, consider configuring a reverse proxy (like [Apache HTTP Server](https://httpd.apache.org/) or [Nginx](https://nginx.org/)) to handle SSL termination on standard port 443.
+        You can verify SSL is working by accessing your Tomcat application at `https://example.vaultix.com:8443`. For production deployments, consider configuring a reverse proxy (like [Apache HTTP Server](https://httpd.apache.org/) or [Nginx](https://nginx.org/)) to handle SSL termination on standard port 443.
 
         <Note>
             The certificate paths must be readable by the Tomcat user. You may need to adjust file permissions or copy the certificates to a location accessible by Tomcat. For security, ensure the private key file has restricted permissions (600) and is owned by the Tomcat user.
@@ -128,7 +128,7 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         Check that the certificate files were created by Certbot:
 
         ```bash
-        sudo ls -la /etc/letsencrypt/live/example.infisical.com/
+        sudo ls -la /etc/letsencrypt/live/example.vaultix.com/
         ```
 
         You should see files like:
@@ -177,7 +177,7 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         # Tomcat certificate renewal hook
         # This runs AFTER Certbot successfully renews certificates
 
-        DOMAIN="example.infisical.com"
+        DOMAIN="example.vaultix.com"
         TOMCAT_USER="tomcat"
 
         # Ensure certificate files are readable by Tomcat
@@ -224,12 +224,12 @@ Set up automatic TLS certificates for your [Apache Tomcat](https://tomcat.apache
         After Certbot renews your certificates, ensure they're readable by Tomcat:
 
         ```bash
-        sudo chown root:tomcat /etc/letsencrypt/live/example.infisical.com/cert.pem
-        sudo chown root:tomcat /etc/letsencrypt/live/example.infisical.com/privkey.pem
-        sudo chown root:tomcat /etc/letsencrypt/live/example.infisical.com/chain.pem
-        sudo chmod 640 /etc/letsencrypt/live/example.infisical.com/cert.pem
-        sudo chmod 640 /etc/letsencrypt/live/example.infisical.com/privkey.pem
-        sudo chmod 640 /etc/letsencrypt/live/example.infisical.com/chain.pem
+        sudo chown root:tomcat /etc/letsencrypt/live/example.vaultix.com/cert.pem
+        sudo chown root:tomcat /etc/letsencrypt/live/example.vaultix.com/privkey.pem
+        sudo chown root:tomcat /etc/letsencrypt/live/example.vaultix.com/chain.pem
+        sudo chmod 640 /etc/letsencrypt/live/example.vaultix.com/cert.pem
+        sudo chmod 640 /etc/letsencrypt/live/example.vaultix.com/privkey.pem
+        sudo chmod 640 /etc/letsencrypt/live/example.vaultix.com/chain.pem
         ```
 
         **Step 2: Restart Tomcat to load new certificates**

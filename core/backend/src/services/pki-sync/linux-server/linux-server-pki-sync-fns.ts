@@ -128,7 +128,7 @@ const writeFileAtomic = (sftp: SFTPWrapper, filePath: string, content: Buffer, m
   // A per-write random suffix keeps concurrent syncs (e.g. a manual trigger overlapping an auto-sync)
   // from sharing one temp path and orphaning it: OpenSSH rename is not atomic-overwrite, so we
   // unlink-then-rename, and a shared temp name would let one job recreate the file another just moved.
-  const tmpPath = `${filePath}.${crypto.randomBytes(6).toString("hex")}.infisical.tmp`;
+  const tmpPath = `${filePath}.${crypto.randomBytes(6).toString("hex")}.vaultix.tmp`;
   return new Promise<void>((resolve, reject) => {
     const removeTempFileThen = (finalize: () => void) => sftp.unlink(tmpPath, () => finalize());
 
@@ -150,7 +150,7 @@ const unlinkIfExists = (sftp: SFTPWrapper, filePath: string): Promise<void> =>
     sftp.unlink(filePath, () => resolve());
   });
 
-const TEMP_FILE_MARKER = ".infisical.tmp";
+const TEMP_FILE_MARKER = ".vaultix.tmp";
 // A write completes in seconds, so any temp file older than this was left by an interrupted run
 // (dropped connection between write and rename) and is safe to remove even if another sync shares
 // this directory.

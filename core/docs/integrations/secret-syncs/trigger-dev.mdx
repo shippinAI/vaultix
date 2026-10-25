@@ -1,13 +1,13 @@
 ---
 title: "Trigger.dev Sync"
-description: "Learn how to configure a Trigger.dev Sync for Infisical."
+description: "Learn how to configure a Trigger.dev Sync for vaultix."
 ---
 
 **Prerequisites:**
 - Create a [Trigger.dev Connection](/integrations/app-connections/trigger-dev)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Add Sync">
                 Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -41,7 +41,7 @@ description: "Learn how to configure a Trigger.dev Sync for Infisical."
                 - **Environment**: The Trigger.dev environment to sync secrets to (one of **Production**, **Staging**, **Development**, or **Preview**).
             </Step>
             <Step title="Configure initial sync behavior">
-                Configure the **Initial Sync Behavior** to determine how Infisical should resolve the first sync, then click **Next**.
+                Configure the **Initial Sync Behavior** to determine how vaultix should resolve the first sync, then click **Next**.
 
                 <Note>
                     Trigger.dev does not support importing secrets because it redacts secret values when they are read back. Only the overwrite behavior is available.
@@ -55,11 +55,11 @@ description: "Learn how to configure a Trigger.dev Sync for Infisical."
 
                 ![Configure Options](/images/secret-syncs/trigger-dev/step-5-sync-options.png)
 
-                - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+                - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
                 - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
                 - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
                 <Note>
-                    We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                    We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
                 </Note>
                 - **Mark Variables as Secret**: If enabled, synced variables are marked as secret (redacted) environment variables in Trigger.dev.
             </Step>
@@ -76,7 +76,7 @@ description: "Learn how to configure a Trigger.dev Sync for Infisical."
 
                 ![Confirm Configuration](/images/secret-syncs/trigger-dev/step-7-review.png)
 
-                A confirmation dialog will appear reminding you that Infisical is the source of truth for the destination. Click **I Understand** to proceed.
+                A confirmation dialog will appear reminding you that vaultix is the source of truth for the destination. Click **I Understand** to proceed.
 
                 ![Confirm Sync Behavior](/images/secret-syncs/trigger-dev/step-8-confirm.png)
             </Step>
@@ -94,7 +94,7 @@ description: "Learn how to configure a Trigger.dev Sync for Infisical."
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/secret-syncs/trigger-dev \
+                --url https://app.vaultix.com/api/v1/secret-syncs/trigger-dev \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-trigger-dev-sync",

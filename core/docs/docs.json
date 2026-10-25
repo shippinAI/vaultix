@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Infisical",
+  "name": "vaultix",
   "colors": {
     "primary": "#26272b",
     "light": "#EFFF33",
@@ -157,7 +157,7 @@
                       "integrations/app-connections/heroku",
                       "integrations/app-connections/humanitec",
                       "integrations/app-connections/kemp-loadmaster",
-                      "integrations/app-connections/external-infisical",
+                      "integrations/app-connections/external-vaultix",
                       "integrations/app-connections/laravel-forge",
                       "integrations/app-connections/ldap",
                       "integrations/app-connections/litellm",
@@ -360,13 +360,13 @@
             ]
           },
           {
-            "group": "Self-host Infisical",
+            "group": "Self-host vaultix",
             "pages": [
               "self-hosting/overview",
               {
                 "group": "Installation methods",
                 "pages": [
-                  "self-hosting/deployment-options/standalone-infisical",
+                  "self-hosting/deployment-options/standalone-vaultix",
                   "self-hosting/deployment-options/docker-compose",
                   "self-hosting/deployment-options/aws-native",
                   "self-hosting/deployment-options/gcp-native"
@@ -394,7 +394,7 @@
               },
               "self-hosting/guides/replication",
               "self-hosting/guides/hsm-integration",
-              "self-hosting/guides/upgrading-infisical",
+              "self-hosting/guides/upgrading-vaultix",
               "self-hosting/configuration/envars",
               "self-hosting/guides/releases",
               "self-hosting/configuration/requirements",
@@ -680,17 +680,17 @@
                             "group": "V2",
                             "tag": "RECOMMENDED",
                             "pages": [
-                              "integrations/platforms/kubernetes/infisical-connection-crd",
-                              "integrations/platforms/kubernetes/infisical-auth-crd",
-                              "integrations/platforms/kubernetes/infisical-static-secret-crd"
+                              "integrations/platforms/kubernetes/vaultix-connection-crd",
+                              "integrations/platforms/kubernetes/vaultix-auth-crd",
+                              "integrations/platforms/kubernetes/vaultix-static-secret-crd"
                             ]
                           },
                           {
                             "group": "V1",
                             "pages": [
-                              "integrations/platforms/kubernetes/infisical-secret-crd",
-                              "integrations/platforms/kubernetes/infisical-push-secret-crd",
-                              "integrations/platforms/kubernetes/infisical-dynamic-secret-crd"
+                              "integrations/platforms/kubernetes/vaultix-secret-crd",
+                              "integrations/platforms/kubernetes/vaultix-push-secret-crd",
+                              "integrations/platforms/kubernetes/vaultix-dynamic-secret-crd"
                             ]
                           }
                         ]
@@ -709,11 +709,11 @@
                         "group": "AWS",
                         "pages": ["integrations/platforms/aws/lambda"]
                       },
-                      "integrations/platforms/infisical-proxy",
+                      "integrations/platforms/vaultix-proxy",
                       {
                         "group": "Agent",
                         "pages": [
-                          "integrations/platforms/infisical-agent",
+                          "integrations/platforms/vaultix-agent",
                           "integrations/platforms/ecs-with-agent"
                         ]
                       },
@@ -778,7 +778,7 @@
                         "group": "Secret Managers",
                         "pages": [
                           "integrations/secret-syncs/1password",
-                          "integrations/secret-syncs/external-infisical",
+                          "integrations/secret-syncs/external-vaultix",
                           "integrations/secret-syncs/hashicorp-vault"
                         ]
                       },
@@ -910,7 +910,7 @@
                       {
                         "group": "Applications",
                         "pages": [
-                          "documentation/platform/pki/guides/applications/infisical-agent",
+                          "documentation/platform/pki/guides/applications/vaultix-agent",
                           "documentation/platform/pki/guides/applications/k8s-cert-manager-acme",
                           "documentation/platform/pki/guides/applications/k8s-cert-manager-issuer",
                           "documentation/platform/pki/guides/applications/nginx-certbot",
@@ -1063,10 +1063,10 @@
             ]
           },
           {
-            "item": "Infisical KMS",
+            "item": "vaultix KMS",
             "groups": [
               {
-                "group": "Infisical KMS",
+                "group": "vaultix KMS",
                 "pages": [
                   "documentation/platform/kms/overview",
                   "documentation/platform/kms/kubernetes-encryption",
@@ -1200,7 +1200,7 @@
                   "cli/commands/agent-proxy",
                   "cli/commands/dynamic-secrets",
                   {
-                    "group": "infisical pam",
+                    "group": "vaultix pam",
                     "pages": ["cli/commands/pam", "cli/commands/pam-agentic"]
                   },
                   "cli/commands/gateway",
@@ -1214,7 +1214,7 @@
                   "cli/commands/user",
                   "cli/commands/reset",
                   {
-                    "group": "infisical scan",
+                    "group": "vaultix scan",
                     "pages": [
                       "cli/commands/scan",
                       "cli/commands/scan-git-changes",
@@ -1938,15 +1938,15 @@
                     ]
                   },
                   {
-                    "group": "Infisical",
+                    "group": "vaultix",
                     "pages": [
-                      "api-reference/endpoints/app-connections/external-infisical/list",
-                      "api-reference/endpoints/app-connections/external-infisical/available",
-                      "api-reference/endpoints/app-connections/external-infisical/get-by-id",
-                      "api-reference/endpoints/app-connections/external-infisical/get-by-name",
-                      "api-reference/endpoints/app-connections/external-infisical/create",
-                      "api-reference/endpoints/app-connections/external-infisical/update",
-                      "api-reference/endpoints/app-connections/external-infisical/delete"
+                      "api-reference/endpoints/app-connections/external-vaultix/list",
+                      "api-reference/endpoints/app-connections/external-vaultix/available",
+                      "api-reference/endpoints/app-connections/external-vaultix/get-by-id",
+                      "api-reference/endpoints/app-connections/external-vaultix/get-by-name",
+                      "api-reference/endpoints/app-connections/external-vaultix/create",
+                      "api-reference/endpoints/app-connections/external-vaultix/update",
+                      "api-reference/endpoints/app-connections/external-vaultix/delete"
                     ]
                   },
                   {
@@ -3366,17 +3366,17 @@
                     ]
                   },
                   {
-                    "group": "Infisical",
+                    "group": "vaultix",
                     "pages": [
-                      "api-reference/endpoints/secret-syncs/external-infisical/list",
-                      "api-reference/endpoints/secret-syncs/external-infisical/get-by-id",
-                      "api-reference/endpoints/secret-syncs/external-infisical/get-by-name",
-                      "api-reference/endpoints/secret-syncs/external-infisical/create",
-                      "api-reference/endpoints/secret-syncs/external-infisical/update",
-                      "api-reference/endpoints/secret-syncs/external-infisical/delete",
-                      "api-reference/endpoints/secret-syncs/external-infisical/sync-secrets",
-                      "api-reference/endpoints/secret-syncs/external-infisical/import-secrets",
-                      "api-reference/endpoints/secret-syncs/external-infisical/remove-secrets"
+                      "api-reference/endpoints/secret-syncs/external-vaultix/list",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/get-by-id",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/get-by-name",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/create",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/update",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/delete",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/sync-secrets",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/import-secrets",
+                      "api-reference/endpoints/secret-syncs/external-vaultix/remove-secrets"
                     ]
                   },
                   {
@@ -4170,7 +4170,7 @@
             ]
           },
           {
-            "group": "Infisical KMS",
+            "group": "vaultix KMS",
             "pages": [
               {
                 "group": "Keys",
@@ -4285,12 +4285,12 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://infisical.com"
+    "href": "https://vaultix.com"
   },
   "api": {
-    "openapi": "https://app.infisical.com/api/docs/json",
+    "openapi": "https://app.vaultix.com/api/docs/json",
     "mdx": {
-      "server": ["https://app.infisical.com"]
+      "server": ["https://app.vaultix.com"]
     }
   },
   "background": {
@@ -4303,21 +4303,21 @@
     "links": [
       {
         "label": "Log In",
-        "href": "https://app.infisical.com/login"
+        "href": "https://app.vaultix.com/login"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Start for Free",
-      "href": "https://app.infisical.com/signup"
+      "href": "https://app.vaultix.com/signup"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://www.twitter.com/infisical/",
-      "linkedin": "https://www.linkedin.com/company/infisical/",
-      "github": "https://github.com/Infisical/infisical-cli",
-      "slack": "https://infisical.com/slack"
+      "x": "https://www.twitter.com/vaultix/",
+      "linkedin": "https://www.linkedin.com/company/vaultix/",
+      "github": "https://github.com/vaultix/vaultix-cli",
+      "slack": "https://vaultix.com/slack"
     },
     "links": [
       {
@@ -4325,35 +4325,35 @@
         "items": [
           {
             "label": "Secret Management",
-            "href": "https://infisical.com/"
+            "href": "https://vaultix.com/"
           },
           {
             "label": "Secret Scanning",
-            "href": "https://infisical.com/radar"
+            "href": "https://vaultix.com/radar"
           },
           {
             "label": "Share Secrets",
-            "href": "https://app.infisical.com/share-secret"
+            "href": "https://app.vaultix.com/share-secret"
           },
           {
             "label": "Pricing",
-            "href": "https://infisical.com/pricing"
+            "href": "https://vaultix.com/pricing"
           },
           {
             "label": "Security",
-            "href": "https://infisical.com/docs/internals/security"
+            "href": "https://vaultix.com/docs/internals/security"
           },
           {
             "label": "Blog",
-            "href": "https://infisical.com/blog"
+            "href": "https://vaultix.com/blog"
           },
           {
-            "label": "Infisical vs Vault",
-            "href": "https://infisical.com/infisical-vs-hashicorp-vault"
+            "label": "vaultix vs Vault",
+            "href": "https://vaultix.com/vaultix-vs-hashicorp-vault"
           },
           {
             "label": "Forum",
-            "href": "https://questions.infisical.com/"
+            "href": "https://questions.vaultix.com/"
           }
         ]
       },
@@ -4361,52 +4361,52 @@
         "header": "USE CASES",
         "items": [
           {
-            "label": "Infisical Agent",
-            "href": "https://infisical.com/docs/documentation/getting-started/introduction"
+            "label": "vaultix Agent",
+            "href": "https://vaultix.com/docs/documentation/getting-started/introduction"
           },
           {
-            "label": "Infisical Proxy",
-            "href": "https://infisical.com/docs/integrations/platforms/infisical-proxy"
+            "label": "vaultix Proxy",
+            "href": "https://vaultix.com/docs/integrations/platforms/vaultix-proxy"
           },
           {
             "label": "Kubernetes",
-            "href": "https://infisical.com/docs/integrations/platforms/kubernetes"
+            "href": "https://vaultix.com/docs/integrations/platforms/kubernetes"
           },
           {
             "label": "Dynamic Secrets",
-            "href": "https://infisical.com/docs/documentation/platform/dynamic-secrets/overview"
+            "href": "https://vaultix.com/docs/documentation/platform/dynamic-secrets/overview"
           },
           {
             "label": "Terraform",
-            "href": "https://registry.terraform.io/providers/Infisical/infisical/latest/docs"
+            "href": "https://registry.terraform.io/providers/vaultix/vaultix/latest/docs"
           },
           {
             "label": "Ansible",
-            "href": "https://infisical.com/docs/integrations/platforms/ansible"
+            "href": "https://vaultix.com/docs/integrations/platforms/ansible"
           },
           {
             "label": "Jenkins",
-            "href": "https://infisical.com/docs/integrations/cicd/jenkins"
+            "href": "https://vaultix.com/docs/integrations/cicd/jenkins"
           },
           {
             "label": "Docker",
-            "href": "https://infisical.com/docs/integrations/platforms/docker"
+            "href": "https://vaultix.com/docs/integrations/platforms/docker"
           },
           {
             "label": "AWS ECS",
-            "href": "https://infisical.com/docs/integrations/platforms/ecs-with-agent"
+            "href": "https://vaultix.com/docs/integrations/platforms/ecs-with-agent"
           },
           {
             "label": "GitLab",
-            "href": "https://infisical.com/docs/integrations/cicd/gitlab"
+            "href": "https://vaultix.com/docs/integrations/cicd/gitlab"
           },
           {
             "label": "GitHub",
-            "href": "https://infisical.com/docs/integrations/cicd/githubactions"
+            "href": "https://vaultix.com/docs/integrations/cicd/githubactions"
           },
           {
             "label": "SDK",
-            "href": "https://infisical.com/docs/sdks/overview"
+            "href": "https://vaultix.com/docs/sdks/overview"
           }
         ]
       },
@@ -4415,27 +4415,27 @@
         "items": [
           {
             "label": "Changelog",
-            "href": "https://github.com/Infisical/infisical/releases"
+            "href": "https://github.com/vaultix/vaultix/releases"
           },
           {
             "label": "Status",
-            "href": "https://status.infisical.com/"
+            "href": "https://status.vaultix.com/"
           },
           {
             "label": "Feedback & Requests",
-            "href": "https://github.com/Infisical/infisical/issues"
+            "href": "https://github.com/vaultix/vaultix/issues"
           },
           {
             "label": "Trust of Center",
-            "href": "https://app.vanta.com/infisical.com/trust/hoop8cr78cuarxo9sztvs"
+            "href": "https://app.vanta.com/vaultix.com/trust/hoop8cr78cuarxo9sztvs"
           },
           {
             "label": "Open Source Friends",
-            "href": "https://infisical.com/infisical-friends"
+            "href": "https://vaultix.com/vaultix-friends"
           },
           {
             "label": "How to contribute",
-            "href": "https://www.infisical.com/infisical-heroes"
+            "href": "https://www.vaultix.com/vaultix-heroes"
           }
         ]
       },
@@ -4444,43 +4444,43 @@
         "items": [
           {
             "label": "Customers",
-            "href": "https://infisical.com/customers/traba"
+            "href": "https://vaultix.com/customers/traba"
           },
           {
             "label": "Company Handbook",
-            "href": "https://infisical.com/wiki/handbook/overview"
+            "href": "https://vaultix.com/wiki/handbook/overview"
           },
           {
             "label": "Careers",
-            "href": "https://infisical.com/careers"
+            "href": "https://vaultix.com/careers"
           },
           {
             "label": "Terms of Service",
-            "href": "https://infisical.com/terms"
+            "href": "https://vaultix.com/terms"
           },
           {
             "label": "Privacy Policy",
-            "href": "https://infisical.com/privacy"
+            "href": "https://vaultix.com/privacy"
           },
           {
             "label": "Subprocessors",
-            "href": "https://infisical.com/subprocessors"
+            "href": "https://vaultix.com/subprocessors"
           },
           {
             "label": "SLA",
-            "href": "https://infisical.com/sla"
+            "href": "https://vaultix.com/sla"
           },
           {
             "label": "Support Email",
-            "href": "mailto:support@infisical.com"
+            "href": "mailto:support@vaultix.com"
           },
           {
             "label": "Sales",
-            "href": "mailto:sales@infisical.com"
+            "href": "mailto:sales@vaultix.com"
           },
           {
             "label": "Support",
-            "href": "https://infisical.com/slack"
+            "href": "https://vaultix.com/slack"
           }
         ]
       }
@@ -4489,7 +4489,7 @@
   "integrations": {
     "posthog": {
       "apiKey": "phc_Q0xfB3LeOqo7ySk4DE6zLNwDzHFesKcmigknCy4fTdV",
-      "apiHost": "https://p.infisical.com"
+      "apiHost": "https://p.vaultix.com"
     },
     "koala": {
       "publicApiKey": "pk_b50d7184e0e39ddd5cdb43cf6abeadd9b97d"

@@ -6,7 +6,7 @@ import { appConnectionKeys } from "@app/hooks/api/appConnections";
 import { TRemoteVaultixEnvironmentFolderTree, TRemoteVaultixProject } from "./types";
 
 const externalVaultixConnectionKeys = {
-  all: [...appConnectionKeys.all, "external-infisical"] as const,
+  all: [...appConnectionKeys.all, "external-vaultix"] as const,
   listProjects: (connectionId: string) =>
     [...externalVaultixConnectionKeys.all, "projects", connectionId] as const,
   getEnvironmentFolderTree: (connectionId: string, projectId: string) =>
@@ -34,7 +34,7 @@ export const useExternalVaultixConnectionListProjects = (
     queryKey: externalVaultixConnectionKeys.listProjects(connectionId),
     queryFn: async () => {
       const { data } = await apiRequest.get<{ projects: TRemoteVaultixProject[] }>(
-        `/api/v1/app-connections/external-infisical/${connectionId}/projects`
+        `/api/v1/app-connections/external-vaultix/${connectionId}/projects`
       );
       return data.projects;
     },
@@ -59,7 +59,7 @@ export const useExternalVaultixConnectionGetEnvironmentFolderTree = (
     queryKey: externalVaultixConnectionKeys.getEnvironmentFolderTree(connectionId, projectId),
     queryFn: async () => {
       const { data } = await apiRequest.get<TRemoteVaultixEnvironmentFolderTree>(
-        `/api/v1/app-connections/external-infisical/${connectionId}/projects/${projectId}/environment-folder-tree`
+        `/api/v1/app-connections/external-vaultix/${connectionId}/projects/${projectId}/environment-folder-tree`
       );
       return data ?? {};
     },

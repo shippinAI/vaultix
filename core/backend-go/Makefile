@@ -34,7 +34,7 @@ dev:
 
 # Build the server binary
 build:
-	go build -o infisical ./cmd/infisical/...
+	go build -o vaultix ./cmd/vaultix/...
 
 # Regenerate oapi-codegen-dd code from openapi.yml specs
 generate:
@@ -42,8 +42,8 @@ generate:
 
 # Build the HSM test container image (requires Docker)
 test-hsm-image:
-	docker build -t infisical/go-test-backend -f docker-test/Dockerfile docker-test/
+	docker build -t vaultix/go-test-backend -f docker-test/Dockerfile docker-test/
 
 # Run HSM integration tests (requires test-hsm-image to be built first)
 test-hsm: test-hsm-image
-	INFISICAL_RUN_HSM_CONTAINER_TEST=1 go test -v -tags integration ./tests/platform/hsm/... -count=1 -timeout 300s
+	vaultix_RUN_HSM_CONTAINER_TEST=1 go test -v -tags integration ./tests/platform/hsm/... -count=1 -timeout 300s

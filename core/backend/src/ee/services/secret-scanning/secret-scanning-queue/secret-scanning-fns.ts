@@ -19,7 +19,7 @@ import { SecretMatch } from "./secret-scanning-queue-types";
 const SCAN_FINDINGS_EXIT_CODE = 77;
 
 export function createTempFolder(): Promise<string> {
-  return mkdtemp(join(tmpdir(), "infisical-scan-"));
+  return mkdtemp(join(tmpdir(), "vaultix-scan-"));
 }
 
 export function writeTextToFile(filePath: string, content: string): Promise<void> {
@@ -51,7 +51,7 @@ export async function cloneRepo(
   });
 }
 
-export async function runInfisicalScanOnRepo(repoPath: string, outputPath: string): Promise<void> {
+export async function runvaultixScanOnRepo(repoPath: string, outputPath: string): Promise<void> {
   await execFileBounded("vaultix", ["scan", "--exit-code=77", "-r", outputPath], {
     phase: SecretScanningExecPhase.Scan,
     cwd: repoPath,
@@ -61,7 +61,7 @@ export async function runInfisicalScanOnRepo(repoPath: string, outputPath: strin
   });
 }
 
-export async function runInfisicalScan(inputPath: string, outputPath: string, configPath?: string): Promise<void> {
+export async function runvaultixScan(inputPath: string, outputPath: string, configPath?: string): Promise<void> {
   const args = ["scan", "--exit-code=77", "--source", inputPath, "--no-git", "-r", outputPath];
   if (configPath) {
     args.push("-c", configPath);
@@ -127,7 +127,7 @@ export async function scanFullRepoContentAndGetFindings(
       installation_id: Number(installationId)
     });
     await cloneRepo(token, repositoryFullName, repoPath);
-    await runInfisicalScanOnRepo(repoPath, findingsPath);
+    await runvaultixScanOnRepo(repoPath, findingsPath);
     const findingsData = await readFindingsFile(findingsPath);
     return JSON.parse(findingsData) as SecretMatch[];
   } finally {
@@ -142,7 +142,7 @@ export async function scanContentAndGetFindings(textContent: string, configPath?
 
   try {
     await writeTextToFile(filePath, textContent);
-    await runInfisicalScan(filePath, findingsPath, configPath);
+    await runvaultixScan(filePath, findingsPath, configPath);
     const findingsData = await readFindingsFile(findingsPath);
     return JSON.parse(findingsData) as SecretMatch[];
   } finally {

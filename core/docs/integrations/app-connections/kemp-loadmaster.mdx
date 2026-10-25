@@ -1,14 +1,14 @@
 ---
 title: "Kemp LoadMaster Connection"
-description: "Learn how to configure a Kemp LoadMaster Connection for Infisical."
+description: "Learn how to configure a Kemp LoadMaster Connection for vaultix."
 ---
 
-Infisical supports connecting to Progress Kemp LoadMaster load balancers using basic authentication credentials for managing SSL certificates via the RESTful API.
+vaultix supports connecting to Progress Kemp LoadMaster load balancers using basic authentication credentials for managing SSL certificates via the RESTful API.
 
 ## Setup
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Enable the LoadMaster API Interface">
         On the LoadMaster, go to **Certificates & Security > Remote Access** and enable the **API Interface** checkbox. The RESTful API is disabled by default, and certificate management requires it to be enabled.
@@ -42,9 +42,9 @@ Infisical supports connecting to Progress Kemp LoadMaster load balancers using b
         Configure the **SSL** tab:
 
         - **SSL Certificate** (Optional): A CA certificate in PEM format to verify the LoadMaster management interface's TLS certificate.
-        - **Reject Unauthorized**: When enabled, Infisical will only connect if the LoadMaster has a valid, trusted TLS certificate. Disable this for self-signed certificates or provide a CA certificate.
+        - **Reject Unauthorized**: When enabled, vaultix will only connect if the LoadMaster has a valid, trusted TLS certificate. Disable this for self-signed certificates or provide a CA certificate.
 
-        Optionally select a **Gateway** to route the connection through an Infisical Gateway for private network access.
+        Optionally select a **Gateway** to route the connection through an vaultix Gateway for private network access.
 
         Click **Connect to Kemp LoadMaster** to validate and save your connection.
       </Step>
@@ -60,7 +60,7 @@ Infisical supports connecting to Progress Kemp LoadMaster load balancers using b
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/kemp-loadmaster \
+      --url https://app.vaultix.com/api/v1/app-connections/kemp-loadmaster \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{

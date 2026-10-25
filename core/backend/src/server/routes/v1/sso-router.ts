@@ -147,12 +147,12 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
 
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.user.id": loginResult.user.id,
-                "infisical.organization.id": loginResult.orgId,
-                "infisical.organization.name": loginResult.orgName,
-                "infisical.auth.method": AuthAttemptAuthMethod.GOOGLE,
-                "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+                "vaultix.user.email": email,
+                "vaultix.user.id": loginResult.user.id,
+                "vaultix.organization.id": loginResult.orgId,
+                "vaultix.organization.name": loginResult.orgName,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GOOGLE,
+                "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -168,9 +168,9 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
             logger.error(error);
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.auth.method": AuthAttemptAuthMethod.GOOGLE,
-                "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+                "vaultix.user.email": email,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GOOGLE,
+                "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -250,12 +250,12 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
 
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.user.id": loginResult.user.id,
-                "infisical.organization.id": loginResult.orgId,
-                "infisical.organization.name": loginResult.orgName,
-                "infisical.auth.method": AuthAttemptAuthMethod.GITHUB,
-                "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+                "vaultix.user.email": email,
+                "vaultix.user.id": loginResult.user.id,
+                "vaultix.organization.id": loginResult.orgId,
+                "vaultix.organization.name": loginResult.orgName,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GITHUB,
+                "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -270,9 +270,9 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
           } catch (err) {
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.auth.method": AuthAttemptAuthMethod.GITHUB,
-                "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+                "vaultix.user.email": email,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GITHUB,
+                "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -351,12 +351,12 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
 
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.user.id": loginResult.user.id,
-                "infisical.organization.id": loginResult.orgId,
-                "infisical.organization.name": loginResult.orgName,
-                "infisical.auth.method": AuthAttemptAuthMethod.GITLAB,
-                "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+                "vaultix.user.email": email,
+                "vaultix.user.id": loginResult.user.id,
+                "vaultix.organization.id": loginResult.orgId,
+                "vaultix.organization.name": loginResult.orgName,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GITLAB,
+                "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });
@@ -371,9 +371,9 @@ export const registerOauthMiddlewares = (server: FastifyZodProvider) => {
           } catch (error) {
             if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
               authAttemptCounter.add(1, {
-                "infisical.user.email": email,
-                "infisical.auth.method": AuthAttemptAuthMethod.GITLAB,
-                "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+                "vaultix.user.email": email,
+                "vaultix.auth.method": AuthAttemptAuthMethod.GITLAB,
+                "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
                 "client.address": requestContext.get(RequestContextKey.Ip),
                 "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
               });

@@ -14,14 +14,14 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
 - Create a [Cloudflare Connection](/integrations/app-connections/cloudflare). That connection is used to create and delete API tokens on your behalf during rotation.
 - The connection's API token must include:
     - **Account** - **API Tokens** - **Edit**, to create and revoke the generated tokens.
-    - **Account** - **Account Settings** - **Read**, so Infisical can validate the connection.
+    - **Account** - **Account Settings** - **Read**, so vaultix can validate the connection.
 
-  See the **Secret Rotation** tab under [Configure API Token and Account ID for Infisical](/integrations/app-connections/cloudflare#configure-api-token-and-account-id-for-infisical) for the exact configuration.
+  See the **Secret Rotation** tab under [Configure API Token and Account ID for vaultix](/integrations/app-connections/cloudflare#configure-api-token-and-account-id-for-vaultix) for the exact configuration.
 
-## Create a Cloudflare API Token Rotation in Infisical
+## Create a Cloudflare API Token Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
 
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
@@ -41,7 +41,7 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
 
         4. Set the Cloudflare API token parameters, then click **Next**.
 
-        The **General** tab defines the token Infisical generates:
+        The **General** tab defines the token vaultix generates:
 
         - **Token Name** - The name for the generated token, up to 100 characters. A timestamp is appended to each generated token so every rotation produces a distinct name in Cloudflare.
         - **Access Policies** - The permissions granted to the generated token. Add a policy for each permission group you want to grant, using **Add policy**. Each policy has:
@@ -66,8 +66,8 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
 
         5. Specify the secret names that the rotated API token will be mapped to. Then click **Next**.
 
-        - **Token ID** - The name of the secret in Infisical where the generated token's ID will be stored.
-        - **API Token** - The name of the secret in Infisical where the generated token's value will be stored.
+        - **Token ID** - The name of the secret in vaultix where the generated token's ID will be stored.
+        - **API Token** - The name of the secret in vaultix where the generated token's value will be stored.
 
         ![Rotation Secrets Mapping](/images/secret-rotations-v2/cloudflare-api-token/step-3.png)
 
@@ -87,7 +87,7 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
         ![Rotation Created](/images/secret-rotations-v2/cloudflare-api-token/step-6.png)
 
         <Note>
-          Infisical sets an expiration on every token it generates, calculated as twice the rotation interval plus one day, with a minimum of 7 days. This guarantees a token can never expire while it is still the active or previous credential.
+          vaultix sets an expiration on every token it generates, calculated as twice the rotation interval plus one day, with a minimum of 7 days. This guarantees a token can never expire while it is still the active or previous credential.
         </Note>
     </Tab>
     <Tab title="API">
@@ -97,7 +97,7 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
 
         ```bash Request
         curl --request POST \
-          --url https://us.infisical.com/api/v2/secret-rotations/cloudflare-api-token \
+          --url https://us.vaultix.com/api/v2/secret-rotations/cloudflare-api-token \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-cloudflare-rotation",
@@ -113,7 +113,7 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
               "minutes": 0
             },
             "parameters": {
-              "name": "infisical-rotated-token",
+              "name": "vaultix-rotated-token",
               "policies": [
                 {
                   "effect": "allow",
@@ -149,7 +149,7 @@ description: "Learn how to automatically rotate Cloudflare API tokens."
             "rotateAtUtc": { "hours": 0, "minutes": 0 },
             "type": "cloudflare-api-token",
             "parameters": {
-              "name": "infisical-rotated-token",
+              "name": "vaultix-rotated-token",
               "policies": [
                 {
                   "effect": "allow",

@@ -83,7 +83,10 @@ func (s *Store) Save(name string, sc *Scope) error {
 	if err := tmp.Close(); err != nil {
 		return err
 	}
-	return os.Rename(tmp.Name(), s.file(name))
+	if err := os.Rename(tmp.Name(), s.file(name)); err != nil {
+		return err
+	}
+	return os.Chmod(s.file(name), 0o600)
 }
 
 func (s *Store) aead() (cipher.AEAD, error) {

@@ -205,12 +205,12 @@ export const registerSamlRouter = async (server: FastifyZodProvider) => {
 
           if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
             authAttemptCounter.add(1, {
-              "infisical.user.email": email.toLowerCase(),
-              "infisical.user.id": loginResult.userId,
-              "infisical.organization.id": loginResult.orgId,
-              "infisical.organization.name": loginResult.orgName,
-              "infisical.auth.method": AuthAttemptAuthMethod.SAML,
-              "infisical.auth.result": AuthAttemptAuthResult.SUCCESS,
+              "vaultix.user.email": email.toLowerCase(),
+              "vaultix.user.id": loginResult.userId,
+              "vaultix.organization.id": loginResult.orgId,
+              "vaultix.organization.name": loginResult.orgName,
+              "vaultix.auth.method": AuthAttemptAuthMethod.SAML,
+              "vaultix.auth.result": AuthAttemptAuthResult.SUCCESS,
               "client.address": requestContext.get(RequestContextKey.Ip),
               "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
             });
@@ -225,9 +225,9 @@ export const registerSamlRouter = async (server: FastifyZodProvider) => {
         } catch (error) {
           if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED && email) {
             authAttemptCounter.add(1, {
-              "infisical.user.email": email.toLowerCase(),
-              "infisical.auth.method": AuthAttemptAuthMethod.SAML,
-              "infisical.auth.result": AuthAttemptAuthResult.FAILURE,
+              "vaultix.user.email": email.toLowerCase(),
+              "vaultix.auth.method": AuthAttemptAuthMethod.SAML,
+              "vaultix.auth.result": AuthAttemptAuthResult.FAILURE,
               "client.address": requestContext.get(RequestContextKey.Ip),
               "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
             });

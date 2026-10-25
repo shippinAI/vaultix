@@ -83,9 +83,9 @@ AUTH_TOKEN=<jwt> ./scripts/bootstrap-identity.sh write \
 #    -> CLIENT_ID/CLIENT_SECRET into /opt/vaultix/secrets/panel.env
 #       as VAULTIX_LOCAL_CLIENT_ID / VAULTIX_LOCAL_CLIENT_SECRET
 
-# 2. cloud read identity (app.infisical.com, same wire protocol)
+# 2. cloud read identity (app.vaultix.com, same wire protocol)
 AUTH_TOKEN=<cloud jwt> ./scripts/bootstrap-identity.sh read \
-    https://app.infisical.com <cloudOrgId> vaultix-link <cloudProjectId>
+    https://app.vaultix.com <cloudOrgId> vaultix-link <cloudProjectId>
 #    NOTE: first verify the "viewer" role slug exists:
 #    GET /api/v1/projects/<cloudProjectId>/roles
 
@@ -112,9 +112,9 @@ value in the local UI, and the source org's audit log shows only reads.
    failure is contained and named; verify on first real import with folders.
 3. **Value trimming fidelity**: upstream write schemas `.trim()` secret
    values (single trailing newline preserved). Values with leading/trailing
-   whitespace do not survive any Infisical-API migration byte-identical —
+   whitespace do not survive any vaultix-API migration byte-identical —
    upstream behavior, worth one line in the migration copy.
-4. **Devstation script**: `/usr/local/bin/warden-infisical-bootstrap` is
+4. **Devstation script**: `/usr/local/bin/warden-vaultix-bootstrap` is
    unreachable from this sandbox; diff it against
    `scripts/bootstrap-identity.sh` when on the devstation.
 5. **SMTP decision** (§4) — configure or amend doc 0004.

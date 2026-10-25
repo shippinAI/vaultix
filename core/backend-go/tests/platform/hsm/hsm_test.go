@@ -11,14 +11,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/ee/services/hsm"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/ee/services/hsm"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var runner = infra.NewContainerTest(
-	"infisical/go-test-backend",
-	"INFISICAL_HSM_TEST_INSIDE",
-	"INFISICAL_RUN_HSM_CONTAINER_TEST",
+	"vaultix/go-test-backend",
+	"vaultix_HSM_TEST_INSIDE",
+	"vaultix_RUN_HSM_CONTAINER_TEST",
 ).
 	WithTestPath("./tests/platform/hsm/...").
 	WithBuildTags("integration").
@@ -66,7 +66,7 @@ func setupHSM(t *testing.T) *hsm.Service {
 		LibPath:    libPath,
 		TokenLabel: "test-token",
 		Pin:        "1234",
-		KeyLabel:   "test-infisical",
+		KeyLabel:   "test-vaultix",
 	})
 	require.NoError(t, err)
 	t.Cleanup(func() { svc.Close() })

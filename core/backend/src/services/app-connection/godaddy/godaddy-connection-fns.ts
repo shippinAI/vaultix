@@ -27,7 +27,7 @@ export const validateGoDaddyConnectionCredentials = async (config: TGoDaddyConne
     // GoDaddy's Certificates API has no list/whoami endpoint, so probe a non-existent certificate:
     // valid credentials return 404, only auth failures return 401/403. (/v1/domains can't be used —
     // it's gated behind a minimum-domains/reseller check and returns ACCESS_DENIED for most accounts.)
-    await request.get(`${baseUrl}/v1/certificates/infisical-connection-validation`, {
+    await request.get(`${baseUrl}/v1/certificates/vaultix-connection-validation`, {
       headers: {
         Authorization: buildGoDaddySsoKeyHeader(credentials.apiKey, credentials.apiSecret),
         "Content-Type": "application/json"

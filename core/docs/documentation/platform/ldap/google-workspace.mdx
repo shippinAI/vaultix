@@ -1,6 +1,6 @@
 ---
 title: "Google Workspace LDAP"
-description: "Learn how to configure Google Workspace Secure LDAP for authenticating into Infisical."
+description: "Learn how to configure Google Workspace Secure LDAP for authenticating into vaultix."
 ---
 
 <Note>
@@ -9,9 +9,9 @@ description: "Learn how to configure Google Workspace Secure LDAP for authentica
 </Note>
 
 <Info>
-  LDAP is a paid feature. If you're using Infisical Cloud, then it is available
-  under the **Enterprise Tier**. If you're self-hosting Infisical, then you
-  should contact sales@infisical.com to purchase an enterprise license to use
+  LDAP is a paid feature. If you're using vaultix Cloud, then it is available
+  under the **Enterprise Tier**. If you're self-hosting vaultix, then you
+  should contact sales@vaultix.com to purchase an enterprise license to use
   it.
 </Info>
 
@@ -32,18 +32,18 @@ Prerequisites:
 
         ![LDAP Google Workspace Access Permissions](/images/platform/ldap/google-workspace/ldap-google-workspace-access-permissions.png)
 
-        After the client is created, Google generates a certificate and private key. Download the `.crt` and `.key` PEM files — you will paste their contents into Infisical.
+        After the client is created, Google generates a certificate and private key. Download the `.crt` and `.key` PEM files — you will paste their contents into vaultix.
 
         ![LDAP Google Workspace Download Certificate](/images/platform/ldap/google-workspace/ldap-google-workspace-download-certificate.png)
 
-        Then click **Generate new credentials** to create the access credentials (username and password) — these are the bind credentials Infisical will use after the TLS handshake completes.
+        Then click **Generate new credentials** to create the access credentials (username and password) — these are the bind credentials vaultix will use after the TLS handshake completes.
 
         Finally, make sure the client's **Service status** is set to **ON** so that connections are accepted.
 
         ![LDAP Google Workspace Service Status](/images/platform/ldap/google-workspace/ldap-google-workspace-service-status.png)
     </Step>
-    <Step title="Prepare the LDAP configuration in Infisical">
-            In Infisical, head to the **Settings** page and select the **SSO** tab. Select **Add Provider** and **LDAP**.
+    <Step title="Prepare the LDAP configuration in vaultix">
+            In vaultix, head to the **Settings** page and select the **SSO** tab. Select **Add Provider** and **LDAP**.
 
             ![LDAP SSO Connect](/images/platform/ldap/google-workspace/ldap-sso-provider.png)
 
@@ -67,32 +67,32 @@ Prerequisites:
                 The Client Certificate and Client Private Key must be provided together — providing only one will fail validation. These are the credentials presented during the TLS handshake; without them, the connection fails before LDAP-layer bind is attempted.
             </Tip>
     </Step>
-    <Step title="Define mappings from LDAP groups to groups in Infisical">
-     In order to sync LDAP groups to Infisical, head to the **LDAP Group Mappings** section to define mappings from LDAP groups to groups in Infisical.
+    <Step title="Define mappings from LDAP groups to groups in vaultix">
+     In order to sync LDAP groups to vaultix, head to the **LDAP Group Mappings** section to define mappings from LDAP groups to groups in vaultix.
 
      ![LDAP group mappings section](/images/platform/ldap/google-workspace/ldap-group-mapping.png)
 
-     Group mappings ensure that users who log into Infisical via LDAP are added to or removed from the Infisical group(s) that corresponds to the LDAP group(s) they are a member of.
+     Group mappings ensure that users who log into vaultix via LDAP are added to or removed from the vaultix group(s) that corresponds to the LDAP group(s) they are a member of.
 
      ![LDAP group mappings table](/images/platform/ldap/google-workspace/ldap-group-mapping-form.png)
 
      Each group mapping consists of two parts:
      - LDAP Group CN: The common name of the LDAP group to map.
-     - Infisical Group: The Infisical group to map the LDAP group to.
+     - vaultix Group: The vaultix group to map the LDAP group to.
 
-     For example, suppose you want to automatically add a user who is part of the LDAP group with CN `Engineers` to the Infisical group `Engineers` when the user sets up their account with Infisical.
+     For example, suppose you want to automatically add a user who is part of the LDAP group with CN `Engineers` to the vaultix group `Engineers` when the user sets up their account with vaultix.
 
-     In this case, you would specify a mapping from the LDAP group with CN `Engineers` to the Infisical group `Engineers`.
-     Now when the user logs into Infisical via LDAP, Infisical will check the LDAP groups that the user is a part of whilst referencing the group mappings you created earlier. Since the user is a member of the LDAP group with CN `Engineers`, they will be added to the Infisical group `Engineers`.
-     In the future, if the user is no longer part of the LDAP group with CN `Engineers`, they will be removed from the Infisical group `Engineers` upon their next login.
+     In this case, you would specify a mapping from the LDAP group with CN `Engineers` to the vaultix group `Engineers`.
+     Now when the user logs into vaultix via LDAP, vaultix will check the LDAP groups that the user is a part of whilst referencing the group mappings you created earlier. Since the user is a member of the LDAP group with CN `Engineers`, they will be added to the vaultix group `Engineers`.
+     In the future, if the user is no longer part of the LDAP group with CN `Engineers`, they will be removed from the vaultix group `Engineers` upon their next login.
      <Note>
-          Prior to defining any group mappings, ensure that you've created the Infisical groups that you want to map the LDAP groups to.
-          You can read more about creating (user) groups in Infisical [here](/documentation/platform/groups).
+          Prior to defining any group mappings, ensure that you've created the vaultix groups that you want to map the LDAP groups to.
+          You can read more about creating (user) groups in vaultix [here](/documentation/platform/groups).
      </Note>
 
    </Step>
-    <Step title="Enable LDAP in Infisical">
-            Enabling LDAP allows members in your organization to log into Infisical via LDAP.
+    <Step title="Enable LDAP in vaultix">
+            Enabling LDAP allows members in your organization to log into vaultix via LDAP.
             ![LDAP toggle](/images/platform/ldap/google-workspace/ldap-sso-enabled.png)
     </Step>
 

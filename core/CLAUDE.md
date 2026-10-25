@@ -13,10 +13,10 @@ Both backend and frontend use `@app/*` as path alias to `./src/*`.
 
 ## Repository Structure
 
-Infisical is an open-source secret management platform. Monorepo layout:
+vaultix is an open-source secret management platform. Monorepo layout:
 
 ```
-infisical/
+vaultix/
 ├── backend/               # Fastify 4 API server (see backend/CLAUDE.md)
 ├── backend-go/            # Go API server — partial rewrite (see backend-go/CLAUDE.md)
 ├── frontend/              # React 18 SPA (see frontend/CLAUDE.md)
@@ -27,8 +27,8 @@ infisical/
 ├── docker-compose.prod.yml       # Production deployment stack
 ├── docker-compose.bdd.yml        # BDD testing environment
 ├── docker-compose.e2e-dbs.yml    # E2E test databases (Oracle, SAP, Snowflake, etc.)
-├── Dockerfile.standalone-infisical       # Standalone image (frontend + backend)
-├── Dockerfile.fips.standalone-infisical  # FIPS-compliant standalone image
+├── Dockerfile.standalone-vaultix       # Standalone image (frontend + backend)
+├── Dockerfile.fips.standalone-vaultix  # FIPS-compliant standalone image
 ├── .github/               # CI workflows, PR template
 └── CLAUDE.md               # This file
 ```
@@ -44,9 +44,9 @@ Enterprise features live in `backend/src/ee/` (services and routes), registered 
 
 ### Self-Hosted Deployment
 
-Infisical supports self-hosted deployment via Docker. Key considerations:
-- **`Dockerfile.standalone-infisical`** — single-container image with both frontend and backend; used for simple deployments.
-- **`Dockerfile.fips.standalone-infisical`** — FIPS 140-2 compliant variant for regulated environments. Be strict about not introducing dependencies that break FIPS compliance.
+vaultix supports self-hosted deployment via Docker. Key considerations:
+- **`Dockerfile.standalone-vaultix`** — single-container image with both frontend and backend; used for simple deployments.
+- **`Dockerfile.fips.standalone-vaultix`** — FIPS 140-2 compliant variant for regulated environments. Be strict about not introducing dependencies that break FIPS compliance.
 - **`docker-compose.prod.yml`** — production compose with backend, PostgreSQL, and Redis.
 - New backend dependencies should be evaluated carefully — they affect container size, FIPS compliance, and the encryption boundary. Check `docs/` for self-hosted deployment documentation when in doubt.
 

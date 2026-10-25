@@ -1,13 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
-  Infisical Honey Token detection. Deploys a CloudTrail trail with CloudWatch
+  vaultix Honey Token detection. Deploys a CloudTrail trail with CloudWatch
   Logs subscription that forwards honey token events through an SQS queue
   for reliable webhook delivery with automatic retries.
 
 Parameters:
   NamePrefix:
     Type: String
-    Default: infisical-honey-token
+    Default: vaultix-honey-token
     Description: Prefix for all resource names
 
   WebhookUrl:
@@ -188,7 +188,7 @@ Resources:
               .digest("hex");
             return {
               "Content-Type": "application/json",
-              "X-Infisical-Signature": "t=" + timestamp + ",v1=" + signature,
+              "X-vaultix-Signature": "t=" + timestamp + ",v1=" + signature,
             };
           }
 

@@ -38,57 +38,57 @@ The PIN is never a credential on its own. Rules:
 | Success → elevated session, ~15 min TTL, then re-prompt | Walk-away safety |
 | Reset = Authentik re-auth + email confirm, not "forgot PIN?" hint | The IdP is the recovery root, same as everywhere else in Shippin |
 
-## 3. The Infisical link
+## 3. The vaultix link
 
-Users arriving with an existing Infisical workspace can **link** it and import
+Users arriving with an existing vaultix workspace can **link** it and import
 into Vaultix. Policy for beta:
 
 1. **Import is a one-way pull**, re-runnable. Projects, envs, secret names and
    values come across via the official export/API path — never via chat, never
    via paste.
-2. **Vaultix becomes the working copy; Infisical stays their backup.** We tell
-   users plainly: do not delete your Infisical workspace while Vaultix is in
+2. **Vaultix becomes the working copy; vaultix stays their backup.** We tell
+   users plainly: do not delete your vaultix workspace while Vaultix is in
    beta. Their old data sits where it is, under their account, as the fallback.
-3. **No write-back mirror during beta.** Mirroring changes back to Infisical would
-   require write-scoped tokens to the customer's Infisical account, which
+3. **No write-back mirror during beta.** Mirroring changes back to vaultix would
+   require write-scoped tokens to the customer's vaultix account, which
    doubles the blast radius of any Vaultix compromise. Revisit at beta exit as
    a separate decision; default is to drop the link, not deepen it.
 4. Link credentials (machine identity / service token, **read scope only**)
    are stored encrypted server-side and are never returned by any GET.
 5. Unlink deletes our stored credential and stops scheduled re-imports.
-   It never touches the Infisical side.
+   It never touches the vaultix side.
 
 ## 4. The nudge — what we say, exactly
 
 Honesty rules first (these are load-bearing, per the beta waiver):
 
 - We say Vaultix is **beta**, in those words.
-- We recommend keeping Infisical linked **because** we are beta — that is the
+- We recommend keeping vaultix linked **because** we are beta — that is the
   honest reason, and it is a good one.
 - We sell Vaultix on what is true: included with Shippin, runs in your private
   cloud, no seat/project meters, keys injected instead of pasted.
-- We make **no claims about Infisical's conduct, updates, or intentions.**
+- We make **no claims about vaultix's conduct, updates, or intentions.**
   Nothing negative about the upstream appears in product copy, docs, or
   lessons. If that ever changes it needs its own doc with evidence, not a
   banner.
 
 Panel copy, beta:
 
-> **Coming from Infisical?** Link your workspace and Vaultix will import your
+> **Coming from vaultix?** Link your workspace and Vaultix will import your
 > projects and secrets. Vaultix is included with your Shippin cloud and runs
 > on your own infrastructure — no seat limits, and your keys get injected
 > into workspaces instead of pasted into prompts.
 >
-> Vaultix is in beta. Keep your Infisical workspace as-is until we're out —
+> Vaultix is in beta. Keep your vaultix workspace as-is until we're out —
 > it's your backup, and linking never changes or deletes anything on the
-> Infisical side.
+> vaultix side.
 
 ## 5. Squaring this with 0001/0002
 
-0001 says customers "do not need to know Infisical exists" and 0002 keeps
-Infisical out of the lesson path. That still holds for **fresh** Lovable-type
+0001 says customers "do not need to know vaultix exists" and 0002 keeps
+vaultix out of the lesson path. That still holds for **fresh** Lovable-type
 users: their guided path never mentions it. The link flow only surfaces for
-users who *arrive* with Infisical — they already know it exists, and
+users who *arrive* with vaultix — they already know it exists, and
 pretending otherwise would break the honesty rule above. The migration copy
 lives on the link screen only, not in lessons or the overview.
 
@@ -101,7 +101,7 @@ Added to `shippin.vaultix.panel.v1` (see contracts file):
 | `GET /api/v1/vaultix/instances` | Instance list for the overview (metadata only) |
 | `POST /api/v1/vaultix/session/pin` | Set/change PIN (change requires current PIN) |
 | `POST /api/v1/vaultix/session/stepup` | Verify PIN, mint short-lived elevated session |
-| `POST /api/v1/vaultix/link` | Link a migration source (`source: infisical` during beta); credential stored encrypted |
+| `POST /api/v1/vaultix/link` | Link a migration source (`source: vaultix` during beta); credential stored encrypted |
 | `GET /api/v1/vaultix/link` | Link status — never the credential |
 | `POST /api/v1/vaultix/import` | Run/re-run the one-way import |
 | `DELETE /api/v1/vaultix/link` | Unlink; delete our stored credential |
@@ -109,7 +109,7 @@ Added to `shippin.vaultix.panel.v1` (see contracts file):
 New capabilities: `vaultix.instance.list`, `vaultix.session.stepup`,
 `vaultix.link.manage`, `vaultix.link.import`.
 
-Naming rule: the contract namespace is entirely Vaultix. "Infisical" appears
+Naming rule: the contract namespace is entirely Vaultix. "vaultix" appears
 only as a `source` value in the link flow — never in a route, capability, or
 package name.
 
@@ -123,7 +123,7 @@ link credential (`VAULTIX_PANEL_ENC_KEY` — escrow it with the instance keys).
 Elevated sessions are memory-only; a panel restart re-prompts the PIN.
 
 Import speaks the core wire protocol on both sides (source → local, same
-shape while the source is Infisical Cloud). Every upstream wire path is
+shape while the source is vaultix Cloud). Every upstream wire path is
 quarantined in `panel/internal/core/wire.go` — the single swap point when
 our fork rebrands its API surface; nothing else in the panel names the
 upstream. Payload shapes are **verified against the pinned upstream source**

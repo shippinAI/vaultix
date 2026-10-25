@@ -1,9 +1,9 @@
 ---
 title: "OVH Cloud Connection"
-description: "Learn how to configure an OVH Cloud Connection for Infisical."
+description: "Learn how to configure an OVH Cloud Connection for vaultix."
 ---
 
-Infisical authenticates to [OVHcloud Key Management Service (OKMS)](https://www.ovhcloud.com/en/identity-security-operations/secret-manager/) using mutual TLS (mTLS) with a PEM-encoded client certificate pair issued by OVH for your OKMS instance.
+vaultix authenticates to [OVHcloud Key Management Service (OKMS)](https://www.ovhcloud.com/en/identity-security-operations/secret-manager/) using mutual TLS (mTLS) with a PEM-encoded client certificate pair issued by OVH for your OKMS instance.
 
 ## Generate an OVH OKMS Access Certificate
 
@@ -35,7 +35,7 @@ Infisical authenticates to [OVHcloud Key Management Service (OKMS)](https://www.
     You will need to get the following values to create a connection. 
 
     - **OKMS ID** — the UUID-style identifier shown on the OKMS summary page.
-    - **REST API endpoint** — the base URL of the OKMS instance (e.g. `https://ca-east-bhs.okms.ovh.net`). This is the **OKMS Domain** value in Infisical.
+    - **REST API endpoint** — the base URL of the OKMS instance (e.g. `https://ca-east-bhs.okms.ovh.net`). This is the **OKMS Domain** value in vaultix.
 
     ![OKMS Details](/images/app-connections/ovh/okms-details.png)
   </Step>
@@ -56,18 +56,18 @@ Infisical authenticates to [OVHcloud Key Management Service (OKMS)](https://www.
     ![Create Access Certificate](/images/app-connections/ovh/okms-create-certificate.png)
 
     <Warning>
-      Infisical does **not** support the PKCS12 (`.p12`) format. If OVH offers a PKCS12 download or asks you to convert the PEM files with `openssl pkcs12`, ignore those options and keep the PEM files as-is. Node.js's TLS layer (used by Infisical's HTTP client) cannot parse PKCS12 bundles and returns `Unsupported PKCS12 PFX data.` when one is provided.
+      vaultix does **not** support the PKCS12 (`.p12`) format. If OVH offers a PKCS12 download or asks you to convert the PEM files with `openssl pkcs12`, ignore those options and keep the PEM files as-is. Node.js's TLS layer (used by vaultix's HTTP client) cannot parse PKCS12 bundles and returns `Unsupported PKCS12 PFX data.` when one is provided.
     </Warning>
   </Step>
 </Steps>
 
-## Create an OVH Cloud Connection in Infisical
+## Create an OVH Cloud Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
-        In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+        In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
       </Step>
@@ -83,12 +83,12 @@ Infisical authenticates to [OVHcloud Key Management Service (OKMS)](https://www.
         - An optional **Description**.
         - **Private Key (PEM)** — paste the full contents of `*_privatekey.pem`, including the `-----BEGIN PRIVATE KEY-----` and `-----END PRIVATE KEY-----` markers.
         - **Certificate (PEM)** — paste the full contents of `*_certificate.pem`, including the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` markers.
-        - **OKMS Domain** — the OKMS base URL (e.g. `https://ca-east-bhs.okms.ovh.net`). Do not include the `/api` suffix; Infisical appends it automatically.
+        - **OKMS Domain** — the OKMS base URL (e.g. `https://ca-east-bhs.okms.ovh.net`). Do not include the `/api` suffix; vaultix appends it automatically.
         - **OKMS ID** — the OKMS instance identifier from the OVHcloud Control Panel.
 
         ![OVH Cloud Connection Form](/images/app-connections/ovh/app-connection-form.png)
 
-        Infisical validates the credentials by calling `GET {OKMS Domain}/api/{OKMS ID}/v1/servicekey` with mTLS. A successful `200` response means the PEM pair is trusted by your OKMS instance.
+        vaultix validates the credentials by calling `GET {OKMS Domain}/api/{OKMS ID}/v1/servicekey` with mTLS. A successful `200` response means the PEM pair is trusted by your OKMS instance.
       </Step>
       <Step title="Connection created">
         After submitting the form, your **OVH Cloud Connection** is created and ready to use with Secret Syncs.
@@ -105,7 +105,7 @@ Infisical authenticates to [OVHcloud Key Management Service (OKMS)](https://www.
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/ovh \
+            --url https://app.vaultix.com/api/v1/app-connections/ovh \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-ovh-connection",

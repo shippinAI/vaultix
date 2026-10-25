@@ -144,12 +144,12 @@ export const KeyStorePrefixes = {
   EmailSignupResendCooldown: (hash: string) => `email-signup-otp:${hash}:cd` as const,
   InsightsCache: (projectId: string, endpoint: string) => `insights-cache:${projectId}:${endpoint}` as const,
 
-  AdminConfig: "infisical-admin-cfg",
+  AdminConfig: "vaultix-admin-cfg",
   UpdateCheckLatestVersion: "update-check-latest-version",
   InvalidatingCache: "invalidating-cache",
   SecretManagerCachePattern: "secret-manager:*",
   AuditLogMigrationAlert: "audit-log-migration-alert-last-row-count",
-  LicenseCloudPlan: (orgId: string) => `infisical-cloud-plan-${orgId}` as const,
+  LicenseCloudPlan: (orgId: string) => `vaultix-cloud-plan-${orgId}` as const,
   // Set after a billing mutation to flag the org's plan cache for stale-while-revalidate reads.
   LicenseCachePassThrough: (orgId: string) => `license-cache-passthrough-${orgId}` as const,
   // Single-flight guard so only one background revalidation runs per org per lock window.

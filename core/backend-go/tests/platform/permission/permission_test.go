@@ -9,14 +9,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/permission"
-	"github.com/infisical/api/internal/services/permission/project"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/permission"
+	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var (

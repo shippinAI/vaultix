@@ -1,9 +1,9 @@
 ---
 title: "Trigger.dev Connection"
-description: "Learn how to configure a Trigger.dev Connection for Infisical."
+description: "Learn how to configure a Trigger.dev Connection for vaultix."
 ---
 
-Infisical supports the use of [Personal Access Tokens](https://trigger.dev/docs/management/overview#personal-access-token-pat) to connect with Trigger.dev.
+vaultix supports the use of [Personal Access Tokens](https://trigger.dev/docs/management/overview#personal-access-token-pat) to connect with Trigger.dev.
 
 ## Create Trigger.dev Personal Access Token
 
@@ -29,13 +29,13 @@ Infisical supports the use of [Personal Access Tokens](https://trigger.dev/docs/
     </Step>
 </Steps>
 
-## Create Trigger.dev Connection in Infisical
+## Create Trigger.dev Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -50,7 +50,7 @@ Infisical supports the use of [Personal Access Tokens](https://trigger.dev/docs/
                 - An optional Instance URL if you are connecting to a self-hosted Trigger.dev deployment. Leave this blank to use Trigger.dev Cloud (`https://api.trigger.dev`).
             </Step>
             <Step title="Connection Created">
-                After clicking Create, your **Trigger.dev Connection** is established and ready to use with your Infisical project.
+                After clicking Create, your **Trigger.dev Connection** is established and ready to use with your vaultix project.
             </Step>
         </Steps>
     </Tab>
@@ -61,7 +61,7 @@ Infisical supports the use of [Personal Access Tokens](https://trigger.dev/docs/
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/trigger-dev \
+                --url https://app.vaultix.com/api/v1/app-connections/trigger-dev \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-trigger-dev-connection",

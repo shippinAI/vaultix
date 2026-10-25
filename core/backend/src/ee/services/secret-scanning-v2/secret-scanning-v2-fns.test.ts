@@ -34,14 +34,14 @@ describe("parseScanErrorMessage", () => {
         failure: SecretScanningExecFailure.Timeout,
         phase: SecretScanningExecPhase.Scan,
         command: "vaultix",
-        output: "scanning /tmp/infisical-scan-yunqhI",
+        output: "scanning /tmp/vaultix-scan-yunqhI",
         timeoutMs: 10 * 60 * 1000
       })
     );
 
     expect(message).toContain("10 minute time limit");
-    expect(message).not.toContain("infisical scan");
-    expect(message).not.toContain("/tmp/infisical-scan-yunqhI");
+    expect(message).not.toContain("vaultix scan");
+    expect(message).not.toContain("/tmp/vaultix-scan-yunqhI");
   });
 
   test("distinguishes a clone timeout from a scan timeout", () => {

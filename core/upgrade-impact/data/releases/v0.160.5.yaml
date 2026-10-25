@@ -11,7 +11,7 @@ dbSchemaChanges:
   - title: LDAP mTLS columns
     description: Startup adds nullable LDAP client certificate and key columns for
       LDAP mutual TLS support.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -21,7 +21,7 @@ dbSchemaChanges:
   - title: Relay resource auth migration
     description: Startup adds relayId to resource auth methods and tokenVersion to
       relays for relay resource authentication.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -30,7 +30,7 @@ dbSchemaChanges:
         description: Adds relayId and relay tokenVersion
   - title: App connection encrypted configuration
     description: Startup adds a nullable encryptedConfiguration column to app connections.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -52,7 +52,7 @@ configChanges:
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-25T18:40:37.891Z

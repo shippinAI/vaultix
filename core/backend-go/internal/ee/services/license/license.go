@@ -19,8 +19,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/database/pg"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/database/pg"
 )
 
 //go:embed keys/license_public_key.pem
@@ -31,7 +31,7 @@ const (
 	onPremLoginPath = "/api/auth/v1/license-login"
 
 	cloudPlanTTL    = 5 * time.Minute
-	planCachePrefix = "infisical-cloud-plan-"
+	planCachePrefix = "vaultix-cloud-plan-"
 )
 
 // keyStore is the narrow interface this service needs for caching.
@@ -78,7 +78,7 @@ func NewService(ctx context.Context, logger *slog.Logger, deps *Deps) *Service {
 
 	serverURL := deps.Config.LicenseServerURL
 	if serverURL == "" {
-		serverURL = "https://portal.infisical.com"
+		serverURL = "https://portal.vaultix.com"
 	}
 
 	svc.cloudAPI = newLicenseAPI(serverURL, cloudLoginPath, deps.Config.LicenseServerKey, "")

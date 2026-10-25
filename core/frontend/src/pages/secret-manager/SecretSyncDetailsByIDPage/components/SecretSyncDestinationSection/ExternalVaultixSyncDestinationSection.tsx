@@ -1,5 +1,5 @@
 import { Detail, DetailLabel, DetailValue } from "@app/components/v3";
-import { TExternalVaultixSync } from "@app/hooks/api/secretSyncs/types/external-infisical-sync";
+import { TExternalVaultixSync } from "@app/hooks/api/secretSyncs/types/external-vaultix-sync";
 
 type Props = {
   secretSync: TExternalVaultixSync;

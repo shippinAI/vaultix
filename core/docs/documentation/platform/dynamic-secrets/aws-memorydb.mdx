@@ -5,12 +5,12 @@ description: "Learn how to dynamically generate AWS MemoryDB (Valkey/Redis) user
 
 import DynamicSecretUsernameTemplateParamField from "/snippets/documentation/platform/dynamic-secrets/dynamic-secret-username-template-field.mdx";
 
-The Infisical AWS MemoryDB dynamic secret generates short-lived MemoryDB users (Valkey or Redis OSS engine) and attaches them to the ACL already associated with your target cluster. Each lease creates a new MemoryDB user with a fresh password; revocation deletes the user.
+The vaultix AWS MemoryDB dynamic secret generates short-lived MemoryDB users (Valkey or Redis OSS engine) and attaches them to the ACL already associated with your target cluster. Each lease creates a new MemoryDB user with a fresh password; revocation deletes the user.
 
 ## Prerequisites
 
-1. A MemoryDB cluster with an ACL attached. If your cluster is still on the default `open-access` ACL, attach a real ACL before configuring the dynamic secret — Infisical will refuse to add users to a cluster with no ACL.
-2. An AWS IAM user for Infisical to use, with an access key ID and secret access key. Attach the following policy:
+1. A MemoryDB cluster with an ACL attached. If your cluster is still on the default `open-access` ACL, attach a real ACL before configuring the dynamic secret — vaultix will refuse to add users to a cluster with no ACL.
+2. An AWS IAM user for vaultix to use, with an access key ID and secret access key. Attach the following policy:
 
 ```json
 {
@@ -42,7 +42,7 @@ The Infisical AWS MemoryDB dynamic secret generates short-lived MemoryDB users (
 A few notes on the policy:
 
 - `memorydb:DescribeClusters` doesn't support resource-level scoping, so it must be `"Resource": "*"`.
-- The `user/inf-*` pattern matches the `inf-` username prefix Infisical applies to every generated user.
+- The `user/inf-*` pattern matches the `inf-` username prefix vaultix applies to every generated user.
 - `memorydb:UpdateACL` is granted on both the user ARN and the ACL ARN because AWS evaluates the action against every resource it touches in a single call (the ACL plus each user being added or removed).
 - If you'd like to pin the ACL more tightly, replace `acl/*` with `acl/<your-acl-name>`.
 
@@ -78,7 +78,7 @@ A few notes on the policy:
     </ParamField>
 
     <ParamField path="Cluster name" type="string" required>
-      The name of the MemoryDB cluster Infisical should provision users for.
+      The name of the MemoryDB cluster vaultix should provision users for.
     </ParamField>
 
     <ParamField path="Region" type="string" required>
@@ -100,7 +100,7 @@ A few notes on the policy:
     <DynamicSecretUsernameTemplateParamField />
 
     <ParamField path="Creation Statement" type="string">
-      A JSON payload passed to MemoryDB's `CreateUser` API. `{{username}}` and `{{password}}` are substituted with Infisical-generated values at lease time. Use the `AccessString` field to scope each lease's permissions.
+      A JSON payload passed to MemoryDB's `CreateUser` API. `{{username}}` and `{{password}}` are substituted with vaultix-generated values at lease time. Use the `AccessString` field to scope each lease's permissions.
 
       Default:
       ```json
@@ -122,7 +122,7 @@ A few notes on the policy:
     </ParamField>
   </Step>
   <Step title="Click `Submit`">
-    Infisical will verify it can reach the cluster with the provided credentials and validate the statements.
+    vaultix will verify it can reach the cluster with the provided credentials and validate the statements.
   </Step>
   <Step title="Generate dynamic secrets">
     Once configured, click `Generate` on the dynamic secret row (or `New Lease` in the lease list) to provision a lease.

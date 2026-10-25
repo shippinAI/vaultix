@@ -8,7 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/infisical/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/errutil"
 )
 
 // NopLogger returns a logger that discards all output.

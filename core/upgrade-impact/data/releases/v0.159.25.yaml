@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: PKI CA distribution points
     description: Adds a nullable text[] column for internal CA CRL distribution
       point URLs. Existing data remains compatible.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -23,7 +23,7 @@ dbSchemaChanges:
     description: Adds a non-null verifyTlsCertificate column to identity Kubernetes
       auth records. Existing records with a stored CA certificate are backfilled
       to true; others default to false.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -36,7 +36,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:47:53.295Z

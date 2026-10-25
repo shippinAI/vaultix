@@ -45,7 +45,7 @@ flowchart LR
     C -.->|Step 2 rejected| X
 ```
 
-Each step runs in order. Once the last step's required approvals are reached, Infisical issues an **active access record** bounded by the policy's per-approval limits. The Operator can then sign through the [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) or the [Sign API](/api-reference/endpoints/code-signing/signers/sign).
+Each step runs in order. Once the last step's required approvals are reached, vaultix issues an **active access record** bounded by the policy's per-approval limits. The Operator can then sign through the [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module) or the [Sign API](/api-reference/endpoints/code-signing/signers/sign).
 
 Administrators can also [pre-approve signing](#pre-approve-signing) directly when the approval flow isn't a fit, for example during an incident response where waiting on approvers would block recovery.
 

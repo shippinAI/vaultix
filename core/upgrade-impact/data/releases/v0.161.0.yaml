@@ -14,7 +14,7 @@ dbSchemaChanges:
       apps, KMIP servers, audit log stream delivery, and project secret
       blind-index flags. Existing audit log custom and Cribl streams are
       backfilled to single-event mode for compatibility.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -36,7 +36,7 @@ dbSchemaChanges:
     description: A new project flag defaults to true for new projects, but existing
       projects are backfilled to false. This preserves current behavior for
       older projects after upgrade.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -47,7 +47,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-06-12T13:59:00.416Z

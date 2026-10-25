@@ -1,9 +1,9 @@
 ---
 title: "DigiCert Connection"
-description: "Learn how to configure a DigiCert connection for Infisical."
+description: "Learn how to configure a DigiCert connection for vaultix."
 ---
 
-Infisical supports connecting to [DigiCert CertCentral](https://dev.digicert.com/en/certcentral-apis.html) using a **CertCentral API Key**. This connection powers the [DigiCert Certificate Authority](/documentation/platform/pki/ca/digicert-direct) for direct (non-ACME) certificate issuance.
+vaultix supports connecting to [DigiCert CertCentral](https://dev.digicert.com/en/certcentral-apis.html) using a **CertCentral API Key**. This connection powers the [DigiCert Certificate Authority](/documentation/platform/pki/ca/digicert-direct) for direct (non-ACME) certificate issuance.
 
 <Note>
   This connection is for the DigiCert **CertCentral Services API**. If you are using DigiCert's
@@ -26,7 +26,7 @@ Infisical supports connecting to [DigiCert CertCentral](https://dev.digicert.com
     ![CertCentral API Keys](/images/app-connections/digicert/step-1.png)
   </Step>
   <Step title="Name and create the key">
-    Give the key a descriptive name (e.g. `infisical`) and **assign a user whose role is Manager or Administrator**, the key inherits that user's permissions on CertCentral.
+    Give the key a descriptive name (e.g. `vaultix`) and **assign a user whose role is Manager or Administrator**, the key inherits that user's permissions on CertCentral.
 
     Under **API key restrictions**, leave the default **None** or select **Orders, Domains, Organizations**
 
@@ -37,14 +37,14 @@ Infisical supports connecting to [DigiCert CertCentral](https://dev.digicert.com
 </Steps>
 
 <Tip>
-  Create a dedicated API key for Infisical rather than reusing an existing one so you can rotate or
+  Create a dedicated API key for vaultix rather than reusing an existing one so you can rotate or
   revoke access independently.
 </Tip>
 
-## Create DigiCert Connection in Infisical
+## Create DigiCert Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
         In Certificate Manager, go to **Settings** → **App Connections**.
@@ -66,7 +66,7 @@ Infisical supports connecting to [DigiCert CertCentral](https://dev.digicert.com
         ![DigiCert Connection Form](/images/app-connections/digicert/digicert-app-connection-form.png)
       </Step>
       <Step title="Connection Created">
-        After clicking **Create**, Infisical validates the key by calling
+        After clicking **Create**, vaultix validates the key by calling
         `GET /services/v2/organization`. Once the key is confirmed, the connection is ready to use
         in a DigiCert Certificate Authority.
 
@@ -81,7 +81,7 @@ Infisical supports connecting to [DigiCert CertCentral](https://dev.digicert.com
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/digicert \
+      --url https://app.vaultix.com/api/v1/app-connections/digicert \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "my-digicert-connection",

@@ -143,16 +143,16 @@ actions:
       Error:
         x-go-type: shared.Error
         x-go-type-import:
-          path: github.com/infisical/api/internal/server/api/shared
+          path: github.com/vaultix/api/internal/server/api/shared
       ValidationError:
         x-go-type: shared.ValidationError
         x-go-type-import:
-          path: github.com/infisical/api/internal/server/api/shared
+          path: github.com/vaultix/api/internal/server/api/shared
       FieldError:
         x-go-type: shared.FieldError
         x-go-type-import:
-          path: github.com/infisical/api/internal/server/api/shared
+          path: github.com/vaultix/api/internal/server/api/shared
       PaginationMeta:
         x-go-type: shared.PaginationMeta
         x-go-type-import:
-          path: github.com/infisical/api/internal/server/api/shared
+          path: github.com/vaultix/api/internal/server/api/shared

@@ -12,9 +12,7 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Always
 
-- The secrets engine is `core/` (Infisical MIT pin, renamed Vaultix).
-- Panel is overlay only. Do not invent a second vault.
-- Do not point compose at `infisical/infisical:`. Build `Dockerfile.standalone-vaultix`.
+-Build `Dockerfile.standalone-vaultix`.
 - `leftover/` is notes and dumps. Do not grow it.
 - No fetch, no clone, no connection to a snapshot host. `leftover/consider-upstream.sh` refuses (`docs/0015-frozen-no-connection.md`).
 - Identity is Nomen OIDC. Cookie/session stay in Nomen.

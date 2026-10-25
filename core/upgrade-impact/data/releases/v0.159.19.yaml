@@ -21,7 +21,7 @@ breakingChanges:
         description: Route existed previously
       - type: pr
         ref: "#6085"
-        url: https://github.com/Infisical/infisical/pull/6085
+        url: https://github.com/vaultix/vaultix/pull/6085
         description: Removes page and backend service
 dbSchemaChanges:
   - title: PAM domains migration
@@ -29,7 +29,7 @@ dbSchemaChanges:
       migrates existing Active Directory resources into domains, deletes related
       rotation and discovery-source rows for migrated AD resources, and drops
       pam_resources.adServerResourceId.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -41,7 +41,7 @@ dbSchemaChanges:
   - title: Certificate external metadata
     description: Startup adds a nullable externalMetadata JSONB column to
       certificates for external CA metadata storage.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -52,7 +52,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:50:35.458Z

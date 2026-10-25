@@ -42,20 +42,20 @@ export const KmipServerDeployCommandDialog = ({
   const cliCommand = useMemo(() => {
     const common = `--domain=${siteURL}`;
     if (authMethod === "aws") {
-      return `infisical kmip start ${kmipServerName} --enroll-method=aws --kmip-server-id=${kmipServerId} ${common}`;
+      return `vaultix kmip start ${kmipServerName} --enroll-method=aws --kmip-server-id=${kmipServerId} ${common}`;
     }
-    return `infisical kmip start ${kmipServerName} --enroll-method=token --token=${enrollmentToken} ${common}`;
+    return `vaultix kmip start ${kmipServerName} --enroll-method=token --token=${enrollmentToken} ${common}`;
   }, [kmipServerName, kmipServerId, enrollmentToken, authMethod, siteURL]);
 
   const systemdInstallCommand = useMemo(() => {
     const common = `--domain=${siteURL}`;
     if (authMethod === "aws") {
-      return `sudo infisical kmip systemd install ${kmipServerName} --enroll-method=aws --kmip-server-id=${kmipServerId} ${common}`;
+      return `sudo vaultix kmip systemd install ${kmipServerName} --enroll-method=aws --kmip-server-id=${kmipServerId} ${common}`;
     }
-    return `sudo infisical kmip systemd install ${kmipServerName} --enroll-method=token --token=${enrollmentToken} ${common}`;
+    return `sudo vaultix kmip systemd install ${kmipServerName} --enroll-method=token --token=${enrollmentToken} ${common}`;
   }, [kmipServerName, kmipServerId, enrollmentToken, authMethod, siteURL]);
 
-  const startServiceCommand = "sudo systemctl start infisical-kmip";
+  const startServiceCommand = "sudo systemctl start vaultix-kmip";
 
   const copy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);

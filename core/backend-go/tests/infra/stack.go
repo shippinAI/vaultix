@@ -9,9 +9,9 @@ import (
 
 	"github.com/testcontainers/testcontainers-go"
 
-	"github.com/infisical/api/internal/config"
+	"github.com/vaultix/api/internal/config"
 
-	"github.com/infisical/api/internal/database/pg"
+	"github.com/vaultix/api/internal/database/pg"
 )
 
 // Stack holds references to running containers and provides accessors

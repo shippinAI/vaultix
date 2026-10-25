@@ -33,7 +33,7 @@ From the certificate details page, use the **Options** menu:
 | Action | Description |
 |--------|-------------|
 | **Export** | Download as PEM (individual files) or PKCS12 (single encrypted bundle) |
-| **Enable Auto-Renewal** | Infisical renews automatically before expiration |
+| **Enable Auto-Renewal** | vaultix renews automatically before expiration |
 | **Renew Now** | Manually trigger renewal |
 | **Manage Syncs** | Push to cloud destinations (ACM, Key Vault, etc.) |
 | **Revoke** | Revoke with a reason code; certificate appears in CRL |
@@ -45,11 +45,11 @@ Go to the **Certificate Requests** tab and click **Request Certificate**. Select
 
 | Method | Description |
 |--------|-------------|
-| **Managed** | Infisical generates and stores the private key |
+| **Managed** | vaultix generates and stores the private key |
 | **CSR** | You provide your own Certificate Signing Request |
 
 For automated issuance, configure an [enrollment method](/documentation/platform/pki/applications/enrollment-methods/overview):
-- [API](/documentation/platform/pki/applications/enrollment-methods/api) — Direct API calls or Infisical Agent
+- [API](/documentation/platform/pki/applications/enrollment-methods/api) — Direct API calls or vaultix Agent
 - [ACME](/documentation/platform/pki/applications/enrollment-methods/acme) — Certbot, cert-manager, and ACME clients
 - [EST](/documentation/platform/pki/applications/enrollment-methods/est) — RFC 7030 enrollment
 - [SCEP](/documentation/platform/pki/applications/enrollment-methods/scep) — Mobile device management (Jamf, Intune)
@@ -58,10 +58,10 @@ For automated issuance, configure an [enrollment method](/documentation/platform
 
 | Type | How It Works |
 |------|--------------|
-| **Client-driven** | The client (Certbot, cert-manager, Infisical Agent) monitors expiration and requests renewal |
-| **Server-driven** | Infisical automatically renews before expiration and pushes to [syncs](/documentation/platform/pki/applications/certificate-syncs/overview) |
+| **Client-driven** | The client (Certbot, cert-manager, vaultix Agent) monitors expiration and requests renewal |
+| **Server-driven** | vaultix automatically renews before expiration and pushes to [syncs](/documentation/platform/pki/applications/certificate-syncs/overview) |
 
-Server-driven renewal requires [API enrollment](/documentation/platform/pki/applications/enrollment-methods/api) with Infisical-managed keys. Enable it on the [enrollment method](/documentation/platform/pki/applications/enrollment-methods/api) or toggle it per-certificate.
+Server-driven renewal requires [API enrollment](/documentation/platform/pki/applications/enrollment-methods/api) with vaultix-managed keys. Enable it on the [enrollment method](/documentation/platform/pki/applications/enrollment-methods/api) or toggle it per-certificate.
 
 ## Export Formats
 

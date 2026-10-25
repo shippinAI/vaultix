@@ -208,7 +208,7 @@ export const VenafiTppConnectionForm = ({ appConnection, onSubmit }: Props) => {
               <Input
                 id="venafi-client-id"
                 {...field}
-                placeholder="my-infisical-integration"
+                placeholder="my-vaultix-integration"
                 isError={Boolean(error?.message)}
               />
               <FieldError errors={[error]} />

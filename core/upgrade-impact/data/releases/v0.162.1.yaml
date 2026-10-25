@@ -12,7 +12,7 @@ dbSchemaChanges:
     description: Adds nullable PAM account columns for rotation account linkage,
       next rotation scheduling, and staged pending credentials. Existing rows
       remain compatible.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -23,7 +23,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-08T12:46:23.178Z

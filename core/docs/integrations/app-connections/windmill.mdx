@@ -1,9 +1,9 @@
 ---
 title: "Windmill Connection"
-description: "Learn how to configure a Windmill Connection for Infisical."
+description: "Learn how to configure a Windmill Connection for vaultix."
 ---
 
-Infisical supports connecting to Windmill using Access Tokens.
+vaultix supports connecting to Windmill using Access Tokens.
 
 ## Get a Windmill Access Token
 
@@ -40,14 +40,14 @@ Ensure the user generating the access token has the required role and permission
 </Steps>
 
 
-## Setup Windmill Connection in Infisical
+## Setup Windmill Connection in vaultix
 
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
+                In your vaultix dashboard, navigate to the **Integrations** tab in the desired project, then select **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -78,7 +78,7 @@ Ensure the user generating the access token has the required role and permission
 
         ```bash Request
         curl    --request POST \
-                --url https://app.infisical.com/api/v1/app-connections/windmill \
+                --url https://app.vaultix.com/api/v1/app-connections/windmill \
                 --header 'Content-Type: application/json' \
                 --data '{
                     "name": "my-windmill-connection",

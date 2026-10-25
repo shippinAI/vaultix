@@ -1,7 +1,7 @@
 ---
 title: "Post-Quantum Cryptography (PQC)"
 sidebarTitle: "Post-Quantum Algorithms"
-description: "Learn about Infisical's support for post-quantum cryptographic algorithms in certificate management."
+description: "Learn about vaultix's support for post-quantum cryptographic algorithms in certificate management."
 ---
 
 ## What is Post-Quantum Cryptography?
@@ -12,7 +12,7 @@ PQC algorithms are based on different mathematical foundations, such as lattice 
 
 ## Supported PQC Algorithms
 
-Infisical supports the following NIST-standardized post-quantum signature algorithms for certificate authorities and certificate issuance:
+vaultix supports the following NIST-standardized post-quantum signature algorithms for certificate authorities and certificate issuance:
 
 ### ML-DSA (Module-Lattice Digital Signature Algorithm)
 
@@ -26,10 +26,10 @@ ML-DSA is the recommended PQC algorithm for most use cases due to its efficient 
 
 ### Creating a PQC Certificate Authority
 
-You can create a Certificate Authority with a PQC key algorithm through the Infisical UI or API.
+You can create a Certificate Authority with a PQC key algorithm through the vaultix UI or API.
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     When creating a new Internal CA, select one of the ML-DSA variants from the **Key Algorithm** dropdown:
     - **ML-DSA-44** for NIST Level 2 security
     - **ML-DSA-65** for NIST Level 3 security
@@ -43,7 +43,7 @@ You can create a Certificate Authority with a PQC key algorithm through the Infi
 
     ```bash
     curl --request POST \
-      --url https://your-infisical-instance.com/api/v1/pki/ca \
+      --url https://your-vaultix-instance.com/api/v1/pki/ca \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{

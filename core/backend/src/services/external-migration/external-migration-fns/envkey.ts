@@ -65,7 +65,7 @@ export const decryptEnvKeyDataFn = async (decryptionKey: string, encryptedJson: 
 export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixImportData> => {
   const parsedJson: TEnvKeyExportJSON = JSON.parse(decryptedJson) as TEnvKeyExportJSON;
 
-  const infisicalImportData: VaultixImportData = {
+  const vaultixImportData: VaultixImportData = {
     projects: [],
     environments: [],
     folders: [],
@@ -73,7 +73,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
   };
 
   parsedJson.apps.forEach((app: { name: string; id: string }) => {
-    infisicalImportData.projects.push({ name: app.name, id: app.id });
+    vaultixImportData.projects.push({ name: app.name, id: app.id });
   });
 
   // string to string map for env templates
@@ -93,7 +93,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
 
     // If we find the app from the envParentId, we know this is a root-level environment.
     if (appId) {
-      infisicalImportData.environments.push({
+      vaultixImportData.environments.push({
         id: env.id,
         name: envTemplates.get(env.environmentRoleId)!,
         projectId: appId
@@ -136,17 +136,17 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
 
       if (app) {
         // Handle regular app branches
-        const branchEnvironment = infisicalImportData.environments.find((e) => e.id === subEnv.parentEnvironmentId);
+        const branchEnvironment = vaultixImportData.environments.find((e) => e.id === subEnv.parentEnvironmentId);
 
         // check if the folder already exists in the same parent environment with the same name
 
-        const folderExists = infisicalImportData.folders.some(
+        const folderExists = vaultixImportData.folders.some(
           (f) => f.name === subEnv.subName && f.parentFolderId === subEnv.parentEnvironmentId
         );
 
         // No need to map to target ID's here, because we are not dealing with blocks
         if (!folderExists) {
-          infisicalImportData.folders.push({
+          vaultixImportData.folders.push({
             name: subEnv.subName,
             parentFolderId: subEnv.parentEnvironmentId,
             environmentId: branchEnvironment!.id,
@@ -174,13 +174,13 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
           // eslint-disable-next-line no-continue
           if (!matchingAppEnv) continue;
 
-          const folderExists = infisicalImportData.folders.some(
+          const folderExists = vaultixImportData.folders.some(
             (f) => f.name === subEnv.subName && f.parentFolderId === matchingAppEnv.id
           );
 
           if (!folderExists) {
             // 3. Create a folder in the matching app environment
-            infisicalImportData.folders.push({
+            vaultixImportData.folders.push({
               name: subEnv.subName,
               parentFolderId: matchingAppEnv.id,
               environmentId: matchingAppEnv.id,
@@ -198,19 +198,19 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
               const resolvedSecret = findRootInheritedSecret(secretData, secretName, parsedJson.envs);
 
               // If the secret already exists in the environment, we need to check the orderIndex of the appBlock. The appBlock with the highest orderIndex should take precedence.
-              const preExistingSecretIndex = infisicalImportData.secrets.findIndex(
+              const preExistingSecretIndex = vaultixImportData.secrets.findIndex(
                 (s) => s.name === secretName && s.environmentId === matchingAppEnv.id
               );
 
               if (preExistingSecretIndex !== -1) {
-                const preExistingSecret = infisicalImportData.secrets[preExistingSecretIndex];
+                const preExistingSecret = vaultixImportData.secrets[preExistingSecretIndex];
 
                 if (
                   preExistingSecret.appBlockOrderIndex !== undefined &&
                   orderIndex > preExistingSecret.appBlockOrderIndex
                 ) {
                   // if the existing secret has a lower orderIndex, we should replace it
-                  infisicalImportData.secrets[preExistingSecretIndex] = {
+                  vaultixImportData.secrets[preExistingSecretIndex] = {
                     ...preExistingSecret,
                     value: resolvedSecret.val || "",
                     appBlockOrderIndex: orderIndex
@@ -221,7 +221,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
                 continue;
               }
 
-              infisicalImportData.secrets.push({
+              vaultixImportData.secrets.push({
                 id: crypto.nativeCrypto.randomUUID(),
                 name: secretName,
                 environmentId: matchingAppEnv.id,
@@ -231,19 +231,19 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
               });
             } else {
               // If the secret already exists in the environment, we need to check the orderIndex of the appBlock. The appBlock with the highest orderIndex should take precedence.
-              const preExistingSecretIndex = infisicalImportData.secrets.findIndex(
+              const preExistingSecretIndex = vaultixImportData.secrets.findIndex(
                 (s) => s.name === secretName && s.environmentId === matchingAppEnv.id
               );
 
               if (preExistingSecretIndex !== -1) {
-                const preExistingSecret = infisicalImportData.secrets[preExistingSecretIndex];
+                const preExistingSecret = vaultixImportData.secrets[preExistingSecretIndex];
 
                 if (
                   preExistingSecret.appBlockOrderIndex !== undefined &&
                   orderIndex > preExistingSecret.appBlockOrderIndex
                 ) {
                   // if the existing secret has a lower orderIndex, we should replace it
-                  infisicalImportData.secrets[preExistingSecretIndex] = {
+                  vaultixImportData.secrets[preExistingSecretIndex] = {
                     ...preExistingSecret,
                     value: secretData.val || "",
                     appBlockOrderIndex: orderIndex
@@ -254,7 +254,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
                 continue;
               }
 
-              infisicalImportData.secrets.push({
+              vaultixImportData.secrets.push({
                 id: crypto.nativeCrypto.randomUUID(),
                 name: secretName,
                 environmentId: matchingAppEnv.id,
@@ -318,19 +318,19 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
               const resolvedSecret = findRootInheritedSecret(selectedSecret, secret, parsedJson.envs);
 
               // If the secret already exists in the environment, we need to check the orderIndex of the appBlock. The appBlock with the highest orderIndex should take precedence.
-              const preExistingSecretIndex = infisicalImportData.secrets.findIndex(
+              const preExistingSecretIndex = vaultixImportData.secrets.findIndex(
                 (s) => s.name === secret && s.environmentId === matchingEnv.id
               );
 
               if (preExistingSecretIndex !== -1) {
-                const preExistingSecret = infisicalImportData.secrets[preExistingSecretIndex];
+                const preExistingSecret = vaultixImportData.secrets[preExistingSecretIndex];
 
                 if (
                   preExistingSecret.appBlockOrderIndex !== undefined &&
                   appBlock.orderIndex > preExistingSecret.appBlockOrderIndex
                 ) {
                   // if the existing secret has a lower orderIndex, we should replace it
-                  infisicalImportData.secrets[preExistingSecretIndex] = {
+                  vaultixImportData.secrets[preExistingSecretIndex] = {
                     ...preExistingSecret,
                     value: selectedSecret.val || "",
                     appBlockOrderIndex: appBlock.orderIndex
@@ -341,7 +341,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
                 continue;
               }
 
-              infisicalImportData.secrets.push({
+              vaultixImportData.secrets.push({
                 id: crypto.nativeCrypto.randomUUID(),
                 name: secret,
                 environmentId: matchingEnv.id,
@@ -350,19 +350,19 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
               });
             } else {
               // If the secret already exists in the environment, we need to check the orderIndex of the appBlock. The appBlock with the highest orderIndex should take precedence.
-              const preExistingSecretIndex = infisicalImportData.secrets.findIndex(
+              const preExistingSecretIndex = vaultixImportData.secrets.findIndex(
                 (s) => s.name === secret && s.environmentId === matchingEnv.id
               );
 
               if (preExistingSecretIndex !== -1) {
-                const preExistingSecret = infisicalImportData.secrets[preExistingSecretIndex];
+                const preExistingSecret = vaultixImportData.secrets[preExistingSecretIndex];
 
                 if (
                   preExistingSecret.appBlockOrderIndex !== undefined &&
                   appBlock.orderIndex > preExistingSecret.appBlockOrderIndex
                 ) {
                   // if the existing secret has a lower orderIndex, we should replace it
-                  infisicalImportData.secrets[preExistingSecretIndex] = {
+                  vaultixImportData.secrets[preExistingSecretIndex] = {
                     ...preExistingSecret,
                     value: selectedSecret.val || "",
                     appBlockOrderIndex: appBlock.orderIndex
@@ -373,7 +373,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
                 continue;
               }
 
-              infisicalImportData.secrets.push({
+              vaultixImportData.secrets.push({
                 id: crypto.nativeCrypto.randomUUID(),
                 name: secret,
                 environmentId: matchingEnv.id,
@@ -388,7 +388,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
   };
 
   processBranches();
-  processBlocksForApp(infisicalImportData.projects.map((app) => app.id));
+  processBlocksForApp(vaultixImportData.projects.map((app) => app.id));
 
   for (const env of Object.keys(parsedJson.envs)) {
     // Skip user-specific environments
@@ -429,7 +429,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
 
     // Process each secret in this environment or branch
     for (const [secretName, secretData] of Object.entries(envData.variables)) {
-      const indexOfExistingSecret = infisicalImportData.secrets.findIndex(
+      const indexOfExistingSecret = vaultixImportData.secrets.findIndex(
         (s) =>
           s.name === secretName &&
           (s.environmentId === subEnv?.parentEnvironmentId || s.environmentId === env) &&
@@ -443,18 +443,18 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
         // Variables from the normal environment should take precedence over variables from the block.
         if (indexOfExistingSecret !== -1) {
           // if a existing secret is found, we should replace it directly
-          const newSecret: (typeof infisicalImportData.secrets)[number] = {
-            ...infisicalImportData.secrets[indexOfExistingSecret],
+          const newSecret: (typeof vaultixImportData.secrets)[number] = {
+            ...vaultixImportData.secrets[indexOfExistingSecret],
             value: resolvedSecret.val || ""
           };
 
-          infisicalImportData.secrets[indexOfExistingSecret] = newSecret;
+          vaultixImportData.secrets[indexOfExistingSecret] = newSecret;
 
           // eslint-disable-next-line no-continue
           continue;
         }
 
-        infisicalImportData.secrets.push({
+        vaultixImportData.secrets.push({
           id: crypto.nativeCrypto.randomUUID(),
           name: secretName,
           environmentId: subEnv ? subEnv.parentEnvironmentId : env,
@@ -467,12 +467,12 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
 
         if (indexOfExistingSecret !== -1) {
           // if a existing secret is found, we should replace it directly
-          const newSecret: (typeof infisicalImportData.secrets)[number] = {
-            ...infisicalImportData.secrets[indexOfExistingSecret],
+          const newSecret: (typeof vaultixImportData.secrets)[number] = {
+            ...vaultixImportData.secrets[indexOfExistingSecret],
             value: secretData.val || ""
           };
 
-          infisicalImportData.secrets[indexOfExistingSecret] = newSecret;
+          vaultixImportData.secrets[indexOfExistingSecret] = newSecret;
 
           // eslint-disable-next-line no-continue
           continue;
@@ -480,7 +480,7 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
 
         const folderId = targetIdToFolderIdsMap.get(subEnv?.id || "") || subEnv?.id;
 
-        infisicalImportData.secrets.push({
+        vaultixImportData.secrets.push({
           id: crypto.nativeCrypto.randomUUID(),
           name: secretName,
           environmentId: subEnv ? subEnv.parentEnvironmentId : env,
@@ -491,5 +491,5 @@ export const parseEnvKeyDataFn = async (decryptedJson: string): Promise<VaultixI
     }
   }
 
-  return infisicalImportData;
+  return vaultixImportData;
 };

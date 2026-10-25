@@ -28,7 +28,7 @@ layman surface (and let Clyffy drive it).
 | **Secrets Health / Stale secrets** — masked secrets not updated in N time, dismiss, filter (gaps-3) | data exists (`updatedAt` on secrets) but **no analysis layer** | **Feature (real gap)** | Stale-secret detection + health dashboard | `vaultix.health.scan`, narrates risk in plain words | **P0** |
 | **Tokens / Service Tokens / SA API Tokens** (gaps-1 nav, gaps-4) | `identity*` (24), `service_token` (1) | UX | Token issue/list UI | `vaultix.token.issue` | P2 |
 | **Recurring Reminders** (gaps-4) | `reminders` (2) | UX | Reminder set UI | `vaultix.reminder.set` | P2 |
-| **Rotated Secrets** (gaps-4, Doppler gates behind Team) | `secret_rotation*` (5) | UX | **One-click rotation** (Infisical's strength, made easy) | `vaultix.rotate` | P1 |
+| **Rotated Secrets** (gaps-4, Doppler gates behind Team) | `secret_rotation*` (5) | UX | **One-click rotation** (vaultix's strength, made easy) | `vaultix.rotate` | P1 |
 | **Webhooks** (gaps-4) | `webhooks` (1) | UX | Webhook config UI | `vaultix.webhook.add` | P2 |
 | **Share Secret** (one-time) (gaps-1 nav) | `secret_sharing`/`shared_secrets` | UX | One-time share flow | `vaultix.share` | P2 |
 | **Team / invite** (gaps-1) | org membership, `user_group`, members | UX | Invite + roles UI (Nomen principals, doc 0003) | `vaultix.team.invite` | P2 |

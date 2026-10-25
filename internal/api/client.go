@@ -1,4 +1,4 @@
-// Package api talks to the Vaultix (Infisical-compatible) HTTP API. Tokens are held in memory
+// Package api talks to the Vaultix (vaultix-compatible) HTTP API. Tokens are held in memory
 // only and are never logged.
 package api
 

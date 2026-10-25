@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/services/assumeprivilege"
-	"github.com/infisical/api/internal/services/auditlog"
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/assumeprivilege"
+	"github.com/vaultix/api/internal/services/auditlog"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 // AuthMode identifies which authentication mechanisms are allowed for a route.
@@ -21,7 +21,7 @@ const (
 	ServiceTokenAuth
 )
 
-const assumePrivilegeCookieName = "infisical-project-assume-privileges"
+const assumePrivilegeCookieName = "vaultix-project-assume-privileges"
 
 // authConfig holds the configuration for RequireAuth middleware.
 type authConfig struct {

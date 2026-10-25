@@ -6,7 +6,7 @@ description: "Detect the Windows services, tasks, and app pools that run as an a
 
 A **dependency** is a Windows service, scheduled task, or IIS application pool that runs *as* one of your accounts and therefore stores a copy of that account's password. When the account's password rotates, every dependency still holding the old password would fail to start until it is updated.
 
-Infisical **detects** these dependencies during discovery and **syncs** them automatically during rotation, so rotating a Windows account does not break the services that depend on it.
+vaultix **detects** these dependencies during discovery and **syncs** them automatically during rotation, so rotating a Windows account does not break the services that depend on it.
 
 <Note>
   Dependencies apply to Windows accounts only: [Windows AD](/documentation/platform/pam/accounts/windows-ad) (domain) and [Windows](/documentation/platform/pam/accounts/windows) (local).
@@ -34,11 +34,11 @@ You can review an account's detected dependencies on the account's **Rotation** 
 
 ## Rotation (sync)
 
-When a Windows account's password [rotates](/documentation/platform/pam/product-reference/credential-rotation/windows), Infisical pushes the new password to each of the account's dependencies so they continue to authenticate:
+When a Windows account's password [rotates](/documentation/platform/pam/product-reference/credential-rotation/windows), vaultix pushes the new password to each of the account's dependencies so they continue to authenticate:
 
 <Steps>
   <Step title="Connect to each dependency's machine">
-    Using the account's rotation account, Infisical connects over WinRM to the machine each dependency runs on. For domain accounts, machine hostnames are re-resolved through the domain controller's DNS at sync time so a stale address cannot target the wrong host.
+    Using the account's rotation account, vaultix connects over WinRM to the machine each dependency runs on. For domain accounts, machine hostnames are re-resolved through the domain controller's DNS at sync time so a stale address cannot target the wrong host.
   </Step>
   <Step title="Update the stored credential">
     The new password is written to the dependency:

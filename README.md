@@ -1,7 +1,7 @@
 # vaultix
 
 Local, encrypted, two-way copy of your Vaultix secrets (Vaultix = Shippin's secrets service at
-https://secrets.shippin.cloud, Infisical-compatible API), plus `vaultix run` to hand them to programs and AI agents.
+https://secrets.shippin.cloud,, plus `vaultix run` to hand them to programs and AI agents.
 
 ```sh
 go build -o vaultix ./cmd/vaultix
@@ -33,13 +33,12 @@ Tests: `go test ./...` (sync rules, encrypted store, API client against a fake s
 
 **Owner:** AngryVibes LLC. **Host:** shippin.ai. **Stamp:** A SHIPPIN.AI SERVICE.
 
-Vaultix **is** Infisical’s MIT core, forked and renamed. Pin `v0.162.19`
 in `core/`. Remotes off. Customer chrome says Vaultix. We do not run the
 vendor image and we do not replace the engine with a toy store.
 
 | Piece | What it is |
 | --- | --- |
-| `core/` | The secrets product (renamed Infisical) |
+| `core/` | The secrets product (renamed vaultix) |
 | `db/` | Owned schema (rebranded overlay) |
 | `panel/` | Shippin overlay (PIN, lessons, Clyffy, instance manager) |
 | `branding/` | Wordmark, mark, favicon |

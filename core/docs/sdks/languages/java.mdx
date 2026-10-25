@@ -1,10 +1,10 @@
 ---
-title: "Infisical Java SDK"
+title: "vaultix Java SDK"
 sidebarTitle: "Java"
 icon: "/images/sdks/languages/java.svg"
 ---
 
-If you're working with Java, the official Infisical Java SDK package is the easiest way to fetch and work with secrets for your application. 
+If you're working with Java, the official vaultix Java SDK package is the easiest way to fetch and work with secrets for your application. 
 
 ## Installation
 
@@ -14,7 +14,7 @@ Replace `{version}` with the version of the SDK you wish to use. This documentat
 
 ```xml
 <dependency>
-    <groupId>com.infisical</groupId>
+    <groupId>com.vaultix</groupId>
     <artifactId>sdk</artifactId>
     <version>{version}</version>
 </dependency>
@@ -22,12 +22,12 @@ Replace `{version}` with the version of the SDK you wish to use. This documentat
 
 ### Gradle
 ```gradle
-  implementation group: 'com.infisical', name: 'sdk', version: '{version}'
+  implementation group: 'com.vaultix', name: 'sdk', version: '{version}'
 ```
 
 
 ### Others
-For other build tools, please check our [package snippets](https://central.sonatype.com/artifact/com.infisical/sdk), and select the build tool you're using for your project.
+For other build tools, please check our [package snippets](https://central.sonatype.com/artifact/com.vaultix/sdk), and select the build tool you're using for your project.
 
 
 
@@ -36,16 +36,16 @@ For other build tools, please check our [package snippets](https://central.sonat
 ```java
 package com.example.example;
 
-import com.infisical.sdk.InfisicalSdk;
-import com.infisical.sdk.SdkConfig;
+import com.vaultix.sdk.vaultixSdk;
+import com.vaultix.sdk.SdkConfig;
 
 public class Example {
 
   public static void main(String[] args) {
-    var sdk = new InfisicalSdk(
+    var sdk = new vaultixSdk(
       new SdkConfig.Builder()
-        // Optional, will default to https://app.infisical.com
-        .withSiteUrl("https://your-infisical-instance.com")
+        // Optional, will default to https://app.vaultix.com
+        .withSiteUrl("https://your-vaultix-instance.com")
         .build()
     );
 
@@ -90,7 +90,7 @@ public void UniversalAuthLogin(
   String clientId,
   String clientSecret
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -110,13 +110,13 @@ sdk.Auth().UniversalAuthLogin(
 ```java
 // No-arg: revokes the current session token stored in the SDK
 public void RevokeToken()
-throws InfisicalException
+throws vaultixException
 
 // Explicit: revokes a specific access token
 public void RevokeToken(
   String accessToken
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 The recommended approach is to call `RevokeToken()` without arguments, which revokes the token currently stored in the SDK session:
@@ -140,7 +140,7 @@ sdk.Auth().RevokeToken("ACCESS_TOKEN");
 public void AwsAuthLogin(
   String identityId
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -156,7 +156,7 @@ sdk.Auth().AwsAuthLogin("<machine-identity-id>");
 public void LdapAuthLogin(
   LdapAuthLoginInput input
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -184,7 +184,7 @@ sdk.Auth().LdapAuthLogin(input);
 public void SetAccessToken(
   String accessToken
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -211,7 +211,7 @@ public List<Secret> ListSecrets(
     Boolean setSecretsOnSystemProperties
 )
 
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -249,7 +249,7 @@ public Secret CreateSecret(
     String environmentSlug,
     String secretPath
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -284,7 +284,7 @@ public Secret UpdateSecret(
     String newSecretName
   )
     
-throws InfisicalException
+throws vaultixException
 ```
 
 
@@ -322,7 +322,7 @@ public Secret GetSecret(
     Boolean includeImports,
     String secretType
   )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -360,7 +360,7 @@ public Secret DeleteSecret(
     String environmentSlug,
     String secretPath
   )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -390,7 +390,7 @@ Secret deletedSecret = sdk.Secrets().DeleteSecret(
 public Folder Get(
   String folderId
 );
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -409,7 +409,7 @@ Folder folder = sdk.Folders().Get("<folder-id>");
 public List<Folder> List(
   ListFoldersInput input
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -441,7 +441,7 @@ List<Folder> folders = sdk.Folders().List(input);
 public Folder Create(
   CreateFolderInput input
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -474,7 +474,7 @@ Folder createdFolder = sdk.Folders().Create(input);
 public Folder Update(
   UpdateFolderInput input
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java
@@ -507,7 +507,7 @@ Folder updatedFolder = sdk.Folders().Update(input);
 public Folder Delete(
   DeleteFolderInput input
 )
-throws InfisicalException
+throws vaultixException
 ```
 
 ```java

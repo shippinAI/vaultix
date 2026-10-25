@@ -45,21 +45,21 @@ up-dev-ad:
 
 seed-dev-ad:
 	docker compose -f docker-compose.dev.yml exec samba-ad bash -c '\
-	  samba-tool domain trust namespaces --add-upn-suffix=infisical.com 2>/dev/null || true; \
+	  samba-tool domain trust namespaces --add-upn-suffix=vaultix.com 2>/dev/null || true; \
 	  samba-tool user delete jdoe 2>/dev/null || true; \
 	  samba-tool user delete asmith 2>/dev/null || true; \
-	  samba-tool group delete infisical-users 2>/dev/null || true; \
-	  samba-tool user create jdoe "password123!" --given-name=John --surname=Doe --mail-address=jdoe@infisical.com; \
-	  samba-tool user create asmith "password123!" --given-name=Alice --surname=Smith --mail-address=asmith@infisical.com; \
-	  samba-tool user rename jdoe --upn=jdoe@infisical.com; \
-	  samba-tool user rename asmith --upn=asmith@infisical.com; \
-	  samba-tool group add infisical-users; \
-	  samba-tool group addmembers infisical-users jdoe,asmith \
+	  samba-tool group delete vaultix-users 2>/dev/null || true; \
+	  samba-tool user create jdoe "password123!" --given-name=John --surname=Doe --mail-address=jdoe@vaultix.com; \
+	  samba-tool user create asmith "password123!" --given-name=Alice --surname=Smith --mail-address=asmith@vaultix.com; \
+	  samba-tool user rename jdoe --upn=jdoe@vaultix.com; \
+	  samba-tool user rename asmith --upn=asmith@vaultix.com; \
+	  samba-tool group add vaultix-users; \
+	  samba-tool group addmembers vaultix-users jdoe,asmith \
 	'
 
 seed-dev-ldap:
-	# Seeds OpenLDAP entries (idempotent) and the Infisical side for LDAP SSO testing: an
-	# ldap@infisical.com admin, a verified domain, and an active LDAP config. With ORG_ID=<uuid>
+	# Seeds OpenLDAP entries (idempotent) and the vaultix side for LDAP SSO testing: an
+	# ldap@vaultix.com admin, a verified domain, and an active LDAP config. With ORG_ID=<uuid>
 	# it configures that org; otherwise it bootstraps a dedicated `ldap` org. Needs the stack up
 	# (`make up-dev-ldap`).
 	@docker compose -f docker-compose.dev.yml exec -T openldap \
@@ -70,7 +70,7 @@ seed-dev-ldap:
 	docker compose -f docker-compose.dev.yml exec -T backend npx tsx ./src/db/seed-ldap.ts $(ORG_ID)
 
 seed-dev-oidc:
-	# Sets up the Infisical side for OIDC SSO testing: an oidc@infisical.com admin, a verified
+	# Sets up the vaultix side for OIDC SSO testing: an oidc@vaultix.com admin, a verified
 	# domain, and an active OIDC config. With ORG_ID=<uuid> it configures that existing org;
 	# otherwise it bootstraps a dedicated `oidc` org. Needs the stack up (`make up-dev-oidc`).
 	docker compose -f docker-compose.dev.yml exec -T backend npx tsx ./src/db/seed-oidc.ts $(ORG_ID)
@@ -79,14 +79,14 @@ seed-dev-saml:
 	# Sets up SAML SSO + real SCIM provisioning against the local Authentik IdP. Bootstraps a
 	# dedicated `saml` org (admin@saml.com, verified saml.com domain, active SAML config, SCIM token),
 	# configures Authentik (SAML + SCIM providers, app, john/alice@saml.com), and provisions those
-	# users into Infisical via SCIM. Needs the stack up (`make up-dev-saml`).
+	# users into vaultix via SCIM. Needs the stack up (`make up-dev-saml`).
 	docker compose -f docker-compose.dev.yml exec -T backend npx tsx ./src/db/seed-saml.ts
 
 
 # Golang commands
 go-generate:
 	cd backend-go && \
-	goa gen github.com/infisical/api/internal/server/design -o ./internal/server/
+	goa gen github.com/vaultix/api/internal/server/design -o ./internal/server/
 
 validate-upgrade-impact:
 	cd upgrade-impact && \

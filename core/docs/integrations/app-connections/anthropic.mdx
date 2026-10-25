@@ -1,9 +1,9 @@
 ---
 title: "Anthropic Connection"
-description: "Learn how to configure an Anthropic connection for Infisical."
+description: "Learn how to configure an Anthropic connection for vaultix."
 ---
 
-Infisical supports connecting to Anthropic using an **API Key**.
+vaultix supports connecting to Anthropic using an **API Key**.
 
 ## Prerequisites
 
@@ -19,23 +19,23 @@ Infisical supports connecting to Anthropic using an **API Key**.
         ![Anthropic API Keys](/images/app-connections/anthropic/step-1.png)
     </Step>
     <Step title="Name and create the key">
-        Give the key a descriptive name (e.g. `infisical-pam`) and click **Create Key**. Copy the generated API key, as it will only be shown once.
+        Give the key a descriptive name (e.g. `vaultix-pam`) and click **Create Key**. Copy the generated API key, as it will only be shown once.
 
         ![Anthropic Create Key](/images/app-connections/anthropic/step-2.png)
     </Step>
 </Steps>
 
 <Tip>
-    Create a dedicated API key for Infisical rather than reusing an existing one. This makes it easy to rotate or revoke access independently.
+    Create a dedicated API key for vaultix rather than reusing an existing one. This makes it easy to rotate or revoke access independently.
 </Tip>
 
-## Create Anthropic Connection in Infisical
+## Create Anthropic Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, go to **Organization Settings** → **App Connections**.
+                In your vaultix dashboard, go to **Organization Settings** → **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -53,7 +53,7 @@ Infisical supports connecting to Anthropic using an **API Key**.
                 ![Anthropic Connection Form](/images/app-connections/anthropic/anthropic-app-connection-form.png)
             </Step>
             <Step title="Connection Created">
-                After clicking **Create**, Infisical validates the key against the Anthropic API.
+                After clicking **Create**, vaultix validates the key against the Anthropic API.
 
                 ![Anthropic Connection Created](/images/app-connections/anthropic/anthropic-app-connection-created.png)
             </Step>
@@ -66,7 +66,7 @@ Infisical supports connecting to Anthropic using an **API Key**.
 
         ```bash Request
         curl --request POST \
-          --url https://app.infisical.com/api/v1/app-connections/anthropic \
+          --url https://app.vaultix.com/api/v1/app-connections/anthropic \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-anthropic-connection",

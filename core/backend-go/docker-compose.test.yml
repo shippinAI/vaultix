@@ -4,11 +4,11 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: infisical
-      POSTGRES_USER: infisical
-      POSTGRES_DB: infisical
+      POSTGRES_PASSWORD: vaultix
+      POSTGRES_USER: vaultix
+      POSTGRES_DB: vaultix
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U infisical" ]
+      test: [ "CMD-SHELL", "pg_isready -U vaultix" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -24,7 +24,7 @@ services:
       retries: 5
 
   backend-nodejs:
-    image: infisical/infisical:latest
+    image: vaultix/vaultix:latest
     depends_on:
       db:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
       - "8080:8080"
     environment:
       - NODE_ENV=development
-      - DB_CONNECTION_URI=postgres://infisical:infisical@db/infisical?sslmode=disable
+      - DB_CONNECTION_URI=postgres://vaultix:vaultix@db/vaultix?sslmode=disable
       - REDIS_URL=redis://redis:6379
       - ENCRYPTION_KEY=a984ecdf82ec779e55dbcc21303a900f
       - AUTH_SECRET=test-auth-secret-long-enough-for-jwt

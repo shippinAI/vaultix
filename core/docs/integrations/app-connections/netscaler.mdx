@@ -1,14 +1,14 @@
 ---
 title: "NetScaler Connection"
-description: "Learn how to configure a NetScaler Connection for Infisical."
+description: "Learn how to configure a NetScaler Connection for vaultix."
 ---
 
-Infisical supports connecting to Citrix NetScaler (ADC) appliances using basic authentication credentials for managing SSL certificates via the NITRO REST API.
+vaultix supports connecting to Citrix NetScaler (ADC) appliances using basic authentication credentials for managing SSL certificates via the NITRO REST API.
 
 ## Setup
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Gather NetScaler Credentials">
         You will need the following from your NetScaler appliance:
@@ -47,9 +47,9 @@ Infisical supports connecting to Citrix NetScaler (ADC) appliances using basic a
         Configure the **SSL** tab:
 
         - **SSL Certificate** (Optional): A CA certificate in PEM format to verify the NetScaler management interface's TLS certificate.
-        - **Reject Unauthorized**: When enabled, Infisical will only connect if the NetScaler has a valid, trusted TLS certificate. Disable for self-signed certificates or provide a CA certificate.
+        - **Reject Unauthorized**: When enabled, vaultix will only connect if the NetScaler has a valid, trusted TLS certificate. Disable for self-signed certificates or provide a CA certificate.
 
-        Optionally select a **Gateway** to route the connection through an Infisical Gateway for private network access.
+        Optionally select a **Gateway** to route the connection through an vaultix Gateway for private network access.
 
         ![NetScaler Connection Form](/images/app-connections/netscaler/netscaler-connection-form.png)
 
@@ -69,7 +69,7 @@ Infisical supports connecting to Citrix NetScaler (ADC) appliances using basic a
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/netscaler \
+      --url https://app.vaultix.com/api/v1/app-connections/netscaler \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{

@@ -1,12 +1,12 @@
 ---
 title: "Azure Key Vault Connection"
-description: "Learn how to configure a Azure Key Vault Connection for Infisical."
+description: "Learn how to configure a Azure Key Vault Connection for vaultix."
 ---
 
-Infisical supports three methods for connecting to Azure Key Vault: OAuth, Client Secret, and Certificate (SPN with certificate).
+vaultix supports three methods for connecting to Azure Key Vault: OAuth, Client Secret, and Certificate (SPN with certificate).
 
 <Accordion title="Self-Hosted Instance">
-  Using the Azure Key Vault connection on a self-hosted instance of Infisical requires configuring an application in Azure
+  Using the Azure Key Vault connection on a self-hosted instance of vaultix requires configuring an application in Azure
   and registering your instance with it.
 
   **Prerequisites:**
@@ -25,7 +25,7 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
 
       Create the application. As part of the form, set the **Redirect URI** to `https://your-domain.com/organization/app-connections/azure/oauth/callback`.
       <Tip>
-        The domain you defined in the Redirect URI should be equivalent to the `SITE_URL` configured in your Infisical instance.
+        The domain you defined in the Redirect URI should be equivalent to the `SITE_URL` configured in your vaultix instance.
       </Tip>
 
       ![Azure key vault](/images/app-connections/azure/register-callback.png)
@@ -40,19 +40,19 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
       ![Azure key vault](/images/app-connections/azure/keyvault-azure-permissions.png)
 
     </Step>
-    <Step title="Add your application credentials to Infisical">
+    <Step title="Add your application credentials to vaultix">
       Obtain the **Application (Client) ID** in Overview and generate a **Client Secret** in Certificate & secrets for your Azure application.
 
       ![Azure key vault](../../images/integrations/azure-app-configuration/config-credentials-1.png)
       ![Azure key vault](../../images/integrations/azure-app-configuration/config-credentials-2.png)
       ![Azure key vault](../../images/integrations/azure-app-configuration/config-credentials-3.png)
 
-      Back in your Infisical instance, add two new environment variables for the credentials of your Azure application.
+      Back in your vaultix instance, add two new environment variables for the credentials of your Azure application.
 
       - `INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_ID`: The **Application (Client) ID** of your Azure application.
       - `INF_APP_CONNECTION_AZURE_KEY_VAULT_CLIENT_SECRET`: The **Client Secret** of your Azure application.
 
-      Once added, restart your Infisical instance and use the Azure Key Vault connection.
+      Once added, restart your vaultix instance and use the Azure Key Vault connection.
     </Step>
     </Steps>    
 
@@ -94,12 +94,12 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
 
       In the Azure Portal, navigate to your App Registration and open the **Certificates & secrets** section. Choose the **Certificates** tab and press the **Upload certificate** button. Select and upload your public certificate (PEM/CER/CRT).
 
-      You will need both the **certificate body** and the matching **private key** (in PEM format) to configure the connection in Infisical.
+      You will need both the **certificate body** and the matching **private key** (in PEM format) to configure the connection in vaultix.
     </Step>
   </Steps>
 </Accordion>
 
-## Setup Azure Connection in Infisical
+## Setup Azure Connection in vaultix
 
 <Steps>
 	<Step title="Navigate to App Connections">
@@ -124,8 +124,8 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
 
           </Step>
           <Step title="Grant Access">
-            You will then be redirected to Azure to grant Infisical access to your Azure account. Once granted,
-            you will redirect you back to Infisical's App Connections page. ![Azure Key Vault
+            You will then be redirected to Azure to grant vaultix access to your Azure account. Once granted,
+            you will redirect you back to vaultix's App Connections page. ![Azure Key Vault
             Authorization](/images/app-connections/azure/grant-access.png)
           </Step>
         </Steps>
@@ -156,7 +156,7 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
             ![Connect via Certificate](/images/app-connections/azure/key-vault/create-certificate-method.png)
 
             <Note>
-                The private key is never transmitted to Azure; it is only used locally by Infisical to sign the client assertion used to authenticate with Azure.
+                The private key is never transmitted to Azure; it is only used locally by vaultix to sign the client assertion used to authenticate with Azure.
             </Note>
 
             <Note>
@@ -174,7 +174,7 @@ Infisical supports three methods for connecting to Azure Key Vault: OAuth, Clien
 
 ## Automatic Credential Rotation
 
-When using the **Client Secret** authentication method, Infisical can automatically rotate the Client Secret of your Azure application on a recurring schedule. When enabled, Infisical will immediately generate a new Client Secret on connection creation and revoke the original one, ensuring that no external party retains access using the credentials you provided.
+When using the **Client Secret** authentication method, vaultix can automatically rotate the Client Secret of your Azure application on a recurring schedule. When enabled, vaultix will immediately generate a new Client Secret on connection creation and revoke the original one, ensuring that no external party retains access using the credentials you provided.
 
 <Note>
     Automatic Credential Rotation is only available for the **Client Secret** authentication method.
@@ -182,7 +182,7 @@ When using the **Client Secret** authentication method, Infisical can automatica
 
 <Steps>
     <Step title="Locate the Key ID of your Client Secret">
-        Before enabling rotation, you'll need the **Key ID** of the Client Secret you are using to authenticate. Navigate to your App Registration in the Azure Portal, then go to **Certificates & secrets**. Copy the **Secret ID** (Key ID) of the secret you are providing to Infisical.
+        Before enabling rotation, you'll need the **Key ID** of the Client Secret you are using to authenticate. Navigate to your App Registration in the Azure Portal, then go to **Certificates & secrets**. Copy the **Secret ID** (Key ID) of the secret you are providing to vaultix.
 
         ![Azure Client Secret Key ID](/images/app-connections/azure/key-vault/credential-rotation-key-id.png)
     </Step>
@@ -192,7 +192,7 @@ When using the **Client Secret** authentication method, Infisical can automatica
         ![Enable Automatic Credential Rotation](/images/app-connections/azure/key-vault/credential-rotation-toggle.png)
     </Step>
     <Step title="Provide the Client Secret Key ID">
-        Enter the **Key ID** you copied in the previous step into the **Client Secret Key ID** field. Infisical uses this to revoke your original secret after generating a new one.
+        Enter the **Key ID** you copied in the previous step into the **Client Secret Key ID** field. vaultix uses this to revoke your original secret after generating a new one.
 
         ![Client Secret Key ID Field](/images/app-connections/azure/key-vault/credential-rotation-key-id-field.png)
     </Step>

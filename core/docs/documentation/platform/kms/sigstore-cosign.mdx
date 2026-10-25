@@ -1,9 +1,9 @@
 ---
 title: "Sigstore Cosign Integration"
-description: "Sign and verify container images and artifacts using Infisical KMS with Sigstore Cosign."
+description: "Sign and verify container images and artifacts using vaultix KMS with Sigstore Cosign."
 ---
 
-Infisical KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosign) through the [sigstore-kms-infisical](https://github.com/Infisical/sigstore-kms-infisical) plugin, enabling you to sign and verify container images and artifacts using keys managed in Infisical.
+vaultix KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosign) through the [sigstore-kms-vaultix](https://github.com/vaultix/sigstore-kms-vaultix) plugin, enabling you to sign and verify container images and artifacts using keys managed in vaultix.
 
 ### KMS Plugin Capabilities
 
@@ -23,10 +23,10 @@ Infisical KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosi
     For the Sigstore library to invoke the plugin, the binary must be in your system's `PATH`.
 
     ```bash
-    git clone https://github.com/Infisical/sigstore-kms-infisical.git
-    cd sigstore-kms-infisical
-    go build -o sigstore-kms-infisical
-    cp sigstore-kms-infisical /usr/local/bin
+    git clone https://github.com/vaultix/sigstore-kms-vaultix.git
+    cd sigstore-kms-vaultix
+    go build -o sigstore-kms-vaultix
+    cp sigstore-kms-vaultix /usr/local/bin
     ```
   </Step>
 
@@ -36,14 +36,14 @@ Infisical KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosi
     Set the following environment variables:
 
     ```bash
-    export INFISICAL_SITE_URL="https://app.infisical.com"
-    export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
-    export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
-    export INFISICAL_PROJECT_ID="<infisical-kms-project-id>"
+    export vaultix_SITE_URL="https://app.vaultix.com"
+    export vaultix_UNIVERSAL_AUTH_CLIENT_ID="<machine-identity-client-id>"
+    export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET="<machine-identity-client-secret>"
+    export vaultix_PROJECT_ID="<vaultix-kms-project-id>"
     ```
 
     <Note>
-      For self-hosted Infisical instances, set `INFISICAL_SITE_URL` to your instance's URL.
+      For self-hosted vaultix instances, set `vaultix_SITE_URL` to your instance's URL.
     </Note>
   </Step>
 </Steps>
@@ -53,19 +53,19 @@ Infisical KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosi
 ### Signing a Container Image
 
 ```bash
-cosign sign --key "infisical://{KMS_KEY_NAME}" --tlog-upload=false my-repo/image:v1
+cosign sign --key "vaultix://{KMS_KEY_NAME}" --tlog-upload=false my-repo/image:v1
 ```
 
 ### Verifying a Container Image
 
 ```bash
-cosign verify --key "infisical://{KMS_KEY_NAME}" --insecure-ignore-tlog=true my-repo/image:v1
+cosign verify --key "vaultix://{KMS_KEY_NAME}" --insecure-ignore-tlog=true my-repo/image:v1
 ```
 
 ### Creating a New Key Pair
 
 ```bash
-cosign generate-key-pair --kms infisical://{NEW_KEY_NAME}
+cosign generate-key-pair --kms vaultix://{NEW_KEY_NAME}
 ```
 
 This creates an RSA 4096 KMS key with the specified name, which you can then use for signing and verification.

@@ -11,8 +11,8 @@ import (
 
 	"github.com/doordash-oss/oapi-codegen-dd/v3/pkg/runtime"
 	"github.com/go-chi/chi/v5"
-	"github.com/infisical/api/internal/server/api/shared"
-	apivalidator "github.com/infisical/api/internal/server/api/validator"
+	"github.com/vaultix/api/internal/server/api/shared"
+	apivalidator "github.com/vaultix/api/internal/server/api/validator"
 )
 
 type SecretRawType string

@@ -6,8 +6,8 @@ import {
   listProjects as listRemoteProjects,
   TRemoteEnvironmentFolderTree,
   TRemoteProject
-} from "./external-infisical-connection-fns";
-import { TExternalVaultixConnection } from "./external-infisical-connection-types";
+} from "./external-vaultix-connection-fns";
+import { TExternalVaultixConnection } from "./external-vaultix-connection-types";
 
 type TGetAppConnectionFunc = (
   app: AppConnection,

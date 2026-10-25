@@ -1,5 +1,5 @@
 [package]
-name = "infisical-rdp-decoder-wasm"
+name = "vaultix-rdp-decoder-wasm"
 version = "0.0.1"
 edition = "2021"
 description = "Minimal IronRDP-backed decoder for offline session replay (WASM)"

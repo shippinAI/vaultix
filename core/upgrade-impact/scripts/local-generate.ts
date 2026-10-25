@@ -41,7 +41,7 @@ const runGhJson = <T>(args: string[]): T => JSON.parse(execFileSync("gh", args, 
 const getLatestStableReleaseTags = () => {
   const releases = runGhJson<GitHubRelease[]>([
     "api",
-    "repos/Infisical/infisical/releases?per_page=50",
+    "repos/vaultix/vaultix/releases?per_page=50",
     "--jq",
     "."
   ]);

@@ -54,7 +54,7 @@ description: "Create, monitor, and manage AWS honey tokens in your projects."
     - **Name** — a slug-friendly identifier (must be unique within the selected folder).
     - **Description** (optional) — context for this honey token.
 
-    Click **Create**. Infisical provisions the decoy credentials in your AWS account and stores them as secrets in the selected environment and path.
+    Click **Create**. vaultix provisions the decoy credentials in your AWS account and stores them as secrets in the selected environment and path.
 
     ![Honey Token Details Step](/images/platform/honey-tokens/honey-token-create.png)
   </Step>
@@ -64,15 +64,15 @@ The honey token is now **Active**. The decoy secrets appear alongside your real 
 
 ## Notifications
 
-When someone uses a honey token's credentials to make any AWS API call, Infisical detects the activity, marks the honey token as **Triggered**, and sends an email alert to all organization admins with:
+When someone uses a honey token's credentials to make any AWS API call, vaultix detects the activity, marks the honey token as **Triggered**, and sends an email alert to all organization admins with:
    - The name of the triggered honey token and its project
    - The AWS API call that was made (e.g., `GetUser`, `ListBuckets`)
    - The source IP address and AWS region
    - The time of the event
-   - A direct link to the honey token in the Infisical dashboard
+   - A direct link to the honey token in the vaultix dashboard
 
 <Note>
-  To avoid alert fatigue, Infisical sends at most one email notification per
+  To avoid alert fatigue, vaultix sends at most one email notification per
   honey token every 24 hours. All trigger events are still recorded and
   viewable in the event log.
 </Note>

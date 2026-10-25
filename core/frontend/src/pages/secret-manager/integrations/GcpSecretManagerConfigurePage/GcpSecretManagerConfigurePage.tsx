@@ -341,7 +341,7 @@ export const GcpSecretManagerConfigurePage = () => {
                     isError={Boolean(error)}
                     errorText={error?.message}
                   >
-                    <Input {...field} placeholder="_INFISICAL" />
+                    <Input {...field} placeholder="_vaultix" />
                   </FormControl>
                 )}
               />
@@ -456,7 +456,7 @@ export const GcpSecretManagerConfigurePage = () => {
           src="/images/loading/loading.gif"
           height={70}
           width={120}
-          alt="infisical loading indicator"
+          alt="vaultix loading indicator"
         />
       ) : (
         <div className="flex h-max max-w-md flex-col rounded-md border border-mineshaft-600 bg-mineshaft-800 p-6 text-center text-mineshaft-200">

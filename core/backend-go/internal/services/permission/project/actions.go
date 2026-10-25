@@ -1,6 +1,6 @@
 package project
 
-import "github.com/infisical/gocasl"
+import "github.com/vaultix/gocasl"
 
 // --- Role constants (ProjectMembershipRole) ---
 

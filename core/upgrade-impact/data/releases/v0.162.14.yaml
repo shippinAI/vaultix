@@ -12,7 +12,7 @@ dbSchemaChanges:
     description: PAM account dependency storage is rebuilt and discovery run
       counters are added. Existing startup applies the schema change
       automatically.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -21,7 +21,7 @@ dbSchemaChanges:
   - title: Proxied service last-used column
     description: Proxied services gain a nullable lastUsedAt column for usage
       reporting. Existing startup applies the schema change automatically.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -30,7 +30,7 @@ dbSchemaChanges:
         description: Adds nullable lastUsedAt column
 configChanges:
   - title: Update check setting
-    description: Infisical now supports DISABLE_UPDATE_CHECK. Set it to true to stop
+    description: vaultix now supports DISABLE_UPDATE_CHECK. Set it to true to stop
       startup and weekly GitHub version checks, which is useful for air-gapped
       environments.
     action: Set DISABLE_UPDATE_CHECK=true if outbound GitHub access is not allowed
@@ -48,7 +48,7 @@ configChanges:
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-27T23:41:26.204Z

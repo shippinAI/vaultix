@@ -1,4 +1,4 @@
-# 0007 — Vaultix owns the schema (forked from Infisical core)
+# 0007 — Vaultix owns the schema (forked from vaultix core)
 
 **Status:** superseded (2026-08-29) by [0011-owned-engine.md](0011-owned-engine.md).
 The dump that this doc forked now lives at [`leftover/schema-dump/`](../leftover/schema-dump/)
@@ -21,22 +21,22 @@ upstream, Vaultix may fork and rebrand. This tree is ours to extend.
 ## 2. What changed in the fork
 
 The 320 tables are generically named (`secrets`, `projects`, `users`) — the
-schema was **not** Infisical-prefixed, so this is ownership + branding, not
-a 320-table rename. Every literal `infisical` string is gone (grep-verified
+schema was **not** vaultix-prefixed, so this is ownership + branding, not
+a 320-table rename. Every literal `vaultix` string is gone (grep-verified
 0 in `db/`):
 
 | Was | Now | Note |
 |-----|-----|------|
-| `keySource` default `"infisical"` + paired CHECK `= 'infisical'` | `"vaultix"` | Changed as a **pair** (default + constraint) so the check stays valid. PKI tables (refused domain, doc 0003) — rebranded for consistency only |
-| DNS `_infisical-verification.<domain>` TXT record | `_vaultix-verification.<domain>` | **User-facing** — this is the record we tell customers to create |
-| `LICENSE_SERVER_URL` default `portal.infisical.com` | `""` | Killed the phone-home. Private waivered fork needs no license server |
-| boot message + comments naming Infisical | Vaultix | cosmetic |
+| `keySource` default `"vaultix"` + paired CHECK `= 'vaultix'` | `"vaultix"` | Changed as a **pair** (default + constraint) so the check stays valid. PKI tables (refused domain, doc 0003) — rebranded for consistency only |
+| DNS `_vaultix-verification.<domain>` TXT record | `_vaultix-verification.<domain>` | **User-facing** — this is the record we tell customers to create |
+| `LICENSE_SERVER_URL` default `portal.vaultix.com` | `""` | Killed the phone-home. Private waivered fork needs no license server |
+| boot message + comments naming vaultix | Vaultix | cosmetic |
 
 ## 3. The state this leaves us in (read before deploying)
 
 **The forked schema is ahead of the running engine.** Today Vaultix still
-runs the upstream `infisical/infisical:v0.162.19` image (compose), which
-ships its OWN migrations and writes `keySource='infisical'`. Our rebranded
+runs the upstream `vaultix/vaultix:v0.162.19` image (compose), which
+ships its OWN migrations and writes `keySource='vaultix'`. Our rebranded
 schema is **not yet what runs** — it is the tree our own backend build will
 run, exactly as Tradere forked+built its own binary rather than running
 a vendor image.
@@ -48,7 +48,7 @@ So the sequence, same as Tradere:
    rebrand lives only in our tree, not the live DB.
 3. **Cutover:** swap compose from the upstream image to the Vaultix build;
    the rebranded values become live. A data migration maps any existing
-   `keySource='infisical'` rows to `'vaultix'` at cutover.
+   `keySource='vaultix'` rows to `'vaultix'` at cutover.
 
 Do not point the current upstream image at this rebranded schema — the
 values would mismatch its app-layer expectations until step 2 lands.

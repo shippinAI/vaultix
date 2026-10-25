@@ -8,19 +8,19 @@ export const MSSQL_CREDENTIALS_ROTATION_LIST_OPTION: TSecretRotationV2ListItem =
   connection: AppConnection.MsSql,
   template: {
     createUserStatement: `-- Create login at the server level
-CREATE LOGIN [infisical_user] WITH PASSWORD = 'my-password';
+CREATE LOGIN [vaultix_user] WITH PASSWORD = 'my-password';
 
 -- Grant server-level connect permission
-GRANT CONNECT SQL TO [infisical_user];
+GRANT CONNECT SQL TO [vaultix_user];
 
 -- Switch to the database where you want to create the user
 USE my_database;
 
 -- Create the database user mapped to the login
-CREATE USER [infisical_user] FOR LOGIN [infisical_user];
+CREATE USER [vaultix_user] FOR LOGIN [vaultix_user];
 
 -- Grant permissions to the user on the schema in this database
-GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO [infisical_user];`,
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO [vaultix_user];`,
     rotationStatement: `ALTER LOGIN [{{username}}] WITH PASSWORD = '{{password}}'`,
     secretsMapping: {
       username: "MSSQL_DB_USERNAME",

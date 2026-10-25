@@ -134,7 +134,7 @@ export const CloudflareApiTokenRotationParametersFields = () => {
             >
               <Input
                 {...field}
-                placeholder="infisical-rotated-token"
+                placeholder="vaultix-rotated-token"
                 maxLength={CLOUDFLARE_TOKEN_NAME_MAX_LENGTH}
               />
             </FormControl>

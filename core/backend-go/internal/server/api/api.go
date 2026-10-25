@@ -7,12 +7,12 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/ee/services/license"
-	"github.com/infisical/api/internal/keystore"
-	"github.com/infisical/api/internal/queue"
-	"github.com/infisical/api/internal/services/kms"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/ee/services/license"
+	"github.com/vaultix/api/internal/keystore"
+	"github.com/vaultix/api/internal/queue"
+	"github.com/vaultix/api/internal/services/kms"
 )
 
 // Infra holds the external infrastructure dependencies.

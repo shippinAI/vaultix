@@ -1,7 +1,7 @@
 ---
 title: "PostgreSQL Credential Rotation"
 sidebarTitle: "PostgreSQL"
-description: "Rotate PostgreSQL account passwords with Infisical PAM."
+description: "Rotate PostgreSQL account passwords with vaultix PAM."
 ---
 
 This page covers what is specific to rotating a [PostgreSQL account](/documentation/platform/pam/accounts/postgresql). For how rotation is configured and scheduled, see the [overview](/documentation/platform/pam/product-reference/credential-rotation/overview).
@@ -26,17 +26,17 @@ The rotation account is the role that runs the statement above, so it must be al
 An example setup for a dedicated delegated rotation role:
 
 ```sql
--- the role Infisical connects as to perform rotations
-CREATE ROLE infisical_rotator WITH LOGIN PASSWORD 'temporary_password' CREATEROLE;
+-- the role vaultix connects as to perform rotations
+CREATE ROLE vaultix_rotator WITH LOGIN PASSWORD 'temporary_password' CREATEROLE;
 
 -- the account whose password gets rotated
 CREATE ROLE app_user WITH LOGIN PASSWORD 'temporary_password';
 ```
 
 <Tip>
-  On PostgreSQL 16 and later, a `CREATEROLE` role can only alter roles it has `ADMIN OPTION` on. Grant it with `GRANT app_user TO infisical_rotator WITH ADMIN OPTION;`, or use a superuser as the rotation account.
+  On PostgreSQL 16 and later, a `CREATEROLE` role can only alter roles it has `ADMIN OPTION` on. Grant it with `GRANT app_user TO vaultix_rotator WITH ADMIN OPTION;`, or use a superuser as the rotation account.
 </Tip>
 
 <Note>
-  Create the rotation account and the target account in Infisical PAM as separate PostgreSQL accounts on the same resource, then select the rotation account on the target account's **Rotation** tab.
+  Create the rotation account and the target account in vaultix PAM as separate PostgreSQL accounts on the same resource, then select the rotation account on the target account's **Rotation** tab.
 </Note>

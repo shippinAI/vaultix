@@ -15,10 +15,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
-	"github.com/infisical/api/internal/ee/services/license"
-	"github.com/infisical/api/internal/ee/services/ratelimit"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/ee/services/license"
+	"github.com/vaultix/api/internal/ee/services/ratelimit"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var stack *infra.Stack

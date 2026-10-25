@@ -105,7 +105,7 @@ The placeholder is also delivered for you: both [`agent-proxy connect`](/documen
 
 ## Using secrets from other folders and environments
 
-You cannot point a proxied service at another folder directly, but you can bring an outside value into its folder so the service can use it. There are two ways, both using features that already exist in Infisical:
+You cannot point a proxied service at another folder directly, but you can bring an outside value into its folder so the service can use it. There are two ways, both using features that already exist in vaultix:
 
 | Approach | What you do | Example |
 | --- | --- | --- |
@@ -136,8 +136,8 @@ How the agent proxy handles the lease:
 Proxied services can also be managed via the [API](/api-reference/endpoints/proxied-services/create). For example, creating the Telegram service described above:
 
 ```bash
-curl -X POST https://app.infisical.com/api/v1/proxied-services \
-  -H "Authorization: Bearer $INFISICAL_TOKEN" \
+curl -X POST https://app.vaultix.com/api/v1/proxied-services \
+  -H "Authorization: Bearer $vaultix_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "projectId": "<project-id>",

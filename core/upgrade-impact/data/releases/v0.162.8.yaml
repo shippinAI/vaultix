@@ -12,7 +12,7 @@ dbSchemaChanges:
     description: The secret_versions_v2 table drops the redundant envId column, its
       foreign key, and its partial index. The migration is written to skip
       missing tables or columns and runs outside a transaction.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -25,7 +25,7 @@ dbSchemaChanges:
     description: PKI adds nullable columns for certificate subject domain components
       on certificates and certificate requests. The change is additive and
       preserves existing rows.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -36,7 +36,7 @@ dbSchemaChanges:
     description: A concurrent index is added on
       secret_snapshot_folders.folderVersionId to avoid slow cascades and
       timeouts during project cleanup and folder-version pruning.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -49,7 +49,7 @@ dbSchemaChanges:
     description: Proxied service credentials now allow either a static secret key or
       dynamic secret fields. The schema first adds nullable dynamic-secret
       columns and makes secretKey nullable, then removes dynamicSecretConfig.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -76,7 +76,7 @@ deploymentNotes:
         description: Existing instances keep current signup setting
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-17T23:45:51.273Z

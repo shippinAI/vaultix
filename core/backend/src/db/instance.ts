@@ -27,10 +27,10 @@ const parseSslConfig = (dbConnectionUri: string, dbRootCert?: string) => {
 export type TDbPoolConfig = { min: number; max: number };
 
 export const DbApplicationName = {
-  Primary: "infisical-core",
-  Replica: "infisical-core-replica",
-  AuditLog: "infisical-core-audit",
-  Migrator: "infisical-core-migrator"
+  Primary: "vaultix-core",
+  Replica: "vaultix-core-replica",
+  AuditLog: "vaultix-core-audit",
+  Migrator: "vaultix-core-migrator"
 } as const;
 
 const DEFAULT_POOL: TDbPoolConfig = { min: 0, max: 10 };

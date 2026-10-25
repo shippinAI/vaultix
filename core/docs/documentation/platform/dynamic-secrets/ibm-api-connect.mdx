@@ -3,7 +3,7 @@ title: "IBM API Connect"
 description: "Learn how to dynamically generate IBM API Connect application credentials."
 ---
 
-The Infisical IBM API Connect dynamic secret allows you to generate IBM API Connect application credentials (Client ID and Client Secret) on demand based on a configured application.
+The vaultix IBM API Connect dynamic secret allows you to generate IBM API Connect application credentials (Client ID and Client Secret) on demand based on a configured application.
 
 ## Prerequisites
 
@@ -28,12 +28,12 @@ The Infisical IBM API Connect dynamic secret allows you to generate IBM API Conn
   <Step title="Fill in the API key details and click 'Create'.">
     ![Fill and Create API Key](/images/platform/dynamic-secrets/ibm-api-connect/05-fill-and-create-api-key.png)
 
-    1. **Title** — Give the API key a descriptive name (e.g. `infisical-api-key`).
-    2. **Description** — Add a description for the key (e.g. `Key used by Infisical for creating Dynamic Secrets`).
+    1. **Title** — Give the API key a descriptive name (e.g. `vaultix-api-key`).
+    2. **Description** — Add a description for the key (e.g. `Key used by vaultix for creating Dynamic Secrets`).
     3. **API key timeout** — Set the timeout to `0` to disable expiration, or configure it based on your needs.
     4. **Enable multiple use** — Check this box to allow the API key to be used multiple times.
 
-    Click **Create** to generate the API key. Copy the generated key and save it securely — you will need it when configuring the dynamic secret in Infisical.
+    Click **Create** to generate the API key. Copy the generated key and save it securely — you will need it when configuring the dynamic secret in vaultix.
   </Step>
   <Step title="Collect the Instance URL, Client ID, and Client Secret from the 'My API Keys' page.">
     ![Get Server and Client Info](/images/platform/dynamic-secrets/ibm-api-connect/06-get-server-and-client-info.png)
@@ -42,7 +42,7 @@ The Infisical IBM API Connect dynamic secret allows you to generate IBM API Conn
     2. **Client ID** — Found in the `client_id` field of the "Authenticating for the platform REST API" curl snippet.
     3. **Client Secret** — Found in the `client_secret` field of the same curl snippet.
 
-    Save these values along with the API key — you will need all four when configuring the dynamic secret in Infisical.
+    Save these values along with the API key — you will need all four when configuring the dynamic secret in vaultix.
   </Step>
 </Steps>
 
@@ -87,7 +87,7 @@ The Infisical IBM API Connect dynamic secret allows you to generate IBM API Conn
       The client secret used for authenticating with the IBM API Connect platform REST API.
     </ParamField>
 
-    Once the credentials are filled in, Infisical will automatically fetch your available organizations, catalogs, and applications.
+    Once the credentials are filled in, vaultix will automatically fetch your available organizations, catalogs, and applications.
 
     <ParamField path="Organization" type="string" required>
       The IBM API Connect organization under which the application credentials will be created.
@@ -133,7 +133,7 @@ The Infisical IBM API Connect dynamic secret allows you to generate IBM API Conn
 ## Audit or Revoke Leases
 Once you have created one or more leases, you will be able to access them by clicking on the respective dynamic secret item on the dashboard.
 This will allow you to see the expiration time of the lease or revoke a lease before its time to live expires.
-When a lease is revoked (either manually or by TTL expiration), Infisical will delete the corresponding application credential from IBM API Connect.
+When a lease is revoked (either manually or by TTL expiration), vaultix will delete the corresponding application credential from IBM API Connect.
 
 ![Provision Lease](/images/platform/dynamic-secrets/lease-data.png)
 

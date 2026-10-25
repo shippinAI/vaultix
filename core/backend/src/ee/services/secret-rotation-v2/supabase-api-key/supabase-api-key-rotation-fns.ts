@@ -62,7 +62,7 @@ export const supabaseApiKeyRotationFactory: TRotationFactory<
         `${baseUrl}/v1/projects/${encodeURIComponent(projectRef)}/api-keys`,
         {
           type: keyType === SupabaseApiKeyType.Publishable ? "publishable" : "secret",
-          name: `infisical_rotated_${keyType}_${Date.now()}`,
+          name: `vaultix_rotated_${keyType}_${Date.now()}`,
           description: "Managed by Vaultix secret rotation"
         },
         {

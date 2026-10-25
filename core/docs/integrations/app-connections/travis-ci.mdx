@@ -1,13 +1,13 @@
 ---
 title: "Travis CI Connection"
-description: "Learn how to configure a Travis CI Connection for Infisical."
+description: "Learn how to configure a Travis CI Connection for vaultix."
 ---
 
-Infisical supports connecting to [Travis CI](https://www.travis-ci.com/) using a personal API Token.
+vaultix supports connecting to [Travis CI](https://www.travis-ci.com/) using a personal API Token.
 
 <Note>
   The API Token must belong to a user with sufficient permissions to manage
-  environment variables on the repositories you plan to sync with Infisical.
+  environment variables on the repositories you plan to sync with vaultix.
 </Note>
 
 ## Create a Travis CI API Token
@@ -23,19 +23,19 @@ Infisical supports connecting to [Travis CI](https://www.travis-ci.com/) using a
 
     <Note>
       Treat this token like a password — it grants access to every repository you
-      have permission to administer. Store it somewhere safe; Infisical will
+      have permission to administer. Store it somewhere safe; vaultix will
       encrypt it at rest once the connection is created.
     </Note>
   </Step>
 </Steps>
 
-## Create a Travis CI Connection in Infisical
+## Create a Travis CI Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
-        In your Infisical dashboard, open the **Integrations** tab in the target project and select **App Connections**.
+        In your vaultix dashboard, open the **Integrations** tab in the target project and select **App Connections**.
 
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
       </Step>
@@ -53,7 +53,7 @@ Infisical supports connecting to [Travis CI](https://www.travis-ci.com/) using a
         ![Travis CI Connection Form](/images/app-connections/travis-ci/travis-ci-app-connection-modal.png)
       </Step>
       <Step title="Connection created">
-        After submitting, your **Travis CI Connection** is ready to be used by Secret Syncs and other Infisical features.
+        After submitting, your **Travis CI Connection** is ready to be used by Secret Syncs and other vaultix features.
       </Step>
     </Steps>
 
@@ -66,7 +66,7 @@ Infisical supports connecting to [Travis CI](https://www.travis-ci.com/) using a
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/travis-ci \
+            --url https://app.vaultix.com/api/v1/app-connections/travis-ci \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-travis-ci-connection",

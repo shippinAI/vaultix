@@ -33,16 +33,16 @@ description: "Learn how to automatically rotate Fireworks AI API keys."
         ![Add Service Account](/images/secret-rotations-v2/fireworks-api-key/add-service-account.png)
     </Step>
     <Step title="Configure the Service Account">
-        Enter a **Service Account ID** (lowercase letters, numbers, and hyphens only) and click **Add**. You will need this ID when configuring the rotation in Infisical.
+        Enter a **Service Account ID** (lowercase letters, numbers, and hyphens only) and click **Add**. You will need this ID when configuring the rotation in vaultix.
 
         ![Service Account ID](/images/secret-rotations-v2/fireworks-api-key/service-account-id.png)
     </Step>
 </Steps>
 
-## Create a Fireworks API Key Rotation in Infisical
+## Create a Fireworks API Key Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
 
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
@@ -70,7 +70,7 @@ description: "Learn how to automatically rotate Fireworks AI API keys."
 
         ![Rotation Secrets Mapping](/images/secret-rotations-v2/fireworks-api-key/secrets-mapping.png)
 
-        - **API Key** -- The name of the secret in Infisical where the rotated API key value will be stored.
+        - **API Key** -- The name of the secret in vaultix where the rotated API key value will be stored.
 
         6. Give your rotation a name and description (optional). Then click **Next**.
 
@@ -90,7 +90,7 @@ description: "Learn how to automatically rotate Fireworks AI API keys."
 
         ```bash Request
         curl --request POST \
-          --url https://us.infisical.com/api/v2/secret-rotations/fireworks-api-key \
+          --url https://us.vaultix.com/api/v2/secret-rotations/fireworks-api-key \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-fireworks-rotation",

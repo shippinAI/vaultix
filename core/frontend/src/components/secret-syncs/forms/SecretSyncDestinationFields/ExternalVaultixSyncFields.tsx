@@ -21,7 +21,7 @@ import {
   TRemoteVaultixProject,
   useExternalVaultixConnectionGetEnvironmentFolderTree,
   useExternalVaultixConnectionListProjects
-} from "@app/hooks/api/appConnections/external-infisical";
+} from "@app/hooks/api/appConnections/external-vaultix";
 import { SecretSync } from "@app/hooks/api/secretSyncs";
 
 import { TSecretSyncForm } from "../schemas";

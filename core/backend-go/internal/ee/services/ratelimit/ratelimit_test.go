@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/ee/services/license"
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/ee/services/license"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 type mockLicenseService struct {

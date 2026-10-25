@@ -25,11 +25,11 @@ import {
 
 import { TSecretSyncForm } from "./schemas";
 
-type GraphicVariant = "overwrite" | "prioritize-infisical" | "prioritize-destination";
+type GraphicVariant = "overwrite" | "prioritize-vaultix" | "prioritize-destination";
 
 const getGraphicVariant = (key: string): GraphicVariant => {
   if (key === SecretSyncInitialSyncBehavior.OverwriteDestination) return "overwrite";
-  if (key === SecretSyncInitialSyncBehavior.ImportPrioritizeSource) return "prioritize-infisical";
+  if (key === SecretSyncInitialSyncBehavior.ImportPrioritizeSource) return "prioritize-vaultix";
   return "prioritize-destination";
 };
 
@@ -141,25 +141,25 @@ const ReconciliationLegend = () => (
   </div>
 );
 
-const BEFORE_INFISICAL: ReconciliationRow[] = [{ name: "API_KEY" }, { name: "DB_URL" }];
+const BEFORE_vaultix: ReconciliationRow[] = [{ name: "API_KEY" }, { name: "DB_URL" }];
 const BEFORE_DESTINATION: ReconciliationRow[] = [{ name: "API_KEY" }, { name: "LEGACY_TOKEN" }];
 
 const getAfterRows = (
   variant: GraphicVariant
-): { infisical: ReconciliationRow[]; destination: ReconciliationRow[] } => {
+): { vaultix: ReconciliationRow[]; destination: ReconciliationRow[] } => {
   switch (variant) {
     case "overwrite":
       return {
-        infisical: [{ name: "API_KEY" }, { name: "DB_URL" }],
+        vaultix: [{ name: "API_KEY" }, { name: "DB_URL" }],
         destination: [
           { name: "API_KEY", fate: "updated" },
           { name: "DB_URL", fate: "added" },
           { name: "LEGACY_TOKEN", fate: "removed" }
         ]
       };
-    case "prioritize-infisical":
+    case "prioritize-vaultix":
       return {
-        infisical: [
+        vaultix: [
           { name: "API_KEY" },
           { name: "DB_URL" },
           { name: "LEGACY_TOKEN", fate: "imported" }
@@ -173,7 +173,7 @@ const getAfterRows = (
     case "prioritize-destination":
     default:
       return {
-        infisical: [
+        vaultix: [
           { name: "API_KEY", fate: "updated" },
           { name: "DB_URL" },
           { name: "LEGACY_TOKEN", fate: "imported" }
@@ -191,13 +191,13 @@ const ReconciliationSection = ({
   title,
   subtitle,
   destinationName,
-  infisicalRows,
+  vaultixRows,
   destinationRows
 }: {
   title: string;
   subtitle: string;
   destinationName: string;
-  infisicalRows: ReconciliationRow[];
+  vaultixRows: ReconciliationRow[];
   destinationRows: ReconciliationRow[];
 }) => (
   <div className="rounded-md border border-border bg-mineshaft-800/30 p-3">
@@ -211,7 +211,7 @@ const ReconciliationSection = ({
           Vaultix
         </p>
         <div className="flex flex-col gap-1">
-          {infisicalRows.map((row) => (
+          {vaultixRows.map((row) => (
             <SecretRow key={row.name} {...row} />
           ))}
         </div>
@@ -245,7 +245,7 @@ const ReconciliationDiagram = ({
         title="Before"
         subtitle="The secrets currently on each side, before the first sync runs"
         destinationName={destinationName}
-        infisicalRows={BEFORE_INFISICAL}
+        vaultixRows={BEFORE_vaultix}
         destinationRows={BEFORE_DESTINATION}
       />
       <div className="flex items-center gap-3 px-1">
@@ -260,7 +260,7 @@ const ReconciliationDiagram = ({
         title="After"
         subtitle="How each side looks once the first sync completes"
         destinationName={destinationName}
-        infisicalRows={after.infisical}
+        vaultixRows={after.vaultix}
         destinationRows={after.destination}
       />
       <div className="mt-1 px-1">

@@ -11,7 +11,7 @@ Active Directory discovery scans an AD environment to enumerate privileged accou
 | **Windows AD** | Domain user accounts from Active Directory | Always |
 | **Windows** | Local accounts on domain-joined Windows servers | Only when local account discovery is enabled and the server is reachable |
 
-All scan traffic (LDAP, DNS, and WinRM) is tunneled through an Infisical [Gateway](/documentation/platform/gateways/overview).
+All scan traffic (LDAP, DNS, and WinRM) is tunneled through an vaultix [Gateway](/documentation/platform/gateways/overview).
 
 ## How It Works
 
@@ -84,7 +84,7 @@ If a scan cannot reach WinRM on a particular server, that server is skipped and 
 
 Trigger a scan manually with **Scan Now** from the source's row menu or its detail panel. Scans run in the background, and a source can only have one scan running at a time.
 
-If the source is on a **Daily** or **Weekly** schedule, Infisical also scans it automatically when its interval has elapsed. **Manual** sources are only scanned when you trigger them.
+If the source is on a **Daily** or **Weekly** schedule, vaultix also scans it automatically when its interval has elapsed. **Manual** sources are only scanned when you trigger them.
 
 ## Importing Accounts
 

@@ -33,7 +33,7 @@ graph TD
 Create a simple Private CA hierarchy with a root CA and intermediate CA.
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
 <Steps>
     <Step title="Create a root CA">
         If you have an existing external root CA, skip to step 2.
@@ -46,8 +46,8 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
         - Valid Until: The date until which the CA is valid in the date time string format specified [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format). For example, the following formats would be valid: `YYYY`, `YYYY-MM`, `YYYY-MM-DD`, `YYYY-MM-DDTHH:mm:ss.sssZ`.
         - Path Length: The maximum number of intermediate CAs that can be chained to this CA. A path of `-1` implies no limit; a path of `0` implies no intermediate CAs can be chained.
         - Key Algorithm: The type of public key algorithm and size, in bits, of the key pair that the CA creates when it issues a certificate. Supported key algorithms are `RSA 2048`, `RSA 4096`, `ECDSA P-256`, and `ECDSA P-384` with the default being `RSA 2048`.
-        - Key Source: Where the CA's signing key is generated and stored. **Infisical** (the default) generates and manages the key for you. **HSM** generates the key inside your own Hardware Security Module through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors), and every signing operation the CA performs runs on the HSM. See [HSM-backed Internal CAs](#hsm-backed-internal-cas) below.
-        - HSM Connector: The [HSM Connector](/documentation/platform/pki/settings/hsm-connectors) Infisical uses to reach your HSM. Shown only when **Key Source** is **HSM**. With an HSM key source the algorithm choices stay limited to `RSA 2048`, `RSA 4096`, `ECDSA P-256`, and `ECDSA P-384`.
+        - Key Source: Where the CA's signing key is generated and stored. **vaultix** (the default) generates and manages the key for you. **HSM** generates the key inside your own Hardware Security Module through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors), and every signing operation the CA performs runs on the HSM. See [HSM-backed Internal CAs](#hsm-backed-internal-cas) below.
+        - HSM Connector: The [HSM Connector](/documentation/platform/pki/settings/hsm-connectors) vaultix uses to reach your HSM. Shown only when **Key Source** is **HSM**. With an HSM key source the algorithm choices stay limited to `RSA 2048`, `RSA 4096`, `ECDSA P-256`, and `ECDSA P-384`.
         - Name: A slug-friendly name for the CA.
         - Organization (O): The organization name.
         - Country (C): The country code.
@@ -66,8 +66,8 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
         Next, press the **Install CA Certificate** option on the intermediate CA. You will be presented with the installation method selector. Choose how the signing certificate should be issued:
 
         <Tabs>
-          <Tab title="Infisical CA">
-            Select **Infisical CA** and press **Continue**. This option chains the intermediate CA to a root or intermediate CA managed by Infisical.
+          <Tab title="vaultix CA">
+            Select **vaultix CA** and press **Continue**. This option chains the intermediate CA to a root or intermediate CA managed by vaultix.
 
             Set the **Parent CA** to the root CA created in step 1 and configure:
             - **Parent CA**: The parent CA to chain to (the root CA from step 1).
@@ -79,7 +79,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
             You've successfully created a Private CA hierarchy. Now check out the [Applications section](/documentation/platform/pki/applications/overview) to learn more about issuing certificates.
           </Tab>
           <Tab title="Manual">
-            Select **Manual** and press **Continue**. This option allows you to sign the intermediate CA certificate using an external root CA that you manage outside of Infisical.
+            Select **Manual** and press **Continue**. This option allows you to sign the intermediate CA certificate using an external root CA that you manage outside of vaultix.
 
             Use the provided CSR to generate a certificate from your external root CA. Paste the PEM-encoded certificate into **Certificate Body** and the root CA certificate into **Certificate Chain**.
 
@@ -90,13 +90,13 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
           <Tab title="External CA">
             Select **External CA (Automated)** and press **Continue**. This option connects to a third-party CA provider to handle certificate signing and renewal automatically via API.
 
-            Infisical currently supports the following external CA providers for signing intermediate CAs:
+            vaultix currently supports the following external CA providers for signing intermediate CAs:
 
             - [Venafi TLS Protect Cloud](/documentation/platform/pki/ca/venafi)
             - [Microsoft ADCS](/documentation/platform/pki/ca/adcs)
 
             <Note>
-              When using an external CA, the certificate issued by the provider **must** correspond to the CSR generated by Infisical.
+              When using an external CA, the certificate issued by the provider **must** correspond to the CSR generated by vaultix.
               If the external CA returns a certificate that does not match the CSR (e.g., different subject or key), the installation will fail.
             </Note>
 
@@ -116,7 +116,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
     ### Sample request
 
     ```bash Request
-    curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal' \
+    curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal' \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data-raw '{
@@ -138,7 +138,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
     }
     ```
 
-    By default, Infisical creates a root CA with the `RSA_2048` key algorithm, validity period of 10 years, with no restrictions on path length;
+    By default, vaultix creates a root CA with the `RSA_2048` key algorithm, validity period of 10 years, with no restrictions on path length;
     you may override these defaults by specifying your own options when making the API request.
 
   </Step>
@@ -148,7 +148,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
     ### Sample request
 
     ```bash Request
-    curl --location --request POST ‘https://app.infisical.com/api/v1/cert-manager/ca/internal’ \
+    curl --location --request POST ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal’ \
       --header ‘Authorization: Bearer <access-token>’ \
       --header ‘Content-Type: application/json’ \
       --data-raw ‘{
@@ -172,20 +172,20 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
     Next, install a certificate for the intermediate CA using one of the following methods:
 
     <Tabs>
-      <Tab title="Infisical CA">
+      <Tab title="vaultix CA">
         Get a CSR from the intermediate CA, sign it with the root CA, and import the certificate back.
 
         **Get the CSR:**
 
         ```bash Request
-        curl --location --request GET ‘https://app.infisical.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/csr’ \
+        curl --location --request GET ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/csr’ \
           --header ‘Authorization: Bearer <access-token>’
         ```
 
         **Sign the intermediate certificate using the root CA:**
 
         ```bash Request
-        curl --location --request POST ‘https://app.infisical.com/api/v1/cert-manager/ca/internal/<root-ca-id>/sign-intermediate’ \
+        curl --location --request POST ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal/<root-ca-id>/sign-intermediate’ \
           --header ‘Authorization: Bearer <access-token>’ \
           --header ‘Content-Type: application/json’ \
           --data-raw ‘{
@@ -201,7 +201,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
         **Import the signed certificate back to the intermediate CA:**
 
         ```bash Request
-        curl --location --request POST ‘https://app.infisical.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/import-certificate’ \
+        curl --location --request POST ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/import-certificate’ \
           --header ‘Authorization: Bearer <access-token>’ \
           --header ‘Content-Type: application/json’ \
           --data-raw ‘{
@@ -218,14 +218,14 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
         **Get the CSR:**
 
         ```bash Request
-        curl --location --request GET ‘https://app.infisical.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/csr’ \
+        curl --location --request GET ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/csr’ \
           --header ‘Authorization: Bearer <access-token>’
         ```
 
         Use this CSR with your external root CA to generate a signed certificate. Then import the certificate and chain back:
 
         ```bash Request
-        curl --location --request POST ‘https://app.infisical.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/import-certificate’ \
+        curl --location --request POST ‘https://app.vaultix.com/api/v1/cert-manager/ca/internal/<intermediate-ca-id>/import-certificate’ \
           --header ‘Authorization: Bearer <access-token>’ \
           --header ‘Content-Type: application/json’ \
           --data-raw ‘{
@@ -243,7 +243,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
         - [Microsoft ADCS](/documentation/platform/pki/ca/adcs)
 
         <Note>
-          When using an external CA, the certificate issued by the provider **must** correspond to the CSR generated by Infisical.
+          When using an external CA, the certificate issued by the provider **must** correspond to the CSR generated by vaultix.
           If the external CA returns a certificate that does not match the CSR, the installation will fail.
         </Note>
       </Tab>
@@ -256,7 +256,7 @@ Create a simple Private CA hierarchy with a root CA and intermediate CA.
 
 ## HSM-backed Internal CAs
 
-By default, Infisical generates and manages the signing key for an Internal CA. You can instead keep the CA's signing key inside your own Hardware Security Module. When **Key Source** is set to **HSM**, Infisical generates the keypair on the HSM through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors) and performs every signing operation the CA does on the HSM. That covers the self-signed root certificate, intermediate CSRs, the certificates the CA issues, and its CRLs.
+By default, vaultix generates and manages the signing key for an Internal CA. You can instead keep the CA's signing key inside your own Hardware Security Module. When **Key Source** is set to **HSM**, vaultix generates the keypair on the HSM through an [HSM Connector](/documentation/platform/pki/settings/hsm-connectors) and performs every signing operation the CA does on the HSM. That covers the self-signed root certificate, intermediate CSRs, the certificates the CA issues, and its CRLs.
 
 Both root and intermediate CAs can be HSM-backed. HSM-backed CAs support the `RSA 2048`, `RSA 4096`, `ECDSA P-256`, and `ECDSA P-384` key algorithms.
 
@@ -267,7 +267,7 @@ Both root and intermediate CAs can be HSM-backed. HSM-backed CAs support the `RS
 To create an HSM-backed CA over the API, set `keySource` to `hsm` and supply the `hsmConnectorId` in the request.
 
 ```bash Request
-curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal' \
+curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal' \
   --header 'Authorization: Bearer <access-token>' \
   --header 'Content-Type: application/json' \
   --data-raw '{
@@ -283,9 +283,9 @@ curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca
 
 <AccordionGroup>
   <Accordion title="What key algorithms are supported?">
-    Infisical supports `RSA 2048`, `RSA 4096`, `ECDSA P-256`, `ECDSA P-384` key algorithms specified at the time of creating a CA.
+    vaultix supports `RSA 2048`, `RSA 4096`, `ECDSA P-256`, `ECDSA P-384` key algorithms specified at the time of creating a CA.
   </Accordion>
-  <Accordion title="Does Infisical support chaining an Intermediate CA to an external CA?">
+  <Accordion title="Does vaultix support chaining an Intermediate CA to an external CA?">
     Yes. You can either manually obtain a CSR and import the signed certificate, or use an integrated external CA provider like [Venafi TLS Protect Cloud](/documentation/platform/pki/ca/venafi) or [Microsoft ADCS](/documentation/platform/pki/ca/adcs) to automate the signing process.
   </Accordion>
   <Accordion title="Can the CA signing key be kept in my own HSM?">

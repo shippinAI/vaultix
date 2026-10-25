@@ -833,7 +833,7 @@ const syncSecretsAWSParameterStore = async ({
     });
     const command = new AssumeRoleCommand({
       RoleArn: awsAssumeRoleArn,
-      RoleSessionName: `infisical-parameter-store-${crypto.nativeCrypto.randomUUID()}`,
+      RoleSessionName: `vaultix-parameter-store-${crypto.nativeCrypto.randomUUID()}`,
       DurationSeconds: 900, // 15mins
       ExternalId: projectId
     });
@@ -1144,7 +1144,7 @@ const syncSecretsAWSSecretManager = async ({
     });
     const command = new AssumeRoleCommand({
       RoleArn: awsAssumeRoleArn,
-      RoleSessionName: `infisical-sm-${crypto.nativeCrypto.randomUUID()}`,
+      RoleSessionName: `vaultix-sm-${crypto.nativeCrypto.randomUUID()}`,
       DurationSeconds: 900, // 15mins
       ExternalId: projectId
     });
@@ -1452,7 +1452,7 @@ const syncSecretsVercel = async ({
   createManySecretsRawFn,
   integration,
   integrationAuth,
-  secrets: infisicalSecrets,
+  secrets: vaultixSecrets,
   accessToken
 }: {
   createManySecretsRawFn: (params: TCreateManySecretsRawFn) => Promise<Array<{ id: string }>>;
@@ -1569,13 +1569,13 @@ const syncSecretsVercel = async ({
       switch (metadata.initialSyncBehavior) {
         // Override all the secrets in Vercel
         case IntegrationInitialSyncBehavior.OVERWRITE_TARGET: {
-          if (!(vercelKey in infisicalSecrets)) infisicalSecrets[vercelKey] = null;
+          if (!(vercelKey in vaultixSecrets)) vaultixSecrets[vercelKey] = null;
           break;
         }
         case IntegrationInitialSyncBehavior.PREFER_SOURCE: {
-          // if the vercel secret is not in infisical, we need to add it to infisical
-          if (!(vercelKey in infisicalSecrets)) {
-            infisicalSecrets[vercelKey] = {
+          // if the vercel secret is not in vaultix, we need to add it to vaultix
+          if (!(vercelKey in vaultixSecrets)) {
+            vaultixSecrets[vercelKey] = {
               value: res[vercelKey].value
             };
             secretsToAddToVaultix[vercelKey] = res[vercelKey];
@@ -1586,8 +1586,8 @@ const syncSecretsVercel = async ({
           throw new Error(`Invalid initial sync behavior: ${metadata.initialSyncBehavior}`);
         }
       }
-    } else if (!(vercelKey in infisicalSecrets)) {
-      infisicalSecrets[vercelKey] = null;
+    } else if (!(vercelKey in vaultixSecrets)) {
+      vaultixSecrets[vercelKey] = null;
     }
   });
 
@@ -1606,15 +1606,15 @@ const syncSecretsVercel = async ({
   }
 
   // update and create logic
-  for await (const key of Object.keys(infisicalSecrets)) {
-    if (!(key in res) || infisicalSecrets[key]?.value !== res[key].value) {
+  for await (const key of Object.keys(vaultixSecrets)) {
+    if (!(key in res) || vaultixSecrets[key]?.value !== res[key].value) {
       // if the key is not in the vercel res, we need to create it
       if (!(key in res)) {
         await request.post(
           `${IntegrationUrls.VERCEL_API_URL}/v10/projects/${integration.app}/env`,
           {
             key,
-            value: infisicalSecrets[key]?.value,
+            value: vaultixSecrets[key]?.value,
             type: "encrypted",
             ...(isCustomEnvironment
               ? {
@@ -1644,7 +1644,7 @@ const syncSecretsVercel = async ({
           `${IntegrationUrls.VERCEL_API_URL}/v9/projects/${integration.app}/env/${res[key].id}`,
           {
             key,
-            value: infisicalSecrets[key]?.value,
+            value: vaultixSecrets[key]?.value,
             type: res[key].type,
 
             ...(!isCustomEnvironment
@@ -1679,7 +1679,7 @@ const syncSecretsVercel = async ({
 
   // delete logic
   for await (const key of Object.keys(res)) {
-    if (infisicalSecrets[key] === null) {
+    if (vaultixSecrets[key] === null) {
       // case: delete secret
       await request.delete(`${IntegrationUrls.VERCEL_API_URL}/v9/projects/${integration.app}/env/${res[key].id}`, {
         params,
@@ -2943,7 +2943,7 @@ const syncSecretsGitLab = async ({
           break;
         }
         case IntegrationInitialSyncBehavior.PREFER_SOURCE: {
-          // if the secret is not in infisical, we need to add it to infisical
+          // if the secret is not in vaultix, we need to add it to vaultix
           if (!(gitlabSecret.key in secrets)) {
             secrets[gitlabSecret.key] = {
               value: gitlabSecret.value

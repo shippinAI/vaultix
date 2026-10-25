@@ -1,39 +1,39 @@
 ## 1.10.0 (July 3, 2026)
 Changes:
-* Added configurable `securityContext` via `infisical.podSecurityContext` and `infisical.containerSecurityContext`, with secure defaults so the Infisical Deployment and the auto-bootstrap Job run under the Kubernetes Pod Security "restricted" standard out of the box.
-* All hardening required by `restricted` lives in `containerSecurityContext`, so it applies only to Infisical's own containers. `podSecurityContext` sets just `fsGroup: 1001`, so your `extraContainers` and `extraInitContainers` keep their original user and are not forced to UID 1001.
-* `readOnlyRootFilesystem` stays `false` by default since the app writes temporary files. To enable it, mount `emptyDir` volumes for writable paths like `/tmp` via `infisical.extraVolumes` and `infisical.extraVolumeMounts`.
+* Added configurable `securityContext` via `vaultix.podSecurityContext` and `vaultix.containerSecurityContext`, with secure defaults so the vaultix Deployment and the auto-bootstrap Job run under the Kubernetes Pod Security "restricted" standard out of the box.
+* All hardening required by `restricted` lives in `containerSecurityContext`, so it applies only to vaultix's own containers. `podSecurityContext` sets just `fsGroup: 1001`, so your `extraContainers` and `extraInitContainers` keep their original user and are not forced to UID 1001.
+* `readOnlyRootFilesystem` stays `false` by default since the app writes temporary files. To enable it, mount `emptyDir` volumes for writable paths like `/tmp` via `vaultix.extraVolumes` and `vaultix.extraVolumeMounts`.
 * The bundled `ingress-nginx` subchart is not `restricted`-compliant by default. To run the whole release under `restricted`, disable it, move it to another namespace, or add your own restricted-safe controller overrides.
 * Backwards compatible. Upgrading triggers a one-time pod rollout. Set either key to `null` to omit its security context block.
 
 ## 1.9.0 (May 28, 2026)
 Changes:
-* Added support for sidecar containers via `infisical.extraContainers`, enabling use cases like HSM PKCS#11 client sidecars (e.g., Entrust nShield).
-* Added support for init containers via `infisical.extraInitContainers`.
-* Documented `infisical.extraVolumes` and `infisical.extraVolumeMounts` in `values.yaml` with usage examples.
+* Added support for sidecar containers via `vaultix.extraContainers`, enabling use cases like HSM PKCS#11 client sidecars (e.g., Entrust nShield).
+* Added support for init containers via `vaultix.extraInitContainers`.
+* Documented `vaultix.extraVolumes` and `vaultix.extraVolumeMounts` in `values.yaml` with usage examples.
 
 ## 1.8.0 (April 6, 2026)
 Changes:
-* The bundled ingress-nginx controller now uses a dedicated IngressClass name (`infisical-nginx`) instead of the common `nginx` class. This prevents the bundled controller from unintentionally picking up other Ingress resources in your cluster, and avoids conflicts with existing ingress controllers.
-* If you use the bundled ingress-nginx (`ingress.nginx.enabled: true`), no action is needed — both the controller and Infisical's Ingress resource update together on upgrade.
+* The bundled ingress-nginx controller now uses a dedicated IngressClass name (`vaultix-nginx`) instead of the common `nginx` class. This prevents the bundled controller from unintentionally picking up other Ingress resources in your cluster, and avoids conflicts with existing ingress controllers.
+* If you use the bundled ingress-nginx (`ingress.nginx.enabled: true`), no action is needed — both the controller and vaultix's Ingress resource update together on upgrade.
 * If you bring your own ingress controller (`ingress.nginx.enabled: false`), no action is needed — the Ingress resource will continue to default to the `nginx` class.
 * If you had previously set `ingress.ingressClassName` to a custom value in your values file, your override will continue to take effect.
 
 ## 1.7.3 (March 7, 2026)
 Changes:
-* Added support for extra environment variables via `infisical.extraEnv`. This allows setting environment variables like `NODE_EXTRA_CA_CERTS` directly through Helm values without manually editing the deployment manifest.
-* Updated the default `infisical.image.tag` value to `v0.158.0`.
+* Added support for extra environment variables via `vaultix.extraEnv`. This allows setting environment variables like `NODE_EXTRA_CA_CERTS` directly through Helm values without manually editing the deployment manifest.
+* Updated the default `vaultix.image.tag` value to `v0.158.0`.
 
 ## 1.7.2 (October 20, 2025)
 Changes:
-* Updated the default `infisical.image.tag` value to `v0.151.0`.
-* `autoDatabaseSchemaMigration` has been fully removed as all newer versions of Infisical automatically run migrations as apart of the startup process.
+* Updated the default `vaultix.image.tag` value to `v0.151.0`.
+* `autoDatabaseSchemaMigration` has been fully removed as all newer versions of vaultix automatically run migrations as apart of the startup process.
 
 ## 1.7.1 (October 10, 2025)
 
 Changes:
-* Fixed using `extraVolumes` and `extraVolumeMounts` for when Infisical auto migration enabled
-    * Previously the custom volumes and custom volume mounts would only be added to the infisical core pods, but not the migration pod.
+* Fixed using `extraVolumes` and `extraVolumeMounts` for when vaultix auto migration enabled
+    * Previously the custom volumes and custom volume mounts would only be added to the vaultix core pods, but not the migration pod.
 
 ## 1.7.0 (September 30, 2025)
 
@@ -45,7 +45,7 @@ Changes:
 ## 1.6.1 (July 3, 2025)
 
 Changes:
-* Added support for `topologySpreadConstraints` configuration in Helm chart for the Infisical deployment
+* Added support for `topologySpreadConstraints` configuration in Helm chart for the vaultix deployment
 
 Features:
 * `topologySpreadConstraints`: Configure pod distribution across availability zones and nodes for high availability
@@ -62,17 +62,17 @@ Features:
 ## 1.4.1 (March 19, 2025)
 
 Changes:
-* Added support for supplying extra volume mounts and volumes via `infisical.extraVolumeMounts` and `infisical.extraVolumes`
+* Added support for supplying extra volume mounts and volumes via `vaultix.extraVolumeMounts` and `vaultix.extraVolumes`
 
 ## 1.4.0 (November 06, 2024)
 
 Changes:
 * Chart is now fully documented 
-* New fields introduced: `infisical.databaseSchemaMigrationJob.image` and `infisical.serviceAccount`
+* New fields introduced: `vaultix.databaseSchemaMigrationJob.image` and `vaultix.serviceAccount`
 
 Features:
 
-* Added support for auto creating service account with required permissions via `infisical.serviceAccount.create`
+* Added support for auto creating service account with required permissions via `vaultix.serviceAccount.create`
 
 ## 1.3.0 (October 28, 2024)
 
@@ -82,4 +82,4 @@ Changes:
 Features:
 
 * Added support for supplying Postgres secret as K8s secret via `postgresql.useExistingPostgresSecret`
-* Support overriding init container image via `infisical.databaseSchemaMigrationInitContainer`
+* Support overriding init container image via `vaultix.databaseSchemaMigrationInitContainer`

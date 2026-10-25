@@ -20,7 +20,7 @@ An approval workflow consists of two parts: a **policy** that defines what requi
 
 ### Policies
 
-A policy targets a specific environment (and optionally a secret path) and assigns one or more approvers. When anyone modifies a secret that matches the policy, Infisical creates a change request instead of applying the update immediately.
+A policy targets a specific environment (and optionally a secret path) and assigns one or more approvers. When anyone modifies a secret that matches the policy, vaultix creates a change request instead of applying the update immediately.
 
 Policies support several configuration options:
 
@@ -38,7 +38,7 @@ When bypass is enabled, you can restrict it to specific users or groups. If no r
 
 ### Change requests
 
-When a user modifies a secret in a policy-protected environment, Infisical automatically creates a change request containing the proposed changes. The request follows this lifecycle:
+When a user modifies a secret in a policy-protected environment, vaultix automatically creates a change request containing the proposed changes. The request follows this lifecycle:
 
 ```mermaid
 stateDiagram-v2
@@ -50,9 +50,9 @@ stateDiagram-v2
     Bypassed --> Merged: Changes applied
 ```
 
-Approvers are notified through email, [Slack](/documentation/platform/workflow-integrations/slack-integration), or [Microsoft Teams](/documentation/platform/workflow-integrations/microsoft-teams-integration). They can then approve, reject, or (once sufficient approvals are met) merge the request from the Infisical dashboard.
+Approvers are notified through email, [Slack](/documentation/platform/workflow-integrations/slack-integration), or [Microsoft Teams](/documentation/platform/workflow-integrations/microsoft-teams-integration). They can then approve, reject, or (once sufficient approvals are met) merge the request from the vaultix dashboard.
 
-After a change request is merged, the updated secrets are automatically synced to connected applications — for example, through the [Infisical Kubernetes Operator](https://infisical.com/docs/integrations/platforms/kubernetes) — removing the manual propagation step.
+After a change request is merged, the updated secrets are automatically synced to connected applications — for example, through the [vaultix Kubernetes Operator](https://vaultix.com/docs/integrations/platforms/kubernetes) — removing the manual propagation step.
 
 ## Next Steps
 
@@ -64,6 +64,6 @@ After a change request is merged, the updated secrets are automatically synced t
     Grant request-based access to environments and paths.
   </Card>
   <Card title="Access Control" icon="shield-halved" href="/documentation/platform/secrets-mgmt/concepts/access-control">
-    Learn how access to secrets is controlled in Infisical.
+    Learn how access to secrets is controlled in vaultix.
   </Card>
 </CardGroup>

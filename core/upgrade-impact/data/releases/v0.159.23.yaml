@@ -12,7 +12,7 @@ dbSchemaChanges:
     description: Startup adds gateway_pools, gateway_pool_memberships, and a
       nullable gatewayPoolId on Kubernetes auth records. Existing data remains
       compatible.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -41,7 +41,7 @@ configChanges:
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-08T21:48:47.989Z

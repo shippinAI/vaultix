@@ -1,9 +1,9 @@
 ---
 title: "Snowflake Connection"
-description: "Learn how to configure a Snowflake Connection for Infisical."
+description: "Learn how to configure a Snowflake Connection for vaultix."
 ---
 
-Infisical supports connecting to Snowflake using a **Username** and a **Programmatic Access Token (PAT)**. PATs are scoped, revocable credentials that authenticate as a Snowflake user without exposing the user's password.
+vaultix supports connecting to Snowflake using a **Username** and a **Programmatic Access Token (PAT)**. PATs are scoped, revocable credentials that authenticate as a Snowflake user without exposing the user's password.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
 - The **account identifier** for your Snowflake instance, which combines your organization name and account name. You can find it in your Snowflake login URL (`https://app.snowflake.com/orgName/accountName/#/account/users`) or under **Account Details** in Snowsight.
 
 <Tip>
-    Create a dedicated Snowflake user (or role) for Infisical rather than reusing a personal account. This keeps the connection's blast radius small and makes it easy to rotate or revoke access independently.
+    Create a dedicated Snowflake user (or role) for vaultix rather than reusing a personal account. This keeps the connection's blast radius small and makes it easy to rotate or revoke access independently.
 </Tip>
 
 ## Create a Snowflake Programmatic Access Token
@@ -37,15 +37,15 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
 
 
         ```SQL
-        CREATE NETWORK POLICY INFISICAL_SYNC_POLICY
+        CREATE NETWORK POLICY vaultix_SYNC_POLICY
             ALLOWED_IP_LIST = ('0.0.0.0/0')
             COMMENT = 'Allow access from any IP';
         
-        ALTER USER INFISICAL set NETWORK_POLICY = 'INFISICAL_SYNC_POLICY';
+        ALTER USER vaultix set NETWORK_POLICY = 'vaultix_SYNC_POLICY';
         ```
 
         <Warning>
-            Be careful with the IPs you allow in your network policy. Using `0.0.0.0/0` allows access from **any IP address**, which can be dangerous in production. Prefer restricting the list to only the IP ranges that should be allowed to authenticate (for example, your corporate NAT(s) and/or Infisical's outbound IPs if you have them).
+            Be careful with the IPs you allow in your network policy. Using `0.0.0.0/0` allows access from **any IP address**, which can be dangerous in production. Prefer restricting the list to only the IP ranges that should be allowed to authenticate (for example, your corporate NAT(s) and/or vaultix's outbound IPs if you have them).
         </Warning>
     </Step>
 
@@ -63,35 +63,35 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
                 The role must have permission to create and manage secrets in the target database. The following snippet grants the minimum privileges required for operations on specific tables and schemas.
 
                 ```SQL
-                -- Grant INFISICAL user access to SECRET_SYNC_TEST
-                CREATE ROLE IF NOT EXISTS INFISICAL_ROLE;
-                GRANT ROLE INFISICAL_ROLE TO USER INFISICAL; -- Change INFISICAL to be your user
+                -- Grant vaultix user access to SECRET_SYNC_TEST
+                CREATE ROLE IF NOT EXISTS vaultix_ROLE;
+                GRANT ROLE vaultix_ROLE TO USER vaultix; -- Change vaultix to be your user
 
-                GRANT ALL PRIVILEGES ON DATABASE SECRET_SYNC_TEST TO ROLE INFISICAL_ROLE;
-                GRANT ALL PRIVILEGES ON SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE INFISICAL_ROLE;
-                GRANT OWNERSHIP ON ALL SECRETS IN SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE INFISICAL_ROLE REVOKE CURRENT GRANTS; -- Transfers ownership
-                GRANT OWNERSHIP ON FUTURE SECRETS IN SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE INFISICAL_ROLE REVOKE CURRENT GRANTS; -- Transfers ownership
+                GRANT ALL PRIVILEGES ON DATABASE SECRET_SYNC_TEST TO ROLE vaultix_ROLE;
+                GRANT ALL PRIVILEGES ON SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE vaultix_ROLE;
+                GRANT OWNERSHIP ON ALL SECRETS IN SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE vaultix_ROLE REVOKE CURRENT GRANTS; -- Transfers ownership
+                GRANT OWNERSHIP ON FUTURE SECRETS IN SCHEMA SECRET_SYNC_TEST.PUBLIC TO ROLE vaultix_ROLE REVOKE CURRENT GRANTS; -- Transfers ownership
                 ```
 
                 <Note>
-                    If you select a custom role, note that **secret ownership is enforced per object**. Existing secrets in the target schema remain owned by their creator unless you transfer ownership. Infisical must use a role that **owns every secret it manages** (required for `CREATE OR REPLACE SECRET` and `DROP SECRET`). If the schema already has secrets, run the `GRANT OWNERSHIP ON ALL SECRETS ...` statement; always keep the `GRANT OWNERSHIP ON FUTURE SECRETS ...` statement.
+                    If you select a custom role, note that **secret ownership is enforced per object**. Existing secrets in the target schema remain owned by their creator unless you transfer ownership. vaultix must use a role that **owns every secret it manages** (required for `CREATE OR REPLACE SECRET` and `DROP SECRET`). If the schema already has secrets, run the `GRANT OWNERSHIP ON ALL SECRETS ...` statement; always keep the `GRANT OWNERSHIP ON FUTURE SECRETS ...` statement.
                 </Note>
             </Tab>
             <Tab title="Secret Rotations">
                 For [Snowflake User Key Pair rotation](/documentation/platform/secret-rotation/snowflake-user-key-pair), the connection's role must be able to alter the target user whose key pair will be rotated. Grant a role that can manage the user and assign it to your connection user:
 
                 ```SQL
-                -- create a role Infisical will use to manage the target user
-                CREATE ROLE IF NOT EXISTS INFISICAL_ROTATION_ROLE;
+                -- create a role vaultix will use to manage the target user
+                CREATE ROLE IF NOT EXISTS vaultix_ROTATION_ROLE;
 
                 -- allow the role to alter the target user's RSA public key
-                GRANT OWNERSHIP ON USER MY_TARGET_USER TO ROLE INFISICAL_ROTATION_ROLE;
+                GRANT OWNERSHIP ON USER MY_TARGET_USER TO ROLE vaultix_ROTATION_ROLE;
 
                 -- (optional) allow the role to create the target user if it does not exist yet
-                GRANT CREATE USER ON ACCOUNT TO ROLE INFISICAL_ROTATION_ROLE;
+                GRANT CREATE USER ON ACCOUNT TO ROLE vaultix_ROTATION_ROLE;
 
                 -- assign the role to the user backing your Snowflake Connection
-                GRANT ROLE INFISICAL_ROTATION_ROLE TO USER MY_CONNECTION_USER;
+                GRANT ROLE vaultix_ROTATION_ROLE TO USER MY_CONNECTION_USER;
                 ```
 
                 If the target user already exists, the connection's role only needs privileges to **alter** it (e.g. `OWNERSHIP` on the user). If the user does **not** exist yet, the role additionally requires the `CREATE USER` privilege on the account.
@@ -105,7 +105,7 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
 
 
     <Step title="Generate a Programmatic Access Token">
-        Hover over **Governance & Security** and click on **Users & roles**. Select the user you want to use in Infisical. Open the **Programmatic access tokens** tab and click **Generate new token**. Give the token a descriptive name (e.g. `infisical`) and configure its expiration and role restrictions according to your security policy.
+        Hover over **Governance & Security** and click on **Users & roles**. Select the user you want to use in vaultix. Open the **Programmatic access tokens** tab and click **Generate new token**. Give the token a descriptive name (e.g. `vaultix`) and configure its expiration and role restrictions according to your security policy.
 
         ![Generate Programmatic Access Token](/images/app-connections/snowflake/step-5.png)
         ![Fill up PAT info](/images/app-connections/snowflake/step-6.png)
@@ -128,13 +128,13 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
 </Steps>
 
 
-## Create Snowflake Connection in Infisical
+## Create Snowflake Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, go to **Organization Settings** → **App Connections**.
+                In your vaultix dashboard, go to **Organization Settings** → **App Connections**.
 
                 ![App Connections Tab](/images/app-connections/general/add-connection.png)
             </Step>
@@ -154,7 +154,7 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
                 ![Snowflake Connection Form](/images/app-connections/snowflake/snowflake-app-connection-form.png)
             </Step>
             <Step title="Connection Created">
-                After clicking **Create**, Infisical validates the credentials by opening a connection to your Snowflake account. Once validated, your **Snowflake Connection** is ready to use.
+                After clicking **Create**, vaultix validates the credentials by opening a connection to your Snowflake account. Once validated, your **Snowflake Connection** is ready to use.
 
                 ![Snowflake Connection Created](/images/app-connections/snowflake/snowflake-app-connection-created.png)
             </Step>
@@ -167,7 +167,7 @@ Infisical supports connecting to Snowflake using a **Username** and a **Programm
 
         ```bash Request
         curl --request POST \
-          --url https://app.infisical.com/api/v1/app-connections/snowflake \
+          --url https://app.vaultix.com/api/v1/app-connections/snowflake \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-snowflake-connection",

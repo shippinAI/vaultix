@@ -64,7 +64,7 @@ export const SqlCredentialsRotationParametersFields = () => {
                   placeholder={
                     rotationOption.connection === AppConnection.OracleDB
                       ? "VAULTIX_USER_1"
-                      : "infisical_user_1"
+                      : "vaultix_user_1"
                   }
                 />
               </FormControl>
@@ -86,7 +86,7 @@ export const SqlCredentialsRotationParametersFields = () => {
                   placeholder={
                     rotationOption.connection === AppConnection.OracleDB
                       ? "VAULTIX_USER_2"
-                      : "infisical_user_2"
+                      : "vaultix_user_2"
                   }
                 />
               </FormControl>

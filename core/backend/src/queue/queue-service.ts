@@ -679,7 +679,7 @@ export const queueServiceFactory = (redisCfg: TRedisConfigKeys): TQueueServiceFa
   const QUEUE_DEPTH_STATES = ["waiting", "active", "delayed", "failed"] as const;
   const queueDepthGauge = opentelemetry.metrics
     .getMeter("VaultixCore")
-    .createObservableGauge("infisical.queue.depth", {
+    .createObservableGauge("vaultix.queue.depth", {
       description: "Number of jobs in each queue state (waiting, active, delayed, failed)",
       unit: "{job}"
     });

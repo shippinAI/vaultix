@@ -210,12 +210,12 @@ export const identityAliCloudAuthServiceFactory = ({
 
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.identity.id": identityAliCloudAuth.identityId,
-          "infisical.identity.name": identity.name,
-          "infisical.organization.id": org.id,
-          "infisical.organization.name": org.name,
-          "infisical.identity.auth_method": AuthAttemptAuthMethod.ALICLOUD_AUTH,
-          "infisical.identity.auth_result": AuthAttemptAuthResult.SUCCESS,
+          "vaultix.identity.id": identityAliCloudAuth.identityId,
+          "vaultix.identity.name": identity.name,
+          "vaultix.organization.id": org.id,
+          "vaultix.organization.name": org.name,
+          "vaultix.identity.auth_method": AuthAttemptAuthMethod.ALICLOUD_AUTH,
+          "vaultix.identity.auth_result": AuthAttemptAuthResult.SUCCESS,
           "client.address": requestContext.get(RequestContextKey.Ip),
           "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
         });
@@ -237,12 +237,12 @@ export const identityAliCloudAuthServiceFactory = ({
     } catch (error) {
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.identity.id": identityAliCloudAuth.identityId,
-          "infisical.identity.name": identity.name,
-          "infisical.organization.id": org.id,
-          "infisical.organization.name": org.name,
-          "infisical.identity.auth_method": AuthAttemptAuthMethod.ALICLOUD_AUTH,
-          "infisical.identity.auth_result": AuthAttemptAuthResult.FAILURE,
+          "vaultix.identity.id": identityAliCloudAuth.identityId,
+          "vaultix.identity.name": identity.name,
+          "vaultix.organization.id": org.id,
+          "vaultix.organization.name": org.name,
+          "vaultix.identity.auth_method": AuthAttemptAuthMethod.ALICLOUD_AUTH,
+          "vaultix.identity.auth_result": AuthAttemptAuthResult.FAILURE,
           "client.address": requestContext.get(RequestContextKey.Ip),
           "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
         });

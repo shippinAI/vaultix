@@ -1,31 +1,31 @@
 ---
 title: "Spring Boot with Maven"
-description: "How to use Infisical to inject environment variables into Java Spring Boot"
+description: "How to use vaultix to inject environment variables into Java Spring Boot"
 ---
 
 Prerequisites:
 
-- Set up and add your environment variables to [Infisical Cloud](https://app.infisical.com)
+- Set up and add your environment variables to [vaultix Cloud](https://app.vaultix.com)
 - [Install the CLI](/cli/overview)
 
-## Initialize Infisical 
-In order for Infisical to know which secrets to fetch, you'll need to first initialize Infisical at the root of your project. 
+## Initialize vaultix 
+In order for vaultix to know which secrets to fetch, you'll need to first initialize vaultix at the root of your project. 
 
 ```bash
 # navigate to the root of your of your project 
 cd /path/to/project
 
-# then initialize Infisical
-infisical init
+# then initialize vaultix
+vaultix init
 ```
 
 
 ## Start your application with Maven wrapper
-To pass in Infisical secrets into your application, we will utilize the Infisical CLI to inject the secrets into the Maven wrapper executable, which is used to launch your application. 
+To pass in vaultix secrets into your application, we will utilize the vaultix CLI to inject the secrets into the Maven wrapper executable, which is used to launch your application. 
 The Maven wrapper executable should already be present in the root directory of your project.
 
 ```bash 
-infisical run -- ./mvnw spring-boot:run --quiet
+vaultix run -- ./mvnw spring-boot:run --quiet
 ```
 
 #### Accessing injected secrets 
@@ -67,10 +67,10 @@ Note that these instructions are currently only available for IntelliJ.
 <img height="200" src="../../images/spring-maven-debug-4.png" />
 
 ```
-infisical run -- ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005"
+vaultix run -- ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005"
 ```
 
-**Step 5:** When you need to run a block of code in debug mode, select the Infisical script
+**Step 5:** When you need to run a block of code in debug mode, select the vaultix script
 
 <img height="200" src="../../images/spring-maven-debug-5.png" />
 

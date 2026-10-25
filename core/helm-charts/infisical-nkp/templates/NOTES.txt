@@ -1,7 +1,7 @@
-Infisical has been deployed.
+vaultix has been deployed.
 
 1. Wait for the pod to become ready:
-   kubectl -n {{ .Release.Namespace }} rollout status deploy/{{ include "infisical.fullname" . }}
+   kubectl -n {{ .Release.Namespace }} rollout status deploy/{{ include "vaultix.fullname" . }}
 
 2. Reach the UI at the ingress host (served via the NKP kommander-traefik controller):
    {{ .Values.config.siteUrl }}
@@ -12,6 +12,6 @@ Infisical has been deployed.
 {{- if not .Values.secrets.encryptionKey }}
 
 NOTE: ENCRYPTION_KEY was auto-generated on first install and is stored in the
-Secret "{{ include "infisical.fullname" . }}-secrets". Do not delete it — losing
+Secret "{{ include "vaultix.fullname" . }}-secrets". Do not delete it — losing
 it makes existing encrypted data unrecoverable.
 {{- end }}

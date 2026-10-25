@@ -1,13 +1,13 @@
 ---
 title: "Kubernetes with cert-manager (ACME)"
 sidebarTitle: "Issue TLS Certificates in Kubernetes (ACME)"
-description: "Automatically provision and manage TLS certificates in Kubernetes using cert-manager's ACME issuer and Infisical."
+description: "Automatically provision and manage TLS certificates in Kubernetes using cert-manager's ACME issuer and vaultix."
 ---
 
-Issue TLS certificates to your Kubernetes workloads using [cert-manager](https://cert-manager.io/) and Infisical over **ACME**. Certificates are requested via ACME with External Account Binding (EAB), stored in Kubernetes Secrets, and renewed automatically before expiration.
+Issue TLS certificates to your Kubernetes workloads using [cert-manager](https://cert-manager.io/) and vaultix over **ACME**. Certificates are requested via ACME with External Account Binding (EAB), stored in Kubernetes Secrets, and renewed automatically before expiration.
 
 <Info>
-  This is the **ACME** approach. If you would rather authenticate with an Infisical [machine identity](/documentation/platform/identities/machine-identities) (Universal Auth or Kubernetes Auth) instead of ACME/EAB, and want the CA chain populated in the Secret automatically, use the [Infisical Issuer guide](/documentation/platform/pki/guides/applications/k8s-cert-manager-issuer) instead.
+  This is the **ACME** approach. If you would rather authenticate with an vaultix [machine identity](/documentation/platform/identities/machine-identities) (Universal Auth or Kubernetes Auth) instead of ACME/EAB, and want the CA chain populated in the Secret automatically, use the [vaultix Issuer guide](/documentation/platform/pki/guides/applications/k8s-cert-manager-issuer) instead.
 
   This guide assumes you have an Application with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured.
 </Info>
@@ -15,9 +15,9 @@ Issue TLS certificates to your Kubernetes workloads using [cert-manager](https:/
 ## How It Works
 
 1. Install cert-manager in your Kubernetes cluster
-2. Create an `Issuer` that connects to Infisical's ACME server
+2. Create an `Issuer` that connects to vaultix's ACME server
 3. Create `Certificate` resources that define what certificates you need
-4. cert-manager requests certificates from Infisical and stores them in Secrets
+4. cert-manager requests certificates from vaultix and stores them in Secrets
 5. Certificates are automatically renewed before expiration
 
 For complete details, see the official [cert-manager documentation](https://cert-manager.io/docs/) and [ACME configuration](https://cert-manager.io/docs/configuration/acme/).
@@ -25,7 +25,7 @@ For complete details, see the official [cert-manager documentation](https://cert
 ## Guide
 
 <Steps>
-  <Step title="Get ACME Credentials from Infisical">
+  <Step title="Get ACME Credentials from vaultix">
     In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with ACME enrollment, then click **Reveal ACME EAB** to get:
     
     - **ACME Directory URL**
@@ -48,14 +48,14 @@ For complete details, see the official [cert-manager documentation](https://cert
     ```
 
   </Step>
-  <Step title="Create a Kubernetes Secret for the Infisical ACME EAB credentials">
+  <Step title="Create a Kubernetes Secret for the vaultix ACME EAB credentials">
     Create a Kubernetes `Secret` that contains the **EAB Secret (HMAC key)** obtained in step 1.
-    The cert-manager uses this secret to authenticate with the Infisical ACME server.
+    The cert-manager uses this secret to authenticate with the vaultix ACME server.
 
     <Tabs>
         <Tab title="kubectl command">
             ```bash
-            kubectl create secret generic infisical-acme-eab-secret \
+            kubectl create secret generic vaultix-acme-eab-secret \
                 --namespace <namespace_you_want_to_issue_certificates_in> \
                 --from-literal=eabSecret=<eab_secret>
             ```
@@ -65,7 +65,7 @@ For complete details, see the official [cert-manager documentation](https://cert
             apiVersion: v1
             kind: Secret
             metadata:
-                name: infisical-acme-eab-secret
+                name: vaultix-acme-eab-secret
                 namespace: <namespace_you_want_to_issue_certificates_in>
             data:
                 eabSecret: <eab_secret>
@@ -78,22 +78,22 @@ For complete details, see the official [cert-manager documentation](https://cert
     </Tabs>
 
   </Step>
-  <Step title="Create the cert-manager Issuer connecting to Infisical ACME server">
+  <Step title="Create the cert-manager Issuer connecting to vaultix ACME server">
     Next, create a cert-manager `Issuer` (or `ClusterIssuer`) by replacing the placeholders `<acme_server_url>`, `<your_email>`, and `<acme_eab_kid>` in the configuration below and applying it.
-    This resource configures cert-manager to use your Infisical Application's ACME server for certificate issuance.
+    This resource configures cert-manager to use your vaultix Application's ACME server for certificate issuance.
 
-    ```yaml issuer-infisical.yaml
+    ```yaml issuer-vaultix.yaml
     apiVersion: cert-manager.io/v1
     kind: Issuer
     metadata:
-        name: issuer-infisical
+        name: issuer-vaultix
         namespace: <namespace_you_want_to_issue_certificates_in>
     spec:
         acme:
-            # ACME server URL from your Infisical Application's ACME enrollment (Step 1)
+            # ACME server URL from your vaultix Application's ACME enrollment (Step 1)
             server: <acme_server_url>
             # Email address for ACME account
-            # (any valid email works; currently ignored by Infisical)
+            # (any valid email works; currently ignored by vaultix)
             email: <your_email>
             # Required to honor the duration field in Certificate resources
             enableDurationFeature: true
@@ -103,10 +103,10 @@ For complete details, see the official [cert-manager documentation](https://cert
                 # Reference to the Kubernetes Secret containing the EAB
                 # HMAC key (created in Step 3)
                 keySecretRef:
-                    name: infisical-acme-eab-secret
+                    name: vaultix-acme-eab-secret
                     key: eabSecret
             privateKeySecretRef:
-                name: issuer-infisical-account-key
+                name: issuer-vaultix-account-key
             solvers:
             - http01:
                 ingress:
@@ -115,7 +115,7 @@ For complete details, see the official [cert-manager documentation](https://cert
     ```
 
     ```
-    kubectl apply -f issuer-infisical.yaml
+    kubectl apply -f issuer-vaultix.yaml
     ```
 
     You can check that the issuer was created successfully by running the following command:
@@ -126,7 +126,7 @@ For complete details, see the official [cert-manager documentation](https://cert
 
     ```bash
     NAME               AGE
-    issuer-infisical   21h
+    issuer-vaultix   21h
     ```
 
     <Note>
@@ -139,7 +139,7 @@ For complete details, see the official [cert-manager documentation](https://cert
   </Step>
   <Step title="Create the Certificate">
 
-    Finally, request a certificate from Infisical ACME server by creating a cert-manager `Certificate` resource.
+    Finally, request a certificate from vaultix ACME server by creating a cert-manager `Certificate` resource.
     This configuration file specifies the details of the (end-entity/leaf) certificate to be issued.
 
     ```yaml certificate-issuer.yaml
@@ -164,11 +164,11 @@ For complete details, see the official [cert-manager documentation](https://cert
             # uses NIST P-256 curve
             size: 256
         issuerRef:
-            name: issuer-infisical
+            name: issuer-vaultix
     ```
 
     The above sample configuration file specifies a certificate to be issued with the dns name `certificate-by-issuer.example.com` and ECDSA private key using the P-256 curve, valid for 48 hours; the certificate will be automatically renewed by `cert-manager` 12 hours before expiry.
-    The certificate is issued by the issuer `issuer-infisical` created in the previous step and the resulting certificate and private key will be stored in a secret named `certificate-by-issuer`.
+    The certificate is issued by the issuer `issuer-vaultix` created in the previous step and the resulting certificate and private key will be stored in a secret named `certificate-by-issuer`.
 
     Note that the full list of the fields supported on the `Certificate` resource can be found in the API reference documentation [here](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec).
 
@@ -177,7 +177,7 @@ For complete details, see the official [cert-manager documentation](https://cert
     </Note>
 
     <Info>
-      cert-manager does not currently support specifying a `pathLen` in the Certificate resource. When issuing CA certificates with `isCA: true`, ensure your Infisical certificate policy does not set a **Maximum Allowed Path Length** restriction, otherwise the request will fail validation.
+      cert-manager does not currently support specifying a `pathLen` in the Certificate resource. When issuing CA certificates with `isCA: true`, ensure your vaultix certificate policy does not set a **Maximum Allowed Path Length** restriction, otherwise the request will fail validation.
     </Info>
 
     You can check that the certificate was created successfully by running the following command:
@@ -188,7 +188,7 @@ For complete details, see the official [cert-manager documentation](https://cert
 
     ```bash
     NAME                    READY   SECRET                  ISSUER             STATUS                                          AGE
-    certificate-by-issuer   True    certificate-by-issuer   issuer-infisical   Certificate is up to date and has not expired   20h
+    certificate-by-issuer   True    certificate-by-issuer   issuer-vaultix   Certificate is up to date and has not expired   20h
     ```
 
   </Step>
@@ -221,7 +221,7 @@ For complete details, see the official [cert-manager documentation](https://cert
                 cert-manager.io/ip-sans:
                 cert-manager.io/issuer-group: cert-manager.io
                 cert-manager.io/issuer-kind: Issuer
-                cert-manager.io/issuer-name: issuer-infisical
+                cert-manager.io/issuer-name: issuer-vaultix
                 cert-manager.io/uri-sans:
 
     Type:  kubernetes.io/tls
@@ -272,11 +272,11 @@ helm upgrade trust-manager jetstack/trust-manager \
 
 Download the CA certificate chain from **Certificate Manager → Certificate Authorities** (select your CA → Download CA Certificate Chain), then create:
 
-```yaml infisical-ca-cert.yaml
+```yaml vaultix-ca-cert.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: infisical-ca-cert
+  name: vaultix-ca-cert
   namespace: cert-manager
 type: Opaque
 stringData:
@@ -296,7 +296,7 @@ metadata:
 spec:
   sources:
     - secret:
-        name: infisical-ca-cert
+        name: vaultix-ca-cert
         key: ca.crt
   target:
     secret:
@@ -321,7 +321,7 @@ You should now see `ca.crt`, `tls.crt`, and `tls.key` in the secret data.
     The full list of the fields supported on the `Certificate` resource can be found in the API reference documentation [here](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec).
 
     <Note>
-        Currently, not all fields are supported by the Infisical PKI ACME server.
+        Currently, not all fields are supported by the vaultix PKI ACME server.
     </Note>
 
 </Accordion>

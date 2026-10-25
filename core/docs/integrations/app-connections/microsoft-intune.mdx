@@ -1,9 +1,9 @@
 ---
 title: "Microsoft Intune Connection"
-description: "Learn how to configure a Microsoft Intune Connection for Infisical."
+description: "Learn how to configure a Microsoft Intune Connection for vaultix."
 ---
 
-Infisical's Microsoft Intune Connection lets you validate SCEP certificate requests against Microsoft Intune using Client Secrets. When a device enrolls through a [SCEP enrollment method](/documentation/platform/pki/applications/enrollment-methods/scep) configured with Intune validation, Infisical asks Intune to confirm the device's challenge before issuing the certificate, then reports the outcome back to Intune.
+vaultix's Microsoft Intune Connection lets you validate SCEP certificate requests against Microsoft Intune using Client Secrets. When a device enrolls through a [SCEP enrollment method](/documentation/platform/pki/applications/enrollment-methods/scep) configured with Intune validation, vaultix asks Intune to confirm the device's challenge before issuing the certificate, then reports the outcome back to Intune.
 
 <Note>
   Microsoft Intune is an enterprise App Connection and requires a paid plan.
@@ -32,7 +32,7 @@ Infisical's Microsoft Intune Connection lets you validate SCEP certificate reque
     - Microsoft Intune
       - `scep_challenge_provider`
 
-    `Application.Read.All` lets Infisical discover the Intune SCEP validation endpoint, and `scep_challenge_provider` lets it validate challenges and report issuance outcomes.
+    `Application.Read.All` lets vaultix discover the Intune SCEP validation endpoint, and `scep_challenge_provider` lets it validate challenges and report issuance outcomes.
 
     ![Azure API permissions](/images/integrations/azure-client-secrets/app-api-permissions.png)
   </Step>
@@ -45,10 +45,10 @@ Infisical's Microsoft Intune Connection lets you validate SCEP certificate reque
   </Step>
 </Steps>
 
-## Setup Microsoft Intune Connection in Infisical
+## Setup Microsoft Intune Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
         In Certificate Manager, navigate to the **App Connections** tab on the **Settings** page.
@@ -78,7 +78,7 @@ Infisical's Microsoft Intune Connection lets you validate SCEP certificate reque
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/microsoft-intune \
+            --url https://app.vaultix.com/api/v1/app-connections/microsoft-intune \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-microsoft-intune-connection",

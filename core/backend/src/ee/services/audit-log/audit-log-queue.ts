@@ -153,7 +153,7 @@ export const auditLogQueueServiceFactory = async ({
         "audit_log.event_type": data.event?.type ?? "unknown",
         "audit_log.actor_type": data.actor?.type ?? "unknown",
         "audit_log.drop_reason": "ingest_stream_push_failed",
-        ...(data.orgId ? { "infisical.organization.id": data.orgId } : {})
+        ...(data.orgId ? { "vaultix.organization.id": data.orgId } : {})
       });
     }
   };

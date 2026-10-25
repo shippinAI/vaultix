@@ -1,7 +1,7 @@
 ---
 title: "MySQL Credential Rotation"
 sidebarTitle: "MySQL"
-description: "Rotate MySQL account passwords with Infisical PAM."
+description: "Rotate MySQL account passwords with vaultix PAM."
 ---
 
 This page covers what is specific to rotating a [MySQL account](/documentation/platform/pam/accounts/mysql). For how rotation is configured and scheduled, see the [overview](/documentation/platform/pam/product-reference/credential-rotation/overview).
@@ -24,9 +24,9 @@ The statement targets the user at the `'%'` (any-host) grant, so the target user
 An example setup for a dedicated delegated rotation user:
 
 ```sql
--- the user Infisical connects as to perform rotations
-CREATE USER 'infisical_rotator'@'%' IDENTIFIED BY 'temporary_password';
-GRANT CREATE USER ON *.* TO 'infisical_rotator'@'%';
+-- the user vaultix connects as to perform rotations
+CREATE USER 'vaultix_rotator'@'%' IDENTIFIED BY 'temporary_password';
+GRANT CREATE USER ON *.* TO 'vaultix_rotator'@'%';
 
 -- the account whose password gets rotated
 CREATE USER 'app_user'@'%' IDENTIFIED BY 'temporary_password';
@@ -35,7 +35,7 @@ CREATE USER 'app_user'@'%' IDENTIFIED BY 'temporary_password';
 ## Special cases
 
 <Warning>
-  If the target is hosted on **PlanetScale**, set the account username to the PlanetScale format `username.branch_id`. Infisical connects with that full username but targets the base `username` in the password-change statement, as PlanetScale requires.
+  If the target is hosted on **PlanetScale**, set the account username to the PlanetScale format `username.branch_id`. vaultix connects with that full username but targets the base `username` in the password-change statement, as PlanetScale requires.
 
   To find your branch ID, use the [PlanetScale CLI](https://planetscale.com/docs/reference/planetscale-cli):
 

@@ -54,16 +54,16 @@ import { AuthTokenType } from "../src/services/auth/auth-type";
 // redirects the browser to start SAML SSO; the issuer matches the IdP's
 // entityID; the cert is committed at e2e/fixtures/idp-cert.pem and the
 // matching private key lives only in CF Secrets (SAML_IDP_PRIVATE_KEY).
-const IDP_ENTRY_POINT = "https://preview-orchestrator.infisical.workers.dev/saml-idp/sso";
-const IDP_ISSUER = "https://preview-orchestrator.infisical.workers.dev/saml-idp";
+const IDP_ENTRY_POINT = "https://preview-orchestrator.vaultix.workers.dev/saml-idp/sso";
+const IDP_ISSUER = "https://preview-orchestrator.vaultix.workers.dev/saml-idp";
 const IDP_CERT_PATH = path.resolve(__dirname, "../../e2e/fixtures/idp-cert.pem");
 
 // Email domain the SCIM-provisioned test users live under. SCIM POST rejects
 // any email whose domain isn't a `verified` row in `email_domains` for the
 // org (backend/src/ee/services/email-domain/email-domain-fns.ts:29). Using a
 // `.test` TLD (RFC 2606) avoids any collision with a real verified domain
-// that might already exist for Infisical's primary org.
-const E2E_EMAIL_DOMAIN = "infisical-e2e.test";
+// that might already exist for vaultix's primary org.
+const E2E_EMAIL_DOMAIN = "vaultix-e2e.test";
 
 const required = (key: string): string => {
   const value = process.env[key];
@@ -84,8 +84,8 @@ const parseDbTarget = (uri: string): { host: string; dbName: string } => {
 };
 
 const guardAgainstProd = (host: string, dbName: string) => {
-  if ((process.env.INFISICAL_ENV ?? "").toLowerCase() === "prod") {
-    throw new Error("Refusing to run: INFISICAL_ENV=prod");
+  if ((process.env.vaultix_ENV ?? "").toLowerCase() === "prod") {
+    throw new Error("Refusing to run: vaultix_ENV=prod");
   }
   if (PROD_PATTERN.test(host)) {
     throw new Error(`Refusing to run: DB host "${host}" looks like prod.`);
@@ -305,7 +305,7 @@ const main = async () => {
         domain: E2E_EMAIL_DOMAIN,
         verificationMethod: "dns-txt",
         verificationCode: "e2e-bootstrap-no-verification-required",
-        verificationRecordName: `_infisical-verify.${E2E_EMAIL_DOMAIN}`,
+        verificationRecordName: `_vaultix-verify.${E2E_EMAIL_DOMAIN}`,
         status: "verified",
         verifiedAt: new Date(),
         codeExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)

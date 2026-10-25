@@ -36,7 +36,7 @@ artifact for the frontend build to pull.
 ## Layout
 
 - `Cargo.toml` — keep IronRDP versions in lockstep with the gateway bridge
-  (`infisical/cli` repo, `packages/pam/handlers/rdp/native/Cargo.toml`).
+  (`vaultix/cli` repo, `packages/pam/handlers/rdp/native/Cargo.toml`).
 - `src/lib.rs` — `wasm-bindgen` entry points for the player (`new`, `feed`,
   `move_pointer`, `dirty_rect`, `buffer_ptr`, etc.). Single file by design;
   the surface is intentionally small.

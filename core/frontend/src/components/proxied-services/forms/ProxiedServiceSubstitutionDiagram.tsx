@@ -91,7 +91,7 @@ export const ProxiedServiceSubstitutionDiagram = ({ template }: Props) => {
           </TooltipTrigger>
           <TooltipContent className="max-w-xs">
             When an agent launches with{" "}
-            <span className="font-mono">infisical secrets agent-proxy connect</span>, Vaultix sets
+            <span className="font-mono">vaultix secrets agent-proxy connect</span>, Vaultix sets
             each placeholder as an environment variable on it. The agent sends the placeholder in
             its requests, and the proxy swaps it for the real secret on the wire.
           </TooltipContent>

@@ -42,7 +42,7 @@ export const registerAuthRoutes = async (server: FastifyZodProvider) => {
         maxAge: 0
       });
 
-      void res.cookie("infisical-project-assume-privileges", "", {
+      void res.cookie("vaultix-project-assume-privileges", "", {
         httpOnly: true,
         path: "/api",
         sameSite: "strict",

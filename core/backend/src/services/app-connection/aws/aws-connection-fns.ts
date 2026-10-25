@@ -118,7 +118,7 @@ export const getAwsConnectionConfig = async (appConnection: TAwsConnectionConfig
         try {
           const command = new AssumeRoleCommand({
             RoleArn: credentials.roleArn,
-            RoleSessionName: `infisical-app-connection-${crypto.nativeCrypto.randomUUID()}`,
+            RoleSessionName: `vaultix-app-connection-${crypto.nativeCrypto.randomUUID()}`,
             DurationSeconds: 900, // 15 mins
             ExternalId: externalId
           });

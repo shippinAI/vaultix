@@ -1,7 +1,7 @@
 <Steps>
   <Step title="Add the Helm repository">
     ```bash
-    helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+    helm repo add vaultix-helm-charts 'https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/'
     helm repo update
     ```
   </Step>
@@ -15,7 +15,7 @@
         The operator will watch and manage CRDs across all namespaces in the cluster. This is the default and quickest way to get started.
 
         ```bash
-        helm install --generate-name infisical-helm-charts/secrets-operator
+        helm install --generate-name vaultix-helm-charts/secrets-operator
         ```
       </Tab>
 
@@ -28,7 +28,7 @@
 
         **Single namespace:**
         ```bash
-        helm install operator-namespaced infisical-helm-charts/secrets-operator \
+        helm install operator-namespaced vaultix-helm-charts/secrets-operator \
           --namespace single-namespace \
           --set scopedNamespaces=single-namespace \
           --set scopedRBAC=true
@@ -44,13 +44,13 @@
 
         **Multiple namespaces (separate operators):**
         ```bash
-        helm install operator-1 infisical-helm-charts/secrets-operator \
+        helm install operator-1 vaultix-helm-charts/secrets-operator \
           --namespace ns1 \
           --set scopedNamespaces=ns1 \
           --set scopedRBAC=true \
           --set installCRDs=true # Only install CRDs once in the cluster (default is true)
 
-        helm install operator-namespace2 infisical-helm-charts/secrets-operator \
+        helm install operator-namespace2 vaultix-helm-charts/secrets-operator \
           --namespace ns2 \
           --set scopedNamespaces=ns2 \
           --set scopedRBAC=true \
@@ -73,7 +73,7 @@
 
         **Multiple namespaces (single operator):**
         ```bash
-        helm install operator infisical-helm-charts/secrets-operator \
+        helm install operator vaultix-helm-charts/secrets-operator \
           --namespace operator-namespace \
           --set "scopedNamespaces={ns1,ns2,ns3}" \
           --set scopedRBAC=true

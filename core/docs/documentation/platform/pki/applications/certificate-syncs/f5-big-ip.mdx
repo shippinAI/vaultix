@@ -13,13 +13,13 @@ Deploy certificates to F5 BIG-IP appliances. Certificates can be automatically a
 ## Prerequisites
 
 - An [F5 BIG-IP Connection](/integrations/app-connections/f5-big-ip) with access to your BIG-IP appliance
-- The BIG-IP must be reachable over HTTPS from Infisical (directly or via an [Infisical Gateway](/documentation/platform/gateways/overview))
+- The BIG-IP must be reachable over HTTPS from vaultix (directly or via an [vaultix Gateway](/documentation/platform/gateways/overview))
 - User account with permissions to manage certificates in the target partition, and to update SSL profiles when profile binding is used
 
 ## Create an F5 BIG-IP Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **F5 BIG-IP** option.
@@ -33,10 +33,10 @@ Deploy certificates to F5 BIG-IP appliances. Certificates can be automatically a
             - **Parent Profile** (Optional): The existing F5 profile to copy settings from when creating the new one. Defaults to `/Common/clientssl` (Client SSL) or `/Common/serverssl` (Server SSL).
 
         4. Configure the **Sync Options**:
-            - **Enable Removal of Expired/Revoked Certificates**: Remove certificates from the BIG-IP when they're no longer active in Infisical.
+            - **Enable Removal of Expired/Revoked Certificates**: Remove certificates from the BIG-IP when they're no longer active in vaultix.
             - **Include Root CA in Certificate Chain**: Include the root CA in the chain uploaded to the BIG-IP. Most setups don't need the root, since clients already trust it.
             - **Preserve Certificate on Renewal**: When on, renewed certificates keep the same name on the BIG-IP, so any profile or virtual server using them keeps working without changes. When off, the renewed certificate is uploaded with a new name and the original stays on the BIG-IP.
-            - **Certificate Name Schema** (Optional): Customize the name used on the BIG-IP using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}`. Defaults to `Infisical-{{certificateId}}`. The certificate chain follows the same name with `-chain` added. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
+            - **Certificate Name Schema** (Optional): Customize the name used on the BIG-IP using placeholders such as `{{certificateId}}`, `{{commonName}}`, `{{profileId}}`, and `{{applicationId}}`. Must include `{{certificateId}}`. Defaults to `vaultix-{{certificateId}}`. The certificate chain follows the same name with `-chain` added. See [Certificate Name Schema](/documentation/platform/pki/applications/certificate-syncs/overview#certificate-name-schema) for the full placeholder reference.
             - **Auto-Sync Enabled**: Automatically sync certificates when changes occur (including auto-renewals).
 
         5. Configure the **Details**:
@@ -59,7 +59,7 @@ Deploy certificates to F5 BIG-IP appliances. Certificates can be automatically a
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/f5-big-ip \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/f5-big-ip \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -125,11 +125,11 @@ Deploy certificates to F5 BIG-IP appliances. Certificates can be automatically a
 
 The F5 BIG-IP Certificate Sync provides:
 
-- **Automatic Deployment**: Deploy certificates from Infisical PKI to the BIG-IP.
+- **Automatic Deployment**: Deploy certificates from vaultix PKI to the BIG-IP.
 - **In-Place Renewals**: Renewed certificates keep the same name on the BIG-IP, so any profile or virtual server using them keeps working without changes.
 - **Profile Binding**: Attach each certificate to a Client SSL or Server SSL profile. Each certificate gets its own slot on the profile.
 - **Profile Auto-Creation**: Create the SSL profile on first sync if it doesn't exist yet.
-- **Expiration Handling**: Remove expired or revoked certificates from the BIG-IP when they're no longer active in Infisical.
+- **Expiration Handling**: Remove expired or revoked certificates from the BIG-IP when they're no longer active in vaultix.
 - **Configuration Persistence**: Automatically save the running configuration after each sync, so changes survive reboots.
 
 <Note>
@@ -140,7 +140,7 @@ The F5 BIG-IP Certificate Sync provides:
 
 ## Certificate Renewal Behavior
 
-When a certificate is renewed in Infisical, the behavior depends on the **Preserve Certificate on Renewal** option:
+When a certificate is renewed in vaultix, the behavior depends on the **Preserve Certificate on Renewal** option:
 
 - **Preserve enabled**: The renewed certificate keeps the same name on the BIG-IP. Any profile or virtual server already using that certificate keeps working without any change.
 - **Preserve disabled**: The renewed certificate is uploaded with a new name and the original stays on the BIG-IP. Both certificates coexist until the original is revoked or removed.
@@ -154,13 +154,13 @@ You can manually trigger a sync to F5 BIG-IP. This is useful for:
 - Testing certificate sync configurations
 - Force sync after making changes
 
-To manually sync, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/f5-big-ip/sync-certificates) API endpoint or the manual sync option in the Infisical UI.
+To manually sync, use the [Sync Certificates](/api-reference/endpoints/pki/syncs/f5-big-ip/sync-certificates) API endpoint or the manual sync option in the vaultix UI.
 
 ## FAQ
 
 <Accordion title="Does the SSL profile have to exist on the BIG-IP already?">
   By default, yes. Either create the profile on the BIG-IP first, or turn on
-  **Create profile if missing** and Infisical will create it for you using the
+  **Create profile if missing** and vaultix will create it for you using the
   **Parent Profile** as the template.
 </Accordion>
 
@@ -177,7 +177,7 @@ To manually sync, use the [Sync Certificates](/api-reference/endpoints/pki/syncs
   certificate replaces the first one on the profile.
 </Accordion>
 
-<Accordion title="Will Infisical overwrite other certificates already attached to the profile?">
+<Accordion title="Will vaultix overwrite other certificates already attached to the profile?">
   On Client SSL profiles, no, as long as the new and existing certificates are
   different algorithm types (RSA / ECDSA / DSA). Each type gets its own slot,
   and certificates added by other tools or by hand stay untouched. On Server

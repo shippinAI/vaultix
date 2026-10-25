@@ -3,12 +3,12 @@ import { AxiosError } from "axios";
 
 import { request } from "@app/lib/config/request";
 import { blockLocalAndPrivateIpAddresses } from "@app/lib/validator";
-import { getExternalVaultixAccessToken } from "@app/services/app-connection/external-infisical";
+import { getExternalVaultixAccessToken } from "@app/services/app-connection/external-vaultix";
 import { SecretSyncError } from "@app/services/secret-sync/secret-sync-errors";
 import { matchesSchema } from "@app/services/secret-sync/secret-sync-fns";
 import { TSecretMap } from "@app/services/secret-sync/secret-sync-types";
 
-import { TExternalVaultixSyncWithCredentials } from "./external-infisical-sync-types";
+import { TExternalVaultixSyncWithCredentials } from "./external-vaultix-sync-types";
 
 /** 4xx client errors (except 429) are non-retryable; 5xx and network errors are retryable. */
 const isNonRetryableStatus = (status: number | undefined): boolean =>

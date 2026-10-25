@@ -1,12 +1,12 @@
 ---
 title: "Access Control"
 sidebarTitle: "Access Control"
-description: "Learn how access to secrets is scoped and controlled in Infisical."
+description: "Learn how access to secrets is scoped and controlled in vaultix."
 ---
 
 ## Secret Hierarchy
 
-Every secret in Infisical is scoped to an environment and a path.
+Every secret in vaultix is scoped to an environment and a path.
 
 - An environment separates where secrets are used, such as `development`, `staging`, or `production`.
 - A path is an (optional) namespace within an environment that groups related secrets such as `/postgres`, `/redis`, or per-service paths like `/checkout-service`.
@@ -23,7 +23,7 @@ This model follows the [principle of least privilege](https://en.wikipedia.org/w
 
 ## Advanced Capabilities
 
-Beyond basic role assignments, Infisical includes additional access control mechanisms for more advanced use cases:
+Beyond basic role assignments, vaultix includes additional access control mechanisms for more advanced use cases:
 
 - [**Access requests**](/documentation/platform/access-controls/access-requests): Users can request access to specific environments or paths. Access can be temporary and reviewed before it is granted, reducing long-term exposure.
 

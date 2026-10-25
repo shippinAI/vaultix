@@ -143,7 +143,7 @@ import {
   getExternalVaultixConnectionListItem,
   TExternalVaultixConnectionConfig,
   validateExternalVaultixConnectionCredentials
-} from "./external-infisical";
+} from "./external-vaultix";
 import {
   F5BigIpConnectionMethod,
   getF5BigIpConnectionListItem,

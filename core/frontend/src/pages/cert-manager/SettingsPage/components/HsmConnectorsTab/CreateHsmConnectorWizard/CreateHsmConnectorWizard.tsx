@@ -81,7 +81,7 @@ export const CreateHsmConnectorWizard = ({ isOpen, onOpenChange }: Props) => {
     setState(INITIAL_WIZARD_STATE);
     basicsForm.reset({ name: "", description: undefined });
     hostForm.reset({ reachedFrom: "" });
-    accessForm.reset({ slotLabel: "", pin: "", keyNamePrefix: "infisical-" });
+    accessForm.reset({ slotLabel: "", pin: "", keyNamePrefix: "vaultix-" });
   };
 
   const handleClose = (open: boolean) => {

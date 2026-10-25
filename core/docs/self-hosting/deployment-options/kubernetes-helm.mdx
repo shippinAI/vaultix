@@ -1,10 +1,10 @@
 ---
-title: "Infisical"
-sidebarTitle: "Infisical"
-description: "Learn how to deploy Infisical on Kubernetes using our official Helm chart."
+title: "vaultix"
+sidebarTitle: "vaultix"
+description: "Learn how to deploy vaultix on Kubernetes using our official Helm chart."
 ---
 
-Learn how to deploy **Infisical** on Kubernetes using the official Helm chart. This method is ideal for production environments that require scalability, high availability, and integration with existing Kubernetes infrastructure.
+Learn how to deploy **vaultix** on Kubernetes using the official Helm chart. This method is ideal for production environments that require scalability, high availability, and integration with existing Kubernetes infrastructure.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ Learn how to deploy **Infisical** on Kubernetes using the official Helm chart. T
 
 ## System Requirements
 
-The following are minimum requirements for running Infisical on Kubernetes:
+The following are minimum requirements for running vaultix on Kubernetes:
 
 | Component | Minimum | Recommended (Production) |
 |-----------|---------|--------------------------|
@@ -32,7 +32,7 @@ The following are minimum requirements for running Infisical on Kubernetes:
 
 | Pod | CPU Request | Memory Limit |
 |-----|-------------|--------------|
-| Infisical | 350m | 1000Mi |
+| vaultix | 350m | 1000Mi |
 | PostgreSQL | 250m | 512Mi |
 | Redis | 100m | 256Mi |
 
@@ -42,34 +42,34 @@ For production deployments with many users or secrets, increase these values acc
 
 <Steps>
   <Step title="Create a namespace">
-    Create a dedicated namespace for Infisical to isolate resources:
+    Create a dedicated namespace for vaultix to isolate resources:
 
     ```bash
-    kubectl create namespace infisical
+    kubectl create namespace vaultix
     ```
 
-    All subsequent commands will use this namespace. You can also add `-n infisical` to each kubectl command if you prefer not to set a default context.
+    All subsequent commands will use this namespace. You can also add `-n vaultix` to each kubectl command if you prefer not to set a default context.
   </Step>
 
   <Step title="Add the Helm repository">
-    Add the Infisical Helm charts repository and update your local cache:
+    Add the vaultix Helm charts repository and update your local cache:
 
     ```bash
-    helm repo add infisical-helm-charts 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+    helm repo add vaultix-helm-charts 'https://dl.cloudsmith.io/public/vaultix/helm-charts/helm/charts/'
     helm repo update
     ```
   </Step>
 
   <Step title="Create the secrets">
-    Infisical requires a Kubernetes secret named `infisical-secrets` containing essential configuration. Create this secret in the same namespace where you'll deploy the chart.
+    vaultix requires a Kubernetes secret named `vaultix-secrets` containing essential configuration. Create this secret in the same namespace where you'll deploy the chart.
 
     <Tabs>
       <Tab title="Proof of concept">
         For testing or proof-of-concept deployments, the Helm chart automatically provisions in-cluster PostgreSQL and Redis instances. You only need to provide the core secrets:
 
         ```bash
-        kubectl create secret generic infisical-secrets \
-          --namespace infisical \
+        kubectl create secret generic vaultix-secrets \
+          --namespace vaultix \
           --from-literal=AUTH_SECRET="$(openssl rand -base64 32)" \
           --from-literal=ENCRYPTION_KEY="$(openssl rand -hex 16)" \
           --from-literal=SITE_URL="http://localhost"
@@ -83,13 +83,13 @@ For production deployments with many users or secrets, increase these values acc
         For production environments, use external managed services for PostgreSQL and Redis to ensure high availability:
 
         ```bash
-        kubectl create secret generic infisical-secrets \
-          --namespace infisical \
+        kubectl create secret generic vaultix-secrets \
+          --namespace vaultix \
           --from-literal=AUTH_SECRET="$(openssl rand -base64 32)" \
           --from-literal=ENCRYPTION_KEY="$(openssl rand -hex 16)" \
-          --from-literal=DB_CONNECTION_URI="postgresql://user:password@your-postgres-host:5432/infisical" \
+          --from-literal=DB_CONNECTION_URI="postgresql://user:password@your-postgres-host:5432/vaultix" \
           --from-literal=REDIS_URL="redis://:password@your-redis-host:6379" \
-          --from-literal=SITE_URL="https://infisical.example.com"
+          --from-literal=SITE_URL="https://vaultix.example.com"
         ```
 
         <Warning>
@@ -107,18 +107,18 @@ For production deployments with many users or secrets, increase these values acc
     Create a `values.yaml` file to configure your deployment. Start with a minimal configuration:
 
     ```yaml values.yaml
-    infisical:
+    vaultix:
       image:
-        repository: infisical/infisical
-        tag: "v0.161.11"  # Check https://hub.docker.com/r/infisical/infisical/tags for latest
+        repository: vaultix/vaultix
+        tag: "v0.161.11"  # Check https://hub.docker.com/r/vaultix/vaultix/tags for latest
         pullPolicy: IfNotPresent
       replicaCount: 2
 
     ingress:
       enabled: true
-      hostName: "infisical.example.com"  # Replace with your domain
+      hostName: "vaultix.example.com"  # Replace with your domain
       nginx:
-        enabled: true  # Bundles an ingress-nginx controller with class "infisical-nginx"
+        enabled: true  # Bundles an ingress-nginx controller with class "vaultix-nginx"
     ```
 
     <Warning>
@@ -126,37 +126,37 @@ For production deployments with many users or secrets, increase these values acc
     </Warning>
 
     <Note>
-      The chart bundles its own ingress-nginx controller (class `infisical-nginx`) by default. If you already have an ingress controller, set `ingress.nginx.enabled: false` and `ingress.ingressClassName` to your controller's class.
+      The chart bundles its own ingress-nginx controller (class `vaultix-nginx`) by default. If you already have an ingress controller, set `ingress.nginx.enabled: false` and `ingress.ingressClassName` to your controller's class.
     </Note>
 
-    For all available configuration options, see the [full values.yaml reference](https://raw.githubusercontent.com/Infisical/infisical/main/helm-charts/infisical-standalone-postgres/values.yaml).
+    For all available configuration options, see the [full values.yaml reference](https://raw.githubusercontent.com/vaultix/vaultix/main/helm-charts/vaultix-standalone-postgres/values.yaml).
   </Step>
 
   <Step title="Install the Helm chart">
-    Deploy Infisical using Helm:
+    Deploy vaultix using Helm:
 
     ```bash
-    helm upgrade --install infisical infisical-helm-charts/infisical-standalone \
-      --namespace infisical \
+    helm upgrade --install vaultix vaultix-helm-charts/vaultix-standalone \
+      --namespace vaultix \
       --values values.yaml
     ```
 
-    This command installs Infisical if it doesn't exist, or upgrades it if it does.
+    This command installs vaultix if it doesn't exist, or upgrades it if it does.
   </Step>
 
   <Step title="Verify the deployment">
     Check that all pods are running:
 
     ```bash
-    kubectl get pods -n infisical
+    kubectl get pods -n vaultix
     ```
 
     You should see output similar to:
 
     ```
     NAME                         READY   STATUS    RESTARTS   AGE
-    infisical-5d4f8b7c9-abc12    1/1     Running   0          2m
-    infisical-5d4f8b7c9-def34    1/1     Running   0          2m
+    vaultix-5d4f8b7c9-abc12    1/1     Running   0          2m
+    vaultix-5d4f8b7c9-def34    1/1     Running   0          2m
     postgresql-0                 1/1     Running   0          2m
     redis-master-0               1/1     Running   0          2m
     ```
@@ -164,23 +164,23 @@ For production deployments with many users or secrets, increase these values acc
     Verify the ingress is configured:
 
     ```bash
-    kubectl get ingress -n infisical
+    kubectl get ingress -n vaultix
     ```
 
     Test the health endpoint (port-forward if ingress isn't ready):
 
     ```bash
-    kubectl port-forward -n infisical svc/infisical 8080:8080 &
+    kubectl port-forward -n vaultix svc/vaultix 8080:8080 &
     curl http://localhost:8080/api/status
     ```
 
     <Tip>
-      The first user to sign up becomes the instance administrator. Complete this step before exposing Infisical to others.
+      The first user to sign up becomes the instance administrator. Complete this step before exposing vaultix to others.
     </Tip>
   </Step>
 </Steps>
 
-Your Infisical instance should now be running on Kubernetes. Access it via the ingress hostname you configured, or use `kubectl port-forward` for local testing.
+Your vaultix instance should now be running on Kubernetes. Access it via the ingress hostname you configured, or use `kubectl port-forward` for local testing.
 
 ![self-hosted sign up](/images/self-hosting/applicable-to-all/selfhost-signup.png)
 
@@ -193,18 +193,18 @@ nameOverride: ""
 # -- Overrides the full name of the release, affecting resource names
 fullnameOverride: ""
 
-infisical:
-  # -- Enable Infisical chart deployment
+vaultix:
+  # -- Enable vaultix chart deployment
   enabled: true
   # -- Sets the name of the deployment within this chart
-  name: infisical
+  name: vaultix
 
   autoBootstrap:
-    # -- Enable auto-bootstrap of the Infisical instance
+    # -- Enable auto-bootstrap of the vaultix instance
     enabled: false
 
     image:
-      # -- Infisical Infisical CLI image tag version
+      # -- vaultix vaultix CLI image tag version
       tag: "0.41.86"
 
     # -- Template for the data/stringData section of the Kubernetes secret. Available functions: encodeBase64
@@ -212,17 +212,17 @@ infisical:
 
     secretDestination:
       # -- Name of the bootstrap secret to create in the Kubernetes cluster which will store the formatted root identity credentials
-      name: "infisical-bootstrap-secret"
+      name: "vaultix-bootstrap-secret"
 
       # -- Namespace to create the bootstrap secret in. If not provided, the secret will be created in the same namespace as the release.
       namespace: "default"
 
-    # -- Infisical organization to create in the Infisical instance during auto-bootstrap
+    # -- vaultix organization to create in the vaultix instance during auto-bootstrap
     organization: "default-org"
 
     credentialSecret:
       # -- Name of the Kubernetes secret containing the credentials for the auto-bootstrap workflow
-      name: "infisical-bootstrap-credentials"
+      name: "vaultix-bootstrap-credentials"
 
   databaseSchemaMigrationJob:
     image:
@@ -241,19 +241,19 @@ infisical:
     # -- Optional custom service account name, if existing service account is used
     name: null
 
-  # -- Override for the full name of Infisical resources in this deployment
+  # -- Override for the full name of vaultix resources in this deployment
   fullnameOverride: ""
-  # -- Custom annotations for Infisical pods
+  # -- Custom annotations for vaultix pods
   podAnnotations: {}
-  # -- Custom annotations for Infisical deployment
+  # -- Custom annotations for vaultix deployment
   deploymentAnnotations: {}
   # -- Number of pod replicas for high availability
   replicaCount: 2
 
   image:
-    # -- Image repository for the Infisical service
-    repository: infisical/infisical
-    # -- Specific version tag of the Infisical image. View the latest version here https://hub.docker.com/r/infisical/infisical
+    # -- Image repository for the vaultix service
+    repository: vaultix/vaultix
+    # -- Specific version tag of the vaultix image. View the latest version here https://hub.docker.com/r/vaultix/vaultix
     tag: "v0.158.0"
     # -- Pulls image only if not already present on the node
     pullPolicy: IfNotPresent
@@ -270,18 +270,18 @@ infisical:
   # -- Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
   topologySpreadConstraints: []
 
-  # -- Kubernetes Secret reference containing Infisical root credentials
-  kubeSecretRef: "infisical-secrets"
+  # -- Kubernetes Secret reference containing vaultix root credentials
+  kubeSecretRef: "vaultix-secrets"
 
   service:
-    # -- Custom annotations for Infisical service
+    # -- Custom annotations for vaultix service
     annotations: {}
     # -- Service type, can be changed based on exposure needs (e.g., LoadBalancer)
     type: ClusterIP
     # -- Optional node port for service when using NodePort type
     nodePort: ""
 
-  # -- Extra environment variables to set on the Infisical container. Useful for setting variables like NODE_EXTRA_CA_CERTS.
+  # -- Extra environment variables to set on the vaultix container. Useful for setting variables like NODE_EXTRA_CA_CERTS.
   # -- Example:
   # --   - name: NODE_EXTRA_CA_CERTS
   # --     value: /etc/ssl/certs/ca-certificates.crt
@@ -289,13 +289,13 @@ infisical:
 
   resources:
     limits:
-      # -- Memory limit for Infisical container
+      # -- Memory limit for vaultix container
       memory: 1000Mi
     requests:
-      # -- CPU request for Infisical container
+      # -- CPU request for vaultix container
       cpu: 350m
 
-  # -- Additional containers to run alongside the Infisical container (sidecars).
+  # -- Additional containers to run alongside the vaultix container (sidecars).
   # -- Useful for running auxiliary services like HSM PKCS#11 clients.
   # -- Example:
   # --   - name: hsm-client
@@ -305,20 +305,20 @@ infisical:
   # --         mountPath: /var/run/hsm
   extraContainers: []
 
-  # -- Additional init containers to run before the Infisical container starts.
+  # -- Additional init containers to run before the vaultix container starts.
   # -- Example:
   # --   - name: wait-for-hsm
   # --     image: busybox:latest
   # --     command: ['sh', '-c', 'until nc -z hsm-host 9004; do sleep 2; done']
   extraInitContainers: []
 
-  # -- Additional volumes to attach to the Infisical pods.
+  # -- Additional volumes to attach to the vaultix pods.
   # -- Example:
   # --   - name: pkcs11-socket
   # --     emptyDir: {}
   extraVolumes: []
 
-  # -- Additional volume mounts for the Infisical container.
+  # -- Additional volume mounts for the vaultix container.
   # -- Example:
   # --   - name: pkcs11-socket
   # --     mountPath: /var/run/hsm
@@ -329,7 +329,7 @@ ingress:
   enabled: true
   # -- Hostname for ingress access, e.g., app.example.com
   hostName: ""
-  # -- Specifies the ingress class. When not set, defaults to "infisical-nginx" if the bundled ingress-nginx is enabled, or "nginx" otherwise.
+  # -- Specifies the ingress class. When not set, defaults to "vaultix-nginx" if the bundled ingress-nginx is enabled, or "nginx" otherwise.
   ingressClassName: ""
 
   nginx:
@@ -362,11 +362,11 @@ postgresql:
 
   auth:
     # -- Database username for PostgreSQL
-    username: infisical
+    username: vaultix
     # -- Password for PostgreSQL database access
     password: root
-    # -- Database name for Infisical
-    database: infisicalDB
+    # -- Database name for vaultix
+    database: vaultixDB
 
   useExistingPostgresSecret:
     # -- Set to true if using an existing Kubernetes secret that contains PostgreSQL connection string
@@ -409,13 +409,13 @@ redis:
 ingress-nginx:
   controller:
     ingressClassResource:
-      # -- Use a unique IngressClass name so the bundled controller only serves Infisical's Ingress,
+      # -- Use a unique IngressClass name so the bundled controller only serves vaultix's Ingress,
       # -- not other Ingresses in the cluster that use the common "nginx" class.
-      name: infisical-nginx
-      controllerValue: k8s.io/infisical-nginx
+      name: vaultix-nginx
+      controllerValue: k8s.io/vaultix-nginx
       # -- Do not set this as the default IngressClass for the cluster
       default: false
-    ingressClass: infisical-nginx
+    ingressClass: vaultix-nginx
 ```
 
 ## Production Hardening
@@ -428,20 +428,20 @@ ingress-nginx:
 
 <AccordionGroup>
   <Accordion title="SMTP/Email Configuration">
-    Infisical uses email for user invitations, password resets, and notifications. Add SMTP configuration to your secrets:
+    vaultix uses email for user invitations, password resets, and notifications. Add SMTP configuration to your secrets:
 
     ```bash
-    kubectl create secret generic infisical-secrets \
-      --namespace infisical \
+    kubectl create secret generic vaultix-secrets \
+      --namespace vaultix \
       --from-literal=AUTH_SECRET="your-auth-secret" \
       --from-literal=ENCRYPTION_KEY="your-encryption-key" \
-      --from-literal=SITE_URL="https://infisical.example.com" \
+      --from-literal=SITE_URL="https://vaultix.example.com" \
       --from-literal=SMTP_HOST="smtp.example.com" \
       --from-literal=SMTP_PORT="587" \
       --from-literal=SMTP_USERNAME="your-smtp-username" \
       --from-literal=SMTP_PASSWORD="your-smtp-password" \
-      --from-literal=SMTP_FROM_ADDRESS="infisical@example.com" \
-      --from-literal=SMTP_FROM_NAME="Infisical" \
+      --from-literal=SMTP_FROM_ADDRESS="vaultix@example.com" \
+      --from-literal=SMTP_FROM_NAME="vaultix" \
       --dry-run=client -o yaml | kubectl apply -f -
     ```
 
@@ -453,10 +453,10 @@ ingress-nginx:
     | SendGrid | smtp.sendgrid.net | 587 |
     | Gmail | smtp.gmail.com | 587 |
 
-    After updating secrets, restart the Infisical pods:
+    After updating secrets, restart the vaultix pods:
 
     ```bash
-    kubectl rollout restart deployment/infisical -n infisical
+    kubectl rollout restart deployment/vaultix -n vaultix
     ```
   </Accordion>
 
@@ -499,14 +499,14 @@ ingress-nginx:
     ```yaml values.yaml
     ingress:
       enabled: true
-      hostName: "infisical.example.com"
+      hostName: "vaultix.example.com"
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
       tls:
-        - secretName: infisical-tls
+        - secretName: vaultix-tls
           hosts:
-            - infisical.example.com
+            - vaultix.example.com
     ```
 
     **2. Using existing TLS certificate:**
@@ -514,8 +514,8 @@ ingress-nginx:
     Create a TLS secret with your certificate:
 
     ```bash
-    kubectl create secret tls infisical-tls \
-      --namespace infisical \
+    kubectl create secret tls vaultix-tls \
+      --namespace vaultix \
       --cert=path/to/tls.crt \
       --key=path/to/tls.key
     ```
@@ -525,19 +525,19 @@ ingress-nginx:
     ```yaml values.yaml
     ingress:
       enabled: true
-      hostName: "infisical.example.com"
+      hostName: "vaultix.example.com"
       ingressClassName: nginx
       tls:
-        - secretName: infisical-tls
+        - secretName: vaultix-tls
           hosts:
-            - infisical.example.com
+            - vaultix.example.com
     ```
 
     Apply the changes:
 
     ```bash
-    helm upgrade infisical infisical-helm-charts/infisical-standalone \
-      --namespace infisical \
+    helm upgrade vaultix vaultix-helm-charts/vaultix-standalone \
+      --namespace vaultix \
       --values values.yaml
     ```
   </Accordion>
@@ -549,12 +549,12 @@ ingress-nginx:
     apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
-      name: infisical-network-policy
-      namespace: infisical
+      name: vaultix-network-policy
+      namespace: vaultix
     spec:
       podSelector:
         matchLabels:
-          component: infisical
+          component: vaultix
       policyTypes:
         - Ingress
         - Egress
@@ -624,13 +624,13 @@ ingress-nginx:
     **Add connection strings to your secrets:**
 
     ```bash
-    kubectl create secret generic infisical-secrets \
-      --namespace infisical \
+    kubectl create secret generic vaultix-secrets \
+      --namespace vaultix \
       --from-literal=AUTH_SECRET="your-auth-secret" \
       --from-literal=ENCRYPTION_KEY="your-encryption-key" \
-      --from-literal=DB_CONNECTION_URI="postgresql://user:password@your-rds-endpoint:5432/infisical?sslmode=require" \
+      --from-literal=DB_CONNECTION_URI="postgresql://user:password@your-rds-endpoint:5432/vaultix?sslmode=require" \
       --from-literal=REDIS_URL="rediss://:password@your-elasticache-endpoint:6379" \
-      --from-literal=SITE_URL="https://infisical.example.com" \
+      --from-literal=SITE_URL="https://vaultix.example.com" \
       --dry-run=client -o yaml | kubectl apply -f -
     ```
 
@@ -644,11 +644,11 @@ ingress-nginx:
   </Accordion>
 
   <Accordion title="Prometheus Monitoring">
-    Infisical exposes Prometheus metrics when enabled.
+    vaultix exposes Prometheus metrics when enabled.
 
     **1. Add telemetry configuration to your secrets:**
 
-    Include these in your `infisical-secrets`:
+    Include these in your `vaultix-secrets`:
 
     ```bash
     --from-literal=OTEL_TELEMETRY_COLLECTION_ENABLED="true" \
@@ -661,12 +661,12 @@ ingress-nginx:
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
     metadata:
-      name: infisical
-      namespace: infisical
+      name: vaultix
+      namespace: vaultix
     spec:
       selector:
         matchLabels:
-          component: infisical
+          component: vaultix
       endpoints:
         - port: metrics
           interval: 30s
@@ -682,10 +682,10 @@ ingress-nginx:
   <Accordion title="High Availability Configuration">
     For production high availability:
 
-    **1. Multiple Infisical replicas:**
+    **1. Multiple vaultix replicas:**
 
     ```yaml values.yaml
-    infisical:
+    vaultix:
       replicaCount: 3
       topologySpreadConstraints:
         - maxSkew: 1
@@ -693,7 +693,7 @@ ingress-nginx:
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              component: infisical
+              component: vaultix
     ```
 
     **2. Pod Disruption Budget:**
@@ -702,13 +702,13 @@ ingress-nginx:
     apiVersion: policy/v1
     kind: PodDisruptionBudget
     metadata:
-      name: infisical-pdb
-      namespace: infisical
+      name: vaultix-pdb
+      namespace: vaultix
     spec:
       minAvailable: 1
       selector:
         matchLabels:
-          component: infisical
+          component: vaultix
     ```
 
     ```bash

@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: Certificate request pending message
     description: Adds a nullable pendingMessage column to certificate_requests for
       pending issuance status details.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -39,7 +39,7 @@ knownIssues:
         path: docs/integrations/app-connections/aws.mdx
         description: Docs note recreate to adopt project ID
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-27T00:38:28.991Z

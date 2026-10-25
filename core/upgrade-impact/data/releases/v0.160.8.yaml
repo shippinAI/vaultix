@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: Secret blind index migration
     description: Adds nullable blind-index columns to secrets tables and a
       concurrent partial index on secrets_v2. Existing data remains compatible.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -24,7 +24,7 @@ dbSchemaChanges:
   - title: Project environments soft delete migration
     description: Adds nullable soft-delete metadata and a concurrent partial index
       for project environments. Existing environments remain valid.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -37,7 +37,7 @@ dbSchemaChanges:
     description: Creates a new project_access_requests table with foreign keys,
       uniqueness, and update trigger support. It does not modify existing
       project membership records.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -47,7 +47,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-05-29T21:51:22.227Z

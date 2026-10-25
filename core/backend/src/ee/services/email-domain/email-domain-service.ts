@@ -34,7 +34,7 @@ export type TEmailDomainServiceFactory = ReturnType<typeof emailDomainServiceFac
 
 const VERIFICATION_CODE_EXPIRY_DAYS = 7;
 const DNS_RECORD_PREFIX = "_vaultix-verification";
-const DNS_TXT_VALUE_PREFIX = "infisical-domain-verification";
+const DNS_TXT_VALUE_PREFIX = "vaultix-domain-verification";
 
 export const emailDomainServiceFactory = ({
   emailDomainDAL,

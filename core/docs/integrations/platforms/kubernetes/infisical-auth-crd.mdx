@@ -1,7 +1,7 @@
 ---
-sidebarTitle: "InfisicalAuth"
-title: "Using the InfisicalAuth CRD"
-description: "Learn how to configure the InfisicalAuth CRD to define how the operator authenticates with Infisical."
+sidebarTitle: "vaultixAuth"
+title: "Using the vaultixAuth CRD"
+description: "Learn how to configure the vaultixAuth CRD to define how the operator authenticates with vaultix."
 ---
 
 import KubernetesAuthShortLivedTokens from "/snippets/documentation/platform/identities/kubernetes-auth-short-lived-tokens.mdx";
@@ -9,19 +9,19 @@ import KubernetesAuthGatewayReviewer from "/snippets/documentation/platform/iden
 
 ## Overview
 
-The **InfisicalAuth** CRD defines how the Infisical Operator authenticates with your Infisical instance. It encapsulates the machine identity authentication method and credentials. Once created, it can be referenced by multiple secret resources, so you only need to define authentication details once per identity.
+The **vaultixAuth** CRD defines how the vaultix Operator authenticates with your vaultix instance. It encapsulates the machine identity authentication method and credentials. Once created, it can be referenced by multiple secret resources, so you only need to define authentication details once per identity.
 
-The operator caches authenticated credentials using the token's TTL (at 70% of the expiration time) so that multiple resources sharing the same `InfisicalAuth` don't trigger redundant login calls. The cache is automatically invalidated when the `InfisicalAuth` spec changes or when the referenced `InfisicalConnection` is updated.
+The operator caches authenticated credentials using the token's TTL (at 70% of the expiration time) so that multiple resources sharing the same `vaultixAuth` don't trigger redundant login calls. The cache is automatically invalidated when the `vaultixAuth` spec changes or when the referenced `vaultixConnection` is updated.
 
 ### Prerequisites
 
 - The operator is installed on your Kubernetes cluster.
-- A [machine identity](/documentation/platform/identities/machine-identities) configured in Infisical with access to the relevant project(s).
-- An [InfisicalConnection](/integrations/platforms/kubernetes/infisical-connection-crd) resource created in your cluster.
+- A [machine identity](/documentation/platform/identities/machine-identities) configured in vaultix with access to the relevant project(s).
+- An [vaultixConnection](/integrations/platforms/kubernetes/vaultix-connection-crd) resource created in your cluster.
 
 ## Example
 
-You can only define one authentication method per InfisicalAuth resource.
+You can only define one authentication method per vaultixAuth resource.
 
 <AccordionGroup>
   <Accordion title="Kubernetes Auth (Recommended)">
@@ -42,22 +42,22 @@ Authenticates using a Kubernetes service account token. This is the recommended 
       ```
 
       <Tip>
-        You can find the machine identity ID in the Infisical UI by going to Access Control > Machine Identities, and clicking on the identity you want to view the details of.
+        You can find the machine identity ID in the vaultix UI by going to Access Control > Machine Identities, and clicking on the identity you want to view the details of.
       </Tip>
     </Step>
 
-    <Step title="Create the InfisicalAuth resource with your service account details">
-      After you bind the service account to the `system:auth-delegator` cluster role, you are ready to create the `InfisicalAuth` resource using the kubernetes auth method.
+    <Step title="Create the vaultixAuth resource with your service account details">
+      After you bind the service account to the `system:auth-delegator` cluster role, you are ready to create the `vaultixAuth` resource using the kubernetes auth method.
 
 
-      ```yaml infisical-auth.yaml
-      apiVersion: secrets.infisical.com/v1beta1
-      kind: InfisicalAuth
+      ```yaml vaultix-auth.yaml
+      apiVersion: secrets.vaultix.com/v1beta1
+      kind: vaultixAuth
       metadata:
-        name: my-infisical-auth
+        name: my-vaultix-auth
       spec:
-        infisicalConnectionRef:
-          name: my-infisical-connection
+        vaultixConnectionRef:
+          name: my-vaultix-connection
           namespace: default
         method: kubernetes
         kubernetes:
@@ -66,27 +66,27 @@ Authenticates using a Kubernetes service account token. This is the recommended 
             namespace: default
             key: identityId
           serviceAccountRef:
-            name: infisical-service-account
+            name: vaultix-service-account
             namespace: default
       ```
       </Step>
 
       <Step title="Apply the resource">
         ```bash
-        kubectl apply -f infisical-auth.yaml
+        kubectl apply -f vaultix-auth.yaml
         ```
       </Step>
   </Steps>
 </Accordion>
 <Accordion title="Use Gateway as Reviewer">
   <Note>
-    **When to use this option**: Choose this approach when you have a gateway deployed in your Kubernetes Cluster and wish to eliminate long-lived tokens. This approach simplifies Infisical Kubernetes Auth configuration, and only one service account will need to have the elevated `system:auth-delegator` ClusterRole binding.
+    **When to use this option**: Choose this approach when you have a gateway deployed in your Kubernetes Cluster and wish to eliminate long-lived tokens. This approach simplifies vaultix Kubernetes Auth configuration, and only one service account will need to have the elevated `system:auth-delegator` ClusterRole binding.
   </Note>
 
   <Info>
-    **Note:** Gateway is a paid feature. - **Infisical Cloud users:** Gateway is
-    available under the **Enterprise Tier**. - **Self-Hosted Infisical:** Please
-    contact [sales@infisical.com](mailto:sales@infisical.com) to purchase an
+    **Note:** Gateway is a paid feature. - **vaultix Cloud users:** Gateway is
+    available under the **Enterprise Tier**. - **Self-Hosted vaultix:** Please
+    contact [sales@vaultix.com](mailto:sales@vaultix.com) to purchase an
     enterprise license.
   </Info>
 
@@ -102,17 +102,17 @@ Authenticates using a Kubernetes service account token. This is the recommended 
       ```
     </Step>
 
-    <Step title="Create the InfisicalAuth resource">
-      After you have set up the Kubernetes Auth prerequisites above, add the identity ID and service account details to your InfisicalAuth resource.
+    <Step title="Create the vaultixAuth resource">
+      After you have set up the Kubernetes Auth prerequisites above, add the identity ID and service account details to your vaultixAuth resource.
 
-      ```yaml infisical-auth.yaml
-      apiVersion: secrets.infisical.com/v1beta1
-      kind: InfisicalAuth
+      ```yaml vaultix-auth.yaml
+      apiVersion: secrets.vaultix.com/v1beta1
+      kind: vaultixAuth
       metadata:
-        name: my-infisical-auth
+        name: my-vaultix-auth
       spec:
-        infisicalConnectionRef:
-          name: my-infisical-connection
+        vaultixConnectionRef:
+          name: my-vaultix-connection
           namespace: default
         method: kubernetes
         kubernetes:
@@ -121,18 +121,18 @@ Authenticates using a Kubernetes service account token. This is the recommended 
             namespace: default
             key: identityId
           serviceAccountRef:
-            name: infisical-service-account # Change to whichever service account you want the operator to use for authentication.
+            name: vaultix-service-account # Change to whichever service account you want the operator to use for authentication.
             namespace: default
       ```
 
       <Tip>
-        Because you are using the gateway as the token reviewer, you are able to use a different service account for authentication. The gateway sits inside your Kubernetes cluster and has permissions to perform token reviews against the Kubernetes API Server. This means you can use any valid service account in the InfisicalAuth resource, as long as it lives inside the same Kubernetes cluster as the gateway configured inside Infisical.
+        Because you are using the gateway as the token reviewer, you are able to use a different service account for authentication. The gateway sits inside your Kubernetes cluster and has permissions to perform token reviews against the Kubernetes API Server. This means you can use any valid service account in the vaultixAuth resource, as long as it lives inside the same Kubernetes cluster as the gateway configured inside vaultix.
       </Tip>
     </Step>
 
     <Step title="Apply the resource">
       ```bash
-      kubectl apply -f infisical-auth.yaml
+      kubectl apply -f vaultix-auth.yaml
       ```
     </Step>
   </Steps>
@@ -177,20 +177,20 @@ Authenticates using a Kubernetes service account token. This is the recommended 
     </Step>
 
     <Step title="Add reference for the Kubernetes secret containing the identity credentials">
-      Once the secret is created, add the `secretName` and `secretNamespace` of the secret that was just created under `universal.clientIdRef` and `universal.clientSecretRef` fields in the InfisicalAuth resource. See the full example below for reference.
+      Once the secret is created, add the `secretName` and `secretNamespace` of the secret that was just created under `universal.clientIdRef` and `universal.clientSecretRef` fields in the vaultixAuth resource. See the full example below for reference.
     </Step>
   </Steps>
 
 
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: universal
   universal:
@@ -207,7 +207,7 @@ spec:
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
   <Accordion title="AWS IAM Auth">
@@ -219,14 +219,14 @@ Authenticates using AWS IAM. Can only be used within AWS environments such as EC
 | --------------- | -------- | --------------------------------------------------------- |
 | `identityIdRef` | Yes      | Reference to the secret containing the machine identity ID. |
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: aws-iam
   awsIam:
@@ -246,7 +246,7 @@ kubectl create secret generic aws-iam-credentials \
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
   <Accordion title="Azure Auth">
@@ -259,14 +259,14 @@ Authenticates using Azure managed identity. Can only be used within Azure enviro
 | `identityIdRef` | Yes      | Reference to the secret containing the machine identity ID. |
 | `resource`      | No       | The Azure resource (audience) to request a token for.     |
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: azure
   azure:
@@ -286,7 +286,7 @@ kubectl create secret generic azure-credentials \
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
   <Accordion title="GCP ID Token Auth">
@@ -298,14 +298,14 @@ Authenticates using GCP ID tokens. Can only be used within GCP environments.
 | --------------- | -------- | --------------------------------------------------------- |
 | `identityIdRef` | Yes      | Reference to the secret containing the machine identity ID. |
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: gcp-id-token
   gcpIdToken:
@@ -325,7 +325,7 @@ kubectl create secret generic gcp-id-token-credentials \
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
   <Accordion title="GCP IAM Auth">
@@ -338,14 +338,14 @@ Authenticates using GCP IAM with a service account key file. Works both within a
 | `identityIdRef`             | Yes      | Reference to the secret containing the machine identity ID. |
 | `serviceAccountKeyFilePath` | Yes      | Path to the GCP service account key file mounted in the operator pod. |
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: gcp-iam
   gcpIam:
@@ -366,7 +366,7 @@ kubectl create secret generic gcp-iam-credentials \
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
   <Accordion title="LDAP Auth">
@@ -380,14 +380,14 @@ Authenticates using LDAP credentials.
 | `usernameRef`   | Yes      | Reference to the secret containing the LDAP username.     |
 | `passwordRef`   | Yes      | Reference to the secret containing the LDAP password.     |
 
-```yaml infisical-auth.yaml
-apiVersion: secrets.infisical.com/v1beta1
-kind: InfisicalAuth
+```yaml vaultix-auth.yaml
+apiVersion: secrets.vaultix.com/v1beta1
+kind: vaultixAuth
 metadata:
-  name: my-infisical-auth
+  name: my-vaultix-auth
 spec:
-  infisicalConnectionRef:
-    name: my-infisical-connection
+  vaultixConnectionRef:
+    name: my-vaultix-connection
     namespace: default
   method: ldap
   ldap:
@@ -417,20 +417,20 @@ kubectl create secret generic ldap-credentials \
 Apply the resource:
 
 ```bash
-kubectl apply -f infisical-auth.yaml
+kubectl apply -f vaultix-auth.yaml
 ```
   </Accordion>
 </AccordionGroup>
 
 ## Troubleshooting
 
-You can check the status of your `InfisicalAuth` resource by inspecting its conditions:
+You can check the status of your `vaultixAuth` resource by inspecting its conditions:
 
 ```bash
-kubectl get infisicalauth my-infisical-auth -o jsonpath='{.status.conditions}' | jq
+kubectl get vaultixauth my-vaultix-auth -o jsonpath='{.status.conditions}' | jq
 ```
 
-When authentication is healthy, the `secrets.infisical.com/IsReady` condition will have `Status: "True"` and `Reason: "OK"`.
+When authentication is healthy, the `secrets.vaultix.com/IsReady` condition will have `Status: "True"` and `Reason: "OK"`.
 
 If authentication is unhealthy, `Reason` will be set to `Error` and `Message` will contain details about what went wrong.
 

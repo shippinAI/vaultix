@@ -1,9 +1,9 @@
 {
-  "name": "Infisical",
+  "name": "vaultix",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg",
-    "href": "https://infisical.com"
+    "href": "https://vaultix.com"
   },
   "favicon": "/favicon.ico",
   "colors": {
@@ -31,17 +31,17 @@
     "thumbsRating": true
   },
   "api": {
-    "baseUrl": ["https://app.infisical.com", "http://localhost:8080"]
+    "baseUrl": ["https://app.vaultix.com", "http://localhost:8080"]
   },
   "topbarLinks": [
     {
       "name": "Log In",
-      "url": "https://app.infisical.com/login"
+      "url": "https://app.vaultix.com/login"
     }
   ],
   "topbarCtaButton": {
     "name": "Start for Free",
-    "url": "https://app.infisical.com/signup"
+    "url": "https://app.vaultix.com/signup"
   },
   "primaryTab": {
     "name": "About"

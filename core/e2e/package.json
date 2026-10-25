@@ -1,8 +1,8 @@
 {
-  "name": "@infisical/e2e",
+  "name": "@vaultix/e2e",
   "version": "0.1.0",
   "private": true,
-  "description": "Playwright e2e suite that runs against a deployed Infisical environment (gamma) between deploy and prod promotion.",
+  "description": "Playwright e2e suite that runs against a deployed vaultix environment (gamma) between deploy and prod promotion.",
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",

@@ -9,16 +9,16 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/infisical/gocasl"
+	"github.com/vaultix/gocasl"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/database/pg/qb"
-	"github.com/infisical/api/internal/database/pg/sqln"
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/libs/fn"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/permission/project"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/database/pg/qb"
+	"github.com/vaultix/api/internal/database/pg/sqln"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/libs/fn"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // ActionProjectType scopes the permission check to a specific project type.

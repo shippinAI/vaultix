@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/supabase-api-key"
     Check out the configuration docs for [Supabase API Key Rotations](/documentation/platform/secret-rotation/supabase-api-key) to learn how to obtain the required parameters.
 </Note>
 
-Creates a Supabase API Key secret rotation. Infisical will create and rotate API keys via your [Supabase connection](/integrations/app-connections/supabase) and write them to the specified secret path.
+Creates a Supabase API Key secret rotation. vaultix will create and rotate API keys via your [Supabase connection](/integrations/app-connections/supabase) and write them to the specified secret path.
 
 ## Request body
 
@@ -30,7 +30,7 @@ Creates a Supabase API Key secret rotation. Infisical will create and rotate API
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/supabase-api-key \
+  --url https://us.vaultix.com/api/v2/secret-rotations/supabase-api-key \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{

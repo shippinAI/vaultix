@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import ldap from "@infisical/ldapjs";
+import ldap from "@vaultix/ldapjs";
 
 import { generatePassword } from "@app/ee/services/secret-rotation-v2/shared/utils";
 import { BadRequestError } from "@app/lib/errors";

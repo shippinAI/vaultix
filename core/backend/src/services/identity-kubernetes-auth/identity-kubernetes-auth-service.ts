@@ -252,7 +252,7 @@ export const identityKubernetesAuthServiceFactory = ({
             headers: {
               "Content-Type": "application/json",
               ...(useGatewayServiceAccount
-                ? { "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
+                ? { "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount }
                 : headers)
             },
             timeout: 10000,
@@ -452,7 +452,7 @@ export const identityKubernetesAuthServiceFactory = ({
             {
               headers: {
                 "Content-Type": "application/json",
-                "x-infisical-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount
+                "x-vaultix-action": GatewayHttpProxyActions.UseGatewayK8sServiceAccount
               },
               signal: AbortSignal.timeout(10000),
               timeout: 10000
@@ -726,12 +726,12 @@ export const identityKubernetesAuthServiceFactory = ({
 
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.identity.id": identityKubernetesAuth.identityId,
-          "infisical.identity.name": identity.name,
-          "infisical.organization.id": org.id,
-          "infisical.organization.name": org.name,
-          "infisical.identity.auth_method": AuthAttemptAuthMethod.KUBERNETES_AUTH,
-          "infisical.identity.auth_result": AuthAttemptAuthResult.SUCCESS,
+          "vaultix.identity.id": identityKubernetesAuth.identityId,
+          "vaultix.identity.name": identity.name,
+          "vaultix.organization.id": org.id,
+          "vaultix.organization.name": org.name,
+          "vaultix.identity.auth_method": AuthAttemptAuthMethod.KUBERNETES_AUTH,
+          "vaultix.identity.auth_result": AuthAttemptAuthResult.SUCCESS,
           "client.address": requestContext.get(RequestContextKey.Ip),
           "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
         });
@@ -748,12 +748,12 @@ export const identityKubernetesAuthServiceFactory = ({
     } catch (error) {
       if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
         authAttemptCounter.add(1, {
-          "infisical.identity.id": identityKubernetesAuth.identityId,
-          "infisical.identity.name": identity.name,
-          "infisical.organization.id": org.id,
-          "infisical.organization.name": org.name,
-          "infisical.identity.auth_method": AuthAttemptAuthMethod.KUBERNETES_AUTH,
-          "infisical.identity.auth_result": AuthAttemptAuthResult.FAILURE,
+          "vaultix.identity.id": identityKubernetesAuth.identityId,
+          "vaultix.identity.name": identity.name,
+          "vaultix.organization.id": org.id,
+          "vaultix.organization.name": org.name,
+          "vaultix.identity.auth_method": AuthAttemptAuthMethod.KUBERNETES_AUTH,
+          "vaultix.identity.auth_result": AuthAttemptAuthResult.FAILURE,
           "client.address": requestContext.get(RequestContextKey.Ip),
           "user_agent.original": requestContext.get(RequestContextKey.UserAgent)
         });

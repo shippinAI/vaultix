@@ -261,7 +261,7 @@ export const CLOUD_CONNECTION_VALIDATORS: Partial<Record<PamAccountType, CloudCo
     await generateAwsIamSessionCredentials({
       roleArn: connectionDetails.roleArn as string,
       externalId: orgId,
-      roleSessionName: "infisical-pam-connection-test",
+      roleSessionName: "vaultix-pam-connection-test",
       sessionDuration: AWS_STS_MIN_DURATION_SECONDS
     });
   },

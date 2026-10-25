@@ -96,7 +96,7 @@ export class SecretScanningExecError extends Error {
 const MAX_CAPTURED_OUTPUT_BYTES = 1024 * 1024;
 
 /**
- * `infisical scan` shells out to `git log -p -U0 --full-history --all`, and that grandchild is the
+ * `vaultix scan` shells out to `git log -p -U0 --full-history --all`, and that grandchild is the
  * process actually holding the memory. Signalling only the direct child orphans it, so the child is
  * spawned `detached` (its own process group) and the whole group is signalled by negative pid.
  */

@@ -60,11 +60,11 @@ const lazyMeter = (meterName: string): LazyMeter => ({
 // High-cardinality, per-actor meter, kept on by default for self-hosted (where per-actor visibility is
 // useful and cardinality is bounded by a single org); dropped in multi-tenant/cloud via
 // OTEL_DROP_HIGH_CARDINALITY_METERS. The pre-existing metrics below ship with per-actor labels documented in the docs.
-const infisicalMeter = lazyMeter("Vaultix");
+const vaultixMeter = lazyMeter("Vaultix");
 
 // The MeterProvider applies a strict attribute allowlist (View in
 // instrumentation.ts) to anything emitted here, dropping high-cardinality labels at the SDK level.
-const infisicalCoreMeter = lazyMeter("VaultixCore");
+const vaultixCoreMeter = lazyMeter("VaultixCore");
 
 export enum AuthAttemptAuthMethod {
   EMAIL = "email",
@@ -96,12 +96,12 @@ export enum AuthAttemptAuthResult {
 
 // -- Legacy instruments (documented public contract; do not change labels) --------------------------
 
-export const authAttemptCounter = infisicalMeter.createCounter("infisical.auth.attempt.count", {
+export const authAttemptCounter = vaultixMeter.createCounter("vaultix.auth.attempt.count", {
   description: "Authentication attempts (both successful and failed)",
   unit: "{attempt}"
 });
 
-export const secretReadCounter = infisicalMeter.createCounter("infisical.secret.read.count", {
+export const secretReadCounter = vaultixMeter.createCounter("vaultix.secret.read.count", {
   description: "Number of secret read operations",
   unit: "{operation}"
 });
@@ -111,43 +111,43 @@ export const recordSecretReadMetric = (params: { environment: string; secretPath
 
   if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
     const attributes: Record<string, string> = {
-      "infisical.environment": params.environment,
-      "infisical.secret.path": params.secretPath,
-      ...(params.name ? { "infisical.secret.name": params.name } : {})
+      "vaultix.environment": params.environment,
+      "vaultix.secret.path": params.secretPath,
+      ...(params.name ? { "vaultix.secret.name": params.name } : {})
     };
 
     const orgId = requestContext.get(RequestContextKey.OrgId);
     if (orgId) {
-      attributes["infisical.organization.id"] = orgId;
+      attributes["vaultix.organization.id"] = orgId;
     }
 
     const orgName = requestContext.get(RequestContextKey.OrgName);
     if (orgName) {
-      attributes["infisical.organization.name"] = orgName;
+      attributes["vaultix.organization.name"] = orgName;
     }
 
     const projectDetails = requestContext.get(RequestContextKey.ProjectDetails);
     if (projectDetails?.id) {
-      attributes["infisical.project.id"] = projectDetails.id;
+      attributes["vaultix.project.id"] = projectDetails.id;
     }
     if (projectDetails?.name) {
-      attributes["infisical.project.name"] = projectDetails.name;
+      attributes["vaultix.project.name"] = projectDetails.name;
     }
 
     const userAuthInfo = requestContext.get(RequestContextKey.UserAuthInfo);
     if (userAuthInfo?.userId) {
-      attributes["infisical.user.id"] = userAuthInfo.userId;
+      attributes["vaultix.user.id"] = userAuthInfo.userId;
     }
     if (userAuthInfo?.email) {
-      attributes["infisical.user.email"] = userAuthInfo.email;
+      attributes["vaultix.user.email"] = userAuthInfo.email;
     }
 
     const identityAuthInfo = requestContext.get(RequestContextKey.IdentityAuthInfo);
     if (identityAuthInfo?.identityId) {
-      attributes["infisical.identity.id"] = identityAuthInfo.identityId;
+      attributes["vaultix.identity.id"] = identityAuthInfo.identityId;
     }
     if (identityAuthInfo?.identityName) {
-      attributes["infisical.identity.name"] = identityAuthInfo.identityName;
+      attributes["vaultix.identity.name"] = identityAuthInfo.identityName;
     }
 
     const userAgent = requestContext.get(RequestContextKey.UserAgent);
@@ -175,7 +175,7 @@ export enum KmipOperationType {
   REGISTER = "register"
 }
 
-export const kmipOperationCounter = infisicalMeter.createCounter("infisical.kmip.operation.count", {
+export const kmipOperationCounter = vaultixMeter.createCounter("vaultix.kmip.operation.count", {
   description: "Number of KMIP operations performed",
   unit: "{operation}"
 });
@@ -192,26 +192,26 @@ export const recordKmipOperationMetric = (params: {
 
   if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
     const attributes: Record<string, string> = {
-      "infisical.kmip.operation.type": params.operationType,
-      "infisical.organization.id": params.orgId,
-      "infisical.project.id": params.projectId,
-      "infisical.kmip.client.id": params.clientId
+      "vaultix.kmip.operation.type": params.operationType,
+      "vaultix.organization.id": params.orgId,
+      "vaultix.project.id": params.projectId,
+      "vaultix.kmip.client.id": params.clientId
     };
 
     if (params.objectId) {
-      attributes["infisical.kmip.object.id"] = params.objectId;
+      attributes["vaultix.kmip.object.id"] = params.objectId;
     }
 
     if (params.objectName) {
-      attributes["infisical.kmip.object.name"] = params.objectName;
+      attributes["vaultix.kmip.object.name"] = params.objectName;
     }
 
     const identityAuthInfo = requestContext.get(RequestContextKey.IdentityAuthInfo);
     if (identityAuthInfo?.identityId) {
-      attributes["infisical.identity.id"] = identityAuthInfo.identityId;
+      attributes["vaultix.identity.id"] = identityAuthInfo.identityId;
     }
     if (identityAuthInfo?.identityName) {
-      attributes["infisical.identity.name"] = identityAuthInfo.identityName;
+      attributes["vaultix.identity.name"] = identityAuthInfo.identityName;
     }
 
     const userAgent = requestContext.get(RequestContextKey.UserAgent);
@@ -233,30 +233,30 @@ export const recordKmipOperationMetric = (params: {
 const isTelemetryEnabled = () => getConfig().OTEL_TELEMETRY_COLLECTION_ENABLED;
 
 // Queue worker lifecycle metrics. Wired in queue-service.ts via worker.on('completed' | 'failed' | 'stalled').
-export const queueJobCounter = infisicalCoreMeter.createCounter("infisical.queue.job.count", {
+export const queueJobCounter = vaultixCoreMeter.createCounter("vaultix.queue.job.count", {
   description: "Queue jobs processed by outcome (completed or failed)",
   unit: "{job}"
 });
 
-export const queueJobDurationHistogram = infisicalCoreMeter.createHistogram("infisical.queue.job.duration", {
+export const queueJobDurationHistogram = vaultixCoreMeter.createHistogram("vaultix.queue.job.duration", {
   description:
     "Queue job processing duration (worker pickup to completion). Skipped on framework-level failures where processedOn is undefined.",
   unit: "s"
 });
 
-export const queueJobWaitHistogram = infisicalCoreMeter.createHistogram("infisical.queue.job.wait", {
+export const queueJobWaitHistogram = vaultixCoreMeter.createHistogram("vaultix.queue.job.wait", {
   description:
     "Queue job wait time (queue contention only). Subtracts job.opts.delay so intentional scheduling doesn't inflate percentiles.",
   unit: "s"
 });
 
-export const queueJobFailureCounter = infisicalCoreMeter.createCounter("infisical.queue.job.failure.count", {
+export const queueJobFailureCounter = vaultixCoreMeter.createCounter("vaultix.queue.job.failure.count", {
   description:
     "Queue job failures classified by error type. attempts.exhausted=true means all retries are spent (real failure).",
   unit: "{failure}"
 });
 
-export const queueStalledCounter = infisicalCoreMeter.createCounter("infisical.queue.stalled.count", {
+export const queueStalledCounter = vaultixCoreMeter.createCounter("vaultix.queue.stalled.count", {
   description:
     "Stalled queue jobs (lock expired without completing). Strongest signal of a stuck worker / OOM / network partition.",
   unit: "{job}"
@@ -265,28 +265,28 @@ export const queueStalledCounter = infisicalCoreMeter.createCounter("infisical.q
 // Audit log lifecycle metrics. Wired in audit-log-queue.ts: enqueued when an event is appended to
 // the Redis ingest stream, dropped when the request-path push fails, persist duration around the
 // batch insert in the unified consumer.
-export const auditLogEnqueuedCounter = infisicalCoreMeter.createCounter("infisical.audit_log.enqueued.count", {
+export const auditLogEnqueuedCounter = vaultixCoreMeter.createCounter("vaultix.audit_log.enqueued.count", {
   description: "Audit log events appended to the ingest stream for persistence, by event type and actor type.",
   unit: "{event}"
 });
 
-export const auditLogPersistDurationHistogram = infisicalCoreMeter.createHistogram(
-  "infisical.audit_log.persist.duration",
+export const auditLogPersistDurationHistogram = vaultixCoreMeter.createHistogram(
+  "vaultix.audit_log.persist.duration",
   {
     description: "Latency of the consumer's batch insert to durable storage (postgres or clickhouse), by outcome.",
     unit: "s"
   }
 );
 
-export const auditLogDroppedCounter = infisicalCoreMeter.createCounter("infisical.audit_log.dropped.count", {
+export const auditLogDroppedCounter = vaultixCoreMeter.createCounter("vaultix.audit_log.dropped.count", {
   description:
     "Audit log events dropped on the request path because the ingest-stream push failed (at-most-once). Operators should alert on this.",
   unit: "{event}"
 });
 
 // Audit log stream metrics. Wired in audit-log-stream-outbox-service.ts drainStream() per provider send.
-export const auditLogStreamDeliveryDurationHistogram = infisicalCoreMeter.createHistogram(
-  "infisical.audit_log_stream.delivery.duration",
+export const auditLogStreamDeliveryDurationHistogram = vaultixCoreMeter.createHistogram(
+  "vaultix.audit_log_stream.delivery.duration",
   {
     description: "Per-provider audit log stream delivery latency and attempt count (use _count for delivery volume).",
     unit: "s"
@@ -295,8 +295,8 @@ export const auditLogStreamDeliveryDurationHistogram = infisicalCoreMeter.create
 
 // Wired in audit-log-stream-outbox-service.ts. Incremented when stream events are dropped after
 // exhausting all delivery retries (there is no DLQ — the events are gone). Operators should alert on this.
-export const auditLogStreamDeliveryExhaustedCounter = infisicalCoreMeter.createCounter(
-  "infisical.audit_log_stream.delivery.exhausted.count",
+export const auditLogStreamDeliveryExhaustedCounter = vaultixCoreMeter.createCounter(
+  "vaultix.audit_log_stream.delivery.exhausted.count",
   {
     description:
       "Audit log stream events dropped after exhausting all delivery retries, by stream and org. Operators should alert on this.",
@@ -305,16 +305,16 @@ export const auditLogStreamDeliveryExhaustedCounter = infisicalCoreMeter.createC
 );
 
 // Permission cache metrics. Wired in lib/cache/with-cache.ts withCacheFingerprint().
-export const permissionCacheLookupCounter = infisicalCoreMeter.createCounter(
-  "infisical.permission_cache.lookup.count",
+export const permissionCacheLookupCounter = vaultixCoreMeter.createCounter(
+  "vaultix.permission_cache.lookup.count",
   {
     description: "Permission cache lookups by branch: short-marker hit, fingerprint match, full refetch.",
     unit: "{lookup}"
   }
 );
 
-export const permissionCacheFingerprintDurationHistogram = infisicalCoreMeter.createHistogram(
-  "infisical.permission_cache.fingerprint.duration",
+export const permissionCacheFingerprintDurationHistogram = vaultixCoreMeter.createHistogram(
+  "vaultix.permission_cache.fingerprint.duration",
   {
     description: "Time spent computing the permission fingerprint (lightweight DB read on marker expiry).",
     unit: "s"
@@ -334,18 +334,18 @@ export enum SecretEtagMissReason {
   VALUE_DIFFERS = "value_differs" // a stored ETag exists but differs from the client's If-None-Match
 }
 
-export const secretCacheAccessCounter = infisicalCoreMeter.createCounter("infisical.secret.cache.access.count", {
+export const secretCacheAccessCounter = vaultixCoreMeter.createCounter("vaultix.secret.cache.access.count", {
   description: "Secret cache accesses, labeled by result, whether If-None-Match was sent, and why it missed the 304.",
   unit: "{access}"
 });
 
-export const secretCacheEntryBytesHistogram = infisicalCoreMeter.createHistogram("infisical.secret.cache.entry.bytes", {
+export const secretCacheEntryBytesHistogram = vaultixCoreMeter.createHistogram("vaultix.secret.cache.entry.bytes", {
   description: "Encrypted secret cache entry size computed at write time",
   unit: "By"
 });
 
-export const secretCacheOversizeSkipCounter = infisicalCoreMeter.createCounter(
-  "infisical.secret.cache.oversize_skip.count",
+export const secretCacheOversizeSkipCounter = vaultixCoreMeter.createCounter(
+  "vaultix.secret.cache.oversize_skip.count",
   {
     description: "Secret cache writes skipped because the entry exceeded the max byte cap",
     unit: "{skip}"
@@ -371,25 +371,25 @@ export const recordSecretCacheWriteMetric = (params: { bytes: number; stored: bo
   }
 };
 
-export const coreHttpErrorCounter = infisicalCoreMeter.createCounter("infisical.core.http.error.count", {
+export const coreHttpErrorCounter = vaultixCoreMeter.createCounter("vaultix.core.http.error.count", {
   description: "API errors with bounded error classification. Labels limited to VaultixCore View allowlist.",
   unit: "{error}"
 });
 
 // Rate limit metric. Wired in error-handler.ts on RateLimitError.
-export const rateLimitExceededCounter = infisicalCoreMeter.createCounter("infisical.rate_limit.exceeded.count", {
+export const rateLimitExceededCounter = vaultixCoreMeter.createCounter("vaultix.rate_limit.exceeded.count", {
   description: "HTTP 429 responses (rate limit exceeded).",
   unit: "{request}"
 });
 
 // -- License Server v2 dual-read (VaultixCore meter) ----------------------------------------------
-export const licenseDualReadDiffCounter = infisicalCoreMeter.createCounter("infisical.license.dual_read.diff.count", {
+export const licenseDualReadDiffCounter = vaultixCoreMeter.createCounter("vaultix.license.dual_read.diff.count", {
   description:
     "v1 vs License Server v2 entitlement comparison results, by feature and kind (mismatch/v2_missing/v1_absent/indeterminate). Match results are not counted.",
   unit: "{result}"
 });
 
-export const licenseDualReadErrorCounter = infisicalCoreMeter.createCounter("infisical.license.dual_read.error.count", {
+export const licenseDualReadErrorCounter = vaultixCoreMeter.createCounter("vaultix.license.dual_read.error.count", {
   description: "Failures resolving the v2 entitlement set during dual-read comparison, by error type.",
   unit: "{error}"
 });
@@ -410,7 +410,7 @@ export const recordLicenseDualReadError = (params: { error?: unknown }) => {
 };
 
 // -- Authentication latency (VaultixCore meter) ---------------------------------------------------
-export const authAttemptDurationHistogram = infisicalCoreMeter.createHistogram("infisical.auth.attempt.duration", {
+export const authAttemptDurationHistogram = vaultixCoreMeter.createHistogram("vaultix.auth.attempt.duration", {
   description:
     "Authentication attempt latency by method and result. External verifications (SAML/OIDC/Kubernetes/cloud) include the IdP/provider network round trip.",
   unit: "s"
@@ -425,15 +425,15 @@ export const recordAuthAttemptMetric = (params: {
 }) => {
   if (!isTelemetryEnabled()) return;
   const attributes: Record<string, string> = {
-    "infisical.auth.method": params.method,
-    "infisical.auth.result": params.result
+    "vaultix.auth.method": params.method,
+    "vaultix.auth.result": params.result
   };
   if (params.error !== undefined) attributes["error.type"] = classifyError(params.error);
   authAttemptDurationHistogram.record((performance.now() - params.startTime) / 1000, attributes);
 };
 
 // Machine identity access token renewals. Distinct from the auth.attempt series (initial login).
-export const tokenRenewalCounter = infisicalCoreMeter.createCounter("infisical.auth.token.renewal.count", {
+export const tokenRenewalCounter = vaultixCoreMeter.createCounter("vaultix.auth.token.renewal.count", {
   description: "Machine identity access token renewal attempts by outcome.",
   unit: "{renewal}"
 });
@@ -445,7 +445,7 @@ export const recordTokenRenewalMetric = (params: {
 }) => {
   if (!isTelemetryEnabled()) return;
   const attributes: Record<string, string> = { outcome: params.outcome };
-  if (params.authMethod) attributes["infisical.auth.method"] = params.authMethod;
+  if (params.authMethod) attributes["vaultix.auth.method"] = params.authMethod;
   if (params.error !== undefined) attributes["error.type"] = classifyError(params.error);
   tokenRenewalCounter.add(1, attributes);
 };
@@ -462,7 +462,7 @@ export enum ScimOperation {
   DeleteGroup = "delete_group"
 }
 
-export const scimOperationDurationHistogram = infisicalCoreMeter.createHistogram("infisical.scim.operation.duration", {
+export const scimOperationDurationHistogram = vaultixCoreMeter.createHistogram("vaultix.scim.operation.duration", {
   description: "SCIM provisioning operation latency by operation type and outcome (use _count for operation volume).",
   unit: "s"
 });
@@ -495,7 +495,7 @@ export enum SsoConfigAction {
   Update = "update"
 }
 
-export const ssoConfigChangeCounter = infisicalCoreMeter.createCounter("infisical.sso.config.change.count", {
+export const ssoConfigChangeCounter = vaultixCoreMeter.createCounter("vaultix.sso.config.change.count", {
   description: "SSO configuration changes (create/update) by provider. Detects unexpected SSO reconfiguration.",
   unit: "{change}"
 });
@@ -514,15 +514,15 @@ export const recordSsoConfigChangeMetric = (params: {
 };
 
 // -- Secret operation metrics (VaultixCore meter) ------------------------------------------------
-export const secretOperationDurationHistogram = infisicalCoreMeter.createHistogram(
-  "infisical.secret.operation.duration",
+export const secretOperationDurationHistogram = vaultixCoreMeter.createHistogram(
+  "vaultix.secret.operation.duration",
   {
     description: "Secret operation latency by operation type, outcome, and environment.",
     unit: "ms"
   }
 );
 
-export const secretWriteCounter = infisicalCoreMeter.createCounter("infisical.secret.write.count", {
+export const secretWriteCounter = vaultixCoreMeter.createCounter("vaultix.secret.write.count", {
   description: "Secret write operations (create/update/delete).",
   unit: "{operation}"
 });
@@ -547,7 +547,7 @@ export const recordSecretWriteMetric = (params: { operation: "create" | "update"
 };
 
 // -- Secret sync outcome (VaultixCore meter) ----------------------------------------------------
-export const secretSyncOutcomeCounter = infisicalCoreMeter.createCounter("infisical.secret_sync.outcome.count", {
+export const secretSyncOutcomeCounter = vaultixCoreMeter.createCounter("vaultix.secret_sync.outcome.count", {
   description:
     "Secret sync attempts by destination, operation, and outcome. Alert on failure ratio > 50% over 15m with >= 10 attempts, grouped by destination.",
   unit: "{attempt}"
@@ -569,8 +569,8 @@ export const recordSecretSyncOutcomeMetric = (params: {
 };
 
 // -- Secret rotation outcome (VaultixCore meter) --------------------------------------------------
-export const secretRotationOutcomeCounter = infisicalCoreMeter.createCounter(
-  "infisical.secret_rotation.outcome.count",
+export const secretRotationOutcomeCounter = vaultixCoreMeter.createCounter(
+  "vaultix.secret_rotation.outcome.count",
   {
     description:
       "Secret rotation attempts by type and outcome. Alert on failure ratio > 50% per type with >= 5 total rotations.",
@@ -587,8 +587,8 @@ export const recordSecretRotationOutcomeMetric = (params: { type: string; outcom
 };
 
 // -- Dynamic secret orphaned lease (VaultixCore meter) ---------------------------------------------
-export const dynamicSecretOrphanedLeaseCounter = infisicalCoreMeter.createCounter(
-  "infisical.dynamic_secret.orphaned_lease.count",
+export const dynamicSecretOrphanedLeaseCounter = vaultixCoreMeter.createCounter(
+  "vaultix.dynamic_secret.orphaned_lease.count",
   {
     description: "Dynamic secret lease revocation failures by provider. Alert on any value > 0 sustained 60m.",
     unit: "{failure}"
@@ -628,7 +628,7 @@ export enum AlertDispatchOutcome {
   AllDeduped = "all_deduped"
 }
 
-export const alertDispatchOutcomeCounter = infisicalCoreMeter.createCounter("infisical.alert.dispatch.outcome.count", {
+export const alertDispatchOutcomeCounter = vaultixCoreMeter.createCounter("vaultix.alert.dispatch.outcome.count", {
   description:
     "Alert dispatch jobs by alert resource type and outcome. Alarm on delivery_failed + delivery_partial: both mean a channel could not be reached, so a notification was dropped. Watch the delivery_* share of total separately: a persistently low ratio means the cron is enqueueing mostly no-op jobs and should pre-filter instead.",
   unit: "{job}"
@@ -650,7 +650,7 @@ export const registerInfrastructureMetrics = (db: Knex) => {
   const meter = resolveMeter("VaultixCore");
 
   // Build info: constant-value gauge that emits 1 with build identification labels on every export.
-  const buildInfoGauge = meter.createObservableGauge("infisical.build.info", {
+  const buildInfoGauge = meter.createObservableGauge("vaultix.build.info", {
     description: "Always 1. Labels carry build identification (version, git sha, node version)."
   });
   buildInfoGauge.addCallback((result) => {
@@ -663,7 +663,7 @@ export const registerInfrastructureMetrics = (db: Knex) => {
   });
 
   // Connection pool: reads in-memory tarn pool counters, so it's cheap to observe on every export.
-  const dbPoolGauge = meter.createObservableGauge("infisical.db.pool.connections", {
+  const dbPoolGauge = meter.createObservableGauge("vaultix.db.pool.connections", {
     description: "Knex/tarn connection pool counts by state (used, free, pending).",
     unit: "{connection}"
   });

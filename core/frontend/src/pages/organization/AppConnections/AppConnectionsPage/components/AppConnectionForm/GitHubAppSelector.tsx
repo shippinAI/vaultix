@@ -48,7 +48,7 @@ import { TGitHubApp, useDeleteGitHubApp } from "@app/hooks/api/gitHubApps";
 const SHARED_KEY = "__shared__";
 
 // New GitHub Apps are pre-filled with this prefix so they're easy to identify in the GitHub account.
-const GITHUB_APP_NAME_PREFIX = "infisical-";
+const GITHUB_APP_NAME_PREFIX = "vaultix-";
 
 const getAppKey = (app: TGitHubApp | null) => (app ? (app.id ?? SHARED_KEY) : null);
 

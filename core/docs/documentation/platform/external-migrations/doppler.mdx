@@ -1,14 +1,14 @@
 ---
-title: "Migrating from Doppler to Infisical"
+title: "Migrating from Doppler to vaultix"
 sidebarTitle: "Doppler"
-description: "Learn how to migrate secrets from Doppler to Infisical using in-platform migration."
+description: "Learn how to migrate secrets from Doppler to vaultix using in-platform migration."
 ---
 
-This guide helps you bring secrets from **Doppler** into Infisical. Register a Doppler **App Connection** in Infisical, then import secrets from any Doppler project and config into the Infisical project, environment, and folder of your choice.
+This guide helps you bring secrets from **Doppler** into vaultix. Register a Doppler **App Connection** in vaultix, then import secrets from any Doppler project and config into the vaultix project, environment, and folder of your choice.
 
 **What you can migrate:**
 
-- **Secrets** — Key/value pairs from a Doppler **project** and **config** (root or branch) are imported into a chosen Infisical **project**, **environment**, and **secret path** (folder). Both root configs and branch configs are supported.
+- **Secrets** — Key/value pairs from a Doppler **project** and **config** (root or branch) are imported into a chosen vaultix **project**, **environment**, and **secret path** (folder). Both root configs and branch configs are supported.
 
 <Warning>
   Importing from Doppler requires the `Connect` action on `App Connections` and the `Create` action on the `Secrets` subject at the target environment and folder path.
@@ -20,12 +20,12 @@ This guide helps you bring secrets from **Doppler** into Infisical. Register a D
   <Step title="Create a Doppler token">
     In **Doppler**, create an API token that can read the projects and configs you plan to import (for example a **Personal** or **Service** token with access to the right projects).
 
-    Store the token securely; you will paste it into Infisical in the next step.
+    Store the token securely; you will paste it into vaultix in the next step.
 
   </Step>
 
-  <Step title="Create a Doppler App Connection in Infisical">
-    In Infisical, create a new App Connection of type **Doppler** in one of two places:
+  <Step title="Create a Doppler App Connection in vaultix">
+    In vaultix, create a new App Connection of type **Doppler** in one of two places:
 
     - **Project > Integrations > App Connections** — the connection is only visible inside that project.
     - **Organization Settings > App Connections** — the connection is visible across every project in the organization.
@@ -36,7 +36,7 @@ This guide helps you bring secrets from **Doppler** into Infisical. Register a D
 
 </Steps>
 
-## Migrating Secrets from Doppler to Infisical
+## Migrating Secrets from Doppler to vaultix
 
 When you are inside a **Secret Manager** project and have **one** environment selected (not "all environments"):
 
@@ -47,8 +47,8 @@ When you are inside a **Secret Manager** project and have **one** environment se
 ![Add from Doppler on the secret overview](/images/platform/external-migrations/doppler-in-platform/import-doppler-secret-overview-option.png)
 
 4. If more than one Doppler App Connection is available to you (project- or organization-scoped), pick the **Doppler Connection** in the modal. With a single connection available, it is selected for you.
-5. Select the **Doppler project** and **config**. Infisical lists every config in the project; root configs are labeled with **Root** for clarity, and branch configs are grouped under their environment.
-6. Click **Import Secrets**. Infisical imports the selected Doppler config's secrets into the **current** Infisical environment and folder path.
+5. Select the **Doppler project** and **config**. vaultix lists every config in the project; root configs are labeled with **Root** for clarity, and branch configs are grouped under their environment.
+6. Click **Import Secrets**. vaultix imports the selected Doppler config's secrets into the **current** vaultix environment and folder path.
 
 ![Import from Doppler modal on secret overview](/images/platform/external-migrations/doppler-in-platform/import-doppler-secret-overview-modal.png)
 
@@ -56,9 +56,9 @@ When you are inside a **Secret Manager** project and have **one** environment se
 
 <CardGroup cols={2}>
   <Card title="Projects and environments" icon="folder" href="/documentation/platform/project">
-    Structure Infisical projects to mirror how you used Doppler projects and configs
+    Structure vaultix projects to mirror how you used Doppler projects and configs
   </Card>
   <Card title="SDKs and agents" icon="code" href="/sdks/overview">
-    Read imported secrets from applications using Infisical clients
+    Read imported secrets from applications using vaultix clients
   </Card>
 </CardGroup>

@@ -12,7 +12,7 @@ dbSchemaChanges:
     description: Startup adds a project folder grants table, an organization flag
       for cross-project secret sharing, and a nullable target project slug on
       secret references.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -37,16 +37,16 @@ deploymentNotes:
     confidence: high
     evidence:
       - type: file
-        ref: Dockerfile.standalone-infisical
-        path: Dockerfile.standalone-infisical
+        ref: Dockerfile.standalone-vaultix
+        path: Dockerfile.standalone-vaultix
         description: Changes runtime user to USER 1001.
       - type: file
-        ref: Dockerfile.fips.standalone-infisical
-        path: Dockerfile.fips.standalone-infisical
+        ref: Dockerfile.fips.standalone-vaultix
+        path: Dockerfile.fips.standalone-vaultix
         description: Changes runtime user to USER 1001.
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-03T15:52:31.423Z

@@ -1,15 +1,15 @@
 ---
-title: "infisical secrets agent-proxy"
-description: "Run the Infisical Agent Proxy and connect agents to it"
+title: "vaultix secrets agent-proxy"
+description: "Run the vaultix Agent Proxy and connect agents to it"
 ---
 
 <Tabs>
   <Tab title="Local proxy (run)">
     ```bash
-    infisical secrets agent-proxy run [options] -- [agent start command]
+    vaultix secrets agent-proxy run [options] -- [agent start command]
 
     # Example
-    infisical secrets agent-proxy run --projectId=<project-id> --env=dev --path=/coding-agent -- claude
+    vaultix secrets agent-proxy run --projectId=<project-id> --env=dev --path=/coding-agent -- claude
     ```
 
     `run` on its own is the whole setup.
@@ -19,14 +19,14 @@ description: "Run the Infisical Agent Proxy and connect agents to it"
   <Tab title="Standalone proxy (start + connect)">
     ```bash
     # On the proxy host
-    infisical secrets agent-proxy start [options]
+    vaultix secrets agent-proxy start [options]
 
     # On each agent host
-    infisical secrets agent-proxy connect [options] -- [agent start command]
+    vaultix secrets agent-proxy connect [options] -- [agent start command]
 
     # Examples
-    infisical secrets agent-proxy start --port 17322
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --projectId=<project-id> --env=prod --path=/ai-agents -- claude
+    vaultix secrets agent-proxy start --port 17322
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --projectId=<project-id> --env=prod --path=/ai-agents -- claude
     ```
 
     `start` and `connect` work as a pair, on different hosts.
@@ -36,22 +36,22 @@ description: "Run the Infisical Agent Proxy and connect agents to it"
 
 ## Description
 
-These subcommands run the [Infisical Agent Proxy](/documentation/platform/agent-proxy/overview), which brokers real credentials onto your agents' traffic on the wire. Which you use depends on where the agent runs:
+These subcommands run the [vaultix Agent Proxy](/documentation/platform/agent-proxy/overview), which brokers real credentials onto your agents' traffic on the wire. Which you use depends on where the agent runs:
 
 - `run` is for an agent on your own computer. It does the proxy's work and the agent's launch in one process, authenticating as your logged-in user, and sandboxes the agent. It always starts its own proxy, so `--proxy` is rejected rather than ignored. See [Local Agent Proxy](/documentation/platform/agent-proxy/local-agent-proxy).
 - `start` runs the proxy as a long-running service on a host of its own, serving agents across your network.
 - `connect` launches an agent behind a proxy **already running elsewhere**, setting up proxy routing, CA trust, and placeholder credentials. It needs a proxy address, which is why it goes with `start`. Both authenticate with a [machine identity](/documentation/platform/identities/machine-identities) via [Universal Auth](/documentation/platform/identities/universal-auth), and the proxy's is always separate from your agents'; see [Standalone Agent Proxy](/documentation/platform/agent-proxy/standalone-agent-proxy).
 
-Each arrangement stands on its own: `run` is complete by itself, and a deployed proxy pairs only with `connect`. All three read the same [proxied services](/documentation/platform/agent-proxy/proxied-services) and secrets from Infisical.
+Each arrangement stands on its own: `run` is complete by itself, and a deployed proxy pairs only with `connect`. All three read the same [proxied services](/documentation/platform/agent-proxy/proxied-services) and secrets from vaultix.
 
 ## Subcommands & flags
 
 ### Local proxy, on your own computer
 
-<Accordion title="infisical secrets agent-proxy run" defaultOpen="true">
+<Accordion title="vaultix secrets agent-proxy run" defaultOpen="true">
   Launch an agent on your own computer, sandboxed, with credentials brokered on the wire. Everything after `--` is the agent's own start command. `run` starts a proxy alongside the agent, authenticating as your logged-in user, and stops it when the agent exits. See [Local Agent Proxy](/documentation/platform/agent-proxy/local-agent-proxy) for the full picture.
 
-  Because the proxy and the agent share a machine, the sandbox is the boundary: the agent cannot read your keyring, your credential files, or the proxy's CA key, and its only route to the network is the proxy. Real secret values are never placed in the agent's environment, and it gets no Infisical token, only proxy routing, CA trust, and the placeholders for [secret-substitution](/documentation/platform/agent-proxy/proxied-services#secret-substitution) services.
+  Because the proxy and the agent share a machine, the sandbox is the boundary: the agent cannot read your keyring, your credential files, or the proxy's CA key, and its only route to the network is the proxy. Real secret values are never placed in the agent's environment, and it gets no vaultix token, only proxy routing, CA trust, and the placeholders for [secret-substitution](/documentation/platform/agent-proxy/proxied-services#secret-substitution) services.
 
   Requires macOS, or Linux with `bubblewrap` installed; see [Requirements](/documentation/platform/agent-proxy/local-agent-proxy#requirements) for the per-distribution command. Where no OS sandbox is available, `run` refuses to start unless you pass `--no-sandbox`.
 
@@ -60,92 +60,92 @@ Each arrangement stands on its own: `run` is complete by itself, and a deployed 
   </Note>
 
 ```bash
-$ infisical secrets agent-proxy run --projectId=<project-id> --env=<env-slug> --path=<secret-path> -- [agent start command]
+$ vaultix secrets agent-proxy run --projectId=<project-id> --env=<env-slug> --path=<secret-path> -- [agent start command]
 
 # Example
-$ infisical secrets agent-proxy run --projectId=<project-id> --env=dev --path=/coding-agent -- claude
+$ vaultix secrets agent-proxy run --projectId=<project-id> --env=dev --path=/coding-agent -- claude
 
-# Example (project, environment, and path from .infisical.json)
-$ infisical secrets agent-proxy run -- claude
+# Example (project, environment, and path from .vaultix.json)
+$ vaultix secrets agent-proxy run -- claude
 ```
 
 ### Environment variables
 
-  <Accordion title="INFISICAL_PROJECT_ID / INFISICAL_ENVIRONMENT / INFISICAL_SECRET_PATH">
-    The project, environment slug, and secret path to fetch proxied services from. Alternatives to `--projectId`, `--env`, and `--path`, and to the `workspaceId`, `defaultEnvironment`, and `defaultSecretPath` fields in `.infisical.json`.
+  <Accordion title="vaultix_PROJECT_ID / vaultix_ENVIRONMENT / vaultix_SECRET_PATH">
+    The project, environment slug, and secret path to fetch proxied services from. Alternatives to `--projectId`, `--env`, and `--path`, and to the `workspaceId`, `defaultEnvironment`, and `defaultSecretPath` fields in `.vaultix.json`.
 
     ```bash
       # Example
-      export INFISICAL_PROJECT_ID=<project-id>
-      export INFISICAL_ENVIRONMENT=dev
-      export INFISICAL_SECRET_PATH=/coding-agent
+      export vaultix_PROJECT_ID=<project-id>
+      export vaultix_ENVIRONMENT=dev
+      export vaultix_SECRET_PATH=/coding-agent
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_AGENT_PROXY_SANDBOX">
-    Set to `0`, `false`, or `off` to disable the OS sandbox, the same as `--no-sandbox`. Deliberately cannot be set from `.infisical.json`, so a committed file cannot silently disable the boundary.
+  <Accordion title="vaultix_AGENT_PROXY_SANDBOX">
+    Set to `0`, `false`, or `off` to disable the OS sandbox, the same as `--no-sandbox`. Deliberately cannot be set from `.vaultix.json`, so a committed file cannot silently disable the boundary.
 
     ```bash
       # Example
-      export INFISICAL_AGENT_PROXY_SANDBOX=0
+      export vaultix_AGENT_PROXY_SANDBOX=0
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_DOMAIN">
-    Point the CLI to your Infisical instance. Alternative to the `--domain` flag.
+  <Accordion title="vaultix_DOMAIN">
+    Point the CLI to your vaultix instance. Alternative to the `--domain` flag.
 
     ```bash
       # Example
-      export INFISICAL_DOMAIN=https://eu.infisical.com
+      export vaultix_DOMAIN=https://eu.vaultix.com
     ```
   </Accordion>
 
 ### Flags
 
   <Accordion title="--env">
-    The environment slug to fetch proxied services from (for example `dev`, `staging`, `prod`). Falls back to `INFISICAL_ENVIRONMENT`, then to `defaultEnvironment` in `.infisical.json`; required otherwise.
+    The environment slug to fetch proxied services from (for example `dev`, `staging`, `prod`). Falls back to `vaultix_ENVIRONMENT`, then to `defaultEnvironment` in `.vaultix.json`; required otherwise.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev -- claude
+    vaultix secrets agent-proxy run --env=dev -- claude
     ```
   </Accordion>
 
   <Accordion title="--path">
-    The secret path (folder) to scope to. Proxied services are fetched from this folder. Falls back to `INFISICAL_SECRET_PATH`, then to `defaultSecretPath` in `.infisical.json`.
+    The secret path (folder) to scope to. Proxied services are fetched from this folder. Falls back to `vaultix_SECRET_PATH`, then to `defaultSecretPath` in `.vaultix.json`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --path=/coding-agent -- claude
+    vaultix secrets agent-proxy run --env=dev --path=/coding-agent -- claude
     ```
 
     Default value: `/`
   </Accordion>
 
   <Accordion title="--projectId">
-    The project to fetch proxied services from. Falls back to `INFISICAL_PROJECT_ID`, then to `.infisical.json`.
+    The project to fetch proxied services from. Falls back to `vaultix_PROJECT_ID`, then to `.vaultix.json`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --projectId=<project-id> -- claude
+    vaultix secrets agent-proxy run --env=dev --projectId=<project-id> -- claude
     ```
   </Accordion>
 
   <Accordion title="--token">
-    Broker using this token instead of your logged-in session. Also picked up from `INFISICAL_TOKEN` or `INFISICAL_UNIVERSAL_AUTH_ACCESS_TOKEN` in your own environment (these are read by the CLI and scrubbed from the agent's environment). Activity records attribute requests to `token` rather than your email.
+    Broker using this token instead of your logged-in session. Also picked up from `vaultix_TOKEN` or `vaultix_UNIVERSAL_AUTH_ACCESS_TOKEN` in your own environment (these are read by the CLI and scrubbed from the agent's environment). Activity records attribute requests to `token` rather than your email.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --token=<token> -- claude
+    vaultix secrets agent-proxy run --env=dev --token=<token> -- claude
     ```
   </Accordion>
 
   <Accordion title="--sandbox / --no-sandbox">
-    Toggle the OS sandbox around the agent. With `--no-sandbox` credentials are still brokered and the environment is still scrubbed, but the agent runs uncontained: it can read your keyring and credential files and reach the network directly, bypassing the proxy. `run` warns when it starts this way. Can also be set via `INFISICAL_AGENT_PROXY_SANDBOX`.
+    Toggle the OS sandbox around the agent. With `--no-sandbox` credentials are still brokered and the environment is still scrubbed, but the agent runs uncontained: it can read your keyring and credential files and reach the network directly, bypassing the proxy. `run` warns when it starts this way. Can also be set via `vaultix_AGENT_PROXY_SANDBOX`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --no-sandbox -- claude
+    vaultix secrets agent-proxy run --env=dev --no-sandbox -- claude
     ```
 
     Default value: `--sandbox` (the sandbox is on)
@@ -156,7 +156,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --allow-read ~/.aws/config -- claude
+    vaultix secrets agent-proxy run --env=dev --allow-read ~/.aws/config -- claude
     ```
   </Accordion>
 
@@ -165,7 +165,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --allow-write ~/scratch -- claude
+    vaultix secrets agent-proxy run --env=dev --allow-write ~/scratch -- claude
     ```
   </Accordion>
 
@@ -174,16 +174,16 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --unmatched-host=block --allow-host=registry.npmjs.org -- claude
+    vaultix secrets agent-proxy run --env=dev --unmatched-host=block --allow-host=registry.npmjs.org -- claude
     ```
   </Accordion>
 
   <Accordion title="--pass-env">
-    Pass one of your own environment variables through to the agent. The child environment is scrubbed of credential-shaped names (anything containing `TOKEN`, `SECRET`, `PASSWORD`, `API_KEY`, and similar), Infisical's own variables, and agent-socket addresses such as `SSH_AUTH_SOCK`; this re-admits a specific one. Repeatable.
+    Pass one of your own environment variables through to the agent. The child environment is scrubbed of credential-shaped names (anything containing `TOKEN`, `SECRET`, `PASSWORD`, `API_KEY`, and similar), vaultix's own variables, and agent-socket addresses such as `SSH_AUTH_SOCK`; this re-admits a specific one. Repeatable.
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --pass-env ANTHROPIC_API_KEY -- claude
+    vaultix secrets agent-proxy run --env=dev --pass-env ANTHROPIC_API_KEY -- claude
     ```
   </Accordion>
 
@@ -192,7 +192,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --set-env GH_CONFIG_DIR=/tmp/gh-cfg -- claude
+    vaultix secrets agent-proxy run --env=dev --set-env GH_CONFIG_DIR=/tmp/gh-cfg -- claude
     ```
   </Accordion>
 
@@ -201,7 +201,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --unmatched-host=block -- claude
+    vaultix secrets agent-proxy run --env=dev --unmatched-host=block -- claude
     ```
 
     Default value: `allow`
@@ -212,7 +212,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --poll-interval 30 -- claude
+    vaultix secrets agent-proxy run --env=dev --poll-interval 30 -- claude
     ```
 
     Default value: `60`
@@ -223,7 +223,7 @@ $ infisical secrets agent-proxy run -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy run --env=dev --log-file=/tmp/broker.log -- claude
+    vaultix secrets agent-proxy run --env=dev --log-file=/tmp/broker.log -- claude
     ```
   </Accordion>
 </Accordion>
@@ -232,36 +232,36 @@ $ infisical secrets agent-proxy run -- claude
 
 These two are used together, on different hosts: `start` on the proxy host, `connect` on each agent host.
 
-<Accordion title="infisical secrets agent-proxy start">
+<Accordion title="vaultix secrets agent-proxy start">
   Start the agent proxy, an HTTP(S) forward proxy that brokers credentials for the agents that connect to it. Requires machine identity credentials with read access to the secrets your proxied services reference.
 
   Agents reach HTTPS services through standard `CONNECT` tunnels and plain-HTTP services through regular forward-proxy requests; credentials are brokered on both. Requests for `https://` URLs sent as plain forward-proxy requests (rather than `CONNECT`) are rejected so the proxy can never be used to downgrade TLS.
 
 ```bash
-$ infisical secrets agent-proxy start
+$ vaultix secrets agent-proxy start
 
 # Example
-$ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
+$ vaultix secrets agent-proxy start --port 17322 --unmatched-host=block
 ```
 
 ### Environment variables
 
-  <Accordion title="INFISICAL_UNIVERSAL_AUTH_CLIENT_ID / INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET">
+  <Accordion title="vaultix_UNIVERSAL_AUTH_CLIENT_ID / vaultix_UNIVERSAL_AUTH_CLIENT_SECRET">
     The Universal Auth credentials of the agent proxy's machine identity. Alternative to passing `--client-id` and `--client-secret`.
 
     ```bash
       # Example
-      export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=<agent-proxy-client-id>
-      export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=<agent-proxy-client-secret>
+      export vaultix_UNIVERSAL_AUTH_CLIENT_ID=<agent-proxy-client-id>
+      export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET=<agent-proxy-client-secret>
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_DOMAIN">
-    Point the CLI to your Infisical instance (for example `https://eu.infisical.com` for EU Cloud, or your self-hosted URL). Alternative to the `--domain` flag.
+  <Accordion title="vaultix_DOMAIN">
+    Point the CLI to your vaultix instance (for example `https://eu.vaultix.com` for EU Cloud, or your self-hosted URL). Alternative to the `--domain` flag.
 
     ```bash
       # Example
-      export INFISICAL_DOMAIN=https://eu.infisical.com
+      export vaultix_DOMAIN=https://eu.vaultix.com
     ```
   </Accordion>
 
@@ -272,7 +272,7 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --port 18000
+    vaultix secrets agent-proxy start --port 18000
     ```
 
     Default value: `17322`
@@ -283,13 +283,13 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --unmatched-host=block
+    vaultix secrets agent-proxy start --unmatched-host=block
     ```
 
     Default value: `allow`
 
     <Note>
-      `block` blocks every host without a matching proxied service, including your Infisical instance itself. Since agent traffic routes through the proxy, Infisical CLI commands run from inside the agent (using the `INFISICAL_TOKEN` from its environment) will also be rejected in this mode.
+      `block` blocks every host without a matching proxied service, including your vaultix instance itself. Since agent traffic routes through the proxy, vaultix CLI commands run from inside the agent (using the `vaultix_TOKEN` from its environment) will also be rejected in this mode.
     </Note>
   </Accordion>
 
@@ -298,18 +298,18 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --poll-interval 30
+    vaultix secrets agent-proxy start --poll-interval 30
     ```
 
     Default value: `60`
   </Accordion>
 
   <Accordion title="--client-id / --client-secret">
-    Universal Auth credentials for the agent proxy's machine identity. Alternative to the `INFISICAL_UNIVERSAL_AUTH_CLIENT_ID` / `INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET` environment variables.
+    Universal Auth credentials for the agent proxy's machine identity. Alternative to the `vaultix_UNIVERSAL_AUTH_CLIENT_ID` / `vaultix_UNIVERSAL_AUTH_CLIENT_SECRET` environment variables.
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --client-id=<client-id> --client-secret=<client-secret>
+    vaultix secrets agent-proxy start --client-id=<client-id> --client-secret=<client-secret>
     ```
   </Accordion>
 
@@ -318,7 +318,7 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --log-format=json
+    vaultix secrets agent-proxy start --log-format=json
     ```
 
     Default value: `console`
@@ -329,7 +329,7 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --log-file=/var/log/infisical/agent-proxy.log
+    vaultix secrets agent-proxy start --log-file=/var/log/vaultix/agent-proxy.log
     ```
   </Accordion>
 
@@ -338,121 +338,121 @@ $ infisical secrets agent-proxy start --port 17322 --unmatched-host=block
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --log-level=warn
+    vaultix secrets agent-proxy start --log-level=warn
     ```
 
     Default value: `info`
   </Accordion>
 </Accordion>
 
-<Accordion title="infisical secrets agent-proxy connect">
+<Accordion title="vaultix secrets agent-proxy connect">
   Set up the environment and launch an agent behind the agent proxy. Everything after `--` is the agent's own start command. The wrapper authenticates the agent's machine identity, then starts the agent process with:
 
   - `HTTPS_PROXY` / `HTTP_PROXY` pointing at the agent proxy, plus `NO_PROXY` (always includes `localhost,127.0.0.1`, merged with any `NO_PROXY` already in your environment and the `--no-proxy` flag).
-  - The organization's root CA written to `~/.infisical/agent-proxy/mitm-ca.pem` and trusted via `SSL_CERT_FILE`, `NODE_EXTRA_CA_CERTS`, `REQUESTS_CA_BUNDLE`, `CURL_CA_BUNDLE`, `GIT_SSL_CAINFO`, and `DENO_CERT`.
+  - The organization's root CA written to `~/.vaultix/agent-proxy/mitm-ca.pem` and trusted via `SSL_CERT_FILE`, `NODE_EXTRA_CA_CERTS`, `REQUESTS_CA_BUNDLE`, `CURL_CA_BUNDLE`, `GIT_SSL_CAINFO`, and `DENO_CERT`.
   - Dummy placeholder environment variables for credential-substitution services the agent has **Proxy** access to.
-  - Real values for regular secrets the agent has **Read Value** on in the scoped folder, including secrets imported into it (similar to `infisical run`). This is opt-in; an agent identity scoped to just the proxy permission has no read access, and brokered credentials never appear in the agent's environment. If the agent can read a secret that a proxied service brokers to it, `connect` refuses to start, since the agent would receive the real value directly and bypass the proxy; fix the permissions or pass `--allow-readable-brokered-secrets` to override.
-  - `INFISICAL_TOKEN` set to the agent's access token, so the agent can run Infisical CLI commands itself.
+  - Real values for regular secrets the agent has **Read Value** on in the scoped folder, including secrets imported into it (similar to `vaultix run`). This is opt-in; an agent identity scoped to just the proxy permission has no read access, and brokered credentials never appear in the agent's environment. If the agent can read a secret that a proxied service brokers to it, `connect` refuses to start, since the agent would receive the real value directly and bypass the proxy; fix the permissions or pass `--allow-readable-brokered-secrets` to override.
+  - `vaultix_TOKEN` set to the agent's access token, so the agent can run vaultix CLI commands itself.
 
   The client ID and client secret used to authenticate are stripped from the child environment. The wrapper forwards signals to the agent process and exits with its exit code.
 
   <Note>
-    Every input below resolves from the same sources, in order: **the flag → an environment variable → `.infisical.json` → the built-in default.** An explicitly-passed flag always wins. This is why, where the environment variables are already set on the host, the command collapses to `infisical secrets agent-proxy connect -- claude`.
+    Every input below resolves from the same sources, in order: **the flag → an environment variable → `.vaultix.json` → the built-in default.** An explicitly-passed flag always wins. This is why, where the environment variables are already set on the host, the command collapses to `vaultix secrets agent-proxy connect -- claude`.
   </Note>
 
 ```bash
-$ infisical secrets agent-proxy connect --proxy=<host>:<port> --projectId=<project-id> --env=<env-slug> -- [agent start command]
+$ vaultix secrets agent-proxy connect --proxy=<host>:<port> --projectId=<project-id> --env=<env-slug> -- [agent start command]
 
 # With flags
-$ infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --projectId=<project-id> --env=prod --path=/ai-agents -- claude
+$ vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --projectId=<project-id> --env=prod --path=/ai-agents -- claude
 
-# With configuration from environment variables (see below) or .infisical.json
-$ infisical secrets agent-proxy connect -- claude
+# With configuration from environment variables (see below) or .vaultix.json
+$ vaultix secrets agent-proxy connect -- claude
 ```
 
 ### Environment variables
 
-  <Accordion title="INFISICAL_UNIVERSAL_AUTH_CLIENT_ID / INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET">
+  <Accordion title="vaultix_UNIVERSAL_AUTH_CLIENT_ID / vaultix_UNIVERSAL_AUTH_CLIENT_SECRET">
     The Universal Auth credentials of the agent's machine identity. Alternative to passing `--client-id` and `--client-secret`.
 
     ```bash
       # Example
-      export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=<agent-client-id>
-      export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=<agent-client-secret>
+      export vaultix_UNIVERSAL_AUTH_CLIENT_ID=<agent-client-id>
+      export vaultix_UNIVERSAL_AUTH_CLIENT_SECRET=<agent-client-secret>
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_PROJECT_ID">
-    The project to fetch proxied services and secrets from. Alternative to the `--projectId` flag or the `workspaceId` field in `.infisical.json` (created by `infisical init`).
+  <Accordion title="vaultix_PROJECT_ID">
+    The project to fetch proxied services and secrets from. Alternative to the `--projectId` flag or the `workspaceId` field in `.vaultix.json` (created by `vaultix init`).
 
     ```bash
       # Example
-      export INFISICAL_PROJECT_ID=<project-id>
+      export vaultix_PROJECT_ID=<project-id>
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_ENVIRONMENT">
-    The environment slug to fetch proxied services and secrets from. Alternative to the `--env` flag or the `defaultEnvironment` field in `.infisical.json`.
+  <Accordion title="vaultix_ENVIRONMENT">
+    The environment slug to fetch proxied services and secrets from. Alternative to the `--env` flag or the `defaultEnvironment` field in `.vaultix.json`.
 
     ```bash
       # Example
-      export INFISICAL_ENVIRONMENT=prod
+      export vaultix_ENVIRONMENT=prod
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_SECRET_PATH">
-    The secret path (folder) to scope to. Alternative to the `--path` flag or the `defaultSecretPath` field in `.infisical.json`.
+  <Accordion title="vaultix_SECRET_PATH">
+    The secret path (folder) to scope to. Alternative to the `--path` flag or the `defaultSecretPath` field in `.vaultix.json`.
 
     ```bash
       # Example
-      export INFISICAL_SECRET_PATH=/ai-agents
+      export vaultix_SECRET_PATH=/ai-agents
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_AGENT_PROXY_ADDRESS">
+  <Accordion title="vaultix_AGENT_PROXY_ADDRESS">
     Address of the agent proxy as `host:port`. Alternative to the `--proxy` flag.
 
     ```bash
       # Example
-      export INFISICAL_AGENT_PROXY_ADDRESS=<proxy-host>:17322
+      export vaultix_AGENT_PROXY_ADDRESS=<proxy-host>:17322
     ```
   </Accordion>
 
-  <Accordion title="INFISICAL_DOMAIN">
-    Point the CLI to your Infisical instance. Alternative to the `--domain` flag.
+  <Accordion title="vaultix_DOMAIN">
+    Point the CLI to your vaultix instance. Alternative to the `--domain` flag.
 
     ```bash
       # Example
-      export INFISICAL_DOMAIN=https://eu.infisical.com
+      export vaultix_DOMAIN=https://eu.vaultix.com
     ```
   </Accordion>
 
 ### Flags
 
   <Accordion title="--proxy">
-    Address of the agent proxy as `host:port`. Required, unless provided via `INFISICAL_AGENT_PROXY_ADDRESS`.
+    Address of the agent proxy as `host:port`. Required, unless provided via `vaultix_AGENT_PROXY_ADDRESS`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod -- claude
     ```
   </Accordion>
 
   <Accordion title="--env">
-    The environment slug to fetch proxied services and secrets from (for example `dev`, `staging`, `prod`). Falls back to `INFISICAL_ENVIRONMENT`, then to the `defaultEnvironment` (and git-branch mapping) in `.infisical.json`; required otherwise.
+    The environment slug to fetch proxied services and secrets from (for example `dev`, `staging`, `prod`). Falls back to `vaultix_ENVIRONMENT`, then to the `defaultEnvironment` (and git-branch mapping) in `.vaultix.json`; required otherwise.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=staging -- codex
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=staging -- codex
     ```
   </Accordion>
 
   <Accordion title="--path">
-    The secret path (folder) to scope to. Proxied services and secrets are fetched from this folder. Falls back to `INFISICAL_SECRET_PATH`, then to the `defaultSecretPath` field in `.infisical.json`.
+    The secret path (folder) to scope to. Proxied services and secrets are fetched from this folder. Falls back to `vaultix_SECRET_PATH`, then to the `defaultSecretPath` field in `.vaultix.json`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --path=/ai-agents -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --path=/ai-agents -- claude
     ```
 
     Default value: `/`
@@ -463,25 +463,25 @@ $ infisical secrets agent-proxy connect -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --no-proxy=internal.corp.com -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --no-proxy=internal.corp.com -- claude
     ```
   </Accordion>
 
   <Accordion title="--projectId">
-    The project to fetch proxied services and secrets from. Falls back to the `INFISICAL_PROJECT_ID` environment variable, then to `.infisical.json`.
+    The project to fetch proxied services and secrets from. Falls back to the `vaultix_PROJECT_ID` environment variable, then to `.vaultix.json`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --projectId=<project-id> -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --projectId=<project-id> -- claude
     ```
   </Accordion>
 
   <Accordion title="--client-id / --client-secret">
-    Universal Auth credentials for the agent's machine identity. Alternative to the `INFISICAL_UNIVERSAL_AUTH_CLIENT_ID` / `INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET` environment variables.
+    Universal Auth credentials for the agent's machine identity. Alternative to the `vaultix_UNIVERSAL_AUTH_CLIENT_ID` / `vaultix_UNIVERSAL_AUTH_CLIENT_SECRET` environment variables.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --client-id=<client-id> --client-secret=<client-secret> -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --client-id=<client-id> --client-secret=<client-secret> -- claude
     ```
   </Accordion>
 
@@ -490,16 +490,16 @@ $ infisical secrets agent-proxy connect -- claude
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --token=<access-token> -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --token=<access-token> -- claude
     ```
   </Accordion>
 
   <Accordion title="--allow-readable-brokered-secrets">
-    Start even if the agent can **Read Value** on a secret that a proxied service brokers to it. By default `connect` refuses to start in that case, since the agent would receive the real value directly and bypass the proxy, defeating the point of brokering it. This is a misconfiguration guardrail, not a security boundary: the real fix is to not grant the agent read access to brokered secrets. Use this flag only for the rare intentional case. Can also be set via `INFISICAL_AGENT_PROXY_ALLOW_READABLE_BROKERED_SECRETS`.
+    Start even if the agent can **Read Value** on a secret that a proxied service brokers to it. By default `connect` refuses to start in that case, since the agent would receive the real value directly and bypass the proxy, defeating the point of brokering it. This is a misconfiguration guardrail, not a security boundary: the real fix is to not grant the agent read access to brokered secrets. Use this flag only for the rare intentional case. Can also be set via `vaultix_AGENT_PROXY_ALLOW_READABLE_BROKERED_SECRETS`.
 
     ```bash
     # Example
-    infisical secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --allow-readable-brokered-secrets -- claude
+    vaultix secrets agent-proxy connect --proxy=<proxy-host>:17322 --env=prod --allow-readable-brokered-secrets -- claude
     ```
 
     Default value: `false`
@@ -511,13 +511,13 @@ $ infisical secrets agent-proxy connect -- claude
 <Accordion title="Flags accepted by every subcommand">
 
   <Accordion title="--domain">
-    Point the CLI to your Infisical instance (for example `https://eu.infisical.com` for EU Cloud, or your self-hosted URL). Can also be set via the `INFISICAL_DOMAIN` environment variable or the `domain` field in `.infisical.json`. Required for non-US Cloud users.
+    Point the CLI to your vaultix instance (for example `https://eu.vaultix.com` for EU Cloud, or your self-hosted URL). Can also be set via the `vaultix_DOMAIN` environment variable or the `domain` field in `.vaultix.json`. Required for non-US Cloud users.
 
     ```bash
     # Example
-    infisical secrets agent-proxy start --domain=https://your-instance.com
+    vaultix secrets agent-proxy start --domain=https://your-instance.com
     ```
 
-    Default value: `https://app.infisical.com`
+    Default value: `https://app.vaultix.com`
   </Accordion>
 </Accordion>

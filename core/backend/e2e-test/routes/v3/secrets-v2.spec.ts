@@ -609,8 +609,8 @@ describe.each([{ auth: AuthMode.JWT }, { auth: AuthMode.IDENTITY_ACCESS_TOKEN }]
       expect(updateSharedSecPayload).toHaveProperty("secrets");
 
       // bulk ones should exist
-      const firstBatchSecretsOnInfisical = await getSecrets(seedData1.environment.slug, secretTestCases[0].path);
-      expect(firstBatchSecretsOnInfisical).toEqual(
+      const firstBatchSecretsOnvaultix = await getSecrets(seedData1.environment.slug, secretTestCases[0].path);
+      expect(firstBatchSecretsOnvaultix).toEqual(
         expect.arrayContaining(
           firstBatchSecrets.map((el) =>
             expect.objectContaining({
@@ -621,8 +621,8 @@ describe.each([{ auth: AuthMode.JWT }, { auth: AuthMode.IDENTITY_ACCESS_TOKEN }]
           )
         )
       );
-      const secondBatchSecretsOnInfisical = await getSecrets(seedData1.environment.slug, secretTestCases[1].path);
-      expect(secondBatchSecretsOnInfisical).toEqual(
+      const secondBatchSecretsOnvaultix = await getSecrets(seedData1.environment.slug, secretTestCases[1].path);
+      expect(secondBatchSecretsOnvaultix).toEqual(
         expect.arrayContaining(
           secondBatchSecrets.map((el) =>
             expect.objectContaining({

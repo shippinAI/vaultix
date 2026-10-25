@@ -586,7 +586,7 @@ export type TTelemetryInstanceStatsEvent = {
     projectTypeBreakdown: Record<string, number>;
     secretSyncBreakdown: Record<string, number>;
     organizationBreakdown: { orgId: string; name: string; users: number; projects: number }[];
-    infisicalVersion?: string;
+    vaultixVersion?: string;
   };
 };
 

@@ -53,7 +53,7 @@ flowchart LR
 4. **Renewals sync automatically** when using server-side auto-renewal
 
 <Note>
-  Only certificates managed by Infisical are affected during sync operations. Certificates created directly in the destination service remain untouched.
+  Only certificates managed by vaultix are affected during sync operations. Certificates created directly in the destination service remain untouched.
 </Note>
 
 ## Supported Destinations
@@ -98,7 +98,7 @@ flowchart LR
 </CardGroup>
 
 <Note>
-  Need a destination that isn't listed? Contact support@infisical.com to request it.
+  Need a destination that isn't listed? Contact support@vaultix.com to request it.
 </Note>
 
 ## Creating a Certificate Sync
@@ -126,10 +126,10 @@ flowchart LR
 |--------|-------------|
 | **Remove on expiry** | Automatically remove expired certificates from the destination |
 | **Include Root CA** | Include the root CA certificate in the chain |
-| **Certificate naming** | Customize how certificates are named in the destination via the Certificate Name Schema (default: `Infisical-{{certificateId}}`) |
+| **Certificate naming** | Customize how certificates are named in the destination via the Certificate Name Schema (default: `vaultix-{{certificateId}}`) |
 
 <Note>
-  Some destinations don't support automatic removal of expired certificates. Certificates managed by Infisical may be overwritten if modified directly in the destination.
+  Some destinations don't support automatic removal of expired certificates. Certificates managed by vaultix may be overwritten if modified directly in the destination.
 </Note>
 
 ## Certificate Name Schema

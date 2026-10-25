@@ -4,7 +4,7 @@ sidebarTitle: "Set Up HTTPS for JBoss"
 description: "Issue TLS certificates for JBoss/WildFly using ACME enrollment with Certbot."
 ---
 
-Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[WildFly](https://wildfly.org/) application server using Infisical and [Certbot](https://certbot.eff.org/). JBoss/WildFly requires certificates in Java keystore format.
+Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[WildFly](https://wildfly.org/) application server using vaultix and [Certbot](https://certbot.eff.org/). JBoss/WildFly requires certificates in Java keystore format.
 
 <Info>
   This guide assumes you have an Application with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured.
@@ -13,25 +13,25 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
 ## Prerequisites
 
 - A JBoss/WildFly server running on Linux with administrative access
-- An Application in Infisical with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
-- Network connectivity from your server to Infisical
+- An Application in vaultix with [ACME enrollment](/documentation/platform/pki/applications/enrollment-methods/acme) configured
+- Network connectivity from your server to vaultix
 - Port 80 open for [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) validation
 - [Java Development Kit (JDK)](https://openjdk.org/) installed for keystore management
 
 ## Guide
 
 <Steps>
-    <Step title="Get ACME Credentials from Infisical">
+    <Step title="Get ACME Credentials from vaultix">
         In your Application, go to the **Settings** tab and find the **Certificate Profiles** section. Click **Configure** on the profile with ACME enrollment, then click **Reveal ACME EAB** to view the credentials:
 
         | Credential | Purpose |
         |------------|---------|
-        | **ACME Directory URL** | The URL Certbot uses to communicate with Infisical |
+        | **ACME Directory URL** | The URL Certbot uses to communicate with vaultix |
         | **EAB Key Identifier (KID)** | Identifies your ACME account |
         | **EAB Secret** | Authenticates your ACME client |
 
         <Note>
-            Keep your EAB credentials secure. They authenticate your ACME client with Infisical and are unique to each enrollment.
+            Keep your EAB credentials secure. They authenticate your ACME client with vaultix and are unique to each enrollment.
         </Note>
     </Step>
 
@@ -58,15 +58,15 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         # sudo systemctl stop jboss
         ```
 
-        Run the following command to request a certificate from Infisical:
+        Run the following command to request a certificate from vaultix:
 
         ```bash
         sudo certbot certonly \
           --standalone \
-          --server "https://your-infisical-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
+          --server "https://your-vaultix-instance.com/api/v1/cert-manager/acme/applications/{application-id}/profiles/{profile-id}/directory" \
           --eab-kid "your-eab-key-identifier" \
           --eab-hmac-key "your-eab-secret" \
-          -d example.infisical.com \
+          -d example.vaultix.com \
           --email admin@example.com \
           --agree-tos \
           --non-interactive
@@ -76,7 +76,7 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
 
         - `certonly`: Instructs Certbot to request a certificate without modifying your JBoss/WildFly configuration; this mode is recommended because JBoss/WildFly requires certificates in Java keystore format rather than the PEM format that Certbot provides.
         - `--standalone`: Uses Certbot's standalone authenticator to solve the [HTTP-01](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) challenge by starting a temporary web server on port 80.
-        - `--server`: The Infisical ACME directory URL from Step 1. This instructs Certbot to communicate with Infisical's ACME server instead of Let's Encrypt.
+        - `--server`: The vaultix ACME directory URL from Step 1. This instructs Certbot to communicate with vaultix's ACME server instead of Let's Encrypt.
         - `--eab-kid`: Your External Account Binding (EAB) Key Identifier from Step 1.
         - `--eab-hmac-key`: The EAB secret associated with the KID from Step 1.
         - `-d`: Specifies the domain name for which the certificate is being requested.
@@ -84,7 +84,7 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         - `--agree-tos`: Accepts the ACME server's Terms of Service.
         - `--non-interactive`: Runs Certbot without prompting for user input (recommended for automation).
 
-        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to Infisical for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
+        The Certbot command generates a private key on your server, creates a Certificate Signing Request (CSR) using that key, and sends the CSR to vaultix for certificate issuance. Certbot stores the private key and resulting leaf certificate and full certificate chain in `/etc/letsencrypt/live/{domain-name}/`.
 
         Because JBoss/WildFly requires certificates in Java keystore format, you'll need to convert the PEM certificates provided by Certbot in the next step.
     </Step>
@@ -97,9 +97,9 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         ```bash
         sudo openssl pkcs12 -export \
           -out /opt/wildfly/standalone/configuration/keystore.p12 \
-          -inkey /etc/letsencrypt/live/example.infisical.com/privkey.pem \
-          -in /etc/letsencrypt/live/example.infisical.com/cert.pem \
-          -certfile /etc/letsencrypt/live/example.infisical.com/chain.pem \
+          -inkey /etc/letsencrypt/live/example.vaultix.com/privkey.pem \
+          -in /etc/letsencrypt/live/example.vaultix.com/cert.pem \
+          -certfile /etc/letsencrypt/live/example.vaultix.com/chain.pem \
           -passout pass:changeit
         ```
 
@@ -123,7 +123,7 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         Check that the certificate files were created by Certbot:
 
         ```bash
-        sudo ls -la /etc/letsencrypt/live/example.infisical.com/
+        sudo ls -la /etc/letsencrypt/live/example.vaultix.com/
         ```
 
         You should see files like:
@@ -170,9 +170,9 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         # Convert to keystore format
         sudo openssl pkcs12 -export \
           -out /opt/wildfly/standalone/configuration/keystore.p12 \
-          -inkey /etc/letsencrypt/live/example.infisical.com/privkey.pem \
-          -in /etc/letsencrypt/live/example.infisical.com/cert.pem \
-          -certfile /etc/letsencrypt/live/example.infisical.com/chain.pem \
+          -inkey /etc/letsencrypt/live/example.vaultix.com/privkey.pem \
+          -in /etc/letsencrypt/live/example.vaultix.com/cert.pem \
+          -certfile /etc/letsencrypt/live/example.vaultix.com/chain.pem \
           -passout pass:changeit
 
         # Set permissions
@@ -189,7 +189,7 @@ Set up automatic TLS certificates for your [JBoss](https://www.jboss.org/)/[Wild
         #!/bin/bash
         # JBoss/WildFly certificate renewal hook
 
-        DOMAIN="example.infisical.com"
+        DOMAIN="example.vaultix.com"
         KEYSTORE_PATH="/opt/wildfly/standalone/configuration/keystore.p12"
         KEYSTORE_PASSWORD="changeit"
 

@@ -19,7 +19,7 @@ import { registerCloudflareWorkersSyncRouter } from "./cloudflare-workers-sync-r
 import { registerDatabricksSyncRouter } from "./databricks-sync-router";
 import { registerDevinSyncRouter } from "./devin-sync-router";
 import { registerDigitalOceanAppPlatformSyncRouter } from "./digital-ocean-app-platform-sync-router";
-import { registerExternalVaultixSyncRouter } from "./external-infisical-sync-router";
+import { registerExternalVaultixSyncRouter } from "./external-vaultix-sync-router";
 import { registerFlyioSyncRouter } from "./flyio-sync-router";
 import { registerGcpSyncRouter } from "./gcp-sync-router";
 import { registerGitHubSyncRouter } from "./github-sync-router";

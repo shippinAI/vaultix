@@ -1,6 +1,6 @@
 ---
 title: "Netlify Sync"
-description: "Learn how to configure a Netlify Sync for Infisical."
+description: "Learn how to configure a Netlify Sync for vaultix."
 ---
 
 **Prerequisites:**
@@ -8,7 +8,7 @@ description: "Learn how to configure a Netlify Sync for Infisical."
 - Create a [Netlify Connection](/integrations/app-connections/netlify)
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Add Sync">
         Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
@@ -48,19 +48,19 @@ description: "Learn how to configure a Netlify Sync for Infisical."
 
         ![Configure Options](/images/secret-syncs/netlify/sync-options.png)
 
-        - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-            - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in Infisical.
-            - **Import Secrets (Prioritize Infisical)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Infisical over Netlify when keys conflict.
-            - **Import Secrets (Prioritize Netlify)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Netlify over Infisical when keys conflict.
+        - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+            - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in vaultix.
+            - **Import Secrets (Prioritize vaultix)**: Imports secrets from the destination endpoint before syncing, prioritizing values from vaultix over Netlify when keys conflict.
+            - **Import Secrets (Prioritize Netlify)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Netlify over vaultix when keys conflict.
         <Note>
           Netlify only supports importing non-secret values.
         </Note>
         - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
         <Note>
-          We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+          We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
         </Note>
         - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-        - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+        - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
       </Step>
       <Step title="Configure details">
         Configure the **Details** of your Netlify Sync, then click **Next**.
@@ -91,7 +91,7 @@ description: "Learn how to configure a Netlify Sync for Infisical."
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/secret-syncs/netlify \
+            --url https://app.vaultix.com/api/v1/secret-syncs/netlify \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-netlify-sync",

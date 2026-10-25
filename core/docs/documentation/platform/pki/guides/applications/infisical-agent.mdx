@@ -1,10 +1,10 @@
 ---
-title: "Automate Certificates with Infisical Agent"
+title: "Automate Certificates with vaultix Agent"
 sidebarTitle: "Automate Certificate Renewal"
-description: "Set up automatic certificate management using the Infisical Agent."
+description: "Set up automatic certificate management using the vaultix Agent."
 ---
 
-Automatically request, persist, and renew certificates on a server using the Infisical Agent.
+Automatically request, persist, and renew certificates on a server using the vaultix Agent.
 
 ## Prerequisites
 
@@ -14,24 +14,24 @@ Automatically request, persist, and renew certificates on a server using the Inf
 ## Steps
 
 <Steps>
-  <Step title="Install Infisical CLI">
+  <Step title="Install vaultix CLI">
     ```bash
     # macOS
-    brew install infisical/get-cli/infisical
+    brew install vaultix/get-cli/vaultix
 
     # Linux (Debian/Ubuntu)
-    curl -1sLf 'https://artifacts.infisical.com/setup.deb.sh' | sudo -E bash
-    sudo apt-get install infisical
+    curl -1sLf 'https://artifacts.vaultix.com/setup.deb.sh' | sudo -E bash
+    sudo apt-get install vaultix
     ```
   </Step>
   <Step title="Create Agent Configuration">
-    Create `/etc/infisical/agent-config.yaml`:
+    Create `/etc/vaultix/agent-config.yaml`:
     
     ```yaml
     version: v1
 
-    infisical:
-      address: "https://app.infisical.com"
+    vaultix:
+      address: "https://app.vaultix.com"
 
     auth:
       type: "universal-auth"
@@ -66,7 +66,7 @@ Automatically request, persist, and renew certificates on a server using the Inf
   </Step>
   <Step title="Start the Agent">
     ```bash
-    infisical cert-manager agent --config /etc/infisical/agent-config.yaml
+    vaultix cert-manager agent --config /etc/vaultix/agent-config.yaml
     ```
   </Step>
 </Steps>
@@ -74,12 +74,12 @@ Automatically request, persist, and renew certificates on a server using the Inf
 ## Result
 
 The agent will:
-- Authenticate with Infisical using your machine identity
+- Authenticate with vaultix using your machine identity
 - Request a certificate and save it to the configured paths
 - Automatically renew it before expiration
 - Execute post-hooks (like reloading NGINX) after renewal
 
 ## Next Steps
 
-- See the [Infisical Agent Reference](/integrations/platforms/certificate-agent) for all configuration options
+- See the [vaultix Agent Reference](/integrations/platforms/certificate-agent) for all configuration options
 - Set up [alerting](/documentation/platform/pki/applications/alerting/overview) for expiration notifications

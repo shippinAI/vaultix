@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   nginx:
-    container_name: infisical-dev-nginx
+    container_name: vaultix-dev-nginx
     image: nginx
     restart: "always"
     ports:
@@ -20,13 +20,13 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: infisical
-      POSTGRES_USER: infisical
-      POSTGRES_DB: infisical
+      POSTGRES_PASSWORD: vaultix
+      POSTGRES_USER: vaultix
+      POSTGRES_DB: vaultix
 
   redis:
     image: redis
-    container_name: infisical-dev-redis
+    container_name: vaultix-dev-redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
@@ -36,7 +36,7 @@ services:
 
   clickhouse:
     image: clickhouse/clickhouse-server:25.12.5
-    container_name: infisical-dev-clickhouse
+    container_name: vaultix-dev-clickhouse
     restart: unless-stopped
     ports:
       - "8123:8123"
@@ -45,9 +45,9 @@ services:
       - clickhouse_data:/var/lib/clickhouse
       - clickhouse_logs:/var/log/clickhouse-server
     environment:
-      - CLICKHOUSE_DB=infisical
-      - CLICKHOUSE_USER=infisical
-      - CLICKHOUSE_PASSWORD=infisical
+      - CLICKHOUSE_DB=vaultix
+      - CLICKHOUSE_USER=vaultix
+      - CLICKHOUSE_PASSWORD=vaultix
       - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
     ulimits:
       nofile:
@@ -56,7 +56,7 @@ services:
     profiles: [clickhouse]
 
   redis-commander:
-    container_name: infisical-dev-redis-commander
+    container_name: vaultix-dev-redis-commander
     image: rediscommander/redis-commander
     restart: always
     depends_on:
@@ -67,7 +67,7 @@ services:
       - "8085:8081"
 
   bull-board:
-    container_name: infisical-dev-bull-board
+    container_name: vaultix-dev-bull-board
     image: venatum/bull-board:3.3.7
     restart: always
     depends_on:
@@ -87,18 +87,18 @@ services:
     ports:
       - "5430:5432"
     environment:
-      POSTGRES_PASSWORD: infisical
-      POSTGRES_USER: infisical
-      POSTGRES_DB: infisical-test
+      POSTGRES_PASSWORD: vaultix
+      POSTGRES_USER: vaultix
+      POSTGRES_DB: vaultix-test
     command: postgres -c max_locks_per_transaction=512
 
   backend:
-    container_name: infisical-dev-api
+    container_name: vaultix-dev-api
     build:
       context: ./backend
       dockerfile: Dockerfile.dev.fips
       args:
-        TOOLCHAIN_IMAGE: ${TOOLCHAIN_IMAGE:-ghcr.io/infisical/backend-fips-toolchain:main}
+        TOOLCHAIN_IMAGE: ${TOOLCHAIN_IMAGE:-ghcr.io/vaultix/backend-fips-toolchain:main}
     depends_on:
       db:
         condition: service_started
@@ -112,7 +112,7 @@ services:
       - 9229:9229 # For debugger access
     environment:
       - NODE_ENV=development
-      - DB_CONNECTION_URI=postgres://infisical:infisical@db/infisical?sslmode=disable
+      - DB_CONNECTION_URI=postgres://vaultix:vaultix@db/vaultix?sslmode=disable
       - TELEMETRY_ENABLED=false
       # Dev-only: lets the backend accept PingFederate's self-signed cert when testing
       # OIDC locally via `make up-dev-pingfed`. NEVER set this in production.
@@ -167,7 +167,7 @@ services:
     profiles: [metrics]
 
   frontend:
-    container_name: infisical-dev-frontend
+    container_name: vaultix-dev-frontend
     restart: unless-stopped
     depends_on:
       - backend
@@ -181,7 +181,7 @@ services:
     env_file: .env
 
   backend-go:
-    container_name: infisical-dev-api-go
+    container_name: vaultix-dev-api-go
     build:
       context: ./backend-go
       dockerfile: Dockerfile.dev.fips
@@ -197,7 +197,7 @@ services:
     volumes:
       - ./backend-go:/app
     environment:
-      - DB_CONNECTION_URI=postgres://infisical:infisical@db/infisical?sslmode=disable
+      - DB_CONNECTION_URI=postgres://vaultix:vaultix@db/vaultix?sslmode=disable
       - REDIS_URL=redis://redis:6379
     env_file:
       - .env
@@ -217,7 +217,7 @@ services:
       - db
 
   smtp-server:
-    container_name: infisical-dev-smtp-server
+    container_name: vaultix-dev-smtp-server
     image: lytrax/mailhog:latest # https://github.com/mailhog/MailHog/issues/353#issuecomment-821137362
     restart: always
     logging:
@@ -259,7 +259,7 @@ services:
 
   keycloak:
     # Admin console: http://localhost:8088 (admin / admin).
-    # On boot it imports the pre-seeded `infisical` realm (client `infisical-dev`,
+    # On boot it imports the pre-seeded `vaultix` realm (client `vaultix-dev`,
     # users jdoe/asmith) from the mounted realm file. The container has no volume,
     # so the realm is re-imported fresh on every start. See sso.md.
     image: quay.io/keycloak/keycloak:26.1.0
@@ -278,7 +278,7 @@ services:
     ports:
       - 8088:8080
     volumes:
-      - ./docker/keycloak/realm-infisical.json:/opt/keycloak/data/import/realm-infisical.json:ro
+      - ./docker/keycloak/realm-vaultix.json:/opt/keycloak/data/import/realm-vaultix.json:ro
     profiles: [oidc]
 
   keycloak-config:
@@ -286,7 +286,7 @@ services:
     # sslRequired=external, which blocks http://localhost:8088 on Docker Desktop because the
     # container sees published-port traffic as a non-local client IP ("HTTPS required" page).
     # The realm import can't fix this (master already exists, so the bootstrap import skips it),
-    # so we flip it with kcadm once Keycloak is up. The imported `infisical` realm is already
+    # so we flip it with kcadm once Keycloak is up. The imported `vaultix` realm is already
     # sslRequired=none, so the OIDC login flow itself is unaffected. See sso.md.
     image: quay.io/keycloak/keycloak:26.1.0
     depends_on:
@@ -337,7 +337,7 @@ services:
     # Admin: Administrator / value of SAMBA_ADMIN_PASSWORD (defaults to Passw0rd!).
     # Reachable from compose network at samba-ad:389; from host at localhost:1389.
     image: nowsci/samba-domain:latest
-    container_name: infisical-dev-samba-ad
+    container_name: vaultix-dev-samba-ad
     hostname: dc1
     cap_add:
       - SYS_ADMIN
@@ -365,7 +365,7 @@ services:
   # See sso.md.
   authentik-postgres:
     image: postgres:16-alpine
-    container_name: infisical-dev-authentik-postgres
+    container_name: vaultix-dev-authentik-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: authentik
@@ -377,7 +377,7 @@ services:
 
   authentik-server:
     image: ghcr.io/goauthentik/server:2026.2.2
-    container_name: infisical-dev-authentik-server
+    container_name: vaultix-dev-authentik-server
     restart: unless-stopped
     command: server
     environment:
@@ -400,7 +400,7 @@ services:
 
   authentik-worker:
     image: ghcr.io/goauthentik/server:2026.2.2
-    container_name: infisical-dev-authentik-worker
+    container_name: vaultix-dev-authentik-worker
     restart: unless-stopped
     command: worker
     environment:

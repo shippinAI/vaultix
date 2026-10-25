@@ -18,7 +18,7 @@ import { CloudflareWorkersSyncDestinationSchema } from "./cloudflare-workers-syn
 import { DatabricksSyncDestinationSchema } from "./databricks-sync-destination-schema";
 import { DevinSyncDestinationSchema } from "./devin-sync-destination-schema";
 import { DigitalOceanAppPlatformSyncDestinationSchema } from "./digital-ocean-app-platform-sync-destination-schema";
-import { ExternalVaultixSyncDestinationSchema } from "./external-infisical-sync-destination-schema";
+import { ExternalVaultixSyncDestinationSchema } from "./external-vaultix-sync-destination-schema";
 import { FlyioSyncDestinationSchema } from "./flyio-sync-destination-schema";
 import { GcpSyncDestinationSchema } from "./gcp-sync-destination-schema";
 import { GitHubSyncDestinationSchema } from "./github-sync-destination-schema";

@@ -66,9 +66,9 @@ apiRequest.interceptors.response.use(
       response.status === 401 &&
       isTokenExpiredError(response.data?.message || "") &&
       getAuthToken() &&
-      !(config as AxiosRequestConfig & { infisicalRetry?: boolean }).infisicalRetry
+      !(config as AxiosRequestConfig & { vaultixRetry?: boolean }).vaultixRetry
     ) {
-      (config as AxiosRequestConfig & { infisicalRetry?: boolean }).infisicalRetry = true;
+      (config as AxiosRequestConfig & { vaultixRetry?: boolean }).vaultixRetry = true;
 
       try {
         // Deduplicate concurrent refresh attempts

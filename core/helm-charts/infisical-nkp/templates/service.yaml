@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "infisical.fullname" . }}
+  name: {{ include "vaultix.fullname" . }}
   labels:
-    {{- include "infisical.labels" . | nindent 4 }}
+    {{- include "vaultix.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   selector:
-    {{- include "infisical.selectorLabels" . | nindent 4 }}
+    {{- include "vaultix.selectorLabels" . | nindent 4 }}
   ports:
     - name: http
       port: {{ .Values.service.port }}

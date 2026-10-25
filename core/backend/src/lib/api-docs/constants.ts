@@ -3192,7 +3192,7 @@ export const SecretSyncs = {
       projectId: "The CircleCI project ID to sync secrets to.",
       projectName: "The CircleCI project name to sync secrets to."
     },
-    EXTERNAL_INFISICAL: {
+    EXTERNAL_vaultix: {
       projectId: "The ID of the project on the external Vaultix instance to sync secrets to.",
       environment: "The environment slug on the external Vaultix instance to sync secrets to.",
       secretPath: "The secret path on the external Vaultix instance to sync secrets to."
@@ -3701,7 +3701,7 @@ export const LdapSso = {
     isActive: "Whether to enable or disable this LDAP configuration.",
     url: "The LDAP server to connect to such as `ldap://ldap.your-org.com`, `ldaps://ldap.myorg.com:636` (for connection over SSL/TLS), etc.",
     bindDN:
-      "The distinguished name of the object to bind when performing the user search such as `cn=infisical,ou=Users,dc=acme,dc=com`",
+      "The distinguished name of the object to bind when performing the user search such as `cn=vaultix,ou=Users,dc=acme,dc=com`",
     bindPass: "The password to use along with Bind DN when performing the user search.",
     searchBase: "The base DN to use for the user search such as `ou=Users,dc=acme,dc=com`",
     uniqueUserAttribute:
@@ -3722,7 +3722,7 @@ export const LdapSso = {
     isActive: "Whether to enable or disable this LDAP configuration.",
     url: "The LDAP server to connect to such as `ldap://ldap.your-org.com`, `ldaps://ldap.myorg.com:636` (for connection over SSL/TLS), etc.",
     bindDN:
-      "The distinguished name of object to bind when performing the user search such as `cn=infisical,ou=Users,dc=acme,dc=com`",
+      "The distinguished name of object to bind when performing the user search such as `cn=vaultix,ou=Users,dc=acme,dc=com`",
     bindPass: "The password to use along with Bind DN when performing the user search.",
     uniqueUserAttribute:
       "The attribute to use as the unique identifier of LDAP users such as `sAMAccountName`, `cn`, `uid`, `objectGUID`. If left blank, defaults to uidNumber",

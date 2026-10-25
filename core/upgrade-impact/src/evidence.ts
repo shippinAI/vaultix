@@ -1,7 +1,7 @@
 import { getAddedFiles, getChangedFiles, getCommitSummaries, getPreviousStableTag, getTagDate, hasGitRef } from "./git.js";
 
-const OWNER = "Infisical";
-const REPO = "infisical";
+const OWNER = "vaultix";
+const REPO = "vaultix";
 const GITHUB_API_BASE_URL = "https://api.github.com";
 const MAX_PRS = 50;
 
@@ -74,8 +74,8 @@ const findPrNumbers = (commits: { subject: string }[]) => {
 const isDeploymentFile = (file: string) =>
   [
     "Dockerfile",
-    "Dockerfile.standalone-infisical",
-    "Dockerfile.fips.standalone-infisical",
+    "Dockerfile.standalone-vaultix",
+    "Dockerfile.fips.standalone-vaultix",
     "standalone-entrypoint.sh",
     "docker-compose",
     "docker-swarm/",

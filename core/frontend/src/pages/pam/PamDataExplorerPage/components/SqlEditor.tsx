@@ -8,7 +8,7 @@ import { tags } from "@lezer/highlight";
 
 import type { SqlDialect } from "../sql-generation";
 
-const infisicalTheme = EditorView.theme({
+const vaultixTheme = EditorView.theme({
   "&": { height: "100%", fontSize: "13px", backgroundColor: "#16181a" },
   "&.cm-editor": { backgroundColor: "#16181a" },
   ".cm-scroller": {
@@ -37,7 +37,7 @@ const infisicalTheme = EditorView.theme({
   ".cm-matchingBracket": { backgroundColor: "#323439", color: "#e0ed34 !important" }
 });
 
-const infisicalHighlight = HighlightStyle.define(
+const vaultixHighlight = HighlightStyle.define(
   [
     { tag: tags.keyword, color: "#63b0bd", fontWeight: "600" },
     { tag: tags.string, color: "#29b866" },
@@ -119,8 +119,8 @@ export function SqlEditor({
           maxSqlLength,
           placeholder("Start writing SQL..."),
           sql({ dialect: sqlDialect === "mysql" ? MySQL : PostgreSQL }),
-          infisicalTheme,
-          syntaxHighlighting(infisicalHighlight),
+          vaultixTheme,
+          syntaxHighlighting(vaultixHighlight),
           EditorView.updateListener.of((update: ViewUpdate) => {
             if (update.docChanged) {
               const doc = update.state.doc.toString();

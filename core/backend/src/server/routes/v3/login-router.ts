@@ -113,7 +113,7 @@ export const registerLoginRouter = async (server: FastifyZodProvider) => {
 
       addAuthOriginDomainCookie(res);
 
-      void res.cookie("infisical-project-assume-privileges", "", {
+      void res.cookie("vaultix-project-assume-privileges", "", {
         httpOnly: true,
         path: "/api",
         sameSite: "strict",
@@ -197,7 +197,7 @@ export const registerLoginRouter = async (server: FastifyZodProvider) => {
       });
 
       addAuthOriginDomainCookie(res);
-      void res.cookie("infisical-project-assume-privileges", "", {
+      void res.cookie("vaultix-project-assume-privileges", "", {
         httpOnly: true,
         path: "/api",
         sameSite: "strict",
@@ -264,7 +264,7 @@ export const registerLoginRouter = async (server: FastifyZodProvider) => {
 
       addAuthOriginDomainCookie(res);
 
-      void res.cookie("infisical-project-assume-privileges", "", {
+      void res.cookie("vaultix-project-assume-privileges", "", {
         httpOnly: true,
         path: "/api",
         sameSite: "strict",

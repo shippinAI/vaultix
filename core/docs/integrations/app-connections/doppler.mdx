@@ -1,9 +1,9 @@
 ---
 title: "Doppler Connection"
-description: "Learn how to configure a Doppler Connection for Infisical."
+description: "Learn how to configure a Doppler Connection for vaultix."
 ---
 
-Infisical supports the use of API Tokens to connect with Doppler. This connection is used for importing secrets from Doppler into Infisical via the [external migration tool](/documentation/platform/external-migrations/doppler).
+vaultix supports the use of API Tokens to connect with Doppler. This connection is used for importing secrets from Doppler into vaultix via the [external migration tool](/documentation/platform/external-migrations/doppler).
 
 ## Create a Doppler API Token
 
@@ -50,13 +50,13 @@ Infisical supports the use of API Tokens to connect with Doppler. This connectio
   </Step>
 </Steps>
 
-## Create a Doppler Connection in Infisical
+## Create a Doppler Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
-        In your Infisical dashboard, navigate to **Organization Settings** and select the **App Connections** tab.
+        In your vaultix dashboard, navigate to **Organization Settings** and select the **App Connections** tab.
 
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
       </Step>
@@ -74,7 +74,7 @@ Infisical supports the use of API Tokens to connect with Doppler. This connectio
         ![Doppler Connection Form](/images/app-connections/doppler/doppler-app-connection-form.png)
       </Step>
       <Step title="Connection created">
-        After submitting the form, your **Doppler Connection** will be successfully created and ready to use for importing secrets into Infisical.
+        After submitting the form, your **Doppler Connection** will be successfully created and ready to use for importing secrets into vaultix.
 
         ![Doppler Connection Created](/images/app-connections/doppler/doppler-app-connection-created.png)
       </Step>
@@ -89,7 +89,7 @@ Infisical supports the use of API Tokens to connect with Doppler. This connectio
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/doppler \
+            --url https://app.vaultix.com/api/v1/app-connections/doppler \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-doppler-connection",

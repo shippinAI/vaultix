@@ -17,17 +17,17 @@ const ExternalVaultixSyncDestinationConfigSchema = z.object({
     .string()
     .trim()
     .min(1, "Project ID is required")
-    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_INFISICAL.projectId),
+    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_vaultix.projectId),
   environment: z
     .string()
     .trim()
     .min(1, "Environment slug is required")
-    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_INFISICAL.environment),
+    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_vaultix.environment),
   secretPath: z
     .string()
     .trim()
     .min(1, "Secret path is required")
-    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_INFISICAL.secretPath)
+    .describe(SecretSyncs.DESTINATION_CONFIG.EXTERNAL_vaultix.secretPath)
 });
 
 const ExternalVaultixSyncOptionsConfig: TSyncOptionsConfig = {

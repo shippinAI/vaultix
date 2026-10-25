@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/requestid"
-	"github.com/infisical/api/internal/services/auth"
+	"github.com/vaultix/api/internal/libs/requestid"
+	"github.com/vaultix/api/internal/services/auth"
 )
 
 // ContextHandler wraps an slog.Handler and enriches every log record

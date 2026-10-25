@@ -8,7 +8,7 @@ import { logger } from "@app/lib/logger";
 
 import { isUpdateCheckEnabled, isVersionNewer, parseSemanticVersion } from "./update-check-fns";
 
-const GITHUB_LATEST_RELEASE_URL = "https://api.github.com/repos/Vaultix/infisical/releases/latest";
+const GITHUB_LATEST_RELEASE_URL = "https://api.github.com/repos/Vaultix/vaultix/releases/latest";
 
 type TUpdateCheckServiceFactoryDep = {
   cronJob: TCronJobFactory;

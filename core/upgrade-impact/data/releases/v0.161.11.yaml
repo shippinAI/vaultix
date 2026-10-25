@@ -12,7 +12,7 @@ dbSchemaChanges:
   - title: Audit reports tables
     description: Adds a new audit_reports table for project audit report jobs and
       metadata. The migration is additive and guarded for existing installs.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -22,7 +22,7 @@ dbSchemaChanges:
   - title: Approval request metadata
     description: Adds nullable bypassReason and commitMessage fields, and widens
       secret approval bypassReason to text. Existing records remain compatible.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
     confidence: high
     evidence:
       - type: file
@@ -41,7 +41,7 @@ dbSchemaChanges:
     description: Adds a concurrent PostgreSQL index on DigiCert certificate order
       metadata. The migration disables transactions and raises statement timeout
       to allow index creation.
-    action: No manual action required; Infisical runs this migration during startup.
+    action: No manual action required; vaultix runs this migration during startup.
       If startup fails during migration, keep the previous version running and
       inspect migration logs before retrying.
     confidence: high
@@ -54,7 +54,7 @@ configChanges: []
 deploymentNotes: []
 knownIssues: []
 generatedBy:
-  generator: "@infisical/upgrade-impact"
+  generator: "@vaultix/upgrade-impact"
   generatorVersion: "1"
   model: gpt-5.4
   generatedAt: 2026-07-02T23:16:06.192Z

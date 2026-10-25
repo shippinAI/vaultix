@@ -624,7 +624,7 @@ export const IdentityLdapAuthForm = ({
                   <Input
                     {...field}
                     id="bindDN"
-                    placeholder="cn=infisical,ou=Users,dc=example,dc=com"
+                    placeholder="cn=vaultix,ou=Users,dc=example,dc=com"
                     disabled={scope === "template"}
                     isError={Boolean(error)}
                   />

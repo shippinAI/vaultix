@@ -4,9 +4,9 @@ description: "Learn how to verify your organization's email domains for secure S
 ---
 
 <Info>
-  Email Domain Verification is a paid feature. If you're using Infisical Cloud,
-  then it is available under the **Pro Tier**. If you're self-hosting Infisical,
-  then you should contact sales@infisical.com to purchase an enterprise license
+  Email Domain Verification is a paid feature. If you're using vaultix Cloud,
+  then it is available under the **Pro Tier**. If you're self-hosting vaultix,
+  then you should contact sales@vaultix.com to purchase an enterprise license
   to use it.
 </Info>
 
@@ -14,7 +14,7 @@ description: "Learn how to verify your organization's email domains for secure S
 
 Email Domain Verification allows organizations to prove ownership of their email domains (e.g., `company.com`) through DNS verification. Once verified, the domain is exclusively linked to your organization, enabling:
 
-- **Secure SSO login** — Users can log in via SAML, OIDC, or LDAP using just their work email. Infisical automatically routes them to the correct organization's identity provider.
+- **Secure SSO login** — Users can log in via SAML, OIDC, or LDAP using just their work email. vaultix automatically routes them to the correct organization's identity provider.
 - **SCIM provisioning** — SCIM user provisioning requires a verified email domain to ensure only authorized organizations can manage users.
 - **Simplified login experience** — Users enter their work email to login in via SSO.
 
@@ -23,9 +23,9 @@ Email Domain Verification allows organizations to prove ownership of their email
 Email domain verification uses DNS TXT records to prove ownership. The flow is:
 
 1. **Add a domain** — Enter the domain you want to verify (e.g., `company.com`).
-2. **Get a verification code** — Infisical generates a unique verification code and DNS record name.
+2. **Get a verification code** — vaultix generates a unique verification code and DNS record name.
 3. **Add a DNS TXT record** — Add the verification record to your domain's DNS configuration.
-4. **Verify** — Infisical checks the DNS TXT record and marks the domain as verified.
+4. **Verify** — vaultix checks the DNS TXT record and marks the domain as verified.
 
 The verification code expires after **7 days**. You must complete verification within this window.
 
@@ -34,12 +34,12 @@ The verification code expires after **7 days**. You must complete verification w
 | Field            | Value                                               |
 | ---------------- | --------------------------------------------------- |
 | **Record Type**  | TXT                                                 |
-| **Record Name**  | `_infisical-verification.yourdomain.com`            |
-| **Record Value** | `infisical-domain-verification=<verification-code>` |
+| **Record Name**  | `_vaultix-verification.yourdomain.com`            |
+| **Record Value** | `vaultix-domain-verification=<verification-code>` |
 
 <Note>
   Some DNS providers automatically append your domain to the record name. In
-  that case, enter only `_infisical-verification` as the host/name.
+  that case, enter only `_vaultix-verification` as the host/name.
 </Note>
 
 ## Setting Up Email Domain Verification
@@ -81,8 +81,8 @@ The verification code expires after **7 days**. You must complete verification w
     | Setting | Value |
     |---------|-------|
     | Type | TXT |
-    | Name/Host | `_infisical-verification` (or `_infisical-verification.yourdomain.com`) |
-    | Value/Content | `infisical-domain-verification=<your-code>` |
+    | Name/Host | `_vaultix-verification` (or `_vaultix-verification.yourdomain.com`) |
+    | Value/Content | `vaultix-domain-verification=<your-code>` |
     | TTL | Auto or 3600 |
 
     <Note>
@@ -92,9 +92,9 @@ The verification code expires after **7 days**. You must complete verification w
   </Step>
 
   <Step title="Verify the Domain">
-    Return to the Infisical Email Domains section and click **View details & Verify** on the pending domain.
+    Return to the vaultix Email Domains section and click **View details & Verify** on the pending domain.
 
-    Click the **Verify Domain** button. Infisical will perform a DNS TXT lookup to confirm the record exists and matches.
+    Click the **Verify Domain** button. vaultix will perform a DNS TXT lookup to confirm the record exists and matches.
 
     Once verified, the domain status changes to **Verified** and it's exclusively linked to your organization.
 
@@ -109,11 +109,11 @@ Once your domain is verified, users can log in via SSO by entering their work em
 
 <Steps>
   <Step title="Go to the Login Page">
-    Navigate to the Infisical login page and select **SAML SSO** or **OIDC SSO**.
+    Navigate to the vaultix login page and select **SAML SSO** or **OIDC SSO**.
   </Step>
 
   <Step title="Enter Work Email">
-    Enter your full work email (e.g., `you@company.com`). Infisical extracts the domain and looks up the verified domain to find your organization's SSO configuration.
+    Enter your full work email (e.g., `you@company.com`). vaultix extracts the domain and looks up the verified domain to find your organization's SSO configuration.
 
     {/* ![SSO Email Login](/images/platform/email-domain/sso-email-login.png) */}
 
@@ -134,7 +134,7 @@ Email domains are verified at the exact domain level:
 
 ## Platform-Level Uniqueness
 
-Each domain can only be verified by **one organization** across the entire Infisical instance:
+Each domain can only be verified by **one organization** across the entire vaultix instance:
 
 - If Organization A verifies `company.com`, Organization B cannot verify or claim the same domain.
 - This prevents cross-organization user provisioning attacks where a malicious org could claim users by email domain.
@@ -159,7 +159,7 @@ When [SCIM provisioning](/documentation/platform/scim/overview) is enabled, emai
 <Accordion title="Can I verify a domain that's already verified by another organization?">
   No. Each domain is platform-unique. If another organization has already
   verified a domain, you'll receive an error when trying to add it. Contact your
-  Infisical administrator to resolve domain ownership conflicts.
+  vaultix administrator to resolve domain ownership conflicts.
 </Accordion>
 
 <Accordion title="What happens if I delete a verified domain?">

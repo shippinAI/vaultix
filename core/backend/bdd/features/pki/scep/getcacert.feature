@@ -7,7 +7,7 @@ Feature: GetCACert
       """
     When I fetch the SCEP CA certificates for profile "scep_profile"
     Then the SCEP CA certificate bundle should contain at least 2 certificate(s)
-    And the first certificate in the SCEP bundle should have CN containing Infisical SCEP RA
+    And the first certificate in the SCEP bundle should have CN containing vaultix SCEP RA
 
   Scenario: Get CA cert bundle without CA cert
     Given I have a SCEP cert profile with config as "scep_profile"
@@ -16,7 +16,7 @@ Feature: GetCACert
       """
     When I fetch the SCEP CA certificates for profile "scep_profile"
     Then the SCEP CA certificate bundle should contain exactly 1 certificate(s)
-    And the first certificate in the SCEP bundle should have CN containing Infisical SCEP RA
+    And the first certificate in the SCEP bundle should have CN containing vaultix SCEP RA
 
   Scenario: GetCACert response has correct content type
     Given I have a SCEP cert profile with challenge password "testpassword123" as "scep_profile"

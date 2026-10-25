@@ -6,7 +6,7 @@ description: "Deploy certificates to Windows servers over WinRM."
 
 import PostSyncCommandPlaceholders from "/snippets/documentation/platform/pki/applications/certificate-syncs/post-sync-command-placeholders.mdx";
 
-Deploy certificates from Infisical to a directory on a Windows server over WinRM. Files are written atomically so a reader never sees a partially written certificate or key.
+Deploy certificates from vaultix to a directory on a Windows server over WinRM. Files are written atomically so a reader never sees a partially written certificate or key.
 
 <Info>
   Certificate Syncs are configured per Application. First select which certificates to sync, then configure the Windows Server destination.
@@ -15,17 +15,17 @@ Deploy certificates from Infisical to a directory on a Windows server over WinRM
 ## Prerequisites
 
 - A [Windows (WinRM) Connection](/integrations/app-connections/winrm) with access to the target server
-- An [Infisical Gateway](/documentation/platform/gateways/overview) that can reach the server. Windows delivery always runs through the Gateway.
+- An [vaultix Gateway](/documentation/platform/gateways/overview) that can reach the server. Windows delivery always runs through the Gateway.
 - The connection user must be able to write to the destination directory
 
 <Note>
-  Windows delivery runs on the Gateway, which reaches the host inside your network and runs the WinRM session on Infisical's behalf. By default it uses HTTP with NTLM message encryption, which lets a certificate travel confidentially over the default WinRM listener without a server certificate. This is the same zero-configuration posture most Windows hosts already ship with. HTTPS is also supported.
+  Windows delivery runs on the Gateway, which reaches the host inside your network and runs the WinRM session on vaultix's behalf. By default it uses HTTP with NTLM message encryption, which lets a certificate travel confidentially over the default WinRM listener without a server certificate. This is the same zero-configuration posture most Windows hosts already ship with. HTTPS is also supported.
 </Note>
 
 ## Create a Windows Server Sync
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. In your Application, go to the **Certificate Syncs** tab and click **Create Sync**.
 
         2. Select the **Windows Server** option.
@@ -64,7 +64,7 @@ Deploy certificates from Infisical to a directory on a Windows server over WinRM
 
         ```bash Request
         curl --request POST \
-        --url https://app.infisical.com/api/v1/cert-manager/syncs/windows-server \
+        --url https://app.vaultix.com/api/v1/cert-manager/syncs/windows-server \
         --header 'Authorization: Bearer <access-token>' \
         --header 'Content-Type: application/json' \
         --data '{
@@ -112,27 +112,27 @@ PEM (.pem extension)
 
 ## How It Works
 
-When syncing certificates, Infisical asks the Gateway to open a WinRM session to the server and, for each certificate, packages it in the chosen export format and writes the resulting files to the destination directory. Files are written atomically so a reader never sees a partially written certificate or key.
+When syncing certificates, vaultix asks the Gateway to open a WinRM session to the server and, for each certificate, packages it in the chosen export format and writes the resulting files to the destination directory. Files are written atomically so a reader never sees a partially written certificate or key.
 
 ## Removing Certificates
 
-When certificate removal is enabled and a certificate is removed from the sync, revoked, or expired, Infisical deletes exactly the files it delivered for that certificate.
+When certificate removal is enabled and a certificate is removed from the sync, revoked, or expired, vaultix deletes exactly the files it delivered for that certificate.
 
 ## Post-Sync Commands
 
 Delivering a `.pfx` to `C:\certs` does not make IIS or a service use it. A post-sync command is that last step, run for you right after the files land.
 
-Set one command on the sync. The Gateway runs it as PowerShell on the target server, once per sync run that delivers at least one file. Leaving the field empty means nothing runs, so there is no separate toggle. If a sync run does not complete, Infisical may attempt it again and the command runs with it, so prefer a command that is safe to run more than once.
+Set one command on the sync. The Gateway runs it as PowerShell on the target server, once per sync run that delivers at least one file. Leaving the field empty means nothing runs, so there is no separate toggle. If a sync run does not complete, vaultix may attempt it again and the command runs with it, so prefer a command that is safe to run more than once.
 
 The field accepts a whole script, so several steps can run in one go: put each on its own line.
 
-Your Gateway runs the command, never Infisical. A WinRM Connection already requires a gateway, so nothing extra is needed here.
+Your Gateway runs the command, never vaultix. A WinRM Connection already requires a gateway, so nothing extra is needed here.
 
-The command runs on the target server, not on Infisical, and only after the whole delivery has finished:
+The command runs on the target server, not on vaultix, and only after the whole delivery has finished:
 
 ```mermaid
 sequenceDiagram
-    participant I as Infisical
+    participant I as vaultix
     participant G as Gateway
     participant S as Target server
     I->>G: Deliver certificate files
@@ -194,7 +194,7 @@ A command is limited to 2048 characters. Windows caps a command line at 8191 cha
     ```
   </Accordion>
   <Accordion title="Can the command run twice for the same certificate?">
-    Yes, in some cases. If a sync run does not complete, Infisical may attempt it again, and the command runs as part of that attempt. Prefer a command that is safe to run more than once. A service restart is.
+    Yes, in some cases. If a sync run does not complete, vaultix may attempt it again, and the command runs as part of that attempt. Prefer a command that is safe to run more than once. A service restart is.
   </Accordion>
   <Accordion title="Is there a time limit?">
     Yes, 30 seconds, enforced by the Gateway. A command that needs longer should start the work in the background or live in a script on the server.
@@ -205,7 +205,7 @@ A command is limited to 2048 characters. Windows caps a command line at 8191 cha
 
 The command runs as the account the WinRM Connection authenticates with, so constraining that account bounds what any command can do. Restarting one service does not need an administrator. Grant the connection account start and stop rights on that single service instead of making it a local administrator.
 
-Binding a certificate to an HTTPS port in IIS is the exception: HTTP.sys requires a local administrator and the right cannot be delegated. Because a local administrator can do anything on the host, handle that case with a dedicated, clearly labeled sync rather than raising the privileges of a sync that only needs to deliver files and restart a service. Infisical does not block an administrator credential on a standard sync, so this is a recommendation you enforce with how you configure the connection.
+Binding a certificate to an HTTPS port in IIS is the exception: HTTP.sys requires a local administrator and the right cannot be delegated. Because a local administrator can do anything on the host, handle that case with a dedicated, clearly labeled sync rather than raising the privileges of a sync that only needs to deliver files and restart a service. vaultix does not block an administrator credential on a standard sync, so this is a recommendation you enforce with how you configure the connection.
 
 Anyone who can edit the sync can change the command, so treat edit access to these syncs as access to the target server.
 
@@ -229,13 +229,13 @@ IIS can serve a synced PKCS#12 certificate directly from a local folder through 
   - **PKCS#12 Password**: must match the private key password configured on the IIS Centralized Certificate Store. IIS uses that one password to open every `.pfx` in the folder.
 </Note>
 
-These are IIS requirements, configured once on the Windows host (the CCS feature, its store folder, and the store account). Infisical only delivers the `.pfx`. IIS is responsible for loading and serving it.
+These are IIS requirements, configured once on the Windows host (the CCS feature, its store folder, and the store account). vaultix only delivers the `.pfx`. IIS is responsible for loading and serving it.
 
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="Can I import certificates from a Windows server back into Infisical?">
-    No. The Windows Server sync only delivers certificates to the server. It does not read certificates back into Infisical.
+  <Accordion title="Can I import certificates from a Windows server back into vaultix?">
+    No. The Windows Server sync only delivers certificates to the server. It does not read certificates back into vaultix.
   </Accordion>
 </AccordionGroup>
 

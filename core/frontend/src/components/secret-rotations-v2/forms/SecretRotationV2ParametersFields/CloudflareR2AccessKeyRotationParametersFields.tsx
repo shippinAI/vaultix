@@ -96,7 +96,7 @@ export const CloudflareR2AccessKeyRotationParametersFields = () => {
             >
               <Input
                 {...field}
-                placeholder="infisical-r2-access-key"
+                placeholder="vaultix-r2-access-key"
                 maxLength={CLOUDFLARE_TOKEN_NAME_MAX_LENGTH}
               />
             </FormControl>

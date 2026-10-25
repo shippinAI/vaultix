@@ -876,7 +876,7 @@ export const registerPamAccountRouter = async (server: FastifyZodProvider) => {
 set -e
 
 CA_PUBLIC_KEY="${caPublicKey}"
-CA_FILE="/etc/ssh/infisical_ca.pub"
+CA_FILE="/etc/ssh/vaultix_ca.pub"
 SSHD_CONFIG="/etc/ssh/sshd_config"
 
 echo "==> Vaultix SSH CA Setup"

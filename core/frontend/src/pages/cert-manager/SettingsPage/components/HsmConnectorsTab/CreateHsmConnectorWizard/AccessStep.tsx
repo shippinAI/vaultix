@@ -71,7 +71,7 @@ export const AccessStep = ({ form }: Props) => (
             <Input
               {...field}
               value={field.value ?? ""}
-              placeholder="infisical-"
+              placeholder="vaultix-"
               isError={Boolean(error)}
             />
             <FieldDescription>

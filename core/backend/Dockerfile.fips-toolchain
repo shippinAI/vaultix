@@ -7,17 +7,17 @@
 # Anything edited here changes the published tag, so CI will rebuild it from source on
 # the PR that changes it and publish the new tag once that PR lands on main.
 #
-# SCOPE: this is an internal CI build cache, not a supported Infisical artifact. It is
+# SCOPE: this is an internal CI build cache, not a supported vaultix artifact. It is
 # published publicly only so CI and local dev can pull it instead of recompiling. It is
 # not part of any public API, carries no support or compatibility guarantee, and its tags
 # may change or be deleted at any time. It is NOT the FIPS product image. That one is
-# infisical/infisical-fips, built from Dockerfile.fips.standalone-infisical.
+# vaultix/vaultix-fips, built from Dockerfile.fips.standalone-vaultix.
 #
 # THIRD-PARTY CONTENTS: includes Oracle Instant Client, redistributed under the Oracle
 # Free Distribution, Hosting, and Use Terms and Conditions, which permit redistribution
 # of the unmodified Program provided a copy of the license accompanies it. That copy
 # ships in the image at /opt/oracle/instantclient_23_26/BASIC_LICENSE and must not be
-# removed. Also includes OpenSSL (Apache-2.0), SoftHSM2 (BSD-2-Clause), the Infisical
+# removed. Also includes OpenSSL (Apache-2.0), SoftHSM2 (BSD-2-Clause), the vaultix
 # CLI, and Debian packages under their respective licenses.
 
 FROM node:22.22.0-trixie-slim
@@ -52,8 +52,8 @@ RUN apt-get update && apt-get install -y \
     tdsodbc \
     opensc \
     smbclient \
-    && curl -1sLf 'https://artifacts-cli.infisical.com/setup.deb.sh' | bash \
-    && apt-get update && apt-get install -y infisical=0.43.79 \
+    && curl -1sLf 'https://artifacts-cli.vaultix.com/setup.deb.sh' | bash \
+    && apt-get update && apt-get install -y vaultix=0.43.79 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN ARCH=$(dpkg --print-architecture) && \
@@ -118,10 +118,10 @@ RUN wget -q https://github.com/openssl/openssl/releases/download/openssl-3.5.6/o
 
 WORKDIR /app
 
-LABEL org.opencontainers.image.title="Infisical backend FIPS test toolchain" \
-      org.opencontainers.image.description="Internal CI build cache for Infisical's backend FIPS test image (Dockerfile.dev.fips). Not a supported or versioned public artifact: no support or compatibility guarantee, tags may change or be deleted without notice, and it is not the FIPS product image (that is infisical/infisical-fips). Do not depend on it outside Infisical CI and local development." \
-      org.opencontainers.image.source="https://github.com/Infisical/infisical" \
+LABEL org.opencontainers.image.title="vaultix backend FIPS test toolchain" \
+      org.opencontainers.image.description="Internal CI build cache for vaultix's backend FIPS test image (Dockerfile.dev.fips). Not a supported or versioned public artifact: no support or compatibility guarantee, tags may change or be deleted without notice, and it is not the FIPS product image (that is vaultix/vaultix-fips). Do not depend on it outside vaultix CI and local development." \
+      org.opencontainers.image.source="https://github.com/vaultix/vaultix" \
       org.opencontainers.image.licenses="NOASSERTION" \
-      com.infisical.image.internal="true" \
-      com.infisical.image.supported="false" \
-      com.infisical.thirdparty.oracle-instantclient.license="/opt/oracle/instantclient_23_26/BASIC_LICENSE"
+      com.vaultix.image.internal="true" \
+      com.vaultix.image.supported="false" \
+      com.vaultix.thirdparty.oracle-instantclient.license="/opt/oracle/instantclient_23_26/BASIC_LICENSE"

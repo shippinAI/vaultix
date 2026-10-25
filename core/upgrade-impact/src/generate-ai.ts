@@ -103,9 +103,9 @@ export const deterministicDraft = (bundle: ReleaseEvidenceBundle): GeneratedDraf
   };
 };
 
-const PROMPT_RULES = `You are generating Infisical self-hosted upgrade impact data.
+const PROMPT_RULES = `You are generating vaultix self-hosted upgrade impact data.
 
-Only include changes that may affect self-hosted customers upgrading Infisical. Focus on breaking changes, database migrations, environment variables, Docker, deployment behavior, startup/runtime requirements, manual actions, and known upgrade issues.
+Only include changes that may affect self-hosted customers upgrading vaultix. Focus on breaking changes, database migrations, environment variables, Docker, deployment behavior, startup/runtime requirements, manual actions, and known upgrade issues.
 
 Helm charts live in a separate release cadence and are intentionally excluded from this analysis — never recommend Helm-related actions, do not infer Helm impact from backend or frontend changes, and do not surface Helm chart updates even if they appear in release notes.
 
@@ -122,8 +122,8 @@ Write for a busy self-hosted operator deciding whether and how to upgrade:
 - Do not repeat a release note or PR URL across multiple entries when a more specific file diff can support the claim.
 - Before finalizing, audit the JSON for duplicate titles, duplicate descriptions, and duplicate evidence.
 - Every entry title must clearly name the affected product area, for example "PAM domains migration", "PKI certificate metadata", "Kubernetes auth TLS setting", "SMTP HELO hostname", or "Platform startup migration".
-- Only write an action when there is a specific operator task. If there is no manual task, write "No manual action required; Infisical runs this migration during startup."
-- For additive database migrations, prefer "No manual action required; Infisical runs this migration during startup." Do not tell users to run migrations manually unless the diff proves they must.
+- Only write an action when there is a specific operator task. If there is no manual task, write "No manual action required; vaultix runs this migration during startup."
+- For additive database migrations, prefer "No manual action required; vaultix runs this migration during startup." Do not tell users to run migrations manually unless the diff proves they must.
 - If a migration failure is the only risk, say "If startup fails during migration, keep the previous version running and inspect migration logs before retrying."
 - Do not say "run migrations before serving traffic", "verify migration jobs complete", "account for", or "review X if you rely on Y".
 - Do not tell operators to change proxy, Docker, or environment configuration unless the diff introduces a required setting or changes a default that existing deployments must respond to.
@@ -498,7 +498,7 @@ export const generateWithOpenAiAgentic = async (bundle: ReleaseEvidenceBundle): 
   });
 
   const agent = new Agent({
-    name: "Infisical upgrade impact analyst",
+    name: "vaultix upgrade impact analyst",
     instructions: buildAgenticPrompt(bundle, index),
     model: MODEL,
     modelSettings: {

@@ -45,7 +45,7 @@
         "image": "Agent",
         "category": "Vaultix",
         "description": "Continuously fetch and render secrets to files or processes.",
-        "docsLink": "https://vaultix.shippin.cloud/docs/integrations/platforms/infisical-agent"
+        "docsLink": "https://vaultix.shippin.cloud/docs/integrations/platforms/vaultix-agent"
     },
     {
         "name": "Amazon ECS",

@@ -1,9 +1,9 @@
 ---
 title: "LDAP Connection"
-description: "Learn how to configure an LDAP Connection for Infisical."
+description: "Learn how to configure an LDAP Connection for vaultix."
 ---
 
-Infisical supports the use of [Simple Binding](https://ldap.com/the-ldap-bind-operation) to connect with your LDAP provider.
+vaultix supports the use of [Simple Binding](https://ldap.com/the-ldap-bind-operation) to connect with your LDAP provider.
 
 ## Prerequisites
 
@@ -29,10 +29,10 @@ Depending on how you intend to use your LDAP connection, there may be additional
 </Tabs>
 
 
-## Setup LDAP Connection in Infisical
+## Setup LDAP Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to the **Integrations** tab in the desired project, then select **App Connections**.
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
 
@@ -53,7 +53,7 @@ Depending on how you intend to use your LDAP connection, there may be additional
 
         ```bash Request
         curl    --request POST \
-            --url https://app.infisical.com/api/v1/app-connections/ldap \
+            --url https://app.vaultix.com/api/v1/app-connections/ldap \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-ldap-connection",
@@ -99,10 +99,10 @@ Depending on how you intend to use your LDAP connection, there may be additional
 
 ## Automatic Credential Rotation
 
-Infisical can automatically rotate the binding password of your LDAP connection on a recurring schedule. This is a **single-phase** rotation, meaning only one password exists at any given time. When a rotation occurs, the old password is replaced immediately.
+vaultix can automatically rotate the binding password of your LDAP connection on a recurring schedule. This is a **single-phase** rotation, meaning only one password exists at any given time. When a rotation occurs, the old password is replaced immediately.
 
 <Warning>
-    Any external systems using the same binding credentials will lose access once a rotation completes. Make sure only Infisical relies on the rotated credentials.
+    Any external systems using the same binding credentials will lose access once a rotation completes. Make sure only vaultix relies on the rotated credentials.
 </Warning>
 
 When creating or editing your LDAP connection, toggle on the **Automatic Credential Rotation** switch and configure the rotation schedule.

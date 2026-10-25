@@ -6,7 +6,7 @@ description: "Issue code-signing certificates from DigiCert CertCentral with an 
 
 ## Concept
 
-A DigiCert Certificate Authority configured for code signing issues OV (`code_signing`) and EV (`code_signing_ev`) certificates from your CertCentral account against a CSR. The signing key must live on an HSM, so Infisical generates the CSR against an HSM key and sends only the CSR to DigiCert.
+A DigiCert Certificate Authority configured for code signing issues OV (`code_signing`) and EV (`code_signing_ev`) certificates from your CertCentral account against a CSR. The signing key must live on an HSM, so vaultix generates the CSR against an HSM key and sends only the CSR to DigiCert.
 
 This guide covers using such a CA from the **Code Signing** product. To set up the CA itself, see [DigiCert (CertCentral Services API)](/documentation/platform/pki/ca/digicert-direct).
 
@@ -29,12 +29,12 @@ A **Pending** signer is checked on a schedule. To poll DigiCert immediately, use
 
 ### Reuse an existing order
 
-Each DigiCert order consumes a subscription slot on your CertCentral account. If a code-signing order already exists in this CA's organization, a Signer can issue into that order instead of spending another slot. This includes orders placed directly in DigiCert, not just ones Infisical created.
+Each DigiCert order consumes a subscription slot on your CertCentral account. If a code-signing order already exists in this CA's organization, a Signer can issue into that order instead of spending another slot. This includes orders placed directly in DigiCert, not just ones vaultix created.
 
 Reuse is scoped to the CA's configured organization and product, so only orders from that organization and product can be selected. The Common Name and Validity come from the chosen order rather than from the Signer.
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     In the Create Signer wizard's **Certificate** step, open **Reuse an existing order** and pick one of the listed issued orders. The Common Name and Validity fields are hidden because they are inherited from the order. Leave the field empty to place a new order.
   </Tab>
   <Tab title="API">
@@ -53,7 +53,7 @@ Editing a signer's Common Name, validity, key source, key algorithm, or CA trigg
 ## Reissue and renewal
 
 - **Reissue** (changing the key source, key algorithm, or pointing at an existing order) hits DigiCert's reissue endpoint, which keeps the same order and its validity and replaces the certificate.
-- **Auto-renewal** (when **Renew before** is set) places a new order linked to the prior one so DigiCert tracks certificate history. If DigiCert reports the prior order as not eligible for renewal, Infisical falls back to a fresh, unlinked order.
+- **Auto-renewal** (when **Renew before** is set) places a new order linked to the prior one so DigiCert tracks certificate history. If DigiCert reports the prior order as not eligible for renewal, vaultix falls back to a fresh, unlinked order.
 
 ## Deleting a Signer
 
@@ -61,7 +61,7 @@ Deleting a DigiCert code-signing signer revokes its DigiCert order, so the certi
 
 ## Next steps
 
-Once your signer is **Active**, you can use it to sign artifacts through the Infisical [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module). The signing workflow is the same as any other Infisical signer—only the certificate backing it comes from DigiCert.
+Once your signer is **Active**, you can use it to sign artifacts through the vaultix [PKCS#11 module](/documentation/platform/pki/code-signing/pkcs11-module). The signing workflow is the same as any other vaultix signer—only the certificate backing it comes from DigiCert.
 
 <CardGroup cols={2}>
   <Card title="Sign Windows Executables" icon="windows" href="/documentation/platform/pki/guides/code-signing/osslsigncode">

@@ -66,7 +66,7 @@ export default {
       await db.migrate.latest({
         directory: path.join(__dirname, "../src/db/migrations"),
         extension: "ts",
-        tableName: "infisical_migrations"
+        tableName: "vaultix_migrations"
       });
 
       await db.seed.run({

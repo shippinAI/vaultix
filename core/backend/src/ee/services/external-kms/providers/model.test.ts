@@ -36,7 +36,7 @@ describe("SanitizedExternalKmsAwsSchema (external-KMS read response)", () => {
       credential: {
         type: KmsAwsCredentialType.AssumeRole,
         data: {
-          assumeRoleArn: "arn:aws:iam::123456789012:role/infisical",
+          assumeRoleArn: "arn:aws:iam::123456789012:role/vaultix",
           externalId: "ext-1"
         }
       },
@@ -44,7 +44,7 @@ describe("SanitizedExternalKmsAwsSchema (external-KMS read response)", () => {
     });
 
     expect(parsed.credential.data).toMatchObject({
-      assumeRoleArn: "arn:aws:iam::123456789012:role/infisical",
+      assumeRoleArn: "arn:aws:iam::123456789012:role/vaultix",
       externalId: "ext-1"
     });
   });

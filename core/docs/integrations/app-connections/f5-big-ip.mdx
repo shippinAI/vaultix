@@ -1,14 +1,14 @@
 ---
 title: "F5 BIG-IP Connection"
-description: "Learn how to configure an F5 BIG-IP Connection for Infisical."
+description: "Learn how to configure an F5 BIG-IP Connection for vaultix."
 ---
 
-Infisical supports connecting to F5 BIG-IP LTM appliances via the iControl REST API for managing SSL certificates and binding them to Client SSL or Server SSL profiles.
+vaultix supports connecting to F5 BIG-IP LTM appliances via the iControl REST API for managing SSL certificates and binding them to Client SSL or Server SSL profiles.
 
 ## Setup
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Gather F5 BIG-IP Credentials">
         You will need the following from your F5 BIG-IP appliance:
@@ -45,9 +45,9 @@ Infisical supports connecting to F5 BIG-IP LTM appliances via the iControl REST 
         Configure the **SSL** tab:
 
         - **SSL Certificate** (Optional): A CA certificate in PEM format to verify the BIG-IP management interface's TLS certificate.
-        - **Reject Unauthorized**: When enabled, Infisical will only connect if the BIG-IP has a valid, trusted TLS certificate. Disable for self-signed certificates or provide a CA certificate.
+        - **Reject Unauthorized**: When enabled, vaultix will only connect if the BIG-IP has a valid, trusted TLS certificate. Disable for self-signed certificates or provide a CA certificate.
 
-        Optionally select a **Gateway** to route the connection through an [Infisical Gateway](/documentation/platform/gateways/overview) when the BIG-IP is hosted in an air-gapped or private network.
+        Optionally select a **Gateway** to route the connection through an [vaultix Gateway](/documentation/platform/gateways/overview) when the BIG-IP is hosted in an air-gapped or private network.
 
         Click **Connect to F5 BIG-IP** to validate and save your connection.
       </Step>
@@ -63,7 +63,7 @@ Infisical supports connecting to F5 BIG-IP LTM appliances via the iControl REST 
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/f5-big-ip \
+      --url https://app.vaultix.com/api/v1/app-connections/f5-big-ip \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data '{

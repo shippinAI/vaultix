@@ -1,11 +1,11 @@
 ---
 title: OAuth Applications
-description: "Let external platforms request delegated access to Infisical on a user's behalf using OAuth 2.0."
+description: "Let external platforms request delegated access to vaultix on a user's behalf using OAuth 2.0."
 ---
 
-**OAuth Applications** let you register an external platform as an OAuth 2.0 client so it can request **delegated access** to Infisical on behalf of one of your users. The platform never sees the user's password or session; instead it runs a standard authorization code flow, the user reviews and approves the request on an Infisical consent screen, and the platform receives short-lived access and refresh tokens scoped to that user.
+**OAuth Applications** let you register an external platform as an OAuth 2.0 client so it can request **delegated access** to vaultix on behalf of one of your users. The platform never sees the user's password or session; instead it runs a standard authorization code flow, the user reviews and approves the request on an vaultix consent screen, and the platform receives short-lived access and refresh tokens scoped to that user.
 
-A common use case is wiring Infisical into a developer platform as an External Auth provider, so that `infisical run` can fetch secrets at runtime inside a remote development environment using the developer's own permissions.
+A common use case is wiring vaultix into a developer platform as an External Auth provider, so that `vaultix run` can fetch secrets at runtime inside a remote development environment using the developer's own permissions.
 
 <Note>
   A delegated OAuth token can never do more than the user who authorized it. Scopes only **narrow** what the token can do; they never grant access the user does not already have. When the user's access changes or their session is revoked, every token issued for them through OAuth is affected immediately.
@@ -13,11 +13,11 @@ A common use case is wiring Infisical into a developer platform as an External A
 
 ## Concept
 
-OAuth Applications turn Infisical into an OAuth 2.0 authorization server. The model has three parties:
+OAuth Applications turn vaultix into an OAuth 2.0 authorization server. The model has three parties:
 
-- **OAuth application (client)** - the external platform you register in Infisical. It holds a client ID and client secret.
-- **User (resource owner)** - the Infisical user who authorizes the application to act on their behalf.
-- **Infisical (authorization + resource server)** - issues the tokens and serves the protected API.
+- **OAuth application (client)** - the external platform you register in vaultix. It holds a client ID and client secret.
+- **User (resource owner)** - the vaultix user who authorizes the application to act on their behalf.
+- **vaultix (authorization + resource server)** - issues the tokens and serves the protected API.
 
 Tokens issued through this flow are marked as delegated OAuth tokens. They are accepted **only** on the small set of read-only endpoints that opt into OAuth, and the granted scopes are intersected with the user's existing permissions on every request.
 
@@ -27,7 +27,7 @@ Tokens issued through this flow are marked as delegated OAuth tokens. They are a
 sequenceDiagram
   participant App as External App
   participant Browser as User's Browser
-  participant Infis as Infisical
+  participant Infis as vaultix
 
   App->>Browser: Redirect to /api/v1/oauth/authorize
   Browser->>Infis: GET /authorize (client_id, redirect_uri, scope, PKCE)
@@ -50,7 +50,7 @@ Scopes are a coarse, named contract for what a delegated token is allowed to do.
 | `secrets:read` | Read secrets, folders, and imports |
 
 <Note>
-  `secrets:read` is the only scope available today, supporting the read-only `infisical run` use case. Requesting an unrecognized scope rejects the authorization request rather than silently dropping it.
+  `secrets:read` is the only scope available today, supporting the read-only `vaultix run` use case. Requesting an unrecognized scope rejects the authorization request rather than silently dropping it.
 </Note>
 
 ## Creating an OAuth application
@@ -70,7 +70,7 @@ OAuth applications are managed at the organization level. You need permission to
     - **Require PKCE (S256)**: When enabled, authorization requests that do not include a PKCE code challenge are rejected. Recommended for public clients.
   </Step>
   <Step title="Store the credentials">
-    On creation, Infisical shows the **Client ID** and **Client Secret**.
+    On creation, vaultix shows the **Client ID** and **Client Secret**.
 
     <Warning>
       The client secret is shown only once. Store it securely. If it is lost, you can rotate it from the application's menu, but you cannot retrieve the original value.
@@ -99,7 +99,7 @@ Query parameters:
 - `state` (optional but recommended): Opaque value echoed back on the callback to prevent CSRF.
 - `code_challenge` / `code_challenge_method` (optional, `S256`): PKCE parameters. Required if the application has **Require PKCE** enabled.
 
-Infisical validates the client and redirect URI, then presents the consent screen. After the user approves, Infisical redirects to `redirect_uri` with a one-time `code` (and the `state`, if provided). If the user denies, it redirects with `error=access_denied`.
+vaultix validates the client and redirect URI, then presents the consent screen. After the user approves, vaultix redirects to `redirect_uri` with a one-time `code` (and the `state`, if provided). If the user denies, it redirects with `error=access_denied`.
 
 ### Token endpoint
 
@@ -148,7 +148,7 @@ A lightweight introspection endpoint. Send the delegated access token as a Beare
 Use the access token as a standard Bearer token on the supported read-only secret endpoints:
 
 ```bash
-curl https://app.infisical.com/api/v4/secrets \
+curl https://app.vaultix.com/api/v4/secrets \
   -H "Authorization: Bearer <access_token>" \
   --get \
   --data-urlencode "workspaceId=<project-id>" \

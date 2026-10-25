@@ -57,7 +57,7 @@ func sslModeParam(t *testing.T, uri string) string {
 // This is the exact failing case from the bug report: sslmode=no-verify with no
 // root cert. pgx rejects "no-verify", so parseSslConfig must strip it.
 func TestParseSslConfig_NoVerifyWithoutRootCert(t *testing.T) {
-	uri := "postgres://infisical:secret@host.rds.amazonaws.com:5432/infisical?sslmode=no-verify"
+	uri := "postgres://vaultix:secret@host.rds.amazonaws.com:5432/vaultix?sslmode=no-verify"
 
 	modifiedURI, tlsCfg, err := parseSslConfig(uri, "")
 	if err != nil {
@@ -169,7 +169,7 @@ func TestParseSslConfig_InvalidRootCert(t *testing.T) {
 // ParseConfig (reproducing the bug), and the URI returned by parseSslConfig
 // must parse cleanly.
 func TestParseSslConfig_NoVerifyParsesWithPgx(t *testing.T) {
-	uri := "postgres://infisical:secret@host.rds.amazonaws.com:5432/infisical?sslmode=no-verify"
+	uri := "postgres://vaultix:secret@host.rds.amazonaws.com:5432/vaultix?sslmode=no-verify"
 
 	if _, err := pgxpool.ParseConfig(uri); err == nil {
 		t.Fatal("expected raw no-verify URI to fail pgx ParseConfig (bug repro)")

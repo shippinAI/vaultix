@@ -1,13 +1,13 @@
 ---
 title: "GoDaddy Connection"
-description: "Learn how to configure a GoDaddy connection for Infisical."
+description: "Learn how to configure a GoDaddy connection for vaultix."
 ---
 
-Infisical supports connecting to the [GoDaddy Certificates API](https://developer.godaddy.com/doc/endpoint/certificates) using a **GoDaddy API Key and Secret**. This connection powers the [GoDaddy Certificate Authority](/documentation/platform/pki/ca/godaddy) for issuing Domain Validated (DV) certificates.
+vaultix supports connecting to the [GoDaddy Certificates API](https://developer.godaddy.com/doc/endpoint/certificates) using a **GoDaddy API Key and Secret**. This connection powers the [GoDaddy Certificate Authority](/documentation/platform/pki/ca/godaddy) for issuing Domain Validated (DV) certificates.
 
 <Note>
   Only **production** GoDaddy API credentials are supported. GoDaddy's OTE (test) environment
-  cannot issue certificates without a provisioned product, so Infisical always targets
+  cannot issue certificates without a provisioned product, so vaultix always targets
   `api.godaddy.com`.
 </Note>
 
@@ -23,24 +23,24 @@ Infisical supports connecting to the [GoDaddy Certificates API](https://develope
     Sign in to your GoDaddy account and go to [developer.godaddy.com/keys](https://developer.godaddy.com/keys).
   </Step>
   <Step title="Create a production key">
-    Click **Create New API Key**, give it a name (e.g. `infisical`), and select **Production** under **Environment**. Click **Next**.
+    Click **Create New API Key**, give it a name (e.g. `vaultix`), and select **Production** under **Environment**. Click **Next**.
 
     Copy both the **Key** and the **Secret**. The secret is shown only once.
   </Step>
 </Steps>
 
 <Tip>
-  Create a dedicated API key for Infisical rather than reusing an existing one so you can rotate or
+  Create a dedicated API key for vaultix rather than reusing an existing one so you can rotate or
   revoke access independently.
 </Tip>
 
-## Create GoDaddy Connection in Infisical
+## Create GoDaddy Connection in vaultix
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to App Connections">
-        In your Infisical dashboard, go to **Organization Settings** → **App Connections**.
+        In your vaultix dashboard, go to **Organization Settings** → **App Connections**.
 
         ![App Connections Tab](/images/app-connections/general/add-connection.png)
       </Step>
@@ -55,7 +55,7 @@ Infisical supports connecting to the [GoDaddy Certificates API](https://develope
         - Your GoDaddy **API Secret**
       </Step>
       <Step title="Connection Created">
-        After clicking **Create**, Infisical validates the credentials against the GoDaddy
+        After clicking **Create**, vaultix validates the credentials against the GoDaddy
         Certificates API. Once confirmed, the connection is ready to use in a GoDaddy Certificate
         Authority.
       </Step>
@@ -68,7 +68,7 @@ Infisical supports connecting to the [GoDaddy Certificates API](https://develope
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/app-connections/godaddy \
+      --url https://app.vaultix.com/api/v1/app-connections/godaddy \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "my-godaddy-connection",

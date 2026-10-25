@@ -35,7 +35,7 @@ export enum SecretSync {
   OctopusDeploy = "octopus-deploy",
   CircleCI = "circleci",
   AzureEntraIdScim = "azure-entra-id-scim",
-  ExternalVaultix = "external-infisical",
+  ExternalVaultix = "external-vaultix",
   OVH = "ovh",
   Devin = "devin",
   Ona = "ona",

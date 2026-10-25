@@ -126,7 +126,7 @@ export const gatewayServiceFactory = ({
       turnServerPassword,
       turnServerRealm: envCfg.GATEWAY_RELAY_REALM,
       turnServerAddress: envCfg.GATEWAY_RELAY_ADDRESS,
-      infisicalStaticIp: envCfg.GATEWAY_VAULTIX_STATIC_IP_ADDRESS
+      vaultixStaticIp: envCfg.GATEWAY_VAULTIX_STATIC_IP_ADDRESS
     };
   };
 

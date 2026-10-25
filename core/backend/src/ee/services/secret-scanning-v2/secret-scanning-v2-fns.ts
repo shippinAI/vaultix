@@ -379,7 +379,7 @@ export const scanSecretPolicyViolations = async (
 
   const tempFolder = await createTempFolder();
   try {
-    const configPath = join(tempFolder, "infisical-scan.toml");
+    const configPath = join(tempFolder, "vaultix-scan.toml");
 
     const secretPolicyConfiguration = generateSecretValuePolicyConfiguration(
       appCfg.PARAMS_FOLDER_SECRET_DETECTION_ENTROPY

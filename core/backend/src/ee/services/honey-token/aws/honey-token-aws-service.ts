@@ -46,7 +46,7 @@ export const honeyTokenAwsProviderHooksFactory = ({
 
     return verifyAwsStackDeployment({
       connectionId,
-      stackName: config?.stackName ?? "infisical-honey-tokens",
+      stackName: config?.stackName ?? "vaultix-honey-tokens",
       awsRegion: config?.awsRegion ?? "us-east-1",
       appConnectionDAL,
       kmsService

@@ -1,9 +1,9 @@
 ---
 title: "Vercel Sync"
-description: "Learn how to configure a Vercel Sync for Infisical."
+description: "Learn how to configure a Vercel Sync for vaultix."
 ---
 
-Infisical's Vercel Sync lets you automatically push secrets from Infisical into your Vercel project's environment variables, keeping both platforms in sync without manual copy-paste.
+vaultix's Vercel Sync lets you automatically push secrets from vaultix into your Vercel project's environment variables, keeping both platforms in sync without manual copy-paste.
 
 The short video below walks through configuring a Vercel Sync end-to-end.
 
@@ -13,11 +13,11 @@ The short video below walks through configuring a Vercel Sync end-to-end.
 
 **Prerequisites:**
 
-    - Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+    - Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
     - Create a [Vercel Connection](/integrations/app-connections/vercel)
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
         ![Secret Syncs Tab](/images/secret-syncs/general/secret-sync-tab.png)
 
@@ -47,26 +47,26 @@ The short video below walks through configuring a Vercel Sync end-to-end.
         5. Configure the **Sync Options** to specify how secrets should be synced, then click **Next**.
         ![Configure Options](/images/secret-syncs/vercel/vercel-options.png)
 
-            - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-                - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in Infisical.
-                - **Import Secrets (Prioritize Infisical)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Infisical over Vercel when keys conflict.
-                - **Import Secrets (Prioritize Vercel)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Vercel over Infisical when keys conflict.
+            - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+                - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in vaultix.
+                - **Import Secrets (Prioritize vaultix)**: Imports secrets from the destination endpoint before syncing, prioritizing values from vaultix over Vercel when keys conflict.
+                - **Import Secrets (Prioritize Vercel)**: Imports secrets from the destination endpoint before syncing, prioritizing values from Vercel over vaultix when keys conflict.
             <Note>
-                Vercel does not expose the values of [sensitive environment variables](https://vercel.com/docs/environment-variables/sensitive-environment-variables), so Infisical cannot import them during the initial sync. As a result, these secrets are created in Infisical with empty values. After the first sync, you'll need to manually re-enter their values in Infisical to ensure both platforms stay aligned.
+                Vercel does not expose the values of [sensitive environment variables](https://vercel.com/docs/environment-variables/sensitive-environment-variables), so vaultix cannot import them during the initial sync. As a result, these secrets are created in vaultix with empty values. After the first sync, you'll need to manually re-enter their values in vaultix to ensure both platforms stay aligned.
             </Note>
             <Note>
                 **Team-scoped sync — initial import scope matching**
 
-                On the initial import, Infisical only imports Vercel shared environment variables whose scope exactly matches this sync's configuration (same target environments, target projects, and Apply to all Custom Environments flag). Variables covering a broader set of environments — or split across separate records per environment — will not be imported. The next sync will detach those records and create a new one for the sync's scope using the value from Infisical.
+                On the initial import, vaultix only imports Vercel shared environment variables whose scope exactly matches this sync's configuration (same target environments, target projects, and Apply to all Custom Environments flag). Variables covering a broader set of environments — or split across separate records per environment — will not be imported. The next sync will detach those records and create a new one for the sync's scope using the value from vaultix.
 
-                Example: Vercel has a single shared variable `FOO` scoped to **Production and Preview**, but the sync targets only **Production**. `FOO` is not imported. On the next sync, the existing `FOO` is rescoped to Preview (value preserved) and a new `FOO` record is created for Production with the value from Infisical.
+                Example: Vercel has a single shared variable `FOO` scoped to **Production and Preview**, but the sync targets only **Production**. `FOO` is not imported. On the next sync, the existing `FOO` is rescoped to Preview (value preserved) and a new `FOO` record is created for Production with the value from vaultix.
             </Note>
             - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
             <Note>
-                We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else untouched.
+                We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else untouched.
             </Note>
             - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-            - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+            - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
 
         6. Configure the **Details** of your Vercel Sync, then click **Next**.
         ![Configure Details](/images/secret-syncs/vercel/vercel-details.png)
@@ -88,7 +88,7 @@ The short video below walks through configuring a Vercel Sync end-to-end.
 
         ```bash Request
         curl    --request POST \
-        --url https://app.infisical.com/api/v1/secret-syncs/vercel \
+        --url https://app.vaultix.com/api/v1/secret-syncs/vercel \
         --header 'Content-Type: application/json' \
         --data '{
             "name": "my-vercel-sync",

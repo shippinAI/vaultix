@@ -8,7 +8,7 @@ const (
 	EncryptionKey = "a984ecdf82ec779e55dbcc21303a900f"
 	NodeEnv       = "test"
 
-	pgUser     = "infisical"
-	pgPassword = "infisical"
-	pgDB       = "infisical"
+	pgUser     = "vaultix"
+	pgPassword = "vaultix"
+	pgDB       = "vaultix"
 )

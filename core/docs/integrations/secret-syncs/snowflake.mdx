@@ -1,23 +1,23 @@
 ---
 title: "Snowflake Sync"
-description: "Learn how to configure a Snowflake Sync for Infisical."
+description: "Learn how to configure a Snowflake Sync for vaultix."
 ---
 
 **Prerequisites:**
 
-- Set up and add secrets to [Infisical Cloud](https://app.infisical.com)
+- Set up and add secrets to [vaultix Cloud](https://app.vaultix.com)
 - Create a [Snowflake Connection](/integrations/app-connections/snowflake)
 - An existing Snowflake **database** and **schema** that secrets should be written to
 - The Snowflake user behind the connection must have the following privileges on the target schema: `USAGE` on the database, `USAGE` on the schema, and `CREATE SECRET` (plus `OWNERSHIP` on the synced secrets to support deletions)
-- Ensure your network security policies allow incoming requests from Infisical to your Snowflake account, if network restrictions apply
+- Ensure your network security policies allow incoming requests from vaultix to your Snowflake account, if network restrictions apply
 
 <Info>
-  Snowflake Sync writes Infisical secrets as native Snowflake secrets of type
+  Snowflake Sync writes vaultix secrets as native Snowflake secrets of type
   `GENERIC_STRING` (created via `CREATE OR REPLACE SECRET`). 
 </Info>
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     1. Navigate to **Project** > **Integrations** and select the **Secret Syncs** tab. Click on the **Add Sync** button.
     ![Secret Syncs Tab](/images/secret-syncs/general/secret-sync-tab.png)
 
@@ -46,7 +46,7 @@ description: "Learn how to configure a Snowflake Sync for Infisical."
         - **Schema**: The name of the Snowflake schema (within the selected database) where secrets will be created. The schema must already exist.
 
         <Note>
-          Infisical validates that the database and schema exist before creating any secrets. If either is missing or the connected Snowflake user lacks access, the sync fails with a descriptive error and no changes are written.
+          vaultix validates that the database and schema exist before creating any secrets. If either is missing or the connected Snowflake user lacks access, the sync fails with a descriptive error and no changes are written.
         </Note>
 
         <Note>
@@ -56,17 +56,17 @@ description: "Learn how to configure a Snowflake Sync for Infisical."
     5. Configure the **Sync Options** to specify how secrets should be synced, then click **Next**.
         ![Configure Options](/images/secret-syncs/snowflake/sync-options.png)
 
-        - **Initial Sync Behavior**: Determines how Infisical should resolve the initial sync.
-            - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in Infisical.
+        - **Initial Sync Behavior**: Determines how vaultix should resolve the initial sync.
+            - **Overwrite Destination Secrets**: Removes any secrets at the destination endpoint not present in vaultix.
             <Note>
               Snowflake does not support importing secrets.
             </Note>
         - **Key Schema**: Template that determines how secret names are transformed when syncing, using `{{secretKey}}` as a placeholder for the original secret name and `{{environment}}` for the environment.
         <Note>
-          We highly recommend using a Key Schema to ensure that Infisical only manages the specific keys you intend, keeping everything else in the schema untouched.
+          We highly recommend using a Key Schema to ensure that vaultix only manages the specific keys you intend, keeping everything else in the schema untouched.
         </Note>
         - **Auto-Sync Enabled**: If enabled, secrets will automatically be synced from the source location when changes occur. Disable to enforce manual syncing only.
-        - **Disable Secret Deletion**: If enabled, Infisical will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of Infisical.
+        - **Disable Secret Deletion**: If enabled, vaultix will not remove secrets from the sync destination. Enable this option if you intend to manage some secrets manually outside of vaultix.
 
     6. Configure the **Details** of your Snowflake Sync, then click **Next**.
 
@@ -88,7 +88,7 @@ description: "Learn how to configure a Snowflake Sync for Infisical."
 
     ```bash Request
     curl    --request POST \
-            --url https://app.infisical.com/api/v1/secret-syncs/snowflake \
+            --url https://app.vaultix.com/api/v1/secret-syncs/snowflake \
             --header 'Content-Type: application/json' \
             --data '{
                 "name": "my-snowflake-sync",

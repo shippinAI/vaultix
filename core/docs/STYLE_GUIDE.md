@@ -1,6 +1,6 @@
 # Documentation Style Guide
 
-This guide defines how to write user-facing documentation for Infisical.
+This guide defines how to write user-facing documentation for vaultix.
 
 ## Quick Summary
 
@@ -220,12 +220,12 @@ Include code examples only when they genuinely help understanding — not to mak
 
 ```bash
 # Good: obvious placeholder, minimal, copy-pasteable
-curl -X POST https://app.infisical.com/api/v1/secrets \
+curl -X POST https://app.vaultix.com/api/v1/secrets \
   -H "Authorization: Bearer <your-access-token>" \
   -d '{"key": "DATABASE_URL", "value": "postgres://..."}'
 
 # Bad: unnecessary headers, too verbose
-curl -X POST https://app.infisical.com/api/v1/secrets \
+curl -X POST https://app.vaultix.com/api/v1/secrets \
   -H "X-Request-ID: 12345" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
@@ -317,7 +317,7 @@ Use the same terms throughout the documentation. Don't switch between synonyms f
 - Don't mix "folder" and "directory" interchangeably
 - Don't call something a "project" in one place and a "workspace" in another
 
-If Infisical has a specific term for something, use that term consistently.
+If vaultix has a specific term for something, use that term consistently.
 
 ---
 

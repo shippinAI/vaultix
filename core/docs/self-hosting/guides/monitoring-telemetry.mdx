@@ -1,20 +1,20 @@
 ---
 title: "Monitoring and Telemetry Setup"
-description: "Learn how to set up monitoring and telemetry for your self-hosted Infisical instance using Grafana, Prometheus, and OpenTelemetry."
+description: "Learn how to set up monitoring and telemetry for your self-hosted vaultix instance using Grafana, Prometheus, and OpenTelemetry."
 ---
 
-Infisical provides comprehensive monitoring and telemetry capabilities to help you monitor the health, performance, and usage of your self-hosted instance. This guide covers setting up monitoring using Grafana with two different telemetry collection approaches.
+vaultix provides comprehensive monitoring and telemetry capabilities to help you monitor the health, performance, and usage of your self-hosted instance. This guide covers setting up monitoring using Grafana with two different telemetry collection approaches.
 
 ## Overview
 
-Infisical exports metrics in **OpenTelemetry (OTEL) format**, which provides maximum flexibility for your monitoring infrastructure. While this guide focuses on Grafana, the OTEL format means you can easily integrate with:
+vaultix exports metrics in **OpenTelemetry (OTEL) format**, which provides maximum flexibility for your monitoring infrastructure. While this guide focuses on Grafana, the OTEL format means you can easily integrate with:
 
 - **Cloud-native monitoring**: AWS CloudWatch, Google Cloud Monitoring, Azure Monitor
 - **Observability platforms**: Datadog, New Relic, Splunk, Dynatrace
 - **Custom backends**: Any system that supports OTEL ingestion
 - **Traditional monitoring**: Prometheus, Grafana (as covered in this guide)
 
-Infisical supports two telemetry collection methods:
+vaultix supports two telemetry collection methods:
 
 1. **Pull-based (Prometheus)**: Exposes metrics on a dedicated endpoint for Prometheus to scrape
 2. **Push-based (OTLP)**: Sends metrics to an OpenTelemetry Collector via OTLP protocol
@@ -23,7 +23,7 @@ Both approaches provide the same metrics data in OTEL format, so you can choose 
 
 ## Prerequisites
 
-- Self-hosted Infisical instance running
+- Self-hosted vaultix instance running
 - Access to deploy monitoring services (Prometheus, Grafana, etc.)
 - Basic understanding of Prometheus and Grafana
 
@@ -31,7 +31,7 @@ Both approaches provide the same metrics data in OTEL format, so you can choose 
 
 ### Environment Variables
 
-Configure the following environment variables in your Infisical backend:
+Configure the following environment variables in your vaultix backend:
 
 ```bash
 # Enable telemetry collection
@@ -48,7 +48,7 @@ OTEL_EXPORT_TYPE=prometheus
     ### Configuration
 
 <Steps>
-  <Step title="Enable Prometheus export in Infisical">
+  <Step title="Enable Prometheus export in vaultix">
 ```bash
 OTEL_TELEMETRY_COLLECTION_ENABLED=true
 OTEL_EXPORT_TYPE=prometheus
@@ -56,7 +56,7 @@ OTEL_EXPORT_TYPE=prometheus
   </Step>
 
   <Step title="Expose the metrics port">
-    Expose the metrics port in your Infisical backend:
+    Expose the metrics port in your vaultix backend:
 
     - **Docker**: Expose port 9464
     - **Kubernetes**: Create a service exposing port 9464
@@ -72,27 +72,27 @@ global:
   evaluation_interval: 30s
 
 scrape_configs:
-  - job_name: "infisical"
+  - job_name: "vaultix"
     scrape_interval: 30s
     static_configs:
-      - targets: ["infisical-backend:9464"] # Adjust hostname/port based on your deployment
+      - targets: ["vaultix-backend:9464"] # Adjust hostname/port based on your deployment
     metrics_path: "/metrics"
 ```
 
 <Note>
-Replace `infisical-backend:9464` with the actual hostname and port where your Infisical backend is running. This could be:
+Replace `vaultix-backend:9464` with the actual hostname and port where your vaultix backend is running. This could be:
 
-- **Docker Compose**: `infisical-backend:9464` (service name)
-- **Kubernetes**: `infisical-backend.default.svc.cluster.local:9464` (service name)
+- **Docker Compose**: `vaultix-backend:9464` (service name)
+- **Kubernetes**: `vaultix-backend.default.svc.cluster.local:9464` (service name)
 - **Bare Metal**: `192.168.1.100:9464` (actual IP address)
-- **Cloud**: `your-infisical.example.com:9464` (domain name)
+- **Cloud**: `your-vaultix.example.com:9464` (domain name)
 </Note>
   </Step>
 </Steps>
 
     ### Deployment Options
 
-    Once you've configured Infisical to expose metrics, you'll need to deploy Prometheus to scrape and store them. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
+    Once you've configured vaultix to expose metrics, you'll need to deploy Prometheus to scrape and store them. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
 
     <Tabs>
       <Tab title="Docker Compose">
@@ -166,8 +166,8 @@ Replace `infisical-backend:9464` with the actual hostname and port where your In
         helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
         helm install prometheus prometheus-community/prometheus \
           --set server.config.global.scrape_interval=30s \
-          --set server.config.scrape_configs[0].job_name=infisical \
-          --set server.config.scrape_configs[0].static_configs[0].targets[0]=infisical-backend:9464
+          --set server.config.scrape_configs[0].job_name=vaultix \
+          --set server.config.scrape_configs[0].static_configs[0].targets[0]=vaultix-backend:9464
         ```
       </Tab>
     </Tabs>
@@ -179,13 +179,13 @@ Replace `infisical-backend:9464` with the actual hostname and port where your In
     ### Configuration
 
 <Steps>
-  <Step title="Enable OTLP export in Infisical">
+  <Step title="Enable OTLP export in vaultix">
 ```bash
 OTEL_TELEMETRY_COLLECTION_ENABLED=true
 OTEL_EXPORT_TYPE=otlp
 OTEL_EXPORT_OTLP_ENDPOINT=http://otel-collector:4318/v1/metrics
-OTEL_COLLECTOR_BASIC_AUTH_USERNAME=infisical
-OTEL_COLLECTOR_BASIC_AUTH_PASSWORD=infisical
+OTEL_COLLECTOR_BASIC_AUTH_USERNAME=vaultix
+OTEL_COLLECTOR_BASIC_AUTH_PASSWORD=vaultix
 OTEL_OTLP_PUSH_INTERVAL=30000
 ```
   </Step>
@@ -217,7 +217,7 @@ receivers:
         - job_name: otel-collector
           scrape_interval: 30s
           static_configs:
-            - targets: [infisical-backend:9464]
+            - targets: [vaultix-backend:9464]
           metric_relabel_configs:
             - action: labeldrop
               regex: "service_instance_id|service_name"
@@ -243,7 +243,7 @@ service:
 ```
 
 <Warning>
-Replace `your_username:your_password` with your chosen credentials. These must match the values you set in Infisical's `OTEL_COLLECTOR_BASIC_AUTH_USERNAME` and `OTEL_COLLECTOR_BASIC_AUTH_PASSWORD` environment variables.
+Replace `your_username:your_password` with your chosen credentials. These must match the values you set in vaultix's `OTEL_COLLECTOR_BASIC_AUTH_USERNAME` and `OTEL_COLLECTOR_BASIC_AUTH_PASSWORD` environment variables.
 </Warning>
   </Step>
 
@@ -276,7 +276,7 @@ Replace `otel-collector:8889` with the actual hostname and port where your OpenT
 
     ### Deployment Options
 
-    After configuring Infisical and the OpenTelemetry Collector, you'll need to deploy the collector to receive metrics from Infisical. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
+    After configuring vaultix and the OpenTelemetry Collector, you'll need to deploy the collector to receive metrics from vaultix. Below are examples for different deployment environments. Choose the option that matches your infrastructure.
 
     <Tabs>
       <Tab title="Docker Compose">
@@ -340,14 +340,14 @@ Replace `otel-collector:8889` with the actual hostname and port where your OpenT
 
 ## Available Metrics
 
-Infisical emits metrics on two OpenTelemetry meters simultaneously. Choose which to scrape based on your deployment scale.
+vaultix emits metrics on two OpenTelemetry meters simultaneously. Choose which to scrape based on your deployment scale.
 
-- **High-cardinality, per-actor meters:** the `Infisical` and `API` meters' original metrics (`infisical.http.server.request.*`, `infisical.http.server.error.count`, `infisical.secret.read.count`, `infisical.auth.attempt.count`, `infisical.kmip.operation.count`) include per-actor labels such as `user.email`, `identity.name`, `client.address`, `user_agent.original`, `organization.name`, `project.name`, `secret.path`, and `secret.name`. The `SecretSyncs`, `PkiSyncs`, and `Integrations` meters likewise carry unbounded labels such as `syncId`. Useful for self-hosted deployments where you want per-user visibility directly in Grafana. May become expensive at large scale (many users, identities, or IPs) due to label cardinality.
-- **`InfisicalCore` meter (bounded-cardinality):** all newer metrics (queue, audit log, alert dispatch, permission cache, secret cache, rate limit, build info, `infisical.core.http.error.count`, authentication latency, token renewal, SSO config changes, SCIM provisioning, and database connection pool) use **only bounded enums and static route templates** as labels (e.g. HTTP method, parameterized `http.route`, error type, outcome). A strict allowlist drops every other attribute at the SDK level, so **no tenant or actor identifiers are emitted**; no organization ID, project IDs, names, emails, IPs, or user agents. This keeps the series count independent of how many organizations, users, or identities you have. Per-org and per-actor detail is available in audit logs instead.
+- **High-cardinality, per-actor meters:** the `vaultix` and `API` meters' original metrics (`vaultix.http.server.request.*`, `vaultix.http.server.error.count`, `vaultix.secret.read.count`, `vaultix.auth.attempt.count`, `vaultix.kmip.operation.count`) include per-actor labels such as `user.email`, `identity.name`, `client.address`, `user_agent.original`, `organization.name`, `project.name`, `secret.path`, and `secret.name`. The `SecretSyncs`, `PkiSyncs`, and `Integrations` meters likewise carry unbounded labels such as `syncId`. Useful for self-hosted deployments where you want per-user visibility directly in Grafana. May become expensive at large scale (many users, identities, or IPs) due to label cardinality.
+- **`vaultixCore` meter (bounded-cardinality):** all newer metrics (queue, audit log, alert dispatch, permission cache, secret cache, rate limit, build info, `vaultix.core.http.error.count`, authentication latency, token renewal, SSO config changes, SCIM provisioning, and database connection pool) use **only bounded enums and static route templates** as labels (e.g. HTTP method, parameterized `http.route`, error type, outcome). A strict allowlist drops every other attribute at the SDK level, so **no tenant or actor identifiers are emitted**; no organization ID, project IDs, names, emails, IPs, or user agents. This keeps the series count independent of how many organizations, users, or identities you have. Per-org and per-actor detail is available in audit logs instead.
 
-All meters emit at the same time. If you are a self-hosted instance and find the per-actor labels useful, keep using the high-cardinality metrics. For larger or multi-tenant deployments, scrape only the `InfisicalCore` metrics to keep cardinality under control.
+All meters emit at the same time. If you are a self-hosted instance and find the per-actor labels useful, keep using the high-cardinality metrics. For larger or multi-tenant deployments, scrape only the `vaultixCore` metrics to keep cardinality under control.
 
-To eliminate the in-memory cost of the high-cardinality meters entirely, set `OTEL_DROP_HIGH_CARDINALITY_METERS=true`. When enabled, the SDK discards all data points from the `Infisical`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only `InfisicalCore` metrics are emitted. Defaults to `false`.
+To eliminate the in-memory cost of the high-cardinality meters entirely, set `OTEL_DROP_HIGH_CARDINALITY_METERS=true`. When enabled, the SDK discards all data points from the `vaultix`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only `vaultixCore` metrics are emitted. Defaults to `false`.
 
 For per-user / per-identity / per-IP / per-project breakdowns, query the audit log table. It carries `actorId`, `actorType`, `projectId`, `ip`, `userAgent` and full event detail. Metrics give you the *rate* and *latency*; audit logs give you the *who* and *where*.
 
@@ -355,44 +355,44 @@ For per-user / per-identity / per-IP / per-project breakdowns, query the audit l
 
 Every emitted metric carries these resource-level attributes (no per-metric cardinality cost):
 
-- `service.name` — the fixed identifier for the Infisical backend service
-- `service.version` — the release version or git SHA of the running Infisical instance
+- `service.name` — the fixed identifier for the vaultix backend service
+- `service.version` — the release version or git SHA of the running vaultix instance
 - `git.commit.sha` — the exact commit the build was produced from, when available
 - `deployment.environment` — the environment the instance is running in (e.g. `production`, `staging`, `development`)
 
 ### Core API Metrics
 
-These metrics track all HTTP API requests to Infisical, including request counts, latency, and errors. Use these to monitor overall API health, identify performance bottlenecks, and track usage patterns across users and machine identities.
+These metrics track all HTTP API requests to vaultix, including request counts, latency, and errors. Use these to monitor overall API health, identify performance bottlenecks, and track usage patterns across users and machine identities.
 
 <AccordionGroup>
   <Accordion title="Total API Requests">
-    **Metric Name**: `infisical.http.server.request.count`
+    **Metric Name**: `vaultix.http.server.request.count`
 
     **Type**: Counter
 
     **Unit**: `{request}`
 
-    **Description**: Total number of API requests to Infisical (covers both human users and machine identities)
+    **Description**: Total number of API requests to vaultix (covers both human users and machine identities)
 
     **Attributes**:
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.organization.name` (string): Organization name (e.g., "Platform Engineering Team")
-      - `infisical.user.id` (string, optional): User ID if human user
-      - `infisical.user.email` (string, optional): User email (e.g., "jane.doe@cisco.com")
-      - `infisical.identity.id` (string, optional): Machine identity ID
-      - `infisical.identity.name` (string, optional): Machine identity name (e.g., "prod-k8s-operator")
-      - `infisical.auth.method` (string, optional): Auth method used
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.organization.name` (string): Organization name (e.g., "Platform Engineering Team")
+      - `vaultix.user.id` (string, optional): User ID if human user
+      - `vaultix.user.email` (string, optional): User email (e.g., "jane.doe@cisco.com")
+      - `vaultix.identity.id` (string, optional): Machine identity ID
+      - `vaultix.identity.name` (string, optional): Machine identity name (e.g., "prod-k8s-operator")
+      - `vaultix.auth.method` (string, optional): Auth method used
       - `http.request.method` (string): HTTP method (GET, POST, PUT, DELETE)
       - `http.route` (string): API endpoint route pattern
       - `http.response.status_code` (int): HTTP status code
-      - `infisical.project.id` (string, optional): Project ID
-      - `infisical.project.name` (string, optional): Project name
+      - `vaultix.project.id` (string, optional): Project ID
+      - `vaultix.project.name` (string, optional): Project name
       - `user_agent.original` (string, optional): User agent string
       - `client.address` (string, optional): IP address
   </Accordion>
 
   <Accordion title="Request Duration">
-    **Metric Name**: `infisical.http.server.request.duration`
+    **Metric Name**: `vaultix.http.server.request.duration`
 
     **Type**: Histogram
 
@@ -403,21 +403,21 @@ These metrics track all HTTP API requests to Infisical, including request counts
     **Buckets**: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 
     **Attributes**:
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.organization.name` (string): Organization name
-      - `infisical.user.id` (string, optional): User ID if human user
-      - `infisical.user.email` (string, optional): User email
-      - `infisical.identity.id` (string, optional): Machine identity ID
-      - `infisical.identity.name` (string, optional): Machine identity name
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.organization.name` (string): Organization name
+      - `vaultix.user.id` (string, optional): User ID if human user
+      - `vaultix.user.email` (string, optional): User email
+      - `vaultix.identity.id` (string, optional): Machine identity ID
+      - `vaultix.identity.name` (string, optional): Machine identity name
       - `http.request.method` (string): HTTP method
       - `http.route` (string): API endpoint route pattern
       - `http.response.status_code` (int): HTTP status code
-      - `infisical.project.id` (string, optional): Project ID
-      - `infisical.project.name` (string, optional): Project name
+      - `vaultix.project.id` (string, optional): Project ID
+      - `vaultix.project.name` (string, optional): Project name
   </Accordion>
 
   <Accordion title="API Errors by Actor">
-    **Metric Name**: `infisical.http.server.error.count`
+    **Metric Name**: `vaultix.http.server.error.count`
     
     **Type**: Counter
     
@@ -426,29 +426,29 @@ These metrics track all HTTP API requests to Infisical, including request counts
     **Description**: API errors grouped by actor (for identifying misconfigured services)
     
     **Attributes**:
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.organization.name` (string): Organization name
-      - `infisical.user.id` (string, optional): User ID if human
-      - `infisical.user.email` (string, optional): User email
-      - `infisical.identity.id` (string, optional): Identity ID if machine
-      - `infisical.identity.name` (string, optional): Identity name
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.organization.name` (string): Organization name
+      - `vaultix.user.id` (string, optional): User ID if human
+      - `vaultix.user.email` (string, optional): User email
+      - `vaultix.identity.id` (string, optional): Identity ID if machine
+      - `vaultix.identity.name` (string, optional): Identity name
       - `http.route` (string): API endpoint where error occurred
       - `http.request.method` (string): HTTP method
       - `error.type` (string): Error category/type (client_error, server_error, auth_error, rate_limit_error, etc.)
-      - `infisical.project.id` (string, optional): Project ID
-      - `infisical.project.name` (string, optional): Project name
+      - `vaultix.project.id` (string, optional): Project ID
+      - `vaultix.project.name` (string, optional): Project name
       - `client.address` (string, optional): IP address
       - `user_agent.original` (string, optional): User agent information
   </Accordion>
 
-  <Accordion title="API Errors (InfisicalCore)">
-    **Metric Name**: `infisical.core.http.error.count`
+  <Accordion title="API Errors (vaultixCore)">
+    **Metric Name**: `vaultix.core.http.error.count`
 
     **Type**: Counter
 
     **Unit**: `{error}`
 
-    **Description**: API errors with bounded error classification. The low-cardinality counterpart to `infisical.http.server.error.count`; same error volume, but labels are restricted to the InfisicalCore allowlist so the series count stays independent of org/user/identity count. Use this for alerting and dashboards at scale; use `infisical.http.server.error.count` (high-cardinality meter) when you need per-actor attribution. For per-org error breakdowns, query the audit log.
+    **Description**: API errors with bounded error classification. The low-cardinality counterpart to `vaultix.http.server.error.count`; same error volume, but labels are restricted to the vaultixCore allowlist so the series count stays independent of org/user/identity count. Use this for alerting and dashboards at scale; use `vaultix.http.server.error.count` (high-cardinality meter) when you need per-actor attribution. For per-org error breakdowns, query the audit log.
 
     **Attributes**:
       - `http.request.method` (string): HTTP method
@@ -463,7 +463,7 @@ These metrics provide visibility into secret access patterns, helping you unders
 
 <AccordionGroup>
   <Accordion title="Secret Read Operations">
-    **Metric Name**: `infisical.secret.read.count`
+    **Metric Name**: `vaultix.secret.read.count`
     
     **Type**: Counter
     
@@ -472,17 +472,17 @@ These metrics provide visibility into secret access patterns, helping you unders
     **Description**: Number of secret read operations
     
     **Attributes**:
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.organization.name` (string): Organization name
-      - `infisical.project.id` (string): Project ID
-      - `infisical.project.name` (string): Project name (e.g., "payment-service-secrets")
-      - `infisical.environment` (string): Environment (dev, staging, prod)
-      - `infisical.secret.path` (string): Path to secrets (e.g., "/microservice-a/database")
-      - `infisical.secret.name` (string, optional): Name of secret
-      - `infisical.user.id` (string, optional): User ID if human
-      - `infisical.user.email` (string, optional): User email
-      - `infisical.identity.id` (string, optional): Machine identity ID
-      - `infisical.identity.name` (string, optional): Machine identity name
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.organization.name` (string): Organization name
+      - `vaultix.project.id` (string): Project ID
+      - `vaultix.project.name` (string): Project name (e.g., "payment-service-secrets")
+      - `vaultix.environment` (string): Environment (dev, staging, prod)
+      - `vaultix.secret.path` (string): Path to secrets (e.g., "/microservice-a/database")
+      - `vaultix.secret.name` (string, optional): Name of secret
+      - `vaultix.user.id` (string, optional): User ID if human
+      - `vaultix.user.email` (string, optional): User email
+      - `vaultix.identity.id` (string, optional): Machine identity ID
+      - `vaultix.identity.name` (string, optional): Machine identity name
       - `user_agent.original` (string, optional): User agent/SDK information
       - `client.address` (string, optional): IP address
   </Accordion>
@@ -494,7 +494,7 @@ These metrics track authentication attempts and outcomes, enabling you to monito
 
 <AccordionGroup>
   <Accordion title="Login Attempts">
-    **Metric Name**: `infisical.auth.attempt.count`
+    **Metric Name**: `vaultix.auth.attempt.count`
     
     **Type**: Counter
     
@@ -503,21 +503,21 @@ These metrics track authentication attempts and outcomes, enabling you to monito
     **Description**: Authentication attempts (both successful and failed)
     
     **Attributes**:
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.organization.name` (string): Organization name
-      - `infisical.user.id` (string, optional): User ID if human (if identifiable)
-      - `infisical.user.email` (string, optional): User email (if identifiable)
-      - `infisical.identity.id` (string, optional): Identity ID if machine (if identifiable)
-      - `infisical.identity.name` (string, optional): Identity name (if identifiable)
-      - `infisical.auth.method` (string): Authentication method attempted
-      - `infisical.auth.result` (string): success or failure
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.organization.name` (string): Organization name
+      - `vaultix.user.id` (string, optional): User ID if human (if identifiable)
+      - `vaultix.user.email` (string, optional): User email (if identifiable)
+      - `vaultix.identity.id` (string, optional): Identity ID if machine (if identifiable)
+      - `vaultix.identity.name` (string, optional): Identity name (if identifiable)
+      - `vaultix.auth.method` (string): Authentication method attempted
+      - `vaultix.auth.result` (string): success or failure
       - `error.type` (string, optional): Reason for failure if failed (invalid_credentials, expired_token, invalid_token, etc.)
       - `client.address` (string): IP address
       - `user_agent.original` (string, optional): User agent/client information
-      - `infisical.auth.attempt.username` (string, optional): Attempted username/email (if available)
+      - `vaultix.auth.attempt.username` (string, optional): Attempted username/email (if available)
   </Accordion>
-  <Accordion title="Authentication Latency (InfisicalCore)">
-    **Metric Name**: `infisical.auth.attempt.duration`
+  <Accordion title="Authentication Latency (vaultixCore)">
+    **Metric Name**: `vaultix.auth.attempt.duration`
 
     **Type**: Histogram
 
@@ -526,42 +526,42 @@ These metrics track authentication attempts and outcomes, enabling you to monito
     **Description**: Authentication attempt latency by method and result. External verifications (SAML, OIDC, Kubernetes, AWS, GCP, Azure, OCI, AliCloud, ...) include the IdP/provider network round trip, so this is what tells you "SAML logins suddenly got slow" or "Kubernetes auth verification is timing out". Covers every user and machine identity login flow, including LDAP user login.
 
     **Attributes** (bounded):
-      - `infisical.auth.method` (string): Authentication method (`email`, `saml`, `oidc`, `google`, `github`, `gitlab`, `ldap`, `universal-auth`, `kubernetes-auth`, `aws-auth`, `gcp-auth`, `azure-auth`, `oci-auth`, `alicloud-auth`, `tls-cert-auth`, `oidc-auth`, `jwt-auth`, `ldap-auth`, `spiffe-auth`)
-      - `infisical.auth.result` (string): `success` or `failure`
+      - `vaultix.auth.method` (string): Authentication method (`email`, `saml`, `oidc`, `google`, `github`, `gitlab`, `ldap`, `universal-auth`, `kubernetes-auth`, `aws-auth`, `gcp-auth`, `azure-auth`, `oci-auth`, `alicloud-auth`, `tls-cert-auth`, `oidc-auth`, `jwt-auth`, `ldap-auth`, `spiffe-auth`)
+      - `vaultix.auth.result` (string): `success` or `failure`
       - `error.type` (string, optional): Bounded failure classification (present on failures)
   </Accordion>
-  <Accordion title="Token Renewal (InfisicalCore)">
-    **Metric Name**: `infisical.auth.token.renewal.count`
+  <Accordion title="Token Renewal (vaultixCore)">
+    **Metric Name**: `vaultix.auth.token.renewal.count`
 
     **Type**: Counter
 
     **Unit**: `{renewal}`
 
-    **Description**: Machine identity access token renewal attempts by outcome. Distinct from `infisical.auth.attempt.*`, which tracks initial logins.
+    **Description**: Machine identity access token renewal attempts by outcome. Distinct from `vaultix.auth.attempt.*`, which tracks initial logins.
 
     **Attributes** (bounded):
       - `outcome` (string): `success` or `failure`
-      - `infisical.auth.method` (string, optional): Identity auth method when known
+      - `vaultix.auth.method` (string, optional): Identity auth method when known
       - `error.type` (string, optional): Bounded failure classification (present on failures)
   </Accordion>
 </AccordionGroup>
 
 <Note>
-  The `infisical.auth.attempt.count` counter lives on the high-cardinality `Infisical` meter, while
-  `infisical.auth.attempt.duration` and `infisical.auth.token.renewal.count` live on the bounded
-  `InfisicalCore` meter. There is no per-identity "active identity" gauge: there is no reliable
+  The `vaultix.auth.attempt.count` counter lives on the high-cardinality `vaultix` meter, while
+  `vaultix.auth.attempt.duration` and `vaultix.auth.token.renewal.count` live on the bounded
+  `vaultixCore` meter. There is no per-identity "active identity" gauge: there is no reliable
   last-authenticated timestamp in the schema, so monthly/weekly active identity counts are best derived
-  from the `infisical.auth.attempt.*` series in your metrics backend (e.g. `count by (...)` over a time
+  from the `vaultix.auth.attempt.*` series in your metrics backend (e.g. `count by (...)` over a time
   window) rather than a snapshot gauge.
 </Note>
 
-### SSO Configuration Metrics (InfisicalCore)
+### SSO Configuration Metrics (vaultixCore)
 
 These metrics track changes to SSO configuration, helping you detect unexpected reconfiguration of identity providers.
 
 <AccordionGroup>
   <Accordion title="SSO Config Changes">
-    **Metric Name**: `infisical.sso.config.change.count`
+    **Metric Name**: `vaultix.sso.config.change.count`
 
     **Type**: Counter
 
@@ -575,13 +575,13 @@ These metrics track changes to SSO configuration, helping you detect unexpected 
   </Accordion>
 </AccordionGroup>
 
-### SCIM Provisioning Metrics (InfisicalCore)
+### SCIM Provisioning Metrics (vaultixCore)
 
 These metrics track SCIM provisioning operations (user and group lifecycle), enabling you to monitor directory-sync throughput and failures.
 
 <AccordionGroup>
   <Accordion title="SCIM Operations">
-    **Metric Name**: `infisical.scim.operation.count`
+    **Metric Name**: `vaultix.scim.operation.count`
 
     **Type**: Counter
 
@@ -595,23 +595,23 @@ These metrics track SCIM provisioning operations (user and group lifecycle), ena
       - `error.type` (string, optional): Bounded failure classification (present on failures)
   </Accordion>
   <Accordion title="SCIM Operation Latency">
-    **Metric Name**: `infisical.scim.operation.duration`
+    **Metric Name**: `vaultix.scim.operation.duration`
 
     **Type**: Histogram
 
     **Unit**: `s` (seconds)
 
-    **Description**: Latency of SCIM provisioning operations. Same attributes as `infisical.scim.operation.count`.
+    **Description**: Latency of SCIM provisioning operations. Same attributes as `vaultix.scim.operation.count`.
   </Accordion>
 </AccordionGroup>
 
-### Database Metrics (InfisicalCore)
+### Database Metrics (vaultixCore)
 
 This metric provides visibility into connection pool health. Query latency is intentionally not emitted, as managed databases (for example, Amazon RDS Performance Insights) already report per-statement latency at the server.
 
 <AccordionGroup>
   <Accordion title="Connection Pool">
-    **Metric Name**: `infisical.db.pool.connections`
+    **Metric Name**: `vaultix.db.pool.connections`
 
     **Type**: Observable Gauge
 
@@ -630,7 +630,7 @@ These metrics track Key Management Interoperability Protocol (KMIP) operations, 
 
 <AccordionGroup>
   <Accordion title="KMIP Operations">
-    **Metric Name**: `infisical.kmip.operation.count`
+    **Metric Name**: `vaultix.kmip.operation.count`
     
     **Type**: Counter
     
@@ -639,14 +639,14 @@ These metrics track Key Management Interoperability Protocol (KMIP) operations, 
     **Description**: Number of KMIP operations performed
     
     **Attributes**:
-      - `infisical.kmip.operation.type` (string): Operation type (`create`, `get`, `get_attributes`, `activate`, `revoke`, `destroy`, `locate`, `register`)
-      - `infisical.organization.id` (string): Organization ID
-      - `infisical.project.id` (string): Project ID
-      - `infisical.kmip.client.id` (string): KMIP client ID performing the operation
-      - `infisical.kmip.object.id` (string, optional): Managed object/key ID
-      - `infisical.kmip.object.name` (string, optional): Managed object/key name
-      - `infisical.identity.id` (string, optional): Machine identity ID
-      - `infisical.identity.name` (string, optional): Machine identity name
+      - `vaultix.kmip.operation.type` (string): Operation type (`create`, `get`, `get_attributes`, `activate`, `revoke`, `destroy`, `locate`, `register`)
+      - `vaultix.organization.id` (string): Organization ID
+      - `vaultix.project.id` (string): Project ID
+      - `vaultix.kmip.client.id` (string): KMIP client ID performing the operation
+      - `vaultix.kmip.object.id` (string, optional): Managed object/key ID
+      - `vaultix.kmip.object.name` (string, optional): Managed object/key name
+      - `vaultix.identity.id` (string, optional): Machine identity ID
+      - `vaultix.identity.name` (string, optional): Machine identity name
       - `user_agent.original` (string, optional): User agent string
       - `client.address` (string, optional): Client IP address
   </Accordion>
@@ -654,7 +654,7 @@ These metrics track Key Management Interoperability Protocol (KMIP) operations, 
 
 ### Integration & Secret Sync Metrics
 
-These metrics monitor secret synchronization operations between Infisical and external systems, helping you track sync health, identify integration failures, and troubleshoot connectivity issues.
+These metrics monitor secret synchronization operations between vaultix and external systems, helping you track sync health, identify integration failures, and troubleshoot connectivity issues.
 
 <AccordionGroup>
   <Accordion title="integration_secret_sync_errors">
@@ -686,13 +686,13 @@ These metrics monitor secret synchronization operations between Infisical and ex
   </Accordion>
 </AccordionGroup>
 
-### Job Queue Metrics (InfisicalCore)
+### Job Queue Metrics (vaultixCore)
 
 These metrics give per-queue visibility into BullMQ worker health: throughput, latency, contention, failures, and stalls. Use these to detect stuck workers, queue backlog, and which queues are failing.
 
 <AccordionGroup>
   <Accordion title="Queue Job Count">
-    **Metric Name**: `infisical.queue.job.count`
+    **Metric Name**: `vaultix.queue.job.count`
 
     **Type**: Counter
 
@@ -707,7 +707,7 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 
   <Accordion title="Queue Job Duration">
-    **Metric Name**: `infisical.queue.job.duration`
+    **Metric Name**: `vaultix.queue.job.duration`
 
     **Type**: Histogram
 
@@ -719,7 +719,7 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 
   <Accordion title="Queue Job Wait">
-    **Metric Name**: `infisical.queue.job.wait`
+    **Metric Name**: `vaultix.queue.job.wait`
 
     **Type**: Histogram
 
@@ -731,7 +731,7 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 
   <Accordion title="Queue Job Failure (classified)">
-    **Metric Name**: `infisical.queue.job.failure.count`
+    **Metric Name**: `vaultix.queue.job.failure.count`
 
     **Type**: Counter
 
@@ -746,7 +746,7 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 
   <Accordion title="Queue Stalled">
-    **Metric Name**: `infisical.queue.stalled.count`
+    **Metric Name**: `vaultix.queue.stalled.count`
 
     **Type**: Counter
 
@@ -758,7 +758,7 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 
   <Accordion title="Queue Depth">
-    **Metric Name**: `infisical.queue.depth`
+    **Metric Name**: `vaultix.queue.depth`
 
     **Type**: Observable Gauge
 
@@ -772,13 +772,13 @@ These metrics give per-queue visibility into BullMQ worker health: throughput, l
   </Accordion>
 </AccordionGroup>
 
-### Audit Log Metrics (InfisicalCore)
+### Audit Log Metrics (vaultixCore)
 
 End-to-end audit-log pipeline observability: how many events get enqueued per event type / actor, how long persistence takes, and how many are ultimately dropped.
 
 <AccordionGroup>
   <Accordion title="Audit Log Enqueued">
-    **Metric Name**: `infisical.audit_log.enqueued.count`
+    **Metric Name**: `vaultix.audit_log.enqueued.count`
 
     **Type**: Counter
 
@@ -792,7 +792,7 @@ End-to-end audit-log pipeline observability: how many events get enqueued per ev
   </Accordion>
 
   <Accordion title="Audit Log Persist Duration">
-    **Metric Name**: `infisical.audit_log.persist.duration`
+    **Metric Name**: `vaultix.audit_log.persist.duration`
 
     **Type**: Histogram
 
@@ -806,7 +806,7 @@ End-to-end audit-log pipeline observability: how many events get enqueued per ev
   </Accordion>
 
   <Accordion title="Audit Log Dropped">
-    **Metric Name**: `infisical.audit_log.dropped.count`
+    **Metric Name**: `vaultix.audit_log.dropped.count`
 
     **Type**: Counter
 
@@ -820,13 +820,13 @@ End-to-end audit-log pipeline observability: how many events get enqueued per ev
   </Accordion>
 </AccordionGroup>
 
-### Audit Log Stream Metrics (InfisicalCore)
+### Audit Log Stream Metrics (vaultixCore)
 
 Per-provider observability for the audit-log stream feature (Datadog, Splunk, Custom HTTP, Azure, Cribl).
 
 <AccordionGroup>
   <Accordion title="Audit Log Stream Delivery">
-    **Metric Name**: `infisical.audit_log_stream.delivery.count`
+    **Metric Name**: `vaultix.audit_log_stream.delivery.count`
 
     **Type**: Counter
 
@@ -842,7 +842,7 @@ Per-provider observability for the audit-log stream feature (Datadog, Splunk, Cu
   </Accordion>
 
   <Accordion title="Audit Log Stream Delivery Duration">
-    **Metric Name**: `infisical.audit_log_stream.delivery.duration`
+    **Metric Name**: `vaultix.audit_log_stream.delivery.duration`
 
     **Type**: Histogram
 
@@ -854,13 +854,13 @@ Per-provider observability for the audit-log stream feature (Datadog, Splunk, Cu
   </Accordion>
 </AccordionGroup>
 
-### Alert Dispatch Metrics (InfisicalCore)
+### Alert Dispatch Metrics (vaultixCore)
 
 Every "notify me when X happens" alert (credential expiry and anything else built on the alert module) is delivered by a dispatch job. This metric records how each job ended, so you can tell a dropped notification apart from a job that had nothing to send.
 
 <AccordionGroup>
   <Accordion title="Alert Dispatch Outcome">
-    **Metric Name**: `infisical.alert.dispatch.outcome.count`
+    **Metric Name**: `vaultix.alert.dispatch.outcome.count`
 
     **Type**: Counter
 
@@ -893,13 +893,13 @@ Every "notify me when X happens" alert (credential expiry and anything else buil
   </Accordion>
 </AccordionGroup>
 
-### Permission Cache Metrics (InfisicalCore)
+### Permission Cache Metrics (vaultixCore)
 
 The CASL permission cache uses a fingerprint-based two-tier scheme. These metrics tell you whether the cache is doing its job.
 
 <AccordionGroup>
   <Accordion title="Permission Cache Lookup">
-    **Metric Name**: `infisical.permission_cache.lookup.count`
+    **Metric Name**: `vaultix.permission_cache.lookup.count`
 
     **Type**: Counter
 
@@ -912,7 +912,7 @@ The CASL permission cache uses a fingerprint-based two-tier scheme. These metric
   </Accordion>
 
   <Accordion title="Permission Cache Fingerprint Duration">
-    **Metric Name**: `infisical.permission_cache.fingerprint.duration`
+    **Metric Name**: `vaultix.permission_cache.fingerprint.duration`
 
     **Type**: Histogram
 
@@ -922,13 +922,13 @@ The CASL permission cache uses a fingerprint-based two-tier scheme. These metric
   </Accordion>
 </AccordionGroup>
 
-### Secret Cache Metrics (InfisicalCore)
+### Secret Cache Metrics (vaultixCore)
 
 The secret service caches encrypted secret payloads to avoid redundant decryption on repeated reads. These metrics tell you whether the cache is effective and whether entries are being skipped for exceeding the size cap.
 
 <AccordionGroup>
   <Accordion title="Secret Cache Access">
-    **Metric Name**: `infisical.secret.cache.access.count`
+    **Metric Name**: `vaultix.secret.cache.access.count`
 
     **Type**: Counter
 
@@ -941,7 +941,7 @@ The secret service caches encrypted secret payloads to avoid redundant decryptio
   </Accordion>
 
   <Accordion title="Secret Cache Entry Bytes">
-    **Metric Name**: `infisical.secret.cache.entry.bytes`
+    **Metric Name**: `vaultix.secret.cache.entry.bytes`
 
     **Type**: Histogram
 
@@ -951,7 +951,7 @@ The secret service caches encrypted secret payloads to avoid redundant decryptio
   </Accordion>
 
   <Accordion title="Secret Cache Oversize Skip">
-    **Metric Name**: `infisical.secret.cache.oversize_skip.count`
+    **Metric Name**: `vaultix.secret.cache.oversize_skip.count`
 
     **Type**: Counter
 
@@ -961,11 +961,11 @@ The secret service caches encrypted secret payloads to avoid redundant decryptio
   </Accordion>
 </AccordionGroup>
 
-### Rate Limit Metrics (InfisicalCore)
+### Rate Limit Metrics (vaultixCore)
 
 <AccordionGroup>
   <Accordion title="Rate Limit Exceeded">
-    **Metric Name**: `infisical.rate_limit.exceeded.count`
+    **Metric Name**: `vaultix.rate_limit.exceeded.count`
 
     **Type**: Counter
 
@@ -979,11 +979,11 @@ The secret service caches encrypted secret payloads to avoid redundant decryptio
   </Accordion>
 </AccordionGroup>
 
-### Build Info (InfisicalCore)
+### Build Info (vaultixCore)
 
 <AccordionGroup>
   <Accordion title="Build Info">
-    **Metric Name**: `infisical.build.info`
+    **Metric Name**: `vaultix.build.info`
 
     **Type**: Observable Gauge
 
@@ -1019,18 +1019,18 @@ These low-level HTTP metrics are automatically collected by OpenTelemetry's inst
 <Accordion title="Metrics not appearing">
   If your metrics are not showing up in Prometheus or your monitoring system, check the following:
 
-  - Verify `OTEL_TELEMETRY_COLLECTION_ENABLED=true` is set in your Infisical environment variables
+  - Verify `OTEL_TELEMETRY_COLLECTION_ENABLED=true` is set in your vaultix environment variables
   - Ensure the correct `OTEL_EXPORT_TYPE` is set (`prometheus` or `otlp`)
-  - Check network connectivity between Infisical and your monitoring services (Prometheus or OTLP collector)
+  - Check network connectivity between vaultix and your monitoring services (Prometheus or OTLP collector)
   - For pull-based monitoring: Verify port 9464 is exposed and accessible
   - For push-based monitoring: Verify the OTLP endpoint URL is correct and reachable
-  - Check Infisical backend logs for any errors related to metrics export
+  - Check vaultix backend logs for any errors related to metrics export
 </Accordion>
 
 <Accordion title="Authentication errors">
   If you're experiencing authentication errors with the OpenTelemetry Collector:
 
-  - Verify basic auth credentials in your OTLP configuration match between Infisical and the collector
+  - Verify basic auth credentials in your OTLP configuration match between vaultix and the collector
   - Check that `OTEL_COLLECTOR_BASIC_AUTH_USERNAME` and `OTEL_COLLECTOR_BASIC_AUTH_PASSWORD` match the credentials in your `otel-collector-config.yaml`
   - Ensure the htpasswd format in the collector configuration is correct
   - Test the collector endpoint manually using curl with the same credentials to verify they work

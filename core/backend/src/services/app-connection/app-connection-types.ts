@@ -189,7 +189,7 @@ import {
   TExternalVaultixConnectionConfig,
   TExternalVaultixConnectionInput,
   TValidateExternalVaultixConnectionCredentialsSchema
-} from "./external-infisical";
+} from "./external-vaultix";
 import {
   TF5BigIpConnection,
   TF5BigIpConnectionConfig,

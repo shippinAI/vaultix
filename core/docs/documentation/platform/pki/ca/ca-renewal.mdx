@@ -13,7 +13,7 @@ Renew a CA certificate to extend its validity period. The renewal process varies
 ## Before You Renew
 
 <Note>
-  - If renewing an intermediate CA chained to an **Infisical CA**, Infisical will automate the process of generating a new certificate for you.
+  - If renewing an intermediate CA chained to an **vaultix CA**, vaultix will automate the process of generating a new certificate for you.
   - If renewing an intermediate CA signed by an **external CA provider** (e.g., Venafi, Microsoft ADCS), you can configure auto-renewal to automate the process. See [Venafi auto-renewal](/documentation/platform/pki/ca/venafi#auto-renewal) or [Microsoft ADCS auto-renewal](/documentation/platform/pki/ca/adcs).
   - If renewing an intermediate CA chained to an **external parent CA via manual import**, you'll need to generate a new certificate from the external parent CA and manually import it back.
 </Note>
@@ -21,7 +21,7 @@ Renew a CA certificate to extend its validity period. The renewal process varies
 ## Renew a CA
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Navigate to the CA">
         Go to **Certificate Manager → Certificate Authorities → Internal** and select the CA you want to renew.
@@ -44,7 +44,7 @@ Renew a CA certificate to extend its validity period. The renewal process varies
     ### Sample request
 
     ```bash
-    curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>/renew' \
+    curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>/renew' \
       --header 'Authorization: Bearer <access-token>' \
       --header 'Content-Type: application/json' \
       --data-raw '{
@@ -68,8 +68,8 @@ Renew a CA certificate to extend its validity period. The renewal process varies
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="Does Infisical support CA renewal via new key pair?">
-    At the moment, Infisical only supports CA renewal via same key pair. We anticipate supporting CA renewal via new key pair in the coming month.
+  <Accordion title="Does vaultix support CA renewal via new key pair?">
+    At the moment, vaultix only supports CA renewal via same key pair. We anticipate supporting CA renewal via new key pair in the coming month.
   </Accordion>
   <Accordion title="What happens to certificates issued by the old CA certificate?">
     Certificates issued before the renewal remain valid until their own expiration date. The CA's private key stays the same, so the chain of trust is preserved.

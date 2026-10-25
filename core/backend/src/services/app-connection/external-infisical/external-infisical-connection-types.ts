@@ -7,7 +7,7 @@ import {
   CreateExternalVaultixConnectionSchema,
   ExternalVaultixConnectionSchema,
   ValidateExternalVaultixConnectionCredentialsSchema
-} from "./external-infisical-connection-schemas";
+} from "./external-vaultix-connection-schemas";
 
 export type TExternalVaultixConnection = z.infer<typeof ExternalVaultixConnectionSchema>;
 

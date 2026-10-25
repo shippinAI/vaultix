@@ -11,13 +11,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	chimw "github.com/go-chi/chi/v5/middleware"
 
-	"github.com/infisical/api/internal/config"
-	"github.com/infisical/api/internal/libs/requestid"
-	"github.com/infisical/api/internal/server/api"
-	"github.com/infisical/api/internal/server/middlewares"
+	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix/api/internal/libs/requestid"
+	"github.com/vaultix/api/internal/server/api"
+	"github.com/vaultix/api/internal/server/middlewares"
 )
 
-// Server is the HTTP server for the Infisical API.
+// Server is the HTTP server for the vaultix API.
 type Server struct {
 	services *api.Services
 	config   *config.Config

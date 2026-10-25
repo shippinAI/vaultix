@@ -4,9 +4,9 @@ description: "Learn how to set up approval policies for managing changes to secr
 ---
 
 <Info>
-  This feature is available under the **Enterprise Tier** on Infisical Cloud.
+  This feature is available under the **Enterprise Tier** on vaultix Cloud.
 
-  If you're self-hosting Infisical, contact sales@infisical.com to purchase an
+  If you're self-hosting vaultix, contact sales@vaultix.com to purchase an
   enterprise license.
 </Info>
 
@@ -14,13 +14,13 @@ This guide shows you how to create approval policies that require changes to sec
 
 ## Prerequisites
 
-- An Infisical project with at least one environment configured
+- An vaultix project with at least one environment configured
 - The **Create** permission on **Secret Approval** for the target project (typically granted to project admins or custom roles with explicit Secret Approval permissions)
 - Access to the **Approvals** page in your project sidebar (**Project → Approvals**)
 
 <Steps>
   <Step title="Create a change policy">
-    Navigate to **Project → Approvals** in the Infisical dashboard and create a new policy.
+    Navigate to **Project → Approvals** in the vaultix dashboard and create a new policy.
 
     Select **Change Policy** as the policy type. Other types include **Access Policy**, which creates policies for [Access Requests](/documentation/platform/access-controls/access-requests).
 
@@ -51,7 +51,7 @@ This guide shows you how to create approval policies that require changes to sec
   <Step title="Review and act on a change request">
     Approvers are notified by email, [Slack](/documentation/platform/workflow-integrations/slack-integration), or [Microsoft Teams](/documentation/platform/workflow-integrations/microsoft-teams-integration) when a new change request is submitted.
 
-    In the Infisical dashboard, an approver can take the following actions:
+    In the vaultix dashboard, an approver can take the following actions:
 
     1. **Approve** — Submit an approval vote for the change request. The request must meet the minimum approval threshold defined in the policy before it can be merged.
     2. **Merge** — Apply the approved changes to the target environment. This is a separate action from approving and can be performed by an admin, the request creator, or an approver once sufficient approvals are met.
@@ -59,7 +59,7 @@ This guide shows you how to create approval policies that require changes to sec
 
     ![Review a change request](../../images/platform/pr-workflows/secret-update-pr.png)
 
-    After a change request is merged, the updated secrets are automatically synced to connected applications (for example, through the [Infisical Kubernetes Operator](https://infisical.com/docs/integrations/platforms/kubernetes)).
+    After a change request is merged, the updated secrets are automatically synced to connected applications (for example, through the [vaultix Kubernetes Operator](https://vaultix.com/docs/integrations/platforms/kubernetes)).
   </Step>
 </Steps>
 

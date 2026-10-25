@@ -17,7 +17,7 @@ const getAwsKmsClient = async (providerInputs: TExternalKmsAwsSchema) => {
     });
     const command = new AssumeRoleCommand({
       RoleArn: awsCredential.assumeRoleArn,
-      RoleSessionName: `infisical-kms-${crypto.nativeCrypto.randomUUID()}`,
+      RoleSessionName: `vaultix-kms-${crypto.nativeCrypto.randomUUID()}`,
       DurationSeconds: 900, // 15mins
       ExternalId: awsCredential.externalId
     });

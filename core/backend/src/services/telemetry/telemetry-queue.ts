@@ -58,7 +58,7 @@ export const telemetryQueueServiceFactory = ({
           ...telemetryStats,
           numberOfSecretProcessed,
           numberOfSecretOperationsMade,
-          ...(appCfg.VAULTIX_PLATFORM_VERSION ? { infisicalVersion: appCfg.VAULTIX_PLATFORM_VERSION } : {})
+          ...(appCfg.VAULTIX_PLATFORM_VERSION ? { vaultixVersion: appCfg.VAULTIX_PLATFORM_VERSION } : {})
         };
 
         postHog.capture({

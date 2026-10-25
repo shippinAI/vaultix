@@ -31,7 +31,7 @@ Use the SCEP enrollment method to provision certificates to network devices, mob
   </Card>
 </CardGroup>
 
-Infisical's SCEP service is based on [RFC 8894](https://datatracker.ietf.org/doc/html/rfc8894) and implements the following operations:
+vaultix's SCEP service is based on [RFC 8894](https://datatracker.ietf.org/doc/html/rfc8894) and implements the following operations:
 
 - **GetCACaps**: returns the SCEP server's supported capabilities (algorithms, features).
 - **GetCACert**: returns the RA (Registration Authority) certificate and the CA certificate chain in a PKCS#7 bundle.
@@ -40,10 +40,10 @@ Infisical's SCEP service is based on [RFC 8894](https://datatracker.ietf.org/doc
 These SCEP endpoints are exposed under the `/scep` path and structured as:
 
 ```
-https://app.infisical.com/scep/{profile_id}/pkiclient.exe
+https://app.vaultix.com/scep/{profile_id}/pkiclient.exe
 ```
 
-For self-hosted Infisical instances, replace `app.infisical.com` with your instance's domain.
+For self-hosted vaultix instances, replace `app.vaultix.com` with your instance's domain.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ For self-hosted Infisical instances, replace `app.infisical.com` with your insta
 
 ## Challenge Types
 
-Infisical supports three challenge authentication modes for SCEP enrollment:
+vaultix supports three challenge authentication modes for SCEP enrollment:
 
 <Tabs>
   <Tab title="Static Challenge">
@@ -64,15 +64,15 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
     - The password is hashed before storage and cannot be retrieved after creation.
   </Tab>
   <Tab title="Microsoft Intune">
-    The challenge password is validated directly with Microsoft Intune instead of against a password stored in Infisical. Intune generates a unique challenge for each device it enrolls, and Infisical asks Intune to confirm that the challenge is valid before issuing the certificate.
+    The challenge password is validated directly with Microsoft Intune instead of against a password stored in vaultix. Intune generates a unique challenge for each device it enrolls, and vaultix asks Intune to confirm that the challenge is valid before issuing the certificate.
 
     Use this mode when devices are managed by Microsoft Intune. It removes the need to distribute a shared password and lets Intune track certificate issuance per device.
 
     - Requires a **Microsoft Intune** [App Connection](/integrations/app-connections/microsoft-intune) with permission to validate SCEP requests. Microsoft Intune is an enterprise App Connection.
-    - Infisical reports issuance success and failure back to Intune for each request.
+    - vaultix reports issuance success and failure back to Intune for each request.
 
     <Warning>
-      **Do not attach an approval policy to a profile used with Microsoft Intune.** Intune SCEP issues synchronously and has no pending state. When issuance cannot complete within the request, Infisical reports the request to Intune as failed and returns a failure to the device rather than leaving either side waiting.
+      **Do not attach an approval policy to a profile used with Microsoft Intune.** Intune SCEP issues synchronously and has no pending state. When issuance cannot complete within the request, vaultix reports the request to Intune as failed and returns a failure to the device rather than leaving either side waiting.
     </Warning>
   </Tab>
   <Tab title="Dynamic Challenge">
@@ -80,10 +80,10 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
     This mode is designed for MDM tools like **Jamf Pro** that support fetching a challenge from an external webhook before delivering the SCEP profile to a device.
 
-    When dynamic challenges are enabled, Infisical exposes a challenge endpoint at:
+    When dynamic challenges are enabled, vaultix exposes a challenge endpoint at:
 
     ```
-    https://app.infisical.com/scep/{profile_id}/challenge
+    https://app.vaultix.com/scep/{profile_id}/challenge
     ```
 
     The endpoint accepts authenticated `POST` requests and returns a plain-text one-time challenge password. The caller must authenticate using a [Machine Identity](/documentation/platform/identities/machine-identities) access token.
@@ -120,7 +120,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
     Here's some guidance on each SCEP-specific configuration field:
 
     - **Challenge Type**: Select **Static** for a shared password or **Dynamic** for one-time-use challenges generated via API. See [Challenge Types](#challenge-types) above.
-    - **Challenge Password** (static only): A shared secret that SCEP clients must include in their certificate signing request (CSR) to authenticate with Infisical's SCEP server. Must be at least 8 characters.
+    - **Challenge Password** (static only): A shared secret that SCEP clients must include in their certificate signing request (CSR) to authenticate with vaultix's SCEP server. Must be at least 8 characters.
     - **Challenge Expiry** (dynamic only): How long each generated challenge remains valid, in minutes.
     - **Max Pending Challenges** (dynamic only): Maximum number of unused challenges that can exist at once.
     - **Sign RA certificate with the CA**: Choose whether the RA certificate is self-signed or signed by this profile's CA. Signing it with the CA makes it chain to your CA root, which strict clients such as Apple (macOS and iOS) and Microsoft Intune require. Currently only internal CAs can sign the RA, and requesting it for any other CA type is rejected. This cannot be changed once SCEP enrollment exists, because changing it regenerates the RA certificate and breaks devices that already trust the current one. To change it, disable SCEP enrollment and set it up again.
@@ -149,7 +149,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
         ```bash
         sscep getca \
-          -u https://app.infisical.com/scep/{profile_id}/pkiclient.exe \
+          -u https://app.vaultix.com/scep/{profile_id}/pkiclient.exe \
           -c ca.pem
         ```
 
@@ -192,7 +192,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
         ```bash
         sscep enroll \
-          -u https://app.infisical.com/scep/{profile_id}/pkiclient.exe \
+          -u https://app.vaultix.com/scep/{profile_id}/pkiclient.exe \
           -c ca.pem-0 \
           -k device.key \
           -r device.csr \
@@ -220,7 +220,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
         ```bash
         curl -s -X POST \
-          https://app.infisical.com/scep/{profile_id}/challenge \
+          https://app.vaultix.com/scep/{profile_id}/challenge \
           -H "Authorization: Bearer <machine-identity-access-token>"
         ```
 
@@ -255,7 +255,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
     # Enroll using the issued certificate as the signing identity
     sscep enroll \
-      -u https://app.infisical.com/scep/{profile_id}/pkiclient.exe \
+      -u https://app.vaultix.com/scep/{profile_id}/pkiclient.exe \
       -c ca.pem-0 \
       -k device.key \
       -r device-renew.csr \
@@ -272,7 +272,7 @@ Infisical supports three challenge authentication modes for SCEP enrollment:
 
 ## Supported Algorithms
 
-Infisical's SCEP server supports the following algorithms for the CMS message exchange:
+vaultix's SCEP server supports the following algorithms for the CMS message exchange:
 
 - **Encryption**: AES-256-CBC, AES-128-CBC, 3DES-CBC (DES-EDE3-CBC)
 - **Signing**: SHA-256, SHA-384, SHA-512, SHA-1
@@ -282,7 +282,7 @@ Infisical's SCEP server supports the following algorithms for the CMS message ex
 
 <AccordionGroup>
   <Accordion title="What is the RA certificate?">
-    The RA (Registration Authority) certificate is Infisical's identity for the SCEP message exchange. It is generated automatically when SCEP enrollment is enabled on a profile, and Infisical holds its private key. It is either self-signed or signed by the profile's CA, controlled by the **Sign RA certificate with the CA** option (see above). Strict clients such as Microsoft Intune and Apple require a CA-signed RA, which currently only internal CAs support.
+    The RA (Registration Authority) certificate is vaultix's identity for the SCEP message exchange. It is generated automatically when SCEP enrollment is enabled on a profile, and vaultix holds its private key. It is either self-signed or signed by the profile's CA, controlled by the **Sign RA certificate with the CA** option (see above). Strict clients such as Microsoft Intune and Apple require a CA-signed RA, which currently only internal CAs support.
   </Accordion>
   <Accordion title="When should I use static vs. dynamic challenges?">
     Use **static challenges** for simple setups where a shared password is acceptable, such as network devices or test environments.

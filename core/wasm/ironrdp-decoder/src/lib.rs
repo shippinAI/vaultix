@@ -196,7 +196,7 @@ fn stub_config(desktop_size: DesktopSize) -> Config {
         },
         domain: None,
         client_build: 0,
-        client_name: "infisical-replay".to_owned(),
+        client_name: "vaultix-replay".to_owned(),
         keyboard_type: KeyboardType::IbmEnhanced,
         keyboard_subtype: 0,
         keyboard_functional_keys_count: 12,

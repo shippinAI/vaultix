@@ -1,4 +1,4 @@
-import { TExternalVaultixSync } from "@app/hooks/api/secretSyncs/types/external-infisical-sync";
+import { TExternalVaultixSync } from "@app/hooks/api/secretSyncs/types/external-vaultix-sync";
 
 import { getSecretSyncDestinationColValues } from "../helpers";
 import { SecretSyncTableCell } from "../SecretSyncTableCell";

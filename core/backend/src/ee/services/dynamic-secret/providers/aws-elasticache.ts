@@ -49,17 +49,17 @@ const ElastiCacheUserManager = (credentials: TBasicAWSCredentials, region: strin
     credentials
   });
 
-  const infisicalGroup = "infisical-managed-group-elasticache";
+  const vaultixGroup = "vaultix-managed-group-elasticache";
 
-  const ensureInfisicalGroupExists = async (clusterName: string) => {
+  const ensurevaultixGroupExists = async (clusterName: string) => {
     const replicationGroups = await elastiCache.send(new DescribeUserGroupsCommand());
 
-    const existingGroup = replicationGroups.UserGroups?.find((group) => group.UserGroupId === infisicalGroup);
+    const existingGroup = replicationGroups.UserGroups?.find((group) => group.UserGroupId === vaultixGroup);
 
     let newlyCreatedGroup = false;
     if (!existingGroup) {
       const createGroupCommand = new CreateUserGroupCommand({
-        UserGroupId: infisicalGroup,
+        UserGroupId: vaultixGroup,
         UserIds: ["default"],
         Engine: "redis"
       });
@@ -77,10 +77,10 @@ const ElastiCacheUserManager = (credentials: TBasicAWSCredentials, region: strin
         )
       ).ReplicationGroups?.[0];
 
-      if (!replicationGroup?.UserGroupIds?.includes(infisicalGroup)) {
-        // If the replication group doesn't have the infisical user group, we need to associate it
+      if (!replicationGroup?.UserGroupIds?.includes(vaultixGroup)) {
+        // If the replication group doesn't have the vaultix user group, we need to associate it
         const modifyGroupCommand = new ModifyReplicationGroupCommand({
-          UserGroupIdsToAdd: [infisicalGroup],
+          UserGroupIdsToAdd: [vaultixGroup],
           UserGroupIdsToRemove: [],
           ApplyImmediately: true,
           ReplicationGroupId: clusterName
@@ -90,11 +90,11 @@ const ElastiCacheUserManager = (credentials: TBasicAWSCredentials, region: strin
     }
   };
 
-  const $addUserToInfisicalGroup = async (userId: string) => {
+  const $addUserTovaultixGroup = async (userId: string) => {
     // figure out if the default user is already in the group, if it is, then we shouldn't add it again
 
     const addUserToGroupCommand = new ModifyUserGroupCommand({
-      UserGroupId: infisicalGroup,
+      UserGroupId: vaultixGroup,
       UserIdsToAdd: [userId],
       UserIdsToRemove: []
     });
@@ -103,10 +103,10 @@ const ElastiCacheUserManager = (credentials: TBasicAWSCredentials, region: strin
   };
 
   const createUser = async (creationInput: TCreateElastiCacheUserInput, clusterName: string) => {
-    await ensureInfisicalGroupExists(clusterName);
+    await ensurevaultixGroupExists(clusterName);
 
     await elastiCache.send(new CreateUserCommand(creationInput)); // First create the user
-    await $addUserToInfisicalGroup(creationInput.UserId); // Then add the user to the group. We know the group is already a part of the cluster because of ensureInfisicalGroupExists()
+    await $addUserTovaultixGroup(creationInput.UserId); // Then add the user to the group. We know the group is already a part of the cluster because of ensurevaultixGroupExists()
 
     return {
       userId: creationInput.UserId,

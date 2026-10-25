@@ -18,11 +18,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/keystore"
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/services/auth"
-	"github.com/infisical/api/internal/services/auth/apiauth"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/keystore"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var (
@@ -1001,7 +1001,7 @@ func TestValidateIdentityAccessToken_IPBlocked(t *testing.T) {
 	token := nodejs.GetIdentityAccessToken(t, identity.ID)
 
 	// Update the trusted IPs to only allow a specific IP (not 192.168.1.1)
-	// Use proper JSON format matching what Infisical stores.
+	// Use proper JSON format matching what vaultix stores.
 	// No "prefix" field means exact IP match; "prefix":0 would mean /0 (all IPs).
 	_, err := stack.DB().Primary().Exec(context.Background(), `
 		UPDATE identity_universal_auths

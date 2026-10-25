@@ -5,7 +5,7 @@ description: "Issue Domain Validated (DV) certificates from GoDaddy using the Go
 
 ## Concept
 
-Infisical can issue Domain Validated (DV) TLS certificates directly from [GoDaddy](https://www.godaddy.com/) using the [GoDaddy Certificates API](https://developer.godaddy.com/doc/endpoint/certificates).
+vaultix can issue Domain Validated (DV) TLS certificates directly from [GoDaddy](https://www.godaddy.com/) using the [GoDaddy Certificates API](https://developer.godaddy.com/doc/endpoint/certificates).
 
 <Warning>
   Only the single-domain `DV_SSL` product is supported.
@@ -32,10 +32,10 @@ Then create a [certificate profile](/documentation/platform/pki/settings/profile
 ## Create a GoDaddy Certificate Authority
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Create a GoDaddy App Connection">
-        Follow the [GoDaddy App Connection guide](/integrations/app-connections/godaddy) to store your GoDaddy API key and secret in Infisical.
+        Follow the [GoDaddy App Connection guide](/integrations/app-connections/godaddy) to store your GoDaddy API key and secret in vaultix.
       </Step>
       <Step title="Create the External CA">
         In **Certificate Manager**, go to **Certificate Authorities**, click **Create CA** in the External Certificate Authorities section, choose **GoDaddy** as the type, and fill out the form:
@@ -50,7 +50,7 @@ Then create a [certificate profile](/documentation/platform/pki/settings/profile
 
     ```bash Create a GoDaddy CA
     curl --request POST \
-      --url https://app.infisical.com/api/v1/pki/ca/godaddy \
+      --url https://app.vaultix.com/api/v1/pki/ca/godaddy \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "godaddy-dv",
@@ -71,14 +71,14 @@ When you request a certificate through a GoDaddy CA, the request moves through t
 | State | Description |
 |-------|-------------|
 | **Pending Validation** | GoDaddy has accepted the order and returned a certificate id. Complete domain control validation (DCV) on the GoDaddy side. |
-| **Issued** | Infisical polls GoDaddy and downloads the certificate once validation completes. Use **Trigger Validation** to force an immediate check. |
+| **Issued** | vaultix polls GoDaddy and downloads the certificate once validation completes. Use **Trigger Validation** to force an immediate check. |
 | **Failed** | If GoDaddy does not issue within 24 hours. Complete validation and submit a new request. |
 
 <Note>
   Domain control validation is completed on GoDaddy's side, typically with a DNS TXT record (GoDaddy
   also supports an HTML file). The DNS method is recommended and also covers the `www` host of the
   common name. Add the record GoDaddy specifies to your domain's DNS zone; once GoDaddy verifies it,
-  the certificate is issued and Infisical downloads it automatically.
+  the certificate is issued and vaultix downloads it automatically.
 </Note>
 
 ## FAQ
@@ -101,11 +101,11 @@ When you request a certificate through a GoDaddy CA, the request moves through t
     URI), are rejected. For multiple unrelated domains use a multi-domain CA; for email/identity SANs
     use a private (S/MIME) CA.
   </Accordion>
-  <Accordion title="What happens when I revoke a GoDaddy-issued certificate in Infisical?">
-    Revoking in Infisical marks the certificate `Revoked` in the local inventory **and** submits a
+  <Accordion title="What happens when I revoke a GoDaddy-issued certificate in vaultix?">
+    Revoking in vaultix marks the certificate `Revoked` in the local inventory **and** submits a
     revocation request to GoDaddy, so the certificate is revoked on GoDaddy's side too. Syncing is
     one-directional, though: a certificate revoked **directly on GoDaddy** is not reflected back into
-    Infisical automatically.
+    vaultix automatically.
 
     <Warning>
       Revoking is irreversible and burns the GoDaddy product. On revocation GoDaddy cancels the SSL
@@ -116,18 +116,18 @@ When you request a certificate through a GoDaddy CA, the request moves through t
     </Warning>
   </Accordion>
   <Accordion title="How does renewal work for GoDaddy certificates?">
-    Renewing in Infisical calls GoDaddy's native renew endpoint against the existing certificate
+    Renewing in vaultix calls GoDaddy's native renew endpoint against the existing certificate
     rather than placing a brand-new order. GoDaddy only renews a certificate from 60 days before to
     30 days after its expiry, and only then issues a replacement certificate. If you renew earlier
     than that window, GoDaddy keeps serving the current certificate, so the request stays in
     `Pending Validation` until GoDaddy issues the renewed certificate (or the request times out).
     Renewing extends validity, which on GoDaddy's side may require an available product or a paid
     renewal, so make sure your account has one. As with a new order, GoDaddy may require domain
-    control validation again before the renewed certificate is issued, after which Infisical
+    control validation again before the renewed certificate is issued, after which vaultix
     downloads it automatically.
   </Accordion>
   <Accordion title="What happens if I cancel a pending GoDaddy request?">
-    Cancelling a pending request in Infisical stops local tracking and marks it failed, but it does
+    Cancelling a pending request in vaultix stops local tracking and marks it failed, but it does
     not cancel the order on GoDaddy. To free a held product credit, cancel the pending order on
     GoDaddy's side.
   </Accordion>

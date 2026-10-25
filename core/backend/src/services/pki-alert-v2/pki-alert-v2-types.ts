@@ -65,11 +65,11 @@ export enum PkiAlertRunStatus {
 }
 
 export enum PkiWebhookEventType {
-  CERTIFICATE_EXPIRATION = "com.infisical.pki.certificate.expiration",
-  CERTIFICATE_ISSUANCE = "com.infisical.pki.certificate.issuance",
-  CERTIFICATE_RENEWAL = "com.infisical.pki.certificate.renewal",
-  CERTIFICATE_REVOCATION = "com.infisical.pki.certificate.revocation",
-  CERTIFICATE_TEST = "com.infisical.pki.certificate.test"
+  CERTIFICATE_EXPIRATION = "com.vaultix.pki.certificate.expiration",
+  CERTIFICATE_ISSUANCE = "com.vaultix.pki.certificate.issuance",
+  CERTIFICATE_RENEWAL = "com.vaultix.pki.certificate.renewal",
+  CERTIFICATE_REVOCATION = "com.vaultix.pki.certificate.revocation",
+  CERTIFICATE_TEST = "com.vaultix.pki.certificate.test"
 }
 
 export const alertEventTypeToWebhookEventType: Record<PkiAlertEventType, PkiWebhookEventType> = {

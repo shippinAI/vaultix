@@ -9,7 +9,7 @@ public_host_alias: vaultix.shippin.ai
 tagline: Secrets you own. Never in chat.
 stamp: A SHIPPIN.AI SERVICE
 forbidden_in_customer_ui:
-  - Infisical
+  - vaultix
   - Authentik
   - HashiCorp Vault
   - Clerk

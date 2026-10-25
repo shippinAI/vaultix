@@ -3,11 +3,11 @@ title: "Tailscale"
 description: "Learn how to dynamically generate Tailscale auth keys, OAuth clients, and federated identities."
 ---
 
-The Infisical Tailscale dynamic secret allows you to generate short-lived Tailscale auth keys, OAuth clients, and federated identities on demand. Each lease creates a new credential in your tailnet, and Infisical automatically revokes it when the lease expires.
+The vaultix Tailscale dynamic secret allows you to generate short-lived Tailscale auth keys, OAuth clients, and federated identities on demand. Each lease creates a new credential in your tailnet, and vaultix automatically revokes it when the lease expires.
 
 ## Prerequisites
 
-Infisical needs a credential that is allowed to create and revoke keys in your tailnet. You can authenticate with either **API access token** or **OAuth client**.
+vaultix needs a credential that is allowed to create and revoke keys in your tailnet. You can authenticate with either **API access token** or **OAuth client**.
 
 <Tabs>
   <Tab title="API Key">
@@ -25,7 +25,7 @@ Infisical needs a credential that is allowed to create and revoke keys in your t
         ![Tailscale generate access token](/images/platform/dynamic-secrets/tailscale/step-3-access-token.png)
         ![Tailscale access token modal](/images/platform/dynamic-secrets/tailscale/step-4-access-token.png)
 
-        Copy the token and save it for later steps. This token is used by Infisical to create and revoke keys.
+        Copy the token and save it for later steps. This token is used by vaultix to create and revoke keys.
       </Step>
     </Steps>
   </Tab>
@@ -46,7 +46,7 @@ Infisical needs a credential that is allowed to create and revoke keys in your t
 
         ![Tailscale choose OAuth](/images/platform/dynamic-secrets/tailscale/step-4-trusted-credentials.png)
 
-        Under **Keys**, grant **write** access to the scopes for the credentials you plan to mint (for example, `auth_keys`, `oauth_keys`, and/or `federated_keys`). Attach any ACL tags the credential must be allowed to assign (for example, `tag:infisical-dynamic-secrets`), then click **Generate credential**.
+        Under **Keys**, grant **write** access to the scopes for the credentials you plan to mint (for example, `auth_keys`, `oauth_keys`, and/or `federated_keys`). Attach any ACL tags the credential must be allowed to assign (for example, `tag:vaultix-dynamic-secrets`), then click **Generate credential**.
 
         ![Tailscale credential scopes](/images/platform/dynamic-secrets/tailscale/step-5-trusted-credentials.png)
 
@@ -88,7 +88,7 @@ Infisical needs a credential that is allowed to create and revoke keys in your t
     </ParamField>
 
     <ParamField path="Authentication Method" type="string" required>
-      How Infisical authenticates to the Tailscale API. Choose **API Key** to use a Tailscale API access token, or **OAuth** to use an OAuth client's credentials.
+      How vaultix authenticates to the Tailscale API. Choose **API Key** to use a Tailscale API access token, or **OAuth** to use an OAuth client's credentials.
     </ParamField>
 
     <ParamField path="Key Type" type="string" required>
@@ -140,7 +140,7 @@ Infisical needs a credential that is allowed to create and revoke keys in your t
         </ParamField>
 
         <Note>
-          OAuth clients cannot be created with the `auth_keys`, `oauth_keys`, `federated_keys`, `api_access_tokens`, and `all` scopes. Those scopes can create or modify other credentials in your tailnet, so Infisical blocks them to prevent leases from changing existing Tailscale credentials.
+          OAuth clients cannot be created with the `auth_keys`, `oauth_keys`, `federated_keys`, `api_access_tokens`, and `all` scopes. Those scopes can create or modify other credentials in your tailnet, so vaultix blocks them to prevent leases from changing existing Tailscale credentials.
         </Note>
       </Tab>
       <Tab title="Federated Identity">
@@ -161,7 +161,7 @@ Infisical needs a credential that is allowed to create and revoke keys in your t
         </ParamField>
 
         <Note>
-          OAuth clients cannot be created with the `auth-keys` or `oauth` scopes. Those scopes can create or modify other credentials in your tailnet, so Infisical blocks them to prevent leases from changing existing Tailscale credentials.
+          OAuth clients cannot be created with the `auth-keys` or `oauth` scopes. Those scopes can create or modify other credentials in your tailnet, so vaultix blocks them to prevent leases from changing existing Tailscale credentials.
         </Note>
       </Tab>
     </Tabs>

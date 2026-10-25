@@ -13,10 +13,10 @@ description: "Learn how to automatically rotate Supabase API keys."
 
 - Create a [Supabase Connection](/integrations/app-connections/supabase). That connection is used to create and delete API keys on your behalf during rotation.
 
-## Create a Supabase API Key Rotation in Infisical
+## Create a Supabase API Key Rotation in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         1. Navigate to your Secret Manager Project's Dashboard and select **Add Secret Rotation** from the actions dropdown.
 
         ![Secret Manager Dashboard](/images/secret-rotations-v2/generic/add-secret-rotation.png)
@@ -45,7 +45,7 @@ description: "Learn how to automatically rotate Supabase API keys."
 
         5. Specify the secret name that the rotated API key will be mapped to. Then click **Next**.
 
-        - **API Key** – The name of the secret in Infisical where the rotated API key value will be stored.
+        - **API Key** – The name of the secret in vaultix where the rotated API key value will be stored.
 
         ![Rotation Secrets Mapping](/images/secret-rotations-v2/supabase-api-key/secrets-mapping.png)
 
@@ -71,7 +71,7 @@ description: "Learn how to automatically rotate Supabase API keys."
 
         ```bash Request
         curl --request POST \
-          --url https://us.infisical.com/api/v2/secret-rotations/supabase-api-key \
+          --url https://us.vaultix.com/api/v2/secret-rotations/supabase-api-key \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-supabase-rotation",

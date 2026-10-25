@@ -1,9 +1,9 @@
 ---
 title: "OpenAI Connection"
-description: "Learn how to configure an OpenAI connection for Infisical."
+description: "Learn how to configure an OpenAI connection for vaultix."
 ---
 
-Infisical supports connecting to OpenAI using an **Admin API Key**. This connection is used to create and rotate OpenAI project service accounts via [Secret Rotation](/documentation/platform/secret-rotation/openai-service-account).
+vaultix supports connecting to OpenAI using an **Admin API Key**. This connection is used to create and rotate OpenAI project service accounts via [Secret Rotation](/documentation/platform/secret-rotation/openai-service-account).
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ You need an OpenAI **Admin API key** created by an **Organization Owner**. Admin
         ![Create New Admin Key](/images/app-connections/openai/step-4.png)
     </Step>
     <Step title="Name and create the key">
-        Give the key a descriptive name (e.g. `infisical-key`), set the permissions as needed, and click **Create admin key**.
+        Give the key a descriptive name (e.g. `vaultix-key`), set the permissions as needed, and click **Create admin key**.
 
         ![Name and Create Admin Key](/images/app-connections/openai/step-5.png)
     </Step>
@@ -45,16 +45,16 @@ You need an OpenAI **Admin API key** created by an **Organization Owner**. Admin
 </Steps>
 
 <Tip>
-    Create a dedicated Admin API key for Infisical rather than reusing an existing one. This makes it easy to rotate or revoke access independently.
+    Create a dedicated Admin API key for vaultix rather than reusing an existing one. This makes it easy to rotate or revoke access independently.
 </Tip>
 
-## Create OpenAI Connection in Infisical
+## Create OpenAI Connection in vaultix
 
 <Tabs>
-    <Tab title="Infisical UI">
+    <Tab title="vaultix UI">
         <Steps>
             <Step title="Navigate to App Connections">
-                In your Infisical dashboard, go to **Integrations** → **App Connections** tab in your project.
+                In your vaultix dashboard, go to **Integrations** → **App Connections** tab in your project.
 
                 ![App Connections Tab](/images/app-connections/general/revamped-app-connection-tab.png)
             </Step>
@@ -72,7 +72,7 @@ You need an OpenAI **Admin API key** created by an **Organization Owner**. Admin
                 ![OpenAI Connection Form](/images/app-connections/openai/step-8.png)
             </Step>
             <Step title="Connection Created">
-                After clicking **Connect to OpenAI**, Infisical validates the key against the OpenAI API. Your **OpenAI Connection** is then ready to use for [OpenAI Service Account Secret Rotation](/documentation/platform/secret-rotation/openai-service-account).
+                After clicking **Connect to OpenAI**, vaultix validates the key against the OpenAI API. Your **OpenAI Connection** is then ready to use for [OpenAI Service Account Secret Rotation](/documentation/platform/secret-rotation/openai-service-account).
 
                 ![OpenAI Connection Created](/images/app-connections/openai/step-9.png)
             </Step>
@@ -85,7 +85,7 @@ You need an OpenAI **Admin API key** created by an **Organization Owner**. Admin
 
         ```bash Request
         curl --request POST \
-          --url https://app.infisical.com/api/v1/app-connections/openai \
+          --url https://app.vaultix.com/api/v1/app-connections/openai \
           --header 'Content-Type: application/json' \
           --data '{
             "name": "my-openai-connection",

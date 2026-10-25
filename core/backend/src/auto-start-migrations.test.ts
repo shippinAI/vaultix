@@ -28,7 +28,7 @@ const testMigrationNames = {
 let tempDirs: string[] = [];
 
 const writeBundledMigrations = async (migrationNames: string[]) => {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "infisical-migrations-"));
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "vaultix-migrations-"));
   tempDirs.push(tempDir);
 
   await Promise.all(migrationNames.map((migrationName) => fs.writeFile(path.join(tempDir, migrationName), "")));

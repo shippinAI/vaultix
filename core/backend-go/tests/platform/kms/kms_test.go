@@ -13,9 +13,9 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/infisical/api/internal/ee/services/externalkms"
-	"github.com/infisical/api/internal/services/kms"
-	"github.com/infisical/api/tests/infra"
+	"github.com/vaultix/api/internal/ee/services/externalkms"
+	"github.com/vaultix/api/internal/services/kms"
+	"github.com/vaultix/api/tests/infra"
 )
 
 var stack *infra.Stack

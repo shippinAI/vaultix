@@ -1,13 +1,13 @@
 ---
 title: "ACME-compatible CA"
-description: "Learn how to connect Infisical to an ACME-compatible CA to issue certificates."
+description: "Learn how to connect vaultix to an ACME-compatible CA to issue certificates."
 ---
 
 ## Concept
 
-Infisical can connect to any upstream ACME-compatible CA (e.g. Lets's Encrypt, DigiCert, etc.) supporting the [ACME protocol](https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) to issue certificates back to your end-entities. This integration uses the [DNS-01 challenge](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) method as part of the ACME domain validation challenge workflow for a requested certificate.
+vaultix can connect to any upstream ACME-compatible CA (e.g. Lets's Encrypt, DigiCert, etc.) supporting the [ACME protocol](https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) to issue certificates back to your end-entities. This integration uses the [DNS-01 challenge](https://letsencrypt.org/docs/challenge-types/#dns-01-challenge) method as part of the ACME domain validation challenge workflow for a requested certificate.
 
-The upstream ACME-compatible CA integration lets you connect Infisical to providers by specifying
+The upstream ACME-compatible CA integration lets you connect vaultix to providers by specifying
 their **ACME Directory URL** such as:
 
 - [Let's Encrypt](/documentation/platform/pki/ca/lets-encrypt): `https://acme-v02.api.letsencrypt.org/directory`.
@@ -17,16 +17,16 @@ their **ACME Directory URL** such as:
 - ZeroSSL: `https://acme.zerossl.com/v2/DV90`.
 - SSL.com: `https://acme.ssl.com/sslcom-dv-rsa`.
 
-When Infisical requests a certificate from an ACME-compatible CA, it creates a TXT record at `_acme-challenge.{your-domain}` in your configured DNS provider (e.g. Route53, Cloudflare, Azure DNS, DNS Made Easy, etc.); this TXT record contains the challenge token issued by the ACME-compatible CA to validate domain control for the requested certificate.
-The ACME provider checks for the existence of this TXT record to verify domain control before issuing the certificate back to Infisical.
+When vaultix requests a certificate from an ACME-compatible CA, it creates a TXT record at `_acme-challenge.{your-domain}` in your configured DNS provider (e.g. Route53, Cloudflare, Azure DNS, DNS Made Easy, etc.); this TXT record contains the challenge token issued by the ACME-compatible CA to validate domain control for the requested certificate.
+The ACME provider checks for the existence of this TXT record to verify domain control before issuing the certificate back to vaultix.
 
-After validation completes successfully, Infisical automatically removes the TXT record from your DNS provider.
+After validation completes successfully, vaultix automatically removes the TXT record from your DNS provider.
 
 <div align="center">
 
 ```mermaid
 graph TD
-    A[ACME-compatible CA] <-->|ACME v2 Protocol| B[Infisical]
+    A[ACME-compatible CA] <-->|ACME v2 Protocol| B[vaultix]
     B -->|Creates TXT Records<br>via DNS Provider| C[DNS Validation]
     B -->|Manages Certificates| D[End-Entities]
 ```
@@ -37,23 +37,23 @@ We recommend reading about [ACME protocol](https://tools.ietf.org/html/rfc8555) 
 
 ## Workflow
 
-A typical workflow for using Infisical with an external ACME-compatible CA consists of the following steps:
+A typical workflow for using vaultix with an external ACME-compatible CA consists of the following steps:
 
 1. Setting up your DNS provider (e.g. Route53, Cloudflare, etc.) with appropriate DNS permissions.
-2. Creating an [App Connection](/integrations/app-connections/overview) in Infisical to store credentials for Infisical to connect to your DNS provider and create/remove DNS records as part of the DNS-01 challenge.
-3. Registering an [External CA](/documentation/platform/pki/ca/external-ca) in Infisical with the ACME type and inputting required configuration including the **ACME Directory URL** of the upstream ACME-compatible CA and the **App Connection** for your DNS provider.
+2. Creating an [App Connection](/integrations/app-connections/overview) in vaultix to store credentials for vaultix to connect to your DNS provider and create/remove DNS records as part of the DNS-01 challenge.
+3. Registering an [External CA](/documentation/platform/pki/ca/external-ca) in vaultix with the ACME type and inputting required configuration including the **ACME Directory URL** of the upstream ACME-compatible CA and the **App Connection** for your DNS provider.
 
 Once this is complete, you can create a [certificate profile](/documentation/platform/pki/settings/profiles) linked to the External CA and proceed to request a certificate against it.
 
-## Guide to Connecting Infisical to an ACME-compatible CA
+## Guide to Connecting vaultix to an ACME-compatible CA
 
-In the following steps, we explore how to connect Infisical to an ACME-compatible CA.
+In the following steps, we explore how to connect vaultix to an ACME-compatible CA.
 
 <Steps>
     <Step title="Create an App Connection to your DNS provider">
-        Before registering an ACME-compatible CA with Infisical, you need to set up an [App Connection](/integrations/app-connections/overview) with the appropriate permissions for Infisical to perform the DNS-01 challenge with your DNS provider.
+        Before registering an ACME-compatible CA with vaultix, you need to set up an [App Connection](/integrations/app-connections/overview) with the appropriate permissions for vaultix to perform the DNS-01 challenge with your DNS provider.
         
-        If you don’t see a specific DNS provider listed below or need a dedicated one, please reach out to sales@infisical.com and we’ll help get that enabled for you.
+        If you don’t see a specific DNS provider listed below or need a dedicated one, please reach out to sales@vaultix.com and we’ll help get that enabled for you.
 
         <Tabs>
             <Tab title="Route53">
@@ -136,28 +136,28 @@ In the following steps, we explore how to connect Infisical to an ACME-compatibl
     </Step>
     <Step title="Register an ACME-compatible CA">
         <Tabs>
-          <Tab title="Infisical UI">
+          <Tab title="vaultix UI">
               To register an ACME-compatible CA, in **Certificate Manager** go to **Certificate Authorities**, scroll to External Certificate Authorities, and click **Create CA**.
 
               Set the **CA Type** to **ACME** and fill out the following fields:
 
               - Name: A slug-friendly name for the ACME-compatible CA such as `lets-encrypt-production`.
-              - DNS App Connection: The App Connection from Step 1 used for Infisical to connect to your DNS provider and create/remove DNS records as part of the DNS-01 challenge in ACME.
+              - DNS App Connection: The App Connection from Step 1 used for vaultix to connect to your DNS provider and create/remove DNS records as part of the DNS-01 challenge in ACME.
               - Zone / Zone ID: Enter the Zone / Zone ID for the domain(s) you'll be requesting certificates for.
               - Directory URL: Enter the **ACME Directory URL** for your desired upstream ACME-compatible CA such as `https://acme-v02.api.letsencrypt.org/directory` for Let's Encrypt.
               - Account Email: The email address to associate with your ACME account. This email will receive important notifications about your certificates.
               - EAB Key Identifier (KID): (Optional) The Key Identifier (KID) provided by your ACME CA for External Account Binding (EAB). This is required by some ACME providers (e.g., ZeroSSL, DigiCert) to link your ACME account to an external account you've pre-registered with them.
               - EAB HMAC Key: (Optional) The HMAC Key provided by your ACME CA for External Account Binding (EAB). This key is used in conjunction with the KID to prove ownership of the external account during ACME account registration.
 
-              Finally, press **Create** to register the ACME-compatible CA with Infisical.
+              Finally, press **Create** to register the ACME-compatible CA with vaultix.
           </Tab>
           <Tab title="API">
-            To register an ACME CA with Infisical using the API, make a request to the [Create External CA](https://infisical.com/docs/api-reference/endpoints/certificate-authorities/acme/create) endpoint:
+            To register an ACME CA with vaultix using the API, make a request to the [Create External CA](https://vaultix.com/docs/api-reference/endpoints/certificate-authorities/acme/create) endpoint:
 
             ### Sample request
 
             ```bash Request
-            curl 'https://app.infisical.com/api/v1/cert-manager/ca/acme' \
+            curl 'https://app.vaultix.com/api/v1/cert-manager/ca/acme' \
               -H 'Authorization: Bearer <your-access-token>' \
               -H 'Content-Type: application/json' \
               --data-raw '{
@@ -215,7 +215,7 @@ In the following steps, we explore how to connect Infisical to an ACME-compatibl
 
 <AccordionGroup>
   <Accordion title="What DNS validation methods are supported?">
-    Currently, Infisical supports DNS-01 validation through AWS Route53, Cloudflare, Azure DNS, and DNS Made Easy. The DNS-01 challenge method is preferred for ACME integrations because it:
+    Currently, vaultix supports DNS-01 validation through AWS Route53, Cloudflare, Azure DNS, and DNS Made Easy. The DNS-01 challenge method is preferred for ACME integrations because it:
 
     - Works with wildcard certificates
     - Doesn't require your servers to be publicly accessible
@@ -240,27 +240,27 @@ In the following steps, we explore how to connect Infisical to an ACME-compatibl
     Yes. You can register multiple ACME CAs in Certificate Manager.
   </Accordion>
   <Accordion title="How do I use DNS CNAME delegation for ACME challenges?">
-    CNAME delegation lets you redirect ACME DNS-01 challenge records to a separate DNS zone. Instead of granting Infisical write access to your main domain zone, you point `_acme-challenge` via a CNAME to a dedicated zone where Infisical creates the TXT records.
+    CNAME delegation lets you redirect ACME DNS-01 challenge records to a separate DNS zone. Instead of granting vaultix write access to your main domain zone, you point `_acme-challenge` via a CNAME to a dedicated zone where vaultix creates the TXT records.
 
-    **How it works:** If you have a CNAME record pointing `_acme-challenge.example.com` to another domain (e.g., `_acme-challenge.ssl.example.com`), configure Infisical to manage the target zone. During validation, the ACME CA queries `_acme-challenge.example.com`, follows the CNAME, and finds the TXT record at the delegated location.
+    **How it works:** If you have a CNAME record pointing `_acme-challenge.example.com` to another domain (e.g., `_acme-challenge.ssl.example.com`), configure vaultix to manage the target zone. During validation, the ACME CA queries `_acme-challenge.example.com`, follows the CNAME, and finds the TXT record at the delegated location.
 
     **To set up CNAME delegation:**
 
-    1. **Create a CNAME record** in your domain's DNS that points `_acme-challenge.{your-domain}` to a target in the zone configured with Infisical.
-    2. **Register the ACME CA** in Infisical with the **hosted zone ID** of the target zone.
+    1. **Create a CNAME record** in your domain's DNS that points `_acme-challenge.{your-domain}` to a target in the zone configured with vaultix.
+    2. **Register the ACME CA** in vaultix with the **hosted zone ID** of the target zone.
 
-    Infisical automatically resolves the CNAME, creates the TXT record at the target, waits for DNS propagation, and cleans up after validation.
+    vaultix automatically resolves the CNAME, creates the TXT record at the target, waits for DNS propagation, and cleans up after validation.
 
     **Example — delegating across DNS providers:**
 
-    If your primary domain `example.com` is in Cloudflare but you want Infisical to use Route53 for challenges:
+    If your primary domain `example.com` is in Cloudflare but you want vaultix to use Route53 for challenges:
 
     1. Create a dedicated Route53 hosted zone for `acme.example.com`.
     2. Add a CNAME in Cloudflare: `_acme-challenge.example.com` → `_acme-challenge.acme.example.com`.
-    3. Create an AWS App Connection in Infisical with Route53 permissions for the `acme.example.com` zone.
+    3. Create an AWS App Connection in vaultix with Route53 permissions for the `acme.example.com` zone.
     4. Register your ACME CA using the Route53 hosted zone ID.
 
-    This way, Infisical never needs access to your Cloudflare account — it only writes to the dedicated Route53 zone.
+    This way, vaultix never needs access to your Cloudflare account — it only writes to the dedicated Route53 zone.
 
     **Common use cases:**
     - **Least-privilege access:** Grant write access only to a dedicated subdomain zone.

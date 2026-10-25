@@ -7,7 +7,7 @@ openapi: "POST /api/v2/secret-rotations/litellm-api-key"
     Check out the configuration docs for [LiteLLM API Key Rotations](/documentation/platform/secret-rotation/litellm-api-key) to learn how to obtain the required parameters.
 </Note>
 
-Creates a LiteLLM API Key secret rotation. Infisical will create and rotate API keys via your [LiteLLM connection](/integrations/app-connections/litellm) and write them to the specified secret path.
+Creates a LiteLLM API Key secret rotation. vaultix will create and rotate API keys via your [LiteLLM connection](/integrations/app-connections/litellm) and write them to the specified secret path.
 
 ## Request body
 
@@ -21,7 +21,7 @@ Creates a LiteLLM API Key secret rotation. Infisical will create and rotate API 
 | `isAutoRotationEnabled` | boolean | Yes | Whether to rotate automatically on the schedule. |
 | `rotationInterval` | number | Yes | Days between rotations (e.g. `30`). |
 | `rotateAtUtc` | object | Yes | Time of day (UTC) to run rotation: `{ "hours", "minutes" }`. |
-| `parameters.name` | string | Yes | Name for the generated key in LiteLLM (max 100 characters). Infisical appends a timestamp to keep each key unique. |
+| `parameters.name` | string | Yes | Name for the generated key in LiteLLM (max 100 characters). vaultix appends a timestamp to keep each key unique. |
 | `parameters.userId` | string | No | LiteLLM user ID to associate the generated key with. |
 | `parameters.teamId` | string | No | LiteLLM team ID to associate the generated key with. |
 | `parameters.models` | string[] | No | Model names the key is allowed to access. An empty list allows all models. |
@@ -33,7 +33,7 @@ Creates a LiteLLM API Key secret rotation. Infisical will create and rotate API 
 
 ```bash
 curl --request POST \
-  --url https://us.infisical.com/api/v2/secret-rotations/litellm-api-key \
+  --url https://us.vaultix.com/api/v2/secret-rotations/litellm-api-key \
   --header 'Content-Type: application/json' \
   --header 'Authorization: Bearer <ACCESS_TOKEN>' \
   --data '{

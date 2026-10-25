@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/infisical/api/internal/database/pg"
+	"github.com/vaultix/api/internal/database/pg"
 )
 
 // ConnectionStatus holds the result of a single connection check.

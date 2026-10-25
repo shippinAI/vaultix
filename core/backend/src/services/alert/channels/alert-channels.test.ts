@@ -29,7 +29,7 @@ const samplePayload = (): TAlertPayload => ({
   },
   eventKey: "pki.certificate.expiration",
   eventLabel: "Expiration",
-  webhookType: "com.infisical.pki.certificate.expiration",
+  webhookType: "com.vaultix.pki.certificate.expiration",
   resourceKind: "Certificate",
   resourceOwnerKind: "Certificate Authority",
   severity: "warning",
@@ -90,7 +90,7 @@ describe("buildWebhookPayload", () => {
   test("wraps the payload in a CloudEvents 1.0 envelope", () => {
     const wh = buildWebhookPayload(samplePayload());
     expect(wh.specversion).toBe("1.0");
-    expect(wh.type).toBe("com.infisical.pki.certificate.expiration");
+    expect(wh.type).toBe("com.vaultix.pki.certificate.expiration");
     expect(wh.subject).toBe("pki.certificate.expiration");
     expect(wh.source).toBe("/projects/proj-1/alerts/alert-1");
     expect(wh.data.metadata.totalItems).toBe(2);

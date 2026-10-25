@@ -14,7 +14,7 @@ Discovery is available to **Product Admins**. See [Access Control](/documentatio
 
 <Steps>
   <Step title="Configure a discovery source">
-    A **discovery source** is a connection to an external system that Infisical scans. You give it a credential to authenticate with and a [Gateway](/documentation/platform/gateways/overview) to reach the system through.
+    A **discovery source** is a connection to an external system that vaultix scans. You give it a credential to authenticate with and a [Gateway](/documentation/platform/gateways/overview) to reach the system through.
   </Step>
   <Step title="Run a scan">
     Scanning a source enumerates the privileged accounts it can find. Scans run asynchronously and can be triggered manually or on a schedule.
@@ -66,8 +66,8 @@ Each source can scan on demand or automatically:
 | Schedule | Behavior |
 |----------|----------|
 | **Manual** | The source is only scanned when you trigger it with **Scan Now**. |
-| **Daily** | Infisical scans the source about once per day. |
-| **Weekly** | Infisical scans the source about once per week. |
+| **Daily** | vaultix scans the source about once per day. |
+| **Weekly** | vaultix scans the source about once per week. |
 
 Scheduled scans are evaluated once a day, so a source runs on its next scheduled check after its interval has elapsed. Every run is recorded in the source's **scan history** with its status, timestamps, and the number of accounts found.
 
@@ -75,7 +75,7 @@ Scheduled scans are evaluated once a day, so a source runs on its next scheduled
 
 <AccordionGroup>
   <Accordion title="Do I need a Gateway to use Discovery?">
-    Yes. Discovery reaches external systems through an Infisical [Gateway](/documentation/platform/gateways/overview) (or Gateway pool). All scan traffic is tunneled through it, so a Gateway with network access to the target system is required.
+    Yes. Discovery reaches external systems through an vaultix [Gateway](/documentation/platform/gateways/overview) (or Gateway pool). All scan traffic is tunneled through it, so a Gateway with network access to the target system is required.
   </Accordion>
   <Accordion title="Why is my imported account unusable?">
     Discovery finds accounts with a username but no password. After importing, open the account and add a credential before connecting.

@@ -1,15 +1,15 @@
 ---
 title: "Spacelift Sync"
-description: "Learn how to configure a Spacelift Sync for Infisical."
+description: "Learn how to configure a Spacelift Sync for vaultix."
 ---
 
 **Prerequisites:**
 
-- Set up and add secrets to [Infisical Cloud](https://app.infisical.com).
+- Set up and add secrets to [vaultix Cloud](https://app.vaultix.com).
 - Create a [Spacelift Connection](/integrations/app-connections/spacelift).
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Add Sync">
         Navigate to **Project** > **Integrations**, select the **Secret Syncs** tab, and click **Add Sync**.
@@ -61,7 +61,7 @@ description: "Learn how to configure a Spacelift Sync for Infisical."
             - **Directory Path**: The directory under `/mnt/workspace/` where secret files are created (e.g., `secrets/`). Optional -- leave empty to mount files directly in `/mnt/workspace/`.
 
             <Warning>
-              When secret deletion protection is disabled, any files in the target directory that do not correspond to a secret in Infisical will be removed. If you have files in that directory managed outside of Infisical, enable **Disable Secret Deletion** to prevent them from being deleted.
+              When secret deletion protection is disabled, any files in the target directory that do not correspond to a secret in vaultix will be removed. If you have files in that directory managed outside of vaultix, enable **Disable Secret Deletion** to prevent them from being deleted.
             </Warning>
 
             ![One Secret Per File Destination](/images/secret-syncs/spacelift/spacelift-sync-destination-secret-per-file.png)
@@ -71,10 +71,10 @@ description: "Learn how to configure a Spacelift Sync for Infisical."
       <Step title="Configure sync options">
         Configure the **Sync Options**, then click **Next**.
 
-        - **Initial Sync Behavior**: Only **Overwrite Destination Secrets** is supported. Infisical cannot read secrets back from Spacelift because variables marked as secret in the Spacelift API are write-only, so importing is not possible.
+        - **Initial Sync Behavior**: Only **Overwrite Destination Secrets** is supported. vaultix cannot read secrets back from Spacelift because variables marked as secret in the Spacelift API are write-only, so importing is not possible.
         - **Key Schema**: A template that transforms secret names when syncing. Use `{{secretKey}}` for the original secret name and `{{environment}}` for the environment.
         - **Auto-Sync Enabled**: Automatically sync secrets from the source location when changes occur. Disable this to sync manually only.
-        - **Disable Secret Deletion**: Prevents Infisical from removing secrets at the destination. Enable this when you intend to manage destination secrets outside Infisical.
+        - **Disable Secret Deletion**: Prevents vaultix from removing secrets at the destination. Enable this when you intend to manage destination secrets outside vaultix.
         - **Mark as Secret**: When enabled, synced variables are marked as secrets in Spacelift. Secret values are only available to Runs and Tasks and are not accessible in the web GUI or through the API.
 
         ![Configure Sync Options](/images/secret-syncs/spacelift/spacelift-sync-options.png)
@@ -106,7 +106,7 @@ description: "Learn how to configure a Spacelift Sync for Infisical."
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/secret-syncs/spacelift \
+      --url https://app.vaultix.com/api/v1/secret-syncs/spacelift \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "my-spacelift-sync",
@@ -133,7 +133,7 @@ description: "Learn how to configure a Spacelift Sync for Infisical."
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/secret-syncs/spacelift \
+      --url https://app.vaultix.com/api/v1/secret-syncs/spacelift \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "my-spacelift-file-sync",
@@ -162,7 +162,7 @@ description: "Learn how to configure a Spacelift Sync for Infisical."
 
     ```bash Request
     curl --request POST \
-      --url https://app.infisical.com/api/v1/secret-syncs/spacelift \
+      --url https://app.vaultix.com/api/v1/secret-syncs/spacelift \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "my-spacelift-per-file-sync",

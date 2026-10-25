@@ -1,12 +1,12 @@
 ---
 title: "HSM Connectors"
 sidebarTitle: "Overview"
-description: "Register a Hardware Security Module that Infisical reaches through one of your Gateways."
+description: "Register a Hardware Security Module that vaultix reaches through one of your Gateways."
 ---
 
-An **HSM Connector** is the resource you create in Infisical to register a slot on your Hardware Security Module. It holds the slot's credentials (slot label, PIN) and a reference to a [Gateway](/documentation/platform/gateways/overview) running inside your network that can talk to the HSM. Infisical features that support HSM-backed keys reference the Connector when they need to perform PKCS#11 operations on your HSM.
+An **HSM Connector** is the resource you create in vaultix to register a slot on your Hardware Security Module. It holds the slot's credentials (slot label, PIN) and a reference to a [Gateway](/documentation/platform/gateways/overview) running inside your network that can talk to the HSM. vaultix features that support HSM-backed keys reference the Connector when they need to perform PKCS#11 operations on your HSM.
 
-The Connector itself stores no key material. It is a credentials and routing record. Infisical never talks to the HSM directly. Instead, a Gateway acts as the bridge, loading your HSM vendor's PKCS#11 driver in the network where the HSM lives.
+The Connector itself stores no key material. It is a credentials and routing record. vaultix never talks to the HSM directly. Instead, a Gateway acts as the bridge, loading your HSM vendor's PKCS#11 driver in the network where the HSM lives.
 
 ## Before you start
 
@@ -14,7 +14,7 @@ Have these on hand before you create a Connector:
 
 - A **running, HSM-capable Gateway** on a host that can reach your HSM. New to Gateways? Start at [Gateway Deployment](/documentation/platform/gateways/gateway-deployment), then come back. The Gateway must be started with `--pkcs11-module=<absolute path>` so it loads your HSM's PKCS#11 driver.
 - The **absolute path to the PKCS#11 driver** (`.so`) provided by your HSM vendor. Gateway HSM support runs on Linux only.
-- The **slot label** and **PIN** of the HSM slot Infisical should use. Both come from your HSM provider.
+- The **slot label** and **PIN** of the HSM slot vaultix should use. Both come from your HSM provider.
 
 ## How it fits together
 
@@ -22,22 +22,22 @@ At the top level there are three actors:
 
 ```mermaid
 graph LR
-    A[Infisical] --> B[Gateway<br/>on your network]
+    A[vaultix] --> B[Gateway<br/>on your network]
     B --> C[Your HSM]
 ```
 
-The detailed exchange Infisical performs against the HSM through the Gateway looks like this:
+The detailed exchange vaultix performs against the HSM through the Gateway looks like this:
 
 ```mermaid
 sequenceDiagram
-    participant Infisical as Infisical
+    participant vaultix as vaultix
     participant Gateway as Gateway<br/>(HSM-enabled)
     participant HSM as Your HSM
 
-    Infisical->>Gateway: PKCS#11 request via HSM Connector
+    vaultix->>Gateway: PKCS#11 request via HSM Connector
     Gateway->>HSM: C_* call via vendor driver
     HSM-->>Gateway: Result
-    Gateway-->>Infisical: Result
+    Gateway-->>vaultix: Result
 ```
 
 Three pieces have to be in place for an HSM Connector to be usable:
@@ -48,7 +48,7 @@ Three pieces have to be in place for an HSM Connector to be usable:
 
 ## Run a Gateway with PKCS#11 enabled
 
-The Gateway is the agent Infisical talks to when it needs your HSM. You install it once on a host inside your network, start it with your HSM's PKCS#11 driver path, and Infisical routes every HSM operation through it. A Gateway started without the PKCS#11 driver path is not eligible for HSM Connectors and is skipped automatically.
+The Gateway is the agent vaultix talks to when it needs your HSM. You install it once on a host inside your network, start it with your HSM's PKCS#11 driver path, and vaultix routes every HSM operation through it. A Gateway started without the PKCS#11 driver path is not eligible for HSM Connectors and is skipped automatically.
 
 If you have never deployed a Gateway before, read [Gateway Deployment](/documentation/platform/gateways/gateway-deployment) first for the general install and auth flow, then return here for the HSM-specific flag.
 
@@ -61,7 +61,7 @@ If you have never deployed a Gateway before, read [Gateway Deployment](/document
     Follow the vendor's onboarding to provision a slot, configure operator credentials, and confirm `pkcs11-tool --module <driver> --list-slots` returns the expected slot label.
   </Step>
 
-  <Step title="Create the Gateway in the Infisical UI">
+  <Step title="Create the Gateway in the vaultix UI">
     Go to **Organization Settings > Networking > Gateways**, click **Create Gateway**, name it, and pick an auth method. Then click **Show deploy command** and copy the install command for your platform. See [Gateway Deployment](/documentation/platform/gateways/gateway-deployment) for full setup detail (relay, firewall, AWS or token auth).
   </Step>
 
@@ -71,10 +71,10 @@ If you have never deployed a Gateway before, read [Gateway Deployment](/document
     <Tabs>
       <Tab title="Linux (Production)">
         ```bash
-        sudo infisical gateway systemd install <gateway-name> \
+        sudo vaultix gateway systemd install <gateway-name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain> \
+          --domain=<your-vaultix-domain> \
           --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
         sudo systemctl start <gateway-name>
         ```
@@ -83,10 +83,10 @@ If you have never deployed a Gateway before, read [Gateway Deployment](/document
       </Tab>
       <Tab title="Foreground">
         ```bash
-        infisical gateway start <gateway-name> \
+        vaultix gateway start <gateway-name> \
           --enroll-method=token \
           --token=<enrollment-token> \
-          --domain=<your-infisical-domain> \
+          --domain=<your-vaultix-domain> \
           --pkcs11-module=/opt/fortanix/pkcs11/fortanix_pkcs11.so
         ```
       </Tab>
@@ -119,7 +119,7 @@ In **Certificate Manager > Settings > HSM Connectors**, click **Add HSM Connecto
   </Step>
 
   <Step title="Connection">
-    Pick the **Gateway** Infisical uses to reach your HSM:
+    Pick the **Gateway** vaultix uses to reach your HSM:
 
     - **Gateway**: route every operation through one specific Gateway. Use this if you have a single PKCS#11-enabled Gateway, or if you want strict routing.
     - **Gateway Pool**: route through any healthy, PKCS#11-capable member of the pool. Recommended for production so a single Gateway outage doesn't stop operations. Pool members without PKCS#11 enabled are skipped automatically.
@@ -128,15 +128,15 @@ In **Certificate Manager > Settings > HSM Connectors**, click **Add HSM Connecto
   </Step>
 
   <Step title="Credentials">
-    Supply the credentials Infisical uses to authenticate to the HSM slot through the Gateway.
+    Supply the credentials vaultix uses to authenticate to the HSM slot through the Gateway.
 
     | Field | Description |
     |-------|-------------|
     | **Slot label** | The PKCS#11 token label of the slot to use. |
     | **PIN** | The PKCS#11 user PIN for that slot. Stored encrypted with your KMS key, sent to the Gateway over the proxied TLS channel on every request. |
-    | **Key label prefix** | Optional prefix prepended to every key label Infisical creates in this slot. Example: `infisical-` produces labels like `infisical-{id}`. Useful when the HSM hosts keys for multiple applications. |
+    | **Key label prefix** | Optional prefix prepended to every key label vaultix creates in this slot. Example: `vaultix-` produces labels like `vaultix-{id}`. Useful when the HSM hosts keys for multiple applications. |
 
-    Click **Add HSM Connector**. Infisical runs a Verify against the HSM before persisting the Connector. Wrong PIN, unknown slot label, or unreachable Gateway are caught at this point and the Connector is not saved.
+    Click **Add HSM Connector**. vaultix runs a Verify against the HSM before persisting the Connector. Wrong PIN, unknown slot label, or unreachable Gateway are caught at this point and the Connector is not saved.
   </Step>
 </Steps>
 
@@ -144,7 +144,7 @@ In **Certificate Manager > Settings > HSM Connectors**, click **Add HSM Connecto
 
 <AccordionGroup>
   <Accordion title="What happens to keys on the HSM when I delete a referencing resource?">
-    Nothing. Infisical removes its reference to the key label. The actual key object remains on your HSM. Delete it through your HSM's own tooling if you want to free the slot.
+    Nothing. vaultix removes its reference to the key label. The actual key object remains on your HSM. Delete it through your HSM's own tooling if you want to free the slot.
   </Accordion>
   <Accordion title="Can I route HSM traffic through the same Gateway that serves my databases or app connections?">
     Yes. Append `--pkcs11-module` to the start command of an existing Gateway and that Gateway will serve HSM operations alongside its other traffic. Restart is required for the driver to load.

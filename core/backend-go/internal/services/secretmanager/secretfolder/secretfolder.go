@@ -8,9 +8,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/infisical/api/internal/database/pg"
-	"github.com/infisical/api/internal/database/pg/qb"
-	"github.com/infisical/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix/api/internal/database/pg/qb"
+	"github.com/vaultix/api/internal/libs/errutil"
 )
 
 type folderRow struct {

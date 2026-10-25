@@ -20,10 +20,10 @@ if [ -n "$binaries" ]; then
     exit 1
 fi
 
-# Check if infisical is installed
-if ! command -v infisical >/dev/null 2>&1; then
-    echo "\nError: Infisical CLI is not installed. Please install the Infisical CLI before committing.\n You can refer to the documentation at https://infisical.com/docs/cli/overview\n\n"
+# Check if vaultix is installed
+if ! command -v vaultix >/dev/null 2>&1; then
+    echo "\nError: vaultix CLI is not installed. Please install the vaultix CLI before committing.\n You can refer to the documentation at https://vaultix.com/docs/cli/overview\n\n"
     exit 1
 fi
 
-infisical scan git-changes --staged -v
+vaultix scan git-changes --staged -v

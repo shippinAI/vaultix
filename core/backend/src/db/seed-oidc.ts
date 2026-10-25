@@ -98,14 +98,14 @@ const main = async () => {
   const email = process.env.SEED_SSO_USER_EMAIL || "admin@oidc.com";
   const password = process.env.SEED_SSO_USER_PASSWORD || "password123!";
   const domain = (process.env.SEED_SSO_DOMAIN || email.split("@")[1] || "oidc.com").toLowerCase().trim();
-  const clientId = process.env.SEED_OIDC_CLIENT_ID || "infisical-dev";
-  const clientSecret = process.env.SEED_OIDC_CLIENT_SECRET || "infisical-dev-client-secret";
+  const clientId = process.env.SEED_OIDC_CLIENT_ID || "vaultix-dev";
+  const clientSecret = process.env.SEED_OIDC_CLIENT_SECRET || "vaultix-dev-client-secret";
   // The backend fetches discovery over the internal compose network (keycloak:8080). Keycloak's
   // KC_HOSTNAME pins the issuer and browser-facing endpoints to http://localhost:8088, so the
   // browser stays on localhost and no keycloak.local /etc/hosts entry is needed. Override for a
   // host-run backend (e.g. http://localhost:8088/...).
   const discoveryURL =
-    process.env.SEED_OIDC_DISCOVERY_URL || "http://keycloak:8080/realms/infisical/.well-known/openid-configuration";
+    process.env.SEED_OIDC_DISCOVERY_URL || "http://keycloak:8080/realms/vaultix/.well-known/openid-configuration";
   const jwtSignatureAlgorithm = process.env.SEED_OIDC_JWT_ALG || "RS256";
 
   const dbConnectionUri = process.env.DB_CONNECTION_URI;

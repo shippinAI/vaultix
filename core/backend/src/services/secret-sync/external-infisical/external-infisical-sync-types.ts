@@ -1,12 +1,12 @@
 import z from "zod";
 
-import { TExternalVaultixConnection } from "@app/services/app-connection/external-infisical";
+import { TExternalVaultixConnection } from "@app/services/app-connection/external-vaultix";
 
 import {
   CreateExternalVaultixSyncSchema,
   ExternalVaultixSyncListItemSchema,
   ExternalVaultixSyncSchema
-} from "./external-infisical-sync-schemas";
+} from "./external-vaultix-sync-schemas";
 
 export type TExternalVaultixSyncListItem = z.infer<typeof ExternalVaultixSyncListItemSchema>;
 

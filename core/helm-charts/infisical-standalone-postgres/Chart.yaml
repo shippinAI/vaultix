@@ -1,6 +1,6 @@
 apiVersion: v2
-name: infisical-standalone
-description: A helm chart to deploy Infisical
+name: vaultix-standalone
+description: A helm chart to deploy vaultix
 
 type: application
 

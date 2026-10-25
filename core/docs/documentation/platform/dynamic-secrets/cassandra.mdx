@@ -5,7 +5,7 @@ description: "Learn how to dynamically generate Cassandra database user credenti
 
 import DynamicSecretUsernameTemplateParamField from "/snippets/documentation/platform/dynamic-secrets/dynamic-secret-username-template-field.mdx";
 
-The Infisical Cassandra dynamic secret allows you to generate Cassandra database credentials on demand based on configured role.
+The vaultix Cassandra dynamic secret allows you to generate Cassandra database credentials on demand based on configured role.
 
 <Note>
   This dynamic secret is also compatible with ScyllaDB, which is wire-protocol compatible with Cassandra. The same configuration and CQL statements apply.
@@ -13,7 +13,7 @@ The Infisical Cassandra dynamic secret allows you to generate Cassandra database
 
 ## Prerequisite
 
-Infisical requires a Cassandra user in your instance with the necessary permissions. This user will facilitate the creation of new accounts as needed.
+vaultix requires a Cassandra user in your instance with the necessary permissions. This user will facilitate the creation of new accounts as needed.
 Ensure the user possesses privileges for creating, dropping, and granting permissions to roles for it to be able to create dynamic secrets.
 
 <Tip>

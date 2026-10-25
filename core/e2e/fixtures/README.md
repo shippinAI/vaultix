@@ -5,7 +5,7 @@ Long-lived test artifacts consumed by the e2e suite and the gamma bootstrap.
 ## `idp-cert.pem`
 
 X.509 certificate of the SAML mock IdP hosted in `preview-environments` at
-`https://preview-orchestrator.infisical.workers.dev/saml-idp/*`. The matching
+`https://preview-orchestrator.vaultix.workers.dev/saml-idp/*`. The matching
 private key lives only in Cloudflare Worker Secrets (`SAML_IDP_PRIVATE_KEY`)
 and is **never** committed.
 
@@ -19,7 +19,7 @@ Generated once with:
 
 ```sh
 openssl req -new -newkey rsa:2048 -nodes -keyout idp-key.pem -x509 -sha256 -days 3650 \
-  -subj "/CN=infisical-e2e-mock-idp/O=Infisical e2e/OU=Test Only" \
+  -subj "/CN=vaultix-e2e-mock-idp/O=vaultix e2e/OU=Test Only" \
   -out idp-cert.pem
 ```
 

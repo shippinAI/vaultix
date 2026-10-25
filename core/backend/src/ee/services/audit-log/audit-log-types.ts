@@ -173,8 +173,8 @@ export enum UserAgentType {
   K8_OPERATOR = "k8-operator",
   TERRAFORM = "terraform",
   OTHER = "other",
-  PYTHON_SDK = "InfisicalPythonSDK",
-  NODE_SDK = "InfisicalNodeSDK"
+  PYTHON_SDK = "vaultixPythonSDK",
+  NODE_SDK = "vaultixNodeSDK"
 }
 
 export enum EventType {

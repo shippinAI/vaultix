@@ -1,6 +1,6 @@
 import net from "node:net";
 
-import ldapjs from "@infisical/ldapjs";
+import ldapjs from "@vaultix/ldapjs";
 import slugify from "@sindresorhus/slugify";
 import RE2 from "re2";
 

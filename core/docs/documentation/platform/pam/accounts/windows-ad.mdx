@@ -59,12 +59,12 @@ Windows AD accounts require session recordings to be stored in an external S3 bu
     The CLI starts a local proxy that you connect to with your own RDP client:
 
     ```bash
-    infisical pam access <folder>/<account>
+    vaultix pam access <folder>/<account>
     ```
 
     If the account has multiple allowed hosts, use `--target` to specify which one:
     ```bash
-    infisical pam access <folder>/<account> --target <host>
+    vaultix pam access <folder>/<account> --target <host>
     ```
 
     The command prints the local port. Connect your RDP client to `localhost` on that port:
@@ -76,7 +76,7 @@ Windows AD accounts require session recordings to be stored in an external S3 bu
 
     <Tip>
     The port is dynamically assigned. Use the `--port` flag if you need a specific port:
-    `infisical pam access <folder>/<account> --port 13389`
+    `vaultix pam access <folder>/<account> --port 13389`
     </Tip>
 
     Press `Ctrl+C` to end the session and close the proxy.

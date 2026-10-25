@@ -1,9 +1,9 @@
 ---
 title: "Environment Variables"
-description: "Read how to configure environment variables for self-hosted Infisical."
+description: "Read how to configure environment variables for self-hosted vaultix."
 ---
 
-Infisical accepts all configuration via environment variables. For a minimal self-hosted instance, at least `ENCRYPTION_KEY`, `AUTH_SECRET`, `DB_CONNECTION_URI`, and `REDIS_URL` must be defined.
+vaultix accepts all configuration via environment variables. For a minimal self-hosted instance, at least `ENCRYPTION_KEY`, `AUTH_SECRET`, `DB_CONNECTION_URI`, and `REDIS_URL` must be defined.
 However, you can configure additional settings to activate more features as needed.
 
 ## General platform
@@ -27,7 +27,7 @@ Used to configure platform-specific security and operational settings.
 
 <ParamField query="SITE_URL" type="string" default="none" required>
   Must be an absolute URL including the protocol (e.g.
-  https://app.infisical.com).
+  https://app.vaultix.com).
 </ParamField>
 
 <ParamField query="PORT" type="int" default="8080" optional>
@@ -35,9 +35,9 @@ Used to configure platform-specific security and operational settings.
 </ParamField>
 
 <ParamField query="HOST" type="string" default="localhost" optional>
-  Specifies the network interface Infisical will bind to when accepting incoming connections.
+  Specifies the network interface vaultix will bind to when accepting incoming connections.
 
-By default, Infisical binds to `localhost`, which restricts access to connections from the same machine.
+By default, vaultix binds to `localhost`, which restricts access to connections from the same machine.
 
 To make the application accessible externally (e.g., for self-hosted deployments), set this to `0.0.0.0`, which tells the server to listen on all network interfaces.
 
@@ -50,12 +50,12 @@ Example values:
 </ParamField>
 
 <ParamField query="TELEMETRY_ENABLED" type="string" default="true" optional>
-  Telemetry helps us improve Infisical, but if you want to disable it, you may set
+  Telemetry helps us improve vaultix, but if you want to disable it, you may set
   this to `false`.
 </ParamField>
 
 <ParamField query="DISABLE_UPDATE_CHECK" type="bool" default="false" optional>
-  Self-hosted instances check GitHub for the latest Infisical release once a week
+  Self-hosted instances check GitHub for the latest vaultix release once a week
   (and once at startup) and show a subtle indicator in the UI when a newer version
   is available. Set this to `true` to disable the check; no request is made to
   GitHub when disabled.
@@ -77,7 +77,7 @@ Example values:
 
   For reaching private resources, prefer the [Gateway](/documentation/platform/gateways/overview),
   which tunnels traffic through an agent inside your network and does not require
-  opening any internal IP range on the Infisical instance. Use this flag (or the
+  opening any internal IP range on the vaultix instance. Use this flag (or the
   more targeted `DYNAMIC_SECRET_ALLOW_INTERNAL_IP` / `AUDIT_LOG_STREAM_ALLOW_INTERNAL_IP`
   flags) only for the features that egress directly, without a Gateway.
 
@@ -113,7 +113,7 @@ Example values:
   default="false"
   optional
 >
-  Forces outbound requests made through Infisical's SSRF-safe HTTP client (App
+  Forces outbound requests made through vaultix's SSRF-safe HTTP client (App
   Connections, Webhooks, Audit Log Streams, and similar direct-egress features)
   to bypass any ambient forward proxy (sets axios `proxy: false`). This guarantees
   the request connects to the exact IP that passed SSRF validation, closing a gap
@@ -136,13 +136,13 @@ Example values:
   default="false"
   optional
 >
-  Determines whether your Infisical instance can automatically read the service
+  Determines whether your vaultix instance can automatically read the service
   account token of the pod it's running on. Used for features such as the IRSA
   auth method.
 </ParamField>
 
 <ParamField query="TRUSTED_PROXY_CIDRS" type="string" optional>
-  Comma-separated list of trusted reverse-proxy CIDRs or named ranges whose forwarded-IP headers (e.g. `X-Forwarded-For`) Infisical will honor.
+  Comma-separated list of trusted reverse-proxy CIDRs or named ranges whose forwarded-IP headers (e.g. `X-Forwarded-For`) vaultix will honor.
 
   Accepted values are IPv4/IPv6 CIDR notation or the named aliases `loopback`, `linklocal`, and `uniquelocal`.
 
@@ -152,21 +152,21 @@ Example values:
 
   When set, only requests arriving from a socket address within this list will have their forwarded-IP headers respected. Requests from any other source fall back to using the raw socket IP. This prevents IP allowlist bypass via spoofed proxy headers.
 
-  When unset, Infisical trusts all forwarded-IP headers (legacy behavior, preserved for backwards compatibility with existing self-hosted deployments).
+  When unset, vaultix trusts all forwarded-IP headers (legacy behavior, preserved for backwards compatibility with existing self-hosted deployments).
 
   <Warning>
-    If your deployment sits behind a reverse proxy (e.g. Nginx, AWS ALB, Cloudflare), you should set this to the CIDR range of your proxy to prevent clients from spoofing their source IP. Leaving this unset is only safe when Infisical is not reachable directly from the internet.
+    If your deployment sits behind a reverse proxy (e.g. Nginx, AWS ALB, Cloudflare), you should set this to the CIDR range of your proxy to prevent clients from spoofing their source IP. Leaving this unset is only safe when vaultix is not reachable directly from the internet.
   </Warning>
 </ParamField>
 
 ## CORS
 
 Cross-Origin Resource Sharing (CORS) is a security feature that allows web applications running on one domain to access resources from another domain.
-The following environment variables can be used to configure the Infisical REST API to allow or restrict access to resources from different origins.
+The following environment variables can be used to configure the vaultix REST API to allow or restrict access to resources from different origins.
 
 <ParamField query="CORS_ALLOWED_ORIGINS" type="string" optional>
 
-Specify a list of origins that are allowed to access the Infisical API.
+Specify a list of origins that are allowed to access the vaultix API.
 
 An example value would be `CORS_ALLOWED_ORIGINS=["https://example.com"]`.
 
@@ -189,7 +189,7 @@ The platform uses Postgres to persist all of its data and Redis for caching and 
 
 <Info>
   Please note that the database user you create must be granted all privileges
-  on the Infisical database. This includes the ability to create new schemas,
+  on the vaultix database. This includes the ability to create new schemas,
   create, update, delete, modify tables and indexes, etc.
 </Info>
 
@@ -244,7 +244,7 @@ DB_READ_REPLICAS=[{"DB_CONNECTION_URI":""}]
 
 #### Connection pool sizing (Optional)
 
-Each Infisical instance keeps its own pool of Postgres connections. The defaults suit a small deployment and
+Each vaultix instance keeps its own pool of Postgres connections. The defaults suit a small deployment and
 most self-hosters never need to change them, but they become relevant once you run many instances: pools are
 **per instance**, so the total number of connections your database sees grows with your instance count.
 
@@ -376,7 +376,7 @@ Redis is required: the instance will not start unless one of `REDIS_URL`, `REDIS
 `REDIS_CLUSTER_HOSTS` is set.
 
 <Info>
-An **active-passive** setup is recommended for Redis. Infisical has not been tested with an **active-active** Redis setup, which may result in undocumented behavior.
+An **active-passive** setup is recommended for Redis. vaultix has not been tested with an **active-active** Redis setup, which may result in undocumented behavior.
 </Info>
 
 <Tabs>
@@ -478,7 +478,7 @@ For Redis Sentinel or Cluster mode, use the `REDIS_SENTINEL_ENABLE_TLS` or `REDI
 
 ## Email Service
 
-Without email configuration, Infisical's core functions like sign-up/login and secret operations work, but this disables multi-factor authentication, email invites for projects, alerts for suspicious logins, and all other email-dependent features.
+Without email configuration, vaultix's core functions like sign-up/login and secret operations work, but this disables multi-factor authentication, email invites for projects, alerts for suspicious logins, and all other email-dependent features.
 
 <Accordion title="Generic Configuration">
 <ParamField query="SMTP_HOST" type="string" default="none" optional>
@@ -506,7 +506,7 @@ Without email configuration, Infisical's core functions like sign-up/login and s
 </ParamField>
 
 <ParamField query="SMTP_HELO_HOST" type="string" default="none" optional>
-  Hostname that Infisical announces in the SMTP `EHLO`/`HELO` greeting. When
+  Hostname that vaultix announces in the SMTP `EHLO`/`HELO` greeting. When
   unset, the underlying mailer falls back to the operating system hostname.
   Inside containers (e.g. Cloud Run, Kubernetes) the OS hostname is typically a
   random container ID, which can be rejected by SMTP relays that validate the
@@ -520,7 +520,7 @@ Without email configuration, Infisical's core functions like sign-up/login and s
 </ParamField>
 
 <ParamField query="SMTP_REQUIRE_TLS" type="bool" default="true" optional>
-  If this is `true` and `SMTP_PORT` is not 465 then Infisical tries to use
+  If this is `true` and `SMTP_PORT` is not 465 then vaultix tries to use
   STARTTLS even if the server does not advertise support for it. If the
   connection cannot be encrypted, then the message is not sent.
 </ParamField>
@@ -531,7 +531,7 @@ Without email configuration, Infisical's core functions like sign-up/login and s
   default="true"
   optional
 >
-  If this is `true`, Infisical will validate the server's SSL/TLS certificate
+  If this is `true`, vaultix will validate the server's SSL/TLS certificate
   and reject the connection if the certificate is invalid or not trusted. If set
   to `false`, the client will accept the server's certificate regardless of its
   validity, which can be useful in development or testing environments but is
@@ -539,11 +539,11 @@ Without email configuration, Infisical's core functions like sign-up/login and s
 </ParamField>
 
 <ParamField query="SMTP_CUSTOM_CA_CERT" type="string" default="none" optional>
-    If your SMTP server uses a certificate signed by a custom Certificate Authority, you should set this variable so that Infisical can trust the custom CA.
+    If your SMTP server uses a certificate signed by a custom Certificate Authority, you should set this variable so that vaultix can trust the custom CA.
 
     This variable **must be a base64-encoded PEM certificate**. Use the following command to encode your certificate: `echo "<certificate>" | base64`
 
-    Infisical strongly recommends using the following variables alongside this one for maximum security:
+    vaultix strongly recommends using the following variables alongside this one for maximum security:
     - `SMTP_REQUIRE_TLS=true`
     - `SMTP_TLS_REJECT_UNAUTHORIZED=true`
 
@@ -554,7 +554,7 @@ Without email configuration, Infisical's core functions like sign-up/login and s
 
 1. Create an account and configure [SendGrid](https://sendgrid.com) to send emails.
 2. Create a SendGrid API Key under Settings > [API Keys](https://app.sendgrid.com/settings/api_keys)
-3. Set a name for your API Key, we recommend using "Infisical," and select the "Restricted Key" option. You will need to enable the "Mail Send" permission as shown below:
+3. Set a name for your API Key, we recommend using "vaultix," and select the "Restricted Key" option. You will need to enable the "Mail Send" permission as shown below:
 
 ![creating sendgrid api key](../../images/self-hosting/configuration/email/email-sendgrid-create-key.png)
 
@@ -568,11 +568,11 @@ SMTP_USERNAME=apikey
 SMTP_PASSWORD=SG.rqFsfjxYPiqE1lqZTgD_lz7x8IVLx # your SendGrid API Key from step above
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
   <Info>
-    Remember that you will need to restart Infisical for this to work properly.
+    Remember that you will need to restart vaultix for this to work properly.
   </Info>
 </Accordion>
 
@@ -590,7 +590,7 @@ SMTP_USERNAME=postmaster@example.mailgun.org # obtained from credentials page
 SMTP_PASSWORD=password # obtained from credentials page
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
 </Accordion>
@@ -612,7 +612,7 @@ SMTP_FROM_NAME=Infisical
       ![creating AWS IAM SES user](../../images/self-hosting/configuration/email/email-aws-ses-user.png)
     </Step>
     <Step title="Set up your SMTP environment variables">
-      With your AWS SES SMTP credentials, you can now set up your SMTP environment variables for your Infisical instance.
+      With your AWS SES SMTP credentials, you can now set up your SMTP environment variables for your vaultix instance.
 
       ```
       SMTP_HOST=email-smtp.ap-northeast-1.amazonaws.com # SMTP endpoint obtained from SMTP settings
@@ -620,14 +620,14 @@ SMTP_FROM_NAME=Infisical
       SMTP_PASSWORD=xxx # your SMTP password
       SMTP_PORT=465
       SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-      SMTP_FROM_NAME=Infisical
+      SMTP_FROM_NAME=vaultix
       ```
     </Step>
 
   </Steps>
 
   <Info>
-    Remember that you will need to restart Infisical for this to work properly.
+    Remember that you will need to restart vaultix for this to work properly.
   </Info>
 </Accordion>
 
@@ -647,7 +647,7 @@ SMTP_USERNAME=username # obtained from your credentials
 SMTP_PASSWORD=password # obtained from your credentials
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
 {" "}
@@ -662,7 +662,7 @@ SMTP_FROM_NAME=Infisical
 ![SocketLabs domain management](../../images/self-hosting/configuration/email/email-socketlabs-domains.png)
 
   <Info>
-    Remember that you will need to restart Infisical for this to work properly.
+    Remember that you will need to restart vaultix for this to work properly.
   </Info>
 </Accordion>
 
@@ -688,18 +688,18 @@ SMTP_USERNAME=resend
 SMTP_PASSWORD=YOUR_API_KEY
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
     <Info>
-      Remember that you will need to restart Infisical for this to work properly.
+      Remember that you will need to restart vaultix for this to work properly.
     </Info>
 
 </Accordion>
 
 <Accordion title="Gmail">
   Create an account and enable "less secure app access" in Gmail Account Settings > Security. This will allow
-  applications like Infisical to authenticate with Gmail via your username and password.
+  applications like vaultix to authenticate with Gmail via your username and password.
 
 ![Gmail secure app access](../../images/self-hosting/configuration/email/email-gmail-app-access.png)
 
@@ -711,7 +711,7 @@ SMTP_USERNAME=hey@gmail.com # your email
 SMTP_PASSWORD=password # your password
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@gmail.com
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
   <Warning>
@@ -734,7 +734,7 @@ SMTP_USERNAME=username@yourdomain.com # your username
 SMTP_PASSWORD=password # your password
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=username@yourdomain.com
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
 </Accordion>
@@ -750,7 +750,7 @@ SMTP_USERNAME=username # your email
 SMTP_PASSWORD=password # your password
 SMTP_PORT=587
 SMTP_FROM_ADDRESS=hey@example.com # your personal Zoho email or domain-based email linked to Zoho Mail
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 
 {" "}
@@ -763,7 +763,7 @@ SMTP_FROM_NAME=Infisical
 </Note>
 
   <Info>
-    Remember that you will need to restart Infisical for this to work properly.
+    Remember that you will need to restart vaultix for this to work properly.
   </Info>
 </Accordion>
 
@@ -776,7 +776,7 @@ SMTP_PORT=You can use one of the following ports: 2525, 80, 25, 8025, or 587
 SMTP_USERNAME=username #Your SMTP2GO account's SMTP username
 SMTP_PASSWORD=password #Your SMTP2GO account's SMTP password
 SMTP_FROM_ADDRESS=hey@example.com # your email address being used to send out emails
-SMTP_FROM_NAME=Infisical
+SMTP_FROM_NAME=vaultix
 ```
 {" "}
 
@@ -792,11 +792,11 @@ SSL: Available on ports 465, 8465, and 443
 ## Authentication
 
 By default, users can only log in via the email/password-based login method.
-To log in to Infisical with OAuth providers such as Google, configure the associated variables.
+To log in to vaultix with OAuth providers such as Google, configure the associated variables.
 
 <ParamField query="DEFAULT_SAML_ORG_SLUG" type="string">
 
-When set, all visits to the Infisical login page will automatically redirect users of your Infisical instance to the SAML identity provider associated with the specified organization slug.
+When set, all visits to the vaultix login page will automatically redirect users of your vaultix instance to the SAML identity provider associated with the specified organization slug.
 
 </ParamField>
 
@@ -837,23 +837,23 @@ When set, all visits to the Infisical login page will automatically redirect use
 </Accordion>
 
 <Accordion title="Okta SAML">
-  Requires enterprise license. Please contact sales@infisical.com to get more
+  Requires enterprise license. Please contact sales@vaultix.com to get more
   information.
 </Accordion>
 
 <Accordion title="Azure SAML">
-  Requires enterprise license. Please contact sales@infisical.com to get more
+  Requires enterprise license. Please contact sales@vaultix.com to get more
   information.
 </Accordion>
 
 <Accordion title="JumpCloud SAML">
-  Requires enterprise license. Please contact sales@infisical.com to get more
+  Requires enterprise license. Please contact sales@vaultix.com to get more
   information.
 </Accordion>
 
 ## App Connections
 
-You can configure third-party app connections for re-use across Infisical Projects.
+You can configure third-party app connections for re-use across vaultix Projects.
 
 <Accordion title="AWS Assume Role Connection">
     <ParamField query="INF_APP_CONNECTION_AWS_ACCESS_KEY_ID" type="string" default="none" optional>
@@ -1071,7 +1071,7 @@ You can configure third-party app connections for re-use across Infisical Projec
 
 ## Observability
 
-You can configure Infisical to collect and expose telemetry data for analytics and monitoring.
+You can configure vaultix to collect and expose telemetry data for analytics and monitoring.
 
 <ParamField
   query="OTEL_TELEMETRY_COLLECTION_ENABLED"
@@ -1103,7 +1103,7 @@ If the export type is set to `otlp`, you will have to configure a value for `OTE
 </ParamField>
 
 <ParamField query="OTEL_DROP_HIGH_CARDINALITY_METERS" type="string" default="false" optional>
-  When set to `true`, the SDK discards all data points from the high-cardinality, per-actor `Infisical`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only bounded-cardinality `InfisicalCore` metrics are emitted. Useful for large or multi-tenant deployments where per-actor label cardinality is too expensive. See [Monitoring & Telemetry](/self-hosting/guides/monitoring-telemetry#available-metrics) for details.
+  When set to `true`, the SDK discards all data points from the high-cardinality, per-actor `vaultix`, `API`, `SecretSyncs`, `PkiSyncs`, and `Integrations` meters before aggregation. The instruments still exist in code (no errors), but nothing is stored or exported. Only bounded-cardinality `vaultixCore` metrics are emitted. Useful for large or multi-tenant deployments where per-actor label cardinality is too expensive. See [Monitoring & Telemetry](/self-hosting/guides/monitoring-telemetry#available-metrics) for details.
 </ParamField>
 
 ## Identity Auth Method

@@ -6,10 +6,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/infisical/api/internal/libs/errutil"
-	"github.com/infisical/api/internal/services/kms"
-	"github.com/infisical/api/internal/services/secretmanager/secretfolder"
-	"github.com/infisical/api/internal/services/secretmanager/secretimport"
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/kms"
+	"github.com/vaultix/api/internal/services/secretmanager/secretfolder"
+	"github.com/vaultix/api/internal/services/secretmanager/secretimport"
 )
 
 // ListSecretsOpts contains options for listing secrets.

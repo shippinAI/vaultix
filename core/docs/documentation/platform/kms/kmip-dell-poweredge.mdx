@@ -1,13 +1,13 @@
 ---
 title: "Dell PowerEdge SEKM"
-description: "Integrate Infisical KMIP with Dell PowerEdge servers using Secure Enterprise Key Management (SEKM) for Self-Encrypting Drives."
+description: "Integrate vaultix KMIP with Dell PowerEdge servers using Secure Enterprise Key Management (SEKM) for Self-Encrypting Drives."
 ---
 
-This guide walks you through setting up Secure Enterprise Key Management (SEKM) on Dell PowerEdge servers with iDRAC to encrypt Self-Encrypting Drives (SEDs) using Infisical as your key management server.
+This guide walks you through setting up Secure Enterprise Key Management (SEKM) on Dell PowerEdge servers with iDRAC to encrypt Self-Encrypting Drives (SEDs) using vaultix as your key management server.
 
 ## Prerequisites
 
-- Infisical KMIP server deployed and running (see [KMIP Integration](/documentation/platform/kms/kmip))
+- vaultix KMIP server deployed and running (see [KMIP Integration](/documentation/platform/kms/kmip))
 - Dell PowerEdge server with iDRAC Enterprise license
 - SEKM license installed on iDRAC
 - Network connectivity between iDRAC and KMIP server on port 5696
@@ -15,7 +15,7 @@ This guide walks you through setting up Secure Enterprise Key Management (SEKM) 
 ## Integration Steps
 
 <Steps>
-  <Step title="Create a KMIP Client in Infisical">
+  <Step title="Create a KMIP Client in vaultix">
     In your KMS project, navigate to **KMIP** and create a KMIP client for the iDRAC.
   </Step>
 
@@ -28,18 +28,18 @@ This guide walks you through setting up Secure Enterprise Key Management (SEKM) 
   </Step>
 
   <Step title="Generate Certificate Request on iDRAC">
-    When iDRAC prompts you to generate a certificate request, you'll need to enter subject values. You can find the required values in Infisical by clicking **Generate Certificate** on your KMIP client and selecting the **CSR** request method - the modal will display the exact **Client ID** and **Project ID** to use.
+    When iDRAC prompts you to generate a certificate request, you'll need to enter subject values. You can find the required values in vaultix by clicking **Generate Certificate** on your KMIP client and selecting the **CSR** request method - the modal will display the exact **Client ID** and **Project ID** to use.
     
     1. Click **Generate CSR** on iDRAC
     2. Enter the certificate information:
-       - **Common Name (CN)**: Enter the **Client ID** shown in Infisical
-       - **Organizational Unit (OU)**: Enter the **Project ID** shown in Infisical
+       - **Common Name (CN)**: Enter the **Client ID** shown in vaultix
+       - **Organizational Unit (OU)**: Enter the **Project ID** shown in vaultix
        - Fill in other fields as needed (Organization, Country, etc.)
     3. Click **Generate** and download the certificate request file
   </Step>
 
-  <Step title="Sign the Certificate in Infisical">
-    1. In the Infisical modal, paste the certificate request content from iDRAC
+  <Step title="Sign the Certificate in vaultix">
+    1. In the vaultix modal, paste the certificate request content from iDRAC
     2. Set the certificate validity period (e.g., "1y" for one year)
     3. Click **Sign Certificate**
     4. Download the signed certificate and certificate chain

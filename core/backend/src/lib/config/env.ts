@@ -351,13 +351,13 @@ const envSchema = z
     SECRET_SCANNING_GIT_APP_ID: zpStr(z.string().optional()),
     SECRET_SCANNING_PRIVATE_KEY: zpStr(z.string().optional()),
     SECRET_SCANNING_ORG_WHITELIST: zpStr(z.string().optional()),
-    SECRET_SCANNING_GIT_APP_SLUG: zpStr(z.string().default("infisical-radar")),
+    SECRET_SCANNING_GIT_APP_SLUG: zpStr(z.string().default("vaultix-radar")),
     SECRET_SCANNING_SCAN_TIMEOUT_MS: z.coerce
       .number()
       .int()
       .min(1)
       .default(10 * 60 * 1000)
-      .describe("Wall-clock ceiling for a single `infisical scan` invocation before its process group is killed"),
+      .describe("Wall-clock ceiling for a single `vaultix scan` invocation before its process group is killed"),
     SECRET_SCANNING_CLONE_TIMEOUT_MS: z.coerce
       .number()
       .int()
@@ -550,7 +550,7 @@ const envSchema = z
     SHOULD_USE_DATADOG_TRACER: zodStrBool.default("false"),
     DATADOG_PROFILING_ENABLED: zodStrBool.default("false"),
     DATADOG_ENV: zpStr(z.string().optional().default("prod")),
-    DATADOG_SERVICE: zpStr(z.string().optional().default("infisical-core")),
+    DATADOG_SERVICE: zpStr(z.string().optional().default("vaultix-core")),
     DATADOG_HOSTNAME: zpStr(z.string().optional()),
 
     // PIT

@@ -1,15 +1,15 @@
 ---
 title: "Microsoft ADCS"
-description: "Learn how to issue and manage certificates using Microsoft Active Directory Certificate Services (AD CS) over MS-WCCE through an Infisical Gateway."
+description: "Learn how to issue and manage certificates using Microsoft Active Directory Certificate Services (AD CS) over MS-WCCE through an vaultix Gateway."
 ---
 
-Issue and manage certificates using Microsoft Active Directory Certificate Services (AD CS) over the Windows Client Certificate Enrollment protocol (MS-WCCE). Requests are relayed through an Infisical [Gateway](/documentation/platform/gateways/overview) that runs inside your network, so the AD CS server is never exposed to Infisical.
+Issue and manage certificates using Microsoft Active Directory Certificate Services (AD CS) over the Windows Client Certificate Enrollment protocol (MS-WCCE). Requests are relayed through an vaultix [Gateway](/documentation/platform/gateways/overview) that runs inside your network, so the AD CS server is never exposed to vaultix.
 
 ## Prerequisites
 
-Before setting up a Microsoft ADCS certificate authority, configure a [Microsoft ADCS app connection](/integrations/app-connections/adcs). It covers the AD CS server, the Infisical [Gateway](/documentation/platform/gateways/overview) (including the network and port requirements), and the domain account used for enrollment.
+Before setting up a Microsoft ADCS certificate authority, configure a [Microsoft ADCS app connection](/integrations/app-connections/adcs). It covers the AD CS server, the vaultix [Gateway](/documentation/platform/gateways/overview) (including the network and port requirements), and the domain account used for enrollment.
 
-You can use AD CS in a few ways: as an **External CA** that issues certificates directly, to back a **code signing signer**, or to **sign internal intermediate CAs** so you can build an Infisical-managed CA hierarchy backed by your AD CS server. In every case the certificate template is chosen by the issuance flow (profile, signer, or intermediate CA), not by the CA itself.
+You can use AD CS in a few ways: as an **External CA** that issues certificates directly, to back a **code signing signer**, or to **sign internal intermediate CAs** so you can build an vaultix-managed CA hierarchy backed by your AD CS server. In every case the certificate template is chosen by the issuance flow (profile, signer, or intermediate CA), not by the CA itself.
 
 <Note>
   Enter the certificate authority name (for example `corp-ca01-CA`). To find it, run this on the AD CS server:
@@ -18,7 +18,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
   certutil -getreg CA\CommonName
   ```
 
-  You can leave it blank only if the Gateway can reach the CA host over SMB (TCP 445), which lets Infisical discover the name for you.
+  You can leave it blank only if the Gateway can reach the CA host over SMB (TCP 445), which lets vaultix discover the name for you.
 </Note>
 
 <Tabs>
@@ -35,7 +35,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
         - **Microsoft ADCS Connection**: Choose your Microsoft ADCS connection
         - **Certificate Authority**: The CA common name, for example `corp-ca01-CA` (run `certutil -getreg CA\CommonName` on the AD CS server to find it). Leave it blank only if the Gateway can reach the CA host over SMB (TCP 445) for automatic discovery.
 
-        Infisical contacts the CA through the Gateway when you save, so a wrong name or an unreachable host is rejected here.
+        vaultix contacts the CA through the Gateway when you save, so a wrong name or an unreachable host is rejected here.
       </Step>
 
       <Step title="Create a Certificate Profile">
@@ -64,7 +64,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
 
     ## Certificate Templates
 
-    Infisical retrieves the templates published on your CA in real time, so a profile can only reference a template that exists and is reachable. The template lives on the issuance flow (the profile), not on the CA.
+    vaultix retrieves the templates published on your CA in real time, so a profile can only reference a template that exists and is reachable. The template lives on the issuance flow (the profile), not on the CA.
 
     Before using a template, verify the following in AD CS:
 
@@ -79,12 +79,12 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
     When you create or edit a signer whose CA is an ADCS CA, the **Certificate** step shows a required **Certificate Template** field. Pick a code-signing template published on your CA (one that carries the Code Signing extended key usage).
 
     <Note>
-      The issued certificate must carry the Code Signing extended key usage or Infisical rejects it. Use a template configured for code signing on your CA.
+      The issued certificate must carry the Code Signing extended key usage or vaultix rejects it. Use a template configured for code signing on your CA.
     </Note>
   </Tab>
 
   <Tab title="Signing Internal Intermediate CAs">
-    You can use AD CS to **sign internal intermediate CAs** in Infisical. This lets you build an Infisical-managed CA hierarchy where the intermediate CA's certificate is issued by your AD CS server, with support for auto-renewal. Infisical generates the CSR, relays it to AD CS through the Gateway using the configured template, and imports the signed certificate and chain.
+    You can use AD CS to **sign internal intermediate CAs** in vaultix. This lets you build an vaultix-managed CA hierarchy where the intermediate CA's certificate is issued by your AD CS server, with support for auto-renewal. vaultix generates the CSR, relays it to AD CS through the Gateway using the configured template, and imports the signed certificate and chain.
 
     <Warning>
       The certificate template must allow "Supply in the request" for subject information so that the CSR's subject fields are honored. A subordinate CA template (for example, `SubCA`) is the typical choice.
@@ -93,7 +93,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
     ## Installing an Intermediate CA Certificate via AD CS
 
     <Tabs>
-      <Tab title="Infisical UI">
+      <Tab title="vaultix UI">
         <Steps>
           <Step title="Create an Intermediate CA">
             Go to **Certificate Authorities → Internal Certificate Authorities** and press **Create CA**. Set the type to **Intermediate** and fill out the CA details.
@@ -119,7 +119,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
         <Steps>
           <Step title="Create a Signing Configuration">
             ```bash Request
-            curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>/signing-config' \
+            curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>/signing-config' \
               --header 'Authorization: Bearer <access-token>' \
               --header 'Content-Type: application/json' \
               --data-raw '{
@@ -133,7 +133,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
           </Step>
           <Step title="Install the Certificate">
             ```bash Request
-            curl --location --request POST 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>/install-certificate-microsoft-adcs' \
+            curl --location --request POST 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>/install-certificate-microsoft-adcs' \
               --header 'Authorization: Bearer <access-token>' \
               --header 'Content-Type: application/json' \
               --data-raw '{
@@ -149,17 +149,17 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
 
     ## Auto-Renewal
 
-    Infisical supports automatic renewal of intermediate CA certificates signed by AD CS. When enabled, Infisical submits a fresh CSR to AD CS through the Gateway and imports the renewed certificate before the current one expires.
+    vaultix supports automatic renewal of intermediate CA certificates signed by AD CS. When enabled, vaultix submits a fresh CSR to AD CS through the Gateway and imports the renewed certificate before the current one expires.
 
     <Tabs>
-      <Tab title="Infisical UI">
+      <Tab title="vaultix UI">
         Navigate to the CA details page of your AD CS-signed intermediate CA. Click the **edit** (pencil) icon in the Details section to open the renewal settings.
 
         Toggle **Auto-Renewal** on and set the **Days Before Expiry** to configure when the renewal should be triggered.
       </Tab>
       <Tab title="API">
         ```bash Request
-        curl --location --request PATCH 'https://app.infisical.com/api/v1/cert-manager/ca/internal/<ca-id>/auto-renewal' \
+        curl --location --request PATCH 'https://app.vaultix.com/api/v1/cert-manager/ca/internal/<ca-id>/auto-renewal' \
           --header 'Authorization: Bearer <access-token>' \
           --header 'Content-Type: application/json' \
           --data-raw '{
@@ -195,7 +195,7 @@ You can use AD CS in a few ways: as an **External CA** that issues certificates 
     Automatic discovery reads the CA name from the host's registry over SMB (TCP 445), which requires the Remote Registry service to be running and reachable from the Gateway. If SMB is not open to the Gateway, leave discovery aside and set the certificate authority name explicitly on the external CA. Run `certutil -getreg CA\CommonName` on the AD CS server to find it.
   </Accordion>
   <Accordion title="Could not reach certificate authority through the gateway">
-    When you create or update the CA, Infisical validates the certificate authority name against the CA over the Gateway. This error means the name does not match a CA on the host, or the Gateway cannot reach the AD CS server. Confirm the name with `certutil -getreg CA\CommonName` on the AD CS server and that the Gateway can connect to the host over DCOM (MS-WCCE).
+    When you create or update the CA, vaultix validates the certificate authority name against the CA over the Gateway. This error means the name does not match a CA on the host, or the Gateway cannot reach the AD CS server. Confirm the name with `certutil -getreg CA\CommonName` on the AD CS server and that the Gateway can connect to the host over DCOM (MS-WCCE).
   </Accordion>
   <Accordion title="Signer rejected: missing Code Signing extended key usage">
     The template used for a code signing signer does not produce a code-signing certificate. Point the signer at a template that carries the Code Signing extended key usage.

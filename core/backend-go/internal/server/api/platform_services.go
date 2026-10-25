@@ -4,16 +4,16 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/infisical/api/internal/ee/services/externalkms"
-	"github.com/infisical/api/internal/ee/services/license"
-	"github.com/infisical/api/internal/ee/services/ratelimit"
-	"github.com/infisical/api/internal/server/api/shared"
-	"github.com/infisical/api/internal/services/assumeprivilege"
-	"github.com/infisical/api/internal/services/auditlog"
-	"github.com/infisical/api/internal/services/auth/apiauth"
-	"github.com/infisical/api/internal/services/kms"
-	"github.com/infisical/api/internal/services/permission"
-	"github.com/infisical/api/internal/services/project"
+	"github.com/vaultix/api/internal/ee/services/externalkms"
+	"github.com/vaultix/api/internal/ee/services/license"
+	"github.com/vaultix/api/internal/ee/services/ratelimit"
+	"github.com/vaultix/api/internal/server/api/shared"
+	"github.com/vaultix/api/internal/services/assumeprivilege"
+	"github.com/vaultix/api/internal/services/auditlog"
+	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix/api/internal/services/kms"
+	"github.com/vaultix/api/internal/services/permission"
+	"github.com/vaultix/api/internal/services/project"
 )
 
 // PlatformServices holds platform-level services shared across handlers.

@@ -7,7 +7,7 @@ import {
   CreateExternalVaultixConnectionSchema,
   SanitizedExternalVaultixConnectionSchema,
   UpdateExternalVaultixConnectionSchema
-} from "@app/services/app-connection/external-infisical";
+} from "@app/services/app-connection/external-vaultix";
 import { AuthMode } from "@app/services/auth/auth-type";
 
 import { registerAppConnectionEndpoints } from "./app-connection-endpoints";

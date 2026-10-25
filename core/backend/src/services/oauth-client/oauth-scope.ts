@@ -9,7 +9,7 @@ import {
 // Each scope maps to a set of (level, subject, actions) rules that are intersected against the user's
 // CASL rules in permission-service. Keep this list curated — it is a public contract.
 //
-// Only secrets:read is exposed for now: the sole delegated use case is `infisical run` fetching
+// Only secrets:read is exposed for now: the sole delegated use case is `vaultix run` fetching
 // secrets at runtime (e.g. via Coder External Auth). Add further scopes only when a route is opted
 // into AuthMode.OAUTH to serve them.
 export enum OauthScope {

@@ -5,7 +5,7 @@ description: "Issue TLS or Code Signing certificates from DigiCert using the Cer
 
 ## Concept
 
-Infisical can issue certificates directly from [DigiCert CertCentral](https://www.digicert.com/) using the [CertCentral Services API](https://dev.digicert.com/en/certcentral-apis/services-api.html). A single DigiCert CA in Infisical is configured for one purpose:
+vaultix can issue certificates directly from [DigiCert CertCentral](https://www.digicert.com/) using the [CertCentral Services API](https://dev.digicert.com/en/certcentral-apis/services-api.html). A single DigiCert CA in vaultix is configured for one purpose:
 
 - **SSL/TLS** — issues OV and EV TLS server certificates under an SSL product entitlement on your account (for example `ssl_plus`).
 - **Code Signing** — issues OV (`code_signing`) and EV (`code_signing_ev`) code-signing certificates against a CSR. The signing key must live on an HSM.
@@ -23,10 +23,10 @@ Infisical can issue certificates directly from [DigiCert CertCentral](https://ww
 ## Create a DigiCert Certificate Authority
 
 <Tabs>
-  <Tab title="Infisical UI">
+  <Tab title="vaultix UI">
     <Steps>
       <Step title="Create a DigiCert App Connection">
-        Follow the [DigiCert App Connection guide](/integrations/app-connections/digicert) to store your CertCentral API key in Infisical.
+        Follow the [DigiCert App Connection guide](/integrations/app-connections/digicert) to store your CertCentral API key in vaultix.
       </Step>
       <Step title="Create the External CA">
         In **Certificate Manager**, go to **Certificate Authorities**, click **Create CA** in the External Certificate Authorities section, choose **DigiCert CertCentral** as the type, and fill out the form:
@@ -44,7 +44,7 @@ Infisical can issue certificates directly from [DigiCert CertCentral](https://ww
 
     ```bash Create a DigiCert CA (SSL)
     curl --request POST \
-      --url https://app.infisical.com/api/v1/pki/ca/digicert \
+      --url https://app.vaultix.com/api/v1/pki/ca/digicert \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "digicert-ov",
@@ -60,7 +60,7 @@ Infisical can issue certificates directly from [DigiCert CertCentral](https://ww
 
     ```bash Create a DigiCert CA (Code Signing)
     curl --request POST \
-      --url https://app.infisical.com/api/v1/pki/ca/digicert \
+      --url https://app.vaultix.com/api/v1/pki/ca/digicert \
       --header 'Content-Type: application/json' \
       --data '{
         "name": "digicert-cs",
@@ -98,7 +98,7 @@ When you request a certificate through a DigiCert CertCentral CA, the request mo
 | State | Description |
 |-------|-------------|
 | **Pending Validation** | DigiCert has accepted the order. Complete domain control validation in DigiCert CertCentral. |
-| **Issued** | Infisical polls DigiCert and downloads the certificate once validation completes. Click **Trigger Validation** to force an immediate check. |
+| **Issued** | vaultix polls DigiCert and downloads the certificate once validation completes. Click **Trigger Validation** to force an immediate check. |
 | **Failed** | If DigiCert does not issue within 24 hours. Complete validation on CertCentral and submit a new request. |
 
 <Note>
@@ -108,8 +108,8 @@ When you request a certificate through a DigiCert CertCentral CA, the request mo
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="What happens when I revoke a DigiCert-issued certificate in Infisical?">
-    Revoking the certificate in Infisical immediately marks it `Revoked` in the local inventory
+  <Accordion title="What happens when I revoke a DigiCert-issued certificate in vaultix?">
+    Revoking the certificate in vaultix immediately marks it `Revoked` in the local inventory
     **and** submits a revocation request to DigiCert CertCentral against the underlying order.
     Depending on your CertCentral account's revocation policy, DigiCert may queue that request for
     administrator approval before the certificate is actually revoked on their side.
