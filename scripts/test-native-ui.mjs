@@ -93,6 +93,11 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.screenshot({ path: resolve(evidence, "references-mobile.png"), fullPage: true });
+  await page.getByRole("link", { name: "Vaultix home", exact: true }).scrollIntoViewIfNeeded();
+  const mobileMainTop = await page.locator("main").evaluate(element => element.getBoundingClientRect().top);
+  await page.mouse.move(360, 420);
+  await page.mouse.wheel(0, 650);
+  await page.waitForFunction(previousTop => document.querySelector("main").getBoundingClientRect().top < previousTop - 100, mobileMainTop, { timeout: 5000 });
   mode = "empty";
   await page.getByRole("textbox", { name: "Folder", exact: true }).fill("/empty");
   assert.equal(await page.getByText("DATABASE_URL", { exact: true }).count(), 0);

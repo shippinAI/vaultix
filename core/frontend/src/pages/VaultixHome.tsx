@@ -30,7 +30,7 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
     (action) => action.id === "vaultix.projects.list"
   );
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="h-dvh overflow-y-auto bg-background text-foreground">
       <a className="sr-only focus:not-sr-only" href="#vaultix-main">
         Skip to Content
       </a>

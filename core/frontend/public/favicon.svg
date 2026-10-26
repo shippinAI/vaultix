@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Vaultix">
-  <rect width="32" height="32" rx="6" fill="#161822"/>
-  <rect x="7" y="10" width="18" height="16" rx="3" fill="none" stroke="#e2b84a" stroke-width="2"/>
-  <path d="M12 10 v-2 a4 4 0 0 1 8 0 v2" fill="none" stroke="#e2b84a" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="16" cy="19" r="2" fill="#e2b84a"/>
+  <rect width="32" height="32" rx="6" fill="#10161e"/>
+  <rect x="7" y="10" width="18" height="16" rx="3" fill="none" stroke="#5eead4" stroke-width="2"/>
+  <path d="M12 10 v-2 a4 4 0 0 1 8 0 v2" fill="none" stroke="#5eead4" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="16" cy="19" r="2" fill="#5eead4"/>
 </svg>
