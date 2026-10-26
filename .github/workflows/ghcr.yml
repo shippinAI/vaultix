@@ -24,7 +24,61 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.2'
+          cache-dependency-path: |
+            go.sum
+            panel/go.sum
+            core/backend-go/go.sum
+      - run: go test ./...
+      - run: go test ./...
+        working-directory: panel
+      - run: bash scripts/check-owned.sh
+      - run: npx --yes npm@10.9.0 ci --ignore-scripts --no-audit --no-fund
+        working-directory: core/backend
+      - run: node --max-old-space-size=8192 node_modules/typescript/bin/tsc --noEmit
+        working-directory: core/backend
+      - name: Audit production dependencies
+        run: |
+          mkdir -p .cache
+          cd core/backend
+          npm audit --omit=dev --audit-level=critical --json > ../../.cache/backend-production-audit.json
+      - run: npm run build
+        working-directory: core/backend
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: core/frontend
+      - run: npm run build
+        working-directory: core/frontend
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: core/e2e
+      - run: npx playwright install --with-deps chromium
+        working-directory: core/e2e
+      - name: Verify native browser states
+        run: node scripts/test-native-ui.mjs
+      - name: Preserve browser and dependency evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaultix-browser-and-dependencies
+          path: |
+            .cache/ui-proof-*/*.png
+            .cache/backend-production-audit.json
+          if-no-files-found: warn
+      - run: go test ./internal/ee/services/license ./internal/config ./internal/database/redis
+        working-directory: core/backend-go
+      - run: go test ./...
+        working-directory: core/backend-go/third_party/gocasl
+
   panel:
+    needs: checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -56,6 +110,7 @@ jobs:
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
   engine:
+    needs: checks
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
@@ -79,12 +134,13 @@ jobs:
         id: image
         run: echo "name=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/vaultix" >> "$GITHUB_OUTPUT"
 
-      - name: Push ${{ steps.image.outputs.name }}
+      - name: Build standalone Vaultix for verification
         uses: docker/build-push-action@v7
         with:
           context: core
-          file: core/Dockerfile.ghcr
-          push: true
+          file: core/Dockerfile.standalone-vaultix
+          load: true
+          push: false
           provenance: false
           sbom: false
           build-args: |
@@ -98,3 +154,44 @@ jobs:
             org.opencontainers.image.vendor=AngryVibes LLC
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=0.162.19
+
+      - name: Verify image with Dragonfly
+        run: bash scripts/smoke-image.sh '${{ steps.image.outputs.name }}:${{ github.sha }}' dragonfly
+
+      - name: Verify image with Redis
+        run: bash scripts/smoke-image.sh '${{ steps.image.outputs.name }}:${{ github.sha }}' redis
+
+      - name: Build database capability test runtime
+        uses: docker/build-push-action@v7
+        with:
+          context: core
+          file: core/Dockerfile.standalone-vaultix
+          target: backend-build
+          load: true
+          push: false
+          tags: vaultix:verify-backend
+
+      - name: Verify backend unit suite
+        run: node scripts/test-unit-core.mjs
+
+      - name: Verify capabilities with Dragonfly
+        run: node scripts/test-core.mjs dragonfly
+
+      - name: Verify capabilities with Redis
+        run: node scripts/test-core.mjs redis
+
+      - name: Preserve capability evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaultix-capability-results
+          path: |
+            .cache/core-proof-*/test-results.json
+            .cache/unit-proof-*/test-results.json
+          if-no-files-found: warn
+
+      - name: Publish verified engine image
+        run: |
+          docker push '${{ steps.image.outputs.name }}:${{ github.sha }}'
+          docker push '${{ steps.image.outputs.name }}:0.162.19'
+          docker push '${{ steps.image.outputs.name }}:latest'

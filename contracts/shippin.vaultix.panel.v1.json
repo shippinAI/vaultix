@@ -1,181 +1,181 @@
 {
-  "schemaVersion": "shippin.catalog-entry.v1",
-  "serviceId": "shippin.vaultix",
-  "displayName": "Vaultix",
-  "phase": "contract",
-  "owner": "vaultix",
-  "provenanceScope": "global",
-  "dataClassification": "secret-adjacent",
-  "auditRequired": true,
-  "billingClass": "included",
-  "capabilities": [
-    "vaultix.project.create",
-    "vaultix.secret.put",
-    "vaultix.secret.inject",
-    "vaultix.lesson.attach",
-    "vaultix.instance.list",
-    "vaultix.session.stepup",
-    "vaultix.link.manage",
-    "vaultix.link.import",
-    "vaultix.secret.redeem",
-    "vaultix.trust.read",
-    "vaultix.viewport.read",
-    "vaultix.runtime.answer",
-    "vaultix.configure.show",
-    "vaultix.mcp.call",
-    "vaultix.license.read",
-    "vaultix.instance.read",
-    "vaultix.manager.list",
-    "vaultix.manager.register"
-  ],
-  "api": {
-    "stability": "draft",
-    "boundary": "Shippin panel talks only to this contract. Secret values never appear in catalog GET or lesson payloads. The store is panel/internal/vault (vaultix_*). Leftover external wire paths live only in panel/internal/core/wire.go for one-way import.",
-    "routes": [
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/health",
-        "purpose": "Control-plane liveness"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/trust",
-        "purpose": "Public stamp: AngryVibes LLC / shippin.ai, trusts Nomen, vaultix_* tables"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/license",
-        "purpose": "Live entitlement: community, shippin.ai membership, or enterprise. No leftover license server"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/instance",
-        "purpose": "This box: sku self|hosted, label, public host"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/manager/instances",
-        "purpose": "Named Vaultix instances. Naming does not provision a VM"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/manager/instances",
-        "purpose": "Name a self or hosted instance for the enterprise manager"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/projects",
-        "purpose": "Create a tenant/project (idempotent on tenant id)"
-      },
-      {
-        "method": "PUT",
-        "path": "/api/v1/vaultix/projects/{projectId}/secrets/{name}",
-        "purpose": "Put a secret value; response is metadata only"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/projects/{projectId}/secrets",
-        "purpose": "List secret metadata for a box; values never returned"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/inject",
-        "purpose": "Issue a short-lived inject handle for a workspace/DevForge run"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/inject/{handle}/redeem",
-        "purpose": "One-shot redeem of an inject handle; the only route that returns a secret value"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/lessons",
-        "purpose": "Lesson ids the panel plays on the Lovable-to-vibe path"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/instances",
-        "purpose": "Deployed Vaultix instances for the overview: name, host, health, secret count, last backup. Metadata only"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/session/pin",
-        "purpose": "Set or change the per-user per-instance PIN; change requires the current PIN, recovery goes through Nomen re-auth"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/session/stepup",
-        "purpose": "Verify per-user PIN inside a Nomen session; mint short-lived (~15 min) elevated session for one instance. Rate-limited, audited"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/link",
-        "purpose": "Link an external leftover source for one-way import; read-scoped credential stored encrypted server-side"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/link",
-        "purpose": "Link status and last import time; never returns the credential"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/import",
-        "purpose": "Run or re-run the one-way import from the linked source into Vaultix"
-      },
-      {
-        "method": "DELETE",
-        "path": "/api/v1/vaultix/link",
-        "purpose": "Unlink: delete stored credential, stop imports. Never touches the source side"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/catalog",
-        "purpose": "Knowledge catalog Clyffy answers from before a model. No secret values"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/viewport",
-        "purpose": "Open UI input: route, next action, configure path. Not pixels"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/runtime/answer",
-        "purpose": "Deterministic catalog decision as A2UI v0.9.1. Frontier only with a recorded reason"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/configure",
-        "purpose": "Authored configure ladder as A2UI. Shows the operator how, step by step"
-      },
-      {
-        "method": "GET",
-        "path": "/api/v1/vaultix/mcp/manifest",
-        "purpose": "MCP tool list. Same actions as the viewport buttons"
-      },
-      {
-        "method": "POST",
-        "path": "/api/v1/vaultix/mcp",
-        "purpose": "JSON-RPC MCP. Catalog first. source.act never returns a secret value"
-      }
-    ]
-  },
-  "source": {
-    "repo": "projects/vaultix",
-    "engine": "panel/internal/vault",
-    "tables": "vaultix_*",
-    "identity": "Nomen OIDC"
-  },
-  "readinessGates": [
-    "Dedicated host (not the 1 GB Oracle box; not piled onto Zuul without RAM headroom)",
-    "Vaultix engine on vaultix_* tables at vaultix.shippin.cloud",
-    "Nomen OIDC (sibling issuer)",
-    "GET never returns secret values",
-    "DevForge/workspace inject works without paste"
-  ],
-  "lessons": [
-    "vaultix.lesson.keys-are-not-chat",
-    "vaultix.lesson.one-project",
-    "vaultix.lesson.inject-not-paste",
-    "vaultix.lesson.rotate"
-  ]
+    "schemaVersion":  "shippin.catalog-entry.v1",
+    "serviceId":  "shippin.vaultix",
+    "displayName":  "Vaultix",
+    "phase":  "contract",
+    "owner":  "vaultix",
+    "provenanceScope":  "global",
+    "dataClassification":  "secret-adjacent",
+    "auditRequired":  true,
+    "billingClass":  "included",
+    "capabilities":  [
+                         "vaultix.project.create",
+                         "vaultix.secret.put",
+                         "vaultix.secret.inject",
+                         "vaultix.lesson.attach",
+                         "vaultix.instance.list",
+                         "vaultix.session.stepup",
+                         "vaultix.link.manage",
+                         "vaultix.link.import",
+                         "vaultix.secret.redeem",
+                         "vaultix.trust.read",
+                         "vaultix.viewport.read",
+                         "vaultix.runtime.answer",
+                         "vaultix.configure.show",
+                         "vaultix.mcp.call",
+                         "vaultix.license.read",
+                         "vaultix.instance.read",
+                         "vaultix.manager.list",
+                         "vaultix.manager.register"
+                     ],
+    "api":  {
+                "stability":  "draft",
+                "boundary":  "Legacy panel compatibility contract. The product store is core/. panel/internal/vault remains legacy/test code and must not become a second product vault. The native core API contract is contracts/vaultix.core.v1.json. Do not expose legacy raw-value routes to models.",
+                "routes":  [
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/health",
+                                   "purpose":  "Control-plane liveness"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/trust",
+                                   "purpose":  "Public stamp: AngryVibes LLC / shippin.ai, trusts Nomen, vaultix_* tables"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/license",
+                                   "purpose":  "Vaultix included feature policy; tier names are compatibility metadata, not software paywalls."
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/instance",
+                                   "purpose":  "This box: sku self|hosted, label, public host"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/manager/instances",
+                                   "purpose":  "Named Vaultix instances. Naming does not provision a VM"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/manager/instances",
+                                   "purpose":  "Name a self or hosted instance for the enterprise manager"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/projects",
+                                   "purpose":  "Create a tenant/project (idempotent on tenant id)"
+                               },
+                               {
+                                   "method":  "PUT",
+                                   "path":  "/api/v1/vaultix/projects/{projectId}/secrets/{name}",
+                                   "purpose":  "Put a secret value; response is metadata only"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/projects/{projectId}/secrets",
+                                   "purpose":  "List secret metadata for a box; values never returned"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/inject",
+                                   "purpose":  "Issue a short-lived inject handle for a workspace/DevForge run"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/inject/{handle}/redeem",
+                                   "purpose":  "One-shot redeem of an inject handle; the only route that returns a secret value"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/lessons",
+                                   "purpose":  "Lesson ids the panel plays on the Lovable-to-vibe path"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/instances",
+                                   "purpose":  "Deployed Vaultix instances for the overview: name, host, health, secret count, last backup. Metadata only"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/session/pin",
+                                   "purpose":  "Set or change the per-user per-instance PIN; change requires the current PIN, recovery goes through Nomen re-auth"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/session/stepup",
+                                   "purpose":  "Verify per-user PIN inside a Nomen session; mint short-lived (~15 min) elevated session for one instance. Rate-limited, audited"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/link",
+                                   "purpose":  "Link an external leftover source for one-way import; read-scoped credential stored encrypted server-side"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/link",
+                                   "purpose":  "Link status and last import time; never returns the credential"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/import",
+                                   "purpose":  "Run or re-run the one-way import from the linked source into Vaultix"
+                               },
+                               {
+                                   "method":  "DELETE",
+                                   "path":  "/api/v1/vaultix/link",
+                                   "purpose":  "Unlink: delete stored credential, stop imports. Never touches the source side"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/catalog",
+                                   "purpose":  "Knowledge catalog Clyffy answers from before a model. No secret values"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/viewport",
+                                   "purpose":  "Open UI input: route, next action, configure path. Not pixels"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/runtime/answer",
+                                   "purpose":  "Deterministic catalog decision as A2UI v0.9.1. Frontier only with a recorded reason"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/configure",
+                                   "purpose":  "Authored configure ladder as A2UI. Shows the operator how, step by step"
+                               },
+                               {
+                                   "method":  "GET",
+                                   "path":  "/api/v1/vaultix/mcp/manifest",
+                                   "purpose":  "MCP tool list. Same actions as the viewport buttons"
+                               },
+                               {
+                                   "method":  "POST",
+                                   "path":  "/api/v1/vaultix/mcp",
+                                   "purpose":  "JSON-RPC MCP. Catalog first. source.act never returns a secret value"
+                               }
+                           ]
+            },
+    "source":  {
+                   "repo":  "projects/vaultix",
+                   "engine":  "panel/internal/vault",
+                   "tables":  "vaultix_*",
+                   "identity":  "Nomen OIDC"
+               },
+    "readinessGates":  [
+                           "Dedicated host (not the 1 GB Oracle box; not piled onto Zuul without RAM headroom)",
+                           "Vaultix engine on vaultix_* tables at vaultix.shippin.cloud",
+                           "Nomen OIDC (sibling issuer)",
+                           "GET never returns secret values",
+                           "DevForge/workspace inject works without paste"
+                       ],
+    "lessons":  [
+                    "vaultix.lesson.keys-are-not-chat",
+                    "vaultix.lesson.one-project",
+                    "vaultix.lesson.inject-not-paste",
+                    "vaultix.lesson.rotate"
+                ]
 }

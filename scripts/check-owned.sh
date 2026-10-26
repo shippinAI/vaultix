@@ -1,6 +1,6 @@
 #!/bin/bash
 # Fail if this tree is still a leftover clone, a toy store, or customer chrome
-# still says vaultix.
+# still carries the snapshot product brand.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 fail=0
@@ -15,18 +15,7 @@ else
 fi
 
 if [[ -d "$ROOT/core/.git" ]]; then
-  remotes="$(git -C "$ROOT/core" remote 2>/dev/null || true)"
-  if [[ -n "$remotes" ]]; then
-    bad "core/ still has git remotes: $remotes"
-  else
-    ok "core/ git remotes: none"
-  fi
-  pin="$(git -C "$ROOT/core" describe --tags --always 2>/dev/null || true)"
-  if [[ "$pin" == *v0.162.19* ]]; then
-    ok "core pin $pin"
-  else
-    bad "core pin is '$pin' (want v0.162.19)"
-  fi
+  bad "core/ contains nested git metadata; do not contact a snapshot remote"
 elif grep -q 'v0.162.19' "$ROOT/core/PIN" "$ROOT/core/SHIPPIN.md" 2>/dev/null; then
   ok "core pin v0.162.19 (SHIPPIN.md / PIN; nested .git not published)"
 else
@@ -82,13 +71,13 @@ fi
 
 # Customer chrome: no leftover vendor name in the live UI tree (not stories, not wasm).
 hits="$(rg -n --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!**/external-vaultix*' \
-  -e '\bvaultix\b' -e 'vaultix\.com' -e 'support@vaultix' \
+  -e '\binfisical\b' -e 'infisical\.com' -e 'support@infisical' \
   "$ROOT/core/frontend/src" "$ROOT/core/frontend/index.html" 2>/dev/null || true)"
 if [[ -n "$hits" ]]; then
-  bad "customer chrome still says vaultix:"
+  bad "customer chrome still carries the snapshot brand:"
   printf '%s\n' "$hits" | sed 's/^/      /' | head -40
 else
-  ok "frontend src has no vaultix customer chrome"
+  ok "frontend src has no snapshot customer chrome"
 fi
 
 if [[ -f "$ROOT/docs/0015-frozen-no-connection.md" ]]; then

@@ -54,7 +54,7 @@ export default {
     const envCfg = await initEnvConfig(hsmService, kmsRootConfigDAL, superAdminDAL, logger);
 
     const redis = buildRedisFromConfig(envCfg);
-    await redis.flushdb("SYNC");
+    await redis.flushdb();
 
     const clickhouseClient = buildClickHouseFromConfig(envCfg);
 
@@ -149,7 +149,7 @@ export default {
         // @ts-expect-error type
         delete globalThis.testQueue;
 
-        await redis.flushdb("ASYNC");
+        await redis.flushdb();
         redis.disconnect();
         await db.destroy();
       }

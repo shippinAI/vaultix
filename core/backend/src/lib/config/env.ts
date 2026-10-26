@@ -12,6 +12,7 @@ import { removeTrailingSlash } from "../fn";
 import { CustomLogger } from "../logger/logger";
 import { ms } from "../ms";
 import { zpStr } from "../zod";
+import { resolveVaultixEnvironment } from "./vaultix-environment";
 
 export const GITLAB_URL = "https://gitlab.com";
 
@@ -723,7 +724,7 @@ export const initEnvConfig = async (
   superAdminDAL?: TSuperAdminDALFactory,
   logger?: CustomLogger
 ) => {
-  const parsedEnv = envSchema.safeParse(process.env);
+  const parsedEnv = envSchema.safeParse(resolveVaultixEnvironment(process.env));
   if (!parsedEnv.success) {
     (logger ?? console).error("Invalid environment variables. Check the error below");
     (logger ?? console).error(parsedEnv.error.issues);
@@ -758,7 +759,7 @@ export const initEnvConfig = async (
 };
 
 export const getTelemetryConfig = () => {
-  const parsedEnv = envSchema.safeParse(process.env);
+  const parsedEnv = envSchema.safeParse(resolveVaultixEnvironment(process.env));
   if (!parsedEnv.success) {
     // eslint-disable-next-line no-console
     console.error("Invalid environment variables. Check the error below");
@@ -789,7 +790,7 @@ export const getTelemetryConfig = () => {
 };
 
 export const getDatabaseCredentials = (logger?: CustomLogger) => {
-  const parsedEnv = envSchema.safeParse(process.env);
+  const parsedEnv = envSchema.safeParse(resolveVaultixEnvironment(process.env));
   if (!parsedEnv.success) {
     (logger ?? console).error("Invalid environment variables. Check the error below");
     (logger ?? console).error(parsedEnv.error.issues);
@@ -809,7 +810,7 @@ export const getDatabaseCredentials = (logger?: CustomLogger) => {
 };
 
 export const getHsmConfig = (logger?: CustomLogger) => {
-  const parsedEnv = envSchema.safeParse(process.env);
+  const parsedEnv = envSchema.safeParse(resolveVaultixEnvironment(process.env));
   if (!parsedEnv.success) {
     (logger ?? console).error("Invalid environment variables. Check the error below");
     (logger ?? console).error(parsedEnv.error.issues);
@@ -1083,7 +1084,7 @@ export const validateOverrides = (config: Record<string, string>) => {
   );
 
   const tempEnv: Record<string, unknown> = { ...process.env, ...allowedOverrides };
-  const parsedResult = envSchema.safeParse(tempEnv);
+  const parsedResult = envSchema.safeParse(resolveVaultixEnvironment(tempEnv));
 
   if (!parsedResult.success) {
     const errorDetails = parsedResult.error.issues
@@ -1099,7 +1100,7 @@ export const overrideEnvConfig = (config: Record<string, string>) => {
   );
 
   const tempEnv: Record<string, unknown> = { ...process.env, ...allowedOverrides };
-  const parsedResult = envSchema.safeParse(tempEnv);
+  const parsedResult = envSchema.safeParse(resolveVaultixEnvironment(tempEnv));
 
   if (parsedResult.success) {
     envCfg = Object.freeze({

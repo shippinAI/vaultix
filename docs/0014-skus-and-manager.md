@@ -1,3 +1,5 @@
+> Updated direction: [0016 Native Vaultix](0016-native-vaultix.md) supersedes the paid-tier and required-panel deployment rules below. This document records the earlier design.
+
 # 0014 — Two SKUs, one instance manager
 
 **Status:** accepted (2026-08-29)

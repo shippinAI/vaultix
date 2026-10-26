@@ -1,83 +1,105 @@
-# vaultix
+# Vaultix
 
-Local, encrypted, two-way copy of your Vaultix secrets (Vaultix = Shippin's secrets service at
-https://secrets.shippin.cloud,, plus `vaultix run` to hand them to programs and AI agents.
+**Secrets you own. Built for Secrets and AI.**
+
+Vaultix is developed in place in `core/`: the secrets engine, its UI, and its
+API ship together in `ghcr.io/shippinai/vaultix`. Owner: AngryVibes LLC.
+Host: shippin.ai.
+
+Software capabilities are included for self-hosted and hosted instances.
+Membership is not a feature paywall. Permissions, approval policies, and
+operational controls still apply. Full enterprise parity and the complete
+native UI migration are **in progress**, not release claims.
+
+## Run your instance
+
+The first release target is **hosted Vaultix operated by shippin.ai**.
+See [hosted capability verification](docs/0018-hosted-capability-proof.md).
+
+1. Copy `compose/hosted.env.example` to `compose/vaultix.env` for the hosted
+   deployment. The self-hosted alternative is `compose/self.env.example`.
+2. Set your public URL, database password, encryption key, and authentication
+   secret. Preserve existing encryption keys when upgrading.
+3. Run `bash scripts/up.sh`.
+4. Open **http://127.0.0.1:8200/**. Health: `GET /api/status`.
+
+The default stack builds `core/Dockerfile.standalone-vaultix` and runs
+PostgreSQL plus **Dragonfly**. Redis and AWS ElastiCache can be configured
+explicitly; see [cache deployment](docs/0017-cache-deployment.md). Cache
+settings use `VAULTIX_CACHE_*`; existing `REDIS_*` configuration remains
+compatible. The legacy panel is an optional Compose profile, not the product
+entry point or a replacement secrets store.
+
+Native development uses `scripts/run-core.sh` and
+`cd core/frontend && npm run dev`. Start the configured database/cache first.
+The standalone image and backend install use npm 10.9.0 because newer npm
+rejects a missing optional ARM package in the pinned QUIC dependency.
+
+## Clyffy and Codex
+
+Clyffy is Vaultix's secrets specialist. Connect your local Codex client to
+`/api/v1/vaultix/mcp` using your own ChatGPT sign-in. Your plan limits apply;
+Vaultix does not collect that session or an OpenAI API key.
+
+The native MCP teaches setup through the same authored catalog and configure
+steps used by the UI. Authenticated clients can list projects and secret
+references through the same actions as the native reference browser. Values
+and mutations are excluded. Hosted Nomen client sign-in is still a release gate.
+See [AI setup and specialist instructions](core/ai/README.md), also included
+in the image at `/backend/ai`.
+
+Secret values belong in the authenticated vault UI and the target application
+process. Clyffy receives references only. Never inject secrets into the AI
+process itself or paste values into a prompt.
+
+## API and migration
+
+- [Native core API](contracts/vaultix.core.v1.json): product identity, catalog,
+  configure steps, specialist instructions, and authenticated project/reference
+  actions shared by the UI and MCP.
+- [Migration and release gates](docs/0016-native-vaultix.md): what is implemented,
+  what remains inherited, and the evidence required for enterprise parity.
+- [Legacy panel contract](contracts/shippin.vaultix.panel.v1.json): compatibility
+  reference, not the new core contract.
+
+Legacy engine routes remain available for existing clients during the migration.
+They are not a metadata-only AI API. Nomen issuer/session integration still needs
+end-to-end verification. Mesh work does not belong in this checkout.
+
+## Local CLI
+
+The Go CLI provides an encrypted local copy and application-process injection:
 
 ```sh
 go build -o vaultix ./cmd/vaultix
-printf '%s\n' "$TOKEN" | vaultix login             # PAT / access token on stdin (never argv)
-printf '%s\n%s\n' "$ID" "$SECRET" | vaultix login --universal   # machine identity
+printf '%s\n' "$TOKEN" | vaultix login
 vaultix init --project t-<tenant-uuid> --env dev --path /
-vaultix pull                      # server -> local
-printf 'value' | vaultix set API_KEY   # staged locally (* in `vaultix ls`)
-vaultix push                      # two-way; keys missing on the server are created
-vaultix run -- claude             # pull, then run with the secrets in the environment
-vaultix hook bash >> ~/.bashrc    # pull before each new shell
-vaultix daemon --every 5m         # background two-way sync; conflicts left for you
+vaultix pull
+printf 'value' | vaultix set API_KEY
+vaultix push
+vaultix run -- npm run dev
 ```
 
-- **Store:** AES-256-GCM per scope under `~/.config/vaultix` (0600 / dir 0700). The data key and the login live in the OS
-  keyring; headless hosts use `--key-file` (must be 0600) and `VAULTIX_TOKEN_FILE`.
-- **Conflicts:** every local entry remembers the server version it came from. A key changed on both sides prompts
-  (`--on-conflict local|remote` to decide up front; the daemon never resolves silently).
-- **Not yet:** browser device login (planned via the console, see VAULTIX-PLAN.md), signed releases, desktop/VS Code surfaces.
+Login credentials and data keys use the OS keyring. Headless hosts use a
+restricted key file and `VAULTIX_TOKEN_FILE`. Local entries use AES-256-GCM.
+Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
 
-Tests: `go test ./...` (sync rules, encrypted store, API client against a fake server). Live-tested on Gold
-2026-10-19 8:19 PM PDT: init, pull, set, push (auto-create), fresh pull, run, rm, push (delete), fresh pull = 0 keys.
+## Checks
 
----
-
-## Vaultix engine and overlay (merged from origin/main 1da705e)
-
-# Vaultix
-
-**Owner:** AngryVibes LLC. **Host:** shippin.ai. **Stamp:** A SHIPPIN.AI SERVICE.
-
-in `core/`. Remotes off. Customer chrome says Vaultix. We do not run the
-vendor image and we do not replace the engine with a toy store.
-
-| Piece | What it is |
-| --- | --- |
-| `core/` | The secrets product (renamed vaultix) |
-| `db/` | Owned schema (rebranded overlay) |
-| `panel/` | Shippin overlay (PIN, lessons, Clyffy, instance manager) |
-| `branding/` | Wordmark, mark, favicon |
-
-## GitHub Container Registry
-
-Repo: **[shippinAI/vaultix](https://github.com/shippinAI/vaultix)** (private), same org as Nomen.
-
-| Image | What |
-| --- | --- |
-| `ghcr.io/shippinai/vaultix` | Engine (standalone `core/Dockerfile.standalone-vaultix`) |
-| `ghcr.io/shippinai/vaultix-panel` | Overlay |
-
-Workflow: **Actions → GHCR**. `GITHUB_TOKEN` + `packages: write`. Org Actions
-packages write: https://github.com/organizations/shippinAI/settings/actions
-
-After the first successful GHCR run:
-
-```bash
-export VAULTIX_ENGINE_IMAGE=ghcr.io/shippinai/vaultix:latest
-export VAULTIX_PANEL_IMAGE=ghcr.io/shippinai/vaultix-panel:latest
-export VAULTIX_PULL=1
-# copy compose/self.env.example or hosted.env.example → compose/vaultix.env
-bash scripts/up.sh
+```sh
+go test ./...
+(cd panel && go test ./...)
+bash scripts/check-owned.sh
+(cd core/frontend && npm run build)
+docker build -f core/Dockerfile.standalone-vaultix -t vaultix:smoke core
+bash scripts/smoke-image.sh vaultix:smoke dragonfly
+bash scripts/smoke-image.sh vaultix:smoke redis
+docker build --target backend-build -f core/Dockerfile.standalone-vaultix -t vaultix:verify-backend core
+node scripts/test-unit-core.mjs
+node scripts/test-core.mjs dragonfly
+node scripts/test-core.mjs redis
 ```
 
-Publish this tree to GitHub (admin of shippinAI): `bash scripts/publish-github.sh`
-
-## Run
-
-**Yourself:** `compose/self.env.example` → `vaultix.env`, `scripts/up.sh`  
-**Your users:** `compose/hosted.env.example`, `{label}.vaultix.shippin.cloud`
-
-Engine: `http://127.0.0.1:8200` (`GET /api/status`) — first operator `/admin/signup`  
-Overlay: `http://127.0.0.1:8201/viewport/` · manager `/manager/`
-
-Native without containers: `scripts/run-core.sh` + Vite on 3000. Do not treat
-`panel/internal/vault` as the product.
-
-Law: [docs/0011-owned-engine.md](docs/0011-owned-engine.md).
-License: [docs/0013-license-and-membership.md](docs/0013-license-and-membership.md).
-SKUs: [docs/0014-skus-and-manager.md](docs/0014-skus-and-manager.md).
+A passing unit suite does not establish a working deployment. Before release,
+complete the image/database/cache smoke test and the workflow acceptance gates
+in the migration document. No snapshot fetches, clones, or remote connections.

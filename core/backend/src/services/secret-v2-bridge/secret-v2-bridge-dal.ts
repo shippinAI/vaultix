@@ -1476,6 +1476,45 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
     }
   };
 
+  const findReferencePage = async ({
+    folderId,
+    offset,
+    limit
+  }: {
+    folderId: string;
+    offset: number;
+    limit: number;
+  }) => {
+    try {
+      // This path must never load ciphertext, comments, or user-defined metadata for AI reads.
+      const rows = await db
+        .replicaNode()(TableName.SecretV2)
+        .where({ folderId, type: SecretType.Shared })
+        .whereNull("userId")
+        .select("id", "key", "version", "createdAt", "updatedAt")
+        .orderBy("key", "asc")
+        .orderBy("id", "asc")
+        .offset(offset)
+        .limit(limit);
+      if (!rows.length) return [];
+      const tags = await db
+        .replicaNode()(TableName.SecretV2JnTag)
+        .join(TableName.SecretTag, `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .whereIn(
+          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`,
+          rows.map((row) => row.id)
+        )
+        .select(db.ref(`${TableName.SecretV2}Id`).withSchema(TableName.SecretV2JnTag).as("secretId"))
+        .select<{ secretId: string; slug: string }[]>(`${TableName.SecretTag}.slug`);
+      return rows.map((row) => ({
+        ...row,
+        tags: tags.filter((tag) => tag.secretId === row.id).map((tag) => tag.slug)
+      }));
+    } catch (error) {
+      throw new DatabaseError({ error, name: "findReferencePage" });
+    }
+  };
+
   const countByProject = async (projectId: string, tx?: Knex) => {
     try {
       const result = await (tx || db.replicaNode())(TableName.SecretV2)
@@ -1497,6 +1536,7 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
 
   return {
     ...secretOrm,
+    findReferencePage,
     update,
     bulkUpdate,
     bulkUpdateById,

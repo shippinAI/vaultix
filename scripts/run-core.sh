@@ -17,19 +17,13 @@ if ! ldconfig -p 2>/dev/null | grep -q 'libodbc.so.2'; then
   exit 2
 fi
 
-# Redis for queues. The engine will not start without it.
-if ! redis-cli ping >/dev/null 2>&1; then
-  mkdir -p /tmp/vaultix-redis
-  redis-server --daemonize yes --port 6379 --bind 127.0.0.1 \
-    --dir /tmp/vaultix-redis --dbfilename dump.rdb --protected-mode yes
-  sleep 0.3
-  redis-cli ping >/dev/null
-fi
-
 set -a
 # shellcheck disable=SC1090
 . "$ENVF"
 set +a
+
+export VAULTIX_CACHE_PROVIDER="${VAULTIX_CACHE_PROVIDER:-dragonfly}"
+echo "Cache provider: $VAULTIX_CACHE_PROVIDER (start your configured cache before the engine)"
 
 if [[ ! -d "$CORE/backend/node_modules" ]]; then
   echo "install backend deps with npm 10.9.0 (lockfile is npm-10; npm 11 rejects optional quic-linux-arm)" >&2

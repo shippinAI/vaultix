@@ -1,5 +1,7 @@
 module github.com/vaultix/api
 
+replace github.com/vaultix/gocasl => ./third_party/gocasl
+
 go 1.26.1
 
 require (

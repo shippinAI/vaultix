@@ -15,6 +15,7 @@ name: vaultix
 
 services:
   backend:
+    init: true
     image: ${VAULTIX_ENGINE_IMAGE:-ghcr.io/shippinai/vaultix:latest}
     build:
       context: ../core
@@ -33,7 +34,6 @@ services:
       SMTP_FROM_NAME: Vaultix
       SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-vaultix@shippin.cloud}
       DB_CONNECTION_URI: postgres://${POSTGRES_USER:-vaultix}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-vaultix}
-      REDIS_URL: redis://redis:6379
     ports:
       - "127.0.0.1:8200:8080"
     healthcheck:
@@ -45,10 +45,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_started
 
   panel:
+    profiles: ["panel"]
     image: ${VAULTIX_PANEL_IMAGE:-ghcr.io/shippinai/vaultix-panel:latest}
     build:
       context: ../panel
@@ -78,12 +77,27 @@ services:
       backend:
         condition: service_healthy
 
-  redis:
-    image: docker.io/library/redis:7.4-alpine
+  cache:
+    profiles: ["local-cache"]
+    image: ${VAULTIX_DRAGONFLY_IMAGE:-docker.dragonflydb.io/dragonflydb/dragonfly:v1.34.2}
     restart: unless-stopped
-    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    command:
+      - "--default_lua_flags=allow-undeclared-keys"
+      - "--cache_mode=false"
+      - "--maxmemory=1gb"
+      - "--proactor_threads=2"
+      - "--dir=/data"
+      - "--dbfilename=dump"
+      - "--snapshot_cron=*/5 * * * *"
+    ulimits:
+      memlock: -1
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     volumes:
-      - redis-data:/data
+      - dragonfly-data:/data
 
   db:
     image: docker.io/library/postgres:16.6-alpine
@@ -100,5 +114,5 @@ services:
 
 volumes:
   pg_data:
-  redis-data:
+  dragonfly-data:
   vaultix-state:

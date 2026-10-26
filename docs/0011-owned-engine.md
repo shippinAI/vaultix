@@ -1,3 +1,5 @@
+> Updated direction: [0016 Native Vaultix](0016-native-vaultix.md) supersedes the paid-tier and required-panel deployment rules below. This document records the earlier design.
+
 # 0011 — Vaultix is vaultix, renamed, owned
 
 **Status:** accepted (2026-08-29)

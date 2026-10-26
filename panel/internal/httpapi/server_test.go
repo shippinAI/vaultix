@@ -15,10 +15,10 @@ import (
 	"shippin.cloud/vaultix/panel/internal/audit"
 	"shippin.cloud/vaultix/panel/internal/deploy"
 	"shippin.cloud/vaultix/panel/internal/instances"
+	"shippin.cloud/vaultix/panel/internal/license"
 	"shippin.cloud/vaultix/panel/internal/manager"
 	"shippin.cloud/vaultix/panel/internal/pinauth"
 	"shippin.cloud/vaultix/panel/internal/store"
-	"shippin.cloud/vaultix/panel/internal/license"
 	"shippin.cloud/vaultix/panel/internal/valves"
 	"shippin.cloud/vaultix/panel/internal/vault"
 )
@@ -495,7 +495,7 @@ func TestTrustPublic(t *testing.T) {
 		t.Fatalf("trust payload: %v", out)
 	}
 	raw, _ := json.Marshal(out)
-	if strings.Contains(strings.ToLower(string(raw)), "vaultix") {
+	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
 		t.Fatal("trust mentioned leftover brand")
 	}
 	if out["tier"] != string(license.Community) {
@@ -537,7 +537,7 @@ func TestLicenseEndpointAngryVibes(t *testing.T) {
 	}
 }
 
-func TestCommunityCannotHoldForApproval(t *testing.T) {
+func TestCommunityCanHoldForApproval(t *testing.T) {
 	f := newFixture(t)
 	f.srv.Valves.ApprovalGate = valves.ApprovalGate{Enabled: true}
 	tok := f.elevate(t, "jessay")
@@ -548,7 +548,7 @@ func TestCommunityCannotHoldForApproval(t *testing.T) {
 	id := box["projectId"].(string)
 	code, out := f.call(t, "PUT", "/api/v1/vaultix/projects/"+id+"/secrets/API_KEY", "jessay", tok,
 		map[string]string{"environment": "dev", "value": "v"})
-	if code != http.StatusOK {
-		t.Fatalf("community must apply, not hold: %d %v", code, out)
+	if code != http.StatusAccepted {
+		t.Fatalf("community must honor configured approval: %d %v", code, out)
 	}
 }

@@ -1,0 +1,9 @@
+services:
+  cache:
+    image: docker.io/library/redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

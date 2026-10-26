@@ -76,18 +76,10 @@ func Normalize(t Tier) Tier {
 	}
 }
 
-func featuresFor(t Tier) []string {
-	core := []string{FeatCore, FeatCatalog, FeatConfigure, FeatMCP}
-	switch t {
-	case Membership:
-		return append(append([]string{}, core...), FeatAuditStream, FeatIPAllowlist, FeatRateCap, FeatRotate, FeatSync)
-	case Enterprise:
-		return append(append([]string{}, core...),
-			FeatAuditStream, FeatIPAllowlist, FeatRateCap, FeatRotate, FeatSync,
-			FeatApproval, FeatAccessPolicy, FeatMeter, FeatTeam, FeatHealthScan)
-	default:
-		return core
-	}
+func featuresFor(_ Tier) []string {
+	return []string{FeatCore, FeatCatalog, FeatConfigure, FeatMCP,
+		FeatAuditStream, FeatIPAllowlist, FeatRateCap, FeatRotate, FeatSync,
+		FeatApproval, FeatAccessPolicy, FeatMeter, FeatTeam, FeatHealthScan}
 }
 
 func (g Grant) Allows(feature string) bool {
@@ -107,15 +99,8 @@ func (g Grant) Open(feature string, asked bool) bool {
 	return asked && g.Allows(feature)
 }
 
-func Requires(feature string) Tier {
-	switch feature {
-	case FeatApproval, FeatAccessPolicy, FeatMeter, FeatTeam, FeatHealthScan:
-		return Enterprise
-	case FeatAuditStream, FeatIPAllowlist, FeatRateCap, FeatRotate, FeatSync:
-		return Membership
-	default:
-		return Community
-	}
+func Requires(_ string) Tier {
+	return Community
 }
 
 // Load reads operator config. File is optional JSON {tier,subject}.

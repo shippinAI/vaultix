@@ -2,6 +2,7 @@ import { ChildProcess, spawn } from "child_process";
 import fp from "fastify-plugin";
 import path from "path";
 
+import { resolveVaultixEnvironment } from "@app/lib/config/vaultix-environment";
 import { logger } from "@app/lib/logger";
 
 type GoSidecarOpts = {
@@ -32,8 +33,7 @@ export const goSidecarPlugin = fp(async (server, opts: GoSidecarOpts) => {
     sidecar = spawn(binaryPath, [], {
       stdio: ["ignore", "inherit", "inherit"],
       env: {
-        ...process.env,
-        ...opts.env,
+        ...(resolveVaultixEnvironment({ ...process.env, ...opts.env }) as NodeJS.ProcessEnv),
         PORT: "4040", // Override PORT so Go doesn't conflict with Node.js
         HOST: "127.0.0.1"
       }

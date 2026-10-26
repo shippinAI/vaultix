@@ -120,3 +120,7 @@ When making significant changes to the codebase (new services, architectural shi
 Claude Code reads CLAUDE.md, not AGENTS.md, so the shared agent instructions are imported here rather than linked:
 
 @AGENTS.md
+
+## Vaultix migration
+
+The product direction is docs/0016-native-vaultix.md in the repository root. Native core catalog/MCP and the new home screen live in this tree; the panel is optional. Software features are included, with authorization kept separate.

@@ -51,7 +51,7 @@ func TestInitializeAndList(t *testing.T) {
 		t.Fatalf("tools %d", len(tools))
 	}
 	raw, _ := json.Marshal(listed)
-	if strings.Contains(strings.ToLower(string(raw)), "vaultix") {
+	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
 		t.Fatal("MCP listed leftover brand")
 	}
 }

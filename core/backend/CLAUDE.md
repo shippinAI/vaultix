@@ -422,3 +422,7 @@ Migrations in `src/db/migrations/`. Auto-generated Zod schemas in `src/db/schema
 4. Create router in `src/server/routes/v<N>/` (or `src/ee/routes/v<N>/` for EE) and register it
 5. Review the whole change against [`CODE_QUALITY.md`](CODE_QUALITY.md)
 6. Run `make reviewable-api` to verify lint + types
+
+## Native Vaultix modules
+
+The /api/v1/vaultix router serves public catalog/configure guidance and authenticated project/reference actions from services/vaultix. UI and MCP share these authored actions. Reference queries select metadata directly, without loading ciphertext; project and per-secret authorization still apply. Actor and organization come from validated authentication, never tool input. Existing core auth adapters are not proof of Nomen wiring. The native feature-service is wired in routes/index.ts and never calls a license server. lib/config/vaultix-environment.ts resolves VAULTIX_CACHE_* (Dragonfly default, Redis and ElastiCache alternatives) and disables legacy billing configuration. Native code uses bounded explicit validation, without adding Zod. The launcher forwards resolved settings to the Go sidecar. Hosted release evidence lives in ../../docs/0018-hosted-capability-proof.md.

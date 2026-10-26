@@ -71,21 +71,13 @@ type Deps struct {
 func NewService(ctx context.Context, logger *slog.Logger, deps *Deps) *Service {
 	svc := &Service{
 		logger:         logger.With(slog.String("svc", "license")),
-		onPremFeatures: DefaultFeatures(),
+		onPremFeatures: IncludedFeatures(),
+		instanceType:   InstanceTypeOnPrem,
+		isValid:        true,
 		db:             deps.DB,
 		keyStore:       deps.KeyStore,
 	}
 
-	serverURL := deps.Config.LicenseServerURL
-	if serverURL == "" {
-		serverURL = "https://portal.vaultix.com"
-	}
-
-	svc.cloudAPI = newLicenseAPI(serverURL, cloudLoginPath, deps.Config.LicenseServerKey, "")
-	svc.onPremAPI = newLicenseAPI(serverURL, onPremLoginPath, "", "")
-
-	svc.init(ctx, deps.Config)
-	svc.startBackgroundSync()
 	return svc
 }
 

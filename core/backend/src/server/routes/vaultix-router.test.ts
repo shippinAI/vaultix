@@ -1,0 +1,60 @@
+import fastify from "fastify";
+
+import { registerVaultixRouter } from "./vaultix-router";
+
+describe("native Vaultix HTTP API", () => {
+  const app = fastify();
+  beforeAll(async () => {
+    await app.register(registerVaultixRouter, { prefix: "/api/v1/vaultix" });
+  });
+  afterAll(async () => {
+    await app.close();
+  });
+
+  test("serves catalog and product identity on the core API", async () => {
+    const product = await app.inject("/api/v1/vaultix/product");
+    expect(product.statusCode).toBe(200);
+    expect(product.json()).toMatchObject({
+      product: "Vaultix",
+      featurePolicy: "included",
+      enterpriseParity: "in-progress"
+    });
+    expect((await app.inject("/api/v1/vaultix/catalog")).json()).toMatchObject({ source: "catalog" });
+  });
+  test("rejects query parameters and cross-origin requests with plain errors", async () => {
+    await Promise.all(
+      [
+        { url: "/api/v1/vaultix/catalog?value=CANARY-SECRET" },
+        { url: "/api/v1/vaultix/catalog", headers: { host: "vaultix.example", origin: "https://evil.example" } }
+      ].map(async (options) => {
+        const response = await app.inject(options);
+        expect(response.statusCode).toBeGreaterThanOrEqual(400);
+        expect(typeof response.json<{ error: unknown }>().error).toBe("string");
+        expect(response.body).not.toContain("CANARY-SECRET");
+      })
+    );
+  });
+  test("bounds body sizes and acknowledges MCP notifications", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: { jsonrpc: "2.0", method: "notifications/initialized" }
+    });
+    expect(response.statusCode).toBe(202);
+    expect(response.body).toBe("");
+    const large = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: { value: "x".repeat(20000) }
+    });
+    expect(large.statusCode).toBe(413);
+    expect(typeof large.json<{ error: unknown }>().error).toBe("string");
+  });
+
+  test("does not serve the UI as an MCP event stream", async () => {
+    const response = await app.inject("/api/v1/vaultix/mcp");
+    expect(response.statusCode).toBe(405);
+    expect(response.headers.allow).toBe("POST");
+    expect(typeof response.json<{ error: unknown }>().error).toBe("string");
+  });
+});

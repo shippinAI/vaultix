@@ -30,13 +30,13 @@ const (
 
 type Config struct {
 	// Server
-	vaultixPlatformVersion               string
+	VaultixPlatformVersion                 string
 	KubernetesAutoFetchServiceAccountToken bool
 	NodeEnv                                NodeEnv
 	Port                                   int
 	Host                                   string
 	StandaloneMode                         bool
-	vaultixCloud                         bool
+	VaultixCloud                           bool
 	MaintenanceMode                        bool
 	DisableSecretScanning                  bool
 
@@ -251,10 +251,10 @@ type Config struct {
 
 	// Gateway
 	GatewayvaultixStaticIPAddress string
-	GatewayRelayAddress             string
-	GatewayRelayRealm               string
-	GatewayRelayAuthSecret          string
-	RelayAuthSecret                 string
+	GatewayRelayAddress           string
+	GatewayRelayRealm             string
+	GatewayRelayAuthSecret        string
+	RelayAuthSecret               string
 
 	// Dynamic Secrets
 	DynamicSecretAllowInternalIP    bool
@@ -397,12 +397,12 @@ func LoadConfig() (*Config, error) {
 	// Load all env vars using the builder pattern
 	l.
 		// Server
-		Optional(&cfg.vaultixPlatformVersion, "vaultix_PLATFORM_VERSION", "").
+		Optional(&cfg.VaultixPlatformVersion, "VAULTIX_PLATFORM_VERSION", "").
 		OptionalBool(&cfg.KubernetesAutoFetchServiceAccountToken, "KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN", false).
 		OptionalInt(&cfg.Port, "PORT", 4040).
 		Optional(&cfg.Host, "HOST", "0.0.0.0").
 		OptionalBool(&cfg.StandaloneMode, "STANDALONE_MODE", false).
-		OptionalBool(&cfg.vaultixCloud, "vaultix_CLOUD", false).
+		OptionalBool(&cfg.VaultixCloud, "VAULTIX_CLOUD", false).
 		OptionalBool(&cfg.MaintenanceMode, "MAINTENANCE_MODE", false).
 		OptionalBool(&cfg.DisableSecretScanning, "DISABLE_SECRET_SCANNING", false).
 

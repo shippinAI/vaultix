@@ -349,3 +349,7 @@ secrets, _ := pgx.CollectRows(rows, pgx.RowToStructByName[Secret])
 5. **Register** service in `server/api/<product>_services.go`.
 
 6. Run `make test && make lint`.
+
+## Vaultix runtime
+
+The image entrypoint is cmd/vaultix/main.go. The included feature policy is internal/ee/services/license/included.go; NewService has no billing clients or background license synchronization. The Node launcher passes resolved cache aliases to the sidecar. The permission evaluator is pinned under third_party/gocasl with its MIT notice and provenance preserved; run its own tests when changing it.

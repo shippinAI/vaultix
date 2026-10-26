@@ -91,6 +91,8 @@ export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown") =>
     return attachConnectionLogging(
       new Redis(cfg.REDIS_URL, {
         maxRetriesPerRequest: null,
+        ...(cfg.REDIS_USERNAME ? { username: cfg.REDIS_USERNAME } : {}),
+        ...(cfg.REDIS_PASSWORD ? { password: cfg.REDIS_PASSWORD } : {}),
         reconnectOnError(err) {
           // Reconnect when hitting a read-only replica during failover
           const targetError = "READONLY";
@@ -112,6 +114,7 @@ export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown") =>
           : undefined,
         retryDelayOnClusterDown: 300,
         redisOptions: {
+          maxRetriesPerRequest: null,
           username: cfg.REDIS_USERNAME,
           password: cfg.REDIS_PASSWORD,
           tls: cfg?.REDIS_CLUSTER_ENABLE_TLS ? {} : undefined,

@@ -8,6 +8,21 @@ only **Auth (Nomen) → Secrets (this instance) → Mesh (Zuul)**.
 This file is the agent router. Specs live in `docs/`. Humans start at
 [`README.md`](README.md).
 
+## Current direction (2026-10-25)
+
+Release priority (2026-10-26): hosted Vaultix first. Update the code and prove
+capabilities before offering it; record evidence and gaps in
+`docs/0018-hosted-capability-proof.md`.
+
+Read `docs/0016-native-vaultix.md` for the in-place core/UI/API migration.
+Software features are included for every Vaultix deployment. This supersedes
+the paid-tier rules in 0013. Permissions, approvals, and operational feature
+switches still apply. Entitlement tests alone do not establish enterprise parity.
+Dragonfly is the default cache; Redis and ElastiCache are explicit alternatives.
+The native core UI/API is the product entry point. The panel is optional legacy
+work, not a second secrets store. Clyffy uses the user's local Codex sign-in;
+never collect their subscription credentials or inject values into the AI process.
+
 **Do not assume chat context.** Load the folder for the task.
 
 ## Always
@@ -18,7 +33,7 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 - Identity is Nomen OIDC. Cookie/session stay in Nomen.
 - Clyffy manages secret **references**, never values in chat or A2UI.
 - Catalog wins: `Decide` is pure. Frontier only with a recorded reason.
-- Enterprise valves open only with a Vaultix license / shippin.ai membership (`docs/0013-license-and-membership.md`).
+- Vaultix software capabilities are included; feature availability and authorization are separate.
 - MCP tools are the source actions + catalog. No second API for models.
 - GET is metadata only. Values leave only on inject redeem.
 - Expected API failures include a plain `error` string.
@@ -41,7 +56,7 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 - Add Zod to new product TypeScript.
 - Claim leftover import, Doppler-class UX, or Nomen issuer wiring as
   live without tests.
-- Open enterprise valves with an env flag when the grant is community.
+- Claim untested enterprise feature parity or bypass authorization because features are free.
 
 ## Load this for that
 

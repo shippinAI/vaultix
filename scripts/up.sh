@@ -1,21 +1,20 @@
 #!/bin/bash
-# Bring up a Vaultix instance from this repo (self by default).
-# The engine is core/ (vaultix renamed). The panel is overlay only.
+# Bring up the native Vaultix engine. Hosted is the first release target.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/compose"
 if [ ! -f vaultix.env ]; then
-  echo "copy compose/self.env.example or hosted.env.example to compose/vaultix.env and fill keys" >&2
+  echo "copy compose/hosted.env.example (or self.env.example) to compose/vaultix.env and fill keys" >&2
   exit 2
 fi
 
 compose() {
   if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
-    docker compose "$@"
+    docker compose --env-file vaultix.env "$@"
     return
   fi
   if command -v podman >/dev/null 2>&1; then
-    podman compose "$@"
+    podman compose --env-file vaultix.env "$@"
     return
   fi
   return 127
@@ -23,7 +22,7 @@ compose() {
 
 if compose -f vaultix.yml version >/dev/null 2>&1; then
   if [[ "${VAULTIX_PULL:-}" == "1" ]]; then
-    compose -f vaultix.yml pull || true
+    compose -f vaultix.yml pull
   fi
   if [[ -n "${VAULTIX_ENGINE_IMAGE:-}" || "${VAULTIX_PULL:-}" == "1" ]]; then
     compose -f vaultix.yml up -d
@@ -31,8 +30,8 @@ if compose -f vaultix.yml version >/dev/null 2>&1; then
     compose -f vaultix.yml up -d --build
   fi
   echo "Vaultix engine: http://127.0.0.1:8200   (GHCR: ghcr.io/shippinai/vaultix)"
-  echo "Vaultix overlay: http://127.0.0.1:8201/viewport/  manager: http://127.0.0.1:8201/manager/"
-  echo "First operator:  http://127.0.0.1:8200/admin/signup"
+  echo "Vaultix UI:     http://127.0.0.1:8200/"
+  echo "Clyffy guide:   http://127.0.0.1:8200/api/v1/vaultix/mcp"
   exit 0
 fi
 echo "docker/podman compose not found — native core:"

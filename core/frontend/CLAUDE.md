@@ -87,3 +87,7 @@ Tailwind CSS v4 with PostCSS. Dark theme configured via CSS custom properties in
 - Forms use `react-hook-form` with `@hookform/resolvers` (Zod schemas).
 - Search params validated with `zodValidator()` from `@tanstack/zod-adapter`.
 - Toasts: call `createNotification({ title?, text, type, callToAction?, copyActions? })` from `@app/components/notifications`. Backed by **sonner** (the v3 `Toaster` in `components/v3/generic/Toast`), mounted once via `NotificationContainer` in `pages/root.tsx`. `react-toastify` has been removed, so do not reintroduce it.
+
+## Native Vaultix onboarding
+
+The root page renders VaultixHome and reads the core's catalog/configure endpoints through hooks/api/vaultix. The guide refuses unknown components and non-allowlisted navigation. VaultixReferences uses the same authenticated project/reference MCP actions as Clyffy, with catalog-authored action labels and no secret values. Clyffy setup exports a credential-free connection for the user's local Codex sign-in. Secret mutations, injection and Nomen session wiring still need native implementation and acceptance tests; do not imply they are live.

@@ -28,6 +28,7 @@ import { clickhouseAuditLogDALFactory } from "@app/ee/services/audit-log/audit-l
 import { auditLogDALFactory } from "@app/ee/services/audit-log/audit-log-dal";
 import { auditLogQueueServiceFactory } from "@app/ee/services/audit-log/audit-log-queue";
 import { auditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-service";
+import { EventType } from "@app/ee/services/audit-log/audit-log-types";
 import { auditLogStreamDALFactory } from "@app/ee/services/audit-log-stream/audit-log-stream-dal";
 import { auditLogStreamServiceFactory } from "@app/ee/services/audit-log-stream/audit-log-stream-service";
 import { auditLogStreamOutboxDALFactory } from "@app/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-dal";
@@ -88,7 +89,6 @@ import { ldapConfigServiceFactory } from "@app/ee/services/ldap-config/ldap-conf
 import { ldapGroupMapDALFactory } from "@app/ee/services/ldap-config/ldap-group-map-dal";
 import { licenseDALFactory } from "@app/ee/services/license/license-dal";
 import { getLicenseKeyConfig } from "@app/ee/services/license/license-fns";
-import { licenseServiceFactory } from "@app/ee/services/license/license-service";
 import { LicenseType } from "@app/ee/services/license/license-types";
 import { licenseV2ServiceFactory } from "@app/ee/services/license-v2/license-v2-service";
 import { oidcConfigDALFactory } from "@app/ee/services/oidc/oidc-config-dal";
@@ -513,6 +513,8 @@ import { userActivationDALFactory } from "@app/services/user-activation/user-act
 import { userActivationServiceFactory } from "@app/services/user-activation/user-activation-service";
 import { userAliasDALFactory } from "@app/services/user-alias/user-alias-dal";
 import { userEngagementServiceFactory } from "@app/services/user-engagement/user-engagement-service";
+import { vaultixFeatureServiceFactory } from "@app/services/vaultix/feature-service";
+import { vaultixReferenceServiceFactory } from "@app/services/vaultix/reference-service";
 import { webAuthnCredentialDALFactory } from "@app/services/webauthn/webauthn-credential-dal";
 import { webAuthnServiceFactory } from "@app/services/webauthn/webauthn-service";
 import { webhookDALFactory } from "@app/services/webhook/webhook-dal";
@@ -535,6 +537,7 @@ import { initializeOauthConfigSync } from "./v1/sso-router";
 import { registerV2Routes } from "./v2";
 import { registerV3Routes } from "./v3";
 import { registerV4Routes } from "./v4";
+import { registerVaultixRouter } from "./vaultix-router";
 
 const histogram = monitorEventLoopDelay({ resolution: 20 });
 histogram.enable();
@@ -787,16 +790,7 @@ export const registerRoutes = async (
   // updateSubscriptionOrgMemberCount chokepoint.
   const usageMeteringService = usageMeteringServiceFactory({ queueService, projectDAL, keyStore, envConfig });
 
-  const licenseService = licenseServiceFactory({
-    permissionService,
-    orgDAL,
-    licenseDAL,
-    keyStore,
-    projectDAL,
-    envConfig,
-    licenseClient,
-    usageMeteringService
-  });
+  const licenseService = vaultixFeatureServiceFactory({ permissionService });
 
   // Usage metering: counts the metered features and reports them to the License Server. Inert while
   // LICENSE_SERVER_V2_MODE is off; active in read-compare and on (emitter no-ops / worker no-ops without a reporter).
@@ -4163,6 +4157,25 @@ export const registerRoutes = async (
   await server.register(registerPkiScepRouter, { prefix: "/scep" });
 
   // register routes for v1
+  await server.register(registerVaultixRouter, {
+    prefix: "/api/v1/vaultix",
+    references: vaultixReferenceServiceFactory({
+      permissionService,
+      projectService,
+      folderDAL,
+      secretDAL: secretV2BridgeDAL
+    }),
+    auditReferences: async (request, scope) => {
+      await auditLogService.createAuditLog({
+        ...request.auditLogInfo,
+        projectId: scope.projectId,
+        event: {
+          type: EventType.GET_SECRETS,
+          metadata: { environment: scope.environment, secretPath: scope.secretPath, numberOfSecrets: scope.count }
+        }
+      });
+    }
+  });
   await server.register(
     async (v1Server) => {
       await v1Server.register(registerV1EERoutes);

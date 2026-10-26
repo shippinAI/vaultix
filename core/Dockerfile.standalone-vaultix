@@ -62,6 +62,7 @@ USER 1001
 FROM golang:1.26-trixie AS go-builder
 WORKDIR /app
 COPY backend-go/go.mod backend-go/go.sum ./
+COPY backend-go/third_party/ ./third_party/
 RUN go mod download
 COPY backend-go/ .
 RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-s -w" -o /go-sidecar ./cmd/vaultix/main.go
@@ -112,6 +113,7 @@ RUN npm ci
 
 COPY /backend .
 COPY --chown=non-root-user:nodejs standalone-entrypoint.sh standalone-entrypoint.sh
+RUN sed -i 's/\r$//' standalone-entrypoint.sh && chmod +x standalone-entrypoint.sh
 RUN npm i -g tsconfig-paths
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 RUN npm run build
@@ -241,9 +243,10 @@ ENV CAPTCHA_SITE_KEY=$CAPTCHA_SITE_KEY
 COPY --from=backend-runner /app /backend
 COPY --from=frontend-runner /app ./backend/frontend-build
 COPY --from=go-builder /go-sidecar /backend/go-sidecar
+COPY ai/ /backend/ai/
 
 # Make export-assets script executable for CDN asset extraction
-RUN chmod +x /backend/scripts/export-assets.sh
+RUN sed -i 's/\r$//' /backend/scripts/export-assets.sh && chmod +x /backend/scripts/export-assets.sh
 
 ARG VAULTIX_PLATFORM_VERSION=0.162.19
 ENV VAULTIX_PLATFORM_VERSION $VAULTIX_PLATFORM_VERSION
