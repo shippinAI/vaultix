@@ -11,6 +11,9 @@ Clyffy as its AI specialist. Software capabilities are included for every
 deployment. Hosting, support, and the user's AI subscription are separate
 services. Membership is not a security-feature paywall.
 
+The native workspace, API identity, and AI connection choices are described in
+[0020](0020-devscif-native-workspace.md).
+
 This supersedes the paid-tier policy in 0013 and the requirement in 0011/0014
 to deploy the panel beside the engine. It does not authorize a second vault,
 an authentication runtime fork, or work on mesh. Nomen remains the identity

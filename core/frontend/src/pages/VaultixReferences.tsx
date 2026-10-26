@@ -24,6 +24,8 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
   const [projectId, setProjectId] = useState("");
   const [environment, setEnvironment] = useState("");
   const [path, setPath] = useState("/");
+  const [search, setSearch] = useState("");
+  const [copyStatus, setCopyStatus] = useState("");
   const [scope, setScope] = useState<{
     projectId: string;
     environment: string;
@@ -46,7 +48,15 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
     gcTime: 0
   });
   const project = projects.data?.find((entry) => entry.id === projectId);
-  const clear = () => setScope(undefined);
+  const clear = () => {
+    setScope(undefined);
+    setSearch("");
+    setCopyStatus("");
+  };
+  const visibleReferences =
+    references.data?.references.filter((entry) =>
+      entry.name.toLowerCase().includes(search.toLowerCase())
+    ) ?? [];
 
   return (
     <Card>
@@ -181,18 +191,54 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
             <p className="text-sm">
               {project?.name} / {scope.environment} / {scope.secretPath}
             </p>
+            <Field>
+              <FieldLabel htmlFor="reference-search">Find on this page</FieldLabel>
+              <Input
+                id="reference-search"
+                type="search"
+                value={search}
+                maxLength={256}
+                placeholder="Filter secret names..."
+                onChange={(event) => setSearch(event.target.value)}
+              />
+            </Field>
             {references.data.references.length === 0 ? (
               <p>No accessible references on this page.</p>
             ) : (
               <ul className="divide-y divide-border rounded-md border border-border">
-                {references.data.references.map((reference) => (
+                {visibleReferences.map((reference) => (
                   <li className="flex flex-wrap justify-between gap-3 p-3" key={reference.id}>
                     <code className="break-all">{reference.name}</code>
-                    <span className="text-sm text-muted">Version {reference.version}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-muted">Version {reference.version}</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        aria-label={`Copy reference ${reference.name}`}
+                        onClick={async () => {
+                          try {
+                            await navigator.clipboard.writeText(reference.name);
+                            setCopyStatus("Reference name copied.");
+                          } catch {
+                            setCopyStatus(
+                              "Clipboard unavailable. Select and copy the reference name."
+                            );
+                          }
+                        }}
+                      >
+                        Copy Name
+                      </Button>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
+            {search && references.data.references.length > 0 && visibleReferences.length === 0 && (
+              <p>No names match on this page. Clear the filter or try the next page.</p>
+            )}
+            <p role="status" className="text-sm text-muted">
+              {copyStatus}
+            </p>
             <div className="flex gap-3">
               <Button
                 variant="outline"

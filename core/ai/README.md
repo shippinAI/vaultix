@@ -15,11 +15,20 @@ For a local instance, use `http://127.0.0.1:8200/api/v1/vaultix/mcp`.
 Reconnect Codex, then ask: "Read the Vaultix specialist instructions and help
 me connect my app."
 
-The native core MCP supplies three public guidance tools:
+The native core MCP supplies four public guidance tools:
 
 - `vaultix.catalog.get`: the same concepts displayed by the UI.
 - `vaultix.configure.show`: the same authored setup steps displayed by the UI.
 - `vaultix.specialist.instructions`: Clyffy's operating instructions.
+- `vaultix.connections.get`: authored setup choices for subscriptions and existing AI clients.
+
+In the Vaultix UI, open **Connect Clyffy** and choose **Codex subscription**,
+**My Codex setup**, or **Another AI client**. The second option preserves your
+existing API account, model gateway or local-provider configuration. Add the
+Vaultix MCP entry to your existing configuration; do not replace that file.
+Other clients need Streamable HTTP MCP support. Model/tool compatibility
+depends on that client and provider. Vaultix does not host a subscription
+credential exchange or collect provider keys in this setup flow.
 
 These public guidance tools accept no arguments or credentials. An authenticated
 Vaultix client also has `vaultix.projects.list` and `vaultix.secrets.references`.

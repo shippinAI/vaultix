@@ -35,6 +35,7 @@ import { fastifyErrHandler } from "./plugins/error-handler";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "./plugins/fastify-zod";
 import { fastifyIp } from "./plugins/ip";
 import { maintenanceMode } from "./plugins/maintenanceMode";
+import { vaultixProductIdentity } from "./plugins/product-identity";
 import { registerResponseSchemaHooks } from "./plugins/response-schema-hooks";
 import { registerServeUI } from "./plugins/serve-ui";
 import { fastifySwagger } from "./plugins/swagger";
@@ -135,6 +136,7 @@ export const main = async ({
     }
 
     await server.register(fastifySwagger);
+    await server.register(vaultixProductIdentity);
     await server.register(fastifyFormBody);
     await server.register(websocket, {
       options: { maxPayload: 64 * 1024 } // 64 KB

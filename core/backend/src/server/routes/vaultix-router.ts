@@ -8,6 +8,7 @@ import { ActorType, AuthMode } from "@app/services/auth/auth-type";
 import {
   getVaultixCatalog,
   getVaultixConfigure,
+  getVaultixConnections,
   getVaultixProduct,
   specialistInstructions
 } from "@app/services/vaultix/catalog";
@@ -98,12 +99,14 @@ export const registerVaultixRouter = async (
     ["/product", getVaultixProduct],
     ["/catalog", getVaultixCatalog],
     ["/configure", getVaultixConfigure],
+    ["/connections", getVaultixConnections],
     ["/ai/instructions", () => ({ instructions: specialistInstructions })]
   ] as const;
   reads.forEach(([url, handler]) =>
     server.get(
       url,
       {
+        schema: { hide: false, tags: ["Vaultix"], summary: `Read Vaultix ${url.slice(1)}` },
         config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
       },
       async () => handler()
@@ -111,11 +114,31 @@ export const registerVaultixRouter = async (
   );
 
   if (options.references) {
-    server.get("/projects", { config: { rateLimit: { max: 60, timeWindow: "1 minute" } } }, async (request) =>
-      runAction(request, "vaultix.projects.list", {})
+    server.get(
+      "/projects",
+      {
+        schema: {
+          hide: false,
+          tags: ["Vaultix"],
+          summary: "List authorized Vaultix projects",
+          security: [{ bearerAuth: [] }]
+        },
+        config: { rateLimit: { max: 60, timeWindow: "1 minute" } }
+      },
+      async (request) => runAction(request, "vaultix.projects.list", {})
     );
-    server.get("/secret-references", { config: { rateLimit: { max: 60, timeWindow: "1 minute" } } }, async (request) =>
-      runAction(request, "vaultix.secrets.references", request.query)
+    server.get(
+      "/secret-references",
+      {
+        schema: {
+          hide: false,
+          tags: ["Vaultix"],
+          summary: "List authorized secret references without values",
+          security: [{ bearerAuth: [] }]
+        },
+        config: { rateLimit: { max: 60, timeWindow: "1 minute" } }
+      },
+      async (request) => runAction(request, "vaultix.secrets.references", request.query)
     );
   }
 
@@ -123,6 +146,13 @@ export const registerVaultixRouter = async (
     "/mcp",
     {
       bodyLimit: 16 * 1024,
+      schema: {
+        hide: false,
+        tags: ["Vaultix"],
+        summary: "Clyffy source actions over MCP",
+        description:
+          "Public catalog and connection guidance. Authenticated project/reference actions reuse the UI service. No secret values or mutations."
+      },
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
     },
     async (request, reply) => {

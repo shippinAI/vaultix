@@ -1,8 +1,20 @@
-# vaultix Design System (v3)
+# Vaultix DevSCIF visual system
 
 This document captures the v3 visual language and product voice used across
 vaultix. It is the single reference for engineers, designers, and AI coding
 agents producing new UI or user-visible copy.
+
+The 2026-10-26 direction is crisp, flat vector 2.0: steel-dark surfaces,
+mint project accents, compact outlines, clear type, and practical controls.
+Use Lucide vector icons and semantic tokens. Avoid decorative shadows,
+gradient surfaces, bouncing controls and invented status counters. The shared
+Card and Button primitives implement the flat treatment across existing views.
+Keyboard focus must remain visible; muted text must remain readable.
+
+Authored input is `frontend/src/index.css` and the shared v3 primitives.
+Tailwind/Vite generate the bundled CSS during `npm run build`; do not edit
+`dist/` or the generated route tree. The core catalog authors setup/action
+content; the frontend owns rendering and temporary interaction state.
 
 **Source of truth for tokens:** [`frontend/src/index.css`](frontend/src/index.css) (`@theme` block).
 **Canonical semantic reference:** [`Badge.stories.tsx`](frontend/src/components/v3/generic/Badge/Badge.stories.tsx).

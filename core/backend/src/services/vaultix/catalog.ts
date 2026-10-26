@@ -100,11 +100,55 @@ export const getVaultixConfigure = () => ({
   ]
 });
 
+export const getVaultixConnections = () => ({
+  schemaVersion: "vaultix.connections.v1",
+  source: "catalog",
+  mcpPath: "/api/v1/vaultix/mcp",
+  access:
+    "Public guidance is available now. Project references require a validated Vaultix session; hosted Nomen client sign-in is still being integrated.",
+  options: [
+    {
+      id: "codex-subscription",
+      component: "configure-step",
+      title: "Codex subscription",
+      description: "Use your own ChatGPT sign-in in the local Codex app or CLI. Your plan limits apply.",
+      steps: [
+        "Run codex login in your terminal and complete the browser sign-in.",
+        "Add the Vaultix MCP connection below, then reconnect Codex.",
+        "Ask Clyffy to read the specialist instructions and help connect your app."
+      ]
+    },
+    {
+      id: "codex-existing",
+      component: "configure-step",
+      title: "My Codex setup",
+      description: "Keep your configured API account, model gateway, or local provider. Add Vaultix as a tool source.",
+      steps: [
+        "Keep your existing Codex provider and authentication configuration.",
+        "Add the Vaultix MCP connection below without replacing your config file.",
+        "Clyffy uses your configured model. Model and tool support depend on your provider."
+      ]
+    },
+    {
+      id: "mcp-client",
+      component: "configure-step",
+      title: "Another AI client",
+      description: "Connect a client that supports Streamable HTTP MCP using your own model setup.",
+      steps: [
+        "Open your client's MCP server settings.",
+        "Add the Vaultix server URL below using Streamable HTTP.",
+        "Read vaultix.specialist.instructions before using the reference tools."
+      ]
+    }
+  ]
+});
+
 export const getVaultixProduct = () => ({
   schemaVersion: "vaultix.product.v1",
   product: "Vaultix",
   owner: "AngryVibes LLC",
   apiBase: "/api/v1/vaultix",
+  apiDocsPath: "/api/docs",
   featurePolicy: "included",
   enterpriseParity: "in-progress",
   ai: {
@@ -124,6 +168,10 @@ export const vaultixTools = [
     description: "Read the same setup steps shown in Vaultix. Does not change the vault."
   },
   {
+    name: "vaultix.connections.get",
+    description: "Read authored setup choices for Codex subscriptions and existing AI clients. Contains no credentials."
+  },
+  {
     name: "vaultix.specialist.instructions",
     description: "Read Clyffy's instructions and current capability boundaries."
   }
@@ -139,6 +187,8 @@ export const readVaultixTool = (name: string) => {
       return getVaultixCatalog();
     case "vaultix.configure.show":
       return getVaultixConfigure();
+    case "vaultix.connections.get":
+      return getVaultixConnections();
     case "vaultix.specialist.instructions":
       return { instructions: specialistInstructions };
     default:

@@ -37,13 +37,24 @@ try {
   page.on("pageerror", (error) => failures.push(error.message));
   await page.route("**/*", (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   await page.goto(origin);
-  await page.getByRole("heading", { name: /Build your app/ }).waitFor();
+  await page.getByRole("heading", { name: "Your secrets. Your workspace." }).waitFor();
+  await page.keyboard.press("Tab");
+  assert.equal(await page.getByRole("link", { name: "Skip to Content" }).evaluate(element => element === document.activeElement), true);
   await page.getByText("One Project for Each App", { exact: true }).waitFor();
   assert.equal(await page.getByRole("link", { name: "Open Your Vault" }).getAttribute("href"), "/login");
+  assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
+  assert.equal(await page.getByRole("navigation", { name: "Vaultix workspace" }).evaluate(element => element.scrollWidth <= element.clientWidth), true);
+  await page.screenshot({ path: resolve(evidence, "workspace-desktop.png"), fullPage: true });
   await page.getByRole("button", { name: "Connect Clyffy" }).click();
   await page.getByRole("button", { name: "Copy Connection" }).click();
   await page.getByRole("button", { name: "Copied", exact: true }).waitFor();
   assert.equal((await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, "\n"), `[mcp_servers.vaultix]\nurl = "${origin}/api/v1/vaultix/mcp"`);
+  await page.getByRole("radio", { name: "My Codex setup", exact: true }).check();
+  await page.getByText("Keep your existing Codex provider and authentication configuration.", { exact: true }).waitFor();
+  await page.getByRole("radio", { name: "Another AI client", exact: true }).check();
+  await page.getByRole("button", { name: "Copy Connection" }).click();
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), `${origin}/api/v1/vaultix/mcp`);
+  await page.screenshot({ path: resolve(evidence, "connections-desktop.png"), fullPage: true });
 
   let mode = "denied";
   const calls = [];
@@ -62,7 +73,7 @@ try {
   await page.getByRole("button", { name: "Retry Apps" }).click();
   await page.getByText("You don't have an app in this organization yet.", { exact: false }).waitFor();
   mode = "available";
-  await page.getByRole("button", { name: "Browse Secret References" }).click();
+  await page.getByRole("button", { name: "Overview", exact: true }).click();
   await page.getByRole("button", { name: "Browse Secret References" }).click();
   await page.getByRole("combobox", { name: "App", exact: true }).click();
   await page.getByRole("option", { name: "Demo App" }).click();
@@ -70,6 +81,11 @@ try {
   await page.getByRole("option", { name: "Development" }).click();
   await page.getByRole("button", { name: "Show References" }).click();
   await page.getByText("DATABASE_URL", { exact: true }).waitFor();
+  await page.getByRole("button", { name: "Copy reference DATABASE_URL", exact: true }).click();
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), "DATABASE_URL");
+  await page.getByRole("searchbox", { name: "Find on this page" }).fill("missing");
+  await page.getByText("No names match on this page.", { exact: false }).waitFor();
+  await page.getByRole("searchbox", { name: "Find on this page" }).fill("");
   assert.equal(await page.getByText("MUST-NOT-RENDER", { exact: true }).count(), 0);
   assert.deepEqual(calls.at(-1), { name: "vaultix.secrets.references", arguments: { projectId: "11111111-1111-4111-8111-111111111111", environment: "dev", secretPath: "/", offset: 0, limit: 50 } });
   assert.equal(await page.getByRole("button", { name: "Next", exact: true }).isDisabled(), true);
@@ -86,6 +102,14 @@ try {
   await page.getByRole("textbox", { name: "Folder", exact: true }).fill("/restricted");
   await page.getByRole("button", { name: "Show References" }).click();
   await page.getByText("This folder is unavailable or your access has changed.", { exact: false }).waitFor();
+  await page.route("**/api/v1/vaultix/connections", (route) => route.fulfill({ json: {
+    schemaVersion: "vaultix.connections.v1", source: "catalog", mcpPath: "https://untrusted.example/mcp",
+    access: "UNSAFE-CONNECTION-CANARY", options: []
+  } }));
+  await page.reload();
+  await page.getByRole("button", { name: "Connect Clyffy" }).click();
+  await page.getByRole("button", { name: "Retry Connection Guide" }).waitFor();
+  assert.equal(await page.getByText("UNSAFE-CONNECTION-CANARY").count(), 0);
   await page.route("**/api/v1/vaultix/configure", (route) => route.fulfill({ json: { schemaVersion: "vaultix.configure.v1", source: "catalog", components: [{ id: "unsafe", component: "execute-script", title: "UNSAFE-CANARY", description: "must not render" }] } }));
   await page.reload();
   await page.getByRole("button", { name: "Try Again" }).waitFor();

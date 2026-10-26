@@ -79,39 +79,40 @@
   --max-width-8xl: 88rem; /* 1408px */
 
   /* Colors v2 */
-  --color-background: #19191c;
-  --color-foreground: #ebebeb;
+  /* Vaultix DevSCIF: flat surfaces, clear outlines and one primary accent. */
+  --color-background: #10161e;
+  --color-foreground: #edf3f8;
   --color-success: #2ecc71;
   --color-info: #63b0bd;
   --color-warning: #f1c40f;
   --color-danger: #e74c3c;
   --color-org: #30b3ff;
   --color-sub-org: #96ff59;
-  --color-project: #e0ed34;
-  --color-product-sm: #e0ed34;
+  --color-project: #5eead4;
+  --color-product-sm: #5eead4;
   --color-product-pki: #ed8c34;
   --color-product-kms: #34edbf;
   --color-product-ss: #b056f0;
   --color-product-pam: #ff3568;
   --color-admin: #c0c0c8;
   --color-neutral: #adaeb0;
-  --color-border: #2b2c30;
+  --color-border: #344353;
   --color-label: #adaeb0;
-  --color-muted: #707174;
+  --color-muted: #a0adbc;
   --color-popover: #141617;
-  --color-ring: #2d2f33;
-  --color-card: #16181a;
+  --color-ring: #5eead4;
+  --color-card: #141e29;
   --color-accent: #7d7f80;
-  --color-container: #1a1c1e;
-  --color-container-hover: #1f2123;
+  --color-container: #182431;
+  --color-container-hover: #203142;
 
   /* Sidebar */
-  --color-sidebar: #19191c;
+  --color-sidebar: #10161e;
   --color-sidebar-foreground: #ebebeb;
-  --color-sidebar-border: #2b2c30;
+  --color-sidebar-border: #344353;
   --color-sidebar-accent: #1e1f22;
   --color-sidebar-accent-foreground: #ebebeb;
-  --color-sidebar-ring: #2d2f33;
+  --color-sidebar-ring: #5eead4;
 
   /* secret management product colors */
   --color-folder: #a4873e;

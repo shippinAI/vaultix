@@ -2,234 +2,192 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRightIcon,
+  BookOpenIcon,
   BotIcon,
-  CheckIcon,
-  CopyIcon,
   KeyRoundIcon,
-  ShieldCheckIcon
+  LayoutDashboardIcon,
+  LockKeyholeIcon
 } from "lucide-react";
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@app/components/v3";
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@app/components/v3";
 import { useVaultixGuide } from "@app/hooks/api/vaultix/queries";
 
+import { VaultixConnections } from "./VaultixConnections";
 import { VaultixReferences } from "./VaultixReferences";
 
 export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
   const guide = useVaultixGuide();
-  const [showClyffy, setShowClyffy] = useState(false);
-  const [showReferences, setShowReferences] = useState(false);
-  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
-  const mcpConfig = `[mcp_servers.vaultix]\nurl = "${window.location.origin}/api/v1/vaultix/mcp"`;
-  const copyConfig = async () => {
-    try {
-      await navigator.clipboard.writeText(mcpConfig);
-      setCopyState("copied");
-    } catch {
-      setCopyState("failed");
-    }
+  const [view, setView] = useState<"workspace" | "references" | "clyffy">("workspace");
+  const titles = {
+    workspace: "Your secrets. Your workspace.",
+    references: "Find a reference. Keep the value private.",
+    clyffy: "Your AI, connected to Vaultix."
   };
-
+  const referencesAction = guide.data?.actions.find(
+    (action) => action.id === "vaultix.secrets.references"
+  );
+  const projectsAction = guide.data?.actions.find(
+    (action) => action.id === "vaultix.projects.list"
+  );
   return (
     <div className="min-h-screen bg-background text-foreground">
       <a className="sr-only focus:not-sr-only" href="#vaultix-main">
         Skip to Content
       </a>
-      <header className="border-b border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5">
-          <Link
-            to="/"
-            className="flex items-center gap-3 text-xl font-semibold"
-            aria-label="Vaultix home"
-          >
-            <KeyRoundIcon className="size-6 text-project" aria-hidden="true" /> Vaultix
-          </Link>
-          <Button asChild variant="outline">
-            <Link to={initialized ? "/login" : "/admin/signup"}>
-              {initialized ? "Open Your Vault" : "Set Up Your Vault"}
-              <ArrowRightIcon />
-            </Link>
-          </Button>
-        </div>
-      </header>
-      <main id="vaultix-main" className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12">
-        <section
-          className="grid items-start gap-8 md:grid-cols-[1.3fr_1fr]"
-          aria-labelledby="vaultix-title"
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border px-5 py-4 md:px-8">
+        <Link
+          to="/"
+          className="flex items-center gap-3 text-xl font-semibold tracking-tight"
+          aria-label="Vaultix home"
         >
-          <div className="flex flex-col items-start gap-5">
-            <Badge variant="info">
-              <ShieldCheckIcon /> Secrets You Own
-            </Badge>
-            <h1 id="vaultix-title" className="text-4xl leading-tight font-semibold md:text-5xl">
-              Build your app.
-              <br />
-              Keep your keys yours.
-            </h1>
-            <p className="max-w-xl text-lg text-muted">
-              One place for your app&apos;s secrets, from your first API key to production. Give
-              your AI assistant the names. Give your app the access.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild variant="project" size="lg">
-                <Link to={initialized ? "/login" : "/admin/signup"}>
-                  {initialized ? "Open Vaultix" : "Create Your Vault"}
-                  <ArrowRightIcon />
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => setShowClyffy((shown) => !shown)}
-                aria-expanded={showClyffy}
-                aria-controls="clyffy-setup"
-              >
-                <BotIcon /> Connect Clyffy
-              </Button>
-            </div>
-          </div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Your First App, Connected</CardTitle>
-              <CardDescription>
-                A short path from a new project to secrets your app can use.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {guide.isPending && (
-                <p role="status" className="text-muted">
-                  Loading your setup guide…
-                </p>
-              )}
-              {guide.isError && (
-                <div className="flex flex-col gap-3" role="alert">
-                  <p>We couldn&apos;t load the setup guide. Check your connection to Vaultix.</p>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      guide.refetch().catch(() => {});
-                    }}
-                  >
-                    Try Again
-                  </Button>
-                </div>
-              )}
-              {guide.data && (
-                <ol className="flex flex-col gap-5">
-                  {guide.data.steps.map((step, index) => (
-                    <li key={step.id} className="flex gap-3">
-                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-border text-sm text-muted">
-                        {index + 1}
-                      </span>
-                      <div className="flex flex-col gap-1">
-                        <h2 className="font-medium">{step.title}</h2>
-                        <p className="text-sm text-muted">{step.description}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </CardContent>
-          </Card>
-        </section>
-        {showClyffy && (
-          <section id="clyffy-setup" aria-labelledby="clyffy-title">
-            <Card>
-              <CardHeader>
-                <CardTitle id="clyffy-title">Clyffy, Your Secrets Guide</CardTitle>
-                <CardDescription>
-                  Use your local Codex client and your own ChatGPT sign-in. Your plan&apos;s usage
-                  limits apply.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-4">
-                <ol className="list-inside list-decimal space-y-2 text-sm">
-                  <li>
-                    Sign in through Codex using <code>codex login</code>.
-                  </li>
-                  <li>
-                    Add this connection to your Codex <code>config.toml</code>, then reconnect the
-                    client.
-                  </li>
-                  <li>
-                    Ask Codex: &ldquo;Read the Vaultix specialist instructions and help me connect
-                    my app.&rdquo;
-                  </li>
-                </ol>
-                <pre className="overflow-x-auto rounded-md border border-border bg-container p-4 text-sm">
-                  <code>{mcpConfig}</code>
-                </pre>
-                <div className="flex flex-wrap items-center gap-3">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      copyConfig().catch(() => setCopyState("failed"));
-                    }}
-                  >
-                    {copyState === "copied" ? <CheckIcon /> : <CopyIcon />}
-                    {copyState === "copied" ? "Copied" : "Copy Connection"}
-                  </Button>
-                  <p role="status" className="text-sm text-muted">
-                    {copyState === "failed"
-                      ? "Copy failed. Select and copy the connection text above."
-                      : "This connection contains no credentials."}
-                  </p>
-                </div>
-                <p className="text-sm text-muted">
-                  Clyffy can explain setup. Authenticated reference tools can list names you may
-                  access. Client sign-in integration and secret-changing tools are still being
-                  built. Enter secret values only in your vault, never in the conversation.
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        )}
-        {guide.data && (
-          <section aria-label="Your Secret References">
+          <span className="flex size-9 items-center justify-center rounded-md border border-project/40 bg-project/10">
+            <KeyRoundIcon className="size-5 text-project" aria-hidden="true" />
+          </span>
+          Vaultix{" "}
+          <span className="hidden border-l border-border pl-3 text-xs font-normal tracking-wide text-muted sm:inline">
+            SECRETS + AI
+          </span>
+        </Link>
+        <Button asChild variant="project">
+          <Link to={initialized ? "/login" : "/admin/signup"}>
+            {initialized ? "Open Your Vault" : "Set Up Your Vault"}
+            <ArrowRightIcon />
+          </Link>
+        </Button>
+      </header>
+      <div className="grid min-h-[calc(100vh-5rem)] lg:grid-cols-[230px_minmax(0,1fr)]">
+        <aside className="flex flex-col gap-5 border-b border-border p-4 lg:border-r lg:border-b-0 lg:p-5">
+          <p className="hidden text-xs font-medium tracking-widest text-muted uppercase lg:block">
+            Workspace
+          </p>
+          <nav aria-label="Vaultix workspace" className="flex flex-wrap gap-2 lg:flex-col">
             <Button
-              variant="outline"
-              onClick={() => setShowReferences((shown) => !shown)}
-              aria-expanded={showReferences}
-              aria-controls="vaultix-references"
+              variant={view === "workspace" ? "project" : "ghost"}
+              className="justify-start"
+              onClick={() => setView("workspace")}
+              aria-pressed={view === "workspace"}
             >
-              {guide.data.actions.find((action) => action.id === "vaultix.projects.list")?.label}
+              <LayoutDashboardIcon />
+              Overview
             </Button>
-            {showReferences &&
-              guide.data.actions
-                .filter((action) => action.id === "vaultix.secrets.references")
-                .map((action) => (
-                  <div key={action.id} id="vaultix-references" className="mt-4">
-                    <VaultixReferences action={action} />
-                  </div>
-                ))}
-          </section>
-        )}
-        {guide.data && (
-          <section className="grid gap-4 sm:grid-cols-2" aria-label="How Vaultix Works">
-            {guide.data.entries.map((entry) => (
-              <Card key={entry.id}>
+            {projectsAction && (
+              <Button
+                variant={view === "references" ? "project" : "ghost"}
+                className="h-auto min-h-9 justify-start text-left whitespace-normal lg:w-full"
+                onClick={() => setView("references")}
+                aria-pressed={view === "references"}
+              >
+                <KeyRoundIcon />
+                {projectsAction.label}
+              </Button>
+            )}
+            <Button
+              variant={view === "clyffy" ? "project" : "ghost"}
+              className="justify-start"
+              onClick={() => setView("clyffy")}
+              aria-pressed={view === "clyffy"}
+            >
+              <BotIcon />
+              Connect Clyffy
+            </Button>
+            <Button asChild variant="ghost" className="justify-start">
+              <a href="/api/docs" target="_blank" rel="noreferrer">
+                <BookOpenIcon />
+                API Reference
+              </a>
+            </Button>
+          </nav>
+          <div className="mt-auto hidden border-t border-border pt-5 text-xs leading-relaxed text-muted lg:block">
+            <LockKeyholeIcon className="mb-2 size-4 text-project" />
+            Secret values stay in your vault.
+            <br />
+            AI works with references.
+          </div>
+        </aside>
+        <main
+          id="vaultix-main"
+          className="mx-auto flex w-full max-w-7xl min-w-0 flex-col gap-7 p-5 md:p-8 lg:p-10"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs tracking-widest text-project uppercase">
+                Your development workspace
+              </p>
+              <h1 className="text-3xl font-semibold tracking-tight">{titles[view]}</h1>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+                One place for your app&apos;s secrets and access controls. Build with names and
+                references; give the running app the access it needs.
+              </p>
+            </div>
+            <Badge variant="neutral">Software features included</Badge>
+          </div>
+          {guide.isPending && <p role="status">Loading your workspace...</p>}
+          {guide.isError && (
+            <Card role="alert">
+              <p>We couldn&apos;t load your workspace. Check your connection to Vaultix.</p>
+              <Button
+                className="self-start"
+                onClick={() => {
+                  guide.refetch().catch(() => {});
+                }}
+              >
+                Try Again
+              </Button>
+            </Card>
+          )}
+          {view === "clyffy" && guide.data && <VaultixConnections />}
+          {view === "references" && referencesAction && (
+            <VaultixReferences action={referencesAction} />
+          )}
+          {view === "workspace" && guide.data && (
+            <>
+              <Card>
                 <CardHeader>
-                  <CardTitle>{entry.title}</CardTitle>
+                  <CardTitle>
+                    <h2>Your First App, Connected</h2>
+                  </CardTitle>
+                  <p className="text-sm text-muted">
+                    A clear path from a new app to secrets it can use.
+                  </p>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted">{entry.description}</p>
+                  <ol className="grid gap-6 md:grid-cols-2">
+                    {guide.data.steps.map((step, index) => (
+                      <li key={step.id} className="flex gap-3">
+                        <span className="flex size-7 shrink-0 items-center justify-center rounded border border-project/30 bg-project/5 text-sm text-project">
+                          {index + 1}
+                        </span>
+                        <div>
+                          <h3 className="font-medium">{step.title}</h3>
+                          <p className="mt-1 text-sm leading-relaxed text-muted">
+                            {step.description}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
                 </CardContent>
               </Card>
-            ))}
-          </section>
-        )}
-      </main>
-      <footer className="mx-auto flex max-w-6xl flex-wrap justify-between gap-3 border-t border-border px-6 py-6 text-sm text-muted">
-        <span>Vaultix · AngryVibes LLC</span>
-        <span>A SHIPPIN.AI SERVICE</span>
-      </footer>
+              <section aria-label="Vaultix principles" className="grid gap-4 sm:grid-cols-2">
+                {guide.data.entries.map((entry) => (
+                  <Card key={entry.id}>
+                    <CardHeader>
+                      <CardTitle className="text-base">{entry.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-sm leading-relaxed text-muted">
+                      {entry.description}
+                    </CardContent>
+                  </Card>
+                ))}
+              </section>
+            </>
+          )}
+          <footer className="mt-auto flex flex-wrap justify-between gap-3 border-t border-border pt-5 text-xs text-muted">
+            <span>Vaultix · AngryVibes LLC</span>
+            <span>Shippin secrets you own · shippin.ai</span>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 };

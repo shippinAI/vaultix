@@ -26,6 +26,8 @@ concurrency:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
