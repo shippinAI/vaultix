@@ -7,6 +7,10 @@ choices. Shared Card/Button primitives and semantic CSS tokens also apply to
 existing authenticated views. Those views still need workflow-by-workflow
 migration and real-issuer browser acceptance.
 
+The shared sign-in layout uses the same vector wordmark, flat surfaces and local
+API link. Inherited customer-count claims, rotating decoration and misleading
+social destinations were removed. This is a UI migration, not Nomen wiring.
+
 ## API identity and contract
 
 Existing `/api/v1` through `/api/v4` routes remain the core service API. Their
@@ -61,6 +65,7 @@ with fixture authentication/action responses. It covers connection switching and
 clipboard output, reference filtering/name copying, empty and denied states,
 metadata-only rendering, desktop/mobile overflow and unknown-component rejection.
 It saves screenshots for visual review. It does not prove real Nomen sign-in.
+Login rendering is checked at desktop and mobile sizes as well.
 
 The Swagger integration test verifies identity, same-instance routing, exposed
 native actions and required reference query parameters without executing actions.
@@ -71,6 +76,8 @@ GitHub's checks job reserves a 6 GiB Node heap for the production frontend build
 The prior run exhausted Node's default heap before the image jobs could start.
 Browser checks use Ubuntu 24.04: the moving `ubuntu-latest` label selected 26.04,
 which the pinned Playwright 1.60.0 dependency does not support.
+Artifact uploads explicitly include the selected hidden `.cache` evidence paths;
+otherwise GitHub's default hidden-file exclusion silently drops the reports.
 Publication still depends on image smoke tests and Linux unit/database suites.
 See [the capability ledger](0018-hosted-capability-proof.md) for remaining release
 gates; neither this UI update nor included features establishes enterprise parity.

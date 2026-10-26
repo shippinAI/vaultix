@@ -119,6 +119,16 @@ try {
   await page.reload();
   await page.getByRole("button", { name: "Try Again" }).waitFor();
   assert.equal(await page.getByText("UNSAFE-CANARY").count(), 0);
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${origin}/login`);
+  await page.getByPlaceholder("you@company.com").waitFor();
+  await page.getByRole("heading", { name: "Shippin secrets you own. Build with confidence." }).waitFor();
+  assert.equal(await page.getByText("Trusted by 400,000+ developers").count(), 0);
+  assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
+  await page.screenshot({ path: resolve(evidence, "login-desktop.png"), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  await page.screenshot({ path: resolve(evidence, "login-mobile.png"), fullPage: true });
   assert.deepEqual(failures, []);
   console.log(`Native browser checks passed. Authentication/action responses were fixtures. Screenshots: ${evidence}`);
 } finally {

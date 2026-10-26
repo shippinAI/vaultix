@@ -71,6 +71,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vaultix-browser-and-dependencies
+          include-hidden-files: true
           path: |
             .cache/ui-proof-*/*.png
             .cache/backend-production-audit.json
@@ -188,6 +189,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vaultix-capability-results
+          include-hidden-files: true
           path: |
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
