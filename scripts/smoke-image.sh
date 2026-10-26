@@ -64,6 +64,7 @@ if [[ "$ready" != true ]]; then
   exit 1
 fi
 curl --fail --silent "$base/" | grep '<title>Vaultix</title>' >/dev/null
+curl --fail --silent "$base/login" | grep '<title>Vaultix</title>' >/dev/null
 curl --fail --silent "$base/api/v1/vaultix/product" | \
   node -e 'let s="";process.stdin.on("data",b=>s+=b).on("end",()=>{const p=JSON.parse(s);if(p.product!=="Vaultix"||p.featurePolicy!=="included"||p.ai.mode!=="guidance-and-authenticated-references"||p.cache.defaultProvider!=="dragonfly")process.exit(1)})'
 curl --fail --silent "$base/api/v1/vaultix/mcp" -H 'Content-Type: application/json' \

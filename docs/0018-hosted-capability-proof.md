@@ -55,8 +55,10 @@ components. They do not establish Nomen sign-in.
 
 The backend production dependency audit on 2026-10-26 found six critical package
 findings. Targeted updates to Handlebars, scim-patch, proxy-addr, shell-quote,
-tar and websocket-driver removed those findings. The remaining 72 findings
-(36 high, 31 moderate, 5 low) require triage before the hosted offering. CI
+tar and websocket-driver removed those findings. A follow-up compatible update
+pass reduced the remaining findings from 72 to **44 (10 high, 29 moderate,
+5 low)**. See [dependency triage](0019-hosted-dependency-triage.md) for the
+remaining groups and their acceptance work. These are still release work. CI
 retains the audit report and blocks publication on critical findings; that
 threshold is an artifact gate, not hosted release approval.
 
@@ -74,7 +76,7 @@ Verified locally on 2026-10-26 after the targeted dependency updates:
 | Standalone image on Dragonfly and Redis | Startup/migrations, UI, public MCP, anonymous reference denial, BullMQ and engine restart passed |
 
 The local verified image is `vaultix:hosted-verify`, image ID
-`sha256:51626e780e17c72bfdd79f76c6c0a6a8e4e1ad46c9c7def9e9fd27096c8e2fae`.
+`sha256:8e279e8e718aee9236e41605da78ca04c19e6ee7d74c78045190a831c6766efb`.
 It was built from `core/Dockerfile.standalone-vaultix`; it has not been published
 or deployed as the hosted service. Docker Desktop reassigns ephemeral ports
 on restart, so the smoke runner resolves the published port again before
