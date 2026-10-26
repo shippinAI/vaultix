@@ -69,6 +69,8 @@ standalone image, alongside startup, migrations, UI, MCP, queues and restart.
 
 GitHub's checks job reserves a 6 GiB Node heap for the production frontend build.
 The prior run exhausted Node's default heap before the image jobs could start.
+Browser checks use Ubuntu 24.04: the moving `ubuntu-latest` label selected 26.04,
+which the pinned Playwright 1.60.0 dependency does not support.
 Publication still depends on image smoke tests and Linux unit/database suites.
 See [the capability ledger](0018-hosted-capability-proof.md) for remaining release
 gates; neither this UI update nor included features establishes enterprise parity.

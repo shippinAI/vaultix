@@ -25,7 +25,8 @@ concurrency:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    # Pinned Playwright supports 24.04; ubuntu-latest moved to unsupported 26.04.
+    runs-on: ubuntu-24.04
     env:
       NODE_OPTIONS: --max-old-space-size=6144
     steps:
