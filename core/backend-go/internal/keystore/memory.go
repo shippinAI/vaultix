@@ -2,6 +2,9 @@ package keystore
 
 import (
 	"context"
+	"errors"
+	"math"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -111,13 +114,21 @@ func (m *MemoryKeyStore) IncrementBy(_ context.Context, key string, value int64)
 	item, ok := m.items[key]
 	if !ok || item.isExpired() {
 		// Key doesn't exist, start from 0
-		m.items[key] = memoryItem{value: intToString(value)}
+		m.items[key] = memoryItem{value: strconv.FormatInt(value, 10)}
 		return value, nil
 	}
 
-	current := stringToInt(item.value)
+	current, err := strconv.ParseInt(item.value, 10, 64)
+	if err != nil || strconv.FormatInt(current, 10) != item.value {
+		// Redis counters accept canonical signed decimal text. Never expose the
+		// stored input in the error; this test store can also contain credentials.
+		return 0, errors.New("counter is not a signed 64-bit integer")
+	}
+	if (value > 0 && current > math.MaxInt64-value) || (value < 0 && current < math.MinInt64-value) {
+		return 0, errors.New("counter increment would overflow")
+	}
 	newValue := current + value
-	item.value = intToString(newValue)
+	item.value = strconv.FormatInt(newValue, 10)
 	m.items[key] = item
 	return newValue, nil
 }
@@ -125,31 +136,4 @@ func (m *MemoryKeyStore) IncrementBy(_ context.Context, key string, value int64)
 func (m *MemoryKeyStore) StreamAdd(_ context.Context, stream, id string, values map[string]string) (string, error) {
 	// Simplified implementation - just return a fake ID
 	return "0-0", nil
-}
-
-func intToString(n int64) string {
-	return string(rune(n))
-}
-
-func stringToInt(s string) int64 {
-	if s == "" {
-		return 0
-	}
-	// Parse as integer string
-	var result int64
-	negative := false
-	start := 0
-	if s[0] == '-' {
-		negative = true
-		start = 1
-	}
-	for i := start; i < len(s); i++ {
-		if s[i] >= '0' && s[i] <= '9' {
-			result = result*10 + int64(s[i]-'0')
-		}
-	}
-	if negative {
-		return -result
-	}
-	return result
 }

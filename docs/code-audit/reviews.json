@@ -1084,6 +1084,88 @@
         ".cache/api-error-proof-Dfar5o/result.json",
         ".cache/api-error-proof-aihO25/result.json"
       ]
+    },
+    {
+      "path": "core/backend-go/internal/keystore/memory.go",
+      "blob": "3c6fc5dd1ba5975eabd26ef401d851f0917b4b8e",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read and authentication counter consumer traced. Numeric storage now matches canonical signed decimal and rejects invalid input/overflow without mutation; live expiry, expired reset and concurrent increments are tested. This remains a test double: placeholder stream behavior and expired-key semantics of other methods are not accepted as production cache parity. Missing-counter and renewal races in the actual consumers remain separate.",
+      "evidence": [
+        "docs/0035-cache-counter-contract.md",
+        ".cache/counter-go-unit.jsonl",
+        ".cache/counter-go-lint-final.log",
+        ".cache/counter-dragonfly-final.jsonl",
+        ".cache/counter-redis-final.jsonl",
+        ".cache/go-proof-AA0IUB/result.json",
+        ".cache/go-proof-iKp3eQ/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/keystore/memory_test.go",
+      "blob": "38cbefae09377ed5981e11ec63ef62638b2435c8",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New memory-counter boundary regressions cover repeated positive/negative arithmetic, canonical integer rejection, signed 64-bit extremes/overflow, unchanged invalid state/expiry, expired initialization and concurrent increments. No private operator data is used.",
+      "evidence": [
+        ".cache/counter-before.jsonl",
+        "docs/0035-cache-counter-contract.md",
+        ".cache/counter-go-unit.jsonl",
+        ".cache/counter-go-lint-final.log",
+        ".cache/counter-dragonfly-final.jsonl",
+        ".cache/counter-redis-final.jsonl",
+        ".cache/go-proof-AA0IUB/result.json",
+        ".cache/go-proof-iKp3eQ/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/usage_counter_test.go",
+      "blob": "2ad8f58ddc0575861aba188e4c986efb8511698c",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New focused consumer regression exercises exactly five seeded uses and repeated denial after exhaustion with the memory store. This calls the actual usage helper but does not establish JWT/issuer authentication or missing-counter recovery concurrency.",
+      "evidence": [
+        ".cache/counter-before.jsonl",
+        "docs/0035-cache-counter-contract.md",
+        ".cache/counter-go-unit.jsonl",
+        ".cache/counter-go-lint-final.log",
+        ".cache/counter-dragonfly-final.jsonl",
+        ".cache/counter-redis-final.jsonl",
+        ".cache/go-proof-AA0IUB/result.json",
+        ".cache/go-proof-iKp3eQ/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/keystore/counter_test.go",
+      "blob": "e878e500a414345e63bcd0398c45473653ecfd9c",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New disposable real-cache contract suite compares numeric behavior with memory, verifies expiry using actual PTTL and checks concurrent increments. Existing infrastructure supplies isolated database/cache prerequisites. Tests run in both supported local cache modes; ElastiCache topology/TLS/failover is not covered.",
+      "evidence": [
+        "docs/0035-cache-counter-contract.md",
+        ".cache/counter-go-unit.jsonl",
+        ".cache/counter-go-lint-final.log",
+        ".cache/counter-dragonfly-final.jsonl",
+        ".cache/counter-redis-final.jsonl",
+        ".cache/go-proof-AA0IUB/result.json",
+        ".cache/go-proof-iKp3eQ/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/keystore/keystore.go",
+      "blob": "c083f1e3b9e8b1baeb3ad32e8cf32aa7a4c663ef",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete interface and adapter read. Existing Go Redis-client delegation is retained. Real-cache tests verify only the counter/GET/SET/expiry contract used by authentication, including errors and concurrency. Streams, multi-key cluster behavior and ElastiCache need their own acceptance.",
+      "evidence": [
+        "docs/0035-cache-counter-contract.md",
+        ".cache/counter-go-unit.jsonl",
+        ".cache/counter-go-lint-final.log",
+        ".cache/counter-dragonfly-final.jsonl",
+        ".cache/counter-redis-final.jsonl",
+        ".cache/go-proof-AA0IUB/result.json",
+        ".cache/go-proof-iKp3eQ/result.json"
+      ]
     }
   ]
 }

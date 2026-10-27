@@ -124,6 +124,9 @@ Review found `internal/keystore/memory.go` converts counters with `string(rune(n
 while reading decimal strings. Correct this with numeric/expiry/limit parity tests
 in AUTH-01 before using the in-memory fixture as evidence for repeated token-use
 counting. Existing integration success does not prove that untested behavior.
+The numeric fixture repair and its scoped real-cache contract evidence are now
+tracked in [0035](0035-cache-counter-contract.md); production counter recovery
+and renewal races found during that review remain separate work.
 
 ## Preceding development checkpoint
 

@@ -74,8 +74,9 @@ core/backend-go/internal/ee/services/ratelimit/ratelimit.go	core/backend-go/inte
 core/backend-go/internal/ee/services/ratelimit/ratelimit_test.go	core/backend-go/internal/ee/services/ratelimit	foundation	Go-native	go	ab9a8c8364bc5577844bf8ccece24dc665f4cbfc	unread
 core/backend-go/internal/ee/services/ratelimit/types.go	core/backend-go/internal/ee/services/ratelimit	foundation	Go-native	go	1f9847075158a87c59dedaba0ed65421a0ff9fb0	unread
 core/backend-go/internal/ee/services/ratelimit/types_test.go	core/backend-go/internal/ee/services/ratelimit	foundation	Go-native	go	d3141158e9e4dc3f0c59d1394501cd2802b26f3b	unread
-core/backend-go/internal/keystore/keystore.go	core/backend-go/internal/keystore	kms	Go-native	go	c083f1e3b9e8b1baeb3ad32e8cf32aa7a4c663ef	unread
-core/backend-go/internal/keystore/memory.go	core/backend-go/internal/keystore	kms	Go-native	go	5638007ceaa7f9b710d07a97af1f16372106d5bb	unread
+core/backend-go/internal/keystore/keystore.go	core/backend-go/internal/keystore	kms	Go-native	go	c083f1e3b9e8b1baeb3ad32e8cf32aa7a4c663ef	verified
+core/backend-go/internal/keystore/memory.go	core/backend-go/internal/keystore	kms	Go-native	go	3c6fc5dd1ba5975eabd26ef401d851f0917b4b8e	verified
+core/backend-go/internal/keystore/memory_test.go	core/backend-go/internal/keystore	kms	Go-native	go	38cbefae09377ed5981e11ec63ef62638b2435c8	verified
 core/backend-go/internal/libs/bootstrap/bootstrap.go	core/backend-go/internal/libs/bootstrap	foundation	Go-native	go	968f42394e17c51b8d82e4166b5f4f158e839148	unread
 core/backend-go/internal/libs/crypto/cipher/cipher.go	core/backend-go/internal/libs/crypto/cipher	foundation	Go-native	go	ee50963d3129f933d2eec19c1eb945b4c21e4acc	unread
 core/backend-go/internal/libs/crypto/cipher/cipher_test.go	core/backend-go/internal/libs/crypto/cipher	foundation	Go-native	go	805aed70edb8bf04af92174bd9eb456ec5c5c9cd	unread
@@ -139,6 +140,7 @@ core/backend-go/internal/services/auth/apiauth/classify.go	core/backend-go/inter
 core/backend-go/internal/services/auth/apiauth/classify_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	e775803f3d4a69e2bab60458a081f1c073042bba	unread
 core/backend-go/internal/services/auth/apiauth/ip.go	core/backend-go/internal/services/auth	identity	Go-native	go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	unread
 core/backend-go/internal/services/auth/apiauth/require_auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	3a12eb29bcd4370952458de4f08ae0dbc927a41d	unread
+core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	2ad8f58ddc0575861aba188e4c986efb8511698c	verified
 core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
 core/backend-go/internal/services/kms/kms.go	core/backend-go/internal/services/kms	kms	Go-native	go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
 core/backend-go/internal/services/kms/kms_org.go	core/backend-go/internal/services/kms	kms	Go-native	go	9bea7672ac02e63344c99764fee013e1fe2e3983	unread
@@ -184,6 +186,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	core/backend-go/tes
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	core/backend-go/tests/platform/bootstrap	foundation	Go-native	go	2286ce2df00016cb92368996abd39b3941abe158	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	core/backend-go/tests/platform/externalkms	kms	Go-native	go	c80d3e456982798c0fc5b0d8c258f870aed63168	unread
 core/backend-go/tests/platform/hsm/hsm_test.go	core/backend-go/tests/platform/hsm	kms	Go-native	go	b6802db6984e80cad8679070f62c82ddb891d511	unread
+core/backend-go/tests/platform/keystore/counter_test.go	core/backend-go/tests/platform/keystore	kms	Go-native	go	e878e500a414345e63bcd0398c45473653ecfd9c	verified
 core/backend-go/tests/platform/kms/kms_test.go	core/backend-go/tests/platform/kms	kms	Go-native	go	8b5ad161edb1503e5a611d9fa0715bb560bd4ba6	unread
 core/backend-go/tests/platform/permission/permission_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	cbdbb1cf1b210d8bb4abf6018a0910c7761742a6	unread
 core/backend-go/tests/platform/projects/projects_test.go	core/backend-go/tests/platform/projects	secrets	Go-native	go	15a7a067c609f752c9f156a6fd41c2a0a031d3a2	unread

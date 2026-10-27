@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "scope": "Discovery only; module boundaries and assignments require review. No module is marked migrated.",
-  "mappedFiles": 9338,
-  "moduleGroups": 1056,
+  "mappedFiles": 9341,
+  "moduleGroups": 1057,
   "excludedKinds": [
     "documentation",
     "dependency-lock",
@@ -18,7 +18,7 @@
     },
     {
       "id": "identity",
-      "files": 764,
+      "files": 765,
       "dependsOn": [
         "foundation"
       ]
@@ -93,7 +93,7 @@
     },
     {
       "id": "kms",
-      "files": 198,
+      "files": 200,
       "dependsOn": [
         "secrets",
         "audit"
