@@ -440,6 +440,7 @@ const organizationRoutes = route("/organizations/$orgId", [
 
 export const routes = rootRoute("root.tsx", [
   index("index.tsx"),
+  route("/help", "help.tsx"),
   route("/shared/secret/$secretId", "public/ViewSharedSecretByIDPage/route.tsx"),
   route("/secret-request/secret/$secretRequestId", "public/ViewSecretRequestByIDPage/route.tsx"),
   route("/share-secret", "public/ShareSecretPage/route.tsx"),

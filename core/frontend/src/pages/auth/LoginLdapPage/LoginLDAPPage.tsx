@@ -77,7 +77,7 @@ export const LoginLdapPage = () => {
       <Helmet>
         <title>{t("common.head-title", { title: t("login.title") })}</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
         <meta property="og:title" content={t("login.og-title") ?? ""} />
         <meta name="og:description" content={t("login.og-description") ?? ""} />
       </Helmet>

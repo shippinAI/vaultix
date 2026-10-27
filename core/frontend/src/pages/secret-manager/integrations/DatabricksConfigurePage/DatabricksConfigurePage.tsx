@@ -208,8 +208,8 @@ export const DatabricksConfigurePage = () => {
         </span>
         <span className="mt-4 text-sm text-mineshaft-300">
           Any secrets not present in Vaultix will be removed from the specified scope. To prevent
-          removal of secrets not managed by Vaultix, Vaultix recommends creating a designated
-          secret scope for your integration.
+          removal of secrets not managed by Vaultix, Vaultix recommends creating a designated secret
+          scope for your integration.
         </span>
       </div>
     </div>
@@ -220,7 +220,7 @@ export const DatabricksConfigurePage = () => {
       </Helmet>
       {isIntegrationAuthScopesLoading || isintegrationAuthLoading ? (
         <img
-          src="/images/loading/loading.gif"
+          src="/images/vaultix-loading.svg"
           height={70}
           width={120}
           alt="vaultix loading indicator"

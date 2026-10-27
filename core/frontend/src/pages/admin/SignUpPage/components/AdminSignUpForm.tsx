@@ -81,9 +81,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
       <FieldGroup>
         <div className="grid grid-cols-2 gap-4">
           <Field data-invalid={showDangerState && Boolean(errors.firstName)}>
-            <FieldLabel className="sr-only" htmlFor="admin-signup-first-name">
-              First Name
-            </FieldLabel>
+            <FieldLabel htmlFor="admin-signup-first-name">First Name</FieldLabel>
             <Input
               variant="outlined"
               {...register("firstName")}
@@ -97,9 +95,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
             ) : null}
           </Field>
           <Field data-invalid={showDangerState && Boolean(errors.lastName)}>
-            <FieldLabel className="sr-only" htmlFor="admin-signup-last-name">
-              Last Name
-            </FieldLabel>
+            <FieldLabel htmlFor="admin-signup-last-name">Last Name</FieldLabel>
             <Input
               variant="outlined"
               {...register("lastName")}
@@ -114,9 +110,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
           </Field>
         </div>
         <Field data-invalid={showDangerState && Boolean(errors.email)}>
-          <FieldLabel className="sr-only" htmlFor="admin-signup-email">
-            Email
-          </FieldLabel>
+          <FieldLabel htmlFor="admin-signup-email">Email</FieldLabel>
           <Input
             variant="outlined"
             {...register("email")}

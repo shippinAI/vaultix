@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <style>@keyframes turn{to{transform:rotate(360deg)}}.ring{transform-origin:32px 32px;animation:turn 1.6s linear infinite}@media(prefers-reduced-motion:reduce){.ring{animation:none}}</style>
+  <circle cx="32" cy="32" r="28" stroke="#334352" stroke-width="2"/>
+  <path class="ring" d="M32 4a28 28 0 0 1 28 28" stroke="#5eead4" stroke-width="3"/>
+  <path d="M19 19h26v26H19z" stroke="#5eead4" stroke-width="2"/>
+  <path d="m24 27 8 12 8-12" stroke="#5eead4" stroke-width="3"/>
+</svg>

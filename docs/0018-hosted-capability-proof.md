@@ -64,6 +64,45 @@ threshold is an artifact gate, not hosted release approval.
 
 ## Capability ledger
 
+### Full application entry and artwork, 2026-10-27
+
+The root guide page was the wrong application entry. `/` now follows the existing
+setup/login/organization flow into the full core application; optional help lives
+at `/help`. The image carries owned Vaultix mark, wordmark, loader and social
+artwork. Retired product PNG/GIF/Lottie files are absent from its frontend payload.
+See [0025](0025-application-entry-and-artwork.md) for the reviewed changes.
+
+The canonical image built with frontend TypeScript checking and passed startup,
+migrations, API/MCP, packaged-artwork, BullMQ and restart tests on Dragonfly and
+Redis. Verified local image ID:
+
+```text
+sha256:7b2735cbf81898e861e5b04ce13b5f236314a9a31f11b6a6e2f55ac62119914e
+```
+
+`scripts/test-image-app.mjs` then passed against the disposable Dragonfly image
+instance with **real API and authentication responses**. It creates a test-only
+account, selects its organization before configuring the instance, signs in
+through the browser form, waits for all five product categories, opens the
+loaded Secrets Management project list, checks authenticated root navigation
+and anonymous denial, and fails on unexpected application API errors. This is
+existing core email authentication, not Nomen acceptance. Screenshots were
+reviewed in `.cache/app-image-proof-1egxxh/`; its `result.json` records the checks.
+The test instance was removed by the smoke runner. No operator account was created.
+
+The packaged UI also passed 18 fixture browser/axe states, including fresh
+instance setup and root-to-login. Evidence: `.cache/ui-proof-siC0lq/`.
+These checks exposed and fixed NProgress's invalid `role="bar"`; the authored
+template now uses a named indeterminate progressbar. Zero detected violations
+does not resolve the retained modal focus/contrast manual-review items. Broader
+authenticated accessibility and all-capability acceptance remain open.
+
+Logs: `.cache/app-entry-smoke-dragonfly.log`, `.cache/app-entry-smoke-redis.log`,
+`.cache/app-entry-packaged-browser.log`. Frontend build/type checks, changed-file
+lint and ownership checks passed. GitHub now requires real image sign-in before
+publishing and retains its screenshots/results. This local image has been applied
+to `vaultix-dev-backend-1`; the local development database and keys were preserved.
+
 ### Native interaction checkpoint, 2026-10-27
 
 Reference browsing and AI connections now share authored contextual help,

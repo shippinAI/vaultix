@@ -47,9 +47,7 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
             className="flex items-center gap-3 text-xl font-semibold tracking-tight"
             aria-label="Vaultix home"
           >
-            <span className="flex size-9 items-center justify-center rounded-md border border-project/40 bg-project/10">
-              <KeyRoundIcon className="size-5 text-project" aria-hidden="true" />
-            </span>
+            <img src="/images/vaultix-mark.svg" alt="" aria-hidden="true" className="size-9" />
             Vaultix
           </Link>
           <span className="hidden border-l border-border pl-3 text-xs font-normal tracking-wide text-muted sm:inline">

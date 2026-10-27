@@ -98,6 +98,13 @@ async function main() {
     assert.equal(toolResponse.status, 200);
     assert.deepEqual(JSON.parse((await toolResponse.json()).result.content[0].text), guidance);
     assert.ok(require("node:fs").readFileSync("/backend/ai/clyffy/SKILL.md", "utf8").includes("vaultix.guidance.get"));
+    const exists = require("node:fs").existsSync;
+    for (const asset of ["vaultix-mark.svg", "vaultix-wordmark.svg", "vaultix-loading.svg", "vaultix-social.png"]) {
+      assert.ok(exists(`/backend/frontend-build/images/${asset}`), `Missing Vaultix asset: ${asset}`);
+    }
+    for (const asset of ["images/biglogo.png", "images/logotransparent.png", "images/loading/loading.gif", "lotties/vaultix_loading.json", "infisical.ico"]) {
+      assert.equal(exists(`/backend/frontend-build/${asset}`), false, `Retired artwork still packaged: ${asset}`);
+    }
     await events.waitUntilReady();
     const job = await queue.add("probe", { check: "queue-lua" });
     const result = await job.waitUntilFinished(events, 15000);
@@ -125,5 +132,8 @@ if [[ "$ready" != true ]]; then
   echo "Vaultix image failed to recover after restart" >&2
   docker logs --tail 100 "$run-engine" >&2
   exit 1
+fi
+if [[ "${VAULTIX_IMAGE_APP_PROOF:-}" == "1" ]]; then
+  node "$(dirname "$0")/test-image-app.mjs" "$base"
 fi
 echo "Vaultix image, MCP, $provider queue and engine restart smoke tests passed"

@@ -22,7 +22,7 @@ import {
   SecretErrorContainer
 } from "@app/pages/public/ViewSharedSecretByIDPage/components";
 
-export const DEFAULT_LOGO_URL = "/images/gradientLogo.svg";
+export const DEFAULT_LOGO_URL = "/images/vaultix-wordmark.svg";
 export const DEFAULT_FAVICON_URL = "/favicon.svg";
 export const DEFAULT_BRAND_PRIMARY_COLOR = "#0e1014";
 export const DEFAULT_BRAND_SECONDARY_COLOR = "#1e1f22";
@@ -241,7 +241,7 @@ export const ViewSharedSecretByIDPage = () => {
       <>
         <Helmet>
           <title>Securely Share Secrets</title>
-          <meta property="og:image" content="/images/message.png" />
+          <meta property="og:image" content="/images/vaultix-social.png" />
         </Helmet>
         <div
           className="flex min-h-screen flex-col items-center justify-center overflow-auto px-4 py-10 scheme-dark"
@@ -274,7 +274,7 @@ export const ViewSharedSecretByIDPage = () => {
       <AuthPageBackground />
       <Helmet>
         <title>Securely Share Secrets | Vaultix</title>
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <AuthPageHeader />
       <div className="relative z-10 my-auto flex flex-col items-center py-10">

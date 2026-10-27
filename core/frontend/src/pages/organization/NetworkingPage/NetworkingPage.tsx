@@ -12,7 +12,7 @@ export const NetworkingPage = () => {
     <>
       <Helmet>
         <title>Vaultix | Networking</title>
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <div className="flex w-full justify-center bg-bunker-800 text-white">
         <div className="w-full max-w-8xl">

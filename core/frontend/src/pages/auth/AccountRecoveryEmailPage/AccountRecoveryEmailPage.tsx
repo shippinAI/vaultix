@@ -48,7 +48,7 @@ export const AccountRecoveryEmailPage = () => {
       <Helmet>
         <title>Account Recovery</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
         <meta property="og:title" content="Account Recovery in Vaultix" />
         <meta
           name="og:description"

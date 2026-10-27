@@ -45,7 +45,7 @@ export const IntegrationsListPage = () => {
     <>
       <Helmet>
         <title>{t("common.head-title", { title: t("integrations.title") })}</title>
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
         <meta property="og:title" content="Manage your .env files in seconds" />
         <meta name="og:description" content={t("integrations.description") as string} />
       </Helmet>

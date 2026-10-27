@@ -29,6 +29,10 @@ See [hosted capability verification](docs/0018-hosted-capability-proof.md).
 3. Run `bash scripts/up.sh`.
 4. Open **http://127.0.0.1:8200/**. Health: `GET /api/status`.
 
+The root opens the full application: first-instance setup when needed, login
+for signed-out users, and the project dashboard for signed-in users. Optional
+Clyffy setup/reference help is at `/help` and in the application Help menu.
+
 The default stack builds `core/Dockerfile.standalone-vaultix` and runs
 PostgreSQL plus **Dragonfly**. Redis and AWS ElastiCache can be configured
 explicitly; see [cache deployment](docs/0017-cache-deployment.md). Cache

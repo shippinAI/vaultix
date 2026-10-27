@@ -5,7 +5,6 @@ import lottieWasmUrl from "@lottiefiles/dotlottie-web/dist/dotlottie-player.wasm
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import NProgress from "nprogress";
 
-import { Lottie } from "./components/v2";
 import { queryClient } from "./hooks/api/reactQuery";
 import { initializePlatform } from "./lib/fn/platform";
 import { ErrorPage } from "./pages/public/ErrorPage/ErrorPage";
@@ -34,7 +33,12 @@ initializePlatform();
 setWasmUrl(lottieWasmUrl);
 
 // Create a new router instance
-NProgress.configure({ showSpinner: false });
+NProgress.configure({
+  showSpinner: false,
+  barSelector: "[data-vaultix-progress]",
+  template:
+    '<div class="bar" data-vaultix-progress role="progressbar" aria-label="Loading page"><div class="peg" aria-hidden="true"></div></div>'
+});
 
 window.addEventListener("vite:preloadError", async (event) => {
   event.preventDefault();
@@ -68,8 +72,12 @@ const router = createRouter({
   routeTree,
   context: { serverConfig: null, queryClient },
   defaultPendingComponent: () => (
-    <div className="flex h-full w-full items-center justify-center bg-bunker-800 [#root>&]:h-screen">
-      <Lottie isAutoPlay icon="lock-closed" className="h-32 w-32" />
+    <div
+      role="status"
+      aria-label="Loading Vaultix"
+      className="flex h-full w-full items-center justify-center bg-bunker-800 [#root>&]:h-screen"
+    >
+      <img src="/images/vaultix-loading.svg" alt="" aria-hidden="true" className="h-24 w-24" />
     </div>
   ),
   defaultNotFoundComponent: NotFoundPage,

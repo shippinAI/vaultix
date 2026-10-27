@@ -1,6 +1,10 @@
 # Vaultix DevSCIF workspace and API
 
 The native entry point is `core/frontend`, served by the standalone core image.
+As of 2026-10-27, `/` follows existing setup/authentication into the full project
+application. The reference/AI guide described below is at `/help`; it must not
+replace login or the authenticated application. See
+[application entry and artwork](0025-application-entry-and-artwork.md).
 The 2026-10-26 workspace adds a flat, outlined visual system, a reference browser
 with per-page name search and name-only copying, and authored AI connection
 choices. Shared Card/Button primitives and semantic CSS tokens also apply to

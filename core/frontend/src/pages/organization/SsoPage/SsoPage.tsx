@@ -36,7 +36,7 @@ export const SsoPage = () => {
       <Helmet>
         <title>Vaultix | SSO & Provisioning</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <div className="flex w-full justify-center bg-bunker-800 text-white">
         <div className="w-full max-w-8xl">

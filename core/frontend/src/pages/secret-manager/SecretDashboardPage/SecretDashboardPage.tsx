@@ -1135,7 +1135,7 @@ export const SecretDashboardPage = () => {
       <Helmet>
         <title>{t("common.head-title", { title: t("dashboard.title") })}</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
         <meta property="og:title" content={String(t("dashboard.og-title"))} />
         <meta name="og:description" content={String(t("dashboard.og-description"))} />
       </Helmet>

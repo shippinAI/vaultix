@@ -12,7 +12,6 @@ import {
   Clipboard,
   ExternalLink,
   Github,
-  Infinity,
   Info,
   LogOut,
   Mail,
@@ -79,14 +78,11 @@ import {
   projectKeys,
   subOrganizationsQuery,
   useGetOrganizations,
-  useGetOrgTrialUrl,
   useLogoutUser
 } from "@app/hooks/api";
 import { authKeys, selectOrganization } from "@app/hooks/api/auth/queries";
 import { MfaMethod } from "@app/hooks/api/auth/types";
 import { getAuthToken } from "@app/hooks/api/reactQuery";
-import { getSubscriptionPlanLabel } from "@app/hooks/api/subscriptions";
-import { SubscriptionPlanTypes } from "@app/hooks/api/subscriptions/types";
 import { Organization } from "@app/hooks/api/types";
 import { AuthMethod } from "@app/hooks/api/users/types";
 import {
@@ -129,12 +125,8 @@ Thank you,
 
 export const VAULTIX_SUPPORT_OPTIONS = [
   [Slack, "Support Forum", () => "https://shippin.ai"],
-  [
-    Book,
-    "Read Docs",
-    () => "https://vaultix.shippin.cloud/docs/documentation/getting-started/introduction"
-  ],
-  [Github, "GitHub Issues", () => "https://shippin.ai"],
+  [Book, "Vaultix Help & AI Setup", () => "/help"],
+  [Github, "GitHub Issues", () => "https://github.com/shippinAI/vaultix/issues"],
   [Mail, "Email Support", getFormattedSupportEmailLink],
   [Users, "Instance Admins", () => "server-admins"]
 ] as const;
@@ -269,8 +261,6 @@ export const Navbar = () => {
     }
   };
 
-  const { mutateAsync } = useGetOrgTrialUrl();
-
   const logout = useLogoutUser();
   const logOutUser = async () => {
     try {
@@ -344,15 +334,20 @@ export const Navbar = () => {
   return (
     <div
       className={twMerge(
-        "z-10 flex min-h-12 items-center border-b border-border bg-gradient-to-br to-transparent",
-        isServerAdminPanel && "from-admin/5",
-        !isServerAdminPanel && isPamScope && "from-product-pam/5",
-        !isServerAdminPanel && isProjectScope && !isPamScope && "from-project/5",
-        !isServerAdminPanel && !isProjectScope && isSubOrganization && "from-sub-org/5",
-        !isServerAdminPanel && !isProjectScope && !isSubOrganization && "from-org/5"
+        "z-10 flex min-h-12 items-center border-b border-border bg-card",
+        isServerAdminPanel && "border-b-admin/30",
+        !isServerAdminPanel && isProjectScope && "border-b-project/30"
       )}
     >
       <SidebarTrigger variant="ghost" className="ml-2 lg:hidden" />
+      <Link
+        to="/"
+        aria-label="Vaultix home"
+        className="ml-3 flex shrink-0 items-center gap-2 rounded focus-visible:outline-2 focus-visible:outline-project"
+      >
+        <img src="/images/vaultix-mark.svg" alt="Vaultix" className="size-8" />
+        <span className="hidden text-sm font-semibold text-foreground xl:inline">Vaultix</span>
+      </Link>
       <div className="mr-auto flex h-full min-w-34 items-center">
         {isServerAdminPanel ? (
           <div className="flex h-full items-center">
@@ -600,35 +595,9 @@ export const Navbar = () => {
       </div>
 
       <VersionBadge />
-      {subscription &&
-      subscription.slug === SubscriptionPlanTypes.Starter &&
-      !subscription.has_used_trial ? (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="info"
-              size="xs"
-              className="mt-px mr-2"
-              onClick={async () => {
-                if (!subscription || !rootOrg) return;
-                const url = await mutateAsync({
-                  orgId: rootOrg.id,
-                  success_url: window.location.href
-                });
-                window.location.href = url;
-              }}
-            >
-              <Infinity />
-              Free Pro Trial
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Start Free Pro Trial</TooltipContent>
-        </Tooltip>
-      ) : (
-        <Badge variant="info" className="mt-[3px] mr-3 hidden md:inline-flex">
-          {getSubscriptionPlanLabel(subscription)}
-        </Badge>
-      )}
+      <Badge variant="info" className="mt-[3px] mr-3 hidden md:inline-flex">
+        Software features included
+      </Badge>
       {!location.pathname.startsWith("/admin") && user.superAdmin && (
         <Button variant="outline" size="xs" className="mt-px mr-2" asChild>
           <Link to="/admin" onClick={handleNavigateToAdminConsole}>

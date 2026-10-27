@@ -90,7 +90,21 @@ Tailwind CSS v4 with PostCSS. Dark theme configured via CSS custom properties in
 
 ## Native Vaultix onboarding
 
-The root page renders VaultixHome and reads the core's catalog/configure endpoints through hooks/api/vaultix. The guide refuses unknown components and non-allowlisted navigation. VaultixReferences uses the same authenticated project/reference MCP actions as Clyffy, with catalog-authored action labels and no secret values. Clyffy setup exports a credential-free connection for the user's local Codex sign-in. Secret mutations, injection and Nomen session wiring still need native implementation and acceptance tests; do not imply they are live.
+The root page enters the existing authentication flow: first-instance setup, login,
+organization selection, then the full authenticated project application. Do not
+replace it with a help/demo landing page. `/help` renders the optional VaultixHome
+guide and reads the core catalog/configure endpoints through hooks/api/vaultix.
+The guide refuses unknown components and non-allowlisted navigation.
+VaultixReferences uses the same authenticated project/reference MCP actions as
+Clyffy, with catalog-authored action labels and no secret values. Clyffy setup
+exports a credential-free connection for the user's local Codex sign-in. Native
+model-tool mutations, injection and Nomen session wiring still need implementation
+and acceptance tests; existing authenticated engine workflows remain the app.
+
+Product artwork lives in `public/images/vaultix-{mark,wordmark,loading,social}.*`.
+Use these assets for auth, application chrome, sharing, errors and loading states.
+Do not relabel inherited raster or Lottie artwork as Vaultix. Integration-provider
+logos retain their own identity. The owned-artwork check runs in `scripts/check-owned.sh`.
 
 ## Accessibility verification
 

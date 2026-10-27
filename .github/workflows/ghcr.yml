@@ -120,7 +120,7 @@ jobs:
 
   engine:
     needs: checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 360
     steps:
       - uses: actions/checkout@v7
@@ -164,7 +164,17 @@ jobs:
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=0.162.19
 
-      - name: Verify image with Dragonfly
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: core/e2e
+      - run: npx playwright install --with-deps chromium
+        working-directory: core/e2e
+
+      - name: Verify image with Dragonfly and real application sign-in
+        env:
+          VAULTIX_IMAGE_APP_PROOF: '1'
         run: bash scripts/smoke-image.sh '${{ steps.image.outputs.name }}:${{ github.sha }}' dragonfly
 
       - name: Verify image with Redis
@@ -198,6 +208,8 @@ jobs:
           path: |
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
+            .cache/app-image-proof-*/result.json
+            .cache/app-image-proof-*/*.png
           if-no-files-found: warn
 
       - name: Publish verified engine image

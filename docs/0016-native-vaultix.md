@@ -27,8 +27,10 @@ boundary. The existing encrypted engine and its migrations remain the store.
 
 - Core routes under `/api/v1/vaultix` serve product identity, the authored
   catalog, configure steps, specialist instructions, and read-only MCP.
-- The core frontend home route renders those same catalog/configure objects.
-  The authenticated application still uses the existing core routes and store.
+- The optional `/help` route renders those same catalog/configure objects.
+  The home route enters existing authentication and the full core application;
+  authenticated workflows use the existing routes and store. See the
+  [entry correction](0025-application-entry-and-artwork.md).
 - The core feature service supplies included capabilities locally. It has no
   license client, seat billing, trial mutation, or license polling job. Existing
   permission checks still control who can act. The Go sidecar has the same

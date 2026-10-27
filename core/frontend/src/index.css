@@ -511,7 +511,14 @@ html[data-platform="ios"] {
 }
 
 #nprogress .bar {
-  background: var(--color-primary-400);
+  background: var(--color-project);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #nprogress .bar,
+  #nprogress {
+    transition: none !important;
+  }
 }
 
 [contentEditable="true"]:before {

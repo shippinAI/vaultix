@@ -10,6 +10,12 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction (2026-10-25)
 
+Application entry correction (2026-10-27): `/` enters the existing core
+authentication/setup flow and authenticated project application. `/help` is
+optional assistance, never the main product viewport. Read
+`docs/0025-application-entry-and-artwork.md`. Verify real sign-in and dashboard
+loading from the standalone image; fixture guide tests are not that evidence.
+
 Product authorship direction (2026-10-26): **Vaultix.cloud** is the primary
 product; **DevSCIF.com** is the enterprise and government-tailored suite.
 Read `docs/0021-product-authorship-review.md`. Methodically read and author

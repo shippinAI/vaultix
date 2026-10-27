@@ -18,12 +18,13 @@ mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/ui-proof-"));
 const server = fastify();
 let loginMethods = ["email"];
+let initialized = true;
 let browser;
 try {
   await server.register(registerVaultixRouter, { prefix: "/api/v1/vaultix" });
   server.post("/api/v1/auth/token", async (_, reply) => reply.code(401).send({ error: "No preview session." }));
   server.get("/api/v1/admin/config", async () => ({ config: {
-    initialized: true, allowSignUp: true, disableAuditLogStorage: false,
+    initialized, allowSignUp: true, disableAuditLogStorage: false,
     defaultAuthOrgSlug: null, defaultAuthOrgId: null, enabledLoginMethods: loginMethods,
     passwordPolicy: { requirements: [] }, invalidatingCache: false
   } }));
@@ -54,6 +55,18 @@ try {
   page.on("pageerror", (error) => failures.push(error.message));
   await page.route("**/*", (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   await page.goto(origin);
+  await page.getByRole("heading", { name: "Welcome back", level: 1, exact: true }).waitFor();
+  assert.equal(new URL(page.url()).pathname, "/login");
+  initialized = false;
+  await page.goto(origin);
+  await page.getByRole("heading", { name: "Create your Super Admin account", level: 1, exact: true }).waitFor();
+  assert.equal(new URL(page.url()).pathname, "/admin/signup");
+  await expect(page.getByLabel("First Name", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
+  await audit("instance-setup-desktop");
+  await page.screenshot({ path: resolve(evidence, "instance-setup-desktop.png"), fullPage: true });
+  initialized = true;
+  await page.goto(`${origin}/help`);
   await page.getByRole("heading", { name: "Your secrets. Your workspace." }).waitFor();
   await page.keyboard.press("Tab");
   assert.equal(await page.getByRole("link", { name: "Skip to Content" }).evaluate(element => element === document.activeElement), true);

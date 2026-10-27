@@ -216,7 +216,7 @@ export const ViewSecretRequestByIDPage = () => {
       <>
         <Helmet>
           <title>Secret Request</title>
-          <meta property="og:image" content="/images/message.png" />
+          <meta property="og:image" content="/images/vaultix-social.png" />
         </Helmet>
         <div
           className="flex min-h-screen flex-col items-center justify-center overflow-auto px-4 py-10 scheme-dark"
@@ -254,7 +254,7 @@ export const ViewSecretRequestByIDPage = () => {
       <AuthPageBackground />
       <Helmet>
         <title>Secret Request | Vaultix</title>
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <AuthPageHeader />
       <div className="relative z-10 my-auto flex flex-col items-center py-10">

@@ -278,7 +278,7 @@ export const RenderConfigurePage = () => {
       </Helmet>
       {isIntegrationAuthLoading || isIntegrationAuthAppsLoading ? (
         <img
-          src="/images/loading/loading.gif"
+          src="/images/vaultix-loading.svg"
           height={70}
           width={120}
           alt="vaultix loading indicator"

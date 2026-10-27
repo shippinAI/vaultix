@@ -488,11 +488,7 @@ export const ShareSecretForm = ({
         <div className="flex w-full justify-end">
           {isPublic && (
             <Badge variant="ghost" className="mt-auto mr-auto">
-              <img
-                src="/images/logotransparent_trimmed.png"
-                alt="Vaultix"
-                className="mr-0.5 h-[8px]"
-              />
+              <img src="/images/vaultix-mark.svg" alt="Vaultix" className="mr-0.5 h-[8px]" />
               Powered by Vaultix
             </Badge>
           )}

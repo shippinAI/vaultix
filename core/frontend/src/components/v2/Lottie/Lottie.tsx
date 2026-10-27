@@ -13,6 +13,23 @@ export type LottieProps = {
 export const Lottie = forwardRef<HTMLDivElement, LottieProps>(
   ({ children, icon, iconMode, isAutoPlay, ...props }, ref): JSX.Element => {
     const iconRef = useRef<DotLottie | null>(null);
+    if (
+      icon === "vaultix_loading" ||
+      icon === "vaultix_loading_bw" ||
+      icon === "vaultix_loading_white"
+    ) {
+      return (
+        <div {...props} ref={ref} role="status" aria-label="Loading">
+          <img
+            src="/images/vaultix-loading.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full"
+          />
+          {children}
+        </div>
+      );
+    }
     return (
       <div
         onMouseEnter={() => iconRef.current?.play()}

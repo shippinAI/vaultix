@@ -98,7 +98,7 @@ export const OauthConsentPage = () => {
 
       <Card className="w-full max-w-md">
         <Link to="/" className="block">
-          <img src="/images/gradientLogo.svg" className="mx-auto h-16" alt="Vaultix logo" />
+          <img src="/images/vaultix-wordmark.svg" className="mx-auto h-16" alt="Vaultix logo" />
         </Link>
 
         <CardHeader className="text-center">

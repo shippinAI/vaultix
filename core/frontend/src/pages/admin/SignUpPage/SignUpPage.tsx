@@ -20,6 +20,7 @@ import {
   CardTitle,
   Field,
   FieldError,
+  FieldLabel,
   Input
 } from "@app/components/v3";
 import { useCreateAdminUser, useSelectOrganization } from "@app/hooks/api";
@@ -110,12 +111,12 @@ export const SignUpPage = () => {
       <Helmet>
         <title>Set up your instance | Vaultix</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <AuthPagePanel>
         <CardHeader className="mb-6 gap-2">
           <CardTitle className="font-alliance text-2xl font-normal">
-            {stepContent[activeStep].title}
+            <h1>{stepContent[activeStep].title}</h1>
           </CardTitle>
           <CardDescription className="font-alliance text-base">
             {stepContent[activeStep].description}
@@ -132,6 +133,7 @@ export const SignUpPage = () => {
                 </Alert>
               )}
               <Field data-invalid={Boolean(errors.organizationName)}>
+                <FieldLabel htmlFor="admin-signup-organization">Organization name</FieldLabel>
                 <Input
                   variant="outlined"
                   {...register("organizationName")}

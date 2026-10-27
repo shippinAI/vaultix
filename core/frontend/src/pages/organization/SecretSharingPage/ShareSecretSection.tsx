@@ -57,7 +57,7 @@ export const ShareSecretSection = () => {
       <Helmet>
         <title>Secret Sharing</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/message.png" />
+        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
 
       <Tabs value={activeTab} onValueChange={updateSelectedTab}>

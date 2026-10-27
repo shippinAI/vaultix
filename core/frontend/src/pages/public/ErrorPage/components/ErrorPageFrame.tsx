@@ -105,7 +105,7 @@ export const ErrorPageFrame = ({
       {isFullScreen && <AuthPageBackground />}
       <Card className="relative z-10 grid w-full max-w-5xl gap-0 overflow-hidden p-0 lg:grid-cols-[1fr_26rem]">
         <div className="flex flex-col p-8">
-          <img alt="Vaultix" src="/images/logotransparent.png" className="h-5 self-start" />
+          <img alt="Vaultix" src="/images/vaultix-wordmark.svg" className="h-5 self-start" />
           <div className="mt-6 flex flex-col items-start gap-5">
             <Badge variant="warning" className="h-6 px-2">
               {badgeIcon}

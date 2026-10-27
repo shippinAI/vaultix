@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './pages/root'
+import { Route as helpImport } from './pages/help'
 import { Route as middlewaresRestrictLoginSignupImport } from './pages/middlewares/restrict-login-signup'
 import { Route as middlewaresAuthenticateImport } from './pages/middlewares/authenticate'
 import { Route as publicShareSecretPageRouteImport } from './pages/public/ShareSecretPage/route'
@@ -392,6 +393,12 @@ const AuthenticateInjectOrgDetailsOrgLayoutOrganizationsOrgIdProjectsSecretManag
   )()
 
 // Create/Update Routes
+
+const helpRoute = helpImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const middlewaresRestrictLoginSignupRoute =
   middlewaresRestrictLoginSignupImport.update({
@@ -2576,6 +2583,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof middlewaresRestrictLoginSignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof helpImport
       parentRoute: typeof rootRoute
     }
     '/_authenticate/password-setup': {
@@ -5797,6 +5811,7 @@ export interface FileRoutesByFullPath {
   '/cli-redirect': typeof authCliRedirectPageRouteRoute
   '/share-secret': typeof publicShareSecretPageRouteRoute
   '': typeof organizationLayoutRouteWithChildren
+  '/help': typeof helpRoute
   '/password-setup': typeof authPasswordSetupPageRouteRoute
   '/account-recovery': typeof authAccountRecoveryEmailPageRouteRoute
   '/account-recovery-reset': typeof authAccountRecoveryResetPageRouteRoute
@@ -6073,6 +6088,7 @@ export interface FileRoutesByTo {
   '/cli-redirect': typeof authCliRedirectPageRouteRoute
   '/share-secret': typeof publicShareSecretPageRouteRoute
   '': typeof organizationLayoutRouteWithChildren
+  '/help': typeof helpRoute
   '/password-setup': typeof authPasswordSetupPageRouteRoute
   '/account-recovery': typeof authAccountRecoveryEmailPageRouteRoute
   '/account-recovery-reset': typeof authAccountRecoveryResetPageRouteRoute
@@ -6326,6 +6342,7 @@ export interface FileRoutesById {
   '/share-secret': typeof publicShareSecretPageRouteRoute
   '/_authenticate': typeof middlewaresAuthenticateRouteWithChildren
   '/_restrict-login-signup': typeof middlewaresRestrictLoginSignupRouteWithChildren
+  '/help': typeof helpRoute
   '/_authenticate/password-setup': typeof authPasswordSetupPageRouteRoute
   '/_restrict-login-signup/account-recovery': typeof authAccountRecoveryEmailPageRouteRoute
   '/_restrict-login-signup/account-recovery-reset': typeof authAccountRecoveryResetPageRouteRoute
@@ -6613,6 +6630,7 @@ export interface FileRouteTypes {
     | '/cli-redirect'
     | '/share-secret'
     | ''
+    | '/help'
     | '/password-setup'
     | '/account-recovery'
     | '/account-recovery-reset'
@@ -6888,6 +6906,7 @@ export interface FileRouteTypes {
     | '/cli-redirect'
     | '/share-secret'
     | ''
+    | '/help'
     | '/password-setup'
     | '/account-recovery'
     | '/account-recovery-reset'
@@ -7139,6 +7158,7 @@ export interface FileRouteTypes {
     | '/share-secret'
     | '/_authenticate'
     | '/_restrict-login-signup'
+    | '/help'
     | '/_authenticate/password-setup'
     | '/_restrict-login-signup/account-recovery'
     | '/_restrict-login-signup/account-recovery-reset'
@@ -7426,6 +7446,7 @@ export interface RootRouteChildren {
   publicShareSecretPageRouteRoute: typeof publicShareSecretPageRouteRoute
   middlewaresAuthenticateRoute: typeof middlewaresAuthenticateRouteWithChildren
   middlewaresRestrictLoginSignupRoute: typeof middlewaresRestrictLoginSignupRouteWithChildren
+  helpRoute: typeof helpRoute
   publicViewSecretRequestByIDPageRouteRoute: typeof publicViewSecretRequestByIDPageRouteRoute
   publicViewSharedSecretByIDPageRouteRoute: typeof publicViewSharedSecretByIDPageRouteRoute
 }
@@ -7437,6 +7458,7 @@ const rootRouteChildren: RootRouteChildren = {
   middlewaresAuthenticateRoute: middlewaresAuthenticateRouteWithChildren,
   middlewaresRestrictLoginSignupRoute:
     middlewaresRestrictLoginSignupRouteWithChildren,
+  helpRoute: helpRoute,
   publicViewSecretRequestByIDPageRouteRoute:
     publicViewSecretRequestByIDPageRouteRoute,
   publicViewSharedSecretByIDPageRouteRoute:
@@ -7458,6 +7480,7 @@ export const routeTree = rootRoute
         "/share-secret",
         "/_authenticate",
         "/_restrict-login-signup",
+        "/help",
         "/secret-request/secret/$secretRequestId",
         "/shared/secret/$secretId"
       ]
@@ -7495,6 +7518,9 @@ export const routeTree = rootRoute
         "/_restrict-login-signup/signup",
         "/_restrict-login-signup/admin/signup"
       ]
+    },
+    "/help": {
+      "filePath": "help.tsx"
     },
     "/_authenticate/password-setup": {
       "filePath": "auth/PasswordSetupPage/route.tsx",

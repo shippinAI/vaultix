@@ -80,6 +80,18 @@ else
   ok "frontend src has no snapshot customer chrome"
 fi
 
+for asset in images/vaultix-mark.svg images/vaultix-wordmark.svg images/vaultix-loading.svg images/vaultix-social.png; do
+  if [[ ! -s "$ROOT/core/frontend/public/$asset" ]]; then bad "missing authored asset: $asset"; fi
+done
+for asset in infisical.ico images/biglogo.png images/logotransparent.png images/logotransparent_trimmed.png images/loading/loading.gif lotties/infisical_loading.json lotties/vaultix_loading.json; do
+  if [[ -f "$ROOT/core/frontend/public/$asset" ]]; then bad "retired brand artwork still ships: $asset"; fi
+done
+if rg -n '/images/(logotransparent|gradientLogo|message\.png|loading/loading\.gif)' "$ROOT/core/frontend/src" >/dev/null; then
+  bad "live UI still requests retired product artwork"
+else
+  ok "native UI uses owned Vaultix artwork"
+fi
+
 if [[ -f "$ROOT/docs/0015-frozen-no-connection.md" ]]; then
   ok "docs/0015 frozen-no-connection exists"
 else

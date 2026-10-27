@@ -16,26 +16,28 @@
     },
     {
       "path": "core/frontend/src/components/auth/AuthPageHeader.tsx",
-      "blob": "b83a34b45132614ce56b650e7d7a4c6c8f21e326",
+      "blob": "e237ec7956d4b2a8c4ec207864cc8c78aef9af9a",
       "status": "verified",
       "decision": "retain",
-      "scope": "Complete file read. Authored vector wordmark, accessible same-instance home link and optional header actions. No credentials, data fetching or session ownership in this component. Desktop/mobile rendering is verified; this is not verification of sign-in or a DevSCIF control profile.",
+      "scope": "Complete file read. Authored vector wordmark, accessible same-instance home link and optional header actions. No credentials, data fetching or session ownership in this component. Desktop/mobile rendering is verified; this is not verification of sign-in or a DevSCIF control profile. The header now uses the owned Vaultix vault-mark SVG rather than a generic key icon. The packaged real sign-in screen was visually reviewed.",
       "evidence": [
         "Source commit 12ec63baab380944e19b1179400067d8687a77d3",
         "scripts/test-native-ui.mjs: login desktop/mobile checks",
-        "https://github.com/shippinAI/vaultix/actions/runs/40350888894"
+        "https://github.com/shippinAI/vaultix/actions/runs/40350888894",
+        ".cache/app-image-proof-1egxxh/login.png"
       ]
     },
     {
       "path": "core/frontend/src/pages/VaultixHome.tsx",
-      "blob": "fcca7648e30076f9d00011820b9b182d32566528",
+      "blob": "fc738197358a1a82bd9d0ac5ce5dd4093d745663",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read with catalog/query caller. Native workspace navigation now focuses changed-view headings and supports skip activation; home accessible name includes visible brand text. Browser proof covers authored navigation and catalog rejection, not all authenticated routes or Nomen.",
+      "scope": "Complete file read with catalog/query caller. Native workspace navigation now focuses changed-view headings and supports skip activation; home accessible name includes visible brand text. Browser proof covers authored navigation and catalog rejection, not all authenticated routes or Nomen. This optional guide now lives at /help; it is no longer the application entry. Uses the owned mark. Root authentication restoration is verified separately.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
+        ".cache/ui-proof-siC0lq/accessibility.json"
       ]
     },
     {
@@ -131,6 +133,51 @@
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-UDjvAP/accessibility.json",
         "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/index.tsx",
+      "blob": "55f28f624070ca65cbf571f11c20d291b6a3a981",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file and existing auth/organization middleware flow read. Root delegates to the existing login flow, retaining setup, organization selection, MFA and permission handling. Real-image sign-in, authenticated root navigation and anonymous denial passed. No Nomen claim.",
+      "evidence": [
+        "scripts/test-image-app.mjs",
+        ".cache/app-image-proof-1egxxh/result.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/help.tsx",
+      "blob": "1c6b3ff488ee15f3a7132ae3c0db115ffba3c8f3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored file read. Optional help mounts the existing catalog-based guide at /help. No separate store, authentication or business-action implementation. Fixture guide states passed against packaged UI.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-siC0lq/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/main.tsx",
+      "blob": "f62a32e764812d5117ce85268cd14fc5f15a883a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Router pending view now renders owned Vaultix loader; NProgress uses a named valid progressbar and explicit selector instead of invalid role=bar. Fixture setup scan reproduced the defect and passed after the fix. Existing preload recovery, other Lottie icons and all route lifecycle cases still require broader review.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-siC0lq/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Lottie/Lottie.tsx",
+      "blob": "341b40b3cdcde9bd13bf04dc783d1318da9ee909",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete shared component read. The three product-loader variants render the owned reduced-motion SVG, retaining caller class/ref/children and leaving other animation icons unchanged. Retired inherited loader payloads are removed. Consumer workflow acceptance remains separate.",
+      "evidence": [
+        "scripts/check-owned.sh",
+        "scripts/smoke-image.sh",
+        "docs/0025-application-entry-and-artwork.md"
       ]
     }
   ]

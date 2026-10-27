@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 72" role="img" aria-label="Vaultix — A SHIPPIN.AI SERVICE">
-  <rect width="420" height="72" fill="#161822"/>
-  <rect x="16" y="18" width="36" height="32" rx="6" fill="none" stroke="#e2b84a" stroke-width="3"/>
-  <path d="M26 18 v-4 a8 8 0 0 1 16 0 v4" fill="none" stroke="#e2b84a" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="34" cy="36" r="4" fill="#e2b84a"/>
-  <rect x="33" y="36" width="2" height="8" rx="1" fill="#e2b84a"/>
-  <text x="64" y="40" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="700" fill="#f4f1ea" letter-spacing="0.12em">VAULTIX</text>
-  <text x="64" y="58" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" font-weight="600" fill="#e2b84a" letter-spacing="0.16em">A SHIPPIN.AI SERVICE · ANGRYVIBES LLC</text>
-</svg>
