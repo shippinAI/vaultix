@@ -31,10 +31,23 @@ plan label; hosting/support costs are separate from software inclusion.
 | Terraform management, log forwarding, configurable retention/rates | Doppler | Inventory resource coverage and import/drift behavior; prove export durability and bounded operational policies without paid software gates. |
 | On-prem/cloud deployment and AI tooling | Doppler | Canonical image, shared source actions/MCP, local Codex and own-provider setup; deployment topology and actual client auth acceptance remain open. |
 
-This baseline also needs separate public-documentation coverage of certificate
-management, privileged access and agent-specific product surfaces. Existing
-PKI/PAM/scanning modules are tracked in [0018](0018-hosted-capability-proof.md);
-their presence does not establish complete comparator coverage.
+## Workflow specifications beyond plan labels
+
+The following additional primary sources were read on 2026-10-26. Requirements
+and differences below are work items, not newly implemented features.
+
+| Workflow | Public behavior | Vaultix acceptance/gap |
+| --- | --- | --- |
+| [Doppler approval policies](https://docs.doppler.com/docs/change-request-policies) | Reviewer counts and groups, self-approval prevention, assignment scope and multiple applicable policies that must all be satisfied. | Trace review/apply transactions and changes to group membership while a request is pending. The existing `resolvePolicyForPath` in `ee/services/secret-approval-policy/secret-approval-policy-service.ts` selects one prioritized matching policy. This is an observed semantic difference; define explicit composition and migration before claiming equivalent overlapping-policy enforcement. |
+| [Doppler inheritance](https://docs.doppler.com/docs/config-inheritance) | Ordered parents resolve conflicts; local entries override parents; dynamic secrets are excluded from inheritance in the documented implementation. | Specify local/import precedence, cycle rejection, parent revocation and cache invalidation. A future dynamic-lease inheritance design needs lifecycle/ownership tests; an omitted vendor capability is not automatically safe to enable. Provide keyboard alternatives to drag reordering. |
+| [Infisical certificates](https://infisical.com/docs/documentation/platform/pki/overview) | Internal/external authorities, certificate policies/profiles, enrollment, renewal/revocation, delivery, discovery/alerts and software signing. | Verify API/ACME/EST/SCEP interoperability, policy denial, approval before issuance/signing, expiry/revocation propagation and each destination. Exercise external CA/HSM and signing clients separately. Existing PKI code and an image containing tools do not prove this workflow. |
+| [Infisical privileged access](https://infisical.com/platform/pam) | Temporary resource access through gateways, approvals, session recordings, command/query audit and session controls. | Prove grant/expiry/revocation for each server/database/cloud resource, recording integrity and redaction, reason/MFA enforcement and command restrictions. Broker credentials only at the authorized service boundary; verify failures and recovery. |
+| [Infisical Agent Vault](https://infisical.com/platform/agent-vault) | The public product is a preview with service/method/path bundles, expiring sessions, proxy credential brokering and per-request audit. | Catalogue these separately from reference-only MCP. Existing `ee/services/agent-proxy-ca/` is a review starting point, not proof. Specify service authority, redirect/egress denial, revocation latency and response/log redaction. Any Mesh/Zuul work still requires the separate scope decision in AGENTS.md. |
+
+Existing PKI/PAM/scanning modules and their current evidence are tracked in
+[0018](0018-hosted-capability-proof.md). Provider-level specifications, broader
+API documentation coverage and authorized observations are still needed before
+marking the comparator inventory exhaustive.
 
 ## Implementation method
 

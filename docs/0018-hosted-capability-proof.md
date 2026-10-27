@@ -88,6 +88,21 @@ connection scrolling and password show/hide without submitting credentials.
 Non-text contrast, real screen-reader tests, browser zoom and unscanned
 authenticated routes remain open. Authentication/action responses remain
 fixtures. CI runs the same scans and retains their reports.
+
+The canonical standalone image built successfully from runtime source `9b1dce4`:
+
+```text
+vaultix:hosted-verify
+sha256:fb841587bc1bff0e0abc03c36fb26e111a9d61b078fd87d12b7ed51db16043ea
+```
+
+UI assets extracted from this image passed the same browser/accessibility checks
+(`.cache/ui-proof-HIaFHT/`). Both Dragonfly and Redis image smoke tests passed,
+including migrations/startup, product/API identity, UI, MCP, anonymous denial,
+BullMQ execution and engine restart. Logs: `.cache/a11y-smoke-dragonfly.log` and
+`.cache/a11y-smoke-redis.log`. This is a local image ID, not a registry digest.
+Independent GitHub verification/publication is tracked by
+[run 40435314857](https://github.com/shippinAI/vaultix/actions/runs/40435314857).
 See [all-UI acceptance](0022-accessibility-acceptance.md) and
 [capability convergence](0023-capability-convergence.md) for required follow-up.
 
