@@ -93,8 +93,9 @@ core/backend-go/internal/ee/services/ratelimit/ratelimit.go	63840b7432459b6710f9
 core/backend-go/internal/ee/services/ratelimit/ratelimit_test.go	ab9a8c8364bc5577844bf8ccece24dc665f4cbfc	test	unread
 core/backend-go/internal/ee/services/ratelimit/types.go	1f9847075158a87c59dedaba0ed65421a0ff9fb0	product-code	unread
 core/backend-go/internal/ee/services/ratelimit/types_test.go	d3141158e9e4dc3f0c59d1394501cd2802b26f3b	test	unread
-core/backend-go/internal/keystore/keystore.go	c083f1e3b9e8b1baeb3ad32e8cf32aa7a4c663ef	product-code	unread
-core/backend-go/internal/keystore/memory.go	5638007ceaa7f9b710d07a97af1f16372106d5bb	product-code	unread
+core/backend-go/internal/keystore/keystore.go	c083f1e3b9e8b1baeb3ad32e8cf32aa7a4c663ef	product-code	verified
+core/backend-go/internal/keystore/memory.go	3c6fc5dd1ba5975eabd26ef401d851f0917b4b8e	product-code	verified
+core/backend-go/internal/keystore/memory_test.go	38cbefae09377ed5981e11ec63ef62638b2435c8	test	verified
 core/backend-go/internal/libs/bootstrap/bootstrap.go	968f42394e17c51b8d82e4166b5f4f158e839148	product-code	unread
 core/backend-go/internal/libs/crypto/cipher/cipher.go	ee50963d3129f933d2eec19c1eb945b4c21e4acc	product-code	unread
 core/backend-go/internal/libs/crypto/cipher/cipher_test.go	805aed70edb8bf04af92174bd9eb456ec5c5c9cd	test	unread
@@ -158,6 +159,7 @@ core/backend-go/internal/services/auth/apiauth/classify.go	9642571e5669d8ffdcf40
 core/backend-go/internal/services/auth/apiauth/classify_test.go	e775803f3d4a69e2bab60458a081f1c073042bba	test	unread
 core/backend-go/internal/services/auth/apiauth/ip.go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	product-code	unread
 core/backend-go/internal/services/auth/apiauth/require_auth.go	3a12eb29bcd4370952458de4f08ae0dbc927a41d	product-code	unread
+core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	2ad8f58ddc0575861aba188e4c986efb8511698c	test	verified
 core/backend-go/internal/services/auth/auth.go	7a2ed84fa66f7755f192af70dd51d31ade42d835	product-code	unread
 core/backend-go/internal/services/kms/kms.go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	product-code	unread
 core/backend-go/internal/services/kms/kms_org.go	9bea7672ac02e63344c99764fee013e1fe2e3983	product-code	unread
@@ -204,6 +206,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	2f0f99c1de1d5a6333a
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	c80d3e456982798c0fc5b0d8c258f870aed63168	test	unread
 core/backend-go/tests/platform/hsm/hsm_test.go	b6802db6984e80cad8679070f62c82ddb891d511	test	unread
+core/backend-go/tests/platform/keystore/counter_test.go	e878e500a414345e63bcd0398c45473653ecfd9c	test	verified
 core/backend-go/tests/platform/kms/kms_test.go	8b5ad161edb1503e5a611d9fa0715bb560bd4ba6	test	unread
 core/backend-go/tests/platform/permission/permission_test.go	cbdbb1cf1b210d8bb4abf6018a0910c7761742a6	test	unread
 core/backend-go/tests/platform/projects/projects_test.go	15a7a067c609f752c9f156a6fd41c2a0a031d3a2	test	unread
@@ -11628,7 +11631,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	b32fc3a43063dfed73df1fc5daaa7e48c704d392	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	6f0567d7b3fd62bc768aa250efe9e2c271abd229	documentation	unread
+docs/0018-hosted-capability-proof.md	25d636d44805d3afc6192f1867c4a3ec507031aa	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	441ae789ed12d41fa7c6609b0b309a1a74ee1d4d	documentation	unread
@@ -11642,13 +11645,14 @@ docs/0028-visual-loading-system.md	5b54ea5931cc885c78bfb38d3a94a26664f9f176	docu
 docs/0029-ui-workflow-execution.md	73da52fd43c7b1b41e4b1a60a3b5bc809d330b46	documentation	unread
 docs/0030-environment-workflow.md	0aa26df666728dca11a9d23291e3341d7075d365	documentation	unread
 docs/0031-refresh-recovery.md	31455c4c1a7aaae11dc7fb3188c34f7cbb88db6b	documentation	unread
-docs/0032-native-toolchains.md	040901516db321f1706af30625445fd9454de106	documentation	unread
+docs/0032-native-toolchains.md	21e252e656932c7d35eab544591324992b5f6348	documentation	unread
 docs/0033-bootstrap-identity-issuance.md	8c43d65202098e4c959c63ca269937b55f92b34f	documentation	unread
 docs/0034-api-request-errors.md	a60f8829207dacbf77cb617b666e3394df8467ff	documentation	unread
+docs/0035-cache-counter-contract.md	adeca7897286b7a283faad0bb7a10206deae1a68	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	822c619004681a304457d2a6f63877ce310bc92e	generated	unread
-docs/migration/generated/modules.tsv	6df457539e9d320154f44ba0b161e9dc458f3e17	generated	unread
-docs/migration/generated/summary.json	6d394dfa0b435811339a3dc85d0aa9b7261bbcfb	generated	unread
+docs/migration/generated/files.tsv	7b0c254e7f4dbae7729145e5f7dd9c43babe4978	generated	unread
+docs/migration/generated/modules.tsv	316225bed0f210fdaa189ac00051dc33b9853264	generated	unread
+docs/migration/generated/summary.json	a866b1e854c6d8a3891047ff801c8f8fb4025e44	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread

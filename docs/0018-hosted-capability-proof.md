@@ -421,3 +421,11 @@ Backend unit coverage reports 1,859 passes and 22 existing skips. Known parser
 failures now return bounded 400/413/415 responses instead of 500. The image size
 probe establishes early declared-length rejection only; eager oversized uploads
 can still encounter connection resets and are not claimed as fully accepted.
+
+The Go memory-counter checkpoint is documented in [0035](0035-cache-counter-contract.md).
+Canonical image `sha256:6a728c527fc2746d53e0e27c365872631de73a4802198d086e0c3d71ad7567b9`
+passes the packaged browser workflow. Go unit/race checks pass 473 tests; complete
+real-image integration runs pass 218 tests per cache with 8 provider skips. A
+Dragonfly authentication fixture setup failure and its scoped/full reruns are
+recorded explicitly. Numeric fixture parity does not repair the separately
+reproduced production missing-counter recovery and renewal races.
