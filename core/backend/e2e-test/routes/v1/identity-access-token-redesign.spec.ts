@@ -390,6 +390,55 @@ describe("Identity Access Token — redesigned JWT flow", () => {
     }
   });
 
+  test("concurrent recovery of a missing usage counter admits only the configured budget", async () => {
+    const limit = 5;
+    const { identityId, clientId, clientSecret } = await createUaIdentity(`test-recovery-${randomUUID()}`, {
+      accessTokenNumUsesLimit: limit
+    });
+    try {
+      const accessToken = await loginWithUa(clientId, clientSecret);
+      const claims = jwt.decode(accessToken) as { jti: string };
+      const key = KeyStorePrefixes.IdentityTokenUsesRemaining(identityId, claims.jti);
+      await testRedis.del(key);
+      const responses = await Promise.all(Array.from({ length: 24 }, () => callDetailsEndpoint(accessToken)));
+      expect(responses.filter((response) => response.statusCode === 200)).toHaveLength(limit);
+      expect(responses.filter((response) => response.statusCode === 401)).toHaveLength(24 - limit);
+      expect(Number(await testRedis.get(key))).toBeLessThanOrEqual(0);
+      expect(await testRedis.ttl(key)).toBeGreaterThan(0);
+      expect((await callDetailsEndpoint(accessToken)).statusCode).toBe(401);
+    } finally {
+      await deleteIdentity(identityId);
+    }
+  });
+
+  test("concurrent renewal and use share one remaining budget", async () => {
+    const { identityId, clientId, clientSecret } = await createUaIdentity(`test-renew-budget-${randomUUID()}`, {
+      accessTokenNumUsesLimit: 5
+    });
+    try {
+      const accessToken = await loginWithUa(clientId, clientSecret);
+      expect((await callDetailsEndpoint(accessToken)).statusCode).toBe(200);
+      const renew = () => testServer.inject({ method: "POST", url: "/api/v1/auth/token/renew", body: { accessToken } });
+      const [uses, renewals] = await Promise.all([
+        Promise.all(Array.from({ length: 12 }, () => callDetailsEndpoint(accessToken))),
+        Promise.all(Array.from({ length: 4 }, renew))
+      ]);
+      expect(uses.filter((response) => response.statusCode === 200)).toHaveLength(4);
+      expect(uses.filter((response) => response.statusCode === 401)).toHaveLength(8);
+      expect((await callDetailsEndpoint(accessToken)).statusCode).toBe(401);
+      for (const renewal of renewals) {
+        expect([200, 401]).toContain(renewal.statusCode);
+        if (renewal.statusCode === 200) {
+          const renewed = renewal.json<{ accessToken: string }>().accessToken;
+          // eslint-disable-next-line no-await-in-loop
+          expect((await callDetailsEndpoint(renewed)).statusCode).toBe(401);
+        }
+      }
+    } finally {
+      await deleteIdentity(identityId);
+    }
+  });
+
   // -------------------------------------------------------------------------
   // 6. Trusted-IP config changes invalidate already issued tokens
   // -------------------------------------------------------------------------

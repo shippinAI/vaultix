@@ -46,14 +46,14 @@ core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	3	d55551958fe18a24753d96680a8a6bb63ea4d9bf88d0dbf5ed54b58a6a3bf416	0	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	9	e5fa64b5381aa4a4344af1d5b22c1302eeeffe73d91a15619b5fea1b5219cafa	1	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	10	449b346d727a80dc89e7bd409086d7dee08349f8c57bae6ab2240ba9ce96b4fd	3	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	13	5c63e31d37fa0cc261cee9b749d0c11cfa2ee588fb35d069dee2ed5a99d2175f	0	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
 core/backend-go/internal/services/secretmanager	secrets	Go-native	12	108d15d88d224fe7564e16b810899d36699c5ec5065f217deb4cf1384229dbde	0	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	ee3c7712a5322a3ba39e2709508aa89986051062a53618f283cdb607e713ad8f	3	unassessed
-core/backend-go/tests/platform/auth	identity	Go-native	1	8ee2647960088a4d5351a449c03f84cea0edf8b2822138818356980adcf0475d	0	unassessed
+core/backend-go/tests/platform/auth	identity	Go-native	2	b625c2dfbcfe8672b80f9f57b5840a5526781aa45905182f440059d2fab0a3b0	1	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
 core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c5988bc3f73ca5fc3df24b6c0adef1eb943ac0ad7468419	0	unassessed
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
@@ -78,7 +78,7 @@ core/backend/e2e-test/mocks	foundation	Go-domain-migration	1	f49f125e1a599768dbc
 core/backend/e2e-test/mocks	kms	Go-domain-migration	1	20a6f4286a0cad374c225f84161a14aa5c05dc69cc979acadc78510fa17fb086	0	unassessed
 core/backend/e2e-test/routes/v1	authorization	Go-domain-migration	2	dbbe4f50cb1fb9bb0d73b8d21f790403af67af1755596f31a354732c2f965d8d	0	unassessed
 core/backend/e2e-test/routes/v1	foundation	Go-domain-migration	5	e8734377d8e1a862138521b52d6e18ff9ba584e770c5a5d4846d606644592955	0	unassessed
-core/backend/e2e-test/routes/v1	identity	Go-domain-migration	10	999e060e860bf487264d5fad2596229b5c71e5e17489fb0489ed06f78a02d2a5	1	unassessed
+core/backend/e2e-test/routes/v1	identity	Go-domain-migration	10	2a7cb2ca2760c079649b6203bdcc14824993fb69046f46e51c84c0ed29dd9ff3	2	unassessed
 core/backend/e2e-test/routes/v1	integrations	Go-domain-migration	1	c8e7fd6cee23108b91316c648fd5f5da751d173ea71d643c16daaf32bc372d02	0	unassessed
 core/backend/e2e-test/routes/v1	secrets	Go-domain-migration	4	98c7d34cfc5e363b8b74a6cc0e41be01c47432ed971b1a3f60c1a111a613e08d	0	unassessed
 core/backend/e2e-test/routes/v2	foundation	Go-domain-migration	1	653ca501c3075dd6b8e51940c60c576e83c5a88de8bf7dc7c348df05d1b8e6a8	0	unassessed
@@ -219,7 +219,7 @@ core/backend/src/ee/services/secret-scanning-v2	scanning	Go-domain-migration	30	
 core/backend/src/ee/services/secret-sync	integrations	Go-domain-migration	10	9e2ca07a4215b64e1c85c792b4fb1bd0d1243042a9f135ae4b895987a59ca598	0	unassessed
 core/backend/src/ee/services/sub-org	foundation	Go-domain-migration	2	557b68578912dbfbbac172e79998700c66d33b870faa1c0e494c7867d774c2dc	0	unassessed
 core/backend/src/ee/services/trusted-ip	authorization	Go-domain-migration	3	ec64516c2bd7b7d5618033f9a27d754e86e93c9269f68f99abad1a89686499a1	0	unassessed
-core/backend/src/keystore	kms	Go-domain-migration	3	1b0b3858643680d5d7f4cd03176819a7ad79ecacb92278a3914287b8ddcbf457	0	unassessed
+core/backend/src/keystore	kms	Go-domain-migration	3	1b0b3858643680d5d7f4cd03176819a7ad79ecacb92278a3914287b8ddcbf457	1	unassessed
 core/backend/src/lib/api-docs	foundation	Go-domain-migration	2	8b53681e47cdcffb628f08201a72614311f54e6374e87e98c71cb3c33f2266f2	0	unassessed
 core/backend/src/lib/aws	foundation	Go-domain-migration	3	1eb808f9c1e8dcaf18351708ee4c35ec629962275a9b5a432d0c203175ed91eb	0	unassessed
 core/backend/src/lib/axios	foundation	Go-domain-migration	1	6165facc534d2168f51979304d0b67cc28ec5475d171dec704885c858af4773c	0	unassessed
@@ -368,7 +368,7 @@ core/backend/src/services/group-project	authorization	Go-domain-migration	3	c5f5
 core/backend/src/services/health-alert	foundation	Go-domain-migration	1	1cc8bdd82a9928a3ba3f547dfb2ca0f47fb046703661c2934d028484609867ab	0	unassessed
 core/backend/src/services/hsm-connector	kms	Go-domain-migration	5	76944247b012a103804501e5c9af5145218b95e45caafd053e390b0970691085	0	unassessed
 core/backend/src/services/identity	identity	Go-domain-migration	7	3fa8c2853a94fe38d758f512373d02bbb0f5043bd25907e6223f1124ab9d8ab4	0	unassessed
-core/backend/src/services/identity-access-token	identity	Go-domain-migration	7	01cfddaef0a80994282fd0930d5eb99604f732645dc3d377c902059b891ce25c	0	unassessed
+core/backend/src/services/identity-access-token	identity	Go-domain-migration	7	4d7ad79a952125f83885f6dabf667475f84ee0bfb77d3af533990b9412023b5f	2	unassessed
 core/backend/src/services/identity-alicloud-auth	identity	Go-domain-migration	4	46d55b54aec0eec9516df5b1f028ab03a3e406a4ac9403e3280c9655061be70f	0	unassessed
 core/backend/src/services/identity-aws-auth	identity	Go-domain-migration	5	da039062fa88b7eabd69607387651054b9bf052ef79f8cc553a7b0d42ecf2a89	0	unassessed
 core/backend/src/services/identity-azure-auth	identity	Go-domain-migration	5	f1b5d948c43cb1fcb1cddb53becece3eaa7a123e821aec07d37603d41f3f8a5f	0	unassessed

@@ -57,6 +57,7 @@ const createService = ({
     incrementBy: vi.fn(),
     setItemWithExpiry: vi.fn(),
     setItemWithExpiryNX: vi.fn().mockResolvedValue("OK"),
+    setExpiry: vi.fn().mockResolvedValue(1),
     incrementSeededWithExpiry: vi.fn().mockResolvedValue(1),
     deleteItem: vi.fn().mockResolvedValue(1)
   };
@@ -344,18 +345,19 @@ describe("identityAccessTokenServiceFactory", () => {
   test("reseeds a lost Redis usage counter from JWT claims", async () => {
     const { service, keyStore } = createService();
     keyStore.getItem.mockResolvedValue(null);
+    keyStore.incrementBy.mockResolvedValue(2);
 
     await expect(
       service.fnValidateIdentityAccessTokenFast(createTokenClaims({ numUsesLimit: 3 }), "10.0.0.1")
     ).resolves.toMatchObject({
       identityId: "identity-id"
     });
-    expect(keyStore.setItemWithExpiry).toHaveBeenCalledWith(
+    expect(keyStore.setItemWithExpiryNX).toHaveBeenCalledWith(
       "identity-token-uses-remaining:identity-id:token-id",
       MAX_AGE,
-      2
+      3
     );
-    expect(keyStore.incrementBy).not.toHaveBeenCalled();
+    expect(keyStore.incrementBy).toHaveBeenCalledWith("identity-token-uses-remaining:identity-id:token-id", -1);
   });
 
   test("does not require Redis counters for unlimited-use tokens", async () => {
@@ -974,5 +976,95 @@ describe("identityAccessTokenServiceFactory", () => {
       "token has been revoked"
     );
     expect(identityAccessTokenRevocationDAL.findActiveRevocationsForToken).toHaveBeenCalled();
+  });
+  test("concurrent recovery of a lost counter preserves the use limit", async () => {
+    const { service, keyStore } = createService();
+    const counterKey = "identity-token-uses-remaining:identity-id:token-id";
+    const values = new Map<string, string>();
+    const reads: Array<(value: null) => void> = [];
+    const requests = 24;
+    const limit = 5;
+    keyStore.getItem.mockImplementation(async (key: string) => {
+      if (key === counterKey) {
+        return new Promise<string | null>((resolve) => {
+          reads.push(resolve);
+          if (reads.length === requests) reads.forEach((release) => release(null));
+        });
+      }
+      return values.get(key) ?? null;
+    });
+    keyStore.setItemWithExpiry.mockImplementation(async (key: string, _ttl: number, value: string | number) => {
+      values.set(key, String(value));
+      return "OK";
+    });
+    keyStore.setItemWithExpiryNX.mockImplementation(async (key: string, _ttl: number, value: string | number) => {
+      if (values.has(key)) return null;
+      values.set(key, String(value));
+      return "OK";
+    });
+    keyStore.incrementBy.mockImplementation(async (key: string, delta: number) => {
+      const next = Number(values.get(key) ?? "0") + delta;
+      values.set(key, String(next));
+      return next;
+    });
+    const results = await Promise.allSettled(
+      Array.from({ length: requests }, () =>
+        service.fnValidateIdentityAccessTokenFast(createTokenClaims({ numUsesLimit: limit }))
+      )
+    );
+    expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(limit);
+    for (const result of results) {
+      if (result.status === "rejected")
+        expect(result.reason).toMatchObject({ message: "Failed to authorize: token usage limit reached" });
+    }
+  });
+
+  test("renewal preserves uses consumed after its counter read", async () => {
+    const { service, keyStore } = createService();
+    const counterKey = "identity-token-uses-remaining:identity-id:token-id";
+    const values = new Map<string, string>([[counterKey, "2"]]);
+    keyStore.getItem.mockImplementation(async (key: string) => {
+      const snapshot = values.get(key) ?? null;
+      if (key === counterKey) values.set(key, "1");
+      return snapshot;
+    });
+    keyStore.setItemWithExpiry.mockImplementation(async (key: string, _ttl: number, value: string | number) => {
+      values.set(key, String(value));
+      return "OK";
+    });
+    keyStore.setItemWithExpiryNX.mockImplementation(async (key: string, _ttl: number, value: string | number) => {
+      if (values.has(key)) return null;
+      values.set(key, String(value));
+      return "OK";
+    });
+    const accessToken = crypto.jwt().sign(createTokenClaims({ numUsesLimit: 2 }), AUTH_SECRET);
+    await service.renewAccessToken({ accessToken });
+    expect(values.get(counterKey)).toBe("1");
+    expect(keyStore.setExpiry).toHaveBeenCalledWith(counterKey, MAX_AGE);
+  });
+
+  test.each(["setItemWithExpiryNX", "incrementBy"] as const)(
+    "recovery denies access when %s fails",
+    async (operation) => {
+      const { service, keyStore } = createService();
+      keyStore.getItem.mockImplementation(async (key: string) => {
+        if (key.startsWith("identity-revocation-version:")) return "1";
+        if (key.startsWith("identity-revocation-verdict:")) return JSON.stringify({ v: 1 });
+        return null;
+      });
+      keyStore[operation].mockRejectedValueOnce(new Error("cache unavailable"));
+      await expect(service.fnValidateIdentityAccessTokenFast(createTokenClaims({ numUsesLimit: 5 }))).rejects.toThrow(
+        "cache unavailable"
+      );
+      if (operation === "setItemWithExpiryNX") expect(keyStore.incrementBy).not.toHaveBeenCalled();
+    }
+  );
+
+  test("renewal refuses a counter that vanishes before its expiry is refreshed", async () => {
+    const { service, keyStore } = createService();
+    keyStore.getItem.mockResolvedValue("1");
+    keyStore.setExpiry.mockResolvedValue(0);
+    const accessToken = crypto.jwt().sign(createTokenClaims({ numUsesLimit: 2 }), AUTH_SECRET);
+    await expect(service.renewAccessToken({ accessToken })).rejects.toThrow("token usage state is unavailable");
   });
 });

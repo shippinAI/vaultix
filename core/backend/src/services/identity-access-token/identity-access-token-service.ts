@@ -87,6 +87,7 @@ type TIdentityAccessTokenServiceFactoryDep = {
     | "incrementBy"
     | "setItemWithExpiry"
     | "setItemWithExpiryNX"
+    | "setExpiry"
     | "incrementSeededWithExpiry"
     | "deleteItem"
   >;
@@ -495,17 +496,20 @@ export const identityAccessTokenServiceFactory = ({
 
     if (numUsesLimit > 0) {
       if (remainingFromState === null) {
-        // Counter was lost (Redis flush). Re-seed from the JWT's numUsesLimit claim
-        // and allow this request; subsequent requests decrement the live counter.
-        await setUsesRemaining(token.identityId, tokenId, numUsesLimit - 1, appCfg.MAX_MACHINE_IDENTITY_TOKEN_AGE);
-      } else {
-        const remaining = await keyStore.incrementBy(
+        // Only the first recovery may seed the budget. Competing requests must
+        // consume the same live counter instead of overwriting one another.
+        await keyStore.setItemWithExpiryNX(
           KeyStorePrefixes.IdentityTokenUsesRemaining(token.identityId, tokenId),
-          -1
+          appCfg.MAX_MACHINE_IDENTITY_TOKEN_AGE,
+          numUsesLimit
         );
-        if (remaining < 0) {
-          throw new UnauthorizedError({ message: "Failed to authorize: token usage limit reached" });
-        }
+      }
+      const remaining = await keyStore.incrementBy(
+        KeyStorePrefixes.IdentityTokenUsesRemaining(token.identityId, tokenId),
+        -1
+      );
+      if (remaining < 0) {
+        throw new UnauthorizedError({ message: "Failed to authorize: token usage limit reached" });
       }
     }
 
@@ -634,11 +638,16 @@ export const identityAccessTokenServiceFactory = ({
       creationEpoch: source.creationEpoch
     });
 
-    // Renewed JWT keeps the same token id; PG revocation already applies. Reseed
-    // the Redis counter to the current remaining budget.
+    // Renewal shares the token ID and budget. Never write a previously read
+    // count over uses consumed concurrently; initialize only a still-missing key.
     if (numUsesLimit > 0) {
+      const usesKey = KeyStorePrefixes.IdentityTokenUsesRemaining(decodedToken.identityId, tokenId);
       const remainingUses = existingRemaining === null ? numUsesLimit : Math.max(0, existingRemaining);
-      await setUsesRemaining(decodedToken.identityId, tokenId, remainingUses, appCfg.MAX_MACHINE_IDENTITY_TOKEN_AGE);
+      await keyStore.setItemWithExpiryNX(usesKey, appCfg.MAX_MACHINE_IDENTITY_TOKEN_AGE, remainingUses);
+      const refreshed = await keyStore.setExpiry(usesKey, appCfg.MAX_MACHINE_IDENTITY_TOKEN_AGE);
+      if (!refreshed) {
+        throw new UnauthorizedError({ message: "Cannot renew: token usage state is unavailable" });
+      }
     }
 
     return {

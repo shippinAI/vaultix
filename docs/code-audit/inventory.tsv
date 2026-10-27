@@ -152,7 +152,7 @@ core/backend-go/internal/services/auditlog/event.go	9641ec20666ef81dc0bdf23553fe
 core/backend-go/internal/services/auditlog/info.go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	product-code	unread
 core/backend-go/internal/services/auditlog/queue_handler.go	8fffcdc835dca60978a9a9ece66de24257e8c969	product-code	unread
 core/backend-go/internal/services/auditlog/useragent.go	debf555fd242540645332817c077bed76833d135	product-code	unread
-core/backend-go/internal/services/auth/apiauth/authenticator.go	ef453172e3b0c903e0ac79cd7354b07741ade4be	product-code	unread
+core/backend-go/internal/services/auth/apiauth/authenticator.go	5de66734557bb0ee6430e9dec0a9f1766e8f5925	product-code	verified
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	4e7d88f0a66161396b2a77b74882afa52ec151d5	test	unread
 core/backend-go/internal/services/auth/apiauth/claims.go	11137984df5735a4f3654998cf3e8b95e1603d8b	product-code	unread
 core/backend-go/internal/services/auth/apiauth/classify.go	9642571e5669d8ffdcf405dddcbe4788ec6bb446	product-code	unread
@@ -160,6 +160,7 @@ core/backend-go/internal/services/auth/apiauth/classify_test.go	e775803f3d4a69e2
 core/backend-go/internal/services/auth/apiauth/ip.go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	product-code	unread
 core/backend-go/internal/services/auth/apiauth/require_auth.go	3a12eb29bcd4370952458de4f08ae0dbc927a41d	product-code	unread
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	2ad8f58ddc0575861aba188e4c986efb8511698c	test	verified
+core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	604a44bf8e7017756162e10d56c97bcafcf08883	test	verified
 core/backend-go/internal/services/auth/auth.go	7a2ed84fa66f7755f192af70dd51d31ade42d835	product-code	unread
 core/backend-go/internal/services/kms/kms.go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	product-code	unread
 core/backend-go/internal/services/kms/kms_org.go	9bea7672ac02e63344c99764fee013e1fe2e3983	product-code	unread
@@ -203,6 +204,7 @@ core/backend-go/tests/infra/postgres.go	a5c2c7964d16ca57a5e53ae150ff08e81c3b565f
 core/backend-go/tests/infra/redis.go	4964e10bad022350167d66abb266750d3e729487	test	authored
 core/backend-go/tests/infra/stack.go	f104f06bd1964bcb054911ea95d7bdcdff6c5a78	test	unread
 core/backend-go/tests/platform/auth/apiauthenticator_test.go	2f0f99c1de1d5a6333a8dbc89b848625453c7097	test	unread
+core/backend-go/tests/platform/auth/usage_recovery_test.go	52c08d5b374e5c7dd8212f08065275e15f663461	test	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	c80d3e456982798c0fc5b0d8c258f870aed63168	test	unread
 core/backend-go/tests/platform/hsm/hsm_test.go	b6802db6984e80cad8679070f62c82ddb891d511	test	unread
@@ -300,7 +302,7 @@ core/backend/e2e-test/routes/v1/auth-invite.spec.ts	9114768a57b3b868bb4cbd0f93fc
 core/backend/e2e-test/routes/v1/auth-refresh-recovery.spec.ts	34dc9d46d02777307247b1c7f774031bda098545	test	verified
 core/backend/e2e-test/routes/v1/auth-token.spec.ts	9ac664adbf12c65b7821324e6c09a8394a9bf14a	test	unread
 core/backend/e2e-test/routes/v1/dashboard-secret-metadata.spec.ts	6666f218e6ecfc6ce0d1dd3f210930b81d08cb50	test	unread
-core/backend/e2e-test/routes/v1/identity-access-token-redesign.spec.ts	5b8a05da10572bea16d0cb1f5396aec9b602e80b	test	unread
+core/backend/e2e-test/routes/v1/identity-access-token-redesign.spec.ts	e4e476b7bce3dff458a1f35c38d59667b335388d	test	verified
 core/backend/e2e-test/routes/v1/identity.spec.ts	f1cc6cf0548554b067321aa6437cd00d9c1193c0	test	unread
 core/backend/e2e-test/routes/v1/login.spec.ts	07386cd5a3a846f079750f2b143c0522c1491eeb	test	unread
 core/backend/e2e-test/routes/v1/oauth-scope.spec.ts	656cec1d07c187c196cecacaa9a9b2fa7a56c5d5	test	unread
@@ -1951,7 +1953,7 @@ core/backend/src/ee/services/trusted-ip/trusted-ip-dal.ts	25998594a2e4da57673c7f
 core/backend/src/ee/services/trusted-ip/trusted-ip-service.ts	99343e0cc38e42222cc83081db53a052730d3e7c	product-code	unread
 core/backend/src/ee/services/trusted-ip/trusted-ip-types.ts	2de94d22affc932e780ffe75099e82be418adf50	product-code	unread
 core/backend/src/keystore/key-value-store-dal.ts	c3e71efc440eddf3eddba6154ff7f4754a980613	product-code	unread
-core/backend/src/keystore/keystore.ts	23bd7b8443b2b487bbe25f204ee4f73ee8be8e2c	product-code	unread
+core/backend/src/keystore/keystore.ts	23bd7b8443b2b487bbe25f204ee4f73ee8be8e2c	product-code	verified
 core/backend/src/keystore/memory.ts	e85d201ea9863260f4a78c34e7b17c023b588d39	product-code	unread
 core/backend/src/lib/api-docs/constants.ts	bd18a29016ca336828077f3c8e0801d0450f73a0	product-code	unread
 core/backend/src/lib/api-docs/index.ts	b04bfcf75e8f3fca95f3107e0ea24fbecdd1ce60	product-code	unread
@@ -3246,8 +3248,8 @@ core/backend/src/services/identity-access-token/identity-access-token-dal.ts	8e9
 core/backend/src/services/identity-access-token/identity-access-token-fns.test.ts	1efd62378a17485267ba7d61b011391310e43583	test	unread
 core/backend/src/services/identity-access-token/identity-access-token-fns.ts	d4a4494137eb80d1176d775dc42461f8b7cc27ca	product-code	unread
 core/backend/src/services/identity-access-token/identity-access-token-revocation-dal.ts	e9a331d0d3d976312fc99fe744ff328402f8ec36	product-code	unread
-core/backend/src/services/identity-access-token/identity-access-token-service.test.ts	e7ba1477a5095ba88ccbc5ab3d669a5ffc0e2cec	test	unread
-core/backend/src/services/identity-access-token/identity-access-token-service.ts	d2e4cd379ad4f9ae77055b5e368a6130694769a2	product-code	unread
+core/backend/src/services/identity-access-token/identity-access-token-service.test.ts	fa2ab60ff78d4ee4e6f58b6aac96b6202f33b9e1	test	verified
+core/backend/src/services/identity-access-token/identity-access-token-service.ts	4eabc0a4f752131b845b007b431c502eda4ec2fe	product-code	verified
 core/backend/src/services/identity-access-token/identity-access-token-types.ts	eb9692508884d2d379786ddb00f14c709b3e9dd2	product-code	unread
 core/backend/src/services/identity-alicloud-auth/identity-alicloud-auth-dal.ts	a4ca5076626dac50c7f58e3f415d578fcb444576	product-code	unread
 core/backend/src/services/identity-alicloud-auth/identity-alicloud-auth-service.ts	9a32ef767fc5bed764a9ce6130fdc1989a1e7eb5	product-code	unread
@@ -11631,7 +11633,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	b32fc3a43063dfed73df1fc5daaa7e48c704d392	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	25d636d44805d3afc6192f1867c4a3ec507031aa	documentation	unread
+docs/0018-hosted-capability-proof.md	c478b424707de4ab36a7703e08de60138c72046c	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	441ae789ed12d41fa7c6609b0b309a1a74ee1d4d	documentation	unread
@@ -11645,14 +11647,15 @@ docs/0028-visual-loading-system.md	5b54ea5931cc885c78bfb38d3a94a26664f9f176	docu
 docs/0029-ui-workflow-execution.md	73da52fd43c7b1b41e4b1a60a3b5bc809d330b46	documentation	unread
 docs/0030-environment-workflow.md	0aa26df666728dca11a9d23291e3341d7075d365	documentation	unread
 docs/0031-refresh-recovery.md	31455c4c1a7aaae11dc7fb3188c34f7cbb88db6b	documentation	unread
-docs/0032-native-toolchains.md	21e252e656932c7d35eab544591324992b5f6348	documentation	unread
+docs/0032-native-toolchains.md	6277bf7e148d4ef5c2e75db6a7ad9dbafac70bc2	documentation	unread
 docs/0033-bootstrap-identity-issuance.md	8c43d65202098e4c959c63ca269937b55f92b34f	documentation	unread
 docs/0034-api-request-errors.md	a60f8829207dacbf77cb617b666e3394df8467ff	documentation	unread
 docs/0035-cache-counter-contract.md	adeca7897286b7a283faad0bb7a10206deae1a68	documentation	unread
+docs/0036-identity-use-budget-concurrency.md	5147c5406cf34e9a8896e57f3717cb8d7b5950b9	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	7b0c254e7f4dbae7729145e5f7dd9c43babe4978	generated	unread
-docs/migration/generated/modules.tsv	316225bed0f210fdaa189ac00051dc33b9853264	generated	unread
-docs/migration/generated/summary.json	a866b1e854c6d8a3891047ff801c8f8fb4025e44	generated	unread
+docs/migration/generated/files.tsv	1937ed002bf761db31164fa598be80eac667dea9	generated	unread
+docs/migration/generated/modules.tsv	fa237e4a6870ca9bf6aeff60235dc088ffcff2fb	generated	unread
+docs/migration/generated/summary.json	5afc644a9af69f4b34bcc198ef794863b9d84ace	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread

@@ -1178,6 +1178,160 @@
         ".cache/eager-optional-smoke.log",
         ".cache/eager-normal-smoke.log"
       ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
+      "blob": "5de66734557bb0ee6430e9dec0a9f1766e8f5925",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read and validation/renewal/counter dependencies traced. Missing-counter recovery now uses SET-NX followed by an atomic decrement for every accepted use. Existing signature, membership, IP and revocation behavior retained. Scoped counter evidence does not establish full authenticator parity: claim presence, scoped revocations, primary-read freshness and configured lifetimes remain open in 0036.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go",
+      "blob": "604a44bf8e7017756162e10d56c97bcafcf08883",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New helper regressions reproduce simultaneous missing-counter reads, require exactly the configured accepted budget, deny read/seed/decrement failures and retain corrupt state without granting access. Memory scheduling is a unit fixture; real provider and issued-token evidence is separate.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/usage_recovery_test.go",
+      "blob": "52c08d5b374e5c7dd8212f08065275e15f663461",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New real API-issued credential integration consumes two uses over HTTP, then requires exactly three Go authorizations against the same cache. A controlled counter deletion and synchronized real-cache read barrier allow exactly five recovery uses; the API then denies the exhausted token. No JWT resigning or auth/DB/cache result mocks. Cache loss still restores the configured budget, not durable lifetime accounting.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/identity-access-token/identity-access-token-service.ts",
+      "blob": "4eabc0a4f752131b845b007b431c502eda4ec2fe",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete service read. Existing cache factory and token lifecycle retained. Competing missing-counter initializers now share SET-NX plus decrement. Renewal refreshes expiry without overwriting concurrently consumed uses and denies a vanished key. Existing key/schema/token formats, authorization and revocation checks retained. This scoped repair does not establish Nomen ownership, durable cache-loss accounting or complete identity migration.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/identity-access-token/identity-access-token-service.test.ts",
+      "blob": "fa2ab60ff78d4ee4e6f58b6aac96b6202f33b9e1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete existing suite read; inherited lifecycle/tenant/expiry/revocation assertions retained. Added deterministic 24-request recovery, concurrent renewal/use, cache failure and disappearing-key regressions; updated the lost-counter assertion to require an actual consumed use. Mock scheduling is explicitly separate from real-cache acceptance.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/e2e-test/routes/v1/identity-access-token-redesign.spec.ts",
+      "blob": "e4e476b7bce3dff458a1f35c38d59667b335388d",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete existing integration suite read. Added concurrent cache-loss recovery and renewal/use races using real database, cache and issued universal-auth tokens through the actual Fastify endpoints. Exactly five permitted uses and subsequent denial are required; all retained lifecycle checks remain. External issuer/provider and production topology acceptance remain separate.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/keystore/keystore.ts",
+      "blob": "23bd7b8443b2b487bbe25f204ee4f73ee8be8e2c",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete existing cache adapter read. Retained its SET-NX, increment and expiry operations for the identity use-budget repair; real Dragonfly/Redis tests exercise those commands through production services. This is scoped counter acceptance, not verification of every stream/lock/cluster command or ElastiCache failover.",
+      "evidence": [
+        "docs/0036-identity-use-budget-concurrency.md",
+        ".cache/unit-proof-LpFt8B/test-results.json",
+        ".cache/usage-go-unit.jsonl",
+        ".cache/usage-go-lint.log",
+        ".cache/usage-recovery-types.log",
+        ".cache/usage-lint-final.log",
+        ".cache/core-proof-ddGRfz/test-results.json",
+        ".cache/core-proof-vD09cZ/test-results.json",
+        ".cache/go-proof-FLprLS/result.json",
+        ".cache/go-proof-rG7lz6/result.json",
+        ".cache/app-image-proof-oG5dqm/workflow-result.json",
+        ".cache/usage-image-smoke-dragonfly.log",
+        ".cache/usage-image-smoke-redis.log"
+      ]
     }
   ]
 }

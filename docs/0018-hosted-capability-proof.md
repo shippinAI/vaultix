@@ -429,3 +429,16 @@ real-image integration runs pass 218 tests per cache with 8 provider skips. A
 Dragonfly authentication fixture setup failure and its scoped/full reruns are
 recorded explicitly. Numeric fixture parity does not repair the separately
 reproduced production missing-counter recovery and renewal races.
+
+The identity use-budget concurrency repair is documented in
+[0036](0036-identity-use-budget-concurrency.md). Both existing validators now
+recover missing counters without overwriting competing use, and renewal preserves
+concurrently consumed uses. Canonical image
+`sha256:8c6227ca6c15906072cda4ee3e2563f4589f183fe9490547d546fee830139dfb`
+passes both cache smoke/restart gates and the real packaged browser workflow
+(`.cache/app-image-proof-oG5dqm`). TypeScript unit tests pass 1,864 cases with 22
+existing skips; Go unit/race tests pass 479. Real database suites pass 170 tests
+per cache; Go real-image integration/race suites pass 219 per cache with eight
+external KMS skips. An API-issued token shares its budget across HTTP and Go.
+Cache loss can still restore the configured budget; durable accounting, scoped
+Go revocation, claim classification, Nomen and production topology remain open.

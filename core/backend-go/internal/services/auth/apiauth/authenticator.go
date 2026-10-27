@@ -908,20 +908,20 @@ func (a *ApiAuthenticator) checkAndDecrementUsesRemaining(ctx context.Context, i
 	}
 
 	if remainingFromState == nil {
-		// Counter was lost (Redis flush). Re-seed from the JWT's numUsesLimit claim
-		// and allow this request; subsequent requests decrement the live counter.
+		// Recover only if still missing. Concurrent readers must not overwrite a
+		// counter another request has already initialized or decremented.
 		ttl := time.Duration(maxMachineIdentityTokenAge) * time.Second
-		if err := a.keyStore.SetItemWithExpiry(ctx, key, ttl, strconv.FormatInt(numUsesLimit-1, 10)); err != nil {
+		if _, err := a.keyStore.SetItemWithExpiryNX(ctx, key, ttl, strconv.FormatInt(numUsesLimit, 10)); err != nil {
 			return errutil.DatabaseErr("Failed to set token usage counter").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): %w", tokenID, err)
 		}
-	} else {
-		remaining, err := a.keyStore.IncrementBy(ctx, key, -1)
-		if err != nil {
-			return errutil.DatabaseErr("Failed to decrement token usage").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): %w", tokenID, err)
-		}
-		if remaining < 0 {
-			return errutil.Unauthorized("Failed to authorize: token usage limit reached").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): usage limit exhausted after decrement", tokenID)
-		}
+	}
+	// Every accepted request consumes a use, including the initializing request.
+	remaining, err := a.keyStore.IncrementBy(ctx, key, -1)
+	if err != nil {
+		return errutil.DatabaseErr("Failed to decrement token usage").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): %w", tokenID, err)
+	}
+	if remaining < 0 {
+		return errutil.Unauthorized("Failed to authorize: token usage limit reached").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): usage limit exhausted after decrement", tokenID)
 	}
 
 	return nil

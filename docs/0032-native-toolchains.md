@@ -137,3 +137,9 @@ is healthy in `vaultix-dev-backend-1`; port 8200 status and source UI port 3000
 return 200. The existing database volume is retained. GitHub image run
 [40581174003](https://github.com/shippinAI/vaultix/actions/runs/40581174003)
 was in progress when this packet started; that is not publication evidence.
+
+Subsequent publication evidence: the engine publication step for source commit
+`fc8739db767cf5e3c7cc34604d7d78afdc641e41` succeeded in
+[40587622427](https://github.com/shippinAI/vaultix/actions/runs/40587622427).
+Later source commits require their own image gates and publication; this result
+does not publish the later counter or request-error repairs by implication.
