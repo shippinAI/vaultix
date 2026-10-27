@@ -134,6 +134,7 @@ if [[ "$ready" != true ]]; then
   docker logs --tail 100 "$run-engine" >&2
   exit 1
 fi
+VAULTIX_IMAGE_API_PROOF=1 node "$(dirname "$0")/test-api-request-errors.mjs" "$base"
 if [[ "${VAULTIX_IMAGE_APP_PROOF:-}" == "1" ]]; then
   node "$(dirname "$0")/test-image-app.mjs" "$base"
 fi

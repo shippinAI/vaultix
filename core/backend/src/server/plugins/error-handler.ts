@@ -1,6 +1,7 @@
 import { ForbiddenError, PureAbility } from "@casl/ability";
 import { requestContext } from "@fastify/request-context";
 import opentelemetry from "@opentelemetry/api";
+import { errorCodes } from "fastify";
 import fastifyPlugin from "fastify-plugin";
 import jwt from "jsonwebtoken";
 import { ZodError } from "zod";
@@ -45,6 +46,42 @@ enum HttpStatusCodes {
   TooManyRequests = 429
 }
 
+// Only Fastify's known request-parser failures are client errors. An arbitrary
+// error with a statusCode/code property must still follow the server-error path.
+// Static messages keep submitted values out of responses and expected-error logs.
+const bodyParserFailures = [
+  {
+    type: errorCodes.FST_ERR_CTP_INVALID_MEDIA_TYPE,
+    statusCode: 415,
+    error: "UnsupportedMediaType",
+    message: "This request content type is not supported. Use a content type accepted by this API endpoint."
+  },
+  {
+    type: errorCodes.FST_ERR_CTP_BODY_TOO_LARGE,
+    statusCode: 413,
+    error: "RequestBodyTooLarge",
+    message: "The request body exceeds this endpoint's size limit. Reduce the payload and try again."
+  },
+  {
+    type: errorCodes.FST_ERR_CTP_INVALID_JSON_BODY,
+    statusCode: 400,
+    error: "InvalidJsonBody",
+    message: "The request body is not valid JSON. Check its syntax and send it again."
+  },
+  {
+    type: errorCodes.FST_ERR_CTP_EMPTY_JSON_BODY,
+    statusCode: 400,
+    error: "EmptyJsonBody",
+    message: "The JSON request body is empty. Send a valid JSON body for this endpoint."
+  },
+  {
+    type: errorCodes.FST_ERR_CTP_INVALID_CONTENT_LENGTH,
+    statusCode: 400,
+    error: "InvalidContentLength",
+    message: "The request body's length does not match its Content-Length header. Check your HTTP client configuration."
+  }
+] as const;
+
 export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider) => {
   const appCfg = getConfig();
 
@@ -61,9 +98,11 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
   });
 
   server.setErrorHandler((error: Error, req, res) => {
+    const bodyParserFailure = bodyParserFailures.find(({ type }) => error instanceof type);
     // Expected client errors don't need stack traces. Log them without the Error object to
     // avoid stack serialization; keep full-stack logging for unexpected / server errors.
     const isExpectedClientError =
+      Boolean(bodyParserFailure) ||
       error instanceof BadRequestError ||
       error instanceof NotFoundError ||
       error instanceof UnauthorizedError ||
@@ -83,8 +122,8 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
       req.log.warn(
         {
           reqId: req.id,
-          errorName: error.name,
-          errorMessage: error.message,
+          errorName: bodyParserFailure?.error ?? error.name,
+          errorMessage: bodyParserFailure?.message ?? error.message,
           route: req.routeOptions?.url,
           method: req.method,
           orgId: req.auth?.orgId,
@@ -92,7 +131,7 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
           actor: req.auth?.actor,
           details: (error as { details?: unknown }).details
         },
-        `client error: ${error.name}`
+        `client error: ${bodyParserFailure?.error ?? error.name}`
       );
     } else {
       req.log.error(error);
@@ -175,12 +214,19 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
       const coreAttrs: Record<string, string | number> = {
         "http.request.method": method,
         "http.route": route ?? "unknown",
-        "error.type": classifyError(error)
+        "error.type": bodyParserFailure ? "validation" : classifyError(error)
       };
       coreHttpErrorCounter.add(1, coreAttrs);
     }
 
-    if (error instanceof BadRequestError) {
+    if (bodyParserFailure) {
+      void res.status(bodyParserFailure.statusCode).send({
+        reqId: req.id,
+        statusCode: bodyParserFailure.statusCode,
+        message: bodyParserFailure.message,
+        error: bodyParserFailure.error
+      });
+    } else if (error instanceof BadRequestError) {
       void res.status(HttpStatusCodes.BadRequest).send({
         reqId: req.id,
         statusCode: HttpStatusCodes.BadRequest,

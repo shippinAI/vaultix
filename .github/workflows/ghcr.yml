@@ -240,6 +240,7 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/go-proof-*/result.json
+            .cache/api-error-proof-*/result.json
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json

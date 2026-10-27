@@ -49,8 +49,9 @@ The existing core maps expired JWTs to 403; the test preserves that observable
 behavior. An initial empty-body Resty revoke request used an unsupported media
 type. The backend log identified `FST_ERR_CTP_INVALID_MEDIA_TYPE`, and the fixture
 now sends JSON. Separately, the shared error mapper changes that Fastify 415 to
-a generic 500; record this for the API error contract work rather than claiming
-the revocation service caused it. No diagnostic credential or operator values
+a generic 500; [0034](0034-api-request-errors.md) records the subsequent shared
+parser-error repair and its transport limits. The revocation service did not
+cause this failure. No diagnostic credential or operator values
 are committed.
 
 The final standalone image

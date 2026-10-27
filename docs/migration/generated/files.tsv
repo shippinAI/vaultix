@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	e500d0af7b4c8444df62391444b8556eb87733f4	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	1803fc174bc80fc6326ef21d7b95fed83c7ee6bf	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -2069,7 +2069,8 @@ core/backend/src/server/plugins/auth/inject-permission.ts	core/backend/src/serve
 core/backend/src/server/plugins/auth/superAdmin.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	f0f00f3665b50a3e54e3f7cc5aa7f921a1a7c514	unread
 core/backend/src/server/plugins/auth/verify-auth.test.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	b7307b1c8c6006cbaae5d629a8ebae47b30f1df2	unread
 core/backend/src/server/plugins/auth/verify-auth.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	4d61e98b63d60f03c4d2909657863619d48afb16	unread
-core/backend/src/server/plugins/error-handler.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	ca92d9f31327acfa2a3c978aa36c9df3dd736e34	unread
+core/backend/src/server/plugins/error-handler.test.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	340e5047a8e87312bc37382ee497134eb4baae86	verified
+core/backend/src/server/plugins/error-handler.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	9e31369ac80208bcd5f61ceec0c94a81dc86b7c5	verified
 core/backend/src/server/plugins/fastify-zod.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	unread
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	unread
@@ -9322,7 +9323,8 @@ scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	unread
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
-scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	79180a295f43f33c159c793812ca6c935f2d646e	unread
+scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	6a1fab0528b5b3b1d19bf3fd5f8a81200a641e27	verified
+scripts/test-api-request-errors.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	930660062217b4797619f36773c7ccca9dcadb4a	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
 scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	authored
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	authored

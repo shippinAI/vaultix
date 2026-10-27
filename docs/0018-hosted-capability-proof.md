@@ -413,3 +413,11 @@ race detection. Bootstrap now issues a bounded, tenant-scoped, revocable token
 through the existing issuer. These checks use the real local image without
 entitlement patches. They do not establish physical HSM/ElastiCache acceptance,
 Nomen ownership, full enterprise parity or the complete React/Go/Rust migration.
+
+The shared API parser-error checkpoint is documented in [0034](0034-api-request-errors.md).
+Canonical image `sha256:0726fe6b9fa18bab22cd3c02cee6d275d15f7e0af1721905eac61a5571675418`
+passes both cache smoke gates and the real packaged workflow (`.cache/app-image-proof-PM9CDX`).
+Backend unit coverage reports 1,859 passes and 22 existing skips. Known parser
+failures now return bounded 400/413/415 responses instead of 500. The image size
+probe establishes early declared-length rejection only; eager oversized uploads
+can still encounter connection resets and are not claimed as fully accepted.

@@ -1019,13 +1019,70 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "e500d0af7b4c8444df62391444b8556eb87733f4",
+      "blob": "1803fc174bc80fc6326ef21d7b95fed83c7ee6bf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Uses the owned root Go requirement, broadens Go unit/race checks, enables the compatible Makefile lint gate, and runs both canonical-image cache integration suites before engine publication. Existing browser, capability and artifact gates remain. Final committed pipeline outcome is required separately.",
+      "scope": "Complete file read. Uses the owned root Go requirement, broadens Go unit/race checks, enables the compatible Makefile lint gate, and runs both canonical-image cache integration suites before engine publication. Existing browser, capability and artifact gates remain. Final committed pipeline outcome is required separately. Request-parser evidence is now retained with capability artifacts; smoke gates execute it before publication.",
       "evidence": [
         "docs/0032-native-toolchains.md",
-        "scripts/test-go-core.mjs"
+        "scripts/test-go-core.mjs",
+        "docs/0034-api-request-errors.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/error-handler.ts",
+      "blob": "9e31369ac80208bcd5f61ceec0c94a81dc86b7c5",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read and pinned Fastify parser constructors traced. Five known body-parser errors now return static 400/413/415 responses with a plain error string and bounded warning text. Unknown/code-shaped errors retain 500; existing auth/CSR behavior is regression-tested. SCIM/ACME branches remain unchanged but their alternate-parser failure workflows are not established by this packet. This does not promise a JSON response after every eager-upload connection reset.",
+      "evidence": [
+        "docs/0034-api-request-errors.md",
+        ".cache/body-error-baseline-results.json",
+        ".cache/unit-proof-W10CST/test-results.json",
+        ".cache/body-error-focused.log",
+        ".cache/body-error-types.log",
+        ".cache/body-error-lint-final.log",
+        ".cache/app-image-proof-PM9CDX/workflow-result.json",
+        ".cache/api-error-proof-Dfar5o/result.json",
+        ".cache/api-error-proof-aihO25/result.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/error-handler.test.ts",
+      "blob": "340e5047a8e87312bc37382ee497134eb4baae86",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New real Fastify parser-boundary tests: six rejected-input cases, successful dispatch, unknown and forged-code errors, and existing auth/CSR handling. Canary assertions cover response/warning logs and absence of handler invocation. Uses no operator credentials; alternate parsers and telemetry-export plumbing need separate tests.",
+      "evidence": [
+        "docs/0034-api-request-errors.md",
+        ".cache/body-error-baseline-results.json",
+        ".cache/body-error-focused.log",
+        ".cache/body-error-lint-final.log"
+      ]
+    },
+    {
+      "path": "scripts/test-api-request-errors.mjs",
+      "blob": "930660062217b4797619f36773c7ccca9dcadb4a",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New disposable uninitialized-image HTTP probe with localhost/opt-in guards. Requires exact error/status for five body failures, excludes planted values from responses and stores only bounded outcomes. Oversize sends headers only to verify early declared-length rejection; eager-upload socket closure is explicitly outside this acceptance. Both cache smoke gates pass for this scoped probe.",
+      "evidence": [
+        "docs/0034-api-request-errors.md",
+        ".cache/api-error-proof-Dfar5o/result.json",
+        ".cache/api-error-proof-aihO25/result.json"
+      ]
+    },
+    {
+      "path": "scripts/smoke-image.sh",
+      "blob": "6a1fab0528b5b3b1d19bf3fd5f8a81200a641e27",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. Existing isolated image/cache/queue/restart and optional real application proofs retained; now runs the disposable request-error gate after restart on both cache providers. Cleanup touches only per-run containers/network/temp environment. Local results do not establish hosted failover or ElastiCache.",
+      "evidence": [
+        "docs/0034-api-request-errors.md",
+        ".cache/app-image-proof-PM9CDX/workflow-result.json",
+        ".cache/api-error-proof-Dfar5o/result.json",
+        ".cache/api-error-proof-aihO25/result.json"
       ]
     }
   ]
