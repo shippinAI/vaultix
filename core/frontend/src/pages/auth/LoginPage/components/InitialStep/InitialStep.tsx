@@ -22,6 +22,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Field,
+  FieldLabel,
   FieldSeparator,
   Input,
   InputGroup,
@@ -321,8 +323,8 @@ export const InitialStep = ({ isAdmin }: Props) => {
       >
         <AuthPagePanel>
           <CardHeader className="mb-8 gap-2">
-            <CardTitle className="bg-linear-to-b from-white to-bunker-200 bg-clip-text font-alliance text-2xl font-normal text-transparent">
-              Log in to Vaultix
+            <CardTitle className="font-alliance text-2xl font-normal text-foreground">
+              <h1>Log in to Vaultix</h1>
             </CardTitle>
             <CardAction>
               <RegionSelect compact />
@@ -350,10 +352,10 @@ export const InitialStep = ({ isAdmin }: Props) => {
     >
       <AuthPagePanel>
         <CardHeader className="mb-6 gap-2">
-          <CardTitle className="ml-0.5 bg-linear-to-b from-white to-bunker-200 bg-clip-text font-alliance text-2xl font-normal text-transparent">
-            Welcome back
+          <CardTitle className="ml-0.5 font-alliance text-2xl font-normal text-foreground">
+            <h1>Welcome back</h1>
           </CardTitle>
-          <CardDescription className="ml-0.5 text-base">
+          <CardDescription className="ml-0.5 text-base text-muted">
             {isAdmin ? "Sign in to the Super Admin console" : "Sign in to your Vaultix account"}
           </CardDescription>
           <CardAction>
@@ -439,34 +441,41 @@ export const InitialStep = ({ isAdmin }: Props) => {
           )}
           {shouldDisplayLoginMethod(LoginMethod.EMAIL) && (
             <div className="flex w-full flex-col gap-4">
-              <Input
-                variant="outlined"
-                {...register("email", { onChange: () => setLoginError(false) })}
-                type="email"
-                id="email"
-                placeholder="you@company.com"
-                autoComplete="username"
-                className="h-10"
-                isError={(showDangerState && Boolean(errors.email)) || loginError}
-              />
-              <InputGroup variant="outlined" className="h-10">
-                <InputGroupInput
-                  {...register("password", { onChange: () => setLoginError(false) })}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  id="current-password"
-                  aria-invalid={(showDangerState && Boolean(errors.password)) || loginError}
+              <Field>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <Input
+                  variant="outlined"
+                  {...register("email", { onChange: () => setLoginError(false) })}
+                  type="email"
+                  id="email"
+                  placeholder="you@company.com"
+                  autoComplete="username"
+                  className="h-10"
+                  isError={(showDangerState && Boolean(errors.email)) || loginError}
                 />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupButton
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    {showPassword ? <EyeOff /> : <Eye />}
-                  </InputGroupButton>
-                </InputGroupAddon>
-              </InputGroup>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="current-password">Password</FieldLabel>
+                <InputGroup variant="outlined" className="h-10">
+                  <InputGroupInput
+                    {...register("password", { onChange: () => setLoginError(false) })}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    id="current-password"
+                    aria-invalid={(showDangerState && Boolean(errors.password)) || loginError}
+                  />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      aria-controls="current-password"
+                    >
+                      {showPassword ? <EyeOff /> : <Eye />}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
               {shouldShowCaptcha && envConfig.CAPTCHA_SITE_KEY && (
                 <div className="flex justify-center [&>div]:!w-full">
                   <HCaptcha

@@ -53,6 +53,12 @@ copy reports success and its horizontal scroll region accepts keyboard focus.
 The narrowly documented JSX lint exception on that region enables keyboard
 scrolling; it does not disable an axe rule.
 
+The sign-in review also replaces its gradient title with a semantic heading and
+adds persistent labels to the email/password inputs. Autocomplete remains enabled;
+keyboard checks exercise password visibility without submitting credentials.
+This resolved the initial automated contrast result that required manual review
+because the title used a gradient. It does not establish real Nomen authentication.
+
 The automated scope is workspace, AI connection choices, reference denied/loaded
 states and sign-in layout at desktop/mobile sizes, plus 320-pixel reflow checks.
 Keyboard assertions cover skip activation, changed-view focus and native radio

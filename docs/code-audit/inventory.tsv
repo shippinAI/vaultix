@@ -8664,7 +8664,7 @@ core/frontend/src/pages/auth/LoginOidcPage/LoginOidcPage.tsx	533f0c3a757981ab0e1
 core/frontend/src/pages/auth/LoginOidcPage/route.tsx	17be92b16726c884e67af7cb4a33278a9362b98b	product-code	unread
 core/frontend/src/pages/auth/LoginPage/Login.utils.tsx	b6546bd7781c6faf2999f26b4bdd04478d178e9b	product-code	unread
 core/frontend/src/pages/auth/LoginPage/LoginPage.tsx	02c30eb3bdcbcfc47738f5114385811ace11ba11	product-code	unread
-core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	5c2873ccf013d28fd27bebe763c566f0ab58ce6e	product-code	unread
+core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	b009c6591d5f2cbddf2ce5bf500eec5e478d2aa7	product-code	authored
 core/frontend/src/pages/auth/LoginPage/components/InitialStep/index.tsx	33142e0b044a6819281a24df838e6b0e8c131f47	product-code	unread
 core/frontend/src/pages/auth/LoginPage/components/OrgLoginButton.tsx	f481e9c65707c8f6fea9b703a61c680daf39cf9a	product-code	unread
 core/frontend/src/pages/auth/LoginPage/components/SocialLoginButton.tsx	065624e0e4e02599a8aada7821e66526266c56a1	product-code	unread
@@ -11629,11 +11629,11 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	aa61849af2063443b3782614298e6877ad48d35f	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	87d2f03f00a00c69f22df4e4a8c03b8631f0895a	documentation	unread
+docs/0018-hosted-capability-proof.md	a33e36a9d6366c824a4834acb86963a393b6af45	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	8c97800a8046a6073430c65cec6e4c9029f2b411	documentation	unread
 docs/0021-product-authorship-review.md	53f5ff7b5f662e687085aac540a9a8b94796ce49	documentation	unread
-docs/0022-accessibility-acceptance.md	23acfacfc643d1aa2e0128b34b0df7b937987e21	documentation	unread
+docs/0022-accessibility-acceptance.md	edc7499fb9ac4a8251170c397bd15536a887c97a	documentation	unread
 docs/0023-capability-convergence.md	328c91fb231f74eae57f262a06eaedc34f78afb4	documentation	unread
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -11751,6 +11751,6 @@ scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-opera
 scripts/run-core.sh	ce4275be18ca18f1216eed158527ab792540fd2e	build-and-operations	unread
 scripts/smoke-image.sh	c9034530f0c16a1e5d6985352fe9a75600eef407	build-and-operations	unread
 scripts/test-core.mjs	40f7dd6601e2630f14b973b674810d6f4a90c1ca	build-and-operations	unread
-scripts/test-native-ui.mjs	26947d04c05bd1b67c2c3117c0bb5f6b968c33cf	build-and-operations	unread
+scripts/test-native-ui.mjs	8ab7de1648049b89e51cae6b9e572b27d5c5b193	build-and-operations	unread
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/up.sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	build-and-operations	unread

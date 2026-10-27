@@ -74,12 +74,20 @@ widths. Keyboard assertions verify skip activation, changed-view heading focus,
 radio arrow selection and focusable connection scrolling. The baseline scan
 reproduced name/label contrast failures before the fixes.
 
-Local evidence: `.cache/ui-proof-VhpsQq/accessibility.json` and screenshots.
-The report retains a contrast item requiring manual review on each of the three
-sign-in sizes because axe could not resolve a gradient background. Zero detected
-violations does not clear that item, non-text contrast, real screen-reader tests,
-browser zoom or unscanned authenticated routes. Authentication/action responses
-remain fixtures. CI now runs the same scans and retains their reports.
+Initial evidence: `.cache/ui-proof-VhpsQq/accessibility.json` and screenshots,
+source commit `8d4fe11`. Its three sign-in scans retained an unresolved gradient
+contrast item. Reading the sign-in implementation identified a gradient title
+without heading semantics and placeholder-only inputs. The follow-up adds a
+flat semantic heading and persistent email/password labels, retains password
+manager autocomplete, and links the visibility control to its input.
+
+Follow-up evidence: `.cache/ui-proof-8gRbT0/accessibility.json` and screenshots.
+All ten scans now report zero violations and zero incomplete rules. Frontend
+build and changed-file lint passed. Additional keyboard checks prove horizontal
+connection scrolling and password show/hide without submitting credentials.
+Non-text contrast, real screen-reader tests, browser zoom and unscanned
+authenticated routes remain open. Authentication/action responses remain
+fixtures. CI runs the same scans and retains their reports.
 See [all-UI acceptance](0022-accessibility-acceptance.md) and
 [capability convergence](0023-capability-convergence.md) for required follow-up.
 

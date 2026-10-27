@@ -73,6 +73,18 @@
         ".cache/ui-proof-VhpsQq/accessibility.json",
         "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
       ]
+    },
+    {
+      "path": "core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx",
+      "blob": "b009c6591d5f2cbddf2ce5bf500eec5e478d2aa7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with LoginPage, AuthPageLayout and input/card/label primitives. Flat semantic sign-in headings and persistent email/password labels replace gradient title and placeholder-only presentation. Keyboard visibility toggle and autocomplete attributes are verified with fixtures. Existing authentication callbacks, captcha, SSO/social methods, validation/error handling and Nomen migration still require separate end-to-end and security review.",
+      "evidence": [
+        "scripts/test-native-ui.mjs: login labels, heading and keyboard password visibility checks",
+        ".cache/ui-proof-8gRbT0/accessibility.json",
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
     }
   ]
 }

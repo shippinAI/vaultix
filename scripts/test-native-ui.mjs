@@ -75,6 +75,8 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.getByRole("region", { name: "MCP connection configuration" }).focus();
   assert.equal(await page.getByRole("region", { name: "MCP connection configuration" }).evaluate(element => element === document.activeElement), true);
+  await page.keyboard.press("ArrowRight");
+  await page.waitForFunction(() => document.querySelector('[aria-label="MCP connection configuration"]').scrollLeft > 0);
   await audit("connections-reflow-320");
   await page.setViewportSize({ width: 1440, height: 1000 });
 
@@ -151,6 +153,18 @@ try {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(`${origin}/login`);
   await page.getByPlaceholder("you@company.com").waitFor();
+  await page.getByRole("heading", { name: "Welcome back", level: 1, exact: true }).waitFor();
+  const email = page.getByRole("textbox", { name: "Email", exact: true });
+  const password = page.getByLabel("Password", { exact: true });
+  assert.equal(await email.getAttribute("autocomplete"), "username");
+  assert.equal(await password.getAttribute("autocomplete"), "current-password");
+  await password.fill("FIXTURE-PASSWORD-NOT-SUBMITTED");
+  await page.getByRole("button", { name: "Show password", exact: true }).focus();
+  await page.keyboard.press("Space");
+  assert.equal(await password.getAttribute("type"), "text");
+  await page.keyboard.press("Space");
+  assert.equal(await password.getAttribute("type"), "password");
+  await password.fill("");
   await page.getByRole("heading", { name: "Shippin secrets you own. Build with confidence." }).waitFor();
   assert.equal(await page.getByText("Trusted by 400,000+ developers").count(), 0);
   assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
