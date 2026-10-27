@@ -2072,8 +2072,9 @@ core/backend/src/server/plugins/auth/inject-permission.ts	core/backend/src/serve
 core/backend/src/server/plugins/auth/superAdmin.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	f0f00f3665b50a3e54e3f7cc5aa7f921a1a7c514	unread
 core/backend/src/server/plugins/auth/verify-auth.test.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	b7307b1c8c6006cbaae5d629a8ebae47b30f1df2	unread
 core/backend/src/server/plugins/auth/verify-auth.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	4d61e98b63d60f03c4d2909657863619d48afb16	unread
+core/backend/src/server/plugins/error-handler-oversized.test.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	c3df51158a2c1304dae6c3b1285945c6584088b3	verified
 core/backend/src/server/plugins/error-handler.test.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	340e5047a8e87312bc37382ee497134eb4baae86	verified
-core/backend/src/server/plugins/error-handler.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	9e31369ac80208bcd5f61ceec0c94a81dc86b7c5	verified
+core/backend/src/server/plugins/error-handler.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	63630ea23a0a9a78e51d5ce6daa484066f229cc4	verified
 core/backend/src/server/plugins/fastify-zod.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	unread
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	unread

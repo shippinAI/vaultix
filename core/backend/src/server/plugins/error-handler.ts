@@ -1,3 +1,5 @@
+import { IncomingMessage } from "node:http";
+
 import { ForbiddenError, PureAbility } from "@casl/ability";
 import { requestContext } from "@fastify/request-context";
 import opentelemetry from "@opentelemetry/api";
@@ -82,6 +84,39 @@ const bodyParserFailures = [
   }
 ] as const;
 
+// Let a short in-flight upload finish before closing the parser-error response.
+// Never buffer the rejected data; cap both extra reads and the wait for slow clients.
+const drainRejectedBody = async (body: IncomingMessage): Promise<void> => {
+  if (body.readableEnded || body.destroyed) return;
+  await new Promise<void>((resolve) => {
+    let bytes = 0;
+    let finished = false;
+    let timer: ReturnType<typeof setTimeout>;
+    let onData: (chunk: Buffer) => void;
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(timer);
+      body.off("data", onData);
+      body.off("end", done);
+      body.off("close", done);
+      body.off("error", done);
+      body.pause();
+      resolve();
+    };
+    onData = (chunk: Buffer) => {
+      bytes += chunk.length;
+      if (bytes > 2 * 1024 * 1024) done();
+    };
+    timer = setTimeout(done, 250);
+    body.on("data", onData);
+    body.once("end", done);
+    body.once("close", done);
+    body.once("error", done);
+    body.resume();
+  });
+};
+
 export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider) => {
   const appCfg = getConfig();
 
@@ -97,7 +132,7 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
     unit: "{error}"
   });
 
-  server.setErrorHandler((error: Error, req, res) => {
+  server.setErrorHandler(async (error: Error, req, res) => {
     const bodyParserFailure = bodyParserFailures.find(({ type }) => error instanceof type);
     // Expected client errors don't need stack traces. Log them without the Error object to
     // avoid stack serialization; keep full-stack logging for unexpected / server errors.
@@ -220,6 +255,7 @@ export const fastifyErrHandler = fastifyPlugin(async (server: FastifyZodProvider
     }
 
     if (bodyParserFailure) {
+      if (bodyParserFailure.statusCode === 413) await drainRejectedBody(req.raw);
       void res.status(bodyParserFailure.statusCode).send({
         reqId: req.id,
         statusCode: bodyParserFailure.statusCode,

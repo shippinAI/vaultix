@@ -2129,8 +2129,9 @@ core/backend/src/server/plugins/auth/inject-permission.ts	5c1cd742c73860a1b447b4
 core/backend/src/server/plugins/auth/superAdmin.ts	f0f00f3665b50a3e54e3f7cc5aa7f921a1a7c514	product-code	unread
 core/backend/src/server/plugins/auth/verify-auth.test.ts	b7307b1c8c6006cbaae5d629a8ebae47b30f1df2	test	unread
 core/backend/src/server/plugins/auth/verify-auth.ts	4d61e98b63d60f03c4d2909657863619d48afb16	product-code	unread
+core/backend/src/server/plugins/error-handler-oversized.test.ts	c3df51158a2c1304dae6c3b1285945c6584088b3	test	verified
 core/backend/src/server/plugins/error-handler.test.ts	340e5047a8e87312bc37382ee497134eb4baae86	test	verified
-core/backend/src/server/plugins/error-handler.ts	9e31369ac80208bcd5f61ceec0c94a81dc86b7c5	product-code	verified
+core/backend/src/server/plugins/error-handler.ts	63630ea23a0a9a78e51d5ce6daa484066f229cc4	product-code	verified
 core/backend/src/server/plugins/fastify-zod.ts	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	product-code	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	product-code	unread
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	product-code	unread
@@ -11647,12 +11648,12 @@ docs/0030-environment-workflow.md	0aa26df666728dca11a9d23291e3341d7075d365	docum
 docs/0031-refresh-recovery.md	31455c4c1a7aaae11dc7fb3188c34f7cbb88db6b	documentation	unread
 docs/0032-native-toolchains.md	21e252e656932c7d35eab544591324992b5f6348	documentation	unread
 docs/0033-bootstrap-identity-issuance.md	8c43d65202098e4c959c63ca269937b55f92b34f	documentation	unread
-docs/0034-api-request-errors.md	a60f8829207dacbf77cb617b666e3394df8467ff	documentation	unread
+docs/0034-api-request-errors.md	89ac95176fbeae48af491108c6669e0f5fc8251a	documentation	unread
 docs/0035-cache-counter-contract.md	adeca7897286b7a283faad0bb7a10206deae1a68	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	7b0c254e7f4dbae7729145e5f7dd9c43babe4978	generated	unread
-docs/migration/generated/modules.tsv	316225bed0f210fdaa189ac00051dc33b9853264	generated	unread
-docs/migration/generated/summary.json	a866b1e854c6d8a3891047ff801c8f8fb4025e44	generated	unread
+docs/migration/generated/files.tsv	30bc85bbbbf624fcc5ff80f27fb5ac90558ab95d	generated	unread
+docs/migration/generated/modules.tsv	ac1d0e06733d96f9a9721763c419ea570deca563	generated	unread
+docs/migration/generated/summary.json	d8badb3fbf08b96e3ea29291cfd8bfc00ef60ee2	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
