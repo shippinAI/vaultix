@@ -158,7 +158,7 @@ try {
   const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "dashboard-recovery.json"), JSON.stringify({ passed: true, ...recovery }, null, 2));
-  const charts = await testChartRendering({ page, expect, origin, dashboardUrl: certificateDashboardUrl, evidence });
+  const charts = await testChartRendering({ page, expect, AxeBuilder, origin, dashboardUrl: certificateDashboardUrl, evidence });
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "chart-rendering.json"), JSON.stringify({ passed: true, ...charts }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);

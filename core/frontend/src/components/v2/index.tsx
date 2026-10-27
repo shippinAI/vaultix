@@ -13,7 +13,8 @@ export * from "./DeleteActionModal";
 export * from "./Divider";
 export * from "./Drawer";
 export * from "./Dropdown";
-export * from "./Editor";
+// The optional editor is available from ./Editor. No application consumer uses
+// it today; exporting its Lexical node classes here eagerly loads that runtime.
 export * from "./EmailServiceSetupModal";
 export * from "./EmptyState";
 export * from "./FilterableSelect";

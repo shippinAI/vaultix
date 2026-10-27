@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	096b5bd1e0dc7352d8a8d63639b9fae835b4d821d11f005e207159ccbed4c75e	0	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	95aa69edb20949c6c30ec14487aa369b3219a26ffa071de2ac8bae60229a07c6	0	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	62f20e2c6ad244d6e52f27687e02ce29b2fdc63d4f1c75c27afb7c22d7cb1a9b	0	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -542,7 +542,7 @@ core/frontend/src/components/utilities	pam	React-TypeScript	1	07eab7bd8b9c44184d
 core/frontend/src/components/utilities	pki	React-TypeScript	1	9fd54c3815b37bf6cd4e73b0483e16bda1346ca8cdaa05fc59a5545625180bd6	0	unassessed
 core/frontend/src/components/utilities	ui	React-TypeScript	18	dfeafc38f90adc1990720125c6aac0a5f743cfe0577e2fbbfa020641d2c37b5e	0	unassessed
 core/frontend/src/components/v2	secrets	React-TypeScript	4	68f178d061523c6098017fc483c3164933a1a92c0c18d86132b7d85e26b272ec	0	unassessed
-core/frontend/src/components/v2	ui	React-TypeScript	111	26bdcdf88b32b9b444f71341d6beb0885fb0661874d1e5e7b08bbb26ca6e22da	2	unassessed
+core/frontend/src/components/v2	ui	React-TypeScript	111	76cf5ce16b1f36578ddd7282c08cb62ad3aa6c150f3f5a549a77defe3c21dd62	3	unassessed
 core/frontend/src/components/v3	authorization	React-TypeScript	1	ae4b449c889929cba1429238f234da59a3f61dde01e0a3ab64ca13fa79737045	0	unassessed
 core/frontend/src/components/v3	ui	React-TypeScript	5	0a4aca43836ca4db8f22ac262eef6bda2eba1f3ff7a60ecd83e56d53aed68580	0	unassessed
 core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	3	fa0de16b9e64ecca0299699cd338f6b4ba44dfe264ac37897e23d14ab8c3f20c	0	unassessed
@@ -818,7 +818,7 @@ core/frontend/src/pages/cert-manager/CertificateProfilesPage	pki	React-TypeScrip
 core/frontend/src/pages/cert-manager/CertificateRequestsPage	pki	React-TypeScript	3	70d665c5ef2d4a1d6b3609e54807ef9127d12d6ac5de6a9a2917b2f825dba7a6	0	unassessed
 core/frontend/src/pages/cert-manager/CertificatesPage	pki	React-TypeScript	35	8644e9c867f37fe6d1578111ecb30cf7922a1dfb70d6bf405ccd8996a15adadc	0	unassessed
 core/frontend/src/pages/cert-manager/CodeSigningPage	pki	React-TypeScript	13	3006e6149a11033bae1d3ccf0f7e648884699379bf38fc29ba075e450f7ff983	0	unassessed
-core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	13	840550baefd4ec3ca950c1ccdbb3f62759be204c627e72a4ccf5c3243a91d6ce	0	unassessed
+core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	14	409a6a82f0fc7d0cf9ce102779a47a2a2360941d73e36d216f89e7aa0e610396	3	unassessed
 core/frontend/src/pages/cert-manager/DiscoveryDetailsByIDPage	pki	React-TypeScript	7	5f925135b4dedaaf9634a7006e868dd336250700ee99aebd44f65d518a2a2d9f	0	unassessed
 core/frontend/src/pages/cert-manager/DiscoveryPage	pki	React-TypeScript	9	159a2b65e2829ade7b79cfb01d893e722bff44bc0b92828febeccf0d157a5a4f	0	unassessed
 core/frontend/src/pages/cert-manager/HsmConnectorDetailsByIDPage	pki	React-TypeScript	5	95a507d7fb784739aa0df77f4438f71037607e37c73b3afa9518d6c5683b2021	0	unassessed
@@ -1053,4 +1053,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	21	ce9ef229f2a5e24063bfbe2d056caedf7fea3980053f44f4e3eedb6b8820bef4	10	unassessed
+scripts	delivery	supporting-tooling-or-contract	21	2edfdae2f4b743d21e102376be7b84ba5864e4fe6903fe0d8de27490a49028ec	10	unassessed

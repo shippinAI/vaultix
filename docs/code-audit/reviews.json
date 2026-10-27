@@ -243,16 +243,22 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "1fdf512f4e298da6bc3212f0384c448772b61dd8",
+      "blob": "b6239c9675f6319e46511a463522ee66ce5a9549",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope.",
+      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
         ".cache/loading-proof-O2Nme5/result.json",
         ".cache/app-image-proof-HsMMTW/result.json",
-        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json",
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
       ]
     },
     {
@@ -369,16 +375,22 @@
     },
     {
       "path": "scripts/check-ui-loading.mjs",
-      "blob": "43cddcf2f53a82677b5b1fa7c111a07aed1e0505",
+      "blob": "25dd6a7baba24cbfc56eebe75f601f5f8eac8deb",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete browser measurement script reread. Preserve three isolated cold contexts, explicit public config fixtures, layout/artwork checks and diagnostic timing. Add no-Recharts request assertion and tighten decoded limits to 3.25 MB JS/3.8 MB assets. All three final measurements pass. This is local uncompressed fixture evidence, not identity or hosted latency acceptance.",
+      "scope": "Complete browser measurement script reread. Preserve three isolated cold contexts, explicit public config fixtures, layout/artwork checks and diagnostic timing. Add no-Recharts request assertion and tighten decoded limits to 3.25 MB JS/3.8 MB assets. All three final measurements pass. This is local uncompressed fixture evidence, not identity or hosted latency acceptance. The measured reduction after editor isolation tightens decoded budgets to 3.1 MB JavaScript and 3.65 MB total assets; all three final cold contexts pass.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
         ".cache/loading-proof-O2Nme5/result.json",
         ".cache/app-image-proof-HsMMTW/result.json",
-        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json",
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
       ]
     },
     {
@@ -439,30 +451,97 @@
     },
     {
       "path": "scripts/build-ui-report.mjs",
-      "blob": "c0ebcf95aa4c57abda7942091b42cfb8e9c78019",
+      "blob": "0f3906b5fed289660cfefddf462444fc756d9598",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete new build reporter read and executed. Uses existing Vite config and Rollup emitted metadata, writes ignored source/chunk graphs and entry closure, rejects feature-only modules in static entry dependencies. Explicitly separates source edges/tree shaking, emitted bytes, gzip estimates and browser loads; never collects application values. Current production graph passes; not a complete dependency-cycle or hosted-performance proof.",
+      "scope": "Complete new build reporter read and executed. Uses existing Vite config and Rollup emitted metadata, writes ignored source/chunk graphs and entry closure, rejects feature-only modules in static entry dependencies. Explicitly separates source edges/tree shaking, emitted bytes, gzip estimates and browser loads; never collects application values. Current production graph passes; not a complete dependency-cycle or hosted-performance proof. The startup forbidden-module gate now includes Lexical and @lexical after removing an unused optional-editor barrel export.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
         ".cache/loading-proof-O2Nme5/result.json",
         ".cache/app-image-proof-HsMMTW/result.json",
-        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json",
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
       ]
     },
     {
       "path": "scripts/test-chart-rendering.mjs",
-      "blob": "722cde98e3ca496e8609179d847f050ab28ecf73",
+      "blob": "2852cc3555819e3baa9748cce04e46df9087c7b3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use.",
+      "evidence": [
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/index.tsx",
+      "blob": "677ba00de3f0099876bbcac0335a61a456532b7c",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete chart fixture runner authored/read/executed. Requires authorized real stats response before substituting distribution/expiry counts; verifies six SVG sectors with full-size geometry and bounded animation settling, rendered legends, keyboard filter navigation. Removes handler in finally; no fixture IDs enter mutations. This is renderer evidence, not certificate issuance/provider correctness or full chart accessibility.",
+      "scope": "Complete barrel read and editor consumer search, with all three editor implementation files read. Retain every active export; remove the unused optional Lexical editor re-export to prevent class initialization at startup. Direct Editor entry remains available. All current consumers typecheck. Emitted graph excludes Lexical; browser payload and real application navigation pass. This is not a review of every exported component.",
       "evidence": [
-        "docs/0028-visual-loading-system.md",
-        ".cache/bundle-proof-YDXub6/summary.json",
-        ".cache/loading-proof-O2Nme5/result.json",
-        ".cache/app-image-proof-HsMMTW/result.json",
-        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx",
+      "blob": "b6ad0c087ea8fde19b1087e66c13c6c0ad928c64",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored component reviewed with v3 Card, chart theme, distribution/expiry callers and dashboard composition. Named regions/headings, full labels, semantic matching rings/swatches, 44px filter targets, native keyboard buttons, visible focus and nonanimated SVG. Visible and spoken label order is aligned after axe reproduced a mismatch. Data without a filter is readable noninteractive content. Uses only dashboard metadata and existing navigation; no writes, auth changes, provider operations or secret values. Desktop/narrow card, empty, reduced-motion, six filter mappings and scoped axe acceptance pass. Real screen-reader and whole-dashboard/mobile acceptance remain open.",
+      "evidence": [
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx",
+      "blob": "b44891a8e58def6ba121b2232afe0a8be3b45e0b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read with dashboard caller, stats types and algorithm labels. Recompose the existing three distributions through CertificateDistributionCard; retain positive-count rows, algorithm/enrollment display names and enrollment/algorithm/CA inventory filters. Unknown algorithms and absent CA IDs no longer expose enabled inert actions. No fetching, permission, route or store changes. Authorized-response fixtures verify counts, long labels, keyboard filters and empty data; certificate issuance/provider parity is separate.",
+      "evidence": [
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx",
+      "blob": "a1abc3903c655dc68b4001af562410d8cc887035",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read. Recompose existing expiry card through CertificateDistributionCard. Retain expired/0-7d, 8-30d and 31-60d/61-90d/90d+ aggregation, last bucket occurrence behavior, all three rows including zero counts, empty state and exact inventory filters. The existing <7-days label and inclusive seven-day filter convention are retained. Keyboard fixture navigation verifies each filter. No API, authorization, certificate lifecycle or time-bucket semantics changed.",
+      "evidence": [
+        "docs/0029-ui-workflow-execution.md",
+        ".cache/bundle-proof-0TPEKz/summary.json",
+        ".cache/loading-proof-sDIHXZ/result.json",
+        ".cache/app-image-proof-0o57wZ/result.json",
+        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
       ]
     }
   ]

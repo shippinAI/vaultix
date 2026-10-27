@@ -41,7 +41,7 @@ try {
         entryFiles.forEach(visit);
         const eagerChunks = [...eager].map(file => byFile.get(file));
         const forbidden = eagerChunks.flatMap(chunk => chunk.modules)
-          .filter(module => /\/node_modules\/(recharts|@lottiefiles)\//.test(module.id)
+          .filter(module => /\/node_modules\/(recharts|@lottiefiles|lexical|@lexical)\//.test(module.id)
             || module.id.endsWith("/PamAccessControlPage/PamAccessControlPage.tsx"));
         const summary = {
           scope: "Production emitted chunks; static entry closure only. Browser route loads are measured separately. Gzip is a build estimate, not hosted transfer.",

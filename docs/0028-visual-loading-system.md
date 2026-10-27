@@ -54,7 +54,7 @@ version, errors, typing readiness and a screenshot under `.cache/loading-proof-*
 The static server is local and uncompressed, without CPU/network throttling.
 These numbers measure requested payload and local behavior, not a hosted SLA.
 Cold login must not request the chart renderer, optional player or WASM. Decoded
-payload limits are 3.25 MB JavaScript and 3.8 MB total assets; illustration markup
+payload limits are 3.1 MB JavaScript and 3.65 MB total assets; illustration markup
 is below 6 KB.
 These initial limits prevent losing this improvement and must tighten as the
 remaining dependency graph is improved. CI runs the check before
@@ -65,7 +65,7 @@ without enforcing the new loading budget.
 emitted chunk membership, static/dynamic imports, byte counts and the static entry
 dependency closure under `.cache/bundle-proof-*`. It uses the official
 [Rollup module and output metadata](https://rollupjs.org/plugin-development/).
-The check rejects Recharts, DotLottie or the PAM access page in that closure,
+The check rejects Recharts, DotLottie, Lexical or the PAM access page in that closure,
 even if chunk names change. Source import edges include tree-shaken modules;
 they are discovery evidence, not proof that every connected module executes.
 Gzip sizes are estimates. CI runs TypeScript checking first, builds once with
@@ -121,7 +121,7 @@ than the preceding checkpoint, with zero browser errors. Shared groups add two
 requests; the byte reduction is not a claim of proportional latency improvement.
 The 18 fixture UI/accessibility states passed in `.cache/ui-proof-waxuug`.
 
-Remaining eager dependencies include permission-graph primitives, editor code,
+At this checkpoint eager dependencies included permission-graph primitives, editor code,
 and broad component exports. Their source edges are now inspectable in the report,
 but removing those edges requires consumer-by-consumer review. Source graph
 discovery does not mark these modules authored or prove they can be deleted.
@@ -132,3 +132,24 @@ keyboard filter navigation are in the separate `chart-rendering.json`.
 The chart check waits for full-size, stable SVG path geometry before capturing
 the screenshot, with a bounded wait. Mounted sectors alone were insufficient:
 the first visual review caught the entrance animation before it settled.
+
+## Editor isolation and certificate cards, 2026-10-27
+
+Consumer searches found no application use of the optional Lexical editor.
+Its direct feature entry remains available; the general v2 barrel no longer
+re-exports its node classes. The emitted startup gate now rejects Lexical too.
+`.cache/bundle-proof-0TPEKz/summary.json` records 2,542,268 static-entry JavaScript
+bytes and no forbidden modules. All three cold contexts in
+`.cache/loading-proof-sDIHXZ/result.json` request 3,008,310 JavaScript bytes and
+3,536,677 total asset bytes, with zero browser errors. This removes 135,825 total
+bytes (3.70%) from the preceding checkpoint. Limits tighten to 3.1 MB JavaScript
+and 3.65 MB total. Local uncompressed measurements remain separate from hosted
+performance. Permission-graph and broad-export dependencies still need review.
+
+The existing certificate distribution and expiration cards now share feature-owned
+rendering: complete labels, named regions, matching semantic chart/row colors,
+44-pixel filter targets and visible keyboard focus. SVG rings have no entrance
+animation. Readable rows provide every value and filter action outside the chart;
+unknown algorithms and CAs without IDs are noninteractive data. Existing expiry
+buckets and inventory filters remain intact. The execution and acceptance record
+is [0029](0029-ui-workflow-execution.md).

@@ -4,6 +4,31 @@ Hosted Vaultix operated by shippin.ai is the first release target. Self-hosted
 deployments use the same engine and included software capabilities. Release
 claims require passing workflows; an included feature flag is not evidence.
 
+## Certificate workflow checkpoint, 2026-10-27
+
+The canonical standalone image `vaultix:cards-verify`, local image ID
+`sha256:d955e77eca1e829ec1d732e74afe9c33a8c0ed226e92c3e65a26df9064860e68`,
+passes Dragonfly and Redis image/MCP/queue/restart checks, retaining 273 UI routes
+and 2,290 documented API operations. Logs: `.cache/cards-smoke-dragonfly.log`
+and `.cache/cards-smoke-redis.log`.
+
+`.cache/app-image-proof-0o57wZ/result.json` records real sign-in, project creation,
+product navigation, PAM tabs and anonymous denial. Its separate recovery and
+chart reports identify fixture scenarios. The authored certificate cards pass
+six keyboard filter mappings, visible focus, long-label/44-pixel target checks,
+empty states and stable reduced-motion geometry. Three scoped card axe scans
+detect zero violations or incomplete findings; desktop and narrow card screenshots
+were reviewed. This is not certificate issuance/provider or whole-dashboard
+accessibility acceptance. The inherited mobile header still truncates.
+
+Type checking, scoped lint, emitted-bundle gates, three cold-login budget runs
+and 18 fixture UI/accessibility states pass. Evidence: `.cache/bundle-proof-0TPEKz`,
+`.cache/loading-proof-sDIHXZ`, and `.cache/ui-proof-2H8lXl`. Login decoded assets
+fall to 3,536,677 bytes after isolating the unused optional editor export. See
+[0029](0029-ui-workflow-execution.md) for the plan, failed candidates, corrections
+and remaining workflow migration; [0028](0028-visual-loading-system.md) explains
+the measurement limits.
+
 ## Startup dependency checkpoint, 2026-10-27
 
 The canonical standalone image `vaultix:bundle-boundary-verify`, local image ID
