@@ -9323,12 +9323,13 @@ scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	unread
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
-scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	6a1fab0528b5b3b1d19bf3fd5f8a81200a641e27	verified
+scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	verified
 scripts/test-api-request-errors.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	930660062217b4797619f36773c7ccca9dcadb4a	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
 scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	authored
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	authored
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
+scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fb016657e7f6e60c1bc503cac08dd2961928aa42	authored
 scripts/test-go-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	19bd9b46404026c0c60279897319338f92825441	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread

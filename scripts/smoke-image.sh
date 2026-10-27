@@ -135,6 +135,9 @@ if [[ "$ready" != true ]]; then
   exit 1
 fi
 VAULTIX_IMAGE_API_PROOF=1 node "$(dirname "$0")/test-api-request-errors.mjs" "$base"
+if [[ "${VAULTIX_EAGER_UPLOAD_PROOF:-}" == "1" ]]; then
+  VAULTIX_IMAGE_API_PROOF=1 node "$(dirname "$0")/test-eager-upload.mjs" "$base"
+fi
 if [[ "${VAULTIX_IMAGE_APP_PROOF:-}" == "1" ]]; then
   node "$(dirname "$0")/test-image-app.mjs" "$base"
 fi

@@ -1074,15 +1074,27 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "6a1fab0528b5b3b1d19bf3fd5f8a81200a641e27",
+      "blob": "c2f9ca8c499cca62f2503d7cd839aa585b981718",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Existing isolated image/cache/queue/restart and optional real application proofs retained; now runs the disposable request-error gate after restart on both cache providers. Cleanup touches only per-run containers/network/temp environment. Local results do not establish hosted failover or ElastiCache.",
+      "scope": "Complete file read. Existing isolated image/cache/queue/restart and optional real application proofs retained; the separate opt-in eager-upload probe fails if any connection resets. Cleanup touches only per-run containers/network/temp environment. Local results do not establish hosted failover or ElastiCache.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/app-image-proof-PM9CDX/workflow-result.json",
         ".cache/api-error-proof-Dfar5o/result.json",
         ".cache/api-error-proof-aihO25/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-eager-upload.mjs",
+      "blob": "f2804898e58be014fac8ca27f1bed3b89cd649fe",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New opt-in, loopback-only disposable-instance probe sends twelve eager oversized requests and fails on any result other than a JSON 413. It records counts without request data. The known failing result characterizes this Docker Desktop environment; it does not establish behavior through production proxies.",
+      "evidence": [
+        "docs/0034-api-request-errors.md",
+        ".cache/eager-optional-smoke.log",
+        ".cache/eager-normal-smoke.log"
       ]
     }
   ]

@@ -85,3 +85,22 @@ and `.cache/request-errors-smoke-redis-length.log`. Their bounded HTTP reports a
 `.cache/api-error-proof-aihO25/result.json` and `.cache/api-error-proof-Dfar5o/result.json`.
 The eager-upload and 100-continue failed experiments remain explicitly excluded
 from that scope. Committed CI/publication is a separate gate.
+
+## Eager-upload characterization
+
+An isolated Docker Desktop run against `vaultix:request-errors` sent twelve
+1.2 MB JSON requests to the uninitialized disposable instance: six returned
+`413 RequestBodyTooLarge` and six returned `ECONNRESET`. A separate minimal
+Fastify comparison produced 4/20 responses and 16/20 resets with the normal
+handler, versus 3/20 responses and 17/20 resets when the rejected incoming
+stream was immediately resumed. These are small local samples, not a rate
+estimate; the attempted resume is not adopted as a fix. Fastify closes the
+connection on parser errors, and its body limit remains in force.
+
+`VAULTIX_EAGER_UPLOAD_PROOF=1 bash scripts/smoke-image.sh IMAGE dragonfly`
+runs an opt-in test against a disposable image. It sends twelve eager uploads,
+prints only counts and fails unless every request receives the expected 413.
+The normal image gate is unchanged; the separate test makes the unresolved
+transport behavior visible rather than treating a reset as a successful 413.
+Resolving this requires a bounded design and verification for slow, unbounded,
+and aborted uploads as well as real deployment proxies.
