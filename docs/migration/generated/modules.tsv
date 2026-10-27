@@ -46,14 +46,14 @@ core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	3	d55551958fe18a24753d96680a8a6bb63ea4d9bf88d0dbf5ed54b58a6a3bf416	0	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	10	449b346d727a80dc89e7bd409086d7dee08349f8c57bae6ab2240ba9ce96b4fd	3	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	11	e07a6eb5792decd7316c2f6ddfdd407b7dcd5f82b378254c3eb5f497d1b33e2b	6	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	13	5c63e31d37fa0cc261cee9b749d0c11cfa2ee588fb35d069dee2ed5a99d2175f	0	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
 core/backend-go/internal/services/secretmanager	secrets	Go-native	12	108d15d88d224fe7564e16b810899d36699c5ec5065f217deb4cf1384229dbde	0	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	ee3c7712a5322a3ba39e2709508aa89986051062a53618f283cdb607e713ad8f	3	unassessed
-core/backend-go/tests/platform/auth	identity	Go-native	2	b625c2dfbcfe8672b80f9f57b5840a5526781aa45905182f440059d2fab0a3b0	1	unassessed
+core/backend-go/tests/platform/auth	identity	Go-native	3	ef6991c74f76e0d3f0ccfe52f082a7d2f52d2cd5d270afaf27465ce83af6c763	3	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
 core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c5988bc3f73ca5fc3df24b6c0adef1eb943ac0ad7468419	0	unassessed
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
@@ -368,7 +368,7 @@ core/backend/src/services/group-project	authorization	Go-domain-migration	3	c5f5
 core/backend/src/services/health-alert	foundation	Go-domain-migration	1	1cc8bdd82a9928a3ba3f547dfb2ca0f47fb046703661c2934d028484609867ab	0	unassessed
 core/backend/src/services/hsm-connector	kms	Go-domain-migration	5	76944247b012a103804501e5c9af5145218b95e45caafd053e390b0970691085	0	unassessed
 core/backend/src/services/identity	identity	Go-domain-migration	7	3fa8c2853a94fe38d758f512373d02bbb0f5043bd25907e6223f1124ab9d8ab4	0	unassessed
-core/backend/src/services/identity-access-token	identity	Go-domain-migration	7	4d7ad79a952125f83885f6dabf667475f84ee0bfb77d3af533990b9412023b5f	2	unassessed
+core/backend/src/services/identity-access-token	identity	Go-domain-migration	7	4d7ad79a952125f83885f6dabf667475f84ee0bfb77d3af533990b9412023b5f	5	unassessed
 core/backend/src/services/identity-alicloud-auth	identity	Go-domain-migration	4	46d55b54aec0eec9516df5b1f028ab03a3e406a4ac9403e3280c9655061be70f	0	unassessed
 core/backend/src/services/identity-aws-auth	identity	Go-domain-migration	5	da039062fa88b7eabd69607387651054b9bf052ef79f8cc553a7b0d42ecf2a89	0	unassessed
 core/backend/src/services/identity-azure-auth	identity	Go-domain-migration	5	f1b5d948c43cb1fcb1cddb53becece3eaa7a123e821aec07d37603d41f3f8a5f	0	unassessed

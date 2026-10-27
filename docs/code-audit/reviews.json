@@ -1184,7 +1184,7 @@
       "blob": "5de66734557bb0ee6430e9dec0a9f1766e8f5925",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read and validation/renewal/counter dependencies traced. Missing-counter recovery now uses SET-NX followed by an atomic decrement for every accepted use. Existing signature, membership, IP and revocation behavior retained. Scoped counter evidence does not establish full authenticator parity: claim presence, scoped revocations, primary-read freshness and configured lifetimes remain open in 0036.",
+      "scope": "Complete file read and validation/renewal/counter dependencies traced. Missing-counter recovery now uses SET-NX followed by an atomic decrement for every accepted use. Existing signature, membership, IP and revocation behavior retained. Scoped counter evidence does not establish full authenticator parity: scoped revocations, primary-read freshness and configured lifetimes remain open in 0036; claim presence is addressed separately in 0037.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1198,7 +1198,8 @@
         ".cache/go-proof-rG7lz6/result.json",
         ".cache/app-image-proof-oG5dqm/workflow-result.json",
         ".cache/usage-image-smoke-dragonfly.log",
-        ".cache/usage-image-smoke-redis.log"
+        ".cache/usage-image-smoke-redis.log",
+        "docs/0037-native-identity-claim-presence.md"
       ]
     },
     {
@@ -1331,6 +1332,139 @@
         ".cache/app-image-proof-oG5dqm/workflow-result.json",
         ".cache/usage-image-smoke-dragonfly.log",
         ".cache/usage-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/claims.go",
+      "blob": "8d2e73dda30adf86a9376559968860a6c63b4e2f",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. Optional lifetime fields now retain absent/null versus explicit zero through both Go claim structs and unified conversion. The complete-claim predicate requires all four anchors. Existing JWT parser, algorithm/signature/expiry checks and tenant/auth fields retained. This is scoped wire-classification acceptance, not full Nomen or native authenticator parity.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        ".cache/claims-presence-before.jsonl",
+        ".cache/claims-real-before.jsonl",
+        ".cache/claims-legacy-before.jsonl",
+        ".cache/claims-go-unit.jsonl",
+        ".cache/claims-go-lint-final.log",
+        ".cache/go-proof-TNtYOZ/result.json",
+        ".cache/go-proof-teQVEL/result.json",
+        ".cache/app-image-proof-iVxZeL/workflow-result.json",
+        ".cache/claims-image-smoke-dragonfly.log",
+        ".cache/claims-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/authenticator_test.go",
+      "blob": "90993d7b9a22041bfb0ad58ecbe0cc7159147625",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete existing unit suite read. All inherited classification scenarios remain; complete fixture anchors remove accidental field omissions, and new cases cover zero budgets and each missing tenant/lifetime field. Other inherited IP, counter and legacy-constraint tests retained.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        ".cache/claims-presence-before.jsonl",
+        ".cache/claims-real-before.jsonl",
+        ".cache/claims-legacy-before.jsonl",
+        ".cache/claims-go-unit.jsonl",
+        ".cache/claims-go-lint-final.log",
+        ".cache/go-proof-TNtYOZ/result.json",
+        ".cache/go-proof-teQVEL/result.json",
+        ".cache/app-image-proof-iVxZeL/workflow-result.json",
+        ".cache/claims-image-smoke-dragonfly.log",
+        ".cache/claims-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/claims_presence_test.go",
+      "blob": "8f119a7b62c641110fb0d0443b52894e3b06e773",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New wire contract tests cover absent/null/zero/positive and invalid integer representations for each lifetime field, direct/unified decoding, conversion and serialization. A signed fixture exercises the existing parser with explicit zero anchors. These are fixture-level format assertions, with real issuer evidence separate.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        ".cache/claims-presence-before.jsonl",
+        ".cache/claims-real-before.jsonl",
+        ".cache/claims-legacy-before.jsonl",
+        ".cache/claims-go-unit.jsonl",
+        ".cache/claims-go-lint-final.log",
+        ".cache/go-proof-TNtYOZ/result.json",
+        ".cache/go-proof-teQVEL/result.json",
+        ".cache/app-image-proof-iVxZeL/workflow-result.json",
+        ".cache/claims-image-smoke-dragonfly.log",
+        ".cache/claims-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/apiauthenticator_test.go",
+      "blob": "1088ec078b1b69f94d03d57494dc3878f83baf86",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete inherited integration suite read. Only typed fixture construction changes: complete limited-use claims include all anchors; legacy fixtures intentionally omit them. Existing signature, membership, IP, service-token, expiry and revoked/limited legacy checks remain. Fixture adaptation is not whole-suite authorship or complete auth parity.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        ".cache/claims-presence-before.jsonl",
+        ".cache/claims-real-before.jsonl",
+        ".cache/claims-legacy-before.jsonl",
+        ".cache/claims-go-unit.jsonl",
+        ".cache/claims-go-lint-final.log",
+        ".cache/go-proof-TNtYOZ/result.json",
+        ".cache/go-proof-teQVEL/result.json",
+        ".cache/app-image-proof-iVxZeL/workflow-result.json",
+        ".cache/claims-image-smoke-dragonfly.log",
+        ".cache/claims-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/claims_format_test.go",
+      "blob": "98ef59cc825bba533eeb57f0382ed6d205b3534b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New real API-issued zero-budget credential test observes lazy token persistence, HTTP acceptance and both Go validation entry points without resigning the issued token. Separate signed historical fixtures require each incomplete lifetime payload to honor a revoked legacy row. Baselines reproduce rejection of the real credential and three incorrect legacy accepts; both real cache suites now pass.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        ".cache/claims-presence-before.jsonl",
+        ".cache/claims-real-before.jsonl",
+        ".cache/claims-legacy-before.jsonl",
+        ".cache/claims-go-unit.jsonl",
+        ".cache/claims-go-lint-final.log",
+        ".cache/go-proof-TNtYOZ/result.json",
+        ".cache/go-proof-teQVEL/result.json",
+        ".cache/app-image-proof-iVxZeL/workflow-result.json",
+        ".cache/claims-image-smoke-dragonfly.log",
+        ".cache/claims-image-smoke-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/identity-access-token/identity-access-token-fns.ts",
+      "blob": "d4a4494137eb80d1176d775dc42461f8b7cc27ca",
+      "status": "reviewed",
+      "decision": "retain",
+      "scope": "Complete helper file read. The existing field-presence predicate and bounded issuer define the Go claim contract; expiry calculations, revocation matching and numeric parsing were traced as separate migration inputs. No source changes. This review does not establish complete helper authorship or full token-lifecycle parity.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        "docs/0036-identity-use-budget-concurrency.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/identity-access-token/identity-access-token-types.ts",
+      "blob": "eb9692508884d2d379786ddb00f14c709b3e9dd2",
+      "status": "reviewed",
+      "decision": "retain",
+      "scope": "Complete type file read. Optional wire claims, required renewable anchors, legacy source context, issuer input and scoped revocation reasons retained as the current compatibility contract. Type declarations alone do not prove runtime validation or authorization.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        "docs/0036-identity-use-budget-concurrency.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/identity-access-token/identity-access-token-revocation-dal.ts",
+      "blob": "e9a331d0d3d976312fc99fe744ff328402f8ec36",
+      "status": "reviewed",
+      "decision": "retain",
+      "scope": "Complete DAL read. Identity-bound active marker queries use the primary and indexed union arms; scoped deletion and bounded pruning remain unchanged. The scoped Go revocation/authoritative-read gap is recorded for subsequent implementation. No claim of provider, failover or complete revocation acceptance.",
+      "evidence": [
+        "docs/0037-native-identity-claim-presence.md",
+        "docs/0036-identity-use-budget-concurrency.md"
       ]
     }
   ]

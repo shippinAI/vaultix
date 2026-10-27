@@ -217,101 +217,41 @@ func TestCheckIPAgainstBlocklist(t *testing.T) {
 
 func TestIdentityJWTClaims_HasFullRenewClaims(t *testing.T) {
 	t.Parallel()
-
 	validUUID := uuid.New()
-
 	tests := []struct {
 		name     string
-		claims   IdentityJWTClaims
+		change   func(*IdentityJWTClaims)
 		expected bool
 	}{
-		{
-			name: "all claims present - TTL mode",
-			claims: IdentityJWTClaims{
-				RegisteredClaims: RegisteredClaimsWithJTI("token-id"),
-				OrgID:            validUUID,
-				RootOrgID:        validUUID,
-				ParentOrgID:      validUUID,
-				AuthMethod:       "universal",
-				AccessTokenTTL:   3600,
-			},
-			expected: true,
-		},
-		{
-			name: "all claims present - MaxTTL mode",
-			claims: IdentityJWTClaims{
-				RegisteredClaims:  RegisteredClaimsWithJTI("token-id"),
-				OrgID:             validUUID,
-				RootOrgID:         validUUID,
-				ParentOrgID:       validUUID,
-				AuthMethod:        "universal",
-				AccessTokenMaxTTL: 7200,
-			},
-			expected: true,
-		},
-		{
-			name: "all claims present - Period mode",
-			claims: IdentityJWTClaims{
-				RegisteredClaims:  RegisteredClaimsWithJTI("token-id"),
-				OrgID:             validUUID,
-				RootOrgID:         validUUID,
-				ParentOrgID:       validUUID,
-				AuthMethod:        "universal",
-				AccessTokenPeriod: 86400,
-			},
-			expected: true,
-		},
-		{
-			name: "missing jti",
-			claims: IdentityJWTClaims{
-				OrgID:          validUUID,
-				RootOrgID:      validUUID,
-				ParentOrgID:    validUUID,
-				AuthMethod:     "universal",
-				AccessTokenTTL: 3600,
-			},
-			expected: false,
-		},
-		{
-			name: "missing orgId",
-			claims: IdentityJWTClaims{
-				RegisteredClaims: RegisteredClaimsWithJTI("token-id"),
-				RootOrgID:        validUUID,
-				ParentOrgID:      validUUID,
-				AuthMethod:       "universal",
-				AccessTokenTTL:   3600,
-			},
-			expected: false,
-		},
-		{
-			name: "missing authMethod",
-			claims: IdentityJWTClaims{
-				RegisteredClaims: RegisteredClaimsWithJTI("token-id"),
-				OrgID:            validUUID,
-				RootOrgID:        validUUID,
-				ParentOrgID:      validUUID,
-				AccessTokenTTL:   3600,
-			},
-			expected: false,
-		},
-		{
-			name: "no TTL fields set",
-			claims: IdentityJWTClaims{
-				RegisteredClaims: RegisteredClaimsWithJTI("token-id"),
-				OrgID:            validUUID,
-				RootOrgID:        validUUID,
-				ParentOrgID:      validUUID,
-				AuthMethod:       "universal",
-			},
-			expected: false,
-		},
+		{"all claims present - zero budgets", func(_ *IdentityJWTClaims) {}, true},
+		{"all claims present - TTL mode", func(c *IdentityJWTClaims) { c.AccessTokenTTL = new(int64(3600)) }, true},
+		{"all claims present - MaxTTL mode", func(c *IdentityJWTClaims) { c.AccessTokenMaxTTL = new(int64(7200)) }, true},
+		{"all claims present - Period mode", func(c *IdentityJWTClaims) { c.AccessTokenPeriod = new(int64(86400)) }, true},
+		{"missing jti", func(c *IdentityJWTClaims) { c.ID = "" }, false},
+		{"missing orgId", func(c *IdentityJWTClaims) { c.OrgID = uuid.Nil }, false},
+		{"missing rootOrgId", func(c *IdentityJWTClaims) { c.RootOrgID = uuid.Nil }, false},
+		{"missing parentOrgId", func(c *IdentityJWTClaims) { c.ParentOrgID = uuid.Nil }, false},
+		{"missing authMethod", func(c *IdentityJWTClaims) { c.AuthMethod = "" }, false},
+		{"missing TTL", func(c *IdentityJWTClaims) { c.AccessTokenTTL = nil }, false},
+		{"missing maxTTL", func(c *IdentityJWTClaims) { c.AccessTokenMaxTTL = nil }, false},
+		{"missing period", func(c *IdentityJWTClaims) { c.AccessTokenPeriod = nil }, false},
+		{"missing creation epoch", func(c *IdentityJWTClaims) { c.CreationEpoch = nil }, false},
+		{"no TTL fields set", func(c *IdentityJWTClaims) {
+			c.AccessTokenTTL = nil
+			c.AccessTokenMaxTTL = nil
+			c.AccessTokenPeriod = nil
+		}, false},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			result := tt.claims.HasFullRenewClaims()
-			assert.Equal(t, tt.expected, result)
+			claims := IdentityJWTClaims{
+				RegisteredClaims: RegisteredClaimsWithJTI("token-id"),
+				OrgID:            validUUID, RootOrgID: validUUID, ParentOrgID: validUUID, AuthMethod: "universal-auth",
+				AccessTokenTTL: new(int64(0)), AccessTokenMaxTTL: new(int64(0)), AccessTokenPeriod: new(int64(0)), CreationEpoch: new(int64(1700000000)),
+			}
+			tt.change(&claims)
+			assert.Equal(t, tt.expected, claims.HasFullRenewClaims())
 		})
 	}
 }

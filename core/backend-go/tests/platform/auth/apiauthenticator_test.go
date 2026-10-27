@@ -649,7 +649,10 @@ func TestValidateIdentityAccessToken_NumUsesLimitExhausted(t *testing.T) {
 		c.RootOrgID = uuid.MustParse(stack.NodeJS().OrgID())
 		c.ParentOrgID = uuid.MustParse(stack.NodeJS().OrgID())
 		c.AuthMethod = "universal-auth"
-		c.AccessTokenTTL = 3600
+		c.AccessTokenTTL = new(int64(3600))
+		c.AccessTokenMaxTTL = new(int64(0))
+		c.AccessTokenPeriod = new(int64(0))
+		c.CreationEpoch = new(time.Now().Unix())
 		c.NumUsesLimit = 5
 		c.ID = tokenID
 	})
@@ -735,9 +738,9 @@ func TestValidateIdentityAccessToken_LegacyRevoked(t *testing.T) {
 		c.RootOrgID = uuid.Nil
 		c.ParentOrgID = uuid.Nil
 		c.AuthMethod = ""
-		c.AccessTokenTTL = 0
-		c.AccessTokenMaxTTL = 0
-		c.AccessTokenPeriod = 0
+		c.AccessTokenTTL = nil
+		c.AccessTokenMaxTTL = nil
+		c.AccessTokenPeriod = nil
 	})
 
 	_, err = authenticator.ValidateIdentityAccessToken(context.Background(), legacyToken, "")
@@ -1152,7 +1155,7 @@ func TestValidateIdentityAccessToken_LegacyTTLExpired(t *testing.T) {
 		// No OrgID, AuthMethod, etc. - makes it a legacy token
 		c.OrgID = uuid.Nil
 		c.AuthMethod = ""
-		c.AccessTokenTTL = 0
+		c.AccessTokenTTL = nil
 	})
 
 	_, err = authenticator.ValidateIdentityAccessToken(context.Background(), legacyToken, "")
@@ -1204,7 +1207,7 @@ func TestValidateIdentityAccessToken_LegacyMaxTTLExpired(t *testing.T) {
 		c.IdentityAccessTokenID = tokenID.String()
 		c.OrgID = uuid.Nil
 		c.AuthMethod = ""
-		c.AccessTokenTTL = 0
+		c.AccessTokenTTL = nil
 	})
 
 	_, err = authenticator.ValidateIdentityAccessToken(context.Background(), legacyToken, "")
@@ -1253,7 +1256,7 @@ func TestValidateIdentityAccessToken_LegacyUsageLimitReached(t *testing.T) {
 		c.IdentityAccessTokenID = tokenID.String()
 		c.OrgID = uuid.Nil
 		c.AuthMethod = ""
-		c.AccessTokenTTL = 0
+		c.AccessTokenTTL = nil
 	})
 
 	_, err = authenticator.ValidateIdentityAccessToken(context.Background(), legacyToken, "")

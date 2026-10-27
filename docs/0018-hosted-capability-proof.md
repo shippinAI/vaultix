@@ -442,3 +442,15 @@ per cache; Go real-image integration/race suites pass 219 per cache with eight
 external KMS skips. An API-issued token shares its budget across HTTP and Go.
 Cache loss can still restore the configured budget; durable accounting, scoped
 Go revocation, claim classification, Nomen and production topology remain open.
+
+The native claim-presence checkpoint is documented in
+[0037](0037-native-identity-claim-presence.md). Explicit zero lifetime fields now
+remain complete claims; incomplete fields retain the legacy database checks.
+The prior implementation both rejected a real zero-budget credential and
+accepted three incomplete signed fixtures despite revoked legacy rows. The repair
+passes 516 Go unit/race tests and 225 real-image integration/race tests per cache,
+with eight external KMS skips. Canonical image
+`sha256:ffe4bbd23b856ba3800395691a9f14f0014dd274e3bc94f8740ea2911e6fde05`
+passes both cache image gates and the packaged browser workflow
+(`.cache/app-image-proof-iVxZeL`). Scoped revocation, authoritative reads, legacy
+grace/lifetime configuration and Nomen ownership still gate native cutover.

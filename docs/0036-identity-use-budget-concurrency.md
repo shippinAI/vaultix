@@ -64,6 +64,8 @@ classification and legacy-fallback acceptance; this packet does not change it.
 An isolated baseline in `.cache/claims-presence-before.jsonl` reproduces both
 zero-budget misclassification and acceptance of a positive TTL without the
 creation-time anchor. Those failures remain outside this counter repair.
+The subsequent correction and real-token/legacy-revocation acceptance are
+recorded in [0037](0037-native-identity-claim-presence.md).
 
 The TypeScript memory/legacy mock stores also contain incomplete expiry and
 numeric behavior; they are not real-cache evidence. Existing database tests use
