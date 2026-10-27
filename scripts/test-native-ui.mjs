@@ -16,13 +16,14 @@ const AxeBuilder = require("@axe-core/playwright").default;
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/ui-proof-"));
 const server = fastify();
+let loginMethods = ["email"];
 let browser;
 try {
   await server.register(registerVaultixRouter, { prefix: "/api/v1/vaultix" });
   server.post("/api/v1/auth/token", async (_, reply) => reply.code(401).send({ error: "No preview session." }));
   server.get("/api/v1/admin/config", async () => ({ config: {
     initialized: true, allowSignUp: true, disableAuditLogStorage: false,
-    defaultAuthOrgSlug: null, defaultAuthOrgId: null, enabledLoginMethods: ["email"],
+    defaultAuthOrgSlug: null, defaultAuthOrgId: null, enabledLoginMethods: loginMethods,
     passwordPolicy: { requirements: [] }, invalidatingCache: false
   } }));
   server.get("/runtime-ui-env.js", async (_, reply) => reply.type("application/javascript").send(
@@ -150,33 +151,43 @@ try {
   await page.reload();
   await page.getByRole("button", { name: "Try Again" }).waitFor();
   assert.equal(await page.getByText("UNSAFE-CANARY").count(), 0);
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto(`${origin}/login`);
-  await page.getByPlaceholder("you@company.com").waitFor();
-  await page.getByRole("heading", { name: "Welcome back", level: 1, exact: true }).waitFor();
-  const email = page.getByRole("textbox", { name: "Email", exact: true });
-  const password = page.getByLabel("Password", { exact: true });
-  assert.equal(await email.getAttribute("autocomplete"), "username");
-  assert.equal(await password.getAttribute("autocomplete"), "current-password");
-  await password.fill("FIXTURE-PASSWORD-NOT-SUBMITTED");
-  await page.getByRole("button", { name: "Show password", exact: true }).focus();
-  await page.keyboard.press("Space");
-  assert.equal(await password.getAttribute("type"), "text");
-  await page.keyboard.press("Space");
-  assert.equal(await password.getAttribute("type"), "password");
-  await password.fill("");
-  await page.getByRole("heading", { name: "Shippin secrets you own. Build with confidence." }).waitFor();
-  assert.equal(await page.getByText("Trusted by 400,000+ developers").count(), 0);
-  assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
-  await page.screenshot({ path: resolve(evidence, "login-desktop.png"), fullPage: true });
-  await audit("login-desktop");
-  await page.setViewportSize({ width: 390, height: 844 });
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
-  await page.screenshot({ path: resolve(evidence, "login-mobile.png"), fullPage: true });
-  await audit("login-mobile");
-  await page.setViewportSize({ width: 320, height: 800 });
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
-  await audit("login-reflow-320");
+  for (const loginVariant of ["email", "federated"]) {
+    loginMethods = loginVariant === "email" ? ["email"] : ["email", "google", "github", "gitlab", "ldap", "oidc", "saml"];
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`${origin}/login`);
+    await page.getByPlaceholder("you@company.com").waitFor();
+    await page.getByRole("heading", { name: "Welcome back", level: 1, exact: true }).waitFor();
+    const email = page.getByRole("textbox", { name: "Email", exact: true });
+    const password = page.getByLabel("Password", { exact: true });
+    assert.equal(await email.getAttribute("autocomplete"), "username");
+    assert.equal(await password.getAttribute("autocomplete"), "current-password");
+    await password.fill("FIXTURE-PASSWORD-NOT-SUBMITTED");
+    await page.getByRole("button", { name: "Show password", exact: true }).focus();
+    await page.keyboard.press("Space");
+    assert.equal(await password.getAttribute("type"), "text");
+    await page.keyboard.press("Space");
+    assert.equal(await password.getAttribute("type"), "password");
+    await password.fill("");
+    await page.getByRole("heading", { name: "Shippin secrets you own. Build with confidence." }).waitFor();
+    assert.equal(await page.getByText("Trusted by 400,000+ developers").count(), 0);
+    assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
+    await page.screenshot({ path: resolve(evidence, `login-${loginVariant}-desktop.png`), fullPage: true });
+    await audit(`login-${loginVariant}-desktop`);
+    if (loginVariant === "federated") {
+      await page.getByRole("button", { name: "View SSO options", exact: true }).focus();
+      await page.keyboard.press("Enter");
+      await page.getByRole("button", { name: "Continue with LDAP", exact: true }).waitFor();
+      assert.equal(await page.getByRole("button", { name: "Continue with LDAP", exact: true }).evaluate(element => element === document.activeElement), true);
+      await audit("login-federated-expanded");
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+    await page.screenshot({ path: resolve(evidence, `login-${loginVariant}-mobile.png`), fullPage: true });
+    await audit(`login-${loginVariant}-mobile`);
+    await page.setViewportSize({ width: 320, height: 800 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+    await audit(`login-${loginVariant}-reflow-320`);
+  }
   assert.deepEqual(accessibility.flatMap(scan => scan.violations.map(rule => ({ state: scan.state, ...rule }))), []);
   assert.deepEqual(failures, []);
   console.log(`Native browser checks passed. Authentication/action responses were fixtures. Screenshots: ${evidence}`);

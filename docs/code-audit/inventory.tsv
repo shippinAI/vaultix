@@ -7484,7 +7484,7 @@ core/frontend/src/components/v3/generic/Empty/Empty.stories.tsx	3b83e9f521619a19
 core/frontend/src/components/v3/generic/Empty/Empty.tsx	f59ff17122747f260df5419211ea7990e93be798	product-code	unread
 core/frontend/src/components/v3/generic/Empty/index.ts	7aa85b1b7df576c531646c726d73c303693258a4	product-code	unread
 core/frontend/src/components/v3/generic/Field/Field.stories.tsx	ebae178be4e83ead1fe8f6eded6ea9ba25a10bd2	product-code	unread
-core/frontend/src/components/v3/generic/Field/Field.tsx	d110a6b568282f3fd4d3c632f6bf75bdeb90dbc1	product-code	authored
+core/frontend/src/components/v3/generic/Field/Field.tsx	c4f902e88aba279abfbceca24ed962be29400806	product-code	authored
 core/frontend/src/components/v3/generic/Field/FieldFeedback.stories.tsx	7bfea49b0ec0028b75117d217c7e3e010fb76037	product-code	unread
 core/frontend/src/components/v3/generic/Field/FieldFeedback.tsx	a783fca5be0fbb4a2608a1ad8314cc217e76c044	product-code	unread
 core/frontend/src/components/v3/generic/Field/index.ts	99700568e912cad14e8ff059cf367f13262ff9e0	product-code	unread
@@ -11629,11 +11629,11 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	aa61849af2063443b3782614298e6877ad48d35f	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	260d5cb539477f6475a2633d8809dbbd9b419d28	documentation	unread
+docs/0018-hosted-capability-proof.md	d53a35f39f5f173dbd27a3ad360b7a52dc259e0b	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	8c97800a8046a6073430c65cec6e4c9029f2b411	documentation	unread
 docs/0021-product-authorship-review.md	53f5ff7b5f662e687085aac540a9a8b94796ce49	documentation	unread
-docs/0022-accessibility-acceptance.md	edc7499fb9ac4a8251170c397bd15536a887c97a	documentation	unread
+docs/0022-accessibility-acceptance.md	a9a004c68e993fc86a7afee1cabe05b4eba4b6b5	documentation	unread
 docs/0023-capability-convergence.md	accbd5c9b8fd1ff287109e9aa7eaa371b16aa3e8	documentation	unread
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -11751,6 +11751,6 @@ scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-opera
 scripts/run-core.sh	ce4275be18ca18f1216eed158527ab792540fd2e	build-and-operations	unread
 scripts/smoke-image.sh	c9034530f0c16a1e5d6985352fe9a75600eef407	build-and-operations	unread
 scripts/test-core.mjs	40f7dd6601e2630f14b973b674810d6f4a90c1ca	build-and-operations	unread
-scripts/test-native-ui.mjs	8ab7de1648049b89e51cae6b9e572b27d5c5b193	build-and-operations	unread
+scripts/test-native-ui.mjs	4ab5bcd709ee8ac7218346995523657793874842	build-and-operations	unread
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/up.sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	build-and-operations	unread

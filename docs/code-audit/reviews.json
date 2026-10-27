@@ -64,14 +64,15 @@
     },
     {
       "path": "core/frontend/src/components/v3/generic/Field/Field.tsx",
-      "blob": "d110a6b568282f3fd4d3c632f6bf75bdeb90dbc1",
+      "blob": "c4f902e88aba279abfbceca24ed962be29400806",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Default field labels use the brighter semantic muted color after reproduced 4.18:1 contrast failure in the reference form. The corrected form passes axe; other consuming forms, error animations, disabled/selected variants and screen-reader relationships require workflow-specific review.",
+      "scope": "Complete file read. Default field labels use the brighter semantic muted color after reproduced 4.18:1 contrast failure in the reference form. The corrected form passes axe; other consuming forms, error animations, disabled/selected variants and screen-reader relationships require workflow-specific review. Expanded federated sign-in fixtures reproduced a 4.05:1 separator contrast failure; separator text now uses the full muted color and passes the 14-state browser scan. Other consumers remain subject to their workflow reviews.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
+        ".cache/ui-proof-MQayyC/accessibility.json"
       ]
     },
     {

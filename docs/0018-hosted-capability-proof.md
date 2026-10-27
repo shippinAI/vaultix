@@ -103,6 +103,15 @@ BullMQ execution and engine restart. Logs: `.cache/a11y-smoke-dragonfly.log` and
 `.cache/a11y-smoke-redis.log`. This is a local image ID, not a registry digest.
 Independent GitHub verification/publication is tracked by
 [run 40435314857](https://github.com/shippinAI/vaultix/actions/runs/40435314857).
+
+Expanding the fixture to configured social/SSO methods reproduced another shared
+component defect: the field separator text rendered at 4.05:1 contrast. Removing
+its opacity reduction fixes that use and other consumers of the shared separator.
+The permanent runner now covers email-only and federated layouts, including
+keyboard SSO expansion and focus transfer. Its 14-state run passed with zero
+violations and zero incomplete rules (`.cache/ui-proof-MQayyC/`); the frontend
+bundle and changed-file lint also passed. No provider redirect or real sign-in
+was performed. Other authenticated screens remain outside this evidence.
 See [all-UI acceptance](0022-accessibility-acceptance.md) and
 [capability convergence](0023-capability-convergence.md) for required follow-up.
 

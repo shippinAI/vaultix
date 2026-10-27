@@ -217,7 +217,7 @@ function FieldSeparator({
       {children ? (
         <div className="flex items-center gap-3">
           <Separator className="flex-1" />
-          <span className="text-xs font-medium text-muted/65" data-slot="field-separator-content">
+          <span className="text-xs font-medium text-muted" data-slot="field-separator-content">
             {children}
           </span>
           <Separator className="flex-1" />

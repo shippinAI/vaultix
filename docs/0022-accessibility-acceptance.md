@@ -59,6 +59,11 @@ keyboard checks exercise password visibility without submitting credentials.
 This resolved the initial automated contrast result that required manual review
 because the title used a gradient. It does not establish real Nomen authentication.
 
+Configured social/SSO options exposed a second shared contrast failure: the
+separator text used reduced opacity (4.05:1). It now uses the full muted color.
+Permanent checks include email-only and federated sign-in layouts, keyboard
+expansion of SSO choices and focus transfer to the first revealed option.
+
 The automated scope is workspace, AI connection choices, reference denied/loaded
 states and sign-in layout at desktop/mobile sizes, plus 320-pixel reflow checks.
 Keyboard assertions cover skip activation, changed-view focus and native radio
