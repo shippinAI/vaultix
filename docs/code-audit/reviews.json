@@ -159,25 +159,26 @@
     },
     {
       "path": "core/frontend/src/main.tsx",
-      "blob": "f62a32e764812d5117ce85268cd14fc5f15a883a",
+      "blob": "2da09e27490c396e56cc203f17a0eb5403b7e27f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Router pending view now renders owned Vaultix loader; NProgress uses a named valid progressbar and explicit selector instead of invalid role=bar. Fixture setup scan reproduced the defect and passed after the fix. Existing preload recovery, other Lottie icons and all route lifecycle cases still require broader review.",
+      "scope": "Complete file reread. Remove eager optional animation runtime and WASM URL setup; preserve router, pending SVG, progress, platform initialization and preload recovery. Cold built login and existing fixture states pass. Preload recovery and all route lifecycle cases still require broader acceptance.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-siC0lq/accessibility.json"
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
       ]
     },
     {
       "path": "core/frontend/src/components/v2/Lottie/Lottie.tsx",
-      "blob": "341b40b3cdcde9bd13bf04dc783d1318da9ee909",
+      "blob": "76ea0b80cf28648f82a526719429c2dcbefdc3ac",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete shared component read. The three product-loader variants render the owned reduced-motion SVG, retaining caller class/ref/children and leaving other animation icons unchanged. Retired inherited loader payloads are removed. Consumer workflow acceptance remains separate.",
+      "scope": "Complete file reread. Preserve synchronous owned SVG loader variants and public props/ref/children. Non-loader player uses React lazy and a local Suspense boundary, preserving callback/hover/autoplay props. Cold login payload reduced; optional non-loader interaction matrix is not verified by login tests.",
       "evidence": [
-        "scripts/check-owned.sh",
-        "scripts/smoke-image.sh",
-        "docs/0025-application-entry-and-artwork.md"
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
       ]
     },
     {
@@ -302,6 +303,78 @@
         "docs/migration/README.md",
         "scripts/test-migration-map.mjs",
         ".cache/migration-map-check.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Lottie/LottiePlayer.tsx",
+      "blob": "a6243af18c17a010f2805c40e8b61541b17d74cd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new module read. Sole runtime import/configuration for optional DotLottie player uses existing local versioned WASM URL. No new dependency, external credential or secret access. Type/build verification and absence from cold-login requests; optional animation playback acceptance remains separate.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/AuthPageLayout.tsx",
+      "blob": "c70942832c015cedc867c9dd9576e987f4759363",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with auth callers and header/panel. Preserve split/focused layouts, optional footer, header action and form-content slots. Add owned decorative vector composition and semantic recessed plane; allow desktop aside overflow. Desktop, short desktop, mobile and fixture setup/login states checked; real Nomen and all auth variants remain open.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/AuthVaultIllustration.tsx",
+      "blob": "6b91604cacaaf3051b8eec9d6b6079cf68c150a4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete owned SVG composition authored and read. Offset geometric planes use existing semantic colors; decorative aria-hidden/nonfocusable output contains no text substitute, external resource, bitmap, filter or animation. Rendered markup stays below 6 KB; desktop/mobile visibility and screenshots checked.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/index.css",
+      "blob": "d8c191dc61525f987a191c09743d7d2db2dcd5fe",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete stylesheet read. Add semantic recessed/elevated shadow tokens; existing raw palettes, global utilities, legacy motion and third-party styling retained. Recessed token verified in auth layout. This does not mark all legacy colors/motion or all elevation consumers converted or accessible.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/MenuIconButton.tsx",
+      "blob": "515b7f4ea8141622266e67f2f5e2be5d2fc61a90",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete legacy component read. Replace direct runtime dependency with same lazy local player module and keep icon props/ref/hover handlers. No active consumer found by source search; compile/lint evidence only. Existing polymorphic semantics and mounted interaction/accessibility acceptance remain unverified.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
+      ]
+    },
+    {
+      "path": "scripts/check-ui-loading.mjs",
+      "blob": "f42351ca55f1f83342cbfd45f31ab4bbbeb8da07",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete new measurement/acceptance script authored and executed. Three isolated cold contexts, explicit public config and anonymous-token fixtures, no credentials. Records bytes/timing/errors/screenshots, enforces decoded payload and decorative SVG budgets, forbids player/WASM requests at login, checks short-desktop and mobile form/reflow. Uncompressed local timing is not hosted performance or real authentication evidence.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/loading-proof-Ss8GJr/result.json",
+        ".cache/ui-proof-UKNPvQ/accessibility.json"
       ]
     }
   ]

@@ -4,6 +4,28 @@ Hosted Vaultix operated by shippin.ai is the first release target. Self-hosted
 deployments use the same engine and included software capabilities. Release
 claims require passing workflows; an included feature flag is not evidence.
 
+## Vector artwork and loading checkpoint, 2026-10-27
+
+The canonical standalone image `vaultix:visual-loading-verify`, local image ID
+`sha256:182a75bbd664dfdc5a72c89f4025e2bde72fb3a3768ba84e08af4a20a8823f78`,
+passed Dragonfly and Redis image/MCP/queue/restart checks. Both preserve the
+273 UI routes and 2,290 documented API operations. Logs are
+`.cache/visual-smoke-dragonfly.log` and `.cache/visual-smoke-redis.log`.
+
+`.cache/app-image-proof-Z5u5Cp/result.json` records real email sign-in, all five
+product entries, project creation and overview, certificate dashboard, PAM,
+authenticated root resume and anonymous UI/API denial. Its separate recovery
+report identifies fixture outage/picker scenarios. The two scoped image axe
+scans and 18 fixture UI scans detected zero violations; manual-review findings
+remain. The packaged login screenshot shows the owned vector composition.
+
+The built login's decoded payload fell from 4,565,309 to 4,134,494 bytes (9.44%).
+CI now enforces payload/illustration budgets. Measurements use local uncompressed
+serving and fixture configuration, not hosted timing or real identity. See
+[0028](0028-visual-loading-system.md) for source ownership, reports and remaining
+chart/dependency work. This checkpoint does not establish whole-UI conversion,
+complete accessibility, Nomen integration or enterprise parity.
+
 ## Capability preservation checkpoint, 2026-10-27
 
 The canonical standalone image `vaultix:preservation-verify`, local image ID

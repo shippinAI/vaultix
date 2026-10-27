@@ -4,11 +4,12 @@ This document captures the v3 visual language and product voice used across
 vaultix. It is the single reference for engineers, designers, and AI coding
 agents producing new UI or user-visible copy.
 
-The 2026-10-26 direction is crisp, flat vector 2.0: steel-dark surfaces,
-mint project accents, compact outlines, clear type, and practical controls.
-Use Lucide vector icons and semantic tokens. Avoid decorative shadows,
-gradient surfaces, bouncing controls and invented status counters. The shared
-Card and Button primitives implement the flat treatment across existing views.
+The 2026-10-27 direction extends crisp vector 2.0 with deliberate depth:
+steel-dark surfaces, mint project accents, compact outlines, clear type,
+and practical controls. Owned vector artwork uses offset planes and restrained
+elevation. Use Lucide vector icons and semantic tokens. Avoid ambient animation,
+large decorative downloads, bouncing controls and invented status counters.
+The shared Card and Button primitives retain their compact flat treatment.
 Keyboard focus must remain visible; muted text must remain readable.
 
 Whole-UI acceptance targets WCAG 2.2 AA; see
@@ -43,7 +44,7 @@ action is destructive, not because red is the accent. A project-colored button
 signals project scope, not visual variety. Designers pick intent; hex values
 follow.
 
-Depth is drawn with borders and surface tones, not shadows. Motion is
+Depth is drawn with borders, surface tones and purposeful elevation. Motion is
 restrained — 200ms ease-in-out, no springs, no decorative animation. Secret
 values are masked by default; revealing one is an intentional act.
 
@@ -52,7 +53,7 @@ values are masked by default; revealing one is an intentional act.
 - Dark-native; `--color-background` page canvas
 - Semantic-first color (danger / success / warning / info / neutral)
 - Scope-aware (org / sub-org / project / admin)
-- Border-defined depth; overlapping labels retain the shared Badge styling
+- Layered vector depth; overlapping labels retain the shared Badge styling
 - Inter for product UI, Alliance for display typography, and distinct
   functional and decorative monospace roles
 - Secrets masked by default; reveal is an act
@@ -282,14 +283,21 @@ host component; don't override unless necessary.
 
 ## 6. Depth & Elevation
 
-Depth is conveyed by layered surface tones and borders. Shadows are reserved
-for elements that float (Popover, DropdownMenu, Sheet).
+Depth is conveyed by layered surface tones and borders, with semantic shadows
+for a recessed secondary plane (`shadow-recessed`) or floating surface
+(`shadow-elevated`). These tokens live in `frontend/src/index.css`.
+Authentication uses the recessed plane and the owned `AuthVaultIllustration`
+composition. Its SVG geometry consumes surface/brand tokens directly: no raster,
+filter, canvas, external resource, text substitute or continuous animation.
+Keep text and controls outside decorative artwork; hide it from assistive
+technology and keep its aspect ratio fixed. Small screens prioritize the form.
+See [loading and artwork acceptance](../docs/0028-visual-loading-system.md).
 
 | Layer           | Surface                                  | Border                        |
 | --------------- | ---------------------------------------- | ----------------------------- |
 | Page            | `bg-bunker-800`                          | —                             |
 | Card            | `bg-card`                                | `border-border`               |
-| Popover / Sheet | `bg-popover`                             | `border-border` + `shadow-lg` |
+| Popover / Sheet | `bg-popover`                             | `border-border` + semantic elevation (existing consumers migrate with workflow review) |
 | Row hover       | `bg-container-hover`                     | —                             |
 | Focus           | —                                        | 3px ring, `--color-ring`      |
 | Disabled        | `opacity-50 / 75`, `pointer-events-none` | —                             |

@@ -6,6 +6,7 @@ import { cn } from "@app/components/v3/utils";
 
 import { AuthPageFooter } from "./AuthPageFooter";
 import { AuthPageHeader } from "./AuthPageHeader";
+import { AuthVaultIllustration } from "./AuthVaultIllustration";
 
 type Props = {
   anchorBottomContent?: boolean;
@@ -77,7 +78,7 @@ export const AuthPageLayout = ({
       </section>
 
       {isSplit && (
-        <aside className="relative hidden h-screen min-w-0 overflow-hidden bg-card lg:sticky lg:top-0 lg:flex lg:flex-col">
+        <aside className="relative hidden h-screen thin-scrollbar min-w-0 overflow-y-auto bg-card shadow-recessed lg:sticky lg:top-0 lg:flex lg:flex-col">
           <div className="relative z-10 flex h-16 items-center justify-end px-8 xl:px-12">
             <Button asChild variant="outline" size="sm">
               <a href="/api/docs" target="_blank" rel="noopener noreferrer">
@@ -87,8 +88,9 @@ export const AuthPageLayout = ({
             </Button>
           </div>
 
-          <div className="relative z-10 flex flex-1 items-center justify-center px-10 pb-16 xl:px-20">
+          <div className="relative z-10 flex flex-1 items-center justify-center px-10 pt-6 pb-16 xl:px-20">
             <div className="max-w-xl">
+              <AuthVaultIllustration />
               <p className="mb-4 font-jetbrains-mono text-xs tracking-[0.02em] text-project uppercase">
                 {aside?.eyebrow ?? "Vaultix · Secrets + AI"}
               </p>

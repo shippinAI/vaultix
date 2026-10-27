@@ -78,6 +78,8 @@ jobs:
         working-directory: core/e2e
       - name: Verify native browser states
         run: node scripts/test-native-ui.mjs
+      - name: Enforce cold login loading budget
+        run: node scripts/check-ui-loading.mjs
       - name: Preserve browser and dependency evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -87,6 +89,9 @@ jobs:
           path: |
             .cache/ui-proof-*/*.png
             .cache/ui-proof-*/accessibility.json
+            .cache/loading-proof-*/*.png
+            .cache/loading-proof-*/result.json
+            .cache/loading-proof-*/startup-failure.json
             .cache/backend-production-audit.json
           if-no-files-found: warn
       - run: go test ./internal/ee/services/license ./internal/config ./internal/database/redis

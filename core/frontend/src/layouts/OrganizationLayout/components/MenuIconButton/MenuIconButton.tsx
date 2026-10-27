@@ -1,8 +1,10 @@
-import { ComponentPropsWithRef, ElementType, useRef } from "react";
-import { DotLottie, DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { ComponentPropsWithRef, ElementType, lazy, Suspense, useRef } from "react";
+import type { DotLottie } from "@lottiefiles/dotlottie-react";
 import { twMerge } from "tailwind-merge";
 
 import { MenuItemProps } from "@app/components/v2";
+
+const LottiePlayer = lazy(() => import("@app/components/v2/Lottie/LottiePlayer"));
 
 export const MenuIconButton = <T extends ElementType = "button">({
   children,
@@ -42,15 +44,17 @@ export const MenuIconButton = <T extends ElementType = "button">({
         />
         {icon && (
           <div className="my-auto mb-2 h-6 w-6">
-            <DotLottieReact
-              dotLottieRefCallback={(el) => {
-                iconRef.current = el;
-              }}
-              src={`/lotties/${icon}.json`}
-              loop
-              className="h-full w-full"
-              mode={lottieIconMode}
-            />
+            <Suspense fallback={null}>
+              <LottiePlayer
+                dotLottieRefCallback={(el) => {
+                  iconRef.current = el;
+                }}
+                src={`/lotties/${icon}.json`}
+                loop
+                className="h-full w-full"
+                mode={lottieIconMode}
+              />
+            </Suspense>
           </div>
         )}
         <div className="grow justify-center text-center break-words" style={{ fontSize: "10px" }}>

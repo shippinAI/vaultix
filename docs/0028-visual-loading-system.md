@@ -1,0 +1,90 @@
+# Visual depth and loading acceptance
+
+Vaultix.cloud uses owned vector artwork, clear typography, compact controls and
+deliberate depth. DevSCIF.com uses the same foundations with suite-specific
+workflows. This is an in-place evolution of the existing application. The real
+authentication and project application remain the entry point.
+
+## Source and ownership
+
+`core/frontend/src/index.css` owns semantic surfaces, colors and elevation.
+Shared primitives own control states. Authentication owns its layout and
+`AuthVaultIllustration.tsx` composition. Tailwind/Vite generate CSS and JavaScript
+during the frontend build; generated files are never edited to change appearance.
+The illustration draws offset planes with existing semantic colors. It adds no
+image request, animation runtime, SVG filter, font, embedded bitmap or external
+resource. Decorative art has no keyboard target and is hidden from assistive
+technology. Form labels, errors and actions remain real HTML.
+
+Use depth to distinguish planes and floating controls. Keep dense tables and
+routine cards calm. Fixed artwork aspect ratios prevent layout shifts. Keep
+the form usable at short desktop heights and narrow widths; desktop secondary
+content scrolls independently. Existing focus, authorization and form behavior
+are preserved. Review actual consumers before converting other shared controls.
+
+## Loading infrastructure
+
+The SVG product loader remains synchronous and small. The optional animated-icon
+player is a separate module, loaded with [React lazy](https://react.dev/reference/react/lazy)
+inside a local [Suspense boundary](https://react.dev/reference/react/Suspense).
+Its existing local WASM URL is configured inside that module. Form and navigation
+content do not wait for the decorative player. Animated icon props, callbacks,
+hover behavior and children remain supported. No new runtime dependency is added.
+
+The existing chart group still loads at login through shared dependencies.
+An experiment with Rollup's [explicit manual chunk behavior](https://rollupjs.org/configuration-options/#output-onlyexplicitmanualchunks)
+failed browser startup and was removed. The current circular imports need a
+module-level dependency fix before this group can safely become route-only.
+Do not claim that login is fully optimized or that charts are deferred.
+
+`scripts/check-ui-loading.mjs` measures three fresh browser contexts against the
+built login UI. Instance configuration and anonymous-token responses are explicit
+fixtures. It records requested assets, decoded/encoded/transfer bytes, browser
+version, errors, typing readiness and a screenshot under `.cache/loading-proof-*`.
+The static server is local and uncompressed, without CPU/network throttling.
+These numbers measure requested payload and local behavior, not a hosted SLA.
+Cold login must not request the optional player or WASM. Decoded payload limits
+are 3.7 MB JavaScript and 4.25 MB total assets; illustration markup is below 6 KB.
+These initial limits prevent losing this improvement and must tighten as the
+remaining dependency graph is improved. CI runs the check before
+publishing and retains its evidence. `--baseline` records the previous build
+without enforcing the new loading budget.
+
+## Methodical next work
+
+1. Trace the remaining login dependency graph and split feature-owned imports;
+   retain crypto, validation, provider and authorization behavior.
+2. Establish per-workflow payload and interaction baselines for secrets, approvals,
+   PKI, PAM, KMS and administrative screens before changing their composition.
+3. Measure hosted compression, cache headers, CDN behavior, constrained networks
+   and CPU separately. Versioned assets can be cached aggressively; authenticated
+   data and HTML require their own cache policies.
+4. Apply contextual help, accessible dialogs and catalog-backed teaching while
+   recording success, denial and recovery evidence for each actual workflow.
+5. Add responsive raster derivatives only where a photographic source requires
+   them. Owned UI vectors remain code/source assets; do not add a runtime image
+   service for small geometric illustrations.
+
+The entire UI is not converted by this checkpoint. Whole-tree authorship,
+manual assistive-technology review, full capability parity and the native stack
+migration keep their existing acceptance gates.
+
+## Measured checkpoint, 2026-10-27
+
+Baseline `.cache/loading-proof-vAvw9r/result.json` requested 4,565,309 decoded
+asset bytes, including 4,037,254 JavaScript bytes. The candidate in
+`.cache/loading-proof-Ss8GJr/result.json` requested 4,134,494 asset bytes,
+including 3,606,170 JavaScript bytes: 430,815 fewer total bytes (9.44%). All three
+cold contexts had the same payload and zero browser errors. Local typing-ready
+times varied; they are not used as a release threshold or hosted speed claim.
+
+Desktop, 1280-by-600 short-desktop and 320-pixel mobile screenshots were reviewed.
+The illustration is hidden on mobile and the form remains available without
+horizontal document overflow. All 18 existing fixture UI/accessibility states
+passed in `.cache/ui-proof-UKNPvQ`; no detected axe violations. Real identity,
+all workflows and manual assistive-technology acceptance remain separate.
+
+The canonical image also passed real authentication/application acceptance in
+`.cache/app-image-proof-Z5u5Cp/result.json`, plus both Dragonfly and Redis smoke
+tests. Image identity and precise scope are recorded in
+[the capability evidence ledger](0018-hosted-capability-proof.md).

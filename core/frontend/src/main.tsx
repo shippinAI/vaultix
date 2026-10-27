@@ -1,7 +1,5 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { setWasmUrl } from "@lottiefiles/dotlottie-react";
-import lottieWasmUrl from "@lottiefiles/dotlottie-web/dist/dotlottie-player.wasm?url";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import NProgress from "nprogress";
 
@@ -28,9 +26,6 @@ import "./translation";
 // for passing in lng and translations on init/
 
 initializePlatform();
-
-// Configure Lottie player to use local WASM file
-setWasmUrl(lottieWasmUrl);
 
 // Create a new router instance
 NProgress.configure({

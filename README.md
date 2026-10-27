@@ -17,6 +17,9 @@ defines domain ownership, AI-managed lifecycle boundaries, migration order and
 rollback gates. The [module map](docs/migration/README.md) tracks source coverage
 without counting discovery as completed rewriting.
 
+The [visual and loading system](docs/0028-visual-loading-system.md) defines owned
+vector artwork, purposeful depth, responsive behavior and measured payload gates.
+
 Software capabilities are included for self-hosted and hosted instances.
 Membership is not a feature paywall. Permissions, approval policies, and
 operational controls still apply. Full enterprise parity and the complete

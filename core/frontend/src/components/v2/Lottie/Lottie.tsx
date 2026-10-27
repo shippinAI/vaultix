@@ -1,5 +1,7 @@
-import { forwardRef, ReactNode, useRef } from "react";
-import { DotLottie, DotLottieReact, Mode } from "@lottiefiles/dotlottie-react";
+import { forwardRef, lazy, ReactNode, Suspense, useRef } from "react";
+import type { DotLottie, Mode } from "@lottiefiles/dotlottie-react";
+
+const LottiePlayer = lazy(() => import("./LottiePlayer"));
 
 export type LottieProps = {
   // Kudos to https://itnext.io/react-polymorphic-components-with-typescript-f7ce72ea7af2
@@ -37,16 +39,18 @@ export const Lottie = forwardRef<HTMLDivElement, LottieProps>(
         {...props}
         ref={ref}
       >
-        <DotLottieReact
-          dotLottieRefCallback={(el) => {
-            iconRef.current = el;
-          }}
-          mode={iconMode}
-          src={`/lotties/${icon}.json`}
-          loop
-          autoplay={isAutoPlay}
-          className="h-full w-full"
-        />
+        <Suspense fallback={null}>
+          <LottiePlayer
+            dotLottieRefCallback={(el) => {
+              iconRef.current = el;
+            }}
+            mode={iconMode}
+            src={`/lotties/${icon}.json`}
+            loop
+            autoplay={isAutoPlay}
+            className="h-full w-full"
+          />
+        </Suspense>
         {children}
       </div>
     );
