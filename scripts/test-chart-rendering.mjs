@@ -36,7 +36,16 @@ export async function testChartRendering({ page, expect, AxeBuilder, origin, das
   });
   const open = async () => {
     await page.goto(dashboardUrl);
-    await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible();
+    try {
+      await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible({ timeout: 30000 });
+    } catch (error) {
+      writeFileSync(resolve(evidence, "chart-navigation-failure.json"), JSON.stringify({
+        pathname: new URL(page.url()).pathname,
+        headings: await page.getByRole("heading").allTextContents()
+      }, null, 2));
+      await page.screenshot({ path: resolve(evidence, "chart-navigation-failure.png") });
+      throw error;
+    }
     await expect(cards).toHaveCount(4);
   };
   const checkLayout = async () => {
@@ -68,6 +77,8 @@ export async function testChartRendering({ page, expect, AxeBuilder, origin, das
     await page.evaluate(() => new Promise(resolveFrame => requestAnimationFrame(() => requestAnimationFrame(resolveFrame))));
     assert.deepEqual(await paths(), initialPaths, "Reduced motion must retain stable chart geometry");
     await page.setViewportSize({ width: 390, height: 844 });
+    await expect.poll(() => page.getByRole("heading", { name: "Certificate Dashboard", exact: true })
+      .evaluate(element => element.scrollWidth <= element.clientWidth && element.scrollHeight <= element.clientHeight)).toBe(true);
     await page.screenshot({ path: resolve(evidence, "fixture-certificate-charts-narrow.png"), fullPage: true });
     writeFileSync(resolve(evidence, "chart-layout.json"), JSON.stringify(await cards.evaluateAll(elements => elements.map(element => ({
       title: element.querySelector("h2")?.textContent,

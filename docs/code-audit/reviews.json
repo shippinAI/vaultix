@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "e9a31ddf34a251263090387daf5705702ddcfd82",
+      "blob": "2a16cdfc2b0107726f123b9c648d59bca0e260da",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently. Disposable random credential bytes are now separated to prevent accidental four-character repeats while retaining entropy and satisfying the existing password policy. Real bootstrap/sign-in and all image UI checks pass; product authentication is unchanged.",
+      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently. Disposable random credential bytes are now separated to prevent accidental four-character repeats while retaining entropy and satisfying the existing password policy. Real bootstrap/sign-in and all image UI checks pass; product authentication is unchanged. Invoke the separate environment lifecycle runner after existing real sign-in/project/navigation and chart checks. Real operations and injected recovery fixtures have separate evidence; operator instance remains guarded from test bootstrap. Record status-only auth navigation diagnostics and deliberately withhold a real rotation response from the browser; assert replacement cookie and authenticated reload after the existing ten-second grace expires. No cookie/token values are written to evidence.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -261,7 +261,12 @@
         ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
         ".cache/app-image-proof-ok1eZZ/result.json",
         ".cache/app-image-proof-ok1eZZ/chart-rendering.json",
-        "docs/0029-ui-workflow-execution.md: CI fixture follow-up"
+        "docs/0029-ui-workflow-execution.md: CI fixture follow-up",
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
+        "docs/0031-refresh-recovery.md"
       ]
     },
     {
@@ -474,17 +479,21 @@
     },
     {
       "path": "scripts/test-chart-rendering.mjs",
-      "blob": "2852cc3555819e3baa9748cce04e46df9087c7b3",
+      "blob": "17645dfb85696d78d3d583b459b756e1f26c38c2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use.",
+      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use. Add narrow heading-fit assertion after shared PageHeader rewrite. CI navigation failures now retain route/headings/screenshot diagnostics with a bounded 30-second navigation wait. Local checks pass; CI resolution requires the new pipeline result.",
       "evidence": [
         "docs/0029-ui-workflow-execution.md",
         ".cache/bundle-proof-0TPEKz/summary.json",
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
       ]
     },
     {
@@ -545,6 +554,249 @@
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
         ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/environment-focus.ts",
+      "blob": "ea164ad37691efa5bd569b9ec76bb4189296be82",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored helper read with all three environment dialog callers. Restores connected trigger focus only when no new menu/dialog or subsequent user focus owns the interaction. Defensively avoids restoring focus into an obsolete interaction; the row menu also omits exit animation to release its dismissal layer. Real rapid cancel/reopen and create/edit/delete focus checks pass; other workflow dialogs remain outside this scope. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentForm.tsx",
+      "blob": "2354e7bf13b405e2ba24eb965dad1dbd3f98abc4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored file read with create/edit callers, existing slug validation, Field/Input/Dialog primitives and global mutation error ownership. Shared typed form trims and validates names/slugs, auto-suggests until manual override, associates errors/help, prevents duplicate submission, retains failed edits and announces pending state. No new schema library, API or value exposure. Real creation/duplicate rejection and separate outage/pending fixtures pass. Manual screen-reader acceptance remains open. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/AddEnvironmentModal.tsx",
+      "blob": "22a607d95e59b811f84e718ff62f343a3e52f105",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read; traced four existing callers and create hook. Existing project ID, API, success callback and query invalidation retained. Uses shared validated form, guards dismissal while pending and restores connected trigger focus. Real image creation and recovery fixture checks pass; no server authorization or authentication changes. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/UpdateEnvironmentModal.tsx",
+      "blob": "090a392ad2d4e7357b8336a65d9ba14c06252ff3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read with settings caller, popup lifecycle and update hook. Existing ID/name/slug mutation remains authoritative. Failed edits stay open, pending dismissal is blocked and row-menu focus returns after close. Real rename plus outage retry pass. Permissions remain in caller/server; no new AI write action. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentSection.tsx",
+      "blob": "cf59d5adb8ba8992c13d843476818988dd4d42b9",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read with table/modals, popup state and existing delete API. Remove obsolete paid-plan UI branches while retaining Create/Read/Delete permissions and server constraints. Accessible named region; soft/permanent deletion await success, prevent duplicates, retain exact-slug confirmation and report failure once through global mutation cache. Restore focus to row or stable Create control. Real schedule/restore/permanent-delete lifecycle and outage retry fixtures pass. Does not certify server concurrency, complete role matrix or screen-reader use. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentTable.tsx",
+      "blob": "1eaa9fb8f88a8012f488da060e66010722c0144d",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete original and authored file read with project context/query invalidation, menu/table primitives and environment API callers. Retain ordering, deletion metadata, restore and permission gates; remove obsolete paid-plan edit UI. Named row actions/table, visible actor/deadline and asynchronous failure feedback. Nonmodal action menus hand off to modal dialogs; keyboard reorder and restore recover focus after refreshed data without stealing subsequent focus. Real lifecycle, boundary focus and read-only UI fixture pass. Server role/tenant matrix and concurrency remain separate gates. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/PageHeader/PageHeader.tsx",
+      "blob": "602ce325583d9bd8c4cb9d2f19ce0f560a57a35f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Preserve scope/icon/caller contract; replace truncated headings with wrapping, flexible title/actions, semantic full-contrast tokens and decorative icon semantics. Real application/project/settings navigation and narrow certificate-heading fit pass. This representative evidence does not certify every header consumer or whole-dashboard reflow.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Table/Table.tsx",
+      "blob": "ea1190bbeff8ebe4157790a1c26de92e960707fb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with environment consumer and component story guidance. Preserve native table structure, overflow container, ref and composition API. Replace low-contrast default heading accent with full muted token after real environment scan measured 3.9:1. Environment list/deleted-state axe checks verify this consumer; other variants/consumers, 400-percent zoom and assistive technology remain subject to workflow review.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "scripts/test-environment-workflow.mjs",
+      "blob": "fb016657e7f6e60c1bc503cac08dd2961928aa42",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete authored runner read. Uses disposable real image project for create, duplicate rejection, edit, keyboard reorder, anonymous denial, schedule/restore/permanent deletion. Separately records injected outage/pending/read-only fixtures; preserves inputs, checks focus/reflow and scoped WCAG scans without suppressions. Bounded response waits and failure diagnostics contain metadata, never secret values. Manual screen-reader, concurrent mutation and real role matrices remain separate. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "evidence": [
+        "docs/0030-environment-workflow.md",
+        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
+        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/auth-token-service.ts",
+      "blob": "198f6a3e20a09a349c95d8a4aa591cde95388794",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with router, session DAL, cache operations, login invalidation and delegated OAuth refresh caller. Recover a validated immediately preceding browser token with the current version and unchanged signed claims/expiry, without extending the cache marker or modifying the session. Reject mismatched/expired/delegated recovery contexts. Session invalidation clears grace; older versions cannot use grace after logout. Real database tests reproduce the original recovery/logout defects then pass on both caches, including replay revocation; unit guards preserve tenant/MFA/timestamps. Existing OTP/session logic is retained. Normal concurrent rotation, replica lag, OAuth recovery and Nomen remain explicit separate gates; this is not complete authentication-service acceptance.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/v1/auth-router.ts",
+      "blob": "c660db3176bc70d0ba6751e5789cc252eaf5639c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and route/service/cookie/error trace. Preserve logout/checkAuth/refresh contracts and authorization; after validated browser grace, send a current HttpOnly cookie and existing optional refreshToken response field. Cookie path, SameSite, HTTPS setting and access-token claims remain unchanged. Real recovery, expiry/replay and logout tests pass on both caches, and packaged browser recovery is separately recorded. Nomen session migration and concurrent rotation remain open.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/auth-refresh-recovery.test.ts",
+      "blob": "f125e62b8a5a1e1b3e9f8d4d931e826f3ce8298f",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored unit test read and executed. Nine checks exercise signed organization/suborganization/MFA/timestamp preservation without store writes, and reject invalid expiry, user/session/version and delegated-token contexts. Uses synthetic fixtures and restores FIPS environment state; no credential logging or claim of FIPS/provider acceptance.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/e2e-test/routes/v1/auth-refresh-recovery.spec.ts",
+      "blob": "34dc9d46d02777307247b1c7f774031bda098545",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored database test read. Uses isolated login user agents and real server/cache/session data. Drops only the disposable grace marker to test post-grace behavior deterministically. Reproduces two baseline defects, verifies successor cookie/current version/original expiry/unchanged grace TTL, then checks expired-grace family revocation and logout denial of current/predecessor cookies. Server-issued JWTs are verified with the fixture key; token values are not assertions/log output. Dragonfly and Redis pass.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "scripts/test-core.mjs",
+      "blob": "f771a3a31c0f09eb1d8fae313067e9255f9ae3c3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete runner read. Retain disposable database/cache/network, random fixture keys, source copying, JSON evidence and cleanup. Add existing browser auth/login and new recovery/revocation specs to the default capability suite. Both isolated cache runs report all 168 tests passing; earlier overlapping image-build runs hit unchanged bulk-operation deadlines and are retained as failed evidence. This is scoped capability verification, not provider or production-load acceptance.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/auth-token-dal.ts",
+      "blob": "30f71f1fb8f816b4288314ad99d1cdffbe9eff34",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete file read for refresh/session trace. Retains transaction-aware token/session CRUD, primary writes, replica session reads and separate access/refresh increments. No authored changes. Normal refresh increments are not compare-and-set; replica lag/concurrent rotation need characterization before migration. The recovery packet does not certify these concurrency properties.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/auth/refresh.ts",
+      "blob": "0680e2a39621332e1766d22d76ac3065dd6c3cf6",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete file read with authentication middleware and request interceptor. In-memory token reuse, shared refresh promise, retry classification and BroadcastChannel delivery remain intact. The interrupted-response bug is repaired in the authoritative service; cross-tab actor/cache synchronization and real Nomen session ownership remain open. No client credential copying or subscription integration is implemented here.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/config/request.ts",
+      "blob": "d92f49340e71d66bc8f931683646bdc6a3d25a46",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete file read with refresh client and middleware. Existing authorization injection, bounded retry flag and session-expiry redirect retained. No authored changes. Expired/stale-session retry, transient failures, global token clearing and cross-tab behavior require the later authentication migration review; browser recovery evidence does not certify every interceptor branch.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/middlewares/authenticate.tsx",
+      "blob": "06972c8cdaefc5c7a647b3c6e483a2611d1534b2",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete file read with refresh client, API request path and route callers. Retain first-instance setup, refresh/user lookup, organization/suborganization selection and administrator-onboarding redirects. Current catch-all refresh failure redirects to login; transient failure UX and Nomen issuer/session wiring remain open. No authentication guard is bypassed by included capabilities.",
+      "evidence": [
+        "docs/0031-refresh-recovery.md",
+        ".cache/core-proof-ULt89h/test-results.json",
+        ".cache/core-proof-5OZCo8/test-results.json",
+        ".cache/core-proof-lZJx7V/test-results.json",
+        ".cache/unit-proof-UPFDNN/test-results.json"
       ]
     }
   ]

@@ -8,7 +8,20 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const provider = process.argv[2] ?? "dragonfly";
 if (!["dragonfly", "redis"].includes(provider)) throw new Error("Choose dragonfly or redis.");
 const specs = process.argv.slice(3);
-const selected = specs.length ? specs : ["e2e-test/routes/v1/vaultix-references.spec.ts", "e2e-test/routes/v4/secrets.spec.ts", "e2e-test/routes/v1/secret-approval-policy.spec.ts", "e2e-test/routes/v1/access-approval-policy.spec.ts", "e2e-test/routes/v1/oauth-scope.spec.ts", "e2e-test/routes/v1/identity-access-token-redesign.spec.ts", "e2e-test/routes/v1/project-env.spec.ts", "e2e-test/routes/v3/secret-reference.spec.ts", "e2e-test/routes/v1/scim.spec.ts"];
+const selected = specs.length ? specs : [
+  "e2e-test/routes/v1/auth-token.spec.ts",
+  "e2e-test/routes/v1/auth-refresh-recovery.spec.ts",
+  "e2e-test/routes/v3/auth-email-login.spec.ts",
+  "e2e-test/routes/v1/vaultix-references.spec.ts",
+  "e2e-test/routes/v4/secrets.spec.ts",
+  "e2e-test/routes/v1/secret-approval-policy.spec.ts",
+  "e2e-test/routes/v1/access-approval-policy.spec.ts",
+  "e2e-test/routes/v1/oauth-scope.spec.ts",
+  "e2e-test/routes/v1/identity-access-token-redesign.spec.ts",
+  "e2e-test/routes/v1/project-env.spec.ts",
+  "e2e-test/routes/v3/secret-reference.spec.ts",
+  "e2e-test/routes/v1/scim.spec.ts"
+];
 if (selected.some((spec) => !/^e2e-test\/[a-zA-Z0-9_./-]+\.spec\.ts$/.test(spec) || spec.includes(".."))) throw new Error("Provide spec paths within e2e-test.");
 const run = `vaultix-proof-${randomBytes(6).toString("hex")}`;
 mkdirSync(resolve(root, ".cache"), { recursive: true });

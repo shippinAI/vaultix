@@ -7,6 +7,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 import { testChartRendering } from "./test-chart-rendering.mjs";
+import { testEnvironmentWorkflow } from "./test-environment-workflow.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -40,11 +41,27 @@ assert.equal(setup.status, 200, "Disposable instance setup failed.");
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/app-image-proof-"));
 const browser = await chromium.launch({ headless: true, ...(process.env.VAULTIX_BROWSER_CHANNEL ? { channel: process.env.VAULTIX_BROWSER_CHANNEL } : {}) });
+const authEvents = [];
+let phase = "entry";
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   // External integrations are outside this local acceptance test. No API/auth responses are mocked.
   await context.route("**/*", route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage();
+  page.on("requestfailed", request => {
+    if (new URL(request.url()).pathname === "/api/v1/auth/token") authEvents.push({ phase, event: "request-failed" });
+  });
+  page.on("response", async response => {
+    if (new URL(response.url()).pathname !== "/api/v1/auth/token") return;
+    const event = { phase, status: response.status() };
+    authEvents.push(event);
+    event.cookieSet = Boolean((await response.allHeaders().catch(() => ({})))["set-cookie"]);
+    if (response.status() >= 400) {
+      const body = await response.json().catch(() => ({}));
+      const known = new Set(["TokenReuse", "InvalidToken", "RotationFailed", "UnauthorizedError", "Unauthorized", "RateLimitError", "Too Many Requests"]);
+      event.error = known.has(body.error) ? body.error : "other";
+    }
+  });
   const accessibility = [];
   const audit = async state => {
     await page.evaluate(async () => {
@@ -82,6 +99,7 @@ try {
   await page.getByLabel("Password", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Continue with Email" }).click();
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`, { timeout: 30000 });
+  phase = "authenticated-navigation";
   await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Vaultix home", exact: true })).toBeVisible();
   assert.equal(await page.getByText("Free Pro Trial", { exact: true }).count(), 0);
@@ -90,6 +108,26 @@ try {
   }
   await page.screenshot({ path: resolve(evidence, "authenticated-projects.png"), fullPage: true });
   await audit("authenticated-dashboard");
+  phase = "refresh-recovery";
+  const originalCookie = (await context.cookies(`${origin}/api/v1/auth/token`)).find(cookie => cookie.name === "jid");
+  assert.ok(originalCookie, "Real login must establish a refresh cookie");
+  // Rotate on the real server while deliberately withholding its response from the browser.
+  const lostRotation = await fetch(`${origin}/api/v1/auth/token`, {
+    method: "POST", headers: { Cookie: `jid=${originalCookie.value}` }
+  });
+  assert.equal(lostRotation.status, 200);
+  await lostRotation.body?.cancel();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
+  const recoveredCookie = (await context.cookies(`${origin}/api/v1/auth/token`)).find(cookie => cookie.name === "jid");
+  assert.equal(Boolean(recoveredCookie && recoveredCookie.value !== originalCookie.value), true,
+    "A grace response must replace the stranded browser cookie");
+  // The current compatibility grace is 10 seconds. Verify recovery beyond that window.
+  await new Promise(resolveDelay => setTimeout(resolveDelay, 11000));
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
+  authEvents.push({ phase, event: "recovered-cookie-survives-grace-expiry" });
+  phase = "authenticated-navigation";
   // Native buttons must retain both keyboard activation paths.
   await page.getByRole("button", { name: "Secrets Management", exact: true }).press("Space");
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management`);
@@ -156,16 +194,27 @@ try {
   writeFileSync(resolve(evidence, "result.json"), JSON.stringify({
     passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and overview loading", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
   }, null, 2));
+  phase = "dashboard-recovery";
   const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "dashboard-recovery.json"), JSON.stringify({ passed: true, ...recovery }, null, 2));
+  phase = "charts";
   const charts = await testChartRendering({ page, expect, AxeBuilder, origin, dashboardUrl: certificateDashboardUrl, evidence });
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "chart-rendering.json"), JSON.stringify({ passed: true, ...charts }, null, 2));
+  phase = "environments";
+  await testEnvironmentWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, projectId: project.id, evidence, expectedFailures });
+  assert.deepEqual(errors, []);
+  writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
+    passed: true,
+    scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
+    reports: ["result.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json"]
+  }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {
   console.error(`Application proof failed. Evidence directory: ${evidence}`);
   throw error;
 } finally {
+  writeFileSync(resolve(evidence, "auth-navigation.json"), JSON.stringify(authEvents, null, 2));
   await browser.close();
 }

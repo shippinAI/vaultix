@@ -122,7 +122,9 @@ export const registerAuthRoutes = async (server: FastifyZodProvider) => {
 
       let newRefreshToken: string | undefined;
 
-      if (!isGraceHit) {
+      if (isGraceHit) {
+        newRefreshToken = server.services.authToken.recoverRefreshToken(decodedToken, tokenVersion);
+      } else {
         // Normal rotation: issue new refresh token and invalidate the old one
         const rotation = await server.services.authToken.rotateRefreshToken(decodedToken, tokenVersion);
         newRefreshToken = rotation.newRefreshToken;
@@ -159,7 +161,7 @@ export const registerAuthRoutes = async (server: FastifyZodProvider) => {
         { expiresIn }
       );
 
-      // Set rotated refresh token cookie (only when rotation happened, not on grace hits)
+      // Grace recovery also replaces a cookie whose rotation response was lost.
       if (newRefreshToken) {
         void res.setCookie("jid", newRefreshToken, {
           httpOnly: true,

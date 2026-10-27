@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from "react";
 import { format, intervalToDuration } from "date-fns";
 import {
   ArrowDownIcon,
@@ -27,22 +28,14 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
+  TableRow
 } from "@app/components/v3";
-import {
-  ProjectPermissionActions,
-  ProjectPermissionSub,
-  useProject,
-  useSubscription
-} from "@app/context";
+import { ProjectPermissionActions, ProjectPermissionSub, useProject } from "@app/context";
 import { useRestoreEnvironment, useUpdateWsEnvironment } from "@app/hooks/api";
 import { ProjectDeletedEnvActor } from "@app/hooks/api/projects/types";
 import { UsePopUpState } from "@app/hooks/usePopUp";
 
-type PopUpKeys = "updateEnv" | "deleteEnv" | "hardDeleteEnv" | "upgradePlan";
+type PopUpKeys = "updateEnv" | "deleteEnv" | "hardDeleteEnv";
 
 type EnvPayload = { name: string; slug: string; id: string; deleteAfter?: string };
 
@@ -78,60 +71,75 @@ const formatRemainingDuration = (target: Date): string | null => {
 
 export const EnvironmentTable = ({ handlePopUpOpen }: Props) => {
   const { currentProject } = useProject();
-  const { subscription } = useSubscription();
+  const running = useRef(false);
+  const reorderFocus = useRef<{ id: string; position: number; control: HTMLElement }>();
+  const restoringId = useRef<string>();
+  const [operationFailed, setOperationFailed] = useState(false);
 
   const updateEnvironment = useUpdateWsEnvironment();
   const restoreEnvironment = useRestoreEnvironment();
+  const isPending = updateEnvironment.isPending || restoreEnvironment.isPending;
 
   const activeEnvironments = currentProject.environments ?? [];
   const deletedEnvironments = currentProject.deletedEnvironments ?? [];
 
-  const handleReorderEnv = async (id: string, position: number) => {
-    if (!currentProject?.id) return;
+  useLayoutEffect(() => {
+    const pending = reorderFocus.current;
+    if (!pending || isPending) return;
+    const position = activeEnvironments.findIndex(({ id }) => id === pending.id) + 1;
+    if (!operationFailed && position !== pending.position) return;
+    reorderFocus.current = undefined;
+    // Query invalidation can finish after the mutation; wait for the reordered row.
+    // Respect a user who has already moved to another control while waiting.
+    if (document.activeElement !== document.body && document.activeElement !== pending.control)
+      return;
+    const control = document.getElementById(pending.control.id) as HTMLButtonElement | null;
+    if (control && !control.disabled) control.focus();
+    else document.getElementById(`environment-options-${pending.id}`)?.focus();
+  }, [activeEnvironments, isPending, operationFailed]);
 
-    await updateEnvironment.mutateAsync({
-      projectId: currentProject.id,
-      id,
-      position
-    });
+  useLayoutEffect(() => {
+    const id = restoringId.current;
+    if (!id || isPending) return;
+    if (!operationFailed && !activeEnvironments.some((environment) => environment.id === id))
+      return;
+    restoringId.current = undefined;
+    const target = document.getElementById(`environment-options-${id}`);
+    if (document.activeElement === document.body || document.activeElement === target)
+      target?.focus();
+  }, [activeEnvironments, isPending, operationFailed]);
 
-    createNotification({
-      text: "Successfully re-ordered environments",
-      type: "success"
-    });
-  };
-
-  const handleRestoreEnv = async (id: string) => {
-    if (!currentProject?.id) return;
-
+  const runOperation = async (operation: () => Promise<unknown>, message: string) => {
+    if (running.current) return;
+    running.current = true;
+    setOperationFailed(false);
     try {
-      await restoreEnvironment.mutateAsync({
-        projectId: currentProject.id,
-        id
-      });
-
-      createNotification({
-        text: "Successfully restored environment",
-        type: "success"
-      });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to restore environment";
-      createNotification({
-        text: message,
-        type: "error"
-      });
+      await operation();
+      createNotification({ text: message, type: "success" });
+    } catch {
+      // The shared mutation cache reports the server error once.
+      setOperationFailed(true);
+    } finally {
+      running.current = false;
     }
   };
 
-  const isMoreEnvironmentsAllowed =
-    subscription?.environmentLimit && activeEnvironments
-      ? activeEnvironments.length <= subscription.environmentLimit
-      : true;
-
-  const environmentsOverPlanLimit =
-    subscription?.environmentLimit && activeEnvironments
-      ? Math.max(0, activeEnvironments.length - subscription.environmentLimit)
-      : 0;
+  const handleReorderEnv = (id: string, position: number, control: HTMLElement) => {
+    if (running.current) return;
+    reorderFocus.current = { id, position, control };
+    runOperation(
+      () => updateEnvironment.mutateAsync({ projectId: currentProject.id, id, position }),
+      "Environments reordered"
+    );
+  };
+  const handleRestoreEnv = (id: string) => {
+    if (running.current) return;
+    restoringId.current = id;
+    runOperation(
+      () => restoreEnvironment.mutateAsync({ projectId: currentProject.id, id }),
+      "Environment restored"
+    );
+  };
 
   if (!activeEnvironments.length && !deletedEnvironments.length) {
     return (
@@ -147,179 +155,192 @@ export const EnvironmentTable = ({ handlePopUpOpen }: Props) => {
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Slug</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {activeEnvironments.map(({ name, slug, id }, pos) => (
-          <TableRow key={id}>
-            <TableCell>{name}</TableCell>
-            <TableCell>{slug}</TableCell>
-            <TableCell>
-              <div className="flex items-center justify-end gap-1">
-                <ProjectPermissionCan
-                  I={ProjectPermissionActions.Edit}
-                  a={ProjectPermissionSub.Environments}
-                >
-                  {(isAllowed) => (
-                    <IconButton
-                      aria-label="Move down"
-                      variant="ghost-muted"
-                      onClick={() =>
-                        handleReorderEnv(id, Math.min(activeEnvironments.length, pos + 2))
-                      }
-                      isDisabled={pos === activeEnvironments.length - 1 || !isAllowed}
-                    >
-                      <ArrowDownIcon />
-                    </IconButton>
-                  )}
-                </ProjectPermissionCan>
-                <ProjectPermissionCan
-                  I={ProjectPermissionActions.Edit}
-                  a={ProjectPermissionSub.Environments}
-                >
-                  {(isAllowed) => (
-                    <IconButton
-                      aria-label="Move up"
-                      variant="ghost-muted"
-                      onClick={() => handleReorderEnv(id, Math.max(1, pos))}
-                      isDisabled={pos === 0 || !isAllowed}
-                    >
-                      <ArrowUpIcon />
-                    </IconButton>
-                  )}
-                </ProjectPermissionCan>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <IconButton aria-label="Environment options" variant="ghost-muted">
-                      <Ellipsis />
-                    </IconButton>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <ProjectPermissionCan
-                      I={ProjectPermissionActions.Edit}
-                      a={ProjectPermissionSub.Environments}
-                    >
-                      {(isAllowed) => (
-                        <Tooltip open={!isMoreEnvironmentsAllowed ? undefined : false}>
-                          <TooltipTrigger asChild>
-                            <DropdownMenuItem
-                              isDisabled={!isAllowed || !isMoreEnvironmentsAllowed}
-                              onClick={() => handlePopUpOpen("updateEnv", { name, slug, id })}
-                            >
-                              <PencilIcon />
-                              Edit environment
-                            </DropdownMenuItem>
-                          </TooltipTrigger>
-                          <TooltipContent side="left">
-                            You have exceeded the number of environments allowed by your plan. To
-                            edit an existing environment, either upgrade your plan or remove at
-                            least {environmentsOverPlanLimit} environment
-                            {environmentsOverPlanLimit === 1 ? "" : "s"}.
-                          </TooltipContent>
-                        </Tooltip>
-                      )}
-                    </ProjectPermissionCan>
+    <>
+      {operationFailed && (
+        <p role="alert" className="mb-3 text-sm text-muted">
+          The environment operation failed. Check the error notice and retry.
+        </p>
+      )}
+      <Table aria-label="Project environments" aria-busy={isPending}>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Slug</TableHead>
+            <TableHead>
+              <span className="sr-only">Actions</span>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {activeEnvironments.map(({ name, slug, id }, pos) => (
+            <TableRow key={id}>
+              <TableCell>{name}</TableCell>
+              <TableCell>{slug}</TableCell>
+              <TableCell>
+                <div className="flex items-center justify-end gap-1">
+                  <ProjectPermissionCan
+                    I={ProjectPermissionActions.Edit}
+                    a={ProjectPermissionSub.Environments}
+                  >
+                    {(isAllowed) => (
+                      <IconButton
+                        id={`environment-down-${id}`}
+                        aria-label={`Move ${name} down`}
+                        variant="ghost-muted"
+                        onClick={(event) =>
+                          handleReorderEnv(
+                            id,
+                            Math.min(activeEnvironments.length, pos + 2),
+                            event.currentTarget
+                          )
+                        }
+                        isDisabled={
+                          isPending || pos === activeEnvironments.length - 1 || !isAllowed
+                        }
+                      >
+                        <ArrowDownIcon />
+                      </IconButton>
+                    )}
+                  </ProjectPermissionCan>
+                  <ProjectPermissionCan
+                    I={ProjectPermissionActions.Edit}
+                    a={ProjectPermissionSub.Environments}
+                  >
+                    {(isAllowed) => (
+                      <IconButton
+                        id={`environment-up-${id}`}
+                        aria-label={`Move ${name} up`}
+                        variant="ghost-muted"
+                        onClick={(event) =>
+                          handleReorderEnv(id, Math.max(1, pos), event.currentTarget)
+                        }
+                        isDisabled={isPending || pos === 0 || !isAllowed}
+                      >
+                        <ArrowUpIcon />
+                      </IconButton>
+                    )}
+                  </ProjectPermissionCan>
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild>
+                      <IconButton
+                        id={`environment-options-${id}`}
+                        aria-label={`Options for ${name}`}
+                        variant="ghost-muted"
+                        isDisabled={isPending}
+                      >
+                        <Ellipsis />
+                      </IconButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="data-[state=closed]:animate-none!">
+                      <ProjectPermissionCan
+                        I={ProjectPermissionActions.Edit}
+                        a={ProjectPermissionSub.Environments}
+                      >
+                        {(isAllowed) => (
+                          <DropdownMenuItem
+                            isDisabled={!isAllowed || isPending}
+                            onClick={() => handlePopUpOpen("updateEnv", { name, slug, id })}
+                          >
+                            <PencilIcon />
+                            Edit environment
+                          </DropdownMenuItem>
+                        )}
+                      </ProjectPermissionCan>
+                      <ProjectPermissionCan
+                        I={ProjectPermissionActions.Delete}
+                        a={ProjectPermissionSub.Environments}
+                      >
+                        {(isAllowed) => (
+                          <DropdownMenuItem
+                            variant="danger"
+                            isDisabled={!isAllowed || isPending}
+                            onClick={() => handlePopUpOpen("deleteEnv", { name, slug, id })}
+                          >
+                            <Trash2Icon />
+                            Delete environment
+                          </DropdownMenuItem>
+                        )}
+                      </ProjectPermissionCan>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+          {deletedEnvironments.map(({ name, slug, id, deleteAfter, softDeletedAt, deletedBy }) => {
+            const deleteAfterDate = new Date(deleteAfter);
+            const remaining = formatRemainingDuration(deleteAfterDate);
+
+            return (
+              <TableRow key={id} className="bg-warning/[0.025]">
+                <TableCell className="whitespace-normal text-muted">
+                  <span className="line-through">{name}</span>
+                  <p className="mt-1 text-xs">
+                    Deleted by {getActorLabel(deletedBy)} ·{" "}
+                    {format(new Date(softDeletedAt), "MMM d, yyyy")}
+                  </p>
+                  <p className="mt-1 text-xs">
+                    {remaining ? `Permanent deletion in ${remaining}: ` : "Awaiting cleanup: "}
+                    <time dateTime={deleteAfter}>
+                      {format(deleteAfterDate, "MMM d, yyyy, h:mm a")}
+                    </time>
+                  </p>
+                </TableCell>
+                <TableCell className="text-muted">{slug}</TableCell>
+                <TableCell>
+                  <div className="flex items-center justify-end gap-2">
+                    <Badge variant="warning">
+                      <HourglassIcon />
+                      Pending deletion
+                    </Badge>
                     <ProjectPermissionCan
                       I={ProjectPermissionActions.Delete}
                       a={ProjectPermissionSub.Environments}
                     >
                       {(isAllowed) => (
-                        <DropdownMenuItem
-                          variant="danger"
-                          isDisabled={!isAllowed}
-                          onClick={() => handlePopUpOpen("deleteEnv", { name, slug, id })}
-                        >
-                          <Trash2Icon />
-                          Delete environment
-                        </DropdownMenuItem>
+                        <DropdownMenu modal={false}>
+                          <DropdownMenuTrigger asChild disabled={!isAllowed}>
+                            <IconButton
+                              id={`environment-options-${id}`}
+                              aria-label={`Options for ${name}`}
+                              variant="ghost-muted"
+                              isDisabled={!isAllowed || isPending}
+                            >
+                              <Ellipsis />
+                            </IconButton>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            align="end"
+                            className="data-[state=closed]:animate-none!"
+                          >
+                            <DropdownMenuItem
+                              isDisabled={isPending}
+                              onClick={() => handleRestoreEnv(id)}
+                            >
+                              <RotateCcwIcon />
+                              Restore environment
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              variant="danger"
+                              isDisabled={isPending}
+                              onClick={() =>
+                                handlePopUpOpen("hardDeleteEnv", { name, slug, id, deleteAfter })
+                              }
+                            >
+                              <Trash2Icon />
+                              Delete permanently
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       )}
                     </ProjectPermissionCan>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-        {deletedEnvironments.map(({ name, slug, id, deleteAfter, softDeletedAt, deletedBy }) => {
-          const deleteAfterDate = new Date(deleteAfter);
-          const remaining = formatRemainingDuration(deleteAfterDate);
-
-          return (
-            <TableRow key={id} className="bg-warning/[0.025]">
-              <TableCell className="text-mineshaft-400 line-through">{name}</TableCell>
-              <TableCell className="text-mineshaft-400">{slug}</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-end gap-2">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Badge variant="warning">
-                        <HourglassIcon />
-                        Pending deletion
-                      </Badge>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm font-semibold text-foreground">
-                          {remaining
-                            ? `${remaining} until permanent deletion`
-                            : "Will be permanently deleted soon"}
-                        </span>
-                        <span className="text-xs text-mineshaft-300">
-                          {remaining
-                            ? `Scheduled for ${format(deleteAfterDate, "MMM d, yyyy, h:mm a")}`
-                            : "Awaiting the next daily cleanup sweep"}
-                        </span>
-                        <span className="text-xs text-mineshaft-300">
-                          Soft-deleted by {getActorLabel(deletedBy)} ·{" "}
-                          {format(new Date(softDeletedAt), "MMM d, yyyy")}
-                        </span>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                  <ProjectPermissionCan
-                    I={ProjectPermissionActions.Delete}
-                    a={ProjectPermissionSub.Environments}
-                  >
-                    {(isAllowed) => (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild disabled={!isAllowed}>
-                          <IconButton
-                            aria-label="Environment options"
-                            variant="ghost-muted"
-                            isDisabled={!isAllowed}
-                          >
-                            <Ellipsis />
-                          </IconButton>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleRestoreEnv(id)}>
-                            <RotateCcwIcon />
-                            Restore environment
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            variant="danger"
-                            onClick={() =>
-                              handlePopUpOpen("hardDeleteEnv", { name, slug, id, deleteAfter })
-                            }
-                          >
-                            <Trash2Icon />
-                            Delete permanently
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </ProjectPermissionCan>
-                </div>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </>
   );
 };

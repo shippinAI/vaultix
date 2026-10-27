@@ -31,11 +31,11 @@ export const PageHeader = ({ title, description, children, className, scope, ico
   const iconClassName = scope ? SCOPE_BADGE[scope].className : "";
   return (
     <div className={twMerge("mb-10 w-full", className)}>
-      <div className="flex w-full justify-between">
-        <div className="mr-4 flex min-w-0 flex-1 items-center">
+      <div className="flex w-full flex-wrap items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-[1_1_16rem] items-center">
           <h1
             className={twMerge(
-              "truncate text-2xl font-medium text-white underline underline-offset-4",
+              "min-w-0 text-2xl font-medium [overflow-wrap:anywhere] text-foreground underline underline-offset-4",
               scope === "org" && "decoration-org/90",
               scope === "instance" && "decoration-neutral/90",
               scope === "namespace" && "decoration-sub-org/90",
@@ -49,14 +49,15 @@ export const PageHeader = ({ title, description, children, className, scope, ico
             {resolvedIcon &&
               createElement(resolvedIcon, {
                 size: 26,
+                "aria-hidden": true,
                 className: twMerge(iconClassName, "mr-3 mb-1 inline-block")
               })}
             {title}
           </h1>
         </div>
-        <div className="flex items-center gap-2">{children}</div>
+        {children && <div className="flex max-w-full flex-wrap items-center gap-2">{children}</div>}
       </div>
-      <div className="mt-1.5 text-mineshaft-300">{description}</div>
+      {description && <div className="mt-1.5 text-muted">{description}</div>}
     </div>
   );
 };

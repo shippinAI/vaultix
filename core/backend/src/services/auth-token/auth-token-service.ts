@@ -247,8 +247,11 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
     return session;
   };
 
-  const clearTokenSessionById = async (userId: string, sessionId: string): Promise<TAuthTokenSessions | undefined> =>
-    tokenDAL.incrementTokenSessionVersion(userId, sessionId);
+  const clearTokenSessionById = async (userId: string, sessionId: string): Promise<TAuthTokenSessions | undefined> => {
+    const session = await tokenDAL.incrementTokenSessionVersion(userId, sessionId);
+    await keyStore.deleteItem(KeyStorePrefixes.RefreshTokenGrace(sessionId));
+    return session;
+  };
 
   const getUserTokenSessionById = async (id: string, userId: string) => tokenDAL.findOneTokenSession({ id, userId });
 
@@ -272,7 +275,9 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
       });
     }
 
-    const decodedToken = crypto.jwt().verify(refreshToken, appCfg.AUTH_SECRET) as AuthModeRefreshJwtTokenPayload;
+    const decodedToken = crypto.jwt().verify(refreshToken, appCfg.AUTH_SECRET) as AuthModeRefreshJwtTokenPayload & {
+      exp?: number;
+    };
 
     if (decodedToken.authTokenType !== AuthTokenType.REFRESH_TOKEN) {
       throw new UnauthorizedError({
@@ -302,7 +307,11 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
       const graceKey = KeyStorePrefixes.RefreshTokenGrace(tokenVersion.id);
       const graceValue = await keyStore.getItem(graceKey);
 
-      if (graceValue && Number(graceValue) === decodedToken.refreshVersion) {
+      if (
+        graceValue &&
+        Number(graceValue) === decodedToken.refreshVersion &&
+        tokenVersion.refreshVersion === decodedToken.refreshVersion + 1
+      ) {
         // Grace hit: old token used within grace window (e.g. another browser tab)
         return { decodedToken, tokenVersion, isGraceHit: true };
       }
@@ -318,6 +327,26 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
     }
 
     return { decodedToken, tokenVersion, isGraceHit: false };
+  };
+
+  // Called only after validateRefreshToken accepts the immediately previous browser token.
+  // A cancelled rotation response must be recoverable without renewing its expiry or grace TTL.
+  const recoverRefreshToken = (
+    decodedToken: AuthModeRefreshJwtTokenPayload & { exp?: number },
+    tokenVersion: TAuthTokenSessions
+  ) => {
+    if (
+      decodedToken.oauthClientId ||
+      !Number.isFinite(decodedToken.exp) ||
+      !decodedToken.exp ||
+      decodedToken.exp <= Math.floor(Date.now() / 1000) ||
+      decodedToken.userId !== tokenVersion.userId ||
+      decodedToken.tokenVersionId !== tokenVersion.id ||
+      decodedToken.refreshVersion + 1 !== tokenVersion.refreshVersion
+    ) {
+      throw new UnauthorizedError({ name: "InvalidToken", message: "Please sign in again to continue." });
+    }
+    return crypto.jwt().sign({ ...decodedToken, refreshVersion: tokenVersion.refreshVersion }, getConfig().AUTH_SECRET);
   };
 
   const rotateRefreshToken = async (decodedToken: AuthModeRefreshJwtTokenPayload, tokenVersion: TAuthTokenSessions) => {
@@ -558,6 +587,7 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
     revokeMySessionById,
     revokeSessionsByUserAgent,
     validateRefreshToken,
+    recoverRefreshToken,
     rotateRefreshToken,
     fnValidateJwtIdentity,
     getUserTokenSessionById,

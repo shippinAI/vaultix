@@ -102,3 +102,15 @@ and card checks in `.cache/app-image-proof-ok1eZZ`; Dragonfly smoke/restart also
 passes in `.cache/cards-smoke-final.log`. Generator boundary inputs (all-zero and
 all-255 bytes) plus 10,000 random samples satisfy length/repetition constraints
 without printing any generated credential.
+
+## Environment and authentication checkpoint
+
+The next in-place workflow is recorded in [0030](0030-environment-workflow.md).
+Real environment creation, validation, editing, keyboard reorder, deletion,
+restore and permanent deletion pass in the canonical image, with separate
+outage/pending/read-only fixtures. The shared header now wraps on narrow screens.
+The browser run also exposed and verified the refresh recovery/logout repairs
+in [0031](0031-refresh-recovery.md). Exact image and test evidence are in those
+packets. A shared notification stack can still obscure tall modal controls;
+this visual finding remains open alongside manual accessibility, provider and
+native stack migration gates. Functional checks do not close those gaps.

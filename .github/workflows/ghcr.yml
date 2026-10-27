@@ -224,11 +224,15 @@ jobs:
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json
+            .cache/app-image-proof-*/workflow-result.json
             .cache/app-image-proof-*/dashboard-recovery.json
             .cache/app-image-proof-*/chart-rendering.json
             .cache/app-image-proof-*/chart-accessibility.json
             .cache/app-image-proof-*/chart-layout.json
             .cache/app-image-proof-*/chart-filter-failure.json
+            .cache/app-image-proof-*/chart-navigation-failure.json
+            .cache/app-image-proof-*/environment-*.json
+            .cache/app-image-proof-*/auth-navigation.json
             .cache/app-image-proof-*/accessibility.json
             .cache/app-image-proof-*/*.png
           if-no-files-found: warn

@@ -1,26 +1,19 @@
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useRef } from "react";
 
 import { createNotification } from "@app/components/notifications";
 import {
-  Button,
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
+  DialogDescription,
   DialogHeader,
-  DialogTitle,
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-  Input
+  DialogTitle
 } from "@app/components/v3";
 import { useProject } from "@app/context";
 import { useUpdateWsEnvironment } from "@app/hooks/api";
 import { UsePopUpState } from "@app/hooks/usePopUp";
-import { slugSchema } from "@app/lib/schemas";
+
+import { restoreEnvironmentTriggerFocus } from "./environment-focus";
+import { EnvironmentForm, EnvironmentFormValues } from "./EnvironmentForm";
 
 type Props = {
   popUp: UsePopUpState<["updateEnv"]>;
@@ -28,92 +21,57 @@ type Props = {
   handlePopUpToggle: (popUpName: keyof UsePopUpState<["updateEnv"]>, state?: boolean) => void;
 };
 
-const schema = z.object({
-  name: z.string(),
-  slug: slugSchema({ min: 1, max: 64 })
-});
-
-export type FormData = z.infer<typeof schema>;
-
 export const UpdateEnvironmentModal = ({ popUp, handlePopUpClose, handlePopUpToggle }: Props) => {
   const { currentProject } = useProject();
+  const focusId = useRef<string>();
+  const submitting = useRef(false);
   const { mutateAsync, isPending } = useUpdateWsEnvironment();
-  const { control, handleSubmit, reset } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    values: popUp.updateEnv.data as FormData
-  });
+  const environment = popUp.updateEnv.data as (EnvironmentFormValues & { id: string }) | undefined;
 
-  const oldEnvId = (popUp?.updateEnv?.data as { id: string })?.id;
-
-  const onFormSubmit = async ({ name, slug }: FormData) => {
-    if (!currentProject?.id) return;
-
-    await mutateAsync({
-      projectId: currentProject.id,
-      name,
-      slug,
-      id: oldEnvId
-    });
-
-    createNotification({
-      text: "Successfully updated environment",
-      type: "success"
-    });
-
-    handlePopUpClose("updateEnv");
+  const onSubmit = async (values: EnvironmentFormValues) => {
+    if (!environment?.id) throw new Error("Select an environment before updating it.");
+    submitting.current = true;
+    try {
+      await mutateAsync({ projectId: currentProject.id, id: environment.id, ...values });
+      createNotification({ text: "Environment updated", type: "success" });
+      handlePopUpClose("updateEnv");
+    } finally {
+      submitting.current = false;
+    }
   };
 
   return (
     <Dialog
-      open={popUp?.updateEnv?.isOpen}
-      onOpenChange={(isOpen) => {
-        handlePopUpToggle("updateEnv", isOpen);
-        if (!isOpen) reset();
+      open={popUp.updateEnv.isOpen}
+      onOpenChange={(open) => {
+        if (!isPending && !submitting.current) handlePopUpToggle("updateEnv", open);
       }}
     >
-      <DialogContent className="sm:max-w-md">
+      <DialogContent
+        className="[overflow-wrap:anywhere] sm:max-w-md"
+        showCloseButton={!isPending}
+        onOpenAutoFocus={() => {
+          focusId.current = environment?.id;
+        }}
+        onCloseAutoFocus={(event) => {
+          const target = document.getElementById(`environment-options-${focusId.current}`);
+          restoreEnvironmentTriggerFocus(event, target);
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Update Environment</DialogTitle>
+          <DialogDescription className="text-muted">
+            Update the environment name or reference identifier.
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col gap-6">
-          <Controller
-            control={control}
-            defaultValue=""
-            name="name"
-            render={({ field, fieldState: { error } }) => (
-              <Field>
-                <FieldLabel htmlFor="updateEnvName">Environment Name</FieldLabel>
-                <Input id="updateEnvName" isError={Boolean(error)} {...field} />
-                <FieldError>{error?.message}</FieldError>
-              </Field>
-            )}
+        {environment && (
+          <EnvironmentForm
+            key={environment.id}
+            mode="update"
+            initialValues={environment}
+            onSubmit={onSubmit}
           />
-          <Controller
-            control={control}
-            defaultValue=""
-            name="slug"
-            render={({ field, fieldState: { error } }) => (
-              <Field>
-                <FieldLabel htmlFor="updateEnvSlug">Environment Slug</FieldLabel>
-                <Input id="updateEnvSlug" isError={Boolean(error)} {...field} />
-                <FieldError>{error?.message}</FieldError>
-                <FieldDescription>
-                  Slugs are shorthand identifiers used to reference this environment.
-                </FieldDescription>
-              </Field>
-            )}
-          />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="ghost" type="button">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit" variant="project" isPending={isPending} isDisabled={isPending}>
-              Update
-            </Button>
-          </DialogFooter>
-        </form>
+        )}
       </DialogContent>
     </Dialog>
   );

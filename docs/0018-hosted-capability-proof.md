@@ -392,3 +392,13 @@ All engine test paths in this table are relative to `core/backend/`. A test path
 identifies where evidence belongs, not a claim that every scenario in that
 capability passed. Provider/hardware-dependent capabilities remain unverified
 until their external prerequisites and acceptance tests are available.
+
+The 2026-10-27 environment/authentication checkpoint is detailed in
+[0030](0030-environment-workflow.md) and [0031](0031-refresh-recovery.md): nine
+real environment checks and five separately labelled recovery/permission
+fixtures pass in the canonical image. The current backend suite reports 1,849
+unit passes (22 existing skips) and 168 database capability passes on each of
+Dragonfly and Redis. These results include lost-refresh-response recovery,
+original-expiry preservation, replay revocation and logout denial. They do not
+establish Nomen acceptance, external provider parity, concurrency/load readiness
+or whole-UI accessibility; the shared toast/modal overlap remains open.
