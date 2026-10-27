@@ -1,3 +1,9 @@
+> Historical panel design. The current native product and React/Go/Rust migration
+> are defined in [0016](0016-native-vaultix.md), [0024](0024-interaction-and-teaching-system.md)
+> and [0027](0027-native-stack-and-ai-migration.md). "Done" below refers to the
+> optional panel, not completed native Clyffy execution or Nomen integration.
+> `/` remains the real authentication/project application; values never enter AI.
+
 # 0009 — Clyffy specialist boundary: the source API and the viewport-operator model
 
 **Status:** design (2026-08-20)

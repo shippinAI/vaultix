@@ -10,6 +10,13 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction (2026-10-25)
 
+Native stack and AI lifecycle plan (2026-10-27): read
+`docs/0027-native-stack-and-ai-migration.md` and `docs/migration/README.md`.
+Target native React workflows, Go domain services and scoped Rust delivery/protocol
+components. Move complete use cases and preserve the existing encrypted store;
+a Go proxy over old business logic is not a completed migration. Generated maps
+are discovery, never authorship. Follow the dependency and acceptance gates.
+
 Application entry correction (2026-10-27): `/` enters the existing core
 authentication/setup flow and authenticated project application. `/help` is
 optional assistance, never the main product viewport. Read
@@ -93,6 +100,7 @@ never collect their subscription credentials or inject values into the AI proces
 | --- | --- |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
+| Stack migration / AI-managed lifecycle | `docs/0027-native-stack-and-ai-migration.md` + `docs/migration/` |
 | All-UI accessibility | `docs/0022-accessibility-acceptance.md` |
 | Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |

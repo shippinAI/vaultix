@@ -1,3 +1,10 @@
+> Historical panel protocol design. Native implementation status and the current
+> migration boundaries are in [0024](0024-interaction-and-teaching-system.md) and
+> [0027](0027-native-stack-and-ai-migration.md). The endpoints and completed panel
+> driver below are not evidence that native remote execution is live. Catalog
+> components must be authored into existing React workflows; do not replace the
+> core application with a wrapper viewport.
+
 # 0012 — A2UI viewport, native MCP, authored configure
 
 **Status:** accepted (2026-08-29)

@@ -1,5 +1,10 @@
 # Native Vaultix migration
 
+The target React/Go/Rust boundaries, AI-managed lifecycle, complete-use-case
+cutovers and rollback sequence are now detailed in
+[0027](0027-native-stack-and-ai-migration.md). Existing implementation status below
+must not be read as completion of that migration.
+
 Accepted product direction, 2026-10-25. Owner: AngryVibes LLC.
 
 Product destinations clarified 2026-10-26: Vaultix.cloud and the enterprise/

@@ -12,6 +12,11 @@ the [methodical authorship review](docs/0021-product-authorship-review.md).
 These destinations and the review program do not establish hosted readiness
 or government certification.
 
+The [native React/Go/Rust migration plan](docs/0027-native-stack-and-ai-migration.md)
+defines domain ownership, AI-managed lifecycle boundaries, migration order and
+rollback gates. The [module map](docs/migration/README.md) tracks source coverage
+without counting discovery as completed rewriting.
+
 Software capabilities are included for self-hosted and hosted instances.
 Membership is not a feature paywall. Permissions, approval policies, and
 operational controls still apply. Full enterprise parity and the complete

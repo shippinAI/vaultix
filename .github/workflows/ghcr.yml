@@ -36,6 +36,10 @@ jobs:
           node-version: '22.22.0'
       - name: Verify source review inventory
         run: node scripts/audit-codebase.mjs --check
+      - name: Verify migration map and dependency gates
+        run: |
+          node scripts/test-migration-map.mjs
+          node scripts/map-migration.mjs --check
       - name: Verify guided interaction state
         run: node --experimental-strip-types scripts/test-guided-interactions.mjs
       - name: Verify capability surface guard

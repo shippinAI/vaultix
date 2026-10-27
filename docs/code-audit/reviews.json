@@ -251,6 +251,58 @@
         ".cache/app-image-proof-ChiHy5/result.json",
         ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
       ]
+    },
+    {
+      "path": "scripts/map-migration.mjs",
+      "blob": "3549334158ae8ada2234ac75a4fbad3299f520d7",
+      "status": "verified",
+      "decision": "replace",
+      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port.",
+      "evidence": [
+        "docs/0027-native-stack-and-ai-migration.md",
+        "docs/migration/README.md",
+        "scripts/test-migration-map.mjs",
+        ".cache/migration-map-check.log"
+      ]
+    },
+    {
+      "path": "scripts/test-migration-map.mjs",
+      "blob": "187f2882a0a5fb414ecf5c77b62b92dc636e832c",
+      "status": "verified",
+      "decision": "replace",
+      "scope": "Complete authored tests read and executed. Covers source coverage/exclusions, target mapping, cyclic/unknown dependencies, missing rules, duplicate workstreams and files, source hash drift and no automatic migration completion.",
+      "evidence": [
+        "docs/0027-native-stack-and-ai-migration.md",
+        "docs/migration/README.md",
+        "scripts/test-migration-map.mjs",
+        ".cache/migration-map-check.log"
+      ]
+    },
+    {
+      "path": "docs/migration/workstreams.json",
+      "blob": "bed878ee1ed4199b5d0cbd0a47411df75bc91fda",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities.",
+      "evidence": [
+        "docs/0027-native-stack-and-ai-migration.md",
+        "docs/migration/README.md",
+        "scripts/test-migration-map.mjs",
+        ".cache/migration-map-check.log"
+      ]
+    },
+    {
+      "path": "scripts/audit-codebase.mjs",
+      "blob": "34b461f52d5e9261b49cde18e1148fe383b0dfd3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete existing inventory script read; retain hash-matched explicit review validation and stale/missing checks. Classify new generated migration maps as generated artifacts instead of product code. Inventory and map checks passed after regeneration. Discovery never grants authorship status.",
+      "evidence": [
+        "docs/0027-native-stack-and-ai-migration.md",
+        "docs/migration/README.md",
+        "scripts/test-migration-map.mjs",
+        ".cache/migration-map-check.log"
+      ]
     }
   ]
 }
