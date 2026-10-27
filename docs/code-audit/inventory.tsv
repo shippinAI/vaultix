@@ -11633,10 +11633,10 @@ docs/0025-application-entry-and-artwork.md	9df615a554acbbe2f7f664972158677082719
 docs/0026-capability-preservation.md	5a526daccb1c3887fce80de633875b3ab8a0a154	documentation	unread
 docs/0027-native-stack-and-ai-migration.md	8c7c41fd6ea07417863a3caaafb6995e53650b55	documentation	unread
 docs/0028-visual-loading-system.md	5b54ea5931cc885c78bfb38d3a94a26664f9f176	documentation	unread
-docs/0029-ui-workflow-execution.md	34d855566fcd87a60850425bae9d7ff24dd7452c	documentation	unread
+docs/0029-ui-workflow-execution.md	dca31102cb3e2f67ef8dbdeeb5e1d3d13aa25c1a	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	8203170632b120c7b193ae0b7af1d5eecb16a672	generated	unread
-docs/migration/generated/modules.tsv	e04185f5c309542ae808e81584bc9e18cca27fce	generated	unread
+docs/migration/generated/files.tsv	104099612883b3bc2888b475e23d5c1bcfa99690	generated	unread
+docs/migration/generated/modules.tsv	5ee7a7fe319ffbbf643b99c3372079f49ebd8f4b	generated	unread
 docs/migration/generated/summary.json	98a491dbc1aa22c7ced16ba9d28c3ff6ca07542d	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11763,7 +11763,7 @@ scripts/test-chart-rendering.mjs	2852cc3555819e3baa9748cce04e46df9087c7b3	build-
 scripts/test-core.mjs	40f7dd6601e2630f14b973b674810d6f4a90c1ca	build-and-operations	unread
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-guided-interactions.mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	build-and-operations	unread
-scripts/test-image-app.mjs	b6239c9675f6319e46511a463522ee66ce5a9549	build-and-operations	authored
+scripts/test-image-app.mjs	e9a31ddf34a251263090387daf5705702ddcfd82	build-and-operations	authored
 scripts/test-migration-map.mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	build-and-operations	verified
 scripts/test-native-ui.mjs	1c3556a7de584e227d74f95adb2184710a19c435	build-and-operations	unread
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread

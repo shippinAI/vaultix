@@ -65,8 +65,10 @@ contract stays unchanged; testing only the raw unquoted URL value was incorrect.
 
 ## Executed checkpoint
 
-Steps 1–4 are implemented and verified. The source and test changes are ready
-for the step-5 commit and development rollout with the following evidence:
+Steps 1–4 are implemented and verified. Step 5 delivered source commit `bacd41b`
+to `main` and the verified image to the local development instance: port 8200
+and its status endpoint return 200, the container is healthy, and the source
+UI on port 3000 returns 200. Registry publication remains subject to CI. Evidence:
 
 | Check | Result |
 | --- | --- |
@@ -82,3 +84,21 @@ for the step-5 commit and development rollout with the following evidence:
 Review records are scoped to the authored files and exact Git blobs. Manual
 assistive-technology review, whole-dashboard reflow, provider acceptance and the
 larger native stack/AI migration remain open under their existing gates.
+
+## CI fixture follow-up
+
+The preceding commit's [image run](https://github.com/shippinAI/vaultix/actions/runs/40555665733)
+failed at disposable admin signup with HTTP 422. Its generated credential was not
+logged, so that response alone does not establish which validation rule failed.
+Review found a reproducible flaw: an unconstrained random hexadecimal password
+can contain four repeated characters, which the existing password policy rejects.
+The fixture now separates random byte pairs, retaining 192 bits of randomness
+and staying within the length limit while preventing that run. Product policy
+and authentication are unchanged. Registry publication still requires a passing
+GitHub image pipeline.
+
+The revised fixture passes real signup/sign-in and the full application, recovery
+and card checks in `.cache/app-image-proof-ok1eZZ`; Dragonfly smoke/restart also
+passes in `.cache/cards-smoke-final.log`. Generator boundary inputs (all-zero and
+all-255 bytes) plus 10,000 random samples satisfy length/repetition constraints
+without printing any generated credential.

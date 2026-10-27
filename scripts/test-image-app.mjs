@@ -17,7 +17,8 @@ const { chromium, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const config = await (await fetch(`${origin}/api/v1/admin/config`)).json();
 assert.equal(config.config.initialized, false, "Refusing to change an initialized instance.");
-const password = `Vx9!${randomBytes(24).toString("hex")}`;
+// Separate random byte pairs so credentials cannot violate the repeated-character policy.
+const password = `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
 const email = `image-proof-${randomBytes(6).toString("hex")}@vaultix.invalid`;
 const signup = await fetch(`${origin}/api/v1/admin/signup`, {
   method: "POST", headers: { "Content-Type": "application/json" },

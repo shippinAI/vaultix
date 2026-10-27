@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "b6239c9675f6319e46511a463522ee66ce5a9549",
+      "blob": "e9a31ddf34a251263090387daf5705702ddcfd82",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently.",
+      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently. Disposable random credential bytes are now separated to prevent accidental four-character repeats while retaining entropy and satisfying the existing password policy. Real bootstrap/sign-in and all image UI checks pass; product authentication is unchanged.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -258,7 +258,10 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        ".cache/app-image-proof-ok1eZZ/result.json",
+        ".cache/app-image-proof-ok1eZZ/chart-rendering.json",
+        "docs/0029-ui-workflow-execution.md: CI fixture follow-up"
       ]
     },
     {

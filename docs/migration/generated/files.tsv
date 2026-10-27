@@ -9323,7 +9323,7 @@ scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	40f7dd6601e2630f14b973b674810d6f4a90c1ca	unread
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b6239c9675f6319e46511a463522ee66ce5a9549	authored
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e9a31ddf34a251263090387daf5705702ddcfd82	authored
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1c3556a7de584e227d74f95adb2184710a19c435	unread
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
