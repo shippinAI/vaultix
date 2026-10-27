@@ -11,6 +11,13 @@ gradient surfaces, bouncing controls and invented status counters. The shared
 Card and Button primitives implement the flat treatment across existing views.
 Keyboard focus must remain visible; muted text must remain readable.
 
+Whole-UI acceptance targets WCAG 2.2 AA; see
+[`0022-accessibility-acceptance.md`](../docs/0022-accessibility-acceptance.md).
+Use persistent, associated form labels and semantic headings. Default field
+labels and text separators use full `text-muted`: the previous accent label
+and reduced-opacity separator failed measured contrast in native workflows.
+Check rendered contrast on the actual surface before reducing text opacity.
+
 Authored input is `frontend/src/index.css` and the shared v3 primitives.
 Tailwind/Vite generate the bundled CSS during `npm run build`; do not edit
 `dist/` or the generated route tree. The core catalog authors setup/action
@@ -142,7 +149,7 @@ font or substitute one role for another:
 | Card title              | `text-lg font-semibold leading-none`                                      | `flex gap-1.5` so badges can sit inline                            |
 | Card description        | `text-sm text-accent`                                                     |                                                                    |
 | Body                    | `text-sm`                                                                 | Default for table cells, form values, dialog content               |
-| Label / meta            | `text-xs text-accent`                                                     | Field labels, table column captions, metadata                      |
+| Label / meta            | `text-xs text-muted`                                                      | Field labels and separators; verify other metadata on its surface  |
 | Field helper / feedback | `text-2xs leading-snug`                                                   | Defaults via `FieldDescription` and `FieldFeedback`                |
 | Badge                   | `text-xs` (auto, via `Badge`)                                             | Never override                                                     |
 | Button                  | `text-sm` (md/sm/lg), `text-xs` (xs)                                      | Auto via `Button` sizing                                           |

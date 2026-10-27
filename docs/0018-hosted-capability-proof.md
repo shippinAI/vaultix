@@ -101,7 +101,7 @@ UI assets extracted from this image passed the same browser/accessibility checks
 including migrations/startup, product/API identity, UI, MCP, anonymous denial,
 BullMQ execution and engine restart. Logs: `.cache/a11y-smoke-dragonfly.log` and
 `.cache/a11y-smoke-redis.log`. This is a local image ID, not a registry digest.
-Independent GitHub verification/publication is tracked by
+The intermediate GitHub run was superseded by the federated-layout fix:
 [run 40435314857](https://github.com/shippinAI/vaultix/actions/runs/40435314857).
 
 Expanding the fixture to configured social/SSO methods reproduced another shared
@@ -112,6 +112,22 @@ keyboard SSO expansion and focus transfer. Its 14-state run passed with zero
 violations and zero incomplete rules (`.cache/ui-proof-MQayyC/`); the frontend
 bundle and changed-file lint also passed. No provider redirect or real sign-in
 was performed. Other authenticated screens remain outside this evidence.
+
+The matching canonical image for runtime source `7a0d9e3` built with frontend
+TypeScript checking and passed Dragonfly/Redis smoke tests again:
+
+```text
+vaultix:hosted-verify
+sha256:0aeabe165c721ca53517810c671afee018b43f5e1fd3227f73bcd6d9b2492478
+```
+
+All 14 checks also passed against its extracted UI assets
+(`.cache/ui-proof-Sj7sFP/`). Smoke logs are
+`.cache/a11y-federated-smoke-dragonfly.log` and
+`.cache/a11y-federated-smoke-redis.log`. Local validation is complete for this
+scope; independent verification/publication is tracked by
+[run 40435898482](https://github.com/shippinAI/vaultix/actions/runs/40435898482).
+No registry digest for this revision is claimed until publication succeeds.
 See [all-UI acceptance](0022-accessibility-acceptance.md) and
 [capability convergence](0023-capability-convergence.md) for required follow-up.
 

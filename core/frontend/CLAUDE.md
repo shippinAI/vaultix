@@ -91,3 +91,14 @@ Tailwind CSS v4 with PostCSS. Dark theme configured via CSS custom properties in
 ## Native Vaultix onboarding
 
 The root page renders VaultixHome and reads the core's catalog/configure endpoints through hooks/api/vaultix. The guide refuses unknown components and non-allowlisted navigation. VaultixReferences uses the same authenticated project/reference MCP actions as Clyffy, with catalog-authored action labels and no secret values. Clyffy setup exports a credential-free connection for the user's local Codex sign-in. Secret mutations, injection and Nomen session wiring still need native implementation and acceptance tests; do not imply they are live.
+
+## Accessibility verification
+
+Follow the repository-root `docs/0022-accessibility-acceptance.md` for whole-UI
+WCAG 2.2 AA acceptance. `scripts/test-native-ui.mjs` (repository root) scans built
+workspace/reference/connection and email/federated sign-in states, tests keyboard
+behavior, and saves axe reports/screenshots under `.cache/ui-proof-*`. These use
+fixture authentication; passing them is not real Nomen or whole-UI conformance.
+Preserve visible field labels, changed-view focus, and full-contrast shared field
+labels/separators. Actual screen-reader and authenticated workflow review remains
+required.

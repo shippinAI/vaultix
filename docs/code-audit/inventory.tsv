@@ -36,7 +36,7 @@ core/AGENTS.md	536624b95646661bb10502da52acf8c1d4c9e819	documentation	unread
 core/CLAUDE.md	65bc0295f4d00728a9737903aa86a5a8ddaee05e	documentation	unread
 core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	unread
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
-core/DESIGN.md	4842dae1cfa32f300abd6ec30fabc96a6a8864ec	documentation	unread
+core/DESIGN.md	68b70348b7917e52292dfbf6cee61c89b6ab21fd	documentation	unread
 core/Dockerfile.ghcr	b42e755dc7edb72ffdb4d4c712fd88f7b428cc58	build-and-operations	unread
 core/Dockerfile.standalone-vaultix	c2d404787e3d0c26340b84c5b8433ef45bbe001f	build-and-operations	unread
 core/LICENSE	0de22f21bb6228e393c37b17b17089f1382a28a6	documentation	unread
@@ -6411,7 +6411,7 @@ core/frontend/.storybook/decorators/RouterDecorator.tsx	c44ee6b125d537875ca87e7d
 core/frontend/.storybook/decorators/index.ts	7bbb10f156589b30c13600b1d2548b089cb72e72	product-code	unread
 core/frontend/.storybook/main.ts	5ca66a77f6f625f0343ee124bd803164488d3b07	product-code	unread
 core/frontend/.storybook/preview.tsx	9ae2d9dbfdf2726f3c3a5d012dcae3d2c9e80a42	product-code	unread
-core/frontend/CLAUDE.md	a0988bd4f9277a173897e5c1f444884c95ffcc70	documentation	unread
+core/frontend/CLAUDE.md	a3504175b3114734465db933cb5a82ad37fe789a	documentation	unread
 core/frontend/Dockerfile.dev	4285a2ba79ee2ed0db046378d469a57796b9b088	build-and-operations	unread
 core/frontend/README.md	74872fd4af60fb8d6cdb7d27e6c587ee0b6e1df7	documentation	unread
 core/frontend/eslint.config.js	3667e3ec2b9ee09a68b87c215da5765a1c804ca0	product-code	unread
@@ -11629,7 +11629,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	aa61849af2063443b3782614298e6877ad48d35f	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	d53a35f39f5f173dbd27a3ad360b7a52dc259e0b	documentation	unread
+docs/0018-hosted-capability-proof.md	59213b066bd503b9b84456016880f05ae7a4477e	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	8c97800a8046a6073430c65cec6e4c9029f2b411	documentation	unread
 docs/0021-product-authorship-review.md	53f5ff7b5f662e687085aac540a9a8b94796ce49	documentation	unread
