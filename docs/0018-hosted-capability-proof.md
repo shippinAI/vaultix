@@ -64,23 +64,53 @@ threshold is an artifact gate, not hosted release approval.
 
 ## Capability ledger
 
-Verified locally on 2026-10-26 after the targeted dependency updates:
+Verified locally on 2026-10-26 after the targeted dependency updates and native
+DevSCIF workspace and sign-in changes in source revision `12ec63b`:
 
 | Run | Result |
 | --- | --- |
-| Backend unit suite in Linux image | 116 files; 1,838 passed, 22 skipped, zero failures |
+| Backend unit suite in Linux image | 117 files; 1,839 passed, 22 skipped, zero failures; updated Swagger parameter assertion also passed separately |
 | PostgreSQL + Dragonfly | 9 suites; 156 passed, zero failures |
 | PostgreSQL + Redis | Same 9 suites; 156 passed, zero failures |
-| Built native UI in desktop/mobile browser | Passed; real catalog and fixture authentication/action responses |
+| Built native UI in desktop/mobile browser | Passed against UI files extracted from the final image; real catalog and fixture authentication/action responses |
 | Backend TypeScript and changed-file lint | Passed |
-| Standalone image on Dragonfly and Redis | Startup/migrations, UI, public MCP, anonymous reference denial, BullMQ and engine restart passed |
+| Standalone image on Dragonfly and Redis | Startup/migrations, UI, Vaultix API identity/docs, public MCP, anonymous reference denial, BullMQ and engine restart passed |
 
 The local verified image is `vaultix:hosted-verify`, image ID
-`sha256:8e279e8e718aee9236e41605da78ca04c19e6ee7d74c78045190a831c6766efb`.
-It was built from `core/Dockerfile.standalone-vaultix`; it has not been published
-or deployed as the hosted service. Docker Desktop reassigns ephemeral ports
+`sha256:9abd59f3403008d509597c306bdb94a9a6aeb4e214606d69ff2e65d550214d4c`.
+It was built from `core/Dockerfile.standalone-vaultix`. Docker Desktop reassigns ephemeral ports
 on restart, so the smoke runner resolves the published port again before
 checking recovery.
+
+GitHub [run 40350888894](https://github.com/shippinAI/vaultix/actions/runs/40350888894)
+also passed for source commit `12ec63baab380944e19b1179400067d8687a77d3` and
+published the independently built engine image on 2026-10-26:
+
+```text
+ghcr.io/shippinai/vaultix:12ec63baab380944e19b1179400067d8687a77d3
+sha256:c6fd5587ef4f0c2330a1b3010dd9f6a4a92c22c27ba00b4af3ced287b9567f34
+```
+
+The `latest` and `0.162.19` tags were pushed to that same registry digest.
+Registry pulls require authentication: an independent anonymous manifest request
+returned 401. The digest above comes from the successful CI push, not a claimed
+anonymous/local pull of that registry artifact.
+The run retained browser screenshots, the dependency audit, and JSON capability
+results. Downloaded reports confirm 1,839 unit tests passed with 22 skipped and
+156 database tests passed per cache, with zero failures. Both image smoke tests
+and the browser checks passed. Publication is a development checkpoint, not
+deployment or acceptance of the hosted service. Whole-tree authorship and the
+Vaultix.cloud/DevSCIF.com suite review are tracked in
+[0021](0021-product-authorship-review.md).
+
+Browser coverage includes all three authored AI connection options, exact
+clipboard output, reference-name copying and filtering, keyboard entry,
+desktop sidebar bounds, mobile wheel scrolling, denied/empty states, and
+rejection of unsupported catalog content and external MCP connection paths.
+The revised sign-in layout is also checked at desktop and mobile sizes.
+The mobile wheel test reproduced the inherited page overflow bug before the
+native workspace gained its own scroll container, then passed after the fix.
+Screenshots were reviewed; fixture sign-in is not real Nomen acceptance.
 
 The database runs include all SCIM tests after the scim-patch update. The
 reference tests verify ciphertext at rest, absence of payload columns from

@@ -10,6 +10,12 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction (2026-10-25)
 
+Product authorship direction (2026-10-26): **Vaultix.cloud** is the primary
+product; **DevSCIF.com** is the enterprise and government-tailored suite.
+Read `docs/0021-product-authorship-review.md`. Methodically read and author
+every existing product-code module in place. Inventory is not review, and
+passing inherited tests does not establish complete authorship or parity.
+
 Release priority (2026-10-26): hosted Vaultix first. Update the code and prove
 capabilities before offering it; record evidence and gaps in
 `docs/0018-hosted-capability-proof.md`.
@@ -63,6 +69,7 @@ never collect their subscription credentials or inject values into the AI proces
 | Task | Read |
 | --- | --- |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
+| Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
 | Source API / Clyffy | `docs/0009-clyffy-specialist-boundary.md` |

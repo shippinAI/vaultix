@@ -2,6 +2,10 @@
 
 Accepted product direction, 2026-10-25. Owner: AngryVibes LLC.
 
+Product destinations clarified 2026-10-26: Vaultix.cloud and the enterprise/
+government-tailored DevSCIF.com suite. All existing code requires the
+[module-by-module authorship review](0021-product-authorship-review.md).
+
 Release priority updated 2026-10-26: hosted Vaultix first. Implement and prove
 the code before offering the hosted service. Track capability evidence in
 [0018](0018-hosted-capability-proof.md); an enabled plan flag is not a test.
@@ -60,7 +64,7 @@ and component provenance while rewriting code in place.
 - Backend and frontend TypeScript checks and production bundles passed.
 - The Go sidecar builds; its included-feature/cache configuration tests and
   vendored permission evaluator tests passed. The panel suite passed.
-- The backend unit suite passed 1,838 tests with 22 skipped. Native API, MCP,
+- The backend unit suite passed 1,839 tests with 22 skipped. Native API, MCP,
   feature policy, reference input, and cache tests are included.
 - Desktop and mobile browser checks passed for catalog rendering, navigation,
   connection copying, overflow, and rejecting unknown catalog components.

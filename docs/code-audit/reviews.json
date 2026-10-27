@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "core/backend/src/server/plugins/product-identity.ts",
+      "blob": "cecd8c4c04e3e48bea922d3a17b944993f521d8d",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete file read. Adds product and included-policy headers on registered API responses and returns the original payload. It grants no authorization and does not enforce metadata-only semantics; those responsibilities require review of the actual routes/services. Domain/profile migration remains separate.",
+      "evidence": [
+        "Source commit 12ec63baab380944e19b1179400067d8687a77d3",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        "scripts/smoke-image.sh",
+        "https://github.com/shippinAI/vaultix/actions/runs/40350888894"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/AuthPageHeader.tsx",
+      "blob": "b83a34b45132614ce56b650e7d7a4c6c8f21e326",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete file read. Authored vector wordmark, accessible same-instance home link and optional header actions. No credentials, data fetching or session ownership in this component. Desktop/mobile rendering is verified; this is not verification of sign-in or a DevSCIF control profile.",
+      "evidence": [
+        "Source commit 12ec63baab380944e19b1179400067d8687a77d3",
+        "scripts/test-native-ui.mjs: login desktop/mobile checks",
+        "https://github.com/shippinAI/vaultix/actions/runs/40350888894"
+      ]
+    }
+  ]
+}

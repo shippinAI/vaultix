@@ -6,6 +6,12 @@ Vaultix is developed in place in `core/`: the secrets engine, its UI, and its
 API ship together in `ghcr.io/shippinai/vaultix`. Owner: AngryVibes LLC.
 Host: shippin.ai.
 
+**Vaultix.cloud** is the primary product; **DevSCIF.com** is the enterprise and
+government-tailored suite. Every existing product-code module is subject to
+the [methodical authorship review](docs/0021-product-authorship-review.md).
+These destinations and the review program do not establish hosted readiness
+or government certification.
+
 Software capabilities are included for self-hosted and hosted instances.
 Membership is not a feature paywall. Permissions, approval policies, and
 operational controls still apply. Full enterprise parity and the complete
