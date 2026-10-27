@@ -41,7 +41,6 @@ func TestMain(m *testing.M) {
 		WithPostgres().
 		WithRedis().
 		WithNodeJSApi().
-		WithEEFeatures("rbac", "groups").
 		MustStart()
 
 	testProject = stack.NodeJS().MustCreateProject("secrets-test")

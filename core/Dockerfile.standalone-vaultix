@@ -59,7 +59,7 @@ USER 1001
 ##
 
 # Go sidecar build (parallel stage)
-FROM golang:1.26-trixie AS go-builder
+FROM golang:1.27.3-trixie AS go-builder
 WORKDIR /app
 COPY backend-go/go.mod backend-go/go.sum ./
 COPY backend-go/third_party/ ./third_party/

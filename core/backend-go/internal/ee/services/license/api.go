@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -12,29 +11,9 @@ import (
 // licenseAPI wraps a resty client with token-based auth and auto-refresh.
 type licenseAPI struct {
 	client    *resty.Client
-	serverURL string
 	loginPath string
 	apiKey    string
 	mu        sync.Mutex
-}
-
-func newLicenseAPI(serverURL, loginPath, apiKey, region string) *licenseAPI {
-	api := &licenseAPI{
-		serverURL: serverURL,
-		loginPath: loginPath,
-		apiKey:    apiKey,
-	}
-
-	api.client = resty.New().
-		SetBaseURL(serverURL).
-		SetTimeout(35*time.Second).
-		SetHeader("Content-Type", "application/json")
-
-	if region != "" {
-		api.client.SetHeader("x-region", region)
-	}
-
-	return api
 }
 
 // refreshToken authenticates with the license server and stores the token.

@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/vaultix/gocasl"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/vaultix/gocasl"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )

@@ -7,9 +7,11 @@ import (
 	"crypto/rand"
 	"fmt"
 	"log"
+	"os"
 	"testing"
 	"time"
 
+	"github.com/docker/docker/client"
 	"github.com/go-resty/resty/v2"
 	"github.com/google/uuid"
 
@@ -75,35 +77,53 @@ func (n *NodeJSService) IdentityToken() string { return n.identityToken }
 func (n *NodeJSService) UserToken() string     { return n.userToken }
 func (n *NodeJSService) Client() *resty.Client { return n.client }
 
-func startNodeJS(ctx context.Context, networkName string, files []testcontainers.ContainerFile, cmd []string) (*NodeJSService, error) {
-	// When a custom Cmd is provided (e.g. for patching files via sed), we need
-	// to run as root because the container image sets USER non-root-user which
-	// cannot write to root-owned paths like /backend/dist/.
-	user := ""
-	if len(cmd) > 0 {
-		user = "root"
+func startNodeJS(ctx context.Context, networkName string, files []testcontainers.ContainerFile) (*NodeJSService, error) {
+	// Exercise the canonical artifact selected by the runner, including its real
+	// included-feature policy and non-root user. Never patch entitlements in tests.
+	image := os.Getenv("VAULTIX_TEST_IMAGE")
+	if image == "" {
+		return nil, fmt.Errorf("VAULTIX_TEST_IMAGE must identify a locally built standalone Vaultix image")
+	}
+	imageClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, fmt.Errorf("create local image inspector: %w", err)
+	}
+	artifact, inspectErr := imageClient.ImageInspect(ctx, image)
+	closeErr := imageClient.Close()
+	if inspectErr != nil {
+		return nil, fmt.Errorf("inspect VAULTIX_TEST_IMAGE locally before starting tests: %w", inspectErr)
+	}
+	if closeErr != nil {
+		return nil, fmt.Errorf("close local image inspector: %w", closeErr)
+	}
+	if artifact.Config == nil || artifact.Config.Labels["org.opencontainers.image.title"] != "Vaultix" ||
+		artifact.Config.Labels["org.opencontainers.image.source"] != "https://github.com/shippinAI/vaultix" {
+		return nil, fmt.Errorf("VAULTIX_TEST_IMAGE must be the canonical Vaultix artifact")
+	}
+	cacheProvider := os.Getenv("VAULTIX_TEST_CACHE_PROVIDER")
+	if cacheProvider == "" {
+		cacheProvider = "dragonfly"
 	}
 
 	req := testcontainers.ContainerRequest{
-		Image:        "vaultix/vaultix:latest",
+		Image:        artifact.ID,
 		ExposedPorts: []string{"8080/tcp"},
 		Networks:     []string{networkName},
 		NetworkAliases: map[string][]string{
 			networkName: {"backend-nodejs"},
 		},
-		User: user,
 		Env: map[string]string{
-			"NODE_ENV":          "development",
-			"DB_CONNECTION_URI": fmt.Sprintf("postgres://%s:%s@db:5432/%s?sslmode=disable", pgUser, pgPassword, pgDB),
-			"REDIS_URL":         "redis://redis:6379",
-			"ENCRYPTION_KEY":    EncryptionKey,
-			"AUTH_SECRET":       AuthSecret,
-			"SITE_URL":          "http://localhost:8080",
-			"TELEMETRY_ENABLED": "false",
-			"SMTP_HOST":         "",
+			"NODE_ENV":               "development",
+			"DB_CONNECTION_URI":      fmt.Sprintf("postgres://%s:%s@db:5432/%s?sslmode=disable", pgUser, pgPassword, pgDB),
+			"VAULTIX_CACHE_PROVIDER": cacheProvider,
+			"VAULTIX_CACHE_URL":      "redis://redis:6379",
+			"ENCRYPTION_KEY":         EncryptionKey,
+			"AUTH_SECRET":            AuthSecret,
+			"SITE_URL":               "http://localhost:8080",
+			"TELEMETRY_ENABLED":      "false",
+			"SMTP_HOST":              "",
 		},
 		Files:      files,
-		Cmd:        cmd,
 		WaitingFor: wait.ForHTTP("/api/status").WithPort("8080/tcp").WithStartupTimeout(120 * time.Second),
 	}
 
@@ -412,7 +432,7 @@ func (n *NodeJSService) AddUserToProject(t *testing.T, projectID, email string, 
 }
 
 // CreateCustomProjectRole creates a custom project role with the given permissions.
-// Requires the "rbac" EE feature to be enabled (see WithEEFeatures).
+// Custom roles are included; the caller must still have the required permission.
 func (n *NodeJSService) CreateCustomProjectRole(t *testing.T, projectID, slug, name string, permissions []Permission) *CustomRoleSeed {
 	t.Helper()
 
@@ -441,7 +461,7 @@ func (n *NodeJSService) CreateCustomProjectRole(t *testing.T, projectID, slug, n
 }
 
 // CreateGroup creates an org-level group via the Node.js API.
-// Requires the "groups" EE feature to be enabled (see WithEEFeatures).
+// Groups are included; the caller must still have the required permission.
 func (n *NodeJSService) CreateGroup(t *testing.T, name string) *GroupSeed {
 	t.Helper()
 

@@ -27,9 +27,6 @@ import (
 var licensePublicKeyPEM []byte
 
 const (
-	cloudLoginPath  = "/api/auth/v1/license-server-login"
-	onPremLoginPath = "/api/auth/v1/license-login"
-
 	cloudPlanTTL    = 5 * time.Minute
 	planCachePrefix = "vaultix-cloud-plan-"
 )
@@ -40,8 +37,6 @@ type keyStore interface {
 	SetItemWithExpiry(ctx context.Context, key string, expiry time.Duration, value string) error
 	DeleteItem(ctx context.Context, key string) (int64, error)
 }
-
-const syncInterval = 10 * time.Minute
 
 // Service manages license validation and feature gating.
 type Service struct {
@@ -418,35 +413,6 @@ func (s *Service) RefreshPlan(ctx context.Context, orgID string) error {
 		return s.syncOnPremFeatures(ctx)
 	}
 	return nil
-}
-
-// startBackgroundSync launches a goroutine that re-syncs on-prem features
-// every 10 minutes. Only runs for online enterprise on-prem instances.
-func (s *Service) startBackgroundSync() {
-	if s.instanceType != InstanceTypeEnterpriseOnPrem {
-		return
-	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	s.stopSync = cancel
-
-	s.logger.InfoContext(ctx, "starting background license sync", slog.Duration("interval", syncInterval))
-	go func() {
-		ticker := time.NewTicker(syncInterval)
-		defer ticker.Stop()
-
-		for {
-			select {
-			case <-ctx.Done():
-				s.logger.InfoContext(ctx, "background license sync stopped")
-				return
-			case <-ticker.C:
-				if err := s.syncOnPremFeatures(ctx); err != nil {
-					s.logger.ErrorContext(ctx, "background license sync failed", slog.Any("error", err))
-				}
-			}
-		}
-	}()
 }
 
 // Close stops the background sync goroutine if running.

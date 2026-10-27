@@ -23,7 +23,7 @@ const (
 	EnvvaultixTestProjectID    = "vaultix_TEST_PROJECT_ID"
 
 	DefaultvaultixAPIURL = "https://app.vaultix.com"
-	TestEnvironment        = "default"
+	TestEnvironment      = "default"
 )
 
 // Secret folder paths for different teams/domains.
@@ -43,15 +43,15 @@ type vaultixClient struct {
 var (
 	vaultixClientOnce     sync.Once
 	vaultixClientInstance *vaultixClient
-	errvaultixClient      error
+	errVaultixClient      error
 )
 
 // getvaultixClient returns a singleton authenticated vaultix client.
 func getvaultixClient() (*vaultixClient, error) {
 	vaultixClientOnce.Do(func() {
-		vaultixClientInstance, errvaultixClient = initvaultixClient()
+		vaultixClientInstance, errVaultixClient = initvaultixClient()
 	})
-	return vaultixClientInstance, errvaultixClient
+	return vaultixClientInstance, errVaultixClient
 }
 
 func initvaultixClient() (*vaultixClient, error) {

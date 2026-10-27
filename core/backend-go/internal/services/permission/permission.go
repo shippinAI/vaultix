@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/vaultix/gocasl"
 	"github.com/jackc/pgx/v5"
+	"github.com/vaultix/gocasl"
 
 	"github.com/vaultix/api/internal/database/pg"
 	"github.com/vaultix/api/internal/database/pg/qb"

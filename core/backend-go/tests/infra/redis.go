@@ -5,6 +5,7 @@ package infra
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -12,7 +13,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-// RedisService provides access to a running Redis container.
+// RedisService provides the Redis protocol used by Dragonfly and Redis fixtures.
 type RedisService struct {
 	container testcontainers.Container
 	url       string
@@ -29,8 +30,19 @@ func (r *RedisService) Client() redis.UniversalClient {
 }
 
 func startRedis(ctx context.Context, networkName string) (*RedisService, error) {
+	image := "docker.dragonflydb.io/dragonflydb/dragonfly:v1.34.2"
+	command := []string{"--default_lua_flags=allow-undeclared-keys", "--cache_mode=false", "--maxmemory=1gb", "--proactor_threads=2"}
+	switch provider := os.Getenv("VAULTIX_TEST_CACHE_PROVIDER"); provider {
+	case "", "dragonfly":
+	case "redis":
+		image = "redis:7.4-alpine"
+		command = []string{"redis-server", "--maxmemory-policy", "noeviction"}
+	default:
+		return nil, fmt.Errorf("unsupported VAULTIX_TEST_CACHE_PROVIDER %q: use dragonfly or redis", provider)
+	}
 	req := testcontainers.ContainerRequest{
-		Image:        "redis:7-alpine",
+		Image:        image,
+		Cmd:          command,
 		ExposedPorts: []string{"6379/tcp"},
 		Networks:     []string{networkName},
 		NetworkAliases: map[string][]string{

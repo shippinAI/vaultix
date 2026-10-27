@@ -2,7 +2,7 @@ module github.com/vaultix/api
 
 replace github.com/vaultix/gocasl => ./third_party/gocasl
 
-go 1.26.1
+go 1.27.3
 
 require (
 	cloud.google.com/go/kms v1.31.0

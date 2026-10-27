@@ -46,7 +46,7 @@ jobs:
         run: node scripts/test-capability-surface.mjs
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.27.2'
+          go-version-file: go.mod
           cache-dependency-path: |
             go.sum
             panel/go.sum
@@ -96,7 +96,9 @@ jobs:
             .cache/bundle-proof-*/*.json
             .cache/backend-production-audit.json
           if-no-files-found: warn
-      - run: go test ./internal/ee/services/license ./internal/config ./internal/database/redis
+      - run: make lint
+        working-directory: core/backend-go
+      - run: go test -race ./internal/...
         working-directory: core/backend-go
       - run: go test ./...
         working-directory: core/backend-go/third_party/gocasl
@@ -195,6 +197,22 @@ jobs:
       - name: Verify image with Redis
         run: bash scripts/smoke-image.sh '${{ steps.image.outputs.name }}:${{ github.sha }}' redis
 
+      - name: Build native Go capability test runtime
+        uses: docker/build-push-action@v7
+        with:
+          context: core
+          file: core/Dockerfile.standalone-vaultix
+          target: go-builder
+          load: true
+          push: false
+          tags: vaultix:verify-go
+
+      - name: Verify native Go integrations with Dragonfly
+        run: node scripts/test-go-core.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}' dragonfly
+
+      - name: Verify native Go integrations with Redis
+        run: node scripts/test-go-core.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}' redis
+
       - name: Build database capability test runtime
         uses: docker/build-push-action@v7
         with:
@@ -221,6 +239,7 @@ jobs:
           name: vaultix-capability-results
           include-hidden-files: true
           path: |
+            .cache/go-proof-*/result.json
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json

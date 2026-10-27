@@ -402,3 +402,14 @@ Dragonfly and Redis. These results include lost-refresh-response recovery,
 original-expiry preservation, replay revocation and logout denial. They do not
 establish Nomen acceptance, external provider parity, concurrency/load readiness
 or whole-UI accessibility; the shared toast/modal overlap remains open.
+
+The subsequent Go toolchain/bootstrap checkpoint is documented in [0032](0032-native-toolchains.md)
+and [0033](0033-bootstrap-identity-issuance.md). Canonical image
+`sha256:24560020369fd738e0e4e3c59cc5debdc798f8baf7ab862db7e338b29bd6929d`
+passes both cache smoke/restart checks and the full packaged browser workflow
+(`.cache/app-image-proof-u0p17O`). Native Go integrations pass 204 tests per cache
+with 8 explicit provider skips; 457 Go unit tests and 10 SoftHSM tests pass with
+race detection. Bootstrap now issues a bounded, tenant-scoped, revocable token
+through the existing issuer. These checks use the real local image without
+entitlement patches. They do not establish physical HSM/ElastiCache acceptance,
+Nomen ownership, full enterprise parity or the complete React/Go/Rust migration.
