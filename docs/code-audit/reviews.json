@@ -243,14 +243,16 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "62d2e395b3639fc1336a6232de61fb4307b24f99",
+      "blob": "1fdf512f4e298da6bc3212f0384c448772b61dd8",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete image acceptance runner read. Only uninitialized disposable loopback instances accepted; random test credentials never printed. Real browser authentication, secrets project creation, all five product entries and anonymous UI/API denial verified without application fixtures. Scoped axe evidence and separate explicit recovery fixture phase retained. External providers blocked; no Nomen, cross-tenant, data recovery or full enterprise parity claim.",
+      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope.",
       "evidence": [
-        "docs/0026-capability-preservation.md",
-        ".cache/app-image-proof-ChiHy5/result.json",
-        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
       ]
     },
     {
@@ -367,14 +369,100 @@
     },
     {
       "path": "scripts/check-ui-loading.mjs",
-      "blob": "f42351ca55f1f83342cbfd45f31ab4bbbeb8da07",
+      "blob": "43cddcf2f53a82677b5b1fa7c111a07aed1e0505",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete new measurement/acceptance script authored and executed. Three isolated cold contexts, explicit public config and anonymous-token fixtures, no credentials. Records bytes/timing/errors/screenshots, enforces decoded payload and decorative SVG budgets, forbids player/WASM requests at login, checks short-desktop and mobile form/reflow. Uncompressed local timing is not hosted performance or real authentication evidence.",
+      "scope": "Complete browser measurement script reread. Preserve three isolated cold contexts, explicit public config fixtures, layout/artwork checks and diagnostic timing. Add no-Recharts request assertion and tighten decoded limits to 3.25 MB JS/3.8 MB assets. All three final measurements pass. This is local uncompressed fixture evidence, not identity or hosted latency acceptance.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
-        ".cache/loading-proof-Ss8GJr/result.json",
-        ".cache/ui-proof-UKNPvQ/accessibility.json"
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "core/frontend/vite.config.ts",
+      "blob": "2962aa5078001a80e39be770a2a9ab59d32ac52f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete configuration read, including tsr.config.json and emitted dependency graph. Retain route splitting, dev proxy, versioned names and CDN URL behavior. Move shared React/CJS/polyfill dependencies out of chart ownership; keep shared D3 and Recharts/Victory families cohesive. Browser login excludes renderer; real image loads certificate dashboard and nonempty chart fixture. Existing other circular imports and large feature chunks remain open.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/pam/PamAccessControlPage/PamAccessControlPage.tsx",
+      "blob": "6ff6c8fba51f2153cda7e1630f9ffff10e9d4b95",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete page read with route caller and member/group/identity tab dependency imports. Move enum to dependency-free metadata module; retain existing hooks, tab values, counts and render behavior. Real-image deep links, invalid fallback, keyboard selection and refresh pass. This does not establish all child mutation/authorization flows or all-UI accessibility.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/project/AccessControlPage/route-pam.tsx",
+      "blob": "9d29c7c130019d3b738dd9558d8772fdff362f1a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete route read. Import tab enum from metadata module so eager route search validation no longer references the rendered workflow. Existing validator/defaults, requester-email middleware and breadcrumbs remain unchanged. No new Zod dependency added. Real-image route cases and route-preservation gate pass.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/pam/PamAccessControlPage/types.ts",
+      "blob": "a0bd7526cba0934dfead1843f7b6f0e22918da2b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete metadata module read. Retains exact members/groups/identities string contract without UI/runtime imports. Shared by route validation and rendered tabs. Real image validates valid/invalid links, keyboard selection and reload.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "scripts/build-ui-report.mjs",
+      "blob": "c0ebcf95aa4c57abda7942091b42cfb8e9c78019",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new build reporter read and executed. Uses existing Vite config and Rollup emitted metadata, writes ignored source/chunk graphs and entry closure, rejects feature-only modules in static entry dependencies. Explicitly separates source edges/tree shaking, emitted bytes, gzip estimates and browser loads; never collects application values. Current production graph passes; not a complete dependency-cycle or hosted-performance proof.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+      ]
+    },
+    {
+      "path": "scripts/test-chart-rendering.mjs",
+      "blob": "722cde98e3ca496e8609179d847f050ab28ecf73",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete chart fixture runner authored/read/executed. Requires authorized real stats response before substituting distribution/expiry counts; verifies six SVG sectors with full-size geometry and bounded animation settling, rendered legends, keyboard filter navigation. Removes handler in finally; no fixture IDs enter mutations. This is renderer evidence, not certificate issuance/provider correctness or full chart accessibility.",
+      "evidence": [
+        "docs/0028-visual-loading-system.md",
+        ".cache/bundle-proof-YDXub6/summary.json",
+        ".cache/loading-proof-O2Nme5/result.json",
+        ".cache/app-image-proof-HsMMTW/result.json",
+        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
       ]
     }
   ]

@@ -16,12 +16,7 @@ import { ProjectType } from "@app/hooks/api/projects/types";
 import { GroupsTab } from "./components/GroupsTab";
 import { IdentitiesTab } from "./components/IdentitiesTab";
 import { MembersTab } from "./components/MembersTab";
-
-export enum PamAccessControlTab {
-  Members = "members",
-  Groups = "groups",
-  Identities = "identities"
-}
+import { PamAccessControlTab } from "./types";
 
 export const PamAccessControlPage = () => {
   const { t } = useTranslation();

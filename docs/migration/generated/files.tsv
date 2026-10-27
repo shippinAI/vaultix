@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	05410678a0568fbaed9f2f0d44c0ac2e2a00d556	unread
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	a27e351cc574b5cd71b8f42a9afa05b2a7e44dac	unread
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -7222,7 +7222,7 @@ core/frontend/src/pages/organization/UserDetailsByIDPage/components/UserProjects
 core/frontend/src/pages/organization/UserDetailsByIDPage/components/index.tsx	core/frontend/src/pages/organization/UserDetailsByIDPage	identity	React-TypeScript	tsx	6b13786d49492b2fe467e2f966d27cdc04ff61fd	unread
 core/frontend/src/pages/organization/UserDetailsByIDPage/route.tsx	core/frontend/src/pages/organization/UserDetailsByIDPage	identity	React-TypeScript	tsx	7293066f849c71ce2bcff1346bcc064d8f9e46d4	unread
 core/frontend/src/pages/organization/layout.tsx	core/frontend/src/pages/organization	ui	React-TypeScript	tsx	0caf8286c57e7ebc0a94063fd27e11a1caf9ff8e	unread
-core/frontend/src/pages/pam/PamAccessControlPage/PamAccessControlPage.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	95f8f235228e08e221b3d342f51ef93fc989a154	unread
+core/frontend/src/pages/pam/PamAccessControlPage/PamAccessControlPage.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	6ff6c8fba51f2153cda7e1630f9ffff10e9d4b95	authored
 core/frontend/src/pages/pam/PamAccessControlPage/components/AddGroupModal.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	d41d338074117a066a7073af3494e20e8e548ec0	unread
 core/frontend/src/pages/pam/PamAccessControlPage/components/GroupRoleModal.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	4f40090b0756e09f9840951b77cdcf79538b70bd	unread
 core/frontend/src/pages/pam/PamAccessControlPage/components/GroupsTab.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	8976e1f502c3a2d082187869bc39420ecae37948	unread
@@ -7232,6 +7232,7 @@ core/frontend/src/pages/pam/PamAccessControlPage/components/InviteMemberModal.ts
 core/frontend/src/pages/pam/PamAccessControlPage/components/MemberRoleModal.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	0ecd825884728fb07b86054cdb5f657e915310dd	unread
 core/frontend/src/pages/pam/PamAccessControlPage/components/MembersTab.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	cf2c07f39e9a7f25cc692aa672360d8982119a42	unread
 core/frontend/src/pages/pam/PamAccessControlPage/components/ProductRoleOptionList.tsx	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	tsx	f8dcceb458f8b10a72181a1872eafd5e38a2929b	unread
+core/frontend/src/pages/pam/PamAccessControlPage/types.ts	core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	ts	a0bd7526cba0934dfead1843f7b6f0e22918da2b	verified
 core/frontend/src/pages/pam/PamAccountAccessPage/AwsIamAccessContent.tsx	core/frontend/src/pages/pam/PamAccountAccessPage	pam	React-TypeScript	tsx	019a87552f2e266474ad66f499d3170cd586cdd2	unread
 core/frontend/src/pages/pam/PamAccountAccessPage/DisconnectedScreen.tsx	core/frontend/src/pages/pam/PamAccountAccessPage	pam	React-TypeScript	tsx	eead16f0a6b3c4af466cc66f1744d6de22d421f0	unread
 core/frontend/src/pages/pam/PamAccountAccessPage/PamAccountAccessPage.tsx	core/frontend/src/pages/pam/PamAccountAccessPage	pam	React-TypeScript	tsx	9824e91a16b209552472b1dfd2a2a04612c9acba	unread
@@ -7376,7 +7377,7 @@ core/frontend/src/pages/project/AccessControlPage/components/ServiceTokenTab/ind
 core/frontend/src/pages/project/AccessControlPage/components/index.tsx	core/frontend/src/pages/project/AccessControlPage	authorization	React-TypeScript	tsx	edb14ec8f98e30e847cfc392b0d01dda5e54ccfb	unread
 core/frontend/src/pages/project/AccessControlPage/route-cert-manager.tsx	core/frontend/src/pages/project/AccessControlPage	pki	React-TypeScript	tsx	bdc0dc195817d7616caa5bea75c91283e297ddd7	unread
 core/frontend/src/pages/project/AccessControlPage/route-kms.tsx	core/frontend/src/pages/project/AccessControlPage	kms	React-TypeScript	tsx	a3e1a8be65b5985859fdea5a47d5ab26350730bd	unread
-core/frontend/src/pages/project/AccessControlPage/route-pam.tsx	core/frontend/src/pages/project/AccessControlPage	pam	React-TypeScript	tsx	10fe2c5e0edd1259f4a847caaab497a5fed36f03	unread
+core/frontend/src/pages/project/AccessControlPage/route-pam.tsx	core/frontend/src/pages/project/AccessControlPage	pam	React-TypeScript	tsx	9d29c7c130019d3b738dd9558d8772fdff362f1a	authored
 core/frontend/src/pages/project/AccessControlPage/route-secret-manager.tsx	core/frontend/src/pages/project/AccessControlPage	authorization	React-TypeScript	tsx	4a1a978b54d8f55df23cc18b724fad180573ebcf	unread
 core/frontend/src/pages/project/AccessControlPage/route-secret-scanning.tsx	core/frontend/src/pages/project/AccessControlPage	scanning	React-TypeScript	tsx	a2d697dafaefecb80e81730d14dbd97b1d87a597	unread
 core/frontend/src/pages/project/AppConnectionsPage/AppConnectionsPage.tsx	core/frontend/src/pages/project/AppConnectionsPage	integrations	React-TypeScript	tsx	68841205404bcc8479a9c158dee125f06fd5533d	unread
@@ -8302,7 +8303,7 @@ core/frontend/tsconfig.app.json	core/frontend	ui	React-TypeScript	json	1f6b29873
 core/frontend/tsconfig.json	core/frontend	ui	React-TypeScript	json	1ffef600d959ec9e396d5a260bd3f5b927b2cef8	unread
 core/frontend/tsconfig.node.json	core/frontend	ui	React-TypeScript	json	db0becc8b033a4a78144f4a3bb852082fe91cd62	unread
 core/frontend/tsr.config.json	core/frontend	ui	React-TypeScript	json	0d6a78fc9c0344297a0b88e0fce2d6bee21dcc1e	unread
-core/frontend/vite.config.ts	core/frontend	ui	React-TypeScript	ts	dd6c3e97e0ec306aebbf1341e07d22b5dff51656	unread
+core/frontend/vite.config.ts	core/frontend	ui	React-TypeScript	ts	2962aa5078001a80e39be770a2a9ab59d32ac52f	authored
 core/helm-charts/infisical-gateway/.helmignore	core/helm-charts/infisical-gateway	delivery	supporting-tooling-or-contract	build-config	0e8a0eb36f4ca2c939201c0d54b5d82a1ea34778	unread
 core/helm-charts/infisical-gateway/Chart.yaml	core/helm-charts/infisical-gateway	delivery	supporting-tooling-or-contract	yaml	86ce1622731d6ddecd57bcc42632918e3090bfbc	unread
 core/helm-charts/infisical-gateway/ci/default-values.yaml	core/helm-charts/infisical-gateway/ci	delivery	supporting-tooling-or-contract	yaml	8c1817b4cef8d710cb1cf490907c8c975cd50636	unread
@@ -9307,19 +9308,21 @@ panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	53007168503d9f
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	authored
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
+scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c0ebcf95aa4c57abda7942091b42cfb8e9c78019	authored
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	unread
-scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f42351ca55f1f83342cbfd45f31ab4bbbeb8da07	verified
+scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	43cddcf2f53a82677b5b1fa7c111a07aed1e0505	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	verified
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	unread
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	79180a295f43f33c159c793812ca6c935f2d646e	unread
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
+scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	722cde98e3ca496e8609179d847f050ab28ecf73	verified
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	40f7dd6601e2630f14b973b674810d6f4a90c1ca	unread
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	62d2e395b3639fc1336a6232de61fb4307b24f99	authored
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1fdf512f4e298da6bc3212f0384c448772b61dd8	authored
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1c3556a7de584e227d74f95adb2184710a19c435	unread
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread

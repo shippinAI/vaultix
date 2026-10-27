@@ -68,7 +68,8 @@ jobs:
         working-directory: core/backend
       - run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: core/frontend
-      - run: npm run build
+      - name: Build UI and verify startup dependencies
+        run: npx tsc -b && node ../../scripts/build-ui-report.mjs
         working-directory: core/frontend
       - name: Preserve existing application routes
         run: node scripts/check-capability-surface.mjs --check-ui
@@ -92,6 +93,7 @@ jobs:
             .cache/loading-proof-*/*.png
             .cache/loading-proof-*/result.json
             .cache/loading-proof-*/startup-failure.json
+            .cache/bundle-proof-*/*.json
             .cache/backend-production-audit.json
           if-no-files-found: warn
       - run: go test ./internal/ee/services/license ./internal/config ./internal/database/redis
@@ -223,6 +225,7 @@ jobs:
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json
             .cache/app-image-proof-*/dashboard-recovery.json
+            .cache/app-image-proof-*/chart-rendering.json
             .cache/app-image-proof-*/accessibility.json
             .cache/app-image-proof-*/*.png
           if-no-files-found: warn

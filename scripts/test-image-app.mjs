@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
+import { testChartRendering } from "./test-chart-rendering.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -58,6 +59,11 @@ try {
     assert.equal(report.violations.length, 0, `Accessibility violations in ${state}; inspect accessibility.json.`);
   };
   const errors = [];
+  const chartRequests = [];
+  page.on("request", request => {
+    const path = new URL(request.url()).pathname;
+    if (/\/assets\/recharts-.*\.js$/.test(path)) chartRequests.push(path);
+  });
   const expectedFailures = new Set();
   page.on("pageerror", error => errors.push(error.message));
   page.on("response", response => {
@@ -69,6 +75,7 @@ try {
   await page.goto(origin);
   await expect(page.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.equal(new URL(page.url()).pathname, "/login");
+  assert.equal(chartRequests.length, 0, "Real image login must not load the chart renderer");
   await page.screenshot({ path: resolve(evidence, "login.png"), fullPage: true });
   await page.getByLabel("Email", { exact: true }).fill(email);
   await page.getByLabel("Password", { exact: true }).fill(password);
@@ -117,6 +124,8 @@ try {
   await certificateTile.press("Space");
   await page.waitForURL(url => url.pathname.startsWith(`/organizations/${bootstrap.organization.id}/projects/cert-manager/`) && url.pathname.endsWith("/overview"));
   await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible();
+  const certificateDashboardUrl = page.url();
+  assert.ok(chartRequests.length > 0, "Certificate dashboard must load the deferred chart renderer");
   await page.screenshot({ path: resolve(evidence, "certificate-dashboard.png"), fullPage: true });
   await page.goto(origin);
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
@@ -124,6 +133,19 @@ try {
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/pam/accounts`);
   await expect(page.getByRole("heading", { name: "Accounts", exact: true })).toBeVisible();
   await page.screenshot({ path: resolve(evidence, "pam-accounts.png"), fullPage: true });
+  const pamAccessUrl = `${origin}/organizations/${bootstrap.organization.id}/pam/access-management`;
+  for (const [value, name] of [["members", "Members"], ["groups", "Groups"], ["identities", "Identities"], ["invalid-tab", "Members"]]) {
+    await page.goto(`${pamAccessUrl}?selectedTab=${value}`);
+    await expect(page.getByRole("heading", { name: "Access Control", exact: true })).toBeVisible();
+    await expect(page.getByRole("tab", { name: new RegExp(`^${name}`) })).toHaveAttribute("aria-selected", "true");
+  }
+  await page.getByRole("tab", { name: /^Members/ }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("tab", { name: /^Groups/ })).toHaveAttribute("aria-selected", "true");
+  await page.waitForURL(url => url.searchParams.get("selectedTab") === "groups");
+  await page.reload();
+  await expect(page.getByRole("tab", { name: /^Groups/ })).toHaveAttribute("aria-selected", "true");
+  await page.screenshot({ path: resolve(evidence, "pam-access-groups.png"), fullPage: true });
   const anonymous = await browser.newContext();
   const denied = await anonymous.newPage();
   await denied.goto(`${origin}/organizations/${bootstrap.organization.id}/projects`);
@@ -131,11 +153,14 @@ try {
   await expect(denied.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "result.json"), JSON.stringify({
-    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and overview loading", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
+    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and overview loading", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
   }, null, 2));
   const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "dashboard-recovery.json"), JSON.stringify({ passed: true, ...recovery }, null, 2));
+  const charts = await testChartRendering({ page, expect, origin, dashboardUrl: certificateDashboardUrl, evidence });
+  assert.deepEqual(errors, []);
+  writeFileSync(resolve(evidence, "chart-rendering.json"), JSON.stringify({ passed: true, ...charts }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {
   console.error(`Application proof failed. Evidence directory: ${evidence}`);

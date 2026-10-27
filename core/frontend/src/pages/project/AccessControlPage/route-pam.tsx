@@ -2,10 +2,8 @@ import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 
-import {
-  PamAccessControlPage,
-  PamAccessControlTab
-} from "@app/pages/pam/PamAccessControlPage/PamAccessControlPage";
+import { PamAccessControlPage } from "@app/pages/pam/PamAccessControlPage/PamAccessControlPage";
+import { PamAccessControlTab } from "@app/pages/pam/PamAccessControlPage/types";
 
 const PamAccessControlQuerySchema = z.object({
   selectedTab: z.nativeEnum(PamAccessControlTab).catch(PamAccessControlTab.Members),

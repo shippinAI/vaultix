@@ -4,6 +4,29 @@ Hosted Vaultix operated by shippin.ai is the first release target. Self-hosted
 deployments use the same engine and included software capabilities. Release
 claims require passing workflows; an included feature flag is not evidence.
 
+## Startup dependency checkpoint, 2026-10-27
+
+The canonical standalone image `vaultix:bundle-boundary-verify`, local image ID
+`sha256:87fef9d436fe495a2a6e745c7ef7eaef62c5341f0af083b769ad41c38ee7697a`,
+passed Dragonfly and Redis image/MCP/queue/restart checks. Both preserve all
+273 UI routes and 2,290 documented API operations. Logs are
+`.cache/bundle-smoke-final.log` and `.cache/bundle-smoke-redis.log`.
+
+`.cache/app-image-proof-HsMMTW/result.json` retains the real application checks
+and adds PAM members/groups/identities deep links, invalid-tab fallback, keyboard
+selection and refresh. Login excludes the chart renderer; it is available on
+the certificate dashboard. The separate `chart-rendering.json` uses explicitly
+substituted distribution/expiry counts after an authorized real stats response.
+It verifies six full-size settled SVG sectors, legend counts and keyboard filter
+navigation. It is not certificate issuance or provider evidence.
+
+Type checking, scoped lint, emitted-bundle checks, cold-login payload budgets and
+18 fixture UI/accessibility states passed. The two existing image axe states
+also detected zero violations; manual findings remain. See
+[0028](0028-visual-loading-system.md) for graph and browser measurements. The
+decoded login payload is now 3,672,502 bytes, 11.17% below the prior checkpoint.
+These local measurements do not establish hosted latency or complete UI parity.
+
 ## Vector artwork and loading checkpoint, 2026-10-27
 
 The canonical standalone image `vaultix:visual-loading-verify`, local image ID

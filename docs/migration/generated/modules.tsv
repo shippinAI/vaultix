@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	096b5bd1e0dc7352d8a8d63639b9fae835b4d821d11f005e207159ccbed4c75e	0	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	20d0bef06f388ab58ddb55f88f9d833f0053adf8895ed178b50f65d43394ac42	0	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	95aa69edb20949c6c30ec14487aa369b3219a26ffa071de2ac8bae60229a07c6	0	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -481,7 +481,7 @@ core/e2e/helpers	foundation	supporting-tooling-or-contract	3	44e72a985be15d3fb7e
 core/e2e/helpers	identity	supporting-tooling-or-contract	1	c2c1fd768a8d016aa952248b66e24a90f9bad81aee59a8e80feea95554cba1e7	0	unassessed
 core/e2e/tests	identity	supporting-tooling-or-contract	3	16dab45782b0746bdb798ac6fd24f2fabd165f24e0bec75beef075d34bf8d5d5	0	unassessed
 core/frontend	delivery	React-TypeScript	1	bb406210252a479ed5e401e013622aa62e0145fa65f183edf4b612390d2b511e	0	unassessed
-core/frontend	ui	React-TypeScript	13	fc4843b880fa5b55dbdf897e0d73bdfb6acabd591abe24bb70c691a27994ea4f	0	unassessed
+core/frontend	ui	React-TypeScript	13	446508a5369c2ee31a9cbdd0515524794ad7d372ee280415053a044627687b42	1	unassessed
 core/frontend/.storybook	ui	React-TypeScript	2	d0b6a004631e385b274e117866f0d5b1151d7ecb5d62613697e438653520efda	0	unassessed
 core/frontend/.storybook/decorators	ui	React-TypeScript	3	d5d3f3b1f1c94c06462a74736176ad285b9888e0915afcffb229209ddfdc9596	0	unassessed
 core/frontend/public	ui	React-TypeScript	2	120a1997f8a5c085ed810fd212231fbe45778bc53cbcc192668b6003ff3ea0c2	0	unassessed
@@ -881,7 +881,7 @@ core/frontend/src/pages/organization/UserDetailsByIDPage	audit	React-TypeScript	
 core/frontend/src/pages/organization/UserDetailsByIDPage	authorization	React-TypeScript	1	23accc2ecd792811a3d3bee6e516fee2171f232a9db56d2844468e929182284f	0	unassessed
 core/frontend/src/pages/organization/UserDetailsByIDPage	identity	React-TypeScript	12	ea83175ce2ee13ecb27bac4ca2c57a38c6fd9cc46b7edb1e842ec4b3eb3e586e	0	unassessed
 core/frontend/src/pages/pam	pam	React-TypeScript	3	06134c7ca997faa36a13ad5d508f1756bdfd62a6c6887f5db37cdf172dfe0d4b	0	unassessed
-core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	10	e3d0c0d0145ca1933c4a5f2ed32afdcaeee2cb8e7043a83bdd42aafe39d400c7	0	unassessed
+core/frontend/src/pages/pam/PamAccessControlPage	pam	React-TypeScript	11	a73c3771f7779d084a068bc1cbf8c6d5077f95cf3056b5935aca002b4526e697	2	unassessed
 core/frontend/src/pages/pam/PamAccountAccessPage	pam	React-TypeScript	11	1ee97af815a7255d53930a3adea5a4f202029ae3bf5794d03949467517793ba5	0	unassessed
 core/frontend/src/pages/pam/PamAccountsPage	pam	React-TypeScript	28	a527810db93251afdaa804a32ad202f75272754bb3661bb37d5772c1806d1a65	0	unassessed
 core/frontend/src/pages/pam/PamApprovalRequestsPage	pam	React-TypeScript	3	9b4bd0cd1ed9eaadecdbd203471c16546159ae301c2e89472b96154a7b60c78e	0	unassessed
@@ -893,7 +893,7 @@ core/frontend/src/pages/pam/PamTemplatesPage	pam	React-TypeScript	5	e4642e57b611
 core/frontend/src/pages/pam/components	pam	React-TypeScript	22	8b8fedd6adfae27fa3b04ed7af5a329e31fb9472714771db53cc3bf2db7f2bb9	0	unassessed
 core/frontend/src/pages/project/AccessControlPage	authorization	React-TypeScript	38	8f4317f75d0e33d1c8aa7d7d72153b56d14d7942e869365140e7c98853cfeb9c	0	unassessed
 core/frontend/src/pages/project/AccessControlPage	kms	React-TypeScript	1	f40b7888e6dc5cf39bebdea52c0eb782eba43331407c407ade3dae8ff3509eb9	0	unassessed
-core/frontend/src/pages/project/AccessControlPage	pam	React-TypeScript	1	0162e8c6a6e90d612fa68eb47b71e739437f6e2ad99f43bae9bad8022bdfdb28	0	unassessed
+core/frontend/src/pages/project/AccessControlPage	pam	React-TypeScript	1	3762342530629c6ef625ed2e1f651ab669f058c86285b06e0db74df3006f8579	1	unassessed
 core/frontend/src/pages/project/AccessControlPage	pki	React-TypeScript	1	a579f415fca956193f6c75f5edf34ba3a9f9fe030a24a2184dfa2cf251b3db4c	0	unassessed
 core/frontend/src/pages/project/AccessControlPage	scanning	React-TypeScript	1	50226bf8e33876b83f105d3ce60be3b17041fced8a3757232dd26a90fb772e3b	0	unassessed
 core/frontend/src/pages/project/AppConnectionsPage	integrations	React-TypeScript	2	802fb9cb5820134042ca3bfcbe1b62e14811ba384cc8a1a6a33d94fb804deb2a	0	unassessed
@@ -1053,4 +1053,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	19	156474f33d651061046b229c66655f238aa019b9cbc2c11188739e929255cfec	8	unassessed
+scripts	delivery	supporting-tooling-or-contract	21	ce9ef229f2a5e24063bfbe2d056caedf7fea3980053f44f4e3eedb6b8820bef4	10	unassessed

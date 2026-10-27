@@ -67,9 +67,10 @@ try {
     assert.equal(new URL(page.url()).pathname, "/login");
     if (!baseline) {
       assert.equal(assets.some(entry => /dotlottie|LottiePlayer/i.test(entry.path)), false, "Optional animation runtime must not load at sign-in");
+      assert.equal(assets.some(entry => /recharts/i.test(entry.path)), false, "Chart renderer must not load at sign-in");
       assert.equal(assets.some(entry => entry.path.endsWith(".wasm")), false, "Sign-in must not load WebAssembly");
-      assert.ok(result.decodedJavaScriptBytes <= 3_700_000, "Cold login JavaScript exceeds the 3.7 MB decoded budget");
-      assert.ok(result.decodedAssetBytes <= 4_250_000, "Cold login assets exceed the 4.25 MB decoded budget");
+      assert.ok(result.decodedJavaScriptBytes <= 3_250_000, "Cold login JavaScript exceeds the 3.25 MB decoded budget");
+      assert.ok(result.decodedAssetBytes <= 3_800_000, "Cold login assets exceed the 3.8 MB decoded budget");
     }
     if (run === 0) {
       await page.screenshot({ path: resolve(evidence, "login-desktop.png"), fullPage: true });

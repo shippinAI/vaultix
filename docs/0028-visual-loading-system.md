@@ -31,11 +31,21 @@ Its existing local WASM URL is configured inside that module. Form and navigatio
 content do not wait for the decorative player. Animated icon props, callbacks,
 hover behavior and children remain supported. No new runtime dependency is added.
 
-The existing chart group still loads at login through shared dependencies.
-An experiment with Rollup's [explicit manual chunk behavior](https://rollupjs.org/configuration-options/#output-onlyexplicitmanualchunks)
-failed browser startup and was removed. The current circular imports need a
-module-level dependency fix before this group can safely become route-only.
-Do not claim that login is fully optimized or that charts are deferred.
+The first attempt to change Rollup's [explicit manual chunk behavior](https://rollupjs.org/configuration-options/#output-onlyexplicitmanualchunks)
+failed browser startup and was removed. The next checkpoint traces the actual
+emitted graph: React, shared helpers and Node polyfills had been absorbed by the
+chart group. They now have a shared `ui-runtime` group. D3 primitives, also used
+by permission graphs, stay together in their own group. Recharts/Victory retain
+their group, which depends on these foundations without reverse imports.
+The login browser check forbids downloading that renderer; the certificate
+dashboard acceptance verifies it loads when needed. Login still includes other
+feature dependencies and is not fully optimized.
+
+PAM tab values now live in a metadata-only module. Previously route search
+validation imported them from the rendered access-management page, which pulled
+its identity-form and role-schema dependencies into startup. The values and
+validation defaults are unchanged. Real-image checks cover all three tab links,
+invalid-tab fallback, keyboard tab selection and refresh.
 
 `scripts/check-ui-loading.mjs` measures three fresh browser contexts against the
 built login UI. Instance configuration and anonymous-token responses are explicit
@@ -43,12 +53,23 @@ fixtures. It records requested assets, decoded/encoded/transfer bytes, browser
 version, errors, typing readiness and a screenshot under `.cache/loading-proof-*`.
 The static server is local and uncompressed, without CPU/network throttling.
 These numbers measure requested payload and local behavior, not a hosted SLA.
-Cold login must not request the optional player or WASM. Decoded payload limits
-are 3.7 MB JavaScript and 4.25 MB total assets; illustration markup is below 6 KB.
+Cold login must not request the chart renderer, optional player or WASM. Decoded
+payload limits are 3.25 MB JavaScript and 3.8 MB total assets; illustration markup
+is below 6 KB.
 These initial limits prevent losing this improvement and must tighten as the
 remaining dependency graph is improved. CI runs the check before
 publishing and retains its evidence. `--baseline` records the previous build
 without enforcing the new loading budget.
+
+`scripts/build-ui-report.mjs` runs the existing Vite production build and writes
+emitted chunk membership, static/dynamic imports, byte counts and the static entry
+dependency closure under `.cache/bundle-proof-*`. It uses the official
+[Rollup module and output metadata](https://rollupjs.org/plugin-development/).
+The check rejects Recharts, DotLottie or the PAM access page in that closure,
+even if chunk names change. Source import edges include tree-shaken modules;
+they are discovery evidence, not proof that every connected module executes.
+Gzip sizes are estimates. CI runs TypeScript checking first, builds once with
+this reporter, then runs the browser checks and retains both reports.
 
 ## Methodical next work
 
@@ -88,3 +109,26 @@ The canonical image also passed real authentication/application acceptance in
 `.cache/app-image-proof-Z5u5Cp/result.json`, plus both Dragonfly and Redis smoke
 tests. Image identity and precise scope are recorded in
 [the capability evidence ledger](0018-hosted-capability-proof.md).
+
+## Dependency-boundary checkpoint, 2026-10-27
+
+`.cache/bundle-proof-YDXub6/summary.json` records an emitted static entry closure
+of 2,678,001 JavaScript bytes, with no Recharts, DotLottie or PAM access page.
+The browser additionally loads login route code: all three cold runs in
+`.cache/loading-proof-O2Nme5/result.json` requested 3,144,178 JavaScript bytes and
+3,672,502 total decoded asset bytes. That is 461,992 fewer total bytes (11.17%)
+than the preceding checkpoint, with zero browser errors. Shared groups add two
+requests; the byte reduction is not a claim of proportional latency improvement.
+The 18 fixture UI/accessibility states passed in `.cache/ui-proof-waxuug`.
+
+Remaining eager dependencies include permission-graph primitives, editor code,
+and broad component exports. Their source edges are now inspectable in the report,
+but removing those edges requires consumer-by-consumer review. Source graph
+discovery does not mark these modules authored or prove they can be deleted.
+
+Canonical-image evidence is `.cache/app-image-proof-HsMMTW`: real login and PAM
+route checks are in `result.json`; deliberate nonempty chart rendering and
+keyboard filter navigation are in the separate `chart-rendering.json`.
+The chart check waits for full-size, stable SVG path geometry before capturing
+the screenshot, with a bounded wait. Mounted sectors alone were insufficient:
+the first visual review caught the entrance animation before it settled.
