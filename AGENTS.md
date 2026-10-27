@@ -22,6 +22,11 @@ Read `docs/0021-product-authorship-review.md`. Methodically read and author
 every existing product-code module in place. Inventory is not review, and
 passing inherited tests does not establish complete authorship or parity.
 
+Capability preservation (2026-10-27): read `docs/0026-capability-preservation.md`.
+Keep existing workflows and compatibility during authorship. The UI/API surface
+baseline and real-image behavioral checks are release gates, not blanket parity
+evidence. Never recapture a reduced baseline just to pass CI.
+
 All-UI accessibility and capability convergence (2026-10-26): target WCAG 2.2 AA
 across native and existing authenticated/enterprise workflows; read
 `docs/0022-accessibility-acceptance.md`. Capture Infisical and Doppler capabilities,

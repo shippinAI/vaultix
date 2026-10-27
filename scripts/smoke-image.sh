@@ -66,6 +66,7 @@ fi
 curl --fail --silent "$base/" | grep '<title>Vaultix</title>' >/dev/null
 curl --fail --silent "$base/login" | grep '<title>Vaultix</title>' >/dev/null
 curl --fail --silent --head "$base/api/status" | grep -i '^x-vaultix-product: Vaultix' >/dev/null
+node "$(dirname "$0")/check-capability-surface.mjs" --check "$base"
 curl --fail --silent "$base/api/docs/json" | \
   node -e 'let s="";process.stdin.on("data",b=>s+=b).on("end",()=>{const p=JSON.parse(s);if(p.info.title!=="Vaultix API"||p.servers[0].url!=="/"||!p.paths["/api/v1/vaultix/connections"]||!p.paths["/api/v1/vaultix/secret-references"])process.exit(1)})'
 curl --fail --silent "$base/api/v1/vaultix/product" | \

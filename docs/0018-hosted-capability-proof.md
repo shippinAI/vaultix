@@ -4,6 +4,43 @@ Hosted Vaultix operated by shippin.ai is the first release target. Self-hosted
 deployments use the same engine and included software capabilities. Release
 claims require passing workflows; an included feature flag is not evidence.
 
+## Capability preservation checkpoint, 2026-10-27
+
+The canonical standalone image `vaultix:preservation-verify`, local image ID
+`sha256:db460c41d3ab5de5abb9fc76229072cfa2500efaf953570b13e039aa86e15775`,
+passed Dragonfly and Redis image/MCP/queue/restart checks. Both retained all
+273 UI routes and 2,290 documented API operations in the preservation baseline.
+See [0026](0026-capability-preservation.md) for the baseline's limited scope.
+
+Real-image browser evidence is `.cache/app-image-proof-ChiHy5/result.json`:
+real email sign-in; all five product categories; Secrets Management project
+creation through the existing dialog and subsequent overview; KMS/scanning,
+certificate dashboard and PAM accounts navigation; authenticated root resume;
+and unauthenticated project UI/API denial. The project/dashboard data came from
+the disposable engine, not application fixtures. No external provider or Nomen
+acceptance is implied.
+
+Separate `.cache/app-image-proof-ChiHy5/dashboard-recovery.json` records deliberate
+response fixtures: project/certificate/count outages, successful retry against
+restored real endpoints, empty certificate setup, multi-instance selection,
+stale-default rejection and keyboard-readable denied cards. These establish UI
+behavior only. No fixture project ID was submitted to a real mutation.
+
+The same directory's `accessibility.json` has zero detected A/AA violations in
+the authenticated dashboard and fixture certificate setup dialog. Manual review
+remains for sidebar gradient contrast, popover `aria-controls` and modal focus
+guards. Existing guide/sign-in/setup checks passed all 18 states in
+`.cache/ui-proof-lCLIjX/accessibility.json`; these remain fixture tests. These
+reports do not establish whole-UI or screen-reader conformance.
+
+Frontend compilation, changed-component lint, surface-guard negative tests and
+ownership checks passed. Build/smoke logs use `.cache/preservation-*`. GHCR now
+gates publication on UI/API surface preservation and the expanded browser runner,
+and uploads real, fixture and accessibility evidence separately. Exact authored
+file scopes are recorded in `docs/code-audit/reviews.json`; most modules remain
+unread in that ledger. This checkpoint is not complete authorship or a blanket
+absence-of-regressions claim.
+
 ## Native AI surface
 
 The native UI and MCP share `vaultix.projects.list` and

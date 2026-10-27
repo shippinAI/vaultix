@@ -16,6 +16,11 @@ database schema/migrations, Go services, the CLI, optional panel, integrations,
 tests, deployment/configuration and operational scripts. A rename, an enabled
 feature flag or a passing inherited test is not evidence of complete authorship.
 
+Capability preservation is a release requirement throughout this work. Follow
+[0026](0026-capability-preservation.md): retain the route/API baseline, verify
+behavior against the standalone image, and document compatibility before changing
+existing contracts. Never remove a workflow merely to simplify the rewrite.
+
 The scope includes [whole-UI accessibility](0022-accessibility-acceptance.md) and
 [Infisical/Doppler capability convergence](0023-capability-convergence.md), including
 enterprise gaps. Track each workflow's specification, implementation and proof.

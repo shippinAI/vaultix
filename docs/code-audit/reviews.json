@@ -179,6 +179,78 @@
         "scripts/smoke-image.sh",
         "docs/0025-application-entry-and-artwork.md"
       ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
+      "blob": "d6eafcb0c5eb1c2fb43fd3934218e3bfe8516743",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete component read; route caller, project/stat queries, certificate instance hook, preference helper, permission branches, admin mutation, PAM resolver and dialog APIs traced. Native buttons preserve five product entries and keyboard activation; flat cards retain descriptions and readable denied reasons. Project/certificate/count failures have retry paths; pending/failed certificate lookup cannot open false setup. Existing membership/admin/request logic retained. Real product navigation and project creation passed; outages, multi-instance and denied-card behavior use explicit fixtures. Backend tenant/revocation/provider semantics and inherited duplicate error notifications remain separate review work.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/projects/CertManagerSelectInstanceModal.tsx",
+      "blob": "334c83bb3a7813248a0a9e269cd7d31a6b0c3f12",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file and overview caller read. Owned Vaultix explanation, associated select label and current-instance membership validation preserve selection/cancel callbacks while preventing submission of stale default IDs. Browser fixture checks verify named control, stale-default denial and valid selection enabling Open. Fixture project IDs are never submitted; real multi-instance provider lifecycle and all callers remain unverified.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
+    },
+    {
+      "path": "scripts/check-capability-surface.mjs",
+      "blob": "577cc473169f29ddff86e6ed010e066152c3cfb5",
+      "status": "verified",
+      "decision": "replace",
+      "scope": "Complete authored script read. Captures generated UI paths and documented live-image API method/path pairs; check modes reject baseline removals and malformed input while allowing additions. Local-only schema URL, redirect denial and bounded fetch. Unit removal/method-change checks and real image baseline checks passed. Surface preservation does not verify schemas, behavior or authorization.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
+    },
+    {
+      "path": "scripts/test-capability-surface.mjs",
+      "blob": "a6ff78877d1ded9319b36480330d8c72494961b2",
+      "status": "verified",
+      "decision": "replace",
+      "scope": "Complete authored negative tests read and executed: removed route/method, malformed baseline/schema/route manifest and additive-route cases. Tests verify the preservation gate, not product capabilities.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
+    },
+    {
+      "path": "scripts/test-dashboard-recovery.mjs",
+      "blob": "0ad0c3499923f010d6c7bf581a742bb454b7133d",
+      "status": "verified",
+      "decision": "replace",
+      "scope": "Complete authored fixture runner read and executed after real sign-in. Project/certificate/stat outages retry against restored real endpoints; empty configuration, multiple instances, stale default and denied keyboard activation are explicit fixture scenarios. No fixture ID reaches a real mutation. Results are separate from real-service evidence.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
+    },
+    {
+      "path": "scripts/test-image-app.mjs",
+      "blob": "62d2e395b3639fc1336a6232de61fb4307b24f99",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete image acceptance runner read. Only uninitialized disposable loopback instances accepted; random test credentials never printed. Real browser authentication, secrets project creation, all five product entries and anonymous UI/API denial verified without application fixtures. Scoped axe evidence and separate explicit recovery fixture phase retained. External providers blocked; no Nomen, cross-tenant, data recovery or full enterprise parity claim.",
+      "evidence": [
+        "docs/0026-capability-preservation.md",
+        ".cache/app-image-proof-ChiHy5/result.json",
+        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+      ]
     }
   ]
 }

@@ -6,14 +6,15 @@ import { CertManagerNotConfiguredModal } from "@app/components/projects/CertMana
 import { CertManagerSelectInstanceModal } from "@app/components/projects/CertManagerSelectInstanceModal";
 import { RequestProjectAccessModal } from "@app/components/projects/RequestProjectAccessModal";
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  Skeleton,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
+  Skeleton
 } from "@app/components/v3";
 import { useOrganization, useOrgPermission } from "@app/context";
 import {
@@ -58,37 +59,32 @@ const PRODUCT_STYLES: Record<
 > = {
   [ProjectType.SecretManager]: {
     iconClassName: "h-4.5 w-4.5 text-product-sm",
-    containerClassName:
-      "border-product-sm/30 bg-gradient-to-br from-product-sm/20 to-product-sm/5 group-hover:border-product-sm/50 group-hover:from-product-sm/25 group-hover:to-product-sm/10",
-    cardClassName: "hover:bg-gradient-to-br hover:from-product-sm/[0.04] hover:to-transparent",
+    containerClassName: "border-product-sm/30 bg-product-sm/10",
+    cardClassName: "hover:bg-container-hover",
     titleUnderlineClassName: "decoration-product-sm/60"
   },
   [ProjectType.CertificateManager]: {
     iconClassName: "h-4.5 w-4.5 text-product-pki",
-    containerClassName:
-      "border-product-pki/30 bg-gradient-to-br from-product-pki/20 to-product-pki/5 group-hover:border-product-pki/50 group-hover:from-product-pki/25 group-hover:to-product-pki/10",
-    cardClassName: "hover:bg-gradient-to-br hover:from-product-pki/[0.04] hover:to-transparent",
+    containerClassName: "border-product-pki/30 bg-product-pki/10",
+    cardClassName: "hover:bg-container-hover",
     titleUnderlineClassName: "decoration-product-pki/60"
   },
   [ProjectType.KMS]: {
     iconClassName: "h-4.5 w-4.5 text-product-kms",
-    containerClassName:
-      "border-product-kms/30 bg-gradient-to-br from-product-kms/20 to-product-kms/5 group-hover:border-product-kms/50 group-hover:from-product-kms/25 group-hover:to-product-kms/10",
-    cardClassName: "hover:bg-gradient-to-br hover:from-product-kms/[0.04] hover:to-transparent",
+    containerClassName: "border-product-kms/30 bg-product-kms/10",
+    cardClassName: "hover:bg-container-hover",
     titleUnderlineClassName: "decoration-product-kms/60"
   },
   [ProjectType.SecretScanning]: {
     iconClassName: "h-4.5 w-4.5 text-product-ss",
-    containerClassName:
-      "border-product-ss/30 bg-gradient-to-br from-product-ss/20 to-product-ss/5 group-hover:border-product-ss/50 group-hover:from-product-ss/25 group-hover:to-product-ss/10",
-    cardClassName: "hover:bg-gradient-to-br hover:from-product-ss/[0.04] hover:to-transparent",
+    containerClassName: "border-product-ss/30 bg-product-ss/10",
+    cardClassName: "hover:bg-container-hover",
     titleUnderlineClassName: "decoration-product-ss/60"
   },
   [ProjectType.PAM]: {
     iconClassName: "h-4.5 w-4.5 text-product-pam",
-    containerClassName:
-      "border-product-pam/30 bg-gradient-to-br from-product-pam/20 to-product-pam/5 group-hover:border-product-pam/50 group-hover:from-product-pam/25 group-hover:to-product-pam/10",
-    cardClassName: "hover:bg-gradient-to-br hover:from-product-pam/[0.04] hover:to-transparent",
+    containerClassName: "border-product-pam/30 bg-product-pam/10",
+    cardClassName: "hover:bg-container-hover",
     titleUnderlineClassName: "decoration-product-pam/60"
   }
 };
@@ -110,9 +106,12 @@ export const ProjectCategoryOverview = () => {
     OrgPermissionProjectActions.RequestAccess,
     OrgPermissionSubjects.Project
   );
-  const { data: projects = [], isPending: isProjectsLoading } = useGetUserProjects();
-  const { data: certManagerInstance } = useCertManagerInstanceState();
-  const { data: productStats } = useGetOrgProductStats(currentOrg?.id ?? "");
+  const projectsQuery = useGetUserProjects();
+  const { data: projects = [], isPending: isProjectsLoading } = projectsQuery;
+  const certManagerQuery = useCertManagerInstanceState();
+  const { data: certManagerInstance } = certManagerQuery;
+  const statsQuery = useGetOrgProductStats(currentOrg?.id ?? "");
+  const { data: productStats } = statsQuery;
   const orgAdminAccessProject = useOrgAdminAccessProject();
 
   const [isRequestAccessOpen, setIsRequestAccessOpen] = useState(false);
@@ -304,6 +303,8 @@ export const ProjectCategoryOverview = () => {
     const orgId = currentOrg?.id || "";
 
     if (type === ProjectType.CertificateManager) {
+      // A pending or failed lookup does not mean that no instance exists.
+      if (certManagerQuery.isPending || certManagerQuery.isError) return;
       if (cmInstances.length === 0) {
         setIsCertManagerSetupOpen(true);
         return;
@@ -328,9 +329,31 @@ export const ProjectCategoryOverview = () => {
     });
   };
 
+  if (projectsQuery.isError) {
+    return (
+      <Alert variant="danger">
+        <AlertTitle>Could Not Load Your Projects</AlertTitle>
+        <AlertDescription>
+          Your project access could not be checked. Retry to load the Vaultix workspace.
+          <Button
+            variant="outline"
+            isPending={projectsQuery.isFetching}
+            onClick={() => projectsQuery.refetch()}
+          >
+            Retry Projects
+          </Button>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   if (isProjectsLoading) {
     return (
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+      <div
+        role="status"
+        aria-label="Loading Vaultix products"
+        className="grid grid-cols-1 gap-5 lg:grid-cols-2"
+      >
         {Array.from({ length: 5 }).map((_, i) => (
           <Card key={`tile-loading-${i + 1}`}>
             <CardHeader>
@@ -371,6 +394,36 @@ export const ProjectCategoryOverview = () => {
 
   return (
     <>
+      {certManagerQuery.isError && (
+        <Alert variant="danger" className="mb-5">
+          <AlertTitle>Could Not Load Certificate Manager</AlertTitle>
+          <AlertDescription>
+            Existing certificate projects have not been checked. Retry before choosing a project.
+            <Button
+              variant="outline"
+              isPending={certManagerQuery.isFetching}
+              onClick={() => certManagerQuery.refetch()}
+            >
+              Retry Certificate Manager
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+      {statsQuery.isError && (
+        <Alert variant="warning" className="mb-5">
+          <AlertTitle>Product Counts Are Unavailable</AlertTitle>
+          <AlertDescription>
+            You can still open your products. Retry to refresh the counts.
+            <Button
+              variant="outline"
+              isPending={statsQuery.isFetching}
+              onClick={() => statsQuery.refetch()}
+            >
+              Retry Counts
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {PRODUCT_TYPES.map((type) => {
           const stats = getStatsForType(type);
@@ -395,7 +448,10 @@ export const ProjectCategoryOverview = () => {
                         {getProjectTitle(type)}
                       </span>
                     </CardDescription>
-                    <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-accent">
+                    <p
+                      id={`product-description-${type}`}
+                      className="mt-1 text-sm leading-relaxed text-muted"
+                    >
                       {getProjectDescription(type)}
                     </p>
                   </div>
@@ -403,7 +459,7 @@ export const ProjectCategoryOverview = () => {
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
                 {stats.length > 0 && (
-                  <div className="flex items-center gap-4 border-t border-border pt-3">
+                  <div className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
                     {stats.map((stat, index) => (
                       <div key={stat.label} className="flex items-center gap-4">
                         <span className="text-muted">
@@ -425,34 +481,38 @@ export const ProjectCategoryOverview = () => {
             (type === ProjectType.CertificateManager && isCertManagerAccessBlocked) ||
             (type === ProjectType.PAM && isPamAccessBlocked);
 
+          const isUnavailable =
+            isAccessBlocked ||
+            (type === ProjectType.CertificateManager &&
+              (certManagerQuery.isPending || certManagerQuery.isError));
+          let accessMessage = "Checking available certificate projects.";
           if (isAccessBlocked) {
-            return (
-              <Tooltip key={type}>
-                <TooltipTrigger asChild>
-                  <div aria-disabled className="cursor-not-allowed">
-                    <Card className="h-auto rounded-md opacity-50">{tileBody}</Card>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  You don&apos;t have access to {getProjectTitle(type)}. Ask an organization admin
-                  for access.
-                </TooltipContent>
-              </Tooltip>
-            );
+            accessMessage = "You do not have access. Ask an organization admin for access.";
+          } else if (certManagerQuery.isError) {
+            accessMessage = "Project lookup failed. Use Retry Certificate Manager above.";
           }
 
           return (
             <Card
               key={type}
-              role="button"
-              tabIndex={0}
-              onClick={() => handleTileClick(type)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleTileClick(type);
-              }}
-              className={`group h-auto cursor-pointer rounded-md transition-all duration-200 ease-out hover:scale-[1.01] ${cardClassName}`}
+              className={`group relative h-auto min-w-0 rounded-md ${isUnavailable ? "" : cardClassName}`}
             >
               {tileBody}
+              <button
+                type="button"
+                aria-label={getProjectTitle(type)}
+                aria-describedby={`product-description-${type}${isUnavailable ? ` product-access-${type}` : ""}`}
+                aria-disabled={isUnavailable}
+                onClick={() => {
+                  if (!isUnavailable) handleTileClick(type);
+                }}
+                className={`absolute inset-0 rounded-md focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ring ${isUnavailable ? "cursor-not-allowed" : "cursor-pointer"}`}
+              />
+              {isUnavailable && (
+                <p id={`product-access-${type}`} className="text-sm text-muted">
+                  {accessMessage}
+                </p>
+              )}
             </Card>
           );
         })}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  FieldLabel,
   Select,
   SelectContent,
   SelectItem,
@@ -37,13 +38,15 @@ export const CertManagerSelectInstanceModal = ({
   onSelect
 }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selectId = useId();
+  const isValidSelection = instances.some((instance) => instance.id === selectedId);
 
   useEffect(() => {
     if (isOpen) setSelectedId(orgDefaultProjectId);
   }, [isOpen, orgDefaultProjectId]);
 
   const handleOpenProject = () => {
-    if (selectedId) onSelect(selectedId);
+    if (selectedId && isValidSelection) onSelect(selectedId);
   };
 
   return (
@@ -52,23 +55,15 @@ export const CertManagerSelectInstanceModal = ({
         <DialogHeader className="gap-4">
           <DialogTitle>Select a Certificate Manager project</DialogTitle>
           <DialogDescription>
-            Your organization has multiple Certificate Manager projects. Select one to continue.
-            Once you&apos;ve consolidated to a single project, this prompt won&apos;t appear again.{" "}
-            <a
-              href="https://vaultix.shippin.cloud/docs/documentation/platform/pki/migration"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-500 hover:underline"
-            >
-              View the migration guide.
-            </a>
+            Choose an existing certificate project. Vaultix remembers your selection for this
+            organization and checks your access before opening it.
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex min-w-0 flex-col gap-1.5">
-          <span className="text-sm font-medium text-foreground">Certificate Manager project</span>
+          <FieldLabel htmlFor={selectId}>Certificate Manager project</FieldLabel>
           <Select value={selectedId ?? undefined} onValueChange={setSelectedId}>
-            <SelectTrigger className="w-full min-w-0">
+            <SelectTrigger id={selectId} className="w-full min-w-0">
               <SelectValue placeholder="Select a project" />
             </SelectTrigger>
             <SelectContent position="popper" className="max-h-72 w-(--radix-select-trigger-width)">
@@ -91,7 +86,7 @@ export const CertManagerSelectInstanceModal = ({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button variant="project" isDisabled={!selectedId} onClick={handleOpenProject}>
+          <Button variant="project" isDisabled={!isValidSelection} onClick={handleOpenProject}>
             Open
           </Button>
         </DialogFooter>

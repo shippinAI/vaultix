@@ -5,6 +5,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -12,6 +13,7 @@ assert.equal(process.env.VAULTIX_IMAGE_APP_PROOF, "1", "Only run with a disposab
 assert.match(origin ?? "", /^http:\/\/127\.0\.0\.1:\d+$/);
 const require = createRequire(resolve(root, "core/e2e/package.json"));
 const { chromium, expect } = require("@playwright/test");
+const AxeBuilder = require("@axe-core/playwright").default;
 const config = await (await fetch(`${origin}/api/v1/admin/config`)).json();
 assert.equal(config.config.initialized, false, "Refusing to change an initialized instance.");
 const password = `Vx9!${randomBytes(24).toString("hex")}`;
@@ -41,11 +43,26 @@ try {
   // External integrations are outside this local acceptance test. No API/auth responses are mocked.
   await context.route("**/*", route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage();
+  const accessibility = [];
+  const audit = async state => {
+    await page.evaluate(async () => {
+      await Promise.all(document.getAnimations()
+        .filter(animation => animation.effect?.getTiming().iterations !== Infinity)
+        .map(animation => animation.finished.catch(() => {})));
+    });
+    const report = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
+    const summarize = rules => rules.map(rule => ({ id: rule.id, impact: rule.impact,
+      nodes: rule.nodes.map(node => ({ target: node.target, summary: node.failureSummary })) }));
+    accessibility.push({ state, engine: report.testEngine, violations: summarize(report.violations), manualReview: summarize(report.incomplete) });
+    writeFileSync(resolve(evidence, "accessibility.json"), JSON.stringify(accessibility, null, 2));
+    assert.equal(report.violations.length, 0, `Accessibility violations in ${state}; inspect accessibility.json.`);
+  };
   const errors = [];
+  const expectedFailures = new Set();
   page.on("pageerror", error => errors.push(error.message));
   page.on("response", response => {
     const path = new URL(response.url()).pathname;
-    if (path.startsWith("/api/") && response.status() >= 400 && path !== "/api/v1/auth/token") {
+    if (path.startsWith("/api/") && response.status() >= 400 && path !== "/api/v1/auth/token" && !expectedFailures.has(path)) {
       errors.push(`HTTP ${response.status()} ${path}`);
     }
   });
@@ -64,14 +81,49 @@ try {
     await expect(page.getByText(product, { exact: true })).toBeVisible({ timeout: 15000 });
   }
   await page.screenshot({ path: resolve(evidence, "authenticated-projects.png"), fullPage: true });
-  await page.getByText("Secrets Management", { exact: true }).click();
+  await audit("authenticated-dashboard");
+  // Native buttons must retain both keyboard activation paths.
+  await page.getByRole("button", { name: "Secrets Management", exact: true }).press("Space");
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management`);
   await expect(page.getByRole("heading", { name: "Secrets Management", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Create Project", exact: true })).toBeVisible();
   await page.screenshot({ path: resolve(evidence, "secrets-projects.png"), fullPage: true });
+  await page.getByRole("button", { name: "Create Project", exact: true }).click();
+  const createProject = page.getByRole("dialog", { name: "Create a New Secrets Management Project" });
+  await createProject.getByLabel("Project Name", { exact: true }).fill("Vaultix Lifecycle Proof");
+  const projectResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/projects" && response.request().method() === "POST");
+  await createProject.getByRole("button", { name: "Create Project", exact: true }).click();
+  const createdResponse = await projectResponse;
+  assert.equal(createdResponse.status(), 200, "Real project creation failed.");
+  const { project } = await createdResponse.json();
+  assert.ok(project.id);
+  await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management/${project.id}/overview`);
+  await expect(page.getByRole("heading", { name: "Project Overview", exact: true })).toBeVisible();
+  await page.screenshot({ path: resolve(evidence, "created-secrets-project.png"), fullPage: true });
+  const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
+  assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
   await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
+  for (const [name, slug] of [["KMS", "kms"], ["Secret Scanning", "secret-scanning"]]) {
+    await page.getByRole("button", { name, exact: true }).press("Enter");
+    await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/${slug}`);
+    await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+    await page.goto(origin);
+    await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
+  }
+  const certificateTile = page.getByRole("button", { name: "Certificate Manager", exact: true });
+  await expect(certificateTile).toHaveAttribute("aria-disabled", "false");
+  await certificateTile.press("Space");
+  await page.waitForURL(url => url.pathname.startsWith(`/organizations/${bootstrap.organization.id}/projects/cert-manager/`) && url.pathname.endsWith("/overview"));
+  await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible();
+  await page.screenshot({ path: resolve(evidence, "certificate-dashboard.png"), fullPage: true });
+  await page.goto(origin);
+  await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
+  await page.getByRole("button", { name: "Privileged Access Manager", exact: true }).press("Enter");
+  await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/pam/accounts`);
+  await expect(page.getByRole("heading", { name: "Accounts", exact: true })).toBeVisible();
+  await page.screenshot({ path: resolve(evidence, "pam-accounts.png"), fullPage: true });
   const anonymous = await browser.newContext();
   const denied = await anonymous.newPage();
   await denied.goto(`${origin}/organizations/${bootstrap.organization.id}/projects`);
@@ -79,9 +131,15 @@ try {
   await expect(denied.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "result.json"), JSON.stringify({
-    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
+    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and overview loading", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
   }, null, 2));
+  const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });
+  assert.deepEqual(errors, []);
+  writeFileSync(resolve(evidence, "dashboard-recovery.json"), JSON.stringify({ passed: true, ...recovery }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
+} catch (error) {
+  console.error(`Application proof failed. Evidence directory: ${evidence}`);
+  throw error;
 } finally {
   await browser.close();
 }

@@ -38,6 +38,8 @@ jobs:
         run: node scripts/audit-codebase.mjs --check
       - name: Verify guided interaction state
         run: node --experimental-strip-types scripts/test-guided-interactions.mjs
+      - name: Verify capability surface guard
+        run: node scripts/test-capability-surface.mjs
       - uses: actions/setup-go@v5
         with:
           go-version: '1.27.2'
@@ -64,6 +66,8 @@ jobs:
         working-directory: core/frontend
       - run: npm run build
         working-directory: core/frontend
+      - name: Preserve existing application routes
+        run: node scripts/check-capability-surface.mjs --check-ui
       - run: npm ci --ignore-scripts --no-audit --no-fund
         working-directory: core/e2e
       - run: npx playwright install --with-deps chromium
@@ -209,6 +213,8 @@ jobs:
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json
+            .cache/app-image-proof-*/dashboard-recovery.json
+            .cache/app-image-proof-*/accessibility.json
             .cache/app-image-proof-*/*.png
           if-no-files-found: warn
 
