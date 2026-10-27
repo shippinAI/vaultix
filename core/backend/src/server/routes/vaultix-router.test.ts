@@ -25,6 +25,7 @@ describe("native Vaultix HTTP API", () => {
     await Promise.all(
       [
         { url: "/api/v1/vaultix/catalog?value=CANARY-SECRET" },
+        { url: "/api/v1/vaultix/guidance?value=CANARY-SECRET" },
         { url: "/api/v1/vaultix/catalog", headers: { host: "vaultix.example", origin: "https://evil.example" } }
       ].map(async (options) => {
         const response = await app.inject(options);
@@ -33,6 +34,41 @@ describe("native Vaultix HTTP API", () => {
         expect(response.body).not.toContain("CANARY-SECRET");
       })
     );
+  });
+  test("serves the same authored teaching document through HTTP and MCP", async () => {
+    const response = await app.inject("/api/v1/vaultix/guidance");
+    expect(response.statusCode).toBe(200);
+    expect(response.headers["cache-control"]).toBe("no-store");
+    expect(response.json()).toMatchObject({
+      schemaVersion: "vaultix.guidance.v1",
+      source: "catalog",
+      a2uiVersion: "0.9.1"
+    });
+    const mcp = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: {
+        jsonrpc: "2.0",
+        id: 1,
+        method: "tools/call",
+        params: { name: "vaultix.guidance.get", arguments: {} }
+      }
+    });
+    expect(JSON.parse(mcp.json<{ result: { content: { text: string }[] } }>().result.content[0].text)).toEqual(
+      response.json()
+    );
+    const denied = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: {
+        jsonrpc: "2.0",
+        id: 2,
+        method: "tools/call",
+        params: { name: "vaultix.guidance.get", arguments: { value: "CANARY-SECRET" } }
+      }
+    });
+    expect(denied.json<{ error: { code: number } }>().error.code).toBe(-32602);
+    expect(denied.body).not.toContain("CANARY-SECRET");
   });
   test("bounds body sizes and acknowledges MCP notifications", async () => {
     const response = await app.inject({

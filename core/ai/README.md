@@ -15,12 +15,17 @@ For a local instance, use `http://127.0.0.1:8200/api/v1/vaultix/mcp`.
 Reconnect Codex, then ask: "Read the Vaultix specialist instructions and help
 me connect my app."
 
-The native core MCP supplies four public guidance tools:
+The native core MCP supplies five public guidance tools:
 
 - `vaultix.catalog.get`: the same concepts displayed by the UI.
 - `vaultix.configure.show`: the same authored setup steps displayed by the UI.
 - `vaultix.specialist.instructions`: Clyffy's operating instructions.
 - `vaultix.connections.get`: authored setup choices for subscriptions and existing AI clients.
+- `vaultix.guidance.get`: the same reference and connection lessons used by native contextual help.
+
+Use **Guide Me** or a field's help button for interactive lessons in the UI.
+The lessons can explain and focus controls; they do not execute secret operations.
+Clyffy can read this content, but remote control of the native guide is not implemented.
 
 In the Vaultix UI, open **Connect Clyffy** and choose **Codex subscription**,
 **My Codex setup**, or **Another AI client**. The second option preserves your

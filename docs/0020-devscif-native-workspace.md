@@ -30,6 +30,7 @@ clients and must not be exposed as AI tools.
 | `GET /catalog` | Authored concepts and source actions |
 | `GET /configure` | Authored setup steps |
 | `GET /connections` | Three authored choices: local Codex subscription sign-in, an existing Codex provider setup, or another Streamable HTTP MCP client |
+| `GET /guidance` | Authored reference/connection lessons shared with MCP `vaultix.guidance.get` and native contextual help |
 | `GET /ai/instructions` | Clyffy instructions and boundaries |
 | `GET /projects` | Authorized project/environment metadata |
 | `GET /secret-references` | Authorized names/versions/timestamps for a project, environment and folder; paginated, no values |
@@ -40,6 +41,12 @@ The connection document has schema version `vaultix.connections.v1`, source
 three `configure-step` options. The browser rejects unsupported schema versions,
 component types, duplicate/missing options and external MCP paths. Connection
 configuration never contains provider credentials or secret values.
+
+Reference and connection pages use the shared native guided-help renderer for
+tooltips, contextual dialogs, user-paced lessons and allowlisted control focus.
+Its pure event reducer retains only bounded local lesson history. Read
+[0024](0024-interaction-and-teaching-system.md) for the interaction contract,
+reduced-motion behavior and remaining full-UI/A2UI transport work.
 
 Public guidance accepts no parameters. Reference reads require a core JWT or
 machine identity with organization context, then existing permissions. Delegated

@@ -1,5 +1,6 @@
 import { getVaultixCatalog, getVaultixConfigure, getVaultixConnections } from "./catalog";
 import { getVaultixFeatures } from "./features";
+import { getVaultixGuidance } from "./guidance";
 import { handleVaultixMcp } from "./mcp";
 
 const call = (method: string, params?: unknown) => handleVaultixMcp({ jsonrpc: "2.0", id: 1, method, params });
@@ -23,6 +24,7 @@ describe("Clyffy native MCP", () => {
 
   test("MCP and UI use the same catalog and configure steps", () => {
     for (const [name, expected] of [
+      ["vaultix.guidance.get", getVaultixGuidance()],
       ["vaultix.catalog.get", getVaultixCatalog()],
       ["vaultix.configure.show", getVaultixConfigure()],
       ["vaultix.connections.get", getVaultixConnections()]

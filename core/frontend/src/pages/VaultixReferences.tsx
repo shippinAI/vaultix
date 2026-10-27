@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@app/components/v3";
+import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
 import { listVaultixProjects, listVaultixReferences } from "@app/hooks/api/vaultix/actions";
 import type { VaultixSourceAction } from "@app/hooks/api/vaultix/queries";
 
@@ -63,6 +64,7 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
       <CardHeader>
         <CardTitle>
           <h2>Secret References</h2>
+          <GuidedHelp guideId="references" />
         </CardTitle>
         <p className="text-sm text-muted">
           Choose your app and environment. You and Clyffy use the same actions to see names; values
@@ -106,7 +108,10 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
           >
             <div className="grid gap-4 md:grid-cols-3">
               <Field>
-                <FieldLabel htmlFor="reference-app">App</FieldLabel>
+                <div className="flex items-center justify-between">
+                  <FieldLabel htmlFor="reference-app">App</FieldLabel>
+                  <GuidanceHint guideId="references" target="reference-app" />
+                </div>
                 <Select
                   value={projectId}
                   onValueChange={(value) => {
@@ -128,7 +133,10 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor="reference-environment">Environment</FieldLabel>
+                <div className="flex items-center justify-between">
+                  <FieldLabel htmlFor="reference-environment">Environment</FieldLabel>
+                  <GuidanceHint guideId="references" target="reference-environment" />
+                </div>
                 <Select
                   value={environment}
                   disabled={!project}
@@ -150,7 +158,10 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
                 </Select>
               </Field>
               <Field>
-                <FieldLabel htmlFor="reference-path">Folder</FieldLabel>
+                <div className="flex items-center justify-between">
+                  <FieldLabel htmlFor="reference-path">Folder</FieldLabel>
+                  <GuidanceHint guideId="references" target="reference-path" />
+                </div>
                 <Input
                   id="reference-path"
                   value={path}
@@ -165,6 +176,7 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
               </Field>
             </div>
             <Button
+              id="reference-submit"
               className="self-start"
               type="submit"
               variant="project"

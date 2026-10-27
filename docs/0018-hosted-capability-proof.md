@@ -64,6 +64,40 @@ threshold is an artifact gate, not hosted release approval.
 
 ## Capability ledger
 
+### Native interaction checkpoint, 2026-10-27
+
+Reference browsing and AI connections now share authored contextual help,
+tooltips, accessible lesson dialogs, local step events and allowlisted control
+focus. HTTP `GET /api/v1/vaultix/guidance` and MCP `vaultix.guidance.get` expose
+the same lessons. The standalone image includes updated Clyffy instructions.
+See [0024](0024-interaction-and-teaching-system.md) for the contract and scope.
+
+| Verification | Result |
+| --- | --- |
+| Backend Linux unit suite | 117 files; 1,840 passed, 22 skipped; `.cache/unit-proof-uhYA50/test-results.json` |
+| Targeted HTTP/MCP tests | 17 passed; identical documents, query/argument rejection and no canary echo |
+| Pure interaction tests | Passed locally and in the image's Node runtime; rejects unknown/stale/payload events, checks step bounds, pause/resume, focus, completion and bounded history |
+| Backend TypeScript/build and changed-file lint | Passed |
+| Canonical standalone image | Built with frontend TypeScript/build; Dragonfly and Redis startup, migrations, API/MCP guidance equality, packaged instructions, queue and restart smoke checks passed |
+| Packaged browser UI | 17 states, zero detected axe WCAG A/AA violations; fixture authentication/actions, real authored API documents |
+
+Verified local image `vaultix:hosted-verify` has image ID
+`sha256:a80b9f283a0e9e1a6b9f70be65ab3aa701f33246a7b28c813ad723f23ad6f3a9`.
+This is a local image ID, not a published registry manifest digest.
+Smoke logs are `.cache/guidance-smoke-dragonfly.log` and
+`.cache/guidance-smoke-redis.log`. Packaged browser evidence and reviewed
+desktop/mobile guide screenshots are in `.cache/ui-proof-WxW4gs/`.
+
+Browser checks cover modal focus containment/restoration, contextual lesson entry,
+pause/resume, completion, unavailable controls, reduced motion and 320-pixel
+reflow. Unsupported components and out-of-scope targets are rejected. The audit
+waits for finite CSS transitions to settle before measuring final contrast;
+an earlier image run measured the federated sign-in expansion mid-transition.
+Incomplete modal `aria-hidden-focus` results and one contrast item remain in
+the report for manual review. No axe rules were disabled. Real screen-reader
+acceptance, full authenticated-UI conversion, Nomen sign-in, remote A2UI control
+and Remotion-rendered videos remain open. Lessons do not execute secret actions.
+
 ### Accessibility checkpoint, 2026-10-26
 
 The subsequent native accessibility changes passed frontend TypeScript/build,
@@ -127,7 +161,8 @@ All 14 checks also passed against its extracted UI assets
 `.cache/a11y-federated-smoke-redis.log`. Local validation is complete for this
 scope; independent verification/publication is tracked by
 [run 40435898482](https://github.com/shippinAI/vaultix/actions/runs/40435898482).
-No registry digest for this revision is claimed until publication succeeds.
+That run has since completed successfully. Its registry digest is not recorded
+here; the image above remains the locally verified artifact for that revision.
 See [all-UI acceptance](0022-accessibility-acceptance.md) and
 [capability convergence](0023-capability-convergence.md) for required follow-up.
 

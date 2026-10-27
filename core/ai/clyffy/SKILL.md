@@ -9,6 +9,9 @@ description: Help a developer configure Vaultix using secret references and the 
    `vaultix.configure.show` from the user's configured Vaultix MCP server.
    Use `vaultix.connections.get` for the authored client setup options. Keep
    ChatGPT sign-in and provider credentials in the user's local client.
+   Use `vaultix.guidance.get` to teach the same reference and connection lessons
+   as native contextual help. Reading a lesson does not control the UI or prove
+   that an operation completed.
 2. Identify the application, project, environment, and required secret names.
    Ask only for missing metadata. Never ask for a key's value.
 3. Explain one action at a time, using the authored setup steps. The human

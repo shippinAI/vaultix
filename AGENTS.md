@@ -23,6 +23,11 @@ including enterprise gaps, with independent implementation and acceptance eviden
 under `docs/0023-capability-convergence.md`. Automated scans and public feature
 inventories do not establish complete accessibility or enterprise parity.
 
+Interaction direction (2026-10-26): rewrite existing workflows for scale and
+guided learning, with contextual help, accessible dialogs, catalog-backed UI
+events and reduced-motion support. Read `docs/0024-interaction-and-teaching-system.md`.
+Teaching completion is not action success; remote Clyffy driving remains separate.
+
 Release priority (2026-10-26): hosted Vaultix first. Update the code and prove
 capabilities before offering it; record evidence and gaps in
 `docs/0018-hosted-capability-proof.md`.
@@ -78,6 +83,7 @@ never collect their subscription credentials or inject values into the AI proces
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
 | All-UI accessibility | `docs/0022-accessibility-acceptance.md` |
+| Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |

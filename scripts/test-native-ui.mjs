@@ -12,6 +12,7 @@ import { registerVaultixRouter } from "../core/backend/dist/server/routes/vaulti
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(resolve(root, "core/e2e/package.json"));
 const { chromium } = require("playwright");
+const { expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/ui-proof-"));
@@ -37,6 +38,12 @@ try {
   const page = await context.newPage();
   const accessibility = [];
   const audit = async (state) => {
+    // Measure settled colors, including collapsible sign-in options and modal transitions.
+    await page.evaluate(async () => {
+      await Promise.all(document.getAnimations()
+        .filter(animation => animation.effect?.getTiming().iterations !== Infinity)
+        .map(animation => animation.finished.catch(() => {})));
+    });
     const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
     const summarize = rules => rules.map(rule => ({ id: rule.id, impact: rule.impact,
       nodes: rule.nodes.map(node => ({ target: node.target, summary: node.failureSummary })) }));
@@ -72,6 +79,29 @@ try {
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), `${origin}/api/v1/vaultix/mcp`);
   await page.screenshot({ path: resolve(evidence, "connections-desktop.png"), fullPage: true });
   await audit("connections-desktop");
+  await page.getByRole("button", { name: "Guide Me", exact: true }).click();
+  const connectionGuide = page.getByRole("dialog", { name: "Connect Your AI Client" });
+  await connectionGuide.waitFor();
+  for (let index = 0; index < 12; index++) {
+    await page.keyboard.press("Tab");
+    assert.equal(await connectionGuide.evaluate(element => element.contains(document.activeElement)), true);
+  }
+  await page.keyboard.press("Shift+Tab");
+  assert.equal(await connectionGuide.evaluate(element => element.contains(document.activeElement)), true);
+  await audit("connections-guide-desktop");
+  await page.screenshot({ path: resolve(evidence, "connections-guide-desktop.png"), fullPage: true });
+  assert.equal(await connectionGuide.getByRole("button", { name: "Back", exact: true }).isDisabled(), true);
+  await connectionGuide.getByRole("button", { name: "Next Step", exact: true }).click();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "Guide Me", exact: true })).toBeFocused();
+  await page.getByRole("button", { name: "Guide Me", exact: true }).click();
+  await connectionGuide.getByRole("heading", { name: "Add the Instance Connection" }).waitFor();
+  await connectionGuide.getByRole("button", { name: "Show This Control", exact: true }).click();
+  await page.waitForFunction(() => document.activeElement?.id === "connection-configuration");
+  await page.getByRole("button", { name: "Guide Me", exact: true }).click();
+  await connectionGuide.getByRole("button", { name: "Next Step", exact: true }).click();
+  await connectionGuide.getByRole("button", { name: "Finish Guide", exact: true }).click();
+  await page.getByRole("button", { name: "Review Guide", exact: true }).waitFor();
   await page.setViewportSize({ width: 320, height: 800 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.getByRole("region", { name: "MCP connection configuration" }).focus();
@@ -95,6 +125,11 @@ try {
   await page.getByRole("button", { name: "Browse Secret References" }).click();
   await page.getByRole("button", { name: "Retry Apps" }).waitFor();
   await audit("references-denied");
+  await page.getByRole("button", { name: "Guide Me", exact: true }).click();
+  const referenceGuide = page.getByRole("dialog", { name: "Find the Right Secret Reference" });
+  await referenceGuide.getByRole("button", { name: "Show This Control", exact: true }).click();
+  await referenceGuide.getByText("This control is not available yet.", { exact: false }).waitFor();
+  await page.keyboard.press("Escape");
   mode = "no-apps";
   await page.getByRole("button", { name: "Retry Apps" }).click();
   await page.getByText("You don't have an app in this organization yet.", { exact: false }).waitFor();
@@ -121,6 +156,18 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.screenshot({ path: resolve(evidence, "references-mobile.png"), fullPage: true });
   await audit("references-mobile");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.getByRole("button", { name: "Help: Narrow the Folder", exact: true }).click();
+  await referenceGuide.getByRole("heading", { name: "Narrow the Folder", exact: true }).waitFor();
+  assert.equal(await referenceGuide.evaluate(element => getComputedStyle(element).animationName), "none");
+  await audit("references-guide-mobile-reduced-motion");
+  await page.screenshot({ path: resolve(evidence, "references-guide-mobile.png"), fullPage: true });
+  await page.setViewportSize({ width: 320, height: 800 });
+  assert.equal(await referenceGuide.evaluate(element => element.getBoundingClientRect().width <= window.innerWidth), true);
+  await audit("references-guide-reflow-320");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "Help: Narrow the Folder", exact: true })).toBeFocused();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 320, height: 800 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await audit("references-reflow-320");
@@ -139,6 +186,17 @@ try {
   await page.getByRole("textbox", { name: "Folder", exact: true }).fill("/restricted");
   await page.getByRole("button", { name: "Show References" }).click();
   await page.getByText("This folder is unavailable or your access has changed.", { exact: false }).waitFor();
+  const guidanceDocument = await (await context.request.get(`${origin}/api/v1/vaultix/guidance`)).json();
+  for (const override of [{ component: "execute-script" }, { target: "email" }]) {
+    const unsupported = structuredClone(guidanceDocument);
+    unsupported.guides[0].title = "UNSAFE-GUIDANCE-CANARY";
+    Object.assign(unsupported.guides[0].steps[0], override);
+    await page.route("**/api/v1/vaultix/guidance", route => route.fulfill({ json: unsupported }));
+    await page.reload();
+    await page.getByRole("button", { name: "Browse Secret References" }).click();
+    await page.getByRole("button", { name: "Retry Help", exact: true }).waitFor();
+    assert.equal(await page.getByText("UNSAFE-GUIDANCE-CANARY").count(), 0);
+  }
   await page.route("**/api/v1/vaultix/connections", (route) => route.fulfill({ json: {
     schemaVersion: "vaultix.connections.v1", source: "catalog", mcpPath: "https://untrusted.example/mcp",
     access: "UNSAFE-CONNECTION-CANARY", options: []

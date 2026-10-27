@@ -85,6 +85,19 @@ const events = new QueueEvents("vaultix-smoke", { connection });
 const worker = new Worker("vaultix-smoke", async job => ({ checked: job.data.check }), { connection });
 async function main() {
   try {
+    const assert = require("node:assert/strict");
+    const guidanceResponse = await fetch("http://127.0.0.1:8080/api/v1/vaultix/guidance");
+    assert.equal(guidanceResponse.status, 200);
+    const guidance = await guidanceResponse.json();
+    assert.equal(guidance.schemaVersion, "vaultix.guidance.v1");
+    assert.equal(guidance.guides.length, 2);
+    const toolResponse = await fetch("http://127.0.0.1:8080/api/v1/vaultix/mcp", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "vaultix.guidance.get", arguments: {} } })
+    });
+    assert.equal(toolResponse.status, 200);
+    assert.deepEqual(JSON.parse((await toolResponse.json()).result.content[0].text), guidance);
+    assert.ok(require("node:fs").readFileSync("/backend/ai/clyffy/SKILL.md", "utf8").includes("vaultix.guidance.get"));
     await events.waitUntilReady();
     const job = await queue.add("probe", { check: "queue-lua" });
     const result = await job.waitUntilFinished(events, 15000);
@@ -97,7 +110,7 @@ async function main() {
     await connection.quit();
   }
 }
-main().catch(() => { console.error("Vaultix queue smoke test failed"); process.exit(1); });
+main().catch(() => { console.error("Vaultix guidance/queue smoke test failed"); process.exit(1); });
 JS
 docker restart "$run-engine" >/dev/null
 # Docker Desktop can reassign an ephemeral published port when restarting.

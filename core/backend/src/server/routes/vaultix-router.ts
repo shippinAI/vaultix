@@ -12,6 +12,7 @@ import {
   getVaultixProduct,
   specialistInstructions
 } from "@app/services/vaultix/catalog";
+import { getVaultixGuidance } from "@app/services/vaultix/guidance";
 import { handleVaultixMcp } from "@app/services/vaultix/mcp";
 import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
 import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
@@ -96,6 +97,7 @@ export const registerVaultixRouter = async (
   });
 
   const reads = [
+    ["/guidance", getVaultixGuidance],
     ["/product", getVaultixProduct],
     ["/catalog", getVaultixCatalog],
     ["/configure", getVaultixConfigure],

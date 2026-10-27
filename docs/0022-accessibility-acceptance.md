@@ -71,6 +71,14 @@ arrow selection. Real authentication, all authenticated routes, browser zoom,
 forced colors, text spacing, touch and real screen-reader acceptance remain open.
 Zero automated violations means only that the scanned states passed those rules.
 
+The guided-interaction checkpoint adds three modal scans (17 total) and keyboard
+focus containment/restoration, contextual entry, unavailable controls and reduced
+motion checks. Its packaged-image report `.cache/ui-proof-WxW4gs/accessibility.json`
+has zero detected violations and retains incomplete modal focus/contrast items.
+See [the evidence ledger](0018-hosted-capability-proof.md) and
+[interaction architecture](0024-interaction-and-teaching-system.md). Finite CSS
+transitions settle before color measurement; no accessibility rules are suppressed.
+
 For each remaining flow record route, role/permissions, state, viewport/browser,
 keyboard/AT steps, findings, fix and retest evidence. Shared-component fixes must
 be checked in their consuming workflows before marking those workflows complete.

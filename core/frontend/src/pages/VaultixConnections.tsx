@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CheckIcon, CopyIcon, TerminalIcon } from "lucide-react";
 
 import { Button, Card, CardContent, CardHeader, CardTitle } from "@app/components/v3";
+import { GuidedHelp } from "@app/components/vaultix/GuidedHelp";
 import { useVaultixConnections } from "@app/hooks/api/vaultix/connections";
 
 export const VaultixConnections = () => {
@@ -21,6 +22,7 @@ export const VaultixConnections = () => {
       <CardHeader>
         <CardTitle>
           <h2>Clyffy, Your Secrets Guide</h2>
+          <GuidedHelp guideId="connections" />
         </CardTitle>
         <p className="text-sm text-muted">
           Bring your AI setup. Vaultix supplies the secret references and permissions.
@@ -93,6 +95,7 @@ export const VaultixConnections = () => {
                   : "Add to your Codex config.toml"}
               </div>
               <div
+                id="connection-configuration"
                 role="region"
                 // Keyboard users must be able to scroll long connection text horizontally.
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -123,7 +126,13 @@ export const VaultixConnections = () => {
                 {copyMessages[copied]}
               </span>
             </div>
-            <p className="border-t border-border pt-4 text-sm text-muted">{guide.data.access}</p>
+            <p
+              id="connection-access"
+              tabIndex={-1}
+              className="border-t border-border pt-4 text-sm text-muted focus-visible:outline-2 focus-visible:outline-project"
+            >
+              {guide.data.access}
+            </p>
           </>
         )}
       </CardContent>

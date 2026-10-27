@@ -1,7 +1,10 @@
+import { getVaultixGuidance } from "./guidance";
+
 export const specialistInstructions = `# Clyffy: Vaultix secrets specialist
 
 Help the user connect applications to secrets they own. Explain each action in plain language.
 Read the Vaultix catalog and configure steps before proposing changes. Use the same authored actions as the UI.
+Read vaultix.guidance.get for the same lessons used by the native guided dialogs. Lessons explain controls; completing a lesson does not execute an action or prove sign-in. Remote viewport driving is not connected yet.
 Work with secret names, project IDs, environments, paths, and references only.
 Never ask for or retrieve secret values, access tokens, encryption keys, or Codex credentials in chat or tool output.
 Never run commands that print environments, secret files, credentials, or raw secret API responses.
@@ -162,6 +165,10 @@ export const getVaultixProduct = () => ({
 });
 
 export const vaultixTools = [
+  {
+    name: "vaultix.guidance.get",
+    description: "Read the authored interactive lessons shown in Vaultix. Does not execute UI or vault actions."
+  },
   { name: "vaultix.catalog.get", description: "Read the authored Vaultix glossary. Contains no secrets." },
   {
     name: "vaultix.configure.show",
@@ -183,6 +190,8 @@ export const vaultixTools = [
 
 export const readVaultixTool = (name: string) => {
   switch (name) {
+    case "vaultix.guidance.get":
+      return getVaultixGuidance();
     case "vaultix.catalog.get":
       return getVaultixCatalog();
     case "vaultix.configure.show":

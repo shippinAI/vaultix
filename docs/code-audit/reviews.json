@@ -40,26 +40,28 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixConnections.tsx",
-      "blob": "086dfdb0b7d5459c6ba5bcc808ec0c41e85aa75a",
+      "blob": "13d2517f93e5c0e1cb680006533b0d1dd3bd0eb0",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file and connection-query reader reviewed. Native radios expose descriptions; connection text has a keyboard-scrollable named region and copy status feedback. Browser tests verify arrow selection, clipboard output, same-instance paths and unsupported-guide rejection. Actual Codex authentication and screen-reader output remain unverified.",
+      "scope": "Complete file and connection-query reader reviewed. Native radios expose descriptions; connection text has a keyboard-scrollable named region and copy status feedback. Browser tests verify arrow selection, clipboard output, same-instance paths and unsupported-guide rejection. Actual Codex authentication and screen-reader output remain unverified. Shared catalog-backed guided help is now integrated: contextual lessons, pause/resume, allowlisted focus transfer and reduced motion. Fixture browser checks cover modal navigation and rejection of unsupported guide content; this does not establish remote A2UI execution.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
+        ".cache/ui-proof-UDjvAP/accessibility.json"
       ]
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
-      "blob": "484b621c272390e7bc4b572f1b4036f95a07d0fd",
+      "blob": "d43e1e611d573f7d2ad51b0d5001e02d25e11806",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file and source-action client read. Copy controls retain visible words in accessible names. Fixture browser proof covers scope selection, denial, empty results, filtering, reference-only copying and no value canary rendering. Backend authorization evidence is separate; real Nomen and all assistive-technology workflows remain open.",
+      "scope": "Complete file and source-action client read. Copy controls retain visible words in accessible names. Fixture browser proof covers scope selection, denial, empty results, filtering, reference-only copying and no value canary rendering. Backend authorization evidence is separate; real Nomen and all assistive-technology workflows remain open. Shared catalog-backed guided help is now integrated: contextual lessons, pause/resume, allowlisted focus transfer and reduced motion. Fixture browser checks cover modal navigation and rejection of unsupported guide content; this does not establish remote A2UI execution.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
+        ".cache/ui-proof-UDjvAP/accessibility.json"
       ]
     },
     {
@@ -85,6 +87,50 @@
         "scripts/test-native-ui.mjs: login labels, heading and keyboard password visibility checks",
         ".cache/ui-proof-8gRbT0/accessibility.json",
         "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/guidance.ts",
+      "blob": "7b6127efdbe8950658054f9c896818f0ca4d6bea",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations.",
+      "evidence": [
+        "core/backend/src/server/routes/vaultix-router.test.ts",
+        "core/backend/src/services/vaultix/mcp.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/guidance.ts",
+      "blob": "28f077777316cb746f62df48ea089cf768cbedaf",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-UDjvAP/accessibility.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/guidance-state.ts",
+      "blob": "c414fea8fac7297c3222426d130ba218195a5e36",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete authored pure reducer read. Rejects extra payload fields, unknown/stale actions, closed-state transitions and step bounds. Pause/resume, restart and completion retain only eight local identifier events. This is not durable audit or business execution.",
+      "evidence": [
+        "scripts/test-guided-interactions.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
+      "blob": "727a02f36ae0b452e8d21f085fafdc850f4a5497",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-UDjvAP/accessibility.json",
+        "docs/0024-interaction-and-teaching-system.md"
       ]
     }
   ]

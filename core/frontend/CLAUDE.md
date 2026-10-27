@@ -102,3 +102,10 @@ fixture authentication; passing them is not real Nomen or whole-UI conformance.
 Preserve visible field labels, changed-view focus, and full-contrast shared field
 labels/separators. Actual screen-reader and authenticated workflow review remains
 required.
+
+Guided teaching is implemented in `components/vaultix/GuidedHelp.tsx`, the pure
+`guidance-state.ts` reducer and `hooks/api/vaultix/guidance.ts`. Reuse them inside
+existing workflows; content comes from the core catalog shared with MCP. Focus
+targets are explicitly allowlisted and guide events contain no input values.
+Repository-root `docs/0024-interaction-and-teaching-system.md` records the native
+event contract and the remaining remote-driver/media work.
