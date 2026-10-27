@@ -16,6 +16,13 @@ Read `docs/0021-product-authorship-review.md`. Methodically read and author
 every existing product-code module in place. Inventory is not review, and
 passing inherited tests does not establish complete authorship or parity.
 
+All-UI accessibility and capability convergence (2026-10-26): target WCAG 2.2 AA
+across native and existing authenticated/enterprise workflows; read
+`docs/0022-accessibility-acceptance.md`. Capture Infisical and Doppler capabilities,
+including enterprise gaps, with independent implementation and acceptance evidence
+under `docs/0023-capability-convergence.md`. Automated scans and public feature
+inventories do not establish complete accessibility or enterprise parity.
+
 Release priority (2026-10-26): hosted Vaultix first. Update the code and prove
 capabilities before offering it; record evidence and gaps in
 `docs/0018-hosted-capability-proof.md`.
@@ -70,6 +77,8 @@ never collect their subscription credentials or inject values into the AI proces
 | --- | --- |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
+| All-UI accessibility | `docs/0022-accessibility-acceptance.md` |
+| Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
 | Source API / Clyffy | `docs/0009-clyffy-specialist-boundary.md` |

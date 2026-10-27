@@ -64,6 +64,27 @@ threshold is an artifact gate, not hosted release approval.
 
 ## Capability ledger
 
+### Accessibility checkpoint, 2026-10-26
+
+The subsequent native accessibility changes passed frontend TypeScript/build,
+changed-file ESLint and `scripts/test-native-ui.mjs` with Edge and axe-core 4.14.0.
+Ten states reported zero detected WCAG A/AA violations, covering workspace,
+connections, reference denial/results and sign-in at desktop/mobile/320-pixel
+widths. Keyboard assertions verify skip activation, changed-view heading focus,
+radio arrow selection and focusable connection scrolling. The baseline scan
+reproduced name/label contrast failures before the fixes.
+
+Local evidence: `.cache/ui-proof-VhpsQq/accessibility.json` and screenshots.
+The report retains a contrast item requiring manual review on each of the three
+sign-in sizes because axe could not resolve a gradient background. Zero detected
+violations does not clear that item, non-text contrast, real screen-reader tests,
+browser zoom or unscanned authenticated routes. Authentication/action responses
+remain fixtures. CI now runs the same scans and retains their reports.
+See [all-UI acceptance](0022-accessibility-acceptance.md) and
+[capability convergence](0023-capability-convergence.md) for required follow-up.
+
+### Previously published runtime checkpoint
+
 Verified locally on 2026-10-26 after the targeted dependency updates and native
 DevSCIF workspace and sign-in changes in source revision `12ec63b`:
 

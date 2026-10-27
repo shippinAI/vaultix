@@ -8,6 +8,11 @@ export const VaultixConnections = () => {
   const guide = useVaultixConnections();
   const [selected, setSelected] = useState("codex-subscription");
   const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
+  const copyMessages = {
+    idle: "Your model credentials stay in your client.",
+    copied: "Connection copied.",
+    failed: "Clipboard unavailable. Select and copy the connection above."
+  };
   const option = guide.data?.options.find((entry) => entry.id === selected);
   const url = `${window.location.origin}${guide.data?.mcpPath ?? "/api/v1/vaultix/mcp"}`;
   const connection = selected === "mcp-client" ? url : `[mcp_servers.vaultix]\nurl = "${url}"`;
@@ -49,6 +54,7 @@ export const VaultixConnections = () => {
                     <input
                       id={`connection-${entry.id}`}
                       aria-label={entry.title}
+                      aria-describedby={`connection-${entry.id}-description`}
                       type="radio"
                       name="ai-connection"
                       checked={selected === entry.id}
@@ -60,7 +66,12 @@ export const VaultixConnections = () => {
                     />
                     {entry.title}
                   </span>
-                  <span className="mt-2 block text-sm text-muted">{entry.description}</span>
+                  <span
+                    id={`connection-${entry.id}-description`}
+                    className="mt-2 block text-sm text-muted"
+                  >
+                    {entry.description}
+                  </span>
                 </label>
               ))}
             </fieldset>
@@ -81,9 +92,18 @@ export const VaultixConnections = () => {
                   ? "Streamable HTTP MCP"
                   : "Add to your Codex config.toml"}
               </div>
-              <pre className="overflow-x-auto p-4 text-sm">
-                <code>{connection}</code>
-              </pre>
+              <div
+                role="region"
+                // Keyboard users must be able to scroll long connection text horizontally.
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                tabIndex={0}
+                aria-label="MCP connection configuration"
+                className="overflow-x-auto p-4 text-sm focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-project"
+              >
+                <pre>
+                  <code>{connection}</code>
+                </pre>
+              </div>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <Button
@@ -100,9 +120,7 @@ export const VaultixConnections = () => {
                 {copied === "copied" ? "Copied" : "Copy Connection"}
               </Button>
               <span role="status" className="text-sm text-muted">
-                {copied === "failed"
-                  ? "Clipboard unavailable. Select and copy the connection above."
-                  : "Your model credentials stay in your client."}
+                {copyMessages[copied]}
               </span>
             </div>
             <p className="border-t border-border pt-4 text-sm text-muted">{guide.data.access}</p>

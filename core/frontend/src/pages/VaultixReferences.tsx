@@ -214,7 +214,7 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
                       <Button
                         size="sm"
                         variant="ghost"
-                        aria-label={`Copy reference ${reference.name}`}
+                        aria-label={`Copy Name: ${reference.name}`}
                         onClick={async () => {
                           try {
                             await navigator.clipboard.writeText(reference.name);

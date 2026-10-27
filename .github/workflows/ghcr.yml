@@ -34,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.22.0'
+      - name: Verify source review inventory
+        run: node scripts/audit-codebase.mjs --check
       - uses: actions/setup-go@v5
         with:
           go-version: '1.27.2'
@@ -74,6 +76,7 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/ui-proof-*/*.png
+            .cache/ui-proof-*/accessibility.json
             .cache/backend-production-audit.json
           if-no-files-found: warn
       - run: go test ./internal/ee/services/license ./internal/config ./internal/database/redis

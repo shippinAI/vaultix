@@ -25,6 +25,54 @@
         "scripts/test-native-ui.mjs: login desktop/mobile checks",
         "https://github.com/shippinAI/vaultix/actions/runs/40350888894"
       ]
+    },
+    {
+      "path": "core/frontend/src/pages/VaultixHome.tsx",
+      "blob": "fcca7648e30076f9d00011820b9b182d32566528",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read with catalog/query caller. Native workspace navigation now focuses changed-view headings and supports skip activation; home accessible name includes visible brand text. Browser proof covers authored navigation and catalog rejection, not all authenticated routes or Nomen.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-VhpsQq/accessibility.json",
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/VaultixConnections.tsx",
+      "blob": "086dfdb0b7d5459c6ba5bcc808ec0c41e85aa75a",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file and connection-query reader reviewed. Native radios expose descriptions; connection text has a keyboard-scrollable named region and copy status feedback. Browser tests verify arrow selection, clipboard output, same-instance paths and unsupported-guide rejection. Actual Codex authentication and screen-reader output remain unverified.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-VhpsQq/accessibility.json",
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/VaultixReferences.tsx",
+      "blob": "484b621c272390e7bc4b572f1b4036f95a07d0fd",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file and source-action client read. Copy controls retain visible words in accessible names. Fixture browser proof covers scope selection, denial, empty results, filtering, reference-only copying and no value canary rendering. Backend authorization evidence is separate; real Nomen and all assistive-technology workflows remain open.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-VhpsQq/accessibility.json",
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Field/Field.tsx",
+      "blob": "d110a6b568282f3fd4d3c632f6bf75bdeb90dbc1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Default field labels use the brighter semantic muted color after reproduced 4.18:1 contrast failure in the reference form. The corrected form passes axe; other consuming forms, error animations, disabled/selected variants and screen-reader relationships require workflow-specific review.",
+      "evidence": [
+        "scripts/test-native-ui.mjs",
+        ".cache/ui-proof-VhpsQq/accessibility.json",
+        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26"
+      ]
     }
   ]
 }

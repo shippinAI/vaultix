@@ -2,7 +2,7 @@
 // This verifies browser behavior, not Nomen or database integration.
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { mkdirSync, mkdtempSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { resolve, dirname } from "node:path";
 import fastify from "../core/backend/node_modules/fastify/fastify.js";
@@ -12,6 +12,7 @@ import { registerVaultixRouter } from "../core/backend/dist/server/routes/vaulti
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(resolve(root, "core/e2e/package.json"));
 const { chromium } = require("playwright");
+const AxeBuilder = require("@axe-core/playwright").default;
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/ui-proof-"));
 const server = fastify();
@@ -33,6 +34,14 @@ try {
   browser = await chromium.launch({ headless: true, ...(process.env.VAULTIX_BROWSER_CHANNEL ? { channel: process.env.VAULTIX_BROWSER_CHANNEL } : {}) });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, permissions: ["clipboard-read", "clipboard-write"] });
   const page = await context.newPage();
+  const accessibility = [];
+  const audit = async (state) => {
+    const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
+    const summarize = rules => rules.map(rule => ({ id: rule.id, impact: rule.impact,
+      nodes: rule.nodes.map(node => ({ target: node.target, summary: node.failureSummary })) }));
+    accessibility.push({ state, engine: result.testEngine, violations: summarize(result.violations), manualReview: summarize(result.incomplete) });
+    writeFileSync(resolve(evidence, "accessibility.json"), JSON.stringify(accessibility, null, 2));
+  };
   const failures = [];
   page.on("pageerror", (error) => failures.push(error.message));
   await page.route("**/*", (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
@@ -40,21 +49,34 @@ try {
   await page.getByRole("heading", { name: "Your secrets. Your workspace." }).waitFor();
   await page.keyboard.press("Tab");
   assert.equal(await page.getByRole("link", { name: "Skip to Content" }).evaluate(element => element === document.activeElement), true);
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("main").evaluate(element => element === document.activeElement), true);
   await page.getByText("One Project for Each App", { exact: true }).waitFor();
   assert.equal(await page.getByRole("link", { name: "Open Your Vault" }).getAttribute("href"), "/login");
   assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
   assert.equal(await page.getByRole("navigation", { name: "Vaultix workspace" }).evaluate(element => element.scrollWidth <= element.clientWidth), true);
   await page.screenshot({ path: resolve(evidence, "workspace-desktop.png"), fullPage: true });
+  await audit("workspace-desktop");
   await page.getByRole("button", { name: "Connect Clyffy" }).click();
+  assert.equal(await page.getByRole("heading", { name: "Your AI, connected to Vaultix." }).evaluate(element => element === document.activeElement), true);
   await page.getByRole("button", { name: "Copy Connection" }).click();
   await page.getByRole("button", { name: "Copied", exact: true }).waitFor();
   assert.equal((await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, "\n"), `[mcp_servers.vaultix]\nurl = "${origin}/api/v1/vaultix/mcp"`);
-  await page.getByRole("radio", { name: "My Codex setup", exact: true }).check();
+  await page.getByRole("radio", { name: "Codex subscription", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  assert.equal(await page.getByRole("radio", { name: "My Codex setup", exact: true }).isChecked(), true);
   await page.getByText("Keep your existing Codex provider and authentication configuration.", { exact: true }).waitFor();
   await page.getByRole("radio", { name: "Another AI client", exact: true }).check();
   await page.getByRole("button", { name: "Copy Connection" }).click();
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), `${origin}/api/v1/vaultix/mcp`);
   await page.screenshot({ path: resolve(evidence, "connections-desktop.png"), fullPage: true });
+  await audit("connections-desktop");
+  await page.setViewportSize({ width: 320, height: 800 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  await page.getByRole("region", { name: "MCP connection configuration" }).focus();
+  assert.equal(await page.getByRole("region", { name: "MCP connection configuration" }).evaluate(element => element === document.activeElement), true);
+  await audit("connections-reflow-320");
+  await page.setViewportSize({ width: 1440, height: 1000 });
 
   let mode = "denied";
   const calls = [];
@@ -69,6 +91,7 @@ try {
   });
   await page.getByRole("button", { name: "Browse Secret References" }).click();
   await page.getByRole("button", { name: "Retry Apps" }).waitFor();
+  await audit("references-denied");
   mode = "no-apps";
   await page.getByRole("button", { name: "Retry Apps" }).click();
   await page.getByText("You don't have an app in this organization yet.", { exact: false }).waitFor();
@@ -81,7 +104,7 @@ try {
   await page.getByRole("option", { name: "Development" }).click();
   await page.getByRole("button", { name: "Show References" }).click();
   await page.getByText("DATABASE_URL", { exact: true }).waitFor();
-  await page.getByRole("button", { name: "Copy reference DATABASE_URL", exact: true }).click();
+  await page.getByRole("button", { name: "Copy Name: DATABASE_URL", exact: true }).click();
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), "DATABASE_URL");
   await page.getByRole("searchbox", { name: "Find on this page" }).fill("missing");
   await page.getByText("No names match on this page.", { exact: false }).waitFor();
@@ -90,9 +113,15 @@ try {
   assert.deepEqual(calls.at(-1), { name: "vaultix.secrets.references", arguments: { projectId: "11111111-1111-4111-8111-111111111111", environment: "dev", secretPath: "/", offset: 0, limit: 50 } });
   assert.equal(await page.getByRole("button", { name: "Next", exact: true }).isDisabled(), true);
   await page.screenshot({ path: resolve(evidence, "references-desktop.png"), fullPage: true });
+  await audit("references-desktop");
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.screenshot({ path: resolve(evidence, "references-mobile.png"), fullPage: true });
+  await audit("references-mobile");
+  await page.setViewportSize({ width: 320, height: 800 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  await audit("references-reflow-320");
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("link", { name: "Vaultix home", exact: true }).scrollIntoViewIfNeeded();
   const mobileMainTop = await page.locator("main").evaluate(element => element.getBoundingClientRect().top);
   await page.mouse.move(360, 420);
@@ -126,9 +155,15 @@ try {
   assert.equal(await page.getByText("Trusted by 400,000+ developers").count(), 0);
   assert.equal(await page.getByRole("link", { name: "API Reference" }).getAttribute("href"), "/api/docs");
   await page.screenshot({ path: resolve(evidence, "login-desktop.png"), fullPage: true });
+  await audit("login-desktop");
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
   await page.screenshot({ path: resolve(evidence, "login-mobile.png"), fullPage: true });
+  await audit("login-mobile");
+  await page.setViewportSize({ width: 320, height: 800 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  await audit("login-reflow-320");
+  assert.deepEqual(accessibility.flatMap(scan => scan.violations.map(rule => ({ state: scan.state, ...rule }))), []);
   assert.deepEqual(failures, []);
   console.log(`Native browser checks passed. Authentication/action responses were fixtures. Screenshots: ${evidence}`);
 } finally {

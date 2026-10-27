@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRightIcon,
@@ -18,6 +18,12 @@ import { VaultixReferences } from "./VaultixReferences";
 export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
   const guide = useVaultixGuide();
   const [view, setView] = useState<"workspace" | "references" | "clyffy">("workspace");
+  const heading = useRef<HTMLHeadingElement>(null);
+  const previousView = useRef(view);
+  useEffect(() => {
+    if (previousView.current !== view) heading.current?.focus();
+    previousView.current = view;
+  }, [view]);
   const titles = {
     workspace: "Your secrets. Your workspace.",
     references: "Find a reference. Keep the value private.",
@@ -35,19 +41,21 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
         Skip to Content
       </a>
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border px-5 py-4 md:px-8">
-        <Link
-          to="/"
-          className="flex items-center gap-3 text-xl font-semibold tracking-tight"
-          aria-label="Vaultix home"
-        >
-          <span className="flex size-9 items-center justify-center rounded-md border border-project/40 bg-project/10">
-            <KeyRoundIcon className="size-5 text-project" aria-hidden="true" />
-          </span>
-          Vaultix{" "}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-3 text-xl font-semibold tracking-tight"
+            aria-label="Vaultix home"
+          >
+            <span className="flex size-9 items-center justify-center rounded-md border border-project/40 bg-project/10">
+              <KeyRoundIcon className="size-5 text-project" aria-hidden="true" />
+            </span>
+            Vaultix
+          </Link>
           <span className="hidden border-l border-border pl-3 text-xs font-normal tracking-wide text-muted sm:inline">
             SECRETS + AI
           </span>
-        </Link>
+        </div>
         <Button asChild variant="project">
           <Link to={initialized ? "/login" : "/admin/signup"}>
             {initialized ? "Open Your Vault" : "Set Up Your Vault"}
@@ -106,6 +114,7 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
         </aside>
         <main
           id="vaultix-main"
+          tabIndex={-1}
           className="mx-auto flex w-full max-w-7xl min-w-0 flex-col gap-7 p-5 md:p-8 lg:p-10"
         >
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -113,7 +122,13 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
               <p className="mb-2 text-xs tracking-widest text-project uppercase">
                 Your development workspace
               </p>
-              <h1 className="text-3xl font-semibold tracking-tight">{titles[view]}</h1>
+              <h1
+                ref={heading}
+                tabIndex={-1}
+                className="text-3xl font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-project"
+              >
+                {titles[view]}
+              </h1>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
                 One place for your app&apos;s secrets and access controls. Build with names and
                 references; give the running app the access it needs.

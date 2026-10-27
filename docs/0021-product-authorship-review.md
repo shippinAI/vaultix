@@ -16,6 +16,10 @@ database schema/migrations, Go services, the CLI, optional panel, integrations,
 tests, deployment/configuration and operational scripts. A rename, an enabled
 feature flag or a passing inherited test is not evidence of complete authorship.
 
+The scope includes [whole-UI accessibility](0022-accessibility-acceptance.md) and
+[Infisical/Doppler capability convergence](0023-capability-convergence.md), including
+enterprise gaps. Track each workflow's specification, implementation and proof.
+
 Preserve third-party notices and component provenance. Review vendored code and
 generated inputs for their role and risks; do not relabel dependencies as newly
 authored Vaultix code or hand-edit generated outputs. `leftover/` remains an
