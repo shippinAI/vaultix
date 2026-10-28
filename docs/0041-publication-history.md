@@ -4,7 +4,8 @@ Status: implementation and local acceptance verified, 2026-10-27.
 Workstream: delivery. Preceding checkpoint: [0040](0040-native-identity-lifetime-policy.md).
 
 The previous publication script copied the checkout into a new repository,
-excluded both standalone Dockerfiles, created a new history and offered a force
+excluded the canonical standalone Dockerfile (and a nonexistent FIPS filename),
+created a new history and offered a force
 push. It also changed global Git authentication and treated any repository lookup
 failure as permission to create a repository. Those behaviors cannot publish the
 reviewed application reliably. The old script was inspected, not executed.
@@ -12,7 +13,7 @@ reviewed application reliably. The old script was inspected, not executed.
 ## Contract
 
 Publish the existing committed `main` from this checkout to its configured,
-validated GitHub destination. Require a clean tree, both canonical Dockerfiles
+validated GitHub destination. Require a clean tree, the core standalone and optional panel Dockerfiles
 and the GHCR workflow in the commit, and no tracked operator environment file.
 Require the existing remote main to be a locally available ancestor. Refuse
 unknown history, divergence and configuration ambiguity without fetching or
@@ -64,7 +65,7 @@ Preflight rechecks the checkout before pushing. The remote may still change
 after inspection; an ordinary explicit-SHA push preserves the server's
 non-fast-forward and branch-protection checks. No automatic retry is made.
 
-All 23 runnable cases pass in `.cache/publication-proof-Ca5zjL/result.json`.
+All 23 runnable cases pass in `.cache/publication-proof-FoKjYh/result.json`.
 The tests execute the actual shell script and actual Git repositories. Only
 GitHub network calls are replaced: they target disposable local bare repositories,
 so ancestry, object preservation and non-fast-forward rejection are real Git
@@ -86,3 +87,21 @@ identities and equality. Build/attestation metadata changes the image identifier
 No product files changed, so the already verified and healthy 0040 development
 container is retained. This tooling change does not resolve account billing,
 Nomen registration, provider acceptance or WI/TX deployment prerequisites.
+
+## Live preflight correction
+
+The first live preflight after the tooling commit correctly refused to push,
+but exposed an incorrect prerequisite in that commit: it required a standalone
+FIPS Dockerfile that does not exist in this checkout. The earlier script's stale
+exclusion and architecture notes were not evidence of an existing build input.
+No history was changed by the failed check and no source push occurred.
+
+The release prerequisites now match the actual GHCR builds: the core canonical
+standalone Dockerfile, optional panel Dockerfile and GHCR workflow. Fixtures
+copy those actual files instead of fabricating placeholder Dockerfiles, so a
+nonexistent input cannot silently become a passing fixture. This correction does
+not add a FIPS image or establish FIPS/government acceptance.
+
+The corrected 23-case run passes with actual build inputs in
+`.cache/publication-proof-FoKjYh`. The architecture guidance in `core/CLAUDE.md`
+now records the missing standalone FIPS image instead of asserting compliance.

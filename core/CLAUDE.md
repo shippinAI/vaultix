@@ -28,7 +28,6 @@ vaultix/
 ├── docker-compose.bdd.yml        # BDD testing environment
 ├── docker-compose.e2e-dbs.yml    # E2E test databases (Oracle, SAP, Snowflake, etc.)
 ├── Dockerfile.standalone-vaultix       # Standalone image (frontend + backend)
-├── Dockerfile.fips.standalone-vaultix  # FIPS-compliant standalone image
 ├── .github/               # CI workflows, PR template
 └── CLAUDE.md               # This file
 ```
@@ -46,7 +45,7 @@ Enterprise features live in `backend/src/ee/` (services and routes), registered 
 
 vaultix supports self-hosted deployment via Docker. Key considerations:
 - **`Dockerfile.standalone-vaultix`** — single-container image with both frontend and backend; used for simple deployments.
-- **`Dockerfile.fips.standalone-vaultix`** — FIPS 140-2 compliant variant for regulated environments. Be strict about not introducing dependencies that break FIPS compliance.
+- No standalone FIPS Dockerfile is present in this checkout. Existing FIPS development/toolchain files do not establish a published or validated FIPS application image. Regulated deployment acceptance remains a separate release gate.
 - **`docker-compose.prod.yml`** — production compose with backend, PostgreSQL, and Redis.
 - New backend dependencies should be evaluated carefully — they affect container size, FIPS compliance, and the encryption boundary. Check `docs/` for self-hosted deployment documentation when in doubt.
 

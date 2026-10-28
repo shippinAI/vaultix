@@ -1059,4 +1059,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	32	9f4f33b0aa16a849d62b7e174a23105caf7276e8849e105940348319a15c0b2a	24	unassessed
+scripts	delivery	supporting-tooling-or-contract	32	21ae45e293878977dc77c2bfff5d0128c75e17c9dccbe6155aac762300b138ba	24	unassessed

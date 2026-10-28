@@ -1985,15 +1985,17 @@
     },
     {
       "path": "scripts/publish-github.sh",
-      "blob": "7ada399be6d0dfb1622e778b5a163dd6e99b7c41",
+      "blob": "67db1f3b2b62b6d2da040fea29c3bc199289bf2a",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete legacy and authored script read. Replaced fresh-history staging and excluded Dockerfiles with publication of clean committed main, explicit destination/build-input/ancestry gates and ordinary checked-SHA push. Refuses force/fetch/global auth/repository creation and fails without fallback; readonly preflight separate from source/image publication. Actual Git fixtures include concurrent non-fast-forward denial; real GHCR execution still blocked externally.",
+      "scope": "Complete legacy and authored script read. Replaced fresh-history staging and excluded Dockerfiles with publication of clean committed main, explicit destination/build-input/ancestry gates and ordinary checked-SHA push. Refuses force/fetch/global auth/repository creation and fails without fallback; readonly preflight separate from source/image publication. Actual Git fixtures include concurrent non-fast-forward denial; real GHCR execution still blocked externally. Actual live preflight exposed a nonexistent FIPS build prerequisite; corrected to existing core/panel inputs, and fixtures now copy those real repository files. Failed live check never pushed.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json"
+        ".cache/publication-artifact-comparison.json",
+        ".cache/publication-proof-FoKjYh/result.json",
+        ".cache/publication-live-preflight.log"
       ]
     },
     {
@@ -2242,14 +2244,16 @@
     },
     {
       "path": "scripts/test-publication.mjs",
-      "blob": "ee8a4729b8a1e805db640e33fd9a57e18d0a3fd1",
+      "blob": "61bcaf66f94f6bdae0374e236849f1889b68d1ca",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete test harness authored/read. Twenty-three actual-script cases use disposable real Git worktrees and bare remotes, with only GitHub network calls substituted. Covers source preservation, dirty/detached/branch/destination/build-input/operator-file gates, unavailable/unknown/divergent history, explicit-SHA default/push, readonly preflight, concurrent remote race and failure with no forbidden fallback. Uses isolated test Git configuration; no operator credential reads or network publication.",
+      "scope": "Complete test harness authored/read. Twenty-three actual-script cases use disposable real Git worktrees and bare remotes, with only GitHub network calls substituted. Covers source preservation, dirty/detached/branch/destination/build-input/operator-file gates, unavailable/unknown/divergent history, explicit-SHA default/push, readonly preflight, concurrent remote race and failure with no forbidden fallback. Uses isolated test Git configuration; no operator credential reads or network publication. Actual live preflight exposed a nonexistent FIPS build prerequisite; corrected to existing core/panel inputs, and fixtures now copy those real repository files. Failed live check never pushed.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json"
+        ".cache/publication-artifact-comparison.json",
+        ".cache/publication-proof-FoKjYh/result.json",
+        ".cache/publication-live-preflight.log"
       ]
     },
     {
@@ -2262,6 +2266,17 @@
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
         ".cache/publication-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/CLAUDE.md",
+      "blob": "b7d56ae73145999f0e3c0d44c18c3301fbfe2502",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Corrected stale architecture references that claimed a nonexistent standalone FIPS Dockerfile and compliance. Existing runtime/development guidance retained; separate FIPS toolchain files are explicitly not proof of a published or validated regulated image.",
+      "evidence": [
+        "docs/0041-publication-history.md",
+        ".cache/publication-proof-FoKjYh/result.json"
       ]
     }
   ]

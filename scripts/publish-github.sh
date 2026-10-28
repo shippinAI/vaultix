@@ -38,7 +38,7 @@ push_url="$(git config --get-all remote.origin.pushurl || true)"
 rewrites="$(git config --get-regexp '^url\..*\.(insteadof|pushinsteadof)$' || true)"
 [[ -z "$rewrites" ]] || fail "Git URL rewrites must be resolved before publishing to an exact destination."
 
-for path in core/Dockerfile.standalone-vaultix core/Dockerfile.fips.standalone-vaultix .github/workflows/ghcr.yml; do
+for path in core/Dockerfile.standalone-vaultix panel/Dockerfile .github/workflows/ghcr.yml; do
   git cat-file -e "$head:$path" 2>/dev/null || fail "The committed application is missing $path."
 done
 if git cat-file -e "$head:compose/vaultix.env" 2>/dev/null; then

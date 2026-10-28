@@ -34,7 +34,7 @@ core/.greptile/files.json	c6a3722c73c2518a4eef5785fc01b86d63dfe3ab	product-code	
 core/.husky/pre-commit	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	product-code	unread
 core/.nvmrc	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	product-code	unread
 core/AGENTS.md	536624b95646661bb10502da52acf8c1d4c9e819	documentation	unread
-core/CLAUDE.md	65bc0295f4d00728a9737903aa86a5a8ddaee05e	documentation	unread
+core/CLAUDE.md	b7d56ae73145999f0e3c0d44c18c3301fbfe2502	documentation	authored
 core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	unread
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4deee69a67d07507485f843317e3bc61af542618	documentation	unread
@@ -11673,10 +11673,10 @@ docs/0037-native-identity-claim-presence.md	eff3df6fb8d681da23fe65760434be98bb54
 docs/0038-notification-dialog-ownership.md	8f9a11d21133deaa30e002ac7975efa28f4ca339	documentation	unread
 docs/0039-native-scoped-revocation.md	704330b127af9ec7fb8ef9f77100636f1793b6e6	documentation	unread
 docs/0040-native-identity-lifetime-policy.md	28f4d6073b584a67609cbf75f39b0e21d4225348	documentation	unread
-docs/0041-publication-history.md	fe6fcdb4c273d3278d73f5f6f23e7e0036bf98d9	documentation	unread
+docs/0041-publication-history.md	923b5f7abe1ff1946c55d7984a0381ccb4459b45	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	b62383781aea9528b60f2e41383111354ee68c9f	generated	unread
-docs/migration/generated/modules.tsv	ef826dd5eed2ba0ce4d190e2b77200ef97c4c479	generated	unread
+docs/migration/generated/files.tsv	9a88b74a265aaed506ceccce0a0d82a38c1de355	generated	unread
+docs/migration/generated/modules.tsv	35b6d54afa6932044158775282dda396ae46558f	generated	unread
 docs/migration/generated/summary.json	bc6d5a7957a67de855ac4171e8d91abae0e5c837	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11795,7 +11795,7 @@ scripts/check-owned.sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	build-and-operat
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
 scripts/map-migration.mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	build-and-operations	verified
-scripts/publish-github.sh	7ada399be6d0dfb1622e778b5a163dd6e99b7c41	build-and-operations	verified
+scripts/publish-github.sh	67db1f3b2b62b6d2da040fea29c3bc199289bf2a	build-and-operations	verified
 scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-operations	unread
 scripts/run-core.sh	ce4275be18ca18f1216eed158527ab792540fd2e	build-and-operations	unread
 scripts/smoke-image.sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	build-and-operations	verified
@@ -11815,7 +11815,7 @@ scripts/test-migration-map.mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	build-an
 scripts/test-native-ui.mjs	1c3556a7de584e227d74f95adb2184710a19c435	build-and-operations	unread
 scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	build-and-operations	verified
 scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
-scripts/test-publication.mjs	ee8a4729b8a1e805db640e33fd9a57e18d0a3fd1	build-and-operations	verified
+scripts/test-publication.mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	build-and-operations	verified
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/up.sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	build-and-operations	unread

@@ -52,9 +52,9 @@ function setup(name) {
   mkdirSync(cwd);
   git(cwd, "init", "-b", "main");
   git(cwd, "init", "--bare", remote);
-  for (const folder of ["scripts", "core", ".github/workflows", "compose"]) mkdirSync(resolve(cwd, folder), { recursive: true });
+  for (const folder of ["scripts", "core", "panel", ".github/workflows", "compose"]) mkdirSync(resolve(cwd, folder), { recursive: true });
   copyFileSync(resolve(root, "scripts/publish-github.sh"), resolve(cwd, "scripts/publish-github.sh"));
-  for (const path of ["core/Dockerfile.standalone-vaultix", "core/Dockerfile.fips.standalone-vaultix", ".github/workflows/ghcr.yml"]) writeFileSync(resolve(cwd, path), "# Explicit publication fixture only\n");
+  for (const path of ["core/Dockerfile.standalone-vaultix", "panel/Dockerfile", ".github/workflows/ghcr.yml"]) copyFileSync(resolve(root, path), resolve(cwd, path));
   writeFileSync(resolve(cwd, ".gitignore"), "compose/vaultix.env\n");
   writeFileSync(resolve(cwd, "compose/vaultix.env"), "FIXTURE_ONLY=never-copy-this-file\n");
   git(cwd, "config", "remote.origin.url", "https://github.com/shippinAI/vaultix.git");
@@ -107,7 +107,7 @@ try {
   run("origin", { change: ({ cwd }) => git(cwd, "config", "remote.origin.url", "https://github.com/other/project.git"), message: /Origin does not match/ });
   run("push-url", { change: ({ cwd }) => git(cwd, "config", "remote.origin.pushurl", "https://github.com/other/project.git"), message: /alternate origin push URL/ });
   run("rewrite", { change: ({ cwd }) => git(cwd, "config", "url.https://unreachable.invalid/.insteadOf", "https://github.com/"), message: /URL rewrites/ });
-  for (const [name, path] of [["standalone", "core/Dockerfile.standalone-vaultix"], ["fips", "core/Dockerfile.fips.standalone-vaultix"], ["workflow", ".github/workflows/ghcr.yml"]]) {
+  for (const [name, path] of [["standalone", "core/Dockerfile.standalone-vaultix"], ["panel", "panel/Dockerfile"], ["workflow", ".github/workflows/ghcr.yml"]]) {
     run(`missing-${name}`, { change: ({ cwd }) => { git(cwd, "rm", path); git(cwd, "commit", "-m", "Fixture missing input"); }, message: /committed application is missing/ });
   }
   run("tracked-env", { change: ({ cwd }) => { git(cwd, "add", "-f", "compose/vaultix.env"); git(cwd, "commit", "-m", "Fixture tracked operator config"); }, message: /must not be tracked/ });
