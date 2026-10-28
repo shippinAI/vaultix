@@ -42,6 +42,8 @@ jobs:
           node scripts/map-migration.mjs --check
       - name: Verify guided interaction state
         run: node --experimental-strip-types scripts/test-guided-interactions.mjs
+      - name: Verify secret paste compatibility
+        run: node --experimental-strip-types scripts/test-secret-paste.mjs
       - name: Verify capability surface guard
         run: node scripts/test-capability-surface.mjs
       - name: Verify safe native integration diagnostics
@@ -271,6 +273,8 @@ jobs:
             .cache/app-image-proof-*/chart-filter-failure.json
             .cache/app-image-proof-*/chart-navigation-failure.json
             .cache/app-image-proof-*/environment-*.json
+            .cache/app-image-proof-*/create-secret-*.json
+            .cache/app-image-proof-*/dashboard-secret-paste.json
             .cache/app-image-proof-*/auth-navigation.json
             .cache/app-image-proof-*/accessibility.json
             .cache/app-image-proof-*/*.png

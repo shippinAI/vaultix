@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "f52c9cf8630db5ef825f08f8e780e8f6b9e7be9e",
+      "blob": "cd8122d1cc60f855da431735307f738ee8c6ca77",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete runner read. Existing packaged sign-in/project/navigation flows retained. Newly created project acceptance now requires real overview response matched to project, empty resource count, rendered empty state, unique enabled create action and removed loading table before screenshot. Original heading-only check accepted a skeleton. Real workflow metadata is separate from explicitly injected recovery/chart fixtures; no whole-app parity claim.",
+      "scope": "Complete prior runner review retained and current integration read. Existing real sign-in/project and explicitly labelled fixtures remain. Adds packaged overview/legacy-dashboard paste, selected accessibility, environment-focus and mixed-success creation recovery gates. Reports and fixture boundaries remain explicit; no all-app parity claim.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -277,7 +277,17 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
       ]
     },
     {
@@ -1062,10 +1072,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "67a7bf8c89b9262e7451f89400acef14cfe03895",
+      "blob": "23bbab020304bd2ade434ba38345c35ffd33c71d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete existing workflow review retained. Publication-history fixtures now run before image release and upload labelled results; lifecycle/startup/browser gates retained. Local YAML parsing and test runner pass; this new GitHub step has not executed because account jobs are blocked.",
+      "scope": "Complete existing workflow review retained and current file read. Adds pinned-Node parser verification and retains new labelled create-secret and dashboard compatibility reports. Actual packaged runner includes the browser gates. Local YAML parsing passes; GitHub jobs remain blocked before steps by account billing/spending, so hosted execution/publication is not claimed.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1090,7 +1100,9 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json"
+        ".cache/publication-artifact-comparison.json",
+        "docs/0044-create-secret-workflow.md",
+        ".cache/membership-github-blocker.json"
       ]
     },
     {
@@ -2347,6 +2359,201 @@
         ".cache/membership-image-dragonfly.log",
         ".cache/membership-image-redis.log",
         ".cache/app-image-proof-UAkQBx/workflow-result.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/helpers/parseEnvVar.ts",
+      "blob": "a3e8840fc545d2e751cf3160f008a065755ddcd1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. First-delimiter and trimming compatibility retained; explicit empty assignment is distinct from a key-only paste, and empty delimiters are ignored. Eleven pure cases and both actual packaged form callers verify this scope. This is not a general dotenv parser or bulk-import proof.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/OverviewPage/components/CreateSecretForm/CreateSecretForm.tsx",
+      "blob": "fe22a7cadd981bf946eda538b193f0b972ae3d23",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete form read and existing caller/mutation paths traced. Typed field validation replaces the form schema; key/tag trimming and existing mutation/store paths remain. Labels, refs, errors, keyboard help and repeated metadata controls are authored in place. Mixed-environment recovery preserves inputs and retries failed scopes only; empty metadata is retained. Packaged interaction/creation evidence is scoped to owner permissions, empty values, encrypted empty metadata and an injected per-environment outage. Actual approval policies, batch/create-more, full tags/bulk import, denied roles and screen readers remain open; no full workflow or enterprise parity claim. Real-creation state is retained across retries/create-more; the existing activation nudge is deferred until a completed operation closes the sheet, verified against the reproduced delayed-interruption baseline.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log",
+        ".cache/app-image-proof-IzdsTh/create-secret-recovery-attempts.json",
+        ".cache/create-secret-accepted-lint.log",
+        ".cache/create-secret-accepted-build.log",
+        ".cache/create-secret-accepted-smoke-controls.log",
+        ".cache/create-secret-accepted-redis.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SecretDashboardPage/components/CreateSecretForm/CreateSecretForm.tsx",
+      "blob": "32b9059620be0ebfa6983a13985d64962b86dbdc",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. Shared paste result now clears an explicitly empty assigned value while retaining a plain-key paste value. Actual packaged environment dashboard checks both delimiters and cancellation. Existing legacy controls, validation, permissions, batch and approval behavior retained for a subsequent in-place v3 migration; these broader paths are not accepted by the paste proof.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/ReactSelect/FilterableSelect.tsx",
+      "blob": "deb5358a19b7af71feb956982cbca35030d5779b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. An optional typed select instance ref enables the existing overview Controller to focus a missing environment. Grouping, portal, option/render styles and all existing props remain. Packaged missing-environment focus and environment selection verify this scope; all other consumers require their own acceptance.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/platform/SecretInput/VaultixSecretInput.tsx",
+      "blob": "ba5c22a648c2b77bb616888e8d9ec267857f6c66",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read; base textarea and reference wizard behavior traced. Popover Anchor replaces button Trigger attributes on the textarea, controlled dismissal is wired, the popup is named and constrained to the viewport. Packaged keyboard environment browsing and Escape retain the parent form; key paste uses the existing editor. Cross-project grants, reference insertion/navigation, read-only/hidden-value cases and assistive-technology review remain open. No secret values are added to AI or catalog events.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx",
+      "blob": "5609eee4c99ad0fa48fcf579517da05bb4241ec5",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. The existing generator entry button now has a meaningful accessible name. Packaged open/dismiss/no-submit behavior is verified. Generation algorithms, validation rule matching, randomness, inner controls and clipboard handling are retained and remain separately reviewable; this is not full generator accessibility or cryptographic acceptance.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "scripts/test-create-secret-workflow.mjs",
+      "blob": "ce2a0bca932a5a22bd2803846622759ebd8a8b5f",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored runner. Exercises real packaged overview labels, required/whitespace/environment focus, both paste delimiters, keyboard reference help/browsing, generator dismissal, unique metadata labels/removal, desktop and 320-pixel scans and cancellation. Masks are accounted for before reading dummy input; evidence excludes values. Selected axe checks retain incomplete results and do not establish WCAG conformance.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "scripts/test-create-secret-recovery.mjs",
+      "blob": "49a201f6c9cde534e88bbf6213d7bfb4854d4237",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored runner. Real disposable-image creates in development/staging, an explicitly injected production 503, and a real production retry check preserved inputs, no repeated completed scopes, empty encrypted metadata and rendered resource. Captures only outcome booleans/environment identifiers. Actual approvals and broader lifecycle are not covered.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "scripts/test-dashboard-secret-paste.mjs",
+      "blob": "2786890a0d71062f168301092a2048c3e402e6ae",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored runner. Actual separate dashboard form checks key-only preservation, empty equals/colon assignment and cancellation with public dummy input. No operator data or secret creation submitted by this compatibility check; broader dashboard accessibility remains open.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "scripts/test-secret-paste.mjs",
+      "blob": "303254db93e9891bc8a2628977e0c0243476ce72",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored dependency-free helper test. Eleven cases preserve first-delimiter, suffix, whitespace and multiline behavior while distinguishing explicit empty assignments and ignoring empty delimiters. Runs with pinned CI Node type stripping.",
+      "evidence": [
+        "docs/0044-create-secret-workflow.md",
+        ".cache/app-image-proof-Wkcm5I/workflow-result.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-workflow.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-accessibility.json",
+        ".cache/app-image-proof-Wkcm5I/create-secret-recovery.json",
+        ".cache/app-image-proof-Wkcm5I/dashboard-secret-paste.json",
+        "scripts/test-secret-paste.mjs",
+        ".cache/create-secret-final-typecheck.log",
+        ".cache/create-secret-final-lint.log",
+        ".cache/create-secret-overview-lint.log"
       ]
     }
   ]

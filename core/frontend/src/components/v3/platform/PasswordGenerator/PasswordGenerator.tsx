@@ -308,7 +308,12 @@ export const PasswordGenerator = ({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <IconButton variant="outline" size="md" isDisabled={isDisabled}>
+        <IconButton
+          aria-label="Generate secret value"
+          variant="outline"
+          size="md"
+          isDisabled={isDisabled}
+        >
           <KeyRoundIcon />
         </IconButton>
       </PopoverTrigger>

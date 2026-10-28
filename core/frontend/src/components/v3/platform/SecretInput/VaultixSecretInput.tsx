@@ -221,8 +221,13 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
     );
 
     return (
-      <PopoverPrimitive.Root open={isPopupOpen}>
-        <PopoverPrimitive.Trigger asChild>
+      <PopoverPrimitive.Root
+        open={isPopupOpen}
+        onOpenChange={(open) => {
+          if (!open) setIsFocused.off();
+        }}
+      >
+        <PopoverPrimitive.Anchor asChild>
           <SecretInput
             {...props}
             canEditButNotView={canEditButNotView}
@@ -244,14 +249,19 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             containerClassName={containerClassName}
             onClickSegment={handleClickSegment}
           />
-        </PopoverPrimitive.Trigger>
+        </PopoverPrimitive.Anchor>
         <PopoverPrimitive.Portal>
           <PopoverPrimitive.Content
+            aria-label="Secret references"
             align="start"
             onOpenAutoFocus={(e) => e.preventDefault()}
             onMouseDown={(e) => e.preventDefault()}
             className="relative top-2 z-[100] max-h-80 thin-scrollbar overflow-auto rounded-md border border-border bg-popover text-foreground shadow-md"
-            style={{ width: "var(--radix-popover-trigger-width)", minWidth: "320px" }}
+            style={{
+              width: "var(--radix-popover-trigger-width)",
+              minWidth: "min(320px, calc(100vw - 24px))",
+              maxWidth: "calc(100vw - 24px)"
+            }}
           >
             <SecretReferenceWizard
               isEnabled={isPopupOpen}

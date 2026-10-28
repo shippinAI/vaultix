@@ -138,7 +138,7 @@ export const CreateSecretForm = ({
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     const delimitters = [":", "="];
     const pastedContent = e.clipboardData.getData("text");
-    const { key, value } = getKeyValue(pastedContent, delimitters);
+    const { key, value, hasAssignment } = getKeyValue(pastedContent, delimitters);
 
     const isWholeKeyHighlighted =
       secretKeyInputRef.current &&
@@ -149,7 +149,7 @@ export const CreateSecretForm = ({
       e.preventDefault();
       const keyStr = autoCapitalize ? key.toUpperCase() : key;
       setValue("key", keyStr);
-      if (value) {
+      if (hasAssignment) {
         setValue("value", value);
       }
     }

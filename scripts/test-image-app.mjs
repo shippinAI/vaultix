@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 import { testChartRendering } from "./test-chart-rendering.mjs";
 import { testEnvironmentWorkflow } from "./test-environment-workflow.mjs";
+import { testCreateSecretWorkflow } from "./test-create-secret-workflow.mjs";
+import { testCreateSecretRecovery } from "./test-create-secret-recovery.mjs";
+import { testDashboardSecretPaste } from "./test-dashboard-secret-paste.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -160,6 +163,19 @@ try {
     emptyStateRendered: true, addSecretEnabled: true, loadingTableRemoved: true
   }, null, 2));
   await page.screenshot({ path: resolve(evidence, "created-secrets-project.png"), fullPage: true });
+  await testCreateSecretWorkflow({ page, expect, AxeBuilder, evidence });
+  await testCreateSecretRecovery({ page, expect, origin, evidence, expectedFailures,
+    readMetadata: async (key, environment) => {
+      const query = new URLSearchParams({ projectId: project.id, environment, secretPath: "/", viewSecretValue: "false", expandSecretReferences: "false" });
+      const response = await fetch(`${origin}/api/v4/secrets/${encodeURIComponent(key)}?${query}`, {
+        headers: { Authorization: `Bearer ${selected.token}` }
+      });
+      const body = await response.json();
+      return { status: response.status, valueHidden: body.secret?.secretValueHidden === true,
+        encryptedMetadataPresent: body.secret?.secretMetadata?.some(item => item.key === "PUBLIC_EMPTY_METADATA" && item.isEncrypted === true) === true };
+    }
+  });
+  await testDashboardSecretPaste({ page, expect, origin, orgId: bootstrap.organization.id, projectId: project.id, evidence });
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);
@@ -222,7 +238,7 @@ try {
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
-    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json"]
+    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

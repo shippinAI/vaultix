@@ -531,3 +531,22 @@ per cache with eight external-KMS skips; 597 native unit/race tests and lint pas
 Multiple-group ordering, issuer authority, legacy subject binding, Nomen and full
 native cutover remain open. Actions billing and unauthorized direct GHCR push
 still block confirmed registry publication; local images are not hosted proof.
+
+Create-secret workflow authorship is recorded in
+[0044](0044-create-secret-workflow.md). The native overview now has associated
+labels/errors, working validation focus, keyboard help, usable mobile metadata
+inputs and safe inner-menu dismissal. Both create forms distinguish key-only
+paste from explicit empty assignments. Partial creation preserves inputs and
+retries failed environments only; empty metadata entries survive. The first-secret
+invitation is deferred until a completed operation closes the form.
+
+Canonical image
+`sha256:1bdd77c12dc80fad2141eaba7081e5dfac2cd6f0f2c8d48ca4b02b1ce6d15898`
+passes the real packaged application and Dragonfly/Redis restart/queue/API/MCP gates
+(`.cache/app-image-proof-Wkcm5I`). The proof includes three actual creates, an
+explicitly injected production failure, metadata-only persistence checks,
+both paste callers and desktop/320-pixel selected accessibility scans. Initial
+fixture/locator failures and reproduced product defects are retained in 0044.
+Actual approval/batch/denied-role paths, broader dashboard/editor migration,
+screen readers and full lifecycle/provider acceptance remain open. This is
+scoped workflow evidence, not whole-UI or enterprise parity.

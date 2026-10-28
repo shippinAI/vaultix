@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	c6f07afcf73f88b4b0332c9ad4f31b40a1bd4422185e375bf7437218f32eef0f	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	7dd836c9beb113f2b87103fc2af31e01732794ea9a5803493c9462801f1d834c	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -581,7 +581,7 @@ core/frontend/src/components/v3/generic/Label	ui	React-TypeScript	3	3f8b35ce240b
 core/frontend/src/components/v3/generic/Pagination	ui	React-TypeScript	3	cc0678aa23a6b758a3bc53d40aa58b0ea981d30f609f54caa10ed5fab497e6fa	0	unassessed
 core/frontend/src/components/v3/generic/Popover	ui	React-TypeScript	3	f2c521f0fa24cdc2efa11560eacdb6905cb8196093caf8cce88ce8ac797e749f	0	unassessed
 core/frontend/src/components/v3/generic/RadioGroup	ui	React-TypeScript	3	1f442ce68343c88a93fd27d90ecb483be79f9f70b951a1d96cec6e32dea4abee	0	unassessed
-core/frontend/src/components/v3/generic/ReactSelect	ui	React-TypeScript	7	c098cab2f8341dfdf11cdd6538dbb6fa9b2e155cd7a0b5c6e2689d786c96d294	0	unassessed
+core/frontend/src/components/v3/generic/ReactSelect	ui	React-TypeScript	7	ab4f5a1fab93f39c67a1e6486d46a4f80d5aa6fe4da7b662c9756d71438a7890	1	unassessed
 core/frontend/src/components/v3/generic/ScrollableContent	ui	React-TypeScript	4	06130d1f15111264029c6080adc7a5fe80ada1b091dccbd670b9e037178ae234	0	unassessed
 core/frontend/src/components/v3/generic/Select	ui	React-TypeScript	3	f75ca261382277d299dc2b94ba424dc4aea7ee7dc3ad1487b25fa0476d34cebc	0	unassessed
 core/frontend/src/components/v3/generic/SelectedActionBar	ui	React-TypeScript	3	2bd6f31784fdc24d8446214a2a0a7a791d4f757f29e1dc089cf2b4cc13d37043	0	unassessed
@@ -603,8 +603,8 @@ core/frontend/src/components/v3/platform/GatewayPicker	pam	React-TypeScript	2	ac
 core/frontend/src/components/v3/platform/IdentityRoleBadges	identity	React-TypeScript	2	2336650c0f851e0ff090c2b8aad5426a873db31d6b6c2f211ea1f39ac14e3d0a	0	unassessed
 core/frontend/src/components/v3/platform/OverflowBadgeList	ui	React-TypeScript	2	585cbf4a3bc62e913295920d4cdf241d1b31b96c4d0cde7cc7217e245a3f40ea	0	unassessed
 core/frontend/src/components/v3/platform/PageLoader	ui	React-TypeScript	2	99654fd419a438d5d46b9d8ab09867c264cb2622a42fadd19a7bc06fd90080c2	0	unassessed
-core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2	ce1a7a7d08d79844f4132352cef3426c070de9347d1d30bf99995c4e9a2307dd	0	unassessed
-core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	91624297fe54c9565f23f4c1159d8a781ab83f0318ea16280b4c3b304490e614	0	unassessed
+core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2	9a902ec06857a9b734662daea0a0fdcd5b06ba2a1439283c49e464c318536c41	1	unassessed
+core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
 core/frontend/src/components/vaultix	ai	React-TypeScript	2	bb706ddb09d4a1116086810365cffb0a14da52a64a761b915d14d93849049d79	2	unassessed
@@ -629,7 +629,7 @@ core/frontend/src/helpers	kms	React-TypeScript	1	98645030db4dc662a1ebc407e7d3047
 core/frontend/src/helpers	pki	React-TypeScript	2	80f1027b134f6b2dc69cbc7f5171aa5b06f6c7908c5aca4fea492cb8e1134244	0	unassessed
 core/frontend/src/helpers	scanning	React-TypeScript	2	51872e783038828d0b59d0e7cf8a3ff7711aa4ebb99d212133022571e3cd078c	0	unassessed
 core/frontend/src/helpers	secrets	React-TypeScript	1	cf2363d6548b9c8cbedee68dda09fd9bcafd983e96cba22e5ef8a8b039a49d07	0	unassessed
-core/frontend/src/helpers	ui	React-TypeScript	15	09f6f3612e17225e9c77aebc31ef5613dc06b56693e6c54d30306a5681a7bec6	0	unassessed
+core/frontend/src/helpers	ui	React-TypeScript	15	b5a90c042ae2b611aeb52384edaa754d294c940598f786a4de02486bf08f4d1a	1	unassessed
 core/frontend/src/hoc	ui	React-TypeScript	1	12f4a220c30490374aa40bc19a8e2235952cf047f46f4207b6aac772d3512159	0	unassessed
 core/frontend/src/hoc/withPermission	authorization	React-TypeScript	2	0a3c6363fe82717f835e60b66ea6a0a109a3ddd3dce23b319d8c86f417a75d88	0	unassessed
 core/frontend/src/hoc/withProjectPermission	authorization	React-TypeScript	2	5a46077789ae1abf7d152b8efcd900c6e9200fcca852aed2e623ea56b9040dd8	0	unassessed
@@ -963,9 +963,9 @@ core/frontend/src/pages/secret-manager/IntegrationsListPage	integrations	React-T
 core/frontend/src/pages/secret-manager/OverviewPage	automation	React-TypeScript	13	808f18f30b62e180a010be0a85dbf5941b2a335ad6045e093dd146144dba842f	0	unassessed
 core/frontend/src/pages/secret-manager/OverviewPage	integrations	React-TypeScript	2	9c80e9ccf3aeae43edae2020f9ec16b0de0ff24a07a3bdf3e4850a5c014f2441	0	unassessed
 core/frontend/src/pages/secret-manager/OverviewPage	scanning	React-TypeScript	2	50c57297e75d441b2108d8596f77a74f092cb8c3ced03a6db12b379b002e4b72	0	unassessed
-core/frontend/src/pages/secret-manager/OverviewPage	secrets	React-TypeScript	85	7459c3f5992a318046ebe07820b335ffb43e6eef2684d58d46c893d94ef3491c	1	unassessed
+core/frontend/src/pages/secret-manager/OverviewPage	secrets	React-TypeScript	85	9baf937745ab1f50e8d98bde1e0bff829482da7a7e3b972fa4bf9bda42f5da7b	2	unassessed
 core/frontend/src/pages/secret-manager/SecretApprovalsPage	authorization	React-TypeScript	21	54e6866f79d6f2cb093f43667b806b06776d40fa940f894139ab2f7912ebb496	0	unassessed
-core/frontend/src/pages/secret-manager/SecretDashboardPage	pam	React-TypeScript	132	e1e9a29ff70fb8c33aaaee1268d881ceba17ff6ef6fea4b347803d03c66ab137	0	unassessed
+core/frontend/src/pages/secret-manager/SecretDashboardPage	pam	React-TypeScript	132	8a66d978de39ffc1d047213256a7ec6511f629cb76b85ba61b18eef045fb452c	1	unassessed
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	audit	React-TypeScript	1	6ec6495859b3e24496cd9ee73edc316d58954f737e32f8b4a7c141440584b0f5	0	unassessed
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	integrations	React-TypeScript	66	76d87bca25863862fbc4d8affc82cc4f4ac93f2f56d099bc9598c7be08a711f6	0	unassessed
 core/frontend/src/pages/secret-manager/SettingsPage	integrations	React-TypeScript	14	15a2000c4adc4a5946bfe77fa16d4de025039abcb86a904c92ac16716a0a0d7c	0	unassessed
@@ -1060,4 +1060,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	32	21ae45e293878977dc77c2bfff5d0128c75e17c9dccbe6155aac762300b138ba	24	unassessed
+scripts	delivery	supporting-tooling-or-contract	36	0be8ca065ce87d952364658d93d67607d4a26f7ef7f850b68ecd354ffc0bb6c9	28	unassessed

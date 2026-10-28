@@ -3477,7 +3477,19 @@ const OverviewPageContent = () => {
         open={popUp.addSecretsInAllEnvs.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("addSecretsInAllEnvs", isOpen)}
       >
-        <SheetContent className="flex h-full flex-col gap-y-0 overflow-y-auto sm:max-w-lg">
+        <SheetContent
+          className="flex h-full w-full flex-col gap-y-0 overflow-y-auto sm:max-w-lg"
+          onEscapeKeyDown={(event) => {
+            // React Select handles Escape in its open menu after Radix's document listener.
+            // Dismiss that inner interaction without closing the create sheet.
+            if (
+              event.target instanceof Element &&
+              event.target.closest('[role="combobox"][aria-expanded="true"]')
+            ) {
+              event.preventDefault();
+            }
+          }}
+        >
           <SheetHeader className="border-b">
             <SheetTitle>Create Secret</SheetTitle>
             <SheetDescription>Create a secret across one or more environments</SheetDescription>

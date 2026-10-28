@@ -1,7 +1,6 @@
-import { ClipboardEvent, KeyboardEvent, useMemo, useRef, useState } from "react";
+import { ClipboardEvent, KeyboardEvent, useId, useMemo, useRef, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { subject } from "@casl/ability";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   AlertTriangleIcon,
   InfoIcon,
@@ -10,8 +9,6 @@ import {
   TriangleAlertIcon,
   UploadIcon
 } from "lucide-react";
-import { twMerge } from "tailwind-merge";
-import { z } from "zod";
 
 import { createNotification } from "@app/components/notifications";
 import { parseDotEnv } from "@app/components/utilities/parseSecrets";
@@ -25,7 +22,6 @@ import {
   AlertTitle,
   Button,
   IconButton,
-  VaultixSecretInput,
   Input,
   PasswordGenerator,
   SheetFooter,
@@ -33,7 +29,8 @@ import {
   TextArea,
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
+  VaultixSecretInput
 } from "@app/components/v3";
 import {
   Field,
@@ -60,32 +57,15 @@ import {
 import { SecretType } from "@app/hooks/api/types";
 import { slugSchema } from "@app/lib/schemas";
 
-const formSchema = z
-  .object({
-    key: z.string().trim().min(1, "Key is required"),
-    value: z.string().optional(),
-    comment: z.string().optional(),
-    skipMultilineEncoding: z.boolean().optional(),
-    environments: z
-      .object({ name: z.string(), slug: z.string() })
-      .array()
-      .min(1, { message: "Required" }),
-    tags: z.array(z.object({ label: z.string().trim(), value: z.string().trim() })).optional(),
-    metadata: z
-      .array(
-        z.object({
-          key: z.string().min(1, "Key is required"),
-          value: z.string(),
-          isEncrypted: z.boolean().default(false)
-        })
-      )
-      .optional()
-  })
-  .refine((data) => data.key !== undefined, {
-    message: "Please enter secret name"
-  });
-
-type TFormSchema = z.infer<typeof formSchema>;
+type TFormSchema = {
+  key: string;
+  value: string;
+  comment: string;
+  skipMultilineEncoding: boolean;
+  environments: { name: string; slug: string }[];
+  tags: { label: string; value: string }[];
+  metadata: { key: string; value: string; isEncrypted: boolean }[];
+};
 
 type TParsedEnv = Record<string, { value: string; comments: string[] }>;
 
@@ -128,6 +108,7 @@ export const CreateSecretForm = ({
   onSecretCreated,
   onUploadSecrets
 }: Props) => {
+  const formId = useId();
   const { currentProject, projectId } = useProject();
   const { permission } = useProjectPermission();
   const canReadTags = permission.can(ProjectPermissionActions.Read, ProjectPermissionSub.Tags);
@@ -158,8 +139,11 @@ export const CreateSecretForm = ({
     watch,
     formState: { isSubmitting, errors }
   } = useForm<TFormSchema>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
+      key: "",
+      value: "",
+      comment: "",
+      tags: [],
       environments: defaultEnvs,
       skipMultilineEncoding: false,
       metadata: []
@@ -184,6 +168,8 @@ export const CreateSecretForm = ({
   );
 
   const [createMore, setCreateMore] = useState(false);
+  const [hasUnfinishedCreation, setHasUnfinishedCreation] = useState(false);
+  const hasCreatedSecrets = useRef(false);
   // Set when a paste into the key or value field contained multiple KEY=VALUE pairs; flips the
   // upload alert above the footer into its "upload them all instead" state. keptFirst records
   // whether the paste was reduced to its first pair (key field) or left untouched (value field).
@@ -191,21 +177,25 @@ export const CreateSecretForm = ({
     env: TParsedEnv;
     keptFirst: boolean;
   } | null>(null);
-  const secretKeyInputRef = useRef<HTMLInputElement>(null);
+  const secretKeyInputRef = useRef<HTMLInputElement | null>(null);
   const secretKey = watch("key");
   const selectedEnvironments = watch("environments");
 
   const handleFormSubmit = async ({
-    key,
+    key: rawKey,
     value,
     comment,
     skipMultilineEncoding,
     environments: selectedEnv,
-    tags,
+    tags: rawTags,
     metadata
   }: TFormSchema) => {
+    const key = rawKey.trim();
+    const tags = rawTags.map((tag) => ({ label: tag.label.trim(), value: tag.value.trim() }));
     setPastedSecrets(null);
-    const filteredMetadata = metadata?.filter((m) => m.key && m.value);
+    setHasUnfinishedCreation(false);
+    // Empty metadata values are valid in the existing API; do not silently discard them.
+    const filteredMetadata = metadata;
 
     if (isBatchMode && onBatchSecretCreate) {
       selectedEnv.forEach((env) => {
@@ -310,14 +300,21 @@ export const CreateSecretForm = ({
         }: ${updatedEnvs.join(", ")}`
       });
 
-      // The user just created a secret: let the parent check whether to surface the nudge.
-      onSecretCreated?.();
+      hasCreatedSecrets.current = true;
     }
 
-    if (!updatedEnvs.length && !forApprovalEnvs.length) {
-      // this should only occur when a toast notifcation is created from failed mutation
-      console.warn("failed to create secrets");
-    } else if (createMore) {
+    const unfinishedEnvironments = selectedEnv.filter(
+      (_, index) => results[index].status === "rejected"
+    );
+    if (unfinishedEnvironments.length) {
+      // Successful creations and approval requests must not be resubmitted on retry.
+      // The mutation cache reports each API error; retain the form without another error toast.
+      setValue("environments", unfinishedEnvironments, { shouldDirty: true });
+      setHasUnfinishedCreation(true);
+      return;
+    }
+
+    if (createMore) {
       setValue("key", "");
       setValue("value", "");
       setValue("comment", "");
@@ -328,13 +325,18 @@ export const CreateSecretForm = ({
     } else {
       onClose();
       reset();
+      // Preserve the activation nudge, but never cover recovery or a create-more form.
+      if (hasCreatedSecrets.current) {
+        hasCreatedSecrets.current = false;
+        onSecretCreated?.();
+      }
     }
   };
 
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     const delimitters = [":", "="];
     const pastedContent = e.clipboardData.getData("text");
-    const { key, value } = getKeyValue(pastedContent, delimitters);
+    const { key, value, hasAssignment } = getKeyValue(pastedContent, delimitters);
 
     const isWholeKeyHighlighted =
       secretKeyInputRef.current &&
@@ -361,7 +363,7 @@ export const CreateSecretForm = ({
       setPastedSecrets(null);
       const keyStr = currentProject.autoCapitalization ? key.toUpperCase() : key;
       setValue("key", keyStr);
-      if (value) {
+      if (hasAssignment) {
         setValue("value", value);
       }
     }
@@ -423,11 +425,18 @@ export const CreateSecretForm = ({
         <Controller
           control={control}
           name="environments"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
+          rules={{ validate: (value) => value.length > 0 || "Select at least one environment" }}
+          render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => (
             <Field>
-              <FieldLabel>Environments</FieldLabel>
+              <FieldLabel htmlFor={`${formId}-environments`}>Environments</FieldLabel>
               <FieldContent>
                 <FilterableSelect
+                  selectRef={ref}
+                  onBlur={onBlur}
+                  inputId={`${formId}-environments`}
+                  aria-required
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? `${formId}-environments-error` : undefined}
                   isMulti
                   isError={Boolean(error)}
                   options={environments.filter((environment) =>
@@ -447,7 +456,7 @@ export const CreateSecretForm = ({
                   getOptionLabel={(option) => option.name}
                   getOptionValue={(option) => option.slug}
                 />
-                <FieldError errors={[error]} />
+                <FieldError id={`${formId}-environments-error`} errors={[error]} />
               </FieldContent>
             </Field>
           )}
@@ -456,13 +465,21 @@ export const CreateSecretForm = ({
         <Controller
           control={control}
           name="key"
+          rules={{ validate: (value) => Boolean(value.trim()) || "Key is required" }}
           render={({ field, fieldState: { error } }) => (
             <Field>
-              <FieldLabel>Key</FieldLabel>
+              <FieldLabel htmlFor={`${formId}-key`}>Key</FieldLabel>
               <FieldContent>
                 <div className="relative">
                   <Input
-                    ref={secretKeyInputRef}
+                    id={`${formId}-key`}
+                    aria-required
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? `${formId}-key-error` : undefined}
+                    ref={(element) => {
+                      secretKeyInputRef.current = element;
+                      field.ref(element);
+                    }}
                     value={field.value ?? ""}
                     onChange={(e) => {
                       const val = currentProject?.autoCapitalization
@@ -481,7 +498,14 @@ export const CreateSecretForm = ({
                   {secretKey?.trim().includes(" ") && (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <AlertTriangleIcon className="absolute top-1/2 right-3 size-4 -translate-y-1/2 text-warning" />
+                        <IconButton
+                          aria-label="Secret key whitespace help"
+                          variant="ghost"
+                          size="xs"
+                          className="absolute top-1/2 right-1 -translate-y-1/2 text-warning"
+                        >
+                          <AlertTriangleIcon />
+                        </IconButton>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-72">
                         Secret key contains whitespaces. If this is the desired format, you need to
@@ -494,7 +518,7 @@ export const CreateSecretForm = ({
                     </Tooltip>
                   )}
                 </div>
-                <FieldError errors={[error]} />
+                <FieldError id={`${formId}-key-error`} errors={[error]} />
               </FieldContent>
             </Field>
           )}
@@ -505,11 +529,13 @@ export const CreateSecretForm = ({
           name="value"
           render={({ field }) => (
             <Field>
-              <FieldLabel>
-                Value
+              <div className="flex items-center gap-1">
+                <FieldLabel htmlFor={`${formId}-value`}>Value</FieldLabel>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <InfoIcon />
+                    <IconButton aria-label="Secret reference help" variant="ghost" size="xs">
+                      <InfoIcon />
+                    </IconButton>
                   </TooltipTrigger>
                   <TooltipContent>
                     You can add references to other secrets using the format{" "}
@@ -518,10 +544,12 @@ export const CreateSecretForm = ({
                     </code>
                   </TooltipContent>
                 </Tooltip>
-              </FieldLabel>
+              </div>
               <FieldContent>
                 <div className="flex items-start gap-2">
                   <VaultixSecretInput
+                    id={`${formId}-value`}
+                    aria-label="Value"
                     value={field.value ?? ""}
                     onChange={field.onChange}
                     onPaste={handleValuePaste}
@@ -551,10 +579,11 @@ export const CreateSecretForm = ({
                   name="comment"
                   render={({ field }) => (
                     <Field>
-                      <FieldLabel>Comment</FieldLabel>
+                      <FieldLabel htmlFor={`${formId}-comment`}>Comment</FieldLabel>
                       <FieldContent>
                         <TextArea
                           {...field}
+                          id={`${formId}-comment`}
                           placeholder="Add a comment for this secret..."
                           className="max-h-32 min-h-[60px] resize-y"
                         />
@@ -568,7 +597,7 @@ export const CreateSecretForm = ({
                   name="tags"
                   render={({ field }) => (
                     <Field>
-                      <FieldLabel>Tags</FieldLabel>
+                      <FieldLabel htmlFor={`${formId}-tags`}>Tags</FieldLabel>
                       <FieldContent>
                         {!canReadTags ? (
                           <FieldDescription>
@@ -579,6 +608,7 @@ export const CreateSecretForm = ({
                           </FieldDescription>
                         ) : (
                           <CreatableSelect
+                            inputId={`${formId}-tags`}
                             isMulti
                             className="w-full"
                             placeholder="Select tags to assign to secret..."
@@ -602,8 +632,11 @@ export const CreateSecretForm = ({
                   name="skipMultilineEncoding"
                   render={({ field }) => (
                     <Field orientation="horizontal">
-                      <FieldLabel className="cursor-pointer">Enable Multiline Encoding</FieldLabel>
+                      <FieldLabel htmlFor={`${formId}-multiline`} className="cursor-pointer">
+                        Enable Multiline Encoding
+                      </FieldLabel>
                       <Switch
+                        id={`${formId}-multiline`}
                         variant="project"
                         checked={field.value}
                         onCheckedChange={field.onChange}
@@ -626,25 +659,48 @@ export const CreateSecretForm = ({
                       </p>
                     )}
                     {metadataFields.map((metaField, index) => (
-                      <div key={metaField.id} className="flex items-start gap-3">
-                        <Field className="flex-1">
-                          {index === 0 && <FieldLabel className="text-xs">Key</FieldLabel>}
+                      <div key={metaField.id} className="grid grid-cols-2 items-start gap-3">
+                        <Field className="min-w-0">
+                          <FieldLabel htmlFor={`${formId}-${metaField.id}-key`} className="text-xs">
+                            <span className="sr-only">Metadata {index + 1} </span>Key
+                          </FieldLabel>
                           <FieldContent>
                             <Controller
                               control={control}
                               name={`metadata.${index}.key`}
+                              rules={{
+                                validate: (value) => Boolean(value.trim()) || "Key is required"
+                              }}
                               render={({ field: inputField, fieldState: { error } }) => (
                                 <>
-                                  <Input {...inputField} placeholder="Enter key" className="h-8" />
-                                  <FieldError errors={[error]} />
+                                  <Input
+                                    {...inputField}
+                                    id={`${formId}-${metaField.id}-key`}
+                                    aria-required
+                                    aria-invalid={Boolean(error)}
+                                    aria-describedby={
+                                      error ? `${formId}-${metaField.id}-error` : undefined
+                                    }
+                                    placeholder="Enter key"
+                                    className="h-8"
+                                  />
+                                  <FieldError
+                                    id={`${formId}-${metaField.id}-error`}
+                                    errors={[error]}
+                                  />
                                 </>
                               )}
                             />
                           </FieldContent>
                         </Field>
 
-                        <Field className="flex-1">
-                          {index === 0 && <FieldLabel className="text-xs">Value</FieldLabel>}
+                        <Field className="min-w-0">
+                          <FieldLabel
+                            htmlFor={`${formId}-${metaField.id}-value`}
+                            className="text-xs"
+                          >
+                            <span className="sr-only">Metadata {index + 1} </span>Value
+                          </FieldLabel>
                           <FieldContent>
                             <Controller
                               control={control}
@@ -653,6 +709,7 @@ export const CreateSecretForm = ({
                                 <>
                                   <Input
                                     {...inputField}
+                                    id={`${formId}-${metaField.id}-value`}
                                     placeholder="Enter value"
                                     className="h-8"
                                   />
@@ -663,14 +720,19 @@ export const CreateSecretForm = ({
                           </FieldContent>
                         </Field>
 
-                        <Field className="w-10">
-                          {index === 0 && <FieldLabel className="text-xs">Encrypt</FieldLabel>}
+                        <Field orientation="horizontal">
+                          <FieldLabel
+                            htmlFor={`${formId}-${metaField.id}-encrypt`}
+                            className="text-xs"
+                          >
+                            <span className="sr-only">Metadata {index + 1} </span>Encrypt
+                          </FieldLabel>
                           <Controller
                             control={control}
                             name={`metadata.${index}.isEncrypted`}
                             render={({ field: switchField }) => (
                               <Switch
-                                className="mt-2"
+                                id={`${formId}-${metaField.id}-encrypt`}
                                 variant="project"
                                 size="default"
                                 checked={switchField.value}
@@ -681,13 +743,11 @@ export const CreateSecretForm = ({
                         </Field>
 
                         <IconButton
+                          aria-label={`Remove metadata entry ${index + 1}`}
                           variant="ghost"
                           size="xs"
                           type="button"
-                          className={twMerge(
-                            index === 0 ? "mt-6.5" : "mt-0.5",
-                            "transition-transform hover:text-danger"
-                          )}
+                          className="justify-self-end hover:text-danger"
                           onClick={() => removeMetadata(index)}
                         >
                           <TrashIcon className="size-4" />
@@ -719,6 +779,16 @@ export const CreateSecretForm = ({
           </AccordionItem>
         </Accordion>
       </div>
+      {hasUnfinishedCreation && (
+        <Alert role="status" className="mx-4 w-auto">
+          <TriangleAlertIcon />
+          <AlertTitle>Creation needs attention</AlertTitle>
+          <AlertDescription>
+            Your inputs are preserved. Only unsuccessful environments were kept selected. Review the
+            error and your selection before retrying.
+          </AlertDescription>
+        </Alert>
+      )}
       {onUploadSecrets &&
         (pastedSecrets ? (
           <Alert variant="project" className="mx-4 w-auto">
@@ -778,9 +848,9 @@ export const CreateSecretForm = ({
           Cancel
         </Button>
         <Field orientation="horizontal" className="my-auto ml-auto w-fit">
-          <FieldLabel>Create More</FieldLabel>
+          <FieldLabel htmlFor={`${formId}-create-more`}>Create More</FieldLabel>
           <Switch
-            id="create-more"
+            id={`${formId}-create-more`}
             variant="project"
             checked={createMore}
             onCheckedChange={setCreateMore}

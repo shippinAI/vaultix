@@ -1,4 +1,5 @@
-import Select, { GroupBase, Props } from "react-select";
+import { Ref } from "react";
+import Select, { GroupBase, Props, SelectInstance } from "react-select";
 
 import { ClearIndicator, DropdownIndicator, Group, MultiValueRemove, Option } from "./components";
 import { getSelectClassNames, selectClassNames, selectStyles } from "./styles";
@@ -12,6 +13,7 @@ export const FilterableSelect = <T,>({
   options = [],
   isError,
   components,
+  selectRef,
   menuPortalTarget = typeof document === "undefined" ? undefined : document.body,
   menuPosition = "fixed",
   ...props
@@ -19,6 +21,7 @@ export const FilterableSelect = <T,>({
   groupBy?: string | null;
   getGroupHeaderLabel?: ((groupValue: any) => string) | null;
   isError?: boolean;
+  selectRef?: Ref<SelectInstance<T, boolean, GroupBase<T>>>;
 }) => {
   let processedOptions: Props<T, boolean, GroupBase<T>>["options"] = options;
 
@@ -46,6 +49,7 @@ export const FilterableSelect = <T,>({
 
   return (
     <Select<T, boolean, GroupBase<T>>
+      ref={selectRef}
       isMulti={isMulti}
       closeMenuOnSelect={closeMenuOnSelect ?? !isMulti}
       hideSelectedOptions={false}

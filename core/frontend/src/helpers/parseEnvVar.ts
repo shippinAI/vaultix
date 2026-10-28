@@ -1,13 +1,14 @@
-/** Extracts the key and value from a passed in env string based on the provided delimiters. */
+/** Distinguish a key-only paste from an assignment, including an explicitly empty value. */
 export const getKeyValue = (pastedContent: string, delimiters: string[]) => {
   if (!pastedContent) {
-    return { key: "", value: "" };
+    return { key: "", value: "", hasAssignment: false };
   }
 
   let firstDelimiterIndex = -1;
   let foundDelimiter = "";
 
   delimiters.forEach((delimiter) => {
+    if (!delimiter) return;
     const index = pastedContent.indexOf(delimiter);
     if (index !== -1 && (firstDelimiterIndex === -1 || index < firstDelimiterIndex)) {
       firstDelimiterIndex = index;
@@ -15,10 +16,8 @@ export const getKeyValue = (pastedContent: string, delimiters: string[]) => {
     }
   });
 
-  const hasValueAfterDelimiter = pastedContent.length > firstDelimiterIndex + foundDelimiter.length;
-
-  if (firstDelimiterIndex === -1 || !hasValueAfterDelimiter) {
-    return { key: pastedContent.trim(), value: "" };
+  if (firstDelimiterIndex === -1) {
+    return { key: pastedContent.trim(), value: "", hasAssignment: false };
   }
 
   const key = pastedContent.substring(0, firstDelimiterIndex);
@@ -26,6 +25,7 @@ export const getKeyValue = (pastedContent: string, delimiters: string[]) => {
 
   return {
     key: key.trim(),
-    value: value.trim()
+    value: value.trim(),
+    hasAssignment: true
   };
 };
