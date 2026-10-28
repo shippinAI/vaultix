@@ -246,10 +246,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "f69a56e1d409723db0623f9e802c29b2d11eebf3",
+      "blob": "00db9a20eed750fd0ef48882796b6cbeb6f73246",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -303,7 +303,8 @@
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
         ".cache/dashboard-commit-lint-final.log",
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
       ]
     },
     {
@@ -1236,10 +1237,10 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "901f3eaf8081d881ed1d65260bd2b677fd385d45",
-      "status": "verified",
+      "blob": "62611086d92eb6cb397823515b71628383a12ca3",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities.",
+      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/app-image-proof-PM9CDX/workflow-result.json",
@@ -1255,7 +1256,9 @@
         ".cache/image-identity-engine-smoke.log",
         ".cache/publication-proof-EjOLFM/result.json",
         ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json"
+        ".cache/image-identity-promotion-failure.json",
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
       ]
     },
     {
@@ -3059,12 +3062,13 @@
     },
     {
       "path": "core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx",
-      "blob": "0d824e1d80c7ef81e2ccd45b50a8e72b9389431f",
+      "blob": "c2b8e9566ab57361ba0f01400e2e36d2f1e0216d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
       ]
     },
     {
@@ -3139,12 +3143,13 @@
     },
     {
       "path": "scripts/test-first-run-setup.mjs",
-      "blob": "220ca005d0721e0b8c2ddcf5ea0a6234af4a924a",
+      "blob": "e18e8f51d84e6e3422644b0ef78a683088ce7d59",
       "status": "authored",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
       ]
     },
     {
@@ -3159,13 +3164,25 @@
     },
     {
       "path": "docs/0050-organization-first-setup.md",
-      "blob": "13a79e7bd8f8957a4ab08a297f45a8c10b93b799",
+      "blob": "c1ced3933e6bec3c628c30718044b89e2298bfc1",
       "status": "authored",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
       ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/OnboardingPageLayout.tsx",
+      "scope": "Complete component read with signup/setup callers. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md",
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+      ],
+      "blob": "0d334e31d0a5de93b130287a2484df7c6c45f2ab",
+      "status": "authored",
+      "decision": "modify"
     }
   ]
 }

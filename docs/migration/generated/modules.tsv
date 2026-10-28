@@ -516,7 +516,7 @@ core/frontend/src/components/announcements	ui	React-TypeScript	3	068bf9ba669dc1a
 core/frontend/src/components/app-connections	integrations	React-TypeScript	2	3d3224e68311c6e1f98481ddbc000e392685117af9135b9b0d5c111fe7d554b0	0	unassessed
 core/frontend/src/components/approvals	authorization	React-TypeScript	3	d370dff6dee4ad0a45866717772ab67c265a0df087b6c852009d4c944ca4101c	0	unassessed
 core/frontend/src/components/assume-privileges	authorization	React-TypeScript	2	9d5ee1bc96c536d9f14a347d954c3d40fd74e7551bea6ffc33cbec68181f7744	0	unassessed
-core/frontend/src/components/auth	identity	React-TypeScript	21	ecfa6dd781e40d9ee41aff8fcf351b54a7458e03842f06e655f7310b8a6f1fb0	5	unassessed
+core/frontend/src/components/auth	identity	React-TypeScript	21	b5ce568b61ee07ea0cca72a2dc262a432f8f04c6e56efccf0a8728aa3c645fce	6	unassessed
 core/frontend/src/components/basic	ui	React-TypeScript	2	c2c85969a311c3fdf44e249af2aca3cacc34d51494e5f164f018c26cf3e67a05	0	unassessed
 core/frontend/src/components/external-migrations	ui	React-TypeScript	2	a59a7a3171ff20dc23816b7b1a49812ce835473d346d37b81eea56cedbf4c12e	0	unassessed
 core/frontend/src/components/features	ui	React-TypeScript	3	1b0317586a731bf49efd3d639e8fde437337ab586a02421179fe54602513f0de	0	unassessed
@@ -787,7 +787,7 @@ core/frontend/src/pages/admin/IntegrationsPage	integrations	React-TypeScript	6	a
 core/frontend/src/pages/admin/ResourceOverviewPage	identity	React-TypeScript	1	2d935427ea8f1fb24d7f9f97c25546f5ec5fd89dc3dabc985b64194ce71abefe	0	unassessed
 core/frontend/src/pages/admin/ResourceOverviewPage	ui	React-TypeScript	7	6b172f88c11049577e0f7d515ac9701970ca9a93a2913d51c7167f43379d723e	0	unassessed
 core/frontend/src/pages/admin/SetupPage	ui	React-TypeScript	2	ae904b8901c3c5d51667b0d2b80406166896baa831b206519fce2f97079d882f	1	unassessed
-core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	4	f70a2381a4af435537e1d1f4b5ffc932ea4a8e40306bab7708e50e52b6d2f79f	2	unassessed
+core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	4	995cd8e78f606bb8bcb6d9b86c903bcfb3cc994b4267804a1ddf2b7b517c8971	2	unassessed
 core/frontend/src/pages/admin/WelcomePage	ui	React-TypeScript	2	7ef62c71492ff088602589dbc55b048666de0b7a643e9f7dfb584a6e7388f727	0	unassessed
 core/frontend/src/pages/admin/components	ui	React-TypeScript	2	7def2881736276176cce39bd6b26240865b6eb408242dfb01bd5d1a4f5e66111	0	unassessed
 core/frontend/src/pages/auth/AccountRecoveryEmailPage	identity	React-TypeScript	2	cae27917c9dee853af3b75dcb5b5880322fc81df04b38a432b90c7134b319046	0	unassessed
@@ -1061,4 +1061,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	46	9bdc3e539d82d0690ba99e8593858adc65f9b26fb621bf82eeb940a56155b3bf	41	unassessed
+scripts	delivery	supporting-tooling-or-contract	46	2e3a07dccaec79567112864ba6f422f49379dc4cbb74c59fb7e58c108d1309d0	41	unassessed

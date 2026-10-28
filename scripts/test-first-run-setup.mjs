@@ -11,8 +11,13 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
   await context.route("**/*", route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   const page = await context.newPage();
   const audit = async state => {
+    await page.evaluate(async () => {
+      await Promise.all(document.getAnimations()
+        .filter(animation => animation.effect?.getTiming().iterations !== Infinity)
+        .map(animation => animation.finished.catch(() => {})));
+    });
     const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
-    accessibility.push({ state, violations: result.violations.map(rule => ({ id: rule.id, targets: rule.nodes.map(node => node.target) })), manualReview: result.incomplete.map(rule => rule.id) });
+    accessibility.push({ state, violations: result.violations.map(rule => ({ id: rule.id, nodes: rule.nodes.map(node => ({ target: node.target, summary: node.failureSummary })) })), manualReview: result.incomplete.map(rule => rule.id) });
     writeFileSync(resolve(evidence, "onboarding-accessibility.json"), JSON.stringify(accessibility, null, 2));
     assert.equal(result.violations.length, 0, `Accessibility failure in ${state}`);
   };
@@ -65,7 +70,9 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
     await page.getByLabel("Last Name", { exact: true }).fill("Proof");
     await page.getByLabel("Email", { exact: true }).fill(email);
     await page.getByLabel("Password", { exact: true }).fill(password);
+    await expect.poll(() => page.getByLabel("Confirm Password", { exact: true }).evaluate(element => element.closest("[inert]") === null)).toBe(true);
     await page.getByLabel("Confirm Password", { exact: true }).fill(password);
+    assert.equal(await page.getByLabel("Password", { exact: true }).evaluate(element => element.value.length), password.length);
     // Account and organization creation are real. Only completion transport fails twice.
     await page.route("**/api/v1/admin/config", async route => {
       if (route.request().method() === "PATCH" && completionFailures < 2) {
@@ -73,13 +80,16 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
         await route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "Completion unavailable", message: "Test transport interruption" }) });
       } else await route.continue();
     });
-    const signupResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/admin/signup" && response.request().method() === "POST");
-    const selectedResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v3/auth/select-organization" && response.status() === 200);
+    const signupResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/admin/signup" && response.request().method() === "POST").catch(() => null);
+    const selectedResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v3/auth/select-organization" && response.status() === 200).catch(() => null);
     await page.getByRole("button", { name: "Create Workspace", exact: true }).click();
     const signup = await signupResponse;
+    assert.ok(signup, "Owner form did not produce a signup response");
     assert.equal(signup.status(), 200);
     const bootstrap = await signup.json();
-    const selected = await (await selectedResponse).json();
+    const selection = await selectedResponse;
+    assert.ok(selection, "Created owner did not select the organization");
+    const selected = await selection.json();
     await expect(page.getByRole("alert").filter({ hasText: "Your account and organization were created" })).toBeVisible();
     assert.equal(await page.locator('input[type="password"]').count(), 0, "Clear credential controls after creation");
     await page.getByRole("button", { name: "Open Workspace", exact: true }).click();
@@ -103,6 +113,13 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
     assert.equal(repeat.status, 400, "Bootstrap closes after initialization");
     writeFileSync(resolve(evidence, "onboarding-result.json"), JSON.stringify({ passed: true, signupRequests, completionFailures, actualAccountAndOrganization: true, checks: ["organization first with editable suggestion", "name validation", "contextual dialog and focus return", "320px reflow", "owner custom password", "no public signup or federation choices", "completion retries do not recreate owner", "refresh recovers existing setup", "invite-only and email defaults", "completed dashboard", "repeat bootstrap denied"], fixtures: ["two completion PATCH transport failures"], excluded: ["concurrent bootstrap transactions", "manual screen-reader acceptance", "external identity providers"] }, null, 2));
     return { bootstrap, selected };
+  } catch (error) {
+    await page.screenshot({ path: resolve(evidence, "onboarding-failure.png"), fullPage: true }).catch(() => {});
+    writeFileSync(resolve(evidence, "onboarding-failure.json"), JSON.stringify({
+      signupRequests, completionFailures, path: new URL(page.url()).pathname,
+      fieldErrors: await page.locator('[data-slot="field-error"]').allTextContents()
+    }, null, 2));
+    throw error;
   } finally {
     await context.close();
   }

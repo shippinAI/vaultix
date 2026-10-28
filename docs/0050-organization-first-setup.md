@@ -11,6 +11,8 @@ existing organization dashboard.
   brand, or personal workspace can use its own name and rename it later.
 - Keep the existing server password policy, breached-password checks, password
   confirmation, hashing, session issuance, and organization creation services.
+  Confirmation is visible immediately for normal entry and password managers;
+  the step indicator includes readable text.
   There is no shared default password. Passwords remain in the account form;
   guide events contain only allowlisted identifiers and never field values.
 - Set fresh self-hosted instances to invite-only and email/password sign-in in

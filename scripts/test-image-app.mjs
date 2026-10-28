@@ -234,7 +234,7 @@ try {
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
-    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
+    reports: ["onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

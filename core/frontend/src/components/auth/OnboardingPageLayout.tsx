@@ -23,6 +23,9 @@ const OnboardingProgress = ({
     aria-valuenow={currentStep}
     className="flex items-center gap-1.5"
   >
+    <span aria-hidden="true" className="mr-2 text-xs text-muted">
+      Step {currentStep} of {totalSteps}
+    </span>
     {Array.from({ length: totalSteps }, (_, index) => {
       const step = index + 1;
 

@@ -138,10 +138,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSign
           error={showDangerState ? errors.password : undefined}
           submitCount={submitCount}
         />
-        <AnimatedCollapse
-          isOpen={isPasswordValidated}
-          contentClassName={isPasswordValidated ? "overflow-visible" : undefined}
-        >
+        <div>
           <Field data-invalid={showDangerState && Boolean(errors.confirmPassword)}>
             <FieldLabel htmlFor="admin-signup-confirm-password">Confirm Password</FieldLabel>
             <InputGroup variant="outlined">
@@ -182,7 +179,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSign
               <FieldError>{errors.confirmPassword.message}</FieldError>
             ) : null}
           </Field>
-        </AnimatedCollapse>
+        </div>
       </FieldGroup>
       <Button
         id="admin-signup-create"

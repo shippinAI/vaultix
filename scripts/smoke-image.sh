@@ -92,7 +92,8 @@ async function main() {
     assert.equal(guidanceResponse.status, 200);
     const guidance = await guidanceResponse.json();
     assert.equal(guidance.schemaVersion, "vaultix.guidance.v1");
-    assert.equal(guidance.guides.length, 2);
+    assert.deepEqual(guidance.guides.map(guide => guide.id), ["references", "connections", "organization", "owner"]);
+    assert.ok(guidance.guides.every(guide => guide.steps.every(step => step.component === "configure-step")));
     const toolResponse = await fetch("http://127.0.0.1:8080/api/v1/vaultix/mcp", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "vaultix.guidance.get", arguments: {} } })

@@ -4307,7 +4307,7 @@ core/frontend/src/components/auth/CodeInputStep.tsx	core/frontend/src/components
 core/frontend/src/components/auth/EnterEmailStep.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	9735e116f93f2a29bd6a17c9c036f27ffbd70915	unread
 core/frontend/src/components/auth/InitialSignupStep.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	dd4fb18c1531473cd2c0f9b1ac1cba7004973969	unread
 core/frontend/src/components/auth/Mfa.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	4411d5da2675119461f5c8b2f4fc77c72cc3b9ba	unread
-core/frontend/src/components/auth/OnboardingPageLayout.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	7264673a960ffe9a9d0a73655fb36df251af67a0	unread
+core/frontend/src/components/auth/OnboardingPageLayout.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	0d334e31d0a5de93b130287a2484df7c6c45f2ab	authored
 core/frontend/src/components/auth/OrgNameStep.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	99352f0f9c2233ddaa83dc946cf04b154572ca18	authored
 core/frontend/src/components/auth/PasswordField.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	0f8684710257527e04b4fa4a44a4a86f375dd104	unread
 core/frontend/src/components/auth/ProductSelectionStep.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	2af6964797ac60911888a0107e1109eee15a8e8c	unread
@@ -6277,7 +6277,7 @@ core/frontend/src/pages/admin/SetupPage/SetupPage.tsx	core/frontend/src/pages/ad
 core/frontend/src/pages/admin/SetupPage/route.tsx	core/frontend/src/pages/admin/SetupPage	ui	React-TypeScript	tsx	cbbcbc4906f868ee543ebf5a8100ab0d74a9776c	unread
 core/frontend/src/pages/admin/SignUpPage/SignUpPage.tsx	core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	tsx	fa7d86d8aa306269a682f8ca326bcfa5c8968a9b	authored
 core/frontend/src/pages/admin/SignUpPage/adminSignUpSchema.ts	core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	ts	b51ce95bc26274c0694acc233fd265b423abb356	unread
-core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx	core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	tsx	0d824e1d80c7ef81e2ccd45b50a8e72b9389431f	authored
+core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx	core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	tsx	c2b8e9566ab57361ba0f01400e2e36d2f1e0216d	authored
 core/frontend/src/pages/admin/SignUpPage/route.tsx	core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	tsx	b5f3cf44af40282c7d568236a2f0c31a70289cd8	unread
 core/frontend/src/pages/admin/WelcomePage/WelcomePage.tsx	core/frontend/src/pages/admin/WelcomePage	ui	React-TypeScript	tsx	3077c19431830c9ff925f3eb22e5b42bd4f46a10	unread
 core/frontend/src/pages/admin/WelcomePage/route.tsx	core/frontend/src/pages/admin/WelcomePage	ui	React-TypeScript	tsx	83ea26e900bf43ee8f98a1fbcf68828cbb9edc0c	unread
@@ -9357,7 +9357,7 @@ scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	531
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/serve-capability-plan.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	verified
-scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	901f3eaf8081d881ed1d65260bd2b677fd385d45	verified
+scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	62611086d92eb6cb397823515b71628383a12ca3	authored
 scripts/test-api-request-errors.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	930660062217b4797619f36773c7ccca9dcadb4a	verified
 scripts/test-capability-explorer.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
 scripts/test-capability-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25be8176fc1ced9c70414c2b8ab7bdbb052275c9	verified
@@ -9372,12 +9372,12 @@ scripts/test-dashboard-secret-paste.mjs	scripts	delivery	supporting-tooling-or-c
 scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	verified
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	066cd736cd29dd2c2cefeaa5c452edd26f047134	verified
-scripts/test-first-run-setup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	220ca005d0721e0b8c2ddcf5ea0a6234af4a924a	authored
+scripts/test-first-run-setup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e18e8f51d84e6e3422644b0ef78a683088ce7d59	authored
 scripts/test-go-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a63efe056887d1462385090c699b8585c3f5e27d	verified
 scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b5583de0e3990833d120e86e707545c3a491a1e1	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f69a56e1d409723db0623f9e802c29b2d11eebf3	authored
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	00db9a20eed750fd0ef48882796b6cbeb6f73246	authored
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	34410a165f72cb41007a285b6fcc7e447e34c58f	authored
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
