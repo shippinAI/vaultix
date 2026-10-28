@@ -666,77 +666,65 @@ export const orgServiceFactory = ({
 
     return org;
   };
-  /*
-   * Create organization
-   * */
+  // Database-only creation lets first-owner setup share its commit with the organization.
+  const createOrganizationInTransaction = async (
+    { userId, orgName, customerId }: { userId?: string; orgName: string; customerId?: string },
+    tx: Knex
+  ) => {
+    const org = await orgDAL.create(
+      { name: orgName, customerId, slug: slugify(`${orgName}-${alphaNumericNanoId(4)}`) },
+      tx
+    );
+    if (userId) {
+      const membership = await orgDAL.createMembership(
+        {
+          scope: AccessScope.Organization,
+          actorUserId: userId,
+          scopeOrgId: org.id,
+          status: OrgMembershipStatus.Accepted,
+          isActive: true
+        },
+        tx
+      );
+      await membershipRoleDAL.create(
+        {
+          membershipId: membership.id,
+          role: OrgMembershipRole.Admin
+        },
+        tx
+      );
+    }
+
+    await bootstrapCertManagerProject(
+      {
+        orgId: org.id,
+        adminUserIds: userId ? [userId] : []
+      },
+      { projectDAL, membershipDAL, membershipRoleDAL, certificatePolicyDAL },
+      tx
+    );
+
+    await bootstrapPamProject(
+      {
+        orgId: org.id,
+        adminUserIds: userId ? [userId] : []
+      },
+      { projectDAL, membershipDAL, membershipRoleDAL },
+      tx
+    );
+
+    return org;
+  };
+
   const createOrganization = async (
-    {
-      userId,
-      userEmail,
-      orgName
-    }: {
-      userId?: string;
-      orgName: string;
-      userEmail?: string | null;
-    },
+    { userId, userEmail, orgName }: { userId?: string; orgName: string; userEmail?: string | null },
     trx?: Knex
   ) => {
     const customerId = await licenseService.generateOrgCustomerId(orgName, userEmail);
-
-    const createOrg = async (tx: Knex) => {
-      // akhilmhdh: for now this is auto created. in future we can input from user and for previous users just modifiy
-      const org = await orgDAL.create(
-        { name: orgName, customerId, slug: slugify(`${orgName}-${alphaNumericNanoId(4)}`) },
-        tx
-      );
-      if (userId) {
-        const membership = await orgDAL.createMembership(
-          {
-            scope: AccessScope.Organization,
-            actorUserId: userId,
-            scopeOrgId: org.id,
-            status: OrgMembershipStatus.Accepted,
-            isActive: true
-          },
-          tx
-        );
-        await membershipRoleDAL.create(
-          {
-            membershipId: membership.id,
-            role: OrgMembershipRole.Admin
-          },
-          tx
-        );
-      }
-
-      await bootstrapCertManagerProject(
-        {
-          orgId: org.id,
-          adminUserIds: userId ? [userId] : []
-        },
-        { projectDAL, membershipDAL, membershipRoleDAL, certificatePolicyDAL },
-        tx
-      );
-
-      await bootstrapPamProject(
-        {
-          orgId: org.id,
-          adminUserIds: userId ? [userId] : []
-        },
-        { projectDAL, membershipDAL, membershipRoleDAL },
-        tx
-      );
-
-      return org;
-    };
-
+    const createOrg = (tx: Knex) => createOrganizationInTransaction({ userId, orgName, customerId }, tx);
     const organization = await (trx ? createOrg(trx) : orgDAL.transaction(createOrg));
-
     await licenseService.updateSubscriptionOrgMemberCount(organization.id, trx);
-
-    // The PAM bootstrap above seeds the creator as a project member, which changes the pam_identities meter.
     usageMeteringService.emit(organization.id, PamIdentities.key);
-
     return organization;
   };
 
@@ -1462,6 +1450,7 @@ export const orgServiceFactory = ({
     updateOrg,
     findOrgMembersByUsername,
     createOrganization,
+    createOrganizationInTransaction,
     deleteOrganizationById,
     getOrgMembership,
     deleteOrgMembership,

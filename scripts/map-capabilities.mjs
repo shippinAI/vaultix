@@ -208,6 +208,9 @@ export function generate() {
     .flatMap(([family, path]) => {
       assert.ok(existsSync(resolve(root, path)), `Missing provider root: ${path}`);
       return readdirSync(resolve(root, path), { withFileTypes: true })
+        .filter((entry) => source.some((file) => entry.isDirectory()
+          ? file.path.startsWith(`${path}/${entry.name}/`)
+          : file.path === `${path}/${entry.name}`))
         .filter((entry) =>
           entry.isDirectory()
             ? !["shared", "schemas", "helpers"].includes(entry.name)

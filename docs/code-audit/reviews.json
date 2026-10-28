@@ -805,16 +805,14 @@
     },
     {
       "path": "scripts/test-core.mjs",
-      "blob": "f771a3a31c0f09eb1d8fae313067e9255f9ae3c3",
+      "blob": "8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete runner read. Retain disposable database/cache/network, random fixture keys, source copying, JSON evidence and cleanup. Add existing browser auth/login and new recovery/revocation specs to the default capability suite. Both isolated cache runs report all 168 tests passing; earlier overlapping image-build runs hit unchanged bulk-operation deadlines and are retained as failed evidence. This is scoped capability verification, not provider or production-load acceptance.",
+      "scope": "Complete runner read. Adds first-owner transaction acceptance to the default disposable backend capability matrix on Dragonfly and Redis. Existing container/env isolation and cleanup behavior retained; operator database/configuration is not used.",
       "evidence": [
-        "docs/0031-refresh-recovery.md",
-        ".cache/core-proof-ULt89h/test-results.json",
-        ".cache/core-proof-5OZCo8/test-results.json",
-        ".cache/core-proof-lZJx7V/test-results.json",
-        ".cache/unit-proof-UPFDNN/test-results.json"
+        "docs/0051-first-owner-transaction.md",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "Standalone-image and full matrix acceptance pending in this implementation commit."
       ]
     },
     {
@@ -1095,22 +1093,14 @@
     },
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
-      "blob": "7b94480508054b0b6b31b4da2847e65b889cd38e",
-      "status": "verified",
+      "blob": "20f69496a263bacf9f90e7df6dc24155b5cbccb1",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Bootstrap now uses the shared bounded identity issuer within the existing identity/membership transaction, preserving the managed token row, tenant claims and one-time setup guard. The rest of server administration remains inherited and needs workflow review, including setup concurrency/partial failure and entitlement-language cleanup. This does not establish Nomen session ownership. Scoped 0050 correction: adminSignUp retains invite-only and now sets EMAIL login on fresh self-hosted initialization; read updateServerCfg lockout validation and signup callers. Other bootstrap concurrency/partial-write gaps remain open. Exact-image onboarding acceptance pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file reviewed in onboarding packets; this change authors only first-owner initialization and configuration startup/cache recovery. Browser and machine creation serialize on the same database lock and atomically persist owner, organization defaults, token records and configuration. Hashing and external customer preparation precede the transaction; cache invalidation/reporting follow commit. Fresh self-hosted defaults are email-only/invite-only. Existing administration, integration encryption and authorization paths remain; native Nomen/Go migration and broader administrator concurrency are not completed.",
       "evidence": [
-        "docs/0033-bootstrap-identity-issuance.md",
-        ".cache/bootstrap-regression-before.jsonl",
-        ".cache/bootstrap-lifecycle-final.jsonl",
-        ".cache/bootstrap-types-final.log",
-        ".cache/bootstrap-lint-final.log",
-        ".cache/go-proof-QbLrCU/result.json",
-        ".cache/go-proof-mlYewa/result.json",
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0051-first-owner-transaction.md",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "Standalone-image and full matrix acceptance pending in this implementation commit."
       ]
     },
     {
@@ -3032,30 +3022,24 @@
     },
     {
       "path": "scripts/map-capabilities.mjs",
-      "blob": "00ebee237c7e438095ff2fa9550e3a6ffeca0bd7",
-      "status": "verified",
-      "decision": "retain",
-      "scope": "Authored structural map of preserved UI/API baseline, migration rows and six adapter roots; validate groups, states, dependency cycles, references and non-acceptance evidence. Stable generated artifacts and explicit mapping failures. Family/workstream ownership is not semantic caller/auth tracing. Dynamic provider filenames are included and helper files excluded.",
+      "blob": "d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance.",
       "evidence": [
-        "docs/0049-capability-product-plan.md",
-        "node scripts/test-capability-map.mjs",
-        "node scripts/test-migration-map.mjs",
-        ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        "docs/0051-first-owner-transaction.md",
+        "scripts/test-capability-map.mjs"
       ]
     },
     {
       "path": "scripts/test-capability-map.mjs",
-      "blob": "25be8176fc1ced9c70414c2b8ab7bdbb052275c9",
-      "status": "verified",
-      "decision": "retain",
-      "scope": "Authored negative/coverage tests for duplicates, unknown states/groups/surfaces, cyclic phases, false acceptance, provider omissions, deterministic output and server allowlist/Host/method boundary. No product parity claim.",
+      "blob": "4a6ea95546b08d6801b428a67753c1be6dea8cbd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Adds a real temporary empty provider directory and proves the discovery output is unchanged; removes only that newly created empty directory. Retains all coverage, read-only preview and baseline checks.",
       "evidence": [
-        "docs/0049-capability-product-plan.md",
-        "node scripts/test-capability-map.mjs",
-        "node scripts/test-migration-map.mjs",
-        ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        "docs/0051-first-owner-transaction.md",
+        "scripts/test-capability-map.mjs"
       ]
     },
     {
@@ -3216,16 +3200,13 @@
     },
     {
       "path": "docs/0050-organization-first-setup.md",
-      "blob": "40963b2f3ec2fb652bde1c2be3ffc4f3a1c08b24",
-      "status": "verified",
+      "blob": "fa601423994675aa6c8e7f1be09e963eaf0fc992",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete document read. Retains prior real-image evidence and points the first-owner server follow-up to 0051. Does not relabel earlier browser recovery evidence as transaction acceptance.",
       "evidence": [
-        "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0051-first-owner-transaction.md",
+        "scripts/test-capability-map.mjs"
       ]
     },
     {
@@ -3241,6 +3222,42 @@
       "blob": "0d334e31d0a5de93b130287a2484df7c6c45f2ab",
       "status": "verified",
       "decision": "modify"
+    },
+    {
+      "path": "core/backend/src/services/super-admin/super-admin-dal.ts",
+      "blob": "89a20b20d07aac62ff9279cf93353174fbf5999a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with ormify and configuration callers. Configuration updates join the supplied transaction, or open one only when absent. Adds an explicit primary configuration reader for first-owner decisions and stale pre-setup cache recovery. Shared-store behavior and response shape retained. One-connection rollback acceptance is in the first-owner integration suite.",
+      "evidence": [
+        "docs/0051-first-owner-transaction.md",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "Standalone-image and full matrix acceptance pending in this implementation commit."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/org/org-service.ts",
+      "blob": "ed758a41b0ff4811be9fafc1841af3ca67a35b76",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read with organization creation callers and certificate/PAM bootstrap dependencies. Extracts the existing database-only organization, membership and default-project creation into an explicit transaction method used by both ordinary organization creation and first-owner setup. Ordinary creation retains its existing provisioning/reporting contract. Other org/membership/invitation/delete workflows were read but are not rewritten or verified by this packet; their external effects inside transactions remain separate work.",
+      "evidence": [
+        "docs/0051-first-owner-transaction.md",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "Standalone-image and full matrix acceptance pending in this implementation commit."
+      ]
+    },
+    {
+      "path": "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+      "blob": "3a196797da96410fd119fe7c19be5d3700dab4e9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored real HTTP/PostgreSQL first-owner acceptance: one-connection DAL rollback, synchronized browser/machine races, database-trigger failures, same-email retry, lost-response password sign-in, stale pre-setup cache, preserved existing access policy and bounded machine token record. Disposable seeded database only; fixture rows/configuration are restored for subsequent suites. No external issuer/provider or full-product parity claim.",
+      "evidence": [
+        "docs/0051-first-owner-transaction.md",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "Standalone-image and full matrix acceptance pending in this implementation commit."
+      ]
     }
   ]
 }

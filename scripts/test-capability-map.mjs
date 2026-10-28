@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { request } from "node:http";
+import { mkdtempSync, rmdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { capabilities, phases } from "../docs/capabilities/catalog.mjs";
 import { apiGroup, uiGroup, validateCatalog, generate, artifacts } from "./map-capabilities.mjs";
 import { createPlanServer } from "./serve-capability-plan.mjs";
@@ -46,6 +48,12 @@ assert.ok(
   !data.source.some((item) => /^docs\/(migration|capabilities)\/generated\//.test(item.path)),
 );
 assert.deepEqual(artifacts(data), artifacts(generate()));
+const emptyAdapter = mkdtempSync(fileURLToPath(new URL("../core/backend/src/services/app-connection/.vaultix-empty-provider-", import.meta.url)));
+try {
+  assert.deepEqual(generate().providers, data.providers, "Empty local directories cannot invent provider capabilities");
+} finally {
+  rmdirSync(emptyAdapter);
+}
 assert.equal(
   Object.values(data.domainCounts).reduce((sum, group) => sum + group.api, 0),
   data.coverage.apiOperations,

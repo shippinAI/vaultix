@@ -9,6 +9,7 @@ const provider = process.argv[2] ?? "dragonfly";
 if (!["dragonfly", "redis"].includes(provider)) throw new Error("Choose dragonfly or redis.");
 const specs = process.argv.slice(3);
 const selected = specs.length ? specs : [
+  "e2e-test/routes/v1/first-owner-atomic.spec.ts",
   "e2e-test/routes/v1/auth-token.spec.ts",
   "e2e-test/routes/v1/auth-refresh-recovery.spec.ts",
   "e2e-test/routes/v3/auth-email-login.spec.ts",

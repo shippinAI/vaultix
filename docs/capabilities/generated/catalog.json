@@ -1598,12 +1598,6 @@
     },
     {
       "family": "Connection",
-      "name": "external-infisical",
-      "path": "core/backend/src/services/app-connection/external-infisical",
-      "evidence": "Discovered adapter; provider acceptance pending"
-    },
-    {
-      "family": "Connection",
       "name": "external-vaultix",
       "path": "core/backend/src/services/app-connection/external-vaultix",
       "evidence": "Discovered adapter; provider acceptance pending"
@@ -2366,12 +2360,6 @@
     },
     {
       "family": "Sync",
-      "name": "external-infisical",
-      "path": "core/backend/src/services/secret-sync/external-infisical",
-      "evidence": "Discovered adapter; provider acceptance pending"
-    },
-    {
-      "family": "Sync",
       "name": "external-vaultix",
       "path": "core/backend/src/services/secret-sync/external-vaultix",
       "evidence": "Discovered adapter; provider acceptance pending"
@@ -2616,7 +2604,7 @@
       "capabilities": 8,
       "ui": 12,
       "api": 1,
-      "sourceFiles": 1320
+      "sourceFiles": 1321
     },
     "experience": {
       "capabilities": 6,
@@ -2628,8 +2616,8 @@
   "coverage": {
     "uiRoutes": 273,
     "apiOperations": 2290,
-    "sourceFiles": 9389,
-    "providerEntries": 189,
+    "sourceFiles": 9390,
+    "providerEntries": 187,
     "capabilityRequirements": 86,
     "unclassified": 0
   }

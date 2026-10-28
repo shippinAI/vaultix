@@ -51,19 +51,14 @@ Automated accessibility checks do not establish manual screen-reader acceptance.
 
 ## Open work
 
-The inherited bootstrap service still spans separate user, organization, and
-configuration writes. Server-side concurrent first-owner requests and partial
-transaction failure require a separate transactional design and acceptance;
-client completion recovery does not solve these. Existing Nomen ownership and
-native Go identity migration remain subject to their documented gates.
-
-The next backend packet must serialize first-owner creation across both browser
-signup and machine bootstrap, commit owner/organization/configuration together,
-and test rollback, competing requests, and lost-response recovery. Token issuance,
-cache invalidation, usage events, and external customer provisioning must be
-placed deliberately around that transaction. The current email-only default
-change covers browser initialization; machine bootstrap needs the same policy
-review. Existing configured instances must retain their access choices.
+The first-owner backend follow-up is tracked in
+[0051](0051-first-owner-transaction.md): shared transaction and lock for browser
+and machine initialization, rollback and competing-request checks, bounded token
+records, post-commit reporting, and stale pre-setup cache recovery. Both paths
+apply invite-only/email defaults only to fresh self-hosted setup. That packet's
+acceptance is separate from the browser evidence below. Client completion recovery
+alone is not evidence of server atomicity. Existing Nomen ownership and native Go
+identity migration remain subject to their documented gates.
 
 The remainder of product authorship follows 0021, 0027, and the capability plan
 in 0049. These onboarding changes do not establish whole-product authorship,

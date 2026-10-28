@@ -260,6 +260,7 @@ core/backend/e2e-test/routes/v1/auth-invite.spec.ts	access	identity	core/backend
 core/backend/e2e-test/routes/v1/auth-refresh-recovery.spec.ts	access	identity	core/backend/e2e-test/routes/v1	34dc9d46d02777307247b1c7f774031bda098545	verified
 core/backend/e2e-test/routes/v1/auth-token.spec.ts	access	identity	core/backend/e2e-test/routes/v1	9ac664adbf12c65b7821324e6c09a8394a9bf14a	unread
 core/backend/e2e-test/routes/v1/dashboard-secret-metadata.spec.ts	operate	foundation	core/backend/e2e-test/routes/v1	6666f218e6ecfc6ce0d1dd3f210930b81d08cb50	unread
+core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts	operate	foundation	core/backend/e2e-test/routes/v1	3a196797da96410fd119fe7c19be5d3700dab4e9	authored
 core/backend/e2e-test/routes/v1/identity-access-token-redesign.spec.ts	access	identity	core/backend/e2e-test/routes/v1	e4e476b7bce3dff458a1f35c38d59667b335388d	verified
 core/backend/e2e-test/routes/v1/identity.spec.ts	access	identity	core/backend/e2e-test/routes/v1	f1cc6cf0548554b067321aa6437cd00d9c1193c0	unread
 core/backend/e2e-test/routes/v1/login.spec.ts	access	identity	core/backend/e2e-test/routes/v1	07386cd5a3a846f079750f2b143c0522c1491eeb	unread
@@ -3405,7 +3406,7 @@ core/backend/src/services/org/org-dal.ts	operate	foundation	core/backend/src/ser
 core/backend/src/services/org/org-fns.ts	operate	foundation	core/backend/src/services/org	abffe9b800afb6d2077d5a15dd938fab425b8e54	unread
 core/backend/src/services/org/org-role-fns.ts	operate	foundation	core/backend/src/services/org	96e01b40522e322cbb6489da666742f95760d9bc	unread
 core/backend/src/services/org/org-schema.ts	operate	foundation	core/backend/src/services/org	545d364d260a172844de72c1c9fe26b438ad3aec	unread
-core/backend/src/services/org/org-service.ts	operate	foundation	core/backend/src/services/org	38e0cca04988a1a9076834bfd06dceb54ec2cb26	unread
+core/backend/src/services/org/org-service.ts	operate	foundation	core/backend/src/services/org	ed758a41b0ff4811be9fafc1841af3ca67a35b76	authored
 core/backend/src/services/org/org-types.ts	operate	foundation	core/backend/src/services/org	3ffc3b0d3a9e398a8cd94a6bba66ba22779697a8	unread
 core/backend/src/services/pki-alert-v2/pki-alert-channel-dal.ts	pki	pki	core/backend/src/services/pki-alert-v2	fce2902cfe001417288fa7902eb6f42721f8093b	unread
 core/backend/src/services/pki-alert-v2/pki-alert-history-dal.ts	pki	pki	core/backend/src/services/pki-alert-v2	1855ed3c2a78de2a22a2970e573ceed143da77e7	unread
@@ -3945,9 +3946,9 @@ core/backend/src/services/smtp/emails/UnlockAccountTemplate.tsx	operate	foundati
 core/backend/src/services/smtp/emails/index.ts	operate	foundation	core/backend/src/services/smtp	72fda33802c78ec83c0cf20897e26e165f282b7a	unread
 core/backend/src/services/smtp/smtp-service.ts	operate	foundation	core/backend/src/services/smtp	4a469a0b61ee310f724937b9e00aa69998d9020b	unread
 core/backend/src/services/super-admin/invalidate-cache-queue.ts	operate	foundation	core/backend/src/services/super-admin	0eda4e643b4130417c876c1543b3dec029493802	unread
-core/backend/src/services/super-admin/super-admin-dal.ts	operate	foundation	core/backend/src/services/super-admin	571583cc32684972f03af8a06ac0200d7d559de2	unread
+core/backend/src/services/super-admin/super-admin-dal.ts	operate	foundation	core/backend/src/services/super-admin	89a20b20d07aac62ff9279cf93353174fbf5999a	authored
 core/backend/src/services/super-admin/super-admin-fns.ts	operate	foundation	core/backend/src/services/super-admin	12ac0e7d79e762547aea39b7451a347342acf75b	unread
-core/backend/src/services/super-admin/super-admin-service.ts	operate	foundation	core/backend/src/services/super-admin	7b94480508054b0b6b31b4da2847e65b889cd38e	verified
+core/backend/src/services/super-admin/super-admin-service.ts	operate	foundation	core/backend/src/services/super-admin	20f69496a263bacf9f90e7df6dc24155b5cbccb1	authored
 core/backend/src/services/super-admin/super-admin-types.ts	operate	foundation	core/backend/src/services/super-admin	975b953ff0883ad255c485edd3d558e416003042	unread
 core/backend/src/services/telemetry/telemetry-dal.ts	operate	foundation	core/backend/src/services/telemetry	df98dc424e24684472d7caf8e3b02bf48620c4a0	unread
 core/backend/src/services/telemetry/telemetry-queue.ts	operate	foundation	core/backend/src/services/telemetry	dfab474fe72420c55672bc5fe31f5cc198f58caa	unread
@@ -9351,7 +9352,7 @@ scripts/check-image-identity.mjs	operate	delivery	scripts	8e0320722f08f6e2445194
 scripts/check-owned.sh	operate	delivery	scripts	bd596fb1097dfad2e4e071ba051da0ea532fb658	verified
 scripts/check-ui-loading.mjs	operate	delivery	scripts	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/go-test-evidence.mjs	operate	delivery	scripts	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
-scripts/map-capabilities.mjs	operate	delivery	scripts	00ebee237c7e438095ff2fa9550e3a6ffeca0bd7	verified
+scripts/map-capabilities.mjs	operate	delivery	scripts	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	authored
 scripts/map-migration.mjs	operate	delivery	scripts	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/publish-github.sh	operate	delivery	scripts	5317d57aa1a2f44f630b056cc3a916607c17f4b9	verified
 scripts/rebrand-core.sh	operate	delivery	scripts	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
@@ -9360,10 +9361,10 @@ scripts/serve-capability-plan.mjs	operate	delivery	scripts	69b7f9db4c491b4dedcde
 scripts/smoke-image.sh	operate	delivery	scripts	62611086d92eb6cb397823515b71628383a12ca3	verified
 scripts/test-api-request-errors.mjs	operate	delivery	scripts	930660062217b4797619f36773c7ccca9dcadb4a	verified
 scripts/test-capability-explorer.mjs	operate	delivery	scripts	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
-scripts/test-capability-map.mjs	operate	delivery	scripts	25be8176fc1ced9c70414c2b8ab7bdbb052275c9	verified
+scripts/test-capability-map.mjs	operate	delivery	scripts	4a6ea95546b08d6801b428a67753c1be6dea8cbd	authored
 scripts/test-capability-surface.mjs	operate	delivery	scripts	a6ff78877d1ded9319b36480330d8c72494961b2	verified
 scripts/test-chart-rendering.mjs	operate	delivery	scripts	17645dfb85696d78d3d583b459b756e1f26c38c2	authored
-scripts/test-core.mjs	operate	delivery	scripts	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	authored
+scripts/test-core.mjs	operate	delivery	scripts	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	authored
 scripts/test-create-secret-recovery.mjs	operate	delivery	scripts	49a201f6c9cde534e88bbf6213d7bfb4854d4237	verified
 scripts/test-create-secret-workflow.mjs	operate	delivery	scripts	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	verified
 scripts/test-dashboard-create-workflow.mjs	operate	delivery	scripts	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	verified

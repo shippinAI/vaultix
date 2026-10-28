@@ -1,4 +1,5 @@
 import { CronJob } from "cron";
+import { Knex } from "knex";
 
 import {
   AccessScope,
@@ -91,9 +92,12 @@ type TSuperAdminServiceFactoryDep = {
   authService: Pick<TAuthLoginFactory, "generateUserTokens">;
   kmsService: Pick<TKmsServiceFactory, "encryptWithRootKey" | "decryptWithRootKey" | "updateEncryptionStrategy">;
   kmsRootConfigDAL: TKmsRootConfigDALFactory;
-  orgService: Pick<TOrgServiceFactory, "createOrganization">;
+  orgService: Pick<TOrgServiceFactory, "createOrganization" | "createOrganizationInTransaction">;
   keyStore: Pick<TKeyStoreFactory, "getItem" | "setItemWithExpiry" | "deleteItem" | "deleteItems">;
-  licenseService: Pick<TLicenseServiceFactory, "onPremFeatures" | "updateSubscriptionOrgMemberCount">;
+  licenseService: Pick<
+    TLicenseServiceFactory,
+    "onPremFeatures" | "updateSubscriptionOrgMemberCount" | "generateOrgCustomerId" | "removeOrgCustomer"
+  >;
   microsoftTeamsService: Pick<TMicrosoftTeamsServiceFactory, "initializeTeamsBot">;
   invalidateCacheQueue: TInvalidateCacheQueueFactory;
   smtpService: Pick<TSmtpService, "sendMail">;
@@ -167,7 +171,7 @@ export const superAdminServiceFactory = ({
   const initServerCfg = async () => {
     // TODO(akhilmhdh): bad  pattern time less change this later to me itself
     getServerCfg = async () => {
-      const serverCfg = await withCache({
+      let serverCfg = await withCache({
         keyStore,
         key: KeyStorePrefixes.AdminConfig,
         ttlSeconds: KeyStoreTtls.AdminConfigInSeconds,
@@ -179,6 +183,13 @@ export const superAdminServiceFactory = ({
           return cfg;
         }
       });
+
+      // A late cache fill from before setup must not reopen the setup screen or public signup.
+      if (!serverCfg.initialized) {
+        const current = await serverCfgDAL.findByIdPrimary(ADMIN_CONFIG_DB_UUID);
+        if (!current) throw new NotFoundError({ message: "Admin config not found" });
+        serverCfg = current;
+      }
 
       // Normalize dates — on cache hit they arrive as ISO strings from JSON.parse,
       // on miss they are already Date objects. new Date() handles both.
@@ -193,17 +204,20 @@ export const superAdminServiceFactory = ({
     await keyStore.deleteItem(KeyStorePrefixes.AdminConfig);
     const serverCfg = await serverCfgDAL.transaction(async (tx) => {
       await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.SuperAdminInit]);
-      const serverCfgInDB = await serverCfgDAL.findById(ADMIN_CONFIG_DB_UUID);
+      const serverCfgInDB = await serverCfgDAL.findById(ADMIN_CONFIG_DB_UUID, tx);
       if (serverCfgInDB) return serverCfgInDB;
 
-      const newCfg = await serverCfgDAL.create({
-        // @ts-expect-error id is kept as fixed for idempotence and to avoid race condition
-        id: ADMIN_CONFIG_DB_UUID,
-        fipsEnabled: crypto.isFipsModeEnabled(),
-        initialized: false,
-        allowSignUp: true,
-        defaultAuthOrgId: null
-      });
+      const newCfg = await serverCfgDAL.create(
+        {
+          // @ts-expect-error id is kept as fixed for idempotence and to avoid race condition
+          id: ADMIN_CONFIG_DB_UUID,
+          fipsEnabled: crypto.isFipsModeEnabled(),
+          initialized: false,
+          allowSignUp: true,
+          defaultAuthOrgId: null
+        },
+        tx
+      );
       return newCfg;
     });
     return serverCfg;
@@ -514,6 +528,83 @@ export const superAdminServiceFactory = ({
     return updatedServerCfg;
   };
 
+  const initializeInstance = async <T>(
+    orgName: string,
+    email: string,
+    password: string,
+    create: (
+      tx: Knex,
+      hashedPassword: string,
+      customerId?: string
+    ) => Promise<{
+      response: T;
+      organizationId: string;
+      adminIdentityIds?: string[];
+    }>
+  ): Promise<T> => {
+    const current = await serverCfgDAL.findByIdPrimary(ADMIN_CONFIG_DB_UUID);
+    if (!current)
+      throw new NotFoundError({ message: "Instance configuration is missing. Restart Vaultix and try again." });
+    if (current.initialized)
+      throw new BadRequestError({ message: "Instance has already been set up. Sign in to continue." });
+
+    const hashedPassword = await crypto.hashing().createHash(password, getConfig().SALT_ROUNDS);
+    // Legacy cloud provisioning is external; never hold the database lock while contacting it.
+    const customerId = await licenseService.generateOrgCustomerId(orgName, email);
+    let created: Awaited<ReturnType<typeof create>>;
+    try {
+      created = await serverCfgDAL.transaction(async (tx) => {
+        await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.SuperAdminInit]);
+        const config = await serverCfgDAL.findById(ADMIN_CONFIG_DB_UUID, tx);
+        if (!config)
+          throw new NotFoundError({ message: "Instance configuration is missing. Restart Vaultix and try again." });
+        if (config.initialized) {
+          throw new BadRequestError({ message: "Instance has already been set up. Sign in to continue." });
+        }
+        const result = await create(tx, hashedPassword, customerId);
+        await serverCfgDAL.updateById(
+          ADMIN_CONFIG_DB_UUID,
+          {
+            initialized: true,
+            ...(result.adminIdentityIds ? { adminIdentityIds: result.adminIdentityIds } : {}),
+            ...(!getConfig().isCloud ? { allowSignUp: false, enabledLoginMethods: [LoginMethod.EMAIL] } : {})
+          },
+          tx
+        );
+        return result;
+      });
+    } catch (error) {
+      if (customerId) {
+        try {
+          await licenseService.removeOrgCustomer(customerId);
+        } catch {
+          logger.error(
+            { customerId },
+            "First-owner setup rolled back; external customer cleanup requires reconciliation"
+          );
+        }
+      }
+      throw error;
+    }
+
+    // Creation is committed. Cache or reporting outages must not turn success into a retryable signup.
+    try {
+      await keyStore.deleteItem(KeyStorePrefixes.AdminConfig);
+    } catch {
+      logger.warn("First-owner setup committed; configuration cache invalidation failed");
+    }
+    try {
+      await licenseService.updateSubscriptionOrgMemberCount(created.organizationId);
+    } catch {
+      logger.warn(
+        { orgId: created.organizationId },
+        "First-owner setup committed; membership reporting requires reconciliation"
+      );
+    }
+    usageMeteringService.emit(created.organizationId, PamIdentities.key);
+    return created.response;
+  };
+
   const adminSignUp = async ({
     lastName,
     firstName,
@@ -524,14 +615,12 @@ export const superAdminServiceFactory = ({
     userAgent
   }: TAdminSignUpDTO) => {
     const appCfg = getConfig();
-
     const sanitizedEmail = email.trim().toLowerCase();
-    const existingUser = await userDAL.findOne({ username: sanitizedEmail });
-    if (existingUser) throw new BadRequestError({ name: "Admin sign up", message: "User already exists" });
+    const orgName = organizationName ?? appCfg.INITIAL_ORGANIZATION_NAME ?? "Admin Org";
 
-    const hashedPassword = await crypto.hashing().createHash(password, appCfg.SALT_ROUNDS);
-
-    const userInfo = await userDAL.transaction(async (tx) => {
+    return initializeInstance(orgName, sanitizedEmail, password, async (tx, hashedPassword, customerId) => {
+      const existingUser = await userDAL.findOne({ username: sanitizedEmail }, tx);
+      if (existingUser) throw new BadRequestError({ name: "Admin sign up", message: "User already exists" });
       const newUser = await userDAL.create(
         {
           firstName,
@@ -547,50 +636,30 @@ export const superAdminServiceFactory = ({
         },
         tx
       );
-
-      return { user: { ...newUser, hashedPassword: null } };
+      const organization = await orgService.createOrganizationInTransaction(
+        { userId: newUser.id, orgName, customerId },
+        tx
+      );
+      const token = await authService.generateUserTokens(
+        { userId: newUser.id, authMethod: AuthMethod.EMAIL, ip, userAgent, organizationId: undefined },
+        tx
+      );
+      return {
+        response: { token, user: { user: { ...newUser, hashedPassword: null } }, organization },
+        organizationId: organization.id
+      };
     });
-
-    const initialOrganizationName = organizationName ?? appCfg.INITIAL_ORGANIZATION_NAME ?? "Admin Org";
-
-    const organization = await orgService.createOrganization({
-      userId: userInfo.user.id,
-      userEmail: userInfo.user.email,
-      orgName: initialOrganizationName
-    });
-
-    const shouldDisableSignUp = !appCfg.isCloud;
-    await updateServerCfg(
-      {
-        initialized: true,
-        ...(shouldDisableSignUp ? { allowSignUp: false, enabledLoginMethods: [LoginMethod.EMAIL] } : {})
-      },
-      userInfo.user.id
-    );
-    const token = await authService.generateUserTokens({
-      userId: userInfo.user.id,
-      authMethod: AuthMethod.EMAIL,
-      ip,
-      userAgent,
-      organizationId: undefined
-    });
-    // TODO(akhilmhdh-pg): telemetry service
-    return { token, user: userInfo, organization };
   };
 
   const bootstrapInstance = async ({ email, password, organizationName }: TAdminBootstrapInstanceDTO) => {
-    const appCfg = getConfig();
     const sanitizedEmail = email.trim().toLowerCase();
-    const serverCfg = await serverCfgDAL.findById(ADMIN_CONFIG_DB_UUID);
-    if (serverCfg?.initialized) {
-      throw new BadRequestError({ message: "Instance has already been set up" });
-    }
+    const orgName = organizationName ?? "Admin Org";
 
-    const existingUser = await userDAL.findOne({ email: sanitizedEmail });
-    if (existingUser) throw new BadRequestError({ name: "Instance initialization", message: "User already exists" });
-
-    const userInfo = await userDAL.transaction(async (tx) => {
-      const hashedPassword = await crypto.hashing().createHash(password, appCfg.SALT_ROUNDS);
+    return initializeInstance(orgName, sanitizedEmail, password, async (tx, hashedPassword, customerId) => {
+      const existingUser =
+        (await userDAL.findOne({ email: sanitizedEmail }, tx)) ||
+        (await userDAL.findOne({ username: sanitizedEmail }, tx));
+      if (existingUser) throw new BadRequestError({ name: "Instance initialization", message: "User already exists" });
       const newUser = await userDAL.create(
         {
           firstName: "Admin",
@@ -606,28 +675,11 @@ export const superAdminServiceFactory = ({
         },
         tx
       );
-
-      const userEnc = await userDAL.createUserEncryption(
-        {
-          userId: newUser.id,
-          encryptionVersion: 2,
-          hashedPassword
-        },
+      const enc = await userDAL.createUserEncryption({ userId: newUser.id, encryptionVersion: 2, hashedPassword }, tx);
+      const organization = await orgService.createOrganizationInTransaction(
+        { userId: newUser.id, orgName, customerId },
         tx
       );
-
-      return { user: { ...newUser, hashedPassword: null }, enc: userEnc };
-    });
-
-    const initialOrganizationName = organizationName ?? "Admin Org";
-
-    const organization = await orgService.createOrganization({
-      userId: userInfo.user.id,
-      userEmail: userInfo.user.email,
-      orgName: initialOrganizationName
-    });
-
-    const { identity, credentials } = await identityDAL.transaction(async (tx) => {
       const newIdentity = await identityDAL.create({ name: "Instance Admin Identity", orgId: organization.id }, tx);
       const membership = await membershipIdentityDAL.create(
         {
@@ -679,27 +731,16 @@ export const superAdminServiceFactory = ({
         persistToPg: { tx, name: "Instance Admin Token" }
       });
 
-      return { identity: newIdentity, auth: tokenAuth, credentials: { token: accessToken } };
+      return {
+        response: {
+          user: { user: { ...newUser, hashedPassword: null }, enc },
+          organization,
+          machineIdentity: { ...newIdentity, credentials: { token: accessToken } }
+        },
+        organizationId: organization.id,
+        adminIdentityIds: [newIdentity.id]
+      };
     });
-
-    const shouldDisableSignUp = !appCfg.isCloud;
-    await updateServerCfg(
-      {
-        initialized: true,
-        adminIdentityIds: [identity.id],
-        ...(shouldDisableSignUp ? { allowSignUp: false } : {})
-      },
-      userInfo.user.id
-    );
-
-    return {
-      user: userInfo,
-      organization,
-      machineIdentity: {
-        ...identity,
-        credentials
-      }
-    };
   };
 
   const getUsers = ({ offset, limit, searchTerm, adminsOnly }: TAdminGetUsersDTO) => {
