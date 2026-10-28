@@ -57,12 +57,16 @@ cp.spawnSync=(name,args,options)=>{
     if(process.env.FIXTURE_CASE==='application-failure' && args[2]==='dragonfly') return {status:19};
   }
   if(process.env.FIXTURE_CASE==='build-failure' && name==='docker') return {status:23};
+  if(args[0]==='scripts/test-encrypted-recovery.mjs') {
+    assert.equal(args[1],'${imageId}','Recovery must use the verified immutable image');
+    if(process.env.FIXTURE_CASE==='recovery-failure') return {status:24};
+  }
   return {status:0};
 };
 syncBuiltinESMExports();
 `);
 const cases = [];
-for (const name of ["preflight", "application", "capabilities", "dirty", "locked", "build-failure", "application-failure", "source-change", "tag-change"]) {
+for (const name of ["preflight", "application", "capabilities", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
   for (const dir of ["scripts", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
@@ -99,6 +103,8 @@ for (const name of ["preflight", "application", "capabilities", "dirty", "locked
     if (accepted) assert.equal(report.imageId, imageId);
     if (name === "build-failure") assert.equal(report.steps.at(-1).name, "canonical-image");
     if (name === "application-failure") assert.equal(report.steps.at(-1).name, "dragonfly-application");
+    if (name === "recovery-failure") assert.equal(report.steps.at(-1).name, "encrypted-recovery");
+    if (accepted) assert.ok(report.steps.some(step => step.name === "encrypted-recovery" && step.passed));
     if (name === "capabilities") assert.equal(report.steps.at(-1).name, "backend-redis");
   }
   assert.equal(existsSync(lock), name === "locked", "Release only the lock owned by this invocation");

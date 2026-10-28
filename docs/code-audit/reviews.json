@@ -2862,10 +2862,10 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "769e75d1d7430c3be2f612f29f86c0ff54c01c42",
+      "blob": "ee1d1d830fe1a1ad2c95f0f7d7bcaa3eaf6e08c7",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete orchestrator read. Actual committed archive build and all 17 capability steps pass on local Linux/amd64 Docker for ff1c7eaf. Final hardening resolves the immutable image ID before identity verification; exact revision identity and runtime gates use it, and the tag must still resolve to it at completion. Nine Git/tar fixtures enforce immutable identity, ignored operator-file preservation and success/failure/concurrent-change behavior. The final e977611 application run passes; filesystem layers, core source and runtime config match the fully capability-tested image. Local preview deployed by immutable ID with database/cache container IDs retained. No remote deployment, registry, external-provider or whole-product parity claim.",
+      "scope": "Complete orchestrator read. Actual committed archive build and all 17 capability steps pass on local Linux/amd64 Docker for ff1c7eaf. Final hardening resolves the immutable image ID before identity verification; exact revision identity and runtime gates use it, and the tag must still resolve to it at completion. Nine Git/tar fixtures enforce immutable identity, ignored operator-file preservation and success/failure/concurrent-change behavior. The final e977611 application run passes; filesystem layers, core source and runtime config match the fully capability-tested image. Local preview deployed by immutable ID with database/cache container IDs retained. No remote deployment, registry, external-provider or whole-product parity claim. Complete orchestrator re-read. Require encrypted-recovery after application/cache checks using the same immutable image ID. Ten orchestration fixtures pass including recovery failure preventing a successful receipt; actual new recovery behavior is separately exercised. This packet does not repeat or expand prior whole-application runtime evidence.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
@@ -2877,15 +2877,17 @@
         ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json",
         ".cache/self-hosted-build-OXAKQP/result.json",
         ".cache/self-hosted-runtime-comparison.json",
-        ".cache/self-hosted-preview-result.json"
+        ".cache/self-hosted-preview-result.json",
+        "docs/0055-encrypted-recovery.md",
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "3fa47aeafe1067b885485c54f5521165726e1869",
+      "blob": "04a225a8285984df75e169b14e847e44eff30ea6",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete current fixture runner read. Nine disposable local Git/tar fixtures pass, with Docker/gates explicitly simulated. Covers preflight, application/capability sequence, dirty refusal, checkout lock ownership, early failures, source/tag mutation, ignored operator-file exclusion and preservation. Requires identity check and runtime gates to use the same immutable ID and exact source revision. No application capability claim from fixtures.",
+      "scope": "Complete current fixture runner read. Nine disposable local Git/tar fixtures pass, with Docker/gates explicitly simulated. Covers preflight, application/capability sequence, dirty refusal, checkout lock ownership, early failures, source/tag mutation, ignored operator-file exclusion and preservation. Requires identity check and runtime gates to use the same immutable ID and exact source revision. No application capability claim from fixtures. Complete fixture harness read. Add recovery-failure case, immutable-image assertion and mandatory successful recovery-step assertion. Ten isolated Git/tar orchestration fixtures pass; Docker and runtime checks are simulated here.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
@@ -2894,7 +2896,9 @@
         ".cache/self-hosted-fixtures-Q6m3K9/result.json",
         ".cache/self-hosted-build-iW5cuv/result.json",
         ".cache/app-image-proof-E63t5Q/workflow-result.json",
-        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json"
+        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json",
+        "docs/0055-encrypted-recovery.md",
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
       ]
     },
     {
@@ -3464,6 +3468,28 @@
       "evidence": [
         "docs/0054-public-cloud-service.md",
         ".cache/public-cloud-plan/.cache/cloud-plan-proof/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-encrypted-recovery.mjs",
+      "blob": "e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows.",
+      "evidence": [
+        "docs/0055-encrypted-recovery.md",
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
+      ]
+    },
+    {
+      "path": "docs/0055-encrypted-recovery.md",
+      "blob": "d01e81f0219c6c42a1cb7f7dc8a80313a996c985",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored reproducible recovery acceptance scope, implementation boundaries, key compatibility and explicit public-cloud gaps. Not a production backup runbook or complete CLOUD-03 acceptance.",
+      "evidence": [
+        "docs/0055-encrypted-recovery.md",
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
       ]
     }
   ]
