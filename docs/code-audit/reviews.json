@@ -43,25 +43,31 @@
     {
       "path": "core/frontend/src/pages/VaultixConnections.tsx",
       "blob": "db7767af8f280c6876138800916baa6a087a30c3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
       "blob": "904513c69046fbee894d6fae05cfb2b7e67d0567",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
@@ -3207,13 +3213,16 @@
     {
       "path": "scripts/test-native-ui.mjs",
       "blob": "70ae145e8dc67495778bffd89501c03e6d2cbb3a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
@@ -3298,73 +3307,91 @@
     {
       "path": "core/backend/src/server/routes/vaultix-router.test.ts",
       "blob": "2d7f95045cf0a1371c703aa7c03db32f3089d0ae",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/services/vaultix/catalog.ts",
       "blob": "bd2f63e2946912d6b4bec14429d0302923ed2124",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/queries.ts",
       "blob": "cf4ddde832753ee6ae58eb1b5d0b40d508f386e4",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "core/frontend/src/components/vaultix/LearningSignals.tsx",
       "blob": "f77d52e03348706d94dd116fea3ad777f6492afe",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/learning.ts",
       "blob": "c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     },
     {
       "path": "scripts/test-learning-content.mjs",
       "blob": "f1bd3786eea1aa2dda6482b645f0f4c6a080b98d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
       "evidence": [
         "docs/0052-learning-and-upload-integration.md",
         "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs"
+        "scripts/test-native-ui.mjs",
+        ".cache/self-hosted-build-9d0xxS/result.json",
+        ".cache/ui-proof-OP5cxr/accessibility.json",
+        ".cache/unit-proof-kE4Mk6/test-results.json"
       ]
     }
   ]
