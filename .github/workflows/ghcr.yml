@@ -83,6 +83,8 @@ jobs:
         run: node scripts/test-native-ui.mjs
       - name: Verify shared notification and dialog interactions
         run: node scripts/test-notification-matrix.mjs
+      - name: Verify secret upload accessibility and permissions
+        run: node scripts/test-secret-dropzone.mjs
       - name: Enforce cold login loading budget
         run: node scripts/check-ui-loading.mjs
       - name: Preserve browser and dependency evidence
@@ -96,6 +98,8 @@ jobs:
             .cache/ui-proof-*/accessibility.json
             .cache/notification-proof-*/**/*.json
             .cache/notification-proof-*/**/*.png
+            .cache/dropzone-proof-*/*.json
+            .cache/dropzone-proof-*/*.png
             .cache/loading-proof-*/*.png
             .cache/loading-proof-*/result.json
             .cache/loading-proof-*/startup-failure.json
@@ -195,6 +199,9 @@ jobs:
       - run: npx playwright install --with-deps chromium
         working-directory: core/e2e
 
+      - name: Reject invalid identity lifetime policy in both packaged runtimes
+        run: node scripts/test-identity-policy-startup.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}'
+
       - name: Verify image with Dragonfly and real application sign-in
         env:
           VAULTIX_IMAGE_APP_PROOF: '1'
@@ -246,11 +253,13 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/go-proof-*/result.json
+            .cache/identity-policy-proof-*/result.json
             .cache/api-error-proof-*/result.json
             .cache/core-proof-*/test-results.json
             .cache/unit-proof-*/test-results.json
             .cache/app-image-proof-*/result.json
             .cache/app-image-proof-*/workflow-result.json
+            .cache/app-image-proof-*/project-overview.json
             .cache/app-image-proof-*/dashboard-recovery.json
             .cache/app-image-proof-*/chart-rendering.json
             .cache/app-image-proof-*/chart-accessibility.json

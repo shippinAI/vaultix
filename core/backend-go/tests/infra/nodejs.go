@@ -77,7 +77,7 @@ func (n *NodeJSService) IdentityToken() string { return n.identityToken }
 func (n *NodeJSService) UserToken() string     { return n.userToken }
 func (n *NodeJSService) Client() *resty.Client { return n.client }
 
-func startNodeJS(ctx context.Context, networkName string, files []testcontainers.ContainerFile) (*NodeJSService, error) {
+func startNodeJS(ctx context.Context, networkName string, files []testcontainers.ContainerFile, identityPolicyEnv map[string]string) (*NodeJSService, error) {
 	// Exercise the canonical artifact selected by the runner, including its real
 	// included-feature policy and non-root user. Never patch entitlements in tests.
 	image := os.Getenv("VAULTIX_TEST_IMAGE")
@@ -125,6 +125,9 @@ func startNodeJS(ctx context.Context, networkName string, files []testcontainers
 		},
 		Files:      files,
 		WaitingFor: wait.ForHTTP("/api/status").WithPort("8080/tcp").WithStartupTimeout(120 * time.Second),
+	}
+	for key, value := range identityPolicyEnv {
+		req.Env[key] = value
 	}
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{

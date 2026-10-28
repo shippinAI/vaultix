@@ -5,6 +5,7 @@ package infra
 import (
 	"context"
 	"log"
+	"os"
 	"sync"
 
 	"github.com/testcontainers/testcontainers-go"
@@ -16,10 +17,11 @@ import (
 
 // Builder configures which services to spin up for an integration test.
 type Builder struct {
-	wantPostgres bool
-	wantRedis    bool
-	wantNodeJS   bool
-	nodeJSFiles  []testcontainers.ContainerFile
+	wantPostgres      bool
+	wantRedis         bool
+	wantNodeJS        bool
+	nodeJSFiles       []testcontainers.ContainerFile
+	identityPolicyEnv map[string]string
 }
 
 // New creates a new infrastructure builder.
@@ -45,6 +47,16 @@ func (b *Builder) WithNodeJSApi() *Builder {
 // for a file on disk.
 func (b *Builder) WithNodeJSFile(file testcontainers.ContainerFile) *Builder {
 	b.nodeJSFiles = append(b.nodeJSFiles, file)
+	return b
+}
+
+// WithIdentityTokenPolicy supplies the same non-default policy to the issuer
+// container and native Go config. It never patches the application artifact.
+func (b *Builder) WithIdentityTokenPolicy(maxAge, enforcedAt string) *Builder {
+	b.identityPolicyEnv = map[string]string{
+		"MAX_MACHINE_IDENTITY_TOKEN_AGE":                      maxAge,
+		"LEGACY_IDENTITY_ACCESS_TOKEN_EXPIRATION_ENFORCED_AT": enforcedAt,
+	}
 	return b
 }
 
@@ -91,7 +103,7 @@ func (b *Builder) MustStart() *Stack {
 
 	// 3. Start NodeJS after Postgres and Redis are healthy.
 	if b.wantNodeJS {
-		stack.nodejs, err = startNodeJS(ctx, net.Name, b.nodeJSFiles)
+		stack.nodejs, err = startNodeJS(ctx, net.Name, b.nodeJSFiles, b.identityPolicyEnv)
 		if err != nil {
 			log.Fatalf("infra: %v", err)
 		}
@@ -99,6 +111,11 @@ func (b *Builder) MustStart() *Stack {
 
 	// 4. Set environment variables for config.LoadConfig().
 	stack.setEnv()
+	for key, value := range b.identityPolicyEnv {
+		if err := os.Setenv(key, value); err != nil {
+			log.Fatalf("infra: configure identity policy: %v", err)
+		}
+	}
 
 	// 5. Load application config.
 	stack.cfg, err = config.LoadConfig()

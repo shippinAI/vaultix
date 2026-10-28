@@ -138,6 +138,7 @@ try {
   const createProject = page.getByRole("dialog", { name: "Create a New Secrets Management Project" });
   await createProject.getByLabel("Project Name", { exact: true }).fill("Vaultix Lifecycle Proof");
   const projectResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/projects" && response.request().method() === "POST");
+  const overviewResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/dashboard/secrets-overview" && response.request().method() === "GET");
   await createProject.getByRole("button", { name: "Create Project", exact: true }).click();
   const createdResponse = await projectResponse;
   assert.equal(createdResponse.status(), 200, "Real project creation failed.");
@@ -145,6 +146,19 @@ try {
   assert.ok(project.id);
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management/${project.id}/overview`);
   await expect(page.getByRole("heading", { name: "Project Overview", exact: true })).toBeVisible();
+  const loadedOverview = await overviewResponse;
+  assert.equal(loadedOverview.status(), 200, "The created project's overview must finish loading.");
+  assert.equal(new URL(loadedOverview.url()).searchParams.get("projectId"), project.id);
+  const overview = await loadedOverview.json();
+  assert.equal(overview.totalCount, 0, "The new project must return an empty resource list.");
+  await expect(page.getByText("Upload your secrets", { exact: true })).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole("button", { name: "Add a New Secret", exact: true })).toBeEnabled();
+  await expect(page.getByRole("table")).toHaveCount(0);
+  writeFileSync(resolve(evidence, "project-overview.json"), JSON.stringify({
+    passed: true, fixtures: false, responseStatus: loadedOverview.status(),
+    projectMatched: true, resourceCount: overview.totalCount,
+    emptyStateRendered: true, addSecretEnabled: true, loadingTableRemoved: true
+  }, null, 2));
   await page.screenshot({ path: resolve(evidence, "created-secrets-project.png"), fullPage: true });
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
@@ -192,7 +206,7 @@ try {
   await expect(denied.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "result.json"), JSON.stringify({
-    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and overview loading", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
+    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and completed overview response with rendered empty state", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
   }, null, 2));
   phase = "dashboard-recovery";
   const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });
@@ -208,7 +222,7 @@ try {
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
-    reports: ["result.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json"]
+    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

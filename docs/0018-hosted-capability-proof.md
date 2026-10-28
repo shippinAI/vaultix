@@ -479,3 +479,23 @@ The runner now retains safe setup classifications without raw credentials or
 response bodies. Other authoritative reads, lifetime policy, Nomen and production
 topology remain native-cutover gates. GitHub Actions currently refuses jobs due
 to account billing/spending, so this local evidence is not GHCR publication proof.
+
+The native lifetime-policy and completed-project-loading checkpoint is recorded
+in [0040](0040-native-identity-lifetime-policy.md). Native authentication now uses
+the issuer's validated maximum age and missing-expiry grace policy, including
+counter-recovery retention. The auth candidate passes 597 Go unit/race tests,
+270 real-image integration/race tests per cache (eight external-KMS skips),
+1,892 TypeScript unit tests (22 existing skips), 170 database tests per cache
+and 18 packaged invalid-startup cases.
+
+Final canonical image
+`sha256:70788497738195c1f4239ebb8867f2dadde786a19133133ecfdd7a18a81c397c`
+adds repaired upload controls and passes Dragonfly/Redis image gates plus the
+real packaged browser workflow (`.cache/app-image-proof-zMKCF4`). Its backend
+runtime files/configuration match the integration-tested auth image; 0040 records
+the exact comparison and the single excluded incremental build-cache difference.
+The stronger project gate waits for the actual overview response and rendered
+empty state; it no longer accepts a loading-table screenshot. Six separate
+component fixtures verify upload focus, permission denial and action fit down
+to 320 pixels. Whole import workflows, screen-reader review, native cutover,
+Nomen, external providers and hosted publication remain open.

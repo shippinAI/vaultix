@@ -15,16 +15,13 @@ import (
 	"github.com/jackc/pgx/v5"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/vaultix/api/internal/config"
 	"github.com/vaultix/api/internal/database/pg"
 	"github.com/vaultix/api/internal/keystore"
 	"github.com/vaultix/api/internal/libs/errutil"
 	"github.com/vaultix/api/internal/services/assumeprivilege"
 	"github.com/vaultix/api/internal/services/auth"
 )
-
-// maxMachineIdentityTokenAge is the maximum TTL in seconds for identity access tokens.
-// Used for usage counter expiry in Redis.
-const maxMachineIdentityTokenAge = 86400 * 30 // 30 days
 
 // AssumePrivilegeVerifier is the interface for verifying assume privilege tokens.
 // Implemented by assumeprivilege.Service.
@@ -47,13 +44,23 @@ type ApiAuthenticator struct {
 	authSecret      []byte
 	assumePrivilege AssumePrivilegeVerifier
 	errorHandler    ErrorHandler
+	identityPolicy  config.IdentityTokenPolicy
 }
 
-// NewApiAuthenticator creates an ApiAuthenticator with real validation backed by pg.DB.
-// keyStore can be nil for tests that don't need Redis-backed features.
-// assumePrivilege can be nil if assume privilege feature is not needed.
-func NewApiAuthenticator(logger *slog.Logger, db pg.DB, authSecret string, keyStore keystore.KeyStore, assumePrivilege AssumePrivilegeVerifier, errorHandler ErrorHandler) *ApiAuthenticator {
-	return &ApiAuthenticator{logger: logger, db: db, authSecret: []byte(authSecret), keyStore: keyStore, assumePrivilege: assumePrivilege, errorHandler: errorHandler}
+type AuthenticatorDeps struct {
+	DB              pg.DB
+	AuthSecret      string
+	KeyStore        keystore.KeyStore
+	AssumePrivilege AssumePrivilegeVerifier
+	ErrorHandler    ErrorHandler
+	IdentityPolicy  config.IdentityTokenPolicy
+}
+
+func NewApiAuthenticator(_ context.Context, logger *slog.Logger, deps *AuthenticatorDeps) (*ApiAuthenticator, error) {
+	if deps == nil || !deps.IdentityPolicy.Valid() {
+		return nil, fmt.Errorf("identity token lifetime policy is required")
+	}
+	return &ApiAuthenticator{logger: logger, db: deps.DB, authSecret: []byte(deps.AuthSecret), keyStore: deps.KeyStore, assumePrivilege: deps.AssumePrivilege, errorHandler: deps.ErrorHandler, identityPolicy: deps.IdentityPolicy}, nil
 }
 
 // AssumePrivilege returns the assume privilege verifier.
@@ -261,6 +268,9 @@ func (a *ApiAuthenticator) ValidateIdentityAccessToken(ctx context.Context, toke
 
 // validateIdentityTokenClaims validates pre-parsed identity JWT claims.
 func (a *ApiAuthenticator) validateIdentityTokenClaims(ctx context.Context, claims *IdentityJWTClaims, ipAddress string) (*auth.Identity, error) {
+	if err := a.validateIdentityLifetime(claims, time.Now()); err != nil {
+		return nil, err
+	}
 	// 1. Resolve token source - new format uses JWT claims, legacy falls back to DB.
 	var (
 		identityID   = claims.IdentityID
@@ -823,6 +833,16 @@ func (a *ApiAuthenticator) findTrustedIPsByAuthMethod(ctx context.Context, ident
 
 // --- Revocation and Usage Tracking ---
 
+func (a *ApiAuthenticator) validateIdentityLifetime(claims *IdentityJWTClaims, now time.Time) error {
+	if !a.identityPolicy.Valid() {
+		return errutil.Unauthorized("Identity token lifetime policy is unavailable")
+	}
+	if claims.ExpiresAt == nil && now.Truncate(time.Millisecond).After(a.identityPolicy.LegacyDeadline()) {
+		return errutil.Unauthorized("Identity access token exceeded max age, please re-authenticate")
+	}
+	return nil
+}
+
 // checkAndDecrementUsesRemaining checks and decrements the usage counter for the token.
 // Port of usage tracking logic in fnValidateIdentityAccessTokenFast.
 func (a *ApiAuthenticator) checkAndDecrementUsesRemaining(ctx context.Context, identityID uuid.UUID, tokenID string, numUsesLimit int64) error {
@@ -844,7 +864,10 @@ func (a *ApiAuthenticator) checkAndDecrementUsesRemaining(ctx context.Context, i
 	if remainingFromState == nil {
 		// Recover only if still missing. Concurrent readers must not overwrite a
 		// counter another request has already initialized or decremented.
-		ttl := time.Duration(maxMachineIdentityTokenAge) * time.Second
+		ttl := a.identityPolicy.MaxAge()
+		if ttl < time.Second {
+			return errutil.Unauthorized("Identity token lifetime policy is unavailable")
+		}
 		if _, err := a.keyStore.SetItemWithExpiryNX(ctx, key, ttl, strconv.FormatInt(numUsesLimit, 10)); err != nil {
 			return errutil.DatabaseErr("Failed to set token usage counter").WithErrf("checkAndDecrementUsesRemaining(tokenId=%s): %w", tokenID, err)
 		}

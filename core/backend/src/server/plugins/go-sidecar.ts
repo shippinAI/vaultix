@@ -2,6 +2,8 @@ import { ChildProcess, spawn } from "child_process";
 import fp from "fastify-plugin";
 import path from "path";
 
+import { getConfig } from "@app/lib/config/env";
+import { identityPolicyEnvironment } from "@app/lib/config/identity-token-policy";
 import { resolveVaultixEnvironment } from "@app/lib/config/vaultix-environment";
 import { logger } from "@app/lib/logger";
 
@@ -34,6 +36,7 @@ export const goSidecarPlugin = fp(async (server, opts: GoSidecarOpts) => {
       stdio: ["ignore", "inherit", "inherit"],
       env: {
         ...(resolveVaultixEnvironment({ ...process.env, ...opts.env }) as NodeJS.ProcessEnv),
+        ...identityPolicyEnvironment(getConfig()),
         PORT: "4040", // Override PORT so Go doesn't conflict with Node.js
         HOST: "127.0.0.1"
       }

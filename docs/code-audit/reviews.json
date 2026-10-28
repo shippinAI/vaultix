@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "2a16cdfc2b0107726f123b9c648d59bca0e260da",
-      "status": "authored",
+      "blob": "f52c9cf8630db5ef825f08f8e780e8f6b9e7be9e",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete disposable image runner reread. Preserve random test-only credentials, real sign-in/project creation/five-product navigation/anonymous denial and separate recovery fixtures. Verify no chart renderer at login, renderer available on certificate dashboard, and all PAM tab links/invalid fallback/keyboard/reload. Nonempty chart fixture report is separate. Real Nomen/providers and full enterprise parity remain outside scope. Pass the existing AxeBuilder to the separate chart-fixture runner for explicit scoped card acceptance; preserve real image and recovery results independently. Disposable random credential bytes are now separated to prevent accidental four-character repeats while retaining entropy and satisfying the existing password policy. Real bootstrap/sign-in and all image UI checks pass; product authentication is unchanged. Invoke the separate environment lifecycle runner after existing real sign-in/project/navigation and chart checks. Real operations and injected recovery fixtures have separate evidence; operator instance remains guarded from test bootstrap. Record status-only auth navigation diagnostics and deliberately withhold a real rotation response from the browser; assert replacement cookie and authenticated reload after the existing ten-second grace expires. No cookie/token values are written to evidence.",
+      "scope": "Complete runner read. Existing packaged sign-in/project/navigation flows retained. Newly created project acceptance now requires real overview response matched to project, empty resource count, rendered empty state, unique enabled create action and removed loading table before screenshot. Original heading-only check accepted a skeleton. Real workflow metadata is separate from explicitly injected recovery/chart fixtures; no whole-app parity claim.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -266,7 +266,18 @@
         ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
         ".cache/app-image-proof-SxVC1r/environment-recovery.json",
         ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
-        "docs/0031-refresh-recovery.md"
+        "docs/0031-refresh-recovery.md",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -920,28 +931,50 @@
     },
     {
       "path": "core/backend-go/tests/infra/builder.go",
-      "blob": "1123e6e5ba4d3a8253f26fe545a43b09f755c4a7",
-      "status": "authored",
+      "blob": "cce4e4bc2b50aaebeb2765c666e8511b9bb76a13",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read with stack/cache/backend fixtures and both feature-patch callers. Removes the root entitlement-patching path while retaining isolated network/database/bootstrap setup and explicit fixture-file overrides. Test lifecycle failure cleanup still relies on the existing Testcontainers reaper.",
+      "scope": "Complete file read. A narrowly named identity-policy fixture option sends the same age/date to the real issuer container and native LoadConfig. It does not patch the artifact or entitlements. Existing process-global TestMain environment and fatal setup cleanup limits remain.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
         ".cache/go-proof-QbLrCU/result.json",
-        ".cache/go-proof-mlYewa/result.json"
+        ".cache/go-proof-mlYewa/result.json",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
       "path": "core/backend-go/tests/infra/nodejs.go",
-      "blob": "7df79b6c4fc9be3e4d70f653075a36fb2769972e",
-      "status": "authored",
+      "blob": "1e0d8d368a154f6ba04fd4f454f03b6e56fb5dd5",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Requires a locally inspected canonical Vaultix artifact, resolves its exact image ID, retains its user/entrypoint, and forwards explicit cache selection. Existing helpers and assertions remain, including raw fixture error diagnostics; the CI runner excludes those diagnostics from published artifacts. This does not claim new authorship of every helper or externally provisioned provider coverage.",
+      "scope": "Complete file read. Canonical locally inspected issuer artifact receives the explicit identity fixture policy before startup. Other bootstrap/project/provider helpers are retained; their raw failure messages require the existing safe evidence collector and are not newly audited as secret-safe logs.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
         ".cache/go-proof-QbLrCU/result.json",
-        ".cache/go-proof-mlYewa/result.json"
+        ".cache/go-proof-mlYewa/result.json",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1029,10 +1062,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "592b0ea3c5e4e3e17521f500771c689d7bce77b0",
+      "blob": "e054a62694d375c1b8c558d998f8c609363696d5",
       "status": "authored",
       "decision": "modify",
-      "scope": "Existing workflow read and notification matrix wiring retained. Adds the safe integration-evidence regression check before build/publication; existing Go result JSON artifact upload captures the new diagnostics. YAML parses locally. GitHub execution/publication for these changes is not established: account billing/spending currently prevents Actions jobs from starting.",
+      "scope": "Complete workflow read. Adds the actual packaged issuer/native invalid-policy startup gate before image publication and preserves its safe evidence artifact. Existing checks and full cache/browser suites remain required. YAML parses locally; GitHub execution remains unproven while the account billing/spending block persists.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1043,7 +1076,18 @@
         ".cache/notification-lint-final.log",
         "docs/0039-native-scoped-revocation.md",
         "scripts/test-go-test-evidence.mjs",
-        ".cache/go-proof-10RYK1/result.json"
+        ".cache/go-proof-10RYK1/result.json",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1137,10 +1181,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/usage_counter_test.go",
-      "blob": "2ad8f58ddc0575861aba188e4c986efb8511698c",
+      "blob": "d69ed12640819b883e1b1b3bf8690aa2b5c43cd1",
       "status": "verified",
       "decision": "modify",
-      "scope": "New focused consumer regression exercises exactly five seeded uses and repeated denial after exhaustion with the memory store. This calls the actual usage helper but does not establish JWT/issuer authentication or missing-counter recovery concurrency.",
+      "scope": "Complete earlier test review retained; the existing use-count regression now has explicit validated fixture policy after constructor dependency change. Its behavioral assertion remains unchanged.",
       "evidence": [
         ".cache/counter-before.jsonl",
         "docs/0035-cache-counter-contract.md",
@@ -1149,7 +1193,18 @@
         ".cache/counter-dragonfly-final.jsonl",
         ".cache/counter-redis-final.jsonl",
         ".cache/go-proof-AA0IUB/result.json",
-        ".cache/go-proof-iKp3eQ/result.json"
+        ".cache/go-proof-iKp3eQ/result.json",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1198,10 +1253,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "187531d3cfce3495df284a6f756327b2d5fb2912",
+      "blob": "7de5df529533ad6f75ce779447209e6f8157aefc",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authenticator previously read; current and legacy claim resolution traced again. Existing use-budget recovery retained. The existing validator now carries decoded client-secret ID and resolved auth method/organization into native primary-backed scoped revocation. No TS proxy or new store. Scoped tests do not establish complete native authentication: other authoritative reads, lifetime policy, core-claim and tenant binding, and Nomen ownership remain open.",
+      "scope": "Complete prior module review retained; lifetime changes traced through both identity entry points and cache recovery. Constructor requires validated policy, missing-expiry grace uses strict-after millisecond boundary, and recovered use counters retain the configured maximum age. Existing signature, constraints, memberships, IP and scoped-revocation checks remain. Other Replica reads, minimal claims/tenant binding and complete Nomen migration remain open.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1227,15 +1282,26 @@
         ".cache/go-proof-10RYK1/result.json",
         ".cache/app-image-proof-5PJBz6/workflow-result.json",
         ".cache/revocation-image-dragonfly.log",
-        ".cache/revocation-image-redis.log"
+        ".cache/revocation-image-redis.log",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go",
-      "blob": "604a44bf8e7017756162e10d56c97bcafcf08883",
+      "blob": "78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4",
       "status": "verified",
       "decision": "modify",
-      "scope": "New helper regressions reproduce simultaneous missing-counter reads, require exactly the configured accepted budget, deny read/seed/decrement failures and retain corrupt state without granting access. Memory scheduling is a unit fixture; real provider and issued-token evidence is separate.",
+      "scope": "Complete file read. Concurrent recovery, cache-operation failure and malformed-counter tests retain their assertions and now supply explicit validated policy. The test policy is not an application default.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1249,15 +1315,26 @@
         ".cache/go-proof-rG7lz6/result.json",
         ".cache/app-image-proof-oG5dqm/workflow-result.json",
         ".cache/usage-image-smoke-dragonfly.log",
-        ".cache/usage-image-smoke-redis.log"
+        ".cache/usage-image-smoke-redis.log",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/usage_recovery_test.go",
-      "blob": "52c08d5b374e5c7dd8212f08065275e15f663461",
+      "blob": "007524dc9d814ef06aff4de5e5037e10f5ba32b6",
       "status": "verified",
       "decision": "modify",
-      "scope": "New real API-issued credential integration consumes two uses over HTTP, then requires exactly three Go authorizations against the same cache. A controlled counter deletion and synchronized real-cache read barrier allow exactly five recovery uses; the API then denies the exhausted token. No JWT resigning or auth/DB/cache result mocks. Cache loss still restores the configured budget, not durable lifetime accounting.",
+      "scope": "Complete file read. Real API-issued use-budget/counter-loss race fixture uses the same configured policy as the issuer. Existing concurrency and shared HTTP/native budget assertions are retained.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1271,7 +1348,18 @@
         ".cache/go-proof-rG7lz6/result.json",
         ".cache/app-image-proof-oG5dqm/workflow-result.json",
         ".cache/usage-image-smoke-dragonfly.log",
-        ".cache/usage-image-smoke-redis.log"
+        ".cache/usage-image-smoke-redis.log",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1424,10 +1512,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/apiauthenticator_test.go",
-      "blob": "1088ec078b1b69f94d03d57494dc3878f83baf86",
+      "blob": "4f2dc7bed7f3a7f3ec972c9d11644d8ff4fdf15e",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete inherited integration suite read. Only typed fixture construction changes: complete limited-use claims include all anchors; legacy fixtures intentionally omit them. Existing signature, membership, IP, service-token, expiry and revoked/limited legacy checks remain. Fixture adaptation is not whole-suite authorship or complete auth parity.",
+      "scope": "Prior complete fixture review retained; TestMain now supplies a two-hour issuer/native policy and relative elapsed-grace anchor, with explicit constructor dependencies and failure cleanup. Existing user/identity/service-token assertions are retained. This does not establish Nomen ownership or external topology.",
       "evidence": [
         "docs/0037-native-identity-claim-presence.md",
         ".cache/claims-presence-before.jsonl",
@@ -1439,7 +1527,18 @@
         ".cache/go-proof-teQVEL/result.json",
         ".cache/app-image-proof-iVxZeL/workflow-result.json",
         ".cache/claims-image-smoke-dragonfly.log",
-        ".cache/claims-image-smoke-redis.log"
+        ".cache/claims-image-smoke-redis.log",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1709,12 +1808,23 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "3b4c41f0c0ff29a273abeb01fb3f76bd418bd370",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete file read and identity-policy constructor dependency traced. Investigate missing configurable identity lifetime, license-key cloud derivation, malformed mixed-case product settings, inherited integration names and permissive parsing. No configuration rewrite or complete provider compatibility claim in this packet.",
+      "blob": "39eaddeed79a08a5018eb5092d9ad84eb57b2137",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md"
+        "docs/0039-native-scoped-revocation.md",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1729,12 +1839,23 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "bf1c1dc054c515dce1210475735f73fa728f5834",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete service wiring read. Native authenticator receives signing key but no identity lifetime policy; rate-limit activation depends on derived cloud state. Trace and test policy wiring and hosted-state semantics before native cutover. Existing service ownership retained.",
+      "blob": "197e58dd51259fb7648788e2729a4f4bf3bade40",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read; service construction now passes validated identity policy through explicit native authentication dependencies and handles constructor failure. KMS, audit worker, permission and rate-limit ownership are retained and not newly certified by this wiring change.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md"
+        "docs/0039-native-scoped-revocation.md",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1799,12 +1920,23 @@
     },
     {
       "path": "core/backend/src/lib/config/env.ts",
-      "blob": "58d692868c3543c8cd96aa7a1e8b1f3265ea91e2",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete configuration schema, transforms, initialization, readers, runtime override allow-list and SMTP formatter read. Traced identity maximum age, legacy enforcement date and trimming/default dependencies; these fields are not runtime overrides. Investigate invalid-duration NaN, license-derived cloud state, cookie-signing default and inherited integration metadata. Reading this large module is not complete authorship or parity.",
+      "blob": "d49be9988a5876348bbe21ad7f48f364c9945f3e",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete schema review from 0039 retained and edited field traced through config readers. Identity maximum-age parsing now reports a structured startup validation issue for invalid/non-positive/sub-second/overflowing policy. Existing Date coercion and runtime override allow-list remain unchanged. Other inherited configuration findings stay open.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md"
+        "docs/0039-native-scoped-revocation.md",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1829,12 +1961,23 @@
     },
     {
       "path": "core/backend/src/server/plugins/go-sidecar.ts",
-      "blob": "32f716b9c9c86a8e54237cec20499a49cead0000",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete launcher/supervision code read and native startup traced. Alias resolution and inherited environment are passed to the native process; elapsed-time restart reset is not application health evidence. Native policy must work without relying on this launcher. No forwarding/cutover claim.",
+      "blob": "c642eeb9cdc039e0cc0c80d41b6a9004cfd515b8",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. Child environment receives the initialized issuer identity policy after launcher overrides, preventing policy divergence while native validation remains implemented in Go. Existing process supervision is retained; the elapsed-time restart reset still does not prove health. No forwarding or shadowing is enabled.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md"
+        "docs/0039-native-scoped-revocation.md",
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     },
     {
@@ -1869,6 +2012,226 @@
         "docs/0039-native-scoped-revocation.md",
         "scripts/test-go-test-evidence.mjs",
         ".cache/go-proof-10RYK1/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/identity_policy.go",
+      "blob": "5fe1feaefc1acb984d393637bb7e86f65a63b15b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Immutable native identity maximum age and deployment grace deadline; ms-compatible single-unit grammar, whole-second floor/overflow checks, explicit UTC/offset ISO dates and canonical JavaScript millisecond epochs. Zero policy is invalid; no credentials, database or entitlement behavior.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/identity_policy_test.go",
+      "blob": "c48d3b2f8554461b13b9bc9674adfdd610d84904",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Configuration baseline reproduced acceptance of nine invalid cases before repair. Tests cover actual LoadConfig defaults/overrides/denials, parser precision and overflow, invalid timezone forms and full JavaScript epoch range, including a valid year-one deadline.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go",
+      "blob": "49e36906f087c580b976745525f0d6f4666e39c6",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Explicit clock instants verify before/at/within-millisecond/after grace, expiring-token exemption from this specific grace check, and rejection of absent dependency policy. These are unit boundary fixtures, not provider or wall-clock deployment evidence.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/lifetime_policy_test.go",
+      "blob": "1b1635f6629acf6376642d2f3f032dd14e0fa6c3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Real universal-auth issuance with zero budgets demonstrates actual maximum-age expiry/counter retention; native missing-counter recovery matches issuer TTL and consumes one use. Separately signed historical-format DB-backed fixtures deny missing expiry through HTTP and both native entry points after configured grace, with a valid expiring control. These are isolated fixtures, not real historical/operator credentials.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/config/identity-token-policy.ts",
+      "blob": "50c7c56dc3957ba171185c5793bd0e4aa1115f0f",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Validates issuer age within native whole-second representation and serializes only age plus resolved Date epoch to the Go child. Preserves JavaScript Date interpretation without transferring any credentials or secret values.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/config/identity-token-policy.test.ts",
+      "blob": "2fe3663ab7086eded1fbeee3bd5ea4c495927170",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Duration grammar, floor/default/trim and invalid-range checks plus date normalization at timezone variants and JavaScript Date endpoints. No provider, network or subprocess execution claimed.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar.test.ts",
+      "blob": "529ea5f9bb79d645892f909b0023865078f87064",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Mocked process creation verifies actual plugin wiring, canonical policy precedence and disabled behavior with server-close cleanup. Assertions select only non-secret policy/listen fields; this does not prove live Go cutover or restart health.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "scripts/test-identity-policy-startup.mjs",
+      "blob": "0b987ad6360d321ac5126d81634a38abfa98a504",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Inspects a local canonical immutable image, runs nine invalid configurations through each packaged runtime with no network, requires explicit field diagnostics and expected failure exits, and retains only safe result metadata. Per-case random container cleanup is bounded. Positive application startup is verified separately by image smoke tests.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/OverviewPage/components/SecretDropzone/SecretDropzone.tsx",
+      "blob": "1ee10b97f8b9269dc82ee06c7c1fb1a79416c7a0",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read and authored in place. Real-image readiness check reproduced nested tooltip/button controls. Trigger composition, named upload input, visible focus, guarded focusable denied actions and wrapping action layout repaired. Existing permission evaluation, parser and import callbacks retained. Six allowed/denied keyboard, tooltip, bounds and scoped axe component fixtures pass; child dialogs/context explicitly mocked. Whole import workflows and screen-reader acceptance remain open.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "core/frontend/tests/secret-dropzone-fixture.tsx",
+      "blob": "8b8aad1bd2c659b926e20fa7ec427d76ddb4c35d",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete fixture authored/read. Renders production SecretDropzone with normal tooltip provider and callback counters. Explicit component-only context/dialog substitutes; no real secret operations or production route.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "scripts/test-secret-dropzone.mjs",
+      "blob": "9ac4719d155ae860243e462ffde6467c95c4ae7d",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete runner authored/read. Isolated Vite/browser fixture checks six permission/viewport states, actual CASL evaluation and production controls, named input, visible focus, keyboard order, activation denial, explanatory tooltip, card-contained action bounds and scoped axe with no exclusions. External/API requests blocked; fixture evidence cannot claim provider or real import acceptance.",
+      "evidence": [
+        "docs/0040-native-identity-lifetime-policy.md",
+        ".cache/lifetime-go-unit-epoch.jsonl",
+        ".cache/go-proof-v1YQ0E/result.json",
+        ".cache/go-proof-1EOCPM/result.json",
+        ".cache/unit-proof-vfJJjf/test-results.json",
+        ".cache/core-proof-mfFwYc/test-results.json",
+        ".cache/core-proof-xwLoUg/test-results.json",
+        ".cache/identity-policy-proof-oAErwy/result.json",
+        ".cache/dropzone-proof-YuxurI/result.json",
+        ".cache/app-image-proof-zMKCF4/workflow-result.json",
+        ".cache/lifetime-runtime-artifact-comparison.json"
       ]
     }
   ]

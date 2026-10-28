@@ -16,7 +16,7 @@ func TestCheckAndDecrementUsesRemaining_SeededCounterExhausts(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 	store := keystore.NewMemoryKeyStore()
-	authenticator := &ApiAuthenticator{keyStore: store}
+	authenticator := &ApiAuthenticator{keyStore: store, identityPolicy: testIdentityPolicy(t)}
 	identityID := uuid.New()
 	const tokenID = "fixture-token-id"
 	const limit = int64(5)

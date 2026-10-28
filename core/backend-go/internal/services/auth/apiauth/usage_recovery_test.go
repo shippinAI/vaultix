@@ -32,7 +32,7 @@ func TestCheckAndDecrementUsesRemaining_ConcurrentRecoveryRespectsLimit(t *testi
 	const requests = 24
 	const limit = int64(5)
 	store.reads.Add(requests)
-	authenticator := &ApiAuthenticator{keyStore: store}
+	authenticator := &ApiAuthenticator{keyStore: store, identityPolicy: testIdentityPolicy(t)}
 	identityID := uuid.New()
 	results := make(chan error, requests)
 	var wg sync.WaitGroup
@@ -88,7 +88,7 @@ func TestCheckAndDecrementUsesRemaining_CacheFailureDenies(t *testing.T) {
 		t.Run(operation, func(t *testing.T) {
 			t.Parallel()
 			store := &failingUsageStore{KeyStore: keystore.NewMemoryKeyStore(), failAt: operation}
-			authenticator := &ApiAuthenticator{keyStore: store}
+			authenticator := &ApiAuthenticator{keyStore: store, identityPolicy: testIdentityPolicy(t)}
 			err := authenticator.checkAndDecrementUsesRemaining(context.Background(), uuid.New(), "failure-fixture", 5)
 			require.Error(t, err)
 			require.Equal(t, operation == "decrement", store.incremented)
@@ -104,7 +104,7 @@ func TestCheckAndDecrementUsesRemaining_InvalidStateDenies(t *testing.T) {
 	const tokenID = "invalid-state-fixture"
 	key := identityTokenUsesRemainingKey(identityID.String(), tokenID)
 	require.NoError(t, store.SetItem(ctx, key, "invalid-counter"))
-	authenticator := &ApiAuthenticator{keyStore: store}
+	authenticator := &ApiAuthenticator{keyStore: store, identityPolicy: testIdentityPolicy(t)}
 	require.Error(t, authenticator.checkAndDecrementUsesRemaining(ctx, identityID, tokenID, 5))
 	value, err := store.GetItem(ctx, key)
 	require.NoError(t, err)

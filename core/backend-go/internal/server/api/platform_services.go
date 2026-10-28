@@ -58,7 +58,13 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		PermissionService: permissionSvc,
 	})
 
-	apiAuthenticator := apiauth.NewApiAuthenticator(infra.Logger, infra.DB, infra.Config.AuthSecret, infra.KeyStore, assumePrivilegeSvc, shared.NewErrorHandler(infra.Logger))
+	apiAuthenticator, err := apiauth.NewApiAuthenticator(ctx, infra.Logger, &apiauth.AuthenticatorDeps{
+		DB: infra.DB, AuthSecret: infra.Config.AuthSecret, KeyStore: infra.KeyStore,
+		AssumePrivilege: assumePrivilegeSvc, ErrorHandler: shared.NewErrorHandler(infra.Logger), IdentityPolicy: infra.Config.IdentityTokenPolicy,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("authentication: %w", err)
+	}
 
 	auditLogSvc := auditlog.NewService(ctx, infra.Logger, &auditlog.Deps{
 		Queue:  infra.Queue,

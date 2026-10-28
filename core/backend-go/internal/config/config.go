@@ -29,6 +29,7 @@ const (
 )
 
 type Config struct {
+	IdentityTokenPolicy IdentityTokenPolicy
 	// Server
 	VaultixPlatformVersion                 string
 	KubernetesAutoFetchServiceAccountToken bool
@@ -723,6 +724,12 @@ func LoadConfig() (*Config, error) {
 	if err := l.Err(); err != nil {
 		return nil, err
 	}
+
+	policy, err := ParseIdentityTokenPolicy(os.Getenv("MAX_MACHINE_IDENTITY_TOKEN_AGE"), os.Getenv("LEGACY_IDENTITY_ACCESS_TOKEN_EXPIRATION_ENFORCED_AT"))
+	if err != nil {
+		return nil, err
+	}
+	cfg.IdentityTokenPolicy = policy
 
 	// Parse NODE_ENV
 	nodeEnvStr := os.Getenv("NODE_ENV")

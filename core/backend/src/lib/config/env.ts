@@ -10,8 +10,8 @@ import { TSuperAdminDALFactory } from "@app/services/super-admin/super-admin-dal
 import { BadRequestError } from "../errors";
 import { removeTrailingSlash } from "../fn";
 import { CustomLogger } from "../logger/logger";
-import { ms } from "../ms";
 import { zpStr } from "../zod";
+import { parseIdentityTokenMaxAge } from "./identity-token-policy";
 import { resolveVaultixEnvironment } from "./vaultix-environment";
 
 export const GITLAB_URL = "https://gitlab.com";
@@ -290,7 +290,17 @@ const envSchema = z
       z
         .string()
         .default("90d")
-        .transform((val) => Math.floor(ms(val) / 1000))
+        .transform((value, context) => {
+          try {
+            return parseIdentityTokenMaxAge(value);
+          } catch {
+            context.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "MAX_MACHINE_IDENTITY_TOKEN_AGE must resolve to 1 through 9223372036 whole seconds"
+            });
+            return z.NEVER;
+          }
+        })
     ),
     LEGACY_IDENTITY_ACCESS_TOKEN_EXPIRATION_ENFORCED_AT: zpStr(
       z.coerce.date().default(new Date("2026-05-04T00:00:00.000Z"))

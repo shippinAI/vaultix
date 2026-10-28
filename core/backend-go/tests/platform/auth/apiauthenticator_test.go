@@ -36,10 +36,18 @@ func TestMain(m *testing.M) {
 		WithPostgres().
 		WithRedis().
 		WithNodeJSApi().
+		WithIdentityTokenPolicy("2h", time.Now().Add(-24*time.Hour).UTC().Format(time.RFC3339Nano)).
 		MustStart()
 
 	memKeyStore = keystore.NewMemoryKeyStore()
-	authenticator = apiauth.NewApiAuthenticator(slog.Default(), stack.DB(), infra.AuthSecret, memKeyStore, nil, infra.NewNopErrorHandler())
+	var err error
+	authenticator, err = apiauth.NewApiAuthenticator(context.Background(), slog.New(slog.NewTextHandler(os.Stderr, nil)), &apiauth.AuthenticatorDeps{
+		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: memKeyStore, AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+	})
+	if err != nil {
+		stack.Stop()
+		panic(err)
+	}
 
 	code := m.Run()
 	stack.Stop()

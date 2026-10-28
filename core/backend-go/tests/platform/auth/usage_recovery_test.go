@@ -102,7 +102,10 @@ func TestIdentityUsageBudgetSharedWithCoreAPI(t *testing.T) {
 		defer cancel()
 		barrier := &usageReadBarrier{KeyStore: store, key: key, ready: make(chan struct{})}
 		barrier.remaining.Store(requests)
-		validator := apiauth.NewApiAuthenticator(slog.New(slog.NewTextHandler(io.Discard, nil)), stack.DB(), infra.AuthSecret, barrier, nil, infra.NewNopErrorHandler())
+		validator, err := apiauth.NewApiAuthenticator(ctx, slog.New(slog.NewTextHandler(io.Discard, nil)), &apiauth.AuthenticatorDeps{
+			DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: barrier, AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		})
+		require.NoError(t, err)
 		type result struct {
 			identity *auth.Identity
 			err      error

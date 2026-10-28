@@ -79,7 +79,7 @@ export const SecretDropzone = ({ onParsedSecrets, onAddSecret }: Props) => {
         {(isAllowed) => (
           <Empty
             className={twMerge(
-              "relative border !pb-20 transition-colors duration-75",
+              "relative border transition-colors duration-75 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background motion-reduce:transition-none",
               isAllowed && isDragActive && "bg-container-hover"
             )}
             onDragEnter={handleDrag}
@@ -103,19 +103,23 @@ export const SecretDropzone = ({ onParsedSecrets, onAddSecret }: Props) => {
               {isAllowed && (
                 <input
                   type="file"
+                  aria-label="Upload your secrets"
                   disabled={!isAllowed}
                   className="absolute top-0 left-0 z-10 h-full w-full cursor-pointer opacity-0"
                   accept=".txt,.env,.yml,.yaml,.json,.csv,.pfx,.pem,.crt"
                   onChange={handleFileUpload}
                 />
               )}
-              <div className="absolute z-20 flex flex-row justify-center gap-3">
+              <div className="relative z-20 flex w-full flex-wrap justify-center gap-3">
                 <Tooltip open={!isAllowed ? undefined : false}>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Button
                       variant="outline"
-                      isDisabled={!isAllowed}
-                      onClick={() => setIsPasteOpen(true)}
+                      aria-disabled={!isAllowed}
+                      className={!isAllowed ? "cursor-not-allowed opacity-50" : undefined}
+                      onClick={() => {
+                        if (isAllowed) setIsPasteOpen(true);
+                      }}
                     >
                       <ClipboardPasteIcon />
                       Paste Secrets
@@ -124,8 +128,15 @@ export const SecretDropzone = ({ onParsedSecrets, onAddSecret }: Props) => {
                   <TooltipContent>Access Denied</TooltipContent>
                 </Tooltip>
                 <Tooltip open={!isAllowed ? undefined : false}>
-                  <TooltipTrigger>
-                    <Button variant="project" isDisabled={!isAllowed} onClick={onAddSecret}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="project"
+                      aria-disabled={!isAllowed}
+                      className={!isAllowed ? "cursor-not-allowed opacity-50" : undefined}
+                      onClick={() => {
+                        if (isAllowed) onAddSecret();
+                      }}
+                    >
                       <PlusIcon />
                       Add a New Secret
                     </Button>
