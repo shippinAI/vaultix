@@ -12,8 +12,12 @@ import (
 	"shippin.cloud/vaultix/internal/cli"
 )
 
-const usage = `usage: vaultix <command>
-  login [--api URL] [--universal]   credentials on stdin (token, or client id + secret)
+func usageText() string {
+	name := cli.CommandName(os.Args[0])
+	return `usage: ` + name + ` <command>
+  login                         Nomen device-code login (browser link, no password)
+  login --universal             machine identity: client id and secret on stdin
+  login --token                 access token on stdin
   logout
   init --project SLUG --env ENV [--path /] [--key-file F]
   pull [--on-conflict ask|local|remote]    server -> local
@@ -21,7 +25,10 @@ const usage = `usage: vaultix <command>
   set KEY  (value on stdin)   rm KEY   ls (names only)
   run [--offline] -- CMD ARGS   pull, then run CMD with the secrets in its environment
   hook [bash|zsh]               print the pre-session pull snippet
-  daemon [--every 5m]           two-way sync loop (conflicts left for you)`
+  daemon [--every 5m]           two-way sync loop (conflicts left for you)
+
+Install this binary as infisical to keep that command name. The API paths are unchanged.`
+}
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
@@ -34,7 +41,7 @@ func main() {
 
 func dispatch(ctx context.Context, a []string) error {
 	if len(a) == 0 {
-		return fmt.Errorf("%s", usage)
+		return fmt.Errorf("%s", usageText())
 	}
 	cmd, rest := a[0], a[1:]
 	switch cmd {
@@ -83,5 +90,5 @@ func dispatch(ctx context.Context, a []string) error {
 		}
 		return cli.Daemon(ctx, every, os.Stdout)
 	}
-	return fmt.Errorf("unknown command %q\n%s", cmd, usage)
+	return fmt.Errorf("unknown command %q\n%s", cmd, usageText())
 }
