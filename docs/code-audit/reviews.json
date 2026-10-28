@@ -1256,10 +1256,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "ad2704e0d6aac5f41e8b066855b7889f48d018f6",
+      "blob": "7d0ec19192888c78b516774212850941a31192da",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete prior module review retained and full current file read. Eight authority queries now use primary for session version, user acceptance/locks, organization hierarchy, project tenant, legacy identity state, service token state, effective membership and trusted IPs. Existing validation, error propagation, scoped revocation, usage budget and claims remain. Controlled stale-schema and primary-failure tests distinguish authority routing from policy. Mixed direct/group precedence, legacy row binding, issuer replica paths, Nomen and complete native cutover remain open.",
+      "scope": "Complete prior module review retained and current full file read. Matching direct organization membership now has explicit priority after scope/status filtering, including inactive and null-status direct rows. Existing primary authority, validation/errors, group fallback, claims, revocation and budgets remain. Controlled baseline/repaired matrices and real issuer user deactivate/reactivate operations with an explicit session fixture verify this scope. Multiple-group ordering, issuer replica paths, legacy row/subject binding, Nomen and full native cutover remain open.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1308,7 +1308,21 @@
         ".cache/go-proof-1lgUPf/result.json",
         ".cache/authority-image-dragonfly.log",
         ".cache/authority-image-redis.log",
-        ".cache/app-image-proof-vLGe70/workflow-result.json"
+        ".cache/app-image-proof-vLGe70/workflow-result.json",
+        "docs/0043-native-membership-precedence.md",
+        ".cache/membership-baseline.json",
+        ".cache/membership-candidate.json",
+        ".cache/membership-lifecycle.json",
+        ".cache/membership-lifecycle-diagnostics.json",
+        ".cache/membership-lifecycle-corrected.json",
+        ".cache/membership-go-unit.jsonl",
+        ".cache/membership-go-lint-final.log",
+        ".cache/membership-production-source-comparison.json",
+        ".cache/go-proof-bNqRaC/result.json",
+        ".cache/go-proof-x2Dwce/result.json",
+        ".cache/membership-image-dragonfly.log",
+        ".cache/membership-image-redis.log",
+        ".cache/app-image-proof-UAkQBx/workflow-result.json"
       ]
     },
     {
@@ -2310,6 +2324,29 @@
         ".cache/authority-image-dragonfly.log",
         ".cache/authority-image-redis.log",
         ".cache/app-image-proof-vLGe70/workflow-result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/membership_precedence_test.go",
+      "blob": "568393176eefbb2d972bd17d0c598ae64c42d3c9",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored fixture read. Both actor types and dedicated/unified user/current/legacy identity paths exercise 13 policy scenarios on isolated schema snapshots with valid controls and no replica reads. Snapshot insertion order reproduces baseline differences but does not guarantee production plans; constraints are not copied. A separate real issuer invitation/group-link/deactivate/reactivate sequence uses explicit accepted-user/session/JWT fixtures and verifies HTTP/native outcomes while the group remains active. Initial zero-UUID fixture failure is recorded and corrected by omitting absent optional scope; this is not a real sign-in, machine lifecycle, Nomen or scale proof.",
+      "evidence": [
+        "docs/0043-native-membership-precedence.md",
+        ".cache/membership-baseline.json",
+        ".cache/membership-candidate.json",
+        ".cache/membership-lifecycle.json",
+        ".cache/membership-lifecycle-diagnostics.json",
+        ".cache/membership-lifecycle-corrected.json",
+        ".cache/membership-go-unit.jsonl",
+        ".cache/membership-go-lint-final.log",
+        ".cache/membership-production-source-comparison.json",
+        ".cache/go-proof-bNqRaC/result.json",
+        ".cache/go-proof-x2Dwce/result.json",
+        ".cache/membership-image-dragonfly.log",
+        ".cache/membership-image-redis.log",
+        ".cache/app-image-proof-UAkQBx/workflow-result.json"
       ]
     }
   ]

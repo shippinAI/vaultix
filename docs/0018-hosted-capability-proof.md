@@ -514,3 +514,20 @@ cache with eight external-KMS skips. The initial Dragonfly permission bootstrap
 timeout remains unexplained and recorded alongside its isolated and full passing
 reruns. Issuer replica reads, membership precedence, legacy subject binding,
 Nomen, native cutover and production topology remain separate gates.
+
+Native direct-membership precedence is recorded in
+[0043](0043-native-membership-precedence.md). The native validator now respects
+a matching direct organization membership before a group membership. The
+unchanged baseline reproduced 12 incorrect allows and 12 incorrect denials in
+controlled snapshots; the repaired 78 comparisons pass. A separate real issuer
+group-link/deactivate/reactivate sequence agrees with both native user entry
+points, using an explicitly manufactured user session rather than claiming
+real sign-in. Its initial zero-UUID fixture error and correction are recorded.
+Canonical image
+`sha256:29d86c909dd895021f9de0c8e121ac0e883743150402857e629ffe93feb283dd`
+passes both image/queue/restart suites and the real packaged browser workflow
+(`.cache/app-image-proof-UAkQBx`). Complete integration/race suites pass 473 tests
+per cache with eight external-KMS skips; 597 native unit/race tests and lint pass.
+Multiple-group ordering, issuer authority, legacy subject binding, Nomen and full
+native cutover remain open. Actions billing and unauthorized direct GHCR push
+still block confirmed registry publication; local images are not hosted proof.

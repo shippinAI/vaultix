@@ -717,12 +717,13 @@ func (a *ApiAuthenticator) deleteServiceTokenByID(ctx context.Context, id uuid.U
 	return err
 }
 
-// findEffectiveOrgMembership returns the first effective org membership for an actor (user or identity),
-// including direct membership and membership via groups.
-// Exact port of Node.js orgDAL.findEffectiveOrgMembership.
+// A matching direct membership takes precedence even when inactive. A group
+// cannot reactivate an actor whose direct organization membership was disabled.
 func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actorType auth.ActorType, actorID, orgID uuid.UUID, filterStatus string) (*membershipRow, error) {
 	var actorCondition string
+	directCondition := `membership."actorIdentityId" = @actorID`
 	if actorType == auth.ActorTypeUser {
+		directCondition = `membership."actorUserId" = @actorID`
 		actorCondition = `(
 			membership."actorUserId" = @actorID
 			OR membership."actorGroupId" IN (
@@ -754,8 +755,9 @@ func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actor
 		  AND membership."scopeOrgId" = @orgID
 		  AND %s
 		  AND (membership.status = @status OR membership.status IS NULL)
+		ORDER BY CASE WHEN %s THEN 0 ELSE 1 END
 		LIMIT 1
-	`, actorCondition)
+	`, actorCondition, directCondition)
 
 	args := pgx.NamedArgs{
 		"actorID": actorID,
