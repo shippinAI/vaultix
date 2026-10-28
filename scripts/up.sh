@@ -1,10 +1,10 @@
 #!/bin/bash
-# Bring up the native Vaultix engine. Hosted is the first release target.
+# Bring up the native Vaultix engine from a local build or explicitly selected image.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/compose"
 if [ ! -f vaultix.env ]; then
-  echo "copy compose/hosted.env.example (or self.env.example) to compose/vaultix.env and fill keys" >&2
+  echo "copy compose/self.env.example to compose/vaultix.env and fill keys" >&2
   exit 2
 fi
 
@@ -25,11 +25,11 @@ if compose -f vaultix.yml version >/dev/null 2>&1; then
     compose -f vaultix.yml pull
   fi
   if [[ -n "${VAULTIX_ENGINE_IMAGE:-}" || "${VAULTIX_PULL:-}" == "1" ]]; then
-    compose -f vaultix.yml up -d
+    compose -f vaultix.yml up -d --no-build
   else
     compose -f vaultix.yml up -d --build
   fi
-  echo "Vaultix engine: http://127.0.0.1:8200   (GHCR: ghcr.io/shippinai/vaultix)"
+  echo "Vaultix engine: http://127.0.0.1:8200"
   echo "Vaultix UI:     http://127.0.0.1:8200/"
   echo "Clyffy guide:   http://127.0.0.1:8200/api/v1/vaultix/mcp"
   exit 0

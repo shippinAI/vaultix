@@ -29,11 +29,11 @@ else
 fi
 
 if grep -q 'Dockerfile.standalone-vaultix' "$ROOT/compose/vaultix.yml" \
-   && grep -q 'ghcr.io/shippinai/vaultix' "$ROOT/compose/vaultix.yml" \
+   && grep -q 'VAULTIX_ENGINE_IMAGE:-vaultix:local' "$ROOT/compose/vaultix.yml" \
    && ! grep -q 'vaultix/vaultix:' "$ROOT/compose/vaultix.yml"; then
-  ok "compose uses ghcr.io/shippinai/vaultix (build Dockerfile.standalone-vaultix)"
+  ok "compose defaults to the local Vaultix canonical build"
 else
-  bad "compose missing GHCR image or still points at leftover image"
+  bad "compose missing the local canonical image default or points at a leftover image"
 fi
 
 if grep -q 'org.opencontainers.image.title="Vaultix"' "$ROOT/core/Dockerfile.standalone-vaultix" \

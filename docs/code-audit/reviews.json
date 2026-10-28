@@ -1106,10 +1106,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "da88ab82b56cf3519e057fa82ba0f8ff037d54d0",
+      "blob": "c8fbfe9f525685b5fc7829729d1af1a1b4358d2b",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current workflow read; existing source/image identity, build, native/cache/browser and release promotion gates retained. Adds retention of dashboard-create JSON evidence; current ordered image proof accepted locally. Cloud execution/publication remains unverified while account billing blocks jobs before steps.",
+      "scope": "Complete current workflow read. Automatic push/tag triggers removed in favor of workflow_dispatch per owner self-hosted direction. All existing optional cloud build, source/image identity, cache/browser/capability and publication gates retained. YAML parse verifies manual-only trigger. Cloud ephemeral-runner cleanup remains cloud-only; no self-hosted runner registered. Existing cloud billing/publication gates are not required by new local build path.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1159,7 +1159,11 @@
         ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
-        ".cache/dashboard-commit-lint-final.log"
+        ".cache/dashboard-commit-lint-final.log",
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
       ]
     },
     {
@@ -2091,17 +2095,21 @@
     },
     {
       "path": "scripts/publish-github.sh",
-      "blob": "67db1f3b2b62b6d2da040fea29c3bc199289bf2a",
+      "blob": "5317d57aa1a2f44f630b056cc3a916607c17f4b9",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete legacy and authored script read. Replaced fresh-history staging and excluded Dockerfiles with publication of clean committed main, explicit destination/build-input/ancestry gates and ordinary checked-SHA push. Refuses force/fetch/global auth/repository creation and fails without fallback; readonly preflight separate from source/image publication. Actual Git fixtures include concurrent non-fast-forward denial; real GHCR execution still blocked externally. Actual live preflight exposed a nonexistent FIPS build prerequisite; corrected to existing core/panel inputs, and fixtures now copy those real repository files. Failed live check never pushed.",
+      "scope": "Complete current script read. Existing clean-main, exact destination, ancestry and checked-SHA ordinary push behavior retained. Output now directs operator to local verified builds and accurately identifies manual-only Actions. All 23 actual local Git history/failure fixtures pass. Source publication remains distinct from tested image and deployment.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
         ".cache/publication-artifact-comparison.json",
         ".cache/publication-proof-FoKjYh/result.json",
-        ".cache/publication-live-preflight.log"
+        ".cache/publication-live-preflight.log",
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
       ]
     },
     {
@@ -2364,14 +2372,18 @@
     },
     {
       "path": "README.md",
-      "blob": "dad6512690464eb3d7522c1c2edd1a351bc038ca",
+      "blob": "ceece66f8e70a9b33b578053629a73235664c62f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete README read. Added reviewed-main publication commands and exact-commit/remote ancestry behavior; distinguishes source push from GHCR publication/deployment and links 0041. Existing CLI, AI and deployment descriptions retained with their stated limitations; no new provider or subscription integration claim.",
+      "scope": "Complete README read. Self-hosted build and verification now precede deployment; source publication and optional manual cloud image builds distinguished. Existing core/API/Clyffy/store/migration limitations retained. Commands link exact prerequisite/receipt scope; remote hardware deployment and whole-product parity remain unproven.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json"
+        ".cache/publication-artifact-comparison.json",
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
       ]
     },
     {
@@ -2757,6 +2769,84 @@
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
         ".cache/dashboard-commit-lint-final.log"
+      ]
+    },
+    {
+      "path": "scripts/build-self-hosted.mjs",
+      "blob": "91d46afdcc26a6a8b519c4377e2791669e847463",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new local build orchestrator read. Requires clean committed source and local prerequisites, archives canonical core excluding ignored operator files, verifies image identity and actual-image/cache gates by immutable ID, offers existing Go/backend suites, records per-step failure and refuses success after source/tag mutation. Checkout lock preserves other invocations. Nine orchestration fixtures pass with real Git/tar and simulated Docker/gates; actual application run remains a separate gate. No registry push, deployment, destructive cleanup or capability-parity claim. Shared capability test-stage tags require one capability run per daemon.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-self-hosted-build.mjs",
+      "blob": "c6de1e99ac5f2b68565566ce7d732773c40d4233",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete new fixture runner read. Disposable local Git repositories preserve history, pending changes and ignored operator configuration. Node preload substitutes Docker/gates only in child fixtures; real archive/extraction assertions exclude ignored values/dependencies. Tests preflight, success modes, dirty source, lock ownership, early build/application failure, concurrent source/tag mutation and immutable-image test arguments. This proves orchestration behavior, not application capabilities.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": "scripts/up.sh",
+      "blob": "f9a7b093ebd47961121f3fb0d84c8b29098afbb6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete current launcher read. Self-hosted setup guidance and local build defaults authored. An explicitly selected image uses no-build so the tested image is not silently rebuilt from ambient source. Docker/Podman fallback and explicit registry pull remain; existing operator env, keys and volumes retained. Actual server deployment remains pending target input; local render evidence does not certify Podman or server operation.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": "compose/vaultix.yml",
+      "blob": "57f7a2a51f5f9b1433afe01775131fceed099ce4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete manifest read. Application and optional panel default to locally built tags, canonical standalone Dockerfile retained, explicit source revision build args supported. Real Compose fixture render verifies defaults, immutable image override, Dragonfly, loopback binding and unchanged volume definitions. Existing operational env/cache/provider options, health checks and encrypted PostgreSQL store retained. No operator env inspected, production changes, HA or restore claim.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": "scripts/check-owned.sh",
+      "blob": "bd596fb1097dfad2e4e071ba051da0ea532fb658",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete current check read. Canonical local image default replaces mandatory GHCR default; product source/artwork, frozen archive and default license behavior checks retained. Actual owned-source check passes. This static guard establishes only its enumerated checks, not whole-product authorship.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/owned.yml",
+      "blob": "a518913e14d87cd054146c26fd4b24b8479f4f1b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete workflow read. Automatic push/PR triggers removed, manual dispatch and existing source/panel gates retained. YAML parse verifies manual-only trigger. Does not claim cloud or remote-server execution.",
+      "evidence": [
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-fixtures-WxeKDm/result.json",
+        ".cache/publication-proof-cvitRq/result.json",
+        ".cache/self-hosted-compose-Bod5ym/result.json"
       ]
     }
   ]

@@ -3,7 +3,7 @@
 **Secrets you own. Built for Secrets and AI.**
 
 Vaultix is developed in place in `core/`: the secrets engine, its UI, and its
-API ship together in `ghcr.io/shippinai/vaultix`. Owner: AngryVibes LLC.
+API ship together in the locally built Vaultix image. Owner: AngryVibes LLC.
 Host: shippin.ai.
 
 **Vaultix.cloud** is the primary product; **DevSCIF.com** is the enterprise and
@@ -27,14 +27,19 @@ native UI migration are **in progress**, not release claims.
 
 ## Run your instance
 
-The first release target is **hosted Vaultix operated by shippin.ai**.
-See [hosted capability verification](docs/0018-hosted-capability-proof.md).
+The current delivery priority is **self-hosted Vaultix on the owner's hardware**.
+Builds and verification run locally; GitHub Actions and GHCR are optional.
+See [self-hosted builds and review](docs/0048-self-hosted-builds.md).
 
-1. Copy `compose/hosted.env.example` to `compose/vaultix.env` for the hosted
-   deployment. The self-hosted alternative is `compose/self.env.example`.
+1. For a new instance, copy `compose/self.env.example` to `compose/vaultix.env`.
+   Keep an existing operator configuration when upgrading.
 2. Set your public URL, database password, encryption key, and authentication
    secret. Preserve existing encryption keys when upgrading.
-3. Run `bash scripts/up.sh`.
+3. Build and verify committed source with `node scripts/build-self-hosted.mjs`
+   after preparing the prerequisites in the self-hosted guide. Set
+   `VAULTIX_ENGINE_IMAGE` to the successful receipt's image ID, then run
+   `bash scripts/up.sh`. With no image override, `up.sh` builds local development
+   source; that shortcut does not produce an acceptance receipt.
 4. Open **http://127.0.0.1:8200/**. Health: `GET /api/status`.
 
 The root opens the full application: first-instance setup when needed, login
@@ -113,9 +118,10 @@ bash scripts/publish-github.sh --push
 
 The preflight verifies the existing destination, committed Dockerfiles and remote
 ancestry. Publication preserves Git history and pushes the checked commit. It
-does not create a repository or configure authentication. Verify the GHCR run for
-that commit before deploying its image; a successful source push is not image
-publication. See [publication acceptance](docs/0041-publication-history.md).
+does not create a repository or configure authentication. Pushes do not start
+cloud Actions; both workflows are manual-only. Build and verify the commit on
+your own hardware. A successful source push is not image publication or
+deployment. See [publication acceptance](docs/0041-publication-history.md).
 
 ```sh
 node scripts/test-publication.mjs

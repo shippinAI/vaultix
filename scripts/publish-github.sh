@@ -62,5 +62,5 @@ pending="$(git status --porcelain=v1 --untracked-files=normal)" || fail "Cannot 
 # Push the checked object, not a branch name that can move during verification.
 git push "$destination" "$head:refs/heads/main" || fail "Source push failed. No force push or retry was attempted."
 printf 'Published source commit: https://github.com/%s/%s/commit/%s\n' "$OWNER" "$REPO" "$head"
-printf 'Verify the GHCR workflow before using an image: https://github.com/%s/%s/actions/workflows/ghcr.yml\n' "$OWNER" "$REPO"
+printf '%s\n' 'Build and verify on your own server: node scripts/build-self-hosted.mjs' 'GitHub Actions workflows are manual-only; source pushes do not start cloud builds.'
 printf '%s\n' 'A source push does not establish a published or deployed container image.'

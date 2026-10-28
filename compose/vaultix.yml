@@ -1,6 +1,6 @@
 # Panel is the Shippin overlay (PIN, lessons, Clyffy). It is not the vault.
 #
-# Images (after Actions → GHCR on shippinAI/vaultix):
+# Optional registry images (local builds are the default):
 #   ghcr.io/shippinai/vaultix
 #   ghcr.io/shippinai/vaultix-panel
 # Override to build from this tree: unset VAULTIX_ENGINE_IMAGE / VAULTIX_PANEL_IMAGE
@@ -16,12 +16,13 @@ name: vaultix
 services:
   backend:
     init: true
-    image: ${VAULTIX_ENGINE_IMAGE:-ghcr.io/shippinai/vaultix:latest}
+    image: ${VAULTIX_ENGINE_IMAGE:-vaultix:local}
     build:
       context: ../core
       dockerfile: Dockerfile.standalone-vaultix
       args:
         VAULTIX_PLATFORM_VERSION: "0.162.19"
+        VAULTIX_SOURCE_REVISION: ${VAULTIX_SOURCE_REVISION:-uncommitted}
     restart: unless-stopped
     env_file:
       - ./vaultix.env
@@ -48,10 +49,12 @@ services:
 
   panel:
     profiles: ["panel"]
-    image: ${VAULTIX_PANEL_IMAGE:-ghcr.io/shippinai/vaultix-panel:latest}
+    image: ${VAULTIX_PANEL_IMAGE:-vaultix-panel:local}
     build:
       context: ../panel
       dockerfile: Dockerfile
+      args:
+        VAULTIX_SOURCE_REVISION: ${VAULTIX_SOURCE_REVISION:-uncommitted}
     restart: unless-stopped
     env_file:
       - ./vaultix.env

@@ -1,6 +1,6 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	da88ab82b56cf3519e057fa82ba0f8ff037d54d0	authored
-.github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	c8fbfe9f525685b5fc7829729d1af1a1b4358d2b	authored
+.github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	authored
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
 branding/mark.svg	branding	ui	supporting-tooling-or-contract	svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
@@ -13,7 +13,7 @@ compose/cache-redis.yml	compose	delivery	supporting-tooling-or-contract	yml	3601
 compose/hosted.env.example	compose	delivery	supporting-tooling-or-contract	example	a6cde1701f0a4158a8322ea0f0a3b6385fbd42a6	unread
 compose/instances.json	compose	delivery	supporting-tooling-or-contract	json	b503980ffd2f92787b81675b7e043acf3658816c	unread
 compose/self.env.example	compose	delivery	supporting-tooling-or-contract	example	96c49544e88eeeba4385dcdf06a66892d99a3c44	unread
-compose/vaultix.yml	compose	delivery	supporting-tooling-or-contract	yml	e617a8f55d3a1cbb30e24bebb2a3dca3a5d81714	unread
+compose/vaultix.yml	compose	delivery	supporting-tooling-or-contract	yml	57f7a2a51f5f9b1433afe01775131fceed099ce4	verified
 contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-or-contract	json	9e6fcebba7030c08db0d6b8f1e7128c7dcc709fd	unread
 contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	5df376a64d09a753422b58f778cfd17a40550008	unread
 contracts/vaultix.core.v1.json	contracts	foundation	supporting-tooling-or-contract	json	c75da452892984cc6f06cc3c880f9f63a1502aae	unread
@@ -9339,14 +9339,15 @@ panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	53007168503d9f
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	authored
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	91d46afdcc26a6a8b519c4377e2791669e847463	authored
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
-scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	unread
+scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	bd596fb1097dfad2e4e071ba051da0ea532fb658	verified
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	verified
-scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	67db1f3b2b62b6d2da040fea29c3bc199289bf2a	verified
+scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	5317d57aa1a2f44f630b056cc3a916607c17f4b9	verified
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	901f3eaf8081d881ed1d65260bd2b677fd385d45	verified
@@ -9374,5 +9375,6 @@ scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	303254db93e9891bc8a2628977e0c0243476ce72	verified
+scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c6de1e99ac5f2b68565566ce7d732773c40d4233	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
-scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	unread
+scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored

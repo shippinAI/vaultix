@@ -10,6 +10,13 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction (2026-10-25)
 
+Self-hosted delivery priority (2026-10-28): build and verify on the owner's
+bare-metal infrastructure without requiring GitHub Actions or GHCR. Read
+`docs/0048-self-hosted-builds.md`. GitHub is source hosting; cloud workflows are
+manual-only. Keep local previews visible and ask for UI/art direction when a
+concrete design choice needs it. This supersedes the hosted-first release order
+below, not capability, security or regression gates.
+
 Native stack and AI lifecycle plan (2026-10-27): read
 `docs/0027-native-stack-and-ai-migration.md` and `docs/migration/README.md`.
 Target native React workflows, Go domain services and scoped Rust delivery/protocol
@@ -120,8 +127,9 @@ scripts/check-owned.sh
 # engine (native): scripts/run-core.sh
 # UI (native):     cd core/frontend && npx vite --host 127.0.0.1 --port 3000
 # compose: copy compose/self.env.example → compose/vaultix.env, then scripts/up.sh
-# GHCR:    bash scripts/publish-github.sh
-#          images ghcr.io/shippinai/vaultix and ghcr.io/shippinai/vaultix-panel
+# verified local image: node scripts/build-self-hosted.mjs
+# GitHub source only:   bash scripts/publish-github.sh
+# optional GHCR builds require manual Actions dispatch
 ```
 
 Engine: `GET http://127.0.0.1:8200/api/status` and UI `http://127.0.0.1:3000`.
