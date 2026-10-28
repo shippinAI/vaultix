@@ -99,6 +99,56 @@ describe("native Vaultix HTTP API", () => {
     expect(denied.json<{ error: { code: number } }>().error.code).toBe(-32602);
     expect(denied.body).not.toContain("CANARY-SECRET");
   });
+  test("generates a learning profile from the current user context", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/learning-context",
+      payload: {
+        area: "references",
+        project: "payments",
+        environment: "production",
+        path: "/service/api",
+        action: "Show References",
+        interactions: 4
+      }
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toMatchObject({
+      schemaVersion: "vaultix.learning.v1",
+      skillLevel: "advanced",
+      trackedContext: expect.any(Array)
+    });
+    expect(response.body).not.toContain("secret");
+  });
+
+  test("supports the learning profile tool with explicit context arguments", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: {
+        jsonrpc: "2.0",
+        id: 7,
+        method: "tools/call",
+        params: {
+          name: "vaultix.learning.profile.get",
+          arguments: {
+            area: "connections",
+            project: "billing",
+            environment: "staging",
+            interactions: 2
+          }
+        }
+      }
+    });
+    expect(response.statusCode).toBe(200);
+    const data = JSON.parse(response.json<{ result: { content: Array<{ text: string }> } }>().result.content[0].text);
+    expect(data).toMatchObject({
+      schemaVersion: "vaultix.learning.v1",
+      skillLevel: "intermediate",
+      trackedContext: expect.arrayContaining(["connections", "billing", "staging"])
+    });
+  });
+
   test("bounds body sizes and acknowledges MCP notifications", async () => {
     const response = await app.inject({
       method: "POST",

@@ -55,7 +55,7 @@ func TestMCPCatalogTool(t *testing.T) {
 	code, call := f.call(t, "POST", "/api/v1/vaultix/mcp", "jessay", "", map[string]any{
 		"jsonrpc": "2.0", "id": 2, "method": "tools/call",
 		"params": map[string]any{
-			"name": "vaultix.runtime.answer",
+			"name":      "vaultix.runtime.answer",
 			"arguments": map[string]any{"kind": "route-opened", "routeId": "route.configure"},
 		},
 	})
@@ -63,7 +63,7 @@ func TestMCPCatalogTool(t *testing.T) {
 		t.Fatalf("mcp call: %d %v", code, call)
 	}
 	raw, _ := json.Marshal(call)
-	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
+	if strings.Contains(strings.ToLower(string(raw)), "valutix") {
 		t.Fatal("mcp leftover brand")
 	}
 	if !strings.Contains(string(raw), "catalog") {

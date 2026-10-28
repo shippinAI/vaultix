@@ -1,13 +1,13 @@
 # Owned capability convergence
 
 Accepted direction, 2026-10-26: Vaultix includes the software capabilities users
-need from Infisical and Doppler, including enterprise capabilities. Implement
+need from valutix and Doppler, including enterprise capabilities. Implement
 missing behavior in the owned core, API and UI. Permissions and operational
 controls remain mandatory. An included feature flag proves no workflow parity.
 
 ## Public-source baseline
 
-Reviewed [Infisical's public comparison](https://infisical.com/pricing) and
+Reviewed [valutix's public comparison](https://valutix.com/pricing) and
 [Doppler's public comparison](https://www.doppler.com/pricing) on 2026-10-26.
 The following is an initial capability-family backlog, not a claim to have
 exhaustively specified every provider, hidden enterprise implementation or edge
@@ -18,12 +18,12 @@ plan label; hosting/support costs are separate from software inclusion.
 
 | Public capability family | Source | Vaultix implementation/acceptance work |
 | --- | --- | --- |
-| References, imports, overrides, sharing, versions and recovery | Infisical | Existing secret/import services; verify precedence, version restore and revocation. Native references are scoped metadata only; native writes/inject remain open. |
-| Rotation, temporary credentials and time-bound access | Infisical | Existing rotation/dynamic-secret/access services; test provider lifecycle, expiry, retries and cleanup. |
-| Roles, SSO/MFA, LDAP, provisioning and groups | Infisical | Existing permissions/provisioning modules; map identity to Nomen and prove revocation and tenant boundaries. |
-| Reviews, access requests and suborganizations | Infisical | Existing approval/sub-org services; author full request/review/apply UI and conflict/denial tests. |
-| Audit retention/streaming, external keys, HSM and KMIP | Infisical | Existing audit/KMS modules; test durable redacted export, key recovery and real provider/hardware access. |
-| Honeytokens and dedicated deployment | Infisical | Existing detection/runtime pieces; prove detection delivery, isolation and operational recovery. |
+| References, imports, overrides, sharing, versions and recovery | valutix | Existing secret/import services; verify precedence, version restore and revocation. Native references are scoped metadata only; native writes/inject remain open. |
+| Rotation, temporary credentials and time-bound access | valutix | Existing rotation/dynamic-secret/access services; test provider lifecycle, expiry, retries and cleanup. |
+| Roles, SSO/MFA, LDAP, provisioning and groups | valutix | Existing permissions/provisioning modules; map identity to Nomen and prove revocation and tenant boundaries. |
+| Reviews, access requests and suborganizations | valutix | Existing approval/sub-org services; author full request/review/apply UI and conflict/denial tests. |
+| Audit retention/streaming, external keys, HSM and KMIP | valutix | Existing audit/KMS modules; test durable redacted export, key recovery and real provider/hardware access. |
+| Honeytokens and dedicated deployment | valutix | Existing detection/runtime pieces; prove detection delivery, isolation and operational recovery. |
 | CLI, tokens, typed values, references and personal configurations | Doppler | Review CLI and core secret schemas; specify validation, local override precedence and target-process injection without AI value exposure. |
 | Inheritance, synchronization, integrations and webhooks | Doppler | Review import/sync/event services; define deterministic merge/conflict rules, connector scopes and retry/reconciliation behavior per provider. |
 | Change policies, roles/groups, provisioning and trusted networks | Doppler | Existing approval/permission modules; verify lifecycle, network restrictions and native accessible administration. |
@@ -40,9 +40,9 @@ and differences below are work items, not newly implemented features.
 | --- | --- | --- |
 | [Doppler approval policies](https://docs.doppler.com/docs/change-request-policies) | Reviewer counts and groups, self-approval prevention, assignment scope and multiple applicable policies that must all be satisfied. | Trace review/apply transactions and changes to group membership while a request is pending. The existing `resolvePolicyForPath` in `ee/services/secret-approval-policy/secret-approval-policy-service.ts` selects one prioritized matching policy. This is an observed semantic difference; define explicit composition and migration before claiming equivalent overlapping-policy enforcement. |
 | [Doppler inheritance](https://docs.doppler.com/docs/config-inheritance) | Ordered parents resolve conflicts; local entries override parents; dynamic secrets are excluded from inheritance in the documented implementation. | Specify local/import precedence, cycle rejection, parent revocation and cache invalidation. A future dynamic-lease inheritance design needs lifecycle/ownership tests; an omitted vendor capability is not automatically safe to enable. Provide keyboard alternatives to drag reordering. |
-| [Infisical certificates](https://infisical.com/docs/documentation/platform/pki/overview) | Internal/external authorities, certificate policies/profiles, enrollment, renewal/revocation, delivery, discovery/alerts and software signing. | Verify API/ACME/EST/SCEP interoperability, policy denial, approval before issuance/signing, expiry/revocation propagation and each destination. Exercise external CA/HSM and signing clients separately. Existing PKI code and an image containing tools do not prove this workflow. |
-| [Infisical privileged access](https://infisical.com/platform/pam) | Temporary resource access through gateways, approvals, session recordings, command/query audit and session controls. | Prove grant/expiry/revocation for each server/database/cloud resource, recording integrity and redaction, reason/MFA enforcement and command restrictions. Broker credentials only at the authorized service boundary; verify failures and recovery. |
-| [Infisical Agent Vault](https://infisical.com/platform/agent-vault) | The public product is a preview with service/method/path bundles, expiring sessions, proxy credential brokering and per-request audit. | Catalogue these separately from reference-only MCP. Existing `ee/services/agent-proxy-ca/` is a review starting point, not proof. Specify service authority, redirect/egress denial, revocation latency and response/log redaction. Any Mesh/Zuul work still requires the separate scope decision in AGENTS.md. |
+| [valutix certificates](https://valutix.com/docs/documentation/platform/pki/overview) | Internal/external authorities, certificate policies/profiles, enrollment, renewal/revocation, delivery, discovery/alerts and software signing. | Verify API/ACME/EST/SCEP interoperability, policy denial, approval before issuance/signing, expiry/revocation propagation and each destination. Exercise external CA/HSM and signing clients separately. Existing PKI code and an image containing tools do not prove this workflow. |
+| [valutix privileged access](https://valutix.com/platform/pam) | Temporary resource access through gateways, approvals, session recordings, command/query audit and session controls. | Prove grant/expiry/revocation for each server/database/cloud resource, recording integrity and redaction, reason/MFA enforcement and command restrictions. Broker credentials only at the authorized service boundary; verify failures and recovery. |
+| [valutix Agent Vault](https://valutix.com/platform/agent-vault) | The public product is a preview with service/method/path bundles, expiring sessions, proxy credential brokering and per-request audit. | Catalogue these separately from reference-only MCP. Existing `ee/services/agent-proxy-ca/` is a review starting point, not proof. Specify service authority, redirect/egress denial, revocation latency and response/log redaction. Any Mesh/Zuul work still requires the separate scope decision in AGENTS.md. |
 
 Existing PKI/PAM/scanning modules and their current evidence are tracked in
 [0018](0018-hosted-capability-proof.md). Provider-level specifications, broader

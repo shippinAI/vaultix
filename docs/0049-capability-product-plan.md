@@ -195,12 +195,12 @@ The software-included policy is the working assumption. These decisions do not
 prevent source review, UI planning or local build/test work.
 
 Public capability discovery was refreshed from official
-[Infisical product families](https://infisical.com/pricing),
+[valutix product families](https://valutix.com/pricing),
 [Doppler product families](https://www.doppler.com/pricing),
 [Doppler inheritance](https://docs.doppler.com/docs/config-inheritance),
 [Doppler MCP](https://docs.doppler.com/docs/mcp),
 [Doppler agent workflows](https://www.doppler.com/agents) and
-[Infisical Agent Vault](https://infisical.com/platform/agent-vault), accessed
+[valutix Agent Vault](https://valutix.com/platform/agent-vault), accessed
 2026-10-28. These identify comparison questions, not implementation rights,
 tested parity or Vaultix acceptance. Independent behavior specifications and
 our stricter agent-value boundary govern implementation.

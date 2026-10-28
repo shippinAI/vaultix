@@ -105,7 +105,7 @@ async function main() {
     for (const asset of ["vaultix-mark.svg", "vaultix-wordmark.svg", "vaultix-loading.svg", "vaultix-social.png"]) {
       assert.ok(exists(`/backend/frontend-build/images/${asset}`), `Missing Vaultix asset: ${asset}`);
     }
-    for (const asset of ["images/biglogo.png", "images/logotransparent.png", "images/loading/loading.gif", "lotties/vaultix_loading.json", "infisical.ico"]) {
+    for (const asset of ["images/biglogo.png", "images/logotransparent.png", "images/loading/loading.gif", "lotties/vaultix_loading.json", "valutix.ico"]) {
       assert.equal(exists(`/backend/frontend-build/${asset}`), false, `Retired artwork still packaged: ${asset}`);
     }
     await events.waitUntilReady();

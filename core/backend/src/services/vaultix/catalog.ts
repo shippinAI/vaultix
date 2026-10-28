@@ -54,6 +54,24 @@ export type VaultixCapabilityFamily = {
   category: string;
 };
 
+export type VaultixLearningContext = {
+  area?: "references" | "connections" | "organization" | "owner" | "admin" | "general";
+  project?: string;
+  environment?: string;
+  path?: string;
+  connection?: string;
+  search?: string;
+  action?: string;
+  interactions?: number;
+};
+
+export type VaultixLearningMemory = {
+  schemaVersion: "vaultix.learning.v1";
+  skillLevel: "starter" | "intermediate" | "advanced";
+  trackedContext: string[];
+  recentEvents: Array<{ id: string; label: string; at: string }>;
+};
+
 const didYouKnow: VaultixKnowledgeSignal[] = [
   {
     id: "ref-names-not-values",
@@ -95,6 +113,38 @@ const knowledgeDrops: VaultixKnowledgeSignal[] = [
     source: "catalog"
   }
 ];
+
+const normalizeLearningContext = (values: Array<string | undefined>) =>
+  [...new Set(values.filter(Boolean).map((value) => value!.trim().toLowerCase()).filter(Boolean))].slice(0, 6);
+
+export const buildVaultixLearningMemory = (
+  context: VaultixLearningContext = {}
+): VaultixLearningMemory => {
+  const trackedContext = normalizeLearningContext([
+    context.area,
+    context.project,
+    context.environment,
+    context.path,
+    context.connection,
+    context.search,
+    context.action
+  ]);
+  const skillLevel = trackedContext.length + (context.interactions ?? 0) >= 6 ? "advanced" : trackedContext.length + (context.interactions ?? 0) >= 3 ? "intermediate" : "starter";
+  const recentEvents = [
+    context.project && { id: "project-selected", label: `Project: ${context.project}`, at: new Date().toISOString() },
+    context.environment && { id: "environment-selected", label: `Environment: ${context.environment}`, at: new Date().toISOString() },
+    context.path && { id: "path-selected", label: `Path: ${context.path}`, at: new Date().toISOString() },
+    context.connection && { id: "connection-selected", label: `Connection: ${context.connection}`, at: new Date().toISOString() },
+    context.action && { id: "action-selected", label: `Action: ${context.action}`, at: new Date().toISOString() }
+  ].filter(Boolean) as Array<{ id: string; label: string; at: string }>;
+
+  return {
+    schemaVersion: "vaultix.learning.v1",
+    skillLevel,
+    trackedContext,
+    recentEvents: recentEvents.slice(0, 5)
+  };
+};
 
 export const getVaultixCatalog = () => {
   const enterpriseCapabilities: VaultixCapabilityFamily[] = [
@@ -299,6 +349,10 @@ export const vaultixTools = [
   {
     name: "vaultix.specialist.instructions",
     description: "Read Clyffy's instructions and current capability boundaries."
+  },
+  {
+    name: "vaultix.learning.profile.get",
+    description: "Read an authored teaching profile for the current project, connection, or app context."
   }
 ].map((tool) => ({
   ...tool,
@@ -306,7 +360,7 @@ export const vaultixTools = [
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
 }));
 
-export const readVaultixTool = (name: string) => {
+export const readVaultixTool = (name: string, args?: Record<string, unknown>) => {
   switch (name) {
     case "vaultix.guidance.get":
       return getVaultixGuidance();
@@ -318,6 +372,8 @@ export const readVaultixTool = (name: string) => {
       return getVaultixConnections();
     case "vaultix.specialist.instructions":
       return { instructions: specialistInstructions };
+    case "vaultix.learning.profile.get":
+      return buildVaultixLearningMemory(args as VaultixLearningContext | undefined);
     default:
       return undefined;
   }
