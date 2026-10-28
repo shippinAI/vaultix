@@ -3,7 +3,9 @@
 Accepted direction, 2026-10-28. The owner has three bare-metal servers and wants
 to build and operate Vaultix there. This supersedes the hosted-first delivery
 order in 0018. It does not reduce capability, authorization, accessibility or
-store-preservation requirements.
+store-preservation requirements. The public-service target is clarified in
+[0054](0054-public-cloud-service.md): owned bare-metal infrastructure runs
+Vaultix.cloud; local build ownership does not replace public-cloud acceptance.
 
 ## Delivery boundary
 

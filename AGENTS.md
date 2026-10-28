@@ -10,6 +10,13 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction (2026-10-25)
 
+Public cloud target (2026-10-28): Vaultix.cloud is a true public cloud service
+operated on owned infrastructure, with the same engine available for self-hosting.
+Read `docs/0054-public-cloud-service.md`. Local builds are the delivery method,
+not the production scale target. Tenant isolation, public enrollment, durability,
+quotas, measured capacity, recovery and availability are explicit release gates.
+Do not equate a working Compose instance or extra replicas with cloud readiness.
+
 Self-hosted delivery priority (2026-10-28): build and verify on the owner's
 bare-metal infrastructure without requiring GitHub Actions or GHCR. Read
 `docs/0048-self-hosted-builds.md`. GitHub is source hosting; cloud workflows are

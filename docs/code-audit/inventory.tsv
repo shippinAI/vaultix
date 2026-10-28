@@ -2,7 +2,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	c8fbfe9f525685b5fc7829729d1af1a1b4358d2b	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	3d7cf33f5660e76b0cc384a022d7c18332405d6f	product-code	unread
-AGENTS.md	beb4fd5f49e00f0062c6a6cb68693afaf3884350	documentation	unread
+AGENTS.md	b58c96c5ab0b857f0bc6f9e6daa3559eda28fe83	documentation	unread
 JOURNAL.md	75e6cc2c947e1175b4de09bef9b66c80ec9e6f64	documentation	unread
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
 README.md	26fa5d081c5630c7ce29be8405becaedcb905eeb	documentation	verified
@@ -11688,12 +11688,13 @@ docs/0044-create-secret-workflow.md	b9d873f523368e4e5696ffd773948d428f9732c3	doc
 docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7c	documentation	unread
 docs/0046-dashboard-reference-editor.md	e2c5d14352ae2fd5376b6e79b086d7a8a854ff75	documentation	unread
 docs/0047-dashboard-create-workflow.md	25e0c8c86bfa860d2553938d893af997777612c6	documentation	unread
-docs/0048-self-hosted-builds.md	9bbff89995cb680f63e3b433d7781638ed77c3b3	documentation	unread
+docs/0048-self-hosted-builds.md	3627b08c0cd71da4dec852ded4dbc8e68d7d75a1	documentation	unread
 docs/0049-capability-product-plan.md	10bfc4901d2357d22aea55302300e999034a068d	documentation	authored
 docs/0050-organization-first-setup.md	fa601423994675aa6c8e7f1be09e963eaf0fc992	documentation	verified
 docs/0051-first-owner-transaction.md	a891cb926557f65c6474f5d50ad6fc4b550fab11	documentation	verified
 docs/0052-learning-and-upload-integration.md	382ecff07c48ce8355b28c78ff46e5c33182e8f8	documentation	unread
 docs/0053-authenticated-environment-teaching.md	9b3931daf62f2f670a7ae7f7c209fef02dbce822	documentation	unread
+docs/0054-public-cloud-service.md	9f17a4f461a882aa252b0f69c54a167d90a9cede	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
