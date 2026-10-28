@@ -3473,23 +3473,25 @@
     {
       "path": "scripts/test-encrypted-recovery.mjs",
       "blob": "e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows.",
+      "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows. Committed canonical image f1656cc1 passes all nine real recovery checks and owned-resource cleanup. Redacted receipt includes explicit excluded cloud requirements. No operator data or runtime source changed.",
       "evidence": [
         "docs/0055-encrypted-recovery.md",
-        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
+        ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json"
       ]
     },
     {
       "path": "docs/0055-encrypted-recovery.md",
-      "blob": "d01e81f0219c6c42a1cb7f7dc8a80313a996c985",
+      "blob": "c1088631dec72a019648a12c1b1b00d622bc4e6e",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored reproducible recovery acceptance scope, implementation boundaries, key compatibility and explicit public-cloud gaps. Not a production backup runbook or complete CLOUD-03 acceptance.",
       "evidence": [
         "docs/0055-encrypted-recovery.md",
-        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
+        ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json"
       ]
     }
   ]

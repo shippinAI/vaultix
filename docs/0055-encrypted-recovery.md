@@ -77,3 +77,31 @@ the public-service backup solution. The current core software wrapping-key paths
 are `ENCRYPTION_KEY` and `ROOT_ENCRYPTION_KEY`; this packet tests the former only.
 Preserve the configured key and its encoding, not just the database. Production
 backup tooling and key procedures require their own authored implementation.
+
+## Accepted local evidence, 2026-10-28
+
+Source `f1656cc13fc7ac5c73898ade92b7c2768a7164dd` built the canonical image
+`sha256:a8c12497468f235f112cbf8d4d705d71301a4f12e98471e4a4ec8d76d3fd97d2`.
+Image identity and exact revision checks pass. Its runtime filesystem layers equal
+the existing tested preview, and this packet changes no `core/` source. No
+operator deployment or data change was necessary.
+
+All nine real-image recovery checks pass, with successful removal of disposable
+containers, volumes and network. Receipt (relative to the main checkout):
+`.cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json`.
+The archive stayed in memory; only redacted evidence was retained. Local phase
+measurements are recorded in that receipt and are not public service objectives.
+
+Ten orchestration fixtures pass, including a recovery failure that prevents a
+successful build receipt and verification that the exact immutable image reaches
+the recovery runner. These simulate Docker; they do not substitute for the actual
+recovery run above. Receipt:
+`.cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json`.
+Canonical build receipt:
+`.cache/encrypted-recovery/.cache/committed-recovery-build/result.json`.
+
+Owned-source checks, inventory/migration/capability maps and surface checks pass;
+273 UI routes and 2,290 API operations remain mapped. The prior browser/backend/Go
+matrices were not repeated for this operations-only change. The newly added
+orchestration step and recovery runner were tested as described above. CLOUD-03
+remains open for the additional recovery requirements listed earlier.

@@ -9376,7 +9376,7 @@ scripts/test-dashboard-recovery.mjs	operate	delivery	scripts	0ad0c3499923f010d6c
 scripts/test-dashboard-secret-paste.mjs	operate	delivery	scripts	3b814c46cb485d57a734188e437da26c936f8862	verified
 scripts/test-dashboard-secret-references.mjs	operate	delivery	scripts	c9ebcfe327059a9a52757a8cee9571d3f475e41e	verified
 scripts/test-eager-upload.mjs	operate	delivery	scripts	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
-scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed	authored
+scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed	verified
 scripts/test-environment-workflow.mjs	operate	delivery	scripts	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified
 scripts/test-first-run-setup.mjs	operate	delivery	scripts	e18e8f51d84e6e3422644b0ef78a683088ce7d59	verified
 scripts/test-go-core.mjs	operate	delivery	scripts	a63efe056887d1462385090c699b8585c3f5e27d	verified
