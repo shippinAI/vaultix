@@ -401,7 +401,7 @@ unit passes (22 existing skips) and 168 database capability passes on each of
 Dragonfly and Redis. These results include lost-refresh-response recovery,
 original-expiry preservation, replay revocation and logout denial. They do not
 establish Nomen acceptance, external provider parity, concurrency/load readiness
-or whole-UI accessibility; the shared toast/modal overlap remains open.
+or whole-UI accessibility; the shared toast/modal overlap was open at that checkpoint and is addressed below in 0038.
 
 The subsequent Go toolchain/bootstrap checkpoint is documented in [0032](0032-native-toolchains.md)
 and [0033](0033-bootstrap-identity-issuance.md). Canonical image
@@ -454,3 +454,13 @@ with eight external KMS skips. Canonical image
 passes both cache image gates and the packaged browser workflow
 (`.cache/app-image-proof-iVxZeL`). Scoped revocation, authoritative reads, legacy
 grace/lifetime configuration and Nomen ownership still gate native cutover.
+
+The shared notification/dialog checkpoint is documented in [0038](0038-notification-dialog-ownership.md).
+Canonical image `sha256:2a9ddfb139a81ffc9397f02eb8c1e2e47b6ef7daa5f85ddc330b6f6518014b70`
+passes both cache image gates and the real packaged application workflow
+(`.cache/app-image-proof-hoAOol`). Fifteen separately labelled component cases
+cover five modal families, keyboard access, queued error details, promise/timer
+lifetime and narrow/short layout. Visual review rejected an intermediate
+confirmation layout; the final warning geometry and focused controls are now
+checked. This does not establish whole-UI accessibility or provider parity.
+The unchanged 273 UI routes and 2,290 API operations remain preserved.

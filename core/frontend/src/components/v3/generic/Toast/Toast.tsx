@@ -19,16 +19,18 @@ const Toaster = ({ ...props }: ToasterProps) => {
         info: <InfoIcon className="size-4 text-info" />,
         warning: <TriangleAlertIcon className="size-4 text-warning" />,
         error: <OctagonXIcon className="size-4 text-danger" />,
-        loading: <Loader2Icon className="size-4 animate-spin text-foreground/60" />
+        loading: (
+          <Loader2Icon className="size-4 animate-spin text-foreground/60 motion-reduce:animate-none" />
+        )
       }}
       toastOptions={{
         classNames: {
-          toast: "!pointer-events-auto !items-start !rounded-md !pl-5 !py-3",
+          toast: "!items-start !rounded-md !pl-5 !pr-10 !py-3",
           icon: "!mt-0.5",
           title: "!text-sm !font-medium !text-foreground whitespace-pre-line",
           description: "!text-xs !text-foreground/75 whitespace-pre-line",
           closeButton:
-            "!left-auto !right-2 !top-2 !transform-none !rounded-sm !border-transparent !bg-transparent !text-foreground/60 hover:!bg-foreground/10 hover:!text-foreground",
+            "!size-6 !left-auto !right-2 !top-2 !transform-none !rounded-sm !border-transparent !bg-transparent !text-foreground/60 hover:!bg-foreground/10 hover:!text-foreground",
           actionButton:
             "!self-end !rounded-sm !border !border-border !bg-transparent !text-foreground hover:!bg-foreground/10 hover:!border-foreground/20",
           cancelButton:

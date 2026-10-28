@@ -1,5 +1,5 @@
 path	git_blob	kind	review_status
-.github/workflows/ghcr.yml	1803fc174bc80fc6326ef21d7b95fed83c7ee6bf	build-and-operations	authored
+.github/workflows/ghcr.yml	9a3f2a7f64617d64ffcc8d5919ad7f3609d2e4bd	build-and-operations	authored
 .github/workflows/owned.yml	b85c62829aca491c397477124691de71ffb56acb	build-and-operations	unread
 .gitignore	3d7cf33f5660e76b0cc384a022d7c18332405d6f	product-code	unread
 AGENTS.md	377201ef4e254843cdb0a7f4a6bd037132050515	documentation	unread
@@ -6728,8 +6728,11 @@ core/frontend/src/components/mfa/setup/types.ts	190a27f8b83a983dfa1a90fe0a1d8533
 core/frontend/src/components/navigation/NavHeader.tsx	127b1066e5d48417cfd486ca3f0009cc338ca48c	product-code	unread
 core/frontend/src/components/navigation/RegionSelect.tsx	f58a2bd87d0e6b394b4368aeaf4aed672d9fc95c	product-code	unread
 core/frontend/src/components/navigation/SecretDashboardPathBreadcrumb.tsx	62f219da91fdd15a7923ef2797f85d87ba47619e	product-code	unread
-core/frontend/src/components/notifications/Notifications.tsx	d662d0f940aa4441e80f8e711e21020147139f1e	product-code	unread
+core/frontend/src/components/notifications/NotificationDock.tsx	455cbde5826274cfb0f63b057c28b6af1690fb2a	product-code	verified
+core/frontend/src/components/notifications/Notifications.tsx	b0db55da81b2efb0688feac1d841f712b5b233e3	product-code	verified
+core/frontend/src/components/notifications/RequestErrorDetails.tsx	489d8eacbc3a73a6a8a8d08f22030765ba537ad8	product-code	verified
 core/frontend/src/components/notifications/index.tsx	921e1800adf46fc4720f6280b17d0e685338d0c7	product-code	unread
+core/frontend/src/components/notifications/notification-dock.css	1d329e2b82abe5320bfe987844188ca6829238c3	product-code	verified
 core/frontend/src/components/organization/CreateOrgModal/CreateOrgModal.tsx	e36a42df93e5846e5e8e4bf219d66820c9e3236e	product-code	unread
 core/frontend/src/components/organization/CreateOrgModal/index.tsx	7b794731ab852600a74c1d4dd9fb9ccfc14c6719	product-code	unread
 core/frontend/src/components/organization/LastLoginSection/LastLoginSection.tsx	933191de7ab18786e62e01919f51fa0a8d9101c5	product-code	unread
@@ -7298,7 +7301,7 @@ core/frontend/src/components/v2/Breadcrumb/Breadcrumb.tsx	ccb94da2b96dea4e5d998f
 core/frontend/src/components/v2/Breadcrumb/index.tsx	3bc34d185a91f34bdd77bd6bd5a53696287416d4	product-code	unread
 core/frontend/src/components/v2/Button/Button.tsx	e2b85683ab8f24fa244b00605f096022e4fade2a	product-code	unread
 core/frontend/src/components/v2/Button/index.tsx	b3cb34cc8e1d0b7246308a7a497ebc8962c63555	product-code	unread
-core/frontend/src/components/v2/Card/Card.tsx	b3ee48c5a1666e8b1a68e9ba2e2b06204fbe669d	product-code	unread
+core/frontend/src/components/v2/Card/Card.tsx	b3ee48c5a1666e8b1a68e9ba2e2b06204fbe669d	product-code	reviewed
 core/frontend/src/components/v2/Card/index.tsx	48b09705df21c00dab88f4262e560c7989e4398c	product-code	unread
 core/frontend/src/components/v2/Checkbox/Checkbox.tsx	63a62a2250707c6c02a08d5f688c3511f74abf95	product-code	unread
 core/frontend/src/components/v2/Checkbox/index.tsx	374e8e394b657c1c15ddee38b26cc7d450d03aba	product-code	unread
@@ -7316,7 +7319,7 @@ core/frontend/src/components/v2/DeleteActionModal/DeleteActionModal.tsx	7ba593f5
 core/frontend/src/components/v2/DeleteActionModal/index.tsx	92db0d89d368a9377a8e88f7e50291a97c6bdd22	product-code	unread
 core/frontend/src/components/v2/Divider/Divider.tsx	a5b755eeb152fca4e33a3495d5041e4e094a9a71	product-code	unread
 core/frontend/src/components/v2/Divider/index.tsx	ac407aa37d654c5198c6fb24f46abf5dbc060c91	product-code	unread
-core/frontend/src/components/v2/Drawer/Drawer.tsx	305c56e7ba119def5eb8e77527f96b3ab5d72ac5	product-code	unread
+core/frontend/src/components/v2/Drawer/Drawer.tsx	313f8d0f4d540c6f5736abb04c72e99891e6a31b	product-code	verified
 core/frontend/src/components/v2/Drawer/index.tsx	4f1a34981a52f05a0e7837de6bb630ca5d8253b1	product-code	unread
 core/frontend/src/components/v2/Dropdown/Dropdown.tsx	e79166e4691e53672122201c78221d5b4ebb20bc	product-code	unread
 core/frontend/src/components/v2/Dropdown/index.tsx	bde01449e89b8324f74b4b2a1aff4745b9b22ac1	product-code	unread
@@ -7353,7 +7356,7 @@ core/frontend/src/components/v2/Lottie/LottiePlayer.tsx	a6243af18c17a010f2805c40
 core/frontend/src/components/v2/Lottie/index.tsx	70d571e42faaedb546076953d0b6c39a43bf0168	product-code	unread
 core/frontend/src/components/v2/Menu/Menu.tsx	29e659f1476456ac2e9f23e800d0b3265bc2f2ef	product-code	unread
 core/frontend/src/components/v2/Menu/index.tsx	97e9fb7ad157bc2b76236e979b5a5665ecb34608	product-code	unread
-core/frontend/src/components/v2/Modal/Modal.tsx	81543a413781207e5e0058567acc6dc19d659da9	product-code	unread
+core/frontend/src/components/v2/Modal/Modal.tsx	3ec023a7a1444f4fdd7b12fa1d4c2d0cbb10c5ad	product-code	verified
 core/frontend/src/components/v2/Modal/index.tsx	bb03f6be8939ff1800086978836e21c22c40f7fc	product-code	unread
 core/frontend/src/components/v2/NoticeBanner/NoticeBanner.tsx	d84c0103d4acf832dc48a7eed38ed0f9d79a14fe	product-code	unread
 core/frontend/src/components/v2/NoticeBanner/index.tsx	0006c75a57db3701f5819f4313f7079e912c5854	product-code	unread
@@ -7408,7 +7411,7 @@ core/frontend/src/components/v3/generic/Alert/Alert.stories.tsx	b5a17556ffd0bb85
 core/frontend/src/components/v3/generic/Alert/Alert.tsx	195bb8b7731de4e9d02d9ea4d311699c704bdba0	product-code	unread
 core/frontend/src/components/v3/generic/Alert/index.ts	b8e17a03c9059b8c0835d462f36a73f010c34ae2	product-code	unread
 core/frontend/src/components/v3/generic/AlertDialog/AlertDialog.stories.tsx	909c61128689e262ef10a5579232b978903eb217	product-code	unread
-core/frontend/src/components/v3/generic/AlertDialog/AlertDialog.tsx	d484f6902ad712216ce25a130629cac9a5875f00	product-code	unread
+core/frontend/src/components/v3/generic/AlertDialog/AlertDialog.tsx	4cb07b39a07df75149cc2e89335b828856b05242	product-code	verified
 core/frontend/src/components/v3/generic/AlertDialog/index.ts	ba87679af26023790be696465ab4ecf16fe724fc	product-code	unread
 core/frontend/src/components/v3/generic/AnimatedCollapse/AnimatedCollapse.stories.tsx	09fcf19a91de9899726c920bb7e818733df80c84	product-code	unread
 core/frontend/src/components/v3/generic/AnimatedCollapse/AnimatedCollapse.tsx	8e90e9ffe866bbb7f64958a52854e8a54d7098be	product-code	unread
@@ -7473,7 +7476,7 @@ core/frontend/src/components/v3/generic/Detail/Detail.stories.tsx	21bd22a864330c
 core/frontend/src/components/v3/generic/Detail/Detail.tsx	39617ff7cce625a83f733ad6d587b46a3969e471	product-code	unread
 core/frontend/src/components/v3/generic/Detail/index.ts	f511dd353ffdcf89b9f8679c17acbe43d35c0009	product-code	unread
 core/frontend/src/components/v3/generic/Dialog/Dialog.stories.tsx	535b84624e6f8af0c384fce7c2686d4bacf39d92	product-code	unread
-core/frontend/src/components/v3/generic/Dialog/Dialog.tsx	7aee1a5e9ca837c173ef7f770934456e18697263	product-code	unread
+core/frontend/src/components/v3/generic/Dialog/Dialog.tsx	2895e0b4a5da9fc360706e18c86a2f0e5088b0e4	product-code	verified
 core/frontend/src/components/v3/generic/Dialog/index.tsx	24cc75a77f63e333495573b94ef0816fe6da217d	product-code	unread
 core/frontend/src/components/v3/generic/Dropdown/Dropdown.stories.tsx	5e7d8905d367ea0c712533ace1c9fcf88402987f	product-code	unread
 core/frontend/src/components/v3/generic/Dropdown/Dropdown.tsx	55ce7b2d55ff7bc35291f81c98727b4bbfe5c0cd	product-code	unread
@@ -7537,7 +7540,7 @@ core/frontend/src/components/v3/generic/Separator/Separator.stories.tsx	2163bce3
 core/frontend/src/components/v3/generic/Separator/Separator.tsx	b6f3c10c56484e6a177b814c0fecf777af29474f	product-code	unread
 core/frontend/src/components/v3/generic/Separator/index.ts	4060cb5ecddea884d797ea21910e8b04a45decd6	product-code	unread
 core/frontend/src/components/v3/generic/Sheet/Sheet.stories.tsx	9c4d8717d8ca651e73698628ada98b1ea6516871	product-code	unread
-core/frontend/src/components/v3/generic/Sheet/Sheet.tsx	f6b71524925ff596cd1f09b3c869aebe62bcfdc0	product-code	unread
+core/frontend/src/components/v3/generic/Sheet/Sheet.tsx	339bcca2a33100fed9e50b08572b2f2a38509917	product-code	verified
 core/frontend/src/components/v3/generic/Sheet/index.ts	f49d7b617bca79f4d73a35b8d49368e47acf5b1f	product-code	unread
 core/frontend/src/components/v3/generic/Sidebar/Sidebar.tsx	892ab8030ea6981569632d7f084e89456c22fc11	product-code	unread
 core/frontend/src/components/v3/generic/Sidebar/index.ts	d6789989723e649cf8082fd4a2224664160ec400	product-code	unread
@@ -7560,7 +7563,7 @@ core/frontend/src/components/v3/generic/TextArea/TextArea.stories.tsx	17171ab997
 core/frontend/src/components/v3/generic/TextArea/TextArea.tsx	51669e40fcf0bc25321d83eefd4675044d066c1b	product-code	unread
 core/frontend/src/components/v3/generic/TextArea/index.ts	cc37a6a03bbee8aa94269b285a460d4c12bcf7e8	product-code	unread
 core/frontend/src/components/v3/generic/Toast/Toast.stories.tsx	3d8fd37be75fd155cf8f07a5afcda6d936e7483b	product-code	unread
-core/frontend/src/components/v3/generic/Toast/Toast.tsx	907af5b779203d46c0aa573238c3ac1717539ba9	product-code	unread
+core/frontend/src/components/v3/generic/Toast/Toast.tsx	96c7baf2e6bc3b14f9348faa124f5d7c8a1dad3e	product-code	verified
 core/frontend/src/components/v3/generic/Toast/index.ts	0652992f11e913a27b3eb477b418690693b26f53	product-code	unread
 core/frontend/src/components/v3/generic/Tooltip/Tooltip.stories.tsx	4130eb072a3e0e103bc3d1f66762791ef553ddd9	product-code	unread
 core/frontend/src/components/v3/generic/Tooltip/Tooltip.tsx	27622813aabc9a2607c1f03044c8e549b050ae39	product-code	unread
@@ -8266,7 +8269,7 @@ core/frontend/src/hooks/api/rateLimit/index.ts	f3f81b1c96baa9ede4b4071935dc790b2
 core/frontend/src/hooks/api/rateLimit/mutation.ts	d2aea631ba352396ce7beaaf3ba58677a00e7fc9	product-code	unread
 core/frontend/src/hooks/api/rateLimit/queries.ts	5a52ff74bf941aa4e1642208eb8d4f57f9b693cf	product-code	unread
 core/frontend/src/hooks/api/rateLimit/types.ts	53b075ce43e660ee437cb16eb5d2127bd37e5845	product-code	unread
-core/frontend/src/hooks/api/reactQuery.tsx	47e007e027e3947c853113566a8149d9d4722af2	product-code	unread
+core/frontend/src/hooks/api/reactQuery.tsx	80fd5d772e0dbf21ba0ef0c6471c91b6148e8235	product-code	verified
 core/frontend/src/hooks/api/relays/index.tsx	177955438b7216117c0785b3c13b14f9d613bacd	product-code	unread
 core/frontend/src/hooks/api/relays/mutations.tsx	8a2e881b78aff33b1c62767911649c5c8435d69a	product-code	unread
 core/frontend/src/hooks/api/relays/queries.tsx	a0bbca2d4daa959fa83be309e733beb609c3f265	product-code	unread
@@ -9906,7 +9909,7 @@ core/frontend/src/pages/redirects/oauth-callback-redirect.tsx	d4582c4fda73a68ee2
 core/frontend/src/pages/redirects/pam-access-redirect.tsx	1a0a31ed9f630b3f54adf0db16816e1f29198c9a	product-code	unread
 core/frontend/src/pages/redirects/pam-org-access-redirect.tsx	54422287d0b928c6738c90789219ce51a9763875	product-code	unread
 core/frontend/src/pages/redirects/settings-oauth-callback-redirect.tsx	cadd12dbfe14f9e1f962af47efbbc5c433f197a0	product-code	unread
-core/frontend/src/pages/root.tsx	169c9ac610e1f7674329da0db74111dc6650b4d8	product-code	unread
+core/frontend/src/pages/root.tsx	169c9ac610e1f7674329da0db74111dc6650b4d8	product-code	reviewed
 core/frontend/src/pages/secret-manager/CommitDetailsPage/CommitDetailsPage.tsx	90688778ba50078a5797d3dcb3914c20c7987f8e	product-code	unread
 core/frontend/src/pages/secret-manager/CommitDetailsPage/components/CommitDetailsTab/CommitDetailsTab.tsx	ed0e221e54dc5347d90c4567092b70ee1e7957b1	product-code	unread
 core/frontend/src/pages/secret-manager/CommitDetailsPage/components/CommitDetailsTab/index.ts	490d67f1fbdf8eaa49ab3c1048d5881ce743a551	product-code	unread
@@ -10693,6 +10696,7 @@ core/frontend/src/views/PkiAlertsV2Page/components/index.ts	e46bb445e70f0e9ed28c
 core/frontend/src/views/PkiAlertsV2Page/index.ts	5f335ae70a92afa482b97701536ac4af153960f6	product-code	unread
 core/frontend/src/views/PkiAlertsV2Page/utils/pki-alert-formatters.ts	62b0ecd31f88c998691b0becf4a6500c30b9d178	product-code	unread
 core/frontend/src/vite-env.d.ts	1e9b80d1fcfe916a73268168a5b40353f720ab13	product-code	unread
+core/frontend/tests/notification-fixture.tsx	1db50d6793994df53267299e8130f540389c41f0	test	verified
 core/frontend/tsconfig.app.json	1f6b29873ad50d0dbf6fae6d58c570149ab54f78	product-code	unread
 core/frontend/tsconfig.json	1ffef600d959ec9e396d5a260bd3f5b927b2cef8	product-code	unread
 core/frontend/tsconfig.node.json	db0becc8b033a4a78144f4a3bb852082fe91cd62	product-code	unread
@@ -11635,7 +11639,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	b32fc3a43063dfed73df1fc5daaa7e48c704d392	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	62e5ae89c7087f5ccdea7dfd62e3630d6af738af	documentation	unread
+docs/0018-hosted-capability-proof.md	25fb64e9c35218b5511715d61daec02a4bf1a3f4	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	441ae789ed12d41fa7c6609b0b309a1a74ee1d4d	documentation	unread
@@ -11655,10 +11659,11 @@ docs/0034-api-request-errors.md	a60f8829207dacbf77cb617b666e3394df8467ff	documen
 docs/0035-cache-counter-contract.md	adeca7897286b7a283faad0bb7a10206deae1a68	documentation	unread
 docs/0036-identity-use-budget-concurrency.md	71d541f87dc3db38dbe6f7d783eb03075b216a92	documentation	unread
 docs/0037-native-identity-claim-presence.md	eff3df6fb8d681da23fe65760434be98bb548e59	documentation	unread
+docs/0038-notification-dialog-ownership.md	8f9a11d21133deaa30e002ac7975efa28f4ca339	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	c507becb6abf23a7b6355afeabef2bf01b489387	generated	unread
-docs/migration/generated/modules.tsv	b27b241a3664cc902eb3a0b9c2688585bdf0cd34	generated	unread
-docs/migration/generated/summary.json	1ce49f61bcea950d66e8c101e5f6e02b9f4fb38d	generated	unread
+docs/migration/generated/files.tsv	f55d0f2d2b96252673952ac30eee8bbf51d4bc1a	generated	unread
+docs/migration/generated/modules.tsv	3a59242c72b592ebe4fdbd144b081d475a16a729	generated	unread
+docs/migration/generated/summary.json	d43bb62b5846151db3705b97c1fa1cca14fbaf97	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -11785,11 +11790,13 @@ scripts/test-chart-rendering.mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	build-
 scripts/test-core.mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	build-and-operations	authored
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
-scripts/test-environment-workflow.mjs	fb016657e7f6e60c1bc503cac08dd2961928aa42	build-and-operations	authored
+scripts/test-environment-workflow.mjs	066cd736cd29dd2c2cefeaa5c452edd26f047134	build-and-operations	verified
 scripts/test-go-core.mjs	19bd9b46404026c0c60279897319338f92825441	build-and-operations	verified
 scripts/test-guided-interactions.mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	build-and-operations	unread
 scripts/test-image-app.mjs	2a16cdfc2b0107726f123b9c648d59bca0e260da	build-and-operations	authored
 scripts/test-migration-map.mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	build-and-operations	verified
 scripts/test-native-ui.mjs	1c3556a7de584e227d74f95adb2184710a19c435	build-and-operations	unread
+scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	build-and-operations	verified
+scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/up.sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	build-and-operations	unread

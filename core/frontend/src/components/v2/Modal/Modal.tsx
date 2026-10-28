@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { twMerge } from "tailwind-merge";
 
+import { NotificationDock } from "@app/components/notifications/NotificationDock";
+
 import { Card, CardBody, CardFooter, CardTitle } from "../Card";
 import { IconButton } from "../IconButton";
 
@@ -78,7 +80,8 @@ export const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
           >
             {children}
           </CardBody>
-          {footerContent && <CardFooter>{footerContent}</CardFooter>}
+          <NotificationDock />
+          {footerContent && <CardFooter className="order-2">{footerContent}</CardFooter>}
           {showCloseButton && (
             <DialogPrimitive.Close aria-label="Close" asChild onClick={onClose}>
               <IconButton

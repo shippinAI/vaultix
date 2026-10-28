@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
+import { NotificationDock } from "@app/components/notifications/NotificationDock";
+
 import { cn } from "../../utils";
 import { Button } from "../Button";
 import { DIALOG_CONTENT_WIDTH_CLASSNAME } from "../Dialog";
@@ -37,6 +39,7 @@ function AlertDialogOverlay({
 
 function AlertDialogContent({
   className,
+  children,
   size = "default",
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
@@ -49,12 +52,15 @@ function AlertDialogContent({
         data-slot="alert-dialog-content"
         data-size={size}
         className={cn(
-          "group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg bg-popover p-4 text-foreground ring-1 ring-foreground/10 duration-100 outline-none data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+          "group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] -translate-x-1/2 -translate-y-1/2 auto-rows-max gap-4 overflow-y-auto rounded-lg bg-popover p-4 text-foreground ring-1 ring-foreground/10 duration-100 outline-none data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
           DIALOG_CONTENT_WIDTH_CLASSNAME,
           className
         )}
         {...props}
-      />
+      >
+        {children}
+        <NotificationDock />
+      </AlertDialogPrimitive.Content>
     </AlertDialogPortal>
   );
 }
@@ -77,7 +83,7 @@ function AlertDialogFooter({ className, ...props }: React.ComponentProps<"div">)
     <div
       data-slot="alert-dialog-footer"
       className={cn(
-        "-mx-4 -mb-4 flex flex-row flex-wrap justify-end gap-2 rounded-b-xl border-t border-border p-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2",
+        "sticky bottom-0 z-10 -mx-4 -mb-4 flex shrink-0 flex-row flex-wrap justify-end gap-2 rounded-b-xl border-t border-border bg-popover p-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2",
         className
       )}
       {...props}

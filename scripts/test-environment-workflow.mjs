@@ -12,6 +12,18 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
   const real = [];
   const fixtures = [];
   const accessibility = [];
+  const notifications = [];
+  const verifyNotification = async (container, action) => {
+    await expect(container.locator("[data-notification-dock] [data-sonner-toast]").first()).toBeVisible();
+    const button = container.getByRole("button", { name: action, exact: true });
+    await button.scrollIntoViewIfNeeded();
+    await expect.poll(() => button.evaluate(element => {
+      const rect = element.getBoundingClientRect();
+      return element.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+    })).toBe(true);
+    notifications.push({ action, docked: true, actionUncovered: true });
+    writeFileSync(resolve(evidence, "environment-notifications.json"), JSON.stringify({ fixtures: true, checks: notifications }, null, 2));
+  };
   const audit = async (state, selector) => {
     await page.evaluate(async () => {
       await Promise.all(document.getAnimations()
@@ -118,6 +130,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
       await request("PATCH", path, () => dialog.getByRole("button", { name: "Update", exact: true }).click(), 503);
       await expect(dialog.getByText(/Your edits are kept/)).toBeVisible();
       await expect(dialog.getByLabel("Environment Name", { exact: true })).toHaveValue("Preview Reviewed");
+      await verifyNotification(dialog, "Update");
     });
     await request("PATCH", path, () => dialog.getByRole("button", { name: "Update", exact: true }).click());
     await expect(dialog).toHaveCount(0);
@@ -153,6 +166,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
     await withFault("DELETE", path, async () => {
       await request("DELETE", path, () => confirmation.getByRole("button", { name: "Schedule Deletion", exact: true }).click(), 503);
       await expect(confirmation.getByText("Deletion failed. Check the error notice and retry.")).toBeVisible();
+      await verifyNotification(confirmation, "Schedule Deletion");
     });
     await request("DELETE", path, () => confirmation.getByRole("button", { name: "Schedule Deletion", exact: true }).click());
     await expect(confirmation).toHaveCount(0);
@@ -182,6 +196,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
       await request("DELETE", path, () => confirmation.getByRole("button", { name: "Delete Permanently", exact: true }).click(), 503);
       await expect(confirmation.getByText(/Your confirmation is kept/)).toBeVisible();
       await expect(typed).toHaveValue("preview-reviewed");
+      await verifyNotification(confirmation, "Delete Permanently");
     });
     await request("DELETE", path, () => confirmation.getByRole("button", { name: "Delete Permanently", exact: true }).click());
     await expect(section.getByText("Preview Reviewed", { exact: true })).toHaveCount(0);
@@ -203,14 +218,33 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
     await page.setViewportSize({ width: 320, height: 844 });
     await expect.poll(() => confirmation.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     await expect(confirmation.getByLabel(`Type ${longestSlug} to confirm.`, { exact: true })).toBeVisible();
+    const warningGeometry = await confirmation.evaluate(element => {
+      const warning = element.querySelector('[data-slot="alert"]');
+      const description = warning.querySelector('[data-slot="alert-description"]');
+      const label = element.querySelector('label[for="environment-delete-confirmation"]');
+      return {
+        warningContainsText: warning.getBoundingClientRect().bottom >= description.getBoundingClientRect().bottom,
+        labelAfterWarning: label.getBoundingClientRect().top >= description.getBoundingClientRect().bottom
+      };
+    });
+    writeFileSync(resolve(evidence, "environment-warning-layout.json"), JSON.stringify(warningGeometry, null, 2));
+    assert.deepEqual(warningGeometry, { warningContainsText: true, labelAfterWarning: true }, "Destructive warning text must not overlap confirmation input");
     await audit("maximum name and slug at 320 pixels", '[role="alertdialog"]');
     await confirmation.screenshot({ path: resolve(evidence, "environment-long-confirmation.png") });
     const longConfirmation = confirmation.getByLabel(`Type ${longestSlug} to confirm.`, { exact: true });
     await longConfirmation.focus();
     await expect(longConfirmation).toBeInViewport();
+    await expect.poll(() => longConfirmation.evaluate(element => {
+      const rect = element.getBoundingClientRect();
+      return element.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+    })).toBe(true);
     await page.keyboard.press("Tab");
     await expect(confirmation.getByRole("button", { name: "Cancel", exact: true })).toBeFocused();
     await expect(confirmation.getByRole("button", { name: "Cancel", exact: true })).toBeInViewport();
+    await expect.poll(() => confirmation.getByRole("button", { name: "Cancel", exact: true }).evaluate(element => {
+      const rect = element.getBoundingClientRect();
+      return element.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+    })).toBe(true);
     await confirmation.screenshot({ path: resolve(evidence, "environment-long-confirmation-controls.png") });
     await confirmation.getByRole("button", { name: "Cancel", exact: true }).click();
     await expect(page.getByRole("alertdialog")).toHaveCount(0);
@@ -247,6 +281,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
       release();
       await expect(dialog.getByText(/Your edits are kept/)).toBeVisible();
       await expect(dialog.getByLabel("Environment Name", { exact: true })).toHaveValue("Pending Proof");
+      await verifyNotification(dialog, "Create");
       await audit("failed create retained", '[role="dialog"]');
     } finally {
       release();

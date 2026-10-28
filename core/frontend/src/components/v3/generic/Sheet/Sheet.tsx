@@ -4,6 +4,8 @@ import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 
+import { NotificationDock } from "@app/components/notifications/NotificationDock";
+
 import { cn } from "../../utils";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -73,7 +75,8 @@ function SheetContent({
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="data-[state=open]:bg-secondary absolute top-4 right-4 z-20 cursor-pointer rounded-xs text-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
+        <NotificationDock />
+        <SheetPrimitive.Close className="data-[state=open]:bg-secondary absolute top-2 right-2 z-20 flex size-8 cursor-pointer items-center justify-center rounded-xs text-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
           <XIcon className="size-4" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>
@@ -86,7 +89,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-1.5 border-b border-border p-4", className)}
+      className={cn("flex shrink-0 flex-col gap-1.5 border-b border-border p-4 pr-12", className)}
       {...props}
     />
   );
@@ -96,7 +99,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-footer"
-      className={cn("mt-auto flex gap-2 border-border p-4", className)}
+      className={cn("mt-auto flex shrink-0 flex-wrap gap-2 border-border p-4", className)}
       {...props}
     />
   );

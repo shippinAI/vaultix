@@ -2,6 +2,8 @@ import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 
+import { NotificationDock } from "@app/components/notifications/NotificationDock";
+
 import { cn } from "../../utils";
 
 const DIALOG_CONTENT_WIDTH_CLASSNAME = "w-[calc(100%-2rem)] max-w-lg";
@@ -80,10 +82,11 @@ function DialogContent({
         {...props}
       >
         {children}
+        <NotificationDock />
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="data-[state=open]:text-muted-foreground absolute top-4 right-4 cursor-pointer rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            className="data-[state=open]:text-muted-foreground absolute top-3 right-3 flex size-8 cursor-pointer items-center justify-center rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <XIcon />
             <span className="sr-only">Close</span>
@@ -98,7 +101,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex shrink-0 flex-col gap-2 text-left", className)}
+      className={cn("flex shrink-0 flex-col gap-2 pr-6 text-left", className)}
       {...props}
     />
   );

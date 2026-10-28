@@ -662,15 +662,19 @@
     },
     {
       "path": "scripts/test-environment-workflow.mjs",
-      "blob": "fb016657e7f6e60c1bc503cac08dd2961928aa42",
-      "status": "authored",
+      "blob": "066cd736cd29dd2c2cefeaa5c452edd26f047134",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored runner read. Uses disposable real image project for create, duplicate rejection, edit, keyboard reorder, anonymous denial, schedule/restore/permanent deletion. Separately records injected outage/pending/read-only fixtures; preserves inputs, checks focus/reflow and scoped WCAG scans without suppressions. Bounded response waits and failure diagnostics contain metadata, never secret values. Manual screen-reader, concurrent mutation and real role matrices remain separate. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "scope": "Complete existing workflow probe read. Preserve real environment operations and separately labelled injected faults; add notification docking/uncovered-action checks and long destructive-warning geometry assertions. Visual review caught a layout regression missed by the prior automated checks. No baseline reduction or authorization bypass.",
       "evidence": [
         "docs/0030-environment-workflow.md",
         ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
         ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
       ]
     },
     {
@@ -1019,14 +1023,18 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "1803fc174bc80fc6326ef21d7b95fed83c7ee6bf",
+      "blob": "9a3f2a7f64617d64ffcc8d5919ad7f3609d2e4bd",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Uses the owned root Go requirement, broadens Go unit/race checks, enables the compatible Makefile lint gate, and runs both canonical-image cache integration suites before engine publication. Existing browser, capability and artifact gates remain. Final committed pipeline outcome is required separately. Request-parser evidence is now retained with capability artifacts; smoke gates execute it before publication.",
+      "scope": "Complete workflow read. Add isolated notification matrix before image publication and retain its reports/screenshots. Preserve existing image, native/TypeScript suites, both-cache checks and publication gates. Local tests validate commands; the changed GitHub workflow still needs its own run.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
-        "docs/0034-api-request-errors.md"
+        "docs/0034-api-request-errors.md",
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
       ]
     },
     {
@@ -1465,6 +1473,208 @@
       "evidence": [
         "docs/0037-native-identity-claim-presence.md",
         "docs/0036-identity-use-budget-concurrency.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/notifications/Notifications.tsx",
+      "blob": "b0db55da81b2efb0688feac1d841f712b5b233e3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file and shared renderer callers read. Preserve notification types, IDs, durations, CTA content and request-ID copy; independent detail ownership and active-modal placement. Copy controls have larger targets, wrapping metadata and failure feedback. No API authorization or model-value path changes. Clipboard evidence uses a fixture stub; real assistive-technology acceptance remains open.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/notifications/NotificationDock.tsx",
+      "blob": "455cbde5826274cfb0f63b057c28b6af1690fb2a",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored stable Sonner portal and modal host lifecycle. Retains component and DOM identity across nested modal/root transitions, promise updates and expiration; ignores closed/hidden hosts. Keeps direct Sonner callers on one renderer. No separate notification API or store for secret values. Arbitrary third-party overlays and nonmodal queue accessibility require their own review.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/notifications/RequestErrorDetails.tsx",
+      "blob": "489d8eacbc3a73a6a8a8d08f22030765ba537ad8",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored independently owned, queued request-error detail dialogs using display-ready content and return-focus targets. Closing the associated toast does not destroy details. Validation request bodies are not retained. Preserves permission rules without changing authorization; no new entitlement or identity logic.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/notifications/notification-dock.css",
+      "blob": "1d329e2b82abe5320bfe987844188ca6829238c3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored bounded scrollable modal notification layout, intrinsic toast sizing, footer ordering and reduced-motion transitions. Tested five shared modal families at narrow/short viewports. Does not establish whole-UI zoom, touch, forced-color or screen-reader conformance.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Dialog/Dialog.tsx",
+      "blob": "2895e0b4a5da9fc360706e18c86a2f0e5088b0e4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete primitive read with stories and error/environment consumers. Retain Radix focus and dismissal contracts, add notification host, enlarge close target and reserve header space. Existing outside-interaction compatibility remains; arbitrary inherited consumers are not all behaviorally verified.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Sheet/Sheet.tsx",
+      "blob": "339bcca2a33100fed9e50b08572b2f2a38509917",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete primitive and stories read. Retain sides, portals and outside callbacks; add notification host, nonshrinking/wrapping footer, larger close control and header spacing. Browser fixture verifies right-side sheet with nested errors, not every production sheet workflow.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/AlertDialog/AlertDialog.tsx",
+      "blob": "4cb07b39a07df75149cc2e89335b828856b05242",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete primitive and stories read. Preserve action/cancel behavior and small-size footer variants; add notification host, bounded intrinsic grid rows and sticky footer. Visual review rejected an intermediate flex layout that compressed the long environment warning; geometry checks now guard that consumer. No destructive-action authorization changes.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Toast/Toast.tsx",
+      "blob": "96c7baf2e6bc3b14f9348faa124f5d7c8a1dad3e",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete primitive and stories read. Preserve semantic icons, positions, durations and options; size dismiss controls, reserve content space and respect reduced motion for loading. Remove unconditional pointer-event override that made hidden queued messages intercept clicks. Sonner dependency is retained, not relabelled as owned code.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Modal/Modal.tsx",
+      "blob": "3ec023a7a1444f4fdd7b12fa1d4c2d0cbb10c5ad",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete legacy primitive and Card composition read. Add notification host within the existing Radix focus scope and keep footer after it. Preserve open/close, outside-click callbacks, ref and styling APIs. Fixture coverage does not establish accessibility of every inherited modal consumer.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Drawer/Drawer.tsx",
+      "blob": "313f8d0f4d540c6f5736abb04c72e99891e6a31b",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete legacy primitive and Card composition read. Add modal notification host, associate title, keep footer placement and limit width to viewport. Preserve existing right-side/open/close/ref behavior. Narrow fixture previously extended 64 pixels outside viewport; unrelated drawer workflows remain separately reviewed.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/reactQuery.tsx",
+      "blob": "80fd5d772e0dbf21ba0ef0c6471c91b6148e8235",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete request-error handler/cache/token-storage file read. Format validation paths before persisting details, preserve automatic validation and explicit permission dialogs, caller-handled/skip-validation flags and query defaults. Handle nonstring generic error messages without throwing. No changes to memory-token keys, credentials, authorization or provider access.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/tests/notification-fixture.tsx",
+      "blob": "1db50d6793994df53267299e8130f540389c41f0",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored isolated shared-component fixture without a production route. Exercises shared modal families, generic/request errors, direct Sonner messages, promises, timed expiry and suppression. Requests are blocked by the runner and clipboard is stubbed; this is not API or identity acceptance.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "scripts/test-notification-ui.mjs",
+      "blob": "631086c4bf0107530efb9f80fcf545b7dc0a4a81",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored browser contract checks for modal layout/focus, error-detail lifetime and queueing, notice identity/expiration, clipboard feedback and scoped axe results. Separates fixture evidence, captures failure diagnostics and asserts destructive-warning-independent controls. No real secrets or operator mutation.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "scripts/test-notification-matrix.mjs",
+      "blob": "ba338a7d48f400844f3b203ae22e198d9632c9e1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored private Vite fixture server and sequential 15-case browser matrix with failure exit status and per-case evidence. Shuts down the server after completion/failure. This is component verification, separate from packaged backend operation proof.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md",
+        ".cache/notification-proof-gVnaex/result.json",
+        ".cache/app-image-proof-hoAOol/workflow-result.json",
+        ".cache/notification-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/root.tsx",
+      "blob": "169c9ac610e1f7674329da0db74111dc6650b4d8",
+      "status": "reviewed",
+      "decision": "retain",
+      "scope": "Complete root route read. Retain QueryClient/Tooltip providers and root notification mount, server-config loading and current auth-refresh behavior. Notification ownership changes stay inside the existing container. This review does not establish Nomen issuer/session ownership.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Card/Card.tsx",
+      "blob": "b3ee48c5a1666e8b1a68e9ba2e2b06204fbe669d",
+      "status": "reviewed",
+      "decision": "retain",
+      "scope": "Complete Card, CardTitle, CardBody and CardFooter definitions read with legacy Modal/Drawer consumers. Retain shared flex layout and class/ref contracts; caller notification hosts reserve their own space. This is a retained layout dependency, not whole-legacy-UI accessibility acceptance.",
+      "evidence": [
+        "docs/0038-notification-dialog-ownership.md"
       ]
     }
   ]

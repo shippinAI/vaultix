@@ -1,0 +1,65 @@
+/* Modal notifications occupy real layout space and remain in its focus scope.
+   Sonner still owns IDs, timers, promises, dismissal and direct grid messages. */
+[data-notification-dock] {
+  display: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  order: 1;
+}
+
+[data-notification-dock]:has([data-sonner-toast]:not([data-removed="true"])) {
+  display: block;
+  min-height: 2.5rem;
+  max-height: min(30dvh, 14rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+[data-notification-dock] [data-sonner-toaster] {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  height: auto;
+  transform: none;
+  padding: 0.25rem;
+}
+
+[data-notification-dock] [data-sonner-toaster] [data-sonner-toast] {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto !important;
+  transform: none;
+  opacity: 1;
+  box-shadow: none;
+  touch-action: pan-y;
+}
+
+[data-notification-dock] [data-sonner-toaster] [data-sonner-toast] > * {
+  opacity: 1;
+}
+
+[data-notification-dock] [data-sonner-toast][data-removed="true"] {
+  display: none;
+}
+
+[data-notification-dock] [data-sonner-toast]::before,
+[data-notification-dock] [data-sonner-toast]::after {
+  display: none;
+}
+
+[data-slot="dialog-footer"],
+[data-slot="alert-dialog-footer"],
+[data-slot="sheet-footer"] {
+  order: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sonner-toaster],
+  [data-sonner-toast] {
+    transition: none !important;
+    animation: none !important;
+  }
+}

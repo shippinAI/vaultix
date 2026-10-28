@@ -5,6 +5,8 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cva, VariantProps } from "cva";
 import { twMerge } from "tailwind-merge";
 
+import { NotificationDock } from "@app/components/notifications/NotificationDock";
+
 import { Card, CardBody, CardFooter, CardTitle } from "../Card";
 import { IconButton } from "../IconButton";
 
@@ -23,7 +25,7 @@ const drawerContentVariation = cva(
       direction: {
         right: [
           "right-0 top-0",
-          "h-full w-96",
+          "h-full w-96 max-w-full",
           "data-[state=open]:animate-drawer-right-in data-[state=closed]:animate-drawer-right-out"
         ]
       }
@@ -71,9 +73,13 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
       >
         <Card isRounded={false} className="dark h-full w-full">
           {title && (
-            <CardTitle subTitle={subTitle} className="mb-0 px-4">
-              {title}
-            </CardTitle>
+            <DialogPrimitive.Title asChild>
+              <div className="shrink-0 pr-10">
+                <CardTitle subTitle={subTitle} className="mb-0 px-4">
+                  {title}
+                </CardTitle>
+              </div>
+            </DialogPrimitive.Title>
           )}
           <CardBody
             className={twMerge(
@@ -83,7 +89,8 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
           >
             {children}
           </CardBody>
-          {footerContent && <CardFooter>{footerContent}</CardFooter>}{" "}
+          <NotificationDock />
+          {footerContent && <CardFooter className="order-2">{footerContent}</CardFooter>}{" "}
           <DialogPrimitive.Close aria-label="Close" asChild onClick={onClose}>
             <IconButton
               variant="plain"
@@ -99,7 +106,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>(
   )
 );
 
-DrawerContent.displayName = "ModalContent";
+DrawerContent.displayName = "DrawerContent";
 
 export type DrawerProps = Omit<DialogPrimitive.DialogProps, "open"> & { isOpen?: boolean };
 export const Drawer = ({ isOpen, ...props }: DrawerProps) => (

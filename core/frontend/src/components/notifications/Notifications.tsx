@@ -5,9 +5,11 @@ import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 import { IconButton } from "@app/components/v3/generic/IconButton";
-import { Toaster } from "@app/components/v3/generic/Toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@app/components/v3/generic/Tooltip";
 import { useTimedReset } from "@app/hooks";
+
+import { NotificationViewport } from "./NotificationDock";
+import { RequestErrorDetails } from "./RequestErrorDetails";
 
 export type NotificationType = "success" | "error" | "info" | "warning" | "loading" | "default";
 
@@ -28,7 +30,7 @@ type TNotificationOptions = {
 
 // v3 copy button used inside toast bodies (e.g. the request-id copy on error toasts).
 const ToastCopyButton = ({ value, name }: { value: string; name: string }) => {
-  const [copyText, isCopying, setCopyText] = useTimedReset<string>({
+  const [copyText, , setCopyText] = useTimedReset<string>({
     initialState: `Copy ${name}`
   });
 
@@ -39,18 +41,22 @@ const ToastCopyButton = ({ value, name }: { value: string; name: string }) => {
           aria-label={copyText}
           variant="ghost-muted"
           size="xs"
-          className="size-5"
-          onClick={(e) => {
+          className="size-6"
+          onClick={async (e) => {
             e.stopPropagation();
-            navigator.clipboard
-              .writeText(value)
-              .then(() => setCopyText("Copied"))
-              .catch(() => {
-                // clipboard write failed (e.g. denied permissions); leave the state unchanged
-              });
+            try {
+              await navigator.clipboard.writeText(value);
+              setCopyText("Copied");
+            } catch {
+              setCopyText("Copy failed. Try again.");
+            }
           }}
         >
-          {isCopying ? <CheckIcon className="size-3!" /> : <CopyIcon className="size-3!" />}
+          {copyText === "Copied" ? (
+            <CheckIcon className="size-3!" />
+          ) : (
+            <CopyIcon className="size-3!" />
+          )}
         </IconButton>
       </TooltipTrigger>
       {/* Render above the sonner toaster (z-index 999999999) so the tooltip isn't occluded. */}
@@ -73,19 +79,20 @@ const NotificationBody = ({
     {(callToAction || copyActions) && (
       <div
         className={twMerge(
-          "mt-2 flex w-full flex-row items-end gap-2",
-          callToAction ? "h-7 justify-between" : "h-5 justify-end"
+          "mt-2 flex min-h-6 w-full flex-row flex-wrap items-center gap-2",
+          callToAction ? "justify-between" : "justify-end"
         )}
       >
         {callToAction}
         {copyActions && (
-          <div
-            className={twMerge("flex flex-row items-center gap-2", callToAction ? "h-7" : "h-5")}
-          >
+          <div className="flex min-w-0 flex-row flex-wrap items-center gap-2">
             {copyActions.map((action) => (
-              <div className="flex flex-row items-center gap-1.5" key={`copy-${action.name}`}>
+              <div
+                className="flex min-w-0 flex-row items-center gap-1.5"
+                key={`copy-${action.name}`}
+              >
                 {action.label && (
-                  <span className="ml-2 text-xs text-mineshaft-400">{action.label}</span>
+                  <span className="ml-2 text-xs break-all text-muted">{action.label}</span>
                 )}
                 <ToastCopyButton value={action.value} name={action.name} />
               </div>
@@ -144,4 +151,9 @@ export const createNotification = (
 export const dismissNotification = (id: string | number) => toast.dismiss(id);
 
 // All styling/position/close-button config lives in the v3 Toaster itself.
-export const NotificationContainer = () => <Toaster />;
+export const NotificationContainer = () => (
+  <>
+    <NotificationViewport />
+    <RequestErrorDetails />
+  </>
+);

@@ -79,6 +79,8 @@ jobs:
         working-directory: core/e2e
       - name: Verify native browser states
         run: node scripts/test-native-ui.mjs
+      - name: Verify shared notification and dialog interactions
+        run: node scripts/test-notification-matrix.mjs
       - name: Enforce cold login loading budget
         run: node scripts/check-ui-loading.mjs
       - name: Preserve browser and dependency evidence
@@ -90,6 +92,8 @@ jobs:
           path: |
             .cache/ui-proof-*/*.png
             .cache/ui-proof-*/accessibility.json
+            .cache/notification-proof-*/**/*.json
+            .cache/notification-proof-*/**/*.png
             .cache/loading-proof-*/*.png
             .cache/loading-proof-*/result.json
             .cache/loading-proof-*/startup-failure.json

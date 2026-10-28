@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	2bc5ed1755a4a09ed1b244af8629022034e735e4ce7508492d5c228dd8e98f4a	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	ec3b0130ecd4ae8b6b7de62ef1fc6b8a6cdbf8e7e781a7665f88dae7929ea7d1	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -524,7 +524,7 @@ core/frontend/src/components/mfa	identity	React-TypeScript	5	a5dd119c769cbee7503
 core/frontend/src/components/mfa	pki	React-TypeScript	1	4521c1e297e3afb488f019c2eb83b1df89183289c4104f4020d1b5d6897ad153	0	unassessed
 core/frontend/src/components/navigation	pam	React-TypeScript	1	d6fab41ffbdcfa9d1d39cc5be24d291de4a4a8cf3bb423c488644a68c9c4c261	0	unassessed
 core/frontend/src/components/navigation	ui	React-TypeScript	2	1aaebbcd6555df7685cd266fb0bd9f5d2ebb48e40da0b4de6f05dec7e8648d11	0	unassessed
-core/frontend/src/components/notifications	ui	React-TypeScript	2	6869c589a65e2f46463d1582f0df6956fd5e9c68a295662513ee8d4be7d7ea63	0	unassessed
+core/frontend/src/components/notifications	ui	React-TypeScript	5	c2afebb42bd3055bec218bc7855fb48fe2acbfbe075676bb06586e53b03c5659	4	unassessed
 core/frontend/src/components/organization	ui	React-TypeScript	6	6d6b68b2675c110beac889801ecc5de9c14ff221d694a1f5e78fafdc0176262d	0	unassessed
 core/frontend/src/components/page-frames	ui	React-TypeScript	1	43bc48d44dd89d4c97089a7792a1c253834c04efdd6d9293a1bc1c2e1e11602a	0	unassessed
 core/frontend/src/components/permissions	authorization	React-TypeScript	32	d5fdaf1ad45af458676fe7d719f703a1ac13a0cc114e73bc26ce5a5763ecd3b6	0	unassessed
@@ -544,12 +544,12 @@ core/frontend/src/components/utilities	pam	React-TypeScript	1	07eab7bd8b9c44184d
 core/frontend/src/components/utilities	pki	React-TypeScript	1	9fd54c3815b37bf6cd4e73b0483e16bda1346ca8cdaa05fc59a5545625180bd6	0	unassessed
 core/frontend/src/components/utilities	ui	React-TypeScript	18	dfeafc38f90adc1990720125c6aac0a5f743cfe0577e2fbbfa020641d2c37b5e	0	unassessed
 core/frontend/src/components/v2	secrets	React-TypeScript	4	68f178d061523c6098017fc483c3164933a1a92c0c18d86132b7d85e26b272ec	0	unassessed
-core/frontend/src/components/v2	ui	React-TypeScript	111	28e676e546ff2a4e64d5f827fd368ff06780cb477aea47041965656370213bb4	4	unassessed
+core/frontend/src/components/v2	ui	React-TypeScript	111	9a1dfec714c6b24afdb001c998057b0ad38ccba4288794469086b44d2e5cc7a8	7	unassessed
 core/frontend/src/components/v3	authorization	React-TypeScript	1	ae4b449c889929cba1429238f234da59a3f61dde01e0a3ab64ca13fa79737045	0	unassessed
 core/frontend/src/components/v3	ui	React-TypeScript	5	0a4aca43836ca4db8f22ac262eef6bda2eba1f3ff7a60ecd83e56d53aed68580	0	unassessed
 core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	3	fa0de16b9e64ecca0299699cd338f6b4ba44dfe264ac37897e23d14ab8c3f20c	0	unassessed
 core/frontend/src/components/v3/generic/Alert	ui	React-TypeScript	3	8821ab7918df9f37919c0f5f532306244036226a1a2285bbf6d3e7f334a1c298	0	unassessed
-core/frontend/src/components/v3/generic/AlertDialog	ui	React-TypeScript	3	0663041c2647f38f16f0fdb0368ef38bc0d6d411afa9d13df25548d3d8f7b7bf	0	unassessed
+core/frontend/src/components/v3/generic/AlertDialog	ui	React-TypeScript	3	7b7cb6906212611e7bed27a0a5448cd05efd70ebd4ce52e5ca0fd0219dca072c	1	unassessed
 core/frontend/src/components/v3/generic/AnimatedCollapse	ui	React-TypeScript	3	ef3c81064881a685683e4804de9a0191cc4c6ebe926e054982eb47f62979c717	0	unassessed
 core/frontend/src/components/v3/generic/Badge	ui	React-TypeScript	3	461be134f11c0d7650d833a9d372cbf875a33824726323669208c4adb29020c0	0	unassessed
 core/frontend/src/components/v3/generic/Breadcrumb	ui	React-TypeScript	3	d04d21b4e6ed3323e0259852b89c60dd528051265698ea7dcd9c3dce91560525	0	unassessed
@@ -564,7 +564,7 @@ core/frontend/src/components/v3/generic/Command	ui	React-TypeScript	3	74d7dd9294
 core/frontend/src/components/v3/generic/CopyButton	ui	React-TypeScript	2	742f32cc03640f036bfdcb66429dee121b043a7f30e4f52be046b08154461e83	0	unassessed
 core/frontend/src/components/v3/generic/DataGrid	ui	React-TypeScript	22	d2e3f95d901f7d78d23e1384b05dabdef534b7d7c1ed1fc24387372c51ad527e	0	unassessed
 core/frontend/src/components/v3/generic/Detail	ui	React-TypeScript	3	1a274ae9f28fbf116d0fb009105be90bbd7e030a005d8635e3d6edf5a94e4494	0	unassessed
-core/frontend/src/components/v3/generic/Dialog	ui	React-TypeScript	3	166cc723a63d0accaf19497dd20ea2c7695d034dd921713413cdc8b1443ed4e1	0	unassessed
+core/frontend/src/components/v3/generic/Dialog	ui	React-TypeScript	3	d17d38b6f3088b3b25b9ab36efdc29ec04612c8558917742d8b23fbf36b6cbc7	1	unassessed
 core/frontend/src/components/v3/generic/Dropdown	ui	React-TypeScript	3	1794de3ed87c1ca18b93c149ecaf206d33255fc4319c3774cbbe3a2155745098	0	unassessed
 core/frontend/src/components/v3/generic/Empty	ui	React-TypeScript	3	038f4bf2e263b9846b0c2e7ebd2f711d81337c9495756b2ab70c270bed9d9514	0	unassessed
 core/frontend/src/components/v3/generic/Field	ui	React-TypeScript	5	45dcd884c4932b02840f3c1a7bad86a4e2083a82d2a6e501a2d41fbe077fbad9	1	unassessed
@@ -583,7 +583,7 @@ core/frontend/src/components/v3/generic/ScrollableContent	ui	React-TypeScript	4	
 core/frontend/src/components/v3/generic/Select	ui	React-TypeScript	3	f75ca261382277d299dc2b94ba424dc4aea7ee7dc3ad1487b25fa0476d34cebc	0	unassessed
 core/frontend/src/components/v3/generic/SelectedActionBar	ui	React-TypeScript	3	2bd6f31784fdc24d8446214a2a0a7a791d4f757f29e1dc089cf2b4cc13d37043	0	unassessed
 core/frontend/src/components/v3/generic/Separator	ui	React-TypeScript	3	5e0a536bec8c8fc6bf043288e640d2a56f66e2f116ab0d66ff5684a8efbf565c	0	unassessed
-core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	3	701be911f751370bc1cf41e2941f79f13f9aa98ba713115d04bacda31ed66b28	0	unassessed
+core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	3	dc61fff93df501762725098a1d11f1a921f6e47113c05aae6035e8e83500d404	1	unassessed
 core/frontend/src/components/v3/generic/Sidebar	ui	React-TypeScript	2	7c899aa02ad1a77ae1a4a7384e53dee76c1006871b73a928a9c52c32d023f8c6	0	unassessed
 core/frontend/src/components/v3/generic/Skeleton	ui	React-TypeScript	3	9b09f549f983526c2e66eaa10928888f4790454bdd92e356ad673a1b30673d62	0	unassessed
 core/frontend/src/components/v3/generic/Stepper	ui	React-TypeScript	3	6953f16dae3c8aa7768d80bf3f6b39bb3a5d9dd6936b9a6ebfbbab5adb4aa297	0	unassessed
@@ -591,7 +591,7 @@ core/frontend/src/components/v3/generic/Switch	ui	React-TypeScript	3	1bca6facaff
 core/frontend/src/components/v3/generic/Table	ui	React-TypeScript	3	e96798395be1da5bd8a7e65e9f1ee0c95362c46e64d73453741f52e609e35cb5	1	unassessed
 core/frontend/src/components/v3/generic/Tabs	ui	React-TypeScript	3	8c99688b0b0ed748a0bf31ab00a8da4a4ca368828eaf60a4e1d355b40fe974c7	0	unassessed
 core/frontend/src/components/v3/generic/TextArea	ui	React-TypeScript	3	7426ee839032ede1c872bf4977765c2a62e18e0eb57fe4d133e70b90daa2dc93	0	unassessed
-core/frontend/src/components/v3/generic/Toast	ui	React-TypeScript	3	0cfd34ce88021d7b7c288649b360d508180cb6c58529fcc0b619687131a64529	0	unassessed
+core/frontend/src/components/v3/generic/Toast	ui	React-TypeScript	3	fd59382f9d1df9219d783a314a26cc590ff7d44c1a4c8a574186374ecdc9dab5	1	unassessed
 core/frontend/src/components/v3/generic/Tooltip	ui	React-TypeScript	3	602b316544af7293178aadecd50c9b7293c14e633619250c19dee5308c31783e	0	unassessed
 core/frontend/src/components/v3/platform/DateRangeFilter	ui	React-TypeScript	3	83ab95e18b9120d3bd3da8e133d18b78ec96865508b0e3da9c63a25def55a57c	0	unassessed
 core/frontend/src/components/v3/platform/DeleteConfirmDialog	ui	React-TypeScript	2	d6cd7035d63f794376613f224d7bd9de0238e05c690e133115cc5ae3c1dce23c	0	unassessed
@@ -634,7 +634,7 @@ core/frontend/src/hooks	identity	React-TypeScript	3	8ac6f4ca6a76180b943f818c141d
 core/frontend/src/hooks	integrations	React-TypeScript	1	a8fc7064778efb13970ce03358ebb79ff518561a785154447e15dfeaf7c069c1	0	unassessed
 core/frontend/src/hooks	pam	React-TypeScript	1	371c01b4f68665570ddf3aea7447196261b6ae206206e96fff62151eebc81118	0	unassessed
 core/frontend/src/hooks	ui	React-TypeScript	17	719ef9e5a7086379720dba209861338330907a25a0843cef617d43d7409c24b2	0	unassessed
-core/frontend/src/hooks/api	ui	React-TypeScript	3	c9e2feb566ff361cf3bdccd3d449d3a2d155c327dd309680dae9c706ada683f9	0	unassessed
+core/frontend/src/hooks/api	ui	React-TypeScript	3	6d4263e9d6ca8ddb0175e6388c115e9576dc8c90062b7841b6d1fb8861784450	1	unassessed
 core/frontend/src/hooks/api/accessApproval	authorization	React-TypeScript	4	de5d863848f2205b1a8998209fafab379feba49f403d18387b9994079ab96257	0	unassessed
 core/frontend/src/hooks/api/accountRecovery	ui	React-TypeScript	3	7b128be4b0b56502e7cdf775f22bcbd3decb3d41daac5437457ab7d93ada2c23	0	unassessed
 core/frontend/src/hooks/api/admin	ui	React-TypeScript	4	cd06ac7841ccca661ba2582f6cab155b3e91dbd8a29fd6a0850c11c81b043b29	0	unassessed
@@ -771,7 +771,7 @@ core/frontend/src/lib/fn	authorization	React-TypeScript	1	42dd64ffc3883db1934bfb
 core/frontend/src/lib/fn	ui	React-TypeScript	11	9a5675c1858edc034ec446888c427d958e5264f47c2bc46a9052365003ed5d70	0	unassessed
 core/frontend/src/lib/ironrdp-decoder	pam	React-TypeScript	4	15daf9244cc6ec4ec0d31a62efb8f7427d096f409daadda6352e87d69bb3c12e	0	unassessed
 core/frontend/src/lib/schemas	ui	React-TypeScript	2	29d59834af87f231c09c1b7419dd586f9e0dd400302208f2f30c7073df0f367e	0	unassessed
-core/frontend/src/pages	ui	React-TypeScript	6	129e5233ffc6f70648dcb277d9ed56bf44e843dde7bc3436eb8064580d8be1ac	5	unassessed
+core/frontend/src/pages	ui	React-TypeScript	6	129e5233ffc6f70648dcb277d9ed56bf44e843dde7bc3436eb8064580d8be1ac	6	unassessed
 core/frontend/src/pages/MfaSessionPage	identity	React-TypeScript	3	11d4460dd5847232644ce3032fba3f82227eb4607475b18f3bf08f3a80af0261	0	unassessed
 core/frontend/src/pages/admin	ui	React-TypeScript	1	5d03d3457712506f8ac8231b103be14899351771fbbef7e313d828aaf4e04939	0	unassessed
 core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	5	08656a2582c42cf78baf2aafd1dab328ed8d505f80f5cc425a6c60d2718dc715	0	unassessed
@@ -987,6 +987,7 @@ core/frontend/src/views/PermissionAuditSheet	audit	React-TypeScript	10	9bbbe4690
 core/frontend/src/views/PkiAlertsV2Page	pki	React-TypeScript	2	d1e7cd7f12d0afa9162635fa079834fbe650c7300922544b05aa744efa969c7c	0	unassessed
 core/frontend/src/views/PkiAlertsV2Page/components	pki	React-TypeScript	5	37e9c26be7be849f1ad056b218358612c00a1af7ca132e423c6f9eeb8c5cd1bc	0	unassessed
 core/frontend/src/views/PkiAlertsV2Page/utils	pki	React-TypeScript	1	3dc1e3e92b005a226619807667c07116f4c3b5d7855730fa355f0fb2cded725f	0	unassessed
+core/frontend/tests	ui	React-TypeScript	1	9b108f238698414fa60b1a51066a5191811b61b7406c4b646f23dbd4cbecae2f	1	unassessed
 core/helm-charts	delivery	supporting-tooling-or-contract	4	179de03797ed9bd0e3cedd7b7a652e7376a32c82e54951a365844d40b1b0aac1	0	unassessed
 core/helm-charts/infisical-gateway	delivery	supporting-tooling-or-contract	3	f047957166263d419806c19c3457ad30e5691139478345996a290af29fe1446d	0	unassessed
 core/helm-charts/infisical-gateway/ci	delivery	supporting-tooling-or-contract	1	37292add22b030aacf6e0055e8552a6894984962c69c04ea29df636b80065804	0	unassessed
@@ -1055,4 +1056,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	25	190964ba67138c59cb2966b761a803df4ba2cf53a39022f7bba0f2bc2bd599ab	16	unassessed
+scripts	delivery	supporting-tooling-or-contract	27	57401a71d58f07faf3bd1771cddd01d2fd3fb23599de4509c1343c0dae57fdc0	18	unassessed
