@@ -806,13 +806,14 @@
     {
       "path": "scripts/test-core.mjs",
       "blob": "8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete runner read. Adds first-owner transaction acceptance to the default disposable backend capability matrix on Dragonfly and Redis. Existing container/env isolation and cleanup behavior retained; operator database/configuration is not used.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
-        "Standalone-image and full matrix acceptance pending in this implementation commit."
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
@@ -1094,13 +1095,14 @@
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
       "blob": "20f69496a263bacf9f90e7df6dc24155b5cbccb1",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete file reviewed in onboarding packets; this change authors only first-owner initialization and configuration startup/cache recovery. Browser and machine creation serialize on the same database lock and atomically persist owner, organization defaults, token records and configuration. Hashing and external customer preparation precede the transaction; cache invalidation/reporting follow commit. Fresh self-hosted defaults are email-only/invite-only. Existing administration, integration encryption and authorization paths remain; native Nomen/Go migration and broader administrator concurrency are not completed.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
-        "Standalone-image and full matrix acceptance pending in this implementation commit."
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
@@ -3023,23 +3025,27 @@
     {
       "path": "scripts/map-capabilities.mjs",
       "blob": "d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "scripts/test-capability-map.mjs"
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
       "path": "scripts/test-capability-map.mjs",
       "blob": "4a6ea95546b08d6801b428a67753c1be6dea8cbd",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Adds a real temporary empty provider directory and proves the discovery output is unchanged; removes only that newly created empty directory. Retains all coverage, read-only preview and baseline checks.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "scripts/test-capability-map.mjs"
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
@@ -3201,12 +3207,14 @@
     {
       "path": "docs/0050-organization-first-setup.md",
       "blob": "fa601423994675aa6c8e7f1be09e963eaf0fc992",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete document read. Retains prior real-image evidence and points the first-owner server follow-up to 0051. Does not relabel earlier browser recovery evidence as transaction acceptance.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "scripts/test-capability-map.mjs"
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
@@ -3226,37 +3234,53 @@
     {
       "path": "core/backend/src/services/super-admin/super-admin-dal.ts",
       "blob": "89a20b20d07aac62ff9279cf93353174fbf5999a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete file read with ormify and configuration callers. Configuration updates join the supplied transaction, or open one only when absent. Adds an explicit primary configuration reader for first-owner decisions and stale pre-setup cache recovery. Shared-store behavior and response shape retained. One-connection rollback acceptance is in the first-owner integration suite.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
-        "Standalone-image and full matrix acceptance pending in this implementation commit."
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
       "path": "core/backend/src/services/org/org-service.ts",
       "blob": "ed758a41b0ff4811be9fafc1841af3ca67a35b76",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Complete file read with organization creation callers and certificate/PAM bootstrap dependencies. Extracts the existing database-only organization, membership and default-project creation into an explicit transaction method used by both ordinary organization creation and first-owner setup. Ordinary creation retains its existing provisioning/reporting contract. Other org/membership/invitation/delete workflows were read but are not rewritten or verified by this packet; their external effects inside transactions remain separate work.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
-        "Standalone-image and full matrix acceptance pending in this implementation commit."
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     },
     {
       "path": "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
       "blob": "3a196797da96410fd119fe7c19be5d3700dab4e9",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
       "scope": "Authored real HTTP/PostgreSQL first-owner acceptance: one-connection DAL rollback, synchronized browser/machine races, database-trigger failures, same-email retry, lost-response password sign-in, stale pre-setup cache, preserved existing access policy and bounded machine token record. Disposable seeded database only; fixture rows/configuration are restored for subsequent suites. No external issuer/provider or full-product parity claim.",
       "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
-        "Standalone-image and full matrix acceptance pending in this implementation commit."
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
+      ]
+    },
+    {
+      "path": "docs/0051-first-owner-transaction.md",
+      "scope": "Complete document authored and read. Records the first-owner transaction boundary, preserved contracts, completed scoped evidence and unresolved external/migration/fixture-reliability gates.",
+      "blob": "a891cb926557f65c6474f5d50ad6fc4b550fab11",
+      "status": "verified",
+      "decision": "modify",
+      "evidence": [
+        "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
+        "docs/0051-first-owner-transaction.md",
+        ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
       ]
     }
   ]
