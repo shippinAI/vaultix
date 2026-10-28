@@ -70,6 +70,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /api/v1/vaultix/trust", s.trust)
 	mux.HandleFunc("GET /api/v1/vaultix/license", s.getLicense)
 	mux.HandleFunc("GET /api/v1/vaultix/instance", s.getInstance)
+	mux.HandleFunc("GET /api/v1/vaultix/tenant", s.getTenant)
 	mux.HandleFunc("GET /api/v1/vaultix/manager/instances", s.withUser(s.listManaged))
 	mux.HandleFunc("POST /api/v1/vaultix/manager/instances", s.elevated(s.registerManaged))
 	mux.HandleFunc("GET /api/v1/vaultix/lessons", s.withUser(s.getLessons))
