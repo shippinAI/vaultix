@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	e054a62694d375c1b8c558d998f8c609363696d5	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	67a7bf8c89b9262e7451f89400acef14cfe03895	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -9343,7 +9343,7 @@ scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	1a16f6
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	verified
-scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	reviewed
+scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7ada399be6d0dfb1622e778b5a163dd6e99b7c41	verified
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	verified
@@ -9363,6 +9363,7 @@ scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1c3556a7de584e227d74f95adb2184710a19c435	unread
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
+scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee8a4729b8a1e805db640e33fd9a57e18d0a3fd1	verified
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	e1ac4dde2a769e222f7e3c2a6deb56bcdff61fc2	unread

@@ -104,7 +104,21 @@ Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
 
 ## Checks
 
+Publish reviewed source from a clean, committed `main`:
+
 ```sh
+bash scripts/publish-github.sh --check
+bash scripts/publish-github.sh --push
+```
+
+The preflight verifies the existing destination, committed Dockerfiles and remote
+ancestry. Publication preserves Git history and pushes the checked commit. It
+does not create a repository or configure authentication. Verify the GHCR run for
+that commit before deploying its image; a successful source push is not image
+publication. See [publication acceptance](docs/0041-publication-history.md).
+
+```sh
+node scripts/test-publication.mjs
 go test ./...
 (cd panel && go test ./...)
 bash scripts/check-owned.sh

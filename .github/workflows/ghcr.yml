@@ -46,6 +46,8 @@ jobs:
         run: node scripts/test-capability-surface.mjs
       - name: Verify safe native integration diagnostics
         run: node scripts/test-go-test-evidence.mjs
+      - name: Verify publication history and failure handling
+        run: node scripts/test-publication.mjs
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
@@ -105,6 +107,8 @@ jobs:
             .cache/loading-proof-*/startup-failure.json
             .cache/bundle-proof-*/*.json
             .cache/backend-production-audit.json
+            .cache/publication-proof-*/result.json
+            .cache/publication-proof-*/*-result.json
           if-no-files-found: warn
       - run: make lint
         working-directory: core/backend-go

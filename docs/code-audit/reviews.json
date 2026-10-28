@@ -1062,10 +1062,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "e054a62694d375c1b8c558d998f8c609363696d5",
+      "blob": "67a7bf8c89b9262e7451f89400acef14cfe03895",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete workflow read. Adds the actual packaged issuer/native invalid-policy startup gate before image publication and preserves its safe evidence artifact. Existing checks and full cache/browser suites remain required. YAML parses locally; GitHub execution remains unproven while the account billing/spending block persists.",
+      "scope": "Complete existing workflow review retained. Publication-history fixtures now run before image release and upload labelled results; lifecycle/startup/browser gates retained. Local YAML parsing and test runner pass; this new GitHub step has not executed because account jobs are blocked.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1087,7 +1087,10 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/0041-publication-history.md",
+        ".cache/publication-proof-Ca5zjL/result.json",
+        ".cache/publication-artifact-comparison.json"
       ]
     },
     {
@@ -1982,12 +1985,15 @@
     },
     {
       "path": "scripts/publish-github.sh",
-      "blob": "7365366363c7848e124bd246756fb2c6e3778678",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete publication script read. It stages fresh Git history, excludes standalone Dockerfiles and offers force-pushing existing main; it was not executed. Replace in a separate publication packet with non-force checked-history publication and executable failure-path coverage.",
+      "blob": "7ada399be6d0dfb1622e778b5a163dd6e99b7c41",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete legacy and authored script read. Replaced fresh-history staging and excluded Dockerfiles with publication of clean committed main, explicit destination/build-input/ancestry gates and ordinary checked-SHA push. Refuses force/fetch/global auth/repository creation and fails without fallback; readonly preflight separate from source/image publication. Actual Git fixtures include concurrent non-fast-forward denial; real GHCR execution still blocked externally.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md"
+        "docs/0039-native-scoped-revocation.md",
+        "docs/0041-publication-history.md",
+        ".cache/publication-proof-Ca5zjL/result.json",
+        ".cache/publication-artifact-comparison.json"
       ]
     },
     {
@@ -2232,6 +2238,30 @@
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
         ".cache/lifetime-runtime-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "scripts/test-publication.mjs",
+      "blob": "ee8a4729b8a1e805db640e33fd9a57e18d0a3fd1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete test harness authored/read. Twenty-three actual-script cases use disposable real Git worktrees and bare remotes, with only GitHub network calls substituted. Covers source preservation, dirty/detached/branch/destination/build-input/operator-file gates, unavailable/unknown/divergent history, explicit-SHA default/push, readonly preflight, concurrent remote race and failure with no forbidden fallback. Uses isolated test Git configuration; no operator credential reads or network publication.",
+      "evidence": [
+        "docs/0041-publication-history.md",
+        ".cache/publication-proof-Ca5zjL/result.json",
+        ".cache/publication-artifact-comparison.json"
+      ]
+    },
+    {
+      "path": "README.md",
+      "blob": "dad6512690464eb3d7522c1c2edd1a351bc038ca",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete README read. Added reviewed-main publication commands and exact-commit/remote ancestry behavior; distinguishes source push from GHCR publication/deployment and links 0041. Existing CLI, AI and deployment descriptions retained with their stated limitations; no new provider or subscription integration claim.",
+      "evidence": [
+        "docs/0041-publication-history.md",
+        ".cache/publication-proof-Ca5zjL/result.json",
+        ".cache/publication-artifact-comparison.json"
       ]
     }
   ]

@@ -1,69 +1,66 @@
-#!/bin/bash
-# Publish this tree to github.com/shippinAI/vaultix (private), same home as Nomen.
-# Does not nest core/.git. Does not upload node_modules, run/, leftover dumps, or
-# leftover docs screenshots. First push creates the repo if you are an org admin.
+#!/usr/bin/env bash
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+fail() { printf '%s\n' "$1" >&2; exit 2; }
+mode="${1:---push}"
+if [[ "$#" -gt 1 ]]; then fail "Usage: publish-github.sh [--check|--push]"; fi
+case "$mode" in
+  --check|--push) ;;
+  --help) printf '%s\n' 'Usage: publish-github.sh [--check|--push]' 'Publish the existing committed main; --check never pushes.'; exit 0 ;;
+  *) fail "Usage: publish-github.sh [--check|--push]" ;;
+esac
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd -P)"
 OWNER="${VAULTIX_GH_OWNER:-shippinAI}"
 REPO="${VAULTIX_GH_REPO:-vaultix}"
-# HTTPS + gh credential helper. SSH keys are not assumed on this box.
-REMOTE="https://github.com/${OWNER}/${REPO}.git"
+[[ "$OWNER" =~ ^[A-Za-z0-9][A-Za-z0-9-]{0,38}$ ]] || fail "Invalid GitHub owner name."
+[[ "$REPO" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$ ]] || fail "Invalid GitHub repository name."
+[[ -z "${VAULTIX_FORCE_PUBLISH:-}" ]] || fail "VAULTIX_FORCE_PUBLISH is no longer supported. History must be preserved."
+destination="https://github.com/${OWNER}/${REPO}.git"
 
-if ! command -v gh >/dev/null 2>&1; then
-  echo "gh CLI required" >&2
-  exit 2
-fi
-gh auth setup-git >/dev/null
+cd "$ROOT"
+command -v git >/dev/null 2>&1 || fail "Git is required."
+top="$(git rev-parse --show-toplevel 2>/dev/null)" || fail "Run from the existing Vaultix checkout."
+[[ "$(cd "$top" && pwd -P)" == "$ROOT" ]] || fail "The script must belong to the repository root being published."
+branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)" || fail "Detached HEAD cannot be published. Check out main."
+[[ "$branch" == main ]] || fail "Only the existing main branch can be published."
+pending="$(git status --porcelain=v1 --untracked-files=normal)" || fail "Cannot verify the checkout state."
+[[ -z "$pending" ]] || fail "Commit or preserve pending work before publication; the tree must be clean."
+head="$(git rev-parse --verify HEAD)"
 
-if ! gh repo view "${OWNER}/${REPO}" >/dev/null 2>&1; then
-  echo "creating ${OWNER}/${REPO}"
-  gh repo create "${OWNER}/${REPO}" --private --disable-wiki --description "Vaultix - Shippin secrets you own. A SHIPPIN.AI SERVICE. AngryVibes LLC."
-fi
+origin="$(git config --get-all remote.origin.url || true)"
+case "$origin" in
+  "$destination"|"https://github.com/${OWNER}/${REPO}"|"git@github.com:${OWNER}/${REPO}.git") ;;
+  *) fail "Origin does not match the expected GitHub repository. No destination was changed." ;;
+esac
+push_url="$(git config --get-all remote.origin.pushurl || true)"
+[[ -z "$push_url" || "$push_url" == "$destination" ]] || fail "An alternate origin push URL makes publication ambiguous."
+rewrites="$(git config --get-regexp '^url\..*\.(insteadof|pushinsteadof)$' || true)"
+[[ -z "$rewrites" ]] || fail "Git URL rewrites must be resolved before publishing to an exact destination."
 
-STAGE="$(mktemp -d /tmp/vaultix-publish.XXXXXX)"
-cleanup() { rm -rf "$STAGE"; }
-trap cleanup EXIT
-
-rsync -a --delete \
-  --exclude '.git/' \
-  --exclude '**/node_modules/' \
-  --exclude 'run/' \
-  --exclude 'core/.git/' \
-  --exclude 'core/.github/' \
-  --exclude 'core/docs/images/' \
-  --exclude 'core/Dockerfile.standalone-vaultix' \
-  --exclude 'core/Dockerfile.fips.standalone-vaultix' \
-  --exclude 'leftover/schema-dump/' \
-  --exclude 'leftover/api-inventory/__pycache__/' \
-  --exclude 'compose/vaultix.env' \
-  --exclude 'panel/vaultix' \
-  --exclude 'panel/vaultix-panel' \
-  --exclude '.chat/' \
-  "$ROOT"/ "$STAGE"/
-
-cd "$STAGE"
-git init -b main
-git add -A
-if git diff --cached --quiet; then
-  echo "nothing to commit" >&2
-  exit 1
-fi
-git -c user.email="vaultix@shippin.ai" -c user.name="Vaultix publish" \
-  commit -m "Vaultix: owned engine + overlay for GHCR (ghcr.io/shippinai/vaultix)"
-
-git remote add origin "$REMOTE"
-# First publish. Refuse to overwrite a repo that already has commits unless
-# VAULTIX_FORCE_PUBLISH=1.
-if git ls-remote --heads origin main 2>/dev/null | grep -q .; then
-  if [[ "${VAULTIX_FORCE_PUBLISH:-}" != "1" ]]; then
-    echo "${OWNER}/${REPO} already has main. Set VAULTIX_FORCE_PUBLISH=1 to overwrite." >&2
-    exit 3
-  fi
-  git fetch origin main 2>/dev/null || true
-  git push --force origin main
-else
-  git push -u origin main
+for path in core/Dockerfile.standalone-vaultix core/Dockerfile.fips.standalone-vaultix .github/workflows/ghcr.yml; do
+  git cat-file -e "$head:$path" 2>/dev/null || fail "The committed application is missing $path."
+done
+if git cat-file -e "$head:compose/vaultix.env" 2>/dev/null; then
+  fail "Operator compose/vaultix.env must not be tracked in the publication commit."
 fi
 
-echo "pushed ${REMOTE}"
-echo "GHCR: Actions → GHCR  →  ghcr.io/shippinai/vaultix  and  ghcr.io/shippinai/vaultix-panel"
+remote_refs="$(git ls-remote --exit-code --heads "$destination" refs/heads/main 2>/dev/null)" || fail "Cannot read the existing GitHub main. Check repository access; nothing was created or fetched."
+[[ "$remote_refs" =~ ^([a-f0-9]{40}|[a-f0-9]{64})[[:space:]]+refs/heads/main$ ]] || fail "The remote main response is missing or ambiguous."
+remote_head="${BASH_REMATCH[1]}"
+git cat-file -e "$remote_head^{commit}" 2>/dev/null || fail "Remote main is not available locally. Reconcile history explicitly before publishing."
+git merge-base --is-ancestor "$remote_head" "$head" || fail "Remote main is not an ancestor of this commit. Reconcile history without overwriting it."
+
+printf 'Verified committed Vaultix main: %s\n' "$head"
+if [[ "$mode" == --check ]]; then
+  printf '%s\n' 'Preflight passed; no push or image publication was performed.'
+  exit 0
+fi
+
+pending="$(git status --porcelain=v1 --untracked-files=normal)" || fail "Cannot verify the checkout state."
+[[ "$(git rev-parse HEAD)" == "$head" && -z "$pending" ]] || fail "The checkout changed during preflight. Run publication again after reviewing it."
+# Push the checked object, not a branch name that can move during verification.
+git push "$destination" "$head:refs/heads/main" || fail "Source push failed. No force push or retry was attempted."
+printf 'Published source commit: https://github.com/%s/%s/commit/%s\n' "$OWNER" "$REPO" "$head"
+printf 'Verify the GHCR workflow before using an image: https://github.com/%s/%s/actions/workflows/ghcr.yml\n' "$OWNER" "$REPO"
+printf '%s\n' 'A source push does not establish a published or deployed container image.'
