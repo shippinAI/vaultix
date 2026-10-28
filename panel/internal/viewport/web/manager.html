@@ -32,6 +32,7 @@
     <img class="wordmark" src="/viewport/wordmark.svg" alt="Vaultix — A SHIPPIN.AI SERVICE, AngryVibes LLC" />
     <p class="mute">Instance manager. Name boxes here. Secrets stay on each instance’s <a href="/viewport/">configure path</a>.</p>
     <div id="stamp" class="card">Loading…</div>
+    <div id="tenant" class="card">Loading tenant tables…</div>
     <div class="card">
       <h2>Instances</h2>
       <table>
@@ -55,6 +56,10 @@
       "X-Vaultix-Elevated": sessionStorage.getItem("vaultix-elevated") || "",
     });
     async function boot() {
+      const tenant = await fetch("/api/v1/vaultix/tenant").then((r) => r.json());
+      const box = document.getElementById("tenant");
+      const rows = (tenant.tables || []).map((t) => "<li><code>" + t.physical + "</code></li>").join("");
+      box.innerHTML = "<strong>" + (tenant.headline || "") + "</strong><ul>" + rows + "</ul>";
       const me = await fetch("/api/v1/vaultix/instance").then((r) => r.json());
       const stamp = document.getElementById("stamp");
       stamp.innerHTML = "<strong>" + me.instance.owner + "</strong> · " + me.instance.host +
