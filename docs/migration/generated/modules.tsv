@@ -1,12 +1,12 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	7dd836c9beb113f2b87103fc2af31e01732794ea9a5803493c9462801f1d834c	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	28a3bb3579f9dd63b26e089257944ee5f375ead5e2591e437a2fe99d665ef95b	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
 contracts	foundation	supporting-tooling-or-contract	3	eaf6d5219cde8fbd47165a1750bff6a76c5bcd43cd1152ecd363c05764d96f19	0	unassessed
-core	delivery	supporting-tooling-or-contract	26	6d3fdddbcfd709708b45473b05aa38663dcc94827d88865cf139cdde94747eb1	1	unassessed
+core	delivery	supporting-tooling-or-contract	26	db8a73cdefc2f6e819527ea09f1f21e5c55f53a74413e401ae52595ec62794d6	2	unassessed
 core/.greptile	delivery	supporting-tooling-or-contract	2	3608612865de3c63d8bc9dcf7785427d75c2b4606af67419eec437c9ea8785d6	0	unassessed
 core/.husky	delivery	supporting-tooling-or-contract	1	d4449fa923f40b42794bec6c7f7cbbd6f2de0b1a5905fb8f3db07fbdee174cc8	0	unassessed
 core/backend	delivery	Go-domain-migration	4	efeadffe3e7fc07566aa5c24017e759391df663ee52036b26383a51a5e56b5c1	0	unassessed
@@ -1041,7 +1041,7 @@ internal/api	cli	Go-client-Rust-injection-boundary	3	d1ebbef7db00837992182c6f14b
 internal/cli	cli	Go-client-Rust-injection-boundary	5	42f32b01b6b884a763cb026c45882a76cf9cad48b5f1372763a115143b3be777	0	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	3	f9e3e567aeb3599f74c1c6bbcfb036b3bc780e260653c579e863efaff3fc7ffb	0	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
-panel	legacy-panel	reconcile-into-native-product	6	52c3a241869afc7d1b77e3f44c25f3152b85e47b549879ce7e5f98a9cffb4755	2	unassessed
+panel	legacy-panel	reconcile-into-native-product	6	5477198543c29cc9095961ece11d6dd7f3dfbde1e0f941130d5b8e64953a0a35	2	unassessed
 panel/internal/audit	legacy-panel	reconcile-into-native-product	1	ea6574578ef49132308822e670109e3bb197b07c387262b5c5bbc7bcaf426dd8	0	unassessed
 panel/internal/core	legacy-panel	reconcile-into-native-product	4	061ea27d6729b9993af490f47e2bbc74d5bb6dc851a620529723f58c85595e7f	0	unassessed
 panel/internal/deploy	legacy-panel	reconcile-into-native-product	2	53884f9fc91b652bcc5b29034b7728f2f1f5e38d31045d59fee7b6f1ab72e304	0	unassessed
@@ -1060,4 +1060,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	36	0be8ca065ce87d952364658d93d67607d4a26f7ef7f850b68ecd354ffc0bb6c9	28	unassessed
+scripts	delivery	supporting-tooling-or-contract	37	a0ad2dbcf5a378447efa06d5e365bf109025dec056be5a6a6abb7934864facc0	29	unassessed

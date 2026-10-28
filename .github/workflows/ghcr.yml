@@ -137,19 +137,32 @@ jobs:
         id: image
         run: echo "name=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/vaultix-panel" >> "$GITHUB_OUTPUT"
 
-      - name: Push ${{ steps.image.outputs.name }}
+      - name: Build revision-tagged optional panel
+        id: panel-build
         uses: docker/build-push-action@v7
         with:
           context: panel
           file: panel/Dockerfile
           push: true
+          provenance: mode=min
+          build-args: |
+            VAULTIX_SOURCE_REVISION=${{ github.sha }}
           tags: |
             ${{ steps.image.outputs.name }}:${{ github.sha }}
-            ${{ steps.image.outputs.name }}:latest
           labels: |
             org.opencontainers.image.title=Vaultix panel
             org.opencontainers.image.vendor=AngryVibes LLC
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+      - name: Verify optional panel identity
+        run: |
+          docker pull '${{ steps.image.outputs.name }}@${{ steps.panel-build.outputs.digest }}'
+          node scripts/check-image-identity.mjs '${{ steps.image.outputs.name }}@${{ steps.panel-build.outputs.digest }}' panel '${{ github.sha }}'
+      - name: Promote verified optional panel image
+        run: docker buildx imagetools create --tag '${{ steps.image.outputs.name }}:latest' '${{ steps.image.outputs.name }}@${{ steps.panel-build.outputs.digest }}'
 
   engine:
     needs: checks
@@ -187,6 +200,7 @@ jobs:
           sbom: false
           build-args: |
             VAULTIX_PLATFORM_VERSION=0.162.19
+            VAULTIX_SOURCE_REVISION=${{ github.sha }}
           tags: |
             ${{ steps.image.outputs.name }}:${{ github.sha }}
             ${{ steps.image.outputs.name }}:0.162.19
@@ -204,6 +218,9 @@ jobs:
         working-directory: core/e2e
       - run: npx playwright install --with-deps chromium
         working-directory: core/e2e
+
+      - name: Verify standalone image identity
+        run: node scripts/check-image-identity.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}' engine '${{ github.sha }}'
 
       - name: Reject invalid identity lifetime policy in both packaged runtimes
         run: node scripts/test-identity-policy-startup.mjs '${{ steps.image.outputs.name }}:${{ github.sha }}'

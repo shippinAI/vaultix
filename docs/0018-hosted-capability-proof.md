@@ -550,3 +550,16 @@ fixture/locator failures and reproduced product defects are retained in 0044.
 Actual approval/batch/denied-role paths, broader dashboard/editor migration,
 screen readers and full lifecycle/provider acceptance remain open. This is
 scoped workflow evidence, not whole-UI or enterprise parity.
+
+Image metadata alignment is recorded in
+[0045](0045-image-identity-and-revision.md). The canonical build now labels
+Vaultix.cloud as the product URL and distinguishes uncommitted local builds from
+an explicitly supplied source commit. The engine release checks loaded image
+identity and expected revision before publication. The optional panel publishes
+only its revision tag first, verifies the exact registry digest, then promotes
+the existing attested index to `latest`. Cloud execution and local registry
+promotion remain unverified; the loopback push probe failed with connection refused.
+The local canonical rebuild has identical runtime layers/configuration to 0044,
+apart from the URL and revision labels, and passes the updated Dragonfly smoke
+gate. The reduced legacy Dockerfile is not a release-capability claim. Committed
+revision promotion, registry publication and signed provenance are separate gates.

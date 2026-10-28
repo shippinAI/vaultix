@@ -258,9 +258,10 @@ ARG DD_GIT_COMMIT_SHA
 ENV DD_GIT_COMMIT_SHA $DD_GIT_COMMIT_SHA
 
 # OCI Image Labels — Vaultix (AngryVibes LLC / shippin.ai)
+ARG VAULTIX_SOURCE_REVISION=uncommitted
 LABEL org.opencontainers.image.title="Vaultix"
 LABEL org.opencontainers.image.description="Shippin secrets you own"
-LABEL org.opencontainers.image.url="https://vaultix.shippin.cloud"
+LABEL org.opencontainers.image.url="https://vaultix.cloud"
 LABEL org.opencontainers.image.documentation="https://shippin.ai"
 LABEL org.opencontainers.image.source="https://github.com/shippinAI/vaultix"
 LABEL org.opencontainers.image.vendor="AngryVibes LLC"
@@ -268,7 +269,7 @@ LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.base.name="node:22.22.0-trixie-slim"
 
 LABEL org.opencontainers.image.version="${VAULTIX_PLATFORM_VERSION}"
-LABEL org.opencontainers.image.revision="${DD_GIT_COMMIT_SHA}"
+LABEL org.opencontainers.image.revision="${VAULTIX_SOURCE_REVISION}"
 
 ENV PORT 8080
 ENV HOST=0.0.0.0

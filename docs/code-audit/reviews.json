@@ -865,28 +865,50 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "d73f958fb2e6da26c4a0fc2b2a5ca137fc1c1a6f",
-      "status": "authored",
+      "blob": "184c700f44ce5aa2a3566856926ca8631f1167e3",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Pins the Go builder to 1.27.3 while retaining runtime packaging, non-root execution and existing entrypoints. Canonical, panel and SoftHSM builds are exercised; development/FIPS-development images retain their previous behavior and are not certification evidence. Runtime distribution, telemetry build inputs, OCI domain and Air dependency review remain separate.",
+      "scope": "Complete current Dockerfile read; prior build review retained. Product URL now identifies Vaultix.cloud and a first-class source revision defaults honestly to uncommitted. Runtime, toolchains, native modules, non-root execution, entrypoint and optional Datadog arguments are retained. Local canonical build, metadata rejection/acceptance, exact filesystem/runtime equivalence and Dragonfly smoke verify this metadata scope. Expected committed-revision rebuild follows source commit; external providers, alternate architectures, supply-chain hardening and signed provenance remain separate.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         ".cache/toolchain-verified-build.log",
         ".cache/go1273-panel-build-correct-context.log",
-        ".cache/go1273-hsm-build.log"
+        ".cache/go1273-hsm-build.log",
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
       ]
     },
     {
       "path": "panel/Dockerfile",
-      "blob": "a379cbb64618dd21e690d71f58d05e2855775750",
-      "status": "authored",
+      "blob": "d6b694764171deb6d861cb42e7fb85c5db7ddc2b",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Pins the Go builder to 1.27.3 while retaining runtime packaging, non-root execution and existing entrypoints. Canonical, panel and SoftHSM builds are exercised; development/FIPS-development images retain their previous behavior and are not certification evidence. Runtime distribution, telemetry build inputs, OCI domain and Air dependency review remain separate.",
+      "scope": "Complete current Dockerfile read; prior build review retained. Optional panel image gets Vaultix.cloud URL and explicit source revision with an honest uncommitted default. Local image builds and identity check pass. Application code, non-root user, entrypoint and health definition are retained; no new panel runtime/deployment or whole-feature acceptance is claimed.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         ".cache/toolchain-verified-build.log",
         ".cache/go1273-panel-build-correct-context.log",
-        ".cache/go1273-hsm-build.log"
+        ".cache/go1273-hsm-build.log",
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
       ]
     },
     {
@@ -1072,10 +1094,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "23bbab020304bd2ade434ba38345c35ffd33c71d",
+      "blob": "285a8560c4749d40963ea8cd04c43ddaeb9fe01a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete existing workflow review retained and current file read. Adds pinned-Node parser verification and retains new labelled create-secret and dashboard compatibility reports. Actual packaged runner includes the browser gates. Local YAML parsing passes; GitHub jobs remain blocked before steps by account billing/spending, so hosted execution/publication is not claimed.",
+      "scope": "Complete current workflow read; previous application, native, lifetime, publication and artifact gates retained. Both builds receive the checkout revision. Engine loads and checks identity before pushing. Optional panel publishes its revision tag with minimum provenance, verifies the exact registry digest, then promotes the existing index to latest. Local YAML ordering and publication fixtures pass; the disposable registry push probe failed with connection refused before promotion. GitHub execution remains blocked before steps by account billing/spending. Successful registry promotion and signed provenance are not claimed.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1102,7 +1124,18 @@
         ".cache/publication-proof-Ca5zjL/result.json",
         ".cache/publication-artifact-comparison.json",
         "docs/0044-create-secret-workflow.md",
-        ".cache/membership-github-blocker.json"
+        ".cache/membership-github-blocker.json",
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
       ]
     },
     {
@@ -1150,15 +1183,26 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "c2f9ca8c499cca62f2503d7cd839aa585b981718",
+      "blob": "901f3eaf8081d881ed1d65260bd2b677fd385d45",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Existing isolated image/cache/queue/restart and optional real application proofs retained; the separate opt-in eager-upload probe fails if any connection resets. Cleanup touches only per-run containers/network/temp environment. Local results do not establish hosted failover or ElastiCache.",
+      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/app-image-proof-PM9CDX/workflow-result.json",
         ".cache/api-error-proof-Dfar5o/result.json",
-        ".cache/api-error-proof-aihO25/result.json"
+        ".cache/api-error-proof-aihO25/result.json",
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
       ]
     },
     {
@@ -2554,6 +2598,46 @@
         ".cache/create-secret-final-typecheck.log",
         ".cache/create-secret-final-lint.log",
         ".cache/create-secret-overview-lint.log"
+      ]
+    },
+    {
+      "path": "core/Dockerfile.ghcr",
+      "blob": "940393edd2f4878b1871aa9d6a435356f9c25113",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete reduced-image definition read. Header identifies it as a legacy reduced build outside the canonical release workflow; URL and explicit source revision align with Vaultix.cloud. Missing full standalone components remain explicit. This definition was not built or accepted as a capability-complete release; only the canonical Dockerfile is the release path.",
+      "evidence": [
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
+      ]
+    },
+    {
+      "path": "scripts/check-image-identity.mjs",
+      "blob": "8e0320722f08f6e24451947cf8a78709e84a45b8",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete authored dependency-free artifact check. Reads only actual Docker image labels, validates engine/panel identity and current repository, accepts explicit uncommitted local builds, and requires an exact supplied full commit for release checks. Old URL/blank metadata baseline and mismatched revision are rejected; actual local engine/panel metadata pass. Labels are unsigned assertions, not cryptographic provenance.",
+      "evidence": [
+        "docs/0045-image-identity-and-revision.md",
+        ".cache/image-identity-baseline.json",
+        ".cache/image-identity-baseline-check.log",
+        ".cache/image-identity-engine.json",
+        ".cache/image-identity-panel.json",
+        ".cache/image-identity-wrong-revision.log",
+        ".cache/image-identity-runtime-comparison.json",
+        ".cache/image-identity-engine-smoke.log",
+        ".cache/publication-proof-EjOLFM/result.json",
+        ".cache/publication-proof-rDfJRI/result.json",
+        ".cache/image-identity-promotion-failure.json"
       ]
     }
   ]

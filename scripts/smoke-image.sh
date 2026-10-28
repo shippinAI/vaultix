@@ -4,6 +4,7 @@ set -euo pipefail
 image="${1:-vaultix:smoke}"
 provider="${2:-dragonfly}"
 case "$provider" in dragonfly|redis) ;; *) echo "provider must be dragonfly or redis" >&2; exit 2 ;; esac
+node "$(dirname "$0")/check-image-identity.mjs" "$image" engine
 run="vaultix-smoke-${RANDOM}-$$"
 envfile="$(mktemp)"
 chmod 600 "$envfile"

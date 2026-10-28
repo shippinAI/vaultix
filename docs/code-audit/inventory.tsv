@@ -1,5 +1,5 @@
 path	git_blob	kind	review_status
-.github/workflows/ghcr.yml	23bbab020304bd2ade434ba38345c35ffd33c71d	build-and-operations	authored
+.github/workflows/ghcr.yml	285a8560c4749d40963ea8cd04c43ddaeb9fe01a	build-and-operations	authored
 .github/workflows/owned.yml	b85c62829aca491c397477124691de71ffb56acb	build-and-operations	unread
 .gitignore	3d7cf33f5660e76b0cc384a022d7c18332405d6f	product-code	unread
 AGENTS.md	377201ef4e254843cdb0a7f4a6bd037132050515	documentation	unread
@@ -38,8 +38,8 @@ core/CLAUDE.md	b7d56ae73145999f0e3c0d44c18c3301fbfe2502	documentation	authored
 core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	unread
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4deee69a67d07507485f843317e3bc61af542618	documentation	unread
-core/Dockerfile.ghcr	b42e755dc7edb72ffdb4d4c712fd88f7b428cc58	build-and-operations	unread
-core/Dockerfile.standalone-vaultix	d73f958fb2e6da26c4a0fc2b2a5ca137fc1c1a6f	build-and-operations	authored
+core/Dockerfile.ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	build-and-operations	authored
+core/Dockerfile.standalone-vaultix	184c700f44ce5aa2a3566856926ca8631f1167e3	build-and-operations	verified
 core/LICENSE	0de22f21bb6228e393c37b17b17089f1382a28a6	documentation	unread
 core/Makefile	329e030c6ba55e576a37749b6d4757e3002cdaf4	product-code	unread
 core/PIN	17f95aab1bf33bd56ee24308b78a97652fc555b2	product-code	unread
@@ -11652,7 +11652,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	b32fc3a43063dfed73df1fc5daaa7e48c704d392	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	6c428d6ec2256bbc54cdf37f5311646f95f93b6d	documentation	unread
+docs/0018-hosted-capability-proof.md	49672ad0b5b8991affc905ab2c59193b0310752d	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	441ae789ed12d41fa7c6609b0b309a1a74ee1d4d	documentation	unread
@@ -11679,10 +11679,11 @@ docs/0041-publication-history.md	923b5f7abe1ff1946c55d7984a0381ccb4459b45	docume
 docs/0042-native-authentication-authority.md	c077c2e13ed10f925a72ea285dcc51e216915e25	documentation	unread
 docs/0043-native-membership-precedence.md	a51923d8f23b8e02c593f30dddc90c2bac570a30	documentation	unread
 docs/0044-create-secret-workflow.md	b9d873f523368e4e5696ffd773948d428f9732c3	documentation	unread
+docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7c	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	3e6c61c2a1a70cbc64ef0573b43e8f4894a15b2b	generated	unread
-docs/migration/generated/modules.tsv	f61c469c82a609d07c59c30d318d85cef5342828	generated	unread
-docs/migration/generated/summary.json	53235ba1a00c9abe3bf525dea16e783e40a47e48	generated	unread
+docs/migration/generated/files.tsv	63efdc164251e3552af4fdba5e68dac43e8489bb	generated	unread
+docs/migration/generated/modules.tsv	4fc9b72e5670f2701dfaaaacf790daaf73ec52b9	generated	unread
+docs/migration/generated/summary.json	e0dbb672346e00e455cdbbb0f031445163a5b67c	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -11723,7 +11724,7 @@ leftover/upstream.core.v0.162.19.endpoints.tsv	f07f7de8efb0ab344377517b72cc9fae9
 legal/README.md	28da7df9ce9706dab03bc4fd34fa04110d25b10d	documentation	unread
 legal/grant-nomen-vaultix-white-label-2026-08-28.md	506bb22361da3aa6548d17d31eda1c6786e729de	documentation	unread
 panel/.dockerignore	415b99fe3bf44391d922b737d1241ccb768c7a47	product-code	unread
-panel/Dockerfile	a379cbb64618dd21e690d71f58d05e2855775750	build-and-operations	authored
+panel/Dockerfile	d6b694764171deb6d861cb42e7fb85c5db7ddc2b	build-and-operations	verified
 panel/alignment_test.go	c24f6971e069e7cec955f9ec022fcc696be9e748	test	unread
 panel/go.mod	8628e222815c493077a374bedd4dff2ff1359d4c	product-code	authored
 panel/go.sum	eb3931e9a51c3e3fecf200b4a90c97a65f9625c3	dependency-lock	unread
@@ -11796,6 +11797,7 @@ scripts/audit-codebase.mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	build-and-op
 scripts/backup.sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	build-and-operations	unread
 scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-operations	authored
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
+scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
 scripts/check-owned.sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	build-and-operations	unread
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
@@ -11803,7 +11805,7 @@ scripts/map-migration.mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	build-and-ope
 scripts/publish-github.sh	67db1f3b2b62b6d2da040fea29c3bc199289bf2a	build-and-operations	verified
 scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-operations	unread
 scripts/run-core.sh	ce4275be18ca18f1216eed158527ab792540fd2e	build-and-operations	unread
-scripts/smoke-image.sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	build-and-operations	verified
+scripts/smoke-image.sh	901f3eaf8081d881ed1d65260bd2b677fd385d45	build-and-operations	verified
 scripts/test-api-request-errors.mjs	930660062217b4797619f36773c7ccca9dcadb4a	build-and-operations	verified
 scripts/test-capability-surface.mjs	a6ff78877d1ded9319b36480330d8c72494961b2	build-and-operations	verified
 scripts/test-chart-rendering.mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	build-and-operations	authored

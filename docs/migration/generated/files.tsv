@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	23bbab020304bd2ade434ba38345c35ffd33c71d	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	285a8560c4749d40963ea8cd04c43ddaeb9fe01a	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -27,8 +27,8 @@ core/.greptile/config.json	core/.greptile	delivery	supporting-tooling-or-contrac
 core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract	json	c6a3722c73c2518a4eef5785fc01b86d63dfe3ab	unread
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
-core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	b42e755dc7edb72ffdb4d4c712fd88f7b428cc58	unread
-core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	d73f958fb2e6da26c4a0fc2b2a5ca137fc1c1a6f	authored
+core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	authored
+core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	184c700f44ce5aa2a3566856926ca8631f1167e3	verified
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
 core/backend-go/.air.toml	core/backend-go	foundation	Go-native	toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	unread
@@ -9269,7 +9269,7 @@ internal/syncer/apply.go	internal/syncer	cli	Go-client-Rust-injection-boundary	g
 internal/syncer/merge.go	internal/syncer	cli	Go-client-Rust-injection-boundary	go	65a6fb00874cc57d484181ac6ea23f57aa07c824	unread
 internal/syncer/merge_test.go	internal/syncer	cli	Go-client-Rust-injection-boundary	go	eed03fa6c349a90926dd2224bb04ef2079bc7cd9	unread
 panel/.dockerignore	panel	legacy-panel	reconcile-into-native-product	build-config	415b99fe3bf44391d922b737d1241ccb768c7a47	unread
-panel/Dockerfile	panel	legacy-panel	reconcile-into-native-product	build-config	a379cbb64618dd21e690d71f58d05e2855775750	authored
+panel/Dockerfile	panel	legacy-panel	reconcile-into-native-product	build-config	d6b694764171deb6d861cb42e7fb85c5db7ddc2b	verified
 panel/alignment_test.go	panel	legacy-panel	reconcile-into-native-product	go	c24f6971e069e7cec955f9ec022fcc696be9e748	unread
 panel/go.mod	panel	legacy-panel	reconcile-into-native-product	mod	8628e222815c493077a374bedd4dff2ff1359d4c	authored
 panel/instances.example.json	panel	legacy-panel	reconcile-into-native-product	json	772f2ad43a9c848343f0e72c44418f466bcf53ae	unread
@@ -9341,6 +9341,7 @@ scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
+scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	unread
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
@@ -9348,7 +9349,7 @@ scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	67db1f3b2b62b6d2da040fea29c3bc199289bf2a	verified
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
-scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	verified
+scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	901f3eaf8081d881ed1d65260bd2b677fd385d45	verified
 scripts/test-api-request-errors.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	930660062217b4797619f36773c7ccca9dcadb4a	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
 scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	authored
