@@ -152,5 +152,21 @@ Final delivery review tightened image selection: resolve the image ID first,
 then verify its exact source revision and use that same ID throughout runtime
 checks. This avoids relying on a movable tag between identity and execution.
 The nine orchestration fixtures enforce that invariant in addition to the final
-tag-stability check. The application acceptance run is repeated for this delivery
-revision; core source is unchanged from the full capability run above.
+tag-stability check (`.cache/self-hosted-fixtures-Q6m3K9/result.json`).
+
+Final delivery commit `e977611456a88dc88914de5b3397961c8951a878` passed the repeated
+application acceptance in `.cache/self-hosted-build-OXAKQP/result.json`, producing
+`sha256:4e2e44a2d87c1914d001fbfd07aea55036c7cb1ab5290bd3d9d77d0730df24c7`.
+Its core source, packaged filesystem layers and runtime configuration match the
+fully capability-tested image above; the source revision label is updated.
+Evidence: `.cache/self-hosted-runtime-comparison.json`. The final browser run is
+`.cache/app-image-proof-5cZoie/workflow-result.json`.
+
+The local `vaultix-dev` application was updated by immutable image ID with
+`--no-deps --no-build --pull never`. It is healthy, and application/API responses
+at port 8200 and the development UI at port 3000 are HTTP 200. PostgreSQL and
+Dragonfly container IDs are unchanged. No operator configuration or database
+volumes were replaced. Evidence: `.cache/self-hosted-preview-result.json`.
+The visible browser opens the retained instance's first-admin setup; real
+authenticated workflow evidence remains from disposable instances. Remote
+bare-metal deployment awaits the owner's server/access details.

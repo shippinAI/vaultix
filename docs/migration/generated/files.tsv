@@ -9339,7 +9339,7 @@ panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	53007168503d9f
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	authored
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	769e75d1d7430c3be2f612f29f86c0ff54c01c42	authored
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	769e75d1d7430c3be2f612f29f86c0ff54c01c42	verified
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified

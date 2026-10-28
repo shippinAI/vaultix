@@ -11682,9 +11682,9 @@ docs/0044-create-secret-workflow.md	b9d873f523368e4e5696ffd773948d428f9732c3	doc
 docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7c	documentation	unread
 docs/0046-dashboard-reference-editor.md	e2c5d14352ae2fd5376b6e79b086d7a8a854ff75	documentation	unread
 docs/0047-dashboard-create-workflow.md	25e0c8c86bfa860d2553938d893af997777612c6	documentation	unread
-docs/0048-self-hosted-builds.md	68eed290e7c4209ca6d49003ae6f786709e12d78	documentation	unread
+docs/0048-self-hosted-builds.md	9bbff89995cb680f63e3b433d7781638ed77c3b3	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	e55f59e77f685a882c3db92c6c8cc44940322648	generated	unread
+docs/migration/generated/files.tsv	7baf2a1d3f69daed4ff8aeacb67ac65ef4dc8c0f	generated	unread
 docs/migration/generated/modules.tsv	118618d93102337c3adf8454fa03bdeb2aa75220	generated	unread
 docs/migration/generated/summary.json	71cf0d04b434aa2d1d1536f7a1e8bd5e99aa295c	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
@@ -11798,7 +11798,7 @@ panel/main.go	53007168503d9f998026b72dcd724a7da0f1bc1c	product-code	unread
 schemas/shippin.vaultix.api.v1.json	09efa4d202f917c8fafbe02758906309b233a0dd	product-code	unread
 scripts/audit-codebase.mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	build-and-operations	authored
 scripts/backup.sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	build-and-operations	unread
-scripts/build-self-hosted.mjs	769e75d1d7430c3be2f612f29f86c0ff54c01c42	build-and-operations	authored
+scripts/build-self-hosted.mjs	769e75d1d7430c3be2f612f29f86c0ff54c01c42	build-and-operations	verified
 scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-operations	authored
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
