@@ -3518,25 +3518,27 @@
     {
       "path": "scripts/test-tenant-isolation.mjs",
       "blob": "6127ae17f54f40c849398eb6e56b7ba6243c0640",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read complete new packaged tenant harness. Provision two organizations and independent machine identities through APIs; require same HTTP/MCP authority, metadata-only references, foreign/missing denial equivalence, rejected actor injection, denied foreign writes/admin mutation, revocation and restart persistence. Initial ten checks pass; committed-image restart acceptance follows. Human signup/Nomen/all-provider/fairness acceptance explicitly excluded.",
+      "scope": "Read complete new packaged tenant harness. Provision two organizations and independent machine identities through APIs; require same HTTP/MCP authority, metadata-only references, foreign/missing denial equivalence, rejected actor injection, denied foreign writes/admin mutation, revocation and restart persistence. Initial ten checks pass; committed-image restart acceptance follows. Human signup/Nomen/all-provider/fairness acceptance explicitly excluded. Committed image 8918df20 passes all eleven real checks including revocation persistence after restart; cleanup succeeds. No assertion uses the provisioning owner as the tenant actor.",
       "evidence": [
         "docs/0056-machine-tenant-isolation.md",
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
-        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json",
+        ".cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json"
       ]
     },
     {
       "path": "docs/0056-machine-tenant-isolation.md",
-      "blob": "8f8949241f415c53e5133ea5729c882009ca5c2d",
+      "blob": "14038bbc1e94a9ce0868869ce0b88f77b816d614",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored scoped image acceptance, shared test-harness ownership, traced native authority behavior and remaining public-cloud enrollment/isolation requirements. Does not claim human tenant signup, Nomen wiring, full parity or production load acceptance.",
       "evidence": [
         "docs/0056-machine-tenant-isolation.md",
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
-        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json",
+        ".cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json"
       ]
     }
   ]

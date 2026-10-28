@@ -82,3 +82,26 @@ added to first-owner creation and no authentication defaults are loosened.
 Results are local `.cache/tenant-isolation-*/result.json` receipts. The shared
 harness extraction also requires repeating the nine encrypted-recovery checks;
 fixture-only orchestration success is not a substitute for either real-image run.
+
+## Committed-image evidence, 2026-10-28
+
+Source `8918df200727c9d73e44a4bab233046b1b68647e` built canonical image
+`sha256:a61af7eae30c6a062d349458528ea43e9e295d4501d26f58badcff076cff9b23`.
+Exact revision/product identity passes; runtime layers match the retained preview
+and `core/` source is unchanged. The following receipts are relative to the main
+checkout:
+
+- Eleven real isolation checks, including revocation after restart, pass:
+  `.cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json`.
+- All nine recovery checks pass after shared-harness extraction:
+  `.cache/tenant-isolation/.cache/encrypted-recovery-eguk0L/result.json`.
+- Eleven orchestration fixtures, including isolation-failure rejection, pass:
+  `.cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json`.
+- Canonical build and runtime layer comparison:
+  `.cache/tenant-isolation/.cache/committed-isolation-build/result.json`.
+
+Both real-image runs cleaned up their disposable resources successfully. Source
+ownership checks and inventory/migration/capability maps pass, retaining 273 UI
+routes and 2,290 API operations. Browser/backend/Go suites were not repeated for
+this test-infrastructure packet; it changes no core application code. These
+receipts do not close the broader CLOUD-01/02 gates.
