@@ -125,5 +125,32 @@ shared document layer, and leaves an expanded nested selector to handle Escape
 first. The dashboard regression check repeats open/dismiss six times, requires
 focus restoration, and records only layer/focus metadata. No generated value is
 recorded. Random generation, policy matching and clipboard behavior remain
-unchanged; this change does not certify those separate concerns. The corrected
-committed-image run must pass before this delivery is accepted.
+unchanged; this change does not certify those separate concerns.
+
+The corrected commit `ff1c7eaf857c39cc5e022ffb93640ef3142b7e5b` passed the full
+`--capabilities` run on the local Linux/amd64 Docker engine:
+
+- Canonical image: `sha256:0b7a93099844a6c22e387cbb76455fc264e6ea8799793ccadb68eb7ed80eb48e`.
+- Receipt: `.cache/self-hosted-build-iW5cuv/result.json`, all 17 steps passed.
+- Identity-lifetime startup: 18/18. Dragonfly real sign-in/application, queue and
+  restart checks, and Redis smoke: passed. The 273 UI routes and 2,290 API
+  operations remain in the baseline.
+- Actual browser evidence: `.cache/app-image-proof-E63t5Q/workflow-result.json`.
+  Six generator dismissals restore focus and retain the sheet. Selected desktop
+  and 320px create states have no automated axe violations; manual-review items
+  remain in `dashboard-create-accessibility.json`.
+- Native Go integrations with race detection: 473 passed, 0 failed, 8 skipped per
+  cache. `.cache/go-proof-A52N4g/result.json` (Dragonfly) and
+  `.cache/go-proof-JASmvL/result.json` (Redis).
+- Backend unit: 1,892 passed, 22 skipped across 121 files;
+  `.cache/unit-proof-JMFqZN/test-results.json`.
+- Backend database workflows: 170/170 across 12 files per cache;
+  `.cache/core-proof-QqDeX6/test-results.json` (Dragonfly) and
+  `.cache/core-proof-jhog2V/test-results.json` (Redis).
+
+Final delivery review tightened image selection: resolve the image ID first,
+then verify its exact source revision and use that same ID throughout runtime
+checks. This avoids relying on a movable tag between identity and execution.
+The nine orchestration fixtures enforce that invariant in addition to the final
+tag-stability check. The application acceptance run is repeated for this delivery
+revision; core source is unchanged from the full capability run above.

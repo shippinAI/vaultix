@@ -7598,7 +7598,7 @@ core/frontend/src/components/v3/platform/OverflowBadgeList/OverflowBadgeList.tsx
 core/frontend/src/components/v3/platform/OverflowBadgeList/index.ts	c5b11e4d6d67dfa636f1a92cf4a4efe39aa14d63	product-code	unread
 core/frontend/src/components/v3/platform/PageLoader/PageLoader.tsx	8428cd4621a90c9f48d23d72812c2909a6c0a698	product-code	unread
 core/frontend/src/components/v3/platform/PageLoader/index.ts	70c6707ce931277ed9a2d1693c9595e06e7e4948	product-code	unread
-core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	05ccaa8050dc9ffeeb329e3e8cc0a507149e9860	product-code	authored
+core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	05ccaa8050dc9ffeeb329e3e8cc0a507149e9860	product-code	verified
 core/frontend/src/components/v3/platform/PasswordGenerator/index.ts	f834fcf6f01c8e358c0e411c8a0d047227b00351	product-code	unread
 core/frontend/src/components/v3/platform/PermissionActionSelect.tsx	7a7a9a3df1bd1ee6008dd0fe027c189960109f08	product-code	unread
 core/frontend/src/components/v3/platform/ScopeIcons.tsx	359187afe2a628eb15790370f8dc30f8f37b2c3d	product-code	unread
@@ -11682,10 +11682,10 @@ docs/0044-create-secret-workflow.md	b9d873f523368e4e5696ffd773948d428f9732c3	doc
 docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7c	documentation	unread
 docs/0046-dashboard-reference-editor.md	e2c5d14352ae2fd5376b6e79b086d7a8a854ff75	documentation	unread
 docs/0047-dashboard-create-workflow.md	25e0c8c86bfa860d2553938d893af997777612c6	documentation	unread
-docs/0048-self-hosted-builds.md	beb8941b0da955f5cca2bf3293e6b68bc8938ad6	documentation	unread
+docs/0048-self-hosted-builds.md	68eed290e7c4209ca6d49003ae6f786709e12d78	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	6368ebc71ec572c11e196d801a93ac112ed6b082	generated	unread
-docs/migration/generated/modules.tsv	9198a5b137f95f445b77520226816e76988a1938	generated	unread
+docs/migration/generated/files.tsv	e55f59e77f685a882c3db92c6c8cc44940322648	generated	unread
+docs/migration/generated/modules.tsv	118618d93102337c3adf8454fa03bdeb2aa75220	generated	unread
 docs/migration/generated/summary.json	71cf0d04b434aa2d1d1536f7a1e8bd5e99aa295c	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11798,7 +11798,7 @@ panel/main.go	53007168503d9f998026b72dcd724a7da0f1bc1c	product-code	unread
 schemas/shippin.vaultix.api.v1.json	09efa4d202f917c8fafbe02758906309b233a0dd	product-code	unread
 scripts/audit-codebase.mjs	34b461f52d5e9261b49cde18e1148fe383b0dfd3	build-and-operations	authored
 scripts/backup.sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	build-and-operations	unread
-scripts/build-self-hosted.mjs	91d46afdcc26a6a8b519c4377e2791669e847463	build-and-operations	authored
+scripts/build-self-hosted.mjs	769e75d1d7430c3be2f612f29f86c0ff54c01c42	build-and-operations	authored
 scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-operations	authored
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
@@ -11816,7 +11816,7 @@ scripts/test-chart-rendering.mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	build-
 scripts/test-core.mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	build-and-operations	authored
 scripts/test-create-secret-recovery.mjs	49a201f6c9cde534e88bbf6213d7bfb4854d4237	build-and-operations	verified
 scripts/test-create-secret-workflow.mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	build-and-operations	verified
-scripts/test-dashboard-create-workflow.mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	build-and-operations	authored
+scripts/test-dashboard-create-workflow.mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	build-and-operations	verified
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-dashboard-secret-paste.mjs	3b814c46cb485d57a734188e437da26c936f8862	build-and-operations	verified
 scripts/test-dashboard-secret-references.mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	build-and-operations	verified
@@ -11834,6 +11834,6 @@ scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-
 scripts/test-publication.mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	build-and-operations	verified
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
-scripts/test-self-hosted-build.mjs	c6de1e99ac5f2b68565566ce7d732773c40d4233	build-and-operations	verified
+scripts/test-self-hosted-build.mjs	3fa47aeafe1067b885485c54f5521165726e1869	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/up.sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	build-and-operations	authored

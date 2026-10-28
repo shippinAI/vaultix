@@ -2551,9 +2551,9 @@
     {
       "path": "core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx",
       "blob": "05ccaa8050dc9ffeeb329e3e8cc0a507149e9860",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete current generator file read, including query/rule selection, scoped constraints, generation and clipboard/use behavior. Actual packaged Escape failure reproduced with generator still open/focused. Scoped change owns Escape from focused generator controls and prevents parent dismissal when a nested selector is expanded. Existing generation/policy/value lifecycle retained; no cryptographic or full generator accessibility acceptance. Corrected packaged run pending.",
+      "scope": "Complete generator read. Reproduced visible still-open/focused generator after Escape. Scoped handler now owns Escape from generator controls and protects an expanded nested selector. Corrected canonical image passes six open/dismiss cycles with trigger focus restoration and retained create sheet/value, plus existing overview generator open/dismiss. New expanded validation-rule-selector branch remains separately reviewable; policy matching, generation algorithms, inner accessibility and clipboard retained without new cryptographic or full generator conformance claim.",
       "evidence": [
         "docs/0044-create-secret-workflow.md",
         ".cache/app-image-proof-Wkcm5I/workflow-result.json",
@@ -2567,7 +2567,11 @@
         ".cache/create-secret-overview-lint.log",
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-build-17PHFT/result.json",
-        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json"
+        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json",
+        ".cache/self-hosted-fixtures-Q6m3K9/result.json",
+        ".cache/self-hosted-build-iW5cuv/result.json",
+        ".cache/app-image-proof-E63t5Q/workflow-result.json",
+        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json"
       ]
     },
     {
@@ -2761,9 +2765,9 @@
     {
       "path": "scripts/test-dashboard-create-workflow.mjs",
       "blob": "3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete workflow runner reread. Retains actual configured casing, tags, empty value, staging, failed commit recovery and metadata-only persistence checks. Expands generator open/dismiss to six attempts and requires trigger focus restoration. Value-free state/focus/animation diagnostics persist even on failure. Baseline reproduces a still-open generator, not an exit-animation-only mismatch; corrected packaged run pending.",
+      "scope": "Complete workflow runner read. Actual packaged run preserves configured casing, normalized tag writes, empty values, batch staging and failed commit recovery with metadata-only persistence checks. Six generator opens/dismissals pass with trigger focus restoration and sheet retention. Value-free dismissal state/focus/animation diagnostics persist on failure; baseline actual image reproducibly failed with state=open before the scoped generator fix. Selected desktop/mobile axe checks pass; manual findings remain.",
       "evidence": [
         "docs/0047-dashboard-create-workflow.md",
         ".cache/app-image-proof-1653IB/workflow-result.json",
@@ -2774,33 +2778,45 @@
         ".cache/dashboard-commit-lint-final.log",
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-build-17PHFT/result.json",
-        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json"
+        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json",
+        ".cache/self-hosted-fixtures-Q6m3K9/result.json",
+        ".cache/self-hosted-build-iW5cuv/result.json",
+        ".cache/app-image-proof-E63t5Q/workflow-result.json",
+        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json"
       ]
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "91d46afdcc26a6a8b519c4377e2791669e847463",
+      "blob": "769e75d1d7430c3be2f612f29f86c0ff54c01c42",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete new local build orchestrator read. Requires clean committed source and local prerequisites, archives canonical core excluding ignored operator files, verifies image identity and actual-image/cache gates by immutable ID, offers existing Go/backend suites, records per-step failure and refuses success after source/tag mutation. Checkout lock preserves other invocations. Nine orchestration fixtures pass with real Git/tar and simulated Docker/gates; actual application run remains a separate gate. No registry push, deployment, destructive cleanup or capability-parity claim. Shared capability test-stage tags require one capability run per daemon.",
+      "scope": "Complete orchestrator reread. Real committed archive build and all 17 capability steps pass on local Linux/amd64 Docker for ff1c7eaf. Final hardening resolves the immutable image ID before identity verification; both identity and runtime gates use it, and the tag must still resolve to it at completion. Nine actual Git/tar orchestration fixtures enforce immutable identity plus success/failure/concurrent-change behavior. Application acceptance of this final delivery revision remains pending. No remote deployment, registry or full parity claim.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
         ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json"
+        ".cache/self-hosted-compose-Bod5ym/result.json",
+        ".cache/self-hosted-fixtures-Q6m3K9/result.json",
+        ".cache/self-hosted-build-iW5cuv/result.json",
+        ".cache/app-image-proof-E63t5Q/workflow-result.json",
+        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "c6de1e99ac5f2b68565566ce7d732773c40d4233",
+      "blob": "3fa47aeafe1067b885485c54f5521165726e1869",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete new fixture runner read. Disposable local Git repositories preserve history, pending changes and ignored operator configuration. Node preload substitutes Docker/gates only in child fixtures; real archive/extraction assertions exclude ignored values/dependencies. Tests preflight, success modes, dirty source, lock ownership, early build/application failure, concurrent source/tag mutation and immutable-image test arguments. This proves orchestration behavior, not application capabilities.",
+      "scope": "Complete current fixture runner read. Nine disposable local Git/tar fixtures pass, with Docker/gates explicitly simulated. Covers preflight, application/capability sequence, dirty refusal, checkout lock ownership, early failures, source/tag mutation, ignored operator-file exclusion and preservation. Requires identity check and runtime gates to use the same immutable ID and exact source revision. No application capability claim from fixtures.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
         ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json"
+        ".cache/self-hosted-compose-Bod5ym/result.json",
+        ".cache/self-hosted-fixtures-Q6m3K9/result.json",
+        ".cache/self-hosted-build-iW5cuv/result.json",
+        ".cache/app-image-proof-E63t5Q/workflow-result.json",
+        ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json"
       ]
     },
     {

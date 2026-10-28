@@ -38,6 +38,10 @@ cp.execFileSync=(name,args,options)=>{
 cp.spawnSync=(name,args,options)=>{
   trace(name,args);
   if(name==='git'||name==='tar') return originalSpawn(name,args,options);
+  if(args[0]==='scripts/check-image-identity.mjs') {
+    assert.equal(args[1],'${imageId}','Identity and runtime checks must use the same immutable image');
+    assert.equal(args[3],process.env.FIXTURE_REVISION);
+  }
   if(name==='docker') {
     assert.equal(args[0],'build','No push, deploy, pruning or container mutations');
     const context=args.at(-1);

@@ -79,9 +79,9 @@ try {
   const context = resolve(source, "core");
   const dockerfile = resolve(context, "Dockerfile.standalone-vaultix");
   step("canonical-image", "docker", ["build", "-f", dockerfile, "--build-arg", `VAULTIX_SOURCE_REVISION=${revision}`, "-t", image, context]);
-  node("image-identity", "scripts/check-image-identity.mjs", image, "engine", revision);
   report.imageId = command("docker", ["image", "inspect", "--format", "{{.Id}}", image]);
   assert.match(report.imageId, /^sha256:[a-f0-9]{64}$/);
+  node("image-identity", "scripts/check-image-identity.mjs", report.imageId, "engine", revision);
   node("identity-lifetime", "scripts/test-identity-policy-startup.mjs", report.imageId);
   step("dragonfly-application", bash, ["scripts/smoke-image.sh", report.imageId, "dragonfly"], { VAULTIX_IMAGE_APP_PROOF: "1" });
   step("redis-application", bash, ["scripts/smoke-image.sh", report.imageId, "redis"], { VAULTIX_IMAGE_APP_PROOF: "0" });
