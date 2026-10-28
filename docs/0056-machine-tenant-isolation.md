@@ -105,3 +105,15 @@ ownership checks and inventory/migration/capability maps pass, retaining 273 UI
 routes and 2,290 API operations. Browser/backend/Go suites were not repeated for
 this test-infrastructure packet; it changes no core application code. These
 receipts do not close the broader CLOUD-01/02 gates.
+
+### Concurrent GitHub history integration
+
+GitHub main advanced to `55baac6613c9ca028d021e016573e9ae0e147e24` during
+verification. That already-merged history is retained in this branch. It adds CLI
+OIDC and legacy panel prefix work and a chart-test navigation wait; it does not
+change `core/`, the isolation runner or the recovery runner. Its inclusion does
+not establish live Nomen wiring or endorse the panel as the public cloud control
+plane. The chart test was fully read and its extra URL wait preserves the existing
+assertions; its changed browser behavior was not exercised by this packet.
+Generated maps are reconciled without granting authorship to unread merged code.
+The main working tree's concurrent uncommitted changes remain separate.

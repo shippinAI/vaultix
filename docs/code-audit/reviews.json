@@ -558,10 +558,10 @@
     },
     {
       "path": "scripts/test-chart-rendering.mjs",
-      "blob": "17645dfb85696d78d3d583b459b756e1f26c38c2",
-      "status": "authored",
+      "blob": "f140cae078b3824158e199ada023741d0f046277",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use. Add narrow heading-fit assertion after shared PageHeader rewrite. CI navigation failures now retain route/headings/screenshot diagnostics with a bounded 30-second navigation wait. Local checks pass; CI resolution requires the new pipeline result.",
+      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use. Add narrow heading-fit assertion after shared PageHeader rewrite. CI navigation failures now retain route/headings/screenshot diagnostics with a bounded 30-second navigation wait. Local checks pass; CI resolution requires the new pipeline result. Concurrent upstream main integration 55baac66: fully read current chart test and six-line diff. Retain added exact-path navigation wait and existing assertions. No new browser execution evidence; prior receipts cover prior content.",
       "evidence": [
         "docs/0029-ui-workflow-execution.md",
         ".cache/bundle-proof-0TPEKz/summary.json",
@@ -572,7 +572,8 @@
         "docs/0030-environment-workflow.md",
         ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
         ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
+        "docs/0056-machine-tenant-isolation.md"
       ]
     },
     {
@@ -3530,7 +3531,7 @@
     },
     {
       "path": "docs/0056-machine-tenant-isolation.md",
-      "blob": "14038bbc1e94a9ce0868869ce0b88f77b816d614",
+      "blob": "5f12a70e5859d8600ebf992d1504b40be5eecc0d",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored scoped image acceptance, shared test-harness ownership, traced native authority behavior and remaining public-cloud enrollment/isolation requirements. Does not claim human tenant signup, Nomen wiring, full parity or production load acceptance.",

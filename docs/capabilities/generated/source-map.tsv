@@ -8,7 +8,7 @@ branding/og.svg	experience	ui	branding	4e59d0f93c47bb3e89caa06d85390ad46b474376	
 branding/strings.yaml	experience	ui	branding	62b84fc19f445e29470c1d6ab451f64d49d1ceaa	unread
 branding/tokens.css	experience	ui	branding	d2e324f2201dfcc9d83857ab807984b0be59317e	unread
 branding/wordmark.svg	experience	ui	branding	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
-cmd/vaultix/main.go	secrets	cli	cmd/vaultix	904388e8cd0589c000d641635437bd1e6b1edbaa	unread
+cmd/vaultix/main.go	secrets	cli	cmd/vaultix	ca0831fd2c3aaab1d321867ae3a4e61110e581e0	unread
 compose/cache-redis.yml	operate	delivery	compose	36015a7ed6436935e15eeb18ee7666f52158daca	unread
 compose/hosted.env.example	operate	delivery	compose	a6cde1701f0a4158a8322ea0f0a3b6385fbd42a6	unread
 compose/instances.json	operate	delivery	compose	b503980ffd2f92787b81675b7e043acf3658816c	unread
@@ -9267,11 +9267,14 @@ go.mod	secrets	cli	.	b748b624e3eee3988f1d8660cd149096801e8aa1	authored
 internal/api/client.go	secrets	cli	internal/api	a5adea8d72ba29db4fe1f5f9fba47eb33e53ec89	unread
 internal/api/client_test.go	secrets	cli	internal/api	c7e6b3a175dc81588127ab7f58e808d6bf13fcfd	unread
 internal/api/secrets.go	secrets	cli	internal/api	1c7f844e1a5dea05f805e89be78f8bda100c40ed	unread
-internal/cli/auth_cmds.go	secrets	cli	internal/cli	f9e8ce37aa3fab838353b98e2769318874c035ac	unread
+internal/cli/auth_cmds.go	secrets	cli	internal/cli	b6ddc632f6e722d9129544604bd0d7d504d24c3b	unread
 internal/cli/config.go	secrets	cli	internal/cli	1f8a683cbfd6d544365865725ed9ee94273eea83	unread
+internal/cli/login_mode_test.go	secrets	cli	internal/cli	0ab7acc64074feb76b068683f9a4b3cd50c52020	unread
 internal/cli/run_cmds.go	secrets	cli	internal/cli	f35d6a2ed856fe2bf85c6c0fc1c5adb1d7130aea	unread
 internal/cli/session.go	secrets	cli	internal/cli	83ec86ed43e4525c1e7d367b0add27f553c56864	unread
 internal/cli/sync_cmds.go	secrets	cli	internal/cli	b403a49edd3df35ce07b739c3b4b81d4ced9fcf7	unread
+internal/oidc/device.go	secrets	cli	internal/oidc	a8bd17f8a985af5461a8b7373d89727bd1859676	unread
+internal/oidc/device_test.go	secrets	cli	internal/oidc	ad5ccbe3ae6184c3302f51ddb511002e46a64f50	unread
 internal/store/key.go	secrets	cli	internal/store	f6eb68c91fc39747a528c776d9f7fd690d7aae38	unread
 internal/store/store.go	secrets	cli	internal/store	01931995bcb2787af6ae3996c512f0214883e643	unread
 internal/store/store_test.go	secrets	cli	internal/store	4133d646994dc764d33b4c20746d9d739e1d9bcd	unread
@@ -9290,10 +9293,10 @@ panel/internal/core/importer_test.go	operate	legacy-panel	panel/internal/core	c9
 panel/internal/core/wire.go	operate	legacy-panel	panel/internal/core	85ff56eeeca44b1c8c907d6110cbcc754e1d3a23	unread
 panel/internal/deploy/info.go	operate	legacy-panel	panel/internal/deploy	34b753ef755fa350d9ede92541d569b503951dba	unread
 panel/internal/deploy/info_test.go	operate	legacy-panel	panel/internal/deploy	d67e101c145ebb1776dea35889ad2b0dd71a8f2d	unread
-panel/internal/httpapi/manager_api.go	operate	legacy-panel	panel/internal/httpapi	cde875d520401e864bc2cddb686e18cf3b9f769b	unread
+panel/internal/httpapi/manager_api.go	operate	legacy-panel	panel/internal/httpapi	83b41cadd42437e6d135944b3d66285666f6e556	unread
 panel/internal/httpapi/runtime_api.go	operate	legacy-panel	panel/internal/httpapi	83c6cab975f2bf76114e84fa17813fd6d66f4a66	unread
 panel/internal/httpapi/runtime_api_test.go	operate	legacy-panel	panel/internal/httpapi	7327f908ee96313bdbf4c6e54d13890030a63194	unread
-panel/internal/httpapi/server.go	operate	legacy-panel	panel/internal/httpapi	6c99645b38be3473c354577c86bb81997a9faee4	unread
+panel/internal/httpapi/server.go	operate	legacy-panel	panel/internal/httpapi	dca50b55d44c676a2c0ba69611888b1d413b8625	unread
 panel/internal/httpapi/server_test.go	operate	legacy-panel	panel/internal/httpapi	8beb69f3d0dbfec78ad800bd199daf13a29ed190	unread
 panel/internal/httpapi/source_api.go	operate	legacy-panel	panel/internal/httpapi	51ef9bfe83a1faeca7c95a4ea80e22d541c29805	unread
 panel/internal/httpapi/source_api_test.go	operate	legacy-panel	panel/internal/httpapi	6f867a7a0da7d289c35dce9cd1f2f6d5df5c9f94	unread
@@ -9322,6 +9325,9 @@ panel/internal/source/source.go	operate	legacy-panel	panel/internal/source	f362c
 panel/internal/source/source_test.go	operate	legacy-panel	panel/internal/source	e4d4e14add7425444d5529a3a8179e4e5a972c78	unread
 panel/internal/store/store.go	operate	legacy-panel	panel/internal/store	0a8788f05fd67a07d2305aa66b35bfddeb11893e	unread
 panel/internal/store/store_test.go	operate	legacy-panel	panel/internal/store	092245eb48aafcbb2a1786ea2b5ae90cb0635203	unread
+panel/internal/tenantprefix/errors.go	operate	legacy-panel	panel/internal/tenantprefix	36c647bc5f88a71ac0de8e3a3f7961a4a5af2b6c	unread
+panel/internal/tenantprefix/prefix.go	operate	legacy-panel	panel/internal/tenantprefix	ba886c394c5ac04517788d15224f832271d36b7c	unread
+panel/internal/tenantprefix/prefix_test.go	operate	legacy-panel	panel/internal/tenantprefix	1893e89d6ab87ad7bbcdda52c31ad241c5af7d5a	unread
 panel/internal/usage/usage.go	operate	legacy-panel	panel/internal/usage	ee65664c51d4465478a0ddfaee54d98a973fc2e4	unread
 panel/internal/usage/usage_test.go	operate	legacy-panel	panel/internal/usage	2d90796919d1edf3e8697c929cb7bdb58ee0b406	unread
 panel/internal/valves/valves.go	operate	legacy-panel	panel/internal/valves	88f91b6aac3e206d4615e272ca342537a4e7b38f	unread
@@ -9341,7 +9347,7 @@ panel/internal/viewport/web/brand_test.go	operate	legacy-panel	panel/internal/vi
 panel/internal/viewport/web/embed.go	operate	legacy-panel	panel/internal/viewport	c40ed6bdaf1a2a9458f6efe2916204c423ae4d3a	unread
 panel/internal/viewport/web/favicon.svg	operate	legacy-panel	panel/internal/viewport	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
 panel/internal/viewport/web/index.html	operate	legacy-panel	panel/internal/viewport	d8a312d216240860ff5dea7516e3e2a913603c4f	unread
-panel/internal/viewport/web/manager.html	operate	legacy-panel	panel/internal/viewport	cb56354192610704eb92ffc4c69a64ee495b128f	unread
+panel/internal/viewport/web/manager.html	operate	legacy-panel	panel/internal/viewport	4e6637fa3a808099ebe5a41d625af44835d1800f	unread
 panel/internal/viewport/web/mark.svg	operate	legacy-panel	panel/internal/viewport	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 panel/internal/viewport/web/og.svg	operate	legacy-panel	panel/internal/viewport	4e59d0f93c47bb3e89caa06d85390ad46b474376	unread
 panel/internal/viewport/web/wordmark.svg	operate	legacy-panel	panel/internal/viewport	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
@@ -9368,7 +9374,7 @@ scripts/test-api-request-errors.mjs	operate	delivery	scripts	930660062217b479761
 scripts/test-capability-explorer.mjs	operate	delivery	scripts	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
 scripts/test-capability-map.mjs	operate	delivery	scripts	4a6ea95546b08d6801b428a67753c1be6dea8cbd	verified
 scripts/test-capability-surface.mjs	operate	delivery	scripts	a6ff78877d1ded9319b36480330d8c72494961b2	verified
-scripts/test-chart-rendering.mjs	operate	delivery	scripts	17645dfb85696d78d3d583b459b756e1f26c38c2	authored
+scripts/test-chart-rendering.mjs	operate	delivery	scripts	f140cae078b3824158e199ada023741d0f046277	reviewed
 scripts/test-core.mjs	operate	delivery	scripts	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	verified
 scripts/test-create-secret-recovery.mjs	operate	delivery	scripts	49a201f6c9cde534e88bbf6213d7bfb4854d4237	verified
 scripts/test-create-secret-workflow.mjs	operate	delivery	scripts	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	verified
