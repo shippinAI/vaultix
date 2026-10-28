@@ -1,79 +1,26 @@
 // Disposable recovery acceptance. Never accepts an operator URL, dump, key or database.
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { randomBytes, createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { createDisposableImageHarness } from "./lib/disposable-image.mjs";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const requestedImage = process.argv[2];
 assert.ok(process.argv.length === 3 && /^[a-zA-Z0-9][a-zA-Z0-9:._/@-]{0,255}$/.test(requestedImage ?? ""),
   "Usage: node scripts/test-encrypted-recovery.mjs <local-standalone-image>");
-// No raw command diagnostics: container errors may contain credentials or response bodies.
-function docker(args, { input, env = {}, allowFailure = false, timeout = 120_000 } = {}) {
-  const result = spawnSync("docker", args, { input, env: { ...process.env, ...env },
-    timeout, maxBuffer: 64 * 1024 * 1024, windowsHide: true });
-  if (!allowFailure) assert.ok(!result.error && result.status === 0, `Docker ${args[0]} failed during ${phase}`);
-  return result;
-}
 let phase = "image inspection";
-const output = (args, options) => docker(args, options).stdout.toString().trim();
-const artifact = JSON.parse(output(["image", "inspect", "--format",
-  '{"id":{{json .Id}},"title":{{json (index .Config.Labels "org.opencontainers.image.title")}},"url":{{json (index .Config.Labels "org.opencontainers.image.url")}},"revision":{{json (index .Config.Labels "org.opencontainers.image.revision")}}}', requestedImage]));
-assert.ok(/^sha256:[a-f0-9]{64}$/.test(artifact.id) && artifact.title === "Vaultix" && artifact.url === "https://vaultix.cloud");
-assert.match(artifact.revision, /^[a-f0-9]{40}$/);
+const harness = createDisposableImageHarness(requestedImage, () => phase);
+const { artifact, docker, output, container, request, ready, waitFor, sql } = harness;
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/encrypted-recovery-"));
 const run = `vaultix-recovery-${randomBytes(8).toString("hex")}`;
-const resources = [];
-let network;
 const report = { passed: false, artifact, fixture: "software-key logical database recovery", checks: [], timingsMs: {},
   exclusions: ["PITR/WAL", "production RPO/RTO", "external KMS/HSM", "queue recovery", "cross-version migration rollback", "full tenant isolation", "off-site backup encryption/custody"] };
 const check = name => { report.checks.push(name); console.log(`Vaultix recovery: ${name}`); };
 const save = () => writeFileSync(resolve(evidence, "result.json"), JSON.stringify(report, null, 2) + "\n", { mode: 0o600 });
-const pause = ms => new Promise(done => setTimeout(done, ms));
-async function waitFor(test, description, timeout = 120_000) {
-  const deadline = Date.now() + timeout;
-  while (Date.now() < deadline) { if (await test()) return; await pause(1000); }
-  throw new Error(`Timed out: ${description}`);
-}
-function container(name, image, args = [], env = {}) {
-  const id = output(["create", "--pull=never", "--init", "--name", name, "--network", network,
-    ...Object.keys(env).flatMap(key => ["-e", key]), image, ...args], { env });
-  assert.match(id, /^[a-f0-9]{64}$/);
-  resources.push(id);
-  output(["start", id]);
-  return id;
-}
-// Execute HTTP inside the application container: the isolated network has no
-// public port or outbound route. Payloads and responses stay in process memory.
-function http(id, path, options = {}) {
-  const runner = `let input="";process.stdin.on("data",b=>input+=b).on("end",async()=>{
-    try { const q=JSON.parse(input); const r=await fetch("http://127.0.0.1:8080"+q.path,
-      {...q.options,signal:AbortSignal.timeout(20000)});
-      process.stdout.write(JSON.stringify({status:r.status,body:await r.text()}));
-    } catch { process.exitCode=1; }
-  });`;
-  const result = docker(["exec", "-i", id, "node", "-e", runner], {
-    input: JSON.stringify({ path, options }), allowFailure: true, timeout: 25_000
-  });
-  if (result.status !== 0 || result.error) return null;
-  return JSON.parse(result.stdout.toString());
-}
-async function ready(id) {
-  await waitFor(() => http(id, "/api/status")?.status === 200, "application readiness");
-}
-async function request(id, path, { method = "GET", body, token, status = 200 } = {}) {
-  const r = http(id, path, { method,
-    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-    ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
-  assert.ok(r, `HTTP connection failed during ${phase}`);
-  assert.equal(r.status, status, `Unexpected HTTP status during ${phase}`);
-  const result = JSON.parse(r.body);
-  if (status >= 400) assert.equal(typeof result.error, "string", "Expected a plain API error");
-  return result;
-}
 const key = randomBytes(16).toString("hex");
 const auth = randomBytes(32).toString("hex");
 const databasePassword = randomBytes(24).toString("hex");
@@ -88,15 +35,11 @@ function appEnv(db, cache, encryptionKey = key) {
     ENCRYPTION_KEY: encryptionKey, ROOT_ENCRYPTION_KEY: "", AUTH_SECRET: auth,
     SITE_URL: "http://127.0.0.1:8200", TELEMETRY_ENABLED: "false", DISABLE_UPDATE_CHECK: "true" };
 }
-function sql(db, query) {
-  return output(["exec", "-i", db, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", "vaultix", "-d", "vaultix", "-At"], { input: query });
-}
 const encryptedRows = db => sql(db, `SELECT id || ':' || encode("encryptedValue", 'hex') FROM secrets_v2 ORDER BY id;`);
 let dump;
 try {
   phase = "disposable services";
-  network = output(["network", "create", "--internal", run]);
-  assert.match(network, /^[a-f0-9]{64}$/);
+  harness.createNetwork(run);
   const sourceDbName = `${run}-source-db`, targetDbName = `${run}-target-db`;
   const sourceDb = container(sourceDbName, "postgres:16.6-alpine", [], dbEnv);
   const targetDb = container(targetDbName, "postgres:16.6-alpine", [], dbEnv);
@@ -187,9 +130,7 @@ try {
 } finally {
   dump?.fill(0);
   phase = "cleanup";
-  const removed = resources.reverse().map(id => docker(["rm", "-f", "-v", id], { allowFailure: true }).status === 0);
-  const networkRemoved = !network || docker(["network", "rm", network], { allowFailure: true }).status === 0;
-  report.cleanupPassed = removed.every(Boolean) && networkRemoved;
+  report.cleanupPassed = harness.cleanup();
   if (!report.cleanupPassed) { report.passed = false; process.exitCode = 1; }
   save();
   console.log(JSON.stringify({ passed: report.passed, checks: report.checks.length, failure: report.failure, cleanupPassed: report.cleanupPassed, evidence }));

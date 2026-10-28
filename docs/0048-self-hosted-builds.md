@@ -49,7 +49,9 @@ builds `vaultix:<full-commit>`, verifies image identity and identity-policy star
 then runs real application/browser acceptance on Dragonfly and the Redis smoke
 suite, followed by the disposable encrypted database recovery rehearsal in
 [0055](0055-encrypted-recovery.md). Recovery failure prevents a successful build
-receipt. `--capabilities` additionally builds the Go/backend test stages and runs
+receipt. The packaged machine-identity tenant checks in
+[0056](0056-machine-tenant-isolation.md) are also required before acceptance.
+`--capabilities` additionally builds the Go/backend test stages and runs
 their existing integration suites against both caches plus backend unit tests.
 Run only one capability build per Docker daemon: the existing test-stage tags
 are shared. A checkout lock prevents overlapping invocations in that checkout;

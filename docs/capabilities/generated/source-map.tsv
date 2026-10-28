@@ -9349,13 +9349,14 @@ panel/main.go	operate	legacy-panel	panel	53007168503d9f998026b72dcd724a7da0f1bc1
 schemas/shippin.vaultix.api.v1.json	operate	foundation	schemas	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	operate	delivery	scripts	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	operate	delivery	scripts	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-self-hosted.mjs	operate	delivery	scripts	ee1d1d830fe1a1ad2c95f0f7d7bcaa3eaf6e08c7	verified
+scripts/build-self-hosted.mjs	operate	delivery	scripts	bf7a63abe34e48a4da59e03c9299b8456ad2d28e	verified
 scripts/build-ui-report.mjs	operate	delivery	scripts	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	operate	delivery	scripts	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	operate	delivery	scripts	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
 scripts/check-owned.sh	operate	delivery	scripts	bd596fb1097dfad2e4e071ba051da0ea532fb658	verified
 scripts/check-ui-loading.mjs	operate	delivery	scripts	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/go-test-evidence.mjs	operate	delivery	scripts	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
+scripts/lib/disposable-image.mjs	operate	delivery	scripts/lib	2d0f70c4d2deb48d81b59941558cb29233052262	verified
 scripts/map-capabilities.mjs	operate	delivery	scripts	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	operate	delivery	scripts	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/publish-github.sh	operate	delivery	scripts	5317d57aa1a2f44f630b056cc3a916607c17f4b9	verified
@@ -9376,7 +9377,7 @@ scripts/test-dashboard-recovery.mjs	operate	delivery	scripts	0ad0c3499923f010d6c
 scripts/test-dashboard-secret-paste.mjs	operate	delivery	scripts	3b814c46cb485d57a734188e437da26c936f8862	verified
 scripts/test-dashboard-secret-references.mjs	operate	delivery	scripts	c9ebcfe327059a9a52757a8cee9571d3f475e41e	verified
 scripts/test-eager-upload.mjs	operate	delivery	scripts	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
-scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed	verified
+scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	operate	delivery	scripts	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified
 scripts/test-first-run-setup.mjs	operate	delivery	scripts	e18e8f51d84e6e3422644b0ef78a683088ce7d59	verified
 scripts/test-go-core.mjs	operate	delivery	scripts	a63efe056887d1462385090c699b8585c3f5e27d	verified
@@ -9393,6 +9394,7 @@ scripts/test-notification-ui.mjs	operate	delivery	scripts	631086c4bf0107530efb9f
 scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
-scripts/test-self-hosted-build.mjs	operate	delivery	scripts	04a225a8285984df75e169b14e847e44eff30ea6	verified
+scripts/test-self-hosted-build.mjs	operate	delivery	scripts	0459031b4fe49773edc9ff6711e349a50a130926	verified
+scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	authored
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored

@@ -2862,10 +2862,10 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "ee1d1d830fe1a1ad2c95f0f7d7bcaa3eaf6e08c7",
+      "blob": "bf7a63abe34e48a4da59e03c9299b8456ad2d28e",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete orchestrator read. Actual committed archive build and all 17 capability steps pass on local Linux/amd64 Docker for ff1c7eaf. Final hardening resolves the immutable image ID before identity verification; exact revision identity and runtime gates use it, and the tag must still resolve to it at completion. Nine Git/tar fixtures enforce immutable identity, ignored operator-file preservation and success/failure/concurrent-change behavior. The final e977611 application run passes; filesystem layers, core source and runtime config match the fully capability-tested image. Local preview deployed by immutable ID with database/cache container IDs retained. No remote deployment, registry, external-provider or whole-product parity claim. Complete orchestrator re-read. Require encrypted-recovery after application/cache checks using the same immutable image ID. Ten orchestration fixtures pass including recovery failure preventing a successful receipt; actual new recovery behavior is separately exercised. This packet does not repeat or expand prior whole-application runtime evidence.",
+      "scope": "Complete orchestrator read. Actual committed archive build and all 17 capability steps pass on local Linux/amd64 Docker for ff1c7eaf. Final hardening resolves the immutable image ID before identity verification; exact revision identity and runtime gates use it, and the tag must still resolve to it at completion. Nine Git/tar fixtures enforce immutable identity, ignored operator-file preservation and success/failure/concurrent-change behavior. The final e977611 application run passes; filesystem layers, core source and runtime config match the fully capability-tested image. Local preview deployed by immutable ID with database/cache container IDs retained. No remote deployment, registry, external-provider or whole-product parity claim. Complete orchestrator re-read. Require encrypted-recovery after application/cache checks using the same immutable image ID. Ten orchestration fixtures pass including recovery failure preventing a successful receipt; actual new recovery behavior is separately exercised. This packet does not repeat or expand prior whole-application runtime evidence. Complete orchestrator re-read. Require tenant-isolation after encrypted-recovery using the same immutable image ID. Eleven isolated orchestration fixtures pass, including isolation failure preventing success. Runtime runners are verified separately.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
@@ -2879,15 +2879,18 @@
         ".cache/self-hosted-runtime-comparison.json",
         ".cache/self-hosted-preview-result.json",
         "docs/0055-encrypted-recovery.md",
-        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "04a225a8285984df75e169b14e847e44eff30ea6",
+      "blob": "0459031b4fe49773edc9ff6711e349a50a130926",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete current fixture runner read. Nine disposable local Git/tar fixtures pass, with Docker/gates explicitly simulated. Covers preflight, application/capability sequence, dirty refusal, checkout lock ownership, early failures, source/tag mutation, ignored operator-file exclusion and preservation. Requires identity check and runtime gates to use the same immutable ID and exact source revision. No application capability claim from fixtures. Complete fixture harness read. Add recovery-failure case, immutable-image assertion and mandatory successful recovery-step assertion. Ten isolated Git/tar orchestration fixtures pass; Docker and runtime checks are simulated here.",
+      "scope": "Complete current fixture runner read. Nine disposable local Git/tar fixtures pass, with Docker/gates explicitly simulated. Covers preflight, application/capability sequence, dirty refusal, checkout lock ownership, early failures, source/tag mutation, ignored operator-file exclusion and preservation. Requires identity check and runtime gates to use the same immutable ID and exact source revision. No application capability claim from fixtures. Complete fixture harness read. Add recovery-failure case, immutable-image assertion and mandatory successful recovery-step assertion. Ten isolated Git/tar orchestration fixtures pass; Docker and runtime checks are simulated here. Complete fixture harness re-read. Add isolation-failure, exact-image argument and mandatory successful isolation-step checks. Eleven fixtures pass; Docker and runtime gates are simulated.",
       "evidence": [
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
@@ -2898,7 +2901,10 @@
         ".cache/app-image-proof-E63t5Q/workflow-result.json",
         ".cache/app-image-proof-E63t5Q/dashboard-create-generator-dismissal.json",
         "docs/0055-encrypted-recovery.md",
-        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json"
+        ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
       ]
     },
     {
@@ -3472,14 +3478,17 @@
     },
     {
       "path": "scripts/test-encrypted-recovery.mjs",
-      "blob": "e4bcf85d4e2592cac80d594e2dbb0ad5294f0aed",
+      "blob": "292d31f56f92316c80e6fa2d28b60f1890712021",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows. Committed canonical image f1656cc1 passes all nine real recovery checks and owned-resource cleanup. Redacted receipt includes explicit excluded cloud requirements. No operator data or runtime source changed.",
+      "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows. Committed canonical image f1656cc1 passes all nine real recovery checks and owned-resource cleanup. Redacted receipt includes explicit excluded cloud requirements. No operator data or runtime source changed. Read complete recovery runner and extract only shared disposable test infrastructure; retain nine real encrypted restore/failure/authorization checks. Repeated real-image recovery passes with successful cleanup after extraction.",
       "evidence": [
         "docs/0055-encrypted-recovery.md",
         ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
-        ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json"
+        ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json",
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
       ]
     },
     {
@@ -3492,6 +3501,42 @@
         "docs/0055-encrypted-recovery.md",
         ".cache/encrypted-recovery/.cache/self-hosted-fixtures-irMiyC/result.json",
         ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json"
+      ]
+    },
+    {
+      "path": "scripts/lib/disposable-image.mjs",
+      "blob": "2d0f70c4d2deb48d81b59941558cb29233052262",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Read complete extracted disposable-image harness. Preserve bounded subprocess/internal HTTP requests, immutable image selection, owned internal network/container cleanup and redacted failures. The nine recovery checks pass using this helper; initial ten isolation checks also pass. No production runtime behavior or operator target accepted.",
+      "evidence": [
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-tenant-isolation.mjs",
+      "blob": "6127ae17f54f40c849398eb6e56b7ba6243c0640",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read complete new packaged tenant harness. Provision two organizations and independent machine identities through APIs; require same HTTP/MCP authority, metadata-only references, foreign/missing denial equivalence, rejected actor injection, denied foreign writes/admin mutation, revocation and restart persistence. Initial ten checks pass; committed-image restart acceptance follows. Human signup/Nomen/all-provider/fairness acceptance explicitly excluded.",
+      "evidence": [
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+      ]
+    },
+    {
+      "path": "docs/0056-machine-tenant-isolation.md",
+      "blob": "8f8949241f415c53e5133ea5729c882009ca5c2d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored scoped image acceptance, shared test-harness ownership, traced native authority behavior and remaining public-cloud enrollment/isolation requirements. Does not claim human tenant signup, Nomen wiring, full parity or production load acceptance.",
+      "evidence": [
+        "docs/0056-machine-tenant-isolation.md",
+        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
       ]
     }
   ]
