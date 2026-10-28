@@ -12,6 +12,7 @@ import {
   FieldLabel,
   Input
 } from "@app/components/v3";
+import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
 
 export type EnvironmentFormValues = { name: string; slug: string };
 
@@ -23,6 +24,8 @@ type Props = {
 
 export const EnvironmentForm = ({ initialValues, mode, onSubmit }: Props) => {
   const id = useId();
+  const form = useRef<HTMLFormElement>(null);
+  const guideId = mode === "create" ? "environment-create" : "environment-update";
   const submitting = useRef(false);
   const {
     register,
@@ -61,11 +64,18 @@ export const EnvironmentForm = ({ initialValues, mode, onSubmit }: Props) => {
   };
 
   return (
-    <form onSubmit={submit} noValidate aria-busy={isSubmitting} className="flex flex-col gap-6">
+    <form
+      ref={form}
+      onSubmit={submit}
+      noValidate
+      aria-busy={isSubmitting}
+      className="flex flex-col gap-6"
+    >
       <Field>
         <FieldLabel htmlFor={`${id}-name`}>Environment Name</FieldLabel>
         <Input
           id={`${id}-name`}
+          data-vaultix-guide-target="environment-name"
           readOnly={isSubmitting}
           isError={Boolean(errors.name)}
           aria-describedby={errors.name ? `${id}-name-error` : undefined}
@@ -80,12 +90,16 @@ export const EnvironmentForm = ({ initialValues, mode, onSubmit }: Props) => {
             }
           })}
         />
+        <div className="self-start">
+          <GuidanceHint guideId={guideId} target="environment-name" targetScope={form} />
+        </div>
         <FieldError id={`${id}-name-error`}>{errors.name?.message}</FieldError>
       </Field>
       <Field>
         <FieldLabel htmlFor={`${id}-slug`}>Environment Slug</FieldLabel>
         <Input
           id={`${id}-slug`}
+          data-vaultix-guide-target="environment-slug"
           readOnly={isSubmitting}
           isError={Boolean(errors.slug)}
           aria-describedby={`${id}-slug-help${errors.slug ? ` ${id}-slug-error` : ""}`}
@@ -109,6 +123,9 @@ export const EnvironmentForm = ({ initialValues, mode, onSubmit }: Props) => {
             ? "Use this identifier in CLI commands, integrations and secret references. You can edit the suggestion."
             : "Changing this identifier can break CLI commands, integrations and references that use the old slug."}
         </FieldDescription>
+        <div className="self-start">
+          <GuidanceHint guideId={guideId} target="environment-slug" targetScope={form} />
+        </div>
       </Field>
       {errors.root?.submit && (
         <p role="alert" className="text-sm text-muted">
@@ -118,13 +135,22 @@ export const EnvironmentForm = ({ initialValues, mode, onSubmit }: Props) => {
       <p role="status" className="sr-only">
         {isSubmitting ? "Saving environment. Please wait." : ""}
       </p>
+      <div className="self-start">
+        <GuidedHelp guideId={guideId} targetScope={form} />
+      </div>
       <DialogFooter>
         <DialogClose asChild>
           <Button variant="ghost" type="button" isDisabled={isSubmitting}>
             Cancel
           </Button>
         </DialogClose>
-        <Button type="submit" variant="project" isPending={isSubmitting} isDisabled={isSubmitting}>
+        <Button
+          data-vaultix-guide-target="environment-save"
+          type="submit"
+          variant="project"
+          isPending={isSubmitting}
+          isDisabled={isSubmitting}
+        >
           {mode === "create" ? "Create" : "Update"}
         </Button>
       </DialogFooter>

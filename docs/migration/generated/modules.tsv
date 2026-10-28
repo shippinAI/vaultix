@@ -464,7 +464,7 @@ core/backend/src/services/user	identity	Go-domain-migration	4	03e37dfd10b21209b7
 core/backend/src/services/user-activation	identity	Go-domain-migration	3	dad6539241bf89359f94b5eb11d34ccb7f889f8a30186bf9e7df8324d2763be7	0	unassessed
 core/backend/src/services/user-alias	identity	Go-domain-migration	3	2f44aa32e9f3756aabe960e45d64010a850144b59421fbcf26ba4f398b399794	0	unassessed
 core/backend/src/services/user-engagement	identity	Go-domain-migration	1	8d5c22de108ed31cd77c313dd387cbc415ae04ca09b914ab69bc7d87c5825ac7	0	unassessed
-core/backend/src/services/vaultix	ai	Go-domain-migration	11	8ab67a9d419d0eedec027246aec43da313dacbecf2d303ab010ccf641b6198ea	2	unassessed
+core/backend/src/services/vaultix	ai	Go-domain-migration	11	c92d54e40948fd687e44426425e265f9d2ca285df7e51659cc2b68a37f823f32	2	unassessed
 core/backend/src/services/webauthn	identity	Go-domain-migration	3	b08b10c1b91ab9b132a8099f6bb955f0e7294981d33331b0e000610f84d9307d	0	unassessed
 core/backend/src/services/webhook	integrations	Go-domain-migration	4	b57efc81e876362a9e6eadd457c7a9c2f0ae1a3bd61139ae1bcfb93fcbb9c599	0	unassessed
 core/backend/src/services/workflow-integration	automation	Go-domain-migration	3	4cac8199dd7d5277cea24543c283c3efe5f1f81d30276b1ecd1cd173b040d806	0	unassessed
@@ -607,7 +607,7 @@ core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
-core/frontend/src/components/vaultix	ai	React-TypeScript	3	e43c53634fc89331084a6ccb65930d748dfd52f31dfaba2ce19efb6656cbeecf	3	unassessed
+core/frontend/src/components/vaultix	ai	React-TypeScript	3	303654703b1a927f584b13470d849d94c29ebbd740d2b3fd8b827fc99a9f7d80	3	unassessed
 core/frontend/src/config	ui	React-TypeScript	2	e3890d31163aeaaa19def7fd2b6bf7ec31064f8739fcd2712cf398bc49a39961	1	unassessed
 core/frontend/src/const	ui	React-TypeScript	2	b7359f9953be2fd79c36a629caad384833eb1dd9e2e91619d9f24f84a8734367	0	unassessed
 core/frontend/src/consts	pam	React-TypeScript	1	d7235b0d911f8850790bf58a8346ae86bedcfdb984f1c64fdacf906017c6ac80	0	unassessed
@@ -746,7 +746,7 @@ core/frontend/src/hooks/api/trustedIps	ui	React-TypeScript	3	21dfa6c82dd199c8079
 core/frontend/src/hooks/api/userActivation	identity	React-TypeScript	3	db349c3758da6bda760dc8db3a92cef23a12b9f4021413187883c7fc86ffe5b5	0	unassessed
 core/frontend/src/hooks/api/userEngagement	identity	React-TypeScript	3	60dae35d0a840a882052defecc0fc73f549bb19d8deb720de0b78ff805506613	0	unassessed
 core/frontend/src/hooks/api/users	identity	React-TypeScript	5	daba24a12f462fb47aadafeda67c616bfc94e1a834a9d2f2bc9571299f8588a9	0	unassessed
-core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	5	d890c6fec15783395200ae105c194f6a19e0535e5fb36ad757a1f00ad62128b4	3	unassessed
+core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	6	7e51bb9ab146326cfe51f64a2714384d1d4aed1906f96599d79bdba769d48c3e	4	unassessed
 core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	5	e9c722ae615aa5ae964bb99ee3369659f282cc2a565988a40aaae45b5b9460e4	0	unassessed
 core/frontend/src/hooks/api/webhooks	integrations	React-TypeScript	4	e4f95e10485133d0e0b7ba6b584b2d6eb23c5eedbddfbcc03f2a6ea6e4c2655d	0	unassessed
 core/frontend/src/hooks/api/workflowIntegrations	integrations	React-TypeScript	4	6b2e4e169ff3b6dff81feace0f4b51545de3fe24fbc95a32bf37edc2a1a44568	0	unassessed
@@ -969,7 +969,7 @@ core/frontend/src/pages/secret-manager/SecretDashboardPage	pam	React-TypeScript	
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	audit	React-TypeScript	1	6ec6495859b3e24496cd9ee73edc316d58954f737e32f8b4a7c141440584b0f5	0	unassessed
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	integrations	React-TypeScript	66	76d87bca25863862fbc4d8affc82cc4f4ac93f2f56d099bc9598c7be08a711f6	0	unassessed
 core/frontend/src/pages/secret-manager/SettingsPage	integrations	React-TypeScript	14	15a2000c4adc4a5946bfe77fa16d4de025039abcb86a904c92ac16716a0a0d7c	0	unassessed
-core/frontend/src/pages/secret-manager/SettingsPage	secrets	React-TypeScript	31	11921d381c6079e9afec2136690482d8197ee775509c2aee11b57005efa14798	6	unassessed
+core/frontend/src/pages/secret-manager/SettingsPage	secrets	React-TypeScript	31	721df90c92bc7f24aedebb73db06bcc0692ed821a689457ac76af655b3debe27	6	unassessed
 core/frontend/src/pages/secret-manager/integrations	integrations	React-TypeScript	159	5bc146426393b62306f41450d00dd03347c9a58fe05b50dfcc10a0d1d9a1b4c4	0	unassessed
 core/frontend/src/pages/secret-manager/redirects	authorization	React-TypeScript	1	86c4dc44d7644b47a012b915816730af4b1a2da0a09a007515881eb8dfdd67ef	0	unassessed
 core/frontend/src/pages/secret-scanning	scanning	React-TypeScript	1	9e7c69d2cda0d4d19d6fb3292153e8ced13f48ddba1799b71140a48ec390362e	0	unassessed
@@ -1061,4 +1061,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	47	6effc06460f3e256e06fea31bccb66b742f52091df4fab723fe0da7057b86d30	42	unassessed
+scripts	delivery	supporting-tooling-or-contract	48	01800dd0dd962b890b5060e0c4252cd8cd2d6b03a15844aa277a79da6bb0d3f9	44	unassessed

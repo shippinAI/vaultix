@@ -97,32 +97,28 @@
     },
     {
       "path": "core/backend/src/services/vaultix/guidance.ts",
-      "blob": "72daf72bd0b05e1bd957d3f670af5c288a11c78c",
-      "status": "verified",
+      "blob": "d12672f103af360e2619e08579ceb8d5201d86b1",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
       "evidence": [
-        "core/backend/src/server/routes/vaultix-router.test.ts",
-        "core/backend/src/services/vaultix/mcp.test.ts",
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/guidance.ts",
-      "blob": "04f17bca870372bbfd639687a69181d10787cd1c",
-      "status": "verified",
+      "blob": "908bf8b648c66b3e6c15c5e102c3d33084cf1fa7",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-UDjvAP/accessibility.json",
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     },
     {
@@ -137,18 +133,15 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
-      "blob": "ff967c48157d363bcac2cc7cab3e2be76e972b97",
-      "status": "verified",
+      "blob": "18e1ed10af10058f06dc60564214c3722c0e26b7",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-UDjvAP/accessibility.json",
-        "docs/0024-interaction-and-teaching-system.md",
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     },
     {
@@ -645,15 +638,15 @@
     },
     {
       "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentForm.tsx",
-      "blob": "2354e7bf13b405e2ba24eb965dad1dbd3f98abc4",
-      "status": "verified",
+      "blob": "36e09e062b946b41e11458efdb71c7f962a0d017",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete authored file read with create/edit callers, existing slug validation, Field/Input/Dialog primitives and global mutation error ownership. Shared typed form trims and validates names/slugs, auto-suggests until manual override, associates errors/help, prevents duplicate submission, retains failed edits and announces pending state. No new schema library, API or value exposure. Real creation/duplicate rejection and separate outage/pending fixtures pass. Manual screen-reader acceptance remains open. Shared notification overlays can still obscure tall dialog controls; viewport intersection and these scoped checks do not establish unobscured-focus or complete accessibility acceptance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
       "evidence": [
-        "docs/0030-environment-workflow.md",
-        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
-        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json"
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     },
     {
@@ -736,19 +729,15 @@
     },
     {
       "path": "scripts/test-environment-workflow.mjs",
-      "blob": "066cd736cd29dd2c2cefeaa5c452edd26f047134",
-      "status": "verified",
+      "blob": "45c6eecccb74bdc5ec37e7931af5739fb0a3257f",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete existing workflow probe read. Preserve real environment operations and separately labelled injected faults; add notification docking/uncovered-action checks and long destructive-warning geometry assertions. Visual review caught a layout regression missed by the prior automated checks. No baseline reduction or authorization bypass.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
       "evidence": [
-        "docs/0030-environment-workflow.md",
-        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
-        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
-        "docs/0038-notification-dialog-ownership.md",
-        ".cache/notification-proof-gVnaex/result.json",
-        ".cache/app-image-proof-hoAOol/workflow-result.json",
-        ".cache/notification-lint-final.log"
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     },
     {
@@ -3392,6 +3381,45 @@
         ".cache/self-hosted-build-9d0xxS/result.json",
         ".cache/ui-proof-OP5cxr/accessibility.json",
         ".cache/unit-proof-kE4Mk6/test-results.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/guidance-contract.ts",
+      "blob": "b11e4efc79b22c33fd13e06280d30f7c00eb6b9d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "evidence": [
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-guided-interactions.mjs",
+      "blob": "623c7244b9ef6e616eaea467805e8dfe4971fcc0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "evidence": [
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-guidance-contract.mjs",
+      "blob": "aab4dea89720043c0e1ac7d45641ff9b44cadf85",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "evidence": [
+        "docs/0053-authenticated-environment-teaching.md",
+        "scripts/test-guidance-contract.mjs",
+        "scripts/test-guided-interactions.mjs",
+        "scripts/test-environment-workflow.mjs"
       ]
     }
   ]

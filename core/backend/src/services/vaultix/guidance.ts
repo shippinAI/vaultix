@@ -151,5 +151,78 @@ export const getVaultixGuidance = () => ({
         }
       ]
     }
+  ],
+  workflowGuides: [
+    {
+      id: "environment-create",
+      title: "Create an Environment",
+      summary: "Give a deployment stage its own secret scope without changing other environments.",
+      steps: [
+        {
+          id: "name",
+          component: "configure-step",
+          target: "environment-name",
+          title: "Name the Deployment Stage",
+          hint: "Use a readable name such as Preview or Staging.",
+          body: "The name identifies this stage in your project. Choose a name your team will recognize. Creating an environment does not copy secrets from another environment.",
+          teaches:
+            "A separate environment keeps configuration distinct. Access is still controlled by project permissions and policies."
+        },
+        {
+          id: "slug",
+          component: "configure-step",
+          target: "environment-slug",
+          title: "Choose a Stable Identifier",
+          hint: "CLI commands and integrations use the slug.",
+          body: "Vaultix suggests a slug from the name until you edit it yourself. Use lowercase letters, numbers, and single hyphens between words. Choose an identifier that will remain meaningful as your app grows.",
+          teaches:
+            "The name is for people; the slug is the identifier used by clients and references. Check it before connecting workloads."
+        },
+        {
+          id: "save",
+          component: "configure-step",
+          target: "environment-save",
+          title: "Create When You Are Ready",
+          hint: "Only Create submits the environment.",
+          body: "Review the name and slug, then use Create. Vaultix checks your permissions and rejects duplicate slugs. If saving fails, your entries stay in the form so you can correct them or retry.",
+          teaches: "Reviewing this guide does not create an environment, copy secrets, or grant access."
+        }
+      ]
+    },
+    {
+      id: "environment-update",
+      title: "Update an Environment Safely",
+      summary: "Keep client configuration in mind when changing an environment identifier.",
+      steps: [
+        {
+          id: "name",
+          component: "configure-step",
+          target: "environment-name",
+          title: "Update the Display Name",
+          hint: "Renaming does not automatically change the slug.",
+          body: "Use a name your team recognizes. In this update form, the slug stays unchanged unless you edit it explicitly.",
+          teaches: "A clearer display name can help your team without changing the identifier clients use."
+        },
+        {
+          id: "slug",
+          component: "configure-step",
+          target: "environment-slug",
+          title: "Review Clients Before Changing the Slug",
+          hint: "Existing clients may still use the old identifier.",
+          body: "Changing the slug can break CLI commands, integrations, and secret references using its old value. Review those consumers before saving and update their configuration as needed.",
+          teaches:
+            "This form does not update external client configuration or prove that every dependent workload has been migrated."
+        },
+        {
+          id: "save",
+          component: "configure-step",
+          target: "environment-save",
+          title: "Save the Reviewed Change",
+          hint: "Only Update submits your edits.",
+          body: "Use Update when the name and slug are ready. A rejected save keeps your edits for correction or retry. Cancel closes the form without submitting those edits.",
+          teaches: "Completing a lesson is separate from saving a change. Permissions remain enforced by the server."
+        }
+      ]
+    }
   ]
 });

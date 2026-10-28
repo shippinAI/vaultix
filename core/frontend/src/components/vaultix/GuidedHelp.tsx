@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { type RefObject, useId, useRef, useState } from "react";
 import { ArrowLeftIcon, ArrowRightIcon, BookOpenIcon, LocateIcon } from "lucide-react";
 
 import {
@@ -31,10 +31,12 @@ const eventLabels: Record<GuideEventType, string> = {
 
 export const GuidedHelp = ({
   guideId,
-  initialTarget
+  initialTarget,
+  targetScope
 }: {
   guideId: GuideId;
   initialTarget?: string;
+  targetScope?: RefObject<HTMLElement>;
 }) => {
   const query = useVaultixGuidance();
   const dialogId = useId();
@@ -52,7 +54,7 @@ export const GuidedHelp = ({
     setNotice("");
     setState((current) => reduceGuide(guide, current, { type, stepId: step.id }));
   };
-  if (initialTarget && (!guide || !step)) return null;
+  if ((query.data && !guide) || (initialTarget && (!guide || !step))) return null;
   if (query.isError)
     return (
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted" role="status">
@@ -77,7 +79,11 @@ export const GuidedHelp = ({
     );
   const last = state.index === guide.steps.length - 1;
   const showControl = () => {
-    const target = document.getElementById(step.target);
+    const target = targetScope
+      ? targetScope.current?.querySelector<HTMLElement>(
+          `[data-vaultix-guide-target="${step.target}"]`
+        )
+      : document.getElementById(step.target);
     if (!target || target.matches(":disabled,[aria-disabled=true]")) {
       setNotice(
         "This control is not available yet. Close the guide and complete the earlier choices or sign in first."
@@ -195,6 +201,12 @@ export const GuidedHelp = ({
   );
 };
 
-export const GuidanceHint = ({ guideId, target }: { guideId: GuideId; target: string }) => (
-  <GuidedHelp guideId={guideId} initialTarget={target} />
-);
+export const GuidanceHint = ({
+  guideId,
+  target,
+  targetScope
+}: {
+  guideId: GuideId;
+  target: string;
+  targetScope?: RefObject<HTMLElement>;
+}) => <GuidedHelp guideId={guideId} initialTarget={target} targetScope={targetScope} />;

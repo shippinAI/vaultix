@@ -66,6 +66,62 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
     await page.route(match, handler);
     try { await run(); } finally { await page.unroute(match, handler); expectedFailures.delete(path); }
   };
+  const teaching = [];
+  const verifyGuide = async (formDialog, mode) => {
+    const calls = [];
+    const listener = req => {
+      if (new URL(req.url()).pathname.startsWith(base) && ["POST", "PATCH", "DELETE"].includes(req.method())) calls.push(req.method());
+    };
+    page.on("request", listener);
+    const name = formDialog.getByLabel("Environment Name", { exact: true });
+    const slug = formDialog.getByLabel("Environment Slug", { exact: true });
+    const before = { name: await name.inputValue(), slug: await slug.inputValue() };
+    const guideTitle = mode === "create" ? "Create an Environment" : "Update an Environment Safely";
+    const help = formDialog.getByRole("button", { name: "Guide Me", exact: true });
+    const guide = page.getByRole("dialog", { name: guideTitle, exact: true });
+    try {
+      await help.focus();
+      await page.keyboard.press("Enter");
+      await expect(guide).toBeVisible();
+      for (let index = 0; index < 10; index++) {
+        await page.keyboard.press("Tab");
+        assert.equal(await guide.evaluate(el => el.contains(document.activeElement)), true);
+      }
+      await guide.getByRole("button", { name: "Next Step", exact: true }).click();
+      await guide.getByRole("button", { name: "Show This Control", exact: true }).click();
+      await expect(slug).toBeFocused();
+      await help.click();
+      await expect(guide.getByRole("heading", { name: mode === "create" ? "Choose a Stable Identifier" : "Review Clients Before Changing the Slug" })).toBeVisible();
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.setViewportSize({ width: 320, height: 800 });
+      await expect.poll(() => guide.evaluate(el => el.scrollWidth <= el.clientWidth && el.getBoundingClientRect().width <= window.innerWidth)).toBe(true);
+      assert.equal(await guide.evaluate(el => getComputedStyle(el).animationName), "none");
+      await audit(`${mode} nested guide at 320 pixels`, '[role="dialog"][data-state="open"]');
+      await guide.screenshot({ path: resolve(evidence, `environment-${mode}-guide.png`) });
+      await page.keyboard.press("Escape");
+      await expect(help).toBeFocused();
+      await expect(formDialog).toBeVisible();
+      await page.setViewportSize(viewport);
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await help.click();
+      await guide.getByRole("button", { name: "Next Step", exact: true }).click();
+      await guide.getByRole("button", { name: "Finish Guide", exact: true }).click();
+      await expect(formDialog.getByRole("button", { name: "Review Guide", exact: true })).toBeFocused();
+      const hint = formDialog.getByRole("button", { name: mode === "create" ? "Help: Name the Deployment Stage" : "Help: Update the Display Name", exact: true });
+      await hint.click();
+      await guide.getByRole("button", { name: "Show This Control", exact: true }).click();
+      await expect(name).toBeFocused();
+      await expect(name).toHaveValue(before.name);
+      await expect(slug).toHaveValue(before.slug);
+      assert.deepEqual(calls, [], "Teaching must not submit an environment mutation");
+      teaching.push({ mode, scopedFocus: true, nestedDismissal: true, retainedInputs: true, mutations: calls.length });
+      writeFileSync(resolve(evidence, "environment-teaching.json"), JSON.stringify({ passed: true, fixtures: false, scope: "Guides in the real authenticated environment form; lesson completion is not mutation success", checks: teaching }, null, 2));
+    } finally {
+      page.off("request", listener);
+      await page.setViewportSize(viewport);
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+    }
+  };
   try {
     await page.goto(settings);
     await expect(create).toBeVisible();
@@ -102,6 +158,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
     await dialog.getByLabel("Environment Slug", { exact: true }).fill("preview-proof");
     await dialog.getByLabel("Environment Name", { exact: true }).fill("Preview Candidate");
     await expect(dialog.getByLabel("Environment Slug", { exact: true })).toHaveValue("preview-proof");
+    await verifyGuide(dialog, "create");
     const created = await request("POST", base, () => dialog.getByRole("button", { name: "Create", exact: true }).click());
     const id = created.environment.id;
     const path = `${base}/${id}`;
@@ -126,6 +183,7 @@ export async function testEnvironmentWorkflow({ page, expect, AxeBuilder, origin
     dialog = page.getByRole("dialog", { name: "Update Environment", exact: true });
     await dialog.getByLabel("Environment Name", { exact: true }).fill("Preview Reviewed");
     await dialog.getByLabel("Environment Slug", { exact: true }).fill("preview-reviewed");
+    await verifyGuide(dialog, "update");
     await withFault("PATCH", path, async () => {
       await request("PATCH", path, () => dialog.getByRole("button", { name: "Update", exact: true }).click(), 503);
       await expect(dialog.getByText(/Your edits are kept/)).toBeVisible();

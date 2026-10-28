@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
+import "./test-guidance-contract.mjs";
 import { initialGuideState, reduceGuide } from "../core/frontend/src/components/vaultix/guidance-state.ts";
 import { getVaultixGuidance } from "../core/backend/src/services/vaultix/guidance.ts";
 
-for (const guide of getVaultixGuidance().guides) {
+for (const guide of [...getVaultixGuidance().guides, ...getVaultixGuidance().workflowGuides]) {
   let state = { ...initialGuideState, history: [] };
   const send = type => { state = reduceGuide(guide, state, { type, stepId: guide.steps[state.index].id }); };
   const original = state;
