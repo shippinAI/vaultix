@@ -56,3 +56,35 @@ Evidence is recorded below when complete. Source inventories and acceptance maps
 must retain the existing capability baseline; this packet does not establish
 whole-product parity, public enrollment, live Nomen sessions, multi-replica
 isolation or measured cloud scale.
+
+### Committed-image evidence, 2026-10-28
+
+Source `ba809e15d0fc00391f816db1f82efe86ee8e8cae` built
+`sha256:80cd937b95773e4652195e440ea1ce504e233ca104102108bcf375af9de8ca04`
+with `core/Dockerfile.standalone-vaultix`. The local application build completed
+every mandatory step against that immutable image. Paths below are relative to
+the main checkout:
+
+- Canonical build, exact revision identity, 18 invalid identity-policy startup
+  cases, Dragonfly/Redis queues and restarts, teaching-context HTTP/MCP acceptance,
+  and all application/recovery/isolation gates:
+  `.cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json`.
+- Real owner setup, password sign-in, project/dashboard loading, secrets workflows,
+  dashboard recovery, charts and environment interactions using installed Chrome:
+  `.cache/tenant-isolation/.cache/app-image-proof-YfJbL1/`. See `result.json`,
+  `workflow-result.json`, `onboarding-result.json` and captured screenshots.
+- Nine encrypted-recovery checks with cleanup:
+  `.cache/tenant-isolation/.cache/encrypted-recovery-9qHHSD/result.json`.
+- Eleven tenant-isolation checks, including revocation after restart, with cleanup:
+  `.cache/tenant-isolation/.cache/tenant-isolation-Tw5Sz7/result.json`.
+- Linux backend suite: 123 files pass; 1,918 tests pass and 22 existing tests skip:
+  `.cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json`.
+- Eleven orchestration fixtures pass:
+  `.cache/tenant-isolation/.cache/self-hosted-fixtures-PALIF0/result.json`.
+
+Backend TypeScript checking, targeted ESLint, panel Go tests, owned-source checks
+and generated-map checks pass. The original surface baseline remains unchanged
+at 273 UI routes and 2,290 API operations; the real image exposes 2,291 operations
+with the additive learning-context endpoint. Browser accessibility scans retain
+manual-review findings and do not establish whole-product WCAG conformance.
+No GitHub Actions run or registry publication was needed for this evidence.

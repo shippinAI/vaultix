@@ -116,4 +116,8 @@ not establish live Nomen wiring or endorse the panel as the public cloud control
 plane. The chart test was fully read and its extra URL wait preserves the existing
 assertions; its changed browser behavior was not exercised by this packet.
 Generated maps are reconciled without granting authorship to unread merged code.
-The main working tree's concurrent uncommitted changes remain separate.
+At that integration point, the main working tree's uncommitted changes remained
+separate. They subsequently landed in `2e29c71a` and were integrated and repaired
+under [0057](0057-learning-context-integration.md). That packet repeats all eleven
+isolation and nine recovery checks against its new committed runtime image; use
+its evidence for the combined code.
