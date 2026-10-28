@@ -80,6 +80,76 @@ export const getVaultixGuidance = () => ({
           teaches: "Completing this guide does not prove client sign-in or grant permissions."
         }
       ]
+    },
+    {
+      id: "organization",
+      title: "Name Your Organization",
+      summary: "Create a home for your projects and team before setting up your owner account.",
+      steps: [
+        {
+          id: "name",
+          component: "configure-step",
+          target: "organization-name",
+          title: "Use a Name You Recognize",
+          hint: "Name your business, team, brand, or personal workspace.",
+          body: "An organization groups your projects, members, and access policies. Use your business or team name, or keep the suggested name. You can rename it later in organization settings.",
+          teaches: "This is a display name. It does not register a domain, create public sign-in, or grant access."
+        },
+        {
+          id: "suggestion",
+          component: "configure-step",
+          target: "organization-name-suggest",
+          title: "Start with a Suggested Name",
+          hint: "Generate another editable example.",
+          body: "Suggest Another Name fills the name field with a new example. You can replace it with your own name before continuing.",
+          teaches: "A suggested organization name is not a password or a secret."
+        },
+        {
+          id: "continue",
+          component: "configure-step",
+          target: "organization-continue",
+          title: "Continue with Your Organization",
+          hint: "Review the name before the next step.",
+          body: "For a new instance, continue to create your owner account with your own email and password. If you are already signed in, this action creates your organization.",
+          teaches: "Reviewing this guide does not submit the form. Only the form button performs the next action."
+        }
+      ]
+    },
+    {
+      id: "owner",
+      title: "Create Your Owner Account",
+      summary: "Use your own credentials to administer this Vaultix instance.",
+      steps: [
+        {
+          id: "email",
+          component: "configure-step",
+          target: "admin-signup-email",
+          title: "Choose Your Sign-in Email",
+          hint: "Use an email address you control.",
+          body: "This first account is the instance administrator and owns the first organization. Enter your own name and email. Invite teammates after entering the workspace.",
+          teaches: "Creating the owner does not enable public signup or configure federation."
+        },
+        {
+          id: "password",
+          component: "configure-step",
+          target: "admin-signup-password",
+          title: "Set Your Own Password",
+          hint: "Use a unique password and save it in your password manager.",
+          body: "Choose and confirm a password that meets the requirements shown below the field. Password managers and paste are supported. There is no shared default password to reuse.",
+          teaches:
+            "Your password belongs only in the sign-in form and your password manager. Never send it to Clyffy, chat, or a guide."
+        },
+        {
+          id: "create",
+          component: "configure-step",
+          target: "admin-signup-create",
+          title: "Create Your Workspace",
+          hint: "Save the owner and organization, then enter Vaultix.",
+          body: "Create Workspace submits your account and organization. A new self-hosted instance starts invite-only with email and password sign-in. Set up federation and other access choices later in settings.",
+          teaches:
+            "If opening the workspace fails after creation, retry opening it or sign in. You do not need another owner account."
+        }
+      ]
     }
   ]
 });

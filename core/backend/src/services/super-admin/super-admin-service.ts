@@ -561,7 +561,10 @@ export const superAdminServiceFactory = ({
 
     const shouldDisableSignUp = !appCfg.isCloud;
     await updateServerCfg(
-      { initialized: true, ...(shouldDisableSignUp ? { allowSignUp: false } : {}) },
+      {
+        initialized: true,
+        ...(shouldDisableSignUp ? { allowSignUp: false, enabledLoginMethods: [LoginMethod.EMAIL] } : {})
+      },
       userInfo.user.id
     );
     const token = await authService.generateUserTokens({

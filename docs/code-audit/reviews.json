@@ -93,24 +93,26 @@
     },
     {
       "path": "core/backend/src/services/vaultix/guidance.ts",
-      "blob": "7b6127efdbe8950658054f9c896818f0ca4d6bea",
-      "status": "verified",
-      "decision": "retain",
-      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations.",
+      "blob": "72daf72bd0b05e1bd957d3f670af5c288a11c78c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
       "evidence": [
         "core/backend/src/server/routes/vaultix-router.test.ts",
-        "core/backend/src/services/vaultix/mcp.test.ts"
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "docs/0050-organization-first-setup.md"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/guidance.ts",
-      "blob": "28f077777316cb746f62df48ea089cf768cbedaf",
-      "status": "verified",
-      "decision": "retain",
-      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered.",
+      "blob": "04f17bca870372bbfd639687a69181d10787cd1c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
       "evidence": [
         "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-UDjvAP/accessibility.json"
+        ".cache/ui-proof-UDjvAP/accessibility.json",
+        "docs/0050-organization-first-setup.md"
       ]
     },
     {
@@ -125,14 +127,15 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
-      "blob": "727a02f36ae0b452e8d21f085fafdc850f4a5497",
-      "status": "verified",
-      "decision": "retain",
-      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented.",
+      "blob": "ff967c48157d363bcac2cc7cab3e2be76e972b97",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-UDjvAP/accessibility.json",
-        "docs/0024-interaction-and-teaching-system.md"
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0050-organization-first-setup.md"
       ]
     },
     {
@@ -243,10 +246,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "47408cd6e1e1c1d0a2c56e13fcbb3bacc68f33d8",
-      "status": "verified",
+      "blob": "f69a56e1d409723db0623f9e802c29b2d11eebf3",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent.",
+      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -299,7 +302,8 @@
         ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
-        ".cache/dashboard-commit-lint-final.log"
+        ".cache/dashboard-commit-lint-final.log",
+        "docs/0050-organization-first-setup.md"
       ]
     },
     {
@@ -1078,10 +1082,10 @@
     },
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
-      "blob": "c24e48da8309b739635e5384ed02355e97014585",
-      "status": "verified",
+      "blob": "7b94480508054b0b6b31b4da2847e65b889cd38e",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Bootstrap now uses the shared bounded identity issuer within the existing identity/membership transaction, preserving the managed token row, tenant claims and one-time setup guard. The rest of server administration remains inherited and needs workflow review, including setup concurrency/partial failure and entitlement-language cleanup. This does not establish Nomen session ownership.",
+      "scope": "Complete file read. Bootstrap now uses the shared bounded identity issuer within the existing identity/membership transaction, preserving the managed token row, tenant claims and one-time setup guard. The rest of server administration remains inherited and needs workflow review, including setup concurrency/partial failure and entitlement-language cleanup. This does not establish Nomen session ownership. Scoped 0050 correction: adminSignUp retains invite-only and now sets EMAIL login on fresh self-hosted initialization; read updateServerCfg lockout validation and signup callers. Other bootstrap concurrency/partial-write gaps remain open. Exact-image onboarding acceptance pending.",
       "evidence": [
         "docs/0033-bootstrap-identity-issuance.md",
         ".cache/bootstrap-regression-before.jsonl",
@@ -1089,7 +1093,8 @@
         ".cache/bootstrap-types-final.log",
         ".cache/bootstrap-lint-final.log",
         ".cache/go-proof-QbLrCU/result.json",
-        ".cache/go-proof-mlYewa/result.json"
+        ".cache/go-proof-mlYewa/result.json",
+        "docs/0050-organization-first-setup.md"
       ]
     },
     {
@@ -3040,6 +3045,126 @@
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
         ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/SignUpPage/SignUpPage.tsx",
+      "blob": "fa7d86d8aa306269a682f8ca326bcfa5c8968a9b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx",
+      "blob": "0d824e1d80c7ef81e2ccd45b50a8e72b9389431f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/SetupPage/SetupPage.tsx",
+      "blob": "7d2f6853552b5bc17f68dc11357e6954a03aa330",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/OrgNameStep.tsx",
+      "blob": "99352f0f9c2233ddaa83dc946cf04b154572ca18",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/auth/organization-name.ts",
+      "blob": "8df62034635377d5b15e8b280b79fc0a4dee5345",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/projects/handler.go",
+      "blob": "52baf54f3002c973a8ada03c5eb483ac16a171e4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/projects/openapi.yml",
+      "blob": "b53a4afdec2c6b494366455739c677446fd62c28",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/projects/gen.go",
+      "blob": "e43f6b69f4b41d824247555017cb1c0f25c77133",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/projects/projects_test.go",
+      "blob": "d0da91674b456a9921add9d8a3a8f40a034f26e3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "scripts/test-first-run-setup.mjs",
+      "blob": "220ca005d0721e0b8c2ddcf5ea0a6234af4a924a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "scripts/test-native-ui.mjs",
+      "blob": "34410a165f72cb41007a285b6fcc7e447e34c58f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
+      ]
+    },
+    {
+      "path": "docs/0050-organization-first-setup.md",
+      "blob": "13a79e7bd8f8957a4ab08a297f45a8c10b93b799",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "evidence": [
+        "docs/0050-organization-first-setup.md"
       ]
     }
   ]

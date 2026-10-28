@@ -5,6 +5,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { testFirstRunSetup } from "./test-first-run-setup.mjs";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 import { testChartRendering } from "./test-chart-rendering.mjs";
 import { testEnvironmentWorkflow } from "./test-environment-workflow.mjs";
@@ -26,29 +27,13 @@ assert.equal(config.config.initialized, false, "Refusing to change an initialize
 // Separate random byte pairs so credentials cannot violate the repeated-character policy.
 const password = `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
 const email = `image-proof-${randomBytes(6).toString("hex")}@vaultix.invalid`;
-const signup = await fetch(`${origin}/api/v1/admin/signup`, {
-  method: "POST", headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password, firstName: "Image", lastName: "Proof", organizationName: "Vaultix Image Proof" })
-});
-assert.equal(signup.status, 200, "Disposable instance bootstrap failed.");
-const bootstrap = await signup.json();
-const selection = await fetch(`${origin}/api/v3/auth/select-organization`, {
-  method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${bootstrap.token}` },
-  body: JSON.stringify({ organizationId: bootstrap.organization.id })
-});
-assert.equal(selection.status, 200, "Disposable organization selection failed.");
-const selected = await selection.json();
-const setup = await fetch(`${origin}/api/v1/admin/config`, {
-  method: "PATCH", headers: { "Content-Type": "application/json", Authorization: `Bearer ${selected.token}` },
-  body: JSON.stringify({ onboardingCompleted: true, enabledLoginMethods: ["email"] })
-});
-assert.equal(setup.status, 200, "Disposable instance setup failed.");
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/app-image-proof-"));
 const browser = await chromium.launch({ headless: true, ...(process.env.VAULTIX_BROWSER_CHANNEL ? { channel: process.env.VAULTIX_BROWSER_CHANNEL } : {}) });
 const authEvents = [];
 let phase = "entry";
 try {
+  const { bootstrap, selected } = await testFirstRunSetup({ browser, expect, AxeBuilder, origin, email, password, evidence });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   // External integrations are outside this local acceptance test. No API/auth responses are mocked.
   await context.route("**/*", route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());

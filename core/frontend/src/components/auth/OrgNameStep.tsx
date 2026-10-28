@@ -1,7 +1,6 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
-import { z } from "zod";
 
 import {
   Button,
@@ -14,15 +13,14 @@ import {
   FieldLabel,
   Input
 } from "@app/components/v3";
+import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
 import { useCreateOrg } from "@app/hooks/api";
 import { useSelectOrganization } from "@app/hooks/api/auth/queries";
-import { GenericResourceNameSchema } from "@app/lib/schemas";
 
 import { AuthPagePanel } from "./AuthPagePanel";
+import { suggestOrganizationName, validateOrganizationName } from "./organization-name";
 
-const formSchema = z.object({ organizationName: GenericResourceNameSchema });
-
-type OrgNameFormData = z.infer<typeof formSchema>;
+type OrgNameFormData = { organizationName: string };
 
 interface OrgNameStepProps {
   onComplete: (orgId: string) => void;
@@ -30,31 +28,35 @@ interface OrgNameStepProps {
 
 export default function OrgNameStep({ onComplete }: OrgNameStepProps): JSX.Element {
   const navigate = useNavigate();
+  const [suggestedName] = useState(suggestOrganizationName);
+  const [createdOrgId, setCreatedOrgId] = useState<string>();
   const { mutateAsync: createOrg, isPending: isCreating } = useCreateOrg({ invalidate: false });
   const { mutateAsync: selectOrganization, isPending: isSelecting } = useSelectOrganization();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<OrgNameFormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { organizationName: "" }
+    defaultValues: { organizationName: suggestedName }
   });
 
   const onSubmit = async ({ organizationName }: OrgNameFormData) => {
     try {
-      const organization = await createOrg({ name: organizationName });
-      const { isMfaEnabled } = await selectOrganization({ organizationId: organization.id });
+      const organizationId =
+        createdOrgId ?? (await createOrg({ name: organizationName.trim() })).id;
+      setCreatedOrgId(organizationId);
+      const { isMfaEnabled } = await selectOrganization({ organizationId });
       if (isMfaEnabled) {
         navigate({
           to: "/login/select-organization",
-          search: { org_id: organization.id }
+          search: { org_id: organizationId }
         });
         return;
       }
-      localStorage.setItem("orgData.id", organization.id);
-      onComplete(organization.id);
+      localStorage.setItem("orgData.id", organizationId);
+      onComplete(organizationId);
     } catch {
       // The global mutation error handler already surfaces a toast; stay on this step.
     }
@@ -65,32 +67,59 @@ export default function OrgNameStep({ onComplete }: OrgNameStepProps): JSX.Eleme
       <AuthPagePanel>
         <CardHeader className="mb-4 gap-2">
           <CardTitle className="bg-linear-to-b from-white to-bunker-200 bg-clip-text font-alliance text-2xl font-normal text-transparent">
-            Name your organization
+            <h1>Name Your Organization</h1>
           </CardTitle>
           <CardDescription className="text-sm text-label">
-            This is your team&apos;s shared home in Vaultix. You can rename it anytime.
+            Name your business, team, brand, or personal workspace. You can rename it later.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <CardContent className="space-y-4">
+          <GuidedHelp guideId="organization" />
+          {createdOrgId && (
+            <p role="status" className="text-sm text-muted">
+              Your organization is saved. Continue to open it.
+            </p>
+          )}
+          <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit(onSubmit)}>
             <Field data-invalid={Boolean(errors.organizationName)}>
-              <FieldLabel className="sr-only" htmlFor="sso-organization-name">
-                Organization Name
-              </FieldLabel>
+              <div className="flex items-center justify-between gap-2">
+                <FieldLabel htmlFor="organization-name">Organization Name</FieldLabel>
+                <GuidanceHint guideId="organization" target="organization-name" />
+              </div>
               <Input
                 variant="outlined"
-                {...register("organizationName")}
-                id="sso-organization-name"
+                {...register("organizationName", { validate: validateOrganizationName })}
+                id="organization-name"
+                readOnly={Boolean(createdOrgId)}
+                aria-describedby={`organization-name-help${errors.organizationName ? " organization-name-error" : ""}`}
                 placeholder="Organization Name"
                 maxLength={64}
                 autoComplete="organization"
                 isError={Boolean(errors.organizationName)}
               />
+              <p id="organization-name-help" className="text-sm text-muted">
+                For example, Acme Studio or My Team. You can keep the suggestion or enter your own
+                name.
+              </p>
               {errors.organizationName ? (
-                <FieldError>{errors.organizationName.message}</FieldError>
+                <FieldError id="organization-name-error">
+                  {errors.organizationName.message}
+                </FieldError>
               ) : null}
             </Field>
             <Button
+              type="button"
+              id="organization-name-suggest"
+              variant="outline"
+              isDisabled={Boolean(createdOrgId) || isCreating || isSelecting}
+              onClick={() =>
+                setValue("organizationName", suggestOrganizationName(), { shouldValidate: true })
+              }
+            >
+              Suggest Another Name
+            </Button>
+            <Button
+              id="organization-continue"
               type="submit"
               variant="project"
               size="lg"

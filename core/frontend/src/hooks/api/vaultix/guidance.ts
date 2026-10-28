@@ -4,7 +4,9 @@ import { apiRequest } from "@app/config/request";
 
 export const guideTargets = {
   references: ["reference-app", "reference-environment", "reference-path", "reference-submit"],
-  connections: ["connection-codex-subscription", "connection-configuration", "connection-access"]
+  connections: ["connection-codex-subscription", "connection-configuration", "connection-access"],
+  organization: ["organization-name", "organization-name-suggest", "organization-continue"],
+  owner: ["admin-signup-email", "admin-signup-password", "admin-signup-create"]
 } as const;
 export type GuideId = keyof typeof guideTargets;
 export type GuideStep = {
@@ -31,14 +33,17 @@ export const readGuidance = (data: unknown): VaultixGuide[] => {
     data.source !== "catalog" ||
     data.a2uiVersion !== "0.9.1" ||
     !Array.isArray(data.guides) ||
-    data.guides.length !== 2
+    data.guides.length !== Object.keys(guideTargets).length
   )
     throw invalid();
   const seen = new Set<string>();
   return data.guides.map((guide: unknown) => {
     if (
       !record(guide) ||
-      (guide.id !== "references" && guide.id !== "connections") ||
+      (guide.id !== "references" &&
+        guide.id !== "connections" &&
+        guide.id !== "organization" &&
+        guide.id !== "owner") ||
       seen.has(guide.id) ||
       !text(guide.title) ||
       !text(guide.summary) ||

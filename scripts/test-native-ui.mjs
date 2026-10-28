@@ -59,8 +59,10 @@ try {
   assert.equal(new URL(page.url()).pathname, "/login");
   initialized = false;
   await page.goto(origin);
-  await page.getByRole("heading", { name: "Create your Super Admin account", level: 1, exact: true }).waitFor();
+  await page.getByRole("heading", { name: "Name Your Organization", level: 1, exact: true }).waitFor();
   assert.equal(new URL(page.url()).pathname, "/admin/signup");
+  await expect(page.getByLabel("Organization Name", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to Owner Account" }).click();
   await expect(page.getByLabel("First Name", { exact: true })).toBeVisible();
   await expect(page.getByLabel("Email", { exact: true })).toBeVisible();
   await audit("instance-setup-desktop");

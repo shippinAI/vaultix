@@ -206,7 +206,7 @@ func (a *HTTPAdapter) CreateProject(w http.ResponseWriter, r *http.Request) {
 		}
 		var errResp *CreateProjectErrorResponse
 		if errors.As(err, &errResp) {
-			code = 400
+			code = 501
 		}
 		a.errHandler.HandleError(w, r, code, err)
 		return
@@ -365,15 +365,17 @@ type GetProjectsHealthErrorResponseJSON shared.Error
 
 type GetProjectsHealthErrorResponseJSON500 shared.Error
 
-type CreateProjectResponseJSON = CreateProjectResponse
-
-type CreateProjectErrorResponse shared.ValidationError
+type CreateProjectErrorResponse shared.Error
 
 func (r CreateProjectErrorResponse) Error() string {
 	return "unmapped client error"
 }
 
-type CreateProjectErrorResponseJSON shared.Error
+type CreateProjectResponseJSON = CreateProjectResponse
+
+type CreateProjectErrorResponseJSON shared.ValidationError
+
+type CreateProjectErrorResponseJSON401 shared.Error
 
 type CreateProjectErrorResponseJSON500 shared.Error
 

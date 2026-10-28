@@ -28,7 +28,10 @@ paths:
     post:
       operationId: createProject
       summary: Create a project
-      description: Creates a new project in the organization
+      description: >-
+        Reserved native migration endpoint. Returns 501 until the complete
+        project lifecycle is accepted. Use the existing POST /api/v1/projects
+        workflow to create a persisted project.
       tags:
         - Projects
       security:
@@ -41,8 +44,14 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateProjectRequest"
       responses:
+        "501":
+          description: Native project creation is not yet implemented; no project was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "201":
-          description: Project created
+          description: Reserved for the accepted native project implementation
           content:
             application/json:
               schema:

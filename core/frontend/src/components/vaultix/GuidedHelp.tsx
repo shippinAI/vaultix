@@ -58,6 +58,7 @@ export const GuidedHelp = ({
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted" role="status">
         <span>Help is unavailable.</span>
         <Button
+          type="button"
           variant="outline"
           size="sm"
           onClick={() => {
@@ -92,6 +93,7 @@ export const GuidedHelp = ({
         <TooltipTrigger asChild>
           <DialogTrigger asChild aria-controls={state.open ? dialogId : undefined}>
             <Button
+              type="button"
               variant={initialTarget ? "ghost" : "outline"}
               size="sm"
               aria-label={contextStep ? `Help: ${contextStep.title}` : undefined}

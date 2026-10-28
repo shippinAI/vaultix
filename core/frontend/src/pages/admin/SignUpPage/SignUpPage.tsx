@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import axios from "axios";
-import { ChevronLeft } from "lucide-react";
-import { z } from "zod";
 
 import { AuthPagePanel } from "@app/components/auth/AuthPagePanel";
 import { OnboardingPageLayout } from "@app/components/auth/OnboardingPageLayout";
+import {
+  suggestOrganizationName,
+  validateOrganizationName
+} from "@app/components/auth/organization-name";
 import SecurityClient from "@app/components/utilities/SecurityClient";
 import {
   Alert,
@@ -23,145 +24,196 @@ import {
   FieldLabel,
   Input
 } from "@app/components/v3";
-import { useCreateAdminUser, useSelectOrganization } from "@app/hooks/api";
-import { GenericResourceNameSchema } from "@app/lib/schemas";
+import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
+import { useCreateAdminUser, useSelectOrganization, useUpdateServerConfig } from "@app/hooks/api";
 
 import { AdminSignUpForm } from "./components/AdminSignUpForm";
 import { AdminSignUpFormData } from "./adminSignUpSchema";
 
-enum BootstrapStep {
-  Account,
-  Organization
-}
-
-const organizationSchema = z.object({
-  organizationName: GenericResourceNameSchema
-});
-
-type TOrganizationForm = z.infer<typeof organizationSchema>;
-
-const stepContent = {
-  [BootstrapStep.Account]: {
-    title: "Create your Super Admin account",
-    description: "Use this account to manage your Vaultix instance."
-  },
-  [BootstrapStep.Organization]: {
-    title: "Create your organization",
-    description: "Set up the first workspace for your projects, secrets, and team."
-  }
-} satisfies Record<BootstrapStep, { title: string; description: string }>;
-
 export const SignUpPage = () => {
   const navigate = useNavigate();
   const router = useRouter();
-  const [activeStep, setActiveStep] = useState(BootstrapStep.Account);
-  const [accountData, setAccountData] = useState<AdminSignUpFormData>();
+  const [step, setStep] = useState<"organization" | "account">("organization");
+  const [organizationName, setOrganizationName] = useState(suggestOrganizationName);
+  const [createdOrganizationId, setCreatedOrganizationId] = useState<string>();
   const [formError, setFormError] = useState<string>();
-  const { mutateAsync: createAdminUser, isPending } = useCreateAdminUser();
+  const [isFinishing, setIsFinishing] = useState(false);
+  const focusHeading = useCallback((heading: HTMLHeadingElement | null) => heading?.focus(), []);
+  const stepTitle =
+    step === "organization" ? "Name Your Organization" : "Create Your Owner Account";
+  const { mutateAsync: createAdminUser } = useCreateAdminUser();
   const { mutateAsync: selectOrganization } = useSelectOrganization();
+  const { mutateAsync: updateServerConfig } = useUpdateServerConfig();
   const {
-    formState: { errors },
+    register,
     handleSubmit,
-    register
-  } = useForm<TOrganizationForm>({
-    resolver: zodResolver(organizationSchema),
-    defaultValues: {
-      organizationName: ""
-    }
+    setValue,
+    formState: { errors }
+  } = useForm<{ organizationName: string }>({
+    defaultValues: { organizationName }
   });
 
-  const handleAccountContinue = (values: AdminSignUpFormData) => {
-    setAccountData(values);
-    setFormError(undefined);
-    setActiveStep(BootstrapStep.Organization);
+  const finishSetup = async (organizationId: string) => {
+    await selectOrganization({ organizationId });
+    localStorage.setItem("orgData.id", organizationId);
+    await updateServerConfig({ onboardingCompleted: true });
+    await router.invalidate();
+    await navigate({ to: "/organizations/$orgId/projects", params: { orgId: organizationId } });
   };
 
-  const handleOrganizationSubmit = handleSubmit(async ({ organizationName }) => {
-    if (!accountData) {
-      setActiveStep(BootstrapStep.Account);
-      return;
-    }
-
+  const handleCreate = async (values: AdminSignUpFormData) => {
+    setIsFinishing(true);
     setFormError(undefined);
-
+    let organizationId = createdOrganizationId;
     try {
-      const result = await createAdminUser({
-        email: accountData.email,
-        password: accountData.password,
-        firstName: accountData.firstName,
-        lastName: accountData.lastName || undefined,
-        organizationName
-      });
-
-      SecurityClient.setToken(result.token);
-      await selectOrganization({ organizationId: result.organization.id });
-      localStorage.setItem("orgData.id", result.organization.id);
-      await router.invalidate();
-      await navigate({ to: "/admin/setup" });
+      if (!organizationId) {
+        const result = await createAdminUser({
+          email: values.email,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName || undefined,
+          organizationName
+        });
+        organizationId = result.organization.id;
+        // Unmount the password form immediately. Completion retries must never create another owner.
+        setCreatedOrganizationId(organizationId);
+        SecurityClient.setToken(result.token);
+      }
+      await finishSetup(organizationId);
     } catch (error) {
       const message = axios.isAxiosError<{ message?: string }>(error)
         ? error.response?.data?.message
         : undefined;
-      setFormError(message || "Unable to create the instance. Please try again.");
+      setFormError(
+        organizationId
+          ? "Your account and organization were created. Retry opening your workspace, or sign in to finish setup."
+          : message ||
+              "Setup could not be confirmed. Try again, or sign in if your account was already created."
+      );
+    } finally {
+      setIsFinishing(false);
     }
-  });
+  };
+
+  const retryFinish = async () => {
+    if (!createdOrganizationId) return;
+    setIsFinishing(true);
+    setFormError(undefined);
+    try {
+      await finishSetup(createdOrganizationId);
+    } catch {
+      setFormError(
+        "Your account is ready, but the workspace could not open. Retry or sign in to finish setup."
+      );
+    } finally {
+      setIsFinishing(false);
+    }
+  };
 
   return (
-    <OnboardingPageLayout currentStep={activeStep + 1} totalSteps={4}>
+    <OnboardingPageLayout currentStep={step === "organization" ? 1 : 2} totalSteps={2}>
       <Helmet>
-        <title>Set up your instance | Vaultix</title>
+        <title>Set Up Vaultix</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta property="og:image" content="/images/vaultix-social.png" />
       </Helmet>
       <AuthPagePanel>
         <CardHeader className="mb-6 gap-2">
           <CardTitle className="font-alliance text-2xl font-normal">
-            <h1>{stepContent[activeStep].title}</h1>
+            <h1 ref={focusHeading} tabIndex={-1}>
+              {createdOrganizationId ? "Open Your Workspace" : stepTitle}
+            </h1>
           </CardTitle>
-          <CardDescription className="font-alliance text-base">
-            {stepContent[activeStep].description}
+          <CardDescription className="text-base">
+            {step === "organization"
+              ? "Your business, team, brand, or personal workspace starts here. You can rename it later."
+              : `Create your own sign-in for ${organizationName}. This account administers your Vaultix instance.`}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          {activeStep === BootstrapStep.Account ? (
-            <AdminSignUpForm defaultValues={accountData} onContinue={handleAccountContinue} />
-          ) : (
-            <form className="flex flex-col gap-6" noValidate onSubmit={handleOrganizationSubmit}>
-              {formError && (
-                <Alert variant="danger">
-                  <AlertDescription>{formError}</AlertDescription>
-                </Alert>
-              )}
-              <Field data-invalid={Boolean(errors.organizationName)}>
-                <FieldLabel htmlFor="admin-signup-organization">Organization name</FieldLabel>
-                <Input
-                  variant="outlined"
-                  {...register("organizationName")}
-                  id="admin-signup-organization"
-                  aria-label="Organization name"
-                  placeholder="Organization name"
-                  autoComplete="organization"
-                  autoFocus
-                  isError={Boolean(errors.organizationName)}
-                />
-                {errors.organizationName ? (
-                  <FieldError>{errors.organizationName.message}</FieldError>
-                ) : null}
-              </Field>
-              <div className="flex justify-between gap-3">
+        <CardContent className="space-y-5">
+          {formError && (
+            <Alert variant="danger" role="alert">
+              <AlertDescription>{formError}</AlertDescription>
+            </Alert>
+          )}
+          {createdOrganizationId ? (
+            <div className="space-y-4">
+              <p className="text-sm text-muted">Your organization and owner account are saved.</p>
+              <Button type="button" variant="project" isPending={isFinishing} onClick={retryFinish}>
+                Open Workspace
+              </Button>
+              <Button type="button" variant="outline" onClick={() => navigate({ to: "/login" })}>
+                Sign In
+              </Button>
+            </div>
+          ) : null}
+          {!createdOrganizationId && step === "organization" && (
+            <>
+              <GuidedHelp guideId="organization" />
+              <form
+                className="flex flex-col gap-5"
+                noValidate
+                onSubmit={handleSubmit((values) => {
+                  setOrganizationName(values.organizationName.trim());
+                  setFormError(undefined);
+                  setStep("account");
+                })}
+              >
+                <Field data-invalid={Boolean(errors.organizationName)}>
+                  <div className="flex items-center justify-between gap-2">
+                    <FieldLabel htmlFor="organization-name">Organization Name</FieldLabel>
+                    <GuidanceHint guideId="organization" target="organization-name" />
+                  </div>
+                  <Input
+                    variant="outlined"
+                    {...register("organizationName", { validate: validateOrganizationName })}
+                    id="organization-name"
+                    autoComplete="organization"
+                    maxLength={64}
+                    aria-describedby={`organization-name-help${errors.organizationName ? " organization-name-error" : ""}`}
+                    isError={Boolean(errors.organizationName)}
+                  />
+                  <p id="organization-name-help" className="text-sm text-muted">
+                    Use your own name, such as Acme Studio or My Team, or keep this suggested name.
+                  </p>
+                  {errors.organizationName && (
+                    <FieldError id="organization-name-error">
+                      {errors.organizationName.message}
+                    </FieldError>
+                  )}
+                </Field>
                 <Button
+                  id="organization-name-suggest"
                   type="button"
                   variant="outline"
-                  onClick={() => setActiveStep(BootstrapStep.Account)}
+                  onClick={() =>
+                    setValue("organizationName", suggestOrganizationName(), {
+                      shouldValidate: true
+                    })
+                  }
                 >
-                  <ChevronLeft />
-                  Back
+                  Suggest Another Name
                 </Button>
-                <Button type="submit" variant="project" isPending={isPending}>
-                  Create organization
+                <Button id="organization-continue" type="submit" variant="project">
+                  Continue to Owner Account
                 </Button>
-              </div>
-            </form>
+              </form>
+            </>
+          )}
+          {!createdOrganizationId && step === "account" && (
+            <>
+              <GuidedHelp guideId="owner" />
+              <p className="rounded-md border border-border p-3 text-sm text-muted">
+                Choose your own password. Your instance starts invite-only with email and password
+                sign-in. Configure federation later in settings.
+              </p>
+              <AdminSignUpForm
+                onContinue={handleCreate}
+                onBack={() => {
+                  setFormError(undefined);
+                  setStep("organization");
+                }}
+              />
+            </>
           )}
         </CardContent>
       </AuthPagePanel>

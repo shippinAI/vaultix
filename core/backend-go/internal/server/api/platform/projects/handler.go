@@ -5,7 +5,10 @@ package projects
 import (
 	"context"
 	"log/slog"
+	"net/http"
 
+	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix/api/internal/services/auth"
 	"github.com/vaultix/api/internal/services/permission"
 )
 
@@ -45,12 +48,13 @@ func (h *Handler) GetProjectsHealth(ctx context.Context) (*GetProjectsHealthResp
 	}), nil
 }
 
-// CreateProject handles the create project endpoint.
-func (h *Handler) CreateProject(ctx context.Context, opts *CreateProjectServiceRequestOptions) (*CreateProjectResponseData, error) {
-	h.logger.InfoContext(ctx, "creating project", slog.String("name", opts.Body.Name))
-	return NewCreateProjectResponseData(&CreateProjectResponse{
-		ID:    "generated-id",
-		Name:  opts.Body.Name,
-		OrgID: opts.Body.OrgID,
-	}), nil
+func (h *Handler) CreateProject(ctx context.Context, _ *CreateProjectServiceRequestOptions) (*CreateProjectResponseData, error) {
+	if _, err := auth.IdentityFromContext(ctx); err != nil {
+		return nil, err
+	}
+	// The active project workflow owns key setup, policies and transactional writes.
+	// A staged native route must not acknowledge a write it cannot perform.
+	return nil, errutil.InternalServer("Native project creation is unavailable; use the existing project workflow.").
+		WithStatus(http.StatusNotImplemented).
+		WithName("Native project creation is unavailable; use POST /api/v1/projects.")
 }

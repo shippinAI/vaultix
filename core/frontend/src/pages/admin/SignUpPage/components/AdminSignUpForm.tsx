@@ -18,16 +18,18 @@ import {
   InputGroupButton,
   InputGroupInput
 } from "@app/components/v3";
+import { GuidanceHint } from "@app/components/vaultix/GuidedHelp";
 import { useServerConfig } from "@app/context";
 
 import { AdminSignUpFormData, createAdminSignUpSchema } from "../adminSignUpSchema";
 
 type AdminSignUpFormProps = {
   defaultValues?: AdminSignUpFormData;
-  onContinue: (values: AdminSignUpFormData) => void;
+  onContinue: (values: AdminSignUpFormData) => void | Promise<void>;
+  onBack: () => void;
 };
 
-export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormProps) => {
+export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSignUpFormProps) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { config } = useServerConfig();
   const {
@@ -67,7 +69,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
       return;
     }
 
-    onContinue(values);
+    await onContinue(values);
   };
 
   const showDangerState = submitCount > 0;
@@ -79,7 +81,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
   return (
     <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field data-invalid={showDangerState && Boolean(errors.firstName)}>
             <FieldLabel htmlFor="admin-signup-first-name">First Name</FieldLabel>
             <Input
@@ -110,7 +112,10 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
           </Field>
         </div>
         <Field data-invalid={showDangerState && Boolean(errors.email)}>
-          <FieldLabel htmlFor="admin-signup-email">Email</FieldLabel>
+          <div className="flex items-center justify-between gap-2">
+            <FieldLabel htmlFor="admin-signup-email">Email</FieldLabel>
+            <GuidanceHint guideId="owner" target="admin-signup-email" />
+          </div>
           <Input
             variant="outlined"
             {...register("email")}
@@ -180,6 +185,7 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
         </AnimatedCollapse>
       </FieldGroup>
       <Button
+        id="admin-signup-create"
         type="submit"
         variant="project"
         size="lg"
@@ -187,7 +193,10 @@ export const AdminSignUpForm = ({ defaultValues, onContinue }: AdminSignUpFormPr
         isPending={isSubmitting}
         isDisabled={!canSubmit}
       >
-        Continue
+        Create Workspace
+      </Button>
+      <Button type="button" variant="outline" isDisabled={isSubmitting} onClick={onBack}>
+        Back to Organization
       </Button>
     </form>
   );

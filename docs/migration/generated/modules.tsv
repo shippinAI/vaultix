@@ -39,7 +39,7 @@ core/backend-go/internal/queue	foundation	Go-native	2	6c1833a8dbfcfd6372d7359fcf
 core/backend-go/internal/server	foundation	Go-native	1	4a2ddcdfb3f2aac1c4717e56cfc2474b633e39b92b1eaa330be4549a629f8356	0	unassessed
 core/backend-go/internal/server/api	foundation	Go-native	3	02eee1a6e1be0aba915f8100988cca60fc7e08c3b2a13498e30f07ba7a2d31cb	1	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	8c2ea48f3dfc5ba0e64b032fe8c696facceb4412699f03ffa07aa30c6e5aac8e	0	unassessed
-core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	a16e0bef65fe29ace1abaedf4a346e0bb651e093546a8e6486f2f95696db70df	0	unassessed
+core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	533af5011e49d5b22a2a47b5e9661d6465e4079734bbd0332bba4b50aa5eb83c	3	unassessed
 core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	6	d44c34a78384f8afea716d8c8923681f02598055c6a5d906d39a735b225357fc	0	unassessed
 core/backend-go/internal/server/api/shared	foundation	Go-native	6	4c6c32be285ee2fc51cf3735092ef240cabd2d27cf8af6eba16c67f6848ae51e	0	unassessed
 core/backend-go/internal/server/api/templates	foundation	Go-native	1	34f212cfcb763b4b63499a9f8177c26ae1d579e7d75d7bd821c7610d5612f3c5	0	unassessed
@@ -62,7 +62,7 @@ core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce786405460
 core/backend-go/tests/platform/keystore	kms	Go-native	1	09b3c8bf5c894b4c54109d5583c17e52ed209377102c91fb9a5da6835a6af553	1	unassessed
 core/backend-go/tests/platform/kms	kms	Go-native	1	7f05e8ef21069b0e14a32ff7284ef15eb723b448be00b097e4c925b4e9de102b	0	unassessed
 core/backend-go/tests/platform/permission	authorization	Go-native	1	46d1a28e44a1b3a5ec273331c40d8909c3595a460baf19b76e62ec1aa722b463	0	unassessed
-core/backend-go/tests/platform/projects	secrets	Go-native	1	7767f537b71a28681f43aac0a0e6f2f6490b5dd07f0507507150ca34fff4b688	0	unassessed
+core/backend-go/tests/platform/projects	secrets	Go-native	1	9007c408381cdad439206ae3bac73da89def12c464bcbb7f0d69c1c6ac366105	1	unassessed
 core/backend-go/tests/platform/ratelimit	foundation	Go-native	1	d3427e178075238ea9adc595f476c762d267d111b9a79bd045b6a686f19bad15	0	unassessed
 core/backend-go/tests/secretmanager/secrets	authorization	Go-native	2	4161e3204197f430824b8869b359f1851839cd871e30fe247a95cecee4328063	0	unassessed
 core/backend-go/tests/secretmanager/secrets	integrations	Go-native	2	e2ce08850c3f19a282a2b589d0635dcad703344ebf633346a9aa2b2c855e426d	0	unassessed
@@ -456,7 +456,7 @@ core/backend/src/services/smtp	pam	Go-domain-migration	2	8188b3e81bec4a4a744d5b9
 core/backend/src/services/smtp	pki	Go-domain-migration	2	e8bfc5b3796ac47916845775c53b56d80cc809920c0df819adba9966ab4971f9	0	unassessed
 core/backend/src/services/smtp	scanning	Go-domain-migration	3	06ef7fe4e94de1cb4067c1b355849f54197945fa78210ac1117beb8a45a54bd9	0	unassessed
 core/backend/src/services/smtp	secrets	Go-domain-migration	4	5dc09b3370810d9fd67de4691bba280d120f712754b77b5e90cc3ff2d1995dc0	0	unassessed
-core/backend/src/services/super-admin	foundation	Go-domain-migration	5	19282f50b339dbd118ebe5b4be8254a734cc7a561f379abb05863e7c566ef40c	1	unassessed
+core/backend/src/services/super-admin	foundation	Go-domain-migration	5	47d3dc4fda035aedf78520969099fd5ef40742b13fe6711f82ccffb397e09df1	1	unassessed
 core/backend/src/services/telemetry	foundation	Go-domain-migration	4	44535eb3088caa3388277206c291a5581b08fb3960dd8a8c1fac4a24dad59b98	0	unassessed
 core/backend/src/services/totp	identity	Go-domain-migration	3	99f3653df1b4eeb65433bc7f8729cb7e729686f7add58995b3e8436f8b766e44	0	unassessed
 core/backend/src/services/update-check	foundation	Go-domain-migration	3	ba5d20aba86d17eb5c5a255091a674a3abd2a69c3f37cb11afe73666fe092e2f	0	unassessed
@@ -464,7 +464,7 @@ core/backend/src/services/user	identity	Go-domain-migration	4	03e37dfd10b21209b7
 core/backend/src/services/user-activation	identity	Go-domain-migration	3	dad6539241bf89359f94b5eb11d34ccb7f889f8a30186bf9e7df8324d2763be7	0	unassessed
 core/backend/src/services/user-alias	identity	Go-domain-migration	3	2f44aa32e9f3756aabe960e45d64010a850144b59421fbcf26ba4f398b399794	0	unassessed
 core/backend/src/services/user-engagement	identity	Go-domain-migration	1	8d5c22de108ed31cd77c313dd387cbc415ae04ca09b914ab69bc7d87c5825ac7	0	unassessed
-core/backend/src/services/vaultix	ai	Go-domain-migration	11	cf539e76bd825103f4681098fbd5f53a22939fde33eb14e10398eee6101de9da	1	unassessed
+core/backend/src/services/vaultix	ai	Go-domain-migration	11	2163a42eda4ae7839cea739a90aef80f3458a2aeca67e5f7a9f09e3de5df3d99	1	unassessed
 core/backend/src/services/webauthn	identity	Go-domain-migration	3	b08b10c1b91ab9b132a8099f6bb955f0e7294981d33331b0e000610f84d9307d	0	unassessed
 core/backend/src/services/webhook	integrations	Go-domain-migration	4	b57efc81e876362a9e6eadd457c7a9c2f0ae1a3bd61139ae1bcfb93fcbb9c599	0	unassessed
 core/backend/src/services/workflow-integration	automation	Go-domain-migration	3	4cac8199dd7d5277cea24543c283c3efe5f1f81d30276b1ecd1cd173b040d806	0	unassessed
@@ -516,7 +516,7 @@ core/frontend/src/components/announcements	ui	React-TypeScript	3	068bf9ba669dc1a
 core/frontend/src/components/app-connections	integrations	React-TypeScript	2	3d3224e68311c6e1f98481ddbc000e392685117af9135b9b0d5c111fe7d554b0	0	unassessed
 core/frontend/src/components/approvals	authorization	React-TypeScript	3	d370dff6dee4ad0a45866717772ab67c265a0df087b6c852009d4c944ca4101c	0	unassessed
 core/frontend/src/components/assume-privileges	authorization	React-TypeScript	2	9d5ee1bc96c536d9f14a347d954c3d40fd74e7551bea6ffc33cbec68181f7744	0	unassessed
-core/frontend/src/components/auth	identity	React-TypeScript	20	7ace27565d3d7d325c598631b3542a9abf4272bbfaee93e6b0b1502932504dd1	3	unassessed
+core/frontend/src/components/auth	identity	React-TypeScript	21	ecfa6dd781e40d9ee41aff8fcf351b54a7458e03842f06e655f7310b8a6f1fb0	5	unassessed
 core/frontend/src/components/basic	ui	React-TypeScript	2	c2c85969a311c3fdf44e249af2aca3cacc34d51494e5f164f018c26cf3e67a05	0	unassessed
 core/frontend/src/components/external-migrations	ui	React-TypeScript	2	a59a7a3171ff20dc23816b7b1a49812ce835473d346d37b81eea56cedbf4c12e	0	unassessed
 core/frontend/src/components/features	ui	React-TypeScript	3	1b0317586a731bf49efd3d639e8fde437337ab586a02421179fe54602513f0de	0	unassessed
@@ -607,7 +607,7 @@ core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
-core/frontend/src/components/vaultix	ai	React-TypeScript	2	bb706ddb09d4a1116086810365cffb0a14da52a64a761b915d14d93849049d79	2	unassessed
+core/frontend/src/components/vaultix	ai	React-TypeScript	2	978dc0a7541fb2bad7c416258e8f01a289926315685db5e95c008f06d52353aa	2	unassessed
 core/frontend/src/config	ui	React-TypeScript	2	e3890d31163aeaaa19def7fd2b6bf7ec31064f8739fcd2712cf398bc49a39961	1	unassessed
 core/frontend/src/const	ui	React-TypeScript	2	b7359f9953be2fd79c36a629caad384833eb1dd9e2e91619d9f24f84a8734367	0	unassessed
 core/frontend/src/consts	pam	React-TypeScript	1	d7235b0d911f8850790bf58a8346ae86bedcfdb984f1c64fdacf906017c6ac80	0	unassessed
@@ -746,7 +746,7 @@ core/frontend/src/hooks/api/trustedIps	ui	React-TypeScript	3	21dfa6c82dd199c8079
 core/frontend/src/hooks/api/userActivation	identity	React-TypeScript	3	db349c3758da6bda760dc8db3a92cef23a12b9f4021413187883c7fc86ffe5b5	0	unassessed
 core/frontend/src/hooks/api/userEngagement	identity	React-TypeScript	3	60dae35d0a840a882052defecc0fc73f549bb19d8deb720de0b78ff805506613	0	unassessed
 core/frontend/src/hooks/api/users	identity	React-TypeScript	5	daba24a12f462fb47aadafeda67c616bfc94e1a834a9d2f2bc9571299f8588a9	0	unassessed
-core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	4	aa4fb32fc45e989949ef131d4e92f9af114ec3e37607acdefdade8cc3df25cc9	1	unassessed
+core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	4	396868207cf06c03c0e6776625b3d3f2ae369488b1726bb82730785d09c28d0e	1	unassessed
 core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	5	e9c722ae615aa5ae964bb99ee3369659f282cc2a565988a40aaae45b5b9460e4	0	unassessed
 core/frontend/src/hooks/api/webhooks	integrations	React-TypeScript	4	e4f95e10485133d0e0b7ba6b584b2d6eb23c5eedbddfbcc03f2a6ea6e4c2655d	0	unassessed
 core/frontend/src/hooks/api/workflowIntegrations	integrations	React-TypeScript	4	6b2e4e169ff3b6dff81feace0f4b51545de3fe24fbc95a32bf37edc2a1a44568	0	unassessed
@@ -786,8 +786,8 @@ core/frontend/src/pages/admin/GeneralPage	ui	React-TypeScript	5	8ed55f322c115dff
 core/frontend/src/pages/admin/IntegrationsPage	integrations	React-TypeScript	6	a5af935f726dd7c11274b0717b66777a1c2350d7b52c94a59d31b73633375bf9	0	unassessed
 core/frontend/src/pages/admin/ResourceOverviewPage	identity	React-TypeScript	1	2d935427ea8f1fb24d7f9f97c25546f5ec5fd89dc3dabc985b64194ce71abefe	0	unassessed
 core/frontend/src/pages/admin/ResourceOverviewPage	ui	React-TypeScript	7	6b172f88c11049577e0f7d515ac9701970ca9a93a2913d51c7167f43379d723e	0	unassessed
-core/frontend/src/pages/admin/SetupPage	ui	React-TypeScript	2	0dfde12ab770b8ba6b97e4464382a54235733505d5f49527697a6829292a30ad	0	unassessed
-core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	4	69ce41fdba9ab1f2ab80e47d7726769646afa02f845a1a5138e42f762476b9de	0	unassessed
+core/frontend/src/pages/admin/SetupPage	ui	React-TypeScript	2	ae904b8901c3c5d51667b0d2b80406166896baa831b206519fce2f97079d882f	1	unassessed
+core/frontend/src/pages/admin/SignUpPage	identity	React-TypeScript	4	f70a2381a4af435537e1d1f4b5ffc932ea4a8e40306bab7708e50e52b6d2f79f	2	unassessed
 core/frontend/src/pages/admin/WelcomePage	ui	React-TypeScript	2	7ef62c71492ff088602589dbc55b048666de0b7a643e9f7dfb584a6e7388f727	0	unassessed
 core/frontend/src/pages/admin/components	ui	React-TypeScript	2	7def2881736276176cce39bd6b26240865b6eb408242dfb01bd5d1a4f5e66111	0	unassessed
 core/frontend/src/pages/auth/AccountRecoveryEmailPage	identity	React-TypeScript	2	cae27917c9dee853af3b75dcb5b5880322fc81df04b38a432b90c7134b319046	0	unassessed
@@ -1061,4 +1061,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	45	1b1b956d846eb7a9ad114c63ec698dd8d74e5441189d390ea3e3f3b2be24821e	39	unassessed
+scripts	delivery	supporting-tooling-or-contract	46	9bdc3e539d82d0690ba99e8593858adc65f9b26fb621bf82eeb940a56155b3bf	41	unassessed
