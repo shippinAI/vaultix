@@ -94,25 +94,31 @@
     {
       "path": "core/backend/src/services/vaultix/guidance.ts",
       "blob": "72daf72bd0b05e1bd957d3f670af5c288a11c78c",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Complete authored file read. Static reference/connection lessons contain no user data or executable actions. HTTP and MCP return identical catalog content; caller validation rejects arguments and query data. This is a lesson contract, not proof of authenticated operations. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "core/backend/src/server/routes/vaultix-router.test.ts",
         "core/backend/src/services/vaultix/mcp.test.ts",
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/guidance.ts",
       "blob": "04f17bca870372bbfd639687a69181d10787cd1c",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Complete authored file read. Shared query validates fixed schema, guide IDs, bounded text, steps, component types and exact local targets. Explicit mapping drops unknown fields. Browser tests reject unsupported component and out-of-scope targets; no arbitrary HTML or model instructions are rendered. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-UDjvAP/accessibility.json",
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -128,14 +134,17 @@
     {
       "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
       "blob": "ff967c48157d363bcac2cc7cab3e2be76e972b97",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Complete authored renderer read with Radix dialog/tooltip primitives and both page callers. Contextual help shares a validated query, opens user-paced lessons and focuses allowlisted available controls. Browser checks cover focus containment/restoration, unavailable controls, narrow layouts and reduced motion. Axe incomplete aria-hidden-focus findings on modal focus guards/background remain for assistive-technology review; remote A2UI control is not implemented. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "scripts/test-native-ui.mjs",
         ".cache/ui-proof-UDjvAP/accessibility.json",
         "docs/0024-interaction-and-teaching-system.md",
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -247,9 +256,9 @@
     {
       "path": "scripts/test-image-app.mjs",
       "blob": "00db9a20eed750fd0ef48882796b6cbeb6f73246",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent. Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -304,7 +313,10 @@
         ".cache/dashboard-create-lint-final.log",
         ".cache/dashboard-commit-lint-final.log",
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -1084,9 +1096,9 @@
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
       "blob": "7b94480508054b0b6b31b4da2847e65b889cd38e",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Bootstrap now uses the shared bounded identity issuer within the existing identity/membership transaction, preserving the managed token row, tenant claims and one-time setup guard. The rest of server administration remains inherited and needs workflow review, including setup concurrency/partial failure and entitlement-language cleanup. This does not establish Nomen session ownership. Scoped 0050 correction: adminSignUp retains invite-only and now sets EMAIL login on fresh self-hosted initialization; read updateServerCfg lockout validation and signup callers. Other bootstrap concurrency/partial-write gaps remain open. Exact-image onboarding acceptance pending.",
+      "scope": "Complete file read. Bootstrap now uses the shared bounded identity issuer within the existing identity/membership transaction, preserving the managed token row, tenant claims and one-time setup guard. The rest of server administration remains inherited and needs workflow review, including setup concurrency/partial failure and entitlement-language cleanup. This does not establish Nomen session ownership. Scoped 0050 correction: adminSignUp retains invite-only and now sets EMAIL login on fresh self-hosted initialization; read updateServerCfg lockout validation and signup callers. Other bootstrap concurrency/partial-write gaps remain open. Exact-image onboarding acceptance pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0033-bootstrap-identity-issuance.md",
         ".cache/bootstrap-regression-before.jsonl",
@@ -1095,7 +1107,10 @@
         ".cache/bootstrap-lint-final.log",
         ".cache/go-proof-QbLrCU/result.json",
         ".cache/go-proof-mlYewa/result.json",
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -1238,9 +1253,9 @@
     {
       "path": "scripts/smoke-image.sh",
       "blob": "62611086d92eb6cb397823515b71628383a12ca3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/app-image-proof-PM9CDX/workflow-result.json",
@@ -1258,7 +1273,10 @@
         ".cache/publication-proof-rDfJRI/result.json",
         ".cache/image-identity-promotion-failure.json",
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -2400,10 +2418,10 @@
     },
     {
       "path": "README.md",
-      "blob": "19a070acf7258578ffa93ebc79ba828ba1a406aa",
-      "status": "authored",
+      "blob": "26fa5d081c5630c7ce29be8405becaedcb905eeb",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete README read. Self-hosted build and verification now precede deployment; source publication and optional manual cloud image builds distinguished. Existing core/API/Clyffy/store/migration limitations retained. Commands link exact prerequisite/receipt scope; remote hardware deployment and whole-product parity remain unproven. Planning checkpoint 2026-10-28: Read complete README. Added the capability plan and loopback explorer entry, explicitly distinguishing planning from the product. Existing instructions and capability limits retained.",
+      "scope": "Complete README read. Self-hosted build and verification now precede deployment; source publication and optional manual cloud image builds distinguished. Existing core/API/Clyffy/store/migration limitations retained. Commands link exact prerequisite/receipt scope; remote hardware deployment and whole-product parity remain unproven. Planning checkpoint 2026-10-28: Read complete README. Added the capability plan and loopback explorer entry, explicitly distinguishing planning from the product. Existing instructions and capability limits retained. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2416,7 +2434,11 @@
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -3053,32 +3075,41 @@
     {
       "path": "core/frontend/src/pages/admin/SignUpPage/SignUpPage.tsx",
       "blob": "fa7d86d8aa306269a682f8ca326bcfa5c8968a9b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx",
       "blob": "c2b8e9566ab57361ba0f01400e2e36d2f1e0216d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/frontend/src/pages/admin/SetupPage/SetupPage.tsx",
       "blob": "7d2f6853552b5bc17f68dc11357e6954a03aa330",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
@@ -3094,94 +3125,121 @@
     {
       "path": "core/frontend/src/components/auth/organization-name.ts",
       "blob": "8df62034635377d5b15e8b280b79fc0a4dee5345",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/backend-go/internal/server/api/platform/projects/handler.go",
       "blob": "52baf54f3002c973a8ada03c5eb483ac16a171e4",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/backend-go/internal/server/api/platform/projects/openapi.yml",
       "blob": "b53a4afdec2c6b494366455739c677446fd62c28",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/backend-go/internal/server/api/platform/projects/gen.go",
       "blob": "e43f6b69f4b41d824247555017cb1c0f25c77133",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/projects/projects_test.go",
       "blob": "d0da91674b456a9921add9d8a3a8f40a034f26e3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "scripts/test-first-run-setup.mjs",
       "blob": "e18e8f51d84e6e3422644b0ef78a683088ce7d59",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "scripts/test-native-ui.mjs",
       "blob": "34410a165f72cb41007a285b6fcc7e447e34c58f",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
-        "docs/0050-organization-first-setup.md"
+        "docs/0050-organization-first-setup.md",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "docs/0050-organization-first-setup.md",
-      "blob": "c1ced3933e6bec3c628c30718044b89e2298bfc1",
-      "status": "authored",
+      "blob": "40963b2f3ec2fb652bde1c2be3ffc4f3a1c08b24",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ]
     },
     {
       "path": "core/frontend/src/components/auth/OnboardingPageLayout.tsx",
-      "scope": "Complete component read with signup/setup callers. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending.",
+      "scope": "Complete component read with signup/setup callers. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
       "evidence": [
         "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)"
+        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
+        ".cache/self-hosted-build-ueBbJX/result.json",
+        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
+        ".cache/app-image-proof-5NZO8A/workflow-result.json"
       ],
       "blob": "0d334e31d0a5de93b130287a2484df7c6c45f2ab",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify"
     }
   ]

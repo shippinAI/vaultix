@@ -52,6 +52,12 @@ The root opens the full application: first-instance setup when needed, login
 for signed-out users, and the project dashboard for signed-in users. Optional
 Clyffy setup/reference help is at `/help` and in the application Help menu.
 
+For a new instance, name your organization, then create the owner with your own
+email and password. The suggested organization name is editable; there is no
+shared default password. Web setup starts invite-only with email/password login.
+Configure federation and public signup later in settings. Both setup steps have
+contextual help and guided dialogs. [Setup behavior and acceptance](docs/0050-organization-first-setup.md).
+
 The default stack builds `core/Dockerfile.standalone-vaultix` and runs
 PostgreSQL plus **Dragonfly**. Redis and AWS ElastiCache can be configured
 explicitly; see [cache deployment](docs/0017-cache-deployment.md). Cache
