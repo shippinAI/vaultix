@@ -1,0 +1,2564 @@
+kind	group	surface
+UI	workspace	/
+UI	access	/account-recovery
+UI	access	/account-recovery-reset
+UI	operate	/admin
+UI	operate	/admin/
+UI	operate	/admin/access-management
+UI	operate	/admin/authentication
+UI	operate	/admin/caching
+UI	operate	/admin/encryption
+UI	operate	/admin/environment
+UI	operate	/admin/integrations
+UI	operate	/admin/resources/overview
+UI	operate	/admin/setup
+UI	operate	/admin/signup
+UI	operate	/admin/welcome
+UI	access	/cli-redirect
+UI	access	/email-not-verified
+UI	experience	/help
+UI	connect	/integrations
+UI	connect	/integrations/azure-app-configuration/oauth2/callback
+UI	connect	/integrations/azure-key-vault/oauth2/callback
+UI	connect	/integrations/bitbucket/oauth2/callback
+UI	connect	/integrations/gcp-secret-manager/oauth2/callback
+UI	connect	/integrations/github/oauth2/callback
+UI	connect	/integrations/gitlab/oauth2/callback
+UI	connect	/integrations/heroku/oauth2/callback
+UI	connect	/integrations/netlify/oauth2/callback
+UI	connect	/integrations/vercel/oauth2/callback
+UI	access	/login
+UI	access	/login/
+UI	access	/login/admin
+UI	access	/login/ldap
+UI	access	/login/oidc
+UI	access	/login/provider/error
+UI	access	/login/saml
+UI	access	/login/select-organization
+UI	access	/mfa-session/$mfaSessionId
+UI	connect	/organization/app-connections/$appConnection/oauth/callback
+UI	connect	/organization/app-connections/github/manifest/callback
+UI	access	/organization/oauth-consent
+UI	workspace	/organization/settings/oauth/callback
+UI	workspace	/organizations/$orgId
+UI	access	/organizations/$orgId/access-management
+UI	connect	/organizations/$orgId/app-connections
+UI	connect	/organizations/$orgId/app-connections/
+UI	connect	/organizations/$orgId/app-connections/$appConnection/oauth/callback
+UI	connect	/organizations/$orgId/app-connections/github/manifest/callback
+UI	governance	/organizations/$orgId/audit-logs
+UI	workspace	/organizations/$orgId/billing
+UI	access	/organizations/$orgId/groups/$groupId
+UI	access	/organizations/$orgId/identities/$identityId
+UI	connect	/organizations/$orgId/integrations
+UI	access	/organizations/$orgId/members/$membershipId
+UI	connect	/organizations/$orgId/networking
+UI	connect	/organizations/$orgId/networking/
+UI	connect	/organizations/$orgId/networking/gateways/$gatewayId
+UI	connect	/organizations/$orgId/networking/relays/$relayId
+UI	access	/organizations/$orgId/oauth-applications
+UI	pam	/organizations/$orgId/pam
+UI	pam	/organizations/$orgId/pam/access
+UI	access	/organizations/$orgId/pam/access-management
+UI	pam	/organizations/$orgId/pam/access/
+UI	pam	/organizations/$orgId/pam/accounts
+UI	pam	/organizations/$orgId/pam/accounts/$accountType/$accountId/access
+UI	pam	/organizations/$orgId/pam/approval-requests
+UI	governance	/organizations/$orgId/pam/audit-logs
+UI	pam	/organizations/$orgId/pam/discovery
+UI	access	/organizations/$orgId/pam/groups/$groupId
+UI	access	/organizations/$orgId/pam/identities/$identityId
+UI	access	/organizations/$orgId/pam/members/$membershipId
+UI	access	/organizations/$orgId/pam/roles/$roleSlug
+UI	pam	/organizations/$orgId/pam/sessions
+UI	pam	/organizations/$orgId/pam/templates
+UI	workspace	/organizations/$orgId/projects
+UI	workspace	/organizations/$orgId/projects/$type
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/
+UI	access	/organizations/$orgId/projects/cert-manager/$projectId/access-management
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/alerting
+UI	connect	/organizations/$orgId/projects/cert-manager/$projectId/app-connections
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/applications
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/applications/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/applications/$applicationName
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/approvals
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/approvals/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/approvals/$approvalRequestId
+UI	governance	/organizations/$orgId/projects/cert-manager/$projectId/audit-logs
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/ca/$caId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-authorities
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-policies
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-policies/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-policies/$policyId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-profiles
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-profiles/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-profiles/$profileId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-templates
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificate-templates/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/certificates/$certificateId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/code-signing
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/code-signing/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/code-signing/$signerId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/discovery
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/discovery/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/discovery/$discoveryId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/discovery/installations/$installationId
+UI	access	/organizations/$orgId/projects/cert-manager/$projectId/groups/$groupId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/hsm-connectors/$connectorId
+UI	access	/organizations/$orgId/projects/cert-manager/$projectId/identities/$identityId
+UI	connect	/organizations/$orgId/projects/cert-manager/$projectId/integrations
+UI	connect	/organizations/$orgId/projects/cert-manager/$projectId/integrations/
+UI	connect	/organizations/$orgId/projects/cert-manager/$projectId/integrations/$syncId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/inventory
+UI	access	/organizations/$orgId/projects/cert-manager/$projectId/members/$membershipId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/overview
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/pki-collections/$collectionId
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/policies
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/requests
+UI	access	/organizations/$orgId/projects/cert-manager/$projectId/roles/$roleSlug
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/settings
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/subscribers
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/subscribers/
+UI	pki	/organizations/$orgId/projects/cert-manager/$projectId/subscribers/$subscriberName
+UI	kms	/organizations/$orgId/projects/kms/$projectId
+UI	access	/organizations/$orgId/projects/kms/$projectId/access-management
+UI	governance	/organizations/$orgId/projects/kms/$projectId/audit-logs
+UI	access	/organizations/$orgId/projects/kms/$projectId/groups/$groupId
+UI	access	/organizations/$orgId/projects/kms/$projectId/identities/$identityId
+UI	kms	/organizations/$orgId/projects/kms/$projectId/kmip
+UI	access	/organizations/$orgId/projects/kms/$projectId/members/$membershipId
+UI	kms	/organizations/$orgId/projects/kms/$projectId/overview
+UI	access	/organizations/$orgId/projects/kms/$projectId/roles/$roleSlug
+UI	kms	/organizations/$orgId/projects/kms/$projectId/settings
+UI	kms	/organizations/$orgId/projects/kms/kmip-servers
+UI	kms	/organizations/$orgId/projects/kms/kmip-servers/
+UI	kms	/organizations/$orgId/projects/kms/kmip-servers/$kmipServerId
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId
+UI	access	/organizations/$orgId/projects/secret-management/$projectId/access-management
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/allowlist
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/app-connections
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/approval
+UI	governance	/organizations/$orgId/projects/secret-management/$projectId/audit-logs
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/commits/$environment/$folderId
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/commits/$environment/$folderId/
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/commits/$environment/$folderId/$commitId
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/commits/$environment/$folderId/$commitId/
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/commits/$environment/$folderId/$commitId/restore
+UI	access	/organizations/$orgId/projects/secret-management/$projectId/groups/$groupId
+UI	access	/organizations/$orgId/projects/secret-management/$projectId/identities/$identityId
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/insights
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/$integrationId
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/aws-parameter-store/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/aws-parameter-store/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/aws-secret-manager/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/aws-secret-manager/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-app-configuration/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-app-configuration/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-devops/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-devops/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-key-vault/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-key-vault/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/azure-key-vault/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/bitbucket/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/bitbucket/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/checkly/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/checkly/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/circleci/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/circleci/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloud-66/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloud-66/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloudflare-pages/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloudflare-pages/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloudflare-workers/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/cloudflare-workers/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/codefresh/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/codefresh/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/databricks/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/databricks/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/digital-ocean-app-platform/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/digital-ocean-app-platform/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/flyio/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/flyio/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gcp-secret-manager/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gcp-secret-manager/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gcp-secret-manager/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/github/auth-mode-selection
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/github/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/github/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gitlab/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gitlab/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/gitlab/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/hashicorp-vault/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/hashicorp-vault/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/hasura-cloud/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/hasura-cloud/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/heroku/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/heroku/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/laravel-forge/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/laravel-forge/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/netlify/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/netlify/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/northflank/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/northflank/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/octopus-deploy/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/octopus-deploy/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/qovery/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/qovery/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/railway/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/railway/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/render/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/render/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/rundeck/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/rundeck/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/secret-syncs/$destination/$syncId
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/select-integration-auth
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/supabase/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/supabase/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/teamcity/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/teamcity/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/terraform-cloud/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/terraform-cloud/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/travisci/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/travisci/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/vercel/create
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/vercel/oauth2/callback
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/windmill/authorize
+UI	connect	/organizations/$orgId/projects/secret-management/$projectId/integrations/windmill/create
+UI	access	/organizations/$orgId/projects/secret-management/$projectId/members/$membershipId
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/overview
+UI	access	/organizations/$orgId/projects/secret-management/$projectId/roles/$roleSlug
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/secrets/$envSlug
+UI	secrets	/organizations/$orgId/projects/secret-management/$projectId/settings
+UI	secrets	/organizations/$orgId/projects/secret-management/product-settings
+UI	secrets	/organizations/$orgId/projects/secret-management/product-settings/
+UI	secrets	/organizations/$orgId/projects/secret-management/product-settings/project-templates/$templateId
+UI	secrets	/organizations/$orgId/projects/secret-management/secret-sharing
+UI	secrets	/organizations/$orgId/projects/secret-management/secret-sharing/
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId
+UI	access	/organizations/$orgId/projects/secret-scanning/$projectId/access-management
+UI	connect	/organizations/$orgId/projects/secret-scanning/$projectId/app-connections
+UI	governance	/organizations/$orgId/projects/secret-scanning/$projectId/audit-logs
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId/data-sources
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId/data-sources/
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId/data-sources/$type/$dataSourceId
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId/findings
+UI	access	/organizations/$orgId/projects/secret-scanning/$projectId/groups/$groupId
+UI	access	/organizations/$orgId/projects/secret-scanning/$projectId/identities/$identityId
+UI	access	/organizations/$orgId/projects/secret-scanning/$projectId/members/$membershipId
+UI	access	/organizations/$orgId/projects/secret-scanning/$projectId/roles/$roleSlug
+UI	detect	/organizations/$orgId/projects/secret-scanning/$projectId/settings
+UI	access	/organizations/$orgId/roles/$roleId
+UI	workspace	/organizations/$orgId/secret-manager/$projectId
+UI	workspace	/organizations/$orgId/secret-manager/$projectId/approval
+UI	workspace	/organizations/$orgId/secret-sharing
+UI	workspace	/organizations/$orgId/settings
+UI	workspace	/organizations/$orgId/settings/
+UI	workspace	/organizations/$orgId/settings/oauth/callback
+UI	workspace	/organizations/$orgId/sso
+UI	workspace	/organizations/none
+UI	workspace	/organizations/onboarding
+UI	pam	/pam/access
+UI	access	/password-setup
+UI	access	/personal-settings
+UI	access	/personal-settings/
+UI	access	/requestnewinvite
+UI	secrets	/secret-request/secret/$secretRequestId
+UI	secrets	/share-secret
+UI	secrets	/shared/secret/$secretId
+UI	access	/signup
+UI	access	/signup/
+UI	access	/signup/sso
+UI	access	/signupinvite
+API	access	DELETE /api/v1/additional-privilege/identity
+API	connect	DELETE /api/v1/app-connections/1password/{connectionId}
+API	connect	DELETE /api/v1/app-connections/adcs/{connectionId}
+API	connect	DELETE /api/v1/app-connections/anthropic/{connectionId}
+API	connect	DELETE /api/v1/app-connections/auth0/{connectionId}
+API	connect	DELETE /api/v1/app-connections/aws/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-adcs/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-app-configuration/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-client-secrets/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-devops/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-dns/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-entra-id/{connectionId}
+API	connect	DELETE /api/v1/app-connections/azure-key-vault/{connectionId}
+API	connect	DELETE /api/v1/app-connections/bitbucket/{connectionId}
+API	connect	DELETE /api/v1/app-connections/camunda/{connectionId}
+API	connect	DELETE /api/v1/app-connections/checkly/{connectionId}
+API	connect	DELETE /api/v1/app-connections/chef/{connectionId}
+API	connect	DELETE /api/v1/app-connections/circleci/{connectionId}
+API	connect	DELETE /api/v1/app-connections/cloud-66/{connectionId}
+API	connect	DELETE /api/v1/app-connections/cloudflare/{connectionId}
+API	connect	DELETE /api/v1/app-connections/convex/{connectionId}
+API	connect	DELETE /api/v1/app-connections/databricks/{connectionId}
+API	connect	DELETE /api/v1/app-connections/datadog/{connectionId}
+API	connect	DELETE /api/v1/app-connections/dbt/{connectionId}
+API	connect	DELETE /api/v1/app-connections/devin/{connectionId}
+API	connect	DELETE /api/v1/app-connections/digicert/{connectionId}
+API	connect	DELETE /api/v1/app-connections/digital-ocean/{connectionId}
+API	connect	DELETE /api/v1/app-connections/dns-made-easy/{connectionId}
+API	connect	DELETE /api/v1/app-connections/doppler/{connectionId}
+API	connect	DELETE /api/v1/app-connections/external-vaultix/{connectionId}
+API	connect	DELETE /api/v1/app-connections/f5-big-ip/{connectionId}
+API	connect	DELETE /api/v1/app-connections/fireworks/{connectionId}
+API	connect	DELETE /api/v1/app-connections/flyio/{connectionId}
+API	connect	DELETE /api/v1/app-connections/gcp/{connectionId}
+API	connect	DELETE /api/v1/app-connections/github-radar/{connectionId}
+API	connect	DELETE /api/v1/app-connections/github/{connectionId}
+API	connect	DELETE /api/v1/app-connections/gitlab/{connectionId}
+API	connect	DELETE /api/v1/app-connections/godaddy/{connectionId}
+API	connect	DELETE /api/v1/app-connections/hashicorp-vault/{connectionId}
+API	connect	DELETE /api/v1/app-connections/hasura-cloud/{connectionId}
+API	connect	DELETE /api/v1/app-connections/heroku/{connectionId}
+API	connect	DELETE /api/v1/app-connections/humanitec/{connectionId}
+API	connect	DELETE /api/v1/app-connections/kemp-loadmaster/{connectionId}
+API	connect	DELETE /api/v1/app-connections/laravel-forge/{connectionId}
+API	connect	DELETE /api/v1/app-connections/ldap/{connectionId}
+API	connect	DELETE /api/v1/app-connections/litellm/{connectionId}
+API	connect	DELETE /api/v1/app-connections/microsoft-intune/{connectionId}
+API	connect	DELETE /api/v1/app-connections/mongodb/{connectionId}
+API	connect	DELETE /api/v1/app-connections/mssql/{connectionId}
+API	connect	DELETE /api/v1/app-connections/mysql/{connectionId}
+API	connect	DELETE /api/v1/app-connections/netlify/{connectionId}
+API	connect	DELETE /api/v1/app-connections/netscaler/{connectionId}
+API	connect	DELETE /api/v1/app-connections/northflank/{connectionId}
+API	connect	DELETE /api/v1/app-connections/nutanix-prism-central/{connectionId}
+API	connect	DELETE /api/v1/app-connections/oci/{connectionId}
+API	connect	DELETE /api/v1/app-connections/octopus-deploy/{connectionId}
+API	connect	DELETE /api/v1/app-connections/okta/{connectionId}
+API	connect	DELETE /api/v1/app-connections/ona/{connectionId}
+API	connect	DELETE /api/v1/app-connections/open-router/{connectionId}
+API	connect	DELETE /api/v1/app-connections/openai/{connectionId}
+API	connect	DELETE /api/v1/app-connections/oracledb/{connectionId}
+API	connect	DELETE /api/v1/app-connections/ovh/{connectionId}
+API	connect	DELETE /api/v1/app-connections/postgres/{connectionId}
+API	connect	DELETE /api/v1/app-connections/qovery/{connectionId}
+API	connect	DELETE /api/v1/app-connections/railway/{connectionId}
+API	connect	DELETE /api/v1/app-connections/redis/{connectionId}
+API	connect	DELETE /api/v1/app-connections/render/{connectionId}
+API	connect	DELETE /api/v1/app-connections/rundeck/{connectionId}
+API	connect	DELETE /api/v1/app-connections/salesforce/{connectionId}
+API	connect	DELETE /api/v1/app-connections/smb/{connectionId}
+API	connect	DELETE /api/v1/app-connections/snowflake/{connectionId}
+API	connect	DELETE /api/v1/app-connections/spacelift/{connectionId}
+API	connect	DELETE /api/v1/app-connections/ssh/{connectionId}
+API	connect	DELETE /api/v1/app-connections/supabase/{connectionId}
+API	connect	DELETE /api/v1/app-connections/teamcity/{connectionId}
+API	connect	DELETE /api/v1/app-connections/terraform-cloud/{connectionId}
+API	connect	DELETE /api/v1/app-connections/travis-ci/{connectionId}
+API	connect	DELETE /api/v1/app-connections/trigger-dev/{connectionId}
+API	connect	DELETE /api/v1/app-connections/venafi-tpp/{connectionId}
+API	connect	DELETE /api/v1/app-connections/venafi/{connectionId}
+API	connect	DELETE /api/v1/app-connections/vercel/{connectionId}
+API	connect	DELETE /api/v1/app-connections/windmill/{connectionId}
+API	connect	DELETE /api/v1/app-connections/winrm/{connectionId}
+API	connect	DELETE /api/v1/app-connections/zabbix/{connectionId}
+API	access	DELETE /api/v1/auth/alicloud-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/aws-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/azure-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/gcp-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/jwt-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/kubernetes-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/ldap-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/oci-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/oidc-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/spiffe-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/tls-cert-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/token-auth/identities/{identityId}
+API	access	DELETE /api/v1/auth/universal-auth/identities/{identityId}
+API	pki	DELETE /api/v1/cert-manager/alerts/{alertId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/alerts/{alertId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/groups/{groupId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/identities/{identityId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/acme
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/api
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/est
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/scep
+API	pki	DELETE /api/v1/cert-manager/applications/{applicationId}/users/{userId}
+API	pki	DELETE /api/v1/cert-manager/ca/acme/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/adcs/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/aws-acm-public-ca/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/aws-pca/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/azure-ad-cs/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/digicert/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/godaddy/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/internal/{id}
+API	pki	DELETE /api/v1/cert-manager/ca/venafi-tpp/{id}
+API	pki	DELETE /api/v1/cert-manager/certificate-policies/{id}
+API	pki	DELETE /api/v1/cert-manager/certificate-profiles/{id}
+API	pki	DELETE /api/v1/cert-manager/certificates/{id}
+API	pki	DELETE /api/v1/cert-manager/discovery-jobs/{discoveryId}
+API	pki	DELETE /api/v1/cert-manager/hsm-connectors/{connectorId}
+API	pki	DELETE /api/v1/cert-manager/installations/{installationId}
+API	pki	DELETE /api/v1/cert-manager/signers/{signerId}
+API	pki	DELETE /api/v1/cert-manager/signers/{signerId}/groups/{groupId}
+API	pki	DELETE /api/v1/cert-manager/signers/{signerId}/identities/{identityId}
+API	pki	DELETE /api/v1/cert-manager/signers/{signerId}/users/{userId}
+API	pki	DELETE /api/v1/cert-manager/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default
+API	pki	DELETE /api/v1/cert-manager/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/azure-key-vault/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/chef/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/f5-big-ip/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/linux-server/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/netscaler/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/windows-server/{pkiSyncId}
+API	pki	DELETE /api/v1/cert-manager/syncs/{pkiSyncId}/certificates
+API	automation	DELETE /api/v1/dynamic-secrets/leases/{leaseId}
+API	automation	DELETE /api/v1/dynamic-secrets/{name}
+API	secrets	DELETE /api/v1/folders/{folderIdOrName}
+API	access	DELETE /api/v1/groups/{id}
+API	access	DELETE /api/v1/groups/{id}/machine-identities/{machineIdentityId}
+API	access	DELETE /api/v1/groups/{id}/users/{username}
+API	access	DELETE /api/v1/identities/{identityId}
+API	access	DELETE /api/v1/identity-templates/{templateId}
+API	connect	DELETE /api/v1/integration-auth
+API	connect	DELETE /api/v1/integration-auth/{integrationAuthId}
+API	connect	DELETE /api/v1/integration/{integrationId}
+API	kms	DELETE /api/v1/kms/keys/{keyId}
+API	workspace	DELETE /api/v1/organization/roles/{roleId}
+API	workspace	DELETE /api/v1/organizations/memberships/groups/{groupId}
+API	pki	DELETE /api/v1/pki/ca/acme/{caName}
+API	pki	DELETE /api/v1/pki/ca/azure-ad-cs/{caName}
+API	pki	DELETE /api/v1/pki/ca/internal/{caName}
+API	pki	DELETE /api/v1/pki/ca/{caId}
+API	pki	DELETE /api/v1/pki/certificate-profiles/{id}
+API	pki	DELETE /api/v1/pki/certificate-templates/{certificateTemplateId}
+API	pki	DELETE /api/v1/pki/certificates/{serialNumber}
+API	pki	DELETE /api/v1/pki/collections/{collectionId}
+API	pki	DELETE /api/v1/pki/collections/{collectionId}/items/{collectionItemId}
+API	pki	DELETE /api/v1/pki/subscribers/{subscriberName}
+API	pki	DELETE /api/v1/pki/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default
+API	pki	DELETE /api/v1/pki/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/azure-key-vault/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/chef/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/f5-big-ip/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/linux-server/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/netscaler/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/windows-server/{pkiSyncId}
+API	pki	DELETE /api/v1/pki/syncs/{pkiSyncId}/certificates
+API	workspace	DELETE /api/v1/project-templates/{templateId}
+API	workspace	DELETE /api/v1/projects/{projectId}
+API	workspace	DELETE /api/v1/projects/{projectId}/environments/{id}
+API	workspace	DELETE /api/v1/projects/{projectId}/groups/{groupId}
+API	workspace	DELETE /api/v1/projects/{projectId}/identities/{identityId}
+API	workspace	DELETE /api/v1/projects/{projectId}/identity-memberships/{identityId}
+API	workspace	DELETE /api/v1/projects/{projectId}/memberships
+API	workspace	DELETE /api/v1/projects/{projectId}/memberships/groups/{groupId}
+API	workspace	DELETE /api/v1/projects/{projectId}/memberships/identities/{identityId}
+API	workspace	DELETE /api/v1/projects/{projectId}/roles/{roleId}
+API	workspace	DELETE /api/v1/projects/{projectId}/secret-validation-rules/{ruleId}
+API	workspace	DELETE /api/v1/projects/{projectId}/tags/{tagId}
+API	connect	DELETE /api/v1/proxied-services/{serviceId}
+API	secrets	DELETE /api/v1/secret-imports/{secretImportId}
+API	connect	DELETE /api/v1/secret-syncs/1password/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/aws-parameter-store/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/aws-secrets-manager/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/azure-app-configuration/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/azure-devops/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/azure-entra-id-scim/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/azure-key-vault/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/bitbucket/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/camunda/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/checkly/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/chef/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/circleci/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/cloud-66/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/cloudflare-pages/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/cloudflare-workers/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/databricks/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/devin/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/external-vaultix/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/flyio/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/gcp-secret-manager/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/github/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/gitlab/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/hashicorp-vault/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/hasura-cloud/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/heroku/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/humanitec/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/laravel-forge/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/netlify/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/northflank/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/oci-vault/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/octopus-deploy/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/ona/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/ovh/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/qovery/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/railway/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/render/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/rundeck/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/snowflake/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/spacelift/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/supabase/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/teamcity/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/terraform-cloud/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/travis-ci/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/trigger-dev/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/vercel/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/windmill/{syncId}
+API	connect	DELETE /api/v1/secret-syncs/zabbix/{syncId}
+API	secrets	DELETE /api/v1/shared-secrets/{id}
+API	workspace	DELETE /api/v1/sub-organizations/{subOrgId}
+API	workspace	DELETE /api/v1/workspace/{projectId}/tags/{tagId}
+API	workspace	DELETE /api/v1/workspace/{workspaceId}
+API	workspace	DELETE /api/v1/workspace/{workspaceId}/environments/{id}
+API	secrets	DELETE /api/v2/folders/{folderIdOrName}
+API	access	DELETE /api/v2/identity-project-additional-privilege/{id}
+API	workspace	DELETE /api/v2/organizations/{organizationId}/memberships
+API	workspace	DELETE /api/v2/organizations/{organizationId}/memberships/{membershipId}
+API	pki	DELETE /api/v2/pki/certificate-templates/{templateName}
+API	secrets	DELETE /api/v2/secret-imports/{secretImportId}
+API	automation	DELETE /api/v2/secret-rotations/auth0-client-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/azure-client-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/cloudflare-api-token/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/convex-access-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/datadog-api-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/dbt-service-token/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/fireworks-api-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/ldap-password/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/litellm-api-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/mongodb-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/mssql-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/mysql-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/okta-client-secret/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/open-router-api-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/openai-service-account/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/oracledb-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/postgres-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/redis-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/supabase-api-key/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/unix-linux-local-account/{rotationId}
+API	automation	DELETE /api/v2/secret-rotations/windows-local-account/{rotationId}
+API	detect	DELETE /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}
+API	detect	DELETE /api/v2/secret-scanning/data-sources/github/{dataSourceId}
+API	detect	DELETE /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}
+API	workspace	DELETE /api/v2/workspace/{projectId}/groups/{groupId}
+API	workspace	DELETE /api/v2/workspace/{projectId}/identity-memberships/{identityId}
+API	workspace	DELETE /api/v2/workspace/{projectId}/memberships
+API	workspace	DELETE /api/v2/workspace/{projectId}/roles/{roleId}
+API	workspace	DELETE /api/v2/workspace/{slug}
+API	secrets	DELETE /api/v3/secrets/batch/raw
+API	secrets	DELETE /api/v3/secrets/raw/{secretName}
+API	secrets	DELETE /api/v3/secrets/tags/{secretName}
+API	secrets	DELETE /api/v4/secrets/batch
+API	secrets	DELETE /api/v4/secrets/{secretName}
+API	access	GET /api/v1/additional-privilege/identity
+API	access	GET /api/v1/additional-privilege/identity/{privilegeSlug}
+API	connect	GET /api/v1/app-connections
+API	connect	GET /api/v1/app-connections/1password
+API	connect	GET /api/v1/app-connections/1password/available
+API	connect	GET /api/v1/app-connections/1password/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/1password/{connectionId}
+API	connect	GET /api/v1/app-connections/adcs
+API	connect	GET /api/v1/app-connections/adcs/available
+API	connect	GET /api/v1/app-connections/adcs/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/adcs/{connectionId}
+API	connect	GET /api/v1/app-connections/anthropic
+API	connect	GET /api/v1/app-connections/anthropic/available
+API	connect	GET /api/v1/app-connections/anthropic/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/anthropic/{connectionId}
+API	connect	GET /api/v1/app-connections/auth0
+API	connect	GET /api/v1/app-connections/auth0/available
+API	connect	GET /api/v1/app-connections/auth0/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/auth0/{connectionId}
+API	connect	GET /api/v1/app-connections/aws
+API	connect	GET /api/v1/app-connections/aws/available
+API	connect	GET /api/v1/app-connections/aws/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/aws/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-adcs
+API	connect	GET /api/v1/app-connections/azure-adcs/available
+API	connect	GET /api/v1/app-connections/azure-adcs/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-adcs/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-app-configuration
+API	connect	GET /api/v1/app-connections/azure-app-configuration/available
+API	connect	GET /api/v1/app-connections/azure-app-configuration/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-app-configuration/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-client-secrets
+API	connect	GET /api/v1/app-connections/azure-client-secrets/available
+API	connect	GET /api/v1/app-connections/azure-client-secrets/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-client-secrets/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-devops
+API	connect	GET /api/v1/app-connections/azure-devops/available
+API	connect	GET /api/v1/app-connections/azure-devops/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-devops/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-dns
+API	connect	GET /api/v1/app-connections/azure-dns/available
+API	connect	GET /api/v1/app-connections/azure-dns/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-dns/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-entra-id
+API	connect	GET /api/v1/app-connections/azure-entra-id/available
+API	connect	GET /api/v1/app-connections/azure-entra-id/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-entra-id/{connectionId}
+API	connect	GET /api/v1/app-connections/azure-key-vault
+API	connect	GET /api/v1/app-connections/azure-key-vault/available
+API	connect	GET /api/v1/app-connections/azure-key-vault/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/azure-key-vault/{connectionId}
+API	connect	GET /api/v1/app-connections/bitbucket
+API	connect	GET /api/v1/app-connections/bitbucket/available
+API	connect	GET /api/v1/app-connections/bitbucket/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/bitbucket/{connectionId}
+API	connect	GET /api/v1/app-connections/camunda
+API	connect	GET /api/v1/app-connections/camunda/available
+API	connect	GET /api/v1/app-connections/camunda/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/camunda/{connectionId}
+API	connect	GET /api/v1/app-connections/checkly
+API	connect	GET /api/v1/app-connections/checkly/available
+API	connect	GET /api/v1/app-connections/checkly/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/checkly/{connectionId}
+API	connect	GET /api/v1/app-connections/chef
+API	connect	GET /api/v1/app-connections/chef/available
+API	connect	GET /api/v1/app-connections/chef/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/chef/{connectionId}
+API	connect	GET /api/v1/app-connections/circleci
+API	connect	GET /api/v1/app-connections/circleci/available
+API	connect	GET /api/v1/app-connections/circleci/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/circleci/{connectionId}
+API	connect	GET /api/v1/app-connections/cloud-66
+API	connect	GET /api/v1/app-connections/cloud-66/available
+API	connect	GET /api/v1/app-connections/cloud-66/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/cloud-66/{connectionId}
+API	connect	GET /api/v1/app-connections/cloudflare
+API	connect	GET /api/v1/app-connections/cloudflare/available
+API	connect	GET /api/v1/app-connections/cloudflare/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/cloudflare/{connectionId}
+API	connect	GET /api/v1/app-connections/convex
+API	connect	GET /api/v1/app-connections/convex/available
+API	connect	GET /api/v1/app-connections/convex/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/convex/{connectionId}
+API	connect	GET /api/v1/app-connections/databricks
+API	connect	GET /api/v1/app-connections/databricks/available
+API	connect	GET /api/v1/app-connections/databricks/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/databricks/{connectionId}
+API	connect	GET /api/v1/app-connections/datadog
+API	connect	GET /api/v1/app-connections/datadog/available
+API	connect	GET /api/v1/app-connections/datadog/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/datadog/{connectionId}
+API	connect	GET /api/v1/app-connections/dbt
+API	connect	GET /api/v1/app-connections/dbt/available
+API	connect	GET /api/v1/app-connections/dbt/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/dbt/{connectionId}
+API	connect	GET /api/v1/app-connections/devin
+API	connect	GET /api/v1/app-connections/devin/available
+API	connect	GET /api/v1/app-connections/devin/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/devin/{connectionId}
+API	connect	GET /api/v1/app-connections/digicert
+API	connect	GET /api/v1/app-connections/digicert/available
+API	connect	GET /api/v1/app-connections/digicert/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/digicert/{connectionId}
+API	connect	GET /api/v1/app-connections/digital-ocean
+API	connect	GET /api/v1/app-connections/digital-ocean/available
+API	connect	GET /api/v1/app-connections/digital-ocean/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/digital-ocean/{connectionId}
+API	connect	GET /api/v1/app-connections/dns-made-easy
+API	connect	GET /api/v1/app-connections/dns-made-easy/available
+API	connect	GET /api/v1/app-connections/dns-made-easy/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/dns-made-easy/{connectionId}
+API	connect	GET /api/v1/app-connections/doppler
+API	connect	GET /api/v1/app-connections/doppler/available
+API	connect	GET /api/v1/app-connections/doppler/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/doppler/{connectionId}
+API	connect	GET /api/v1/app-connections/external-vaultix
+API	connect	GET /api/v1/app-connections/external-vaultix/available
+API	connect	GET /api/v1/app-connections/external-vaultix/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/external-vaultix/{connectionId}
+API	connect	GET /api/v1/app-connections/f5-big-ip
+API	connect	GET /api/v1/app-connections/f5-big-ip/available
+API	connect	GET /api/v1/app-connections/f5-big-ip/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/f5-big-ip/{connectionId}
+API	connect	GET /api/v1/app-connections/fireworks
+API	connect	GET /api/v1/app-connections/fireworks/available
+API	connect	GET /api/v1/app-connections/fireworks/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/fireworks/{connectionId}
+API	connect	GET /api/v1/app-connections/flyio
+API	connect	GET /api/v1/app-connections/flyio/available
+API	connect	GET /api/v1/app-connections/flyio/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/flyio/{connectionId}
+API	connect	GET /api/v1/app-connections/gcp
+API	connect	GET /api/v1/app-connections/gcp/available
+API	connect	GET /api/v1/app-connections/gcp/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/gcp/{connectionId}
+API	connect	GET /api/v1/app-connections/github
+API	connect	GET /api/v1/app-connections/github-radar
+API	connect	GET /api/v1/app-connections/github-radar/available
+API	connect	GET /api/v1/app-connections/github-radar/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/github-radar/{connectionId}
+API	connect	GET /api/v1/app-connections/github/available
+API	connect	GET /api/v1/app-connections/github/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/github/{connectionId}
+API	connect	GET /api/v1/app-connections/gitlab
+API	connect	GET /api/v1/app-connections/gitlab/available
+API	connect	GET /api/v1/app-connections/gitlab/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/gitlab/{connectionId}
+API	connect	GET /api/v1/app-connections/godaddy
+API	connect	GET /api/v1/app-connections/godaddy/available
+API	connect	GET /api/v1/app-connections/godaddy/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/godaddy/{connectionId}
+API	connect	GET /api/v1/app-connections/hashicorp-vault
+API	connect	GET /api/v1/app-connections/hashicorp-vault/available
+API	connect	GET /api/v1/app-connections/hashicorp-vault/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/hashicorp-vault/{connectionId}
+API	connect	GET /api/v1/app-connections/hasura-cloud
+API	connect	GET /api/v1/app-connections/hasura-cloud/available
+API	connect	GET /api/v1/app-connections/hasura-cloud/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/hasura-cloud/{connectionId}
+API	connect	GET /api/v1/app-connections/heroku
+API	connect	GET /api/v1/app-connections/heroku/available
+API	connect	GET /api/v1/app-connections/heroku/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/heroku/{connectionId}
+API	connect	GET /api/v1/app-connections/humanitec
+API	connect	GET /api/v1/app-connections/humanitec/available
+API	connect	GET /api/v1/app-connections/humanitec/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/humanitec/{connectionId}
+API	connect	GET /api/v1/app-connections/kemp-loadmaster
+API	connect	GET /api/v1/app-connections/kemp-loadmaster/available
+API	connect	GET /api/v1/app-connections/kemp-loadmaster/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/kemp-loadmaster/{connectionId}
+API	connect	GET /api/v1/app-connections/laravel-forge
+API	connect	GET /api/v1/app-connections/laravel-forge/available
+API	connect	GET /api/v1/app-connections/laravel-forge/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/laravel-forge/{connectionId}
+API	connect	GET /api/v1/app-connections/ldap
+API	connect	GET /api/v1/app-connections/ldap/available
+API	connect	GET /api/v1/app-connections/ldap/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/ldap/{connectionId}
+API	connect	GET /api/v1/app-connections/litellm
+API	connect	GET /api/v1/app-connections/litellm/available
+API	connect	GET /api/v1/app-connections/litellm/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/litellm/{connectionId}
+API	connect	GET /api/v1/app-connections/microsoft-intune
+API	connect	GET /api/v1/app-connections/microsoft-intune/available
+API	connect	GET /api/v1/app-connections/microsoft-intune/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/microsoft-intune/{connectionId}
+API	connect	GET /api/v1/app-connections/mongodb
+API	connect	GET /api/v1/app-connections/mongodb/available
+API	connect	GET /api/v1/app-connections/mongodb/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/mongodb/{connectionId}
+API	connect	GET /api/v1/app-connections/mssql
+API	connect	GET /api/v1/app-connections/mssql/available
+API	connect	GET /api/v1/app-connections/mssql/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/mssql/{connectionId}
+API	connect	GET /api/v1/app-connections/mysql
+API	connect	GET /api/v1/app-connections/mysql/available
+API	connect	GET /api/v1/app-connections/mysql/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/mysql/{connectionId}
+API	connect	GET /api/v1/app-connections/netlify
+API	connect	GET /api/v1/app-connections/netlify/available
+API	connect	GET /api/v1/app-connections/netlify/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/netlify/{connectionId}
+API	connect	GET /api/v1/app-connections/netscaler
+API	connect	GET /api/v1/app-connections/netscaler/available
+API	connect	GET /api/v1/app-connections/netscaler/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/netscaler/{connectionId}
+API	connect	GET /api/v1/app-connections/northflank
+API	connect	GET /api/v1/app-connections/northflank/available
+API	connect	GET /api/v1/app-connections/northflank/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/northflank/{connectionId}
+API	connect	GET /api/v1/app-connections/nutanix-prism-central
+API	connect	GET /api/v1/app-connections/nutanix-prism-central/available
+API	connect	GET /api/v1/app-connections/nutanix-prism-central/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/nutanix-prism-central/{connectionId}
+API	connect	GET /api/v1/app-connections/oci
+API	connect	GET /api/v1/app-connections/oci/available
+API	connect	GET /api/v1/app-connections/oci/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/oci/{connectionId}
+API	connect	GET /api/v1/app-connections/octopus-deploy
+API	connect	GET /api/v1/app-connections/octopus-deploy/available
+API	connect	GET /api/v1/app-connections/octopus-deploy/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/octopus-deploy/{connectionId}
+API	connect	GET /api/v1/app-connections/okta
+API	connect	GET /api/v1/app-connections/okta/available
+API	connect	GET /api/v1/app-connections/okta/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/okta/{connectionId}
+API	connect	GET /api/v1/app-connections/ona
+API	connect	GET /api/v1/app-connections/ona/available
+API	connect	GET /api/v1/app-connections/ona/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/ona/{connectionId}
+API	connect	GET /api/v1/app-connections/open-router
+API	connect	GET /api/v1/app-connections/open-router/available
+API	connect	GET /api/v1/app-connections/open-router/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/open-router/{connectionId}
+API	connect	GET /api/v1/app-connections/openai
+API	connect	GET /api/v1/app-connections/openai/available
+API	connect	GET /api/v1/app-connections/openai/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/openai/{connectionId}
+API	connect	GET /api/v1/app-connections/options
+API	connect	GET /api/v1/app-connections/oracledb
+API	connect	GET /api/v1/app-connections/oracledb/available
+API	connect	GET /api/v1/app-connections/oracledb/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/oracledb/{connectionId}
+API	connect	GET /api/v1/app-connections/ovh
+API	connect	GET /api/v1/app-connections/ovh/available
+API	connect	GET /api/v1/app-connections/ovh/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/ovh/{connectionId}
+API	connect	GET /api/v1/app-connections/postgres
+API	connect	GET /api/v1/app-connections/postgres/available
+API	connect	GET /api/v1/app-connections/postgres/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/postgres/{connectionId}
+API	connect	GET /api/v1/app-connections/qovery
+API	connect	GET /api/v1/app-connections/qovery/available
+API	connect	GET /api/v1/app-connections/qovery/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/qovery/{connectionId}
+API	connect	GET /api/v1/app-connections/railway
+API	connect	GET /api/v1/app-connections/railway/available
+API	connect	GET /api/v1/app-connections/railway/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/railway/{connectionId}
+API	connect	GET /api/v1/app-connections/redis
+API	connect	GET /api/v1/app-connections/redis/available
+API	connect	GET /api/v1/app-connections/redis/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/redis/{connectionId}
+API	connect	GET /api/v1/app-connections/render
+API	connect	GET /api/v1/app-connections/render/available
+API	connect	GET /api/v1/app-connections/render/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/render/{connectionId}
+API	connect	GET /api/v1/app-connections/rundeck
+API	connect	GET /api/v1/app-connections/rundeck/available
+API	connect	GET /api/v1/app-connections/rundeck/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/rundeck/{connectionId}
+API	connect	GET /api/v1/app-connections/salesforce
+API	connect	GET /api/v1/app-connections/salesforce/available
+API	connect	GET /api/v1/app-connections/salesforce/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/salesforce/{connectionId}
+API	connect	GET /api/v1/app-connections/smb
+API	connect	GET /api/v1/app-connections/smb/available
+API	connect	GET /api/v1/app-connections/smb/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/smb/{connectionId}
+API	connect	GET /api/v1/app-connections/snowflake
+API	connect	GET /api/v1/app-connections/snowflake/available
+API	connect	GET /api/v1/app-connections/snowflake/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/snowflake/{connectionId}
+API	connect	GET /api/v1/app-connections/spacelift
+API	connect	GET /api/v1/app-connections/spacelift/available
+API	connect	GET /api/v1/app-connections/spacelift/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/spacelift/{connectionId}
+API	connect	GET /api/v1/app-connections/ssh
+API	connect	GET /api/v1/app-connections/ssh/available
+API	connect	GET /api/v1/app-connections/ssh/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/ssh/{connectionId}
+API	connect	GET /api/v1/app-connections/supabase
+API	connect	GET /api/v1/app-connections/supabase/available
+API	connect	GET /api/v1/app-connections/supabase/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/supabase/{connectionId}
+API	connect	GET /api/v1/app-connections/teamcity
+API	connect	GET /api/v1/app-connections/teamcity/available
+API	connect	GET /api/v1/app-connections/teamcity/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/teamcity/{connectionId}
+API	connect	GET /api/v1/app-connections/terraform-cloud
+API	connect	GET /api/v1/app-connections/terraform-cloud/available
+API	connect	GET /api/v1/app-connections/terraform-cloud/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/terraform-cloud/{connectionId}
+API	connect	GET /api/v1/app-connections/travis-ci
+API	connect	GET /api/v1/app-connections/travis-ci/available
+API	connect	GET /api/v1/app-connections/travis-ci/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/travis-ci/{connectionId}
+API	connect	GET /api/v1/app-connections/trigger-dev
+API	connect	GET /api/v1/app-connections/trigger-dev/available
+API	connect	GET /api/v1/app-connections/trigger-dev/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/trigger-dev/{connectionId}
+API	connect	GET /api/v1/app-connections/venafi
+API	connect	GET /api/v1/app-connections/venafi-tpp
+API	connect	GET /api/v1/app-connections/venafi-tpp/available
+API	connect	GET /api/v1/app-connections/venafi-tpp/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/venafi-tpp/{connectionId}
+API	connect	GET /api/v1/app-connections/venafi/available
+API	connect	GET /api/v1/app-connections/venafi/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/venafi/{connectionId}
+API	connect	GET /api/v1/app-connections/vercel
+API	connect	GET /api/v1/app-connections/vercel/available
+API	connect	GET /api/v1/app-connections/vercel/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/vercel/{connectionId}
+API	connect	GET /api/v1/app-connections/windmill
+API	connect	GET /api/v1/app-connections/windmill/available
+API	connect	GET /api/v1/app-connections/windmill/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/windmill/{connectionId}
+API	connect	GET /api/v1/app-connections/winrm
+API	connect	GET /api/v1/app-connections/winrm/available
+API	connect	GET /api/v1/app-connections/winrm/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/winrm/{connectionId}
+API	connect	GET /api/v1/app-connections/zabbix
+API	connect	GET /api/v1/app-connections/zabbix/available
+API	connect	GET /api/v1/app-connections/zabbix/connection-name/{connectionName}
+API	connect	GET /api/v1/app-connections/zabbix/{connectionId}
+API	access	GET /api/v1/auth/alicloud-auth/identities/{identityId}
+API	access	GET /api/v1/auth/aws-auth/identities/{identityId}
+API	access	GET /api/v1/auth/azure-auth/identities/{identityId}
+API	access	GET /api/v1/auth/gcp-auth/identities/{identityId}
+API	access	GET /api/v1/auth/jwt-auth/identities/{identityId}
+API	access	GET /api/v1/auth/kubernetes-auth/identities/{identityId}
+API	access	GET /api/v1/auth/ldap-auth/identities/{identityId}
+API	access	GET /api/v1/auth/oci-auth/identities/{identityId}
+API	access	GET /api/v1/auth/oidc-auth/identities/{identityId}
+API	access	GET /api/v1/auth/spiffe-auth/identities/{identityId}
+API	access	GET /api/v1/auth/tls-cert-auth/identities/{identityId}
+API	access	GET /api/v1/auth/token-auth/identities/{identityId}
+API	access	GET /api/v1/auth/token-auth/identities/{identityId}/tokens
+API	access	GET /api/v1/auth/token-auth/tokens/{tokenId}
+API	access	GET /api/v1/auth/universal-auth/identities/{identityId}
+API	access	GET /api/v1/auth/universal-auth/identities/{identityId}/client-secrets
+API	access	GET /api/v1/auth/universal-auth/identities/{identityId}/client-secrets/{clientSecretId}
+API	pki	GET /api/v1/cert-manager/access/users
+API	pki	GET /api/v1/cert-manager/acme/applications/{applicationId}/profiles/{profileId}/directory
+API	pki	GET /api/v1/cert-manager/acme/profiles/{profileId}/directory
+API	pki	GET /api/v1/cert-manager/acme/profiles/{profileId}/new-nonce
+API	pki	GET /api/v1/cert-manager/alerts
+API	pki	GET /api/v1/cert-manager/alerts/{alertId}
+API	pki	GET /api/v1/cert-manager/alerts/{alertId}/certificates
+API	pki	GET /api/v1/cert-manager/applications
+API	pki	GET /api/v1/cert-manager/applications/by-name/{name}
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/alerts
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/groups
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/identities
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/permissions
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/profiles
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment
+API	pki	GET /api/v1/cert-manager/applications/{applicationId}/users
+API	pki	GET /api/v1/cert-manager/ca
+API	pki	GET /api/v1/cert-manager/ca/acme
+API	pki	GET /api/v1/cert-manager/ca/acme/{id}
+API	pki	GET /api/v1/cert-manager/ca/adcs
+API	pki	GET /api/v1/cert-manager/ca/adcs/{caId}/templates
+API	pki	GET /api/v1/cert-manager/ca/adcs/{id}
+API	pki	GET /api/v1/cert-manager/ca/aws-acm-public-ca
+API	pki	GET /api/v1/cert-manager/ca/aws-acm-public-ca/{id}
+API	pki	GET /api/v1/cert-manager/ca/aws-pca
+API	pki	GET /api/v1/cert-manager/ca/aws-pca/{id}
+API	pki	GET /api/v1/cert-manager/ca/azure-ad-cs
+API	pki	GET /api/v1/cert-manager/ca/azure-ad-cs/{caId}/templates
+API	pki	GET /api/v1/cert-manager/ca/azure-ad-cs/{id}
+API	pki	GET /api/v1/cert-manager/ca/digicert
+API	pki	GET /api/v1/cert-manager/ca/digicert/{id}
+API	pki	GET /api/v1/cert-manager/ca/godaddy
+API	pki	GET /api/v1/cert-manager/ca/godaddy/{id}
+API	pki	GET /api/v1/cert-manager/ca/internal
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/auto-renewal
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/ca-certificates
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/certificate
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/certificate/{certId}
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/certificates/{caCertId}/der
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/crls
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/csr
+API	pki	GET /api/v1/cert-manager/ca/internal/{caId}/signing-config
+API	pki	GET /api/v1/cert-manager/ca/internal/{id}
+API	pki	GET /api/v1/cert-manager/ca/venafi-tpp
+API	pki	GET /api/v1/cert-manager/ca/venafi-tpp/{id}
+API	pki	GET /api/v1/cert-manager/certificate-cleanup
+API	pki	GET /api/v1/cert-manager/certificate-policies
+API	pki	GET /api/v1/cert-manager/certificate-policies/{id}
+API	pki	GET /api/v1/cert-manager/certificate-profiles
+API	pki	GET /api/v1/cert-manager/certificate-profiles/slug/{slug}
+API	pki	GET /api/v1/cert-manager/certificate-profiles/{id}
+API	pki	GET /api/v1/cert-manager/certificate-profiles/{id}/acme/eab-secret/reveal
+API	pki	GET /api/v1/cert-manager/certificate-profiles/{id}/certificates
+API	pki	GET /api/v1/cert-manager/certificate-profiles/{id}/certificates/latest-active-bundle
+API	pki	GET /api/v1/cert-manager/certificates/certificate-requests/{requestId}
+API	pki	GET /api/v1/cert-manager/certificates/{id}
+API	pki	GET /api/v1/cert-manager/certificates/{id}/bundle
+API	pki	GET /api/v1/cert-manager/certificates/{id}/certificate
+API	pki	GET /api/v1/cert-manager/certificates/{id}/private-key
+API	pki	GET /api/v1/cert-manager/discovery-jobs
+API	pki	GET /api/v1/cert-manager/discovery-jobs/config
+API	pki	GET /api/v1/cert-manager/discovery-jobs/{discoveryId}
+API	pki	GET /api/v1/cert-manager/discovery-jobs/{discoveryId}/latest-scan
+API	pki	GET /api/v1/cert-manager/discovery-jobs/{discoveryId}/scans
+API	pki	GET /api/v1/cert-manager/hsm-connectors
+API	pki	GET /api/v1/cert-manager/hsm-connectors/{connectorId}
+API	pki	GET /api/v1/cert-manager/hsm-connectors/{connectorId}/linked-resources
+API	pki	GET /api/v1/cert-manager/installations
+API	pki	GET /api/v1/cert-manager/installations/{installationId}
+API	pki	GET /api/v1/cert-manager/signers
+API	pki	GET /api/v1/cert-manager/signers/{signerId}
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/approval-policy
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/certificate
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/effective-identities
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/effective-users
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/groups
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/identities
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/operations
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/permissions
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/public-key
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/requests
+API	pki	GET /api/v1/cert-manager/signers/{signerId}/users
+API	pki	GET /api/v1/cert-manager/syncs
+API	pki	GET /api/v1/cert-manager/syncs/aws-certificate-manager
+API	pki	GET /api/v1/cert-manager/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/aws-elastic-load-balancer
+API	pki	GET /api/v1/cert-manager/syncs/aws-elastic-load-balancer/listeners
+API	pki	GET /api/v1/cert-manager/syncs/aws-elastic-load-balancer/load-balancers
+API	pki	GET /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/aws-secrets-manager
+API	pki	GET /api/v1/cert-manager/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/azure-key-vault
+API	pki	GET /api/v1/cert-manager/syncs/azure-key-vault/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/chef
+API	pki	GET /api/v1/cert-manager/syncs/chef/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/cloudflare-custom-certificate
+API	pki	GET /api/v1/cert-manager/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/f5-big-ip
+API	pki	GET /api/v1/cert-manager/syncs/f5-big-ip/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/kemp-loadmaster
+API	pki	GET /api/v1/cert-manager/syncs/kemp-loadmaster/virtual-services
+API	pki	GET /api/v1/cert-manager/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/linux-server
+API	pki	GET /api/v1/cert-manager/syncs/linux-server/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/netscaler
+API	pki	GET /api/v1/cert-manager/syncs/netscaler/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/nutanix-prism-central
+API	pki	GET /api/v1/cert-manager/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/options
+API	pki	GET /api/v1/cert-manager/syncs/windows-server
+API	pki	GET /api/v1/cert-manager/syncs/windows-server/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/{pkiSyncId}
+API	pki	GET /api/v1/cert-manager/syncs/{pkiSyncId}/certificates
+API	automation	GET /api/v1/dynamic-secrets
+API	automation	GET /api/v1/dynamic-secrets/leases/{leaseId}
+API	automation	GET /api/v1/dynamic-secrets/{name}
+API	automation	GET /api/v1/dynamic-secrets/{name}/leases
+API	secrets	GET /api/v1/folders
+API	secrets	GET /api/v1/folders/{id}
+API	access	GET /api/v1/groups
+API	access	GET /api/v1/groups/{id}
+API	access	GET /api/v1/groups/{id}/machine-identities
+API	access	GET /api/v1/groups/{id}/members
+API	access	GET /api/v1/groups/{id}/projects
+API	access	GET /api/v1/groups/{id}/users
+API	access	GET /api/v1/identities
+API	access	GET /api/v1/identities/{identityId}
+API	access	GET /api/v1/identity-templates
+API	access	GET /api/v1/identity-templates/search
+API	access	GET /api/v1/identity-templates/{templateId}
+API	access	GET /api/v1/identity-templates/{templateId}/usage
+API	connect	GET /api/v1/integration-auth/integration-options
+API	connect	GET /api/v1/integration-auth/{integrationAuthId}
+API	connect	GET /api/v1/integration/{integrationId}
+API	kms	GET /api/v1/kms/keys
+API	kms	GET /api/v1/kms/keys/key-name/{keyName}
+API	kms	GET /api/v1/kms/keys/{keyId}
+API	kms	GET /api/v1/kms/keys/{keyId}/private-key
+API	kms	GET /api/v1/kms/keys/{keyId}/public-key
+API	kms	GET /api/v1/kms/keys/{keyId}/signing-algorithms
+API	access	GET /api/v1/ldap/config
+API	workspace	GET /api/v1/organization/audit-logs
+API	workspace	GET /api/v1/organization/available-groups
+API	workspace	GET /api/v1/organization/available-identities
+API	workspace	GET /api/v1/organization/roles
+API	workspace	GET /api/v1/organization/roles/slug/{roleSlug}
+API	workspace	GET /api/v1/organization/roles/{roleId}
+API	workspace	GET /api/v1/organizations/memberships/groups
+API	workspace	GET /api/v1/organizations/memberships/groups/{groupId}
+API	pki	GET /api/v1/pki/ca/acme
+API	pki	GET /api/v1/pki/ca/acme/{caName}
+API	pki	GET /api/v1/pki/ca/azure-ad-cs
+API	pki	GET /api/v1/pki/ca/azure-ad-cs/{caId}/templates
+API	pki	GET /api/v1/pki/ca/azure-ad-cs/{caName}
+API	pki	GET /api/v1/pki/ca/internal
+API	pki	GET /api/v1/pki/ca/internal/{caName}
+API	pki	GET /api/v1/pki/ca/{caId}
+API	pki	GET /api/v1/pki/ca/{caId}/ca-certificates
+API	pki	GET /api/v1/pki/ca/{caId}/certificate
+API	pki	GET /api/v1/pki/ca/{caId}/certificates/{caCertId}/der
+API	pki	GET /api/v1/pki/ca/{caId}/csr
+API	pki	GET /api/v1/pki/certificate-profiles
+API	pki	GET /api/v1/pki/certificate-profiles/slug/{slug}
+API	pki	GET /api/v1/pki/certificate-profiles/{id}
+API	pki	GET /api/v1/pki/certificate-profiles/{id}/acme/eab-secret/reveal
+API	pki	GET /api/v1/pki/certificate-profiles/{id}/certificates
+API	pki	GET /api/v1/pki/certificate-profiles/{id}/certificates/latest-active-bundle
+API	pki	GET /api/v1/pki/certificate-templates/{certificateTemplateId}
+API	pki	GET /api/v1/pki/certificate-templates/{certificateTemplateId}/est-config
+API	pki	GET /api/v1/pki/certificates/{serialNumber}
+API	pki	GET /api/v1/pki/certificates/{serialNumber}/bundle
+API	pki	GET /api/v1/pki/certificates/{serialNumber}/certificate
+API	pki	GET /api/v1/pki/certificates/{serialNumber}/private-key
+API	pki	GET /api/v1/pki/collections/{collectionId}
+API	pki	GET /api/v1/pki/collections/{collectionId}/items
+API	pki	GET /api/v1/pki/subscribers/{subscriberName}
+API	pki	GET /api/v1/pki/subscribers/{subscriberName}/certificates
+API	pki	GET /api/v1/pki/subscribers/{subscriberName}/latest-certificate-bundle
+API	pki	GET /api/v1/pki/syncs
+API	pki	GET /api/v1/pki/syncs/aws-certificate-manager
+API	pki	GET /api/v1/pki/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/aws-elastic-load-balancer
+API	pki	GET /api/v1/pki/syncs/aws-elastic-load-balancer/listeners
+API	pki	GET /api/v1/pki/syncs/aws-elastic-load-balancer/load-balancers
+API	pki	GET /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/aws-secrets-manager
+API	pki	GET /api/v1/pki/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/azure-key-vault
+API	pki	GET /api/v1/pki/syncs/azure-key-vault/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/chef
+API	pki	GET /api/v1/pki/syncs/chef/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/cloudflare-custom-certificate
+API	pki	GET /api/v1/pki/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/f5-big-ip
+API	pki	GET /api/v1/pki/syncs/f5-big-ip/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/kemp-loadmaster
+API	pki	GET /api/v1/pki/syncs/kemp-loadmaster/virtual-services
+API	pki	GET /api/v1/pki/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/linux-server
+API	pki	GET /api/v1/pki/syncs/linux-server/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/netscaler
+API	pki	GET /api/v1/pki/syncs/netscaler/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/nutanix-prism-central
+API	pki	GET /api/v1/pki/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/options
+API	pki	GET /api/v1/pki/syncs/windows-server
+API	pki	GET /api/v1/pki/syncs/windows-server/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/{pkiSyncId}
+API	pki	GET /api/v1/pki/syncs/{pkiSyncId}/certificates
+API	workspace	GET /api/v1/project-templates
+API	workspace	GET /api/v1/project-templates/{templateId}
+API	workspace	GET /api/v1/projects
+API	workspace	GET /api/v1/projects/identity-memberships/{identityMembershipId}
+API	workspace	GET /api/v1/projects/roles/{roleId}
+API	workspace	GET /api/v1/projects/slug/{slug}
+API	workspace	GET /api/v1/projects/{projectId}
+API	workspace	GET /api/v1/projects/{projectId}/authorizations
+API	workspace	GET /api/v1/projects/{projectId}/cas
+API	workspace	GET /api/v1/projects/{projectId}/certificate-templates
+API	workspace	GET /api/v1/projects/{projectId}/environments/slug/{envSlug}
+API	workspace	GET /api/v1/projects/{projectId}/environments/{envId}
+API	workspace	GET /api/v1/projects/{projectId}/groups
+API	workspace	GET /api/v1/projects/{projectId}/groups/{groupId}
+API	workspace	GET /api/v1/projects/{projectId}/identities
+API	workspace	GET /api/v1/projects/{projectId}/identities/{identityId}
+API	workspace	GET /api/v1/projects/{projectId}/identity-memberships
+API	workspace	GET /api/v1/projects/{projectId}/identity-memberships/{identityId}
+API	workspace	GET /api/v1/projects/{projectId}/integrations
+API	workspace	GET /api/v1/projects/{projectId}/memberships
+API	workspace	GET /api/v1/projects/{projectId}/memberships/available-identities
+API	workspace	GET /api/v1/projects/{projectId}/memberships/groups
+API	workspace	GET /api/v1/projects/{projectId}/memberships/groups/{groupId}
+API	workspace	GET /api/v1/projects/{projectId}/memberships/identities
+API	workspace	GET /api/v1/projects/{projectId}/memberships/identities/{identityId}
+API	workspace	GET /api/v1/projects/{projectId}/pki-alerts
+API	workspace	GET /api/v1/projects/{projectId}/pki-collections
+API	workspace	GET /api/v1/projects/{projectId}/pki-subscribers
+API	workspace	GET /api/v1/projects/{projectId}/roles
+API	workspace	GET /api/v1/projects/{projectId}/roles/slug/{roleSlug}
+API	workspace	GET /api/v1/projects/{projectId}/secret-validation-rules
+API	workspace	GET /api/v1/projects/{projectId}/tags
+API	workspace	GET /api/v1/projects/{projectId}/tags/slug/{tagSlug}
+API	workspace	GET /api/v1/projects/{projectId}/tags/{tagId}
+API	connect	GET /api/v1/proxied-services
+API	connect	GET /api/v1/proxied-services/slug/{name}
+API	connect	GET /api/v1/proxied-services/{serviceId}
+API	connect	GET /api/v1/relays
+API	access	GET /api/v1/scim/group-org-role-mappings
+API	secrets	GET /api/v1/secret-imports
+API	secrets	GET /api/v1/secret-imports/secrets/raw
+API	secrets	GET /api/v1/secret-imports/{secretImportId}
+API	connect	GET /api/v1/secret-syncs
+API	connect	GET /api/v1/secret-syncs/1password
+API	connect	GET /api/v1/secret-syncs/1password/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/1password/{syncId}
+API	connect	GET /api/v1/secret-syncs/aws-parameter-store
+API	connect	GET /api/v1/secret-syncs/aws-parameter-store/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/aws-parameter-store/{syncId}
+API	connect	GET /api/v1/secret-syncs/aws-secrets-manager
+API	connect	GET /api/v1/secret-syncs/aws-secrets-manager/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/aws-secrets-manager/{syncId}
+API	connect	GET /api/v1/secret-syncs/azure-app-configuration
+API	connect	GET /api/v1/secret-syncs/azure-app-configuration/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/azure-app-configuration/{syncId}
+API	connect	GET /api/v1/secret-syncs/azure-devops
+API	connect	GET /api/v1/secret-syncs/azure-devops/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/azure-devops/{syncId}
+API	connect	GET /api/v1/secret-syncs/azure-entra-id-scim
+API	connect	GET /api/v1/secret-syncs/azure-entra-id-scim/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/azure-entra-id-scim/{syncId}
+API	connect	GET /api/v1/secret-syncs/azure-key-vault
+API	connect	GET /api/v1/secret-syncs/azure-key-vault/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/azure-key-vault/{syncId}
+API	connect	GET /api/v1/secret-syncs/bitbucket
+API	connect	GET /api/v1/secret-syncs/bitbucket/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/bitbucket/{syncId}
+API	connect	GET /api/v1/secret-syncs/camunda
+API	connect	GET /api/v1/secret-syncs/camunda/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/camunda/{syncId}
+API	connect	GET /api/v1/secret-syncs/checkly
+API	connect	GET /api/v1/secret-syncs/checkly/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/checkly/{syncId}
+API	connect	GET /api/v1/secret-syncs/chef
+API	connect	GET /api/v1/secret-syncs/chef/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/chef/{syncId}
+API	connect	GET /api/v1/secret-syncs/circleci
+API	connect	GET /api/v1/secret-syncs/circleci/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/circleci/{syncId}
+API	connect	GET /api/v1/secret-syncs/cloud-66
+API	connect	GET /api/v1/secret-syncs/cloud-66/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/cloud-66/{syncId}
+API	connect	GET /api/v1/secret-syncs/cloudflare-pages
+API	connect	GET /api/v1/secret-syncs/cloudflare-pages/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/cloudflare-pages/{syncId}
+API	connect	GET /api/v1/secret-syncs/cloudflare-workers
+API	connect	GET /api/v1/secret-syncs/cloudflare-workers/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/cloudflare-workers/{syncId}
+API	connect	GET /api/v1/secret-syncs/databricks
+API	connect	GET /api/v1/secret-syncs/databricks/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/databricks/{syncId}
+API	connect	GET /api/v1/secret-syncs/devin
+API	connect	GET /api/v1/secret-syncs/devin/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/devin/{syncId}
+API	connect	GET /api/v1/secret-syncs/digital-ocean-app-platform
+API	connect	GET /api/v1/secret-syncs/digital-ocean-app-platform/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}
+API	connect	GET /api/v1/secret-syncs/external-vaultix
+API	connect	GET /api/v1/secret-syncs/external-vaultix/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/external-vaultix/{syncId}
+API	connect	GET /api/v1/secret-syncs/flyio
+API	connect	GET /api/v1/secret-syncs/flyio/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/flyio/{syncId}
+API	connect	GET /api/v1/secret-syncs/gcp-secret-manager
+API	connect	GET /api/v1/secret-syncs/gcp-secret-manager/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/gcp-secret-manager/{syncId}
+API	connect	GET /api/v1/secret-syncs/github
+API	connect	GET /api/v1/secret-syncs/github/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/github/{syncId}
+API	connect	GET /api/v1/secret-syncs/gitlab
+API	connect	GET /api/v1/secret-syncs/gitlab/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/gitlab/{syncId}
+API	connect	GET /api/v1/secret-syncs/hashicorp-vault
+API	connect	GET /api/v1/secret-syncs/hashicorp-vault/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/hashicorp-vault/{syncId}
+API	connect	GET /api/v1/secret-syncs/hasura-cloud
+API	connect	GET /api/v1/secret-syncs/hasura-cloud/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/hasura-cloud/{syncId}
+API	connect	GET /api/v1/secret-syncs/heroku
+API	connect	GET /api/v1/secret-syncs/heroku/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/heroku/{syncId}
+API	connect	GET /api/v1/secret-syncs/humanitec
+API	connect	GET /api/v1/secret-syncs/humanitec/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/humanitec/{syncId}
+API	connect	GET /api/v1/secret-syncs/laravel-forge
+API	connect	GET /api/v1/secret-syncs/laravel-forge/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/laravel-forge/{syncId}
+API	connect	GET /api/v1/secret-syncs/netlify
+API	connect	GET /api/v1/secret-syncs/netlify/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/netlify/{syncId}
+API	connect	GET /api/v1/secret-syncs/northflank
+API	connect	GET /api/v1/secret-syncs/northflank/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/northflank/{syncId}
+API	connect	GET /api/v1/secret-syncs/oci-vault
+API	connect	GET /api/v1/secret-syncs/oci-vault/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/oci-vault/{syncId}
+API	connect	GET /api/v1/secret-syncs/octopus-deploy
+API	connect	GET /api/v1/secret-syncs/octopus-deploy/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/octopus-deploy/{syncId}
+API	connect	GET /api/v1/secret-syncs/ona
+API	connect	GET /api/v1/secret-syncs/ona/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/ona/{syncId}
+API	connect	GET /api/v1/secret-syncs/options
+API	connect	GET /api/v1/secret-syncs/ovh
+API	connect	GET /api/v1/secret-syncs/ovh/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/ovh/{syncId}
+API	connect	GET /api/v1/secret-syncs/qovery
+API	connect	GET /api/v1/secret-syncs/qovery/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/qovery/{syncId}
+API	connect	GET /api/v1/secret-syncs/railway
+API	connect	GET /api/v1/secret-syncs/railway/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/railway/{syncId}
+API	connect	GET /api/v1/secret-syncs/render
+API	connect	GET /api/v1/secret-syncs/render/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/render/{syncId}
+API	connect	GET /api/v1/secret-syncs/rundeck
+API	connect	GET /api/v1/secret-syncs/rundeck/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/rundeck/{syncId}
+API	connect	GET /api/v1/secret-syncs/snowflake
+API	connect	GET /api/v1/secret-syncs/snowflake/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/snowflake/{syncId}
+API	connect	GET /api/v1/secret-syncs/spacelift
+API	connect	GET /api/v1/secret-syncs/spacelift/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/spacelift/{syncId}
+API	connect	GET /api/v1/secret-syncs/supabase
+API	connect	GET /api/v1/secret-syncs/supabase/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/supabase/{syncId}
+API	connect	GET /api/v1/secret-syncs/teamcity
+API	connect	GET /api/v1/secret-syncs/teamcity/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/teamcity/{syncId}
+API	connect	GET /api/v1/secret-syncs/terraform-cloud
+API	connect	GET /api/v1/secret-syncs/terraform-cloud/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/terraform-cloud/{syncId}
+API	connect	GET /api/v1/secret-syncs/travis-ci
+API	connect	GET /api/v1/secret-syncs/travis-ci/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/travis-ci/{syncId}
+API	connect	GET /api/v1/secret-syncs/trigger-dev
+API	connect	GET /api/v1/secret-syncs/trigger-dev/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/trigger-dev/{syncId}
+API	connect	GET /api/v1/secret-syncs/vercel
+API	connect	GET /api/v1/secret-syncs/vercel/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/vercel/{syncId}
+API	connect	GET /api/v1/secret-syncs/windmill
+API	connect	GET /api/v1/secret-syncs/windmill/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/windmill/{syncId}
+API	connect	GET /api/v1/secret-syncs/zabbix
+API	connect	GET /api/v1/secret-syncs/zabbix/sync-name/{syncName}
+API	connect	GET /api/v1/secret-syncs/zabbix/{syncId}
+API	secrets	GET /api/v1/shared-secrets
+API	secrets	GET /api/v1/shared-secrets/{id}
+API	access	GET /api/v1/sso/config
+API	access	GET /api/v1/sso/oidc/config
+API	workspace	GET /api/v1/sub-organizations
+API	ai	GET /api/v1/vaultix/ai/instructions
+API	ai	GET /api/v1/vaultix/catalog
+API	ai	GET /api/v1/vaultix/configure
+API	ai	GET /api/v1/vaultix/connections
+API	ai	GET /api/v1/vaultix/guidance
+API	ai	GET /api/v1/vaultix/product
+API	ai	GET /api/v1/vaultix/projects
+API	ai	GET /api/v1/vaultix/secret-references
+API	workspace	GET /api/v1/workspace/environments/{envId}
+API	workspace	GET /api/v1/workspace/{projectId}/tags
+API	workspace	GET /api/v1/workspace/{projectId}/tags/slug/{tagSlug}
+API	workspace	GET /api/v1/workspace/{projectId}/tags/{tagId}
+API	workspace	GET /api/v1/workspace/{workspaceId}
+API	workspace	GET /api/v1/workspace/{workspaceId}/authorizations
+API	workspace	GET /api/v1/workspace/{workspaceId}/environments/{envId}
+API	workspace	GET /api/v1/workspace/{workspaceId}/integrations
+API	workspace	GET /api/v1/workspace/{workspaceId}/memberships
+API	secrets	GET /api/v2/folders
+API	secrets	GET /api/v2/folders/{id}
+API	access	GET /api/v2/identity-project-additional-privilege
+API	access	GET /api/v2/identity-project-additional-privilege/slug/{privilegeSlug}
+API	access	GET /api/v2/identity-project-additional-privilege/{id}
+API	workspace	GET /api/v2/organizations/{orgId}/identity-memberships
+API	workspace	GET /api/v2/organizations/{organizationId}/memberships
+API	workspace	GET /api/v2/organizations/{organizationId}/workspaces
+API	pki	GET /api/v2/pki/ca
+API	pki	GET /api/v2/pki/certificate-templates
+API	pki	GET /api/v2/pki/certificate-templates/{templateName}
+API	secrets	GET /api/v2/secret-imports
+API	secrets	GET /api/v2/secret-imports/secrets
+API	secrets	GET /api/v2/secret-imports/{secretImportId}
+API	automation	GET /api/v2/secret-rotations
+API	automation	GET /api/v2/secret-rotations/auth0-client-secret
+API	automation	GET /api/v2/secret-rotations/auth0-client-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/auth0-client-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/auth0-client-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/aws-iam-user-secret
+API	automation	GET /api/v2/secret-rotations/aws-iam-user-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/azure-client-secret
+API	automation	GET /api/v2/secret-rotations/azure-client-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/azure-client-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/azure-client-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/cloudflare-api-token
+API	automation	GET /api/v2/secret-rotations/cloudflare-api-token/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/cloudflare-api-token/{rotationId}
+API	automation	GET /api/v2/secret-rotations/cloudflare-api-token/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/cloudflare-r2-access-key
+API	automation	GET /api/v2/secret-rotations/cloudflare-r2-access-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/convex-access-key
+API	automation	GET /api/v2/secret-rotations/convex-access-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/convex-access-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/convex-access-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/databricks-service-principal-secret
+API	automation	GET /api/v2/secret-rotations/databricks-service-principal-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/datadog-api-key
+API	automation	GET /api/v2/secret-rotations/datadog-api-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/datadog-api-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/datadog-api-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/datadog-application-key-secret
+API	automation	GET /api/v2/secret-rotations/datadog-application-key-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/dbt-service-token
+API	automation	GET /api/v2/secret-rotations/dbt-service-token/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/dbt-service-token/{rotationId}
+API	automation	GET /api/v2/secret-rotations/dbt-service-token/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/fireworks-api-key
+API	automation	GET /api/v2/secret-rotations/fireworks-api-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/fireworks-api-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/fireworks-api-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/hp-ilo-local-account
+API	automation	GET /api/v2/secret-rotations/hp-ilo-local-account/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}
+API	automation	GET /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/ldap-password
+API	automation	GET /api/v2/secret-rotations/ldap-password/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/ldap-password/{rotationId}
+API	automation	GET /api/v2/secret-rotations/ldap-password/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/litellm-api-key
+API	automation	GET /api/v2/secret-rotations/litellm-api-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/litellm-api-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/litellm-api-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/mongodb-credentials
+API	automation	GET /api/v2/secret-rotations/mongodb-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/mongodb-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/mongodb-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/mssql-credentials
+API	automation	GET /api/v2/secret-rotations/mssql-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/mssql-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/mssql-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/mysql-credentials
+API	automation	GET /api/v2/secret-rotations/mysql-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/mysql-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/mysql-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/okta-client-secret
+API	automation	GET /api/v2/secret-rotations/okta-client-secret/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/okta-client-secret/{rotationId}
+API	automation	GET /api/v2/secret-rotations/okta-client-secret/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/open-router-api-key
+API	automation	GET /api/v2/secret-rotations/open-router-api-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/open-router-api-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/open-router-api-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/openai-service-account
+API	automation	GET /api/v2/secret-rotations/openai-service-account/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/openai-service-account/{rotationId}
+API	automation	GET /api/v2/secret-rotations/openai-service-account/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/options
+API	automation	GET /api/v2/secret-rotations/oracledb-credentials
+API	automation	GET /api/v2/secret-rotations/oracledb-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/oracledb-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/oracledb-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/postgres-credentials
+API	automation	GET /api/v2/secret-rotations/postgres-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/postgres-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/postgres-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/redis-credentials
+API	automation	GET /api/v2/secret-rotations/redis-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/redis-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/redis-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/salesforce-oauth-credentials
+API	automation	GET /api/v2/secret-rotations/salesforce-oauth-credentials/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}
+API	automation	GET /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/snowflake-user-key-pair
+API	automation	GET /api/v2/secret-rotations/snowflake-user-key-pair/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}
+API	automation	GET /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/supabase-api-key
+API	automation	GET /api/v2/secret-rotations/supabase-api-key/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/supabase-api-key/{rotationId}
+API	automation	GET /api/v2/secret-rotations/supabase-api-key/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/unix-linux-local-account
+API	automation	GET /api/v2/secret-rotations/unix-linux-local-account/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/unix-linux-local-account/{rotationId}
+API	automation	GET /api/v2/secret-rotations/unix-linux-local-account/{rotationId}/generated-credentials
+API	automation	GET /api/v2/secret-rotations/windows-local-account
+API	automation	GET /api/v2/secret-rotations/windows-local-account/rotation-name/{rotationName}
+API	automation	GET /api/v2/secret-rotations/windows-local-account/{rotationId}
+API	automation	GET /api/v2/secret-rotations/windows-local-account/{rotationId}/generated-credentials
+API	detect	GET /api/v2/secret-scanning/configs
+API	detect	GET /api/v2/secret-scanning/data-sources
+API	detect	GET /api/v2/secret-scanning/data-sources/bitbucket
+API	detect	GET /api/v2/secret-scanning/data-sources/bitbucket/data-source-name/{sourceName}
+API	detect	GET /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}
+API	detect	GET /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}/resources
+API	detect	GET /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}/scans
+API	detect	GET /api/v2/secret-scanning/data-sources/github
+API	detect	GET /api/v2/secret-scanning/data-sources/github/data-source-name/{sourceName}
+API	detect	GET /api/v2/secret-scanning/data-sources/github/{dataSourceId}
+API	detect	GET /api/v2/secret-scanning/data-sources/github/{dataSourceId}/resources
+API	detect	GET /api/v2/secret-scanning/data-sources/github/{dataSourceId}/scans
+API	detect	GET /api/v2/secret-scanning/data-sources/gitlab
+API	detect	GET /api/v2/secret-scanning/data-sources/gitlab/data-source-name/{sourceName}
+API	detect	GET /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}
+API	detect	GET /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}/resources
+API	detect	GET /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}/scans
+API	detect	GET /api/v2/secret-scanning/data-sources/options
+API	detect	GET /api/v2/secret-scanning/findings
+API	access	GET /api/v2/service-token
+API	workspace	GET /api/v2/workspace/identity-memberships/{identityMembershipId}
+API	workspace	GET /api/v2/workspace/{projectId}/certificate-templates
+API	workspace	GET /api/v2/workspace/{projectId}/groups
+API	workspace	GET /api/v2/workspace/{projectId}/groups/{groupId}
+API	workspace	GET /api/v2/workspace/{projectId}/groups/{groupId}/users
+API	workspace	GET /api/v2/workspace/{projectId}/identity-memberships
+API	workspace	GET /api/v2/workspace/{projectId}/identity-memberships/{identityId}
+API	workspace	GET /api/v2/workspace/{projectId}/pki-alerts
+API	workspace	GET /api/v2/workspace/{projectId}/pki-collections
+API	workspace	GET /api/v2/workspace/{projectId}/pki-subscribers
+API	workspace	GET /api/v2/workspace/{projectId}/roles
+API	workspace	GET /api/v2/workspace/{projectId}/roles/slug/{roleSlug}
+API	workspace	GET /api/v2/workspace/{slug}
+API	workspace	GET /api/v2/workspace/{slug}/cas
+API	connect	GET /api/v3/gateways/{gatewayId}
+API	secrets	GET /api/v3/secrets/raw
+API	secrets	GET /api/v3/secrets/raw/id/{secretId}
+API	secrets	GET /api/v3/secrets/raw/{secretName}
+API	secrets	GET /api/v4/secrets
+API	secrets	GET /api/v4/secrets/id/{secretId}
+API	secrets	GET /api/v4/secrets/{secretName}
+API	secrets	GET /api/v4/secrets/{secretName}/reference-dependency-tree
+API	secrets	GET /api/v4/secrets/{secretName}/secret-reference-tree
+API	access	PATCH /api/v1/additional-privilege/identity
+API	connect	PATCH /api/v1/app-connections/1password/{connectionId}
+API	connect	PATCH /api/v1/app-connections/adcs/{connectionId}
+API	connect	PATCH /api/v1/app-connections/anthropic/{connectionId}
+API	connect	PATCH /api/v1/app-connections/auth0/{connectionId}
+API	connect	PATCH /api/v1/app-connections/aws/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-adcs/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-app-configuration/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-client-secrets/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-devops/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-dns/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-entra-id/{connectionId}
+API	connect	PATCH /api/v1/app-connections/azure-key-vault/{connectionId}
+API	connect	PATCH /api/v1/app-connections/bitbucket/{connectionId}
+API	connect	PATCH /api/v1/app-connections/camunda/{connectionId}
+API	connect	PATCH /api/v1/app-connections/checkly/{connectionId}
+API	connect	PATCH /api/v1/app-connections/chef/{connectionId}
+API	connect	PATCH /api/v1/app-connections/circleci/{connectionId}
+API	connect	PATCH /api/v1/app-connections/cloud-66/{connectionId}
+API	connect	PATCH /api/v1/app-connections/cloudflare/{connectionId}
+API	connect	PATCH /api/v1/app-connections/convex/{connectionId}
+API	connect	PATCH /api/v1/app-connections/databricks/{connectionId}
+API	connect	PATCH /api/v1/app-connections/datadog/{connectionId}
+API	connect	PATCH /api/v1/app-connections/dbt/{connectionId}
+API	connect	PATCH /api/v1/app-connections/devin/{connectionId}
+API	connect	PATCH /api/v1/app-connections/digicert/{connectionId}
+API	connect	PATCH /api/v1/app-connections/digital-ocean/{connectionId}
+API	connect	PATCH /api/v1/app-connections/dns-made-easy/{connectionId}
+API	connect	PATCH /api/v1/app-connections/doppler/{connectionId}
+API	connect	PATCH /api/v1/app-connections/external-vaultix/{connectionId}
+API	connect	PATCH /api/v1/app-connections/f5-big-ip/{connectionId}
+API	connect	PATCH /api/v1/app-connections/fireworks/{connectionId}
+API	connect	PATCH /api/v1/app-connections/flyio/{connectionId}
+API	connect	PATCH /api/v1/app-connections/gcp/{connectionId}
+API	connect	PATCH /api/v1/app-connections/github-radar/{connectionId}
+API	connect	PATCH /api/v1/app-connections/github/{connectionId}
+API	connect	PATCH /api/v1/app-connections/gitlab/{connectionId}
+API	connect	PATCH /api/v1/app-connections/godaddy/{connectionId}
+API	connect	PATCH /api/v1/app-connections/hashicorp-vault/{connectionId}
+API	connect	PATCH /api/v1/app-connections/hasura-cloud/{connectionId}
+API	connect	PATCH /api/v1/app-connections/heroku/{connectionId}
+API	connect	PATCH /api/v1/app-connections/humanitec/{connectionId}
+API	connect	PATCH /api/v1/app-connections/kemp-loadmaster/{connectionId}
+API	connect	PATCH /api/v1/app-connections/laravel-forge/{connectionId}
+API	connect	PATCH /api/v1/app-connections/ldap/{connectionId}
+API	connect	PATCH /api/v1/app-connections/litellm/{connectionId}
+API	connect	PATCH /api/v1/app-connections/microsoft-intune/{connectionId}
+API	connect	PATCH /api/v1/app-connections/mongodb/{connectionId}
+API	connect	PATCH /api/v1/app-connections/mssql/{connectionId}
+API	connect	PATCH /api/v1/app-connections/mysql/{connectionId}
+API	connect	PATCH /api/v1/app-connections/netlify/{connectionId}
+API	connect	PATCH /api/v1/app-connections/netscaler/{connectionId}
+API	connect	PATCH /api/v1/app-connections/northflank/{connectionId}
+API	connect	PATCH /api/v1/app-connections/nutanix-prism-central/{connectionId}
+API	connect	PATCH /api/v1/app-connections/oci/{connectionId}
+API	connect	PATCH /api/v1/app-connections/octopus-deploy/{connectionId}
+API	connect	PATCH /api/v1/app-connections/okta/{connectionId}
+API	connect	PATCH /api/v1/app-connections/ona/{connectionId}
+API	connect	PATCH /api/v1/app-connections/open-router/{connectionId}
+API	connect	PATCH /api/v1/app-connections/openai/{connectionId}
+API	connect	PATCH /api/v1/app-connections/oracledb/{connectionId}
+API	connect	PATCH /api/v1/app-connections/ovh/{connectionId}
+API	connect	PATCH /api/v1/app-connections/postgres/{connectionId}
+API	connect	PATCH /api/v1/app-connections/qovery/{connectionId}
+API	connect	PATCH /api/v1/app-connections/railway/{connectionId}
+API	connect	PATCH /api/v1/app-connections/redis/{connectionId}
+API	connect	PATCH /api/v1/app-connections/render/{connectionId}
+API	connect	PATCH /api/v1/app-connections/rundeck/{connectionId}
+API	connect	PATCH /api/v1/app-connections/salesforce/{connectionId}
+API	connect	PATCH /api/v1/app-connections/smb/{connectionId}
+API	connect	PATCH /api/v1/app-connections/snowflake/{connectionId}
+API	connect	PATCH /api/v1/app-connections/spacelift/{connectionId}
+API	connect	PATCH /api/v1/app-connections/ssh/{connectionId}
+API	connect	PATCH /api/v1/app-connections/supabase/{connectionId}
+API	connect	PATCH /api/v1/app-connections/teamcity/{connectionId}
+API	connect	PATCH /api/v1/app-connections/terraform-cloud/{connectionId}
+API	connect	PATCH /api/v1/app-connections/travis-ci/{connectionId}
+API	connect	PATCH /api/v1/app-connections/trigger-dev/{connectionId}
+API	connect	PATCH /api/v1/app-connections/venafi-tpp/{connectionId}
+API	connect	PATCH /api/v1/app-connections/venafi/{connectionId}
+API	connect	PATCH /api/v1/app-connections/vercel/{connectionId}
+API	connect	PATCH /api/v1/app-connections/windmill/{connectionId}
+API	connect	PATCH /api/v1/app-connections/winrm/{connectionId}
+API	connect	PATCH /api/v1/app-connections/zabbix/{connectionId}
+API	access	PATCH /api/v1/auth/alicloud-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/aws-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/azure-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/gcp-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/jwt-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/kubernetes-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/ldap-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/oci-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/oidc-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/spiffe-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/tls-cert-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/token-auth/identities/{identityId}
+API	access	PATCH /api/v1/auth/token-auth/tokens/{tokenId}
+API	access	PATCH /api/v1/auth/universal-auth/identities/{identityId}
+API	pki	PATCH /api/v1/cert-manager/alerts/{alertId}
+API	pki	PATCH /api/v1/cert-manager/applications/{applicationId}
+API	pki	PATCH /api/v1/cert-manager/applications/{applicationId}/alerts/{alertId}
+API	pki	PATCH /api/v1/cert-manager/applications/{applicationId}/groups/{groupId}
+API	pki	PATCH /api/v1/cert-manager/applications/{applicationId}/identities/{identityId}
+API	pki	PATCH /api/v1/cert-manager/applications/{applicationId}/users/{userId}
+API	pki	PATCH /api/v1/cert-manager/ca/acme/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/adcs/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/aws-acm-public-ca/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/aws-pca/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/azure-ad-cs/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/digicert/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/godaddy/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/internal/{caId}/auto-renewal
+API	pki	PATCH /api/v1/cert-manager/ca/internal/{caId}/signing-config
+API	pki	PATCH /api/v1/cert-manager/ca/internal/{id}
+API	pki	PATCH /api/v1/cert-manager/ca/venafi-tpp/{id}
+API	pki	PATCH /api/v1/cert-manager/certificate-policies/{id}
+API	pki	PATCH /api/v1/cert-manager/certificate-profiles/{id}
+API	pki	PATCH /api/v1/cert-manager/certificates/{id}
+API	pki	PATCH /api/v1/cert-manager/certificates/{id}/config
+API	pki	PATCH /api/v1/cert-manager/discovery-jobs/{discoveryId}
+API	pki	PATCH /api/v1/cert-manager/hsm-connectors/{connectorId}
+API	pki	PATCH /api/v1/cert-manager/installations/{installationId}
+API	pki	PATCH /api/v1/cert-manager/signers/{signerId}
+API	pki	PATCH /api/v1/cert-manager/signers/{signerId}/groups/{groupId}
+API	pki	PATCH /api/v1/cert-manager/signers/{signerId}/identities/{identityId}
+API	pki	PATCH /api/v1/cert-manager/signers/{signerId}/status
+API	pki	PATCH /api/v1/cert-manager/signers/{signerId}/users/{userId}
+API	pki	PATCH /api/v1/cert-manager/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/azure-key-vault/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/chef/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/f5-big-ip/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/linux-server/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/netscaler/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	PATCH /api/v1/cert-manager/syncs/windows-server/{pkiSyncId}
+API	automation	PATCH /api/v1/dynamic-secrets/{name}
+API	secrets	PATCH /api/v1/folders/batch
+API	secrets	PATCH /api/v1/folders/{folderId}
+API	access	PATCH /api/v1/groups/{id}
+API	access	PATCH /api/v1/identities/{identityId}
+API	access	PATCH /api/v1/identity-templates/{templateId}
+API	connect	PATCH /api/v1/integration-auth/{integrationAuthId}
+API	connect	PATCH /api/v1/integration/{integrationId}
+API	kms	PATCH /api/v1/kms/keys/{keyId}
+API	access	PATCH /api/v1/ldap/config
+API	workspace	PATCH /api/v1/organization/roles/{roleId}
+API	workspace	PATCH /api/v1/organizations/memberships/groups/{groupId}
+API	pki	PATCH /api/v1/pki/ca/acme/{caName}
+API	pki	PATCH /api/v1/pki/ca/azure-ad-cs/{caName}
+API	pki	PATCH /api/v1/pki/ca/internal/{caName}
+API	pki	PATCH /api/v1/pki/ca/{caId}
+API	pki	PATCH /api/v1/pki/certificate-profiles/{id}
+API	pki	PATCH /api/v1/pki/certificate-templates/{certificateTemplateId}
+API	pki	PATCH /api/v1/pki/certificate-templates/{certificateTemplateId}/est-config
+API	pki	PATCH /api/v1/pki/collections/{collectionId}
+API	pki	PATCH /api/v1/pki/subscribers/{subscriberName}
+API	pki	PATCH /api/v1/pki/syncs/aws-certificate-manager/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/aws-secrets-manager/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/azure-key-vault/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/chef/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/cloudflare-custom-certificate/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/f5-big-ip/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/kemp-loadmaster/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/linux-server/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/netscaler/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/nutanix-prism-central/{pkiSyncId}
+API	pki	PATCH /api/v1/pki/syncs/windows-server/{pkiSyncId}
+API	workspace	PATCH /api/v1/project-templates/{templateId}
+API	workspace	PATCH /api/v1/projects/{projectId}
+API	workspace	PATCH /api/v1/projects/{projectId}/environments/{id}
+API	workspace	PATCH /api/v1/projects/{projectId}/groups/{groupId}
+API	workspace	PATCH /api/v1/projects/{projectId}/identities/{identityId}
+API	workspace	PATCH /api/v1/projects/{projectId}/identity-memberships/{identityId}
+API	workspace	PATCH /api/v1/projects/{projectId}/memberships/groups/{groupId}
+API	workspace	PATCH /api/v1/projects/{projectId}/memberships/identities/{identityId}
+API	workspace	PATCH /api/v1/projects/{projectId}/memberships/{membershipId}
+API	workspace	PATCH /api/v1/projects/{projectId}/roles/{roleId}
+API	workspace	PATCH /api/v1/projects/{projectId}/secret-validation-rules/{ruleId}
+API	workspace	PATCH /api/v1/projects/{projectId}/tags/{tagId}
+API	connect	PATCH /api/v1/proxied-services/{serviceId}
+API	secrets	PATCH /api/v1/secret-imports/{secretImportId}
+API	connect	PATCH /api/v1/secret-syncs/1password/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/aws-parameter-store/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/aws-secrets-manager/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/azure-app-configuration/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/azure-devops/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/azure-entra-id-scim/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/azure-key-vault/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/bitbucket/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/camunda/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/checkly/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/chef/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/circleci/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/cloud-66/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/cloudflare-pages/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/cloudflare-workers/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/databricks/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/devin/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/external-vaultix/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/flyio/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/gcp-secret-manager/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/github/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/gitlab/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/hashicorp-vault/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/hasura-cloud/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/heroku/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/humanitec/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/laravel-forge/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/netlify/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/northflank/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/oci-vault/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/octopus-deploy/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/ona/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/ovh/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/qovery/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/railway/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/render/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/rundeck/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/snowflake/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/spacelift/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/supabase/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/teamcity/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/terraform-cloud/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/travis-ci/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/trigger-dev/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/vercel/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/windmill/{syncId}
+API	connect	PATCH /api/v1/secret-syncs/zabbix/{syncId}
+API	access	PATCH /api/v1/sso/config
+API	access	PATCH /api/v1/sso/oidc/config
+API	workspace	PATCH /api/v1/sub-organizations/{subOrgId}
+API	workspace	PATCH /api/v1/workspace/{projectId}/tags/{tagId}
+API	workspace	PATCH /api/v1/workspace/{workspaceId}
+API	workspace	PATCH /api/v1/workspace/{workspaceId}/environments/{id}
+API	workspace	PATCH /api/v1/workspace/{workspaceId}/memberships/{membershipId}
+API	secrets	PATCH /api/v2/folders/batch
+API	secrets	PATCH /api/v2/folders/{folderId}
+API	access	PATCH /api/v2/identity-project-additional-privilege/{id}
+API	workspace	PATCH /api/v2/organizations/{organizationId}/memberships/{membershipId}
+API	pki	PATCH /api/v2/pki/certificate-templates/{templateName}
+API	secrets	PATCH /api/v2/secret-imports/{secretImportId}
+API	automation	PATCH /api/v2/secret-rotations/auth0-client-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/azure-client-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/cloudflare-api-token/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/convex-access-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/datadog-api-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/dbt-service-token/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/fireworks-api-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/ldap-password/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/litellm-api-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/mongodb-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/mssql-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/mysql-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/okta-client-secret/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/open-router-api-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/openai-service-account/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/oracledb-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/postgres-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/redis-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/supabase-api-key/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/unix-linux-local-account/{rotationId}
+API	automation	PATCH /api/v2/secret-rotations/windows-local-account/{rotationId}
+API	detect	PATCH /api/v2/secret-scanning/configs
+API	detect	PATCH /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}
+API	detect	PATCH /api/v2/secret-scanning/data-sources/github/{dataSourceId}
+API	detect	PATCH /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}
+API	detect	PATCH /api/v2/secret-scanning/findings
+API	detect	PATCH /api/v2/secret-scanning/findings/{findingId}
+API	workspace	PATCH /api/v2/workspace/{projectId}/groups/{groupId}
+API	workspace	PATCH /api/v2/workspace/{projectId}/identity-memberships/{identityId}
+API	workspace	PATCH /api/v2/workspace/{projectId}/roles/{roleId}
+API	connect	PATCH /api/v3/gateways/{gatewayId}
+API	pki	PATCH /api/v3/pki/certificates/{certificateId}/config
+API	secrets	PATCH /api/v3/secrets/batch/raw
+API	secrets	PATCH /api/v3/secrets/raw/{secretName}
+API	secrets	PATCH /api/v4/secrets/batch
+API	secrets	PATCH /api/v4/secrets/{secretName}
+API	access	POST /api/v1/additional-privilege/identity/permanent
+API	access	POST /api/v1/additional-privilege/identity/temporary
+API	operate	POST /api/v1/admin/bootstrap
+API	connect	POST /api/v1/app-connections/1password
+API	connect	POST /api/v1/app-connections/1password/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/adcs
+API	connect	POST /api/v1/app-connections/adcs/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/anthropic
+API	connect	POST /api/v1/app-connections/anthropic/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/auth0
+API	connect	POST /api/v1/app-connections/auth0/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/aws
+API	connect	POST /api/v1/app-connections/aws/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-adcs
+API	connect	POST /api/v1/app-connections/azure-adcs/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-app-configuration
+API	connect	POST /api/v1/app-connections/azure-app-configuration/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-client-secrets
+API	connect	POST /api/v1/app-connections/azure-client-secrets/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-devops
+API	connect	POST /api/v1/app-connections/azure-devops/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-dns
+API	connect	POST /api/v1/app-connections/azure-dns/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-entra-id
+API	connect	POST /api/v1/app-connections/azure-entra-id/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/azure-key-vault
+API	connect	POST /api/v1/app-connections/azure-key-vault/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/bitbucket
+API	connect	POST /api/v1/app-connections/bitbucket/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/camunda
+API	connect	POST /api/v1/app-connections/camunda/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/checkly
+API	connect	POST /api/v1/app-connections/checkly/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/chef
+API	connect	POST /api/v1/app-connections/chef/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/circleci
+API	connect	POST /api/v1/app-connections/circleci/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/cloud-66
+API	connect	POST /api/v1/app-connections/cloud-66/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/cloudflare
+API	connect	POST /api/v1/app-connections/cloudflare/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/convex
+API	connect	POST /api/v1/app-connections/convex/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/databricks
+API	connect	POST /api/v1/app-connections/databricks/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/datadog
+API	connect	POST /api/v1/app-connections/datadog/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/dbt
+API	connect	POST /api/v1/app-connections/dbt/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/devin
+API	connect	POST /api/v1/app-connections/devin/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/digicert
+API	connect	POST /api/v1/app-connections/digicert/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/digital-ocean
+API	connect	POST /api/v1/app-connections/digital-ocean/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/dns-made-easy
+API	connect	POST /api/v1/app-connections/dns-made-easy/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/doppler
+API	connect	POST /api/v1/app-connections/doppler/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/external-vaultix
+API	connect	POST /api/v1/app-connections/external-vaultix/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/f5-big-ip
+API	connect	POST /api/v1/app-connections/f5-big-ip/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/fireworks
+API	connect	POST /api/v1/app-connections/fireworks/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/flyio
+API	connect	POST /api/v1/app-connections/flyio/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/gcp
+API	connect	POST /api/v1/app-connections/gcp/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/github
+API	connect	POST /api/v1/app-connections/github-radar
+API	connect	POST /api/v1/app-connections/github-radar/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/github/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/gitlab
+API	connect	POST /api/v1/app-connections/gitlab/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/godaddy
+API	connect	POST /api/v1/app-connections/godaddy/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/hashicorp-vault
+API	connect	POST /api/v1/app-connections/hashicorp-vault/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/hasura-cloud
+API	connect	POST /api/v1/app-connections/hasura-cloud/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/heroku
+API	connect	POST /api/v1/app-connections/heroku/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/humanitec
+API	connect	POST /api/v1/app-connections/humanitec/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/kemp-loadmaster
+API	connect	POST /api/v1/app-connections/kemp-loadmaster/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/laravel-forge
+API	connect	POST /api/v1/app-connections/laravel-forge/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/ldap
+API	connect	POST /api/v1/app-connections/ldap/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/litellm
+API	connect	POST /api/v1/app-connections/litellm/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/microsoft-intune
+API	connect	POST /api/v1/app-connections/microsoft-intune/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/mongodb
+API	connect	POST /api/v1/app-connections/mongodb/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/mssql
+API	connect	POST /api/v1/app-connections/mssql/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/mysql
+API	connect	POST /api/v1/app-connections/mysql/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/netlify
+API	connect	POST /api/v1/app-connections/netlify/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/netscaler
+API	connect	POST /api/v1/app-connections/netscaler/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/northflank
+API	connect	POST /api/v1/app-connections/northflank/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/nutanix-prism-central
+API	connect	POST /api/v1/app-connections/nutanix-prism-central/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/oci
+API	connect	POST /api/v1/app-connections/oci/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/octopus-deploy
+API	connect	POST /api/v1/app-connections/octopus-deploy/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/okta
+API	connect	POST /api/v1/app-connections/okta/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/ona
+API	connect	POST /api/v1/app-connections/ona/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/open-router
+API	connect	POST /api/v1/app-connections/open-router/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/openai
+API	connect	POST /api/v1/app-connections/openai/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/oracledb
+API	connect	POST /api/v1/app-connections/oracledb/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/ovh
+API	connect	POST /api/v1/app-connections/ovh/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/postgres
+API	connect	POST /api/v1/app-connections/postgres/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/qovery
+API	connect	POST /api/v1/app-connections/qovery/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/railway
+API	connect	POST /api/v1/app-connections/railway/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/redis
+API	connect	POST /api/v1/app-connections/redis/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/render
+API	connect	POST /api/v1/app-connections/render/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/rundeck
+API	connect	POST /api/v1/app-connections/rundeck/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/salesforce
+API	connect	POST /api/v1/app-connections/salesforce/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/smb
+API	connect	POST /api/v1/app-connections/smb/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/snowflake
+API	connect	POST /api/v1/app-connections/snowflake/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/spacelift
+API	connect	POST /api/v1/app-connections/spacelift/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/ssh
+API	connect	POST /api/v1/app-connections/ssh/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/supabase
+API	connect	POST /api/v1/app-connections/supabase/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/teamcity
+API	connect	POST /api/v1/app-connections/teamcity/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/terraform-cloud
+API	connect	POST /api/v1/app-connections/terraform-cloud/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/travis-ci
+API	connect	POST /api/v1/app-connections/travis-ci/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/trigger-dev
+API	connect	POST /api/v1/app-connections/trigger-dev/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/venafi
+API	connect	POST /api/v1/app-connections/venafi-tpp
+API	connect	POST /api/v1/app-connections/venafi-tpp/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/venafi/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/vercel
+API	connect	POST /api/v1/app-connections/vercel/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/windmill
+API	connect	POST /api/v1/app-connections/windmill/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/winrm
+API	connect	POST /api/v1/app-connections/winrm/{connectionId}/rotate-credentials
+API	connect	POST /api/v1/app-connections/zabbix
+API	connect	POST /api/v1/app-connections/zabbix/{connectionId}/rotate-credentials
+API	access	POST /api/v1/auth/alicloud-auth/identities/{identityId}
+API	access	POST /api/v1/auth/alicloud-auth/login
+API	access	POST /api/v1/auth/aws-auth/identities/{identityId}
+API	access	POST /api/v1/auth/aws-auth/login
+API	access	POST /api/v1/auth/azure-auth/identities/{identityId}
+API	access	POST /api/v1/auth/azure-auth/login
+API	access	POST /api/v1/auth/gcp-auth/identities/{identityId}
+API	access	POST /api/v1/auth/gcp-auth/login
+API	access	POST /api/v1/auth/jwt-auth/identities/{identityId}
+API	access	POST /api/v1/auth/jwt-auth/login
+API	access	POST /api/v1/auth/kubernetes-auth/identities/{identityId}
+API	access	POST /api/v1/auth/kubernetes-auth/login
+API	access	POST /api/v1/auth/ldap-auth/identities/{identityId}
+API	access	POST /api/v1/auth/ldap-auth/identities/{identityId}/clear-lockouts
+API	access	POST /api/v1/auth/ldap-auth/login
+API	access	POST /api/v1/auth/oci-auth/identities/{identityId}
+API	access	POST /api/v1/auth/oci-auth/login
+API	access	POST /api/v1/auth/oidc-auth/identities/{identityId}
+API	access	POST /api/v1/auth/oidc-auth/login
+API	access	POST /api/v1/auth/spiffe-auth/identities/{identityId}
+API	access	POST /api/v1/auth/spiffe-auth/identities/{identityId}/refresh-bundle
+API	access	POST /api/v1/auth/spiffe-auth/login
+API	access	POST /api/v1/auth/tls-cert-auth/identities/{identityId}
+API	access	POST /api/v1/auth/tls-cert-auth/login
+API	access	POST /api/v1/auth/token-auth/identities/{identityId}
+API	access	POST /api/v1/auth/token-auth/identities/{identityId}/tokens
+API	access	POST /api/v1/auth/token-auth/tokens/{tokenId}/revoke
+API	access	POST /api/v1/auth/token/renew
+API	access	POST /api/v1/auth/token/revoke
+API	access	POST /api/v1/auth/universal-auth/identities/{identityId}
+API	access	POST /api/v1/auth/universal-auth/identities/{identityId}/clear-lockouts
+API	access	POST /api/v1/auth/universal-auth/identities/{identityId}/client-secrets
+API	access	POST /api/v1/auth/universal-auth/identities/{identityId}/client-secrets/{clientSecretId}/revoke
+API	access	POST /api/v1/auth/universal-auth/login
+API	pki	POST /api/v1/cert-manager/access/users
+API	pki	POST /api/v1/cert-manager/acme/applications/{applicationId}/profiles/{profileId}/new-account
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/accounts/{accountId}
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/accounts/{accountId}/orders
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/authorizations/{authzId}
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/authorizations/{authzId}/challenges/{challengeId}
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/new-account
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/new-order
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/orders/{orderId}
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/orders/{orderId}/certificate
+API	pki	POST /api/v1/cert-manager/acme/profiles/{profileId}/orders/{orderId}/finalize
+API	pki	POST /api/v1/cert-manager/alerts
+API	pki	POST /api/v1/cert-manager/alerts/preview/certificates
+API	pki	POST /api/v1/cert-manager/applications
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/alerts
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/groups/{groupId}
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/identities/{identityId}
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/profiles
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/acme/eab/reveal
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/acme/eab/rotate
+API	pki	POST /api/v1/cert-manager/applications/{applicationId}/users
+API	pki	POST /api/v1/cert-manager/ca/acme
+API	pki	POST /api/v1/cert-manager/ca/adcs
+API	pki	POST /api/v1/cert-manager/ca/aws-acm-public-ca
+API	pki	POST /api/v1/cert-manager/ca/aws-pca
+API	pki	POST /api/v1/cert-manager/ca/azure-ad-cs
+API	pki	POST /api/v1/cert-manager/ca/digicert
+API	pki	POST /api/v1/cert-manager/ca/godaddy
+API	pki	POST /api/v1/cert-manager/ca/internal
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/certificate
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/import-certificate
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/install-certificate-adcs
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/install-certificate-microsoft-adcs
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/install-certificate-venafi
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/renew
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/sign-intermediate
+API	pki	POST /api/v1/cert-manager/ca/internal/{caId}/signing-config
+API	pki	POST /api/v1/cert-manager/ca/venafi-tpp
+API	pki	POST /api/v1/cert-manager/certificate-policies
+API	pki	POST /api/v1/cert-manager/certificate-profiles
+API	pki	POST /api/v1/cert-manager/certificates
+API	pki	POST /api/v1/cert-manager/certificates/certificate-requests/search
+API	pki	POST /api/v1/cert-manager/certificates/certificate-requests/{requestId}/cancel
+API	pki	POST /api/v1/cert-manager/certificates/certificate-requests/{requestId}/trigger-validation
+API	pki	POST /api/v1/cert-manager/certificates/import-certificate
+API	pki	POST /api/v1/cert-manager/certificates/{id}/application
+API	pki	POST /api/v1/cert-manager/certificates/{id}/renew
+API	pki	POST /api/v1/cert-manager/certificates/{id}/revoke
+API	pki	POST /api/v1/cert-manager/discovery-jobs
+API	pki	POST /api/v1/cert-manager/discovery-jobs/{discoveryId}/scan
+API	pki	POST /api/v1/cert-manager/hsm-connectors
+API	pki	POST /api/v1/cert-manager/hsm-connectors/{connectorId}/test
+API	pki	POST /api/v1/cert-manager/signers
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/certificate/reissue
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/groups
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/identities
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/issuance/check
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/requests
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/requests/pre-approve
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/requests/{requestId}/revoke
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/sign
+API	pki	POST /api/v1/cert-manager/signers/{signerId}/users
+API	pki	POST /api/v1/cert-manager/syncs/aws-certificate-manager
+API	pki	POST /api/v1/cert-manager/syncs/aws-certificate-manager/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/aws-certificate-manager/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/aws-elastic-load-balancer
+API	pki	POST /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default
+API	pki	POST /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/aws-elastic-load-balancer/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/aws-secrets-manager
+API	pki	POST /api/v1/cert-manager/syncs/aws-secrets-manager/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/aws-secrets-manager/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/azure-key-vault
+API	pki	POST /api/v1/cert-manager/syncs/azure-key-vault/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/azure-key-vault/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/chef
+API	pki	POST /api/v1/cert-manager/syncs/chef/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/chef/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/cloudflare-custom-certificate
+API	pki	POST /api/v1/cert-manager/syncs/cloudflare-custom-certificate/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/cloudflare-custom-certificate/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/f5-big-ip
+API	pki	POST /api/v1/cert-manager/syncs/f5-big-ip/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/f5-big-ip/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/kemp-loadmaster
+API	pki	POST /api/v1/cert-manager/syncs/kemp-loadmaster/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/kemp-loadmaster/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/linux-server
+API	pki	POST /api/v1/cert-manager/syncs/linux-server/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/linux-server/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/netscaler
+API	pki	POST /api/v1/cert-manager/syncs/netscaler/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/netscaler/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/nutanix-prism-central
+API	pki	POST /api/v1/cert-manager/syncs/nutanix-prism-central/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/windows-server
+API	pki	POST /api/v1/cert-manager/syncs/windows-server/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/cert-manager/syncs/windows-server/{pkiSyncId}/sync
+API	pki	POST /api/v1/cert-manager/syncs/{pkiSyncId}/certificates
+API	automation	POST /api/v1/dynamic-secrets
+API	automation	POST /api/v1/dynamic-secrets/leases
+API	automation	POST /api/v1/dynamic-secrets/leases/kubernetes
+API	automation	POST /api/v1/dynamic-secrets/leases/{leaseId}/renew
+API	governance	POST /api/v1/events/subscribe/project-events
+API	secrets	POST /api/v1/folders
+API	access	POST /api/v1/groups
+API	access	POST /api/v1/groups/{id}/machine-identities/{machineIdentityId}
+API	access	POST /api/v1/groups/{id}/users/{username}
+API	access	POST /api/v1/identities
+API	access	POST /api/v1/identities/search
+API	access	POST /api/v1/identity-templates
+API	access	POST /api/v1/identity-templates/{templateId}/delete-usage
+API	connect	POST /api/v1/integration
+API	connect	POST /api/v1/integration-auth/access-token
+API	connect	POST /api/v1/integration/{integrationId}/sync
+API	kms	POST /api/v1/kms/keys
+API	kms	POST /api/v1/kms/keys/bulk-export-private-keys
+API	kms	POST /api/v1/kms/keys/bulk-import
+API	kms	POST /api/v1/kms/keys/{keyId}/decrypt
+API	kms	POST /api/v1/kms/keys/{keyId}/encrypt
+API	kms	POST /api/v1/kms/keys/{keyId}/generate-mac
+API	kms	POST /api/v1/kms/keys/{keyId}/rotate
+API	kms	POST /api/v1/kms/keys/{keyId}/sign
+API	kms	POST /api/v1/kms/keys/{keyId}/verify
+API	kms	POST /api/v1/kms/keys/{keyId}/verify-mac
+API	access	POST /api/v1/ldap/config
+API	workspace	POST /api/v1/organization/roles
+API	workspace	POST /api/v1/organizations/memberships/groups/{groupId}
+API	pki	POST /api/v1/pki/ca
+API	pki	POST /api/v1/pki/ca/acme
+API	pki	POST /api/v1/pki/ca/azure-ad-cs
+API	pki	POST /api/v1/pki/ca/internal
+API	pki	POST /api/v1/pki/ca/{caId}/import-certificate
+API	pki	POST /api/v1/pki/ca/{caId}/renew
+API	pki	POST /api/v1/pki/ca/{caId}/sign-intermediate
+API	pki	POST /api/v1/pki/certificate-profiles
+API	pki	POST /api/v1/pki/certificate-templates
+API	pki	POST /api/v1/pki/certificate-templates/{certificateTemplateId}/est-config
+API	pki	POST /api/v1/pki/certificates/import-certificate
+API	pki	POST /api/v1/pki/certificates/issue-certificate
+API	pki	POST /api/v1/pki/certificates/sign-certificate
+API	pki	POST /api/v1/pki/certificates/{serialNumber}/revoke
+API	pki	POST /api/v1/pki/collections
+API	pki	POST /api/v1/pki/collections/{collectionId}/items
+API	pki	POST /api/v1/pki/subscribers
+API	pki	POST /api/v1/pki/subscribers/{subscriberName}/issue-certificate
+API	pki	POST /api/v1/pki/subscribers/{subscriberName}/order-certificate
+API	pki	POST /api/v1/pki/subscribers/{subscriberName}/sign-certificate
+API	pki	POST /api/v1/pki/syncs/aws-certificate-manager
+API	pki	POST /api/v1/pki/syncs/aws-certificate-manager/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/aws-certificate-manager/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/aws-elastic-load-balancer
+API	pki	POST /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}/certificates/default
+API	pki	POST /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/aws-elastic-load-balancer/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/aws-secrets-manager
+API	pki	POST /api/v1/pki/syncs/aws-secrets-manager/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/aws-secrets-manager/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/azure-key-vault
+API	pki	POST /api/v1/pki/syncs/azure-key-vault/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/azure-key-vault/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/chef
+API	pki	POST /api/v1/pki/syncs/chef/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/chef/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/cloudflare-custom-certificate
+API	pki	POST /api/v1/pki/syncs/cloudflare-custom-certificate/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/cloudflare-custom-certificate/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/f5-big-ip
+API	pki	POST /api/v1/pki/syncs/f5-big-ip/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/f5-big-ip/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/kemp-loadmaster
+API	pki	POST /api/v1/pki/syncs/kemp-loadmaster/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/kemp-loadmaster/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/linux-server
+API	pki	POST /api/v1/pki/syncs/linux-server/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/linux-server/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/netscaler
+API	pki	POST /api/v1/pki/syncs/netscaler/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/netscaler/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/nutanix-prism-central
+API	pki	POST /api/v1/pki/syncs/nutanix-prism-central/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/windows-server
+API	pki	POST /api/v1/pki/syncs/windows-server/{pkiSyncId}/remove-certificates
+API	pki	POST /api/v1/pki/syncs/windows-server/{pkiSyncId}/sync
+API	pki	POST /api/v1/pki/syncs/{pkiSyncId}/certificates
+API	workspace	POST /api/v1/project-templates
+API	workspace	POST /api/v1/projects
+API	workspace	POST /api/v1/projects/{projectId}/certificates/search
+API	workspace	POST /api/v1/projects/{projectId}/environments
+API	workspace	POST /api/v1/projects/{projectId}/environments/{id}/restore
+API	workspace	POST /api/v1/projects/{projectId}/groups/{groupIdOrName}
+API	workspace	POST /api/v1/projects/{projectId}/identities
+API	workspace	POST /api/v1/projects/{projectId}/identity-memberships/{identityId}
+API	workspace	POST /api/v1/projects/{projectId}/memberships
+API	workspace	POST /api/v1/projects/{projectId}/memberships/details
+API	workspace	POST /api/v1/projects/{projectId}/memberships/groups/{groupId}
+API	workspace	POST /api/v1/projects/{projectId}/memberships/identities/{identityId}
+API	workspace	POST /api/v1/projects/{projectId}/roles
+API	workspace	POST /api/v1/projects/{projectId}/secret-validation-rules
+API	workspace	POST /api/v1/projects/{projectId}/tags
+API	connect	POST /api/v1/proxied-services
+API	secrets	POST /api/v1/secret-imports
+API	connect	POST /api/v1/secret-syncs/1password
+API	connect	POST /api/v1/secret-syncs/1password/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/1password/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/1password/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/aws-parameter-store
+API	connect	POST /api/v1/secret-syncs/aws-parameter-store/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/aws-parameter-store/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/aws-parameter-store/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/aws-secrets-manager
+API	connect	POST /api/v1/secret-syncs/aws-secrets-manager/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/aws-secrets-manager/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/aws-secrets-manager/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/azure-app-configuration
+API	connect	POST /api/v1/secret-syncs/azure-app-configuration/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/azure-app-configuration/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/azure-app-configuration/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/azure-devops
+API	connect	POST /api/v1/secret-syncs/azure-devops/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/azure-devops/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/azure-devops/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/azure-entra-id-scim
+API	connect	POST /api/v1/secret-syncs/azure-entra-id-scim/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/azure-entra-id-scim/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/azure-entra-id-scim/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/azure-key-vault
+API	connect	POST /api/v1/secret-syncs/azure-key-vault/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/azure-key-vault/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/azure-key-vault/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/bitbucket
+API	connect	POST /api/v1/secret-syncs/bitbucket/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/bitbucket/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/bitbucket/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/camunda
+API	connect	POST /api/v1/secret-syncs/camunda/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/camunda/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/camunda/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/checkly
+API	connect	POST /api/v1/secret-syncs/checkly/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/checkly/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/checkly/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/chef
+API	connect	POST /api/v1/secret-syncs/chef/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/chef/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/chef/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/circleci
+API	connect	POST /api/v1/secret-syncs/circleci/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/circleci/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/circleci/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/cloud-66
+API	connect	POST /api/v1/secret-syncs/cloud-66/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/cloud-66/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/cloud-66/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-pages
+API	connect	POST /api/v1/secret-syncs/cloudflare-pages/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-pages/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-pages/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-workers
+API	connect	POST /api/v1/secret-syncs/cloudflare-workers/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-workers/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/cloudflare-workers/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/databricks
+API	connect	POST /api/v1/secret-syncs/databricks/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/databricks/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/databricks/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/devin
+API	connect	POST /api/v1/secret-syncs/devin/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/devin/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/devin/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/digital-ocean-app-platform
+API	connect	POST /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/digital-ocean-app-platform/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/external-vaultix
+API	connect	POST /api/v1/secret-syncs/external-vaultix/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/external-vaultix/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/external-vaultix/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/flyio
+API	connect	POST /api/v1/secret-syncs/flyio/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/flyio/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/flyio/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/gcp-secret-manager
+API	connect	POST /api/v1/secret-syncs/gcp-secret-manager/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/gcp-secret-manager/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/gcp-secret-manager/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/github
+API	connect	POST /api/v1/secret-syncs/github/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/github/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/github/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/gitlab
+API	connect	POST /api/v1/secret-syncs/gitlab/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/gitlab/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/gitlab/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/hashicorp-vault
+API	connect	POST /api/v1/secret-syncs/hashicorp-vault/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/hashicorp-vault/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/hashicorp-vault/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/hasura-cloud
+API	connect	POST /api/v1/secret-syncs/hasura-cloud/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/hasura-cloud/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/hasura-cloud/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/heroku
+API	connect	POST /api/v1/secret-syncs/heroku/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/heroku/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/heroku/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/humanitec
+API	connect	POST /api/v1/secret-syncs/humanitec/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/humanitec/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/humanitec/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/laravel-forge
+API	connect	POST /api/v1/secret-syncs/laravel-forge/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/laravel-forge/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/laravel-forge/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/netlify
+API	connect	POST /api/v1/secret-syncs/netlify/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/netlify/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/netlify/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/northflank
+API	connect	POST /api/v1/secret-syncs/northflank/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/northflank/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/northflank/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/oci-vault
+API	connect	POST /api/v1/secret-syncs/oci-vault/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/oci-vault/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/oci-vault/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/octopus-deploy
+API	connect	POST /api/v1/secret-syncs/octopus-deploy/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/octopus-deploy/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/octopus-deploy/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/ona
+API	connect	POST /api/v1/secret-syncs/ona/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/ona/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/ona/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/ovh
+API	connect	POST /api/v1/secret-syncs/ovh/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/ovh/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/ovh/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/qovery
+API	connect	POST /api/v1/secret-syncs/qovery/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/qovery/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/qovery/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/railway
+API	connect	POST /api/v1/secret-syncs/railway/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/railway/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/railway/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/render
+API	connect	POST /api/v1/secret-syncs/render/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/render/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/render/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/rundeck
+API	connect	POST /api/v1/secret-syncs/rundeck/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/rundeck/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/rundeck/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/snowflake
+API	connect	POST /api/v1/secret-syncs/snowflake/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/snowflake/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/snowflake/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/spacelift
+API	connect	POST /api/v1/secret-syncs/spacelift/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/spacelift/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/spacelift/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/supabase
+API	connect	POST /api/v1/secret-syncs/supabase/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/supabase/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/supabase/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/teamcity
+API	connect	POST /api/v1/secret-syncs/teamcity/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/teamcity/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/teamcity/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/terraform-cloud
+API	connect	POST /api/v1/secret-syncs/terraform-cloud/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/terraform-cloud/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/terraform-cloud/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/travis-ci
+API	connect	POST /api/v1/secret-syncs/travis-ci/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/travis-ci/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/travis-ci/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/trigger-dev
+API	connect	POST /api/v1/secret-syncs/trigger-dev/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/trigger-dev/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/trigger-dev/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/vercel
+API	connect	POST /api/v1/secret-syncs/vercel/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/vercel/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/vercel/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/windmill
+API	connect	POST /api/v1/secret-syncs/windmill/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/windmill/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/windmill/{syncId}/sync-secrets
+API	connect	POST /api/v1/secret-syncs/zabbix
+API	connect	POST /api/v1/secret-syncs/zabbix/{syncId}/import-secrets
+API	connect	POST /api/v1/secret-syncs/zabbix/{syncId}/remove-secrets
+API	connect	POST /api/v1/secret-syncs/zabbix/{syncId}/sync-secrets
+API	secrets	POST /api/v1/shared-secrets
+API	secrets	POST /api/v1/shared-secrets/{id}/access
+API	access	POST /api/v1/sso/config
+API	access	POST /api/v1/sso/oidc/config
+API	workspace	POST /api/v1/sub-organizations
+API	workspace	POST /api/v1/sub-organizations/{subOrgId}/memberships
+API	ai	POST /api/v1/vaultix/mcp
+API	workspace	POST /api/v1/workspace/{projectId}/tags
+API	workspace	POST /api/v1/workspace/{workspaceId}/environments
+API	workspace	POST /api/v1/workspace/{workspaceId}/memberships/details
+API	secrets	POST /api/v2/folders
+API	secrets	POST /api/v2/folders/move
+API	access	POST /api/v2/identities/search
+API	access	POST /api/v2/identities/search/count
+API	access	POST /api/v2/identity-project-additional-privilege
+API	pki	POST /api/v2/pki/certificate-templates
+API	pki	POST /api/v2/pki/certificate-templates/{templateName}/issue-certificate
+API	pki	POST /api/v2/pki/certificate-templates/{templateName}/sign-certificate
+API	secrets	POST /api/v2/secret-imports
+API	automation	POST /api/v2/secret-rotations/auth0-client-secret
+API	automation	POST /api/v2/secret-rotations/auth0-client-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/auth0-client-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/auth0-client-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/aws-iam-user-secret
+API	automation	POST /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/aws-iam-user-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/azure-client-secret
+API	automation	POST /api/v2/secret-rotations/azure-client-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/azure-client-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/azure-client-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/cloudflare-api-token
+API	automation	POST /api/v2/secret-rotations/cloudflare-api-token/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/cloudflare-api-token/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/cloudflare-api-token/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/cloudflare-r2-access-key
+API	automation	POST /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/cloudflare-r2-access-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/convex-access-key
+API	automation	POST /api/v2/secret-rotations/convex-access-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/convex-access-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/convex-access-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/databricks-service-principal-secret
+API	automation	POST /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/databricks-service-principal-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/datadog-api-key
+API	automation	POST /api/v2/secret-rotations/datadog-api-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/datadog-api-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/datadog-api-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/datadog-application-key-secret
+API	automation	POST /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/datadog-application-key-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/dbt-service-token
+API	automation	POST /api/v2/secret-rotations/dbt-service-token/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/dbt-service-token/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/dbt-service-token/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/fireworks-api-key
+API	automation	POST /api/v2/secret-rotations/fireworks-api-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/fireworks-api-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/fireworks-api-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/hp-ilo-local-account
+API	automation	POST /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}/reconcile
+API	automation	POST /api/v2/secret-rotations/hp-ilo-local-account/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/ldap-password
+API	automation	POST /api/v2/secret-rotations/ldap-password/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/ldap-password/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/ldap-password/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/litellm-api-key
+API	automation	POST /api/v2/secret-rotations/litellm-api-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/litellm-api-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/litellm-api-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/mongodb-credentials
+API	automation	POST /api/v2/secret-rotations/mongodb-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/mongodb-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/mongodb-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/mssql-credentials
+API	automation	POST /api/v2/secret-rotations/mssql-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/mssql-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/mssql-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/mysql-credentials
+API	automation	POST /api/v2/secret-rotations/mysql-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/mysql-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/mysql-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/okta-client-secret
+API	automation	POST /api/v2/secret-rotations/okta-client-secret/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/okta-client-secret/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/okta-client-secret/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/open-router-api-key
+API	automation	POST /api/v2/secret-rotations/open-router-api-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/open-router-api-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/open-router-api-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/openai-service-account
+API	automation	POST /api/v2/secret-rotations/openai-service-account/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/openai-service-account/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/openai-service-account/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/oracledb-credentials
+API	automation	POST /api/v2/secret-rotations/oracledb-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/oracledb-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/oracledb-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/postgres-credentials
+API	automation	POST /api/v2/secret-rotations/postgres-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/postgres-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/postgres-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/redis-credentials
+API	automation	POST /api/v2/secret-rotations/redis-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/redis-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/redis-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/salesforce-oauth-credentials
+API	automation	POST /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/salesforce-oauth-credentials/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/snowflake-user-key-pair
+API	automation	POST /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/snowflake-user-key-pair/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/supabase-api-key
+API	automation	POST /api/v2/secret-rotations/supabase-api-key/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/supabase-api-key/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/supabase-api-key/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/unix-linux-local-account
+API	automation	POST /api/v2/secret-rotations/unix-linux-local-account/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/unix-linux-local-account/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/unix-linux-local-account/{rotationId}/reconcile
+API	automation	POST /api/v2/secret-rotations/unix-linux-local-account/{rotationId}/rotate-secrets
+API	automation	POST /api/v2/secret-rotations/windows-local-account
+API	automation	POST /api/v2/secret-rotations/windows-local-account/{rotationId}/check-credentials
+API	automation	POST /api/v2/secret-rotations/windows-local-account/{rotationId}/move
+API	automation	POST /api/v2/secret-rotations/windows-local-account/{rotationId}/reconcile
+API	automation	POST /api/v2/secret-rotations/windows-local-account/{rotationId}/rotate-secrets
+API	detect	POST /api/v2/secret-scanning/data-sources/bitbucket
+API	detect	POST /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}/resources/{resourceId}/scan
+API	detect	POST /api/v2/secret-scanning/data-sources/bitbucket/{dataSourceId}/scan
+API	detect	POST /api/v2/secret-scanning/data-sources/github
+API	detect	POST /api/v2/secret-scanning/data-sources/github/{dataSourceId}/resources/{resourceId}/scan
+API	detect	POST /api/v2/secret-scanning/data-sources/github/{dataSourceId}/scan
+API	detect	POST /api/v2/secret-scanning/data-sources/gitlab
+API	detect	POST /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}/resources/{resourceId}/scan
+API	detect	POST /api/v2/secret-scanning/data-sources/gitlab/{dataSourceId}/scan
+API	workspace	POST /api/v2/workspace
+API	workspace	POST /api/v2/workspace/{projectId}/groups/{groupIdOrName}
+API	workspace	POST /api/v2/workspace/{projectId}/identity-memberships/{identityId}
+API	workspace	POST /api/v2/workspace/{projectId}/memberships
+API	workspace	POST /api/v2/workspace/{projectId}/roles
+API	connect	POST /api/v3/gateways
+API	connect	POST /api/v3/gateways/{gatewayId}/token-auth/generate-enrollment-token
+API	pki	POST /api/v3/pki/certificates/{certificateId}/renew
+API	secrets	POST /api/v3/secrets/batch/raw
+API	secrets	POST /api/v3/secrets/move
+API	secrets	POST /api/v3/secrets/raw/{secretName}
+API	secrets	POST /api/v3/secrets/tags/{secretName}
+API	secrets	POST /api/v4/secrets/batch
+API	secrets	POST /api/v4/secrets/duplicate
+API	secrets	POST /api/v4/secrets/move
+API	secrets	POST /api/v4/secrets/{secretName}
+API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/acme
+API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/api
+API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/est
+API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/scep
+API	pki	PUT /api/v1/cert-manager/certificate-cleanup
+API	pki	PUT /api/v1/cert-manager/signers/{signerId}/approval-policy
+API	access	PUT /api/v1/scim/group-org-role-mappings

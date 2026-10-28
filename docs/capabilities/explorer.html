@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vaultix — Capability plan</title>
+    <link rel="stylesheet" href="/explorer.css" />
+    <script type="module" src="/explorer.mjs"></script>
+  </head>
+  <body>
+    <a class="skip" href="#results">Skip to capabilities</a>
+    <header class="masthead">
+      <a class="brand" href="/" aria-label="Vaultix.cloud capability plan home"
+        ><svg viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M5 6h30v21L20 36 5 27Z" fill="none" stroke="currentColor" stroke-width="2" />
+          <path
+            d="m12 14 8 12 8-12M20 5v7"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          /></svg
+        >vaultix<span>.cloud</span></a
+      >
+      <span class="pill">Product planning · read only</span>
+      <a href="http://127.0.0.1:8200/">Open local application ↗</a>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <p class="eyebrow">SECRETS YOU OWN / AI YOU CAN BOUND</p>
+        <h1 id="title">The whole product.<br /><span>One deliberate plan.</span></h1>
+        <p class="lede">
+          Explore what Vaultix should help you do, what needs proof, and how we get there. This is
+          the scope review, not a live secrets dashboard.
+        </p>
+        <div class="stats" id="stats" aria-label="Structural discovery counts"></div>
+        <p class="caution">
+          Counts measure discovery. No complete capability family is accepted end to end. Existing
+          tests prove only their recorded scope.
+        </p>
+      </section>
+      <nav class="tabs" aria-label="Plan views">
+        <button
+          type="button"
+          id="show-capabilities"
+          aria-pressed="true"
+          aria-controls="capability-view"
+        >
+          Capabilities
+        </button>
+        <button type="button" id="show-roadmap" aria-pressed="false" aria-controls="roadmap-view">
+          Delivery path
+        </button>
+        <button
+          type="button"
+          id="show-providers"
+          aria-pressed="false"
+          aria-controls="provider-view"
+        >
+          Provider inventory
+        </button>
+      </nav>
+      <section id="capability-view" aria-label="Capability explorer">
+        <div class="filters">
+          <label class="search"
+            >Find a capability<input
+              id="search"
+              type="search"
+              placeholder="Try approvals, recovery, Clyffy…"
+              autocomplete="off"
+          /></label>
+          <label
+            >Delivery phase<select id="phase">
+              <option value="">All phases</option>
+            </select></label
+          >
+          <label
+            >Implementation state<select id="state">
+              <option value="">All states</option>
+            </select></label
+          >
+          <button type="button" id="reset">Reset filters</button>
+        </div>
+        <div class="workspace">
+          <aside aria-label="Product groups">
+            <h2>Product groups</h2>
+            <div id="groups"></div>
+          </aside>
+          <section id="results" tabindex="-1" aria-labelledby="results-title">
+            <div class="result-head">
+              <h2 id="results-title">All capabilities</h2>
+              <p id="result-count" role="status" aria-live="polite"></p>
+            </div>
+            <p id="group-purpose">Select a group to explore its intended outcomes.</p>
+            <div id="cards" class="cards"></div>
+            <p id="empty" hidden>
+              No matching capabilities. Try a broader search or reset the filters.
+            </p>
+          </section>
+        </div>
+      </section>
+      <section id="roadmap-view" aria-labelledby="roadmap-title" hidden>
+        <h2 id="roadmap-title">Prove the foundation. Then expand.</h2>
+        <p>
+          These are dependency gates, not delivery dates. Existing workflows remain available
+          throughout migration.
+        </p>
+        <div id="phases" class="roadmap"></div>
+        <div class="offer">
+          <h3>Software included. Services scoped separately.</h3>
+          <p>
+            All self-hosted software capabilities remain included as implemented. Free hosted
+            allowances, managed operations and DevSCIF profiles are proposals with limits and
+            prerequisites still to decide. A sample preview must be labeled; it cannot imply that a
+            real operation succeeded.
+          </p>
+        </div>
+      </section>
+      <section id="provider-view" aria-labelledby="provider-title" hidden>
+        <h2 id="provider-title">Adapters to investigate and prove</h2>
+        <p>
+          Discovery across connection, sync, rotation and dynamic-credential roots. Entries are
+          adapter paths, not unique vendors or accepted integrations. PKI, PAM, identity methods and
+          SDKs need additional matrices.
+        </p>
+        <label class="provider-search"
+          >Find an adapter<input
+            type="search"
+            id="provider-search"
+            placeholder="Provider or adapter family"
+            autocomplete="off"
+        /></label>
+        <p id="provider-count" role="status"></p>
+        <div id="providers" class="providers"></div>
+      </section>
+      <section class="boundary" aria-labelledby="boundary-title">
+        <h2 id="boundary-title">Towards a controlled AI workspace</h2>
+        <p>
+          Clyffy plans with references. Policy binds authority. Approval binds exact parameters.
+          Only an authorized application receives redeemed values. Every action needs a redacted
+          receipt and a recovery path.
+        </p>
+        <p>
+          “AI SCIF” is an engineering direction. DevSCIF deployment controls, isolation and
+          assurance need their own evidence.
+        </p>
+      </section>
+      <p id="load-error" role="alert" hidden>
+        Could not load the capability map. Run the map checks and restart the local planning server.
+      </p>
+    </main>
+    <footer>
+      <span>AngryVibes LLC · Vaultix / DevSCIF</span>
+      <nav aria-label="Planning sources">
+        <a href="/plan.md">Product plan</a><a href="/surface-map.tsv" download>UI/API map</a
+        ><a href="/source-map.tsv" download>Source map</a
+        ><a href="/catalog.json" download>Catalog data</a>
+      </nav>
+    </footer>
+    <dialog id="detail" aria-labelledby="detail-title">
+      <div class="dialog-top">
+        <span id="detail-id" class="eyebrow"></span
+        ><button type="button" id="close-detail" aria-label="Close capability details">
+          Close ✕
+        </button>
+      </div>
+      <h2 id="detail-title"></h2>
+      <p id="detail-state" class="pill"></p>
+      <p id="detail-outcome" class="lede"></p>
+      <dl id="detail-fields"></dl>
+      <h3>Recorded evidence context</h3>
+      <ul id="detail-references"></ul>
+      <p class="caution">
+        References contain scoped history. This requirement is not accepted against all of its
+        criteria.
+      </p>
+    </dialog>
+  </body>
+</html>

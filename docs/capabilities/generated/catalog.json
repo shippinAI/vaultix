@@ -1,0 +1,2636 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "1b08567bf7a6346d474988bbce841370526bd68c",
+  "scope": "Planning and structural discovery only; no new workflow, provider or compliance acceptance",
+  "groups": [
+    {
+      "id": "workspace",
+      "title": "Workspace",
+      "navigation": "Build",
+      "purpose": "Projects, environments and a clear starting point"
+    },
+    {
+      "id": "secrets",
+      "title": "Secrets",
+      "navigation": "Build",
+      "purpose": "Store, change, deliver and recover application configuration"
+    },
+    {
+      "id": "access",
+      "title": "Identity & access",
+      "navigation": "Access",
+      "purpose": "People, workloads, roles and approval boundaries"
+    },
+    {
+      "id": "automation",
+      "title": "Lifecycle automation",
+      "navigation": "Automate",
+      "purpose": "Rotation, leases and reliable background work"
+    },
+    {
+      "id": "connect",
+      "title": "Connections & sync",
+      "navigation": "Automate",
+      "purpose": "Connect existing infrastructure without duplicating secrets"
+    },
+    {
+      "id": "pki",
+      "title": "Certificates & signing",
+      "navigation": "Protect",
+      "purpose": "Certificate and software trust lifecycles"
+    },
+    {
+      "id": "kms",
+      "title": "Keys & hardware trust",
+      "navigation": "Protect",
+      "purpose": "Encryption keys, external custody and recovery"
+    },
+    {
+      "id": "pam",
+      "title": "Privileged access",
+      "navigation": "Access",
+      "purpose": "Temporary resource access and accountable sessions"
+    },
+    {
+      "id": "detect",
+      "title": "Detection & posture",
+      "navigation": "Protect",
+      "purpose": "Find exposures and prioritize remediation"
+    },
+    {
+      "id": "ai",
+      "title": "Clyffy & AI workspace",
+      "navigation": "AI workspace",
+      "purpose": "Reference-only context and controlled execution"
+    },
+    {
+      "id": "governance",
+      "title": "Audit & governance",
+      "navigation": "Observe",
+      "purpose": "Explain who did what, under which authority"
+    },
+    {
+      "id": "operate",
+      "title": "Instance operations",
+      "navigation": "Operate",
+      "purpose": "Build, deploy, recover and scale on owned infrastructure"
+    },
+    {
+      "id": "experience",
+      "title": "Guidance & accessibility",
+      "navigation": "Learn",
+      "purpose": "Progressive disclosure, usable controls and fast loading"
+    }
+  ],
+  "phases": [
+    {
+      "id": "P0",
+      "title": "Trustworthy foundation",
+      "dependsOn": [],
+      "exit": "Real identity/session ownership, preserved encrypted store, tested self-hosted recovery and honest capability states."
+    },
+    {
+      "id": "P1",
+      "title": "Builder workflows",
+      "dependsOn": [
+        "P0"
+      ],
+      "exit": "Create/import/reference/deliver/recover an application configuration with accessible native UI and scoped AI context."
+    },
+    {
+      "id": "P2",
+      "title": "Team automation",
+      "dependsOn": [
+        "P1"
+      ],
+      "exit": "Approvals, rotation, leases and sync demonstrate denial, retry, revocation and provider recovery."
+    },
+    {
+      "id": "P3",
+      "title": "Controlled AI workspace",
+      "dependsOn": [
+        "P0",
+        "P1",
+        "P2"
+      ],
+      "exit": "Approved actions, workload-bound delivery, egress restrictions and durable redacted receipts pass adversarial tests."
+    },
+    {
+      "id": "P4",
+      "title": "DevSCIF deployment profiles",
+      "dependsOn": [
+        "P3"
+      ],
+      "exit": "Explicit deployment/control requirements and independently reviewed evidence; no certification inferred from branding."
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "W01",
+      "group": "workspace",
+      "title": "Instance setup & application entry",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Enter setup, sign-in or the authenticated workspace from the real root.",
+      "acceptance": "Verify fresh setup, existing account, expired session, refresh and recovery against the standalone image.",
+      "references": [
+        "docs/0025-application-entry-and-artwork.md",
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "W02",
+      "group": "workspace",
+      "title": "Projects & environment lifecycle",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Create a project, establish environments and find the active scope.",
+      "acceptance": "Preserve casing/order, deny unauthorized changes, retain edits after failure and prove environment deletion constraints.",
+      "references": [
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "W03",
+      "group": "workspace",
+      "title": "Folders, tags & resource metadata",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Organize resources with visible paths, tags and searchable metadata.",
+      "acceptance": "Test moves, duplicate names, pagination, filtered permissions and metadata/value separation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "W04",
+      "group": "workspace",
+      "title": "Organization & suborganization scope",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Separate teams and environments while making the current organization explicit.",
+      "acceptance": "Prove tenant isolation, membership transitions, inherited boundaries and deletion/recovery semantics.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "W05",
+      "group": "workspace",
+      "title": "Project templates & migration",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Start repeatable projects and import existing configurations with a preview.",
+      "acceptance": "Validate source formats, dry-run conflicts, preserve identifiers/ciphertext and roll back interrupted imports.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S01",
+      "group": "secrets",
+      "title": "Create, edit & batch commit",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Edit single or staged secrets without losing work on failure.",
+      "acceptance": "Test create/update/delete batches, concurrency conflicts, empty values, rollback and approval-protected writes.",
+      "references": [
+        "docs/0047-dashboard-create-workflow.md",
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S02",
+      "group": "secrets",
+      "title": "References & dependency navigation",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Understand dependencies and insert references without copying values into AI.",
+      "acceptance": "Test suffix preservation, stale suggestions, permission-filtered results, cycles, imports and deep-link navigation.",
+      "references": [
+        "docs/0046-dashboard-reference-editor.md"
+      ],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S03",
+      "group": "secrets",
+      "title": "Imports & inheritance precedence",
+      "phase": "P1",
+      "implementation": "Known semantic gap",
+      "outcome": "Reuse configuration with an explainable precedence graph.",
+      "acceptance": "Specify ordered parents, local overrides, cycles, deleted parents and permission revocation; decide dynamic-lease ownership explicitly.",
+      "references": [
+        "docs/0023-capability-convergence.md"
+      ],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S04",
+      "group": "secrets",
+      "title": "Personal overrides & branch configurations",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Keep developer-specific changes separate from shared deployment configuration.",
+      "acceptance": "Prove precedence, personal isolation, promotion review and safe reconciliation after base changes.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S05",
+      "group": "secrets",
+      "title": "Versions, commits & point-in-time restore",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Inspect changes and restore a known configuration with a reviewable diff.",
+      "acceptance": "Restore an exact scope without bypassing current permissions, approvals or encryption compatibility.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S06",
+      "group": "secrets",
+      "title": "Validation rules & typed configuration",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Explain required formats and validation before a change is submitted.",
+      "acceptance": "Enforce server-side rules, conflicting constraints, Unicode/size limits and safe error messages.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S07",
+      "group": "secrets",
+      "title": "Secret generation & clipboard lifecycle",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Generate and apply values through an explicit vault interaction.",
+      "acceptance": "Separately verify randomness, rule compliance, clipboard failures and nested keyboard behavior; Escape evidence is not crypto acceptance.",
+      "references": [
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S08",
+      "group": "secrets",
+      "title": "Sharing & secret requests",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Exchange a secret through a scoped, revocable workflow.",
+      "acceptance": "Prove expiry, replay denial, recipient verification, view limits and redacted audit; no value in AI context.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S09",
+      "group": "secrets",
+      "title": "CLI, SDK & infrastructure-as-code coverage",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Manage the same resources from code with predictable errors and import/drift handling.",
+      "acceptance": "Build an explicit resource/SDK matrix; exercise create/import/update/delete, pagination and backward compatibility.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S10",
+      "group": "secrets",
+      "title": "Application injection & offline policy",
+      "phase": "P3",
+      "implementation": "Known semantic gap",
+      "outcome": "Deliver values only to an authorized application process.",
+      "acceptance": "Bind grant to executable/workload and scope; deny agent processes, replay and stale offline fallback; verify OS matrix.",
+      "references": [
+        "docs/0027-native-stack-and-ai-migration.md"
+      ],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "S11",
+      "group": "secrets",
+      "title": "Encrypted storage & key continuity",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Upgrade the store without losing access to existing ciphertext.",
+      "acceptance": "Verify old ciphertext fixtures, migration rollback, key custody, loss/recovery and no second secrets store.",
+      "references": [],
+      "target": "React + Go domain; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I01",
+      "group": "access",
+      "title": "Nomen sign-in & session ownership",
+      "phase": "P0",
+      "implementation": "Known semantic gap",
+      "outcome": "Use the shared identity authority with one understandable sign-in session.",
+      "acceptance": "Register real issuer/client/audience; test tenant mapping, expiry, logout and revocation without a duplicate session store.",
+      "references": [
+        "docs/0018-hosted-capability-proof.md"
+      ],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I02",
+      "group": "access",
+      "title": "SSO, federation & directory integration",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Connect OIDC, SAML and LDAP while preserving Nomen ownership.",
+      "acceptance": "Verify signature/audience/issuer, account linking, clock skew, denial, rollover and directory outage.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I03",
+      "group": "access",
+      "title": "MFA, passkeys & account recovery",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Recover access without weakening authentication requirements.",
+      "acceptance": "Test enforced MFA, recovery-code replay, WebAuthn origin, accessible sign-in and revocation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I04",
+      "group": "access",
+      "title": "Machine identities & authentication methods",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Give each workload a scoped identity using its platform identity where possible.",
+      "acceptance": "Test each cloud/Kubernetes/JWT/OIDC/SPIFFE/certificate method, audience binding, token lifetime and revoke-in-flight.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I05",
+      "group": "access",
+      "title": "Roles, permissions & temporary privileges",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Explain why an action is allowed or denied at the active scope.",
+      "acceptance": "Exercise org/project/environment/folder/secret boundaries, conditions, expiry and cross-tenant denial.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I06",
+      "group": "access",
+      "title": "Groups, SCIM & membership lifecycle",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Provision and remove team access predictably.",
+      "acceptance": "Verify SCIM idempotency, group mapping, deprovisioning, role changes and pending approvals after membership removal.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I07",
+      "group": "access",
+      "title": "Access requests & temporary grants",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Request the minimum access for a stated task and duration.",
+      "acceptance": "Bind request to scope/duration, prevent self-approval and prove automatic expiry and emergency revocation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I08",
+      "group": "access",
+      "title": "Change approvals & policy composition",
+      "phase": "P2",
+      "implementation": "Known semantic gap",
+      "outcome": "Review exact changes before they affect protected environments.",
+      "acceptance": "Define overlapping-policy composition; bind approvals to immutable parameters and reject stale or changed requests.",
+      "references": [
+        "docs/0023-capability-convergence.md"
+      ],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I09",
+      "group": "access",
+      "title": "Trusted networks & access conditions",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Apply network and contextual restrictions with clear denial explanations.",
+      "acceptance": "Test proxy/header trust, IPv4/IPv6, deny precedence and lockout recovery.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "I10",
+      "group": "access",
+      "title": "OAuth clients & delegated access",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Inspect requested permissions before connecting a client.",
+      "acceptance": "Verify exact redirects, state/PKCE, scope minimization, refresh/revocation and client isolation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A01",
+      "group": "automation",
+      "title": "Scheduled secret rotation",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Rotate a provider credential and reconcile dependent applications.",
+      "acceptance": "For every adapter test dual-key cutover, partial failure, retries, rollback and old-key revocation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A02",
+      "group": "automation",
+      "title": "Dynamic credentials & leases",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Issue temporary credentials with visible lease ownership.",
+      "acceptance": "Test provider creation, renewal, expiry, revoked access, cleanup backlog and orphan recovery.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A03",
+      "group": "automation",
+      "title": "Jobs, retries & idempotency",
+      "phase": "P0",
+      "implementation": "Scoped evidence",
+      "outcome": "Understand whether a job is queued, running, failed or completed.",
+      "acceptance": "Queue/restart smoke exists; prove duplicate delivery, cancellation, backpressure, deadlines and durable reconciliation.",
+      "references": [
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A04",
+      "group": "automation",
+      "title": "Reminders, alerts & notifications",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Receive actionable alerts with ownership and a clear next step.",
+      "acceptance": "Deduplicate, redact values, recover delivery outages, remove stale subscriptions and provide accessible feedback.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A05",
+      "group": "automation",
+      "title": "Replication & multi-destination consistency",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Know which destination has applied which configuration version.",
+      "acceptance": "Define conflict authority and ordering; test stale events, partial application, retries and deletion propagation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "A06",
+      "group": "automation",
+      "title": "Workflow schedules & change windows",
+      "phase": "P2",
+      "implementation": "Planned",
+      "outcome": "Schedule approved work and see the next execution window.",
+      "acceptance": "Specify time zones, DST, missed windows, cancellation and approval expiry; do not infer a scheduler from queue presence.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "C01",
+      "group": "connect",
+      "title": "Provider connections & credential custody",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Connect infrastructure with an explicit permission and connectivity check.",
+      "acceptance": "Enumerate each adapter; test least privilege, pagination, revoked credentials, outage and disconnect cleanup.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "C02",
+      "group": "connect",
+      "title": "Secret synchronization",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Preview and apply changes to an external configuration destination.",
+      "acceptance": "Test each provider's mapping, reserved variables, scopes, pagination, rate limits, drift and reconciliation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "C03",
+      "group": "connect",
+      "title": "Webhooks & event subscriptions",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Integrate reliable redacted events with existing automation.",
+      "acceptance": "Verify signatures, replay windows, delivery ordering, retry limits, SSRF controls and dead-letter recovery.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "C04",
+      "group": "connect",
+      "title": "Existing gateways, relays & proxies",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Reach approved private resources through existing secrets-related adapters.",
+      "acceptance": "Verify destination allowlists, identity, certificate trust, failures and revocation; Zuul/Mesh expansion needs separate scope.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "C05",
+      "group": "connect",
+      "title": "Repository & CI connections",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Connect repository and deployment workflows to references and workload identities.",
+      "acceptance": "Prove branch/environment restrictions, token minimization, ephemeral jobs and redacted logs.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P01",
+      "group": "pki",
+      "title": "Certificate inventory & discovery",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Find certificates, ownership, expiry and affected services.",
+      "acceptance": "Exercise discovery credentials, pagination, duplicates, stale scans and authorized filtered inventory.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P02",
+      "group": "pki",
+      "title": "Authorities, policies & certificate requests",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Request certificates under explicit issuer and policy controls.",
+      "acceptance": "Test SAN/subject constraints, issuer chains, approval before issuance and external CA failure.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P03",
+      "group": "pki",
+      "title": "ACME, EST & SCEP enrollment",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Enroll workloads through established certificate protocols.",
+      "acceptance": "Prove challenge/renewal/rekey interoperability, nonce replay denial and client compatibility per protocol.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P04",
+      "group": "pki",
+      "title": "Renewal, revocation & distribution",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Keep certificates current and revoke compromised trust.",
+      "acceptance": "Test CRLs, renewal deadlines, revocation propagation, subscriber delivery and destination outages.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P05",
+      "group": "pki",
+      "title": "Software signing & signer access",
+      "phase": "P3",
+      "implementation": "Existing / review required",
+      "outcome": "Sign approved artifacts with accountable signer identities.",
+      "acceptance": "Verify artifact digest binding, signer authorization, timestamp/revocation and real signing-client interoperability.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "P06",
+      "group": "pki",
+      "title": "Templates, collections & applications",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Group certificate policies around actual applications.",
+      "acceptance": "Test template changes, effective policy, membership removal and existing subscriber compatibility.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "K01",
+      "group": "kms",
+      "title": "Encryption keys & cryptographic operations",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Use scoped keys without exposing private material.",
+      "acceptance": "Verify known-answer vectors, operation permissions, key versioning, disabled keys and cross-tenant denial.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "K02",
+      "group": "kms",
+      "title": "External KMS & customer-managed keys",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Use an external custody boundary with a tested recovery path.",
+      "acceptance": "Prove provider identity, rewrap/rotation, key unavailability, revoke and restore for each external KMS.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "K03",
+      "group": "kms",
+      "title": "HSM connectors & hardware custody",
+      "phase": "P4",
+      "implementation": "Existing / review required",
+      "outcome": "Use hardware-backed keys under an explicit deployment profile.",
+      "acceptance": "Test real HSM mechanisms, failover, session/pool limits, backup and operator separation; software mocks are insufficient.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "K04",
+      "group": "kms",
+      "title": "KMIP interoperability",
+      "phase": "P3",
+      "implementation": "Existing / review required",
+      "outcome": "Manage key clients through a versioned interoperability contract.",
+      "acceptance": "Verify supported operations, mutual authentication, lifecycle states and denied-client behavior with actual clients.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "K05",
+      "group": "kms",
+      "title": "Key recovery & emergency procedures",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Recover encrypted data under controlled operator procedures.",
+      "acceptance": "Rehearse backup restoration and key recovery; record approvers, restore time and irreversible-loss conditions.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "R01",
+      "group": "pam",
+      "title": "Resources, accounts & discovery",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Find authorized infrastructure and request scoped access.",
+      "acceptance": "Validate each resource/account adapter, discovery scope, folder permissions and stale resource handling.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "R02",
+      "group": "pam",
+      "title": "Just-in-time sessions & approvals",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Start an approved temporary session with visible expiry.",
+      "acceptance": "Test approval binding, session start, idle/max lifetime, revoke-in-flight and gateway failure.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "R03",
+      "group": "pam",
+      "title": "Session recording & command policy",
+      "phase": "P3",
+      "implementation": "Existing / review required",
+      "outcome": "Review privileged activity with controlled recording access.",
+      "acceptance": "Test command/query controls, recording integrity, secret redaction, retention and restricted playback.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "R04",
+      "group": "pam",
+      "title": "Account rotation & access templates",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Keep privileged accounts and onboarding templates consistent.",
+      "acceptance": "Prove rotation during sessions, provider partial failures, template drift and credential rollback.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "R05",
+      "group": "pam",
+      "title": "Web access & protocol isolation",
+      "phase": "P3",
+      "implementation": "Existing / review required",
+      "outcome": "Use supported web/remote protocols within scoped sessions.",
+      "acceptance": "Test browser/session isolation, protocol parsers, reconnects, downloads and redaction; fuzz the Rust decoder boundary.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "D01",
+      "group": "detect",
+      "title": "Repository and source scanning",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Detect exposed credentials without leaking them in findings.",
+      "acceptance": "Exercise detector corpus, Git provider permissions, historical/incremental scans, redaction and false-positive handling.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "D02",
+      "group": "detect",
+      "title": "Honeytokens & detection delivery",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Detect use of deliberately planted decoy credentials.",
+      "acceptance": "Verify each supported provider, alerts, deduplication, ownership and safe cleanup.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "D03",
+      "group": "detect",
+      "title": "Secret health & posture insights",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Prioritize stale, exposed or unowned credentials with explainable findings.",
+      "acceptance": "Define metrics and denominators; validate freshness, permission-filtered counts and remediation confirmation.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "D04",
+      "group": "detect",
+      "title": "Exposure remediation workflow",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Move from a finding to an approved rotation and verified cleanup.",
+      "acceptance": "Bind finding to resource/version, prevent destructive auto-remediation and confirm provider revocation before closure.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI01",
+      "group": "ai",
+      "title": "Clyffy setup & local Codex sign-in",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Use the user's own Codex client or configured provider with credential-free setup instructions.",
+      "acceptance": "Guidance/export exists; verify actual client handshake and Nomen auth. Never collect subscription credentials or assume hosted subscription delegation.",
+      "references": [
+        "core/ai/README.md",
+        "docs/0018-hosted-capability-proof.md"
+      ],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI02",
+      "group": "ai",
+      "title": "Project & secret-reference context",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Give an agent authorized names and references without values.",
+      "acceptance": "Verify same human/machine authorization, metadata-only selection, malformed/anonymous/cross-tenant denial and audit.",
+      "references": [
+        "contracts/vaultix.core.v1.json"
+      ],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI03",
+      "group": "ai",
+      "title": "Plan, explain & preview a change",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Show exactly what an agent proposes before it can execute.",
+      "acceptance": "Resolve every action to the authored catalog, show scope/diff/risk/authority and reject untrusted tool or document instructions.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI04",
+      "group": "ai",
+      "title": "Approve, execute & reconcile",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Execute approved intent through the same domain actions used by people.",
+      "acceptance": "Bind approval to parameters/version, enforce policy at execution, use idempotency, cancel safely and persist redacted receipts.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI05",
+      "group": "ai",
+      "title": "Workload-bound value delivery",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Deliver a reference to its approved target without making values readable by the model.",
+      "acceptance": "Build the Rust delivery protocol after auth/action gates; test workload identity, one-use redemption, replay and agent-process denial.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI06",
+      "group": "ai",
+      "title": "Agent sessions & service access bundles",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Limit an agent session to explicit services, methods, paths and duration.",
+      "acceptance": "Prove fail-closed expiry/revocation, redirect and DNS/SSRF resistance, egress denial and response/log redaction; separate Mesh scope.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI07",
+      "group": "ai",
+      "title": "Execution timeline & emergency stop",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "See proposed, approved, executing, verified, failed or cancelled actions.",
+      "acceptance": "Use durable server receipts rather than animation progress; stop must revoke authority and reconcile in-flight effects.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI08",
+      "group": "ai",
+      "title": "Untrusted content & data-flow policy",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Treat repository/provider/model content as data rather than authority.",
+      "acceptance": "Run injection and exfiltration tests, schema-bound A2UI, output filtering and approved destination/model policies.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI09",
+      "group": "ai",
+      "title": "Local models & organization provider policy",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Choose permitted local or external model endpoints without changing authorization.",
+      "acceptance": "Specify model egress, retention and telemetry controls; prove no secret-bearing prompt/context/export and clear unavailable-provider states.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "AI10",
+      "group": "ai",
+      "title": "AI evaluation & evidence packs",
+      "phase": "P3",
+      "implementation": "Planned",
+      "outcome": "Evaluate the control boundary with repeatable scenarios before enabling autonomy.",
+      "acceptance": "Measure denied action attempts, secret canary leakage, replay, cancellation and recovery; require zero unexplained escapes.",
+      "references": [],
+      "target": "React + shared Go actions; scoped Rust delivery",
+      "evidence": "Not accepted end to end",
+      "ai": "See explicit AI boundary in the specification",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "G01",
+      "group": "governance",
+      "title": "Audit search & actor attribution",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Explain actions by user, workload, client, scope and outcome.",
+      "acceptance": "Verify denied and successful actions, correlation, timestamps and redaction without recording values.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "G02",
+      "group": "governance",
+      "title": "Audit streaming & durable outbox",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Export complete audit records despite downstream outages.",
+      "acceptance": "Prove atomic event creation, retry/deduplication, destination outage recovery and loss detection.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "G03",
+      "group": "governance",
+      "title": "Retention, exports & access to evidence",
+      "phase": "P4",
+      "implementation": "Existing / review required",
+      "outcome": "Control retention and evidence access under a deployment profile.",
+      "acceptance": "Specify retention/legal-hold semantics, export authorization and tamper evidence; do not infer compliance from a retention setting.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "G04",
+      "group": "governance",
+      "title": "DevSCIF control profiles",
+      "phase": "P4",
+      "implementation": "Planned",
+      "outcome": "Tailor the same engine to explicit enterprise/government deployment requirements.",
+      "acceptance": "Define system boundary, data classifications, operator separation, egress, incident/restore procedures and evidence owners; no accreditation claim.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "G05",
+      "group": "governance",
+      "title": "Disconnected operation & update trust",
+      "phase": "P4",
+      "implementation": "Planned",
+      "outcome": "Operate in a constrained network with a verified update procedure.",
+      "acceptance": "Test disconnected dependencies, time/identity continuity, signed transfer, patch provenance and rollback on actual target hardware.",
+      "references": [],
+      "target": "Native React + Go domain",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O01",
+      "group": "operate",
+      "title": "Local builds, images & provenance",
+      "phase": "P0",
+      "implementation": "Scoped evidence",
+      "outcome": "Build and verify Vaultix on owned hardware without hosted CI dependence.",
+      "acceptance": "Exact revision and immutable image tests pass locally; add signed provenance, SBOM and destination verification before production claims.",
+      "references": [
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O02",
+      "group": "operate",
+      "title": "Dragonfly, Redis & ElastiCache",
+      "phase": "P0",
+      "implementation": "Scoped evidence",
+      "outcome": "Select a compatible cache backend with observable failure behavior.",
+      "acceptance": "Dragonfly/Redis local queue/restart tests pass; ElastiCache TLS/cluster/failover requires its own real deployment evidence.",
+      "references": [
+        "docs/0017-cache-deployment.md",
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O03",
+      "group": "operate",
+      "title": "Backups, restore & disaster recovery",
+      "phase": "P0",
+      "implementation": "Planned",
+      "outcome": "Restore a complete instance with retained encryption keys and a measured recovery procedure.",
+      "acceptance": "Rehearse backup integrity, isolated restore, rotation/version continuity and recorded RPO/RTO before setting service promises.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O04",
+      "group": "operate",
+      "title": "Scale, limits & availability",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Understand capacity, saturation and safe limits on owned hardware.",
+      "acceptance": "Measure API/queue/database pools under load and failure; specify tenant quotas, HA topology and failover without inventing SLAs.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O05",
+      "group": "operate",
+      "title": "Instance administration & upgrades",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Configure the instance and upgrade with a concrete rollback plan.",
+      "acceptance": "Validate config, protect operator credentials, preserve keys/volumes and test schema compatibility and readiness.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O06",
+      "group": "operate",
+      "title": "Telemetry, support & diagnostics",
+      "phase": "P2",
+      "implementation": "Existing / review required",
+      "outcome": "Get actionable health and support diagnostics with explicit data boundaries.",
+      "acceptance": "Redact diagnostic bundles, disclose outbound connections, honor offline settings and verify operator access.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O07",
+      "group": "operate",
+      "title": "Hosted allowances & service previews",
+      "phase": "P2",
+      "implementation": "Decision pending",
+      "outcome": "Offer a useful free service experience with transparent capacity and clear ownership.",
+      "acceptance": "Confirm commercial model; meter usage, warn before limits, prevent surprise charges and preserve export/recovery on exhaustion.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "O08",
+      "group": "operate",
+      "title": "Legacy capability reconciliation",
+      "phase": "P1",
+      "implementation": "Existing / review required",
+      "outcome": "Move any remaining optional panel capability into the native product deliberately.",
+      "acceptance": "Inventory panel/CLI consumers and prove replacement before retirement; retain one store and one identity authority.",
+      "references": [],
+      "target": "Deployment and operations",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U01",
+      "group": "experience",
+      "title": "Task-oriented navigation & search",
+      "phase": "P1",
+      "implementation": "Planned",
+      "outcome": "Find the next action by task, resource or reference instead of learning the internal module tree.",
+      "acceptance": "Preserve all authorized destinations/deep links, provide breadcrumbs/recent work and show clear denied/disabled states.",
+      "references": [],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U02",
+      "group": "experience",
+      "title": "Contextual help, dialogs & sheets",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Learn in place with visible labels and recoverable forms.",
+      "acceptance": "Use catalog-backed help and native components; test empty/denied/loading/failure, focus restoration and no secret-bearing events.",
+      "references": [
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0048-self-hosted-builds.md"
+      ],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U03",
+      "group": "experience",
+      "title": "Guided lessons & motion",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Follow user-paced guidance without confusing a lesson with an executed action.",
+      "acceptance": "Existing guide events have scoped tests; specify optional Remotion media, captions/transcripts and reduced-motion alternatives separately.",
+      "references": [
+        "docs/0024-interaction-and-teaching-system.md"
+      ],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U04",
+      "group": "experience",
+      "title": "Whole-workflow accessibility",
+      "phase": "P0",
+      "implementation": "Existing / review required",
+      "outcome": "Complete core and advanced tasks with keyboard, assistive technology and narrow screens.",
+      "acceptance": "Meet WCAG 2.2 AA per workflow, including NVDA/VoiceOver, zoom/reflow, errors, contrast and accessible auth; axe alone is insufficient.",
+      "references": [
+        "docs/0022-accessibility-acceptance.md"
+      ],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U05",
+      "group": "experience",
+      "title": "Vector artwork & loading budgets",
+      "phase": "P1",
+      "implementation": "Scoped evidence",
+      "outcome": "Load a recognizable, calm interface quickly with useful progress and purposeful depth.",
+      "acceptance": "Retain scoped cold-load budgets; measure real route/chunk loading, responsive art and reduced motion on target devices.",
+      "references": [
+        "docs/0028-visual-loading-system.md"
+      ],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    },
+    {
+      "id": "U06",
+      "group": "experience",
+      "title": "Safe previews & progressive disclosure",
+      "phase": "P1",
+      "implementation": "Planned",
+      "outcome": "Try advanced concepts in an explicitly labelled sandbox, then connect a real resource when ready.",
+      "acceptance": "Never simulate success in the live vault; distinguish sample data, actual authorization, provider setup and unavailable capabilities.",
+      "references": [],
+      "target": "Native React",
+      "evidence": "Not accepted end to end",
+      "ai": "Proposed reference-only guidance; mutations require separate action acceptance",
+      "offering": "Software included; hosted preview/allowance is a proposal"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Infisical public capability comparison",
+      "url": "https://infisical.com/pricing",
+      "checked": "2026-10-28",
+      "scope": "Feature-family discovery, not private implementation or parity proof"
+    },
+    {
+      "title": "Doppler public capability comparison",
+      "url": "https://www.doppler.com/pricing",
+      "checked": "2026-10-28",
+      "scope": "Secrets, workflow, access, governance and service distinctions"
+    },
+    {
+      "title": "Doppler inheritance behavior",
+      "url": "https://docs.doppler.com/docs/config-inheritance",
+      "checked": "2026-10-28",
+      "scope": "Precedence and dynamic-secret limitation require explicit semantics"
+    },
+    {
+      "title": "Doppler MCP documentation",
+      "url": "https://docs.doppler.com/docs/mcp",
+      "checked": "2026-10-28",
+      "scope": "Experimental client integration; not a Vaultix compatibility claim"
+    },
+    {
+      "title": "Doppler agent setup",
+      "url": "https://www.doppler.com/agents",
+      "checked": "2026-10-28",
+      "scope": "Runtime agent-environment injection is not adopted by Vaultix's reference-only model boundary"
+    },
+    {
+      "title": "Infisical Agent Vault",
+      "url": "https://infisical.com/platform/agent-vault",
+      "checked": "2026-10-28",
+      "scope": "Preview service access bundles, expiring sessions and request audit; no private source inspected"
+    }
+  ],
+  "providers": [
+    {
+      "family": "Connection extension",
+      "name": "chef",
+      "path": "core/backend/src/ee/services/app-connections/chef",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection extension",
+      "name": "oci",
+      "path": "core/backend/src/ee/services/app-connections/oci",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection extension",
+      "name": "oracledb",
+      "path": "core/backend/src/ee/services/app-connections/oracledb",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "1password",
+      "path": "core/backend/src/services/app-connection/1password",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "adcs",
+      "path": "core/backend/src/services/app-connection/adcs",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "anthropic",
+      "path": "core/backend/src/services/app-connection/anthropic",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "auth0",
+      "path": "core/backend/src/services/app-connection/auth0",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "aws",
+      "path": "core/backend/src/services/app-connection/aws",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-adcs",
+      "path": "core/backend/src/services/app-connection/azure-adcs",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-app-configuration",
+      "path": "core/backend/src/services/app-connection/azure-app-configuration",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-client-secrets",
+      "path": "core/backend/src/services/app-connection/azure-client-secrets",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-devops",
+      "path": "core/backend/src/services/app-connection/azure-devops",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-dns",
+      "path": "core/backend/src/services/app-connection/azure-dns",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-entra-id",
+      "path": "core/backend/src/services/app-connection/azure-entra-id",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "azure-key-vault",
+      "path": "core/backend/src/services/app-connection/azure-key-vault",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "bitbucket",
+      "path": "core/backend/src/services/app-connection/bitbucket",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "camunda",
+      "path": "core/backend/src/services/app-connection/camunda",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "checkly",
+      "path": "core/backend/src/services/app-connection/checkly",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "circleci",
+      "path": "core/backend/src/services/app-connection/circleci",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "cloud-66",
+      "path": "core/backend/src/services/app-connection/cloud-66",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "cloudflare",
+      "path": "core/backend/src/services/app-connection/cloudflare",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "convex",
+      "path": "core/backend/src/services/app-connection/convex",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "credential-rotation",
+      "path": "core/backend/src/services/app-connection/credential-rotation",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "databricks",
+      "path": "core/backend/src/services/app-connection/databricks",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "datadog",
+      "path": "core/backend/src/services/app-connection/datadog",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "dbt",
+      "path": "core/backend/src/services/app-connection/dbt",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "devin",
+      "path": "core/backend/src/services/app-connection/devin",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "digicert",
+      "path": "core/backend/src/services/app-connection/digicert",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "digital-ocean",
+      "path": "core/backend/src/services/app-connection/digital-ocean",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "dns-made-easy",
+      "path": "core/backend/src/services/app-connection/dns-made-easy",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "doppler",
+      "path": "core/backend/src/services/app-connection/doppler",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "external-infisical",
+      "path": "core/backend/src/services/app-connection/external-infisical",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "external-vaultix",
+      "path": "core/backend/src/services/app-connection/external-vaultix",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "f5-big-ip",
+      "path": "core/backend/src/services/app-connection/f5-big-ip",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "fireworks",
+      "path": "core/backend/src/services/app-connection/fireworks",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "flyio",
+      "path": "core/backend/src/services/app-connection/flyio",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "gcp",
+      "path": "core/backend/src/services/app-connection/gcp",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "github",
+      "path": "core/backend/src/services/app-connection/github",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "github-radar",
+      "path": "core/backend/src/services/app-connection/github-radar",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "gitlab",
+      "path": "core/backend/src/services/app-connection/gitlab",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "godaddy",
+      "path": "core/backend/src/services/app-connection/godaddy",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "hasura-cloud",
+      "path": "core/backend/src/services/app-connection/hasura-cloud",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "hc-vault",
+      "path": "core/backend/src/services/app-connection/hc-vault",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "heroku",
+      "path": "core/backend/src/services/app-connection/heroku",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "humanitec",
+      "path": "core/backend/src/services/app-connection/humanitec",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "kemp-loadmaster",
+      "path": "core/backend/src/services/app-connection/kemp-loadmaster",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "laravel-forge",
+      "path": "core/backend/src/services/app-connection/laravel-forge",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "ldap",
+      "path": "core/backend/src/services/app-connection/ldap",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "litellm",
+      "path": "core/backend/src/services/app-connection/litellm",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "microsoft-intune",
+      "path": "core/backend/src/services/app-connection/microsoft-intune",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "mongodb",
+      "path": "core/backend/src/services/app-connection/mongodb",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "mssql",
+      "path": "core/backend/src/services/app-connection/mssql",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "mysql",
+      "path": "core/backend/src/services/app-connection/mysql",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "netlify",
+      "path": "core/backend/src/services/app-connection/netlify",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "netscaler",
+      "path": "core/backend/src/services/app-connection/netscaler",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "northflank",
+      "path": "core/backend/src/services/app-connection/northflank",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "nutanix-prism-central",
+      "path": "core/backend/src/services/app-connection/nutanix-prism-central",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "octopus-deploy",
+      "path": "core/backend/src/services/app-connection/octopus-deploy",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "okta",
+      "path": "core/backend/src/services/app-connection/okta",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "ona",
+      "path": "core/backend/src/services/app-connection/ona",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "open-router",
+      "path": "core/backend/src/services/app-connection/open-router",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "openai",
+      "path": "core/backend/src/services/app-connection/openai",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "ovh",
+      "path": "core/backend/src/services/app-connection/ovh",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "postgres",
+      "path": "core/backend/src/services/app-connection/postgres",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "qovery",
+      "path": "core/backend/src/services/app-connection/qovery",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "railway",
+      "path": "core/backend/src/services/app-connection/railway",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "redis",
+      "path": "core/backend/src/services/app-connection/redis",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "render",
+      "path": "core/backend/src/services/app-connection/render",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "rundeck",
+      "path": "core/backend/src/services/app-connection/rundeck",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "salesforce",
+      "path": "core/backend/src/services/app-connection/salesforce",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "smb",
+      "path": "core/backend/src/services/app-connection/smb",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "snowflake",
+      "path": "core/backend/src/services/app-connection/snowflake",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "spacelift",
+      "path": "core/backend/src/services/app-connection/spacelift",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "ssh",
+      "path": "core/backend/src/services/app-connection/ssh",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "supabase",
+      "path": "core/backend/src/services/app-connection/supabase",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "teamcity",
+      "path": "core/backend/src/services/app-connection/teamcity",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "terraform-cloud",
+      "path": "core/backend/src/services/app-connection/terraform-cloud",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "travis-ci",
+      "path": "core/backend/src/services/app-connection/travis-ci",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "trigger-dev",
+      "path": "core/backend/src/services/app-connection/trigger-dev",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "venafi",
+      "path": "core/backend/src/services/app-connection/venafi",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "venafi-tpp",
+      "path": "core/backend/src/services/app-connection/venafi-tpp",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "vercel",
+      "path": "core/backend/src/services/app-connection/vercel",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "windmill",
+      "path": "core/backend/src/services/app-connection/windmill",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "winrm",
+      "path": "core/backend/src/services/app-connection/winrm",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Connection",
+      "name": "zabbix",
+      "path": "core/backend/src/services/app-connection/zabbix",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "aws-elasticache",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-elasticache.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "aws-iam",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-iam.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "aws-memorydb",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-memorydb.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "azure-entra-id",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/azure-entra-id.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "azure-sql-database",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/azure-sql-database.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "cassandra",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/cassandra.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "clickhouse",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/clickhouse.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "couchbase",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/couchbase.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "elastic-search",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/elastic-search.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "gcp-iam",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/gcp-iam.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "github",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/github.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "ibm-api-connect",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/ibm-api-connect.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "kubernetes",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/kubernetes.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "ldap",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/ldap.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "milvus",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/milvus.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "mongo-atlas",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/mongo-atlas.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "mongo-db",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/mongo-db.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "rabbit-mq",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/rabbit-mq.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "redis",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/redis.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "sap-ase",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/sap-ase.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "sap-hana",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/sap-hana.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "snowflake",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/snowflake.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "sql-database",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/sql-database.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "ssh",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/ssh.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "tailscale",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/tailscale.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "totp",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/totp.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Dynamic credentials",
+      "name": "vertica",
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/vertica.ts",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "auth0-client-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/auth0-client-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "aws-iam-user-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/aws-iam-user-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "azure-client-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/azure-client-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "cloudflare-api-token",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/cloudflare-api-token",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "cloudflare-r2-access-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/cloudflare-r2-access-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "convex-access-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/convex-access-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "databricks-service-principal-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/databricks-service-principal-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "datadog-api-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/datadog-api-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "datadog-application-key-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/datadog-application-key-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "dbt-service-token",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/dbt-service-token",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "fireworks-api-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/fireworks-api-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "hp-ilo-rotation",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/hp-ilo-rotation",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "ldap-password",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/ldap-password",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "litellm-api-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/litellm-api-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "mongodb-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/mongodb-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "mssql-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/mssql-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "mysql-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/mysql-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "okta-client-secret",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/okta-client-secret",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "open-router-api-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/open-router-api-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "openai-service-account",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/openai-service-account",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "oracledb-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/oracledb-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "postgres-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/postgres-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "redis-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/redis-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "salesforce-oauth-credentials",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/salesforce-oauth-credentials",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "snowflake-user-key-pair",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/snowflake-user-key-pair",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "supabase-api-key",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/supabase-api-key",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "unix-linux-local-account-rotation",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/unix-linux-local-account-rotation",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Rotation",
+      "name": "windows-local-account-rotation",
+      "path": "core/backend/src/ee/services/secret-rotation-v2/windows-local-account-rotation",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync extension",
+      "name": "chef",
+      "path": "core/backend/src/ee/services/secret-sync/chef",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync extension",
+      "name": "oci-vault",
+      "path": "core/backend/src/ee/services/secret-sync/oci-vault",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "1password",
+      "path": "core/backend/src/services/secret-sync/1password",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "aws-parameter-store",
+      "path": "core/backend/src/services/secret-sync/aws-parameter-store",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "aws-secrets-manager",
+      "path": "core/backend/src/services/secret-sync/aws-secrets-manager",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "azure-app-configuration",
+      "path": "core/backend/src/services/secret-sync/azure-app-configuration",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "azure-devops",
+      "path": "core/backend/src/services/secret-sync/azure-devops",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "azure-entra-id-scim",
+      "path": "core/backend/src/services/secret-sync/azure-entra-id-scim",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "azure-key-vault",
+      "path": "core/backend/src/services/secret-sync/azure-key-vault",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "bitbucket",
+      "path": "core/backend/src/services/secret-sync/bitbucket",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "camunda",
+      "path": "core/backend/src/services/secret-sync/camunda",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "checkly",
+      "path": "core/backend/src/services/secret-sync/checkly",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "circleci",
+      "path": "core/backend/src/services/secret-sync/circleci",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "cloud66",
+      "path": "core/backend/src/services/secret-sync/cloud66",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "cloudflare-pages",
+      "path": "core/backend/src/services/secret-sync/cloudflare-pages",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "cloudflare-workers",
+      "path": "core/backend/src/services/secret-sync/cloudflare-workers",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "databricks",
+      "path": "core/backend/src/services/secret-sync/databricks",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "devin",
+      "path": "core/backend/src/services/secret-sync/devin",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "digital-ocean-app-platform",
+      "path": "core/backend/src/services/secret-sync/digital-ocean-app-platform",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "external-infisical",
+      "path": "core/backend/src/services/secret-sync/external-infisical",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "external-vaultix",
+      "path": "core/backend/src/services/secret-sync/external-vaultix",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "flyio",
+      "path": "core/backend/src/services/secret-sync/flyio",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "gcp",
+      "path": "core/backend/src/services/secret-sync/gcp",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "github",
+      "path": "core/backend/src/services/secret-sync/github",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "gitlab",
+      "path": "core/backend/src/services/secret-sync/gitlab",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "hasura-cloud",
+      "path": "core/backend/src/services/secret-sync/hasura-cloud",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "hc-vault",
+      "path": "core/backend/src/services/secret-sync/hc-vault",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "heroku",
+      "path": "core/backend/src/services/secret-sync/heroku",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "humanitec",
+      "path": "core/backend/src/services/secret-sync/humanitec",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "laravel-forge",
+      "path": "core/backend/src/services/secret-sync/laravel-forge",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "netlify",
+      "path": "core/backend/src/services/secret-sync/netlify",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "northflank",
+      "path": "core/backend/src/services/secret-sync/northflank",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "octopus-deploy",
+      "path": "core/backend/src/services/secret-sync/octopus-deploy",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "ona",
+      "path": "core/backend/src/services/secret-sync/ona",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "ovh",
+      "path": "core/backend/src/services/secret-sync/ovh",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "qovery",
+      "path": "core/backend/src/services/secret-sync/qovery",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "railway",
+      "path": "core/backend/src/services/secret-sync/railway",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "render",
+      "path": "core/backend/src/services/secret-sync/render",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "rundeck",
+      "path": "core/backend/src/services/secret-sync/rundeck",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "snowflake",
+      "path": "core/backend/src/services/secret-sync/snowflake",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "spacelift",
+      "path": "core/backend/src/services/secret-sync/spacelift",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "supabase",
+      "path": "core/backend/src/services/secret-sync/supabase",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "teamcity",
+      "path": "core/backend/src/services/secret-sync/teamcity",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "terraform-cloud",
+      "path": "core/backend/src/services/secret-sync/terraform-cloud",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "travis-ci",
+      "path": "core/backend/src/services/secret-sync/travis-ci",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "trigger-dev",
+      "path": "core/backend/src/services/secret-sync/trigger-dev",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "vercel",
+      "path": "core/backend/src/services/secret-sync/vercel",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "windmill",
+      "path": "core/backend/src/services/secret-sync/windmill",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    },
+    {
+      "family": "Sync",
+      "name": "zabbix",
+      "path": "core/backend/src/services/secret-sync/zabbix",
+      "evidence": "Discovered adapter; provider acceptance pending"
+    }
+  ],
+  "domainCounts": {
+    "workspace": {
+      "capabilities": 5,
+      "ui": 15,
+      "api": 144,
+      "sourceFiles": 0
+    },
+    "secrets": {
+      "capabilities": 11,
+      "ui": 20,
+      "api": 55,
+      "sourceFiles": 599
+    },
+    "access": {
+      "capabilities": 10,
+      "ui": 53,
+      "api": 131,
+      "sourceFiles": 1325
+    },
+    "automation": {
+      "capabilities": 6,
+      "ui": 0,
+      "api": 296,
+      "sourceFiles": 554
+    },
+    "connect": {
+      "capabilities": 5,
+      "ui": 106,
+      "api": 1122,
+      "sourceFiles": 2116
+    },
+    "pki": {
+      "capabilities": 6,
+      "ui": 37,
+      "api": 476,
+      "sourceFiles": 1211
+    },
+    "kms": {
+      "capabilities": 5,
+      "ui": 7,
+      "api": 18,
+      "sourceFiles": 200
+    },
+    "pam": {
+      "capabilities": 5,
+      "ui": 10,
+      "api": 0,
+      "sourceFiles": 738
+    },
+    "detect": {
+      "capabilities": 4,
+      "ui": 6,
+      "api": 37,
+      "sourceFiles": 230
+    },
+    "ai": {
+      "capabilities": 10,
+      "ui": 0,
+      "api": 9,
+      "sourceFiles": 19
+    },
+    "governance": {
+      "capabilities": 5,
+      "ui": 6,
+      "api": 1,
+      "sourceFiles": 177
+    },
+    "operate": {
+      "capabilities": 8,
+      "ui": 12,
+      "api": 1,
+      "sourceFiles": 1319
+    },
+    "experience": {
+      "capabilities": 6,
+      "ui": 1,
+      "api": 0,
+      "sourceFiles": 899
+    }
+  },
+  "coverage": {
+    "uiRoutes": 273,
+    "apiOperations": 2290,
+    "sourceFiles": 9387,
+    "providerEntries": 189,
+    "capabilityRequirements": 86,
+    "unclassified": 0
+  }
+}

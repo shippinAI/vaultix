@@ -4,6 +4,7 @@ const plan = { schemaVersion: 1, workstreams: [{ id: "core", title: "Core", gate
 const row = { path: "core/backend/src/services/secret/service.ts", kind: "product-code", git_blob: "a".repeat(40), review_status: "unread" };
 const output = generateMap(plan, [row, { ...row, path: "leftover/archive.md", kind: "archive" }]);
 assert.equal(output.summary.mappedFiles, 1);
+assert.equal(generateMap(plan, [{ ...row, path: "docs/capabilities/generated/catalog.json" }]).summary.mappedFiles, 0);
 assert.ok(output.modules.endsWith("\t0\tunassessed\n"));
 assert.equal(moduleFor(row.path), "core/backend/src/services/secret");
 assert.equal(targetFor(row.path), "Go-domain-migration");

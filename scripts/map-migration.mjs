@@ -62,7 +62,7 @@ export function generateMap(plan, inventory) {
   const rules = plan.rules.map(rule => ({ ...rule, regex: new RegExp(rule.pattern, "i") }));
   const included = new Set(["product-code", "test", "build-and-operations", "asset"]);
   const seen = new Set();
-  const rows = inventory.filter(row => included.has(row.kind) && !row.path.startsWith("docs/migration/generated/")).map(row => {
+  const rows = inventory.filter(row => included.has(row.kind) && !/^docs\/(migration|capabilities)\/generated\//.test(row.path)).map(row => {
     assert.ok(!seen.has(row.path), `Duplicate input path: ${row.path}`);
     seen.add(row.path);
     const module = moduleFor(row.path);

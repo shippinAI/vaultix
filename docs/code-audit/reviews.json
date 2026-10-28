@@ -304,54 +304,74 @@
     },
     {
       "path": "scripts/map-migration.mjs",
-      "blob": "3549334158ae8ada2234ac75a4fbad3299f520d7",
+      "blob": "0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8",
       "status": "verified",
-      "decision": "replace",
-      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port.",
+      "decision": "modify",
+      "scope": "Complete authored discovery generator read. Uses exact inventory paths/blobs and explicit domain rules, validates prerequisite DAG, detects duplicate paths and unmapped inputs, preserves unassessed migration state, hashes groups, checks drift and rejects intake in CI. Generated inputs excluded to avoid self-reference. Mapping is not module review, an extracted call graph, workflow parity or completed port. Planning checkpoint 2026-10-28: Read complete module-map implementation. Exclude generated capability artifacts to prevent recursive source/hash inputs; retain all existing source coverage and unassessed migration state.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
         "scripts/test-migration-map.mjs",
-        ".cache/migration-map-check.log"
+        ".cache/migration-map-check.log",
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     },
     {
       "path": "scripts/test-migration-map.mjs",
-      "blob": "187f2882a0a5fb414ecf5c77b62b92dc636e832c",
+      "blob": "dc89a485b77e7fd262a5f77d662e5e78fa47b349",
       "status": "verified",
-      "decision": "replace",
-      "scope": "Complete authored tests read and executed. Covers source coverage/exclusions, target mapping, cyclic/unknown dependencies, missing rules, duplicate workstreams and files, source hash drift and no automatic migration completion.",
+      "decision": "modify",
+      "scope": "Complete authored tests read and executed. Covers source coverage/exclusions, target mapping, cyclic/unknown dependencies, missing rules, duplicate workstreams and files, source hash drift and no automatic migration completion. Planning checkpoint 2026-10-28: Read complete migration-map tests; add regression fixture that generated capability artifacts cannot enter source discovery even if input kind is product-code. Existing dependency, coverage and hash-change checks retained.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
         "scripts/test-migration-map.mjs",
-        ".cache/migration-map-check.log"
+        ".cache/migration-map-check.log",
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "bed878ee1ed4199b5d0cbd0a47411df75bc91fda",
+      "blob": "d3ba87ed84a59458fca000d8d38bc1d99dcca3ed",
       "status": "authored",
-      "decision": "replace",
-      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities.",
+      "decision": "modify",
+      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities. Planning checkpoint 2026-10-28: Read full migration dependency/rule plan. Assign authored capability planning tooling to foundation supporting work, before generic path rules. Generated capability outputs excluded from migration. No domain migration marked completed.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
         "scripts/test-migration-map.mjs",
-        ".cache/migration-map-check.log"
+        ".cache/migration-map-check.log",
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     },
     {
       "path": "scripts/audit-codebase.mjs",
-      "blob": "34b461f52d5e9261b49cde18e1148fe383b0dfd3",
-      "status": "authored",
+      "blob": "ca636d78d12d3735f613209704194207e919466d",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete existing inventory script read; retain hash-matched explicit review validation and stale/missing checks. Classify new generated migration maps as generated artifacts instead of product code. Inventory and map checks passed after regeneration. Discovery never grants authorship status.",
+      "scope": "Complete existing inventory script read; retain hash-matched explicit review validation and stale/missing checks. Classify new generated migration maps as generated artifacts instead of product code. Inventory and map checks passed after regeneration. Discovery never grants authorship status. Planning checkpoint 2026-10-28: Read complete inventory implementation. Classify capability generated artifacts as generated, preserving explicit exact-content review accounting. No automatic review-state advancement.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
         "scripts/test-migration-map.mjs",
-        ".cache/migration-map-check.log"
+        ".cache/migration-map-check.log",
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     },
     {
@@ -2372,10 +2392,10 @@
     },
     {
       "path": "README.md",
-      "blob": "ceece66f8e70a9b33b578053629a73235664c62f",
+      "blob": "19a070acf7258578ffa93ebc79ba828ba1a406aa",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete README read. Self-hosted build and verification now precede deployment; source publication and optional manual cloud image builds distinguished. Existing core/API/Clyffy/store/migration limitations retained. Commands link exact prerequisite/receipt scope; remote hardware deployment and whole-product parity remain unproven.",
+      "scope": "Complete README read. Self-hosted build and verification now precede deployment; source publication and optional manual cloud image builds distinguished. Existing core/API/Clyffy/store/migration limitations retained. Commands link exact prerequisite/receipt scope; remote hardware deployment and whole-product parity remain unproven. Planning checkpoint 2026-10-28: Read complete README. Added the capability plan and loopback explorer entry, explicitly distinguishing planning from the product. Existing instructions and capability limits retained.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2383,7 +2403,12 @@
         "docs/0048-self-hosted-builds.md",
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
         ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json"
+        ".cache/self-hosted-compose-Bod5ym/result.json",
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     },
     {
@@ -2875,6 +2900,146 @@
         ".cache/self-hosted-fixtures-WxeKDm/result.json",
         ".cache/publication-proof-cvitRq/result.json",
         ".cache/self-hosted-compose-Bod5ym/result.json"
+      ]
+    },
+    {
+      "path": "docs/0049-capability-product-plan.md",
+      "blob": "10bfc4901d2357d22aea55302300e999034a068d",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Authored product scope, navigation, lifecycle acceptance, service-preview proposals, dependency phases and AI/DevSCIF control targets. These are requirements and decisions, not acceptance evidence for their implementations.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "docs/capabilities/README.md",
+      "blob": "dad96ae4bafeb9f0e401e121eb0829875aebf205",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "docs/capabilities/catalog.mjs",
+      "blob": "d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Authored 86 requirement outcomes and acceptance gates in 13 product groups with phase dependencies and scoped source references. No complete requirement is accepted; existing family labels require module-level investigation. Public comparison sources identify specification questions only.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "docs/capabilities/explorer.html",
+      "blob": "c579dacf8e759bafa29c058b9e08374ea908fc42",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored read-only planning page with landmarks, filters, grouped scope, phase/provider views and native acceptance dialog. Verified six automated accessibility states, keyboard focus return, filtering and 320px reflow. No product actions, authentication or manual screen-reader acceptance claimed.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "docs/capabilities/explorer.css",
+      "blob": "136bbc57d7afe0eee89bcf406c0571afd9e1c634",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored lightweight responsive planning styles; no external fonts, animation or raster artwork. Verified desktop and 320px layout and automated contrast checks. This does not convert the actual application's UI.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "docs/capabilities/explorer.mjs",
+      "blob": "699fa26c919398b097895b3ee53cf01cb0721c86",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored same-origin catalog reading, text-only DOM construction, combined filtering, requirement details, provider discovery and phase views. No credentials, mutations, product APIs or action events. Browser tests verify search, reset, empty state, dialog focus and read-only network requests.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "scripts/serve-capability-plan.mjs",
+      "blob": "69b7f9db4c491b4dedcde0340f420cebb3ec0115",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored loopback-only read-only server with fixed asset/reference allowlists, host validation, no-store, CSP and no filesystem route fallback. HTTP tests deny mutations, arbitrary file/reference traversal and untrusted Host. It does not expose the operator configuration or secrets store.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "scripts/map-capabilities.mjs",
+      "blob": "00ebee237c7e438095ff2fa9550e3a6ffeca0bd7",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored structural map of preserved UI/API baseline, migration rows and six adapter roots; validate groups, states, dependency cycles, references and non-acceptance evidence. Stable generated artifacts and explicit mapping failures. Family/workstream ownership is not semantic caller/auth tracing. Dynamic provider filenames are included and helper files excluded.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-capability-map.mjs",
+      "blob": "25be8176fc1ced9c70414c2b8ab7bdbb052275c9",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored negative/coverage tests for duplicates, unknown states/groups/surfaces, cyclic phases, false acceptance, provider omissions, deterministic output and server allowlist/Host/method boundary. No product parity claim.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-capability-explorer.mjs",
+      "blob": "3327ea1a2699a32d8c9fd4ad488a1107259318e4",
+      "status": "verified",
+      "decision": "retain",
+      "scope": "Authored planning-only browser test using real local artifacts and read-only server; checks filter combinations, empty/reset, keyboard dialog/focus, phase/provider views, 320px reflow, six axe states and absence of external or write requests. Records automated findings and manual-review items separately.",
+      "evidence": [
+        "docs/0049-capability-product-plan.md",
+        "node scripts/test-capability-map.mjs",
+        "node scripts/test-migration-map.mjs",
+        ".cache/capability-plan-nHQGdd/result.json",
+        ".cache/capability-plan-UP4E0v/result.json"
       ]
     }
   ]

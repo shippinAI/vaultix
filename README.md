@@ -17,6 +17,12 @@ defines domain ownership, AI-managed lifecycle boundaries, migration order and
 rollback gates. The [module map](docs/migration/README.md) tracks source coverage
 without counting discovery as completed rewriting.
 
+The [capability product plan](docs/0049-capability-product-plan.md) groups the
+product scope, acceptance gaps, UI direction, proposed service previews and AI
+workspace phases. Explore it locally with `node scripts/serve-capability-plan.mjs`
+at **http://127.0.0.1:4310**. This is a read-only planning view; the application
+remains at port 8200. [Catalog and source maps](docs/capabilities/README.md).
+
 The [visual and loading system](docs/0028-visual-loading-system.md) defines owned
 vector artwork, purposeful depth, responsive behavior and measured payload gates.
 

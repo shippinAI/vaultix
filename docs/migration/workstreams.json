@@ -21,6 +21,7 @@
     { "id": "intake", "title": "Unclassified module investigation", "dependsOn": [], "gates": ["manual-domain-assignment", "caller-data-auth-trace", "explicit-target-decision"] }
   ],
   "rules": [
+    { "pattern": "^docs/capabilities/", "workstream": "foundation" },
     { "pattern": "^go\\.mod$", "workstream": "cli" },
     { "pattern": "^branding/|^core/(company|img|docs)/|^docs/references/", "workstream": "ui" },
     { "pattern": "^core/[^/]+$|^core/(docker|docker-swarm|cloudformation|nginx|\\.husky|\\.greptile|upgrade-impact)/|^\\.gitignore$", "workstream": "delivery" },

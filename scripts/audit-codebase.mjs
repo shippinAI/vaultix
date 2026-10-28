@@ -42,7 +42,7 @@ for (const review of reviewFile.files) {
 const kind = path => {
   if (path.startsWith("leftover/")) return "archive";
   if (path.startsWith("core/backend-go/third_party/")) return "vendored";
-  if (/routeTree\.gen\.tsx?$/.test(path) || path.startsWith("docs/migration/generated/")) return "generated";
+  if (/routeTree\.gen\.tsx?$/.test(path) || /^docs\/(migration|capabilities)\/generated\//.test(path)) return "generated";
   if (/\.(png|jpe?g|gif|webp|ico|svg|woff2?|ttf|otf|mp4|pdf)$/i.test(path)) return "asset";
   if (/\.(md|mdx|txt)$/i.test(path) || /(?:^|\/)(LICENSE|NOTICE)(\.|$)/.test(path)) return "documentation";
   if (/\.(test|spec)\.[^/]+$|_test\.go$/.test(path) || /(?:^|\/)(?:e2e-test|tests?|__tests__)\//.test(path)) return "test";

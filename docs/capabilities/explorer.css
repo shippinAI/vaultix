@@ -1,0 +1,491 @@
+:root {
+  color-scheme: dark;
+  --bg: #101819;
+  --panel: #172224;
+  --raised: #202f31;
+  --line: #425355;
+  --text: #eef5f3;
+  --muted: #b0c4c0;
+  --mint: #a0f0c8;
+  --gold: #f1cc8b;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+a {
+  color: var(--mint);
+  text-underline-offset: 4px;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+button,
+input,
+select {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 7px;
+  padding: 0.65rem 0.85rem;
+  min-height: 44px;
+}
+button:hover {
+  background: var(--raised);
+}
+:focus-visible {
+  outline: 3px solid var(--mint);
+  outline-offset: 4px;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h2 {
+  font-size: 1.3rem;
+}
+h3 {
+  font-size: 1.08rem;
+}
+p {
+  color: var(--muted);
+}
+[hidden] {
+  display: none !important;
+}
+.skip {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  padding: 12px;
+  background: var(--bg);
+  z-index: 4;
+}
+.skip:focus {
+  top: 10px;
+}
+.masthead {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.2rem 3vw;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  font-weight: 750;
+  color: var(--text);
+}
+.brand svg {
+  width: 36px;
+  height: 36px;
+  margin-right: 0.5rem;
+  color: var(--mint);
+}
+.brand span {
+  color: var(--muted);
+  font-weight: 400;
+}
+.masthead > a:last-child {
+  margin-left: auto;
+  font-size: 0.88rem;
+}
+.pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  color: var(--mint);
+  width: fit-content;
+}
+.masthead .pill {
+  color: var(--muted);
+}
+main {
+  max-width: 1440px;
+  margin: auto;
+  padding: 3rem 4vw;
+}
+.intro {
+  max-width: 1050px;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--mint);
+}
+h1 {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  font-weight: 650;
+  margin-bottom: 1.5rem;
+}
+h1 span {
+  color: var(--mint);
+}
+.lede {
+  font-size: 1.08rem;
+  max-width: 760px;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin: 2rem 0 1rem;
+}
+.stat strong {
+  font-size: 1.75rem;
+  font-weight: 600;
+  display: block;
+  color: var(--text);
+}
+.stat span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.caution {
+  color: var(--gold);
+  font-size: 0.82rem;
+  max-width: 850px;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1.5rem 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+button[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--mint);
+  border-color: var(--mint);
+  font-weight: 650;
+}
+.filters {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  gap: 0.45rem;
+  flex-direction: column;
+}
+.search {
+  flex: 1;
+  min-width: min(100%, 260px);
+}
+input,
+select {
+  width: 100%;
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+input::placeholder {
+  color: var(--muted);
+}
+.workspace {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 2rem;
+}
+aside h2 {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+#groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+#groups button {
+  text-align: left;
+  border-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.84rem;
+  padding: 0.55rem 0.65rem;
+}
+#groups .nav-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0.85rem 0 0.15rem;
+  text-transform: uppercase;
+}
+.result-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.result-head h2,
+.result-head p {
+  margin: 0;
+}
+.result-head p,
+#group-purpose {
+  font-size: 0.82rem;
+}
+#group-purpose {
+  margin: 0.5rem 0 1.2rem;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.card .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.card h3 {
+  margin: 0.25rem 0;
+}
+.card p {
+  font-size: 0.88rem;
+  margin: 0;
+}
+.card button {
+  margin-top: 1rem;
+  align-self: start;
+  font-size: 0.82rem;
+  color: var(--mint);
+}
+.card .pill {
+  margin-top: auto;
+}
+.roadmap {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  margin: 2rem 0;
+}
+.stage,
+.offer,
+.boundary {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.stage p,
+.offer p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.stage small {
+  color: var(--mint);
+}
+.boundary {
+  margin-top: 3rem;
+  max-width: 980px;
+  border-left: 3px solid var(--mint);
+}
+.boundary p:last-child {
+  margin-bottom: 0;
+}
+.provider-search {
+  max-width: 480px;
+  margin-top: 1.5rem;
+}
+.providers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 0.6rem;
+}
+.provider {
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  min-width: 0;
+}
+.provider strong {
+  display: block;
+}
+.provider small {
+  color: var(--mint);
+}
+.provider p {
+  font-size: 0.75rem;
+  margin: 0.3rem 0 0;
+  overflow-wrap: anywhere;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 2rem 4vw;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+dialog {
+  width: min(700px, calc(100% - 2rem));
+  max-height: 85vh;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 2rem;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 24px 80px #0008;
+  overflow-y: auto;
+}
+dialog::backdrop {
+  background: #050b0dd9;
+}
+.dialog-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+dialog h2 {
+  font-size: 1.7rem;
+  line-height: 1.25;
+}
+dialog dt {
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: var(--mint);
+  margin: 1.3rem 0 0.3rem;
+}
+dialog dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+dialog li {
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+dialog h3 {
+  margin-top: 1.5rem;
+}
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .workspace {
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .masthead {
+    gap: 0.8rem;
+  }
+}
+@media (max-width: 600px) {
+  main {
+    padding: 2rem 5vw;
+  }
+  .masthead {
+    padding: 1rem 5vw;
+  }
+  .masthead > a:last-child {
+    margin-left: 0;
+    width: 100%;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  #groups {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  #groups .nav-label {
+    display: none;
+  }
+  #groups button {
+    border-color: var(--line);
+    font-size: 0.75rem;
+  }
+  .stats {
+    gap: 1rem 2rem;
+  }
+  .stat strong {
+    font-size: 1.4rem;
+  }
+  .filters > label {
+    width: 100%;
+  }
+  .filters > button {
+    width: 100%;
+  }
+  dialog {
+    padding: 1.2rem;
+  }
+  .boundary {
+    padding: 1rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .tabs button {
+    flex: 1;
+    font-size: 0.8rem;
+  }
+  .brand {
+    font-size: 1.35rem;
+  }
+}
