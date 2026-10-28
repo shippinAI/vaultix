@@ -550,7 +550,8 @@ type membershipRow struct {
 	IsActive bool `db:"is_active"`
 }
 
-// --- Query methods ---
+// Authentication must observe committed restrictions. Replica lag cannot restore
+// access, and primary failures must propagate without a replica fallback.
 
 // findSessionByIDAndUserID returns the session matching id + userId, or nil if not found.
 func (a *ApiAuthenticator) findSessionByIDAndUserID(ctx context.Context, sessionID, userID uuid.UUID) (*sessionRow, error) {
@@ -561,7 +562,7 @@ func (a *ApiAuthenticator) findSessionByIDAndUserID(ctx context.Context, session
 	`
 	args := pgx.NamedArgs{"sessionID": sessionID, "userID": userID}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var session sessionRow
 	err := row.Scan(&session.AccessVersion, &session.UserID)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -582,7 +583,7 @@ func (a *ApiAuthenticator) findUserByID(ctx context.Context, id uuid.UUID) (*use
 	`
 	args := pgx.NamedArgs{"id": id}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var user userRow
 	err := row.Scan(&user.ID, &user.Email, &user.Username, &user.IsAccepted, &user.SuperAdmin, &user.IsLocked, &user.TemporaryLockDateEnd)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -603,7 +604,7 @@ func (a *ApiAuthenticator) findOrgByID(ctx context.Context, id uuid.UUID) (*orgR
 	`
 	args := pgx.NamedArgs{"id": id}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var org orgRow
 	err := row.Scan(&org.ID, &org.Name, &org.RootOrgID, &org.ParentOrgID)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -624,7 +625,7 @@ func (a *ApiAuthenticator) findProjectByID(ctx context.Context, id string) (*pro
 	`
 	args := pgx.NamedArgs{"id": id}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var project projectRow
 	err := row.Scan(&project.OrgID)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -660,7 +661,7 @@ func (a *ApiAuthenticator) findIdentityAccessTokenByID(ctx context.Context, id s
 	`
 	args := pgx.NamedArgs{"id": id}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var token identityAccessTokenRow
 	err := row.Scan(
 		&token.ID,
@@ -696,7 +697,7 @@ func (a *ApiAuthenticator) findServiceTokenByID(ctx context.Context, id string) 
 	`
 	args := pgx.NamedArgs{"id": id}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var token serviceTokenRow
 	err := row.Scan(&token.ID, &token.Name, &token.ProjectID, &token.ExpiresAt, &token.SecretHash)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -762,7 +763,7 @@ func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actor
 		"status":  statusFilter,
 	}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var membership membershipRow
 	err := row.Scan(&membership.IsActive)
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -818,7 +819,7 @@ func (a *ApiAuthenticator) findTrustedIPsByAuthMethod(ctx context.Context, ident
 
 	args := pgx.NamedArgs{"identityID": identityID}
 
-	row := a.db.Replica().QueryRow(ctx, query, args)
+	row := a.db.Primary().QueryRow(ctx, query, args)
 	var trustedIPsJSON string
 	err := row.Scan(&trustedIPsJSON)
 	if errors.Is(err, pgx.ErrNoRows) {

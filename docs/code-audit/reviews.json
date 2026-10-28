@@ -1256,10 +1256,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "7de5df529533ad6f75ce779447209e6f8157aefc",
+      "blob": "ad2704e0d6aac5f41e8b066855b7889f48d018f6",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete prior module review retained; lifetime changes traced through both identity entry points and cache recovery. Constructor requires validated policy, missing-expiry grace uses strict-after millisecond boundary, and recovered use counters retain the configured maximum age. Existing signature, constraints, memberships, IP and scoped-revocation checks remain. Other Replica reads, minimal claims/tenant binding and complete Nomen migration remain open.",
+      "scope": "Complete prior module review retained and full current file read. Eight authority queries now use primary for session version, user acceptance/locks, organization hierarchy, project tenant, legacy identity state, service token state, effective membership and trusted IPs. Existing validation, error propagation, scoped revocation, usage budget and claims remain. Controlled stale-schema and primary-failure tests distinguish authority routing from policy. Mixed direct/group precedence, legacy row binding, issuer replica paths, Nomen and complete native cutover remain open.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1296,7 +1296,19 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/0042-native-authentication-authority.md",
+        ".cache/authority-baseline-controlled.json",
+        ".cache/authority-candidate.json",
+        ".cache/authority-go-unit.jsonl",
+        ".cache/authority-go-lint-complete.log",
+        ".cache/go-proof-YAhJWL/result.json",
+        ".cache/go-proof-qTT5Tt/result.json",
+        ".cache/go-proof-wuhCU6/result.json",
+        ".cache/go-proof-1lgUPf/result.json",
+        ".cache/authority-image-dragonfly.log",
+        ".cache/authority-image-redis.log",
+        ".cache/app-image-proof-vLGe70/workflow-result.json"
       ]
     },
     {
@@ -2277,6 +2289,27 @@
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-FoKjYh/result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/authority_test.go",
+      "blob": "76698d9a0342d8a456c2d9a3906a5c05b6628207",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete fixture authored/read. Actual issuer credentials plus explicitly signed legacy/sub-org fixtures operate on isolated PostgreSQL schema snapshots. Valid and primary-only denied controls precede frozen-replica comparisons; checks cover user/identity/service paths, group-only membership removal/deactivation, primary failure without fallback, sub-org ancestry and current service-project tenant. Schema copies omit constraints and do not prove physical replication, issuer HTTP replica behavior, group APIs or Nomen. No operator data or clocks are changed; cleanup owns only generated fixture schemas/pools.",
+      "evidence": [
+        "docs/0042-native-authentication-authority.md",
+        ".cache/authority-baseline-controlled.json",
+        ".cache/authority-candidate.json",
+        ".cache/authority-go-unit.jsonl",
+        ".cache/authority-go-lint-complete.log",
+        ".cache/go-proof-YAhJWL/result.json",
+        ".cache/go-proof-qTT5Tt/result.json",
+        ".cache/go-proof-wuhCU6/result.json",
+        ".cache/go-proof-1lgUPf/result.json",
+        ".cache/authority-image-dragonfly.log",
+        ".cache/authority-image-redis.log",
+        ".cache/app-image-proof-vLGe70/workflow-result.json"
       ]
     }
   ]

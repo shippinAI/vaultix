@@ -499,3 +499,18 @@ empty state; it no longer accepts a loading-table screenshot. Six separate
 component fixtures verify upload focus, permission denial and action fit down
 to 320 pixels. Whole import workflows, screen-reader review, native cutover,
 Nomen, external providers and hosted publication remain open.
+
+Native authentication authority is recorded in
+[0042](0042-native-authentication-authority.md). Eight security queries now read
+the primary database and fail closed on primary failure. Controlled stale-schema
+fixtures reproduced 29 accepted decisions after access restrictions in the old
+validator; the repaired validator denies them. This models stale state, not a
+physical replica topology. Canonical image
+`sha256:a2230460955fa8e863484dd3efa3832ec9759d608bb7a3f43485f97efcf533c6`
+passes both cache image/restart suites and the actual packaged application flow
+(`.cache/app-image-proof-vLGe70`), including completed project loading.
+Go unit/race tests pass 597 cases; complete integration/race runs pass 364 per
+cache with eight external-KMS skips. The initial Dragonfly permission bootstrap
+timeout remains unexplained and recorded alongside its isolated and full passing
+reruns. Issuer replica reads, membership precedence, legacy subject binding,
+Nomen, native cutover and production topology remain separate gates.

@@ -154,7 +154,7 @@ core/backend-go/internal/services/auditlog/event.go	9641ec20666ef81dc0bdf23553fe
 core/backend-go/internal/services/auditlog/info.go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	product-code	unread
 core/backend-go/internal/services/auditlog/queue_handler.go	8fffcdc835dca60978a9a9ece66de24257e8c969	product-code	unread
 core/backend-go/internal/services/auditlog/useragent.go	debf555fd242540645332817c077bed76833d135	product-code	unread
-core/backend-go/internal/services/auth/apiauth/authenticator.go	7de5df529533ad6f75ce779447209e6f8157aefc	product-code	verified
+core/backend-go/internal/services/auth/apiauth/authenticator.go	ad2704e0d6aac5f41e8b066855b7889f48d018f6	product-code	verified
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	test	verified
 core/backend-go/internal/services/auth/apiauth/claims.go	8d2e73dda30adf86a9376559968860a6c63b4e2f	product-code	verified
 core/backend-go/internal/services/auth/apiauth/claims_presence_test.go	8f119a7b62c641110fb0d0443b52894e3b06e773	test	verified
@@ -210,6 +210,7 @@ core/backend-go/tests/infra/postgres.go	a5c2c7964d16ca57a5e53ae150ff08e81c3b565f
 core/backend-go/tests/infra/redis.go	4964e10bad022350167d66abb266750d3e729487	test	authored
 core/backend-go/tests/infra/stack.go	f104f06bd1964bcb054911ea95d7bdcdff6c5a78	test	unread
 core/backend-go/tests/platform/auth/apiauthenticator_test.go	4f2dc7bed7f3a7f3ec972c9d11644d8ff4fdf15e	test	verified
+core/backend-go/tests/platform/auth/authority_test.go	76698d9a0342d8a456c2d9a3906a5c05b6628207	test	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	98ef59cc825bba533eeb57f0382ed6d205b3534b	test	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
@@ -11650,7 +11651,7 @@ docs/0014-skus-and-manager.md	de9953866d6e15c6c5ea30b0e2313c1b58c6b42d	documenta
 docs/0015-frozen-no-connection.md	3a44cb8dcec4e5c177515984f588ffebb589b937	documentation	unread
 docs/0016-native-vaultix.md	b32fc3a43063dfed73df1fc5daaa7e48c704d392	documentation	unread
 docs/0017-cache-deployment.md	64a764a6bdb3088431bb0e48f024e6bdadc31c83	documentation	unread
-docs/0018-hosted-capability-proof.md	8ac058b04ade97665896d7cc62d928a57059bd5a	documentation	unread
+docs/0018-hosted-capability-proof.md	ea9e01973e68f36bdccc1a4f330986e06fe0713e	documentation	unread
 docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	documentation	unread
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	441ae789ed12d41fa7c6609b0b309a1a74ee1d4d	documentation	unread
@@ -11674,10 +11675,11 @@ docs/0038-notification-dialog-ownership.md	8f9a11d21133deaa30e002ac7975efa28f4ca
 docs/0039-native-scoped-revocation.md	704330b127af9ec7fb8ef9f77100636f1793b6e6	documentation	unread
 docs/0040-native-identity-lifetime-policy.md	28f4d6073b584a67609cbf75f39b0e21d4225348	documentation	unread
 docs/0041-publication-history.md	923b5f7abe1ff1946c55d7984a0381ccb4459b45	documentation	unread
+docs/0042-native-authentication-authority.md	c077c2e13ed10f925a72ea285dcc51e216915e25	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	9a88b74a265aaed506ceccce0a0d82a38c1de355	generated	unread
-docs/migration/generated/modules.tsv	35b6d54afa6932044158775282dda396ae46558f	generated	unread
-docs/migration/generated/summary.json	bc6d5a7957a67de855ac4171e8d91abae0e5c837	generated	unread
+docs/migration/generated/files.tsv	6fee78a91f3c76caff8dbfcad411c583a8747c09	generated	unread
+docs/migration/generated/modules.tsv	183eb6f67db26f905d1b58bf6b014d06a06c9038	generated	unread
+docs/migration/generated/summary.json	a526ef5e9693bc23c5da6a213240c29eb28a14cd	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
