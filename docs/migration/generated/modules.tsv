@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	28a3bb3579f9dd63b26e089257944ee5f375ead5e2591e437a2fe99d665ef95b	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	b9f824d7a4229dd1fe2735d917f79ea7adb6076cc4551c9248e10bff597719da	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -546,8 +546,8 @@ core/frontend/src/components/tags	ui	React-TypeScript	2	9511de9a901abc99cf6d5d3d
 core/frontend/src/components/utilities	pam	React-TypeScript	1	07eab7bd8b9c44184dddd55f4162fcc2718ba2ac0b74fe76e35ccd2d5326aea7	0	unassessed
 core/frontend/src/components/utilities	pki	React-TypeScript	1	9fd54c3815b37bf6cd4e73b0483e16bda1346ca8cdaa05fc59a5545625180bd6	0	unassessed
 core/frontend/src/components/utilities	ui	React-TypeScript	18	dfeafc38f90adc1990720125c6aac0a5f743cfe0577e2fbbfa020641d2c37b5e	0	unassessed
-core/frontend/src/components/v2	secrets	React-TypeScript	4	68f178d061523c6098017fc483c3164933a1a92c0c18d86132b7d85e26b272ec	0	unassessed
-core/frontend/src/components/v2	ui	React-TypeScript	111	9a1dfec714c6b24afdb001c998057b0ad38ccba4288794469086b44d2e5cc7a8	7	unassessed
+core/frontend/src/components/v2	secrets	React-TypeScript	4	68f178d061523c6098017fc483c3164933a1a92c0c18d86132b7d85e26b272ec	1	unassessed
+core/frontend/src/components/v2	ui	React-TypeScript	111	9d9f273a23a29a0b2a408ea003b73fb3a79d4ddecaa4da11b0a0e521d075b4ce	8	unassessed
 core/frontend/src/components/v3	authorization	React-TypeScript	1	ae4b449c889929cba1429238f234da59a3f61dde01e0a3ab64ca13fa79737045	0	unassessed
 core/frontend/src/components/v3	ui	React-TypeScript	5	0a4aca43836ca4db8f22ac262eef6bda2eba1f3ff7a60ecd83e56d53aed68580	0	unassessed
 core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	3	fa0de16b9e64ecca0299699cd338f6b4ba44dfe264ac37897e23d14ab8c3f20c	0	unassessed
@@ -1060,4 +1060,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	37	a0ad2dbcf5a378447efa06d5e365bf109025dec056be5a6a6abb7934864facc0	29	unassessed
+scripts	delivery	supporting-tooling-or-contract	38	ad4550c70d1e070bda89fadd8dafdad213420955728f82b818770ef7fe3acb24	30	unassessed

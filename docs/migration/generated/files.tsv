@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	285a8560c4749d40963ea8cd04c43ddaeb9fe01a	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	463e24137a1ceca716815dbdfc5eb5f04c559edf	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -5007,7 +5007,7 @@ core/frontend/src/components/v2/Popoverv2/Popoverv2.tsx	core/frontend/src/compon
 core/frontend/src/components/v2/Popoverv2/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	ffad09cdcc24ee07b7e8d1388bd5666ae6e5a32c	unread
 core/frontend/src/components/v2/RadioGroup/RadioGroup.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	5331f42d9a675b25738afbf3400edcfcefe10448	unread
 core/frontend/src/components/v2/RadioGroup/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	bf62b2e6dd36af804122caf14ea2437e664f1aa4	unread
-core/frontend/src/components/v2/SecretInput/SecretInput.tsx	core/frontend/src/components/v2	secrets	React-TypeScript	tsx	07c4399fcb7f07d8cfd62206467324b8ff1ae2eb	unread
+core/frontend/src/components/v2/SecretInput/SecretInput.tsx	core/frontend/src/components/v2	secrets	React-TypeScript	tsx	07c4399fcb7f07d8cfd62206467324b8ff1ae2eb	reviewed
 core/frontend/src/components/v2/SecretInput/index.tsx	core/frontend/src/components/v2	secrets	React-TypeScript	tsx	1c322fac4c915985cb3ae0f936a073754a8cf4c3	unread
 core/frontend/src/components/v2/SecretPathInput/SecretPathInput.tsx	core/frontend/src/components/v2	secrets	React-TypeScript	tsx	395557424a25d591787f58bf9dca25d528a39970	unread
 core/frontend/src/components/v2/SecretPathInput/index.tsx	core/frontend/src/components/v2	secrets	React-TypeScript	tsx	5d8595891c2f7814ccd0a40d3637f7e36b4b8d7a	unread
@@ -5034,7 +5034,7 @@ core/frontend/src/components/v2/TextArea/TextArea.tsx	core/frontend/src/componen
 core/frontend/src/components/v2/TextArea/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	6c44fcbaaa47c780935c49765d1fc398e03ba984	unread
 core/frontend/src/components/v2/Tooltip/Tooltip.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	59f751683dda263d2fdb1a32474332b409c27224	unread
 core/frontend/src/components/v2/Tooltip/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	348059dad71a682c2f1c2b19f2f6b65b0a99282d	unread
-core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	f6bb04b2a592f3dfdefeba0b1a6f6ec595e5690b	unread
+core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	e57abf7b8fb770dc9ce34376783455388a9b5c60	verified
 core/frontend/src/components/v2/VaultixSecretInput/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	46039541c2f2badfc93475b7e055b8301d5b52d6	unread
 core/frontend/src/components/v2/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	677ba00de3f0099876bbcac0335a61a456532b7c	verified
 core/frontend/src/components/v3/generic/Accordion/Accordion.stories.tsx	core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	tsx	ae77eb29d62f05eee8cd1677b605313cb5ebbda4	unread
@@ -9358,13 +9358,14 @@ scripts/test-create-secret-recovery.mjs	scripts	delivery	supporting-tooling-or-c
 scripts/test-create-secret-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	verified
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-dashboard-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2786890a0d71062f168301092a2048c3e402e6ae	verified
+scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	15e3891a6d6ec0b851b015ab51b102eac2af6b22	verified
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	066cd736cd29dd2c2cefeaa5c452edd26f047134	verified
 scripts/test-go-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a63efe056887d1462385090c699b8585c3f5e27d	verified
 scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b5583de0e3990833d120e86e707545c3a491a1e1	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cd8122d1cc60f855da431735307f738ee8c6ca77	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	12f32b23fb9c3733f0a4ab4332c1aad656dec054	verified
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1c3556a7de584e227d74f95adb2184710a19c435	unread
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified

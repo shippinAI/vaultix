@@ -563,3 +563,13 @@ The local canonical rebuild has identical runtime layers/configuration to 0044,
 apart from the URL and revision labels, and passes the updated Dragonfly smoke
 gate. The reduced legacy Dockerfile is not a release-capability claim. Committed
 revision promotion, registry publication and signed provenance are separate gates.
+
+The environment dashboard reference editor repair is recorded in
+[0046](0046-dashboard-reference-editor.md). It removes invalid textarea expansion
+semantics, names the popup and suggestions, enables keyboard exit, bounds popup
+width, and refuses insertion from stale debounced suggestions. The canonical
+image's ordered real-browser suite passes at `.cache/app-image-proof-2v6T9x`,
+including actual reference insertion, suffix preservation and populated 320px
+reduced-motion checks without secret submission. Other editor consumers,
+restricted roles, cross-project grants, wizard accessibility and screen readers
+remain open; this is not complete editor or enterprise parity.

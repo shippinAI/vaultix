@@ -90,10 +90,11 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
     const { permission } = useProjectPermission();
 
     const [debouncedValue] = useDebounce(value, 100);
+    const isSuggestionPending = value !== debouncedValue;
 
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
-    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const inputRef = useRef<HTMLTextAreaElement | null>(null);
     const popoverContentRef = useRef<HTMLDivElement>(null);
     const [isFocused, setIsFocused] = useToggle(false);
     const currentCursorPosition = inputRef.current?.selectionStart || 0;
@@ -135,6 +136,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
       isPopupOpen && (!suggestionSource.isDeep || suggestionSource.value.startsWith("@"));
 
     const handleWizardSelect = (referenceContent: string) => {
+      if (isSuggestionPending) return;
       const { left } = suggestionSource;
       const rightBracketIndex = getIndexOfUnclosedRefToTheRight(value, left);
       const isEnclosed = rightBracketIndex !== -1;
@@ -232,6 +234,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
     ]);
 
     const handleSuggestionSelect = (selectIndex?: number) => {
+      if (isSuggestionPending) return;
       const selectedSuggestion =
         suggestions[typeof selectIndex !== "undefined" ? selectIndex : highlightedIndex];
       if (!selectedSuggestion || selectedSuggestion.slug === "__no_match__") {
@@ -276,7 +279,12 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (isPopupOpen && !showWizard) {
-        if (e.key === "ArrowDown" || (e.key === "Tab" && !e.shiftKey)) {
+        if (e.key === "Tab") {
+          setIsFocused.off();
+          return;
+        }
+        if (suggestions.length === 0) return;
+        if (e.key === "ArrowDown") {
           setHighlightedIndex((prevIndex) => {
             let nextIndex = mod(prevIndex + 1, suggestions.length);
             let iterations = 0;
@@ -292,11 +300,11 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             }
             popoverContentRef.current?.children?.[nextIndex]?.scrollIntoView({
               block: "nearest",
-              behavior: "smooth"
+              behavior: "auto"
             });
             return nextIndex;
           });
-        } else if (e.key === "ArrowUp" || (e.key === "Tab" && e.shiftKey)) {
+        } else if (e.key === "ArrowUp") {
           setHighlightedIndex((prevIndex) => {
             let prevIdx = mod(prevIndex - 1, suggestions.length);
             let iterations = 0;
@@ -312,7 +320,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             }
             popoverContentRef.current?.children?.[prevIdx]?.scrollIntoView({
               block: "nearest",
-              behavior: "smooth"
+              behavior: "auto"
             });
             return prevIdx;
           });
@@ -320,29 +328,30 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
           e.preventDefault();
           handleSuggestionSelect();
         }
-        if (["ArrowDown", "ArrowUp", "Tab"].includes(e.key)) {
+        if (["ArrowDown", "ArrowUp"].includes(e.key)) {
           e.preventDefault();
         }
       }
     };
 
-    const handlePopUpOpen = () => {
+    const handlePopUpOpen = (open: boolean) => {
       setHighlightedIndex(-1);
+      if (!open) setIsFocused.off();
     };
 
-    // to handle multiple ref for single component
-    const handleRef = useCallback((el: HTMLTextAreaElement) => {
-      // @ts-expect-error this is for multiple ref single component
-      inputRef.current = el;
-      if (ref) {
+    const handleRef = useCallback(
+      (el: HTMLTextAreaElement | null) => {
+        inputRef.current = el;
         if (typeof ref === "function") {
           ref(el);
-        } else {
-          // eslint-disable-next-line
+        } else if (ref) {
+          // Forwarded object refs must track the mounted textarea and its cleanup.
+          // eslint-disable-next-line no-param-reassign
           ref.current = el;
         }
-      }
-    }, []);
+      },
+      [ref]
+    );
 
     const handleClickSegment = useCallback(
       (segment: string, allSegments: string[]) => {
@@ -462,7 +471,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
 
     return (
       <Popover.Root open={isPopupOpen} onOpenChange={handlePopUpOpen}>
-        <Popover.Trigger asChild>
+        <Popover.Anchor asChild>
           <SecretInput
             {...props}
             canEditButNotView={canEditButNotView}
@@ -482,7 +491,10 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             }}
             onBlur={(evt) => {
               // should not on blur when its mouse down selecting a item from suggestion
-              if (!(evt.relatedTarget?.getAttribute("aria-label") === "suggestion-item"))
+              if (
+                !popoverContentRef.current?.contains(evt.relatedTarget) &&
+                evt.relatedTarget?.getAttribute("aria-label") !== "suggestion-item"
+              )
                 setIsFocused.off();
 
               if (props.onBlur) props.onBlur(evt);
@@ -494,20 +506,26 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             containerClassName={containerClassName}
             onClickSegment={handleClickSegment}
           />
-        </Popover.Trigger>
+        </Popover.Anchor>
         <Popover.Portal>
           <Popover.Content
+            aria-label="Secret references"
+            aria-busy={isSuggestionPending}
             align="start"
             onOpenAutoFocus={(e) => e.preventDefault()}
             onMouseDown={(e) => {
               if (showWizard) e.preventDefault();
             }}
-            className={`relative top-2 z-100 max-h-80 thin-scrollbar overflow-auto rounded-md border border-mineshaft-600 bg-mineshaft-900 font-inter text-bunker-100 shadow-md ${showWizard ? "w-64" : "min-w-80"}`}
-            style={showWizard ? undefined : { width: "var(--radix-popover-trigger-width)" }}
+            className="relative top-2 z-100 max-h-80 thin-scrollbar overflow-auto rounded-md border border-mineshaft-600 bg-mineshaft-900 font-inter text-bunker-100 shadow-md"
+            style={{
+              width: showWizard ? "256px" : "var(--radix-popover-trigger-width)",
+              minWidth: showWizard ? undefined : "min(320px, calc(100vw - 24px))",
+              maxWidth: "calc(100vw - 24px)"
+            }}
           >
             {showWizard ? (
               <SecretReferenceWizard
-                isEnabled={isPopupOpen}
+                isEnabled={isPopupOpen && !isSuggestionPending}
                 onSelect={handleWizardSelect}
                 onFocusItem={() => inputRef.current?.focus()}
                 currentInput={suggestionSource.value}
@@ -558,10 +576,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
                   ) : (
                     <button
                       type="button"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") handleSuggestionSelect(i);
-                      }}
-                      aria-label="suggestion-item"
+                      disabled={isSuggestionPending}
                       onClick={(e) => {
                         inputRef.current?.focus();
                         e.preventDefault();

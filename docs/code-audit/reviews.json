@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "cd8122d1cc60f855da431735307f738ee8c6ca77",
+      "blob": "12f32b23fb9c3733f0a4ab4332c1aad656dec054",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete prior runner review retained and current integration read. Existing real sign-in/project and explicitly labelled fixtures remain. Adds packaged overview/legacy-dashboard paste, selected accessibility, environment-focus and mixed-success creation recovery gates. Reports and fixture boundaries remain explicit; no all-app parity claim.",
+      "scope": "Complete current runner read; prior real-login, refresh, product navigation, environment, chart, create/recovery and paste gates retained. New reference-editor acceptance uses the already-created disposable secret name and records its reports before the rest of the application suite. Full ordered packaged run passes. Actual external issuer/provider, restricted-role/editor matrix and whole-product parity remain separate.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -287,7 +287,12 @@
         "scripts/test-secret-paste.mjs",
         ".cache/create-secret-final-typecheck.log",
         ".cache/create-secret-final-lint.log",
-        ".cache/create-secret-overview-lint.log"
+        ".cache/create-secret-overview-lint.log",
+        "docs/0046-dashboard-reference-editor.md",
+        ".cache/app-image-proof-2v6T9x/workflow-result.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
+        ".cache/dashboard-reference-pending-lint.log"
       ]
     },
     {
@@ -1094,10 +1099,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "285a8560c4749d40963ea8cd04c43ddaeb9fe01a",
+      "blob": "463e24137a1ceca716815dbdfc5eb5f04c559edf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current workflow read; previous application, native, lifetime, publication and artifact gates retained. Both builds receive the checkout revision. Engine loads and checks identity before pushing. Optional panel publishes its revision tag with minimum provenance, verifies the exact registry digest, then promotes the existing index to latest. Local YAML ordering and publication fixtures pass; the disposable registry push probe failed with connection refused before promotion. GitHub execution remains blocked before steps by account billing/spending. Successful registry promotion and signed provenance are not claimed.",
+      "scope": "Complete current workflow read; previous image identity, revision/digest promotion, application/native/cache and publication gates retained. Adds retention of dashboard reference semantics and interaction artifacts produced by the ordered real-image suite. Local runner accepted; cloud jobs still fail before steps due billing/spending, so successful GHCR execution/publication remains unverified.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1135,7 +1140,12 @@
         ".cache/image-identity-engine-smoke.log",
         ".cache/publication-proof-EjOLFM/result.json",
         ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json"
+        ".cache/image-identity-promotion-failure.json",
+        "docs/0046-dashboard-reference-editor.md",
+        ".cache/app-image-proof-2v6T9x/workflow-result.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
+        ".cache/dashboard-reference-pending-lint.log"
       ]
     },
     {
@@ -2638,6 +2648,48 @@
         ".cache/publication-proof-EjOLFM/result.json",
         ".cache/publication-proof-rDfJRI/result.json",
         ".cache/image-identity-promotion-failure.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx",
+      "blob": "e57abf7b8fb770dc9ce34376783455388a9b5c60",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read and compared with the v3 wrapper. Existing reference parser, deeper suggestions, metadata-only queries, wizard and navigation permission checks retained. Authored named anchor-based popup, visible suggestion names/native button activation, controlled dismissal, Tab escape, viewport width bound, immediate scrolling and typed forwarded refs. Stale debounced suggestions refuse insertion. Actual packaged dashboard-create consumer verifies keyboard/pointer insertion, brace/suffix preservation, empty/populated Tab exit, 320px reduced-motion sizing and Escape/cancel without mutation. All other consuming workflows, read-only/import/edit-without-view, cross-project grants, cursor-only parser updates, wizard semantics and screen readers remain open; this is not full editor parity.",
+      "evidence": [
+        "docs/0046-dashboard-reference-editor.md",
+        ".cache/app-image-proof-2v6T9x/workflow-result.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
+        ".cache/dashboard-reference-pending-lint.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/SecretInput/SecretInput.tsx",
+      "blob": "07c4399fcb7f07d8cfd62206467324b8ff1ae2eb",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete base editor read. Masking, focused-value binding, read-only/disabled/loading state, reference highlighting and modifier-key navigation traced; unchanged in this packet. The aria-hidden highlighted layer contains potentially interactive reference spans, and value/focus semantics require dedicated assistive-technology and restricted-role acceptance. No full base-editor accessibility or value-disclosure guarantee is inferred from the create-consumer test.",
+      "evidence": [
+        "docs/0046-dashboard-reference-editor.md",
+        ".cache/app-image-proof-2v6T9x/workflow-result.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
+        ".cache/dashboard-reference-pending-lint.log"
+      ]
+    },
+    {
+      "path": "scripts/test-dashboard-secret-references.mjs",
+      "blob": "15e3891a6d6ec0b851b015ab51b102eac2af6b22",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete new consuming-workflow proof read. Runs inside the disposable real-image application after fixture creation, uses only public reference text, records semantics and completed checks, counts create POSTs, and restores viewport/motion preference after cancellation. Baseline reproduces invalid expansion semantics; first candidate exposes stale-prefix selection; repaired run verifies named suggestions, insertion with preserved suffix, Tab/Shift+Tab exit, mobile bounds and Escape. No operator state or values are read.",
+      "evidence": [
+        "docs/0046-dashboard-reference-editor.md",
+        ".cache/app-image-proof-2v6T9x/workflow-result.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
+        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
+        ".cache/dashboard-reference-pending-lint.log"
       ]
     }
   ]

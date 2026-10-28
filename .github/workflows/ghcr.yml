@@ -292,6 +292,8 @@ jobs:
             .cache/app-image-proof-*/environment-*.json
             .cache/app-image-proof-*/create-secret-*.json
             .cache/app-image-proof-*/dashboard-secret-paste.json
+            .cache/app-image-proof-*/dashboard-secret-references.json
+            .cache/app-image-proof-*/dashboard-reference-semantics.json
             .cache/app-image-proof-*/auth-navigation.json
             .cache/app-image-proof-*/accessibility.json
             .cache/app-image-proof-*/*.png
