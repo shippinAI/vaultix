@@ -12,6 +12,7 @@ import { testCreateSecretWorkflow } from "./test-create-secret-workflow.mjs";
 import { testCreateSecretRecovery } from "./test-create-secret-recovery.mjs";
 import { testDashboardSecretPaste } from "./test-dashboard-secret-paste.mjs";
 import { testDashboardSecretReferences } from "./test-dashboard-secret-references.mjs";
+import { testDashboardCreateWorkflow } from "./test-dashboard-create-workflow.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -178,6 +179,14 @@ try {
   });
   await testDashboardSecretPaste({ page, expect, origin, orgId: bootstrap.organization.id, projectId: project.id, evidence });
   await testDashboardSecretReferences({ page, expect, evidence });
+  await testDashboardCreateWorkflow({ page, expect, AxeBuilder, origin, projectId: project.id, autoCapitalization: project.autoCapitalization, evidence, expectedFailures,
+    readMetadata: async (key, environment, tagId) => {
+      const query = new URLSearchParams({ projectId: project.id, environment, secretPath: "/", viewSecretValue: "false", expandSecretReferences: "false" });
+      const response = await fetch(`${origin}/api/v4/secrets/${encodeURIComponent(key)}?${query}`, { headers: { Authorization: `Bearer ${selected.token}` } });
+      const body = await response.json();
+      return { status: response.status, valueHidden: body.secret?.secretValueHidden === true, tagPresent: body.secret?.tags?.some(tag => tag.id === tagId) === true };
+    }
+  });
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);
@@ -240,7 +249,7 @@ try {
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
-    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json"]
+    reports: ["result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

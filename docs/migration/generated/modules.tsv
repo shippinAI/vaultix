@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	b9f824d7a4229dd1fe2735d917f79ea7adb6076cc4551c9248e10bff597719da	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	1c96c8727c2848a8967ae3c09c990f29548f2956198958f008a0e758eb2343ca	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -965,7 +965,7 @@ core/frontend/src/pages/secret-manager/OverviewPage	integrations	React-TypeScrip
 core/frontend/src/pages/secret-manager/OverviewPage	scanning	React-TypeScript	2	50c57297e75d441b2108d8596f77a74f092cb8c3ced03a6db12b379b002e4b72	0	unassessed
 core/frontend/src/pages/secret-manager/OverviewPage	secrets	React-TypeScript	85	9baf937745ab1f50e8d98bde1e0bff829482da7a7e3b972fa4bf9bda42f5da7b	2	unassessed
 core/frontend/src/pages/secret-manager/SecretApprovalsPage	authorization	React-TypeScript	21	54e6866f79d6f2cb093f43667b806b06776d40fa940f894139ab2f7912ebb496	0	unassessed
-core/frontend/src/pages/secret-manager/SecretDashboardPage	pam	React-TypeScript	132	8a66d978de39ffc1d047213256a7ec6511f629cb76b85ba61b18eef045fb452c	1	unassessed
+core/frontend/src/pages/secret-manager/SecretDashboardPage	pam	React-TypeScript	132	8f22859db8399b539aa9caaae44a64ac53408c6f36decaf72990788acef86473	2	unassessed
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	audit	React-TypeScript	1	6ec6495859b3e24496cd9ee73edc316d58954f737e32f8b4a7c141440584b0f5	0	unassessed
 core/frontend/src/pages/secret-manager/SecretSyncDetailsByIDPage	integrations	React-TypeScript	66	76d87bca25863862fbc4d8affc82cc4f4ac93f2f56d099bc9598c7be08a711f6	0	unassessed
 core/frontend/src/pages/secret-manager/SettingsPage	integrations	React-TypeScript	14	15a2000c4adc4a5946bfe77fa16d4de025039abcb86a904c92ac16716a0a0d7c	0	unassessed
@@ -1060,4 +1060,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	38	ad4550c70d1e070bda89fadd8dafdad213420955728f82b818770ef7fe3acb24	30	unassessed
+scripts	delivery	supporting-tooling-or-contract	39	c4ca644227d93108c6366f529e1958ad21647733f23c4b3f5254a83766c1581a	31	unassessed

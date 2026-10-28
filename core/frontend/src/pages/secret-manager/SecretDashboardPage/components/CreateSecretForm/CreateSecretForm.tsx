@@ -1,15 +1,28 @@
-import { ClipboardEvent, useRef } from "react";
+import { ClipboardEvent, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { faTriangleExclamation, faWarning } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { AlertTriangleIcon, InfoIcon } from "lucide-react";
 
 import { createNotification } from "@app/components/notifications";
-import { Button, FormControl, Input, Tooltip } from "@app/components/v2";
-import { CreatableSelect } from "@app/components/v2/CreatableSelect";
 import { VaultixSecretInput } from "@app/components/v2/VaultixSecretInput";
-import { PasswordGenerator } from "@app/components/v3";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  CreatableSelect,
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  IconButton,
+  Input,
+  PasswordGenerator,
+  SheetFooter,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@app/components/v3";
 import {
   ProjectPermissionActions,
   ProjectPermissionSub,
@@ -28,13 +41,11 @@ import {
   usePopUpAction
 } from "../../SecretMainPage.store";
 
-const typeSchema = z.object({
-  key: z.string().trim().min(1, { message: "Secret key is required" }),
-  value: z.string().optional(),
-  tags: z.array(z.object({ label: z.string().trim(), value: z.string().trim() })).optional()
-});
-
-type TFormSchema = z.infer<typeof typeSchema>;
+type TFormSchema = {
+  key: string;
+  value: string;
+  tags: { label: string; value: string }[];
+};
 
 type Props = {
   environment: string;
@@ -55,14 +66,15 @@ export const CreateSecretForm = ({
   isBatchMode = false
 }: Props) => {
   const {
-    register,
     handleSubmit,
     control,
     reset,
     setValue,
     watch,
     formState: { errors, isSubmitting }
-  } = useForm<TFormSchema>({ resolver: zodResolver(typeSchema) });
+  } = useForm<TFormSchema>({ defaultValues: { key: "", value: "", tags: [] } });
+  const formId = useId();
+  const [submitFailed, setSubmitFailed] = useState(false);
   const { closePopUp } = usePopUpAction();
 
   const { mutateAsync: createSecretV3 } = useCreateSecretV3();
@@ -76,23 +88,25 @@ export const CreateSecretForm = ({
     canReadTags ? projectId : ""
   );
 
-  const secretKeyInputRef = useRef<HTMLInputElement>(null);
-  const { ref: setSecretKeyHookRef, ...secretKeyRegisterRest } = register("key");
+  const secretKeyInputRef = useRef<HTMLInputElement | null>(null);
 
   const secretKey = watch("key");
 
-  const slugSchema = z.string().trim().toLowerCase().min(1);
   const createNewTag = async (slug: string) => {
-    // TODO: Replace with slugSchema generic
-    const parsedSlug = slugSchema.parse(slug);
-    await createWsTag.mutateAsync({
-      projectId,
-      tagSlug: parsedSlug,
-      tagColor: ""
-    });
+    const tagSlug = slug.trim().toLowerCase();
+    if (!tagSlug) return;
+    try {
+      await createWsTag.mutateAsync({ projectId, tagSlug, tagColor: "" });
+    } catch {
+      // The shared mutation handler reports the server failure; keep the form intact.
+    }
   };
 
-  const handleFormSubmit = async ({ key, value, tags }: TFormSchema) => {
+  const handleFormSubmit = async (form: TFormSchema) => {
+    const key = form.key.trim();
+    const { value } = form;
+    const tags = form.tags.map((tag) => ({ label: tag.label.trim(), value: tag.value.trim() }));
+    setSubmitFailed(false);
     if (isBatchMode) {
       const pendingSecretCreate: PendingSecretCreate = {
         id: key,
@@ -114,16 +128,21 @@ export const CreateSecretForm = ({
       reset();
       return;
     }
-    await createSecretV3({
-      environment,
-      projectId,
-      secretPath,
-      secretKey: key,
-      secretValue: value || "",
-      secretComment: "",
-      type: SecretType.Shared,
-      tagIds: tags?.map((el) => el.value)
-    });
+    try {
+      await createSecretV3({
+        environment,
+        projectId,
+        secretPath,
+        secretKey: key,
+        secretValue: value || "",
+        secretComment: "",
+        type: SecretType.Shared,
+        tagIds: tags.map((el) => el.value)
+      });
+    } catch {
+      setSubmitFailed(true);
+      return;
+    }
     closePopUp(PopUpNames.CreateSecretForm);
     reset();
 
@@ -156,144 +175,168 @@ export const CreateSecretForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
-      <FormControl
-        label="Key"
-        isRequired
-        isError={Boolean(errors?.key)}
-        errorText={errors?.key?.message}
-      >
-        <Input
-          {...secretKeyRegisterRest}
-          ref={(e) => {
-            setSecretKeyHookRef(e);
-            // @ts-expect-error this is for multiple ref single component
-            secretKeyInputRef.current = e;
-          }}
-          warning={
-            secretKey?.includes(" ") ? (
-              <Tooltip
-                className="w-full max-w-72"
-                content={
-                  <div>
-                    Secret key contains whitespaces.
-                    <br />
-                    <br /> If this is the desired format, you need to provide it as{" "}
-                    <code className="rounded-md bg-mineshaft-500 px-1 py-0.5">
-                      {encodeURIComponent(secretKey.trim())}
-                    </code>{" "}
-                    when making API requests.
-                  </div>
-                }
-              >
-                <FontAwesomeIcon
-                  icon={faWarning}
-                  className="absolute right-0 mr-3 text-yellow-600"
-                />
-              </Tooltip>
-            ) : undefined
-          }
-          placeholder="Type your secret name"
-          onPaste={handlePaste}
-          autoCapitalization={autoCapitalize}
-        />
-      </FormControl>
-      <Controller
-        control={control}
-        name="value"
-        render={({ field }) => (
-          <FormControl
-            label="Value"
-            tooltipText={
-              <div>
-                You can add references to other secrets using the format{" "}
-                <code className="rounded-sm bg-mineshaft-600 px-1 py-0.5">
-                  &#36;{"{"}secret_name{"}"}
-                </code>
-                <br />
-                <br />
-                You can go to the referenced secret by holding the{" "}
-                <code className="rounded-sm bg-mineshaft-600 px-1 py-0.5">Cmd</code> (Mac) or{" "}
-                <code className="rounded-sm bg-mineshaft-600 px-1 py-0.5">Ctrl</code>{" "}
-                (Windows/Linux) key and clicking on the secret name.
-              </div>
-            }
-            tooltipClassName="max-w-md"
-            isError={Boolean(errors?.value)}
-            errorText={errors?.value?.message}
-          >
-            <div className="flex items-center gap-2">
-              <VaultixSecretInput
-                {...field}
-                environment={environment}
-                secretPath={secretPath}
-                containerClassName="text-bunker-300 hover:border-primary-400/50 border border-mineshaft-600 bg-mineshaft-900 px-2 py-1.5"
-              />
-              <PasswordGenerator
-                onUsePassword={field.onChange}
-                projectId={projectId}
-                selectedEnvironments={[{ slug: environment }]}
-                secretPath={secretPath}
-                environments={currentProject?.environments}
-              />
-            </div>
-          </FormControl>
-        )}
-      />
-      <Controller
-        control={control}
-        name="tags"
-        render={({ field }) => (
-          <FormControl
-            label="Tags"
-            isError={Boolean(errors?.value)}
-            errorText={errors?.value?.message}
-            helperText={
-              !canReadTags ? (
-                <div className="flex items-center space-x-2">
-                  <FontAwesomeIcon icon={faTriangleExclamation} className="text-yellow-400" />
-                  <span>You do not have permission to read tags.</span>
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      noValidate
+      className="flex flex-1 flex-col overflow-hidden"
+    >
+      <div className="flex thin-scrollbar flex-1 flex-col gap-4 overflow-y-auto p-4">
+        <Controller
+          control={control}
+          name="key"
+          rules={{ validate: (value) => Boolean(value.trim()) || "Secret key is required" }}
+          render={({ field, fieldState: { error } }) => (
+            <Field>
+              <FieldLabel htmlFor={`${formId}-key`}>Key</FieldLabel>
+              <FieldContent>
+                <div className="relative">
+                  <Input
+                    {...field}
+                    id={`${formId}-key`}
+                    aria-required
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? `${formId}-key-error` : undefined}
+                    ref={(element) => {
+                      secretKeyInputRef.current = element;
+                      field.ref(element);
+                    }}
+                    onChange={(event) =>
+                      field.onChange(
+                        autoCapitalize ? event.target.value.toUpperCase() : event.target.value
+                      )
+                    }
+                    onPaste={handlePaste}
+                    placeholder="Type your secret name"
+                    autoComplete="off"
+                    autoFocus
+                    isError={Boolean(error)}
+                  />
+                  {secretKey.includes(" ") && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <IconButton
+                          aria-label="Secret key whitespace help"
+                          variant="ghost"
+                          size="xs"
+                          className="absolute top-1/2 right-1 -translate-y-1/2 text-warning"
+                        >
+                          <AlertTriangleIcon />
+                        </IconButton>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-72">
+                        This key contains spaces. Use{" "}
+                        <code>{encodeURIComponent(secretKey.trim())}</code> when making API
+                        requests.
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
                 </div>
-              ) : (
-                ""
-              )
-            }
-          >
-            <CreatableSelect
-              isMulti
-              className="w-full"
-              placeholder="Select tags to assign to secret..."
-              isValidNewOption={(v) => slugSchema.safeParse(v).success}
-              name="tagIds"
-              isDisabled={!canReadTags}
-              isLoading={isTagsLoading && canReadTags}
-              options={projectTags?.map((el) => ({ label: el.slug, value: el.id }))}
-              value={field.value}
-              onChange={field.onChange}
-              onCreateOption={createNewTag}
-            />
-          </FormControl>
+                <FieldError id={`${formId}-key-error`} errors={[error]} />
+              </FieldContent>
+            </Field>
+          )}
+        />
+        <Controller
+          control={control}
+          name="value"
+          render={({ field }) => (
+            <Field>
+              <div className="flex items-center gap-1">
+                <FieldLabel htmlFor={`${formId}-value`}>Value</FieldLabel>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <IconButton aria-label="Secret reference help" variant="ghost" size="xs">
+                      <InfoIcon />
+                    </IconButton>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-72">
+                    Reference another secret with{" "}
+                    <code>
+                      &#36;{"{"}secret_name{"}"}
+                    </code>
+                    . Hold Cmd on Mac or Ctrl on Windows/Linux and click a reference to navigate to
+                    it.
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              <FieldContent>
+                <div className="flex items-start gap-2">
+                  <VaultixSecretInput
+                    {...field}
+                    id={`${formId}-value`}
+                    aria-label="Value"
+                    environment={environment}
+                    secretPath={secretPath}
+                    containerClassName="min-w-0 border border-border bg-container px-3 py-2 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/50"
+                  />
+                  <PasswordGenerator
+                    onUsePassword={field.onChange}
+                    projectId={projectId}
+                    selectedEnvironments={[{ slug: environment }]}
+                    secretPath={secretPath}
+                    environments={currentProject?.environments}
+                  />
+                </div>
+                <FieldError errors={[errors.value]} />
+              </FieldContent>
+            </Field>
+          )}
+        />
+        <Controller
+          control={control}
+          name="tags"
+          render={({ field }) => (
+            <Field>
+              <FieldLabel htmlFor={`${formId}-tags`}>Tags</FieldLabel>
+              <FieldContent>
+                <CreatableSelect
+                  inputId={`${formId}-tags`}
+                  isMulti
+                  className="w-full"
+                  placeholder="Select tags to assign to secret..."
+                  isValidNewOption={(value) => Boolean(value.trim())}
+                  name={field.name}
+                  isDisabled={!canReadTags}
+                  isLoading={isTagsLoading && canReadTags}
+                  options={projectTags?.map((tag) => ({ label: tag.slug, value: tag.id }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  onCreateOption={createNewTag}
+                  aria-describedby={!canReadTags ? `${formId}-tags-help` : undefined}
+                />
+                {!canReadTags && (
+                  <FieldDescription id={`${formId}-tags-help`}>
+                    You do not have permission to read tags.
+                  </FieldDescription>
+                )}
+                <FieldError errors={[errors.tags]} />
+              </FieldContent>
+            </Field>
+          )}
+        />
+        {submitFailed && (
+          <Alert variant="danger" role="status">
+            <AlertTriangleIcon />
+            <AlertTitle>Creation needs attention</AlertTitle>
+            <AlertDescription>
+              Your entries are preserved. Resolve the reported error, then retry.
+            </AlertDescription>
+          </Alert>
         )}
-      />
-      <div className="mt-7 flex items-center">
-        <Button
-          isDisabled={isSubmitting}
-          isLoading={isSubmitting}
-          key="layout-create-project-submit"
-          className="mr-4"
-          type="submit"
-        >
+      </div>
+      <SheetFooter>
+        <Button variant="project" type="submit" isDisabled={isSubmitting} isPending={isSubmitting}>
           Create Secret
         </Button>
         <Button
-          key="layout-cancel-create-project"
+          type="button"
+          variant="ghost"
           onClick={() => closePopUp(PopUpNames.CreateSecretForm)}
-          variant="plain"
-          colorSchema="secondary"
         >
           Cancel
         </Button>
-      </div>
+      </SheetFooter>
     </form>
   );
 };

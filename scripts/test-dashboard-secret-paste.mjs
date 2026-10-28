@@ -12,11 +12,9 @@ export async function testDashboardSecretPaste({ page, expect, origin, orgId, pr
   await page.goto(`${origin}/organizations/${orgId}/projects/secret-management/${projectId}/secrets/dev`);
   await page.getByRole("button", { name: "Add Secret", exact: true }).and(page.locator("button")).click();
   const dialog = page.getByRole("dialog", {
-    name: "Create Secret Add a secret to this particular environment and folder", exact: true
+    name: "Create Secret", exact: true
   });
-  // The existing v2 modal positions its inner card; the role container has no box.
-  // Verify the open state and visible working control, not that outer container's dimensions.
-  await expect(dialog).toHaveAttribute("data-state", "open");
+  await expect(dialog).toBeVisible();
   const key = dialog.getByPlaceholder("Type your secret name", { exact: true });
   await expect(key).toBeVisible();
   const value = dialog.locator("textarea");

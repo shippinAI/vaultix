@@ -243,10 +243,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "12f32b23fb9c3733f0a4ab4332c1aad656dec054",
+      "blob": "47408cd6e1e1c1d0a2c56e13fcbb3bacc68f33d8",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete current runner read; prior real-login, refresh, product navigation, environment, chart, create/recovery and paste gates retained. New reference-editor acceptance uses the already-created disposable secret name and records its reports before the rest of the application suite. Full ordered packaged run passes. Actual external issuer/provider, restricted-role/editor matrix and whole-product parity remain separate.",
+      "scope": "Complete current runner read. Retains prior ordered actual login/navigation, refresh, overview, environment, chart, creation recovery, paste and reference suites. New dashboard create/stage/commit proof uses actual project settings and fixture-issued metadata-only GET verification without exposing token or values. Full ordered run passes; external issuer, provider and enterprise acceptance remain independent.",
       "evidence": [
         "docs/0028-visual-loading-system.md",
         ".cache/bundle-proof-YDXub6/summary.json",
@@ -292,7 +292,14 @@
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
         ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
         ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
-        ".cache/dashboard-reference-pending-lint.log"
+        ".cache/dashboard-reference-pending-lint.log",
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
       ]
     },
     {
@@ -1099,10 +1106,10 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "463e24137a1ceca716815dbdfc5eb5f04c559edf",
+      "blob": "da88ab82b56cf3519e057fa82ba0f8ff037d54d0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current workflow read; previous image identity, revision/digest promotion, application/native/cache and publication gates retained. Adds retention of dashboard reference semantics and interaction artifacts produced by the ordered real-image suite. Local runner accepted; cloud jobs still fail before steps due billing/spending, so successful GHCR execution/publication remains unverified.",
+      "scope": "Complete current workflow read; existing source/image identity, build, native/cache/browser and release promotion gates retained. Adds retention of dashboard-create JSON evidence; current ordered image proof accepted locally. Cloud execution/publication remains unverified while account billing blocks jobs before steps.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1145,7 +1152,14 @@
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
         ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
         ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
-        ".cache/dashboard-reference-pending-lint.log"
+        ".cache/dashboard-reference-pending-lint.log",
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
       ]
     },
     {
@@ -2460,10 +2474,10 @@
     },
     {
       "path": "core/frontend/src/pages/secret-manager/SecretDashboardPage/components/CreateSecretForm/CreateSecretForm.tsx",
-      "blob": "32b9059620be0ebfa6983a13985d64962b86dbdc",
+      "blob": "ac6cdbdf9472837b86c06614baafb5bc43fa9cf8",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Shared paste result now clears an explicitly empty assigned value while retaining a plain-key paste value. Actual packaged environment dashboard checks both delimiters and cancellation. Existing legacy controls, validation, permissions, batch and approval behavior retained for a subsequent in-place v3 migration; these broader paths are not accepted by the paste proof.",
+      "scope": "Complete form read and authored in place using native Field/Input/Button/SheetFooter, typed RHF validation and associated labels/errors. Existing key/tag trimming, configured casing, paste, optional empty values, tag mutation, batch staging and direct-create fallback retained. Explicit contextual help and failure retention added. Real packaged create consumer verifies validation focus, menu/generator Escape, tags, desktop/mobile scans, staging and commit recovery. The live caller defaults to batch mode; dormant direct-create fallback and protected-approval/restricted-role cases are not newly certified. Verified reference editor retained pending wider consolidation.",
       "evidence": [
         "docs/0044-create-secret-workflow.md",
         ".cache/app-image-proof-Wkcm5I/workflow-result.json",
@@ -2474,7 +2488,14 @@
         "scripts/test-secret-paste.mjs",
         ".cache/create-secret-final-typecheck.log",
         ".cache/create-secret-final-lint.log",
-        ".cache/create-secret-overview-lint.log"
+        ".cache/create-secret-overview-lint.log",
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
       ]
     },
     {
@@ -2574,10 +2595,10 @@
     },
     {
       "path": "scripts/test-dashboard-secret-paste.mjs",
-      "blob": "2786890a0d71062f168301092a2048c3e402e6ae",
+      "blob": "3b814c46cb485d57a734188e437da26c936f8862",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete authored runner. Actual separate dashboard form checks key-only preservation, empty equals/colon assignment and cancellation with public dummy input. No operator data or secret creation submitted by this compatibility check; broader dashboard accessibility remains open.",
+      "scope": "Complete compatibility test read; same actual paste/cancel/no-submit checks retained after conversion. Dialog locator now uses the native Sheet title and actual visible dialog instead of the legacy outer zero-size role container. Full packaged run verifies both explicit-empty delimiters and plain-key value retention.",
       "evidence": [
         "docs/0044-create-secret-workflow.md",
         ".cache/app-image-proof-Wkcm5I/workflow-result.json",
@@ -2588,7 +2609,14 @@
         "scripts/test-secret-paste.mjs",
         ".cache/create-secret-final-typecheck.log",
         ".cache/create-secret-final-lint.log",
-        ".cache/create-secret-overview-lint.log"
+        ".cache/create-secret-overview-lint.log",
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
       ]
     },
     {
@@ -2680,16 +2708,55 @@
     },
     {
       "path": "scripts/test-dashboard-secret-references.mjs",
-      "blob": "15e3891a6d6ec0b851b015ab51b102eac2af6b22",
+      "blob": "c9ebcfe327059a9a52757a8cee9571d3f475e41e",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete new consuming-workflow proof read. Runs inside the disposable real-image application after fixture creation, uses only public reference text, records semantics and completed checks, counts create POSTs, and restores viewport/motion preference after cancellation. Baseline reproduces invalid expansion semantics; first candidate exposes stale-prefix selection; repaired run verifies named suggestions, insertion with preserved suffix, Tab/Shift+Tab exit, mobile bounds and Escape. No operator state or values are read.",
+      "scope": "Complete reference test read; all accepted insertion/suffix, keyboard exit, stale-suggestion settlement, 320px popup bounds and cancel/no-write checks retained. Dialog locator follows the newly authored native Sheet title. Full packaged run verifies the preserved editor in its changed consuming container.",
       "evidence": [
         "docs/0046-dashboard-reference-editor.md",
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
         ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
         ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
-        ".cache/dashboard-reference-pending-lint.log"
+        ".cache/dashboard-reference-pending-lint.log",
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/SecretDashboardPage/components/CommitForm/CommitForm.tsx",
+      "blob": "6a38f61f85f6c54d68784279511714d85930c4d1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read: pending secret/folder rendering, explicit value reveal, reference queries, review message and commit lifecycle traced. Scoped change catches rejected commits while preserving pending state/message, retains centralized mutation reporting, and associates the commit message label without file-wide accessibility suppression. Real packaged tagged-secret staging, injected first-commit failure and actual retry/persistence pass. Update/delete/folder, restricted reveal, approvals, broader diff accessibility and provider workflows remain separate. Existing value-fetch compatibility is not an AI action.",
+      "evidence": [
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
+      ]
+    },
+    {
+      "path": "scripts/test-dashboard-create-workflow.mjs",
+      "blob": "d16bad283679bf571b479389d10a59eb6f27f0d4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete new disposable-image workflow runner read. Uses actual project casing policy, public dummy key/empty value, real tag normalization, native validation and popup interactions, selected desktop/320px reduced-motion axe scans, actual local staging and commit retry after an explicitly injected failure. Persistence callback returns metadata booleans only; reports contain no credentials or secret values. Does not assert full UI/provider/enterprise acceptance.",
+      "evidence": [
+        "docs/0047-dashboard-create-workflow.md",
+        ".cache/app-image-proof-1653IB/workflow-result.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
+        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
+        ".cache/dashboard-create-lint-final.log",
+        ".cache/dashboard-commit-lint-final.log"
       ]
     }
   ]

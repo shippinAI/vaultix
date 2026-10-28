@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useId, useMemo, useState } from "react";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -18,6 +17,7 @@ import {
   Badge,
   Button,
   Input,
+  Label,
   Sheet,
   SheetContent,
   SheetDescription,
@@ -481,6 +481,7 @@ export const CommitForm: React.FC<CommitFormProps> = ({
     setInternalIsModalOpen(open);
   };
   const [commitMessage, setCommitMessage] = useState("");
+  const commitMessageId = useId();
   const { clearAllPendingChanges } = useBatchModeActions();
 
   const secretsBeingRenamed = useMemo(
@@ -546,6 +547,8 @@ export const CommitForm: React.FC<CommitFormProps> = ({
       });
       setIsModalOpen(false);
       setCommitMessage("");
+    } catch {
+      // Mutation errors are reported centrally; pending edits and the message stay available.
     } finally {
       setIsSubmitting(false);
     }
@@ -682,8 +685,11 @@ export const CommitForm: React.FC<CommitFormProps> = ({
           <SheetFooter className="border-t border-border">
             <div className="flex w-full flex-col gap-4">
               <div>
-                <label className="mb-2 block text-sm font-medium">Commit Message</label>
+                <Label htmlFor={commitMessageId} className="mb-2 block text-sm font-medium">
+                  Commit Message
+                </Label>
                 <Input
+                  id={commitMessageId}
                   value={commitMessage}
                   onChange={(e) => setCommitMessage(e.target.value)}
                   placeholder="Describe your changes..."

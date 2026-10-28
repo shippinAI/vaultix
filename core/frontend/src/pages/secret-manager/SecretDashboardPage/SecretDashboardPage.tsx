@@ -19,12 +19,11 @@ import {
   Button,
   Checkbox,
   ContentLoader,
-  Modal,
-  ModalContent,
   PageHeader,
   Pagination,
   Tooltip
 } from "@app/components/v2";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@app/components/v3";
 import { ROUTE_PATHS } from "@app/const/routes";
 import {
   ProjectPermissionActions,
@@ -1085,15 +1084,24 @@ const Page = () => {
             onChangePerPage={handlePerPageChange}
           />
         )}
-      <Modal
-        isOpen={createSecretPopUp.isOpen}
+      <Sheet
+        open={createSecretPopUp.isOpen}
         onOpenChange={(state) => togglePopUp(PopUpNames.CreateSecretForm, state)}
       >
-        <ModalContent
-          title="Create Secret"
-          subTitle="Add a secret to this particular environment and folder"
-          bodyClassName="overflow-visible"
+        <SheetContent
+          className="w-full sm:max-w-lg"
+          onEscapeKeyDown={(event) => {
+            if (
+              event.target instanceof HTMLElement &&
+              event.target.getAttribute("aria-expanded") === "true"
+            )
+              event.preventDefault();
+          }}
         >
+          <SheetHeader>
+            <SheetTitle>Create Secret</SheetTitle>
+            <SheetDescription>Add a secret to this environment and folder.</SheetDescription>
+          </SheetHeader>
           <CreateSecretForm
             environment={environment}
             projectId={projectId}
@@ -1102,8 +1110,8 @@ const Page = () => {
             isProtectedBranch={isProtectedBranch}
             isBatchMode={isBatchMode}
           />
-        </ModalContent>
-      </Modal>
+        </SheetContent>
+      </Sheet>
       {!!pathPolicies && (
         <RequestAccessModal
           policies={pathPolicies}

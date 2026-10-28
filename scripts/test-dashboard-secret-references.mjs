@@ -19,7 +19,7 @@ export async function testDashboardSecretReferences({ page, expect, evidence }) 
   };
   await page.getByRole("button", { name: "Add Secret", exact: true }).and(page.locator("button")).click();
   const dialog = page.getByRole("dialog", {
-    name: "Create Secret Add a secret to this particular environment and folder", exact: true
+    name: "Create Secret", exact: true
   });
   const value = dialog.locator("textarea");
   const references = page.getByRole("dialog", { name: "Secret references", exact: true });

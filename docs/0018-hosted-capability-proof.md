@@ -573,3 +573,13 @@ including actual reference insertion, suffix preservation and populated 320px
 reduced-motion checks without secret submission. Other editor consumers,
 restricted roles, cross-project grants, wizard accessibility and screen readers
 remain open; this is not complete editor or enterprise parity.
+
+The native dashboard create sheet and commit recovery are recorded in
+[0047](0047-dashboard-create-workflow.md). Existing key/value paste and reference
+editing remain covered. The packaged workflow creates a real normalized tag,
+stages an empty-valued secret, retains pending state/message after an injected
+commit failure, retries the real commit and verifies metadata without fetching
+values (`.cache/app-image-proof-1653IB`). Associated field labels, keyboard help,
+generator/menu dismissal and desktop/320px selected accessibility scans pass.
+Manual axe findings, real screen readers, restricted roles, protected approvals,
+other commit operations and the dormant direct-create branch remain explicit gaps.
