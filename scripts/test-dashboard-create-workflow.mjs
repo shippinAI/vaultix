@@ -50,11 +50,32 @@ export async function testDashboardCreateWorkflow({ page, expect, AxeBuilder, or
   await expect(page.getByRole("tooltip")).toContainText("Reference another secret");
   await page.keyboard.press("Escape");
   await expect(dialog).toBeVisible();
-  await dialog.getByRole("button", { name: "Generate secret value", exact: true }).click();
   const generator = page.locator('[data-slot="popover-content"]').filter({ hasText: "Generate Random Value" });
-  await expect.poll(() => generator.evaluate(element => element.contains(document.activeElement))).toBe(true);
-  await page.keyboard.press("Escape");
-  await expect(generator).toHaveCount(0);
+  const dismissals = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    await dialog.getByRole("button", { name: "Generate secret value", exact: true }).click();
+    await expect.poll(() => generator.evaluate(element => element.contains(document.activeElement))).toBe(true);
+    await page.keyboard.press("Escape");
+    try {
+      await expect(generator).toHaveCount(0);
+      await expect(dialog).toBeVisible();
+      await expect(dialog.getByRole("button", { name: "Generate secret value", exact: true })).toBeFocused();
+    } finally {
+      dismissals.push({
+        attempt,
+        remaining: await generator.evaluateAll(elements => elements.map(element => ({
+          state: element.getAttribute("data-state"),
+          display: getComputedStyle(element).display,
+          visibility: getComputedStyle(element).visibility,
+          animation: getComputedStyle(element).animationName,
+          focusInside: element.contains(document.activeElement),
+          animations: element.getAnimations().map(animation => ({ playState: animation.playState }))
+        }))),
+        focusTag: await page.evaluate(() => document.activeElement?.tagName)
+      });
+      writeFileSync(resolve(evidence, "dashboard-create-generator-dismissal.json"), JSON.stringify(dismissals, null, 2));
+    }
+  }
   await expect(dialog).toBeVisible();
   await value.focus();
   await expect(value).toHaveValue("");

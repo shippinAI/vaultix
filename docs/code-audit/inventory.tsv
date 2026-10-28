@@ -7598,7 +7598,7 @@ core/frontend/src/components/v3/platform/OverflowBadgeList/OverflowBadgeList.tsx
 core/frontend/src/components/v3/platform/OverflowBadgeList/index.ts	c5b11e4d6d67dfa636f1a92cf4a4efe39aa14d63	product-code	unread
 core/frontend/src/components/v3/platform/PageLoader/PageLoader.tsx	8428cd4621a90c9f48d23d72812c2909a6c0a698	product-code	unread
 core/frontend/src/components/v3/platform/PageLoader/index.ts	70c6707ce931277ed9a2d1693c9595e06e7e4948	product-code	unread
-core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	5609eee4c99ad0fa48fcf579517da05bb4241ec5	product-code	verified
+core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	05ccaa8050dc9ffeeb329e3e8cc0a507149e9860	product-code	authored
 core/frontend/src/components/v3/platform/PasswordGenerator/index.ts	f834fcf6f01c8e358c0e411c8a0d047227b00351	product-code	unread
 core/frontend/src/components/v3/platform/PermissionActionSelect.tsx	7a7a9a3df1bd1ee6008dd0fe027c189960109f08	product-code	unread
 core/frontend/src/components/v3/platform/ScopeIcons.tsx	359187afe2a628eb15790370f8dc30f8f37b2c3d	product-code	unread
@@ -11682,10 +11682,10 @@ docs/0044-create-secret-workflow.md	b9d873f523368e4e5696ffd773948d428f9732c3	doc
 docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7c	documentation	unread
 docs/0046-dashboard-reference-editor.md	e2c5d14352ae2fd5376b6e79b086d7a8a854ff75	documentation	unread
 docs/0047-dashboard-create-workflow.md	25e0c8c86bfa860d2553938d893af997777612c6	documentation	unread
-docs/0048-self-hosted-builds.md	0e1c6e97a0a33ac983b28d7f26053e48c4eb9d5e	documentation	unread
+docs/0048-self-hosted-builds.md	beb8941b0da955f5cca2bf3293e6b68bc8938ad6	documentation	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	db0000e178519c4103d8cd687fe9d282e71bd4dd	generated	unread
-docs/migration/generated/modules.tsv	dce82f042c71a5b5b5330bad812b8b6772ed2887	generated	unread
+docs/migration/generated/files.tsv	6368ebc71ec572c11e196d801a93ac112ed6b082	generated	unread
+docs/migration/generated/modules.tsv	9198a5b137f95f445b77520226816e76988a1938	generated	unread
 docs/migration/generated/summary.json	71cf0d04b434aa2d1d1536f7a1e8bd5e99aa295c	generated	unread
 docs/migration/workstreams.json	bed878ee1ed4199b5d0cbd0a47411df75bc91fda	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11816,7 +11816,7 @@ scripts/test-chart-rendering.mjs	17645dfb85696d78d3d583b459b756e1f26c38c2	build-
 scripts/test-core.mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	build-and-operations	authored
 scripts/test-create-secret-recovery.mjs	49a201f6c9cde534e88bbf6213d7bfb4854d4237	build-and-operations	verified
 scripts/test-create-secret-workflow.mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	build-and-operations	verified
-scripts/test-dashboard-create-workflow.mjs	d16bad283679bf571b479389d10a59eb6f27f0d4	build-and-operations	verified
+scripts/test-dashboard-create-workflow.mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	build-and-operations	authored
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-dashboard-secret-paste.mjs	3b814c46cb485d57a734188e437da26c936f8862	build-and-operations	verified
 scripts/test-dashboard-secret-references.mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	build-and-operations	verified

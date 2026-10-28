@@ -317,7 +317,31 @@ export const PasswordGenerator = ({
           <KeyRoundIcon />
         </IconButton>
       </PopoverTrigger>
-      <PopoverContent className="w-[30rem]" align="end">
+      <PopoverContent
+        className="w-[30rem]"
+        align="end"
+        onEscapeKeyDown={(event) => {
+          if (
+            event.target instanceof HTMLElement &&
+            event.target.getAttribute("aria-expanded") === "true"
+          ) {
+            event.preventDefault();
+          }
+        }}
+        onKeyDown={(event) => {
+          if (
+            event.key === "Escape" &&
+            event.target instanceof HTMLElement &&
+            event.target.getAttribute("aria-expanded") !== "true"
+          ) {
+            // A closing sibling layer can consume the document-level Escape first.
+            // Focus inside this generator still owns its dismissal.
+            event.preventDefault();
+            event.stopPropagation();
+            setIsOpen(false);
+          }
+        }}
+      >
         <div className="flex flex-col gap-4">
           <div>
             <p className="text-sm font-medium">Generate Random Value</p>

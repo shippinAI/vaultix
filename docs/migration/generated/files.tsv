@@ -5219,7 +5219,7 @@ core/frontend/src/components/v3/platform/OverflowBadgeList/OverflowBadgeList.tsx
 core/frontend/src/components/v3/platform/OverflowBadgeList/index.ts	core/frontend/src/components/v3/platform/OverflowBadgeList	ui	React-TypeScript	ts	c5b11e4d6d67dfa636f1a92cf4a4efe39aa14d63	unread
 core/frontend/src/components/v3/platform/PageLoader/PageLoader.tsx	core/frontend/src/components/v3/platform/PageLoader	ui	React-TypeScript	tsx	8428cd4621a90c9f48d23d72812c2909a6c0a698	unread
 core/frontend/src/components/v3/platform/PageLoader/index.ts	core/frontend/src/components/v3/platform/PageLoader	ui	React-TypeScript	ts	70c6707ce931277ed9a2d1693c9595e06e7e4948	unread
-core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	tsx	5609eee4c99ad0fa48fcf579517da05bb4241ec5	verified
+core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx	core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	tsx	05ccaa8050dc9ffeeb329e3e8cc0a507149e9860	authored
 core/frontend/src/components/v3/platform/PasswordGenerator/index.ts	core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	ts	f834fcf6f01c8e358c0e411c8a0d047227b00351	unread
 core/frontend/src/components/v3/platform/PermissionActionSelect.tsx	core/frontend/src/components/v3	authorization	React-TypeScript	tsx	7a7a9a3df1bd1ee6008dd0fe027c189960109f08	unread
 core/frontend/src/components/v3/platform/ScopeIcons.tsx	core/frontend/src/components/v3	ui	React-TypeScript	tsx	359187afe2a628eb15790370f8dc30f8f37b2c3d	unread
@@ -9357,7 +9357,7 @@ scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f771a3a31c0f09eb1d8fae313067e9255f9ae3c3	authored
 scripts/test-create-secret-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	49a201f6c9cde534e88bbf6213d7bfb4854d4237	verified
 scripts/test-create-secret-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	verified
-scripts/test-dashboard-create-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d16bad283679bf571b479389d10a59eb6f27f0d4	verified
+scripts/test-dashboard-create-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	authored
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-dashboard-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3b814c46cb485d57a734188e437da26c936f8862	verified
 scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	verified

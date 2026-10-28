@@ -603,7 +603,7 @@ core/frontend/src/components/v3/platform/GatewayPicker	pam	React-TypeScript	2	ac
 core/frontend/src/components/v3/platform/IdentityRoleBadges	identity	React-TypeScript	2	2336650c0f851e0ff090c2b8aad5426a873db31d6b6c2f211ea1f39ac14e3d0a	0	unassessed
 core/frontend/src/components/v3/platform/OverflowBadgeList	ui	React-TypeScript	2	585cbf4a3bc62e913295920d4cdf241d1b31b96c4d0cde7cc7217e245a3f40ea	0	unassessed
 core/frontend/src/components/v3/platform/PageLoader	ui	React-TypeScript	2	99654fd419a438d5d46b9d8ab09867c264cb2622a42fadd19a7bc06fd90080c2	0	unassessed
-core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2	9a902ec06857a9b734662daea0a0fdcd5b06ba2a1439283c49e464c318536c41	1	unassessed
+core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2	d184a5a31a788120f6b1f751a8de8176ed25a9a64d757046fe06f5b5a826ffc1	1	unassessed
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
@@ -1060,4 +1060,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	41	93ac901f9d9b32448aedd8ba0bc5a3f674c6208444828395e4d90359c2cf4d4c	35	unassessed
+scripts	delivery	supporting-tooling-or-contract	41	6eccbe9c58e356ee8d5ba47a4a799c05cb915fc2fda5a611ec6eb6b4d3d6dd60	35	unassessed

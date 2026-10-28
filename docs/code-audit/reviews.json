@@ -2550,10 +2550,10 @@
     },
     {
       "path": "core/frontend/src/components/v3/platform/PasswordGenerator/PasswordGenerator.tsx",
-      "blob": "5609eee4c99ad0fa48fcf579517da05bb4241ec5",
-      "status": "verified",
+      "blob": "05ccaa8050dc9ffeeb329e3e8cc0a507149e9860",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. The existing generator entry button now has a meaningful accessible name. Packaged open/dismiss/no-submit behavior is verified. Generation algorithms, validation rule matching, randomness, inner controls and clipboard handling are retained and remain separately reviewable; this is not full generator accessibility or cryptographic acceptance.",
+      "scope": "Complete current generator file read, including query/rule selection, scoped constraints, generation and clipboard/use behavior. Actual packaged Escape failure reproduced with generator still open/focused. Scoped change owns Escape from focused generator controls and prevents parent dismissal when a nested selector is expanded. Existing generation/policy/value lifecycle retained; no cryptographic or full generator accessibility acceptance. Corrected packaged run pending.",
       "evidence": [
         "docs/0044-create-secret-workflow.md",
         ".cache/app-image-proof-Wkcm5I/workflow-result.json",
@@ -2564,7 +2564,10 @@
         "scripts/test-secret-paste.mjs",
         ".cache/create-secret-final-typecheck.log",
         ".cache/create-secret-final-lint.log",
-        ".cache/create-secret-overview-lint.log"
+        ".cache/create-secret-overview-lint.log",
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-build-17PHFT/result.json",
+        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json"
       ]
     },
     {
@@ -2757,10 +2760,10 @@
     },
     {
       "path": "scripts/test-dashboard-create-workflow.mjs",
-      "blob": "d16bad283679bf571b479389d10a59eb6f27f0d4",
-      "status": "verified",
+      "blob": "3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete new disposable-image workflow runner read. Uses actual project casing policy, public dummy key/empty value, real tag normalization, native validation and popup interactions, selected desktop/320px reduced-motion axe scans, actual local staging and commit retry after an explicitly injected failure. Persistence callback returns metadata booleans only; reports contain no credentials or secret values. Does not assert full UI/provider/enterprise acceptance.",
+      "scope": "Complete workflow runner reread. Retains actual configured casing, tags, empty value, staging, failed commit recovery and metadata-only persistence checks. Expands generator open/dismiss to six attempts and requires trigger focus restoration. Value-free state/focus/animation diagnostics persist even on failure. Baseline reproduces a still-open generator, not an exit-animation-only mismatch; corrected packaged run pending.",
       "evidence": [
         "docs/0047-dashboard-create-workflow.md",
         ".cache/app-image-proof-1653IB/workflow-result.json",
@@ -2768,7 +2771,10 @@
         ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
-        ".cache/dashboard-commit-lint-final.log"
+        ".cache/dashboard-commit-lint-final.log",
+        "docs/0048-self-hosted-builds.md",
+        ".cache/self-hosted-build-17PHFT/result.json",
+        ".cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json"
       ]
     },
     {

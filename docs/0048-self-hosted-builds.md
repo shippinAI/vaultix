@@ -110,4 +110,20 @@ explicit immutable-image selection, source-revision build arguments, Dragonfly,
 loopback binding and preserved volume definitions. Both workflow files parse with
 only `workflow_dispatch` triggers. Evidence:
 `.cache/self-hosted-compose-Bod5ym/result.json`. No operator configuration was read
-or changed by these fixtures. The real committed-source build is the next gate.
+or changed by these fixtures.
+
+The first real committed-source run built `b414b12` successfully and passed all
+18 identity-lifetime startup cases, then correctly stopped on a generator Escape
+failure during the Dragonfly browser workflow. Receipt:
+`.cache/self-hosted-build-17PHFT/result.json`. A diagnostic repeat reproduced a
+visible, still-open generator with focus inside after Escape:
+`.cache/app-image-proof-FByuLf/dashboard-create-generator-dismissal.json`.
+An intervening pass did not supersede this failure.
+
+The generator now handles Escape from its own focused controls as well as the
+shared document layer, and leaves an expanded nested selector to handle Escape
+first. The dashboard regression check repeats open/dismiss six times, requires
+focus restoration, and records only layer/focus metadata. No generated value is
+recorded. Random generation, policy matching and clipboard behavior remain
+unchanged; this change does not certify those separate concerns. The corrected
+committed-image run must pass before this delivery is accepted.
