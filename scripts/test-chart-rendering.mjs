@@ -36,8 +36,12 @@ export async function testChartRendering({ page, expect, AxeBuilder, origin, das
   });
   const open = async () => {
     await page.goto(dashboardUrl);
+    const dashboardPath = new URL(dashboardUrl).pathname;
+    await page.waitForURL(url => url.pathname === dashboardPath, { timeout: 30000 });
     try {
-      await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible({ timeout: 30000 });
+      await expect(page.getByRole("heading", { name: "Certificate Dashboard", exact: true })).toBeVisible({
+        timeout: 30000
+      });
     } catch (error) {
       writeFileSync(resolve(evidence, "chart-navigation-failure.json"), JSON.stringify({
         pathname: new URL(page.url()).pathname,
