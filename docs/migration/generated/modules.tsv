@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.github/workflows	delivery	supporting-tooling-or-contract	2	ec3b0130ecd4ae8b6b7de62ef1fc6b8a6cdbf8e7e781a7665f88dae7929ea7d1	1	unassessed
+.github/workflows	delivery	supporting-tooling-or-contract	2	9d370e6a6822de8b97c22874fad1cff07b61adcda8f3af2cc742ba43940cb446	1	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	0795a3f55c2d06162d5093b1c7ccc542785045232d2a9e9acc00285201f08636	0	unassessed
 compose	delivery	supporting-tooling-or-contract	5	15f87dd1578508021e54cb6a9919712dca09d8ffed0edc0676247f706930e5cb	0	unassessed
@@ -13,9 +13,9 @@ core/backend	delivery	Go-domain-migration	4	efeadffe3e7fc07566aa5c24017e759391df
 core/backend	foundation	Go-domain-migration	16	6c6ae591c6f3abc68f456e0cf27cd43b98f774b60c839a3b8c0787964dae5b5e	0	unassessed
 core/backend-go	delivery	Go-native	3	c2f65c587217ea47534a397dc4ea0bc9849d4aa0540a07de334b6475bea270bc	3	unassessed
 core/backend-go	foundation	Go-native	5	3aa47b5306e8fd556c8abe0f6e85f8b67cdcd09517f4396f0c9a319f587d93f4	1	unassessed
-core/backend-go/cmd/vaultix	ai	Go-native	1	708bcffe49fa2359122abcb5265b9779292b6f61152ae41401341b9f180b5d82	0	unassessed
+core/backend-go/cmd/vaultix	ai	Go-native	1	708bcffe49fa2359122abcb5265b9779292b6f61152ae41401341b9f180b5d82	1	unassessed
 core/backend-go/docker-test	delivery	Go-native	1	6e9ff5705c5b68a151beec9a1fcd49119d34a1c6f32c4910b416f0462f0bed0b	1	unassessed
-core/backend-go/internal/config	foundation	Go-native	2	efb1f98a10475c7373521bd2f3065ea55e14749714785f0b8bbf27be779c2908	0	unassessed
+core/backend-go/internal/config	foundation	Go-native	2	efb1f98a10475c7373521bd2f3065ea55e14749714785f0b8bbf27be779c2908	2	unassessed
 core/backend-go/internal/database/pg	foundation	Go-native	2	c250624c92e202ebf556343524ad1f9514b5b82984476ecd0835e269cf2f1c20	0	unassessed
 core/backend-go/internal/database/pg/pglock	foundation	Go-native	1	2d18db7e9321a7644f273ccae1d572bfbc2720a50bf6b1d109948120244b1b38	0	unassessed
 core/backend-go/internal/database/pg/qb	foundation	Go-native	8	bfdbf7b71f1f2ae5623f2fd9e451ad448ad35e5d37deba938a6b11da34c3c20a	0	unassessed
@@ -36,7 +36,7 @@ core/backend-go/internal/libs/logutil	foundation	Go-native	1	fa1309ad3a8251693df
 core/backend-go/internal/libs/requestid	foundation	Go-native	1	a68779cad843e4d5a393b4b7a34f73fc3138c0367cb0aa7c4aedd624619ed44c	0	unassessed
 core/backend-go/internal/queue	foundation	Go-native	2	6c1833a8dbfcfd6372d7359fcfca6c234e253fee1312c6f4e0af249ae2a1e9ba	0	unassessed
 core/backend-go/internal/server	foundation	Go-native	1	4a2ddcdfb3f2aac1c4717e56cfc2474b633e39b92b1eaa330be4549a629f8356	0	unassessed
-core/backend-go/internal/server/api	foundation	Go-native	3	408b1e2079728775b6040d050d271e595c54fa0db1fee6195e485d93d6cc6f0e	0	unassessed
+core/backend-go/internal/server/api	foundation	Go-native	3	408b1e2079728775b6040d050d271e595c54fa0db1fee6195e485d93d6cc6f0e	1	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	8c2ea48f3dfc5ba0e64b032fe8c696facceb4412699f03ffa07aa30c6e5aac8e	0	unassessed
 core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	a16e0bef65fe29ace1abaedf4a346e0bb651e093546a8e6486f2f95696db70df	0	unassessed
 core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	6	d44c34a78384f8afea716d8c8923681f02598055c6a5d906d39a735b225357fc	0	unassessed
@@ -46,14 +46,14 @@ core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	3	d55551958fe18a24753d96680a8a6bb63ea4d9bf88d0dbf5ed54b58a6a3bf416	0	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	11	e07a6eb5792decd7316c2f6ddfdd407b7dcd5f82b378254c3eb5f497d1b33e2b	6	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	13	e38e001f566378b5598b13075f731d57f403e9360d2196133c3164156f910218	8	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	13	5c63e31d37fa0cc261cee9b749d0c11cfa2ee588fb35d069dee2ed5a99d2175f	0	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
 core/backend-go/internal/services/secretmanager	secrets	Go-native	12	108d15d88d224fe7564e16b810899d36699c5ec5065f217deb4cf1384229dbde	0	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	ee3c7712a5322a3ba39e2709508aa89986051062a53618f283cdb607e713ad8f	3	unassessed
-core/backend-go/tests/platform/auth	identity	Go-native	3	ef6991c74f76e0d3f0ccfe52f082a7d2f52d2cd5d270afaf27465ce83af6c763	3	unassessed
+core/backend-go/tests/platform/auth	identity	Go-native	4	7a5e6b0bd5131689427140ae95b0dadd78d7ab6c63de17b36765cd8a5ac872f8	4	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
 core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c5988bc3f73ca5fc3df24b6c0adef1eb943ac0ad7468419	0	unassessed
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
@@ -228,7 +228,7 @@ core/backend/src/lib/cache	foundation	Go-domain-migration	2	61d420c22af8802abe26
 core/backend/src/lib/casl	authorization	Go-domain-migration	1	237a3fb719b8c4456121f161da6a45211dc1f65f3b010ba53e03b4f802980830	0	unassessed
 core/backend/src/lib/casl	foundation	Go-domain-migration	5	9d7f2d8f2b0592a91a6521b3e3b6c76378bee3204b195d7069a93e38525574ad	0	unassessed
 core/backend/src/lib/certificates	pki	Go-domain-migration	2	ef8a1af2c62fdc53f97c3f86df53a3d26822f8e9141357ca4be8bd416a24cd69	0	unassessed
-core/backend/src/lib/config	foundation	Go-domain-migration	9	e3fa74743196454650cc28278430d507543956b7b1894412b78425de884366bb	0	unassessed
+core/backend/src/lib/config	foundation	Go-domain-migration	9	e3fa74743196454650cc28278430d507543956b7b1894412b78425de884366bb	1	unassessed
 core/backend/src/lib/cron	foundation	Go-domain-migration	2	7f59a2a2b0469e3b9523fc83461acc94349229082f77adc6bf4118931df049a6	0	unassessed
 core/backend/src/lib/crypto	foundation	Go-domain-migration	9	72640fba3f10fc03ee7dfa429f70e100587297ac0aa68ed956a6e53941e3cee4	0	unassessed
 core/backend/src/lib/crypto	secrets	Go-domain-migration	1	7fdb758e750e070235a6bbfc34a6044f7775a4dc16cf7f77891cda6158c9166e	0	unassessed
@@ -253,7 +253,7 @@ core/backend/src/lib/knex	authorization	Go-domain-migration	1	1e1b4fa7d334278deb
 core/backend/src/lib/knex	foundation	Go-domain-migration	6	6291e4d40afe6c792cb6f57c940bef9495f08146ec20eef3429f872870c4997f	0	unassessed
 core/backend/src/lib/knex	identity	Go-domain-migration	1	44fe76b1540f1e8b445348eb3e9fb1caf637f39d50f61fb0b84cdadfe7a2f843	0	unassessed
 core/backend/src/lib/logger	foundation	Go-domain-migration	4	d1113e60d26bb7b0b3f94d87b883acdd125d47977ad7eb39ead67ef20baf0fda	0	unassessed
-core/backend/src/lib/ms	foundation	Go-domain-migration	1	526086a5e5319fd3fb5d0123431c0f26a49976a58b025708b50eae2715c61cff	0	unassessed
+core/backend/src/lib/ms	foundation	Go-domain-migration	1	526086a5e5319fd3fb5d0123431c0f26a49976a58b025708b50eae2715c61cff	1	unassessed
 core/backend/src/lib/nanoid	foundation	Go-domain-migration	1	849661c8da8e126b9cb1e0c6b35421867da8edb13d323d5daca32d67cf74a1f0	0	unassessed
 core/backend/src/lib/pagerduty	integrations	Go-domain-migration	1	c10e4beb5161d6eec3338f9bdfc1a4ebedef129f0b04ea478af36d4077284a78	0	unassessed
 core/backend/src/lib/picomatch	foundation	Go-domain-migration	1	5338783091cb7c9510c3880546d1d2b30e69e8d6673026442bc82bb8533c02dd	0	unassessed
@@ -273,13 +273,13 @@ core/backend/src/lib/types	foundation	Go-domain-migration	1	cde25d5113c0dee1d847
 core/backend/src/lib/validator	foundation	Go-domain-migration	16	9e5d7977277d1bf4fd8628a2d0e6ce8ed885aea111a2ca031efdcc6f20cae77b	0	unassessed
 core/backend/src/lib/workflow-integrations	automation	Go-domain-migration	2	1792e15c36a0ae38eb03579215ca8ce15332bc8498aea1a17ac225e8c55c8033	0	unassessed
 core/backend/src/lib/workflow-integrations/notification-handlers	automation	Go-domain-migration	2	da3719081837217bfc6a8585a4302d7bc3297ba54b005680de2ecef1bfa55794	0	unassessed
-core/backend/src/lib/zod	foundation	Go-domain-migration	1	d7bfafea98bf969ea8464af74867641c740673f4c06e120a0fb3f21e64be084e	0	unassessed
+core/backend/src/lib/zod	foundation	Go-domain-migration	1	d7bfafea98bf969ea8464af74867641c740673f4c06e120a0fb3f21e64be084e	1	unassessed
 core/backend/src/queue	foundation	Go-domain-migration	2	dec12f48d4ef6df4390091a9281038f096387ea45beaafb0a7e298215c0c844e	0	unassessed
 core/backend/src/server	foundation	Go-domain-migration	2	ea5d6a2fde77f5a0e8c331d786fa7182674ee833814e81689f23926f7732ab82	0	unassessed
 core/backend/src/server/config	foundation	Go-domain-migration	1	f805e31b83b726dad631767569edf341ea278222b100d27e360f8b76e37e08ac	0	unassessed
 core/backend/src/server/lib	foundation	Go-domain-migration	5	83ef39944155e6bde20a7b4ae7e5f39848a43297d83eea49792feecb0dd5e989	0	unassessed
 core/backend/src/server/plugins	audit	Go-domain-migration	1	942f9ce630bdf5516b4cad6c7be8f9e5627920d33f5d4c2efacc34a43fe10fc3	0	unassessed
-core/backend/src/server/plugins	foundation	Go-domain-migration	15	beebf2203097921325095a138e0ee31ee65af27bf8ce25a1b460e94e75576481	2	unassessed
+core/backend/src/server/plugins	foundation	Go-domain-migration	15	beebf2203097921325095a138e0ee31ee65af27bf8ce25a1b460e94e75576481	3	unassessed
 core/backend/src/server/plugins	identity	Go-domain-migration	1	ff34da5a2c8954f61aa4db5a6792f1a3466a2a27d7b9323496bd1095c0ec5f81	1	unassessed
 core/backend/src/server/plugins	pam	Go-domain-migration	1	fba32f77d8a362d60e20c5eabe7b872e53c3ee71a3a17e25417cc7ed19f2d980	0	unassessed
 core/backend/src/server/plugins	pki	Go-domain-migration	1	0a9caf3c7c938fb298fbf4db34ec409e1835d78ea397c35f8c061a2f274defff	0	unassessed
@@ -1056,4 +1056,4 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	276aec03352593e18ae537cb1c8944c5e5f33ab22ee1fc346d1a8a5135ffacf9	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	27	57401a71d58f07faf3bd1771cddd01d2fd3fb23599de4509c1343c0dae57fdc0	18	unassessed
+scripts	delivery	supporting-tooling-or-contract	29	2eaa52f821cb8643ac8f93650b19e777d623bd866975f67e888cd6409b9d6078	21	unassessed

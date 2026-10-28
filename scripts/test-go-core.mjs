@@ -2,6 +2,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { collectGoTestEvidence } from "./go-test-evidence.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const [image, provider = "dragonfly", runner = "vaultix:verify-go"] = process.argv.slice(2);
@@ -35,30 +36,19 @@ const result = spawnSync("docker", [
   "-race", "-timeout", "300s", "-json", "./tests/..."
 ], { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
 
-// Persist only test identities/outcomes. HTTP diagnostics from the fixture can
-// contain credentials; never publish its raw stdout/stderr in CI artifacts.
-const events = [];
-for (const line of (result.stdout ?? "").split(/\r?\n/)) {
-  if (!line) continue;
-  try {
-    const event = JSON.parse(line);
-    if (["pass", "fail", "skip"].includes(event.Action)) {
-      events.push({ action: event.Action, package: event.Package, test: event.Test ?? null, elapsed: event.Elapsed ?? 0 });
-    }
-  } catch {
-    // Non-JSON subprocess diagnostics are deliberately excluded.
-  }
-}
+// Persist outcomes and enumerated setup diagnostics. Fixture HTTP errors can
+// contain credentials; never publish raw stdout/stderr in CI artifacts.
+const { events, diagnostics } = collectGoTestEvidence(result.stdout ?? "");
 const count = (action) => events.filter((event) => event.test && event.action === action).length;
 const failed = events.filter((event) => event.action === "fail");
 const passed = result.status === 0 && failed.length === 0 && count("pass") > 0;
 const report = {
   status: passed ? "passed" : "failed", provider, image: artifact.Id, runner: testArtifact.Id,
   exitCode: result.status, signal: result.signal, processError: result.error?.code ?? null,
-  tests: { passed: count("pass"), failed: count("fail"), skipped: count("skip") }, events,
+  tests: { passed: count("pass"), failed: count("fail"), skipped: count("skip") }, events, diagnostics,
   limits: ["Provider credentials are not inherited; unavailable external-provider tests remain skipped.",
     "SoftHSM tests require their separate runtime; this suite does not establish hardware certification or complete capability parity."]
 };
 writeFileSync(resolve(evidence, "result.json"), `${JSON.stringify(report, null, 2)}\n`);
-console.log(JSON.stringify({ status: report.status, tests: report.tests, failed }));
+console.log(JSON.stringify({ status: report.status, tests: report.tests, failed, diagnostics }));
 if (!passed) process.exitCode = 1;

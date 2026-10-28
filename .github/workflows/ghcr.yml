@@ -44,6 +44,8 @@ jobs:
         run: node --experimental-strip-types scripts/test-guided-interactions.mjs
       - name: Verify capability surface guard
         run: node scripts/test-capability-surface.mjs
+      - name: Verify safe native integration diagnostics
+        run: node scripts/test-go-test-evidence.mjs
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod

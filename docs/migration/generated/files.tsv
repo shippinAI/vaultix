@@ -1,5 +1,5 @@
 path	module	workstream	target	language	git_blob	review_state
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	9a3f2a7f64617d64ffcc8d5919ad7f3609d2e4bd	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	592b0ea3c5e4e3e17521f500771c689d7bce77b0	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	b85c62829aca491c397477124691de71ffb56acb	unread
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -37,12 +37,12 @@ core/backend-go/.golangci.yml	core/backend-go	foundation	Go-native	yml	3d703c93b
 core/backend-go/Dockerfile.dev	core/backend-go	delivery	Go-native	dev	dbea760af22e44eb2263129aac411e29945d73ce	authored
 core/backend-go/Dockerfile.dev.fips	core/backend-go	delivery	Go-native	fips	974b3c03cf8283d70d66d3bc935e48b34291443c	authored
 core/backend-go/Makefile	core/backend-go	delivery	Go-native	build-config	66d0b538363d3e06a1727f1a3ea47e394a84462f	authored
-core/backend-go/cmd/vaultix/main.go	core/backend-go/cmd/vaultix	ai	Go-native	go	8207b9f49a2e2c7843b41d52cdc571c4908a8d45	unread
+core/backend-go/cmd/vaultix/main.go	core/backend-go/cmd/vaultix	ai	Go-native	go	8207b9f49a2e2c7843b41d52cdc571c4908a8d45	reviewed
 core/backend-go/docker-compose.test.yml	core/backend-go	foundation	Go-native	yml	c911ead89183eddc44df2d1660e6e7edcff71d14	unread
 core/backend-go/docker-test/Dockerfile	core/backend-go/docker-test	delivery	Go-native	build-config	d54fa479d1b6a22d868a01742be9e3210c96cc47	authored
 core/backend-go/go.mod	core/backend-go	foundation	Go-native	mod	0fde8f5e9736c53d34f94e2078683deb96c48d49	authored
-core/backend-go/internal/config/config.go	core/backend-go/internal/config	foundation	Go-native	go	3b4c41f0c0ff29a273abeb01fb3f76bd418bd370	unread
-core/backend-go/internal/config/loader.go	core/backend-go/internal/config	foundation	Go-native	go	af77ce68f05aa75aac5f23a035739eec47e53775	unread
+core/backend-go/internal/config/config.go	core/backend-go/internal/config	foundation	Go-native	go	3b4c41f0c0ff29a273abeb01fb3f76bd418bd370	reviewed
+core/backend-go/internal/config/loader.go	core/backend-go/internal/config	foundation	Go-native	go	af77ce68f05aa75aac5f23a035739eec47e53775	reviewed
 core/backend-go/internal/database/pg/pg.go	core/backend-go/internal/database/pg	foundation	Go-native	go	6f53551a8b92fc37864b3fccf4ed6c9cf0d669f1	unread
 core/backend-go/internal/database/pg/pg_test.go	core/backend-go/internal/database/pg	foundation	Go-native	go	b25ec32fb7f9f96c545061342d254c2a674202b0	unread
 core/backend-go/internal/database/pg/pglock/lock.go	core/backend-go/internal/database/pg/pglock	foundation	Go-native	go	2ea90fb13dc557c33b12c19b0c179fd621f6bb60	unread
@@ -101,7 +101,7 @@ core/backend-go/internal/server/api/platform/projects/gen.go	core/backend-go/int
 core/backend-go/internal/server/api/platform/projects/handler.go	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	go	7897dc11051b5b5e7f0e6f7e809129bc9c5f6db1	unread
 core/backend-go/internal/server/api/platform/projects/openapi.yml	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	yml	88851e7ac57628073993371674b4cfdac400888e	unread
 core/backend-go/internal/server/api/platform_routes.go	core/backend-go/internal/server/api	foundation	Go-native	go	b5685b1ebc5f034857fa0d90c5c2885c6f52e3e7	unread
-core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	bf1c1dc054c515dce1210475735f73fa728f5834	unread
+core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	bf1c1dc054c515dce1210475735f73fa728f5834	reviewed
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	yaml	35a2af5abac5d1521e932c47beea4844958ab6fa	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	eda488c30cc0d5bfb0bda66eb3a001288eecbb95	unread
 core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	dfc213257233b0cdc286efdff230c8d01d01f0a9	unread
@@ -133,7 +133,7 @@ core/backend-go/internal/services/auditlog/event.go	core/backend-go/internal/ser
 core/backend-go/internal/services/auditlog/info.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	unread
 core/backend-go/internal/services/auditlog/queue_handler.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	8fffcdc835dca60978a9a9ece66de24257e8c969	unread
 core/backend-go/internal/services/auditlog/useragent.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	debf555fd242540645332817c077bed76833d135	unread
-core/backend-go/internal/services/auth/apiauth/authenticator.go	core/backend-go/internal/services/auth	identity	Go-native	go	5de66734557bb0ee6430e9dec0a9f1766e8f5925	verified
+core/backend-go/internal/services/auth/apiauth/authenticator.go	core/backend-go/internal/services/auth	identity	Go-native	go	187531d3cfce3495df284a6f756327b2d5fb2912	verified
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	verified
 core/backend-go/internal/services/auth/apiauth/claims.go	core/backend-go/internal/services/auth	identity	Go-native	go	8d2e73dda30adf86a9376559968860a6c63b4e2f	verified
 core/backend-go/internal/services/auth/apiauth/claims_presence_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	8f119a7b62c641110fb0d0443b52894e3b06e773	verified
@@ -141,6 +141,8 @@ core/backend-go/internal/services/auth/apiauth/classify.go	core/backend-go/inter
 core/backend-go/internal/services/auth/apiauth/classify_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	e775803f3d4a69e2bab60458a081f1c073042bba	unread
 core/backend-go/internal/services/auth/apiauth/ip.go	core/backend-go/internal/services/auth	identity	Go-native	go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	unread
 core/backend-go/internal/services/auth/apiauth/require_auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	3a12eb29bcd4370952458de4f08ae0dbc927a41d	unread
+core/backend-go/internal/services/auth/apiauth/revocation.go	core/backend-go/internal/services/auth	identity	Go-native	go	a41d178d9d78cc65fabbcf7abecb20b935b45bb4	verified
+core/backend-go/internal/services/auth/apiauth/revocation_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	b7f5a4fda5d5bd84bee1698fe5d2f9135e9da785	verified
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	2ad8f58ddc0575861aba188e4c986efb8511698c	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	604a44bf8e7017756162e10d56c97bcafcf08883	verified
 core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
@@ -186,6 +188,7 @@ core/backend-go/tests/infra/redis.go	core/backend-go/tests/infra	foundation	Go-n
 core/backend-go/tests/infra/stack.go	core/backend-go/tests/infra	foundation	Go-native	go	f104f06bd1964bcb054911ea95d7bdcdff6c5a78	unread
 core/backend-go/tests/platform/auth/apiauthenticator_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	1088ec078b1b69f94d03d57494dc3878f83baf86	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	98ef59cc825bba533eeb57f0382ed6d205b3534b	verified
+core/backend-go/tests/platform/auth/scoped_revocation_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	52c08d5b374e5c7dd8212f08065275e15f663461	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	core/backend-go/tests/platform/bootstrap	foundation	Go-native	go	2286ce2df00016cb92368996abd39b3941abe158	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	core/backend-go/tests/platform/externalkms	kms	Go-native	go	c80d3e456982798c0fc5b0d8c258f870aed63168	unread
@@ -1922,7 +1925,7 @@ core/backend/src/lib/config/cache.test.ts	core/backend/src/lib/config	foundation
 core/backend/src/lib/config/cache.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	9f0e247b534658508dbc1157624e9c1bee743c88	unread
 core/backend/src/lib/config/clickhouse.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	9a1129ed16d6a11907989da9ebae9cd366a61bee	unread
 core/backend/src/lib/config/const.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	612234c1727a0a42ba29672693fa301ad31a5da5	unread
-core/backend/src/lib/config/env.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	58d692868c3543c8cd96aa7a1e8b1f3265ea91e2	unread
+core/backend/src/lib/config/env.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	58d692868c3543c8cd96aa7a1e8b1f3265ea91e2	reviewed
 core/backend/src/lib/config/redis.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	94d266561a9666dfaaa9ffc0c2fb2df8516c6d43	unread
 core/backend/src/lib/config/request.test.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	0b2494bb019b82a18fb0339872a63eb4d51e6876	unread
 core/backend/src/lib/config/request.ts	core/backend/src/lib/config	foundation	Go-domain-migration	ts	32dbe898ce143359c537583c1d488741455a7b36	unread
@@ -2007,7 +2010,7 @@ core/backend/src/lib/logger/index.ts	core/backend/src/lib/logger	foundation	Go-d
 core/backend/src/lib/logger/logger.ts	core/backend/src/lib/logger	foundation	Go-domain-migration	ts	bf446835c0cc461ed59c00b667c724f0f7f944c8	unread
 core/backend/src/lib/logger/sanitize-url.test.ts	core/backend/src/lib/logger	foundation	Go-domain-migration	ts	596845d85e6b93d003a6be56f1360e8b9f8fb940	unread
 core/backend/src/lib/logger/sanitize-url.ts	core/backend/src/lib/logger	foundation	Go-domain-migration	ts	e032d3d8bc3af8211078513a687117c1fd03aac8	unread
-core/backend/src/lib/ms/index.ts	core/backend/src/lib/ms	foundation	Go-domain-migration	ts	917335eb90ececfc61b57c0d316bc143a20da850	unread
+core/backend/src/lib/ms/index.ts	core/backend/src/lib/ms	foundation	Go-domain-migration	ts	917335eb90ececfc61b57c0d316bc143a20da850	reviewed
 core/backend/src/lib/nanoid/index.ts	core/backend/src/lib/nanoid	foundation	Go-domain-migration	ts	7cfd413248f350aef64b1c40b9ffc3b861333bdb	unread
 core/backend/src/lib/pagerduty/integration-key.ts	core/backend/src/lib/pagerduty	integrations	Go-domain-migration	ts	9ceaa0c8d22a5898e4e263f1ce25021ef9b408e7	unread
 core/backend/src/lib/picomatch/index.ts	core/backend/src/lib/picomatch	foundation	Go-domain-migration	ts	1e222d72c9201068b045884246c2ee43e528b399	unread
@@ -2055,7 +2058,7 @@ core/backend/src/lib/workflow-integrations/notification-handlers/microsoft-teams
 core/backend/src/lib/workflow-integrations/notification-handlers/slack.ts	core/backend/src/lib/workflow-integrations/notification-handlers	automation	Go-domain-migration	ts	b55f172cbeb8e3cce983f5cf795898b254cc6b69	unread
 core/backend/src/lib/workflow-integrations/trigger-notification.ts	core/backend/src/lib/workflow-integrations	automation	Go-domain-migration	ts	4e28ea5b9d97cacef0a5480269455c4769e4d323	unread
 core/backend/src/lib/workflow-integrations/types.ts	core/backend/src/lib/workflow-integrations	automation	Go-domain-migration	ts	e155f5c0b2374b5fd742423bc167613a7261dfe3	unread
-core/backend/src/lib/zod/index.ts	core/backend/src/lib/zod	foundation	Go-domain-migration	ts	21c59b6ba2906037fc63d495e80b719d912d3ffd	unread
+core/backend/src/lib/zod/index.ts	core/backend/src/lib/zod	foundation	Go-domain-migration	ts	21c59b6ba2906037fc63d495e80b719d912d3ffd	reviewed
 core/backend/src/main.ts	core/backend/src	foundation	Go-domain-migration	ts	9bce993115cb379a6d876177674ec74429eb1522	unread
 core/backend/src/queue/index.ts	core/backend/src/queue	foundation	Go-domain-migration	ts	4547a913effd17482cbe58e2134d22186656d2c9	unread
 core/backend/src/queue/queue-service.ts	core/backend/src/queue	foundation	Go-domain-migration	ts	dbc8ff00fe562e90e74565749c5ee36bcd815d45	unread
@@ -2081,7 +2084,7 @@ core/backend/src/server/plugins/error-handler.ts	core/backend/src/server/plugins
 core/backend/src/server/plugins/fastify-zod.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	unread
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	unread
-core/backend/src/server/plugins/go-sidecar.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	32f716b9c9c86a8e54237cec20499a49cead0000	unread
+core/backend/src/server/plugins/go-sidecar.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	32f716b9c9c86a8e54237cec20499a49cead0000	reviewed
 core/backend/src/server/plugins/inject-cert-manager-project-id.ts	core/backend/src/server/plugins	pki	Go-domain-migration	ts	374fe5a981610151138c1bb873a7ca396f401f6d	unread
 core/backend/src/server/plugins/inject-pam-project-id.ts	core/backend/src/server/plugins	pam	Go-domain-migration	ts	1e40e7688c0ea5e507e54bcf39c33f58df02936d	unread
 core/backend/src/server/plugins/inject-rate-limits.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	3bde471e3934ad17b1f964f409ea3305a4d134b7	unread
@@ -9330,8 +9333,9 @@ scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	1a16f66e6e42656acddefff2ad2b512cb41eb74c	unread
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
+scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3549334158ae8ada2234ac75a4fbad3299f520d7	verified
-scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	unread
+scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	7365366363c7848e124bd246756fb2c6e3778678	reviewed
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	c2f9ca8c499cca62f2503d7cd839aa585b981718	verified
@@ -9342,7 +9346,8 @@ scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f771a3
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	066cd736cd29dd2c2cefeaa5c452edd26f047134	verified
-scripts/test-go-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	19bd9b46404026c0c60279897319338f92825441	verified
+scripts/test-go-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a63efe056887d1462385090c699b8585c3f5e27d	verified
+scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b5583de0e3990833d120e86e707545c3a491a1e1	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
 scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2a16cdfc2b0107726f123b9c648d59bca0e260da	authored
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	187f2882a0a5fb414ecf5c77b62b92dc636e832c	verified

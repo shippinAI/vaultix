@@ -38,8 +38,8 @@ type ErrorHandler interface {
 	HandleError(w http.ResponseWriter, r *http.Request, statusCode int, err error)
 }
 
-// ApiAuthenticator performs token validation for various auth methods.
-// It's an exact port of the Node.js inject-identity logic.
+// ApiAuthenticator validates Vaultix credentials against the existing identity
+// store. Native migration acceptance is tracked per authentication workflow.
 type ApiAuthenticator struct {
 	logger          *slog.Logger
 	db              pg.DB
@@ -349,7 +349,10 @@ func (a *ApiAuthenticator) validateIdentityTokenClaims(ctx context.Context, clai
 	if claims.IssuedAt != nil {
 		issuedAtMs = claims.IssuedAt.UnixMilli()
 	}
-	if err := a.assertTokenIsNotRevoked(ctx, tokenID, identityID, issuedAtMs); err != nil {
+	if err := a.assertTokenIsNotRevoked(ctx, &identityRevocationContext{
+		TokenID: tokenID, IdentityID: identityID, IssuedAtMs: issuedAtMs,
+		ClientSecretID: claims.ClientSecretID, AuthMethod: string(authMethod), OrgID: orgID.String(),
+	}); err != nil {
 		return nil, err
 	}
 
@@ -819,75 +822,6 @@ func (a *ApiAuthenticator) findTrustedIPsByAuthMethod(ctx context.Context, ident
 }
 
 // --- Revocation and Usage Tracking ---
-
-// revocationRow holds the subset of identity_access_token_revocations used by the authenticator.
-type revocationRow struct {
-	ID        string              `db:"id"`
-	RevokedAt sql.Null[time.Time] `db:"revoked_at"`
-	CreatedAt time.Time           `db:"created_at"`
-}
-
-// assertTokenIsNotRevoked checks if the token or identity has been revoked.
-// Port of assertTokenIsNotRevoked in identity-access-token-service.ts:92-120.
-func (a *ApiAuthenticator) assertTokenIsNotRevoked(ctx context.Context, tokenID string, identityID uuid.UUID, issuedAtMs int64) error {
-	revocations, err := a.findActiveRevocationsForToken(ctx, tokenID, identityID)
-	if err != nil {
-		return errutil.DatabaseErr("Failed to check token revocation").WithErrf("assertTokenIsNotRevoked(tokenId=%s, identityId=%s): %w", tokenID, identityID, err)
-	}
-
-	for _, revocation := range revocations {
-		if revocation.ID == tokenID {
-			return errutil.Unauthorized("Failed to authorize: token has been revoked").WithErrf("assertTokenIsNotRevoked(tokenId=%s): token revoked", tokenID)
-		}
-
-		if revocation.ID == identityID.String() {
-			var revokedAtMs int64
-			if revocation.RevokedAt.Valid {
-				revokedAtMs = revocation.RevokedAt.V.UnixMilli()
-			} else {
-				revokedAtMs = revocation.CreatedAt.UnixMilli()
-			}
-			if issuedAtMs < revokedAtMs {
-				return errutil.Unauthorized("Failed to authorize: identity tokens have been revoked").WithErrf("assertTokenIsNotRevoked(identityId=%s): identity tokens revoked", identityID)
-			}
-		}
-	}
-
-	return nil
-}
-
-// findActiveRevocationsForToken returns active revocations for the token or identity.
-// Port of findActiveRevocationsForToken in identity-access-token-revocation-dal.ts:36-56.
-func (a *ApiAuthenticator) findActiveRevocationsForToken(ctx context.Context, tokenID string, identityID uuid.UUID) ([]revocationRow, error) {
-	query := `
-		SELECT id, "revokedAt", "createdAt"
-		FROM identity_access_token_revocations
-		WHERE "expiresAt" > NOW()
-		  AND "identityId" = @identityID
-		  AND id IN (@tokenID, @identityIDStr)
-	`
-	args := pgx.NamedArgs{
-		"identityID":    identityID,
-		"tokenID":       tokenID,
-		"identityIDStr": identityID.String(),
-	}
-
-	rows, err := a.db.Replica().Query(ctx, query, args)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var revocations []revocationRow
-	for rows.Next() {
-		var r revocationRow
-		if err := rows.Scan(&r.ID, &r.RevokedAt, &r.CreatedAt); err != nil {
-			return nil, err
-		}
-		revocations = append(revocations, r)
-	}
-	return revocations, rows.Err()
-}
 
 // checkAndDecrementUsesRemaining checks and decrements the usage counter for the token.
 // Port of usage tracking logic in fnValidateIdentityAccessTokenFast.

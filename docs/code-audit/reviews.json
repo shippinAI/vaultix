@@ -1011,22 +1011,28 @@
     },
     {
       "path": "scripts/test-go-core.mjs",
-      "blob": "19bd9b46404026c0c60279897319338f92825441",
+      "blob": "a63efe056887d1462385090c699b8585c3f5e27d",
       "status": "verified",
       "decision": "modify",
-      "scope": "New canonical-image Go integration runner. Inspects local application/runner IDs, uses isolated Testcontainers dependencies, does not inherit provider credentials, fails on nonzero/empty results, and publishes only test names/outcomes. Cloud-provider and hardware prerequisites remain separate.",
+      "scope": "Complete canonical-image integration runner read. Existing local immutable image validation, provider selection, race checks and outcome-based failure rules retained. Evidence collection now includes only enumerated setup diagnostics; raw fixture output remains excluded. Full Redis rerun passes with this collector; one preceding setup failure remains unexplained and is retained in 0039.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         ".cache/go-proof-QbLrCU/result.json",
-        ".cache/go-proof-mlYewa/result.json"
+        ".cache/go-proof-mlYewa/result.json",
+        "docs/0039-native-scoped-revocation.md",
+        "scripts/test-go-test-evidence.mjs",
+        ".cache/go-proof-10RYK1/result.json",
+        ".cache/app-image-proof-5PJBz6/workflow-result.json",
+        ".cache/revocation-image-dragonfly.log",
+        ".cache/revocation-image-redis.log"
       ]
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "9a3f2a7f64617d64ffcc8d5919ad7f3609d2e4bd",
+      "blob": "592b0ea3c5e4e3e17521f500771c689d7bce77b0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete workflow read. Add isolated notification matrix before image publication and retain its reports/screenshots. Preserve existing image, native/TypeScript suites, both-cache checks and publication gates. Local tests validate commands; the changed GitHub workflow still needs its own run.",
+      "scope": "Existing workflow read and notification matrix wiring retained. Adds the safe integration-evidence regression check before build/publication; existing Go result JSON artifact upload captures the new diagnostics. YAML parses locally. GitHub execution/publication for these changes is not established: account billing/spending currently prevents Actions jobs from starting.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -1034,7 +1040,10 @@
         "docs/0038-notification-dialog-ownership.md",
         ".cache/notification-proof-gVnaex/result.json",
         ".cache/app-image-proof-hoAOol/workflow-result.json",
-        ".cache/notification-lint-final.log"
+        ".cache/notification-lint-final.log",
+        "docs/0039-native-scoped-revocation.md",
+        "scripts/test-go-test-evidence.mjs",
+        ".cache/go-proof-10RYK1/result.json"
       ]
     },
     {
@@ -1189,10 +1198,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "5de66734557bb0ee6430e9dec0a9f1766e8f5925",
+      "blob": "187531d3cfce3495df284a6f756327b2d5fb2912",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read and validation/renewal/counter dependencies traced. Missing-counter recovery now uses SET-NX followed by an atomic decrement for every accepted use. Existing signature, membership, IP and revocation behavior retained. Scoped counter evidence does not establish full authenticator parity: scoped revocations, primary-read freshness and configured lifetimes remain open in 0036; claim presence is addressed separately in 0037.",
+      "scope": "Complete authenticator previously read; current and legacy claim resolution traced again. Existing use-budget recovery retained. The existing validator now carries decoded client-secret ID and resolved auth method/organization into native primary-backed scoped revocation. No TS proxy or new store. Scoped tests do not establish complete native authentication: other authoritative reads, lifetime policy, core-claim and tenant binding, and Nomen ownership remain open.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1207,7 +1216,18 @@
         ".cache/app-image-proof-oG5dqm/workflow-result.json",
         ".cache/usage-image-smoke-dragonfly.log",
         ".cache/usage-image-smoke-redis.log",
-        "docs/0037-native-identity-claim-presence.md"
+        "docs/0037-native-identity-claim-presence.md",
+        "docs/0039-native-scoped-revocation.md",
+        ".cache/go-proof-OXwvzO/result.json",
+        ".cache/revocation-go-unit-final.jsonl",
+        ".cache/revocation-go-lint-final.log",
+        ".cache/go-proof-rviVwm/result.json",
+        ".cache/go-proof-6grnEE/result.json",
+        ".cache/go-proof-Z5XNy0/result.json",
+        ".cache/go-proof-10RYK1/result.json",
+        ".cache/app-image-proof-5PJBz6/workflow-result.json",
+        ".cache/revocation-image-dragonfly.log",
+        ".cache/revocation-image-redis.log"
       ]
     },
     {
@@ -1675,6 +1695,180 @@
       "scope": "Complete Card, CardTitle, CardBody and CardFooter definitions read with legacy Modal/Drawer consumers. Retain shared flex layout and class/ref contracts; caller notification hosts reserve their own space. This is a retained layout dependency, not whole-legacy-UI accessibility acceptance.",
       "evidence": [
         "docs/0038-notification-dialog-ownership.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/cmd/vaultix/main.go",
+      "blob": "8207b9f49a2e2c7843b41d52cdc571c4908a8d45",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete startup/shutdown module read while tracing native configuration to service construction. Existing DB/cache, queue, HSM/license and HTTP ownership retained. Build evidence does not prove independent native workflow cutover, external HSM acceptance or supervision readiness.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/config.go",
+      "blob": "3b4c41f0c0ff29a273abeb01fb3f76bd418bd370",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete file read and identity-policy constructor dependency traced. Investigate missing configurable identity lifetime, license-key cloud derivation, malformed mixed-case product settings, inherited integration names and permissive parsing. No configuration rewrite or complete provider compatibility claim in this packet.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/loader.go",
+      "blob": "af77ce68f05aa75aac5f23a035739eec47e53775",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete loader read. Optional numeric and boolean parsing silently falls back on malformed input; new security-policy parsing must be explicit and reject invalid values. Existing general loader behavior retained pending scoped compatibility tests.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform_services.go",
+      "blob": "bf1c1dc054c515dce1210475735f73fa728f5834",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete service wiring read. Native authenticator receives signing key but no identity lifetime policy; rate-limit activation depends on derived cloud state. Trace and test policy wiring and hosted-state semantics before native cutover. Existing service ownership retained.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/revocation_test.go",
+      "blob": "b7f5a4fda5d5bd84bee1698fe5d2f9135e9da785",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored boundary and marker-identity tests, including each scope, timestamp fallback, equal/before/after milliseconds, null versus empty scope, ID collisions and duplicates. A closed-pool accessor fixture verifies primary routing and fail-closed errors without claiming replication simulation.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md",
+        ".cache/go-proof-OXwvzO/result.json",
+        ".cache/revocation-go-unit-final.jsonl",
+        ".cache/revocation-go-lint-final.log",
+        ".cache/go-proof-rviVwm/result.json",
+        ".cache/go-proof-6grnEE/result.json",
+        ".cache/go-proof-Z5XNy0/result.json",
+        ".cache/go-proof-10RYK1/result.json",
+        ".cache/app-image-proof-5PJBz6/workflow-result.json",
+        ".cache/revocation-image-dragonfly.log",
+        ".cache/revocation-image-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/revocation.go",
+      "blob": "a41d178d9d78cc65fabbcf7abecb20b935b45bb4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored native revocation evaluation and primary-only PostgreSQL reader against the existing table. Equality UNION ALL arms bind identity and active expiry; SQL-null scope remains distinct from explicit empty scope. Exact-token denial, strict identity/scoped issuance boundaries, timestamp fallback, duplicate markers and plain denial messages preserve the traced issuer contract. Closed-primary errors cannot fall back to a replica; topology/failover/load acceptance remains open.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md",
+        ".cache/go-proof-OXwvzO/result.json",
+        ".cache/revocation-go-unit-final.jsonl",
+        ".cache/revocation-go-lint-final.log",
+        ".cache/go-proof-rviVwm/result.json",
+        ".cache/go-proof-6grnEE/result.json",
+        ".cache/go-proof-Z5XNy0/result.json",
+        ".cache/go-proof-10RYK1/result.json",
+        ".cache/app-image-proof-5PJBz6/workflow-result.json",
+        ".cache/revocation-image-dragonfly.log",
+        ".cache/revocation-image-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/scoped_revocation_test.go",
+      "blob": "f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored real API-issued two-client-secret lifecycle: both initially valid, authorized revoke of one, HTTP/native/unified denial and unaffected-secret acceptance. Old-production baseline fails the native denials. Separate signed/DB fixtures cover complete and legacy payloads, each scope, exact/identity markers, expiry, other-identity isolation and collision/time boundaries. Fixtures never print tokens or client-secret values.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md",
+        ".cache/go-proof-OXwvzO/result.json",
+        ".cache/revocation-go-unit-final.jsonl",
+        ".cache/revocation-go-lint-final.log",
+        ".cache/go-proof-rviVwm/result.json",
+        ".cache/go-proof-6grnEE/result.json",
+        ".cache/go-proof-Z5XNy0/result.json",
+        ".cache/go-proof-10RYK1/result.json",
+        ".cache/app-image-proof-5PJBz6/workflow-result.json",
+        ".cache/revocation-image-dragonfly.log",
+        ".cache/revocation-image-redis.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/config/env.ts",
+      "blob": "58d692868c3543c8cd96aa7a1e8b1f3265ea91e2",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete configuration schema, transforms, initialization, readers, runtime override allow-list and SMTP formatter read. Traced identity maximum age, legacy enforcement date and trimming/default dependencies; these fields are not runtime overrides. Investigate invalid-duration NaN, license-derived cloud state, cookie-signing default and inherited integration metadata. Reading this large module is not complete authorship or parity.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/ms/index.ts",
+      "blob": "917335eb90ececfc61b57c0d316bc143a20da850",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete helper read and config caller traced to the installed ms implementation. Nonmatching strings can return undefined without entering the catch, affecting maximum-age conversion. Retain display formatting; investigate explicit identity-policy validation before changing shared semantics.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/zod/index.ts",
+      "blob": "21c59b6ba2906037fc63d495e80b719d912d3ffd",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete helper read. zpStr trims strings and maps empty/null to undefined before schema defaults. This compatibility behavior must survive native identity-policy parsing; no new Zod module is introduced.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar.ts",
+      "blob": "32f716b9c9c86a8e54237cec20499a49cead0000",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete launcher/supervision code read and native startup traced. Alias resolution and inherited environment are passed to the native process; elapsed-time restart reset is not application health evidence. Native policy must work without relying on this launcher. No forwarding/cutover claim.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "scripts/publish-github.sh",
+      "blob": "7365366363c7848e124bd246756fb2c6e3778678",
+      "status": "reviewed",
+      "decision": "investigate",
+      "scope": "Complete publication script read. It stages fresh Git history, excludes standalone Dockerfiles and offers force-pushing existing main; it was not executed. Replace in a separate publication packet with non-force checked-history publication and executable failure-path coverage.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md"
+      ]
+    },
+    {
+      "path": "scripts/go-test-evidence.mjs",
+      "blob": "d7a3809998aa57ddc40200e7630217d82d9d541f",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored pure Go JSON-event collector preserving pass/fail/skip metadata and enumerated fixture setup phases/causes. Raw logs, response bodies and extra event fields are never copied. Credential-exclusion fixtures cover malformed lines, failed HTTP bodies, arbitrary output and successful events; a passing full real-cache runner exercises the integration. This is safe classification, not a root-cause diagnosis of the earlier failure.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md",
+        "scripts/test-go-test-evidence.mjs",
+        ".cache/go-proof-10RYK1/result.json"
+      ]
+    },
+    {
+      "path": "scripts/test-go-test-evidence.mjs",
+      "blob": "b5583de0e3990833d120e86e707545c3a491a1e1",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Authored executable privacy and outcome-preservation checks using deliberately embedded fixture credentials. Verifies setup classification without copying payloads, malformed/null/non-string handling, pass/fail/skip retention and no false setup diagnostic for an ordinary timeout test name. Runs locally and is wired into GHCR checks.",
+      "evidence": [
+        "docs/0039-native-scoped-revocation.md",
+        "scripts/test-go-test-evidence.mjs",
+        ".cache/go-proof-10RYK1/result.json"
       ]
     }
   ]

@@ -464,3 +464,18 @@ lifetime and narrow/short layout. Visual review rejected an intermediate
 confirmation layout; the final warning geometry and focused controls are now
 checked. This does not establish whole-UI accessibility or provider parity.
 The unchanged 273 UI routes and 2,290 API operations remain preserved.
+
+The native scoped-revocation checkpoint is documented in
+[0039](0039-native-scoped-revocation.md). Go now honors existing client-secret,
+authentication-method and organization markers on the primary database. The
+real API baseline rejected a revoked client's token while both old Go entry
+points accepted it. The repair passes 564 Go unit/race tests and 263 integration/
+race tests per cache with eight external-KMS skips. Canonical image
+`sha256:b2e141a70cec2e8c03f1c6631301cefba1c29a6ebf02d9355502cfd3f59c77ee`
+passes both image smoke/restart suites and the packaged application workflow
+(`.cache/app-image-proof-5PJBz6`). An initial Redis secrets-package setup failure
+is retained as unexplained; its isolated 97-test and complete 263-test reruns pass.
+The runner now retains safe setup classifications without raw credentials or
+response bodies. Other authoritative reads, lifetime policy, Nomen and production
+topology remain native-cutover gates. GitHub Actions currently refuses jobs due
+to account billing/spending, so this local evidence is not GHCR publication proof.
