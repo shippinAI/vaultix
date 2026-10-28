@@ -98,27 +98,35 @@
     {
       "path": "core/backend/src/services/vaultix/guidance.ts",
       "blob": "d12672f103af360e2619e08579ceb8d5201d86b1",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/guidance.ts",
       "blob": "908bf8b648c66b3e6c15c5e102c3d33084cf1fa7",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
@@ -134,14 +142,18 @@
     {
       "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
       "blob": "18e1ed10af10058f06dc60564214c3722c0e26b7",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
@@ -639,14 +651,18 @@
     {
       "path": "core/frontend/src/pages/secret-manager/SettingsPage/components/EnvironmentSection/EnvironmentForm.tsx",
       "blob": "36e09e062b946b41e11458efdb71c7f962a0d017",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
@@ -730,14 +746,18 @@
     {
       "path": "scripts/test-environment-workflow.mjs",
       "blob": "45c6eecccb74bdc5ec37e7931af5739fb0a3257f",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
@@ -3386,40 +3406,52 @@
     {
       "path": "core/frontend/src/hooks/api/vaultix/guidance-contract.ts",
       "blob": "b11e4efc79b22c33fd13e06280d30f7c00eb6b9d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
       "path": "scripts/test-guided-interactions.mjs",
       "blob": "623c7244b9ef6e616eaea467805e8dfe4971fcc0",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     },
     {
       "path": "scripts/test-guidance-contract.mjs",
       "blob": "aab4dea89720043c0e1ac7d45641ff9b44cadf85",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Runtime acceptance for this exact content pending; not complete environment-domain migration or all-UI conformance.",
+      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
       "evidence": [
         "docs/0053-authenticated-environment-teaching.md",
         "scripts/test-guidance-contract.mjs",
         "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs"
+        "scripts/test-environment-workflow.mjs",
+        ".cache/self-hosted-build-UyUBo1/result.json",
+        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
+        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
+        ".cache/ui-proof-6gtdSD/accessibility.json"
       ]
     }
   ]
