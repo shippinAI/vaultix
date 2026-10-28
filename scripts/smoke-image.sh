@@ -100,12 +100,39 @@ async function main() {
     });
     assert.equal(toolResponse.status, 200);
     assert.deepEqual(JSON.parse((await toolResponse.json()).result.content[0].text), guidance);
+    const post = (path, body) => fetch(`http://127.0.0.1:8080/api/v1/vaultix/${path}`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body), signal: AbortSignal.timeout(10000)
+    });
+    const profileCall = args => post("mcp", { jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "vaultix.learning.profile.get", arguments: args } });
+    const context = { area: "references", project: "smoke-app", interactions: 2 };
+    const profileResponse = await post("learning-context", context);
+    assert.equal(profileResponse.status, 200);
+    const profile = await profileResponse.json();
+    const mcpProfileResponse = await profileCall(context);
+    assert.equal(mcpProfileResponse.status, 200);
+    const mcpProfile = JSON.parse((await mcpProfileResponse.json()).result.content[0].text);
+    assert.equal(profile.skillLevel, "intermediate");
+    assert.equal(mcpProfile.skillLevel, profile.skillLevel);
+    assert.deepEqual(mcpProfile.trackedContext, profile.trackedContext);
+    for (const invalid of [null, { project: 42 }, { interactions: -1 }, { value: "CANARY-SECRET" }]) {
+      const response = await post("learning-context", invalid);
+      assert.equal(response.status, 400);
+      const failure = await response.json();
+      assert.equal(typeof failure.error, "string");
+      assert.equal(JSON.stringify(failure).includes("CANARY-SECRET"), false);
+      const mcpFailureResponse = await profileCall(invalid);
+      assert.equal(mcpFailureResponse.status, 200);
+      const mcpFailure = await mcpFailureResponse.json();
+      assert.equal(mcpFailure.error.code, -32602);
+      assert.equal(JSON.stringify(mcpFailure).includes("CANARY-SECRET"), false);
+    }
     assert.ok(require("node:fs").readFileSync("/backend/ai/clyffy/SKILL.md", "utf8").includes("vaultix.guidance.get"));
     const exists = require("node:fs").existsSync;
     for (const asset of ["vaultix-mark.svg", "vaultix-wordmark.svg", "vaultix-loading.svg", "vaultix-social.png"]) {
       assert.ok(exists(`/backend/frontend-build/images/${asset}`), `Missing Vaultix asset: ${asset}`);
     }
-    for (const asset of ["images/biglogo.png", "images/logotransparent.png", "images/loading/loading.gif", "lotties/vaultix_loading.json", "valutix.ico"]) {
+    for (const asset of ["images/biglogo.png", "images/logotransparent.png", "images/loading/loading.gif", "lotties/vaultix_loading.json", "infisical.ico"]) {
       assert.equal(exists(`/backend/frontend-build/${asset}`), false, `Retired artwork still packaged: ${asset}`);
     }
     await events.waitUntilReady();

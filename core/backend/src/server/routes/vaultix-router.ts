@@ -14,6 +14,7 @@ import {
   specialistInstructions
 } from "@app/services/vaultix/catalog";
 import { getVaultixGuidance } from "@app/services/vaultix/guidance";
+import { parseLearningContext } from "@app/services/vaultix/learning-input";
 import { handleVaultixMcp } from "@app/services/vaultix/mcp";
 import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
 import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
@@ -119,36 +120,27 @@ export const registerVaultixRouter = async (
   server.post(
     "/learning-context",
     {
+      bodyLimit: 16 * 1024,
+      preValidation: async (request, reply) => {
+        if (!parseLearningContext(request.body))
+          return reply.code(400).send({
+            error:
+              "Use supported context names and a whole interaction count from 0 to 1000000. Never send secret values."
+          });
+      },
       schema: {
         hide: false,
         tags: ["Vaultix"],
-        summary: "Generate the current teaching context for the user and AI workflow",
-        body: {
-          type: "object",
-          properties: {
-            area: { type: "string", enum: ["references", "connections", "organization", "owner", "admin", "general"] },
-            project: { type: "string", maxLength: 128 },
-            environment: { type: "string", maxLength: 128 },
-            path: { type: "string", maxLength: 1024 },
-            connection: { type: "string", maxLength: 128 },
-            search: { type: "string", maxLength: 256 },
-            action: { type: "string", maxLength: 128 },
-            interactions: { type: "number" }
-          },
-          additionalProperties: false
-        }
+        summary: "Build a temporary teaching profile from caller-supplied names",
+        description:
+          "Public, stateless guidance. Does not read projects, store history, verify skill or grant access. Never send credentials or secret values."
       },
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
     },
     async (request, reply) => {
-      const payload = request.body;
-      if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-        const record = payload as Record<string, unknown>;
-        if (Object.keys(record).some((key) => !["area", "project", "environment", "path", "connection", "search", "action", "interactions"].includes(key))) {
-          return reply.code(400).send({ error: "Unsupported learning-context fields." });
-        }
-      }
-      return reply.send(buildVaultixLearningMemory((request.body as Record<string, unknown> | undefined) as any));
+      const context = parseLearningContext(request.body);
+      if (!context) throw new BadRequestError({ message: "Invalid teaching context." });
+      return reply.send(buildVaultixLearningMemory(context));
     }
   );
 

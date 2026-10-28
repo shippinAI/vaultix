@@ -1373,8 +1373,8 @@
   ],
   "sources": [
     {
-      "title": "valutix public capability comparison",
-      "url": "https://valutix.com/pricing",
+      "title": "Infisical public capability comparison",
+      "url": "https://infisical.com/pricing",
       "checked": "2026-10-28",
       "scope": "Feature-family discovery, not private implementation or parity proof"
     },
@@ -1403,8 +1403,8 @@
       "scope": "Runtime agent-environment injection is not adopted by Vaultix's reference-only model boundary"
     },
     {
-      "title": "valutix Agent Vault",
-      "url": "https://valutix.com/platform/agent-vault",
+      "title": "Infisical Agent Vault",
+      "url": "https://infisical.com/platform/agent-vault",
       "checked": "2026-10-28",
       "scope": "Preview service access bundles, expiring sessions and request audit; no private source inspected"
     }
@@ -2592,7 +2592,7 @@
       "capabilities": 10,
       "ui": 0,
       "api": 9,
-      "sourceFiles": 22
+      "sourceFiles": 23
     },
     "governance": {
       "capabilities": 5,
@@ -2604,7 +2604,7 @@
       "capabilities": 8,
       "ui": 12,
       "api": 1,
-      "sourceFiles": 1330
+      "sourceFiles": 1331
     },
     "experience": {
       "capabilities": 6,
@@ -2616,7 +2616,7 @@
   "coverage": {
     "uiRoutes": 273,
     "apiOperations": 2290,
-    "sourceFiles": 9405,
+    "sourceFiles": 9407,
     "providerEntries": 187,
     "capabilityRequirements": 86,
     "unclassified": 0

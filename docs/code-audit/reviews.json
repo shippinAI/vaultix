@@ -1260,31 +1260,15 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "62611086d92eb6cb397823515b71628383a12ca3",
-      "status": "verified",
+      "blob": "d4af9bd9e34654fb334be2b45edc128b842d3fad",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete current script read; prior isolated queue/API/restart/browser and eager-upload gates retained. Actual image identity is checked before allocating any test resources. The changed script passes the canonical Dragonfly smoke suite; exact runtime-layer comparison preserves the prior accepted Redis/application evidence. Metadata checks do not prove hosted failover, ElastiCache or provider capabilities. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
       "evidence": [
-        "docs/0034-api-request-errors.md",
-        ".cache/app-image-proof-PM9CDX/workflow-result.json",
-        ".cache/api-error-proof-Dfar5o/result.json",
-        ".cache/api-error-proof-aihO25/result.json",
-        "docs/0045-image-identity-and-revision.md",
-        ".cache/image-identity-baseline.json",
-        ".cache/image-identity-baseline-check.log",
-        ".cache/image-identity-engine.json",
-        ".cache/image-identity-panel.json",
-        ".cache/image-identity-wrong-revision.log",
-        ".cache/image-identity-runtime-comparison.json",
-        ".cache/image-identity-engine-smoke.log",
-        ".cache/publication-proof-EjOLFM/result.json",
-        ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json",
-        "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
       ]
     },
     {
@@ -3327,32 +3311,28 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.test.ts",
-      "blob": "2d7f95045cf0a1371c703aa7c03db32f3089d0ae",
-      "status": "verified",
+      "blob": "473b94a0e5a86160ad3540e9129506586032a5b3",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/services/vaultix/catalog.ts",
-      "blob": "bd2f63e2946912d6b4bec14429d0302923ed2124",
-      "status": "verified",
+      "blob": "8a2da475f31833960a7bf09fe993980e32b137fe",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
       ]
     },
     {
@@ -3540,6 +3520,97 @@
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
         ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json",
         ".cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp.ts",
+      "blob": "76d6c3968672bf3c9e59c4f50ae0c6b4148d1aae",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/learning-input.ts",
+      "blob": "d5bebc4798ed109a7caedcaf03ee72c9dba5bc2a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-router.ts",
+      "blob": "e93bcc8ee761cf932a44d0e3d092594f21790854",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-learning.test.ts",
+      "blob": "f18530ae53e50931e356643183da93a03b6590fd",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/swagger.ts",
+      "blob": "bac29bd238b1bddf04d492134cfc3a97801c2868",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/swagger.test.ts",
+      "blob": "4f973da7851f55f6c2904a84d61eecc0ba8c51ff",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
+      ]
+    },
+    {
+      "path": "docs/0057-learning-context-integration.md",
+      "blob": "bcc5e704095763eb8237c2822efa067f98830951",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim.",
+      "evidence": [
+        "docs/0057-learning-context-integration.md",
+        "core/backend/src/server/routes/vaultix-learning.test.ts",
+        "core/backend/src/server/plugins/swagger.test.ts",
+        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json"
       ]
     }
   ]

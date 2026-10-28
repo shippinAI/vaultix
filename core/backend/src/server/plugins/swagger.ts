@@ -2,6 +2,7 @@ import swagger from "@fastify/swagger";
 import swaggerUI from "@fastify/swagger-ui";
 import fp from "fastify-plugin";
 
+import { learningContextSchema } from "@app/services/vaultix/learning-input";
 import { referenceTools } from "@app/services/vaultix/reference-input";
 
 import { jsonSchemaTransform } from "./fastify-zod";
@@ -13,6 +14,10 @@ export const fastifySwagger = fp(async (fastify) => {
       if (input.url === "/api/v1/vaultix/secret-references") {
         // Document the same catalog schema used by MCP. Runtime validation is explicit.
         result.schema = { ...result.schema, querystring: referenceTools[1].inputSchema };
+      }
+      if (input.url === "/api/v1/vaultix/learning-context") {
+        // Authored parser validates this JSON Schema contract before the legacy compiler.
+        result.schema = { ...result.schema, body: learningContextSchema };
       }
       return result;
     },

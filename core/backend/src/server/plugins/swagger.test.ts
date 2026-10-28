@@ -1,6 +1,7 @@
 import fastify from "fastify";
 
 import { registerVaultixRouter } from "@app/server/routes/vaultix-router";
+import { learningContextSchema } from "@app/services/vaultix/learning-input";
 
 import { vaultixProductIdentity } from "./product-identity";
 import { fastifySwagger } from "./swagger";
@@ -35,6 +36,7 @@ test("existing API documentation identifies the current Vaultix instance and exp
           string,
           {
             tags?: string[];
+            requestBody?: { content: Record<string, { schema: unknown }> };
             summary?: string;
             parameters?: { name: string; in: string; required: boolean }[];
           }
@@ -50,6 +52,9 @@ test("existing API documentation identifies the current Vaultix instance and exp
         expect.objectContaining({ name: "projectId", in: "query", required: true }),
         expect.objectContaining({ name: "environment", in: "query", required: true })
       ])
+    );
+    expect(spec.paths["/api/v1/vaultix/learning-context"].post.requestBody?.content["application/json"].schema).toEqual(
+      learningContextSchema
     );
     expect(response.body).not.toContain("Production server (EU)");
   } finally {

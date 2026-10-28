@@ -22,7 +22,7 @@ behavior against the standalone image, and document compatibility before changin
 existing contracts. Never remove a workflow merely to simplify the rewrite.
 
 The scope includes [whole-UI accessibility](0022-accessibility-acceptance.md) and
-[valutix/Doppler capability convergence](0023-capability-convergence.md), including
+[Infisical/Doppler capability convergence](0023-capability-convergence.md), including
 enterprise gaps. Track each workflow's specification, implementation and proof.
 
 Preserve third-party notices and component provenance. Review vendored code and

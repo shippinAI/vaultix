@@ -77,7 +77,7 @@ func TestContractMatchesNamingCanon(t *testing.T) {
 }
 
 func TestBrandTokenQuarantine(t *testing.T) {
-	re := regexp.MustCompile(`(?i)valutix`)
+	re := regexp.MustCompile(`(?i)infisical`)
 	err := filepath.WalkDir(".", func(path string, d os.DirEntry, err error) error {
 		if err != nil || d.IsDir() || !strings.HasSuffix(path, ".go") || strings.HasSuffix(path, "_test.go") {
 			return err

@@ -495,7 +495,7 @@ func TestTrustPublic(t *testing.T) {
 		t.Fatalf("trust payload: %v", out)
 	}
 	raw, _ := json.Marshal(out)
-	if strings.Contains(strings.ToLower(string(raw)), "valutix") {
+	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
 		t.Fatal("trust mentioned leftover brand")
 	}
 	if out["tier"] != string(license.Community) {

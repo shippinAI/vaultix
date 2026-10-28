@@ -1,21 +1,8 @@
 import { readVaultixTool, specialistInstructions, vaultixTools } from "./catalog";
+import { parseLearningContext } from "./learning-input";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
-
-const learningProfileFields = [
-  "area",
-  "project",
-  "environment",
-  "path",
-  "connection",
-  "search",
-  "action",
-  "interactions"
-] as const;
-
-const isLearningProfileArgs = (value: unknown): value is Record<string, unknown> =>
-  isRecord(value) && Object.keys(value).every((key) => learningProfileFields.includes(key as (typeof learningProfileFields)[number]));
 
 export const handleVaultixMcp = (
   body: unknown,
@@ -78,10 +65,14 @@ export const handleVaultixMcp = (
         );
       }
       if (params.name === "vaultix.learning.profile.get") {
-        if (params.arguments !== undefined && (!isLearningProfileArgs(params.arguments) || (typeof params.arguments.interactions !== "undefined" && typeof params.arguments.interactions !== "number"))) {
-          return error(-32602, "Learning profile arguments must only include recognized teaching context fields.");
+        const context = parseLearningContext(params.arguments === undefined ? {} : params.arguments);
+        if (!context) {
+          return error(
+            -32602,
+            "Use supported context names and a whole interaction count from 0 to 1000000. Never send secret values."
+          );
         }
-        const value = readVaultixTool(params.name, params.arguments ?? {});
+        const value = readVaultixTool(params.name, context);
         if (value === undefined) return error(-32602, "Unknown Vaultix tool.");
         return result({ content: [{ type: "text", text: JSON.stringify(value) }], isError: false });
       }

@@ -33,7 +33,7 @@ func TestDecideCatalogWins(t *testing.T) {
 		t.Fatal("ml valve opened")
 	}
 	raw := string(ra)
-	if strings.Contains(strings.ToLower(raw), "valutix") {
+	if strings.Contains(strings.ToLower(raw), "infisical") {
 		t.Fatal("catalog mentioned leftover brand")
 	}
 }

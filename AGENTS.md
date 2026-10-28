@@ -50,7 +50,7 @@ evidence. Never recapture a reduced baseline just to pass CI.
 
 All-UI accessibility and capability convergence (2026-10-26): target WCAG 2.2 AA
 across native and existing authenticated/enterprise workflows; read
-`docs/0022-accessibility-acceptance.md`. Capture valutix and Doppler capabilities,
+`docs/0022-accessibility-acceptance.md`. Capture Infisical and Doppler capabilities,
 including enterprise gaps, with independent implementation and acceptance evidence
 under `docs/0023-capability-convergence.md`. Automated scans and public feature
 inventories do not establish complete accessibility or enterprise parity.

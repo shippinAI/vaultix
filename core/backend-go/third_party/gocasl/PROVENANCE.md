@@ -1,6 +1,6 @@
 # Permission evaluator dependency
 
-Source: the published Go module `github.com/valutix/gocasl`, version `v0.0.7`.
+Source: the published Go module `github.com/infisical/gocasl`, version `v0.0.7`.
 Module checksum: `h1:heG7W8O0Iq+iCWmscUm2cd29QuIq7mN9cSETm7DY7BY=`.
 
 Copied from the checksum-verified local Go module cache, without connecting to

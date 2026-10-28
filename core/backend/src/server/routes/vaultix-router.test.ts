@@ -1,5 +1,7 @@
 import fastify from "fastify";
 
+import type { VaultixLearningMemory } from "@app/services/vaultix/catalog";
+
 import { registerVaultixRouter } from "./vaultix-router";
 
 describe("native Vaultix HTTP API", () => {
@@ -115,8 +117,7 @@ describe("native Vaultix HTTP API", () => {
     expect(response.statusCode).toBe(200);
     expect(response.json()).toMatchObject({
       schemaVersion: "vaultix.learning.v1",
-      skillLevel: "advanced",
-      trackedContext: expect.any(Array)
+      skillLevel: "advanced"
     });
     expect(response.body).not.toContain("secret");
   });
@@ -141,12 +142,14 @@ describe("native Vaultix HTTP API", () => {
       }
     });
     expect(response.statusCode).toBe(200);
-    const data = JSON.parse(response.json<{ result: { content: Array<{ text: string }> } }>().result.content[0].text);
+    const data = JSON.parse(
+      response.json<{ result: { content: Array<{ text: string }> } }>().result.content[0].text
+    ) as VaultixLearningMemory;
     expect(data).toMatchObject({
       schemaVersion: "vaultix.learning.v1",
-      skillLevel: "intermediate",
-      trackedContext: expect.arrayContaining(["connections", "billing", "staging"])
+      skillLevel: "intermediate"
     });
+    expect(data.trackedContext).toEqual(expect.arrayContaining(["connections", "billing", "staging"]));
   });
 
   test("bounds body sizes and acknowledges MCP notifications", async () => {

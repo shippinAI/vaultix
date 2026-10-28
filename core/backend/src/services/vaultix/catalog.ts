@@ -1,4 +1,5 @@
 import { getVaultixGuidance } from "./guidance";
+import { learningContextSchema, VaultixLearningContext } from "./learning-input";
 
 export const specialistInstructions = `# Clyffy: Vaultix secrets specialist
 
@@ -54,17 +55,6 @@ export type VaultixCapabilityFamily = {
   category: string;
 };
 
-export type VaultixLearningContext = {
-  area?: "references" | "connections" | "organization" | "owner" | "admin" | "general";
-  project?: string;
-  environment?: string;
-  path?: string;
-  connection?: string;
-  search?: string;
-  action?: string;
-  interactions?: number;
-};
-
 export type VaultixLearningMemory = {
   schemaVersion: "vaultix.learning.v1";
   skillLevel: "starter" | "intermediate" | "advanced";
@@ -115,11 +105,16 @@ const knowledgeDrops: VaultixKnowledgeSignal[] = [
 ];
 
 const normalizeLearningContext = (values: Array<string | undefined>) =>
-  [...new Set(values.filter(Boolean).map((value) => value!.trim().toLowerCase()).filter(Boolean))].slice(0, 6);
+  [
+    ...new Set(
+      values
+        .filter(Boolean)
+        .map((value) => value!.trim().toLowerCase())
+        .filter(Boolean)
+    )
+  ].slice(0, 6);
 
-export const buildVaultixLearningMemory = (
-  context: VaultixLearningContext = {}
-): VaultixLearningMemory => {
+export const buildVaultixLearningMemory = (context: VaultixLearningContext = {}): VaultixLearningMemory => {
   const trackedContext = normalizeLearningContext([
     context.area,
     context.project,
@@ -129,12 +124,23 @@ export const buildVaultixLearningMemory = (
     context.search,
     context.action
   ]);
-  const skillLevel = trackedContext.length + (context.interactions ?? 0) >= 6 ? "advanced" : trackedContext.length + (context.interactions ?? 0) >= 3 ? "intermediate" : "starter";
+  const contextScore = trackedContext.length + (context.interactions ?? 0);
+  let skillLevel: VaultixLearningMemory["skillLevel"] = "starter";
+  if (contextScore >= 6) skillLevel = "advanced";
+  else if (contextScore >= 3) skillLevel = "intermediate";
   const recentEvents = [
     context.project && { id: "project-selected", label: `Project: ${context.project}`, at: new Date().toISOString() },
-    context.environment && { id: "environment-selected", label: `Environment: ${context.environment}`, at: new Date().toISOString() },
+    context.environment && {
+      id: "environment-selected",
+      label: `Environment: ${context.environment}`,
+      at: new Date().toISOString()
+    },
     context.path && { id: "path-selected", label: `Path: ${context.path}`, at: new Date().toISOString() },
-    context.connection && { id: "connection-selected", label: `Connection: ${context.connection}`, at: new Date().toISOString() },
+    context.connection && {
+      id: "connection-selected",
+      label: `Connection: ${context.connection}`,
+      at: new Date().toISOString()
+    },
     context.action && { id: "action-selected", label: `Action: ${context.action}`, at: new Date().toISOString() }
   ].filter(Boolean) as Array<{ id: string; label: string; at: string }>;
 
@@ -352,15 +358,19 @@ export const vaultixTools = [
   },
   {
     name: "vaultix.learning.profile.get",
-    description: "Read an authored teaching profile for the current project, connection, or app context."
+    description:
+      "Build a temporary teaching profile from caller-supplied context. No stored history, verified skill, authorization, or secret access. Send names only, never credentials or values."
   }
 ].map((tool) => ({
   ...tool,
-  inputSchema: { type: "object", properties: {}, additionalProperties: false },
+  inputSchema:
+    tool.name === "vaultix.learning.profile.get"
+      ? learningContextSchema
+      : { type: "object", properties: {}, additionalProperties: false },
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
 }));
 
-export const readVaultixTool = (name: string, args?: Record<string, unknown>) => {
+export const readVaultixTool = (name: string, args?: VaultixLearningContext) => {
   switch (name) {
     case "vaultix.guidance.get":
       return getVaultixGuidance();
@@ -373,7 +383,7 @@ export const readVaultixTool = (name: string, args?: Record<string, unknown>) =>
     case "vaultix.specialist.instructions":
       return { instructions: specialistInstructions };
     case "vaultix.learning.profile.get":
-      return buildVaultixLearningMemory(args as VaultixLearningContext | undefined);
+      return buildVaultixLearningMemory(args);
     default:
       return undefined;
   }
