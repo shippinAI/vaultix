@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { BadRequestError, ForbiddenRequestError, NotFoundError, UnauthorizedError } from "@app/lib/errors";
 import { ActorType, AuthMode } from "@app/services/auth/auth-type";
 import {
+  buildVaultixLearningMemory,
   getVaultixCatalog,
   getVaultixConfigure,
   getVaultixConnections,
@@ -113,6 +114,42 @@ export const registerVaultixRouter = async (
       },
       async () => handler()
     )
+  );
+
+  server.post(
+    "/learning-context",
+    {
+      schema: {
+        hide: false,
+        tags: ["Vaultix"],
+        summary: "Generate the current teaching context for the user and AI workflow",
+        body: {
+          type: "object",
+          properties: {
+            area: { type: "string", enum: ["references", "connections", "organization", "owner", "admin", "general"] },
+            project: { type: "string", maxLength: 128 },
+            environment: { type: "string", maxLength: 128 },
+            path: { type: "string", maxLength: 1024 },
+            connection: { type: "string", maxLength: 128 },
+            search: { type: "string", maxLength: 256 },
+            action: { type: "string", maxLength: 128 },
+            interactions: { type: "number" }
+          },
+          additionalProperties: false
+        }
+      },
+      config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
+    },
+    async (request, reply) => {
+      const payload = request.body;
+      if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+        const record = payload as Record<string, unknown>;
+        if (Object.keys(record).some((key) => !["area", "project", "environment", "path", "connection", "search", "action", "interactions"].includes(key))) {
+          return reply.code(400).send({ error: "Unsupported learning-context fields." });
+        }
+      }
+      return reply.send(buildVaultixLearningMemory((request.body as Record<string, unknown> | undefined) as any));
+    }
   );
 
   if (options.references) {

@@ -895,8 +895,8 @@ export const capabilities = [
 
 export const sources = [
   {
-    title: "Infisical public capability comparison",
-    url: "https://infisical.com/pricing",
+    title: "valutix public capability comparison",
+    url: "https://valutix.com/pricing",
     checked: "2026-10-28",
     scope: "Feature-family discovery, not private implementation or parity proof",
   },
@@ -926,8 +926,8 @@ export const sources = [
       "Runtime agent-environment injection is not adopted by Vaultix's reference-only model boundary",
   },
   {
-    title: "Infisical Agent Vault",
-    url: "https://infisical.com/platform/agent-vault",
+    title: "valutix Agent Vault",
+    url: "https://valutix.com/platform/agent-vault",
     checked: "2026-10-28",
     scope:
       "Preview service access bundles, expiring sessions and request audit; no private source inspected",

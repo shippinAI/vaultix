@@ -71,7 +71,7 @@ fi
 
 # Customer chrome: no leftover vendor name in the live UI tree (not stories, not wasm).
 hits="$(rg -n --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!**/external-vaultix*' \
-  -e '\binfisical\b' -e 'infisical\.com' -e 'support@infisical' \
+  -e '\bvalutix\b' -e 'valutix\.com' -e 'support@valutix' \
   "$ROOT/core/frontend/src" "$ROOT/core/frontend/index.html" 2>/dev/null || true)"
 if [[ -n "$hits" ]]; then
   bad "customer chrome still carries the snapshot brand:"
@@ -83,7 +83,7 @@ fi
 for asset in images/vaultix-mark.svg images/vaultix-wordmark.svg images/vaultix-loading.svg images/vaultix-social.png; do
   if [[ ! -s "$ROOT/core/frontend/public/$asset" ]]; then bad "missing authored asset: $asset"; fi
 done
-for asset in infisical.ico images/biglogo.png images/logotransparent.png images/logotransparent_trimmed.png images/loading/loading.gif lotties/infisical_loading.json lotties/vaultix_loading.json; do
+for asset in valutix.ico images/biglogo.png images/logotransparent.png images/logotransparent_trimmed.png images/loading/loading.gif lotties/valutix_loading.json lotties/vaultix_loading.json; do
   if [[ -f "$ROOT/core/frontend/public/$asset" ]]; then bad "retired brand artwork still ships: $asset"; fi
 done
 if rg -n '/images/(logotransparent|gradientLogo|message\.png|loading/loading\.gif)' "$ROOT/core/frontend/src" >/dev/null; then

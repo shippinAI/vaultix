@@ -51,7 +51,7 @@ func TestInitializeAndList(t *testing.T) {
 		t.Fatalf("tools %d", len(tools))
 	}
 	raw, _ := json.Marshal(listed)
-	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
+	if strings.Contains(strings.ToLower(string(raw)), "valutix") {
 		t.Fatal("MCP listed leftover brand")
 	}
 }
@@ -59,7 +59,7 @@ func TestInitializeAndList(t *testing.T) {
 func TestCatalogAnswerNotFrontierForBox(t *testing.T) {
 	s := &Server{}
 	res := rpc(t, s, "tools/call", map[string]any{
-		"name": "vaultix.runtime.answer",
+		"name":      "vaultix.runtime.answer",
 		"arguments": map[string]any{"kind": "glossary-term", "term": "box"},
 	})
 	text := res["result"].(map[string]any)["content"].([]any)[0].(map[string]any)["text"].(string)

@@ -3,6 +3,20 @@ import { readVaultixTool, specialistInstructions, vaultixTools } from "./catalog
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
 
+const learningProfileFields = [
+  "area",
+  "project",
+  "environment",
+  "path",
+  "connection",
+  "search",
+  "action",
+  "interactions"
+] as const;
+
+const isLearningProfileArgs = (value: unknown): value is Record<string, unknown> =>
+  isRecord(value) && Object.keys(value).every((key) => learningProfileFields.includes(key as (typeof learningProfileFields)[number]));
+
 export const handleVaultixMcp = (
   body: unknown,
   actions?: {
@@ -62,6 +76,14 @@ export const handleVaultixMcp = (
         return value.then((data) =>
           result({ content: [{ type: "text", text: JSON.stringify(data) }], isError: false })
         );
+      }
+      if (params.name === "vaultix.learning.profile.get") {
+        if (params.arguments !== undefined && (!isLearningProfileArgs(params.arguments) || (typeof params.arguments.interactions !== "undefined" && typeof params.arguments.interactions !== "number"))) {
+          return error(-32602, "Learning profile arguments must only include recognized teaching context fields.");
+        }
+        const value = readVaultixTool(params.name, params.arguments ?? {});
+        if (value === undefined) return error(-32602, "Unknown Vaultix tool.");
+        return result({ content: [{ type: "text", text: JSON.stringify(value) }], isError: false });
       }
       if (params.arguments !== undefined && (!isRecord(params.arguments) || Object.keys(params.arguments).length)) {
         return error(-32602, "Vaultix guidance tools accept no arguments or secret values.");
