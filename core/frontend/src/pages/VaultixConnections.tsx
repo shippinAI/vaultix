@@ -3,10 +3,13 @@ import { CheckIcon, CopyIcon, TerminalIcon } from "lucide-react";
 
 import { Button, Card, CardContent, CardHeader, CardTitle } from "@app/components/v3";
 import { GuidedHelp } from "@app/components/vaultix/GuidedHelp";
+import { LearningSignals } from "@app/components/vaultix/LearningSignals";
 import { useVaultixConnections } from "@app/hooks/api/vaultix/connections";
+import { useVaultixGuide } from "@app/hooks/api/vaultix/queries";
 
 export const VaultixConnections = () => {
   const guide = useVaultixConnections();
+  const catalog = useVaultixGuide();
   const [selected, setSelected] = useState("codex-subscription");
   const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
   const copyMessages = {
@@ -29,6 +32,14 @@ export const VaultixConnections = () => {
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
+        {catalog.data && (
+          <LearningSignals
+            area="connections"
+            didYouKnow={catalog.data.didYouKnow}
+            knowledgeDrops={catalog.data.knowledgeDrops}
+            enterpriseCapabilities={catalog.data.enterpriseCapabilities}
+          />
+        )}
         {guide.isPending && <p role="status">Loading connection options...</p>}
         {guide.isError && (
           <div role="alert">

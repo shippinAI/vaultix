@@ -100,7 +100,32 @@ connection on parser errors, and its body limit remains in force.
 `VAULTIX_EAGER_UPLOAD_PROOF=1 bash scripts/smoke-image.sh IMAGE dragonfly`
 runs an opt-in test against a disposable image. It sends twelve eager uploads,
 prints only counts and fails unless every request receives the expected 413.
-The normal image gate is unchanged; the separate test makes the unresolved
-transport behavior visible rather than treating a reset as a successful 413.
-Resolving this requires a bounded design and verification for slow, unbounded,
-and aborted uploads as well as real deployment proxies.
+The normal image gate is unchanged; the separate test makes transport behavior
+visible rather than treating a reset as a successful 413. The bounded handling
+and follow-up evidence below address this sample; real deployment proxies and
+clients exceeding the bounds still need verification.
+
+## Bounded rejection handling
+
+The parser-error handler now gives an oversized upload a brief opportunity to
+finish before responding: it discards incoming data without buffering, pauses
+after an additional 2 MiB (plus at most one stream chunk) or 250 ms, and leaves
+Fastify's `Connection: close` in place. Aborted or already-ended streams release
+the wait. This does not increase the accepted body limit, pass rejected requests
+to their route, or guarantee that a client continuing beyond either bound sees
+the response rather than a reset.
+
+The original handler failed the delayed-upload regression; the revised handler
+passes that test, twelve concurrent eager uploads, a stalled client, an aborted
+client followed by a health request, and the existing parser-error suite (14
+tests total). The full backend unit suite passes 1,863 tests with 22 existing
+skips. TypeScript and scoped lint pass. A disposable Dragonfly image run passed
+the opt-in twelve-request eager probe and the complete browser workflow, with
+the 273-route / 2,290-operation baseline intact. A separate Redis image smoke
+also passed the twelve-request probe, queue checks, and engine restart. The built image was
+`sha256:7aa1b2861ec46b5d0e1453e09c478aceabc29e141433025a45880bf99812980a`.
+
+This is bounded local evidence, not proof of every client, concurrent load,
+custom pre-parsing stream, proxy, or deployment topology. CI is a separate gate.
+Eager uploads larger or slower than the drain budget may
+still reset; do not treat their absence from this sample as a guarantee.

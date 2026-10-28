@@ -36,37 +36,155 @@ export const vaultixSourceActions = [
   }
 ] as const;
 
-export const getVaultixCatalog = () => ({
-  schemaVersion: "vaultix.catalog.v1",
-  product: "Vaultix",
-  owner: "AngryVibes LLC",
-  tagline: "Secrets you own. Built for the way you build.",
-  source: "catalog",
-  actions: vaultixSourceActions,
-  entries: [
+export type VaultixKnowledgeSignal = {
+  id: string;
+  kind: "did-you-know" | "knowledge-drop";
+  title: string;
+  description: string;
+  context: ("references" | "connections")[];
+  source: "catalog";
+};
+
+export type VaultixCapabilityFamily = {
+  id: string;
+  title: string;
+  summary: string;
+  featurePolicy: "included";
+  reviewStatus: "in-progress";
+  category: string;
+};
+
+const didYouKnow: VaultixKnowledgeSignal[] = [
+  {
+    id: "ref-names-not-values",
+    kind: "did-you-know",
+    title: "Share the reference, keep the value in your vault",
+    description:
+      "Reference tools list names you may access. They do not return secret values, comments, personal overrides, or imported secrets.",
+    context: ["references"],
+    source: "catalog"
+  },
+  {
+    id: "client-credentials",
+    kind: "did-you-know",
+    title: "Your AI credentials stay in your client",
+    description:
+      "Use your existing local Codex sign-in or provider setup. Adding the MCP connection does not sign you in to Vaultix or grant secret access.",
+    context: ["connections"],
+    source: "catalog"
+  }
+];
+
+const knowledgeDrops: VaultixKnowledgeSignal[] = [
+  {
+    id: "environment-bounds",
+    kind: "knowledge-drop",
+    title: "Check the environment before each lookup",
+    description:
+      "The same name can refer to different values in development and production. Choose the app, environment, and folder before requesting references.",
+    context: ["references"],
+    source: "catalog"
+  },
+  {
+    id: "mcp-boundary",
+    kind: "knowledge-drop",
+    title: "Guidance and execution have separate results",
+    description:
+      "Reviewing a lesson or copying a connection does not execute a vault action. Current MCP tools provide guidance and authorized reference reads; secret-changing tools are not available yet.",
+    context: ["connections"],
+    source: "catalog"
+  }
+];
+
+export const getVaultixCatalog = () => {
+  const enterpriseCapabilities: VaultixCapabilityFamily[] = [
     {
-      id: "project",
-      title: "One Project for Each App",
-      description: "Keep an app's secrets together, with separate development and production environments."
+      id: "references-versioning",
+      title: "References & versioning",
+      summary:
+        "Scoped secret references, imports, and recovery workflows that keep values out of chat and model contexts.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Secrets"
     },
     {
-      id: "reference",
-      title: "Give AI Names, Never Values",
-      description: "Clyffy works with secret references. Enter the actual key in Vaultix, outside the conversation."
+      id: "approvals-review",
+      title: "Approvals & change review",
+      summary: "Request, review, and enforce change policies across key secret operations and environment changes.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Governance"
     },
     {
-      id: "injection",
-      title: "Connect Your App",
-      description: "Give your application access to only the secrets and environment it needs."
+      id: "identity-access",
+      title: "Identity, MFA & RBAC",
+      summary: "Organization, group, role, SSO, LDAP, and MFA-powered access controls with tenant boundaries.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Access"
     },
     {
-      id: "control",
-      title: "Keep Control as You Grow",
-      description:
-        "Vaultix's direction is free software features, including approvals, rotation, audit, and team controls. Feature parity is still being built and verified."
+      id: "audit-logging",
+      title: "Audit & compliance trails",
+      summary: "Audit entries for requests, approvals, access changes, and recovery flows with redaction-safe logs.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Operations"
+    },
+    {
+      id: "rotation-dynamic-creds",
+      title: "Rotation & dynamic credentials",
+      summary: "Time-bound credentials and rotation workflows for workloads, destinations, and connected integrations.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Lifecycle"
+    },
+    {
+      id: "pki-pam-kms",
+      title: "PKI, PAM & KMS",
+      summary:
+        "Certificate lifecycle management, privileged access workflows, and key custody with explicit policy boundaries.",
+      featurePolicy: "included",
+      reviewStatus: "in-progress",
+      category: "Enterprise"
     }
-  ]
-});
+  ];
+
+  return {
+    schemaVersion: "vaultix.catalog.v1",
+    product: "Vaultix",
+    owner: "AngryVibes LLC",
+    tagline: "Secrets you own. Built for the way you build.",
+    source: "catalog",
+    actions: vaultixSourceActions,
+    entries: [
+      {
+        id: "project",
+        title: "One Project for Each App",
+        description: "Keep an app's secrets together, with separate development and production environments."
+      },
+      {
+        id: "reference",
+        title: "Give AI Names, Never Values",
+        description: "Clyffy works with secret references. Enter the actual key in Vaultix, outside the conversation."
+      },
+      {
+        id: "injection",
+        title: "Connect Your App",
+        description: "Give your application access to only the secrets and environment it needs."
+      },
+      {
+        id: "control",
+        title: "Keep Control as You Grow",
+        description:
+          "Vaultix's direction is free software features, including approvals, rotation, audit, and team controls. Feature parity is still being built and verified."
+      }
+    ],
+    didYouKnow,
+    knowledgeDrops,
+    enterpriseCapabilities
+  };
+};
 
 export const getVaultixConfigure = () => ({
   schemaVersion: "vaultix.configure.v1",

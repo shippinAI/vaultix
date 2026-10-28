@@ -2088,8 +2088,9 @@ core/backend/src/server/plugins/auth/inject-permission.ts	access	authorization	c
 core/backend/src/server/plugins/auth/superAdmin.ts	access	identity	core/backend/src/server/plugins/auth	f0f00f3665b50a3e54e3f7cc5aa7f921a1a7c514	unread
 core/backend/src/server/plugins/auth/verify-auth.test.ts	access	identity	core/backend/src/server/plugins/auth	b7307b1c8c6006cbaae5d629a8ebae47b30f1df2	unread
 core/backend/src/server/plugins/auth/verify-auth.ts	access	identity	core/backend/src/server/plugins/auth	4d61e98b63d60f03c4d2909657863619d48afb16	unread
+core/backend/src/server/plugins/error-handler-oversized.test.ts	operate	foundation	core/backend/src/server/plugins	c3df51158a2c1304dae6c3b1285945c6584088b3	verified
 core/backend/src/server/plugins/error-handler.test.ts	operate	foundation	core/backend/src/server/plugins	340e5047a8e87312bc37382ee497134eb4baae86	verified
-core/backend/src/server/plugins/error-handler.ts	operate	foundation	core/backend/src/server/plugins	9e31369ac80208bcd5f61ceec0c94a81dc86b7c5	verified
+core/backend/src/server/plugins/error-handler.ts	operate	foundation	core/backend/src/server/plugins	63630ea23a0a9a78e51d5ce6daa484066f229cc4	verified
 core/backend/src/server/plugins/fastify-zod.ts	operate	foundation	core/backend/src/server/plugins	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	operate	foundation	core/backend/src/server/plugins	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	unread
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	operate	foundation	core/backend/src/server/plugins	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	unread
@@ -2430,7 +2431,7 @@ core/backend/src/server/routes/v3/signup-router.ts	access	identity	core/backend/
 core/backend/src/server/routes/v4/index.ts	operate	foundation	core/backend/src/server/routes/v4	db2e6922234476732595c0b0720385588b13899b	unread
 core/backend/src/server/routes/v4/secret-router.ts	secrets	secrets	core/backend/src/server/routes/v4	ddcc7608b003cd5926ad4831530c79f260c639e1	unread
 core/backend/src/server/routes/vaultix-reference-router.test.ts	operate	foundation	core/backend/src/server/routes	1c659074f2afd17cbf5c467ac4e626c479f4d643	unread
-core/backend/src/server/routes/vaultix-router.test.ts	operate	foundation	core/backend/src/server/routes	52938d418100bde0f0c46a2c512e05fb5e400141	unread
+core/backend/src/server/routes/vaultix-router.test.ts	operate	foundation	core/backend/src/server/routes	2d7f95045cf0a1371c703aa7c03db32f3089d0ae	authored
 core/backend/src/server/routes/vaultix-router.ts	operate	foundation	core/backend/src/server/routes	eb0ec9437c3221d67d9d98a95d1a16695bf43e88	unread
 core/backend/src/services/access-token-queue/access-token-queue.ts	operate	foundation	core/backend/src/services/access-token-queue	bb1fefef60093c8a23fc03ffa46b1592cb59ca1a	unread
 core/backend/src/services/account-recovery/account-recovery-service.ts	access	identity	core/backend/src/services/account-recovery	43dee817ef27c1842532abd7f8c2465e26896043	unread
@@ -3971,7 +3972,7 @@ core/backend/src/services/user/user-dal.ts	access	identity	core/backend/src/serv
 core/backend/src/services/user/user-fns.ts	access	identity	core/backend/src/services/user	23aff77a4d182b7996086bd174bfb58d6f67a5ea	unread
 core/backend/src/services/user/user-service.ts	access	identity	core/backend/src/services/user	b4a1bd2b1a27a21c5b0eef0be3c591f943d3ef35	unread
 core/backend/src/services/user/user-types.ts	access	identity	core/backend/src/services/user	bd522d108ed00d873acfc8b8a80c603d497bb037	unread
-core/backend/src/services/vaultix/catalog.ts	ai	ai	core/backend/src/services/vaultix	c2ffe8933904d04084b330a74147069ee22d47a6	unread
+core/backend/src/services/vaultix/catalog.ts	ai	ai	core/backend/src/services/vaultix	bd2f63e2946912d6b4bec14429d0302923ed2124	authored
 core/backend/src/services/vaultix/feature-service.test.ts	ai	ai	core/backend/src/services/vaultix	edc64c4a3616f390925cdd13766f710e7b99afd8	unread
 core/backend/src/services/vaultix/feature-service.ts	ai	ai	core/backend/src/services/vaultix	02fd358825dac8a155b1fd74fcc6ebb9d6c7cb00	unread
 core/backend/src/services/vaultix/features.ts	ai	ai	core/backend/src/services/vaultix	7aeb59b2effc0c12956f888473b9fa2c74821aa8	unread
@@ -5240,6 +5241,7 @@ core/frontend/src/components/v3/platform/VerificationCode/useClientResendDelay.t
 core/frontend/src/components/v3/platform/index.ts	experience	ui	core/frontend/src/components/v3	4b3f876dc93a3aa083723106718a50cf4e119e9b	unread
 core/frontend/src/components/v3/utils/index.ts	experience	ui	core/frontend/src/components/v3	365058cebd7d2bdb327ca1c081b16e4937e11050	unread
 core/frontend/src/components/vaultix/GuidedHelp.tsx	ai	ai	core/frontend/src/components/vaultix	ff967c48157d363bcac2cc7cab3e2be76e972b97	verified
+core/frontend/src/components/vaultix/LearningSignals.tsx	ai	ai	core/frontend/src/components/vaultix	f77d52e03348706d94dd116fea3ad777f6492afe	authored
 core/frontend/src/components/vaultix/guidance-state.ts	ai	ai	core/frontend/src/components/vaultix	c414fea8fac7297c3222426d130ba218195a5e36	verified
 core/frontend/src/config/env.ts	experience	ui	core/frontend/src/config	ecfaa46e4e4c0f4af13f8ee1e3354025414f5cba	unread
 core/frontend/src/config/request.ts	experience	ui	core/frontend/src/config	d92f49340e71d66bc8f931683646bdc6a3d25a46	reviewed
@@ -6103,7 +6105,8 @@ core/frontend/src/hooks/api/users/types.ts	access	identity	core/frontend/src/hoo
 core/frontend/src/hooks/api/vaultix/actions.ts	ai	ai	core/frontend/src/hooks/api/vaultix	6a4af683b7527bf820f3a761773e2537dafbc51f	unread
 core/frontend/src/hooks/api/vaultix/connections.ts	ai	ai	core/frontend/src/hooks/api/vaultix	58d37e29a5e146264a1a90ac467665d4636a52c5	unread
 core/frontend/src/hooks/api/vaultix/guidance.ts	ai	ai	core/frontend/src/hooks/api/vaultix	04f17bca870372bbfd639687a69181d10787cd1c	verified
-core/frontend/src/hooks/api/vaultix/queries.ts	ai	ai	core/frontend/src/hooks/api/vaultix	774be1d4a85d576bfa2d346e89dbd82bd2e75093	unread
+core/frontend/src/hooks/api/vaultix/learning.ts	ai	ai	core/frontend/src/hooks/api/vaultix	c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce	authored
+core/frontend/src/hooks/api/vaultix/queries.ts	ai	ai	core/frontend/src/hooks/api/vaultix	cf4ddde832753ee6ae58eb1b5d0b40d508f386e4	authored
 core/frontend/src/hooks/api/webauthn/index.tsx	access	identity	core/frontend/src/hooks/api/webauthn	1db2260fc3b4b9e022200e03b7e9868c247fcadf	unread
 core/frontend/src/hooks/api/webauthn/mutations.tsx	access	identity	core/frontend/src/hooks/api/webauthn	b7581e8aac60a5e836ba78312433c8284a4f6661	unread
 core/frontend/src/hooks/api/webauthn/queries.tsx	access	identity	core/frontend/src/hooks/api/webauthn	0644801426d5cddb0974e84e0e1327ea27d4ee89	unread
@@ -6231,9 +6234,9 @@ core/frontend/src/main.tsx	experience	ui	core/frontend/src	2da09e27490c396e56cc2
 core/frontend/src/pages/MfaSessionPage/MfaSessionPage.tsx	access	identity	core/frontend/src/pages/MfaSessionPage	01e7a54217e9acdb6100bca02a94ead1d39c81c8	unread
 core/frontend/src/pages/MfaSessionPage/index.tsx	access	identity	core/frontend/src/pages/MfaSessionPage	3b769085ada013efd57de9b2115738ad4c76dca1	unread
 core/frontend/src/pages/MfaSessionPage/route.tsx	access	identity	core/frontend/src/pages/MfaSessionPage	a66b02443e5221d577abf3105c9a68d7fd8ffb86	unread
-core/frontend/src/pages/VaultixConnections.tsx	experience	ui	core/frontend/src/pages	13d2517f93e5c0e1cb680006533b0d1dd3bd0eb0	verified
+core/frontend/src/pages/VaultixConnections.tsx	experience	ui	core/frontend/src/pages	db7767af8f280c6876138800916baa6a087a30c3	authored
 core/frontend/src/pages/VaultixHome.tsx	experience	ui	core/frontend/src/pages	fc738197358a1a82bd9d0ac5ce5dd4093d745663	verified
-core/frontend/src/pages/VaultixReferences.tsx	experience	ui	core/frontend/src/pages	d43e1e611d573f7d2ad51b0d5001e02d25e11806	verified
+core/frontend/src/pages/VaultixReferences.tsx	experience	ui	core/frontend/src/pages	904513c69046fbee894d6fae05cfb2b7e67d0567	authored
 core/frontend/src/pages/admin/AccessManagementPage/AccessManagementPage.tsx	experience	ui	core/frontend/src/pages/admin/AccessManagementPage	be28cbe724ba46aac4a7d0b30872fd054d9369e5	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/AddServerAdminModal.tsx	experience	ui	core/frontend/src/pages/admin/AccessManagementPage	a066f0e7412c31745aaded3efef6361ac9dd21dc	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/ServerAdminsTable.tsx	experience	ui	core/frontend/src/pages/admin/AccessManagementPage	8970dddd88862579a4ac9afe3f9d878eede3c2ea	unread
@@ -9379,8 +9382,9 @@ scripts/test-go-test-evidence.mjs	operate	delivery	scripts	b5583de0e3990833d120e
 scripts/test-guided-interactions.mjs	operate	delivery	scripts	cfef341f467c3277d0d35d734c96a21c7e04b0f5	unread
 scripts/test-identity-policy-startup.mjs	operate	delivery	scripts	0b987ad6360d321ac5126d81634a38abfa98a504	verified
 scripts/test-image-app.mjs	operate	delivery	scripts	00db9a20eed750fd0ef48882796b6cbeb6f73246	verified
+scripts/test-learning-content.mjs	operate	delivery	scripts	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	authored
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
-scripts/test-native-ui.mjs	operate	delivery	scripts	34410a165f72cb41007a285b6fcc7e447e34c58f	verified
+scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	authored
 scripts/test-notification-matrix.mjs	operate	delivery	scripts	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	operate	delivery	scripts	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
 scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified

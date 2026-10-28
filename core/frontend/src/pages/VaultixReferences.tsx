@@ -18,10 +18,12 @@ import {
   SelectValue
 } from "@app/components/v3";
 import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
+import { LearningSignals } from "@app/components/vaultix/LearningSignals";
 import { listVaultixProjects, listVaultixReferences } from "@app/hooks/api/vaultix/actions";
-import type { VaultixSourceAction } from "@app/hooks/api/vaultix/queries";
+import { useVaultixGuide, type VaultixSourceAction } from "@app/hooks/api/vaultix/queries";
 
 export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) => {
+  const guide = useVaultixGuide();
   const [projectId, setProjectId] = useState("");
   const [environment, setEnvironment] = useState("");
   const [path, setPath] = useState("/");
@@ -72,6 +74,13 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
+        {guide.data && (
+          <LearningSignals
+            area="references"
+            didYouKnow={guide.data.didYouKnow}
+            knowledgeDrops={guide.data.knowledgeDrops}
+          />
+        )}
         {projects.isPending && <p role="status">Loading your apps...</p>}
         {projects.isError && (
           <div role="alert" className="flex flex-col items-start gap-3">

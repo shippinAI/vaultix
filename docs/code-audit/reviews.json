@@ -42,28 +42,26 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixConnections.tsx",
-      "blob": "13d2517f93e5c0e1cb680006533b0d1dd3bd0eb0",
-      "status": "verified",
+      "blob": "db7767af8f280c6876138800916baa6a087a30c3",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file and connection-query reader reviewed. Native radios expose descriptions; connection text has a keyboard-scrollable named region and copy status feedback. Browser tests verify arrow selection, clipboard output, same-instance paths and unsupported-guide rejection. Actual Codex authentication and screen-reader output remain unverified. Shared catalog-backed guided help is now integrated: contextual lessons, pause/resume, allowlisted focus transfer and reduced motion. Fixture browser checks cover modal navigation and rejection of unsupported guide content; this does not establish remote A2UI execution.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
-        ".cache/ui-proof-UDjvAP/accessibility.json"
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
       ]
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
-      "blob": "d43e1e611d573f7d2ad51b0d5001e02d25e11806",
-      "status": "verified",
+      "blob": "904513c69046fbee894d6fae05cfb2b7e67d0567",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file and source-action client read. Copy controls retain visible words in accessible names. Fixture browser proof covers scope selection, denial, empty results, filtering, reference-only copying and no value canary rendering. Backend authorization evidence is separate; real Nomen and all assistive-technology workflows remain open. Shared catalog-backed guided help is now integrated: contextual lessons, pause/resume, allowlisted focus transfer and reduced motion. Fixture browser checks cover modal navigation and rejection of unsupported guide content; this does not establish remote A2UI execution.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
-        ".cache/ui-proof-UDjvAP/accessibility.json"
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
       ]
     },
     {
@@ -1201,10 +1199,10 @@
     },
     {
       "path": "core/backend/src/server/plugins/error-handler.ts",
-      "blob": "9e31369ac80208bcd5f61ceec0c94a81dc86b7c5",
+      "blob": "63630ea23a0a9a78e51d5ce6daa484066f229cc4",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read and pinned Fastify parser constructors traced. Five known body-parser errors now return static 400/413/415 responses with a plain error string and bounded warning text. Unknown/code-shaped errors retain 500; existing auth/CSR behavior is regression-tested. SCIM/ACME branches remain unchanged but their alternate-parser failure workflows are not established by this packet. This does not promise a JSON response after every eager-upload connection reset.",
+      "scope": "Complete file read and pinned Fastify parser constructors traced. Known body-parser errors retain static responses and bounded warning text. Oversized requests receive a capped, time-limited discard before the existing connection-close response. Existing auth/CSR behavior is regression-tested; alternate parsers, deployment proxies, and clients exceeding the discard budget remain open.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/body-error-baseline-results.json",
@@ -1214,7 +1212,9 @@
         ".cache/body-error-lint-final.log",
         ".cache/app-image-proof-PM9CDX/workflow-result.json",
         ".cache/api-error-proof-Dfar5o/result.json",
-        ".cache/api-error-proof-aihO25/result.json"
+        ".cache/api-error-proof-aihO25/result.json",
+        ".cache/bounded-final-unit.log",
+        ".cache/bounded-final-smoke2.log"
       ]
     },
     {
@@ -1369,11 +1369,24 @@
       "blob": "f2804898e58be014fac8ca27f1bed3b89cd649fe",
       "status": "verified",
       "decision": "modify",
-      "scope": "New opt-in, loopback-only disposable-instance probe sends twelve eager oversized requests and fails on any result other than a JSON 413. It records counts without request data. The known failing result characterizes this Docker Desktop environment; it does not establish behavior through production proxies.",
+      "scope": "Opt-in, loopback-only disposable-instance probe sends twelve eager oversized requests and fails on any result other than a JSON 413. It records counts without request data. The original failure and a subsequent passing result characterize this Docker Desktop environment; they do not establish behavior through production proxies.",
       "evidence": [
         "docs/0034-api-request-errors.md",
         ".cache/eager-optional-smoke.log",
-        ".cache/eager-normal-smoke.log"
+        ".cache/eager-normal-smoke.log",
+        ".cache/bounded-final-smoke2.log"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/error-handler-oversized.test.ts",
+      "blob": "c3df51158a2c1304dae6c3b1285945c6584088b3",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "New real-socket regression tests cover concurrent eager uploads, retained connection closure, a stalled upload, delayed completion and an aborted client followed by a healthy request. They do not cover every proxy or high-load scenario.",
+      "evidence": [
+        ".cache/bounded-before.log",
+        ".cache/bounded-final-unit.log",
+        "docs/0034-api-request-errors.md"
       ]
     },
     {
@@ -3193,15 +3206,14 @@
     },
     {
       "path": "scripts/test-native-ui.mjs",
-      "blob": "34410a165f72cb41007a285b6fcc7e447e34c58f",
-      "status": "verified",
+      "blob": "70ae145e8dc67495778bffd89501c03e6d2cbb3a",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
       "evidence": [
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
       ]
     },
     {
@@ -3281,6 +3293,78 @@
         "docs/0051-first-owner-transaction.md",
         ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
         "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-router.test.ts",
+      "blob": "2d7f95045cf0a1371c703aa7c03db32f3089d0ae",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/catalog.ts",
+      "blob": "bd2f63e2946912d6b4bec14429d0302923ed2124",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/queries.ts",
+      "blob": "cf4ddde832753ee6ae58eb1b5d0b40d508f386e4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/LearningSignals.tsx",
+      "blob": "f77d52e03348706d94dd116fea3ad777f6492afe",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/learning.ts",
+      "blob": "c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-learning-content.mjs",
+      "blob": "f1bd3786eea1aa2dda6482b645f0f4c6a080b98d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Verification for this exact integrated content pending; not whole-product or enterprise parity.",
+      "evidence": [
+        "docs/0052-learning-and-upload-integration.md",
+        "scripts/test-learning-content.mjs",
+        "scripts/test-native-ui.mjs"
       ]
     }
   ]

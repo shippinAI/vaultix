@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { apiRequest } from "@app/config/request";
 
+import { readVaultixLearning } from "./learning";
+
 type CatalogEntry = { id: string; title: string; description: string };
 type ConfigureStep = CatalogEntry & { component: "configure-step"; href?: string; label?: string };
 export type VaultixSourceAction = {
@@ -18,7 +20,6 @@ const isEntry = (value: unknown): value is CatalogEntry & Record<string, unknown
   [value.id, value.title, value.description].every(
     (field) => typeof field === "string" && field.length < 2048
   );
-
 export const useVaultixGuide = () =>
   useQuery({
     queryKey: ["vaultix", "guide"],
@@ -70,6 +71,7 @@ export const useVaultixGuide = () =>
       return {
         entries: catalog.entries as CatalogEntry[],
         actions: catalog.actions as VaultixSourceAction[],
+        ...readVaultixLearning(catalog),
         steps: configure.components as ConfigureStep[]
       };
     }

@@ -19,7 +19,36 @@ describe("native Vaultix HTTP API", () => {
       featurePolicy: "included",
       enterpriseParity: "in-progress"
     });
-    expect((await app.inject("/api/v1/vaultix/catalog")).json()).toMatchObject({ source: "catalog" });
+    const catalog = await app.inject("/api/v1/vaultix/catalog");
+    expect(catalog.statusCode).toBe(200);
+    expect(catalog.json()).toMatchObject({ source: "catalog" });
+    expect(catalog.json<{ didYouKnow: { id: string }[] }>().didYouKnow.length).toBeGreaterThan(0);
+    expect(catalog.json<{ knowledgeDrops: { id: string }[] }>().knowledgeDrops.length).toBeGreaterThan(0);
+    expect(catalog.json<{ enterpriseCapabilities: { id: string }[] }>().enterpriseCapabilities.length).toBeGreaterThan(
+      0
+    );
+  });
+  test("shares authored learning through HTTP and MCP without implying verified parity", async () => {
+    const document = (await app.inject("/api/v1/vaultix/catalog")).json<{
+      didYouKnow: { source: string; context: string[] }[];
+      knowledgeDrops: { source: string; context: string[] }[];
+      enterpriseCapabilities: { featurePolicy: string; reviewStatus: string }[];
+    }>();
+    for (const signal of [...document.didYouKnow, ...document.knowledgeDrops]) {
+      expect(signal.source).toBe("catalog");
+      expect(signal.context.every((area) => ["references", "connections"].includes(area))).toBe(true);
+    }
+    for (const capability of document.enterpriseCapabilities) {
+      expect(capability).toMatchObject({ featurePolicy: "included", reviewStatus: "in-progress" });
+    }
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: { jsonrpc: "2.0", id: 20, method: "tools/call", params: { name: "vaultix.catalog.get", arguments: {} } }
+    });
+    expect(JSON.parse(response.json<{ result: { content: { text: string }[] } }>().result.content[0].text)).toEqual(
+      document
+    );
   });
   test("rejects query parameters and cross-origin requests with plain errors", async () => {
     await Promise.all(
