@@ -129,3 +129,19 @@ cutover require a concrete tested deployment plan; none is performed by this ADR
 Capacity targets, limits, support/SLA commitments and DevSCIF requirements remain
 unapproved until selected and tested. These inputs do not block local restore,
 isolation, contract or failure-testing work.
+
+## Verification of this architecture packet
+
+The canonical standalone image was built from a committed source archive at
+`e47f1e89724d3699af9f0060b24df54dcbc1462c`. Resulting image:
+`sha256:6c3523ce91691053ad8b6be773ecab11adb2f3d38c9fdb78dcd221af66bffecd`.
+The identity check confirms Vaultix.cloud and the exact source revision. Its
+runtime filesystem layers equal the tested `217aa3db` preview image, and `core/`
+is unchanged. The local build receipt is
+`.cache/public-cloud-plan/.cache/cloud-plan-proof/result.json` in the main checkout.
+No runtime redeployment or operator data mutation was needed. The accompanying
+plan/ledger clarification also changes no runtime source.
+
+Inventory, migration and capability-map checks validate document/source mapping
+consistency only. All CLOUD-01 through CLOUD-08 gates remain open; this image
+build is not a load test, restore rehearsal, isolation test or HA acceptance.

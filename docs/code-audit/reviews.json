@@ -2954,16 +2954,17 @@
     },
     {
       "path": "docs/0049-capability-product-plan.md",
-      "blob": "10bfc4901d2357d22aea55302300e999034a068d",
+      "blob": "1c47665a658a2d3fe1c5a5ee0363a124818e5eb0",
       "status": "authored",
-      "decision": "retain",
-      "scope": "Authored product scope, navigation, lifecycle acceptance, service-preview proposals, dependency phases and AI/DevSCIF control targets. These are requirements and decisions, not acceptance evidence for their implementations.",
+      "decision": "modify",
+      "scope": "Authored product scope, navigation, lifecycle acceptance, service-preview proposals, dependency phases and AI/DevSCIF control targets. These are requirements and decisions, not acceptance evidence for their implementations. Public-cloud clarification: read the complete plan; distinguish owned build infrastructure from public service production requirements, retaining workflow and migration acceptance. No implementation state advanced.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "docs/0054-public-cloud-service.md"
       ]
     },
     {
@@ -3452,6 +3453,17 @@
         ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
         ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
         ".cache/ui-proof-6gtdSD/accessibility.json"
+      ]
+    },
+    {
+      "path": "docs/0054-public-cloud-service.md",
+      "blob": "73f8c8faa8a9569763569bdee7cf303f715a5ef6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored public service boundaries, eight explicitly open release gates, implementation sequence and limits of local build evidence. Requirements only; no cloud readiness or performance acceptance claimed.",
+      "evidence": [
+        "docs/0054-public-cloud-service.md",
+        ".cache/public-cloud-plan/.cache/cloud-plan-proof/result.json"
       ]
     }
   ]

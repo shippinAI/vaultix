@@ -18,8 +18,11 @@ every file in the migration map. These are family-level requirements and primary
 ownership assignments, not a claim that every behavior has been reviewed. Expand
 provider/protocol/lifecycle matrices before declaring any family complete.
 
-Self-hosted development on owned servers comes first. Source is public; builds
-remain local/manual. Hosted services follow the same engine and acceptance gates.
+Development and builds run on owned servers; source is public and builds remain
+local/manual. The production target is Vaultix.cloud as a public cloud service
+on that infrastructure, with the same engine available for self-hosting.
+[0054](0054-public-cloud-service.md) adds public enrollment, tenant isolation,
+capacity, durability and availability gates to the workflow acceptance below.
 Keep the encrypted store, compatibility, existing workflows and third-party
 notices. Migrate complete use cases to native React/Go and scoped Rust components
 under [0027](0027-native-stack-and-ai-migration.md). A proxy over old business logic

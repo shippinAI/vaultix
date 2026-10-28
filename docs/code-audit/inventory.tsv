@@ -11689,12 +11689,12 @@ docs/0045-image-identity-and-revision.md	4a9b1b12dde508b1da90ec92bccca5781bf41d7
 docs/0046-dashboard-reference-editor.md	e2c5d14352ae2fd5376b6e79b086d7a8a854ff75	documentation	unread
 docs/0047-dashboard-create-workflow.md	25e0c8c86bfa860d2553938d893af997777612c6	documentation	unread
 docs/0048-self-hosted-builds.md	3627b08c0cd71da4dec852ded4dbc8e68d7d75a1	documentation	unread
-docs/0049-capability-product-plan.md	10bfc4901d2357d22aea55302300e999034a068d	documentation	authored
+docs/0049-capability-product-plan.md	1c47665a658a2d3fe1c5a5ee0363a124818e5eb0	documentation	authored
 docs/0050-organization-first-setup.md	fa601423994675aa6c8e7f1be09e963eaf0fc992	documentation	verified
 docs/0051-first-owner-transaction.md	a891cb926557f65c6474f5d50ad6fc4b550fab11	documentation	verified
 docs/0052-learning-and-upload-integration.md	382ecff07c48ce8355b28c78ff46e5c33182e8f8	documentation	unread
 docs/0053-authenticated-environment-teaching.md	9b3931daf62f2f670a7ae7f7c209fef02dbce822	documentation	unread
-docs/0054-public-cloud-service.md	9f17a4f461a882aa252b0f69c54a167d90a9cede	documentation	unread
+docs/0054-public-cloud-service.md	73f8c8faa8a9569763569bdee7cf303f715a5ef6	documentation	authored
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
