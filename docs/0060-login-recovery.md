@@ -63,10 +63,56 @@ results and real enforcement are recorded separately in `login-recovery.json`.
 The normal image sign-in, project, secret, environment and recovery checks still
 run afterward. Failure receipts contain only phase, type and source line; raw
 browser assertion snapshots can contain form values and are not printed.
-Receipts are recorded after acceptance completes.
+Accepted receipts are recorded below.
 
 Remaining work includes real assistive-technology acceptance, configured CAPTCHA
 provider acceptance, other login/recovery forms, request deadlines, shared-tab
 UX, infrastructure-specific availability responses, live Nomen sessions and
 public enrollment. None of these are implied by a passing browser fixture or
 this scoped email-sign-in change.
+
+
+## Accepted evidence
+
+Source: `62650f77ebfe370f46414b0617db012e5fb1ac15`.
+Canonical image: `sha256:b61bdb91968bd442a29455e694952d2888a9aa88f3cdbfd1b13410ff735c3b67`.
+All paths below are relative to the main checkout. Receipts are local/ignored;
+the committed runners reproduce them on owned infrastructure.
+
+- All 16 local application gates passed:
+  `.cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json`.
+- Login recovery: all five fixture groups and three real-service checks passed:
+  `.cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json`.
+  This includes real production 429, natural server-window expiry and explicit
+  successful sign-in using retained form inputs. Credential logging was absent.
+  The three desktop/320px recovery scans report no detected axe violations or
+  incomplete items. Manual assistive-technology acceptance remains open.
+- Full packaged application workflow:
+  `.cache/login-recovery/.cache/app-image-proof-fsjL2L/workflow-result.json`.
+  Existing setup, sign-in, project, secret, environment and recovery assertions
+  pass. Fixture/provider scopes remain separately labelled in their receipts.
+- Visual inspection: `login-rate-limited.png` and
+  `login-rate-limited-mobile.png` in that browser evidence directory.
+- Policy: 36 checks passed; frontend type checking and targeted ESLint passed.
+  Local build orchestration: 14 fixtures passed:
+  `.cache/login-recovery/.cache/self-hosted-fixtures-QH7tF8/result.json`.
+- Encrypted recovery: 9 checks, cleanup passed:
+  `.cache/login-recovery/.cache/encrypted-recovery-dwUrWZ/result.json`.
+- Tenant isolation: 11 checks, cleanup passed:
+  `.cache/login-recovery/.cache/tenant-isolation-RfFBqd/result.json`.
+- Proxy authority: 4 checks, cleanup passed:
+  `.cache/login-recovery/.cache/proxy-boundary-F3y95z/result.json`.
+- Two-replica admission: 4 checks per cache, cleanup passed:
+  `.cache/login-recovery/.cache/production-admission-pp4y7Y/result.json`
+  (Dragonfly), `.cache/login-recovery/.cache/production-admission-gQM1rx/result.json`
+  (Redis).
+- Before: the previous image failed the rate-limit UI expectation:
+  `.cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json`.
+  The first new image then exposed the fake CAPTCHA build default after passing
+  the other recovery states:
+  `.cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json`.
+
+The UI/API baseline is preserved: 273 UI paths and all 2,290 baseline API
+operations; the image exposes 2,291 operations including the existing additive
+learning endpoint. Surface continuity does not establish complete feature parity.
+No hosted runner, registry publication or public deployment was used.

@@ -86,13 +86,15 @@
     {
       "path": "core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx",
       "blob": "fbad88cf20fe2242a794544114ec71d75c63ed17",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance passed; external CAPTCHA and other authentication flows remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
-        "scripts/test-login-recovery.mjs"
+        "scripts/test-login-recovery.mjs",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
@@ -265,14 +267,16 @@
     {
       "path": "scripts/test-image-app.mjs",
       "blob": "4e1818f4a62d270ea18e26017342641b613f3db3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
@@ -875,13 +879,15 @@
     {
       "path": "core/Dockerfile.standalone-vaultix",
       "blob": "8244083502cb292b6641c5dab07b425c4f89e046",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance passed; external CAPTCHA and other authentication flows remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
-        "scripts/test-login-recovery.mjs"
+        "scripts/test-login-recovery.mjs",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
@@ -2778,27 +2784,31 @@
     {
       "path": "scripts/build-self-hosted.mjs",
       "blob": "a5b58fb1fbc0e413d55eaeb139a78a2f65aa8667",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
       "blob": "52cfaaf0a1140b5bbf8ece61377ef044824ba6a8",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
@@ -3804,51 +3814,59 @@
     {
       "path": "core/frontend/src/pages/auth/LoginPage/components/InitialStep/login-failure.ts",
       "blob": "90a916b8d5ae01af272c1f1299d86ae767d7b4e3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
       "path": "scripts/test-login-failure.mjs",
       "blob": "09e59d34dad9500333a4ca70c02307a769d2c755",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
       "path": "scripts/test-login-recovery.mjs",
       "blob": "2967dc7ba3c15fd11e494e1d60edd6a6388c7145",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance passed; external CAPTCHA and other authentication flows remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
-        "scripts/test-login-recovery.mjs"
+        "scripts/test-login-recovery.mjs",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     },
     {
       "path": "docs/0060-login-recovery.md",
-      "blob": "cd9bc7da4120a6d4ce988e9b0ad0ee5b3e68b03d",
-      "status": "authored",
+      "blob": "23ea076897a9aef5c44b555096cce9bf997d1f34",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance passed; external CAPTCHA and other authentication flows remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
       "evidence": [
         "docs/0060-login-recovery.md",
         ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
-        "scripts/test-login-recovery.mjs"
+        "scripts/test-login-recovery.mjs",
+        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
     }
   ]
