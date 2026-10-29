@@ -5272,7 +5272,7 @@ core/frontend/src/context/OrganizationContext/OrganizationContext.tsx	core/front
 core/frontend/src/context/OrganizationContext/index.tsx	core/frontend/src/context/OrganizationContext	ui	React-TypeScript	tsx	ba97abd12de437e99cc88228015265eea628d91a	unread
 core/frontend/src/context/ProjectContext/ProjectContext.tsx	core/frontend/src/context/ProjectContext	secrets	React-TypeScript	tsx	bafe70ab42fdb6f9fd90884b44154fe3ff10d686	unread
 core/frontend/src/context/ProjectContext/index.tsx	core/frontend/src/context/ProjectContext	secrets	React-TypeScript	tsx	f87ed0a3d125f8ab591255c1065f883641adad7c	unread
-core/frontend/src/context/ProjectPermissionContext/ProjectPermissionContext.tsx	core/frontend/src/context/ProjectPermissionContext	authorization	React-TypeScript	tsx	865d31b81d3df4b1a33547c3fb3f4b9c73b9af7b	unread
+core/frontend/src/context/ProjectPermissionContext/ProjectPermissionContext.tsx	core/frontend/src/context/ProjectPermissionContext	authorization	React-TypeScript	tsx	7cec05d8c188771220e419c27484fa23d35a99bb	authored
 core/frontend/src/context/ProjectPermissionContext/index.tsx	core/frontend/src/context/ProjectPermissionContext	authorization	React-TypeScript	tsx	8360e1f99a5eb1913eee533b14062e1780c20153	unread
 core/frontend/src/context/ProjectPermissionContext/types.ts	core/frontend/src/context/ProjectPermissionContext	authorization	React-TypeScript	ts	238283a4e70ba0260f235c2a301a3fb4864c6a9e	unread
 core/frontend/src/context/ServerConfigContext/ServerConfigContext.tsx	core/frontend/src/context/ServerConfigContext	ui	React-TypeScript	tsx	acc63118b9a1f24c9004762e12eee29048910b38	unread
@@ -9409,7 +9409,7 @@ scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-guidance-contract.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6ccb5103cf6699041e3d573217279f6555ca3df9	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	eb2255529030c8904aca901f2db9bf6486af6540	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
@@ -9418,6 +9418,7 @@ scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
 scripts/test-production-admission.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
+scripts/test-project-role-refresh.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	authored
 scripts/test-proxy-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	31abb675903176cfdabe2db161bcbbd62ed27351	verified
 scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified

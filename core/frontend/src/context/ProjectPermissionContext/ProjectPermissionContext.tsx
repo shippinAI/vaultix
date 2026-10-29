@@ -45,7 +45,8 @@ export const useProjectPermission = () => {
   const hasProjectRole = useCallback(
     (role: string) =>
       memberships?.some((membership) => membership.roles.some((el) => role === el.role)),
-    []
+    // Role-based controls must follow the same refreshed response as CASL rules.
+    [memberships]
   );
 
   return { permission, memberships, hasProjectRole, assumedPrivilegeDetails };
