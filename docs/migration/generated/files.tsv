@@ -1150,7 +1150,8 @@ core/backend/src/ee/routes/v1/agent-proxy-ca-router.ts	core/backend/src/ee/route
 core/backend/src/ee/routes/v1/app-connection-routers/chef-connection-router.ts	core/backend/src/ee/routes/v1/app-connection-routers	integrations	Go-domain-migration	ts	2855d8b37f5f6c52391fb6185e1f343eaec65b1b	unread
 core/backend/src/ee/routes/v1/app-connection-routers/oci-connection-router.ts	core/backend/src/ee/routes/v1/app-connection-routers	integrations	Go-domain-migration	ts	14dd6cb5d487a8999f233262fd6cbb1326fcad9d	unread
 core/backend/src/ee/routes/v1/app-connection-routers/oracledb-connection-router.ts	core/backend/src/ee/routes/v1/app-connection-routers	integrations	Go-domain-migration	ts	8a90fe9a7fc651a010fdae578faa52e8f662d46e	unread
-core/backend/src/ee/routes/v1/assume-privilege-router.ts	core/backend/src/ee/routes/v1	authorization	Go-domain-migration	ts	fa8e95be219c59e2890da994c752553f8255cb37	unread
+core/backend/src/ee/routes/v1/assume-privilege-router.test.ts	core/backend/src/ee/routes/v1	authorization	Go-domain-migration	ts	ffd71ccb69e5caf55cab172f492fc90e7540e20d	authored
+core/backend/src/ee/routes/v1/assume-privilege-router.ts	core/backend/src/ee/routes/v1	authorization	Go-domain-migration	ts	9c0bf5b26bafd87c61091581db0959fc48622f16	authored
 core/backend/src/ee/routes/v1/audit-log-stream-routers/audit-log-stream-endpoints.ts	core/backend/src/ee/routes/v1/audit-log-stream-routers	audit	Go-domain-migration	ts	f564f98a2c125b5ebf49ccc41b0b26ab32092f6c	unread
 core/backend/src/ee/routes/v1/audit-log-stream-routers/audit-log-stream-router.ts	core/backend/src/ee/routes/v1/audit-log-stream-routers	audit	Go-domain-migration	ts	b089e9c2ee0a8b9be25adbfbea6421c5aa219907	unread
 core/backend/src/ee/routes/v1/audit-log-stream-routers/index.ts	core/backend/src/ee/routes/v1/audit-log-stream-routers	audit	Go-domain-migration	ts	e3bb934e4f3f82584ed947c675db85c05831f8bd	unread
@@ -2089,7 +2090,7 @@ core/backend/src/server/lib/telemetry.ts	core/backend/src/server/lib	foundation	
 core/backend/src/server/lib/with-route-prefix.ts	core/backend/src/server/lib	foundation	Go-domain-migration	ts	d8a6c994432813d526a66d7107dad33d79070b67	unread
 core/backend/src/server/plugins/api-metrics.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	7617630e5dae77becdc9747cfd20d15e34ac8ee7	unread
 core/backend/src/server/plugins/audit-log.ts	core/backend/src/server/plugins	audit	Go-domain-migration	ts	31ec61d82e162eff3db6b8a7397fa0ae0aee7037	unread
-core/backend/src/server/plugins/auth/inject-assume-privilege.ts	core/backend/src/server/plugins/auth	authorization	Go-domain-migration	ts	9dba18ead2524145ff4a620fdacce80138b2ab55	unread
+core/backend/src/server/plugins/auth/inject-assume-privilege.ts	core/backend/src/server/plugins/auth	authorization	Go-domain-migration	ts	2d65c57d219b424d3dc34f91a08a2b23df021bf2	authored
 core/backend/src/server/plugins/auth/inject-identity.test.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	3b316d1a5e5a773352f36de3335928bbcd62842f	unread
 core/backend/src/server/plugins/auth/inject-identity.ts	core/backend/src/server/plugins/auth	identity	Go-domain-migration	ts	cb075120a4a34a9c04d911f607fc7c6b729363e8	unread
 core/backend/src/server/plugins/auth/inject-permission.ts	core/backend/src/server/plugins/auth	authorization	Go-domain-migration	ts	5c1cd742c73860a1b447b46d2f7b1126032838fc	unread
@@ -4311,7 +4312,7 @@ core/frontend/src/components/app-connections/index.ts	core/frontend/src/componen
 core/frontend/src/components/approvals/ApprovalStepsSchema.ts	core/frontend/src/components/approvals	authorization	React-TypeScript	ts	fc9711137eb8d555f06c24ae5e8524be768f71a8	unread
 core/frontend/src/components/approvals/PolicyApprovalSteps.tsx	core/frontend/src/components/approvals	authorization	React-TypeScript	tsx	870bdfd9809d7e63168e5a5e14307e19954d3939	unread
 core/frontend/src/components/approvals/index.ts	core/frontend/src/components/approvals	authorization	React-TypeScript	ts	01b7be58a9cd63a475ed217def09a5d75692a248	unread
-core/frontend/src/components/assume-privileges/AssumePrivilegesModal.tsx	core/frontend/src/components/assume-privileges	authorization	React-TypeScript	tsx	a75258d613a4198e99dd2f9ecb246d5679358415	unread
+core/frontend/src/components/assume-privileges/AssumePrivilegesModal.tsx	core/frontend/src/components/assume-privileges	authorization	React-TypeScript	tsx	72ae3845e69bff92a993e62c140392c5b9ca44a9	authored
 core/frontend/src/components/assume-privileges/index.ts	core/frontend/src/components/assume-privileges	authorization	React-TypeScript	ts	f9a43ba879b5d3657826e71ff4a0f78b6345cc60	unread
 core/frontend/src/components/auth/AuthPageBackground.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	3eefb73eafb954dd9736d45fc9a5c95dfbb46b5b	unread
 core/frontend/src/components/auth/AuthPageFooter.tsx	core/frontend/src/components/auth	identity	React-TypeScript	tsx	becd21f5a4c4760233605bdaf7674cfd978cfc5c	unread
@@ -5613,7 +5614,7 @@ core/frontend/src/hooks/api/approvalRequests/mutations.tsx	core/frontend/src/hoo
 core/frontend/src/hooks/api/approvalRequests/queries.tsx	core/frontend/src/hooks/api/approvalRequests	authorization	React-TypeScript	tsx	7b4290af7ae34438fc13d8119204042e76ac0ee4	unread
 core/frontend/src/hooks/api/approvalRequests/types.ts	core/frontend/src/hooks/api/approvalRequests	authorization	React-TypeScript	ts	d62987afcbb9f89f7534bf3123803948484f51d8	unread
 core/frontend/src/hooks/api/assumePrivileges/index.tsx	core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	tsx	ab4b122c5b70944e663182b274e9b1958ad95ab6	unread
-core/frontend/src/hooks/api/assumePrivileges/mutations.tsx	core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	tsx	687882fe8fdcf4f5ec20f863dd7033d2615a265a	unread
+core/frontend/src/hooks/api/assumePrivileges/mutations.tsx	core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	tsx	20bd329b720670685cc988ff558dcbda5c0c0df9	authored
 core/frontend/src/hooks/api/assumePrivileges/types.ts	core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	ts	07e14d5180c906a73b33a6678c9c63048e2003b1	unread
 core/frontend/src/hooks/api/auditLogStreams/enums.ts	core/frontend/src/hooks/api/auditLogStreams	audit	React-TypeScript	ts	13be1d935e10e526b86a887d010ac6d4df448da8	unread
 core/frontend/src/hooks/api/auditLogStreams/index.tsx	core/frontend/src/hooks/api/auditLogStreams	audit	React-TypeScript	tsx	0c2adeab024f36dbf1036e13e618a4d4ed55a274	unread
@@ -6217,7 +6218,7 @@ core/frontend/src/layouts/PersonalSettingsLayout/index.tsx	core/frontend/src/lay
 core/frontend/src/layouts/PkiManagerLayout/PkiManagerLayout.tsx	core/frontend/src/layouts/PkiManagerLayout	pki	React-TypeScript	tsx	2242cb5f71f1d52ca8ad0ffd641cf9a90bc32944	unread
 core/frontend/src/layouts/PkiManagerLayout/components/CertManagerInstanceBanner.tsx	core/frontend/src/layouts/PkiManagerLayout	pki	React-TypeScript	tsx	320805f7c2abfcad2cba82bc093451df16e66cb0	unread
 core/frontend/src/layouts/PkiManagerLayout/index.tsx	core/frontend/src/layouts/PkiManagerLayout	pki	React-TypeScript	tsx	6de729cf014cf8795fe01bacc1037f942bea681c	unread
-core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/AssumePrivilegeModeBanner.tsx	core/frontend/src/layouts/ProjectLayout	authorization	React-TypeScript	tsx	b9a04c1b77c5559dcf3bfa3dba6e978f040c424b	unread
+core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/AssumePrivilegeModeBanner.tsx	core/frontend/src/layouts/ProjectLayout	authorization	React-TypeScript	tsx	71a9437f7bcf5d7cb0b186e33e60a7b8eb92043f	authored
 core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/index.tsx	core/frontend/src/layouts/ProjectLayout	authorization	React-TypeScript	tsx	e8ebac19e1aefb86bacb4e9f82f7ca48fbc92320	unread
 core/frontend/src/layouts/ProjectLayout/components/ProjectSelect/ApplicationSelect.tsx	core/frontend/src/layouts/ProjectLayout	secrets	React-TypeScript	tsx	8055f3b57b8c849b7bc13db54c9cdc37808ab5a7	unread
 core/frontend/src/layouts/ProjectLayout/components/ProjectSelect/ProjectSelect.tsx	core/frontend/src/layouts/ProjectLayout	secrets	React-TypeScript	tsx	f3ac6dfc5070f8a3a12ab712c6bf96199e61c337	unread
@@ -9387,6 +9388,7 @@ scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be1
 scripts/serve-capability-plan.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	verified
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	d4af9bd9e34654fb334be2b45edc128b842d3fad	verified
 scripts/test-api-request-errors.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	930660062217b4797619f36773c7ccca9dcadb4a	verified
+scripts/test-assumed-privilege-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a75751b83e3a25055bb11d2d4f98507b4a5d0efa	authored
 scripts/test-capability-explorer.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
 scripts/test-capability-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
@@ -9407,7 +9409,7 @@ scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-guidance-contract.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4e1818f4a62d270ea18e26017342641b613f3db3	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6ccb5103cf6699041e3d573217279f6555ca3df9	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified

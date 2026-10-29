@@ -21,7 +21,7 @@ export const injectAssumePrivilege = fp(async (server: FastifyZodProvider) => {
       }
     } catch (error) {
       req.log.error({ error }, "Failed to verify assume privilege token");
-      void res.clearCookie("vaultix-project-assume-privileges");
+      void res.clearCookie("vaultix-project-assume-privileges", { path: "/api" });
     }
   });
 });

@@ -266,17 +266,18 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "4e1818f4a62d270ea18e26017342641b613f3db3",
-      "status": "verified",
+      "blob": "6ccb5103cf6699041e3d573217279f6555ca3df9",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Committed-image acceptance pending.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
         "scripts/test-login-recovery.mjs",
         ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
         ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
-        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json",
+        "docs/0064-assumed-privilege-workflow.md"
       ]
     },
     {
@@ -4087,6 +4088,76 @@
         "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
         "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
         "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/assume-privileges/AssumePrivilegesModal.tsx",
+      "blob": "72ae3845e69bff92a993e62c140392c5b9ca44a9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete modal, primitive/story and mutation flow read. Author labelled confirmation, pending guard, bounded-request reconciliation and menu-trigger focus recovery; retain full reload after authority change. No target-name lookup or new AI action. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/AssumePrivilegeModeBanner.tsx",
+      "blob": "71a9437f7bcf5d7cb0b186e33e60a7b8eb92043f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Author wrapping actor context, explicit real-resource warning, pending exit and reload reconciliation. Preserve full authority-state reload and backend authorization. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/assumePrivileges/mutations.tsx",
+      "blob": "20bd329b720670685cc988ff558dcbda5c0c0df9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and consumers traced. Bound existing switch/exit requests to 30 seconds; transport failure is ambiguous and callers reconcile via reload. Preserve routes and global error notifications. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/routes/v1/assume-privilege-router.ts",
+      "blob": "9c0bf5b26bafd87c61091581db0959fc48622f16",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete router, service, types, auth injection and verifyAuth read. Preserve issuance, grants, permission and audit owner. Author idempotent authenticated absent/invalid-grant exit, verified-project audit binding and mismatched-project refusal. Existing schema/runtime migration remains separate; no new Zod. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/auth/inject-assume-privilege.ts",
+      "blob": "2d65c57d219b424d3dc34f91a08a2b23df021bf2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and issuance/exit cookie path traced. Clear invalid grant on the existing /api issuance path. Verification, requester fallback and Nomen transition are not newly claimed complete. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/routes/v1/assume-privilege-router.test.ts",
+      "blob": "ffd71ccb69e5caf55cab172f492fc90e7540e20d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Author actual Fastify route/cookie tests with explicitly stubbed auth, authority and audit dependencies. Verify absent/invalid/valid exits, path, audit contents, cross-project and anonymous refusal, and audit failure. This is not real-issuer or durable-audit proof. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
+      ]
+    },
+    {
+      "path": "scripts/test-assumed-privilege-workflow.mjs",
+      "blob": "a75751b83e3a25055bb11d2d4f98507b4a5d0efa",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Author real image/browser grant workflow checks with separate held and post-commit transport-failure fixtures, scoped axe reports, input/focus/reflow checks, both actor UI paths and cookie reconciliation. Never persist token or cookie values. Provider/manual AT and full multi-product UI remain open. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0064-assumed-privilege-workflow.md"
       ]
     }
   ]

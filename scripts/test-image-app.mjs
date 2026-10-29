@@ -5,6 +5,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { testAssumedPrivilegeWorkflow } from "./test-assumed-privilege-workflow.mjs";
 import { testLoginRecovery } from "./test-login-recovery.mjs";
 import { testFirstRunSetup } from "./test-first-run-setup.mjs";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
@@ -240,10 +241,13 @@ try {
   phase = "environments";
   await testEnvironmentWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, projectId: project.id, evidence, expectedFailures });
   assert.deepEqual(errors, []);
+  phase = "assumed-privileges";
+  await testAssumedPrivilegeWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, projectId: project.id, token: selected.token, evidence, expectedFailures });
+  assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled.",
-    reports: ["login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
+    reports: ["assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

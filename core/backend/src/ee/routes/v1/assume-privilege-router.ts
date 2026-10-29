@@ -92,7 +92,10 @@ export const registerAssumePrivilegeRouter = async (server: FastifyZodProvider) 
     onRequest: verifyAuth([AuthMode.JWT]),
     handler: async (req, res) => {
       const assumedPrivilegeDetails = requestContext.get(RequestContextKey.AssumedPrivilegeDetails);
-      if (req.auth.authMode === AuthMode.JWT && assumedPrivilegeDetails) {
+      if (req.auth.authMode === AuthMode.JWT) {
+        if (assumedPrivilegeDetails && assumedPrivilegeDetails.projectId !== req.params.projectId) {
+          throw new BadRequestError({ message: "Return to the project where you assumed privileges to exit" });
+        }
         const appCfg = getConfig();
         void res.setCookie("vaultix-project-assume-privileges", "", {
           httpOnly: true,
@@ -102,20 +105,24 @@ export const registerAssumePrivilegeRouter = async (server: FastifyZodProvider) 
           expires: new Date(0)
         });
 
-        await server.services.auditLog.createAuditLog({
-          ...req.auditLogInfo,
-          orgId: req.permission.orgId,
-          event: {
-            type: EventType.PROJECT_ASSUME_PRIVILEGE_SESSION_END,
-            metadata: {
-              projectId: req.params.projectId,
-              requesterEmail: req.auth.user.username,
-              requesterId: req.auth.user.id,
-              targetActorId: assumedPrivilegeDetails.actorId,
-              targetActorType: assumedPrivilegeDetails.actorType
+        // Exiting an absent or rejected grant is safe to retry. Only a verified
+        // session has an actor/project to record; do not fabricate an exit event.
+        if (assumedPrivilegeDetails) {
+          await server.services.auditLog.createAuditLog({
+            ...req.auditLogInfo,
+            orgId: req.permission.orgId,
+            event: {
+              type: EventType.PROJECT_ASSUME_PRIVILEGE_SESSION_END,
+              metadata: {
+                projectId: assumedPrivilegeDetails.projectId,
+                requesterEmail: req.auth.user.username,
+                requesterId: req.auth.user.id,
+                targetActorId: assumedPrivilegeDetails.actorId,
+                targetActorType: assumedPrivilegeDetails.actorType
+              }
             }
-          }
-        });
+          });
+        }
         return { message: "Successfully exited assumed role" };
       }
 

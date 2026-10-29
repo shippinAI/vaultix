@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { createNotification } from "@app/components/notifications";
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -34,17 +33,52 @@ export const AssumePrivilegesModal = ({ isOpen, onOpenChange, actorType, actorId
   const { currentProject } = useProject();
   const assumePrivileges = useAssumeProjectPrivileges();
   const [inputData, setInputData] = useState("");
+  const [isNavigating, setIsNavigating] = useState(false);
+  const inFlight = useRef(false);
+  const inputId = useId();
+  const returnFocus = useRef<HTMLElement | null>(null);
+  const { reset } = assumePrivileges;
 
   useEffect(() => {
-    setInputData("");
-  }, [isOpen]);
+    if (!inFlight.current) {
+      setInputData("");
+      reset();
+    }
+  }, [isOpen, actorId, reset]);
 
   const isUser = actorType === ActorType.USER;
   const noun = isUser ? "user" : "machine identity";
   const isConfirmed = inputData === CONFIRM_KEY;
+  const isBusy = assumePrivileges.isPending || isNavigating;
+  const hasContext = Boolean(
+    actorId &&
+      currentOrg?.id &&
+      currentProject?.id &&
+      (actorType === ActorType.USER || actorType === ActorType.IDENTITY)
+  );
+  const needsReconciliation = assumePrivileges.isError;
+  const changeOpen = (open: boolean) => {
+    if (inFlight.current) return;
+    if (!open && needsReconciliation) {
+      window.location.reload();
+      return;
+    }
+    onOpenChange(open);
+  };
 
   const handleConfirm = () => {
-    if (!isConfirmed || !actorId || !currentOrg?.id || !currentProject?.id) return;
+    if (
+      inFlight.current ||
+      isBusy ||
+      needsReconciliation ||
+      !isConfirmed ||
+      !hasContext ||
+      !actorId ||
+      !currentOrg?.id ||
+      !currentProject?.id
+    )
+      return;
+    inFlight.current = true;
 
     assumePrivileges.mutate(
       {
@@ -53,7 +87,11 @@ export const AssumePrivilegesModal = ({ isOpen, onOpenChange, actorType, actorId
         projectId: currentProject.id
       },
       {
+        onError: () => {
+          inFlight.current = false;
+        },
         onSuccess: () => {
+          setIsNavigating(true);
           createNotification({
             type: "success",
             text: `${isUser ? "User" : "Machine identity"} privilege assumption has started`
@@ -69,12 +107,30 @@ export const AssumePrivilegesModal = ({ isOpen, onOpenChange, actorType, actorId
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl">
+    <Dialog open={isOpen} onOpenChange={changeOpen}>
+      <DialogContent
+        className="max-w-xl"
+        showCloseButton={!isBusy}
+        onOpenAutoFocus={() => {
+          const active = document.activeElement;
+          if (!(active instanceof HTMLElement)) return;
+          // Menu items unmount on selection. Follow the menu's explicit ARIA
+          // relationship to its persistent trigger before moving focus inside.
+          const triggerId = active.closest('[role="menu"]')?.getAttribute("aria-labelledby");
+          returnFocus.current = (triggerId && document.getElementById(triggerId)) || active;
+        }}
+        onCloseAutoFocus={(event) => {
+          if (returnFocus.current?.isConnected) {
+            event.preventDefault();
+            returnFocus.current.focus();
+          }
+        }}
+      >
         <DialogHeader>
-          <DialogTitle>Do you want to assume privileges of this {noun}?</DialogTitle>
+          <DialogTitle>Assume {isUser ? "User" : "Machine Identity"} Privileges</DialogTitle>
           <DialogDescription>
-            This will set your privileges to those of the {noun} for the next hour.
+            Use this {noun}&apos;s permissions in this project for up to one hour. Actions still
+            change real resources. Exit from the project banner to return to your own access.
           </DialogDescription>
         </DialogHeader>
         <form
@@ -84,11 +140,14 @@ export const AssumePrivilegesModal = ({ isOpen, onOpenChange, actorType, actorId
           }}
         >
           <Field>
-            <FieldLabel>
+            <FieldLabel htmlFor={inputId}>
               Type <span className="font-bold">{CONFIRM_KEY}</span> to perform this action
             </FieldLabel>
             <FieldContent>
               <Input
+                id={inputId}
+                readOnly={isBusy || needsReconciliation}
+                aria-describedby={`${inputId}-status`}
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 placeholder={`Type ${CONFIRM_KEY} here`}
@@ -97,17 +156,36 @@ export const AssumePrivilegesModal = ({ isOpen, onOpenChange, actorType, actorId
             </FieldContent>
           </Field>
         </form>
+        <p
+          id={`${inputId}-status`}
+          role="status"
+          aria-label="Privilege status"
+          className="text-sm text-muted"
+        >
+          {isBusy && "Switching privileges. Wait for the project to reload."}
+          {needsReconciliation &&
+            "Vaultix could not confirm the switch. Reload the project to check your active privileges before trying again."}
+          {!hasContext &&
+            !isBusy &&
+            "Close this dialog and select a project member or machine identity again."}
+        </p>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="ghost">Cancel</Button>
-          </DialogClose>
+          {needsReconciliation ? (
+            <Button variant="project" onClick={() => window.location.reload()}>
+              Reload Project
+            </Button>
+          ) : (
+            <Button variant="ghost" isDisabled={isBusy} onClick={() => changeOpen(false)}>
+              Cancel
+            </Button>
+          )}
           <Button
             variant="project"
             onClick={handleConfirm}
-            isPending={assumePrivileges.isPending}
-            isDisabled={!isConfirmed || assumePrivileges.isPending}
+            isPending={isBusy}
+            isDisabled={!isConfirmed || !hasContext || isBusy || needsReconciliation}
           >
-            Confirm
+            Assume Privileges
           </Button>
         </DialogFooter>
       </DialogContent>
