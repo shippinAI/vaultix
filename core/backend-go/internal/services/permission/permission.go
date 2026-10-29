@@ -97,8 +97,10 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 	}
 }
 
-// GetProjectPermission resolves the effective permissions for an actor within a project.
-// Exact port of permission-service.ts:403-573.
+// GetProjectPermission resolves project authority from the primary database.
+// A read replica may lag behind revoked roles, scopes or template attributes.
+// Each query fails closed; an unavailable primary must never fall back to a replica.
+// These separate reads do not form a serializable authorization snapshot.
 func (p *Service) GetProjectPermission(ctx context.Context, args *GetProjectPermissionArgs) (*GetProjectPermissionResult, error) {
 	// 1. SERVICE actor → delegate to service token path
 	if args.Actor == auth.ActorTypeService {
@@ -636,7 +638,7 @@ func (s *Service) getPermission(ctx context.Context, params *getPermissionParams
 		"projectID": params.ProjectID,
 	}
 
-	rows, err := s.db.Replica().Query(ctx, query, args)
+	rows, err := s.db.Primary().Query(ctx, query, args)
 	if err != nil {
 		return nil, err
 	}
@@ -737,7 +739,7 @@ func (s *Service) findProjectByID(ctx context.Context, projectID string) (*proje
 	`
 	args := pgx.NamedArgs{"projectID": projectID}
 
-	row := s.db.Replica().QueryRow(ctx, query, args)
+	row := s.db.Primary().QueryRow(ctx, query, args)
 
 	var id, name, slug string
 	var orgID uuid.UUID
@@ -768,7 +770,7 @@ func (s *Service) findUserUsername(ctx context.Context, userID uuid.UUID) (strin
 	args := pgx.NamedArgs{"userID": userID}
 
 	var username string
-	err := s.db.Replica().QueryRow(ctx, query, args).Scan(&username)
+	err := s.db.Primary().QueryRow(ctx, query, args).Scan(&username)
 	if err != nil {
 		return "", err
 	}
@@ -781,7 +783,7 @@ func (s *Service) findIdentityName(ctx context.Context, identityID uuid.UUID) (s
 	args := pgx.NamedArgs{"identityID": identityID}
 
 	var name string
-	err := s.db.Replica().QueryRow(ctx, query, args).Scan(&name)
+	err := s.db.Primary().QueryRow(ctx, query, args).Scan(&name)
 	if err != nil {
 		return "", err
 	}
@@ -797,7 +799,7 @@ func (s *Service) findServiceTokenByID(ctx context.Context, tokenID string) (*se
 	`
 	args := pgx.NamedArgs{"tokenID": tokenID}
 
-	row := s.db.Replica().QueryRow(ctx, query, args)
+	row := s.db.Primary().QueryRow(ctx, query, args)
 
 	var id, projectID, scopes string
 	var expiresAt sql.Null[time.Time]

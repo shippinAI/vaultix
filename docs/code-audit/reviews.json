@@ -3868,6 +3868,39 @@
         ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
         ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
       ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/permission.go",
+      "blob": "1ec4431d2051e5a9efb7b61cb876c3a3691b7e60",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and caller/authority trace. Five permission queries now read primary state; role composition, schemas and error contracts retained. Focused stale-state, failure and cancellation proof passed; full committed-image acceptance pending. Existing SSO/identity and native cutover gaps remain explicit.",
+      "evidence": [
+        "docs/0061-native-permission-authority.md",
+        ".cache/native-permission-authority/.cache/candidate.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/permission/authority_test.go",
+      "blob": "953d4a9291dd85c8a0fd72fcbc119bfe6d11a057",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Authored complete disposable PostgreSQL authority matrix: real API seeds, isolated primary/frozen schema copies, primary-only controls, role/group/template/service revocation, enforcement, failure, cancellation and recovery. Fixture scope is not physical replication or management API parity.",
+      "evidence": [
+        "docs/0061-native-permission-authority.md",
+        ".cache/native-permission-authority/.cache/candidate.json"
+      ]
+    },
+    {
+      "path": "docs/0061-native-permission-authority.md",
+      "blob": "7a57dca501ca2734238f987a39546ccf9a5c27ad",
+      "status": "authored",
+      "decision": "retain",
+      "scope": "Authored implementation packet, explicit migration prerequisite, focused evidence and unclosed native cutover/provider/identity boundaries.",
+      "evidence": [
+        "docs/0061-native-permission-authority.md",
+        ".cache/native-permission-authority/.cache/candidate.json"
+      ]
     }
   ]
 }
