@@ -95,3 +95,43 @@ recovery and tenant-isolation checks remain required. Recorded results below onl
 cover their named scopes. Distributed rate quotas, tenant fairness, all identity
 methods, Go sidecar network isolation, real edge deployment, enrollment, Nomen and
 the remaining CLOUD-01 through CLOUD-08 gates remain open.
+
+## Committed-image acceptance
+
+Source `ca373ed6fd618619c4cff25cf970414e95564dc0` builds canonical image
+`sha256:298d867534da7d1a254c2d3cd78c124cae902e088de98dd6d06c46614490044a`.
+The local self-hosted application run passes all thirteen required steps against
+that immutable image. Receipts below are relative to the main checkout:
+
+- Complete build, exact image identity, eighteen startup-policy cases,
+  Dragonfly/Redis application, queue and restart checks, recovery, isolation and
+  proxy gates: `.cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json`.
+- Four real-image proxy checks and successful cleanup:
+  `.cache/trusted-proxy/.cache/proxy-boundary-bofIH1/result.json`.
+- Real Chrome owner setup, sign-in, authenticated product screens, secret and
+  environment workflows, dashboard recovery and chart interactions:
+  `.cache/trusted-proxy/.cache/app-image-proof-PeHhWm/` (`result.json`,
+  `workflow-result.json`, `onboarding-result.json` and screenshots).
+- Nine encrypted recovery checks and cleanup:
+  `.cache/trusted-proxy/.cache/encrypted-recovery-jeTtDQ/result.json`.
+- Eleven tenant isolation/revocation/restart checks and cleanup:
+  `.cache/trusted-proxy/.cache/tenant-isolation-hoJxIK/result.json`.
+- Full Linux backend suite: 125 files pass, 1,946 tests pass and 22 existing tests
+  skip: `.cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json`.
+- Twelve orchestration fixtures, including proxy-gate failure:
+  `.cache/trusted-proxy/.cache/self-hosted-fixtures-iqgoo4/result.json`.
+
+The internal forwarding characterization was repeated against unchanged main
+`9ffafe57` before integration and recorded in
+`.cache/trusted-proxy/.cache/proxy-forwarding-before.json`. The final source has
+three passing header/transport tests and twenty-five passing proxy/IP tests.
+Backend type checking, targeted ESLint, owned-source and map checks pass. The
+baseline retains 273 UI routes and 2,290 API operations; the image retains the
+existing additive learning endpoint, totaling 2,291 operations. Automated browser
+accessibility checks do not replace their recorded manual-review work.
+
+The inherited global rate limiter is still conditional on legacy cloud-mode
+detection; this packet does not establish universal login throttling or
+distributed quotas. That remains a public-release review item. No GitHub Actions,
+registry push, external edge configuration or production cutover was used for
+these proofs.

@@ -2086,14 +2086,16 @@
     {
       "path": "core/backend/src/lib/config/env.ts",
       "blob": "56868c160fbbe979f163499deeb076f8d3956dc3",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open.",
+      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
@@ -2841,27 +2843,31 @@
     {
       "path": "scripts/build-self-hosted.mjs",
       "blob": "c2f4a458d456448e0f769f9a5cc0f6f2092c7c10",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
       "blob": "2e8c257cf30e727265c22d6d8dcc0e280d76da8d",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
@@ -3599,66 +3605,76 @@
     {
       "path": "compose/hosted.env.example",
       "blob": "202f835ea31335fd8fd6e83a416d7b9dc5b56855",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "compose/self.env.example",
       "blob": "9481d556836e1b505d725e2368e143abd3d3d7e8",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/app.ts",
       "blob": "524ac4a7ee3d91884b99eb53fea03b6c212a5ed5",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/ip.ts",
       "blob": "9879c28233e2e15368c243251f1c0d927e98a51f",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/ip.test.ts",
       "blob": "4205990cedc86ec87b8ba1adb4497896397facea",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
@@ -3666,98 +3682,109 @@
       "blob": "701ffc672836efd419e0b764b690b4d1cd4c3795",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Proxy configuration section reviewed and rewritten with the secure default, explicit peer migration, vendor-header normalization and HTTPS/allowlist checks. This is scoped documentation review, not complete authorship of the remaining environment reference.",
+      "scope": "Proxy configuration section reviewed and rewritten with the secure default, explicit peer migration, vendor-header normalization and HTTPS/allowlist checks. This is scoped documentation review, not complete authorship of the remaining environment reference. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "docs/0048-self-hosted-builds.md",
       "blob": "93d76832003ad3d682ce4286756f36b4dc716c84",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete document read. Existing delivery and historical evidence retained; added mandatory proxy gate and deployment migration cross-reference. No change to prior acceptance scope.",
+      "scope": "Complete document read. Existing delivery and historical evidence retained; added mandatory proxy gate and deployment migration cross-reference. No change to prior acceptance scope. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "docs/0058-trusted-proxy-boundary.md",
-      "blob": "8f1476002c80c6558bda8b2e35068e009f1b4705",
-      "status": "reviewed",
+      "blob": "b908427bb6a84007ac0b3aba629030092e9eaf34",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json"
       ]
     },
     {
       "path": "scripts/test-proxy-boundary.mjs",
       "blob": "31abb675903176cfdabe2db161bcbbd62ed27351",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/go-sidecar-forwarding.ts",
       "blob": "2dcea778178f5c8075783281ad4ccfb7c0f138e5",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/go-sidecar-shadowing.ts",
       "blob": "11a31f4313a7cb714520bae2b8c21292dd7409ed",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/sidecar-request-headers.ts",
       "blob": "2d3ff3eb21e29d99e9036d9922f20a4c01dcce1f",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
       "blob": "7e25136d4f2d106c14893c13e8a4be2335ca10e6",
-      "status": "reviewed",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json"
       ]
     }
   ]
