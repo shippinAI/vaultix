@@ -85,15 +85,14 @@
     },
     {
       "path": "core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx",
-      "blob": "55d2b4c8829078d28335aa0b41c34888aa2cf0f7",
+      "blob": "fbad88cf20fe2242a794544114ec71d75c63ed17",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
       "evidence": [
         "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
+        "scripts/test-login-recovery.mjs"
       ]
     },
     {
@@ -875,26 +874,14 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "184c700f44ce5aa2a3566856926ca8631f1167e3",
-      "status": "verified",
+      "blob": "8244083502cb292b6641c5dab07b425c4f89e046",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete current Dockerfile read; prior build review retained. Product URL now identifies Vaultix.cloud and a first-class source revision defaults honestly to uncommitted. Runtime, toolchains, native modules, non-root execution, entrypoint and optional Datadog arguments are retained. Local canonical build, metadata rejection/acceptance, exact filesystem/runtime equivalence and Dragonfly smoke verify this metadata scope. Expected committed-revision rebuild follows source commit; external providers, alternate architectures, supply-chain hardening and signed provenance remain separate.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
       "evidence": [
-        "docs/0032-native-toolchains.md",
-        ".cache/toolchain-verified-build.log",
-        ".cache/go1273-panel-build-correct-context.log",
-        ".cache/go1273-hsm-build.log",
-        "docs/0045-image-identity-and-revision.md",
-        ".cache/image-identity-baseline.json",
-        ".cache/image-identity-baseline-check.log",
-        ".cache/image-identity-engine.json",
-        ".cache/image-identity-panel.json",
-        ".cache/image-identity-wrong-revision.log",
-        ".cache/image-identity-runtime-comparison.json",
-        ".cache/image-identity-engine-smoke.log",
-        ".cache/publication-proof-EjOLFM/result.json",
-        ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json"
+        "docs/0060-login-recovery.md",
+        ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
+        "scripts/test-login-recovery.mjs"
       ]
     },
     {
@@ -3842,28 +3829,26 @@
     },
     {
       "path": "scripts/test-login-recovery.mjs",
-      "blob": "d9ec8fbdf9447e5b6df935707738cc6d82595a69",
+      "blob": "2967dc7ba3c15fd11e494e1d60edd6a6388c7145",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
       "evidence": [
         "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
+        "scripts/test-login-recovery.mjs"
       ]
     },
     {
       "path": "docs/0060-login-recovery.md",
-      "blob": "bd1b5304c178ff9b12adb4589cef9b525cb7cad6",
+      "blob": "cd9bc7da4120a6d4ce988e9b0ad0ee5b3e68b03d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; final packaged/browser acceptance pending. Other authentication flows and manual assistive-technology acceptance remain open.",
+      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance pending; external CAPTCHA and other authentication flows remain open.",
       "evidence": [
         "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json"
+        ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
+        "scripts/test-login-recovery.mjs"
       ]
     }
   ]

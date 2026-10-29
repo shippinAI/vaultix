@@ -488,7 +488,7 @@ export const InitialStep = ({ isAdmin }: Props) => {
                   <InputGroupInput
                     {...register("password", { onChange: clearCredentialError })}
                     type={showPassword ? "text" : "password"}
-                    placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢"
+                    placeholder="••••••••"
                     autoComplete="current-password"
                     id="current-password"
                     aria-describedby={loginError ? "login-feedback-message" : undefined}

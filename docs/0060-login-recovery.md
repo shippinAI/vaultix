@@ -18,6 +18,8 @@ credential errors remain associated with the email/password fields; editing a
 field clears that error. Throttling and infrastructure failures do not mark
 otherwise valid inputs as incorrect. Account lock and CAPTCHA handling remain;
 missing CAPTCHA configuration provides administrator recovery guidance.
+The canonical Dockerfile no longer supplies a fake CAPTCHA site key by default;
+explicit build/runtime provider configuration remains supported.
 
 Rate-limit responses use `Retry-After` delta-seconds or an HTTP date. Missing,
 malformed, oversized or implausible headers fall back to 60 seconds. Accepted
@@ -59,7 +61,9 @@ input, observes the real 429 in the form, waits for the actual server window,
 and signs in through an explicit retry using the preserved inputs. Fixture
 results and real enforcement are recorded separately in `login-recovery.json`.
 The normal image sign-in, project, secret, environment and recovery checks still
-run afterward. Receipts are recorded after acceptance completes.
+run afterward. Failure receipts contain only phase, type and source line; raw
+browser assertion snapshots can contain form values and are not printed.
+Receipts are recorded after acceptance completes.
 
 Remaining work includes real assistive-technology acceptance, configured CAPTCHA
 provider acceptance, other login/recovery forms, request deadlines, shared-tab

@@ -123,6 +123,7 @@ export async function testLoginRecovery({ browser, expect, AxeBuilder, origin, e
     await preserved();
     report.fixtures.push("invalid/date Retry-After handling and one in-flight login request");
 
+    phase = "missing CAPTCHA fixture";
     code = "Captcha Required"; status = 400;
     await submit.click();
     await expect(page.getByText("Verification Unavailable", { exact: true })).toBeVisible();
@@ -163,8 +164,9 @@ export async function testLoginRecovery({ browser, expect, AxeBuilder, origin, e
     report.realChecks.push("production 429 reaches the form", "actual server window expires", "manual retry signs in with preserved inputs");
     report.passed = true;
   } catch (error) {
-    report.failure = { phase, errorType: error.name };
-    throw error;
+    const location = typeof error.stack === "string" ? error.stack.match(/test-login-recovery\.mjs:(\d+):/) : undefined;
+    report.failure = { phase, errorType: error.name, ...(location ? { line: Number(location[1]) } : {}) };
+    throw new Error(`Login recovery failed during ${phase}; inspect login-recovery.json. Raw browser assertions are withheld because they can contain form values.`);
   } finally {
     await Promise.all(consoleChecks);
     report.credentialLoggingAbsent = !credentialLogged;

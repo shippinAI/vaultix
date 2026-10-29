@@ -1,7 +1,7 @@
 ARG POSTHOG_HOST=https://app.posthog.com
 ARG POSTHOG_API_KEY=posthog-api-key
 ARG INTERCOM_ID=intercom-id
-ARG CAPTCHA_SITE_KEY=captcha-site-key
+ARG CAPTCHA_SITE_KEY=
 
 FROM node:22.22.0-trixie-slim AS base
 

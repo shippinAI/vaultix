@@ -28,7 +28,7 @@ core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
 core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	authored
-core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	184c700f44ce5aa2a3566856926ca8631f1167e3	verified
+core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	8244083502cb292b6641c5dab07b425c4f89e046	authored
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
 core/backend-go/.air.toml	core/backend-go	foundation	Go-native	toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	unread
@@ -6314,7 +6314,7 @@ core/frontend/src/pages/auth/LoginOidcPage/LoginOidcPage.tsx	core/frontend/src/p
 core/frontend/src/pages/auth/LoginOidcPage/route.tsx	core/frontend/src/pages/auth/LoginOidcPage	identity	React-TypeScript	tsx	17be92b16726c884e67af7cb4a33278a9362b98b	unread
 core/frontend/src/pages/auth/LoginPage/Login.utils.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	b6546bd7781c6faf2999f26b4bdd04478d178e9b	unread
 core/frontend/src/pages/auth/LoginPage/LoginPage.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	7c1276e133e1f895f91576736628fe1c73cf4903	unread
-core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	55d2b4c8829078d28335aa0b41c34888aa2cf0f7	authored
+core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	fbad88cf20fe2242a794544114ec71d75c63ed17	authored
 core/frontend/src/pages/auth/LoginPage/components/InitialStep/index.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	33142e0b044a6819281a24df838e6b0e8c131f47	unread
 core/frontend/src/pages/auth/LoginPage/components/InitialStep/login-failure.ts	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	ts	90a916b8d5ae01af272c1f1299d86ae767d7b4e3	authored
 core/frontend/src/pages/auth/LoginPage/components/OrgLoginButton.tsx	core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	tsx	f481e9c65707c8f6fea9b703a61c680daf39cf9a	unread
@@ -9402,7 +9402,7 @@ scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-
 scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4e1818f4a62d270ea18e26017342641b613f3db3	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	09e59d34dad9500333a4ca70c02307a769d2c755	authored
-scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d9ec8fbdf9447e5b6df935707738cc6d82595a69	authored
+scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	authored
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
