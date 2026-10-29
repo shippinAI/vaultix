@@ -74,8 +74,9 @@ try {
   node("migration-map", "scripts/map-migration.mjs", "--check");
   step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
-  // The archive cannot include ignored credentials, build output or local dependency trees.
-  step("source-archive", "git", ["archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "core"]);
+  // Archive committed source without operator-specific line-ending conversion.
+  // Ignored credentials, build output and local dependencies cannot enter it.
+  step("source-archive", "git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "core"]);
   step("extract-source", "tar", ["-xf", resolve(evidence, "source.tar"), "-C", source]);
   const context = resolve(source, "core");
   const dockerfile = resolve(context, "Dockerfile.standalone-vaultix");

@@ -68,3 +68,30 @@ The 22 shared bypass vectors agree with the installed CASL implementation.
 A 15-second, two-worker parser fuzz run passed 815,876 executions. Fixtures use
 copied schemas without constraints and do not prove management API behavior,
 physical replication or real external SSO provider sign-in.
+
+## Canonical archive correction
+
+The first committed SSO image from `5c4916c23badd2d17954e5427d3bc6a23f219ed9`
+passed all 16 application gates, 636 Go unit/race entries, vet and 608 Dragonfly
+integration entries (eight external-provider skips). It still reported the same
+three `goimports` findings previously recorded in 0061. Investigation compared
+exact file bytes: the Git blobs and worktree use LF, while `git archive` under
+Windows `core.autocrlf=true` emits CRLF. The three image files match the archive
+and differ from the blobs only by those line endings. No domain-code formatting
+change or lint suppression is necessary.
+
+The build now sets `core.autocrlf=false` and `core.eol=lf` for its archive command
+only. Operator/global Git settings are unchanged. The new orchestration case uses
+real Git with Windows line-ending settings and asserts extracted source bytes.
+It fails before the change and passes afterward; all 15 orchestration fixtures
+pass in `.cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json`.
+The failing baseline is retained in
+`.cache/native-sso-policy/.cache/archive-regression.txt`; the direct comparison is
+`.cache/native-sso-policy/.cache/archive-eol-yu1jj3b5/result.json`.
+
+Final acceptance requires the corrected committed archive/image, full lint and
+both cache integration suites. Initial receipts remain at
+`.cache/native-sso-policy/.cache/self-hosted-build-3l8mpQ/result.json`,
+`.cache/native-sso-policy/.cache/go-proof-WKCATq/result.json`, and
+`.cache/native-sso-policy/.cache/lint-image.json`. They do not establish acceptance
+of the corrected artifact.

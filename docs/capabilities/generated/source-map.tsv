@@ -9369,7 +9369,7 @@ panel/main.go	operate	legacy-panel	panel	53007168503d9f998026b72dcd724a7da0f1bc1
 schemas/shippin.vaultix.api.v1.json	operate	foundation	schemas	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	operate	delivery	scripts	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	operate	delivery	scripts	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-self-hosted.mjs	operate	delivery	scripts	a5b58fb1fbc0e413d55eaeb139a78a2f65aa8667	verified
+scripts/build-self-hosted.mjs	operate	delivery	scripts	472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6	authored
 scripts/build-ui-report.mjs	operate	delivery	scripts	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	operate	delivery	scripts	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	operate	delivery	scripts	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
@@ -9418,7 +9418,7 @@ scripts/test-proxy-boundary.mjs	operate	delivery	scripts	31abb675903176cfdabe2db
 scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
-scripts/test-self-hosted-build.mjs	operate	delivery	scripts	52cfaaf0a1140b5bbf8ece61377ef044824ba6a8	verified
+scripts/test-self-hosted-build.mjs	operate	delivery	scripts	2a4d26dfec1328a28ccf0840bc99c530213ff81d	authored
 scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	authored
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread

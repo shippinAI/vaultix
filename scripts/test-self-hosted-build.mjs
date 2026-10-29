@@ -46,6 +46,7 @@ cp.spawnSync=(name,args,options)=>{
     assert.equal(args[0],'build','No push, deploy, pruning or container mutations');
     const context=args.at(-1);
     assert.equal(readFileSync(resolve(context,'committed.txt'),'utf8'),'committed source');
+    assert.equal(readFileSync(resolve(context,'line-endings.go'),'utf8'),'package fixture\\n\\n','Archive bytes must not depend on operator Git line endings');
     assert.equal(existsSync(resolve(context,'.env')),false,'Ignored operator file must not enter build context');
     assert.equal(existsSync(resolve(context,'node_modules')),false,'Local dependencies must not enter build context');
     assert.ok(args.includes(resolve(context,'Dockerfile.standalone-vaultix')));
@@ -79,7 +80,7 @@ cp.spawnSync=(name,args,options)=>{
 syncBuiltinESMExports();
 `);
 const cases = [];
-for (const name of ["preflight", "application", "capabilities", "login-policy-failure", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
+for (const name of ["preflight", "application", "capabilities", "windows-archive", "login-policy-failure", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
   for (const dir of ["scripts", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
@@ -90,9 +91,14 @@ for (const name of ["preflight", "application", "capabilities", "login-policy-fa
   writeFileSync(resolve(cwd, "core/e2e/node_modules/@axe-core/playwright/index.js"), "module.exports={};");
   writeFileSync(resolve(cwd, "core/Dockerfile.standalone-vaultix"), "FROM scratch\n");
   writeFileSync(resolve(cwd, "core/committed.txt"), "committed source");
+  writeFileSync(resolve(cwd, "core/line-endings.go"), "package fixture\n\n");
   writeFileSync(resolve(cwd, "core/.env"), "FIXTURE_ONLY=never-archive-operator-values");
   git(cwd, "init", "-b", "main"); git(cwd, "add", "."); git(cwd, "commit", "-m", "Build fixture");
   const revision = git(cwd, "rev-parse", "HEAD");
+  if (name === "windows-archive") {
+    git(cwd, "config", "core.autocrlf", "true");
+    git(cwd, "config", "core.eol", "crlf");
+  }
   if (name === "dirty") writeFileSync(resolve(cwd, "pending.txt"), "preserve this");
   const lock = resolve(cwd, ".cache/self-hosted-build.lock");
   if (name === "locked") writeFileSync(lock, "another build owns this");
@@ -101,7 +107,7 @@ for (const name of ["preflight", "application", "capabilities", "login-policy-fa
     name === "preflight" ? "--check" : name === "capabilities" ? "--capabilities" : "--application"], {
     cwd, encoding: "utf8", timeout: 60_000, env: { ...env, FIXTURE_TRACE: trace, FIXTURE_CASE: name, FIXTURE_REVISION: revision }
   });
-  const accepted = ["preflight", "application", "capabilities"].includes(name);
+  const accepted = ["preflight", "application", "capabilities", "windows-archive"].includes(name);
   assert.equal(result.status, accepted ? 0 : 1, `${name}: ${result.stdout}${result.stderr}`);
   const records = readdirSync(resolve(cwd, ".cache")).filter(path => path.startsWith("self-hosted-build-") && path !== "self-hosted-build.lock");
   const commands = existsSync(trace) ? readFileSync(trace, "utf8").trim().split("\n").map(line => JSON.parse(line)) : [];

@@ -2783,32 +2783,24 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "a5b58fb1fbc0e413d55eaeb139a78a2f65aa8667",
-      "status": "verified",
+      "blob": "472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
+      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance pending. No global Git settings or operator data are changed.",
       "evidence": [
-        "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
-        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
-        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "52cfaaf0a1140b5bbf8ece61377ef044824ba6a8",
-      "status": "verified",
+      "blob": "2a4d26dfec1328a28ccf0840bc99c530213ff81d",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
+      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance pending. No global Git settings or operator data are changed.",
       "evidence": [
-        "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
-        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
-        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json"
       ]
     },
     {

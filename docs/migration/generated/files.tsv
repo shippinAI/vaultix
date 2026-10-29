@@ -9369,7 +9369,7 @@ panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	53007168503d9f
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a5b58fb1fbc0e413d55eaeb139a78a2f65aa8667	verified
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6	authored
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
@@ -9418,7 +9418,7 @@ scripts/test-proxy-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	
 scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	303254db93e9891bc8a2628977e0c0243476ce72	verified
-scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52cfaaf0a1140b5bbf8ece61377ef044824ba6a8	verified
+scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2a4d26dfec1328a28ccf0840bc99c530213ff81d	authored
 scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	authored
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
