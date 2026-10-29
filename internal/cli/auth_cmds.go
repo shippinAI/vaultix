@@ -15,6 +15,7 @@ import (
 	"shippin.cloud/vaultix/internal/api"
 	"shippin.cloud/vaultix/internal/oidc"
 	"shippin.cloud/vaultix/internal/store"
+	"shippin.cloud/vaultix/internal/transport"
 )
 
 type loginMode int
@@ -86,6 +87,7 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 	ssoFlag := fs.Bool("sso", false, "Nomen device-code login (the default on a terminal)")
 	issuer := fs.String("issuer", os.Getenv("NOMEN_OIDC_ISSUER"), "Nomen issuer (default https://auth.shippin.ai)")
 	clientID := fs.String("client-id", os.Getenv("NOMEN_OIDC_CLIENT_ID"), "Nomen public client id")
+	credentialFile := fs.String("credential-file", "", "private credential file on POSIX headless hosts (instead of keyring)")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -95,6 +97,19 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 	}
 	if *apiURL != "" {
 		cfg.API = *apiURL
+	}
+	base, err := transport.URL(cfg.API)
+	if err != nil || base.RawQuery != "" {
+		return errors.New("login: use an HTTPS API URL or literal loopback HTTP without a query")
+	}
+	if *credentialFile != "" {
+		cfg.CredentialFile, err = filepath.Abs(*credentialFile)
+		if err != nil {
+			return err
+		}
+	}
+	if os.Getenv("VAULTIX_TOKEN") != "" || os.Getenv("VAULTIX_TOKEN_FILE") != "" {
+		return errors.New("login: unset VAULTIX_TOKEN and VAULTIX_TOKEN_FILE first; they override saved sign-in")
 	}
 	mode, err := chooseLogin(*universal, *tokenFlag, *ssoFlag, isTerminal(stdin))
 	if err != nil {
@@ -109,29 +124,42 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 		if c.ClientID == "" || c.ClientSecret == "" {
 			return errors.New("login --universal: client id and secret expected on stdin")
 		}
-		if _, _, err := api.UniversalLogin(ctx, cfg.API, c.ClientID, c.ClientSecret); err != nil {
-			return err
-		}
-	case modeSSO:
-		tok, err := (&oidc.Flow{Issuer: *issuer, ClientID: *clientID}).Run(ctx, out)
+		tok, _, err := api.UniversalLogin(ctx, cfg.API, c.ClientID, c.ClientSecret)
 		if err != nil {
 			return err
 		}
-		c = cred{Type: "nomen", Token: tok}
-		if err := api.New(cfg.API, c.Token).Status(ctx); err != nil {
+		if err := api.New(cfg.API, tok).VerifyAccess(ctx); err != nil {
+			return err
+		}
+	case modeSSO:
+		session, err := (&oidc.Flow{Issuer: *issuer, ClientID: *clientID}).RunSession(ctx, out)
+		if err != nil {
+			return err
+		}
+		c = cred{Type: "nomen", Token: session.AccessToken, ExpiresAt: session.ExpiresAt}
+		if err := api.New(cfg.API, c.Token).VerifyAccess(ctx); err != nil {
 			return err
 		}
 	default:
 		if c.Token = line(); c.Token == "" {
 			return errors.New("login: token expected on stdin (or run vaultix login on a terminal for Nomen)")
 		}
-		if err := api.New(cfg.API, c.Token).Status(ctx); err != nil {
+		if err := api.New(cfg.API, c.Token).VerifyAccess(ctx); err != nil {
 			return err
 		}
 	}
+	if err := sc.Err(); err != nil {
+		return errors.New("login: could not read credential input")
+	}
+	c.API = strings.TrimRight(cfg.API, "/")
 	b, _ := json.Marshal(c)
-	if _, err := store.Credential(string(b)); err != nil {
-		return fmt.Errorf("keyring: %w (headless: use VAULTIX_TOKEN_FILE)", err)
+	if cfg.CredentialFile != "" {
+		_, err = store.CredentialFile(cfg.CredentialFile, string(b))
+	} else {
+		_, err = store.Credential(string(b))
+	}
+	if err != nil {
+		return fmt.Errorf("credential storage: %w (POSIX headless hosts: use --credential-file in a private directory)", err)
 	}
 	if err := cfg.Save(); err != nil {
 		return err
@@ -141,7 +169,36 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 }
 
 // Logout forgets the stored credential.
-func Logout() error { return store.Forget() }
+func Logout() error {
+	if os.Getenv("VAULTIX_TOKEN") != "" || os.Getenv("VAULTIX_TOKEN_FILE") != "" {
+		return errors.New("external credential remains active: unset VAULTIX_TOKEN / VAULTIX_TOKEN_FILE; revoke it at its issuer")
+	}
+	cfg, err := LoadConfig()
+	if err != nil {
+		return err
+	}
+	if cfg.CredentialFile != "" {
+		return store.ForgetCredentialFile(cfg.CredentialFile)
+	}
+	return store.Forget()
+}
+
+// AuthStatus confirms protected access without printing account or token data.
+func AuthStatus(ctx context.Context, out io.Writer) error {
+	cfg, err := LoadConfig()
+	if err != nil {
+		return err
+	}
+	c, err := authenticatedClient(ctx, cfg)
+	if err != nil {
+		return err
+	}
+	if err := c.VerifyAccess(ctx); err != nil {
+		return err
+	}
+	_, err = fmt.Fprintln(out, "Vaultix authenticated project access verified. Secret values were not requested.")
+	return err
+}
 
 // Init sets the project, environment and folder this directory's user syncs.
 func Init(args []string, out io.Writer) error {

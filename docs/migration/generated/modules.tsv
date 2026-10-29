@@ -3,7 +3,7 @@ module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
 .github/workflows	delivery	supporting-tooling-or-contract	2	d9f570a71ca1cd72487acb42d7a3fb407e50922e1679502324e215ff3a537010	2	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
-cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	d75b45866a96172f32add40fd0869e8ed2a20176ba8a984697c162b790998f82	0	unassessed
+cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	65798f3624d39f40500c1960a6ef916967b5285295a4751a98475aaa42743368	1	unassessed
 compose	delivery	supporting-tooling-or-contract	5	f12303bdd0513123105cfce49ca532f3d18ed61e9f0f298a24a39a409ecf595e	3	unassessed
 contracts	foundation	supporting-tooling-or-contract	3	eaf6d5219cde8fbd47165a1750bff6a76c5bcd43cd1152ecd363c05764d96f19	0	unassessed
 core	delivery	supporting-tooling-or-contract	26	3a1db0a919be800195fabdf4c6c2dc19605c3e8c3ef64e66dd23dff763341935	2	unassessed
@@ -464,7 +464,7 @@ core/backend/src/services/user	identity	Go-domain-migration	4	03e37dfd10b21209b7
 core/backend/src/services/user-activation	identity	Go-domain-migration	3	dad6539241bf89359f94b5eb11d34ccb7f889f8a30186bf9e7df8324d2763be7	0	unassessed
 core/backend/src/services/user-alias	identity	Go-domain-migration	3	2f44aa32e9f3756aabe960e45d64010a850144b59421fbcf26ba4f398b399794	0	unassessed
 core/backend/src/services/user-engagement	identity	Go-domain-migration	1	8d5c22de108ed31cd77c313dd387cbc415ae04ca09b914ab69bc7d87c5825ac7	0	unassessed
-core/backend/src/services/vaultix	ai	Go-domain-migration	12	d888846238845bf2bbe3f8bf2161401f7c08860d94cdb578db85e15ae35623ce	4	unassessed
+core/backend/src/services/vaultix	ai	Go-domain-migration	12	b8d3054351b13e61700bb8cd30644f5621b85cd6a347538f4ac41d137c0233b0	4	unassessed
 core/backend/src/services/webauthn	identity	Go-domain-migration	3	b08b10c1b91ab9b132a8099f6bb955f0e7294981d33331b0e000610f84d9307d	0	unassessed
 core/backend/src/services/webhook	integrations	Go-domain-migration	4	b57efc81e876362a9e6eadd457c7a9c2f0ae1a3bd61139ae1bcfb93fcbb9c599	0	unassessed
 core/backend/src/services/workflow-integration	automation	Go-domain-migration	3	4cac8199dd7d5277cea24543c283c3efe5f1f81d30276b1ecd1cd173b040d806	0	unassessed
@@ -1038,11 +1038,12 @@ db/schemas	secrets	PostgreSQL-compatible	38	1a084ec35c5f868fff03d2949c4102ec463f
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
 docs/migration	foundation	supporting-tooling-or-contract	1	8d0090c8bb6227ba922035c34997da7ecd6bf1a5eba3c67968def3157c158bc4	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
-internal/api	cli	Go-client-Rust-injection-boundary	3	d1ebbef7db00837992182c6f14bb2741ddbd7feb6c6afd850323dc3cd0b68c8f	0	unassessed
-internal/cli	cli	Go-client-Rust-injection-boundary	6	99eddc7e95d05ba30998f8abfbf83ad4e9636a8c6da2feca95830b5eb73040e6	0	unassessed
-internal/oidc	cli	Go-client-Rust-injection-boundary	2	ea958519e2865e02c66edb7954414fd29e0721f2fdbfd1295ab7df6b4d5d8b33	0	unassessed
-internal/store	cli	Go-client-Rust-injection-boundary	3	f9e3e567aeb3599f74c1c6bbcfb036b3bc780e260653c579e863efaff3fc7ffb	0	unassessed
+internal/api	cli	Go-client-Rust-injection-boundary	5	4fec49ba6bc17064b224025eb251be3784b35369a8d74207dccfc90c10423ba2	3	unassessed
+internal/cli	cli	Go-client-Rust-injection-boundary	9	30d853ff8c14b917c978b06742f4a7b21eac08fd9b42b431576226f8bf2f5c26	6	unassessed
+internal/oidc	cli	Go-client-Rust-injection-boundary	2	c18511dbbef8d8e63b3ffda8169a53e3d7dec87abceb9b0dee330aea47d1b9d0	2	unassessed
+internal/store	cli	Go-client-Rust-injection-boundary	5	216cd3fbc849aa03bb111243611e0fcaa49466dc4eae14e6f01f6a4554cfcf3b	2	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
+internal/transport	cli	Go-client-Rust-injection-boundary	2	36f0f2a5e4e4cc11cc381c1e1eee59bcba354458aaf87f3647caed5e4ad3448e	2	unassessed
 panel	legacy-panel	reconcile-into-native-product	6	5477198543c29cc9095961ece11d6dd7f3dfbde1e0f941130d5b8e64953a0a35	2	unassessed
 panel/internal/audit	legacy-panel	reconcile-into-native-product	1	ea6574578ef49132308822e670109e3bb197b07c387262b5c5bbc7bcaf426dd8	0	unassessed
 panel/internal/core	legacy-panel	reconcile-into-native-product	4	061ea27d6729b9993af490f47e2bbc74d5bb6dc851a620529723f58c85595e7f	0	unassessed
@@ -1063,5 +1064,5 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	57	b5ffeeebaef33599ee326e0b8d7f0a6df3fd84acad0e7df2488e6a849c3383fc	53	unassessed
+scripts	delivery	supporting-tooling-or-contract	58	f152ddba1bb0869afad3ecf9ddc73736132aa02a00f41c0795c0068e0c32a689	54	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	1	8b8b95027f398f066d2539266df2bbd4b6f720274e484fcbf3722c920f1c4fba	1	unassessed

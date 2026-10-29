@@ -6,12 +6,15 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
+
+	"shippin.cloud/vaultix/internal/transport"
 )
 
 // Client is an authenticated API client.
@@ -41,6 +44,10 @@ func NotFound(err error) bool {
 }
 
 func (c *Client) do(ctx context.Context, method, path string, in, out any) error {
+	base, err := transport.URL(c.Base)
+	if err != nil || base.RawQuery != "" {
+		return errors.New("vaultix: invalid API URL; use HTTPS or literal loopback HTTP without a query")
+	}
 	var body io.Reader
 	if in != nil {
 		b, err := json.Marshal(in)
@@ -57,18 +64,22 @@ func (c *Client) do(ctx context.Context, method, path string, in, out any) error
 	if c.Token != "" {
 		req.Header.Set("Authorization", "Bearer "+c.Token)
 	}
-	res, err := c.HTTP.Do(req)
+	res, err := transport.Client(c.HTTP).Do(req)
 	if err != nil {
-		return err
+		return errors.New("vaultix: request failed; check connectivity and server trust")
 	}
 	defer res.Body.Close()
-	data, _ := io.ReadAll(io.LimitReader(res.Body, 8<<20))
+	data, err := io.ReadAll(io.LimitReader(res.Body, (8<<20)+1))
+	if err != nil || len(data) > 8<<20 {
+		return errors.New("vaultix: invalid or oversized response")
+	}
 	if res.StatusCode/100 != 2 {
-		var m struct {
-			Message string `json:"message"`
+		// An error body may contain reflected credentials. Never print it.
+		message := "request rejected"
+		if res.StatusCode == http.StatusUnauthorized {
+			message = "sign in again with vaultix login"
 		}
-		_ = json.Unmarshal(data, &m)
-		return &Error{Status: res.StatusCode, Message: m.Message}
+		return &Error{Status: res.StatusCode, Message: message}
 	}
 	if out == nil {
 		return nil
@@ -84,6 +95,9 @@ func UniversalLogin(ctx context.Context, base, clientID, clientSecret string) (s
 	}
 	err := New(base, "").do(ctx, http.MethodPost, "/api/v1/auth/universal-auth/login",
 		map[string]string{"clientId": clientID, "clientSecret": clientSecret}, &out)
+	if err == nil && (out.AccessToken == "" || out.ExpiresIn <= 0) {
+		err = errors.New("vaultix: machine login returned no usable access token")
+	}
 	return out.AccessToken, time.Duration(out.ExpiresIn) * time.Second, err
 }
 
@@ -99,4 +113,22 @@ func (c *Client) ProjectID(ctx context.Context, slug string) (string, error) {
 // Status is the unauthenticated health endpoint.
 func (c *Client) Status(ctx context.Context) error {
 	return c.do(ctx, http.MethodGet, "/api/status", nil, nil)
+}
+
+// VerifyAccess checks an authenticated metadata action, including an empty
+// project list. Public health is not authentication evidence.
+func (c *Client) VerifyAccess(ctx context.Context) error {
+	if c.Token == "" {
+		return errors.New("vaultix: no credential; run vaultix login")
+	}
+	var result struct {
+		Projects *[]json.RawMessage `json:"projects"`
+	}
+	if err := c.do(ctx, http.MethodGet, "/api/v1/vaultix/projects", nil, &result); err != nil {
+		return err
+	}
+	if result.Projects == nil {
+		return errors.New("vaultix: server did not confirm authenticated project access")
+	}
+	return nil
 }

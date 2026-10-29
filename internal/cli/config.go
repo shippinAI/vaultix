@@ -10,11 +10,12 @@ import (
 
 // Config is the non-secret settings file (~/.config/vaultix/config.json).
 type Config struct {
-	API     string `json:"api"`
-	Project string `json:"project"` // slug
-	Env     string `json:"env"`
-	Path    string `json:"path"`
-	KeyFile string `json:"key_file,omitempty"` // headless data-key file instead of the OS keyring
+	API            string `json:"api"`
+	Project        string `json:"project"` // slug
+	Env            string `json:"env"`
+	Path           string `json:"path"`
+	KeyFile        string `json:"key_file,omitempty"`        // headless data-key file instead of the OS keyring
+	CredentialFile string `json:"credential_file,omitempty"` // explicit private headless login store
 }
 
 // Dir is the vaultix config directory (VAULTIX_HOME overrides).

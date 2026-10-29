@@ -1,5 +1,6 @@
 // Command vaultix keeps a local, encrypted copy of your Vaultix secrets in two-way sync and
-// exposes them to programs (and AI agents) through `vaultix run`.
+// delivers them to application processes through `vaultix run`. AI uses the
+// separate metadata-only MCP command, never application secret injection.
 package main
 
 import (
@@ -18,7 +19,10 @@ func usageText() string {
   login                         Nomen device-code login (browser link, no password)
   login --universal             machine identity: client id and secret on stdin
   login --token                 access token on stdin
-  logout
+  auth status                   verify protected Vaultix access without reading values
+  logout                        forget local login (does not revoke issuer sessions)
+  mcp                           authenticated metadata-only MCP over stdio
+  mcp config                    print a token-free Codex configuration fragment
   init --project SLUG --env ENV [--path /] [--key-file F]
   pull [--on-conflict ask|local|remote]    server -> local
   push [--on-conflict ask|local|remote]    two-way; missing keys are created
@@ -49,6 +53,28 @@ func dispatch(ctx context.Context, a []string) error {
 		return cli.Login(ctx, rest, os.Stdin, os.Stdout)
 	case "logout":
 		return cli.Logout()
+	case "auth":
+		if len(rest) == 1 && rest[0] == "status" {
+			return cli.AuthStatus(ctx, os.Stdout)
+		}
+		return fmt.Errorf("usage: vaultix auth status")
+	case "mcp":
+		if len(rest) == 1 && rest[0] == "config" {
+			return cli.MCPConfig(os.Stdout)
+		}
+		if len(rest) != 0 {
+			return fmt.Errorf("usage: vaultix mcp [config]")
+		}
+		finished := make(chan struct{})
+		defer close(finished)
+		go func() {
+			select {
+			case <-ctx.Done():
+				_ = os.Stdin.Close()
+			case <-finished:
+			}
+		}()
+		return cli.MCP(ctx, os.Stdin, os.Stdout)
 	case "init":
 		return cli.Init(rest, os.Stdout)
 	case "pull", "push":

@@ -4,7 +4,28 @@ Clyffy is Vaultix's secrets specialist. Its guidance runs in your own Codex
 client. Sign in with ChatGPT through `codex login`; your subscription's limits
 apply. Vaultix does not receive your ChatGPT session or an OpenAI API key.
 
-Add your instance to the Codex configuration:
+Vaultix authorization is separate from your model sign-in. With a Vaultix CLI
+credential that can access this instance, run these commands in your own terminal:
+
+```sh
+vaultix auth status
+vaultix mcp config
+```
+
+Add the printed fragment to your existing Codex configuration, then reconnect.
+The fragment launches `vaultix mcp` over stdio and identifies your local Vaultix
+configuration directory. It contains no token. The CLI loads credentials locally
+and calls the same core MCP endpoint as the native client; it never reads the
+local secret-value store. Other clients with stdio support can launch the same
+command. Do not launch it through `vaultix run`.
+
+If you have not signed in, use `vaultix login --api <instance>` in your terminal.
+Nomen browser approval requires a configured issuer and public CLI client ID;
+live Nomen-to-Vaultix mapping is still a release gate. Machine identities and
+existing compatible access tokens have explicit `--universal` and `--token`
+stdin modes. Never obtain those credentials through chat or MCP arguments.
+
+For public guidance without CLI authentication, add your instance directly:
 
 ```toml
 [mcp_servers.vaultix]
@@ -43,8 +64,10 @@ contain names and versions, never values, ciphertext, comments, or custom metada
 Only shared secrets in the selected folder are listed. Follow `nextOffset` until
 null; a permission-filtered page can be empty.
 
-The connection above provides public guidance. Nomen client sign-in/token exchange
-for the hosted specialist is still being integrated. Never paste a Vaultix token
+The direct HTTP connection above provides public guidance. The CLI stdio path
+requires protected access and exposes authorized reference tools. Expired or
+revoked credentials fail with a sign-in instruction; Nomen automatic renewal and
+hosted token exchange remain incomplete. Never paste a Vaultix token
 or Codex credentials into chat or tool arguments to work around missing sign-in.
 Secret-changing tools and injection redemption are not exposed to MCP.
 

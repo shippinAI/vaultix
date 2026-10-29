@@ -72,9 +72,16 @@ rejects a missing optional ARM package in the pinned QUIC dependency.
 
 ## Clyffy and Codex
 
-Clyffy is Vaultix's secrets specialist. Connect your local Codex client to
-`/api/v1/vaultix/mcp` using your own ChatGPT sign-in. Your plan limits apply;
-Vaultix does not collect that session or an OpenAI API key.
+Clyffy is Vaultix's secrets specialist. Your local Codex sign-in powers the
+assistant; Vaultix sign-in separately authorizes access to projects and references.
+Vaultix does not collect your ChatGPT session or an OpenAI API key.
+
+After signing in with the Vaultix CLI, run `vaultix auth status`, then
+`vaultix mcp config` for a credential-free configuration fragment. Add that
+fragment to your existing Codex configuration and reconnect. `vaultix mcp`
+uses the locally stored credential to call this instance's existing core MCP;
+it never loads the local secret-value store. Direct HTTP at
+`/api/v1/vaultix/mcp` remains available for public guidance and authenticated clients.
 
 The native MCP teaches setup through the same authored catalog and configure
 steps used by the UI. Authenticated clients can list projects and secret
@@ -115,9 +122,22 @@ vaultix push
 vaultix run -- npm run dev
 ```
 
-Login credentials and data keys use the OS keyring. Headless hosts use a
-restricted key file and `VAULTIX_TOKEN_FILE`. Local entries use AES-256-GCM.
+Login credentials and data keys use the OS keyring. On POSIX headless hosts,
+create a private directory (`0700`) and pass `login --credential-file` to save
+login credentials in a private (`0600`) file. Windows uses Credential Manager.
+`VAULTIX_TOKEN_FILE` remains an externally managed, read-only override; login
+refuses active overrides so a new sign-in is not silently ignored.
+The separate local data-key file still uses `init --key-file`.
+Local entries use AES-256-GCM.
 Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
+
+For a registered Nomen public client, `vaultix login --sso --api <instance>
+--issuer <issuer> --client-id <public-client-id>` prints a browser approval link
+that can be opened on another device. It requires protected Vaultix access
+before saving sign-in. Live Nomen-to-Vaultix authority mapping and automatic
+session renewal remain release gates; a device-flow fixture is not that proof.
+`logout` forgets the local credential, not the issuer's session. See
+[headless login and AI acceptance](docs/0067-headless-ai-login.md).
 
 ## Checks
 

@@ -20,6 +20,7 @@ Reference pages contain no values, comments, custom metadata, personal overrides
 The current core MCP cannot create, read values, rotate, inject, or delete secrets. Authentication must be supplied by the client authentication flow, never through tool arguments or chat.
 Do not substitute a legacy raw-values endpoint for a missing MCP tool. Direct the human to the authenticated UI.
 Codex runs locally with the user's own ChatGPT sign-in and plan limits. Vaultix does not collect that session or promise unlimited AI.
+For authenticated local MCP, the human signs in with the Vaultix CLI, checks vaultix auth status, and adds the fragment printed by vaultix mcp config. This launches vaultix mcp directly, never through vaultix run. Do not read its credential store. Nomen hosted sign-in and automatic renewal remain incomplete.
 `;
 
 export const vaultixSourceActions = [
@@ -282,7 +283,7 @@ export const getVaultixConnections = () => ({
   source: "catalog",
   mcpPath: "/api/v1/vaultix/mcp",
   access:
-    "Public guidance is available now. Project references require a validated Vaultix session; hosted Nomen client sign-in is still being integrated.",
+    "The URL below provides public guidance. For authorized references, sign in with the Vaultix CLI, check vaultix auth status, and use vaultix mcp config. Hosted Nomen sign-in and automatic renewal remain incomplete.",
   options: [
     {
       id: "codex-subscription",
@@ -291,7 +292,7 @@ export const getVaultixConnections = () => ({
       description: "Use your own ChatGPT sign-in in the local Codex app or CLI. Your plan limits apply.",
       steps: [
         "Run codex login in your terminal and complete the browser sign-in.",
-        "Add the Vaultix MCP connection below, then reconnect Codex.",
+        "For authorized references, sign in separately with the Vaultix CLI, run vaultix auth status, then add the fragment from vaultix mcp config and reconnect Codex. The URL below is also available for public guidance.",
         "Ask Clyffy to read the specialist instructions and help connect your app."
       ]
     },
@@ -302,7 +303,7 @@ export const getVaultixConnections = () => ({
       description: "Keep your configured API account, model gateway, or local provider. Add Vaultix as a tool source.",
       steps: [
         "Keep your existing Codex provider and authentication configuration.",
-        "Add the Vaultix MCP connection below without replacing your config file.",
+        "After Vaultix CLI sign-in, run vaultix auth status and vaultix mcp config. Add the printed fragment without replacing your provider settings. The URL below provides public guidance.",
         "Clyffy uses your configured model. Model and tool support depend on your provider."
       ]
     },
@@ -310,10 +311,10 @@ export const getVaultixConnections = () => ({
       id: "mcp-client",
       component: "configure-step",
       title: "Another AI client",
-      description: "Connect a client that supports Streamable HTTP MCP using your own model setup.",
+      description: "Use your own model setup with stdio or Streamable HTTP MCP.",
       steps: [
         "Open your client's MCP server settings.",
-        "Add the Vaultix server URL below using Streamable HTTP.",
+        "For authorized references, sign in with the Vaultix CLI and launch vaultix mcp as a stdio server. The URL below provides public guidance over Streamable HTTP.",
         "Read vaultix.specialist.instructions before using the reference tools."
       ]
     }
