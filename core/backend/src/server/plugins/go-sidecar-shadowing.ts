@@ -3,6 +3,8 @@ import fp from "fastify-plugin";
 
 import { logger } from "@app/lib/logger";
 
+import { sidecarRequestHeaders } from "./sidecar-request-headers";
+
 const SHADOWED_ROUTES: { method: string; url: string }[] = [
   { method: "GET", url: "/api/v3/secrets/raw/:secretName" },
   { method: "GET", url: "/api/v3/secrets/raw" },
@@ -188,7 +190,9 @@ export const shadowToGoSidecar = fp(async (server, opt: { sidecarUrl: string; sa
     const shadowRequest = async () => {
       try {
         const headers: Record<string, string> = {};
-        for (const [headerKey, headerValue] of Object.entries(request.headers)) {
+        for (const [headerKey, headerValue] of Object.entries(
+          sidecarRequestHeaders(request.headers, requestId, request.realIp)
+        )) {
           if (typeof headerValue === "string") {
             headers[headerKey] = headerValue;
           } else if (Array.isArray(headerValue)) {
@@ -196,8 +200,6 @@ export const shadowToGoSidecar = fp(async (server, opt: { sidecarUrl: string; sa
           }
         }
 
-        headers["X-Request-Id"] = requestId;
-        headers["X-Real-Ip"] = request.realIp;
         delete headers.host;
         delete headers["content-length"];
 

@@ -2092,8 +2092,8 @@ core/backend/src/server/plugins/error-handler-oversized.test.ts	operate	foundati
 core/backend/src/server/plugins/error-handler.test.ts	operate	foundation	core/backend/src/server/plugins	340e5047a8e87312bc37382ee497134eb4baae86	verified
 core/backend/src/server/plugins/error-handler.ts	operate	foundation	core/backend/src/server/plugins	63630ea23a0a9a78e51d5ce6daa484066f229cc4	verified
 core/backend/src/server/plugins/fastify-zod.ts	operate	foundation	core/backend/src/server/plugins	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
-core/backend/src/server/plugins/go-sidecar-forwarding.ts	operate	foundation	core/backend/src/server/plugins	afc2c2e984bda1a6d6000e19d41aff95ef48dab7	unread
-core/backend/src/server/plugins/go-sidecar-shadowing.ts	operate	foundation	core/backend/src/server/plugins	b63323d17a28eef05e6e08d0ef9de28a5ebb3952	unread
+core/backend/src/server/plugins/go-sidecar-forwarding.ts	operate	foundation	core/backend/src/server/plugins	2dcea778178f5c8075783281ad4ccfb7c0f138e5	reviewed
+core/backend/src/server/plugins/go-sidecar-shadowing.ts	operate	foundation	core/backend/src/server/plugins	11a31f4313a7cb714520bae2b8c21292dd7409ed	reviewed
 core/backend/src/server/plugins/go-sidecar.test.ts	operate	foundation	core/backend/src/server/plugins	529ea5f9bb79d645892f909b0023865078f87064	verified
 core/backend/src/server/plugins/go-sidecar.ts	operate	foundation	core/backend/src/server/plugins	c642eeb9cdc039e0cc0c80d41b6a9004cfd515b8	verified
 core/backend/src/server/plugins/inject-cert-manager-project-id.ts	pki	pki	core/backend/src/server/plugins	374fe5a981610151138c1bb873a7ca396f401f6d	unread
@@ -2108,6 +2108,8 @@ core/backend/src/server/plugins/response-schema-hooks.ts	operate	foundation	core
 core/backend/src/server/plugins/secret-scanner-v2.ts	secrets	secrets	core/backend/src/server/plugins	3c0813be3220bed8811b4df99a98f88be494d668	unread
 core/backend/src/server/plugins/secret-scanner.ts	secrets	secrets	core/backend/src/server/plugins	65dbbb87f38f4909384a3ff608d2acad49f0cfb2	unread
 core/backend/src/server/plugins/serve-ui.ts	operate	foundation	core/backend/src/server/plugins	44504f90dd472bc95586695841e8b9e9975be727	unread
+core/backend/src/server/plugins/sidecar-request-headers.test.ts	operate	foundation	core/backend/src/server/plugins	7e25136d4f2d106c14893c13e8a4be2335ca10e6	reviewed
+core/backend/src/server/plugins/sidecar-request-headers.ts	operate	foundation	core/backend/src/server/plugins	2d3ff3eb21e29d99e9036d9922f20a4c01dcce1f	reviewed
 core/backend/src/server/plugins/swagger.test.ts	operate	foundation	core/backend/src/server/plugins	4f973da7851f55f6c2904a84d61eecc0ba8c51ff	verified
 core/backend/src/server/plugins/swagger.ts	operate	foundation	core/backend/src/server/plugins	bac29bd238b1bddf04d492134cfc3a97801c2868	verified
 core/backend/src/server/routes/bdd/bdd-nock-router.dev.ts	operate	foundation	core/backend/src/server/routes/bdd	c5f6001f5586916623884563c6b5eaafdf65ae17	unread

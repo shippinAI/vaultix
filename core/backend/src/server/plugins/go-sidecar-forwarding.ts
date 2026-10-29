@@ -1,6 +1,8 @@
 import replyFrom from "@fastify/reply-from";
 import fp from "fastify-plugin";
 
+import { sidecarRequestHeaders } from "./sidecar-request-headers";
+
 // Method + URL combinations to forward to the Go sidecar
 const FORWARDED_ROUTES: { method: string; url: string }[] = [
   // { method: "GET", url: "/api/v3/secrets/raw/:secretName" },
@@ -20,11 +22,7 @@ export const forwardToGoSidecar = fp(async (server, opt: { sidecarUrl: string })
     const key = `${request.method}:${request.routeOptions.url}`;
     if (routeSet.has(key)) {
       return reply.from(request.url, {
-        rewriteRequestHeaders: (_req, headers) => ({
-          ...headers,
-          "X-Request-Id": request.id,
-          "X-Real-Ip": request.realIp
-        })
+        rewriteRequestHeaders: (_req, headers) => sidecarRequestHeaders(headers, request.id, request.realIp)
       });
     }
   });

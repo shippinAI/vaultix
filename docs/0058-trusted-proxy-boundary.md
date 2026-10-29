@@ -31,6 +31,17 @@ The pinned Fastify source and [official proxy configuration documentation](https
 were checked. Invalid ranges still fail startup. The original request-ip
 attribution remains recorded in the rewritten module.
 
+Review also exercised the retained Node-to-Go forwarding plugin over a real
+local HTTP socket. Its mixed-case header replacement sent a caller-supplied
+`x-real-ip` together with the resolved address as a comma-separated value. The
+forward and shadow adapters now share a header builder that removes caller IP
+and request-ID metadata case-insensitively and emits one canonical address and
+request ID. Unrelated authentication headers are preserved. Real HTTP transport
+tests cover both adapters. The normal forwarding registration remains disabled;
+shadow sampling remains opt-in. This repairs existing migration adapters, not a
+completed Go domain migration or public exposure of the Go listener. The rest of
+the shadow comparison/diagnostic policy still needs its own value-boundary review.
+
 ## Upgrade and rollback
 
 Direct deployments need no proxy setting. Existing deployments behind an edge
@@ -60,6 +71,8 @@ blank defaults, forwarded host/protocol, trusted and untrusted peers, multi-hop
 chains, IPv6/mapped IPv4, aliases, missing metadata, invalid configuration,
 actual native guidance limits and independent configured-proxy rate buckets.
 These are in-process HTTP fixtures, not a real edge deployment.
+`sidecar-request-headers.test.ts` additionally checks case collisions and both
+actual internal HTTP adapters without mocking their transport.
 
 `node scripts/test-proxy-boundary.mjs <local-image>` creates its own PostgreSQL,
 Dragonfly and canonical application. It creates an owner, project and two

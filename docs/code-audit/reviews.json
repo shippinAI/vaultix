@@ -3689,15 +3689,14 @@
     },
     {
       "path": "docs/0058-trusted-proxy-boundary.md",
-      "blob": "0ca0e15ce85c602e29de03c33b1bfdf5cbccd8fc",
+      "blob": "8f1476002c80c6558bda8b2e35068e009f1b4705",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim.",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
-        "core/backend/src/server/plugins/ip.test.ts",
-        ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
-        ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+        "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     },
     {
@@ -3711,6 +3710,54 @@
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
         ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar-forwarding.ts",
+      "blob": "2dcea778178f5c8075783281ad4ccfb7c0f138e5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "evidence": [
+        "docs/0058-trusted-proxy-boundary.md",
+        "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar-shadowing.ts",
+      "blob": "11a31f4313a7cb714520bae2b8c21292dd7409ed",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "evidence": [
+        "docs/0058-trusted-proxy-boundary.md",
+        "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/sidecar-request-headers.ts",
+      "blob": "2d3ff3eb21e29d99e9036d9922f20a4c01dcce1f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "evidence": [
+        "docs/0058-trusted-proxy-boundary.md",
+        "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+      "blob": "7e25136d4f2d106c14893c13e8a4be2335ca10e6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped internal-hop identity header repair in 0058. Both retained adapters use canonical resolved IP and request ID, strip caller IP overrides case-insensitively and preserve unrelated authentication headers. Local HTTP transport proofs cover forward and shadow paths. Forwarding remains disabled and shadow opt-in; neither a completed Go domain migration nor full shadow diagnostic/value-boundary acceptance is claimed.",
+      "evidence": [
+        "docs/0058-trusted-proxy-boundary.md",
+        "core/backend/src/server/plugins/sidecar-request-headers.test.ts",
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
       ]
     }
   ]
