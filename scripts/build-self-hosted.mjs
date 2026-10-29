@@ -72,6 +72,7 @@ const node = (name, script, ...args) => step(name, process.execPath, [script, ..
 try {
   node("source-inventory", "scripts/audit-codebase.mjs", "--check");
   node("migration-map", "scripts/map-migration.mjs", "--check");
+  step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
   // The archive cannot include ignored credentials, build output or local dependency trees.
   step("source-archive", "git", ["archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "core"]);

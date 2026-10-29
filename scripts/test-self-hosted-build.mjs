@@ -73,12 +73,13 @@ cp.spawnSync=(name,args,options)=>{
     assert.equal(args[1],'${imageId}','Admission must use the verified immutable image');
     if(process.env.FIXTURE_CASE==='admission-failure' && args[2]==='redis') return {status:27};
   }
+  if(args[0]==='--experimental-strip-types' && args[1]==='scripts/test-login-failure.mjs' && process.env.FIXTURE_CASE==='login-policy-failure') return {status:28};
   return {status:0};
 };
 syncBuiltinESMExports();
 `);
 const cases = [];
-for (const name of ["preflight", "application", "capabilities", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
+for (const name of ["preflight", "application", "capabilities", "login-policy-failure", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
   for (const dir of ["scripts", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
@@ -113,6 +114,8 @@ for (const name of ["preflight", "application", "capabilities", "dirty", "locked
     assert.equal(report.passed, accepted);
     assert.equal(report.revision, revision);
     if (accepted) assert.equal(report.imageId, imageId);
+    if (name === "login-policy-failure") assert.equal(report.steps.at(-1).name, "login-failure-policy");
+    if (accepted) assert.ok(report.steps.some(step => step.name === "login-failure-policy" && step.passed));
     if (name === "build-failure") assert.equal(report.steps.at(-1).name, "canonical-image");
     if (name === "application-failure") assert.equal(report.steps.at(-1).name, "dragonfly-application");
     if (name === "recovery-failure") assert.equal(report.steps.at(-1).name, "encrypted-recovery");

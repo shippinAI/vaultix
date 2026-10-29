@@ -9,11 +9,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 
 import { AuthPagePanel } from "@app/components/auth/AuthPagePanel";
-import Error from "@app/components/basic/Error";
 import { RegionSelect } from "@app/components/navigation/RegionSelect";
-import { createNotification } from "@app/components/notifications";
 import attemptLogin from "@app/components/utilities/attemptLogin";
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
   AnimatedCollapse,
   Button,
   ButtonBadge,
@@ -41,6 +42,7 @@ import { useLastLogin } from "@app/hooks/useLastLogin";
 import { useNavigateToSelectOrganization } from "../../Login.utils";
 import { OrgLoginButton } from "../OrgLoginButton";
 import { SocialLoginButton } from "../SocialLoginButton";
+import { classifyLoginFailure, LoginFailure } from "./login-failure";
 
 const loginFormSchema = z.object({
   email: z.string().email("Please enter a valid email").min(1, "Email is required"),
@@ -67,6 +69,11 @@ export const InitialStep = ({ isAdmin }: Props) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [loginFailure, setLoginFailure] = useState<LoginFailure | null>(null);
+  const [retryAt, setRetryAt] = useState(0);
+  const [retrySeconds, setRetrySeconds] = useState(0);
+  const retryAtRef = useRef(0);
+  const submissionInFlight = useRef(false);
   const { config } = useServerConfig();
   const queryParams = new URLSearchParams(window.location.search);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -97,6 +104,23 @@ export const InitialStep = ({ isAdmin }: Props) => {
     }
   });
   const showDangerState = submitCount > 0;
+
+  useEffect(() => {
+    if (!retryAt) return undefined;
+    const tick = () => {
+      const remaining = Math.max(0, Math.ceil((retryAt - Date.now()) / 1000));
+      setRetrySeconds(remaining);
+      if (!remaining) setRetryAt(0);
+    };
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [retryAt]);
+
+  const clearCredentialError = () => {
+    setLoginError(false);
+    setLoginFailure((current) => (current?.kind === "credentials" ? null : current));
+  };
 
   const redirectToSaml = (orgSlug: string) => {
     const redirectUrl = `/api/v1/sso/redirect/saml2/organizations/${encodeURIComponent(orgSlug)}${
@@ -252,35 +276,33 @@ export const InitialStep = ({ isAdmin }: Props) => {
   const organizationLoginOptions = loginOptions.filter(({ kind }) => kind === "organization");
   const moreLoginOptionsCount = lastUsedLoginOption ? loginOptions.length - 1 : 0;
   const hasButtonLoginMethod = loginOptions.length > 0;
-  const handleLoginFailure = () => {
-    setLoginError(true);
-    const errorMessage = callbackPort
-      ? "CLI login unsuccessful. Double-check your credentials and try again."
-      : "Login unsuccessful. Double-check your credentials and try again.";
-
-    createNotification({
-      text: errorMessage,
-      type: "error"
-    });
-  };
-
-  const handleLoginError = (err: any) => {
-    const errorType = err.response?.data?.error;
-    if (errorType === "User Locked") {
-      createNotification({
-        title: err.response.data.error,
-        text: err.response.data.message,
-        type: "error"
-      });
-      return;
-    }
-
-    if (errorType === "Captcha Required") {
+  const feedbackMessage =
+    loginFailure?.kind === "limited" && retrySeconds === 0
+      ? "You can try again now. Sign-in will only run when you choose Continue with Email."
+      : (loginFailure?.message ?? "");
+  const handleLoginError = (error: unknown) => {
+    const failure = classifyLoginFailure(error);
+    setLoginError(failure.kind === "credentials");
+    if (failure.kind === "captcha") {
       setShouldShowCaptcha(true);
+      setLoginFailure(
+        envConfig.CAPTCHA_SITE_KEY
+          ? failure
+          : {
+              kind: "unavailable",
+              title: "Verification Unavailable",
+              message: "Contact your administrator to restore sign-in verification."
+            }
+      );
       return;
     }
-
-    handleLoginFailure();
+    setLoginFailure(failure);
+    if (failure.kind === "limited") {
+      const seconds = failure.retrySeconds ?? 60;
+      retryAtRef.current = Date.now() + seconds * 1000;
+      setRetryAt(retryAtRef.current);
+      setRetrySeconds(seconds);
+    }
   };
 
   const resetCaptcha = () => {
@@ -289,7 +311,12 @@ export const InitialStep = ({ isAdmin }: Props) => {
   };
 
   const handleEmailLogin = async (formData: LoginFormData) => {
+    // Guard Enter, rapid clicks and programmatic submits before React rerenders.
+    if (submissionInFlight.current || retryAtRef.current > Date.now()) return;
+    submissionInFlight.current = true;
     setIsLoading(true);
+    setLoginError(false);
+    setLoginFailure(null);
 
     try {
       const loginResult = await attemptLogin({
@@ -304,13 +331,13 @@ export const InitialStep = ({ isAdmin }: Props) => {
         saveLastLogin({ method: LoginMethod.EMAIL });
         navigateToSelectOrganization(callbackPort || undefined, isAdmin);
       } else {
-        handleLoginFailure();
+        handleLoginError(undefined);
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch (err: unknown) {
       handleLoginError(err);
     } finally {
       resetCaptcha();
+      submissionInFlight.current = false;
       setIsLoading(false);
     }
   };
@@ -445,12 +472,13 @@ export const InitialStep = ({ isAdmin }: Props) => {
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   variant="outlined"
-                  {...register("email", { onChange: () => setLoginError(false) })}
+                  {...register("email", { onChange: clearCredentialError })}
                   type="email"
                   id="email"
                   placeholder="you@company.com"
                   autoComplete="username"
                   className="h-10"
+                  aria-describedby={loginError ? "login-feedback-message" : undefined}
                   isError={(showDangerState && Boolean(errors.email)) || loginError}
                 />
               </Field>
@@ -458,11 +486,12 @@ export const InitialStep = ({ isAdmin }: Props) => {
                 <FieldLabel htmlFor="current-password">Password</FieldLabel>
                 <InputGroup variant="outlined" className="h-10">
                   <InputGroupInput
-                    {...register("password", { onChange: () => setLoginError(false) })}
+                    {...register("password", { onChange: clearCredentialError })}
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢"
                     autoComplete="current-password"
                     id="current-password"
+                    aria-describedby={loginError ? "login-feedback-message" : undefined}
                     aria-invalid={(showDangerState && Boolean(errors.password)) || loginError}
                   />
                   <InputGroupAddon align="inline-end">
@@ -486,12 +515,36 @@ export const InitialStep = ({ isAdmin }: Props) => {
                   />
                 </div>
               )}
+              <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+                {loginFailure ? `${loginFailure.title}. ${feedbackMessage}` : ""}
+              </p>
+              {loginFailure && (
+                <Alert role="group" aria-labelledby="login-feedback-title">
+                  <AlertTitle id="login-feedback-title" className="line-clamp-none">
+                    {loginFailure.title}
+                  </AlertTitle>
+                  <AlertDescription>
+                    <p id="login-feedback-message">{feedbackMessage}</p>
+                    {loginFailure.kind === "limited" && retrySeconds > 0 && (
+                      <p role="timer" aria-live="off" className="text-muted">
+                        Try again in {retrySeconds} {retrySeconds === 1 ? "second" : "seconds"}.
+                      </p>
+                    )}
+                  </AlertDescription>
+                </Alert>
+              )}
               <Button
                 type="submit"
                 variant="project"
                 size="lg"
                 isFullWidth
-                isDisabled={!isValid || (shouldShowCaptcha && captchaToken === "") || isLoading}
+                isDisabled={
+                  !isValid ||
+                  (shouldShowCaptcha && captchaToken === "") ||
+                  isLoading ||
+                  retrySeconds > 0
+                }
+                aria-describedby={loginFailure ? "login-feedback-message" : undefined}
                 isPending={isLoading}
               >
                 Continue with Email
@@ -501,8 +554,6 @@ export const InitialStep = ({ isAdmin }: Props) => {
               </Button>
             </div>
           )}
-
-          {!isLoading && loginError && <Error text={t("login.error-login") ?? ""} />}
         </CardContent>
       </AuthPagePanel>
       {config.allowSignUp &&

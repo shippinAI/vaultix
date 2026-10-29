@@ -797,7 +797,7 @@ core/frontend/src/pages/auth/CliRedirectPage	identity	React-TypeScript	2	9328015
 core/frontend/src/pages/auth/EmailNotVerifiedPage	identity	React-TypeScript	2	0d1edf7bbb9170ffe9636a222b2806a8e28dfc62d86d078d450ddde9ed61bb90	0	unassessed
 core/frontend/src/pages/auth/LoginLdapPage	identity	React-TypeScript	2	d2d4633289be2d4ccc42efcc6cd976477dfde4b5352cd7c5292360894ad47568	0	unassessed
 core/frontend/src/pages/auth/LoginOidcPage	identity	React-TypeScript	2	bed759364cfdd78186ba36ba3b5080176afd61a72084c6034a901a2936c3f04b	0	unassessed
-core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	8	f7d9dd69baf88de5380f03430030e30f3602bc15b13382681f866c9df2d1d2fe	1	unassessed
+core/frontend/src/pages/auth/LoginPage	identity	React-TypeScript	9	57115cdc90731546fb9aac9ff5cda57c82d00e69eeecf7efd922531defbaf67c	2	unassessed
 core/frontend/src/pages/auth/LoginSamlPage	identity	React-TypeScript	2	047b81c4964e2ee70d9d620d30c6392669be1a8a0f75e14bffe0be0cdcfff737	0	unassessed
 core/frontend/src/pages/auth/LoginSsoPage	identity	React-TypeScript	1	5b02ab6083b77849dd3bc6f49293079400ade425ee2827931c6aa267391e9131	0	unassessed
 core/frontend/src/pages/auth/PasswordSetupPage	identity	React-TypeScript	2	43f4d678e7dd589ce958cec7be4984b790ec780bb366820f8b198b0abb6d8fd4	0	unassessed
@@ -1063,5 +1063,5 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	52	c6f1559ded392ac9e7169a2ac01eff55d490c3db10adefeb21985815597aec14	48	unassessed
+scripts	delivery	supporting-tooling-or-contract	54	74d2f7c40dd2b81e430ca4c112fc0c8e3f48cf33ea3db5a04d462c0bedcb1b02	50	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	1	8b8b95027f398f066d2539266df2bbd4b6f720274e484fcbf3722c920f1c4fba	1	unassessed

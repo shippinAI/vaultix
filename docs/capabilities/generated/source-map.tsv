@@ -6314,8 +6314,9 @@ core/frontend/src/pages/auth/LoginOidcPage/LoginOidcPage.tsx	access	identity	cor
 core/frontend/src/pages/auth/LoginOidcPage/route.tsx	access	identity	core/frontend/src/pages/auth/LoginOidcPage	17be92b16726c884e67af7cb4a33278a9362b98b	unread
 core/frontend/src/pages/auth/LoginPage/Login.utils.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	b6546bd7781c6faf2999f26b4bdd04478d178e9b	unread
 core/frontend/src/pages/auth/LoginPage/LoginPage.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	7c1276e133e1f895f91576736628fe1c73cf4903	unread
-core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	b009c6591d5f2cbddf2ce5bf500eec5e478d2aa7	authored
+core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	55d2b4c8829078d28335aa0b41c34888aa2cf0f7	authored
 core/frontend/src/pages/auth/LoginPage/components/InitialStep/index.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	33142e0b044a6819281a24df838e6b0e8c131f47	unread
+core/frontend/src/pages/auth/LoginPage/components/InitialStep/login-failure.ts	access	identity	core/frontend/src/pages/auth/LoginPage	90a916b8d5ae01af272c1f1299d86ae767d7b4e3	authored
 core/frontend/src/pages/auth/LoginPage/components/OrgLoginButton.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	f481e9c65707c8f6fea9b703a61c680daf39cf9a	unread
 core/frontend/src/pages/auth/LoginPage/components/SocialLoginButton.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	065624e0e4e02599a8aada7821e66526266c56a1	unread
 core/frontend/src/pages/auth/LoginPage/components/index.tsx	access	identity	core/frontend/src/pages/auth/LoginPage	33142e0b044a6819281a24df838e6b0e8c131f47	unread
@@ -9362,7 +9363,7 @@ panel/main.go	operate	legacy-panel	panel	53007168503d9f998026b72dcd724a7da0f1bc1
 schemas/shippin.vaultix.api.v1.json	operate	foundation	schemas	09efa4d202f917c8fafbe02758906309b233a0dd	unread
 scripts/audit-codebase.mjs	operate	delivery	scripts	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	operate	delivery	scripts	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-self-hosted.mjs	operate	delivery	scripts	c861dfad43cf06c3b7ecb2ab0d4336e2af8c605a	verified
+scripts/build-self-hosted.mjs	operate	delivery	scripts	a5b58fb1fbc0e413d55eaeb139a78a2f65aa8667	authored
 scripts/build-ui-report.mjs	operate	delivery	scripts	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-capability-surface.mjs	operate	delivery	scripts	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	operate	delivery	scripts	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
@@ -9398,8 +9399,10 @@ scripts/test-go-test-evidence.mjs	operate	delivery	scripts	b5583de0e3990833d120e
 scripts/test-guidance-contract.mjs	operate	delivery	scripts	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	operate	delivery	scripts	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	operate	delivery	scripts	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	operate	delivery	scripts	145c803baf155e5fcb24a9178a3e88c726cbde72	verified
+scripts/test-image-app.mjs	operate	delivery	scripts	4e1818f4a62d270ea18e26017342641b613f3db3	authored
 scripts/test-learning-content.mjs	operate	delivery	scripts	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
+scripts/test-login-failure.mjs	operate	delivery	scripts	09e59d34dad9500333a4ca70c02307a769d2c755	authored
+scripts/test-login-recovery.mjs	operate	delivery	scripts	d9ec8fbdf9447e5b6df935707738cc6d82595a69	authored
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-notification-matrix.mjs	operate	delivery	scripts	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
@@ -9409,7 +9412,7 @@ scripts/test-proxy-boundary.mjs	operate	delivery	scripts	31abb675903176cfdabe2db
 scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
-scripts/test-self-hosted-build.mjs	operate	delivery	scripts	8e2ed5db173f80b35f63d6b66b1dd83a9f21ceec	verified
+scripts/test-self-hosted-build.mjs	operate	delivery	scripts	52cfaaf0a1140b5bbf8ece61377ef044824ba6a8	authored
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
