@@ -1,4 +1,9 @@
 /* eslint-disable no-await-in-loop -- Sequential requests verify the exact admission boundary. */
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+import staticServe from "@fastify/static";
 import fastify, { FastifyInstance } from "fastify";
 
 import { RateLimitError } from "@app/lib/errors";
@@ -69,6 +74,35 @@ describe("production request admission", () => {
       expect(denied.json<{ error: string }>().error).toContain("Too many requests");
       expect(denied.headers["retry-after"]).toBe("30");
       expect((await app.inject("/api/v1/vaultix/product")).statusCode).toBe(200);
+    }
+  });
+  test("static assets and the application shell cannot exhaust API admission", async () => {
+    const directory = mkdtempSync(join(tmpdir(), "vaultix-admission-"));
+    const app = await create();
+    app.setErrorHandler((error: Error, _request, reply) =>
+      reply.code(error instanceof RateLimitError ? 429 : 500).send({ error: error.name })
+    );
+    try {
+      mkdirSync(join(directory, "assets"));
+      writeFileSync(join(directory, "assets/app.js"), "/* fixture */");
+      await app.register(staticServe, { root: directory, wildcard: false, index: false });
+      app.get("/runtime-ui-env.js", async () => "/* fixture config */");
+      app.get("/*", async () => "<html>fixture</html>");
+      app.get("/api/assets/app.js", { config: { rateLimit: { max: 1 } } }, async () => ({ ok: true }));
+      for (let index = 0; index < 601; index += 1) {
+        expect((await app.inject(index % 2 ? "/assets/app.js" : "/organizations/example/projects")).statusCode).toBe(
+          200
+        );
+      }
+      expect((await app.inject("/runtime-ui-env.js")).statusCode).toBe(200);
+      expect(keys).toHaveLength(0);
+      expect((await app.inject("/api/v1/vaultix/catalog")).statusCode).toBe(200);
+      expect((await app.inject("/api/assets/app.js")).statusCode).toBe(200);
+      expect((await app.inject("/api/assets/app.js")).statusCode).toBe(429);
+      expect(keys.filter((key) => key.includes("/api/assets/app.js"))).toHaveLength(2);
+    } finally {
+      await app.close();
+      rmSync(directory, { recursive: true, force: true });
     }
   });
   test("fails closed without reflecting cache diagnostics", async () => {

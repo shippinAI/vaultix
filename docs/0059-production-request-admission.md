@@ -45,8 +45,9 @@ Software capabilities remain included. Operator rate-limit configuration and
 authorization remain in effect; existing instance configuration sync is retained.
 
 This intentionally begins enforcing limits on production deployments that
-previously had none. Clients must honor 429 and `Retry-After`. Existing static
-UI routes inherit the default budget, while their API calls use route budgets.
+previously had none. Clients must honor 429 and `Retry-After`. Static UI files, the runtime UI configuration and application shell do not consume
+API budgets; API paths remain metered. Static delivery needs separate edge
+capacity and abuse controls.
 Development mode is unchanged. No public domain, TLS configuration, owner
 account, database or cache volume is provisioned by this packet.
 
@@ -65,6 +66,13 @@ redaction, development fallback, required production cache and connection cleanu
 Build-orchestration fixtures verify both image gates and failure propagation.
 Actual source/image receipts are added after the canonical build succeeds.
 
+The first packaged run found a regression: repeated real UI navigation exhausted
+the shared fallback budget through static assets, then returned 429 JSON in place
+of the application shell. Static delivery is now identified from server route
+metadata and excluded from API accounting. The real browser checks were kept
+unchanged. The runner now records safe failure phase/status details and observes
+pending response-wait rejections so cleanup cannot mask the primary failure.
+
 The complete changed application, limiter configuration, native router and cache
 factory files were read, with registration order, route authentication hooks,
 instance limit injection/sync, installed Fastify Redis store, error handlers and
@@ -73,7 +81,7 @@ Source review is recorded by exact blob in `docs/code-audit/reviews.json`.
 
 Still open: account/tenant admission across addresses and endpoint aliases,
 distributed fairness, invalid-auth cost before `preValidation`, parser/connection
-abuse, static asset budget design, clock/window and provider failover behavior,
+abuse, edge/static admission, clock/window and provider failover behavior,
 cache durability/eviction, measured load/soak, public issuer enrollment and the
 rest of CLOUD-01 through CLOUD-08. Two replicas in this proof are not an HA or
 scaling topology. No whole-product parity or complete accessibility claim.

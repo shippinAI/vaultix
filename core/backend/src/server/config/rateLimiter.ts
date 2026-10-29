@@ -16,7 +16,21 @@ export const globalRateLimiterCfg = (redis: Redis | Cluster): RateLimitPluginOpt
     max: 600,
     redis,
     skipOnError: false,
-    allowList: (req) => req.url === "/healthcheck" || req.url === "/api/status",
+    allowList: (req) => {
+      if (req.url === "/healthcheck" || req.url === "/api/status") return true;
+      if (req.method !== "GET" && req.method !== "HEAD") return false;
+      // Static delivery must not consume the API fallback budget. These are server
+      // route metadata from @fastify/static and registerServeUI, never caller headers.
+      const route = req.routeOptions;
+      return (
+        ("file" in route.config &&
+          typeof route.config.file === "string" &&
+          "rootPath" in route.config &&
+          typeof route.config.rootPath === "string") ||
+        route.url === "/runtime-ui-env.js" ||
+        (route.url === "/*" && !req.url.startsWith("/api"))
+      );
+    },
     keyGenerator: (req) => req.realIp
   };
 };

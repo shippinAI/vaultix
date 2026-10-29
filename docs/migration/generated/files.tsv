@@ -2073,7 +2073,7 @@ core/backend/src/queue/index.ts	core/backend/src/queue	foundation	Go-domain-migr
 core/backend/src/queue/queue-service.ts	core/backend/src/queue	foundation	Go-domain-migration	ts	dbc8ff00fe562e90e74565749c5ee36bcd815d45	unread
 core/backend/src/server/app.ts	core/backend/src/server	foundation	Go-domain-migration	ts	d755cddbbbab063edb1c49117744915c714a3ad2	authored
 core/backend/src/server/boot-strap-check.ts	core/backend/src/server	foundation	Go-domain-migration	ts	a055a1a917595777e22cd0a662059d83e520acb2	unread
-core/backend/src/server/config/rateLimiter.ts	core/backend/src/server/config	foundation	Go-domain-migration	ts	d8a6b035b79b34233c3e74c230ca49f5b685ac40	authored
+core/backend/src/server/config/rateLimiter.ts	core/backend/src/server/config	foundation	Go-domain-migration	ts	5a16f25284ae3215fcf467b0d65854a0418db069	authored
 core/backend/src/server/lib/caching.ts	core/backend/src/server/lib	foundation	Go-domain-migration	ts	513f2f6358759ac6174cb6abd7c6fe85f1955a05	unread
 core/backend/src/server/lib/cookie.ts	core/backend/src/server/lib	foundation	Go-domain-migration	ts	a49ee3f8b4a9142feb8b802100496c2353a2600f	unread
 core/backend/src/server/lib/schemas.ts	core/backend/src/server/lib	foundation	Go-domain-migration	ts	32e7440da9bfe074e018f5fa2633eb13572a6bec	unread
@@ -2104,7 +2104,7 @@ core/backend/src/server/plugins/ip.ts	core/backend/src/server/plugins	foundation
 core/backend/src/server/plugins/maintenanceMode.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	d739901e50147bbb823ae72c27afb424fdffb92b	unread
 core/backend/src/server/plugins/primary-forwarding-mode.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	a470024af01560a653ca4d92596e51abcf1d080a	unread
 core/backend/src/server/plugins/product-identity.ts	core/backend/src/server/plugins	identity	Go-domain-migration	ts	cecd8c4c04e3e48bea922d3a17b944993f521d8d	verified
-core/backend/src/server/plugins/production-rate-limit.test.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	ece62390b5f3bc02042bb440e37af7d75fbe2be0	authored
+core/backend/src/server/plugins/production-rate-limit.test.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	506d1c27d9cf46a1e692c6c302a065f9ece00ea2	authored
 core/backend/src/server/plugins/production-rate-limit.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	10730936de8384d26dcd4a5917d48fe6f6672f40	authored
 core/backend/src/server/plugins/response-schema-hooks.ts	core/backend/src/server/plugins	foundation	Go-domain-migration	ts	392c001645aef68fde0d04ed74b67af553d3fc56	unread
 core/backend/src/server/plugins/secret-scanner-v2.ts	core/backend/src/server/plugins	secrets	Go-domain-migration	ts	3c0813be3220bed8811b4df99a98f88be494d668	unread
@@ -9398,7 +9398,7 @@ scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-guidance-contract.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	00db9a20eed750fd0ef48882796b6cbeb6f73246	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	145c803baf155e5fcb24a9178a3e88c726cbde72	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified

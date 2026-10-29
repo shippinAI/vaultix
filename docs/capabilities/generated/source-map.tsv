@@ -2073,7 +2073,7 @@ core/backend/src/queue/index.ts	operate	foundation	core/backend/src/queue	4547a9
 core/backend/src/queue/queue-service.ts	operate	foundation	core/backend/src/queue	dbc8ff00fe562e90e74565749c5ee36bcd815d45	unread
 core/backend/src/server/app.ts	operate	foundation	core/backend/src/server	d755cddbbbab063edb1c49117744915c714a3ad2	authored
 core/backend/src/server/boot-strap-check.ts	operate	foundation	core/backend/src/server	a055a1a917595777e22cd0a662059d83e520acb2	unread
-core/backend/src/server/config/rateLimiter.ts	operate	foundation	core/backend/src/server/config	d8a6b035b79b34233c3e74c230ca49f5b685ac40	authored
+core/backend/src/server/config/rateLimiter.ts	operate	foundation	core/backend/src/server/config	5a16f25284ae3215fcf467b0d65854a0418db069	authored
 core/backend/src/server/lib/caching.ts	operate	foundation	core/backend/src/server/lib	513f2f6358759ac6174cb6abd7c6fe85f1955a05	unread
 core/backend/src/server/lib/cookie.ts	operate	foundation	core/backend/src/server/lib	a49ee3f8b4a9142feb8b802100496c2353a2600f	unread
 core/backend/src/server/lib/schemas.ts	operate	foundation	core/backend/src/server/lib	32e7440da9bfe074e018f5fa2633eb13572a6bec	unread
@@ -2104,7 +2104,7 @@ core/backend/src/server/plugins/ip.ts	operate	foundation	core/backend/src/server
 core/backend/src/server/plugins/maintenanceMode.ts	operate	foundation	core/backend/src/server/plugins	d739901e50147bbb823ae72c27afb424fdffb92b	unread
 core/backend/src/server/plugins/primary-forwarding-mode.ts	operate	foundation	core/backend/src/server/plugins	a470024af01560a653ca4d92596e51abcf1d080a	unread
 core/backend/src/server/plugins/product-identity.ts	access	identity	core/backend/src/server/plugins	cecd8c4c04e3e48bea922d3a17b944993f521d8d	verified
-core/backend/src/server/plugins/production-rate-limit.test.ts	operate	foundation	core/backend/src/server/plugins	ece62390b5f3bc02042bb440e37af7d75fbe2be0	authored
+core/backend/src/server/plugins/production-rate-limit.test.ts	operate	foundation	core/backend/src/server/plugins	506d1c27d9cf46a1e692c6c302a065f9ece00ea2	authored
 core/backend/src/server/plugins/production-rate-limit.ts	operate	foundation	core/backend/src/server/plugins	10730936de8384d26dcd4a5917d48fe6f6672f40	authored
 core/backend/src/server/plugins/response-schema-hooks.ts	operate	foundation	core/backend/src/server/plugins	392c001645aef68fde0d04ed74b67af553d3fc56	unread
 core/backend/src/server/plugins/secret-scanner-v2.ts	secrets	secrets	core/backend/src/server/plugins	3c0813be3220bed8811b4df99a98f88be494d668	unread
@@ -9398,7 +9398,7 @@ scripts/test-go-test-evidence.mjs	operate	delivery	scripts	b5583de0e3990833d120e
 scripts/test-guidance-contract.mjs	operate	delivery	scripts	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	operate	delivery	scripts	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	operate	delivery	scripts	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	operate	delivery	scripts	00db9a20eed750fd0ef48882796b6cbeb6f73246	verified
+scripts/test-image-app.mjs	operate	delivery	scripts	145c803baf155e5fcb24a9178a3e88c726cbde72	authored
 scripts/test-learning-content.mjs	operate	delivery	scripts	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified

@@ -124,11 +124,16 @@ try {
   await expect(page.getByRole("heading", { name: "Secrets Management", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Create Project", exact: true })).toBeVisible();
   await page.screenshot({ path: resolve(evidence, "secrets-projects.png"), fullPage: true });
+  phase = "project-creation";
   await page.getByRole("button", { name: "Create Project", exact: true }).click();
   const createProject = page.getByRole("dialog", { name: "Create a New Secrets Management Project" });
   await createProject.getByLabel("Project Name", { exact: true }).fill("Vaultix Lifecycle Proof");
   const projectResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/projects" && response.request().method() === "POST");
   const overviewResponse = page.waitForResponse(response => new URL(response.url()).pathname === "/api/v1/dashboard/secrets-overview" && response.request().method() === "GET");
+  // Observe cleanup rejection even when an earlier assertion fails before these awaits.
+  // The original promises still reject at their awaited assertions.
+  void projectResponse.catch(() => {});
+  void overviewResponse.catch(() => {});
   await createProject.getByRole("button", { name: "Create Project", exact: true }).click();
   const createdResponse = await projectResponse;
   assert.equal(createdResponse.status(), 200, "Real project creation failed.");
@@ -238,6 +243,10 @@ try {
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {
+  writeFileSync(resolve(evidence, "failure.json"), JSON.stringify({ passed: false, phase,
+    errorType: error.name, ...(typeof error.actual === "number" ? { actual: error.actual } : {}),
+    ...(typeof error.expected === "number" ? { expected: error.expected } : {})
+  }, null, 2));
   console.error(`Application proof failed. Evidence directory: ${evidence}`);
   throw error;
 } finally {
