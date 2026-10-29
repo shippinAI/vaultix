@@ -1039,7 +1039,7 @@ docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bc
 docs/migration	foundation	supporting-tooling-or-contract	1	8d0090c8bb6227ba922035c34997da7ecd6bf1a5eba3c67968def3157c158bc4	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
 internal/api	cli	Go-client-Rust-injection-boundary	5	4fec49ba6bc17064b224025eb251be3784b35369a8d74207dccfc90c10423ba2	3	unassessed
-internal/cli	cli	Go-client-Rust-injection-boundary	9	30d853ff8c14b917c978b06742f4a7b21eac08fd9b42b431576226f8bf2f5c26	6	unassessed
+internal/cli	cli	Go-client-Rust-injection-boundary	9	57a0bb67c9d8913d09cdb10e34a6e69390fbfa0e0a2c6313c767a674b84528f3	6	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	2	c18511dbbef8d8e63b3ffda8169a53e3d7dec87abceb9b0dee330aea47d1b9d0	2	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	5	216cd3fbc849aa03bb111243611e0fcaa49466dc4eae14e6f01f6a4554cfcf3b	2	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed

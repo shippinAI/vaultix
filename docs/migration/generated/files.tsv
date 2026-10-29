@@ -9298,8 +9298,8 @@ internal/cli/auth_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	
 internal/cli/auth_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	e0d71e96888eb56193aeae9fe09247c4881f6053	authored
 internal/cli/config.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	2f36f9e5551fb2b4cc101b926f2175da179db7fe	authored
 internal/cli/login_mode_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	0ab7acc64074feb76b068683f9a4b3cd50c52020	unread
-internal/cli/mcp.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	797d65f619081b999f805ef1f6cbbe780a64052b	authored
-internal/cli/mcp_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	ed91305010cbd2ae15052312fdc20c96f41c6329	authored
+internal/cli/mcp.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	7d560195a2f558a67ebc53cfbe2e4f42add1837a	authored
+internal/cli/mcp_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	be669bdade07fe42cb3891c6325dbdbea65529d0	authored
 internal/cli/run_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	f35d6a2ed856fe2bf85c6c0fc1c5adb1d7130aea	unread
 internal/cli/session.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	58f9c129daff83559f937662e1f46b646cbdd9a8	authored
 internal/cli/sync_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	b403a49edd3df35ce07b739c3b4b81d4ced9fcf7	unread

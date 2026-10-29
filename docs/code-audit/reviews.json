@@ -4451,10 +4451,10 @@
     },
     {
       "path": "internal/cli/mcp.go",
-      "blob": "797d65f619081b999f805ef1f6cbbe780a64052b",
+      "blob": "7d560195a2f558a67ebc53cfbe2e4f42add1837a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending. Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4463,10 +4463,10 @@
     },
     {
       "path": "internal/cli/mcp_test.go",
-      "blob": "ed91305010cbd2ae15052312fdc20c96f41c6329",
+      "blob": "be669bdade07fe42cb3891c6325dbdbea65529d0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending. Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",

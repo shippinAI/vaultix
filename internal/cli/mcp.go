@@ -2,14 +2,17 @@ package cli
 
 import (
 	"bufio"
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"path/filepath"
+	"strings"
+	"unicode/utf16"
+	"unicode/utf8"
 )
 
 // MCP serves newline-delimited stdio using the same core catalog as HTTP.
@@ -40,6 +43,23 @@ func MCP(ctx context.Context, stdin io.Reader, out io.Writer) error {
 
 type mcpCall func(context.Context, json.RawMessage) (json.RawMessage, error)
 
+// IDs use the same bounded string/safe-integer contract as the core endpoint.
+// Decode numbers before comparison so equivalent JSON spellings still match.
+func mcpID(raw json.RawMessage) (any, bool) {
+	var id any
+	if json.Unmarshal(raw, &id) != nil {
+		return nil, false
+	}
+	switch value := id.(type) {
+	case string:
+		return value, len(utf16.Encode([]rune(value))) <= 128
+	case float64:
+		return value, math.Trunc(value) == value && math.Abs(value) <= 9007199254740991
+	default:
+		return nil, false
+	}
+}
+
 func serveMCP(ctx context.Context, stdin io.Reader, out io.Writer, call mcpCall) error {
 	scanner := bufio.NewScanner(stdin)
 	scanner.Buffer(make([]byte, 4096), 16*1024+1)
@@ -54,8 +74,15 @@ func serveMCP(ctx context.Context, stdin io.Reader, out io.Writer, call mcpCall)
 			ID      json.RawMessage `json:"id"`
 			Method  string          `json:"method"`
 		}
-		if len(line) > 16*1024 || json.Unmarshal(line, &request) != nil || request.JSONRPC != "2.0" || request.Method == "" {
+		if len(line) > 16*1024 || !utf8.Valid(line) || json.Unmarshal(line, &request) != nil || request.JSONRPC != "2.0" || request.Method == "" || len(request.Method) > 128 {
 			if err := encoder.Encode(rpcError(nil, -32600, "Invalid MCP request.")); err != nil {
+				return err
+			}
+			continue
+		}
+		requestID, validID := mcpID(request.ID)
+		if (len(request.ID) > 0 && !validID) || (len(request.ID) == 0 && !strings.HasPrefix(request.Method, "notifications/")) {
+			if err := encoder.Encode(rpcError(nil, -32600, "Invalid MCP request ID.")); err != nil {
 				return err
 			}
 			continue
@@ -78,7 +105,9 @@ func serveMCP(ctx context.Context, stdin io.Reader, out io.Writer, call mcpCall)
 			Result  json.RawMessage `json:"result"`
 			Error   json.RawMessage `json:"error"`
 		}
-		if json.Unmarshal(response, &reply) != nil || reply.JSONRPC != "2.0" || !bytes.Equal(reply.ID, request.ID) || (len(reply.Result) == 0) == (len(reply.Error) == 0) {
+		decodeError := json.Unmarshal(response, &reply)
+		replyID, validReplyID := mcpID(reply.ID)
+		if decodeError != nil || !utf8.Valid(response) || reply.JSONRPC != "2.0" || !validReplyID || replyID != requestID || (len(reply.Result) == 0) == (len(reply.Error) == 0) {
 			if err := encoder.Encode(rpcError(request.ID, -32603, "Invalid Vaultix MCP response.")); err != nil {
 				return err
 			}
