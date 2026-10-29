@@ -33,7 +33,7 @@ import { globalRateLimiterCfg } from "./config/rateLimiter";
 import { apiMetrics } from "./plugins/api-metrics";
 import { fastifyErrHandler } from "./plugins/error-handler";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "./plugins/fastify-zod";
-import { fastifyIp } from "./plugins/ip";
+import { fastifyIp, resolveProxyTrust } from "./plugins/ip";
 import { maintenanceMode } from "./plugins/maintenanceMode";
 import { vaultixProductIdentity } from "./plugins/product-identity";
 import { registerResponseSchemaHooks } from "./plugins/response-schema-hooks";
@@ -77,9 +77,8 @@ export const main = async ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...(appCfg.NODE_ENV === "test" ? { logger: false } : { loggerInstance: logger }),
     genReqId: () => `req-${alphaNumericNanoId(14)}`,
-    // When TRUSTED_PROXY_CIDRS is configured, only requests from those sources have their
-    // forwarded-IP headers honored. Unset preserves legacy behavior (trust all) for backcompat.
-    trustProxy: appCfg.TRUSTED_PROXY_CIDRS ?? true,
+    // Direct clients cannot assert a source IP. Reverse proxies must be explicitly trusted.
+    trustProxy: resolveProxyTrust(appCfg.TRUSTED_PROXY_CIDRS),
 
     connectionTimeout: 100_000,
     ignoreTrailingSlash: true,

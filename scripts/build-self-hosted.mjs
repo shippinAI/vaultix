@@ -87,6 +87,7 @@ try {
   step("redis-application", bash, ["scripts/smoke-image.sh", report.imageId, "redis"], { VAULTIX_IMAGE_APP_PROOF: "0" });
   node("encrypted-recovery", "scripts/test-encrypted-recovery.mjs", report.imageId);
   node("tenant-isolation", "scripts/test-tenant-isolation.mjs", report.imageId);
+  node("proxy-boundary", "scripts/test-proxy-boundary.mjs", report.imageId);
   if (mode === "--capabilities") {
     step("native-test-image", "docker", ["build", "-f", dockerfile, "--target", "go-builder", "-t", "vaultix:verify-go", context]);
     for (const cache of ["dragonfly", "redis"]) node(`native-${cache}`, "scripts/test-go-core.mjs", report.imageId, cache);

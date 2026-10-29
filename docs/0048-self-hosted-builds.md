@@ -51,6 +51,8 @@ suite, followed by the disposable encrypted database recovery rehearsal in
 [0055](0055-encrypted-recovery.md). Recovery failure prevents a successful build
 receipt. The packaged machine-identity tenant checks in
 [0056](0056-machine-tenant-isolation.md) are also required before acceptance.
+The proxy-authority checks in [0058](0058-trusted-proxy-boundary.md) are mandatory;
+review its reverse-proxy upgrade instructions before deploying the new default.
 `--capabilities` additionally builds the Go/backend test stages and runs
 their existing integration suites against both caches plus backend unit tests.
 Run only one capability build per Docker daemon: the existing test-stage tags
