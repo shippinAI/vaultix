@@ -1,6 +1,6 @@
 # Project role refresh
 
-AUTH-01 / native React permission consumers. Implementation and acceptance in progress.
+AUTH-01 / native React permission consumers. Scoped refresh behavior accepted; full migration remains open.
 
 ## Work packet
 
@@ -84,4 +84,39 @@ real permissions request and its grant cookie, both retained only in memory.
 The failed harness receipt remains `role-development-session-fixture.json` in
 the same evidence directory. No product authorization was weakened to pass it.
 
-Committed-image acceptance remains pending.
+Committed-image acceptance is recorded below.
+
+
+## Committed-image acceptance, 2026-10-29
+
+Runtime/build source: `4bb6099f7bd8f51a83225993551037e8f35c40d0`.
+Image: `sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a`.
+
+All 16 canonical image/application gates pass in
+`.cache/assumed-workflow/.cache/self-hosted-build-MkuhE9/result.json`.
+The full real packaged browser suite passes in
+`.cache/assumed-workflow/.cache/app-image-proof-erNzpy/workflow-result.json`.
+Its `project-role-refresh.json` records all four real check groups, both
+same-document HTTP 200 role refreshes, the direct revoked update at HTTP 403,
+zero unexpected API responses and zero browser errors. No permission response,
+clock, hook or query cache is substituted. Existing UI/API surface baselines
+remain 273 routes and 2,290 operations.
+
+- encrypted-recovery-7elIHt: 9 checks pass with successful cleanup;
+  `.cache/assumed-workflow/.cache/encrypted-recovery-7elIHt/result.json`.
+- production-admission-Crfu88: 4 checks pass with successful cleanup;
+  `.cache/assumed-workflow/.cache/production-admission-Crfu88/result.json`.
+- production-admission-FAqQId: 4 checks pass with successful cleanup;
+  `.cache/assumed-workflow/.cache/production-admission-FAqQId/result.json`.
+- proxy-boundary-6UB55B: 4 checks pass with successful cleanup;
+  `.cache/assumed-workflow/.cache/proxy-boundary-6UB55B/result.json`.
+- tenant-isolation-It9Sgl: 11 checks pass with successful cleanup;
+  `.cache/assumed-workflow/.cache/tenant-isolation-It9Sgl/result.json`.
+
+Backend and Go source are unchanged from 43790961. This packet does not rerun
+or broaden the native/provider evidence in 0063/0064. It does not enable native
+forwarding, establish Nomen session ownership, prove other role consumers or
+organization refresh, or close manual accessibility and public-cloud gates.
+
+Reproduce with `node scripts/build-self-hosted.mjs`; the real role-refresh
+workflow is a mandatory part of its packaged application test.

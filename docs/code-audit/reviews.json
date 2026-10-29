@@ -267,9 +267,9 @@
     {
       "path": "scripts/test-image-app.mjs",
       "blob": "eb2255529030c8904aca901f2db9bf6486af6540",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
@@ -282,7 +282,10 @@
         "Canonical image sha256:b228ed4142c08edeb00408ae77622a191ef5aa4baf5253ac64b90c8f1b6bc3a1",
         "0064: packaged workflow, six route tests, 45 native grant integrations per cache and 16 image gates pass; scope and remaining manual/provider checks are explicit.",
         "docs/0065-project-role-refresh.md",
-        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending."
+        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending.",
+        "Runtime source 4bb6099f7bd8f51a83225993551037e8f35c40d0",
+        "Canonical image sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a",
+        "0065: exact packaged acceptance and unchanged backend/native boundary."
       ]
     },
     {
@@ -4190,23 +4193,29 @@
       "path": "core/frontend/src/context/ProjectPermissionContext/ProjectPermissionContext.tsx",
       "evidence": [
         "docs/0065-project-role-refresh.md",
-        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending."
+        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending.",
+        "Runtime source 4bb6099f7bd8f51a83225993551037e8f35c40d0",
+        "Canonical image sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a",
+        "0065: exact packaged acceptance and unchanged backend/native boundary."
       ],
       "blob": "7cec05d8c188771220e419c27484fa23d35a99bb",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read with query contract, ability evaluator and role-predicate consumers. Keep route/PAM project resolution, existing query/refresh policy, CASL evaluation and assumed-actor details. Bind the callback to current memberships so controls track the same server response as permissions. No server authorization or storage change. Baseline real-image revocation failure reproduced; frontend build/type/lint pass. Packaged acceptance pending; other consumers, organizations, query failures and native/Nomen ownership remain open."
+      "scope": "Complete file read with query contract, ability evaluator and role-predicate consumers. Keep route/PAM project resolution, existing query/refresh policy, CASL evaluation and assumed-actor details. Bind the callback to current memberships so controls track the same server response as permissions. No server authorization or storage change. Baseline real-image revocation failure reproduced; frontend build/type/lint pass. Packaged acceptance pending; other consumers, organizations, query failures and native/Nomen ownership remain open. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit."
     },
     {
       "path": "scripts/test-project-role-refresh.mjs",
       "evidence": [
         "docs/0065-project-role-refresh.md",
-        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending."
+        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending.",
+        "Runtime source 4bb6099f7bd8f51a83225993551037e8f35c40d0",
+        "Canonical image sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a",
+        "0065: exact packaged acceptance and unchanged backend/native boundary."
       ],
       "blob": "a8bcb4723e68a3f473fb64e7004beaaf2dfc4537",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file authored/read. Real disposable identity membership revocation/promotion, normal periodic permission refetch, retained dirty form, direct server denial, initially-viewer page, explicit single save and exit. No mocked response, accelerated clock, query-cache injection or secret-bearing receipt. Baseline failure recorded; four real development check groups pass; packaged acceptance pending."
+      "scope": "Complete file authored/read. Real disposable identity membership revocation/promotion, normal periodic permission refetch, retained dirty form, direct server denial, initially-viewer page, explicit single save and exit. No mocked response, accelerated clock, query-cache injection or secret-bearing receipt. Baseline failure recorded; four real development check groups pass; packaged acceptance pending. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit."
     }
   ]
 }
