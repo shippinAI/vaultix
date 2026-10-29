@@ -27,6 +27,7 @@ type AssumeProjectPrivilegesResult struct {
 
 // VerifyTokenOpts holds the input for verifying an assume privilege token.
 type VerifyTokenOpts struct {
+	RequesterID    uuid.UUID // From the authenticated session, never the cookie.
 	Token          string
 	TokenVersionID uuid.UUID
 	AuthMethod     auth.ActorAuthMethod

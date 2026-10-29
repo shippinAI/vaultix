@@ -184,11 +184,12 @@ func injectAssumePrivilege(ctx context.Context, w http.ResponseWriter, r *http.R
 
 	details, err := verifier.VerifyAssumePrivilegeToken(ctx, &assumeprivilege.VerifyTokenOpts{
 		Token:          cookie.Value,
+		RequesterID:    identity.ActorID,
 		TokenVersionID: identity.TokenVersionID,
 		AuthMethod:     identity.AuthMethod,
 		OrgID:          identity.OrgID,
 	})
-	if err != nil {
+	if err != nil || details == nil {
 		clearAssumePrivilegeCookie(w)
 		return ctx
 	}

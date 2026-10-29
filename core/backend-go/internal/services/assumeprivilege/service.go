@@ -2,8 +2,10 @@ package assumeprivilege
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"log/slog"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -15,7 +17,8 @@ import (
 	"github.com/vaultix/api/internal/services/permission/platform"
 )
 
-const tokenExpiry = time.Hour // 1 hour, matches Node.js
+// Existing application-issued grants expire one hour after issuance.
+const tokenExpiry = time.Hour
 
 // assumePrivilegeClaims is the JWT payload for assume privilege tokens.
 type assumePrivilegeClaims struct {
@@ -55,9 +58,13 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 }
 
 // AssumeProjectPrivileges creates an assume privilege token after verifying the requester has permission.
-// Port of assume-privilege-service.ts:24-76.
 func (s *Service) AssumeProjectPrivileges(ctx context.Context, opts *AssumeProjectPrivilegesOpts) (*AssumeProjectPrivilegesResult, error) {
-	// 1. Check requester has AssumePrivileges permission
+	if opts == nil || !supportedTarget(opts.TargetActorType) || opts.TargetActorID == uuid.Nil ||
+		opts.RequesterID == uuid.Nil || opts.RequesterOrgID == uuid.Nil || opts.TokenVersionID == uuid.Nil ||
+		strings.TrimSpace(opts.ProjectID) == "" || opts.AuthMethod == "" {
+		return nil, errutil.BadRequest("A valid requester session, project and member or machine identity are required")
+	}
+
 	permResult, err := s.permissionService.GetProjectPermission(ctx, &permission.GetProjectPermissionArgs{
 		Actor:             auth.ActorTypeUser,
 		ActorID:           opts.RequesterID,
@@ -82,7 +89,6 @@ func (s *Service) AssumeProjectPrivileges(ctx context.Context, opts *AssumeProje
 		}
 	}
 
-	// 2. Verify target actor is part of the project
 	_, err = s.permissionService.GetProjectPermission(ctx, &permission.GetProjectPermissionArgs{
 		Actor:             opts.TargetActorType,
 		ActorID:           opts.TargetActorID,
@@ -92,10 +98,14 @@ func (s *Service) AssumeProjectPrivileges(ctx context.Context, opts *AssumeProje
 		ActionProjectType: permission.ActionProjectTypeAny,
 	})
 	if err != nil {
-		return nil, errutil.BadRequest("Target actor is not a member of this project").WithErrf("AssumeProjectPrivileges: %w", err)
+		var failure *errutil.Error
+		if errors.As(err, &failure) && (failure.Status == http.StatusForbidden || failure.Status == http.StatusNotFound) {
+			return nil, errutil.BadRequest("Target actor is not a member of this project").WithErr(err)
+		}
+		// An unavailable authority store is not a target-membership mistake.
+		return nil, err
 	}
 
-	// 3. Create JWT token
 	now := time.Now()
 	claims := assumePrivilegeClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -124,40 +134,37 @@ func (s *Service) AssumeProjectPrivileges(ctx context.Context, opts *AssumeProje
 }
 
 // VerifyAssumePrivilegeToken verifies an assume privilege token and returns the decoded details.
-// Port of assume-privilege-service.ts:78-118.
 func (s *Service) VerifyAssumePrivilegeToken(ctx context.Context, opts *VerifyTokenOpts) (*auth.AssumedPrivilegeDetails, error) {
-	// 1. Parse and verify JWT
-	claims := &assumePrivilegeClaims{}
-	_, err := jwt.ParseWithClaims(opts.Token, claims, func(t *jwt.Token) (any, error) {
-		if t.Method.Alg() != jwt.SigningMethodHS256.Alg() {
-			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
-		}
-		return s.authSecret, nil
-	})
-	if err != nil {
-		return nil, errutil.Unauthorized("Invalid assume privilege token").WithErrf("VerifyAssumePrivilegeToken: %w", err)
+	if opts == nil || opts.RequesterID == uuid.Nil || opts.TokenVersionID == uuid.Nil || opts.OrgID == uuid.Nil || opts.AuthMethod == "" {
+		return nil, errutil.Unauthorized("Sign in again before assuming privileges")
 	}
-
-	// 2. Verify tokenVersionId matches (ensures token is invalidated on logout)
-	if claims.TokenVersionID != opts.TokenVersionID.String() {
+	claims := &assumePrivilegeClaims{}
+	_, err := jwt.ParseWithClaims(opts.Token, claims, func(_ *jwt.Token) (any, error) {
+		return s.authSecret, nil
+	}, jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}), jwt.WithExpirationRequired(), jwt.WithIssuedAt())
+	if err != nil {
+		return nil, errutil.Unauthorized("Invalid assume privilege token")
+	}
+	if claims.IssuedAt == nil || claims.ExpiresAt == nil || !supportedTarget(auth.ActorType(claims.ActorType)) || strings.TrimSpace(claims.ProjectID) == "" {
+		return nil, errutil.Unauthorized("Invalid assume privilege token")
+	}
+	lifetime := claims.ExpiresAt.Sub(claims.IssuedAt.Time)
+	if lifetime <= 0 || lifetime > tokenExpiry {
+		return nil, errutil.Unauthorized("Invalid assume privilege token")
+	}
+	requesterID, requesterErr := uuid.Parse(claims.RequesterID)
+	actorID, actorErr := uuid.Parse(claims.ActorID)
+	tokenVersionID, sessionErr := uuid.Parse(claims.TokenVersionID)
+	if requesterErr != nil || actorErr != nil || sessionErr != nil || requesterID == uuid.Nil || actorID == uuid.Nil || tokenVersionID == uuid.Nil {
+		return nil, errutil.Unauthorized("Invalid assume privilege token")
+	}
+	if tokenVersionID != opts.TokenVersionID {
 		return nil, errutil.Forbidden("Invalid token version")
 	}
-
-	// 3. Parse UUIDs
-	requesterID, err := uuid.Parse(claims.RequesterID)
-	if err != nil {
-		return nil, errutil.Unauthorized("Invalid requester ID in token")
-	}
-	actorID, err := uuid.Parse(claims.ActorID)
-	if err != nil {
-		return nil, errutil.Unauthorized("Invalid actor ID in token")
-	}
-	tokenVersionID, err := uuid.Parse(claims.TokenVersionID)
-	if err != nil {
-		return nil, errutil.Unauthorized("Invalid token version ID in token")
+	if requesterID != opts.RequesterID {
+		return nil, errutil.Forbidden("Assumed privileges belong to another account")
 	}
 
-	// 4. Re-verify requester still has AssumePrivileges permission
 	permResult, err := s.permissionService.GetProjectPermission(ctx, &permission.GetProjectPermissionArgs{
 		Actor:             auth.ActorTypeUser,
 		ActorID:           requesterID,
@@ -189,4 +196,8 @@ func (s *Service) VerifyAssumePrivilegeToken(ctx context.Context, opts *VerifyTo
 		ActorType:      actorType,
 		ActorID:        actorID,
 	}, nil
+}
+
+func supportedTarget(actor auth.ActorType) bool {
+	return actor == auth.ActorTypeUser || actor == auth.ActorTypeIdentity
 }

@@ -102,6 +102,9 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 // Each query fails closed; an unavailable primary must never fall back to a replica.
 // These separate reads do not form a serializable authorization snapshot.
 func (p *Service) GetProjectPermission(ctx context.Context, args *GetProjectPermissionArgs) (*GetProjectPermissionResult, error) {
+	// An assumed actor is local to this resolution; callers retain their verified identity.
+	effectiveArgs := *args
+	args = &effectiveArgs
 	// 1. SERVICE actor → delegate to service token path
 	if args.Actor == auth.ActorTypeService {
 		return p.getServiceTokenProjectPermission(ctx, args.ActorID.String(), args.ProjectID, args.ActorOrgID, args.ActionProjectType)

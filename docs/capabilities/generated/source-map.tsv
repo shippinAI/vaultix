@@ -126,9 +126,10 @@ core/backend-go/internal/server/middlewares/security.go	operate	foundation	core/
 core/backend-go/internal/server/middlewares/timeout.go	operate	foundation	core/backend-go/internal/server/middlewares	bc88d0a6f73e3c6eec74d4c7331da0b8204f7b08	unread
 core/backend-go/internal/server/middlewares/timeout_test.go	operate	foundation	core/backend-go/internal/server/middlewares	88c717b30e6dc96985dbd047798acfb182b7d070	unread
 core/backend-go/internal/server/server.go	operate	foundation	core/backend-go/internal/server	c947b0f9f95d421a813662953bfd2509ad95199f	unread
-core/backend-go/internal/services/assumeprivilege/service.go	access	authorization	core/backend-go/internal/services/assumeprivilege	6032a3ebcf0d42070ebe4477e7ca6d4a6162127b	unread
-core/backend-go/internal/services/assumeprivilege/service_test.go	access	authorization	core/backend-go/internal/services/assumeprivilege	0b4ff8cbf7c74511c7260669f6c814034f1b3727	unread
-core/backend-go/internal/services/assumeprivilege/types.go	access	authorization	core/backend-go/internal/services/assumeprivilege	884a80f66952c918d2ebca4f4f3811241b129dc1	unread
+core/backend-go/internal/services/assumeprivilege/claim_boundary_test.go	access	authorization	core/backend-go/internal/services/assumeprivilege	199f5fabbe5558749fd7e03dd20571e55556ad9c	authored
+core/backend-go/internal/services/assumeprivilege/service.go	access	authorization	core/backend-go/internal/services/assumeprivilege	741e82e9e22c49c65721a760fe7b3baa94174531	authored
+core/backend-go/internal/services/assumeprivilege/service_test.go	access	authorization	core/backend-go/internal/services/assumeprivilege	28fda7f87d55094e57a89417dd7c4b4f950a254f	authored
+core/backend-go/internal/services/assumeprivilege/types.go	access	authorization	core/backend-go/internal/services/assumeprivilege	8680f7d30529f6733752d60c247cba7c3cf17fb4	authored
 core/backend-go/internal/services/auditlog/actor.go	governance	audit	core/backend-go/internal/services/auditlog	c0bedc8fc1ca56e0ba137b163d4ccc3133a40dfd	unread
 core/backend-go/internal/services/auditlog/auditlog.go	governance	audit	core/backend-go/internal/services/auditlog	550924a5bb2e1902ca3de54c3ebfcc2f24c0406a	unread
 core/backend-go/internal/services/auditlog/event.go	governance	audit	core/backend-go/internal/services/auditlog	9641ec20666ef81dc0bdf23553fe3ba4eb2f1788	unread
@@ -143,7 +144,7 @@ core/backend-go/internal/services/auth/apiauth/classify.go	access	identity	core/
 core/backend-go/internal/services/auth/apiauth/classify_test.go	access	identity	core/backend-go/internal/services/auth	e775803f3d4a69e2bab60458a081f1c073042bba	unread
 core/backend-go/internal/services/auth/apiauth/ip.go	access	identity	core/backend-go/internal/services/auth	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	unread
 core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go	access	identity	core/backend-go/internal/services/auth	49e36906f087c580b976745525f0d6f4666e39c6	verified
-core/backend-go/internal/services/auth/apiauth/require_auth.go	access	identity	core/backend-go/internal/services/auth	3a12eb29bcd4370952458de4f08ae0dbc927a41d	unread
+core/backend-go/internal/services/auth/apiauth/require_auth.go	access	identity	core/backend-go/internal/services/auth	57a239176f1b3995ba737961b010f9b13b077c84	authored
 core/backend-go/internal/services/auth/apiauth/revocation.go	access	identity	core/backend-go/internal/services/auth	a41d178d9d78cc65fabbcf7abecb20b935b45bb4	verified
 core/backend-go/internal/services/auth/apiauth/revocation_test.go	access	identity	core/backend-go/internal/services/auth	b7f5a4fda5d5bd84bee1698fe5d2f9135e9da785	verified
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	access	identity	core/backend-go/internal/services/auth	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
@@ -154,7 +155,7 @@ core/backend-go/internal/services/kms/kms_org.go	kms	kms	core/backend-go/interna
 core/backend-go/internal/services/kms/kms_project.go	kms	kms	core/backend-go/internal/services/kms	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
 core/backend-go/internal/services/permission/operators.go	access	authorization	core/backend-go/internal/services/permission	93d7d70e379391ec044ce6915491044b587be0ab	unread
 core/backend-go/internal/services/permission/operators_test.go	access	authorization	core/backend-go/internal/services/permission	5d9b8486e04ced6a39bb5ef98424652daab6a07b	unread
-core/backend-go/internal/services/permission/permission.go	access	authorization	core/backend-go/internal/services/permission	9e49d75a7b4658b66cc28e1695b7c46beed973e3	verified
+core/backend-go/internal/services/permission/permission.go	access	authorization	core/backend-go/internal/services/permission	f234ddffaa1570d24e72d25ead040197d502dc56	authored
 core/backend-go/internal/services/permission/permission_test.go	access	authorization	core/backend-go/internal/services/permission	5aaabe24be6d2d85409675b739a6e1cfde92fb86	unread
 core/backend-go/internal/services/permission/platform/assume_privilege_permission.go	access	authorization	core/backend-go/internal/services/permission	7311d57dde5c3fab5e3325a2929d6ed5beed2fde	unread
 core/backend-go/internal/services/permission/project/actions.go	access	authorization	core/backend-go/internal/services/permission	53d158128c2118e9e0e69e2e8935fd945ceadaac	unread
@@ -204,6 +205,7 @@ core/backend-go/tests/platform/externalkms/externalkms_test.go	kms	kms	core/back
 core/backend-go/tests/platform/hsm/hsm_test.go	kms	kms	core/backend-go/tests/platform/hsm	b6802db6984e80cad8679070f62c82ddb891d511	unread
 core/backend-go/tests/platform/keystore/counter_test.go	kms	kms	core/backend-go/tests/platform/keystore	e878e500a414345e63bcd0398c45473653ecfd9c	verified
 core/backend-go/tests/platform/kms/kms_test.go	kms	kms	core/backend-go/tests/platform/kms	8b5ad161edb1503e5a611d9fa0715bb560bd4ba6	unread
+core/backend-go/tests/platform/permission/assumed_authority_test.go	access	authorization	core/backend-go/tests/platform/permission	e00b50bc3609398aab2ce19b6e2b98ba3b8039d8	authored
 core/backend-go/tests/platform/permission/authority_test.go	access	authorization	core/backend-go/tests/platform/permission	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	verified
 core/backend-go/tests/platform/permission/permission_test.go	access	authorization	core/backend-go/tests/platform/permission	cbdbb1cf1b210d8bb4abf6018a0910c7761742a6	unread
 core/backend-go/tests/platform/permission/sso_session_test.go	access	authorization	core/backend-go/tests/platform/permission	82c7c6937c83756767155c38cb3c52d47dfd5fab	verified

@@ -247,6 +247,7 @@ func TestVerifyAssumePrivilegeToken_Success(t *testing.T) {
 
 	// Now verify the token
 	verifyOpts := &VerifyTokenOpts{
+		RequesterID:    createOpts.RequesterID,
 		Token:          createResult.AssumePrivilegesToken,
 		TokenVersionID: tokenVersionID,
 		AuthMethod:     "jwt",
@@ -275,6 +276,7 @@ func TestVerifyAssumePrivilegeToken_InvalidToken(t *testing.T) {
 	})
 
 	verifyOpts := &VerifyTokenOpts{
+		RequesterID:    uuid.New(),
 		Token:          "invalid-token",
 		TokenVersionID: uuid.New(),
 		AuthMethod:     "jwt",
@@ -320,6 +322,7 @@ func TestVerifyAssumePrivilegeToken_TokenVersionMismatch(t *testing.T) {
 
 	// Verify with DIFFERENT token version ID (simulates logout/session change)
 	verifyOpts := &VerifyTokenOpts{
+		RequesterID:    createOpts.RequesterID,
 		Token:          createResult.AssumePrivilegesToken,
 		TokenVersionID: uuid.New(), // Different!
 		AuthMethod:     "jwt",
@@ -361,6 +364,7 @@ func TestVerifyAssumePrivilegeToken_ExpiredToken(t *testing.T) {
 	require.NoError(t, err)
 
 	verifyOpts := &VerifyTokenOpts{
+		RequesterID:    uuid.MustParse(claims.RequesterID),
 		Token:          signedToken,
 		TokenVersionID: tokenVersionID,
 		AuthMethod:     "jwt",
@@ -412,6 +416,7 @@ func TestVerifyAssumePrivilegeToken_RequesterLostPermission(t *testing.T) {
 	}
 
 	verifyOpts := &VerifyTokenOpts{
+		RequesterID:    createOpts.RequesterID,
 		Token:          createResult.AssumePrivilegesToken,
 		TokenVersionID: tokenVersionID,
 		AuthMethod:     "jwt",
