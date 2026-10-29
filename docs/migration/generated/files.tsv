@@ -154,7 +154,7 @@ core/backend-go/internal/services/kms/kms_org.go	core/backend-go/internal/servic
 core/backend-go/internal/services/kms/kms_project.go	core/backend-go/internal/services/kms	kms	Go-native	go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
 core/backend-go/internal/services/permission/operators.go	core/backend-go/internal/services/permission	authorization	Go-native	go	93d7d70e379391ec044ce6915491044b587be0ab	unread
 core/backend-go/internal/services/permission/operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	unread
-core/backend-go/internal/services/permission/permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	1ec4431d2051e5a9efb7b61cb876c3a3691b7e60	authored
+core/backend-go/internal/services/permission/permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	1ec4431d2051e5a9efb7b61cb876c3a3691b7e60	verified
 core/backend-go/internal/services/permission/permission_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	5aaabe24be6d2d85409675b739a6e1cfde92fb86	unread
 core/backend-go/internal/services/permission/platform/assume_privilege_permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	7311d57dde5c3fab5e3325a2929d6ed5beed2fde	unread
 core/backend-go/internal/services/permission/project/actions.go	core/backend-go/internal/services/permission	authorization	Go-native	go	53d158128c2118e9e0e69e2e8935fd945ceadaac	unread
@@ -201,7 +201,7 @@ core/backend-go/tests/platform/externalkms/externalkms_test.go	core/backend-go/t
 core/backend-go/tests/platform/hsm/hsm_test.go	core/backend-go/tests/platform/hsm	kms	Go-native	go	b6802db6984e80cad8679070f62c82ddb891d511	unread
 core/backend-go/tests/platform/keystore/counter_test.go	core/backend-go/tests/platform/keystore	kms	Go-native	go	e878e500a414345e63bcd0398c45473653ecfd9c	verified
 core/backend-go/tests/platform/kms/kms_test.go	core/backend-go/tests/platform/kms	kms	Go-native	go	8b5ad161edb1503e5a611d9fa0715bb560bd4ba6	unread
-core/backend-go/tests/platform/permission/authority_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	authored
+core/backend-go/tests/platform/permission/authority_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	verified
 core/backend-go/tests/platform/permission/permission_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	cbdbb1cf1b210d8bb4abf6018a0910c7761742a6	unread
 core/backend-go/tests/platform/projects/projects_test.go	core/backend-go/tests/platform/projects	secrets	Go-native	go	d0da91674b456a9921add9d8a3a8f40a034f26e3	verified
 core/backend-go/tests/platform/ratelimit/ratelimit_test.go	core/backend-go/tests/platform/ratelimit	foundation	Go-native	go	e0b33da24234dcb80063a8b7e32e85dbcde951b3	unread
