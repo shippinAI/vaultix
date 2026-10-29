@@ -9,8 +9,6 @@ import cors from "@fastify/cors";
 import fastifyEtag from "@fastify/etag";
 import fastifyFormBody from "@fastify/formbody";
 import helmet from "@fastify/helmet";
-import type { FastifyRateLimitOptions } from "@fastify/rate-limit";
-import ratelimiter from "@fastify/rate-limit";
 import { fastifyRequestContext } from "@fastify/request-context";
 import websocket from "@fastify/websocket";
 import fastify from "fastify";
@@ -29,13 +27,13 @@ import { TKmsRootConfigDALFactory } from "@app/services/kms/kms-root-config-dal"
 import { TSmtpService } from "@app/services/smtp/smtp-service";
 import { TSuperAdminDALFactory } from "@app/services/super-admin/super-admin-dal";
 
-import { globalRateLimiterCfg } from "./config/rateLimiter";
 import { apiMetrics } from "./plugins/api-metrics";
 import { fastifyErrHandler } from "./plugins/error-handler";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "./plugins/fastify-zod";
 import { fastifyIp, resolveProxyTrust } from "./plugins/ip";
 import { maintenanceMode } from "./plugins/maintenanceMode";
 import { vaultixProductIdentity } from "./plugins/product-identity";
+import { productionRateLimit } from "./plugins/production-rate-limit";
 import { registerResponseSchemaHooks } from "./plugins/response-schema-hooks";
 import { registerServeUI } from "./plugins/serve-ui";
 import { fastifySwagger } from "./plugins/swagger";
@@ -127,7 +125,7 @@ export const main = async ({
     });
 
     await server.register(registerResponseSchemaHooks);
-    // pull ip based on various proxy headers
+    // Resolve the client address using the explicit proxy trust policy.
     await server.register(fastifyIp);
 
     if (appCfg.OTEL_TELEMETRY_COLLECTION_ENABLED) {
@@ -143,9 +141,7 @@ export const main = async ({
     await server.register(fastifyErrHandler);
 
     // Rate limiters and security headers
-    if (appCfg.isProductionMode && appCfg.isCloud) {
-      await server.register<FastifyRateLimitOptions>(ratelimiter, globalRateLimiterCfg());
-    }
+    await server.register(productionRateLimit);
 
     await server.register(helmet, { contentSecurityPolicy: false });
 

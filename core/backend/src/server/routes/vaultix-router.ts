@@ -3,7 +3,13 @@ import rateLimit from "@fastify/rate-limit";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 
-import { BadRequestError, ForbiddenRequestError, NotFoundError, UnauthorizedError } from "@app/lib/errors";
+import {
+  BadRequestError,
+  ForbiddenRequestError,
+  NotFoundError,
+  RateLimitError,
+  UnauthorizedError
+} from "@app/lib/errors";
 import { ActorType, AuthMode } from "@app/services/auth/auth-type";
 import {
   buildVaultixLearningMemory,
@@ -55,13 +61,18 @@ export const registerVaultixRouter = async (
     await options.auditReferences?.(request, { ...query, count: result.references.length });
     return result;
   };
-  await server.register(rateLimit, { max: 120, timeWindow: "1 minute" });
+  // Production inherits the shared cache-backed limiter. Development and isolated
+  // route tests retain local limits without registering a second production budget.
+  if (!server.hasDecorator("rateLimit")) {
+    await server.register(rateLimit, { max: 120, timeWindow: "1 minute" });
+  }
   server.setErrorHandler((error, _request, reply) => {
     const code =
       error instanceof Error && "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : 500;
     let status = code >= 400 && code < 500 ? code : 500;
     if (error instanceof UnauthorizedError || error instanceof jwt.JsonWebTokenError) status = 401;
     else if (error instanceof BadRequestError) status = 400;
+    else if (error instanceof RateLimitError) status = 429;
     else if (
       error instanceof NotFoundError ||
       error instanceof ForbiddenRequestError ||
@@ -73,6 +84,7 @@ export const registerVaultixRouter = async (
     const messages: Record<number, string> = {
       401: "Sign in to access your vault.",
       404: "This resource is unavailable.",
+      429: "Too many requests. Wait for the Retry-After interval and try again.",
       500: "Vaultix could not complete the request."
     };
     return reply.code(status).send({ error: messages[status] ?? "Invalid Vaultix request." });
@@ -205,6 +217,7 @@ export const registerVaultixRouter = async (
   server.route({
     method: ["GET", "DELETE"],
     url: "/mcp",
+    config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     handler: async (_request, reply) =>
       reply.header("Allow", "POST").code(405).send({ error: "Use POST for the stateless Vaultix MCP endpoint." })
   });

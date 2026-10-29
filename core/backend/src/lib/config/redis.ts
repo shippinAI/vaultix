@@ -1,4 +1,4 @@
-import { Cluster, Redis } from "ioredis";
+import { Cluster, Redis, RedisOptions } from "ioredis";
 
 import { logger } from "@app/lib/logger";
 
@@ -86,11 +86,15 @@ export const attachConnectionLogging = (client: Redis | Cluster, name: string) =
   return client;
 };
 
-export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown") => {
+// Request admission needs bounded cache calls; queue clients retain their existing retry policy.
+type RequestOptions = Pick<RedisOptions, "commandTimeout" | "maxRetriesPerRequest" | "enableOfflineQueue">;
+
+export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown", requestOptions: RequestOptions = {}) => {
   if (cfg.REDIS_URL) {
     return attachConnectionLogging(
       new Redis(cfg.REDIS_URL, {
         maxRetriesPerRequest: null,
+        ...requestOptions,
         ...(cfg.REDIS_USERNAME ? { username: cfg.REDIS_USERNAME } : {}),
         ...(cfg.REDIS_PASSWORD ? { password: cfg.REDIS_PASSWORD } : {}),
         reconnectOnError(err) {
@@ -109,12 +113,16 @@ export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown") =>
   if (cfg.REDIS_CLUSTER_HOSTS) {
     return attachConnectionLogging(
       new Redis.Cluster(cfg.REDIS_CLUSTER_HOSTS, {
+        ...(requestOptions.enableOfflineQueue === undefined
+          ? {}
+          : { enableOfflineQueue: requestOptions.enableOfflineQueue }),
         dnsLookup: cfg.REDIS_CLUSTER_AWS_ELASTICACHE_DNS_LOOKUP_MODE
           ? (address, callback) => callback(null, address)
           : undefined,
         retryDelayOnClusterDown: 300,
         redisOptions: {
           maxRetriesPerRequest: null,
+          ...requestOptions,
           username: cfg.REDIS_USERNAME,
           password: cfg.REDIS_PASSWORD,
           tls: cfg?.REDIS_CLUSTER_ENABLE_TLS ? {} : undefined,
@@ -137,6 +145,7 @@ export const buildRedisFromConfig = (cfg: TRedisConfigKeys, name = "unknown") =>
       sentinels: cfg.REDIS_SENTINEL_HOSTS!,
       name: cfg.REDIS_SENTINEL_MASTER_NAME!,
       maxRetriesPerRequest: null,
+      ...requestOptions,
       sentinelUsername: cfg.REDIS_SENTINEL_USERNAME,
       sentinelPassword: cfg.REDIS_SENTINEL_PASSWORD,
       enableTLSForSentinelMode: cfg.REDIS_SENTINEL_ENABLE_TLS,

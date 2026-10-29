@@ -69,12 +69,16 @@ cp.spawnSync=(name,args,options)=>{
     assert.equal(args[1],'${imageId}','Proxy checks must use the verified immutable image');
     if(process.env.FIXTURE_CASE==='proxy-failure') return {status:26};
   }
+  if(args[0]==='scripts/test-production-admission.mjs') {
+    assert.equal(args[1],'${imageId}','Admission must use the verified immutable image');
+    if(process.env.FIXTURE_CASE==='admission-failure' && args[2]==='redis') return {status:27};
+  }
   return {status:0};
 };
 syncBuiltinESMExports();
 `);
 const cases = [];
-for (const name of ["preflight", "application", "capabilities", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "source-change", "tag-change"]) {
+for (const name of ["preflight", "application", "capabilities", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
   for (const dir of ["scripts", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
@@ -114,9 +118,11 @@ for (const name of ["preflight", "application", "capabilities", "dirty", "locked
     if (name === "recovery-failure") assert.equal(report.steps.at(-1).name, "encrypted-recovery");
     if (name === "isolation-failure") assert.equal(report.steps.at(-1).name, "tenant-isolation");
     if (name === "proxy-failure") assert.equal(report.steps.at(-1).name, "proxy-boundary");
+    if (name === "admission-failure") assert.equal(report.steps.at(-1).name, "admission-redis");
     if (accepted) assert.ok(report.steps.some(step => step.name === "encrypted-recovery" && step.passed));
     if (accepted) assert.ok(report.steps.some(step => step.name === "tenant-isolation" && step.passed));
     if (accepted) assert.ok(report.steps.some(step => step.name === "proxy-boundary" && step.passed));
+    if (accepted) for (const cache of ["dragonfly", "redis"]) assert.ok(report.steps.some(step => step.name === `admission-${cache}` && step.passed));
     if (name === "capabilities") assert.equal(report.steps.at(-1).name, "backend-redis");
   }
   assert.equal(existsSync(lock), name === "locked", "Release only the lock owned by this invocation");

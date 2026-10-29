@@ -1,13 +1,11 @@
-import type { RateLimitOptions, RateLimitPluginOptions } from "@fastify/rate-limit";
+import { createHash } from "node:crypto";
 
-import { getConfig } from "@app/lib/config/env";
-import { buildRedisFromConfig } from "@app/lib/config/redis";
+import type { RateLimitOptions, RateLimitPluginOptions } from "@fastify/rate-limit";
+import type { Cluster, Redis } from "ioredis";
+
 import { RateLimitError } from "@app/lib/errors";
 
-export const globalRateLimiterCfg = (): RateLimitPluginOptions => {
-  const appCfg = getConfig();
-  const redis = appCfg.isRedisConfigured ? buildRedisFromConfig(appCfg, "rate-limiter") : null;
-
+export const globalRateLimiterCfg = (redis: Redis | Cluster): RateLimitPluginOptions => {
   return {
     errorResponseBuilder: (_, context) => {
       throw new RateLimitError({
@@ -17,6 +15,7 @@ export const globalRateLimiterCfg = (): RateLimitPluginOptions => {
     timeWindow: 60 * 1000,
     max: 600,
     redis,
+    skipOnError: false,
     allowList: (req) => req.url === "/healthcheck" || req.url === "/api/status",
     keyGenerator: (req) => req.realIp
   };
@@ -66,7 +65,9 @@ export const mfaRateLimit: RateLimitOptions = {
   hook: "preValidation",
   max: (req) => req.rateLimits.mfaRateLimit,
   keyGenerator: (req) => {
-    return req.headers.authorization?.split(" ")[1] || req.realIp;
+    const token = req.headers.authorization?.split(" ")[1];
+    // Preserve per-credential MFA budgets without persisting bearer credentials as cache keys.
+    return token ? `token:${createHash("sha256").update(token).digest("hex")}` : req.realIp;
   }
 };
 
