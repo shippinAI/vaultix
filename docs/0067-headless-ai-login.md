@@ -149,3 +149,19 @@ settings have not been verified. No client secret was printed, copied into model
 configuration, or used. This discovery result does not prove CLI registration,
 human browser approval, Nomen-to-Vaultix authority mapping, or session renewal.
 Those gates remain open.
+
+## Local deployment verification
+
+The accepted standalone image was deployed to the existing local preview at
+`http://127.0.0.1:8200/`. The initialized owner state, database and cache
+containers, and the operator's uncommitted ignore rules were preserved.
+Receipt: `.cache/headless-ai-login/.cache/deployment.json`.
+
+A browser check confirmed the Vaultix login page, rejection of anonymous project
+access (401), and the updated Connect Clyffy instructions for `vaultix auth status`
+and `vaultix mcp config`. Receipt:
+`.cache/headless-ai-login/.cache/browser.json`; screenshot:
+`.cache/headless-ai-login/.cache/clyffy-connections.png`.
+This preview check did not use the operator's account. Authenticated application
+workflows were exercised in the separate disposable canonical-image checks above.
+This is local deployment evidence, not public-cloud or live Nomen acceptance.
