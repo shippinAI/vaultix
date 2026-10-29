@@ -38,16 +38,23 @@ export async function testDashboardSecretReferences({ page, expect, evidence }) 
   await expect(value).toHaveValue("${dev.VAULTIX_CREATION_RECOVERY}");
   record("Named reference popup and suggestion; arrow/Enter insertion closes the reference");
 
-  const prefix = "public-prefix ${dev.VAULTIX_CR";
-  await value.fill(`${prefix}} public-suffix`);
-  await value.evaluate((element, cursor) => element.setSelectionRange(cursor, cursor), prefix.length);
-  await page.keyboard.insertText("E");
-  await expect(references).toBeVisible();
-  await expect(references).toHaveAttribute("aria-busy", "false");
-  await expect(references.getByRole("button", { name: "VAULTIX_CREATION_RECOVERY Secret", exact: true })).toBeEnabled();
-  await references.getByRole("button", { name: "VAULTIX_CREATION_RECOVERY Secret", exact: true }).click();
-  await expect(value).toHaveValue("public-prefix ${dev.VAULTIX_CREATION_RECOVERY} public-suffix");
-  record("Pointer insertion preserves an existing closing brace and surrounding text");
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const prefix = "public-prefix ${dev.VAULTIX_CR";
+    await value.fill(`${prefix}} public-suffix`);
+    await value.evaluate((element, cursor) => element.setSelectionRange(cursor, cursor), prefix.length);
+    await page.keyboard.insertText("E");
+    await expect(value).toHaveValue(`${prefix}E} public-suffix`);
+    await expect(references).toBeVisible();
+    await expect(references).toHaveAttribute("aria-busy", "false");
+    await expect(references.getByRole("button", { name: "VAULTIX_CREATION_RECOVERY Secret", exact: true })).toBeEnabled();
+    await references.getByRole("button", { name: "VAULTIX_CREATION_RECOVERY Secret", exact: true }).click();
+    const inserted = "public-prefix ${dev.VAULTIX_CREATION_RECOVERY}";
+    await expect(value).toHaveValue(`${inserted} public-suffix`);
+    await expect.poll(() => value.evaluate(element => [element.selectionStart, element.selectionEnd])).toEqual([inserted.length, inserted.length]);
+    await page.keyboard.insertText("!");
+    await expect(value).toHaveValue(`${inserted}! public-suffix`);
+  }
+  record("Six pointer insertions preserve the closing brace, suffix spacing and collapsed caret for the next edit");
 
   await value.fill("${dev.PUBLIC_NO_MATCH");
   await expect(references.getByRole("status")).toContainText("No matches found");

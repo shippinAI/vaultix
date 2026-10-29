@@ -1,4 +1,12 @@
-import { forwardRef, TextareaHTMLAttributes, useCallback, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  TextareaHTMLAttributes,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { faFolder, faKey, faLayerGroup, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Popover from "@radix-ui/react-popover";
@@ -95,9 +103,26 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
     const inputRef = useRef<HTMLTextAreaElement | null>(null);
+    const inputRevision = useRef(0);
+    const pendingSelection = useRef<{ value: string; cursor: number } | null>(null);
+    useLayoutEffect(() => {
+      const pending = pendingSelection.current;
+      pendingSelection.current = null;
+      if (pending?.value === value) {
+        inputRef.current?.setSelectionRange(pending.cursor, pending.cursor);
+      }
+    }, [value]);
     const popoverContentRef = useRef<HTMLDivElement>(null);
     const [isFocused, setIsFocused] = useToggle(false);
     const currentCursorPosition = inputRef.current?.selectionStart || 0;
+
+    const updateReference = (nextValue: string, cursor: number) => {
+      inputRevision.current += 1;
+      pendingSelection.current = null;
+      if (nextValue === value) inputRef.current?.setSelectionRange(cursor, cursor);
+      else pendingSelection.current = { value: nextValue, cursor };
+      onChange(nextValue);
+    };
 
     const suggestionSource = useMemo(() => {
       const left = getIndexOfUnclosedRefToTheLeft(debouncedValue, currentCursorPosition - 1);
@@ -147,16 +172,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
       );
 
       const newValue = `${lhsValue}${referenceContent}${isEnclosed ? "" : "}"}${rhsValue}`;
-      onChange?.(newValue);
-
-      const delay = setTimeout(() => {
-        clearTimeout(delay);
-        if (inputRef.current) {
-          const cursorPos = lhsValue.length + referenceContent.length + 1;
-          inputRef.current.selectionStart = cursorPos;
-          inputRef.current.selectionEnd = cursorPos;
-        }
-      }, 10);
+      updateReference(newValue, lhsValue.length + referenceContent.length + 1);
 
       setIsFocused.off();
     };
@@ -261,19 +277,13 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
       );
 
       const newValue = `${lhsValue}${mid}${closingSymbol}${rhsValue}`;
-      onChange?.(newValue);
-      // this delay is for cursor adjustment
-      // cannot do this without a delay because what happens in onChange gets propogated after the cursor change
-      // Thus the cursor goes last to avoid that we put a slight delay on cursor change to make it happen later
-      const delay = setTimeout(() => {
-        clearTimeout(delay);
-        if (inputRef.current)
-          inputRef.current.selectionEnd =
-            lhsValue.length +
-            mid.length +
-            closingSymbol.length +
-            (isEnclosed && selectedSuggestion.type === ReferenceType.SECRET ? 1 : 0); // if secret is selected the cursor should move after the closing bracket -> }
-      }, 10);
+      updateReference(
+        newValue,
+        lhsValue.length +
+          mid.length +
+          closingSymbol.length +
+          (isEnclosed && selectedSuggestion.type === ReferenceType.SECRET ? 1 : 0)
+      );
       setHighlightedIndex(-1); // reset highlight
     };
 
@@ -481,8 +491,19 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
             onFocus={(evt) => {
               if (props.onFocus) props.onFocus(evt);
               const el = evt.currentTarget;
+              const focusedValue = el.value;
+              const focusedCursor = el.selectionStart;
+              const focusedRevision = inputRevision.current;
               requestAnimationFrame(() => {
-                if (el.selectionStart === el.selectionEnd) {
+                // Do not move a caret that a reference insertion or a later
+                // edit has already positioned after this focus event.
+                if (
+                  el.ownerDocument.activeElement === el &&
+                  inputRevision.current === focusedRevision &&
+                  el.value === focusedValue &&
+                  el.selectionStart === focusedCursor &&
+                  el.selectionEnd === focusedCursor
+                ) {
                   const len = el.value.length;
                   el.setSelectionRange(len, len);
                 }
@@ -500,6 +521,7 @@ export const VaultixSecretInput = forwardRef<HTMLTextAreaElement, Props>(
               if (props.onBlur) props.onBlur(evt);
             }}
             onChange={(e) => {
+              inputRevision.current += 1;
               onChange?.(e.target.value);
               setIsFocused.on();
             }}

@@ -2705,16 +2705,17 @@
     },
     {
       "path": "core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx",
-      "blob": "e57abf7b8fb770dc9ce34376783455388a9b5c60",
-      "status": "verified",
+      "blob": "0fd380f2646b4ac7eb1900fd255faf09fe663702",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read and compared with the v3 wrapper. Existing reference parser, deeper suggestions, metadata-only queries, wizard and navigation permission checks retained. Authored named anchor-based popup, visible suggestion names/native button activation, controlled dismissal, Tab escape, viewport width bound, immediate scrolling and typed forwarded refs. Stale debounced suggestions refuse insertion. Actual packaged dashboard-create consumer verifies keyboard/pointer insertion, brace/suffix preservation, empty/populated Tab exit, 320px reduced-motion sizing and Escape/cancel without mutation. All other consuming workflows, read-only/import/edit-without-view, cross-project grants, cursor-only parser updates, wizard semantics and screen readers remain open; this is not full editor parity.",
+      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted.",
       "evidence": [
         "docs/0046-dashboard-reference-editor.md",
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
         ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
         ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
-        ".cache/dashboard-reference-pending-lint.log"
+        ".cache/dashboard-reference-pending-lint.log",
+        "docs/0067-headless-ai-login.md"
       ]
     },
     {
@@ -2733,10 +2734,10 @@
     },
     {
       "path": "scripts/test-dashboard-secret-references.mjs",
-      "blob": "c9ebcfe327059a9a52757a8cee9571d3f475e41e",
-      "status": "verified",
+      "blob": "a5a68d08436bf3956709fc37273e75e95423a325",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete reference test read; all accepted insertion/suffix, keyboard exit, stale-suggestion settlement, 320px popup bounds and cancel/no-write checks retained. Dialog locator follows the newly authored native Sheet title. Full packaged run verifies the preserved editor in its changed consuming container.",
+      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted.",
       "evidence": [
         "docs/0046-dashboard-reference-editor.md",
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
@@ -2749,7 +2750,8 @@
         ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
-        ".cache/dashboard-commit-lint-final.log"
+        ".cache/dashboard-commit-lint-final.log",
+        "docs/0067-headless-ai-login.md"
       ]
     },
     {

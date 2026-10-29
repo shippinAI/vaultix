@@ -7440,7 +7440,7 @@ core/frontend/src/components/v2/TextArea/TextArea.tsx	e6ae05350f96ed7922eb8b3803
 core/frontend/src/components/v2/TextArea/index.tsx	6c44fcbaaa47c780935c49765d1fc398e03ba984	product-code	unread
 core/frontend/src/components/v2/Tooltip/Tooltip.tsx	59f751683dda263d2fdb1a32474332b409c27224	product-code	unread
 core/frontend/src/components/v2/Tooltip/index.tsx	348059dad71a682c2f1c2b19f2f6b65b0a99282d	product-code	unread
-core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	e57abf7b8fb770dc9ce34376783455388a9b5c60	product-code	verified
+core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	0fd380f2646b4ac7eb1900fd255faf09fe663702	product-code	authored
 core/frontend/src/components/v2/VaultixSecretInput/index.tsx	46039541c2f2badfc93475b7e055b8301d5b52d6	product-code	unread
 core/frontend/src/components/v2/index.tsx	677ba00de3f0099876bbcac0335a61a456532b7c	product-code	verified
 core/frontend/src/components/v3/generic/Accordion/Accordion.stories.tsx	ae77eb29d62f05eee8cd1677b605313cb5ebbda4	product-code	unread
@@ -11732,7 +11732,7 @@ docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	d
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
 docs/0066-native-reference-reads.md	e384864f661cfb7c1b3435ce251660a9162409f1	documentation	unread
-docs/0067-headless-ai-login.md	e4144f963ba2ec8b94624bd3171b9cb1396c063a	documentation	unread
+docs/0067-headless-ai-login.md	96125eac24348a349b4751d0365dfa4d26448e08	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
@@ -11742,8 +11742,8 @@ docs/capabilities/generated/catalog.json	a4a5ca58991cb1badce4b64c375334567b2a8ad
 docs/capabilities/generated/source-map.tsv	1917f37f24ac08402e0114da8aef695282ebf68c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	ceccb86671c2b3655ef8772d45e435882d5988e3	generated	unread
-docs/migration/generated/modules.tsv	ce5ae489d1607b7000b4ec988ea7b15c5146c900	generated	unread
+docs/migration/generated/files.tsv	adeaa3d1dac4f18864821b3e03dcaed20c7b7a12	generated	unread
+docs/migration/generated/modules.tsv	a33b199deb339a8576bb0821a5d38eceadb6b60d	generated	unread
 docs/migration/generated/summary.json	2b8040eb10bdacb9bd386312cafdf0568f579b79	generated	unread
 docs/migration/workstreams.json	d3ba87ed84a59458fca000d8d38bc1d99dcca3ed	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11899,7 +11899,7 @@ scripts/test-create-secret-workflow.mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f
 scripts/test-dashboard-create-workflow.mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	build-and-operations	verified
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-dashboard-secret-paste.mjs	3b814c46cb485d57a734188e437da26c936f8862	build-and-operations	verified
-scripts/test-dashboard-secret-references.mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	build-and-operations	verified
+scripts/test-dashboard-secret-references.mjs	a5a68d08436bf3956709fc37273e75e95423a325	build-and-operations	authored
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
 scripts/test-encrypted-recovery.mjs	292d31f56f92316c80e6fa2d28b60f1890712021	build-and-operations	verified
 scripts/test-environment-workflow.mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	build-and-operations	verified

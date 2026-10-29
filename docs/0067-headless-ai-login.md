@@ -81,3 +81,26 @@ Protocol references: [OAuth device grant, RFC 8628](https://www.rfc-editor.org/r
 and [MCP stdio/HTTP transports](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports).
 Codex stdio command/environment support was checked with the installed
 `codex mcp add --help`; no user Codex settings were changed.
+
+## Release-gate editor repair
+
+The first canonical build at `90fe5bc7` passed the eight dedicated CLI checks,
+but failed the existing packaged dashboard reference check. Evidence is retained
+in `.cache/headless-ai-login/.cache/self-hosted-build-gKgluO/result.json` and
+`.cache/headless-ai-login/.cache/app-image-proof-ogPdmu/failure.json`. The failure
+removed the space before the public fixture's suffix. That image was not deployed.
+
+The complete v2 reference wrapper and base textarea were read. Its old 10 ms
+selection restoration could execute after a subsequent edit; it also restored
+only the selection end in the suggestion path. Restoration now runs after the
+controlled value commits, matches that value, and collapses both selection ends.
+The focus animation-frame callback also refuses to overwrite a later edit or
+caret change. The existing parser, permission checks, debounce gate and value
+masking remain unchanged. No secret values enter diagnostics or AI tools.
+
+The permanent packaged test now repeats pointer insertion six times, checks the
+input before suggestion selection, preserves the closing brace and suffix space,
+and verifies the next character lands at the collapsed caret. Existing keyboard,
+Tab/Escape, narrow-layout and no-submission assertions remain. Final image
+acceptance is required for this repair; other consumers of the shared editor
+and the separate v3 wrapper still require their own workflow acceptance.

@@ -547,7 +547,7 @@ core/frontend/src/components/utilities	pam	React-TypeScript	1	07eab7bd8b9c44184d
 core/frontend/src/components/utilities	pki	React-TypeScript	1	9fd54c3815b37bf6cd4e73b0483e16bda1346ca8cdaa05fc59a5545625180bd6	0	unassessed
 core/frontend/src/components/utilities	ui	React-TypeScript	18	dfeafc38f90adc1990720125c6aac0a5f743cfe0577e2fbbfa020641d2c37b5e	0	unassessed
 core/frontend/src/components/v2	secrets	React-TypeScript	4	68f178d061523c6098017fc483c3164933a1a92c0c18d86132b7d85e26b272ec	1	unassessed
-core/frontend/src/components/v2	ui	React-TypeScript	111	9d9f273a23a29a0b2a408ea003b73fb3a79d4ddecaa4da11b0a0e521d075b4ce	8	unassessed
+core/frontend/src/components/v2	ui	React-TypeScript	111	2ccde5ca8898be74ffbebd7b2e51d75e4501cf6ded1e11bcbbceccc2cfe75200	8	unassessed
 core/frontend/src/components/v3	authorization	React-TypeScript	1	ae4b449c889929cba1429238f234da59a3f61dde01e0a3ab64ca13fa79737045	0	unassessed
 core/frontend/src/components/v3	ui	React-TypeScript	5	0a4aca43836ca4db8f22ac262eef6bda2eba1f3ff7a60ecd83e56d53aed68580	0	unassessed
 core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	3	fa0de16b9e64ecca0299699cd338f6b4ba44dfe264ac37897e23d14ab8c3f20c	0	unassessed
@@ -1064,5 +1064,5 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	58	f152ddba1bb0869afad3ecf9ddc73736132aa02a00f41c0795c0068e0c32a689	54	unassessed
+scripts	delivery	supporting-tooling-or-contract	58	bfad099ea989c472fa78c0e648fef80fab0c5ed76b725a423792c24ca9cd3e49	54	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	1	8b8b95027f398f066d2539266df2bbd4b6f720274e484fcbf3722c920f1c4fba	1	unassessed

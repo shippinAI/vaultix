@@ -5061,7 +5061,7 @@ core/frontend/src/components/v2/TextArea/TextArea.tsx	core/frontend/src/componen
 core/frontend/src/components/v2/TextArea/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	6c44fcbaaa47c780935c49765d1fc398e03ba984	unread
 core/frontend/src/components/v2/Tooltip/Tooltip.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	59f751683dda263d2fdb1a32474332b409c27224	unread
 core/frontend/src/components/v2/Tooltip/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	348059dad71a682c2f1c2b19f2f6b65b0a99282d	unread
-core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	e57abf7b8fb770dc9ce34376783455388a9b5c60	verified
+core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	0fd380f2646b4ac7eb1900fd255faf09fe663702	authored
 core/frontend/src/components/v2/VaultixSecretInput/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	46039541c2f2badfc93475b7e055b8301d5b52d6	unread
 core/frontend/src/components/v2/index.tsx	core/frontend/src/components/v2	ui	React-TypeScript	tsx	677ba00de3f0099876bbcac0335a61a456532b7c	verified
 core/frontend/src/components/v3/generic/Accordion/Accordion.stories.tsx	core/frontend/src/components/v3/generic/Accordion	ui	React-TypeScript	tsx	ae77eb29d62f05eee8cd1677b605313cb5ebbda4	unread
@@ -9417,7 +9417,7 @@ scripts/test-create-secret-workflow.mjs	scripts	delivery	supporting-tooling-or-c
 scripts/test-dashboard-create-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33b20	verified
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-dashboard-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3b814c46cb485d57a734188e437da26c936f8862	verified
-scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c9ebcfe327059a9a52757a8cee9571d3f475e41e	verified
+scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a5a68d08436bf3956709fc37273e75e95423a325	authored
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-encrypted-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified
