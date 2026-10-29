@@ -1,8 +1,10 @@
 # Native organization SSO enforcement
 
-Workstream AUTH-01, prerequisite for READ-01. Acceptance is pending.
+Status: scoped local acceptance passed. Workstream AUTH-01, prerequisite for
+READ-01. Provider/issuer acceptance and native cutover remain incomplete.
 
-The native project permission service currently leaves SSO enforcement as a TODO.
+At the start of this work, the native project permission service left SSO
+enforcement as a TODO.
 The existing TypeScript policy checks the authenticated user's method on every
 request. SAML/OIDC enforcement and Google enforcement are separate requirements;
 when both are set, both apply unless an explicitly permitted bypass applies.
@@ -63,7 +65,7 @@ an invalid rule shape so the authorization code is exercised.
 The focused runs use the previous canonical issuer image
 `sha256:06edf941e8038f283b3b13b5a76fd61c79eae6abbf5a8b83908851fe6ed3f678`
 and Go stage `sha256:ef3ee02cc0a3c16477d2e09656ddb29150e8d6e25443412cfa3b5307fcf04ded`
-with explicit test/source mounts. Final committed-image acceptance is pending.
+with explicit test/source mounts. Final committed-image acceptance is recorded below.
 The 22 shared bypass vectors agree with the installed CASL implementation.
 A 15-second, two-worker parser fuzz run passed 815,876 executions. Fixtures use
 copied schemas without constraints and do not prove management API behavior,
@@ -89,9 +91,66 @@ The failing baseline is retained in
 `.cache/native-sso-policy/.cache/archive-regression.txt`; the direct comparison is
 `.cache/native-sso-policy/.cache/archive-eol-yu1jj3b5/result.json`.
 
-Final acceptance requires the corrected committed archive/image, full lint and
-both cache integration suites. Initial receipts remain at
+Acceptance of the archive correction requires the corrected committed image,
+full lint and both cache integration suites, recorded below. Initial receipts remain at
 `.cache/native-sso-policy/.cache/self-hosted-build-3l8mpQ/result.json`,
 `.cache/native-sso-policy/.cache/go-proof-WKCATq/result.json`, and
 `.cache/native-sso-policy/.cache/lint-image.json`. They do not establish acceptance
 of the corrected artifact.
+
+## Final committed-image acceptance, 2026-10-29
+
+Runtime/build source: `63f58e8d5c6200ed04e823aecd9630634292c888`.
+Canonical image: `sha256:21eb31834d2f319b8ca4f58cf27af2c41d0401016fe38f13426a7a86fbf2f169`.
+Go test stage built from that same corrected committed archive:
+`sha256:24807440a627cecf482bea7600ceeae461c10d4751d2331fa6ed12745a97a801`.
+No production forwarding, external provider or issuer configuration was enabled.
+
+All receipts below are local and ignored, relative to the main checkout.
+
+- All 16 canonical application gates passed:
+  `.cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json`.
+- Go unit/race: 636 passed, none failed/skipped. Integration-tagged vet passed:
+  `.cache/native-sso-policy/.cache/native-unit-vet.json`.
+- Full lint with integration build tags: exit 0, zero issues:
+  `.cache/native-sso-policy/.cache/lint-image-final.json`. The linter still emits
+  its existing deprecation notice; no rule was disabled. This resolves the three
+  archived-file formatting findings recorded in 0061 for the corrected artifact.
+- Full Go integrations: 608 passed, zero failures, eight existing external-provider
+  skips per cache, with no setup diagnostics. Dragonfly:
+  `.cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json`; Redis:
+  `.cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json`.
+- Parser fuzzing: 15 seconds, two workers, 810,708 executions, passed:
+  `.cache/native-sso-policy/.cache/fuzz-final.json`.
+- All 22 shared bypass vectors agree with the canonical image's installed CASL:
+  `.cache/native-sso-policy/.cache/casl-image-final.json`. The comparison script
+  and fixtures are mounted read-only; this is an explicit comparison, not an
+  automatically registered application gate or a full organization-role proof.
+- Real packaged browser workflows passed, including setup, sign-in, projects,
+  secrets, environments and recovery. Fixture-only UI states remain labelled:
+  `.cache/native-sso-policy/.cache/app-image-proof-ODg8jv/workflow-result.json`.
+- Nine encrypted recovery, eleven tenant isolation and four proxy boundary checks
+  passed, with successful cleanup:
+  `.cache/native-sso-policy/.cache/encrypted-recovery-rqd9dO/result.json`,
+  `.cache/native-sso-policy/.cache/tenant-isolation-j35CT9/result.json`, and
+  `.cache/native-sso-policy/.cache/proxy-boundary-vv019G/result.json`.
+- Admission passed four checks per cache, with successful cleanup:
+  `.cache/native-sso-policy/.cache/production-admission-PYMOac/result.json`
+  (Dragonfly) and
+  `.cache/native-sso-policy/.cache/production-admission-6s0vV2/result.json` (Redis).
+
+The existing 273 UI routes and 2,290 baseline API operations remain preserved.
+The earlier Redis package-bootstrap timeout in 0061 remains an unresolved
+reliability finding; this packet's passing runs do not diagnose or repair it.
+Automated browser checks do not establish manual screen-reader acceptance or
+whole-UI accessibility. Nomen issuer/session acceptance, real SSO providers,
+assumed privileges, delegated OAuth, physical replication/failover, ElastiCache,
+complete native domain ownership, capacity and public-cloud release remain
+separate gates. No enterprise/government certification or full parity is claimed.
+
+Reproduce application acceptance with `node scripts/build-self-hosted.mjs`.
+Build its `go-builder` stage from the receipt's archived `source/core`, then run
+`node scripts/test-go-core.mjs <canonical-image-id> <dragonfly|redis> <go-stage-id>`
+for each cache. The shared policy comparison is
+`node scripts/test-sso-policy-parity.mjs [backend-package-json]`; native unit/race,
+fuzz, integration-tagged vet and lint use the same Go stage.

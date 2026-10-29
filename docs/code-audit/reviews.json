@@ -2784,22 +2784,33 @@
     {
       "path": "scripts/build-self-hosted.mjs",
       "blob": "472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance pending. No global Git settings or operator data are changed.",
+      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance passed in 0062. No global Git settings or operator data are changed. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
-        ".cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json"
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
       "blob": "2a4d26dfec1328a28ccf0840bc99c530213ff81d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance pending. No global Git settings or operator data are changed.",
+      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance passed in 0062. No global Git settings or operator data are changed. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json",
         ".cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json"
       ]
     },
@@ -3864,11 +3875,17 @@
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
       "blob": "9e49d75a7b4658b66cc28e1695b7c46beed973e3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file and caller/authority trace retained from 0061. Author primary-backed organization SSO enforcement and active organization membership filtering; project roles and store remain compatible. Broader assumed privilege and native cutover remain open. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Complete file and caller/authority trace retained from 0061. Author primary-backed organization SSO enforcement and active organization membership filtering; project roles and store remain compatible. Broader assumed privilege and native cutover remain open. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
@@ -3904,61 +3921,97 @@
     {
       "path": "core/backend-go/internal/services/permission/sso.go",
       "blob": "59dda7c076139412e49512b1a219404888e3ce3d",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author native authenticated-method enforcement and a narrowly scoped organization bypass projection matching CASL subject-type semantics. Fail closed for missing methods, malformed role rules and primary failures; no general organization permission resolver or provider login claim. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author native authenticated-method enforcement and a narrowly scoped organization bypass projection matching CASL subject-type semantics. Fail closed for missing methods, malformed role rules and primary failures; no general organization permission resolver or provider login claim. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/sso_test.go",
       "blob": "6763eea594e20edec662ca62b2e56ce487f5de05",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author shared CASL bypass vectors, malformed policy denial and parser fuzzing; positive and deny precedence evidence scoped to one capability. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author shared CASL bypass vectors, malformed policy denial and parser fuzzing; positive and deny precedence evidence scoped to one capability. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/testdata/sso-bypass.json",
       "blob": "1974633d2e02765f7340cd10c1cc16edca075c53",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author 22 deterministic organization bypass cases shared by native Go tests and actual installed CASL comparisons. Not whole-role or provider parity. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author 22 deterministic organization bypass cases shared by native Go tests and actual installed CASL comparisons. Not whole-role or provider parity. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/permission/sso_session_test.go",
       "blob": "82c7c6937c83756767155c38cb3c52d47dfd5fab",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author issuer-backed email session validation through native authenticator followed by policy enable/disable permission checks. Other method labels remain fixtures, not provider sign-in evidence. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author issuer-backed email session validation through native authenticator followed by policy enable/disable permission checks. Other method labels remain fixtures, not provider sign-in evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/permission/sso_test.go",
       "blob": "ccea6d15093fd2360271aeb94a012d2c63f2fb9f",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author real-PostgreSQL permission method, bypass, revocation, failure and non-user compatibility matrix using explicit copied-schema fixtures. Fixtures are not management API or physical replica evidence. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author real-PostgreSQL permission method, bypass, revocation, failure and non-user compatibility matrix using explicit copied-schema fixtures. Fixtures are not management API or physical replica evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     },
     {
       "path": "scripts/test-sso-policy-parity.mjs",
       "blob": "1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0",
-      "status": "authored",
+      "status": "verified",
       "decision": "replace",
-      "scope": "Author explicit comparison of the shared native bypass vectors against installed CASL subject-type evaluation, preserving inverted-rule priority. Built-in admin projection limited to SSO bypass; not full role parity. Focused acceptance passed; committed-image acceptance pending.",
+      "scope": "Author explicit comparison of the shared native bypass vectors against installed CASL subject-type evaluation, preserving inverted-rule priority. Built-in admin projection limited to SSO bypass; not full role parity. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md"
+        "docs/0062-native-sso-enforcement.md",
+        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
+        ".cache/native-sso-policy/.cache/native-unit-vet.json",
+        ".cache/native-sso-policy/.cache/lint-image-final.json",
+        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
+        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
+        ".cache/native-sso-policy/.cache/casl-image-final.json"
       ]
     }
   ]
