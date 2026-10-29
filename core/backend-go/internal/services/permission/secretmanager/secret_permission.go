@@ -18,6 +18,25 @@ func NewSecretAccessChecker(ability *gocasl.Ability) *SecretAccessChecker {
 	return &SecretAccessChecker{ability: ability}
 }
 
+// CanDescribeSecrets checks for a possible describe grant before looking up a
+// folder. Conditional grants still require CanDescribeSecret on every row.
+func (c *SecretAccessChecker) CanDescribeSecrets() bool {
+	for _, action := range []gocasl.ActionFor[project.SecretSubject]{project.SecretActionDescribeSecret, project.SecretActionDescribeAndReadValue} {
+		granted, denied := false, false
+		for _, rule := range gocasl.PossibleRulesFor(c.ability, action) {
+			if !rule.Inverted {
+				granted = true
+			} else if len(rule.Conditions) == 0 && len(rule.Fields) == 0 {
+				denied = true
+			}
+		}
+		if granted && !denied {
+			return true
+		}
+	}
+	return false
+}
+
 // CanDescribeSecret checks if the actor can see that the secret exists (metadata).
 // Supports both the new DescribeSecret permission and the legacy DescribeAndReadValue.
 func (c *SecretAccessChecker) CanDescribeSecret(env, path, key string, tagSlugs []string) bool {

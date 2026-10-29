@@ -49,9 +49,9 @@ core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	1cb6
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
 core/backend-go/internal/services/auth	identity	Go-native	14	9d3666fce511db859ea4c7a2ac51317ad114afab4711872e5086787dd63eb699	10	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
-core/backend-go/internal/services/permission	authorization	Go-native	16	48a57785c0dfcc8188ac7e1330163a46f67b9113fd340403a8cd1670d4a0d03e	4	unassessed
+core/backend-go/internal/services/permission	authorization	Go-native	18	5d275af2873ec1f119ada8008159581c155a568735d81b8e9dee1577266b8609	8	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
-core/backend-go/internal/services/secretmanager	secrets	Go-native	12	108d15d88d224fe7564e16b810899d36699c5ec5065f217deb4cf1384229dbde	0	unassessed
+core/backend-go/internal/services/secretmanager	secrets	Go-native	16	ada0d3ef26531bda148c364d3f3c95f330f893c42afa10f1bd97aa8baa2e5e2b	4	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	7798f2ac228f5bb20dd933854061272f66762613e27e5475c17c22fc0241ba17	3	unassessed
 core/backend-go/tests/platform/auth	authorization	Go-native	1	102070d44f359c2755a04f41f05b8fa7519d2fd8385c6d3314e03ae01832d611	1	unassessed
@@ -65,8 +65,8 @@ core/backend-go/tests/platform/permission	authorization	Go-native	5	f2033058ad06
 core/backend-go/tests/platform/projects	secrets	Go-native	1	9007c408381cdad439206ae3bac73da89def12c464bcbb7f0d69c1c6ac366105	1	unassessed
 core/backend-go/tests/platform/ratelimit	foundation	Go-native	1	d3427e178075238ea9adc595f476c762d267d111b9a79bd045b6a686f19bad15	0	unassessed
 core/backend-go/tests/secretmanager/secrets	authorization	Go-native	2	4161e3204197f430824b8869b359f1851839cd871e30fe247a95cecee4328063	0	unassessed
-core/backend-go/tests/secretmanager/secrets	integrations	Go-native	2	e2ce08850c3f19a282a2b589d0635dcad703344ebf633346a9aa2b2c855e426d	0	unassessed
-core/backend-go/tests/secretmanager/secrets	secrets	Go-native	1	fd8047f71410b657bec87b7c461d06fa5c4dc83a221cd5eead7069f7720acb5a	0	unassessed
+core/backend-go/tests/secretmanager/secrets	integrations	Go-native	3	2ea4348779950d6d10ffc27ae225cbf4856b87d4ca6722cccbe8debc46a5be9f	1	unassessed
+core/backend-go/tests/secretmanager/secrets	secrets	Go-native	2	4da010ce702f21fee27402c0c575a4af87ca5a8889eef0ce0a5cd4a993eb75fa	1	unassessed
 core/backend/bdd	foundation	Go-domain-migration	4	e9218f969ae62552a0c957a86e8c2a655927e903e4ce10916f754771c253d560	0	unassessed
 core/backend/bdd/features	secrets	Go-domain-migration	1	85b2b50602cde8b0ef3c28e17191937fdf78963204a305d5c46e0f355d1357d1	0	unassessed
 core/backend/bdd/features/pki/acme	pki	Go-domain-migration	10	db7fc3babf80026df7ff7942fc57ba760c5b9d8c896e0a94054735a888a0d8bc	0	unassessed

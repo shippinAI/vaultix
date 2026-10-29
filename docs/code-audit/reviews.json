@@ -4216,6 +4216,106 @@
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file authored/read. Real disposable identity membership revocation/promotion, normal periodic permission refetch, retained dirty form, direct server denial, initially-viewer page, explicit single save and exit. No mocked response, accelerated clock, query-cache injection or secret-bearing receipt. Baseline failure recorded; four real development check groups pass; packaged acceptance pending. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit."
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/operators.go",
+      "blob": "5a6d0c9ecf9828f2eb9492d80d9e2bd053770eec",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and modified. Retain glob matching; add CASL-compatible element membership for array-valued fields under $in/$nin through owned FieldOps, preserving scalar comparison and whole-match negation. No vendor edits. Shared authorization change; broader operator/rule-order parity remains open. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/array_operators_test.go",
+      "blob": "ae3898ea966293e909328a06717fec3d13e7b161",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete test file authored/read. Matching/missing/empty/nil tags, scalar and typed/JSON array fields, whole-match negation, direct compiled variable resolution, combined conditions and matching deny. The array-membership baseline fails before the product fix. Nested vendor variable interpolation is not implemented by this test. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/secretmanager/secret_permission.go",
+      "blob": "25f8b0457da895f804b711014cfadc4854cf7759",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read and modified. Add possible describe/legacy-read grant check before folder lookup; retain required per-row checks and existing value checks. Unconditional native denies remain effective. Full CASL rule-order equivalence is not established. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/secretmanager/reference_permission_test.go",
+      "blob": "b25803bcfaee4d78d2f669f5eeb064638d879efd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete test file authored/read. Subject-level and row-level describe, legacy read, conditional grant/deny, blanket denial and value-only rejection. This is checker evidence, not transport authentication proof. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
+      "blob": "48f1ffe4fba00349e89c8675c99feb796cc68cca",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/folder.go",
+      "blob": "a12ca9e34f84ed333913cdab179ace28bbffb8a6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Parameterized primary recursive query resolves only the requested folder path within the selected active environment. Missing folders and query failures refuse. No new table, ciphertext access or fallback replica. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/projects.go",
+      "blob": "3a23ff25f52b9c9b615d09ef1db20afc856c33bc",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read. Primary metadata listing with direct/group membership, selected tenant, active projects/environments and Secrets Manager product filter. Deterministic ties, duplicate collapse and empty arrays. Project discovery does not authorize reference reads. Existing unpaginated compatibility contract and transport/session acceptance remain explicit. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/reference_test.go",
+      "blob": "20af49440e5d157902e94a0c373bcf2e96b58091",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete test file authored/read. Query bounds/path compatibility, unsupported/anonymous actors, missing organization/authority and denied lookups refuse before metadata SQL. Empty reference serialization and project-list authentication boundaries covered. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/secretmanager/secrets/reference_integration_test.go",
+      "blob": "9054256427b555e4ddaac8bb4a480b2581653a79",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/secretmanager/secrets/reference_projects_test.go",
+      "blob": "a41ef9fdbb91eb8f59165c855f6991ed5f4cf0ec",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete test file authored/read. Real application comparison for user/machine direct and group discovery, no-access membership visibility, duplicate removal, deleted project/environment and other product exclusion, canceled requests and removed group links. SQL mutations are labelled disposable fixtures; transport issuer/org enforcement and cross-tenant corrupt group links remain separate acceptance. Committed-image acceptance pending.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
     }
   ]
 }

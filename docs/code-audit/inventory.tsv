@@ -172,7 +172,8 @@ core/backend-go/internal/services/auth/auth.go	7a2ed84fa66f7755f192af70dd51d31ad
 core/backend-go/internal/services/kms/kms.go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	product-code	unread
 core/backend-go/internal/services/kms/kms_org.go	9bea7672ac02e63344c99764fee013e1fe2e3983	product-code	unread
 core/backend-go/internal/services/kms/kms_project.go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	product-code	unread
-core/backend-go/internal/services/permission/operators.go	93d7d70e379391ec044ce6915491044b587be0ab	product-code	unread
+core/backend-go/internal/services/permission/array_operators_test.go	ae3898ea966293e909328a06717fec3d13e7b161	test	authored
+core/backend-go/internal/services/permission/operators.go	5a6d0c9ecf9828f2eb9492d80d9e2bd053770eec	product-code	authored
 core/backend-go/internal/services/permission/operators_test.go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	test	unread
 core/backend-go/internal/services/permission/permission.go	f234ddffaa1570d24e72d25ead040197d502dc56	product-code	verified
 core/backend-go/internal/services/permission/permission_test.go	5aaabe24be6d2d85409675b739a6e1cfde92fb86	test	unread
@@ -182,7 +183,8 @@ core/backend-go/internal/services/permission/project/default_roles.go	9540c9830f
 core/backend-go/internal/services/permission/project/subjects.go	d25806d60205b6127b063e45e09b885656f4b13a	product-code	unread
 core/backend-go/internal/services/permission/rules.go	95e6ea8f9fea8e1d13d5b11df6b8a4208dff6034	product-code	unread
 core/backend-go/internal/services/permission/rules_test.go	d1eba9451b7939580018c7e2dccb30244ab621bc	test	unread
-core/backend-go/internal/services/permission/secretmanager/secret_permission.go	cdbf28c7cb335173e81fb60c957b967a70149d83	product-code	unread
+core/backend-go/internal/services/permission/secretmanager/reference_permission_test.go	b25803bcfaee4d78d2f669f5eeb064638d879efd	test	authored
+core/backend-go/internal/services/permission/secretmanager/secret_permission.go	25f8b0457da895f804b711014cfadc4854cf7759	product-code	authored
 core/backend-go/internal/services/permission/sso.go	59dda7c076139412e49512b1a219404888e3ce3d	product-code	verified
 core/backend-go/internal/services/permission/sso_test.go	6763eea594e20edec662ca62b2e56ce487f5de05	test	verified
 core/backend-go/internal/services/permission/template.go	ed325c928737763333e3291d11347466da70b1ca	product-code	unread
@@ -190,6 +192,10 @@ core/backend-go/internal/services/permission/template_test.go	f6df834a924b1d37f1
 core/backend-go/internal/services/permission/testdata/sso-bypass.json	1974633d2e02765f7340cd10c1cc16edca075c53	product-code	verified
 core/backend-go/internal/services/project/project.go	c2e3ea859df2740e6937c4c586556243c550071c	product-code	unread
 core/backend-go/internal/services/secretmanager/environment/environment.go	2bddc4f9360ede5feacc8c7f40bb8d5d5a03c451	product-code	unread
+core/backend-go/internal/services/secretmanager/reference/folder.go	a12ca9e34f84ed333913cdab179ace28bbffb8a6	product-code	authored
+core/backend-go/internal/services/secretmanager/reference/projects.go	3a23ff25f52b9c9b615d09ef1db20afc856c33bc	product-code	authored
+core/backend-go/internal/services/secretmanager/reference/reference.go	48f1ffe4fba00349e89c8675c99feb796cc68cca	product-code	authored
+core/backend-go/internal/services/secretmanager/reference/reference_test.go	20af49440e5d157902e94a0c373bcf2e96b58091	test	authored
 core/backend-go/internal/services/secretmanager/secret/expansion.go	3b3df2fc234afc8aabdfa63116c4c80ea26e1237	product-code	unread
 core/backend-go/internal/services/secretmanager/secret/expansion_test.go	80ffc1e0abd615e50a6b153065a671aaa9f69e95	test	unread
 core/backend-go/internal/services/secretmanager/secret/get_secret_by_name.go	08fb87d70d72fb091ecd05666bcc029a8706559a	product-code	unread
@@ -237,6 +243,8 @@ core/backend-go/tests/secretmanager/secrets/get_secret_by_name_permission_integr
 core/backend-go/tests/secretmanager/secrets/list_secrets_integration_test.go	1a518246d194bb838e64580c2805aa647d0928f1	test	unread
 core/backend-go/tests/secretmanager/secrets/list_secrets_permission_integration_test.go	d30192f3dcd9d38b1dd0c2107d504f6a72ef063a	test	unread
 core/backend-go/tests/secretmanager/secrets/main_test.go	5d6a299560f54bc01e6f64ffe610f5a015d71c49	test	unread
+core/backend-go/tests/secretmanager/secrets/reference_integration_test.go	9054256427b555e4ddaac8bb4a480b2581653a79	test	authored
+core/backend-go/tests/secretmanager/secrets/reference_projects_test.go	a41ef9fdbb91eb8f59165c855f6991ed5f4cf0ec	test	authored
 core/backend-go/third_party/gocasl/LICENSE	c5f473ea1b79cf62384e6c0abe81da988dbd262f	vendored	unread
 core/backend-go/third_party/gocasl/PROVENANCE.md	c4f7bdd2d182bfe70df02df22c606344c15c0b4a	vendored	unread
 core/backend-go/third_party/gocasl/ability.go	99fbd54f234a6c906fac3c6837f12fec306685d5	vendored	unread
@@ -11723,6 +11731,7 @@ docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	doc
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
+docs/0066-native-reference-reads.md	d667fe5e9438f1456ba3f238ec534f36f45eecd3	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
@@ -11732,9 +11741,9 @@ docs/capabilities/generated/catalog.json	a4a5ca58991cb1badce4b64c375334567b2a8ad
 docs/capabilities/generated/source-map.tsv	1917f37f24ac08402e0114da8aef695282ebf68c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	db1bd40d86e470c3c37b04da7365dfa82672b5ff	generated	unread
-docs/migration/generated/modules.tsv	ef3aaeb0c282775f290f4d9d0052c4a36773fc9f	generated	unread
-docs/migration/generated/summary.json	9e1e1a180c324c4565b2369caba07e45f4407511	generated	unread
+docs/migration/generated/files.tsv	6e603e1f6e94bca66ccb813b4775a63fd38fe180	generated	unread
+docs/migration/generated/modules.tsv	060e4c3c011c9d33d6ec3f851ce6de2b537e722f	generated	unread
+docs/migration/generated/summary.json	d6fb4834e2151e32a908e59812671f9e0f936d8c	generated	unread
 docs/migration/workstreams.json	d3ba87ed84a59458fca000d8d38bc1d99dcca3ed	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
