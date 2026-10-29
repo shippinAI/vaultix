@@ -1,6 +1,6 @@
 # Native project and reference reads
 
-READ-01. Work in progress; production ownership has not changed.
+READ-01. Scoped read-domain implementation verified; workflow migration and production cutover remain open.
 
 ## Work packet and dependencies
 
@@ -125,3 +125,87 @@ failures/skips or setup diagnostics on Dragonfly:
 `.cache/assumed-workflow/.cache/native-reference-dragonfly.json`. This uses the
 previous canonical application image and mounted candidate Go source, not a new
 committed artifact. Redis and full immutable native/application checks follow.
+
+
+## Committed-image evidence, 2026-10-29
+
+Runtime/build source: `5dfd65bde8cc4b5613632f32c2eee450ad5918bf`.
+Canonical image: `sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c`.
+Go test stage from the same committed archive:
+`sha256:607417d3e0586889e2062bf0169bb6cc0777f107214d80839bf95b06dc6f9373`.
+
+Receipts are local/ignored, relative to the main checkout:
+
+- All 16 canonical build/application gates passed:
+  `.cache/assumed-workflow/.cache/self-hosted-build-U1usns/result.json`.
+- Full native unit/race: 726 passed, zero failures/skips; integration-tagged vet
+  passed: `.cache/assumed-workflow/.cache/native-unit-vet.json`.
+- Full immutable native lint with integration tags: zero issues, exit 0, existing
+  linter deprecation notice only:
+  `.cache/assumed-workflow/.cache/lint-image-final.json`.
+- Full native integration suites: 688 passed, zero failures, eight external-provider
+  skips per cache, zero setup diagnostics. Dragonfly:
+  `.cache/assumed-workflow/.cache/go-proof-QlqaEO/result.json`; Redis:
+  `.cache/assumed-workflow/.cache/go-proof-Vo69C4/result.json`.
+  Each includes all 35 new reference/project checks. External skips remain gaps.
+- Packaged browser workflows passed, including real setup/sign-in, project,
+  environment, secret and role-refresh operations. Injected UI fixture states are
+  separately labelled:
+  `.cache/assumed-workflow/.cache/app-image-proof-muFFRf/workflow-result.json`.
+- Nine encrypted-recovery, eleven tenant-isolation and four proxy-boundary checks
+  passed with successful cleanup. Production admission passed four checks for
+  each cache. Their exact receipt paths are in the corresponding logs under the
+  canonical build directory above.
+
+The 273 UI route and 2,290 API operation baseline is preserved. There is no schema,
+encrypted format, frontend or TypeScript runtime change in this packet. Native
+forwarding remains disabled; existing projects/secrets keep their current owner.
+The earlier 0061 Redis bootstrap timeout remains undiagnosed despite these passes.
+These counts do not establish complete feature, permission, accessibility,
+ElastiCache, Nomen, public-cloud or provider acceptance.
+
+The daemon restarted during the final Redis admission gate. Its incomplete result
+and lock were preserved as `interrupted-result.json` and `interrupted-lock.json`
+under the canonical build directory. After confirming the runner was dead, only
+that run's four disposable containers and internal network were removed. The
+final gate was rerun against the same image, passed all four checks, and cleaned
+up successfully (`production-admission-ubdLWG/result.json` in the same evidence
+root). Clean source revision and image identity were checked again before the
+combined receipt was marked passed. The prior 15 gates and native suites were
+retained, not rerun or inferred from the interruption.
+
+Reproduce with `node scripts/build-self-hosted.mjs`, then build the `go-builder`
+stage from that run's archived `source/core`. Run unit/race, integration-tagged vet
+and lint against that immutable stage, and
+`node scripts/test-go-core.mjs <image-id> <dragonfly|redis> <go-stage-id>`.
+
+## Confirmed next cutover gates
+
+An additional fixture-only comparison against the installed application's CASL
+and the immutable Go stage confirms three `$all` tag mismatches and two
+last-matching-rule precedence mismatches. Its eight-case receipt is
+`.cache/assumed-workflow/.cache/reference-operator-characterization.json`.
+The SecretConditionV2 schema explicitly permits `$all` tag lists, so this is
+required compatibility work before switching reference routes. The first native
+read domain has not closed those gaps. Do not treat the passing existing suites
+as evidence for cases they do not exercise.
+
+Transport review also identifies concrete work before switching ownership:
+
+- Transfer the existing UI/MCP action dispatch and metadata-only audit callback
+  together, preserving all guidance tools and protocol negotiation.
+- Preserve bounded inputs, no-store, origin checks, masked denials and redacted
+  errors. The shared native error handler currently logs richer causes and uses
+  a different response shape. The native authenticator still trusts headers from
+  the local Node proxy; direct public exposure is not accepted.
+- Preserve production rate limits for self-hosted deployments. Native rate-limit
+  initialization currently enables its limiter only for the cloud production
+  profile; that is not equivalent to the current transport's shared limiter.
+- Review native audit queue ownership and retention: its handler has an explicit
+  project-retention TODO and still uses the Node ClickHouse consumer in stream
+  mode. Queue enqueue receives a context but currently calls the non-context
+  enqueue method. Cancellation, retry/deduplication and retention need acceptance.
+
+No production routing, permission rule-order policy, audit ownership or public
+exposure is changed by this evidence commit. Continue the complete-use-case
+sequence above; the deployment remains usable while that work proceeds.
