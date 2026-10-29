@@ -181,12 +181,10 @@ func (p *Service) GetProjectPermission(ctx context.Context, args *GetProjectPerm
 	// 9. Flatten active roles
 	permissionFromRoles := flattenActiveRolesFromMemberships(permissionData)
 
-	// 10. TODO(go): SSO enforcement — validate SSO requirements and bypass permissions.
-	// Port of permission-service.ts:508-516 (validateOrgSSO) and L377-396 (canBypassSso).
-	// Implementation requires:
-	// - validateOrgSSO function checking orgAuthEnforced, googleSsoAuthEnforced, bypassOrgAuthEnabled
-	// - Org-level permission check for SSO bypass capability
-	// - Only applies to auth.ActorTypeUser
+	// 10. Enforce organization authentication before returning project authority.
+	if err := p.enforceProjectSSO(ctx, args, &permissionData[0]); err != nil {
+		return nil, err
+	}
 
 	// 11. Build rules
 	rules, parseErrors := buildProjectPermissionRules(permissionFromRoles)
@@ -572,7 +570,7 @@ func (s *Service) getPermission(ctx context.Context, params *getPermissionParams
 
 	// Scope condition
 	if params.Scope == AccessScopeOrganization {
-		where.Add("membership.scope = 'organization'")
+		where.Add("membership.scope = 'organization'").Add(`membership."isActive" = true`)
 	} else {
 		where.Add("membership.scope = 'project'").Add(`membership."scopeProjectId" = @projectID`)
 	}

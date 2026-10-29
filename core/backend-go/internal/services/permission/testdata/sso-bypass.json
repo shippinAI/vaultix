@@ -1,0 +1,356 @@
+[
+  {
+    "name": "empty",
+    "roles": [],
+    "allowed": false
+  },
+  {
+    "name": "admin",
+    "roles": [
+      {
+        "role": "admin"
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "member",
+    "roles": [
+      {
+        "role": "member"
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "no-access",
+    "roles": [
+      {
+        "role": "no-access"
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "custom",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "other-action",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "read",
+            "sso"
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "other-subject",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "settings"
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "empty-custom",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": []
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "deny-admin",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            1
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "deny-first",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "role": "admin"
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "conditional-allow",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            {
+              "team": "example"
+            }
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "conditional-deny",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            {
+              "team": "example"
+            },
+            1
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "empty-condition-deny",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            {},
+            1
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "field-allow",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            0,
+            "example"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "field-deny",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            1,
+            "example"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "manage",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "manage",
+            "sso"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "all",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "all"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "wildcard-deny",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "manage",
+            "all",
+            0,
+            1
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "multiple-actions",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "read,bypass-sso-enforcement",
+            "settings,sso"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "reason",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            0,
+            0,
+            "example policy"
+          ]
+        ]
+      }
+    ],
+    "allowed": true
+  },
+  {
+    "name": "conditional-allow-unconditional-deny",
+    "roles": [
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            {
+              "team": "example"
+            }
+          ],
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            1
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  },
+  {
+    "name": "boolean-deny",
+    "roles": [
+      {
+        "role": "admin"
+      },
+      {
+        "role": "custom",
+        "permissions": [
+          [
+            "bypass-sso-enforcement",
+            "sso",
+            0,
+            true
+          ]
+        ]
+      }
+    ],
+    "allowed": false
+  }
+]

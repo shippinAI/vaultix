@@ -49,7 +49,7 @@ core/backend-go/internal/services/assumeprivilege	authorization	Go-native	3	d555
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
 core/backend-go/internal/services/auth	identity	Go-native	14	4466182d2594e32fd8e587a1f217c43bf4ead3cde5409f1128cf65d1d438a52b	9	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
-core/backend-go/internal/services/permission	authorization	Go-native	13	e60d4ca87924805b144274b7c374895e9c2c75dee3717e990d7e45f88a576a88	1	unassessed
+core/backend-go/internal/services/permission	authorization	Go-native	16	4774a80ac0ea8b010c8de27b32156c8205cb58e4538626629866d8c78457d2ea	4	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
 core/backend-go/internal/services/secretmanager	secrets	Go-native	12	108d15d88d224fe7564e16b810899d36699c5ec5065f217deb4cf1384229dbde	0	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
@@ -61,7 +61,7 @@ core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c598
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
 core/backend-go/tests/platform/keystore	kms	Go-native	1	09b3c8bf5c894b4c54109d5583c17e52ed209377102c91fb9a5da6835a6af553	1	unassessed
 core/backend-go/tests/platform/kms	kms	Go-native	1	7f05e8ef21069b0e14a32ff7284ef15eb723b448be00b097e4c925b4e9de102b	0	unassessed
-core/backend-go/tests/platform/permission	authorization	Go-native	2	be4af2f579aa4695d35fe1f7ff4e5c3be24c4272892d79267e4a86b071e887a9	1	unassessed
+core/backend-go/tests/platform/permission	authorization	Go-native	4	dcd60261d2ecd7e0ed2250d2acd11bfbb39e3e091198af3924838658888eec3b	3	unassessed
 core/backend-go/tests/platform/projects	secrets	Go-native	1	9007c408381cdad439206ae3bac73da89def12c464bcbb7f0d69c1c6ac366105	1	unassessed
 core/backend-go/tests/platform/ratelimit	foundation	Go-native	1	d3427e178075238ea9adc595f476c762d267d111b9a79bd045b6a686f19bad15	0	unassessed
 core/backend-go/tests/secretmanager/secrets	authorization	Go-native	2	4161e3204197f430824b8869b359f1851839cd871e30fe247a95cecee4328063	0	unassessed
@@ -1063,5 +1063,5 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	54	b71f4c6eeb158eefd871572265e6d22da9f23519fb4acb7e9e83ceec680bc632	50	unassessed
+scripts	delivery	supporting-tooling-or-contract	55	c1628a8b79a15ac0d86704abae35a4ffd9c4de99b0c0e13685024b22c95230f9	51	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	1	8b8b95027f398f066d2539266df2bbd4b6f720274e484fcbf3722c920f1c4fba	1	unassessed

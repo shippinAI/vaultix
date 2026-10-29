@@ -3871,17 +3871,12 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
-      "blob": "1ec4431d2051e5a9efb7b61cb876c3a3691b7e60",
-      "status": "verified",
+      "blob": "9e49d75a7b4658b66cc28e1695b7c46beed973e3",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read and caller/authority trace. Five permission queries now read primary state; role composition, schemas and error contracts retained. Focused stale-state, failure and pre-cancelled-context proof passed; committed-image acceptance passed in the scope recorded in 0061. Existing SSO/identity and native cutover gaps remain explicit.",
+      "scope": "Complete file and caller/authority trace retained from 0061. Author primary-backed organization SSO enforcement and active organization membership filtering; project roles and store remain compatible. Broader assumed privilege and native cutover remain open. Focused acceptance passed; committed-image acceptance pending.",
       "evidence": [
-        "docs/0061-native-permission-authority.md",
-        ".cache/native-permission-authority/.cache/self-hosted-build-4fon0d/result.json",
-        ".cache/native-permission-authority/.cache/go-proof-mRjjMA/result.json",
-        ".cache/native-permission-authority/.cache/go-proof-pBYTBb/result.json",
-        ".cache/native-permission-authority/.cache/native-unit-vet.json",
-        ".cache/native-permission-authority/.cache/lint-result.json"
+        "docs/0062-native-sso-enforcement.md"
       ]
     },
     {
@@ -3912,6 +3907,66 @@
         ".cache/native-permission-authority/.cache/go-proof-pBYTBb/result.json",
         ".cache/native-permission-authority/.cache/native-unit-vet.json",
         ".cache/native-permission-authority/.cache/lint-result.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/sso.go",
+      "blob": "59dda7c076139412e49512b1a219404888e3ce3d",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author native authenticated-method enforcement and a narrowly scoped organization bypass projection matching CASL subject-type semantics. Fail closed for missing methods, malformed role rules and primary failures; no general organization permission resolver or provider login claim. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/sso_test.go",
+      "blob": "6763eea594e20edec662ca62b2e56ce487f5de05",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author shared CASL bypass vectors, malformed policy denial and parser fuzzing; positive and deny precedence evidence scoped to one capability. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/testdata/sso-bypass.json",
+      "blob": "1974633d2e02765f7340cd10c1cc16edca075c53",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author 22 deterministic organization bypass cases shared by native Go tests and actual installed CASL comparisons. Not whole-role or provider parity. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/permission/sso_session_test.go",
+      "blob": "82c7c6937c83756767155c38cb3c52d47dfd5fab",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author issuer-backed email session validation through native authenticator followed by policy enable/disable permission checks. Other method labels remain fixtures, not provider sign-in evidence. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/permission/sso_test.go",
+      "blob": "ccea6d15093fd2360271aeb94a012d2c63f2fb9f",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author real-PostgreSQL permission method, bypass, revocation, failure and non-user compatibility matrix using explicit copied-schema fixtures. Fixtures are not management API or physical replica evidence. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
+      ]
+    },
+    {
+      "path": "scripts/test-sso-policy-parity.mjs",
+      "blob": "1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0",
+      "status": "authored",
+      "decision": "replace",
+      "scope": "Author explicit comparison of the shared native bypass vectors against installed CASL subject-type evaluation, preserving inverted-rule priority. Built-in admin projection limited to SSO bypass; not full role parity. Focused acceptance passed; committed-image acceptance pending.",
+      "evidence": [
+        "docs/0062-native-sso-enforcement.md"
       ]
     }
   ]

@@ -154,7 +154,7 @@ core/backend-go/internal/services/kms/kms_org.go	kms	kms	core/backend-go/interna
 core/backend-go/internal/services/kms/kms_project.go	kms	kms	core/backend-go/internal/services/kms	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
 core/backend-go/internal/services/permission/operators.go	access	authorization	core/backend-go/internal/services/permission	93d7d70e379391ec044ce6915491044b587be0ab	unread
 core/backend-go/internal/services/permission/operators_test.go	access	authorization	core/backend-go/internal/services/permission	5d9b8486e04ced6a39bb5ef98424652daab6a07b	unread
-core/backend-go/internal/services/permission/permission.go	access	authorization	core/backend-go/internal/services/permission	1ec4431d2051e5a9efb7b61cb876c3a3691b7e60	verified
+core/backend-go/internal/services/permission/permission.go	access	authorization	core/backend-go/internal/services/permission	9e49d75a7b4658b66cc28e1695b7c46beed973e3	authored
 core/backend-go/internal/services/permission/permission_test.go	access	authorization	core/backend-go/internal/services/permission	5aaabe24be6d2d85409675b739a6e1cfde92fb86	unread
 core/backend-go/internal/services/permission/platform/assume_privilege_permission.go	access	authorization	core/backend-go/internal/services/permission	7311d57dde5c3fab5e3325a2929d6ed5beed2fde	unread
 core/backend-go/internal/services/permission/project/actions.go	access	authorization	core/backend-go/internal/services/permission	53d158128c2118e9e0e69e2e8935fd945ceadaac	unread
@@ -163,8 +163,11 @@ core/backend-go/internal/services/permission/project/subjects.go	access	authoriz
 core/backend-go/internal/services/permission/rules.go	access	authorization	core/backend-go/internal/services/permission	95e6ea8f9fea8e1d13d5b11df6b8a4208dff6034	unread
 core/backend-go/internal/services/permission/rules_test.go	access	authorization	core/backend-go/internal/services/permission	d1eba9451b7939580018c7e2dccb30244ab621bc	unread
 core/backend-go/internal/services/permission/secretmanager/secret_permission.go	access	authorization	core/backend-go/internal/services/permission	cdbf28c7cb335173e81fb60c957b967a70149d83	unread
+core/backend-go/internal/services/permission/sso.go	access	authorization	core/backend-go/internal/services/permission	59dda7c076139412e49512b1a219404888e3ce3d	authored
+core/backend-go/internal/services/permission/sso_test.go	access	authorization	core/backend-go/internal/services/permission	6763eea594e20edec662ca62b2e56ce487f5de05	authored
 core/backend-go/internal/services/permission/template.go	access	authorization	core/backend-go/internal/services/permission	ed325c928737763333e3291d11347466da70b1ca	unread
 core/backend-go/internal/services/permission/template_test.go	access	authorization	core/backend-go/internal/services/permission	f6df834a924b1d37f13ee869270008641f94b863	unread
+core/backend-go/internal/services/permission/testdata/sso-bypass.json	access	authorization	core/backend-go/internal/services/permission	1974633d2e02765f7340cd10c1cc16edca075c53	authored
 core/backend-go/internal/services/project/project.go	secrets	secrets	core/backend-go/internal/services/project	c2e3ea859df2740e6937c4c586556243c550071c	unread
 core/backend-go/internal/services/secretmanager/environment/environment.go	secrets	secrets	core/backend-go/internal/services/secretmanager	2bddc4f9360ede5feacc8c7f40bb8d5d5a03c451	unread
 core/backend-go/internal/services/secretmanager/secret/expansion.go	secrets	secrets	core/backend-go/internal/services/secretmanager	3b3df2fc234afc8aabdfa63116c4c80ea26e1237	unread
@@ -203,6 +206,8 @@ core/backend-go/tests/platform/keystore/counter_test.go	kms	kms	core/backend-go/
 core/backend-go/tests/platform/kms/kms_test.go	kms	kms	core/backend-go/tests/platform/kms	8b5ad161edb1503e5a611d9fa0715bb560bd4ba6	unread
 core/backend-go/tests/platform/permission/authority_test.go	access	authorization	core/backend-go/tests/platform/permission	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	verified
 core/backend-go/tests/platform/permission/permission_test.go	access	authorization	core/backend-go/tests/platform/permission	cbdbb1cf1b210d8bb4abf6018a0910c7761742a6	unread
+core/backend-go/tests/platform/permission/sso_session_test.go	access	authorization	core/backend-go/tests/platform/permission	82c7c6937c83756767155c38cb3c52d47dfd5fab	authored
+core/backend-go/tests/platform/permission/sso_test.go	access	authorization	core/backend-go/tests/platform/permission	ccea6d15093fd2360271aeb94a012d2c63f2fb9f	authored
 core/backend-go/tests/platform/projects/projects_test.go	secrets	secrets	core/backend-go/tests/platform/projects	d0da91674b456a9921add9d8a3a8f40a034f26e3	verified
 core/backend-go/tests/platform/ratelimit/ratelimit_test.go	operate	foundation	core/backend-go/tests/platform/ratelimit	e0b33da24234dcb80063a8b7e32e85dbcde951b3	unread
 core/backend-go/tests/secretmanager/secrets/get_secret_by_name_integration_test.go	connect	integrations	core/backend-go/tests/secretmanager/secrets	34d149097ddbbc9fc5028ed66f17713c136faf1c	unread
@@ -9414,6 +9419,7 @@ scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e2368
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
 scripts/test-self-hosted-build.mjs	operate	delivery	scripts	52cfaaf0a1140b5bbf8ece61377ef044824ba6a8	verified
+scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	authored
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
