@@ -3875,11 +3875,14 @@
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
       "blob": "f234ddffaa1570d24e72d25ead040197d502dc56",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete permission file/caller trace retained from 0061/0062. Resolve assumed actors on a local argument copy so callers retain authenticated identity. Preserve primary authority, SSO, tenant/type, roles and encrypted-store compatibility. Nested assumption, delegated OAuth and native cutover remain open. Committed-image acceptance pending.",
+      "scope": "Complete permission file/caller trace retained from 0061/0062. Resolve assumed actors on a local argument copy so callers retain authenticated identity. Preserve primary authority, SSO, tenant/type, roles and encrypted-store compatibility. Nested assumption, delegated OAuth and native cutover remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
@@ -4011,61 +4014,79 @@
     {
       "path": "core/backend-go/internal/services/assumeprivilege/service.go",
       "blob": "741e82e9e22c49c65721a760fe7b3baa94174531",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read; trace existing TypeScript issuance/verification and native middleware/project authority. Author strict one-hour grant claims, supported actors/nonzero scope, explicit authenticated requester/session binding and pre-issuance scope validation. Retain current requester and target permission checks; preserve authority-store/cancellation failures. Nested assumptions and issuer/cutover remain open. Committed-image acceptance pending.",
+      "scope": "Complete file read; trace existing TypeScript issuance/verification and native middleware/project authority. Author strict one-hour grant claims, supported actors/nonzero scope, explicit authenticated requester/session binding and pre-issuance scope validation. Retain current requester and target permission checks; preserve authority-store/cancellation failures. Nested assumptions and issuer/cutover remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
       "path": "core/backend-go/internal/services/assumeprivilege/types.go",
       "blob": "8680f7d30529f6733752d60c247cba7c3cf17fb4",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read and all callers traced. Verification now requires the current authenticated requester ID; preserve existing grant wire format and scope options. Committed-image acceptance pending.",
+      "scope": "Complete file read and all callers traced. Verification now requires the current authenticated requester ID; preserve existing grant wire format and scope options. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
       "path": "core/backend-go/internal/services/assumeprivilege/service_test.go",
       "blob": "28fda7f87d55094e57a89417dd7c4b4f950a254f",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete existing test file read. Preserve nine mock-based success/denial/revocation cases and supply the verified requester field in verification controls. Mock evidence is not issuer interoperability. Committed-image acceptance pending.",
+      "scope": "Complete existing test file read. Preserve nine mock-based success/denial/revocation cases and supply the verified requester field in verification controls. Mock evidence is not issuer interoperability. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
       "path": "core/backend-go/internal/services/assumeprivilege/claim_boundary_test.go",
       "blob": "199f5fabbe5558749fd7e03dd20571e55556ad9c",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Author signed malformed-claim controls, invalid mint scope, requester/session binding and authority-failure tests. Assert rejection before permission lookup and no minted grant on failure; fixture signatures are not an attacker-forgery claim. Committed-image acceptance pending.",
+      "scope": "Author signed malformed-claim controls, invalid mint scope, requester/session binding and authority-failure tests. Assert rejection before permission lookup and no minted grant on failure; fixture signatures are not an attacker-forgery claim. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
       "blob": "57a239176f1b3995ba737961b010f9b13b077c84",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Committed-image acceptance pending.",
+      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/permission/assumed_authority_test.go",
       "blob": "e00b50bc3609398aab2ce19b6e2b98ba3b8039d8",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Author bidirectional application/native grant interoperability with real sessions and native middleware/domain composition. Prove no-access targets, argument immutability, revocation, malformed/fallback/disabled cases, tenant/project boundaries, session invalidation and primary failure/recovery. Copied-schema and signed-claim fixtures are labelled; HTTP probe is not a production route. No secret reads or token receipts. Committed-image acceptance pending.",
+      "scope": "Author bidirectional application/native grant interoperability with real sessions and native middleware/domain composition. Prove no-access targets, argument immutability, revocation, malformed/fallback/disabled cases, tenant/project boundaries, session invalidation and primary failure/recovery. Copied-schema and signed-claim fixtures are labelled; HTTP probe is not a production route. No secret reads or token receipts. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md"
+        "docs/0063-native-assumed-authority.md",
+        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
+        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
       ]
     }
   ]

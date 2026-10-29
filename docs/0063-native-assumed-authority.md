@@ -1,6 +1,7 @@
 # Native assumed-privilege authority
 
-Workstream AUTH-01, prerequisite for READ-01. Acceptance pending.
+Workstream AUTH-01, prerequisite for READ-01. Scoped prerequisite accepted;
+full feature migration remains open.
 
 The existing application issues a one-hour signed grant in the
 `vaultix-project-assume-privileges` cookie after checking the requester's
@@ -89,4 +90,54 @@ authentication and permission packages:
 lint passes with zero findings in
 `.cache/native-assumed-authority/.cache/lint-development.json`; the snapshot
 normalizes Go line endings exactly as the corrected committed archive does.
-Canonical committed-image acceptance remains pending.
+Canonical committed-image acceptance is recorded below.
+
+## Final committed-image acceptance, 2026-10-29
+
+Runtime/build source: `8a0ec825417efa7464be09323f74467d4f564906`.
+Canonical image: `sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5`.
+Go test stage from the same committed archive:
+`sha256:4495c4b5662fac6c2f3c7ea561369d8d4716469d3f9832f8801a8042c9c5f2c2`.
+Native forwarding remains disabled. The existing encrypted store is unchanged.
+
+All receipts below are local and ignored, relative to the main checkout.
+
+- All 16 canonical application gates passed:
+  `.cache/native-assumed-authority/.cache/self-hosted-build-Z8WJ6a/result.json`.
+- Native unit/race: 673 passed, zero failed/skipped; integration-tagged vet passed:
+  `.cache/native-assumed-authority/.cache/native-unit-vet.json`.
+- Full native lint with integration tags: zero issues, exit 0:
+  `.cache/native-assumed-authority/.cache/lint-image-final.json`. The existing
+  linter deprecation notice remains; no rule was disabled.
+- Full native integrations: 653 passed, zero failures, eight existing external
+  provider skips per cache, with no setup diagnostics. These include the 45-entry
+  assumed-authority matrix, with real issuers in both directions. Dragonfly:
+  `.cache/native-assumed-authority/.cache/go-proof-PVcp9F/result.json`; Redis:
+  `.cache/native-assumed-authority/.cache/go-proof-qx0wiB/result.json`.
+- Real packaged browser workflows passed: setup, sign-in, projects, secrets,
+  environments and recovery. Injected UI fixture states remain separately labelled:
+  `.cache/native-assumed-authority/.cache/app-image-proof-AAzJSj/workflow-result.json`.
+- Nine encrypted recovery, eleven tenant isolation and four proxy boundary checks
+  passed with successful cleanup:
+  `.cache/native-assumed-authority/.cache/encrypted-recovery-hBYjsV/result.json`,
+  `.cache/native-assumed-authority/.cache/tenant-isolation-vw666Y/result.json`, and
+  `.cache/native-assumed-authority/.cache/proxy-boundary-cJ613X/result.json`.
+- Admission passed four checks per cache with successful cleanup:
+  `.cache/native-assumed-authority/.cache/production-admission-lgfTNC/result.json`
+  (Dragonfly) and
+  `.cache/native-assumed-authority/.cache/production-admission-AzoJE5/result.json`
+  (Redis).
+
+The 273 UI routes and 2,290 baseline API operations remain preserved. These are
+surface checks, not behavioral evidence for every capability. The earlier Redis
+package-bootstrap timeout in 0061 remains an unresolved reliability finding;
+these passing runs do not diagnose it. Browser cookie deletion, nested assumption,
+delegated OAuth, Nomen issuer/session ownership, native public API/audit ownership,
+ElastiCache, physical replication/failover and public-cloud capacity remain open.
+Automated checks do not establish manual assistive-technology acceptance,
+whole-product parity or enterprise/government certification.
+
+Reproduce application acceptance with `node scripts/build-self-hosted.mjs`.
+Build the `go-builder` stage from that receipt's archived `source/core`, then run
+`node scripts/test-go-core.mjs <canonical-image-id> <dragonfly|redis> <go-stage-id>`
+for each cache. Unit/race, integration-tagged vet and lint use the same Go stage.
