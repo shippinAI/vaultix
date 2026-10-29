@@ -64,7 +64,7 @@ Unit coverage uses the actual Fastify limiter and native router with a simulated
 shared cache, including one count per request, 429/error mapping, credential-key
 redaction, development fallback, required production cache and connection cleanup.
 Build-orchestration fixtures verify both image gates and failure propagation.
-Actual source/image receipts are added after the canonical build succeeds.
+The accepted source/image receipts are recorded below.
 
 The first packaged run found a regression: repeated real UI navigation exhausted
 the shared fallback budget through static assets, then returned 429 JSON in place
@@ -85,3 +85,48 @@ abuse, edge/static admission, clock/window and provider failover behavior,
 cache durability/eviction, measured load/soak, public issuer enrollment and the
 rest of CLOUD-01 through CLOUD-08. Two replicas in this proof are not an HA or
 scaling topology. No whole-product parity or complete accessibility claim.
+
+
+## Accepted image evidence
+
+Source: `3be1241e662c5ae9b90c4fc2f7a535adde13b7f3`.
+Canonical image: `sha256:18acc6ba1fdf6c1e7c56bd3a10115fa0887b5f56af485b6b10bdfe91c7c74755`.
+All paths below are relative to the main checkout. Evidence is local and ignored;
+the committed runners reproduce it on owned infrastructure.
+
+- All 15 application build gates passed:
+  `.cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json`.
+- Shared production admission: four checks per cache, cleanup passed:
+  `.cache/production-admission/.cache/production-admission-dCRQlj/result.json`
+  (Dragonfly) and
+  `.cache/production-admission/.cache/production-admission-FMV5mX/result.json`
+  (Redis). Both replicas enforce 60 login / 120 catalog requests, retain the
+  budget across application restart and deny requests on cache loss.
+- Real browser application and workflow acceptance:
+  `.cache/production-admission/.cache/app-image-proof-jSuERH/workflow-result.json`.
+  Setup, sign-in, project creation, five product categories, secret/environment
+  operations and separately labelled recovery fixtures passed. Existing manual
+  accessibility review items remain; this does not establish all-UI WCAG compliance.
+- Encrypted recovery: nine checks, cleanup passed:
+  `.cache/production-admission/.cache/encrypted-recovery-jz2WM3/result.json`.
+- Tenant isolation: eleven checks, cleanup passed:
+  `.cache/production-admission/.cache/tenant-isolation-FccsTn/result.json`.
+- Proxy authority: four checks, cleanup passed:
+  `.cache/production-admission/.cache/proxy-boundary-FJbGfD/result.json`.
+- Backend unit: 126 files, 1,953 passed and 22 existing skips:
+  `.cache/production-admission/.cache/unit-proof-aM66FS/test-results.json`.
+  Type checking and targeted ESLint passed.
+- Build orchestration: thirteen fixtures passed:
+  `.cache/production-admission/.cache/self-hosted-fixtures-UZvSfE/result.json`.
+- Previous image reproduction: login requests 61 and 62 still returned validation
+  errors instead of 429, with no rate headers:
+  `.cache/production-admission/.cache/production-admission-xHWrxa/result.json`.
+- First implementation regression: real browser navigation exhausted static/API
+  shared accounting; safe failure receipt:
+  `.cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json`.
+  The accepted image fixes it without reducing browser assertions or rate budgets.
+
+The 273-route UI baseline and 2,290-operation API baseline remain preserved;
+the image exposes 2,291 documented operations with the previously added learning
+endpoint. These counts are surface continuity, not blanket behavioral parity.
+No paid GitHub runner, registry publication or public deployment was used.

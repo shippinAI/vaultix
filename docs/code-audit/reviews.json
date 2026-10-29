@@ -265,13 +265,15 @@
     {
       "path": "scripts/test-image-app.mjs",
       "blob": "145c803baf155e5fcb24a9178a3e88c726cbde72",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass. Final packaged acceptance pending.",
+      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
-        "core/backend/src/server/plugins/production-rate-limit.test.ts"
+        "core/backend/src/server/plugins/production-rate-limit.test.ts",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
@@ -2789,25 +2791,29 @@
     {
       "path": "scripts/build-self-hosted.mjs",
       "blob": "c861dfad43cf06c3b7ecb2ab0d4336e2af8c605a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
       "blob": "8e2ed5db173f80b35f63d6b66b1dd83a9f21ceec",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
@@ -3475,13 +3481,15 @@
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
       "blob": "6f091f4a2ad554149969ccb59f6432c5192e557a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
@@ -3573,13 +3581,15 @@
     {
       "path": "core/backend/src/server/app.ts",
       "blob": "d755cddbbbab063edb1c49117744915c714a3ad2",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
@@ -3725,73 +3735,85 @@
     {
       "path": "core/backend/src/lib/config/redis.ts",
       "blob": "9aa23a24ac088ac40bb584a0707a84483e8bafaa",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/config/rateLimiter.ts",
       "blob": "5a16f25284ae3215fcf467b0d65854a0418db069",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass. Final packaged acceptance pending.",
+      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
-        "core/backend/src/server/plugins/production-rate-limit.test.ts"
+        "core/backend/src/server/plugins/production-rate-limit.test.ts",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/production-rate-limit.ts",
       "blob": "10730936de8384d26dcd4a5917d48fe6f6672f40",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "core/backend/src/server/plugins/production-rate-limit.test.ts",
       "blob": "506d1c27d9cf46a1e692c6c302a065f9ece00ea2",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass. Final packaged acceptance pending.",
+      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
-        "core/backend/src/server/plugins/production-rate-limit.test.ts"
+        "core/backend/src/server/plugins/production-rate-limit.test.ts",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "scripts/test-production-admission.mjs",
       "blob": "938354dca96cbfaa75e5d693aed14592ce7bf11d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim. Packaged acceptance pending.",
+      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     },
     {
       "path": "docs/0059-production-request-admission.md",
-      "blob": "48cd05a34a50230c83e30a0a5e39acd42facdbe2",
-      "status": "authored",
+      "blob": "2e301a3e5ec96337dab2a68570caa6a2fd458273",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass. Final packaged acceptance pending.",
+      "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
       "evidence": [
         "docs/0059-production-request-admission.md",
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
-        "core/backend/src/server/plugins/production-rate-limit.test.ts"
+        "core/backend/src/server/plugins/production-rate-limit.test.ts",
+        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
       ]
     }
   ]
