@@ -1205,8 +1205,8 @@ core/backend/src/ee/routes/v1/agent-proxy-ca-router.ts	1dec2487ba6f6e3e70aad0891
 core/backend/src/ee/routes/v1/app-connection-routers/chef-connection-router.ts	2855d8b37f5f6c52391fb6185e1f343eaec65b1b	product-code	unread
 core/backend/src/ee/routes/v1/app-connection-routers/oci-connection-router.ts	14dd6cb5d487a8999f233262fd6cbb1326fcad9d	product-code	unread
 core/backend/src/ee/routes/v1/app-connection-routers/oracledb-connection-router.ts	8a90fe9a7fc651a010fdae578faa52e8f662d46e	product-code	unread
-core/backend/src/ee/routes/v1/assume-privilege-router.test.ts	ffd71ccb69e5caf55cab172f492fc90e7540e20d	test	authored
-core/backend/src/ee/routes/v1/assume-privilege-router.ts	9c0bf5b26bafd87c61091581db0959fc48622f16	product-code	authored
+core/backend/src/ee/routes/v1/assume-privilege-router.test.ts	ffd71ccb69e5caf55cab172f492fc90e7540e20d	test	verified
+core/backend/src/ee/routes/v1/assume-privilege-router.ts	9c0bf5b26bafd87c61091581db0959fc48622f16	product-code	verified
 core/backend/src/ee/routes/v1/audit-log-stream-routers/audit-log-stream-endpoints.ts	f564f98a2c125b5ebf49ccc41b0b26ab32092f6c	product-code	unread
 core/backend/src/ee/routes/v1/audit-log-stream-routers/audit-log-stream-router.ts	b089e9c2ee0a8b9be25adbfbea6421c5aa219907	product-code	unread
 core/backend/src/ee/routes/v1/audit-log-stream-routers/index.ts	e3bb934e4f3f82584ed947c675db85c05831f8bd	product-code	unread
@@ -2147,7 +2147,7 @@ core/backend/src/server/lib/telemetry.ts	9d04d0357e80e01802f4e415d47574a740c8ea3
 core/backend/src/server/lib/with-route-prefix.ts	d8a6c994432813d526a66d7107dad33d79070b67	product-code	unread
 core/backend/src/server/plugins/api-metrics.ts	7617630e5dae77becdc9747cfd20d15e34ac8ee7	product-code	unread
 core/backend/src/server/plugins/audit-log.ts	31ec61d82e162eff3db6b8a7397fa0ae0aee7037	product-code	unread
-core/backend/src/server/plugins/auth/inject-assume-privilege.ts	2d65c57d219b424d3dc34f91a08a2b23df021bf2	product-code	authored
+core/backend/src/server/plugins/auth/inject-assume-privilege.ts	2d65c57d219b424d3dc34f91a08a2b23df021bf2	product-code	verified
 core/backend/src/server/plugins/auth/inject-identity.test.ts	3b316d1a5e5a773352f36de3335928bbcd62842f	test	unread
 core/backend/src/server/plugins/auth/inject-identity.ts	cb075120a4a34a9c04d911f607fc7c6b729363e8	product-code	unread
 core/backend/src/server/plugins/auth/inject-permission.ts	5c1cd742c73860a1b447b46d2f7b1126032838fc	product-code	unread
@@ -6691,7 +6691,7 @@ core/frontend/src/components/app-connections/index.ts	7ced7c9079228abfac3128d8ec
 core/frontend/src/components/approvals/ApprovalStepsSchema.ts	fc9711137eb8d555f06c24ae5e8524be768f71a8	product-code	unread
 core/frontend/src/components/approvals/PolicyApprovalSteps.tsx	870bdfd9809d7e63168e5a5e14307e19954d3939	product-code	unread
 core/frontend/src/components/approvals/index.ts	01b7be58a9cd63a475ed217def09a5d75692a248	product-code	unread
-core/frontend/src/components/assume-privileges/AssumePrivilegesModal.tsx	72ae3845e69bff92a993e62c140392c5b9ca44a9	product-code	authored
+core/frontend/src/components/assume-privileges/AssumePrivilegesModal.tsx	72ae3845e69bff92a993e62c140392c5b9ca44a9	product-code	verified
 core/frontend/src/components/assume-privileges/index.ts	f9a43ba879b5d3657826e71ff4a0f78b6345cc60	product-code	unread
 core/frontend/src/components/auth/AuthPageBackground.tsx	3eefb73eafb954dd9736d45fc9a5c95dfbb46b5b	product-code	unread
 core/frontend/src/components/auth/AuthPageFooter.tsx	becd21f5a4c4760233605bdaf7674cfd978cfc5c	product-code	unread
@@ -7993,7 +7993,7 @@ core/frontend/src/hooks/api/approvalRequests/mutations.tsx	e4c73c91f5bf58f832319
 core/frontend/src/hooks/api/approvalRequests/queries.tsx	7b4290af7ae34438fc13d8119204042e76ac0ee4	product-code	unread
 core/frontend/src/hooks/api/approvalRequests/types.ts	d62987afcbb9f89f7534bf3123803948484f51d8	product-code	unread
 core/frontend/src/hooks/api/assumePrivileges/index.tsx	ab4b122c5b70944e663182b274e9b1958ad95ab6	product-code	unread
-core/frontend/src/hooks/api/assumePrivileges/mutations.tsx	20bd329b720670685cc988ff558dcbda5c0c0df9	product-code	authored
+core/frontend/src/hooks/api/assumePrivileges/mutations.tsx	20bd329b720670685cc988ff558dcbda5c0c0df9	product-code	verified
 core/frontend/src/hooks/api/assumePrivileges/types.ts	07e14d5180c906a73b33a6678c9c63048e2003b1	product-code	unread
 core/frontend/src/hooks/api/auditLogStreams/enums.ts	13be1d935e10e526b86a887d010ac6d4df448da8	product-code	unread
 core/frontend/src/hooks/api/auditLogStreams/index.tsx	0c2adeab024f36dbf1036e13e618a4d4ed55a274	product-code	unread
@@ -8597,7 +8597,7 @@ core/frontend/src/layouts/PersonalSettingsLayout/index.tsx	2ce9140ffa5e07b40eaee
 core/frontend/src/layouts/PkiManagerLayout/PkiManagerLayout.tsx	2242cb5f71f1d52ca8ad0ffd641cf9a90bc32944	product-code	unread
 core/frontend/src/layouts/PkiManagerLayout/components/CertManagerInstanceBanner.tsx	320805f7c2abfcad2cba82bc093451df16e66cb0	product-code	unread
 core/frontend/src/layouts/PkiManagerLayout/index.tsx	6de729cf014cf8795fe01bacc1037f942bea681c	product-code	unread
-core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/AssumePrivilegeModeBanner.tsx	71a9437f7bcf5d7cb0b186e33e60a7b8eb92043f	product-code	authored
+core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/AssumePrivilegeModeBanner.tsx	71a9437f7bcf5d7cb0b186e33e60a7b8eb92043f	product-code	verified
 core/frontend/src/layouts/ProjectLayout/components/AssumePrivilegeModeBanner/index.tsx	e8ebac19e1aefb86bacb4e9f82f7ca48fbc92320	product-code	unread
 core/frontend/src/layouts/ProjectLayout/components/ProjectSelect/ApplicationSelect.tsx	8055f3b57b8c849b7bc13db54c9cdc37808ab5a7	product-code	unread
 core/frontend/src/layouts/ProjectLayout/components/ProjectSelect/ProjectSelect.tsx	f3ac6dfc5070f8a3a12ab712c6bf96199e61c337	product-code	unread
@@ -11721,17 +11721,17 @@ docs/0060-login-recovery.md	23ea076897a9aef5c44b555096cce9bf997d1f34	documentati
 docs/0061-native-permission-authority.md	5db1927401b0ae4e483d94b185ca77a8bda3bc19	documentation	authored
 docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	documentation	unread
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
-docs/0064-assumed-privilege-workflow.md	e463cb72b272dc09f66374dafb8d4a5ff156515d	documentation	unread
+docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	06b9e5d44fc763515704d228e4fe294366694012	generated	unread
-docs/capabilities/generated/source-map.tsv	4714640cb1b1ad0fd540db041e436f8b41335549	generated	unread
+docs/capabilities/generated/source-map.tsv	75817efd9d3ba9cd8d66b707fcd1dca956c8a8dd	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	fead0f149bef04b39d8e563f433259d82fa8433b	generated	unread
+docs/migration/generated/files.tsv	8db62514de5314483a661fe2ca402618749b6cb0	generated	unread
 docs/migration/generated/modules.tsv	78d6f0b5930c871db8fc8f3a4865f1f52f684a9e	generated	unread
 docs/migration/generated/summary.json	c00097fb224d96506913fef5e90b2d5db27c7ed7	generated	unread
 docs/migration/workstreams.json	d3ba87ed84a59458fca000d8d38bc1d99dcca3ed	product-code	authored
@@ -11867,7 +11867,7 @@ scripts/run-core.sh	ce4275be18ca18f1216eed158527ab792540fd2e	build-and-operation
 scripts/serve-capability-plan.mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	build-and-operations	verified
 scripts/smoke-image.sh	d4af9bd9e34654fb334be2b45edc128b842d3fad	build-and-operations	verified
 scripts/test-api-request-errors.mjs	930660062217b4797619f36773c7ccca9dcadb4a	build-and-operations	verified
-scripts/test-assumed-privilege-workflow.mjs	a75751b83e3a25055bb11d2d4f98507b4a5d0efa	build-and-operations	authored
+scripts/test-assumed-privilege-workflow.mjs	a75751b83e3a25055bb11d2d4f98507b4a5d0efa	build-and-operations	verified
 scripts/test-capability-explorer.mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	build-and-operations	verified
 scripts/test-capability-map.mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	build-and-operations	verified
 scripts/test-capability-surface.mjs	a6ff78877d1ded9319b36480330d8c72494961b2	build-and-operations	verified
@@ -11888,7 +11888,7 @@ scripts/test-go-test-evidence.mjs	b5583de0e3990833d120e86e707545c3a491a1e1	build
 scripts/test-guidance-contract.mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	build-and-operations	verified
 scripts/test-guided-interactions.mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	build-and-operations	verified
 scripts/test-identity-policy-startup.mjs	0b987ad6360d321ac5126d81634a38abfa98a504	build-and-operations	verified
-scripts/test-image-app.mjs	6ccb5103cf6699041e3d573217279f6555ca3df9	build-and-operations	authored
+scripts/test-image-app.mjs	6ccb5103cf6699041e3d573217279f6555ca3df9	build-and-operations	verified
 scripts/test-learning-content.mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	build-and-operations	verified
 scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-and-operations	verified
 scripts/test-login-recovery.mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	build-and-operations	verified

@@ -1,6 +1,6 @@
 # Assumed-privilege workflow
 
-AUTH-01 / native React workflow. Implementation and acceptance in progress.
+AUTH-01 / native React workflow. Scoped workflow accepted; full migration remains open.
 
 ## Work packet
 
@@ -88,4 +88,56 @@ Both successful responses and 503 responses after real server-side cookie change
 are exercised. HTTP /api cookie removal is proved; HTTPS transport and all
 multi-product/group/table entry paths remain separate acceptance work.
 
-Canonical committed-image verification remains pending.
+Canonical committed-image verification is recorded below.
+
+
+## Canonical image acceptance, 2026-10-29
+
+Runtime/build source: `4379096142d4d61135902fef59f38884448d020c`.
+Image: `sha256:b228ed4142c08edeb00408ae77622a191ef5aa4baf5253ac64b90c8f1b6bc3a1`.
+
+- All 16 application/image gates pass:
+  `.cache/assumed-workflow/.cache/self-hosted-build-Zkll40/result.json`.
+- The complete real packaged browser suite, including the new six-group privilege
+  workflow, passes in
+  `.cache/assumed-workflow/.cache/app-image-proof-C4p4dE/workflow-result.json` and
+  its `assumed-privilege-workflow.json`. Five scoped axe states have zero detected
+  violations; the two desktop contrast incomplete findings remain explicit.
+  Keyboard confirmation, focus return, 320-pixel layout, reduced motion, one
+  pending POST, real identity/member grants, HTTP cookie cleanup, normal exit and
+  reload reconciliation after committed operations with injected 503s are covered.
+- Six focused Fastify route tests pass on the committed source:
+  `.cache/assumed-workflow/.cache/route-unit.json`. These stub authority/audit and
+  do not substitute for the real packaged browser/HTTP checks.
+- Native/application grant interoperability passes 45 entries per cache, with
+  zero failures, skips or setup diagnostics:
+  `.cache/assumed-workflow/.cache/native-interop.json`. Go source is unchanged
+  from `8a0ec825417efa7464be09323f74467d4f564906`; the exact previously built
+  stage is `sha256:4495c4b5662fac6c2f3c7ea561369d8d4716469d3f9832f8801a8042c9c5f2c2`.
+  These are targeted grant tests against the new image, not a new full-provider
+  integration acceptance. The broader 0063 results keep their original scope.
+- encrypted-recovery: 9 checks pass with successful cleanup:
+  `.cache/assumed-workflow/.cache/encrypted-recovery-NWRnFa/result.json`.
+- production-admission (redis): 4 checks pass with successful cleanup:
+  `.cache/assumed-workflow/.cache/production-admission-lnwt9s/result.json`.
+- production-admission (dragonfly): 4 checks pass with successful cleanup:
+  `.cache/assumed-workflow/.cache/production-admission-WonsZc/result.json`.
+- proxy-boundary: 4 checks pass with successful cleanup:
+  `.cache/assumed-workflow/.cache/proxy-boundary-CcyZNC/result.json`.
+- tenant-isolation: 11 checks pass with successful cleanup:
+  `.cache/assumed-workflow/.cache/tenant-isolation-rcmmOJ/result.json`.
+
+The baseline still contains 273 UI routes and 2,290 API operations. No production
+Go forwarding, Nomen transition, new store or provider configuration is enabled.
+The earlier Redis bootstrap timeout from 0061 remains an unresolved reliability
+finding; this passing run does not diagnose it. HTTPS cookie transport, all other
+product/group/table entry paths, real assistive technology, durable audit failure
+recovery, native API ownership, provider acceptance and public-cloud capacity
+remain separate gates. This packet does not establish whole-UI accessibility,
+enterprise/government certification or full capability parity.
+
+Reproduce the packaged checks with `node scripts/build-self-hosted.mjs` and the
+focused route tests with the backend unit command targeting
+`src/ee/routes/v1/assume-privilege-router.test.ts`. For native interoperability, run
+`go test -race -tags integration -run '^TestAssumedAuthority_' ./tests/platform/permission`
+in the verified Go stage against the canonical image, once for each cache.
