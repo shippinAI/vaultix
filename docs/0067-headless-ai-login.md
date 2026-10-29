@@ -112,3 +112,40 @@ correlate correctly. Unicode string limits match the core's UTF-16 length rule,
 and invalid UTF-8 frames are rejected. This CLI-only change leaves the accepted
 standalone image's `core/` source unchanged. The CLI and engine have separate
 committed-source artifact receipts.
+
+## Accepted artifact evidence
+
+Engine source: `def6d502025e5d41599cedf4244262b47d87b46a`.
+Canonical standalone image: `sha256:a9fcdd51f8f4c4ba8b67856e480373189394ca747d04e64e56260ed802ec0a79`.
+CLI source: `df5a4ebfb48729ddc0d28b73d0111b067b698495`. Its CLI-only protocol correction does not
+change the accepted engine's core tree.
+
+- All 16 canonical build/application gates passed:
+  `.cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json`.
+- 67 root Go unit/race checks passed, zero test failures/skips; vet passed.
+  The command package has no tests. Receipt:
+  `.cache/headless-ai-login/.cache/cli-unit-build.json`.
+- Eight final committed CLI/image checks passed, with disposable cleanup:
+  `.cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json`.
+- Real packaged application workflow passed, including the six repeated editor
+  insertions and real role revocation/restoration. Fixture states remain labelled:
+  `.cache/headless-ai-login/.cache/app-image-proof-xwQFHe/workflow-result.json`.
+- Windows and Linux amd64 CLIs were built from a committed source archive:
+  `.cache/headless-ai-login/.cache/cli-build-UDOCI4/result.json`.
+  Linux SHA-256: `2b905af5385915a88ecae5a3ee704d36958ace283cd38f4f16977fd4ad00d14d`.
+  Windows SHA-256: `fd960e982d208b0f1e48cb55d8472bedbacc01dac1ebdaf4f6560b31a271d5d5`.
+  The generated Windows config fragment also parsed successfully as TOML.
+
+An intermediate CLI integration run failed at fixture provisioning because its
+random password could violate the existing repeated-character policy. The fixture
+now separates random byte pairs, matching the established application tests; no
+password policy was relaxed. Failed evidence is retained at
+`.cache/headless-ai-login/.cache/cli-headless-YjNRQE/result.json`.
+
+Public discovery at the operator's configured `https://id.shippin.cloud`
+returned 200 and advertises the device authorization grant. The local application
+configuration also contains a client-secret field; its public device-client grant
+settings have not been verified. No client secret was printed, copied into model
+configuration, or used. This discovery result does not prove CLI registration,
+human browser approval, Nomen-to-Vaultix authority mapping, or session renewal.
+Those gates remain open.

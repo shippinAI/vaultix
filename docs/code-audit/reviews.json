@@ -2369,9 +2369,9 @@
     {
       "path": "README.md",
       "blob": "74a809e674202397ab71bb68ff37cc125f944394",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete README read. Authored 0067 headless CLI and metadata-only MCP instructions; clarified separate Codex and Vaultix authorization, explicit private storage and incomplete live Nomen renewal. Retained remaining product and deployment documentation.",
+      "scope": "Complete README read. Authored 0067 headless CLI and metadata-only MCP instructions; clarified separate Codex and Vaultix authorization, explicit private storage and incomplete live Nomen renewal. Retained remaining product and deployment documentation. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2389,7 +2389,9 @@
         ".cache/self-hosted-build-ueBbJX/result.json",
         ".cache/app-image-proof-5NZO8A/onboarding-result.json",
         ".cache/app-image-proof-5NZO8A/workflow-result.json",
-        "docs/0067-headless-ai-login.md"
+        "docs/0067-headless-ai-login.md",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
@@ -2706,16 +2708,18 @@
     {
       "path": "core/frontend/src/components/v2/VaultixSecretInput/VaultixSecretInput.tsx",
       "blob": "0fd380f2646b4ac7eb1900fd255faf09fe663702",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted.",
+      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0046-dashboard-reference-editor.md",
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
         ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
         ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
         ".cache/dashboard-reference-pending-lint.log",
-        "docs/0067-headless-ai-login.md"
+        "docs/0067-headless-ai-login.md",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
@@ -2735,9 +2739,9 @@
     {
       "path": "scripts/test-dashboard-secret-references.mjs",
       "blob": "a5a68d08436bf3956709fc37273e75e95423a325",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted.",
+      "scope": "Complete file read for release-gate repair in 0067. Replace delayed caret restoration with value-matched commit restoration, protect focus from subsequent edits, and repeat packaged reference insertion with suffix/caret assertions. Existing permission checks, parsing, masking and submission controls retained. Other editor consumers and v3 remain unaccepted. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0046-dashboard-reference-editor.md",
         ".cache/app-image-proof-2v6T9x/workflow-result.json",
@@ -2751,7 +2755,9 @@
         ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
         ".cache/dashboard-create-lint-final.log",
         ".cache/dashboard-commit-lint-final.log",
-        "docs/0067-headless-ai-login.md"
+        "docs/0067-headless-ai-login.md",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
@@ -3260,9 +3266,9 @@
     {
       "path": "core/backend/src/services/vaultix/catalog.ts",
       "blob": "73e903458f31459e7746768d178e6e6d7fdf474e",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0057-learning-context-integration.md",
         "core/backend/src/server/routes/vaultix-learning.test.ts",
@@ -3271,7 +3277,9 @@
         ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json",
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
@@ -4356,205 +4364,239 @@
     {
       "path": "cmd/vaultix/main.go",
       "blob": "18d22582e7fa66bbc9bca8c6dd1fb5f335a917e7",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/api/client.go",
       "blob": "0ceb9fa59fcc3e4cd062e4c43b9b31a8290a9bc8",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/api/auth_test.go",
       "blob": "daba0f16fa0b22711620a169dcd0865fc04bbaf3",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/api/mcp.go",
       "blob": "5f5a8b9247aa3f1e0fc7c7dc53c7eaac342af17d",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/auth_cmds.go",
       "blob": "faccb262b8d3482496443bb9ab72bce2c77fd5dd",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/auth_test.go",
       "blob": "e0d71e96888eb56193aeae9fe09247c4881f6053",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/config.go",
       "blob": "2f36f9e5551fb2b4cc101b926f2175da179db7fe",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/session.go",
       "blob": "58f9c129daff83559f937662e1f46b646cbdd9a8",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/mcp.go",
       "blob": "7d560195a2f558a67ebc53cfbe2e4f42add1837a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending. Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/cli/mcp_test.go",
       "blob": "be669bdade07fe42cb3891c6325dbdbea65529d0",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending. Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/oidc/device.go",
       "blob": "6298e3f9cb0526de68e72017701c84fa598d1e8b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/oidc/device_test.go",
       "blob": "321d7e60ac500f99b11a9a53cb977605251b9ad4",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/store/credential_file.go",
       "blob": "39be2494a236e9c05ec038adfea24e7ad01e6f23",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/store/credential_file_test.go",
       "blob": "c1308451c59589d10b822a24625a975d14a83769",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/transport/http.go",
       "blob": "8a559e632fa7828a47d646978c2fc5cdeb21e8e7",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "internal/transport/http_test.go",
       "blob": "18b10d31c6ba1288e45381ba5e8955e8caf24165",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "45bab1a1fd0810bef637ed3b0e4140275fd43908",
-      "status": "authored",
+      "blob": "bfad88b0e9c5924eb002eb3679a006f8bbaee35c",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted. Final committed artifact checks pending.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
       ]
     }
   ]

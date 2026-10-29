@@ -17,7 +17,8 @@ const evidence = mkdtempSync(resolve(root, ".cache/cli-headless-"));
 const run = `vaultix-cli-${randomBytes(8).toString("hex")}`;
 const report = { passed: false, artifact, cliSha256: createHash("sha256").update(readFileSync(resolve(process.argv[3]))).digest("hex"), checks: [], exclusions: ["live Nomen issuer", "refresh/revocation of Nomen sessions", "interactive Codex inference", "full feature parity"] };
 const check = name => { report.checks.push(name); console.log(`Vaultix CLI: ${name}`); };
-const password = `Vx9!${randomBytes(32).toString("hex")}`;
+// Separate byte pairs so random runs cannot violate the real password policy.
+const password = `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
 const databasePassword = randomBytes(24).toString("hex");
 const canary = randomBytes(32).toString("hex");
 try {
