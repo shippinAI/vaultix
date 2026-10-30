@@ -120,7 +120,7 @@ export async function testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, org
     const before = report.writes.length;
     await dialog.getByRole("button", { name: "Apply MFA Change" }).click();
     await expect(dialog.getByRole("button", { name: "Apply MFA Change" })).toBeDisabled();
-    await expect(dialog.getByRole("status")).toContainText("does not cancel");
+    await expect(dialog.getByRole("status").filter({ hasText: "Closing this review" })).toContainText("does not cancel");
     await page.keyboard.press("Escape");
     await expect(method).toBeDisabled();
     await expect(toggle).toBeDisabled();

@@ -11763,11 +11763,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	697a7ccb2bbc04ddc3bf25e70f9794fa37edde70	generated	unread
-docs/capabilities/generated/source-map.tsv	d728d52b8d7c1f6f19f83e895a74bf678993fd8e	generated	unread
+docs/capabilities/generated/source-map.tsv	054564e012f272a5bc8cf7467e316c42200a916e	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	f8b172c058772fc149c086a0b1b9b4ea3ca8d6cf	generated	unread
-docs/migration/generated/modules.tsv	052fe4f3fb4267daab39a2e9644d99cd874ffb0c	generated	unread
+docs/migration/generated/files.tsv	0e4e7d61cdfcd287e5610892d0a4608a9abffa2a	generated	unread
+docs/migration/generated/modules.tsv	329efd6f72e0d2284930e039c743514dbdaafab3	generated	unread
 docs/migration/generated/summary.json	d5c8fa058a2c71a29eafb0d3ff7e28f64010162c	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11955,7 +11955,7 @@ scripts/test-migration-map.mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	build-an
 scripts/test-native-ui.mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	build-and-operations	verified
 scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	build-and-operations	verified
 scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
-scripts/test-org-mfa-workflow.mjs	b0a792374a5f6df2e1b368ff036db3796fb8b77f	build-and-operations	authored
+scripts/test-org-mfa-workflow.mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	build-and-operations	authored
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified
 scripts/test-proxy-boundary.mjs	31abb675903176cfdabe2db161bcbbd62ed27351	build-and-operations	verified
