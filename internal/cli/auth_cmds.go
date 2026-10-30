@@ -67,13 +67,41 @@ func isTerminal(r io.Reader) bool {
 	return st.Mode()&os.ModeCharDevice != 0
 }
 
-// CommandName is vaultix, or infisical when this binary is installed under that name.
+// CommandName recognizes the two native Vaultix executable names.
 func CommandName(argv0 string) string {
-	base := strings.TrimSuffix(filepath.Base(argv0), ".exe")
-	if base == "infisical" {
-		return "infisical"
+	base := strings.TrimSuffix(strings.ToLower(filepath.Base(strings.ReplaceAll(argv0, `\`, "/"))), ".exe")
+	if base == "vaultixl" {
+		return "vaultixl"
 	}
 	return "vaultix"
+}
+
+func loginAPI(current, domain, apiURL string) (string, error) {
+	normalize := func(raw string) (string, error) {
+		base, err := transport.URL(raw)
+		if err != nil || base.RawQuery != "" || base.ForceQuery {
+			return "", errors.New("login: use an HTTPS domain or literal loopback HTTP without a query, fragment or credentials")
+		}
+		base.Host = strings.ToLower(base.Host)
+		return strings.TrimRight(base.String(), "/"), nil
+	}
+	if domain != "" {
+		chosen, err := normalize(domain)
+		if err != nil {
+			return "", err
+		}
+		if apiURL != "" {
+			legacy, err := normalize(apiURL)
+			if err != nil || legacy != chosen {
+				return "", errors.New("login: --domain and --api must select the same Vaultix instance; use one flag")
+			}
+		}
+		return chosen, nil
+	}
+	if apiURL != "" {
+		return normalize(apiURL)
+	}
+	return normalize(current)
 }
 
 // Login signs in. With no flags on a terminal it uses the Nomen device-code
@@ -81,7 +109,9 @@ func CommandName(argv0 string) string {
 // token on stdin. The token is stored in the keyring and is not printed.
 func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) error {
 	fs := flag.NewFlagSet("login", flag.ContinueOnError)
-	apiURL := fs.String("api", "", "Vaultix API base URL")
+	fs.SetOutput(out)
+	domain := fs.String("domain", "", "Vaultix instance URL (default https://vaultix.cloud on a fresh install)")
+	apiURL := fs.String("api", "", "compatible alias for --domain")
 	universal := fs.Bool("universal", false, "machine identity: client id and secret on stdin")
 	tokenFlag := fs.Bool("token", false, "read an access token from stdin")
 	ssoFlag := fs.Bool("sso", false, "Nomen device-code login (the default on a terminal)")
@@ -92,16 +122,25 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
+	if fs.NArg() != 0 {
+		return errors.New("login: unexpected positional arguments; use --domain for the instance URL")
+	}
+	emptyURL := false
+	fs.Visit(func(f *flag.Flag) {
+		if (f.Name == "domain" || f.Name == "api") && f.Value.String() == "" {
+			emptyURL = true
+		}
+	})
+	if emptyURL {
+		return errors.New("login: --domain and --api require a nonempty instance URL")
+	}
 	cfg, err := LoadConfig()
 	if err != nil {
 		return err
 	}
-	if *apiURL != "" {
-		cfg.API = *apiURL
-	}
-	base, err := transport.URL(cfg.API)
-	if err != nil || base.RawQuery != "" {
-		return errors.New("login: use an HTTPS API URL or literal loopback HTTP without a query")
+	cfg.API, err = loginAPI(cfg.API, *domain, *apiURL)
+	if err != nil {
+		return err
 	}
 	if *credentialFile != "" {
 		cfg.CredentialFile, err = filepath.Abs(*credentialFile)

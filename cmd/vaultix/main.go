@@ -5,6 +5,8 @@ package main
 
 import (
 	"context"
+	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -16,6 +18,7 @@ import (
 func usageText() string {
 	name := cli.CommandName(os.Args[0])
 	return `usage: ` + name + ` <command>
+  login --domain=https://vaultix.cloud   select a Vaultix instance and sign in
   login                         Nomen device-code login (browser link, no password)
   login --universal             machine identity: client id and secret on stdin
   login --token                 access token on stdin
@@ -31,14 +34,14 @@ func usageText() string {
   hook [bash|zsh]               print the pre-session pull snippet
   daemon [--every 5m]           two-way sync loop (conflicts left for you)
 
-Install this binary as infisical to keep that command name. The API paths are unchanged.`
+Native executable names: vaultix and vaultixl. Existing --api login scripts remain supported.`
 }
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 	if err := dispatch(ctx, os.Args[1:]); err != nil {
-		fmt.Fprintln(os.Stderr, "vaultix:", err)
+		fmt.Fprintln(os.Stderr, cli.CommandName(os.Args[0])+":", err)
 		os.Exit(1)
 	}
 }
@@ -49,8 +52,15 @@ func dispatch(ctx context.Context, a []string) error {
 	}
 	cmd, rest := a[0], a[1:]
 	switch cmd {
+	case "--help", "-h", "help":
+		fmt.Fprintln(os.Stdout, usageText())
+		return nil
 	case "login":
-		return cli.Login(ctx, rest, os.Stdin, os.Stdout)
+		err := cli.Login(ctx, rest, os.Stdin, os.Stdout)
+		if errors.Is(err, flag.ErrHelp) {
+			return nil
+		}
+		return err
 	case "logout":
 		return cli.Logout()
 	case "auth":

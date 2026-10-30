@@ -119,6 +119,19 @@ end-to-end verification. Mesh work does not belong in this checkout.
 
 ## Local CLI
 
+Build both native command names, `vaultix` and `vaultixl`, from committed source
+with `node scripts/build-cli.mjs`. The receipt under `.cache/cli-build-*` lists
+Linux/amd64 and Windows/amd64 binaries and their SHA-256 hashes. These are the
+same Go program, with no vendor CLI dependency or global installation.
+`login --domain=https://vaultix.cloud` selects the public instance; `--api`
+remains a compatible alias. A fresh configuration defaults to Vaultix.cloud;
+existing self-hosted configurations are preserved.
+
+**Hosted interactive login remains unfinished:** domain selection is supported,
+but Nomen public-client registration and server identity binding must be completed
+before the bare login command works end to end against Vaultix.cloud. See the
+[CLI delivery and capability gaps](docs/0073-native-cli-domain-and-capabilities.md).
+
 The Go CLI provides an encrypted local copy and application-process injection:
 
 ```sh
@@ -136,11 +149,12 @@ create a private directory (`0700`) and pass `login --credential-file` to save
 login credentials in a private (`0600`) file. Windows uses Credential Manager.
 `VAULTIX_TOKEN_FILE` remains an externally managed, read-only override; login
 refuses active overrides so a new sign-in is not silently ignored.
-The separate local data-key file still uses `init --key-file`.
+The separate local data-key file uses `init --key-file` on POSIX hosts; Windows
+refuses this fallback before writing a key and uses Credential Manager instead.
 Local entries use AES-256-GCM.
 Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
 
-For a registered Nomen public client, `vaultix login --sso --api <instance>
+For a registered Nomen public client, `vaultix login --sso --domain <instance>
 --issuer <issuer> --client-id <public-client-id>` prints a browser approval link
 that can be opened on another device. It requires protected Vaultix access
 before saving sign-in. The CLI requests `openid profile email offline_access`;

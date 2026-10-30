@@ -4,12 +4,16 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
+
+	"github.com/zalando/go-keyring"
 )
 
 func TestRoundTripEncrypted(t *testing.T) {
 	d := t.TempDir()
-	key, err := DataKey(filepath.Join(d, "key"))
+	keyring.MockInit()
+	key, err := DataKey("")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -22,9 +26,16 @@ func TestRoundTripEncrypted(t *testing.T) {
 	if bytes.Contains(raw, []byte("s3cret-value")) {
 		t.Fatal("value stored in clear")
 	}
-	if fi, _ := os.Stat(filepath.Join(d, "p.dev_.vx")); fi.Mode().Perm() != 0o600 {
-		t.Fatalf("mode %v", fi.Mode().Perm())
-	}
+	t.Run("POSIXFileMode", func(t *testing.T) {
+		if runtime.GOOS == "windows" {
+			t.Skip("Windows mode bits do not establish ACLs; this assertion runs on Linux")
+		}
+		if fi, err := os.Stat(filepath.Join(d, "p.dev_.vx")); err != nil {
+			t.Fatal(err)
+		} else if fi.Mode().Perm() != 0o600 {
+			t.Fatalf("mode %v", fi.Mode().Perm())
+		}
+	})
 	got, err := s.Load("p.dev_")
 	if err != nil || got.Entries["TOKEN"].Value != "s3cret-value" || got.Entries["TOKEN"].Base != 4 {
 		t.Fatalf("%v %+v", err, got)
@@ -37,6 +48,15 @@ func TestRoundTripEncrypted(t *testing.T) {
 
 func TestKeyFileMustBePrivate(t *testing.T) {
 	p := filepath.Join(t.TempDir(), "key")
+	if runtime.GOOS == "windows" {
+		if _, err := DataKey(p); err == nil {
+			t.Fatal("unsupported data-key file accepted")
+		}
+		if _, err := os.Stat(p); !os.IsNotExist(err) {
+			t.Fatal("unsupported data-key fallback wrote a key before rejecting it")
+		}
+		return
+	}
 	if _, err := DataKey(p); err != nil {
 		t.Fatal(err)
 	}

@@ -5,7 +5,7 @@ module	workstream	target	files	source_digest	reviewed_files	migration_state
 .ai/schemas	foundation	supporting-tooling-or-contract	2	701799bb7d2c3f519108c4ceb9248080afc2c40817fa437629b412979dc6a3e6	2	unassessed
 .github/workflows	delivery	supporting-tooling-or-contract	2	d9f570a71ca1cd72487acb42d7a3fb407e50922e1679502324e215ff3a537010	2	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
-cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	65798f3624d39f40500c1960a6ef916967b5285295a4751a98475aaa42743368	1	unassessed
+cmd/vaultix	cli	Go-client-Rust-injection-boundary	1	4ab09882d114924a2c26810febadfc865c2d0d123b63fbb9ac4c4bc003062e3e	1	unassessed
 compose	delivery	supporting-tooling-or-contract	5	f12303bdd0513123105cfce49ca532f3d18ed61e9f0f298a24a39a409ecf595e	3	unassessed
 contracts	foundation	supporting-tooling-or-contract	3	eaf6d5219cde8fbd47165a1750bff6a76c5bcd43cd1152ecd363c05764d96f19	0	unassessed
 core	delivery	supporting-tooling-or-contract	26	3a1db0a919be800195fabdf4c6c2dc19605c3e8c3ef64e66dd23dff763341935	2	unassessed
@@ -1041,10 +1041,10 @@ docs/auth	identity	supporting-tooling-or-contract	2	b07078660ee72217b99f67e2e9f0
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
 docs/migration	foundation	supporting-tooling-or-contract	1	233a5093074ce9548f1690c12838408b04d343341dc72ec5f35f83cf8a4b2806	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
-internal/api	cli	Go-client-Rust-injection-boundary	5	4fec49ba6bc17064b224025eb251be3784b35369a8d74207dccfc90c10423ba2	3	unassessed
-internal/cli	cli	Go-client-Rust-injection-boundary	10	6ea6be6c79653c64b749bc8b5e4b31c04f41ee7b80ccf0006a93997dfc58c16d	7	unassessed
+internal/api	cli	Go-client-Rust-injection-boundary	5	a2a9cce16b86ede8686fdb68bf18de105732c9cbc3c974c30a5ddb7768e0441a	3	unassessed
+internal/cli	cli	Go-client-Rust-injection-boundary	11	31f91bdc81be0273c7bf6e829944c941cd123474e0bf50f3c6253b34f736dd9f	9	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	5412a370cf0219f65855303f06ec978c03e1cebbc2647e07719a7d5ca610ebb4	4	unassessed
-internal/store	cli	Go-client-Rust-injection-boundary	10	70c93faf7c593cf11a54d3e93793645b1fc571087bef66d3f2dfa0598cd2a610	7	unassessed
+internal/store	cli	Go-client-Rust-injection-boundary	10	24b31a2f2dcad061bd96e3f2c576bb2f1aefb968abbeb929892e6fef631fa43e	9	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
 internal/transport	cli	Go-client-Rust-injection-boundary	2	36f0f2a5e4e4cc11cc381c1e1eee59bcba354458aaf87f3647caed5e4ad3448e	2	unassessed
 panel	legacy-panel	reconcile-into-native-product	6	5477198543c29cc9095961ece11d6dd7f3dfbde1e0f941130d5b8e64953a0a35	2	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	63	5557fc48c8e7a9fc6719be77708479e902de72917ced3579bacf8befb7c29a1f	58	unassessed
+scripts	delivery	supporting-tooling-or-contract	65	6e74e1726d390faa5a253c568561a2fb3e36e28531468784732b4d5c33556fa5	60	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

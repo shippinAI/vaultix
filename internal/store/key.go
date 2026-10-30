@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/zalando/go-keyring"
@@ -31,6 +32,9 @@ func DataKey(keyFile string) ([]byte, error) {
 }
 
 func fileKey(p string) ([]byte, error) {
+	if runtime.GOOS == "windows" {
+		return nil, errors.New("store: data-key files require POSIX permissions; use the Windows keyring")
+	}
 	b, err := os.ReadFile(p)
 	if errors.Is(err, os.ErrNotExist) {
 		k, err := newKey()

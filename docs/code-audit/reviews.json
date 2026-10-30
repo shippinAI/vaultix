@@ -2377,10 +2377,10 @@
     },
     {
       "path": "README.md",
-      "blob": "23c72f03709aa7d3f145c3be65cc6e2fd69ffb99",
-      "status": "verified",
+      "blob": "ce47ae00af8c42fe500d49fc0e6d9367624746bf",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness. AI setup checkpoint: Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
+      "scope": "Reviewed current CLI instructions: native artifact names, domain selection, Windows key-file limitation, and explicit hosted authentication gap. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2411,7 +2411,8 @@
         ".cache/headless-ai-login/.cache/execution-plan-links.json",
         ".ai/README.md",
         ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs"
+        "scripts/ai-journal.test.mjs",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
@@ -4383,30 +4384,32 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "18d22582e7fa66bbc9bca8c6dd1fb5f335a917e7",
-      "status": "verified",
+      "blob": "7ef6144d3405d7bf359819a1c19334a015fe0499",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Read dispatcher in full. Authored Vaultix-only command naming/help and successful help dispatch. Existing command families retained; full vendor CLI parity absent. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
       "path": "internal/api/client.go",
-      "blob": "0ceb9fa59fcc3e4cd062e4c43b9b31a8290a9bc8",
-      "status": "verified",
+      "blob": "fa7f497157d648154efbe102c236f35e5f4de297",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Reviewed API default example change only; transport and authorization behavior unchanged. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
@@ -4439,10 +4442,10 @@
     },
     {
       "path": "internal/cli/auth_cmds.go",
-      "blob": "0e492f4a0a2ff0f88bc208e27152d3a61946e0d2",
-      "status": "verified",
+      "blob": "5611cc25a98c418725e74be5c07d1f447f0fcc05",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted.",
+      "scope": "Read module in full. Authored validated domain selection, compatible --api, conflict/empty/positional rejection before credential use, and native executable names. Existing protected verification and Nomen/token/machine flows retained. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4454,7 +4457,8 @@
         ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
@@ -4473,24 +4477,25 @@
     },
     {
       "path": "internal/cli/config.go",
-      "blob": "2f36f9e5551fb2b4cc101b926f2175da179db7fe",
-      "status": "verified",
+      "blob": "82e2f094127a018dc5b7bf9773b0216ca715b448",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Read module in full. Fresh instance defaults to Vaultix.cloud; explicit saved self-hosted config remains authoritative. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
       "path": "internal/cli/session.go",
-      "blob": "30e49cc315ade981e8ace6a20601adc0c192ee28",
-      "status": "verified",
+      "blob": "dfdf9b0d6c5fcb2dc76e698159be36363db75237",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted.",
+      "scope": "Read module in full. Changed instance mismatch guidance to --domain only; renewal and credential binding behavior unchanged. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4502,7 +4507,8 @@
         ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
@@ -4637,10 +4643,10 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "57affdfe04aca690322b777721ed76c5651e94c5",
-      "status": "verified",
+      "blob": "be45120f8f3cb5bdc428fc64e189ce8dbe6995d1",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted.",
+      "scope": "Read full harness and added both executable names, --domain, conflict preservation and old --api machine compatibility; retained existing real API/MCP/renewal/revocation checks. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4652,7 +4658,8 @@
         ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     },
     {
@@ -5148,6 +5155,76 @@
       "scope": "Complete receipt summary authored and reviewed against exact canonical build and browser outcomes; no complete accessibility, live provider or DevSCIF parity claim.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md"
+      ]
+    },
+    {
+      "path": "docs/0073-native-cli-domain-and-capabilities.md",
+      "blob": "9bedfb3978fd806eeb2d3e6c59c03d6ebf522efa",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored scoped implementation and explicit hosted identity/CLI capability gaps based on native dispatcher and current first-party command index. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "internal/cli/domain_test.go",
+      "blob": "ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "internal/cli/login_mode_test.go",
+      "blob": "d476cdc187f013085882aa0963681e6d752d6c6e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "internal/store/key.go",
+      "blob": "6276c8208b3b38812ec0b31bad5255a9adda773b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read module in full. Reject unsupported Windows data-key files before writes; OS keyring and POSIX behavior preserved. No Windows ACL acceptance claim. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "internal/store/store_test.go",
+      "blob": "6ba9e22866c6a893525630abd1083cf89262cd5e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Retained encryption/wrong-key checks on both platforms, labelled POSIX permission assertion and added Windows no-file-on-denial check. Linux race suite required; keyring here is mocked. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "scripts/build-cli.mjs",
+      "blob": "bbc9426a798738277cc92b54174bfd5a85640b22",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored clean committed-source archive delivery for Linux/Windows amd64; both native executable names share bytes and hashes; no global install. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
+      ]
+    },
+    {
+      "path": "scripts/test-cli-delivery.mjs",
+      "blob": "327f4401aec2b5812807681ed341054664ccb543",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored revision/hash validation, actual native help, Linux race suite and real packaged CLI workflow orchestration. Live issuer and parity excluded. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "evidence": [
+        "docs/0073-native-cli-domain-and-capabilities.md"
       ]
     }
   ]

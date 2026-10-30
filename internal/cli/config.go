@@ -32,7 +32,7 @@ func Dir() string {
 
 // LoadConfig reads the config, with defaults for a fresh install.
 func LoadConfig() (*Config, error) {
-	c := &Config{API: "https://secrets.shippin.cloud", Env: "dev", Path: "/"}
+	c := &Config{API: "https://vaultix.cloud", Env: "dev", Path: "/"}
 	b, err := os.ReadFile(filepath.Join(Dir(), "config.json"))
 	if errors.Is(err, os.ErrNotExist) {
 		return c, nil

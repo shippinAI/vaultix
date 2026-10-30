@@ -53,7 +53,7 @@ func readCred(cfg *Config) (*cred, error) {
 		c = cred{Type: "token", Token: raw} // a bare token from the env or a file
 	}
 	if c.API != "" && strings.TrimRight(c.API, "/") != strings.TrimRight(cfg.API, "/") {
-		return nil, errors.New("credential belongs to a different Vaultix instance; run vaultix login --api for this instance")
+		return nil, errors.New("credential belongs to a different Vaultix instance; run vaultix login --domain for this instance")
 	}
 	if !c.ExpiresAt.IsZero() && !time.Now().Before(c.ExpiresAt) && !canRenew(&c) {
 		return nil, errors.New("Vaultix sign-in expired; run vaultix login again")

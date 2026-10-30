@@ -38,21 +38,32 @@ try {
   });
   await ready(app);
   phase = "install disposable CLI artifact";
-  docker(["cp", resolve(process.argv[3]), `${app}:/tmp/vaultix-cli`]);
-  docker(["exec", "--user", "0", app, "chmod", "755", "/tmp/vaultix-cli"]);
+  docker(["cp", resolve(process.argv[3]), `${app}:/tmp/vaultixl`]);
+  docker(["exec", "--user", "0", app, "chmod", "755", "/tmp/vaultixl"]);
+  docker(["exec", app, "cp", "/tmp/vaultixl", "/tmp/vaultix"]);
   docker(["exec", app, "mkdir", "-m", "700", "/tmp/vaultix-cli-home"]);
   const api = (path, options) => request(app, path, options);
   const connections = await api("/api/v1/vaultix/connections");
   assert.ok(connections.access.includes("vaultix auth status") && connections.access.includes("vaultix mcp config"), "Packaged connection guidance is stale");
   check("packaged UI/MCP connection catalog explains local authenticated setup");
   const sensitive = [password, databasePassword, canary];
-  const cli = (args, input = "", success = true) => {
-    const r = docker(["exec", "-i", "-e", "VAULTIX_HOME=/tmp/vaultix-cli-home", app, "/tmp/vaultix-cli", ...args], { input, allowFailure: true });
+  const cli = (args, input = "", success = true, executable = "/tmp/vaultixl") => {
+    const r = docker(["exec", "-i", "-e", "VAULTIX_HOME=/tmp/vaultix-cli-home", app, executable, ...args], { input, allowFailure: true });
     assert.ok(!r.error && (r.status === 0) === success, `CLI result mismatch during ${phase}`);
     const output = r.stdout.toString(), diagnostics = r.stderr.toString();
     assert.ok(sensitive.every(value => !output.includes(value) && !diagnostics.includes(value)), "CLI disclosed a sensitive canary");
     return output;
   };
+  phase = "native command identity";
+  for (const executable of ["/tmp/vaultix", "/tmp/vaultixl"]) {
+    const help = cli(["--help"], "", true, executable);
+    assert.ok(help.startsWith(`usage: ${executable.slice(5)} <command>`));
+    assert.ok(help.includes("login --domain=https://vaultix.cloud") && !/infisical/i.test(help));
+    const loginHelp = cli(["login", "--help"], "", true, executable);
+    assert.ok(loginHelp.includes("-domain") && !/infisical/i.test(loginHelp));
+  }
+  cli(["login", "--infisical"], "", false);
+  check("both native command names expose Vaultix help and reject the vendor flag");
   phase = "provisioning";
   const owner = await api("/api/v1/admin/signup", { method: "POST", body: { email: `${run}@vaultix.invalid`, password, firstName: "CLI", organizationName: "CLI Proof" } });
   const { token: admin } = await api("/api/v3/auth/select-organization", { method: "POST", token: owner.token, body: { organizationId: owner.organization.id } });
@@ -65,7 +76,7 @@ try {
   sensitive.push(issued.accessToken);
   const scope = { projectId: project.id, environment: "dev", secretPath: "/" };
   await api("/api/v4/secrets/CLI_REFERENCE", { method: "POST", token: issued.accessToken, body: { ...scope, secretValue: canary, secretComment: canary } });
-  const login = ["login", "--api", "http://127.0.0.1:8080", "--credential-file", "/tmp/vaultix-cli-home/credential.json"];
+  const login = ["login", "--domain=http://127.0.0.1:8080", "--credential-file", "/tmp/vaultix-cli-home/credential.json"];
   phase = "invalid credential";
   cli([...login, "--token"], "invalid-fixture-token\n", false);
   check("healthy application rejects invalid CLI login");
@@ -73,6 +84,9 @@ try {
   cli([...login, "--token"], `${issued.accessToken}\n`);
   cli(["auth", "status"]);
   check("token login saves private credentials only after protected access succeeds");
+  cli([...login, "--api=https://vaultix.invalid", "--token"], `${issued.accessToken}\n`, false);
+  cli(["auth", "status"]);
+  check("conflicting domains fail without replacing the saved working session");
   phase = "MCP protocol and references";
   const messages = [
     { jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-03-26", capabilities: {}, clientInfo: { name: "vaultix-cli-proof", version: "1" } } },
@@ -100,7 +114,8 @@ try {
   const attached = await api(`/api/v1/auth/universal-auth/identities/${identity.id}`, { method: "POST", token: admin, body: { accessTokenTTL: 600, accessTokenMaxTTL: 600 } });
   const secret = await api(`/api/v1/auth/universal-auth/identities/${identity.id}/client-secrets`, { method: "POST", token: admin, body: {} });
   sensitive.push(secret.clientSecret);
-  cli([...login, "--universal"], `${attached.identityUniversalAuth.clientId}\n${secret.clientSecret}\n`);
+  const compatibleLogin = ["login", "--api", "http://127.0.0.1:8080", "--credential-file", "/tmp/vaultix-cli-home/credential.json"];
+  cli([...compatibleLogin, "--universal"], `${attached.identityUniversalAuth.clientId}\n${secret.clientSecret}\n`, true, "/tmp/vaultix");
   cli(["auth", "status"]);
   const machineReply = cli(["mcp"], JSON.stringify(messages[3])+"\n");
   assert.ok(JSON.parse(JSON.parse(machineReply).result.content[0].text).projects.some(p => p.id === project.id));
@@ -125,7 +140,7 @@ try {
   await new Promise(resolve => setTimeout(resolve, 2200));
   // Four distinct CLI processes share the private store. The fixture rejects
   // replay, so a second refresh request fails this check rather than hiding it.
-  const concurrent = docker(["exec", app, "node", "-e", "const {spawn}=require('node:child_process');Promise.all(Array.from({length:4},()=>new Promise(resolve=>{const p=spawn('/tmp/vaultix-cli',['auth','status'],{env:{...process.env,VAULTIX_HOME:'/tmp/vaultix-cli-home'},stdio:'ignore'});p.on('error',()=>resolve(false));p.on('exit',c=>resolve(c===0));}))).then(results=>process.exit(results.every(Boolean)?0:1));"], { allowFailure: true });
+  const concurrent = docker(["exec", app, "node", "-e", "const {spawn}=require('node:child_process');Promise.all(Array.from({length:4},()=>new Promise(resolve=>{const p=spawn('/tmp/vaultixl',['auth','status'],{env:{...process.env,VAULTIX_HOME:'/tmp/vaultix-cli-home'},stdio:'ignore'});p.on('error',()=>resolve(false));p.on('exit',c=>resolve(c===0));}))).then(results=>process.exit(results.every(Boolean)?0:1));"], { allowFailure: true });
   assert.equal(concurrent.status, 0, "Concurrent renewal failed");
   assert.equal(issuerRequest("/counts").refreshes, 1, "Refresh token was replayed");
   check("four CLI processes renew a fixture device session exactly once");

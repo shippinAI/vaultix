@@ -24,7 +24,7 @@ type Client struct {
 	HTTP  *http.Client
 }
 
-// New returns a client for base (e.g. https://secrets.shippin.cloud).
+// New returns a client for a Vaultix instance (e.g. https://vaultix.cloud).
 func New(base, token string) *Client {
 	return &Client{Base: strings.TrimRight(base, "/"), Token: token, HTTP: &http.Client{Timeout: 20 * time.Second}}
 }
