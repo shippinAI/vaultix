@@ -5380,7 +5380,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
-      "blob": "243d6f74447ea16af1ba277185fda9517517bc3f",
+      "blob": "9cd3cb6360317ab4ec6b6fcce4edeb2002c5eff6",
       "status": "authored",
       "decision": "modify",
       "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
@@ -5390,7 +5390,7 @@
     },
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
-      "blob": "d7d1a7a3c9e9d77e1688f601fa601709c5d3c219",
+      "blob": "78ba356babb9838f7731775e26f78d763a388e05",
       "status": "authored",
       "decision": "modify",
       "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",

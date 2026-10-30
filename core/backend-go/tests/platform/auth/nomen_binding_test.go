@@ -183,11 +183,12 @@ func TestNomenBinding_ConcurrentClaimAndReplay(t *testing.T) {
 				c, code = otherCtx, second.Code
 			}
 			_, err := f.service.CompleteLink(c, code, "fixture-access-canary")
-			if err == nil {
+			switch {
+			case err == nil:
 				success.Add(1)
-			} else if errors.Is(err, nomen.ErrLinkDenied) || errors.Is(err, nomen.ErrBindingConflict) {
+			case errors.Is(err, nomen.ErrLinkDenied) || errors.Is(err, nomen.ErrBindingConflict):
 				denied.Add(1)
-			} else {
+			default:
 				t.Error("unexpected concurrent binding failure")
 			}
 		})

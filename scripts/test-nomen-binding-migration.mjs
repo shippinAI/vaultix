@@ -59,13 +59,19 @@ try {
   output(["stop","-t","10",after]);
   phase="previous binary on migrated store";
   const rollback=container(run+"-rollback",old.id,[],env);await ready(rollback);
+  phase="old binary secret decryption";
   const query=new URLSearchParams({projectId:project.id,environment:"dev",secretPath:"/",viewSecretValue:"true"});
   const result=await request(rollback,"/api/v4/secrets/BINDING_CANARY?"+query,{token});assert.ok(result.secret.secretValue===canary,"Ciphertext no longer decrypts after binary rollback");
-  await request(rollback,"/api/v1/admin/user-management/users/"+user,{method:"DELETE",token});
+  phase="old binary account deletion";
+  // A bodyless DELETE must not advertise an empty JSON document.
+  const deletion=h.http(rollback,"/api/v1/admin/user-management/users/"+user,{method:"DELETE",headers:{Authorization:"Bearer "+token}});
+  assert.equal(deletion?.status,200,"Previous binary account deletion failed");
+  phase="deletion tombstone history";
   assert.equal(sql(db,`SELECT "userId" IS NULL AND "revokedAt" IS NOT NULL FROM vaultix_identity_bindings WHERE id='${binding}';`),"t");
   assert.equal(sql(db,`SELECT string_agg(action,',' ORDER BY id) FROM vaultix_identity_binding_events WHERE "bindingId"='${binding}';`),"linked,user-deleted");
   check("previous binary starts, decrypts existing secrets and deletes account with atomic tombstone history");
   output(["stop","-t","10",rollback]);output(["start",after]);await ready(after);
+  phase="candidate restart";
   assert.equal(sql(db,`SELECT "userId" IS NULL FROM vaultix_identity_bindings WHERE id='${binding}';`),"t");
   check("candidate restarts with preserved deletion tombstone");report.passed=true;
 } catch { report.failedPhase=phase;process.exitCode=1; }

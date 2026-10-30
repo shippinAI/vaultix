@@ -247,7 +247,7 @@ core/backend-go/tests/platform/auth/claims_format_test.go	98ef59cc825bba533eeb57
 core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	test	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	568393176eefbb2d972bd17d0c598ae64c42d3c9	test	verified
-core/backend-go/tests/platform/auth/nomen_binding_test.go	243d6f74447ea16af1ba277185fda9517517bc3f	test	authored
+core/backend-go/tests/platform/auth/nomen_binding_test.go	9cd3cb6360317ab4ec6b6fcce4edeb2002c5eff6	test	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	007524dc9d814ef06aff4de5e5037e10f5ba32b6	test	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified
@@ -11969,7 +11969,7 @@ scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-an
 scripts/test-login-recovery.mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	build-and-operations	verified
 scripts/test-migration-map.mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	build-and-operations	verified
 scripts/test-native-ui.mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	build-and-operations	verified
-scripts/test-nomen-binding-migration.mjs	d7d1a7a3c9e9d77e1688f601fa601709c5d3c219	build-and-operations	authored
+scripts/test-nomen-binding-migration.mjs	78ba356babb9838f7731775e26f78d763a388e05	build-and-operations	authored
 scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	build-and-operations	verified
 scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
 scripts/test-org-mfa-workflow.mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	build-and-operations	verified
