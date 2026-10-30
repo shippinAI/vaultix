@@ -4838,14 +4838,13 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "2ef468b37f00b4b77a4cae2cd1e838c82ef3a209",
-      "status": "reviewed",
+      "blob": "4dfe5222bc2c04c125c1a1f60af1cb79edda5f30",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness. AUTH-02 checkpoint link added after rereading the execution queue; implementation and live gates remain explicit in 0070. Read/authored governance roadmap linkage and acceptance limits; this is a plan, not DevSCIF service readiness.",
+      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
       "evidence": [
-        "docs/0069-execution-goal.md",
-        ".cache/headless-ai-login/.cache/execution-plan-links.json",
-        "docs/0071-devscif-governance-experience.md"
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
       ]
     },
     {
@@ -5281,6 +5280,72 @@
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
         ".cache/headless-ai-login/.cache/cli-public-denial.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
+      "blob": "a035f5807ca41b9b6026f74bc4cab9788c3bd891",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/client_auth.go",
+      "blob": "ff1591b904afd673f58995157e1ab3ad3fb391f5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/claims.go",
+      "blob": "0f75985bf51db531617d90d998e064e5ccd565e0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
+      "blob": "1aaae4a0ae68185f8ec5ea4ae8dff7b9c6d50542",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-execution-plan.md",
+      "blob": "1a9ec8e781b9259f9531f5f27cafd30a55d5887a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-execution-sources.json",
+      "blob": "07e7ad5fbd6e8227498e24ab864d1d57d91d253d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
+      "evidence": [
+        "docs/auth/nomen-execution-plan.md",
+        "docs/auth/nomen-execution-sources.json"
       ]
     }
   ]

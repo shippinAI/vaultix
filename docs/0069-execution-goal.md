@@ -39,7 +39,10 @@ claims. Nothing in this plan expands them into blanket parity or cloud readiness
 
 ## Immediate queue: finish the identity boundary
 
-The next code work starts at **AUTH-02**. AUTH-02 through AUTH-04 can proceed
+AUTH-02 has scoped authority-contract evidence; AUTH-03 is now in progress.
+The [researched execution breakdown](auth/nomen-execution-plan.md) maps the native
+verifier, durable bindings, actor policy, source actions, guided login and remaining
+CLI capabilities to concrete gates. AUTH-03 through AUTH-04 can proceed
 using local deterministic fixtures while external registration is being resolved.
 AUTH-05 remains a live acceptance gate, not a reason to stop independent work.
 

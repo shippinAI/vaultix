@@ -156,6 +156,10 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	core/backend-g
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
+core/backend-go/internal/services/auth/nomen/claims.go	core/backend-go/internal/services/auth	identity	Go-native	go	0f75985bf51db531617d90d998e064e5ccd565e0	authored
+core/backend-go/internal/services/auth/nomen/client_auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	ff1591b904afd673f58995157e1ab3ad3fb391f5	authored
+core/backend-go/internal/services/auth/nomen/introspection.go	core/backend-go/internal/services/auth	identity	Go-native	go	a035f5807ca41b9b6026f74bc4cab9788c3bd891	authored
+core/backend-go/internal/services/auth/nomen/introspection_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	1aaae4a0ae68185f8ec5ea4ae8dff7b9c6d50542	authored
 core/backend-go/internal/services/kms/kms.go	core/backend-go/internal/services/kms	kms	Go-native	go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
 core/backend-go/internal/services/kms/kms_org.go	core/backend-go/internal/services/kms	kms	Go-native	go	9bea7672ac02e63344c99764fee013e1fe2e3983	unread
 core/backend-go/internal/services/kms/kms_project.go	core/backend-go/internal/services/kms	kms	Go-native	go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
@@ -9288,6 +9292,7 @@ db/schemas/webhooks.ts	db/schemas	integrations	PostgreSQL-compatible	ts	1d603e10
 db/schemas/workflow-integrations.ts	db/schemas	automation	PostgreSQL-compatible	ts	cab02fcedae5ae66ae9c3f81ce260dc7eb49d7c0	unread
 docs/auth/authority-review.json	docs/auth	identity	supporting-tooling-or-contract	json	1a4ffbe4b4265817f40ec81464f1c78a47416495	unread
 docs/auth/authority-review.schema.json	docs/auth	identity	supporting-tooling-or-contract	json	666418f1376435385aea1f98ad367999abff4e27	unread
+docs/auth/nomen-execution-sources.json	docs/auth	identity	supporting-tooling-or-contract	json	07e7ad5fbd6e8227498e24ab864d1d57d91d253d	authored
 docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	authored
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified

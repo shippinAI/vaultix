@@ -49,7 +49,7 @@ core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	1cb6e5187e7b0209a11103cb9129976a0ac72a9755f72b7ccf6f0100dd2f6b3a	4	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	15	20a0a050c3518ed639a56ba5f7a03894ef0ecc2636d24ef40c3539677eeea4a9	11	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	19	1413bdca1dbd06467ad8f4c2280452bec02135d6a7c4e1cef24222f9905f4d7e	15	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	3	0b86e41e5228694cab6ebefe335985995322fb1f3f6d4512363954051322f7e3	0	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	18	5d275af2873ec1f119ada8008159581c155a568735d81b8e9dee1577266b8609	8	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
@@ -1037,7 +1037,7 @@ db/schemas	pam	PostgreSQL-compatible	30	01263a1831d66b0af74a23781b625f4e553bbdc6
 db/schemas	pki	PostgreSQL-compatible	50	35445abe37ebf89583741cf1bb4d26b3c78ee49672a8c7532c87faf317be833f	0	unassessed
 db/schemas	scanning	PostgreSQL-compatible	10	a5d15ef84c579426b6923f1bd40c2b7f9600ef28aaebfa1cba0916b37fc6213c	0	unassessed
 db/schemas	secrets	PostgreSQL-compatible	38	1a084ec35c5f868fff03d2949c4102ec463f4ebb3eb3ed10209d57aa6d4e8645	0	unassessed
-docs/auth	identity	supporting-tooling-or-contract	2	b07078660ee72217b99f67e2e9f028201e222a1eeccf22f1ac988f19088e4ea6	0	unassessed
+docs/auth	identity	supporting-tooling-or-contract	3	3ee62046932534f52cc0678dafc64bfcf4e1c16bf95066c09990653f2d694bd8	1	unassessed
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
 docs/migration	foundation	supporting-tooling-or-contract	1	233a5093074ce9548f1690c12838408b04d343341dc72ec5f35f83cf8a4b2806	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed

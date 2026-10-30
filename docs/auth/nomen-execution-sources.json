@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_at": "2026-10-30",
+  "baseline": "42e82477635b800cdd2f851989d50058b9f8d0f8",
+  "purpose": "Read scope supporting AUTH-03 A and the execution plan; not a whole-tree review or parity attestation.",
+  "sources": [
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/classify.go",
+      "blob": "9642571e5669d8ffdcf405dddcbe4788ec6bb446",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
+      "blob": "57a239176f1b3995ba737961b010f9b13b077c84",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform_routes.go",
+      "blob": "b5685b1ebc5f034857fa0d90c5c2885c6f52e3e7",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/projects.go",
+      "blob": "3a23ff25f52b9c9b615d09ef1db20afc856c33bc",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-router.ts",
+      "blob": "6f091f4a2ad554149969ccb59f6432c5192e557a",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend/src/services/vaultix/reference-service.ts",
+      "blob": "d636f407c0247adcdb2f493dd4777f098aaec7a2",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar-forwarding.ts",
+      "blob": "2dcea778178f5c8075783281ad4ccfb7c0f138e5",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend/src/db/schemas/user-aliases.ts",
+      "blob": "428fa62cacee10bd51dd12899e712b13a66d3938",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend/src/db/schemas/memberships.ts",
+      "blob": "6e7f06a455862cdd55ba2530930c6814c50f0383",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "internal/cli/run_cmds.go",
+      "blob": "f35d6a2ed856fe2bf85c6c0fc1c5adb1d7130aea",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "internal/cli/sync_cmds.go",
+      "blob": "b403a49edd3df35ce07b739c3b4b81d4ced9fcf7",
+      "scope": "full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
+      "blob": "a035f5807ca41b9b6026f74bc4cab9788c3bd891",
+      "scope": "newly-authored-full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/client_auth.go",
+      "blob": "ff1591b904afd673f58995157e1ab3ad3fb391f5",
+      "scope": "newly-authored-full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/claims.go",
+      "blob": "0f75985bf51db531617d90d998e064e5ccd565e0",
+      "scope": "newly-authored-full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
+      "blob": "1aaae4a0ae68185f8ec5ea4ae8dff7b9c6d50542",
+      "scope": "newly-authored-full-read",
+      "ranges": []
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
+      "blob": "48cfaed0b534daf3e6a49c941bb68d90dac47def",
+      "scope": "scoped-read",
+      "ranges": [
+        [
+          110,
+          244
+        ]
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/index.ts",
+      "blob": "26911f2c2ed589f177daba668a9b80e7b3663860",
+      "scope": "scoped-read",
+      "ranges": [
+        [
+          4058,
+          4090
+        ]
+      ]
+    },
+    {
+      "path": "internal/oidc/device.go",
+      "blob": "1bf1d6f45b139aafea0b7197ac2232b260207cb6",
+      "scope": "prior-review-and-current-call-path-discovery",
+      "ranges": []
+    },
+    {
+      "path": "internal/cli/auth_cmds.go",
+      "blob": "5611cc25a98c418725e74be5c07d1f447f0fcc05",
+      "scope": "prior-review-and-current-call-path-discovery",
+      "ranges": []
+    },
+    {
+      "path": "internal/cli/session.go",
+      "blob": "dfdf9b0d6c5fcb2dc76e698159be36363db75237",
+      "scope": "prior-review-and-current-call-path-discovery",
+      "ranges": []
+    },
+    {
+      "path": "internal/api/client.go",
+      "blob": "fa7f497157d648154efbe102c236f35e5f4de297",
+      "scope": "prior-review-and-current-call-path-discovery",
+      "ranges": []
+    },
+    {
+      "path": "internal/api/secrets.go",
+      "blob": "1c7f844e1a5dea05f805e89be78f8bda100c40ed",
+      "scope": "prior-review-and-current-call-path-discovery",
+      "ranges": []
+    }
+  ]
+}
