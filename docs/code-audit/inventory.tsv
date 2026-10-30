@@ -11733,7 +11733,7 @@ docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
 docs/0066-native-reference-reads.md	e384864f661cfb7c1b3435ce251660a9162409f1	documentation	unread
 docs/0067-headless-ai-login.md	65a486816972066b34388014bc5abc2ad4d5141d	documentation	unread
-docs/0068-device-session-renewal.md	b270227de8127732ac69024a305eb6438800e23a	documentation	unread
+docs/0068-device-session-renewal.md	304bcf5a16c685eef1531229c86aec917d71afc5	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
@@ -11743,8 +11743,8 @@ docs/capabilities/generated/catalog.json	a4a5ca58991cb1badce4b64c375334567b2a8ad
 docs/capabilities/generated/source-map.tsv	1917f37f24ac08402e0114da8aef695282ebf68c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
-docs/migration/generated/files.tsv	767c875ddd4a78ecb5a9843fb8f94387b70f4137	generated	unread
-docs/migration/generated/modules.tsv	5e3ba0e94713e45d6046f27c6d46faeb29285f1b	generated	unread
+docs/migration/generated/files.tsv	015fae1290574b35b5e4b760d389be2e4f0bbeae	generated	unread
+docs/migration/generated/modules.tsv	0b8860d1a3a679fdf4ac7e0728d418c7e4e97c8d	generated	unread
 docs/migration/generated/summary.json	6d98df94e59f62e2bce85ed422b425bccfb552ec	generated	unread
 docs/migration/workstreams.json	d3ba87ed84a59458fca000d8d38bc1d99dcca3ed	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11773,8 +11773,8 @@ internal/oidc/device.go	1bf1d6f45b139aafea0b7197ac2232b260207cb6	product-code	au
 internal/oidc/device_test.go	321d7e60ac500f99b11a9a53cb977605251b9ad4	test	verified
 internal/oidc/refresh.go	9b79c529de964e195e7b74d0b1766f08f9f6d032	product-code	authored
 internal/oidc/refresh_test.go	c7f8034b80fe4cc7facde8f217572642c505c3bd	test	authored
-internal/store/credential_file.go	3c0d1bd81579e52c6323d471e8d244f3ec42b044	product-code	authored
-internal/store/credential_file_test.go	11d69726da19e4697d53d14d86ea9b1d26628622	test	authored
+internal/store/credential_file.go	86c3c51621482d308dea57492a4c3d13c335044a	product-code	authored
+internal/store/credential_file_test.go	7aec042eb69880412b923a111343ef8bfece6401	test	authored
 internal/store/credential_lock.go	e72a6a48efad794eb139945d517b34cbdd5d4d75	product-code	authored
 internal/store/credential_lock_other.go	3d3ffd6537668030f9b31b42ff8a2e0bdf4de6b2	product-code	authored
 internal/store/credential_lock_test.go	766b1ae15b2bbb9da54fd1db26db1b87bd9bbf92	test	authored

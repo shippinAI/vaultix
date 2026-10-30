@@ -33,6 +33,16 @@ func TestPrivateCredentialFile(t *testing.T) {
 	if value, err := CredentialFile(path, ""); err != nil || value != "replacement" {
 		t.Fatal("failed save changed credential")
 	}
+	if _, err := CredentialFile(path, strings.Repeat("x", 65536)); err == nil {
+		t.Fatal("newline not included in size limit")
+	}
+	limit := strings.Repeat("x", 65535)
+	if _, err := CredentialFile(path, limit); err != nil {
+		t.Fatal(err)
+	}
+	if value, err := CredentialFile(path, ""); err != nil || value != limit {
+		t.Fatal("maximum credential failed to round trip")
+	}
 	os.Chmod(path, 0644)
 	if _, err := CredentialFile(path, ""); err == nil {
 		t.Fatal("read public credential")

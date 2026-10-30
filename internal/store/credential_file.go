@@ -40,7 +40,8 @@ func CredentialFile(path, set string) (string, error) {
 		}
 		return strings.TrimSpace(string(data)), nil
 	}
-	if len(set) > 65536 {
+	// Include the newline written below in the 64 KiB read limit.
+	if len(set) > 65535 {
 		return "", errors.New("credential exceeds the private storage limit")
 	}
 	file, err := os.CreateTemp(dir, ".vaultix-credential-*")

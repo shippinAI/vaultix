@@ -9308,8 +9308,8 @@ internal/oidc/device.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	1
 internal/oidc/device_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	321d7e60ac500f99b11a9a53cb977605251b9ad4	verified
 internal/oidc/refresh.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	9b79c529de964e195e7b74d0b1766f08f9f6d032	authored
 internal/oidc/refresh_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	c7f8034b80fe4cc7facde8f217572642c505c3bd	authored
-internal/store/credential_file.go	internal/store	cli	Go-client-Rust-injection-boundary	go	3c0d1bd81579e52c6323d471e8d244f3ec42b044	authored
-internal/store/credential_file_test.go	internal/store	cli	Go-client-Rust-injection-boundary	go	11d69726da19e4697d53d14d86ea9b1d26628622	authored
+internal/store/credential_file.go	internal/store	cli	Go-client-Rust-injection-boundary	go	86c3c51621482d308dea57492a4c3d13c335044a	authored
+internal/store/credential_file_test.go	internal/store	cli	Go-client-Rust-injection-boundary	go	7aec042eb69880412b923a111343ef8bfece6401	authored
 internal/store/credential_lock.go	internal/store	cli	Go-client-Rust-injection-boundary	go	e72a6a48efad794eb139945d517b34cbdd5d4d75	authored
 internal/store/credential_lock_other.go	internal/store	cli	Go-client-Rust-injection-boundary	go	3d3ffd6537668030f9b31b42ff8a2e0bdf4de6b2	authored
 internal/store/credential_lock_test.go	internal/store	cli	Go-client-Rust-injection-boundary	go	766b1ae15b2bbb9da54fd1db26db1b87bd9bbf92	authored

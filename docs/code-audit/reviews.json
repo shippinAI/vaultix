@@ -4539,7 +4539,7 @@
     },
     {
       "path": "internal/store/credential_file.go",
-      "blob": "3c0d1bd81579e52c6323d471e8d244f3ec42b044",
+      "blob": "86c3c51621482d308dea57492a4c3d13c335044a",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
@@ -4555,7 +4555,7 @@
     },
     {
       "path": "internal/store/credential_file_test.go",
-      "blob": "11d69726da19e4697d53d14d86ea9b1d26628622",
+      "blob": "7aec042eb69880412b923a111343ef8bfece6401",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",

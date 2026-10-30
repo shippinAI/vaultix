@@ -42,6 +42,11 @@ Waits are cancellable and bounded to forty-five seconds. The operating system
 releases locks when a process exits. Windows continues to use Credential Manager;
 mode bits are not used as Windows credential-file privacy evidence.
 
+Stop older CLI/MCP processes before upgrading a shared credential store: older
+binaries do not participate in the rotation lock. Processes sharing the keyring
+must also use the same OS user configuration directory for the lock. Separate
+`VAULTIX_HOME` values do not create separate keyring accounts.
+
 The lock holder re-reads the credential after waiting. A prior logout or
 replacement cannot be overwritten by a stale renewal. Before contacting the
 issuer, it persists a pending-renewal marker. POSIX writes sync both the file

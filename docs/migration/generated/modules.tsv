@@ -1041,7 +1041,7 @@ docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73f
 internal/api	cli	Go-client-Rust-injection-boundary	5	4fec49ba6bc17064b224025eb251be3784b35369a8d74207dccfc90c10423ba2	3	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	10	6ea6be6c79653c64b749bc8b5e4b31c04f41ee7b80ccf0006a93997dfc58c16d	7	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	5412a370cf0219f65855303f06ec978c03e1cebbc2647e07719a7d5ca610ebb4	4	unassessed
-internal/store	cli	Go-client-Rust-injection-boundary	10	64b9749d7112909fea442729b880d1761f3f75f2efc0318b61cd3acd31b386ca	7	unassessed
+internal/store	cli	Go-client-Rust-injection-boundary	10	70c93faf7c593cf11a54d3e93793645b1fc571087bef66d3f2dfa0598cd2a610	7	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
 internal/transport	cli	Go-client-Rust-injection-boundary	2	36f0f2a5e4e4cc11cc381c1e1eee59bcba354458aaf87f3647caed5e4ad3448e	2	unassessed
 panel	legacy-panel	reconcile-into-native-product	6	5477198543c29cc9095961ece11d6dd7f3dfbde1e0f941130d5b8e64953a0a35	2	unassessed
