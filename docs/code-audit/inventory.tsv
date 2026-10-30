@@ -171,13 +171,13 @@ core/backend-go/internal/services/auditlog/event.go	9641ec20666ef81dc0bdf23553fe
 core/backend-go/internal/services/auditlog/info.go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	product-code	unread
 core/backend-go/internal/services/auditlog/queue_handler.go	8fffcdc835dca60978a9a9ece66de24257e8c969	product-code	unread
 core/backend-go/internal/services/auditlog/useragent.go	debf555fd242540645332817c077bed76833d135	product-code	unread
-core/backend-go/internal/services/auth/apiauth/authenticator.go	48cfaed0b534daf3e6a49c941bb68d90dac47def	product-code	authored
+core/backend-go/internal/services/auth/apiauth/authenticator.go	48cfaed0b534daf3e6a49c941bb68d90dac47def	product-code	verified
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	test	verified
-core/backend-go/internal/services/auth/apiauth/claims.go	57ded52e1b8e33b3b4fa2c21774edae3d23d68b6	product-code	authored
+core/backend-go/internal/services/auth/apiauth/claims.go	57ded52e1b8e33b3b4fa2c21774edae3d23d68b6	product-code	verified
 core/backend-go/internal/services/auth/apiauth/claims_presence_test.go	8f119a7b62c641110fb0d0443b52894e3b06e773	test	verified
 core/backend-go/internal/services/auth/apiauth/classify.go	9642571e5669d8ffdcf405dddcbe4788ec6bb446	product-code	unread
 core/backend-go/internal/services/auth/apiauth/classify_test.go	e775803f3d4a69e2bab60458a081f1c073042bba	test	unread
-core/backend-go/internal/services/auth/apiauth/delegated_token_test.go	c01a3b669d39debc5dc9b962beada6228931eb37	test	authored
+core/backend-go/internal/services/auth/apiauth/delegated_token_test.go	c01a3b669d39debc5dc9b962beada6228931eb37	test	verified
 core/backend-go/internal/services/auth/apiauth/ip.go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	product-code	unread
 core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go	49e36906f087c580b976745525f0d6f4666e39c6	test	verified
 core/backend-go/internal/services/auth/apiauth/require_auth.go	57a239176f1b3995ba737961b010f9b13b077c84	product-code	verified
@@ -239,7 +239,7 @@ core/backend-go/tests/infra/stack.go	f104f06bd1964bcb054911ea95d7bdcdff6c5a78	te
 core/backend-go/tests/platform/auth/apiauthenticator_test.go	4f2dc7bed7f3a7f3ec972c9d11644d8ff4fdf15e	test	verified
 core/backend-go/tests/platform/auth/authority_test.go	76698d9a0342d8a456c2d9a3906a5c05b6628207	test	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	98ef59cc825bba533eeb57f0382ed6d205b3534b	test	verified
-core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	test	authored
+core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	test	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	568393176eefbb2d972bd17d0c598ae64c42d3c9	test	verified
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
@@ -11753,7 +11753,7 @@ docs/0066-native-reference-reads.md	e384864f661cfb7c1b3435ce251660a9162409f1	doc
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
 docs/0069-execution-goal.md	aac4b484ef824fc5554739bb03eef960283cb9db	documentation	reviewed
-docs/0070-nomen-authority-contract.md	ab3a67eaa8cd5201a7544ef59b95fe99d6945aaf	documentation	unread
+docs/0070-nomen-authority-contract.md	ea7a7cd51cd5a8b493533ef92f3c500c8e53690e	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
@@ -11762,10 +11762,10 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	e8cb1cec072ac3b97642f2a4747412655f063a09	generated	unread
-docs/capabilities/generated/source-map.tsv	0e9690fd628c0dd06edd6476dfd24efbe871756e	generated	unread
+docs/capabilities/generated/source-map.tsv	4238fe9a9f80b74695e581776e05fdd98b34c109	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	c49c866b2488c1d4a36ab2af9c85e3b8947678ce	generated	unread
+docs/migration/generated/files.tsv	31448f14b72bdd92ddf09228cd656310d527d878	generated	unread
 docs/migration/generated/modules.tsv	b3185ba573474f98a6e925549a1f9d654c79e435	generated	unread
 docs/migration/generated/summary.json	886a05b98f5f183b4b6ee46958bbd3ae4db66e69	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored

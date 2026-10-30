@@ -1346,9 +1346,9 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
       "blob": "48cfaed0b534daf3e6a49c941bb68d90dac47def",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete prior module review retained and current full file read. Matching direct organization membership now has explicit priority after scope/status filtering, including inactive and null-status direct rows. Existing primary authority, validation/errors, group fallback, claims, revocation and budgets remain. Controlled baseline/repaired matrices and real issuer user deactivate/reactivate operations with an explicit session fixture verify this scope. Multiple-group ordering, issuer replica paths, legacy row/subject binding, Nomen and full native cutover remain open. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",
+      "scope": "Complete prior module review retained and current full file read. Matching direct organization membership now has explicit priority after scope/status filtering, including inactive and null-status direct rows. Existing primary authority, validation/errors, group fallback, claims, revocation and budgets remain. Controlled baseline/repaired matrices and real issuer user deactivate/reactivate operations with an explicit session fixture verify this scope. Multiple-group ordering, issuer replica paths, legacy row/subject binding, Nomen and full native cutover remain open. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1412,7 +1412,8 @@
         ".cache/membership-image-dragonfly.log",
         ".cache/membership-image-redis.log",
         ".cache/app-image-proof-UAkQBx/workflow-result.json",
-        "docs/0070-nomen-authority-contract.md"
+        "docs/0070-nomen-authority-contract.md",
+        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
       ]
     },
     {
@@ -1572,9 +1573,9 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/claims.go",
       "blob": "57ded52e1b8e33b3b4fa2c21774edae3d23d68b6",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Optional lifetime fields now retain absent/null versus explicit zero through both Go claim structs and unified conversion. The complete-claim predicate requires all four anchors. Existing JWT parser, algorithm/signature/expiry checks and tenant/auth fields retained. This is scoped wire-classification acceptance, not full Nomen or native authenticator parity. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",
+      "scope": "Complete file read. Optional lifetime fields now retain absent/null versus explicit zero through both Go claim structs and unified conversion. The complete-claim predicate requires all four anchors. Existing JWT parser, algorithm/signature/expiry checks and tenant/auth fields retained. This is scoped wire-classification acceptance, not full Nomen or native authenticator parity. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
       "evidence": [
         "docs/0037-native-identity-claim-presence.md",
         ".cache/claims-presence-before.jsonl",
@@ -1587,7 +1588,8 @@
         ".cache/app-image-proof-iVxZeL/workflow-result.json",
         ".cache/claims-image-smoke-dragonfly.log",
         ".cache/claims-image-smoke-redis.log",
-        "docs/0070-nomen-authority-contract.md"
+        "docs/0070-nomen-authority-contract.md",
+        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
       ]
     },
     {
@@ -5063,21 +5065,23 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/delegated_token_test.go",
       "blob": "c01a3b669d39debc5dc9b962beada6228931eb37",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",
+      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
       "evidence": [
-        "docs/0070-nomen-authority-contract.md"
+        "docs/0070-nomen-authority-contract.md",
+        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/delegated_token_test.go",
       "blob": "121f7ca4048fad5bad15e48a7f821e325b2f2a63",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",
+      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
       "evidence": [
-        "docs/0070-nomen-authority-contract.md"
+        "docs/0070-nomen-authority-contract.md",
+        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
       ]
     }
   ]

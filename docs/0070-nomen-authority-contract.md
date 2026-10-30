@@ -152,5 +152,34 @@ must leave existing local authority intact. Additive bindings must survive rollb
 without being interpreted as trusted aliases by old binaries. No public-cloud
 readiness, full auth parity or complete migration claim follows from this packet.
 
-Verification receipts will identify the exact candidate, image, fixture tests and
-remaining gates below after execution.
+## Verified candidate
+
+Source: `7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941`. Canonical image:
+`sha256:a744c98fc41ee68cfe620c78c2e383fdb7d79f224e3231bce1e85757d4e63936`. Go test image:
+`sha256:e13b57dc548f50bcff7b122ebc059e69b7f164e552f534c600c844c6ade92b4b`. Both were built locally from
+`core/Dockerfile.standalone-vaultix` using an LF Git archive; image identity matches
+the candidate. Subsequent receipt-only documentation does not change runtime source.
+
+| Check | Observed outcome |
+| --- | --- |
+| Prior-code negative control | With only the exact previous authenticator blob restored inside a disposable test runner, the valid first-party control succeeded and a delegated request returned 204 instead of required 401. The product checkout and preview were not modified. |
+| Go authentication unit suite | Passed, including marker presence/type cases, middleware modes and direct validation before database lookup. |
+| Entire Go internal unit/race suite | Passed on the final candidate. |
+| Pinned golangci-lint 2.15.0, integration build tag | Zero issues on committed LF source. An initial noctx test failure was corrected; the failed receipt remains retained. The existing deprecated-linter warning remains. |
+| Real database/application Go integrations with race detector | 689 test/subtest passes, 0 failures, 8 skips. Includes delegated denial plus first-party recovery, current membership/permission/revocation and failure cases. Eight external AWS/GCP KMS tests remain skipped without credentials. |
+| Canonical Dragonfly application smoke/browser | Passed existing setup, sign-in, project and secret workflows, authorization/recovery checks, selected accessibility checks, MCP/catalog checks, queue and restart checks. This exercises the current TS public paths; it does not prove native Go route cutover. |
+| Source/contract consistency | 31 source entries with complete/scoped reads, blob/range/local-link checks and three invalid review fixtures passed. Audit, migration and capability maps passed with the existing surface baseline retained. |
+
+Local evidence under `.cache/headless-ai-login/`:
+
+- `.cache/auth02-build.json` and `.cache/auth02-acceptance.json` bind source, images and checks.
+- `.cache/auth02-negative-control.json` retains only numeric HTTP outcomes and test metadata.
+- `.cache/go-proof-KA2BSw/result.json` records integration outcomes/skips without raw fixture responses.
+- `.cache/app-image-proof-HVMTNJ/workflow-result.json` links the packaged browser workflow reports; real operations and injected recovery fixtures are labelled separately.
+- Private journal `2026/10/dbc01c00-76af-40df-af54-3698a147880a` records immutable plan revisions, failed and successful receipts, visible-message capture and handoff. Capture contains summaries where exact intermediate messages were not retained.
+
+This packet does not requalify Redis/ElastiCache, live KMS providers, hardware HSMs,
+all-workflow accessibility or public-cloud operation. External Nomen bearer
+acceptance and native public project/reference/MCP integration remain unimplemented.
+Next: AUTH-03 verifier and durable issuer/subject binding with fixture denial,
+revocation, concurrency and rollback proof; then AUTH-04 consuming routes.
