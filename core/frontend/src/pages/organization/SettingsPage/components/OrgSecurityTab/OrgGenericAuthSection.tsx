@@ -183,7 +183,7 @@ const MfaSettingsForm = ({ org }: { org: Organization }) => {
               >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent position="popper">
+              <SelectContent>
                 {Object.entries(methods).map(([value, method]) => (
                   <SelectItem key={value} value={value}>
                     {method.label}

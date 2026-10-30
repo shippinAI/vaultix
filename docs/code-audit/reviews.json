@@ -5088,10 +5088,10 @@
     },
     {
       "path": "core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx",
-      "blob": "81b1038a950bfd38e6b520ee003b1c42a95fdb7c",
+      "blob": "fb12bcc055ee64a1801a12ed9e554ad6736d5307",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authorship: local MFA drafts, named controls and contextual help, review before mutation, Settings edit permission aligned with existing service, changed-fields-only payload, pending/duplicate guard, one shared error and retained failed draft. Service semantics and Nomen unchanged; browser acceptance pending.",
+      "scope": "Complete file read/authorship: local MFA drafts, named controls and contextual help, review before mutation, Settings edit permission aligned with existing service, changed-fields-only payload, pending/duplicate guard, one shared error and retained failed draft. Service semantics and Nomen unchanged; browser acceptance pending. Reproduced narrow popper menu outside viewport in separate real disposable image; use the existing default item-aligned Select placement, whose installed implementation clamps content to viewport.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md"
       ]
