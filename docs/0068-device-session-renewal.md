@@ -151,3 +151,16 @@ Before native Nomen access is enabled:
 4. Prove wrong issuer/audience/signature/expiry denial, membership removal,
    cross-tenant denial, issuer revocation and real remote browser approval on
    the canonical image before changing the public connection instructions.
+
+## Local preview deployment
+
+The accepted image is running at `http://127.0.0.1:8200/`. Deployment preserved
+the initialized owner, database/cache containers and the operator's uncommitted
+ignore rules. Receipt:
+`.cache/headless-ai-login/.cache/nomen-renewal-deployment.json`.
+The browser verified the login page, anonymous project denial and existing
+Connect Clyffy guidance without using the operator's account. Receipt:
+`.cache/headless-ai-login/.cache/nomen-renewal-browser.json`.
+The root CLI is a separate Windows/Linux artifact; no global CLI installation
+or personal Codex configuration was changed. This is a local preview, not a
+production deployment or live Nomen acceptance.
