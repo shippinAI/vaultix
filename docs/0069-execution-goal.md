@@ -133,3 +133,15 @@ infrastructure, and the selected DevSCIF profiles have their required evidence.
 Commit counts, a healthy preview, fixture success or missing external inputs
 cannot substitute for those outcomes. Continue independent ready packets when
 one gate lacks an external prerequisite; report the specific remaining gate.
+
+## Planning verification
+
+Local document links and audit/migration map checks passed. The canonical image
+was built from planning source `06fef70bb6d24dca55dc20eefb58cfbae5dcee5f`:
+`sha256:a282f897d63d48c3d90e27d46a342ee02cc8a360ac22cb6c8dc28b83ffaef261`.
+Its revision identity matches and its runtime filesystem layers equal the
+accepted 0068 image. Receipt:
+`.cache/headless-ai-login/.cache/execution-plan-build-0oC4Ab/result.json`.
+This documentation packet changes no application/CLI source or runtime behavior;
+the existing preview and behavioral evidence remain in place. The planning
+checks do not close any of the implementation or live acceptance gates above.

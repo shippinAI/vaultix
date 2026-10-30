@@ -4791,7 +4791,7 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "6c44025ac4a80e0cb38dae9cab81d53e760f955a",
+      "blob": "b744ce5e64a1cd703f3899ce7870a2292e3101d3",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
