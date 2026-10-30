@@ -5062,7 +5062,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/delegated_token_test.go",
-      "blob": "4e27d6028b6d5666e950af22a8f8477400483d08",
+      "blob": "c01a3b669d39debc5dc9b962beada6228931eb37",
       "status": "authored",
       "decision": "modify",
       "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",
@@ -5072,7 +5072,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/delegated_token_test.go",
-      "blob": "a9df7d7b6f47bd8fe68f18814f114773ba32b771",
+      "blob": "121f7ca4048fad5bad15e48a7f821e325b2f2a63",
       "status": "authored",
       "decision": "modify",
       "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations.",

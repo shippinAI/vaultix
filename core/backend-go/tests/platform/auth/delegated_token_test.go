@@ -44,7 +44,7 @@ func TestDelegatedToken_HTTPBoundaryPreservesFirstPartyAuthority(t *testing.T) {
 		}),
 	)
 	request := func(token string) *httptest.ResponseRecorder {
-		r := httptest.NewRequest(http.MethodGet, "/protected", http.NoBody)
+		r := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/protected", http.NoBody)
 		r.Header.Set("Authorization", "Bearer "+token)
 		w := httptest.NewRecorder()
 		handler.ServeHTTP(w, r)

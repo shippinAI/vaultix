@@ -60,7 +60,7 @@ func TestRequireAuth_DelegatedTokenCannotBecomeUserSession(t *testing.T) {
 					called = true
 					w.WriteHeader(http.StatusNoContent)
 				}))
-				request := httptest.NewRequest(http.MethodGet, "/protected", http.NoBody)
+				request := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/protected", http.NoBody)
 				request.Header.Set("Authorization", "Bearer "+token)
 				response := httptest.NewRecorder()
 				handler.ServeHTTP(response, request)

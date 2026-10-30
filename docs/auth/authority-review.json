@@ -30,13 +30,13 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/delegated_token_test.go",
-      "blob": "4e27d6028b6d5666e950af22a8f8477400483d08",
+      "blob": "c01a3b669d39debc5dc9b962beada6228931eb37",
       "read": "complete",
       "purpose": "Authored denial-before-database regression"
     },
     {
       "path": "core/backend-go/tests/platform/auth/delegated_token_test.go",
-      "blob": "a9df7d7b6f47bd8fe68f18814f114773ba32b771",
+      "blob": "121f7ca4048fad5bad15e48a7f821e325b2f2a63",
       "read": "complete",
       "purpose": "Authored real-session delegated denial and first-party recovery"
     },
@@ -207,6 +207,29 @@
         ]
       ],
       "purpose": "Delegated local issuer claims only"
+    },
+    {
+      "path": "core/backend/src/ee/services/permission/permission-service.ts",
+      "blob": "1a5539c8a8457c660cb64b6043e1c7b949eabe4f",
+      "read": [
+        [
+          91,
+          105
+        ],
+        [
+          361,
+          388
+        ],
+        [
+          711,
+          728
+        ],
+        [
+          751,
+          770
+        ]
+      ],
+      "purpose": "Scoped OAuth permission intersection callers only; org/project/resource handling, not a whole-file review"
     }
   ]
 }

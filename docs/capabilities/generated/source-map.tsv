@@ -147,7 +147,7 @@ core/backend-go/internal/services/auth/apiauth/claims.go	access	identity	core/ba
 core/backend-go/internal/services/auth/apiauth/claims_presence_test.go	access	identity	core/backend-go/internal/services/auth	8f119a7b62c641110fb0d0443b52894e3b06e773	verified
 core/backend-go/internal/services/auth/apiauth/classify.go	access	identity	core/backend-go/internal/services/auth	9642571e5669d8ffdcf405dddcbe4788ec6bb446	unread
 core/backend-go/internal/services/auth/apiauth/classify_test.go	access	identity	core/backend-go/internal/services/auth	e775803f3d4a69e2bab60458a081f1c073042bba	unread
-core/backend-go/internal/services/auth/apiauth/delegated_token_test.go	access	identity	core/backend-go/internal/services/auth	4e27d6028b6d5666e950af22a8f8477400483d08	authored
+core/backend-go/internal/services/auth/apiauth/delegated_token_test.go	access	identity	core/backend-go/internal/services/auth	c01a3b669d39debc5dc9b962beada6228931eb37	authored
 core/backend-go/internal/services/auth/apiauth/ip.go	access	identity	core/backend-go/internal/services/auth	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	unread
 core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go	access	identity	core/backend-go/internal/services/auth	49e36906f087c580b976745525f0d6f4666e39c6	verified
 core/backend-go/internal/services/auth/apiauth/require_auth.go	access	identity	core/backend-go/internal/services/auth	57a239176f1b3995ba737961b010f9b13b077c84	verified
@@ -208,7 +208,7 @@ core/backend-go/tests/infra/stack.go	operate	foundation	core/backend-go/tests/in
 core/backend-go/tests/platform/auth/apiauthenticator_test.go	access	identity	core/backend-go/tests/platform/auth	4f2dc7bed7f3a7f3ec972c9d11644d8ff4fdf15e	verified
 core/backend-go/tests/platform/auth/authority_test.go	access	identity	core/backend-go/tests/platform/auth	76698d9a0342d8a456c2d9a3906a5c05b6628207	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	access	identity	core/backend-go/tests/platform/auth	98ef59cc825bba533eeb57f0382ed6d205b3534b	verified
-core/backend-go/tests/platform/auth/delegated_token_test.go	access	identity	core/backend-go/tests/platform/auth	a9df7d7b6f47bd8fe68f18814f114773ba32b771	authored
+core/backend-go/tests/platform/auth/delegated_token_test.go	access	identity	core/backend-go/tests/platform/auth	121f7ca4048fad5bad15e48a7f821e325b2f2a63	authored
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	access	identity	core/backend-go/tests/platform/auth	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	access	authorization	core/backend-go/tests/platform/auth	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	access	identity	core/backend-go/tests/platform/auth	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
@@ -9286,7 +9286,7 @@ db/schemas/vault-external-migration-configs.ts	operate	foundation	db/schemas	310
 db/schemas/webauthn-credentials.ts	access	identity	db/schemas	d0b8bf64a828cb33a697b147d449fa4288e5f05a	unread
 db/schemas/webhooks.ts	connect	integrations	db/schemas	1d603e1012c15230591067b70d0c264bccbfd112	unread
 db/schemas/workflow-integrations.ts	automation	automation	db/schemas	cab02fcedae5ae66ae9c3f81ce260dc7eb49d7c0	unread
-docs/auth/authority-review.json	access	identity	docs/auth	66acff063e08a39c82a9f787ffd44708a5bf7093	unread
+docs/auth/authority-review.json	access	identity	docs/auth	1a4ffbe4b4265817f40ec81464f1c78a47416495	unread
 docs/auth/authority-review.schema.json	access	identity	docs/auth	666418f1376435385aea1f98ad367999abff4e27	unread
 docs/capabilities/catalog.mjs	operate	foundation	docs/capabilities	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	authored
 docs/capabilities/explorer.css	operate	foundation	docs/capabilities	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
