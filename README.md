@@ -21,6 +21,11 @@ The [current execution goal and queue](docs/0069-execution-goal.md) starts with
 native Nomen authority mapping and live remote sign-in, then carries the same
 acceptance method through core/UI/AI migration and owned-infrastructure release.
 
+Project contributors use the [portable AI skills and local journal](.ai/README.md)
+for CO-STAR alignment, source-grounded plans, evidence checks and resumable work.
+Visible conversations and task records stay locally under `.ai/data/`; tracked
+schemas and folder context routes keep the workflow consistent across clients.
+
 The [capability product plan](docs/0049-capability-product-plan.md) groups the
 product scope, acceptance gaps, UI direction, proposed service previews and AI
 workspace phases. Explore it locally with `node scripts/serve-capability-plan.mjs`

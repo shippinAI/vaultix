@@ -2544,13 +2544,13 @@
       "capabilities": 11,
       "ui": 20,
       "api": 55,
-      "sourceFiles": 602
+      "sourceFiles": 624
     },
     "access": {
       "capabilities": 10,
       "ui": 53,
       "api": 131,
-      "sourceFiles": 1336
+      "sourceFiles": 1338
     },
     "automation": {
       "capabilities": 6,
@@ -2562,7 +2562,7 @@
       "capabilities": 5,
       "ui": 106,
       "api": 1122,
-      "sourceFiles": 2116
+      "sourceFiles": 2117
     },
     "pki": {
       "capabilities": 6,
@@ -2604,7 +2604,7 @@
       "capabilities": 8,
       "ui": 12,
       "api": 1,
-      "sourceFiles": 1343
+      "sourceFiles": 1353
     },
     "experience": {
       "capabilities": 6,
@@ -2616,7 +2616,7 @@
   "coverage": {
     "uiRoutes": 273,
     "apiOperations": 2290,
-    "sourceFiles": 9429,
+    "sourceFiles": 9464,
     "providerEntries": 187,
     "capabilityRequirements": 86,
     "unclassified": 0

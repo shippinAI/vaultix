@@ -1,0 +1,3 @@
+# Conversations, plans, receipts and derived indexes are private local state.
+/data/
+/node_modules/

@@ -1,4 +1,9 @@
 path	module	workstream	target	language	git_blob	review_state
+.ai/.gitignore	.ai	foundation	supporting-tooling-or-contract	build-config	cd1c4ac38a4730496ef265ae68dc5d2cd112ffd5	reviewed
+.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	d32e0915646bcd9e957fff72454e3ed3e6775ea4	reviewed
+.ai/package.json	.ai	foundation	supporting-tooling-or-contract	json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	reviewed
+.ai/schemas/contexts.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	reviewed
+.ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
 .github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	c8fbfe9f525685b5fc7829729d1af1a1b4358d2b	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	authored
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
@@ -9283,7 +9288,7 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	d3ba87ed84a59458fca000d8d38bc1d99dcca3ed	authored
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	authored
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -9395,6 +9400,8 @@ panel/internal/viewport/web/og.svg	panel/internal/viewport	legacy-panel	reconcil
 panel/internal/viewport/web/wordmark.svg	panel/internal/viewport	legacy-panel	reconcile-into-native-product	svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
 panel/main.go	panel	legacy-panel	reconcile-into-native-product	go	53007168503d9f998026b72dcd724a7da0f1bc1c	unread
 schemas/shippin.vaultix.api.v1.json	schemas	foundation	supporting-tooling-or-contract	json	09efa4d202f917c8fafbe02758906309b233a0dd	unread
+scripts/ai-journal.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	11062148c5626ab31973d252c0379e30c2d4824b	reviewed
+scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	091d95b9c26ee7de8ceccff9a74fb6d1cab6dcf1	reviewed
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
 scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6	verified
@@ -9405,6 +9412,7 @@ scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	bd596f
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
+scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	2d0f70c4d2deb48d81b59941558cb29233052262	verified
 scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified

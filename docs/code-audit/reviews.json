@@ -326,10 +326,10 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "d3ba87ed84a59458fca000d8d38bc1d99dcca3ed",
+      "blob": "d9edacabd0fa191fd61de60bbcfeaa4f3b94da82",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities. Planning checkpoint 2026-10-28: Read full migration dependency/rule plan. Assign authored capability planning tooling to foundation supporting work, before generic path rules. Generated capability outputs excluded from migration. No domain migration marked completed.",
+      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities. Planning checkpoint 2026-10-28: Read full migration dependency/rule plan. Assign authored capability planning tooling to foundation supporting work, before generic path rules. Generated capability outputs excluded from migration. No domain migration marked completed. AI setup checkpoint: Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
       "evidence": [
         "docs/0027-native-stack-and-ai-migration.md",
         "docs/migration/README.md",
@@ -339,7 +339,10 @@
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
       ]
     },
     {
@@ -2368,10 +2371,10 @@
     },
     {
       "path": "README.md",
-      "blob": "2547de1b851b73c5cbb851069f1369d68b576b91",
+      "blob": "23c72f03709aa7d3f145c3be65cc6e2fd69ffb99",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
+      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness. AI setup checkpoint: Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2399,7 +2402,10 @@
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
         "docs/0069-execution-goal.md",
-        ".cache/headless-ai-login/.cache/execution-plan-links.json"
+        ".cache/headless-ai-login/.cache/execution-plan-links.json",
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
       ]
     },
     {
@@ -4798,6 +4804,246 @@
       "evidence": [
         "docs/0069-execution-goal.md",
         ".cache/headless-ai-login/.cache/execution-plan-links.json"
+      ]
+    },
+    {
+      "path": ".agents/AGENTS.md",
+      "blob": "aedb153445d1391d3a0322ee55d5cf9655b201e2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".agents/skills/costar-alignment/SKILL.md",
+      "blob": "58f40f8cb7766793e9dec94ed95b7a417953364a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".agents/skills/grounded-delivery/SKILL.md",
+      "blob": "47b42db840eff84cea89125966f2e9d82ace7d12",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".agents/skills/implementation-verification/SKILL.md",
+      "blob": "af83fc75ab8009d5d9ade12d9dca174bf0bee7ac",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".agents/skills/project-journaling/SKILL.md",
+      "blob": "b36d1a5deab9a33857ec258e7f4ae873da2831a1",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/.gitignore",
+      "blob": "cd1c4ac38a4730496ef265ae68dc5d2cd112ffd5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/AGENTS.md",
+      "blob": "6a716d94bf0741e37aa8c2a59bf324130544b83d",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/README.md",
+      "blob": "e709806042a0da3f8d622759af54904ec2b3739b",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/contexts.json",
+      "blob": "d32e0915646bcd9e957fff72454e3ed3e6775ea4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/package-lock.json",
+      "blob": "eda68a5199b6342c0dee4ff8f3c21113a9a99b96",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/package.json",
+      "blob": "acd7d93bf30fb96be08e46cc5c128fd60f0645a5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/references/skill-evaluation.md",
+      "blob": "4fb3bd061fbaa3bbe6ddbf2e2b0fc928e9fcd110",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/references/standards.md",
+      "blob": "e5933f4e522c87482bb3273dea2831083aa7d33c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/schemas/contexts.schema.json",
+      "blob": "a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": ".ai/schemas/journal-event.schema.json",
+      "blob": "3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/ai-journal.mjs",
+      "blob": "11062148c5626ab31973d252c0379e30c2d4824b",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/ai-journal.test.mjs",
+      "blob": "091d95b9c26ee7de8ceccff9a74fb6d1cab6dcf1",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/ai-journal.mjs",
+      "blob": "d22d234a23e1aa2a6f21666a814510aba3f55ccb",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "blob": "7ca064673287c12b54b6bde748fceb428ce13e53",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "JOURNAL.md",
+      "blob": "745bd9a4b5c9d9a042d2fb98e0843335135f9964",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
+      "evidence": [
+        ".ai/README.md",
+        ".ai/references/skill-evaluation.md",
+        "scripts/ai-journal.test.mjs"
       ]
     }
   ]

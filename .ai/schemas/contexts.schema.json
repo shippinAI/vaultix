@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:vaultix:ai:contexts:1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "project", "canonical", "folders"],
+  "$defs": { "path": { "type": "string", "minLength": 1, "maxLength": 4096 } },
+  "properties": {
+    "$schema": { "const": "./schemas/contexts.schema.json" },
+    "schema_version": { "const": "1.0.0" },
+    "project": { "const": "vaultix" },
+    "canonical": {
+      "type": "object", "required": ["instructions", "roadmap", "architecture", "capabilities", "authorship", "api", "journal_schema"],
+      "properties": {
+        "instructions": { "$ref": "#/$defs/path" }, "roadmap": { "$ref": "#/$defs/path" },
+        "architecture": { "$ref": "#/$defs/path" }, "capabilities": { "$ref": "#/$defs/path" },
+        "authorship": { "$ref": "#/$defs/path" }, "api": { "$ref": "#/$defs/path" },
+        "journal_schema": { "$ref": "#/$defs/path" }
+      },
+      "additionalProperties": { "$ref": "#/$defs/path" }
+    },
+    "folders": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["path", "read", "boundary"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "read": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "boundary": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

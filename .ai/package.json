@@ -1,0 +1,8 @@
+{
+  "name": "vaultix-project-ai-tools",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test ../scripts/ai-journal.test.mjs" },
+  "dependencies": { "ajv": "8.20.0", "ajv-formats": "3.0.1" }
+}

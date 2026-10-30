@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "scope": "Discovery only; module boundaries and assignments require review. No module is marked migrated.",
-  "mappedFiles": 9456,
-  "moduleGroups": 1068,
+  "mappedFiles": 9464,
+  "moduleGroups": 1070,
   "excludedKinds": [
     "documentation",
     "dependency-lock",
@@ -13,7 +13,7 @@
   "workstreams": [
     {
       "id": "foundation",
-      "files": 1065,
+      "files": 1070,
       "dependsOn": []
     },
     {
@@ -55,7 +55,7 @@
     },
     {
       "id": "delivery",
-      "files": 209,
+      "files": 212,
       "dependsOn": [
         "foundation"
       ]

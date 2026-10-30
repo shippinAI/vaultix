@@ -1,5 +1,10 @@
 # JOURNAL
 
+Historical notes below describe earlier states and are not current instructions.
+The current roadmap is [0069](docs/0069-execution-goal.md). New conversations,
+plans, decisions and receipts use the [versioned local journal](.ai/README.md)
+under `.ai/data/`; reviewed product decisions remain in `docs/`.
+
 ## 2026-08-30 — shippinAI/vaultix + GHCR
 
 Repo https://github.com/shippinAI/vaultix (private), same org as Nomen.
