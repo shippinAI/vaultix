@@ -266,10 +266,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "eb2255529030c8904aca901f2db9bf6486af6540",
-      "status": "verified",
+      "blob": "a698e7dc04f9058539bf4d7013bff5ca00004ac0",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit.",
+      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit. Complete existing harness read; append organization MFA workflow to the real disposable packaged application. Existing workflows retained.",
       "evidence": [
         "docs/0060-login-recovery.md",
         "scripts/test-login-failure.mjs",
@@ -285,7 +285,8 @@
         "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending.",
         "Runtime source 4bb6099f7bd8f51a83225993551037e8f35c40d0",
         "Canonical image sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a",
-        "0065: exact packaged acceptance and unchanged backend/native boundary."
+        "0065: exact packaged acceptance and unchanged backend/native boundary.",
+        "docs/0071-devscif-governance-experience.md"
       ]
     },
     {
@@ -4801,13 +4802,14 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "aac4b484ef824fc5554739bb03eef960283cb9db",
+      "blob": "2ef468b37f00b4b77a4cae2cd1e838c82ef3a209",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness. AUTH-02 checkpoint link added after rereading the execution queue; implementation and live gates remain explicit in 0070.",
+      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness. AUTH-02 checkpoint link added after rereading the execution queue; implementation and live gates remain explicit in 0070. Read/authored governance roadmap linkage and acceptance limits; this is a plan, not DevSCIF service readiness.",
       "evidence": [
         "docs/0069-execution-goal.md",
-        ".cache/headless-ai-login/.cache/execution-plan-links.json"
+        ".cache/headless-ai-login/.cache/execution-plan-links.json",
+        "docs/0071-devscif-governance-experience.md"
       ]
     },
     {
@@ -5082,6 +5084,46 @@
       "evidence": [
         "docs/0070-nomen-authority-contract.md",
         ".cache/headless-ai-login/.cache/auth02-acceptance.json"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx",
+      "blob": "c1dc8372cc8e0420fdeeb1c8b828f714659c74f4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authorship: local MFA drafts, named controls and contextual help, review before mutation, Settings edit permission aligned with existing service, changed-fields-only payload, pending/duplicate guard, one shared error and retained failed draft. Service semantics and Nomen unchanged; browser acceptance pending.",
+      "evidence": [
+        "docs/0071-devscif-governance-experience.md"
+      ]
+    },
+    {
+      "path": "scripts/test-org-mfa-workflow.mjs",
+      "blob": "26f32a657f8f1fa1f473bc006d6dd4afe50acf64",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored real method persistence, real SMTP rejection and anonymous denial; separately injected UI outage/pending/read-only states, keyboard/help/focus/narrow/reduced-motion and axe. No raw credentials retained.",
+      "evidence": [
+        "docs/0071-devscif-governance-experience.md"
+      ]
+    },
+    {
+      "path": "docs/0071-devscif-governance-experience.md",
+      "blob": "a4e4b9c4f4e53b9951bd40f9945f2facd2bc9ae6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored governance roadmap linkage and acceptance limits; this is a plan, not DevSCIF service readiness.",
+      "evidence": [
+        "docs/0071-devscif-governance-experience.md"
+      ]
+    },
+    {
+      "path": "scripts/check-org-mfa-ui.mjs",
+      "blob": "5e9707812c7de78c6a492570565262b45ee05b70",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored: portable full frontend TypeScript and scoped MFA ESLint verification; propagate command failures.",
+      "evidence": [
+        "docs/0071-devscif-governance-experience.md"
       ]
     }
   ]

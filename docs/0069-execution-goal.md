@@ -49,6 +49,12 @@ bearer acceptance remains disabled/unimplemented; AUTH-03 still requires the
 native verifier and durable issuer/subject binding, followed by actual route
 integration in AUTH-04.
 
+The owner's 2026-10-30 UI/DevSCIF steering is captured in
+[0071](0071-devscif-governance-experience.md): evolve existing controls with
+contextual help, reviewed changes, notifications and recovery, alongside an
+explicit shared-engine service roadmap. GOV-UI-01 authors the existing MFA
+settings workflow; it does not replace AUTH-03/04 or imply DevSCIF acceptance.
+
 | Packet | Implementation and review scope | Required exit evidence |
 | --- | --- | --- |
 | AUTH-02 authority contract | Fully read TS identity middleware, Go `auth/apiauth` and permission callers, browser OIDC, user aliases, memberships and native project/reference routes. Record exact blobs, actor derivation and existing login/session behavior. Specify issuer, access-token format, intended audience, subject binding, organization selection, revocation and rollout contract. | Route-to-handler-to-authority/data trace; explicit decision for JWT validation versus authenticated introspection based on the actual issuer contract; no inferred account link from email or unsigned claims. |

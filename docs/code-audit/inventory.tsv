@@ -9609,7 +9609,7 @@ core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimEvents.tsx	db16b0d3a2b8245a9ea9271edf622c4f2c4a3a93	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimTokenModal.tsx	6322b0e5e243a505b48f6f4cd0dce0beef1e34d8	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/index.tsx	c39b77b6ac4957634d4ebd18feb9595b49ad8dc2	product-code	unread
-core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	9ebcda461738a6f2d5295904f288f5faa7b4e41f	product-code	unread
+core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	c1dc8372cc8e0420fdeeb1c8b828f714659c74f4	product-code	authored
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgSecurityTab.tsx	e9968138416e84842d5f65561f989b4a5cd5e234	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx	8fe904ce3447409c11d4d74bf4271d208e09c6dc	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/index.tsx	565772a72e4ad5826c0f27172389b14046c1887b	product-code	unread
@@ -11752,8 +11752,9 @@ docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	docum
 docs/0066-native-reference-reads.md	e384864f661cfb7c1b3435ce251660a9162409f1	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
-docs/0069-execution-goal.md	aac4b484ef824fc5554739bb03eef960283cb9db	documentation	reviewed
+docs/0069-execution-goal.md	2ef468b37f00b4b77a4cae2cd1e838c82ef3a209	documentation	reviewed
 docs/0070-nomen-authority-contract.md	ea7a7cd51cd5a8b493533ef92f3c500c8e53690e	documentation	unread
+docs/0071-devscif-governance-experience.md	a4e4b9c4f4e53b9951bd40f9945f2facd2bc9ae6	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
@@ -11761,13 +11762,13 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	e8cb1cec072ac3b97642f2a4747412655f063a09	generated	unread
-docs/capabilities/generated/source-map.tsv	4238fe9a9f80b74695e581776e05fdd98b34c109	generated	unread
+docs/capabilities/generated/catalog.json	697a7ccb2bbc04ddc3bf25e70f9794fa37edde70	generated	unread
+docs/capabilities/generated/source-map.tsv	1cf0efeeef27dc9f141f81f848db1ce0d841243f	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	31448f14b72bdd92ddf09228cd656310d527d878	generated	unread
-docs/migration/generated/modules.tsv	b3185ba573474f98a6e925549a1f9d654c79e435	generated	unread
-docs/migration/generated/summary.json	886a05b98f5f183b4b6ee46958bbd3ae4db66e69	generated	unread
+docs/migration/generated/files.tsv	6446a2bfea865e82e8c49c6192ac7eb5dab5d7e3	generated	unread
+docs/migration/generated/modules.tsv	1194fc2f274eaba72b6f816190cd8d94d5743d5e	generated	unread
+docs/migration/generated/summary.json	d5c8fa058a2c71a29eafb0d3ff7e28f64010162c	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -11909,6 +11910,7 @@ scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-o
 scripts/check-auth-authority.mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	build-and-operations	unread
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
+scripts/check-org-mfa-ui.mjs	5e9707812c7de78c6a492570565262b45ee05b70	build-and-operations	authored
 scripts/check-owned.sh	bd596fb1097dfad2e4e071ba051da0ea532fb658	build-and-operations	verified
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/fixtures/device-issuer.mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	build-and-operations	verified
@@ -11945,7 +11947,7 @@ scripts/test-go-test-evidence.mjs	b5583de0e3990833d120e86e707545c3a491a1e1	build
 scripts/test-guidance-contract.mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	build-and-operations	verified
 scripts/test-guided-interactions.mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	build-and-operations	verified
 scripts/test-identity-policy-startup.mjs	0b987ad6360d321ac5126d81634a38abfa98a504	build-and-operations	verified
-scripts/test-image-app.mjs	eb2255529030c8904aca901f2db9bf6486af6540	build-and-operations	verified
+scripts/test-image-app.mjs	a698e7dc04f9058539bf4d7013bff5ca00004ac0	build-and-operations	authored
 scripts/test-learning-content.mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	build-and-operations	verified
 scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-and-operations	verified
 scripts/test-login-recovery.mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	build-and-operations	verified
@@ -11953,6 +11955,7 @@ scripts/test-migration-map.mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	build-an
 scripts/test-native-ui.mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	build-and-operations	verified
 scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	build-and-operations	verified
 scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
+scripts/test-org-mfa-workflow.mjs	26f32a657f8f1fa1f473bc006d6dd4afe50acf64	build-and-operations	authored
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified
 scripts/test-proxy-boundary.mjs	31abb675903176cfdabe2db161bcbbd62ed27351	build-and-operations	verified

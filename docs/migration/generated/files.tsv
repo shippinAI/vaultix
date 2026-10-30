@@ -7219,7 +7219,7 @@ core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimEvents.tsx	core/frontend/src/pages/organization/SettingsPage	identity	React-TypeScript	tsx	db16b0d3a2b8245a9ea9271edf622c4f2c4a3a93	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimTokenModal.tsx	core/frontend/src/pages/organization/SettingsPage	identity	React-TypeScript	tsx	6322b0e5e243a505b48f6f4cd0dce0beef1e34d8	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/index.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	c39b77b6ac4957634d4ebd18feb9595b49ad8dc2	unread
-core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	9ebcda461738a6f2d5295904f288f5faa7b4e41f	unread
+core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	c1dc8372cc8e0420fdeeb1c8b828f714659c74f4	authored
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgSecurityTab.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	e9968138416e84842d5f65561f989b4a5cd5e234	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	8fe904ce3447409c11d4d74bf4271d208e09c6dc	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/index.tsx	core/frontend/src/pages/organization/SettingsPage	ui	React-TypeScript	tsx	565772a72e4ad5826c0f27172389b14046c1887b	unread
@@ -9413,6 +9413,7 @@ scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
+scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5e9707812c7de78c6a492570565262b45ee05b70	unread
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	bd596fb1097dfad2e4e071ba051da0ea532fb658	verified
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
@@ -9449,7 +9450,7 @@ scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-guidance-contract.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	eb2255529030c8904aca901f2db9bf6486af6540	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a698e7dc04f9058539bf4d7013bff5ca00004ac0	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
@@ -9457,6 +9458,7 @@ scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
+scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	26f32a657f8f1fa1f473bc006d6dd4afe50acf64	authored
 scripts/test-production-admission.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified
 scripts/test-proxy-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	31abb675903176cfdabe2db161bcbbd62ed27351	verified
