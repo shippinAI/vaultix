@@ -135,6 +135,11 @@ provider, browser linking, notification delivery or public-cloud gate is closed.
 
 ## Next integration gates
 
+Continuation: [native reauthentication](nomen-reauthentication.md) adds the
+local-password producer and action/target-specific transactional consumption.
+The results above describe the earlier persistence checkpoint, not that new
+component's acceptance or the complete authentication-method matrix.
+
 Existing MFA session service/router and step-up helpers were read for the next
 consumer integration. Their generic ACTIVE cache entries lack the required
 intent-specific authenticated time and access version; legacy entries can omit

@@ -141,7 +141,7 @@ core/backend-go/internal/services/auditlog/event.go	core/backend-go/internal/ser
 core/backend-go/internal/services/auditlog/info.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	unread
 core/backend-go/internal/services/auditlog/queue_handler.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	8fffcdc835dca60978a9a9ece66de24257e8c969	unread
 core/backend-go/internal/services/auditlog/useragent.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	debf555fd242540645332817c077bed76833d135	unread
-core/backend-go/internal/services/auth/apiauth/authenticator.go	core/backend-go/internal/services/auth	identity	Go-native	go	48cfaed0b534daf3e6a49c941bb68d90dac47def	verified
+core/backend-go/internal/services/auth/apiauth/authenticator.go	core/backend-go/internal/services/auth	identity	Go-native	go	a255de8b40825a9bf3a252ec34c71d1cc15476e0	authored
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	verified
 core/backend-go/internal/services/auth/apiauth/claims.go	core/backend-go/internal/services/auth	identity	Go-native	go	57ded52e1b8e33b3b4fa2c21774edae3d23d68b6	verified
 core/backend-go/internal/services/auth/apiauth/claims_presence_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	8f119a7b62c641110fb0d0443b52894e3b06e773	verified
@@ -155,12 +155,16 @@ core/backend-go/internal/services/auth/apiauth/revocation.go	core/backend-go/int
 core/backend-go/internal/services/auth/apiauth/revocation_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	b7f5a4fda5d5bd84bee1698fe5d2f9135e9da785	verified
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
-core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
-core/backend-go/internal/services/auth/nomen/bindings.go	core/backend-go/internal/services/auth	identity	Go-native	go	8d9a6b27eaf123a6e2f5c6ebe6de7f4c90243b50	verified
+core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	94ddf096b16810e0268a899d80deb490b7fa52fe	authored
+core/backend-go/internal/services/auth/nomen/bindings.go	core/backend-go/internal/services/auth	identity	Go-native	go	c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475	authored
 core/backend-go/internal/services/auth/nomen/claims.go	core/backend-go/internal/services/auth	identity	Go-native	go	0f75985bf51db531617d90d998e064e5ccd565e0	verified
 core/backend-go/internal/services/auth/nomen/client_auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	ff1591b904afd673f58995157e1ab3ad3fb391f5	verified
 core/backend-go/internal/services/auth/nomen/introspection.go	core/backend-go/internal/services/auth	identity	Go-native	go	5fbde871f94be2d526192440d6821b0593d610f6	verified
 core/backend-go/internal/services/auth/nomen/introspection_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	207bcf9f76c6336dc3394a427c62c2fd74deb6f5	verified
+core/backend-go/internal/services/auth/nomen/password.go	core/backend-go/internal/services/auth	identity	Go-native	go	942eaeb4c387191a9e360eaabf30823714dbbbe5	authored
+core/backend-go/internal/services/auth/nomen/password_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	bdeb31baab99df01c1090d224f83a7e90050a2c9	authored
+core/backend-go/internal/services/auth/nomen/reauthentication.go	core/backend-go/internal/services/auth	identity	Go-native	go	ae5a6b387cb251e4a0ff45399264c89ad1f50454	authored
+core/backend-go/internal/services/auth/nomen/testdata/password-node-v1.json	core/backend-go/internal/services/auth	identity	Go-native	json	9a9c3fcc4d81e38ae1c093571e013259bb67fd6a	authored
 core/backend-go/internal/services/kms/kms.go	core/backend-go/internal/services/kms	kms	Go-native	go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
 core/backend-go/internal/services/kms/kms_org.go	core/backend-go/internal/services/kms	kms	Go-native	go	9bea7672ac02e63344c99764fee013e1fe2e3983	unread
 core/backend-go/internal/services/kms/kms_project.go	core/backend-go/internal/services/kms	kms	Go-native	go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
@@ -216,7 +220,8 @@ core/backend-go/tests/platform/auth/claims_format_test.go	core/backend-go/tests/
 core/backend-go/tests/platform/auth/delegated_token_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	core/backend-go/tests/platform/auth	authorization	Go-native	go	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
-core/backend-go/tests/platform/auth/nomen_binding_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	9cd3cb6360317ab4ec6b6fcce4edeb2002c5eff6	verified
+core/backend-go/tests/platform/auth/nomen_binding_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	5f5cbec926e13babfa2fecac41338799902e898b	authored
+core/backend-go/tests/platform/auth/reauthentication_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	fd1c6186082458d002c32903c6af2fa6a0cf9338	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	007524dc9d814ef06aff4de5e5037e10f5ba32b6	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	core/backend-go/tests/platform/bootstrap	foundation	Go-native	go	2286ce2df00016cb92368996abd39b3941abe158	verified
@@ -865,6 +870,7 @@ core/backend/src/db/migrations/20260801120000_add-alert-resource-lookup-index.ts
 core/backend/src/db/migrations/20260803120000_add-pam-session-identity-id.ts	core/backend/src/db/migrations	pam	Go-domain-migration	ts	11a664f1efa07b662d539e09af24adab62ec61a4	unread
 core/backend/src/db/migrations/20260804120000_reap-orphaned-identity-alerts.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	a9a548c27332f21c8ae74cf0baac4930416ab2fc	unread
 core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	08881fcf3fe43057f64235c88cbd014fea92d963	verified
+core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	d590cbd01a3692820c5599f251c898902c096a3b	authored
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	93985ca767129782226d4b0620ac084132e5a21e	unread
 core/backend/src/db/migrations/utils/env-config.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
@@ -9467,7 +9473,7 @@ scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
-scripts/test-nomen-binding-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	78ba356babb9838f7731775e26f78d763a388e05	verified
+scripts/test-nomen-binding-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	26b8200acc86730f302d9340f858c3369b1ff23c	authored
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
 scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	verified

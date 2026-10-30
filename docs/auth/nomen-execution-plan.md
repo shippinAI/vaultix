@@ -196,7 +196,12 @@ Old-binary compatibility is proven in the linked lifecycle checkpoint;
 route cutover must have an explicit owner switch and reconciliation. Disabling
 external acceptance must not delete bindings or mint fallback local sessions.
 
-Next implementation: AUTH-03 B intent-specific fresh-authentication proof,
+The [native reauthentication continuation](nomen-reauthentication.md) implements
+the local-password proof method and action-specific consumption; its verification
+and remaining method matrix are tracked separately. MFA/federation never fall back
+to password-only proof.
+
+Next implementation: AUTH-03 B native factor/SSO fresh-authentication proof,
 link/revoke confirmations and notifications, followed by C actor policy and
 AUTH-04 source-action ownership. Persistence acceptance does not close the
 remaining B consumers. Public registration can proceed alongside this work; only the live

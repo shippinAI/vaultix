@@ -1347,75 +1347,12 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "48cfaed0b534daf3e6a49c941bb68d90dac47def",
-      "status": "verified",
+      "blob": "a255de8b40825a9bf3a252ec34c71d1cc15476e0",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete prior module review retained and current full file read. Matching direct organization membership now has explicit priority after scope/status filtering, including inactive and null-status direct rows. Existing primary authority, validation/errors, group fallback, claims, revocation and budgets remain. Controlled baseline/repaired matrices and real issuer user deactivate/reactivate operations with an explicit session fixture verify this scope. Multiple-group ordering, issuer replica paths, legacy row/subject binding, Nomen and full native cutover remain open. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/0036-identity-use-budget-concurrency.md",
-        ".cache/unit-proof-LpFt8B/test-results.json",
-        ".cache/usage-go-unit.jsonl",
-        ".cache/usage-go-lint.log",
-        ".cache/usage-recovery-types.log",
-        ".cache/usage-lint-final.log",
-        ".cache/core-proof-ddGRfz/test-results.json",
-        ".cache/core-proof-vD09cZ/test-results.json",
-        ".cache/go-proof-FLprLS/result.json",
-        ".cache/go-proof-rG7lz6/result.json",
-        ".cache/app-image-proof-oG5dqm/workflow-result.json",
-        ".cache/usage-image-smoke-dragonfly.log",
-        ".cache/usage-image-smoke-redis.log",
-        "docs/0037-native-identity-claim-presence.md",
-        "docs/0039-native-scoped-revocation.md",
-        ".cache/go-proof-OXwvzO/result.json",
-        ".cache/revocation-go-unit-final.jsonl",
-        ".cache/revocation-go-lint-final.log",
-        ".cache/go-proof-rviVwm/result.json",
-        ".cache/go-proof-6grnEE/result.json",
-        ".cache/go-proof-Z5XNy0/result.json",
-        ".cache/go-proof-10RYK1/result.json",
-        ".cache/app-image-proof-5PJBz6/workflow-result.json",
-        ".cache/revocation-image-dragonfly.log",
-        ".cache/revocation-image-redis.log",
-        "docs/0040-native-identity-lifetime-policy.md",
-        ".cache/lifetime-go-unit-epoch.jsonl",
-        ".cache/go-proof-v1YQ0E/result.json",
-        ".cache/go-proof-1EOCPM/result.json",
-        ".cache/unit-proof-vfJJjf/test-results.json",
-        ".cache/core-proof-mfFwYc/test-results.json",
-        ".cache/core-proof-xwLoUg/test-results.json",
-        ".cache/identity-policy-proof-oAErwy/result.json",
-        ".cache/dropzone-proof-YuxurI/result.json",
-        ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json",
-        "docs/0042-native-authentication-authority.md",
-        ".cache/authority-baseline-controlled.json",
-        ".cache/authority-candidate.json",
-        ".cache/authority-go-unit.jsonl",
-        ".cache/authority-go-lint-complete.log",
-        ".cache/go-proof-YAhJWL/result.json",
-        ".cache/go-proof-qTT5Tt/result.json",
-        ".cache/go-proof-wuhCU6/result.json",
-        ".cache/go-proof-1lgUPf/result.json",
-        ".cache/authority-image-dragonfly.log",
-        ".cache/authority-image-redis.log",
-        ".cache/app-image-proof-vLGe70/workflow-result.json",
-        "docs/0043-native-membership-precedence.md",
-        ".cache/membership-baseline.json",
-        ".cache/membership-candidate.json",
-        ".cache/membership-lifecycle.json",
-        ".cache/membership-lifecycle-diagnostics.json",
-        ".cache/membership-lifecycle-corrected.json",
-        ".cache/membership-go-unit.jsonl",
-        ".cache/membership-go-lint-final.log",
-        ".cache/membership-production-source-comparison.json",
-        ".cache/go-proof-bNqRaC/result.json",
-        ".cache/go-proof-x2Dwce/result.json",
-        ".cache/membership-image-dragonfly.log",
-        ".cache/membership-image-redis.log",
-        ".cache/app-image-proof-UAkQBx/workflow-result.json",
-        "docs/0070-nomen-authority-contract.md",
-        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
@@ -5328,14 +5265,12 @@
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "56b951d8340b61ba9f5bf944aaeca2487b3a6007",
+      "blob": "8b4e3875783128fb22d2c9f18fa655757f20912e",
       "status": "authored",
       "decision": "modify",
-      "scope": "Reviewed exact binding lifecycle evidence, source/image lineage, failed receipt history and remaining fresh-authentication/UI/actor/live gates. No additional runtime acceptance.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json",
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
@@ -5371,42 +5306,122 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/bindings.go",
-      "blob": "8d9a6b27eaf123a6e2f5c6ebe6de7f4c90243b50",
-      "status": "verified",
+      "blob": "c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
-      "blob": "9cd3cb6360317ab4ec6b6fcce4edeb2002c5eff6",
-      "status": "verified",
+      "blob": "5f5cbec926e13babfa2fecac41338799902e898b",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
-      "blob": "78ba356babb9838f7731775e26f78d763a388e05",
-      "status": "verified",
+      "blob": "26b8200acc86730f302d9340f858c3369b1ff23c",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
       "path": "docs/auth/nomen-binding-lifecycle.md",
-      "blob": "c93f49fed33681465459df378004306c0ea13345",
+      "blob": "d152deb23fcf560896e8ff27fb8c9d14a08780be",
       "status": "authored",
       "decision": "modify",
-      "scope": "Reviewed exact binding lifecycle evidence, source/image lineage, failed receipt history and remaining fresh-authentication/UI/actor/live gates. No additional runtime acceptance.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
       "evidence": [
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/auth.go",
+      "blob": "94ddf096b16810e0268a899d80deb490b7fa52fe",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/password.go",
+      "blob": "942eaeb4c387191a9e360eaabf30823714dbbbe5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/password_test.go",
+      "blob": "bdeb31baab99df01c1090d224f83a7e90050a2c9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/testdata/password-node-v1.json",
+      "blob": "9a9c3fcc4d81e38ae1c093571e013259bb67fd6a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/reauthentication.go",
+      "blob": "ae5a6b387cb251e4a0ff45399264c89ad1f50454",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
+      "blob": "fd1c6186082458d002c32903c6af2fa6a0cf9338",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts",
+      "blob": "d590cbd01a3692820c5599f251c898902c096a3b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-reauthentication.md",
+      "blob": "6f970339c7214b40e369f34090578da0ef190741",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "evidence": [
+        "docs/auth/nomen-reauthentication.md"
       ]
     }
   ]

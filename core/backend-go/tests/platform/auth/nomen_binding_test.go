@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
@@ -32,11 +33,15 @@ import (
 // Public reauthentication/linking routes and notifications remain an activation gate.
 type linkingFreshFixture struct{ denied atomic.Bool }
 
-func (f *linkingFreshFixture) VerifyIdentityLink(_ context.Context, _ *auth.Identity, proof string) (*nomen.LinkAuthorization, error) {
+func (f *linkingFreshFixture) VerifyIdentityAction(_ context.Context, _ pgx.Tx, _ *auth.Identity, proof string, _ nomen.IdentityIntent) (*nomen.LinkAuthorization, error) {
 	if proof != "fixture-stepup" || f.denied.Load() {
 		return nil, errors.New("fixture reauthentication denied")
 	}
-	return &nomen.LinkAuthorization{AccessVersion: 1, AuthenticatedAt: time.Now()}, nil
+	return &nomen.LinkAuthorization{ProofID: uuid.New(), AccessVersion: 1, AuthenticatedAt: time.Now()}, nil
+}
+
+func (*linkingFreshFixture) ValidateIdentityAction(_ context.Context, _ pgx.Tx, _ *auth.Identity, _ uuid.UUID, _ nomen.IdentityIntent) error {
+	return nil
 }
 
 type bindingDB struct{ pool *pgxpool.Pool }
@@ -48,6 +53,7 @@ func (d *bindingDB) Close()                 { d.pool.Close() }
 
 type linkingFixture struct {
 	service        *nomen.BindingService
+	verifier       *nomen.Verifier
 	fresh          *linkingFreshFixture
 	subject        string
 	issuer         string
@@ -85,6 +91,7 @@ func newLinkingFixture(t *testing.T, db pg.DB) *linkingFixture {
 	logger := slog.New(slog.NewTextHandler(&f.logs, nil))
 	verifier, err := nomen.NewVerifier(context.Background(), logger, &nomen.VerifierDeps{Config: nomen.Config{Issuer: f.issuer, Endpoint: f.issuer + "/introspect", Audience: "vaultix-resource", AllowedClientIDs: []string{"public-cli"}, RequiredScopes: []string{"openid"}}, Credentials: nomen.ClientCredentials{Method: nomen.ClientSecretBasic, ClientID: "api", Secret: "fixture-resource-canary"}, HTTPClient: server.Client()})
 	require.NoError(t, err)
+	f.verifier = verifier
 	f.service, err = nomen.NewBindingService(context.Background(), logger, &nomen.BindingDeps{DB: db, Issuer: f.issuer, FreshAuthentication: f.fresh, Introspection: verifier})
 	require.NoError(t, err)
 	return f

@@ -25,12 +25,15 @@ var (
 // FreshAuthentication must verify a recent, intent-bound reauthentication proof
 // for this first-party user/session, including required MFA. Ordinary session
 // validity or a caller-supplied timestamp does not satisfy this contract.
-// No production adapter/route is enabled by this persistence component.
+// Verification consumes a stored proof in the caller's transaction. Implementors
+// must use that transaction only: no hashing, provider I/O or nested transaction.
 type FreshAuthentication interface {
-	VerifyIdentityLink(ctx context.Context, identity *auth.Identity, proof string) (*LinkAuthorization, error)
+	VerifyIdentityAction(ctx context.Context, tx pgx.Tx, identity *auth.Identity, proof string, intent IdentityIntent) (*LinkAuthorization, error)
+	ValidateIdentityAction(ctx context.Context, tx pgx.Tx, identity *auth.Identity, proofID uuid.UUID, intent IdentityIntent) error
 }
 
 type LinkAuthorization struct {
+	ProofID         uuid.UUID
 	AccessVersion   int64
 	AuthenticatedAt time.Time
 }
@@ -80,13 +83,16 @@ func linkingActor(ctx context.Context) (*auth.Identity, error) {
 	return actor, nil
 }
 
-func (s *BindingService) freshProof(ctx context.Context, actor *auth.Identity, proof string) (*LinkAuthorization, error) {
+func (s *BindingService) freshProof(ctx context.Context, tx pgx.Tx, actor *auth.Identity, proof string, action IdentityAction, target uuid.UUID) (*LinkAuthorization, error) {
 	if !identifier(proof, maxTokenBytes) {
 		return nil, ErrLinkDenied
 	}
-	authorization, err := s.fresh.VerifyIdentityLink(ctx, actor, proof)
+	authorization, err := s.fresh.VerifyIdentityAction(ctx, tx, actor, proof, IdentityIntent{Action: action, BindingID: target, Issuer: s.issuer})
+	if errors.Is(err, ErrBindingUnavailable) || errors.Is(err, ErrReauthenticationMethod) {
+		return nil, err
+	}
 	now := time.Now()
-	if err != nil || authorization == nil || authorization.AccessVersion < 0 || authorization.AuthenticatedAt.Before(now.Add(-5*time.Minute)) || authorization.AuthenticatedAt.After(now.Add(30*time.Second)) {
+	if err != nil || authorization == nil || authorization.ProofID == uuid.Nil || authorization.AccessVersion < 0 || authorization.AuthenticatedAt.Before(now.Add(-5*time.Minute)) || authorization.AuthenticatedAt.After(now.Add(30*time.Second)) {
 		return nil, ErrLinkDenied
 	}
 	return authorization, nil
@@ -96,10 +102,6 @@ func (s *BindingService) freshProof(ctx context.Context, actor *auth.Identity, p
 // One outstanding challenge per user bounds storage and supersedes old attempts.
 func (s *BindingService) BeginLink(ctx context.Context, proof string) (*LinkChallenge, error) {
 	actor, err := linkingActor(ctx)
-	if err != nil {
-		return nil, err
-	}
-	authorization, err := s.freshProof(ctx, actor, proof)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +115,11 @@ func (s *BindingService) BeginLink(ctx context.Context, proof string) (*LinkChal
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 	err = pgx.BeginFunc(ctx, s.db.Primary(), func(tx pgx.Tx) error {
-		if err := s.lockAccount(ctx, tx, actor, authorization.AccessVersion); err != nil {
+		authorization, err := s.freshProof(ctx, tx, actor, proof, IdentityLink, uuid.Nil)
+		if err != nil {
+			return err
+		}
+		if err := lockAccount(ctx, tx, actor, authorization.AccessVersion); err != nil {
 			return err
 		}
 		return tx.QueryRow(ctx, `
@@ -121,7 +127,7 @@ func (s *BindingService) BeginLink(ctx context.Context, proof string) (*LinkChal
    VALUES ($1,$2,$3,$4,$5,$6,statement_timestamp(),LEAST(statement_timestamp()+interval '5 minutes',$7))
    ON CONFLICT ("userId") DO UPDATE SET id=EXCLUDED.id,digest=EXCLUDED.digest,issuer=EXCLUDED.issuer,
     "sessionId"=EXCLUDED."sessionId","accessVersion"=EXCLUDED."accessVersion","createdAt"=EXCLUDED."createdAt","expiresAt"=EXCLUDED."expiresAt"
-   RETURNING "expiresAt"`, actor.ActorID, uuid.New(), digest[:], s.issuer, actor.TokenVersionID, authorization.AccessVersion, authorization.AuthenticatedAt.Add(5*time.Minute)).Scan(&expires)
+   RETURNING "expiresAt"`, actor.ActorID, authorization.ProofID, digest[:], s.issuer, actor.TokenVersionID, authorization.AccessVersion, authorization.AuthenticatedAt.Add(5*time.Minute)).Scan(&expires)
 	})
 	if err != nil {
 		return nil, s.failure(ctx, err)
@@ -160,7 +166,10 @@ func (s *BindingService) CompleteLink(ctx context.Context, code, accessToken str
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 	err = pgx.BeginFunc(ctx, s.db.Primary(), func(tx pgx.Tx) error {
-		if err := s.lockAccount(ctx, tx, actor, version); err != nil {
+		if err := lockAccount(ctx, tx, actor, version); err != nil {
+			return err
+		}
+		if err := s.fresh.ValidateIdentityAction(ctx, tx, actor, proofID, IdentityIntent{Action: IdentityLink, Issuer: s.issuer}); err != nil {
 			return err
 		}
 		if !claims.ExpiresAt.After(time.Now()) {
@@ -207,18 +216,18 @@ func (s *BindingService) Revoke(ctx context.Context, bindingID uuid.UUID, proof 
 	if bindingID == uuid.Nil {
 		return ErrLinkDenied
 	}
-	authorization, err := s.freshProof(ctx, actor, proof)
-	if err != nil {
-		return err
-	}
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 	err = pgx.BeginFunc(ctx, s.db.Primary(), func(tx pgx.Tx) error {
-		if err := s.lockAccount(ctx, tx, actor, authorization.AccessVersion); err != nil {
+		authorization, err := s.freshProof(ctx, tx, actor, proof, IdentityRevoke, bindingID)
+		if err != nil {
+			return err
+		}
+		if err := lockAccount(ctx, tx, actor, authorization.AccessVersion); err != nil {
 			return err
 		}
 		tag, err := tx.Exec(ctx, `UPDATE vaultix_identity_bindings SET "revokedAt"=COALESCE("revokedAt",clock_timestamp()),"proofId"=$1,"sessionId"=$2
-   WHERE id=$3 AND "userId"=$4 AND issuer=$5`, uuid.New(), actor.TokenVersionID, bindingID, actor.ActorID, s.issuer)
+   WHERE id=$3 AND "userId"=$4 AND issuer=$5`, authorization.ProofID, actor.TokenVersionID, bindingID, actor.ActorID, s.issuer)
 		if err != nil {
 			return err
 		}
@@ -250,7 +259,10 @@ func (s *BindingService) Resolve(ctx context.Context, subject string) (uuid.UUID
 	return userID, nil
 }
 
-func (s *BindingService) lockAccount(ctx context.Context, tx pgx.Tx, actor *auth.Identity, version int64) error {
+func lockAccount(ctx context.Context, tx pgx.Tx, actor *auth.Identity, version int64) error {
+	if actor.SessionAccessVersion == nil || *actor.SessionAccessVersion != version {
+		return ErrLinkDenied
+	}
 	var active bool
 	err := tx.QueryRow(ctx, `SELECT "isAccepted" IS TRUE AND "isGhost" IS FALSE AND "isLocked" IS NOT TRUE
   AND ("temporaryLockDateEnd" IS NULL OR "temporaryLockDateEnd"<=clock_timestamp()) FROM users WHERE id=$1 FOR UPDATE`, actor.ActorID).Scan(&active)
@@ -272,6 +284,9 @@ func (s *BindingService) lockAccount(ctx context.Context, tx pgx.Tx, actor *auth
 }
 
 func (s *BindingService) failure(ctx context.Context, err error) error {
+	if errors.Is(err, ErrReauthenticationMethod) {
+		return ErrReauthenticationMethod
+	}
 	if errors.Is(err, ErrLinkDenied) || errors.Is(err, pgx.ErrNoRows) {
 		return ErrLinkDenied
 	}

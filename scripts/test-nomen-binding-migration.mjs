@@ -18,8 +18,8 @@ const check = message => { report.checks.push(message); console.log("Vaultix bin
 const dbPassword = randomBytes(24).toString("hex"), user = randomUUID(), binding = randomUUID();
 const password = "Vx9!" + [...randomBytes(24)].map(v => v.toString(16).padStart(2, "0")).join("-");
 const canary = randomBytes(32).toString("hex");
-const migration = "20261030220000_vaultix-identity-bindings.mjs";
-function migrate(app, direction, expectedSuccess) {
+const migrations = ["20261030220000_vaultix-identity-bindings.mjs", "20261031001000_vaultix-identity-reauthentication.mjs"];
+function migrate(app, migration, direction, expectedSuccess) {
   const code = `import knex from 'knex'; const db=knex({client:'pg',connection:process.env.DB_CONNECTION_URI});
     try { await db.migrate[${JSON.stringify(direction)}]({directory:'./dist/db/migrations',tableName:'vaultix_migrations',loadExtensions:['.mjs'],name:${JSON.stringify(migration)}}); }
     catch { process.exitCode=2; } finally { await db.destroy(); }`;
@@ -45,17 +45,24 @@ try {
   output(["stop","-t","10",before]);
   phase="forward migration";
   const after=container(run+"-after",h.artifact.id,[],env);await ready(after);
-  assert.equal(sql(db,`SELECT count(*) FROM vaultix_migrations WHERE name='${migration}';`),"1");
+  for (const migration of migrations) assert.equal(sql(db,`SELECT count(*) FROM vaultix_migrations WHERE name='${migration}';`),"1");
   check("existing store upgraded through actual canonical startup migration");
-  migrate(after,"down",true);assert.equal(sql(db,"SELECT to_regclass('public.vaultix_identity_bindings') IS NULL;"),"t");
-  migrate(after,"up",true);assert.equal(sql(db,"SELECT count(*) FROM vaultix_identity_bindings;"),"0");
+  for (const migration of [...migrations].reverse()) migrate(after,migration,"down",true);
+  assert.equal(sql(db,"SELECT to_regclass('public.vaultix_identity_bindings') IS NULL AND to_regclass('public.vaultix_identity_reauth_proofs') IS NULL;"),"t");
+  for (const migration of migrations) migrate(after,migration,"up",true);
+  assert.equal(sql(db,"SELECT count(*) FROM vaultix_identity_bindings;"),"0");
   assert.equal(sql(db,`SELECT encode("encryptedValue",'hex') FROM secrets_v2 WHERE key='BINDING_CANARY';`),cipher);
   check("empty migration down/up preserves existing ciphertext and ledger");
   sql(db,`INSERT INTO vaultix_identity_bindings(id,issuer,subject,"userId","proofId","sessionId") VALUES('${binding}','https://fixture.nomen.invalid','fixture-subject','${user}','${randomUUID()}','${randomUUID()}');`);
-  migrate(after,"down",false);
+  const session = randomUUID();
+  sql(db,`INSERT INTO auth_token_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES('${session}','${user}',1,1,'127.0.0.1','migration-fixture',NOW(),NOW(),NOW());
+    INSERT INTO vaultix_identity_reauth_attempts("userId",attempts) VALUES('${user}',1);
+    INSERT INTO vaultix_identity_reauth_proofs("userId",id,digest,issuer,action,"sessionId","accessVersion","orgId","policyDigest","authenticatedAt","expiresAt") VALUES('${user}','${randomUUID()}',decode(repeat('01',32),'hex'),'https://fixture.nomen.invalid','link','${session}',1,'${owner.organization.id}',decode(repeat('02',32),'hex'),NOW(),NOW()+interval '5 minutes');`);
+  for (const migration of [...migrations].reverse()) migrate(after,migration,"down",false);
   assert.equal(sql(db,`SELECT count(*) FROM vaultix_identity_bindings WHERE id='${binding}';`),"1");
-  assert.equal(sql(db,`SELECT count(*) FROM vaultix_migrations WHERE name='${migration}';`),"1");
-  check("nonempty rollback refuses to erase identity provenance or migration history");
+  for (const migration of migrations) assert.equal(sql(db,`SELECT count(*) FROM vaultix_migrations WHERE name='${migration}';`),"1");
+  assert.equal(sql(db,`SELECT attempts FROM vaultix_identity_reauth_attempts WHERE "userId"='${user}';`),"1");
+  check("nonempty rollback preserves identity provenance, proof and attempt state, and migration history");
   output(["stop","-t","10",after]);
   phase="previous binary on migrated store";
   const rollback=container(run+"-rollback",old.id,[],env);await ready(rollback);
@@ -69,6 +76,7 @@ try {
   phase="deletion tombstone history";
   assert.equal(sql(db,`SELECT "userId" IS NULL AND "revokedAt" IS NOT NULL FROM vaultix_identity_bindings WHERE id='${binding}';`),"t");
   assert.equal(sql(db,`SELECT string_agg(action,',' ORDER BY id) FROM vaultix_identity_binding_events WHERE "bindingId"='${binding}';`),"linked,user-deleted");
+  assert.equal(sql(db,`SELECT (SELECT count(*) FROM vaultix_identity_reauth_proofs WHERE "userId"='${user}')+(SELECT count(*) FROM vaultix_identity_reauth_attempts WHERE "userId"='${user}');`),"0");
   check("previous binary starts, decrypts existing secrets and deletes account with atomic tombstone history");
   output(["stop","-t","10",rollback]);output(["start",after]);await ready(after);
   phase="candidate restart";

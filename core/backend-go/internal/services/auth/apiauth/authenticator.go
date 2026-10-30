@@ -234,19 +234,21 @@ func (a *ApiAuthenticator) validateUserTokenClaims(ctx context.Context, claims *
 		username = user.Username.V
 	}
 
+	accessVersion := int64(claims.AccessVersion)
 	return &auth.Identity{
-		AuthMode:       auth.AuthModeJWT,
-		Actor:          auth.ActorTypeUser,
-		ActorID:        user.ID,
-		OrgID:          orgID,
-		RootOrgID:      rootOrgID,
-		ParentOrgID:    parentOrgID,
-		OrgName:        orgName,
-		AuthMethod:     auth.ActorAuthMethod(claims.AuthMethod),
-		IsSuperAdmin:   isSuperAdmin,
-		TokenVersionID: claims.TokenVersionID,
-		IsMfaVerified:  claims.IsMfaVerified,
-		MfaMethod:      claims.MfaMethod,
+		AuthMode:             auth.AuthModeJWT,
+		Actor:                auth.ActorTypeUser,
+		ActorID:              user.ID,
+		OrgID:                orgID,
+		RootOrgID:            rootOrgID,
+		ParentOrgID:          parentOrgID,
+		OrgName:              orgName,
+		AuthMethod:           auth.ActorAuthMethod(claims.AuthMethod),
+		IsSuperAdmin:         isSuperAdmin,
+		TokenVersionID:       claims.TokenVersionID,
+		SessionAccessVersion: &accessVersion,
+		IsMfaVerified:        claims.IsMfaVerified,
+		MfaMethod:            claims.MfaMethod,
 		UserAuthInfo: &auth.UserAuthInfo{
 			UserID: user.ID,
 			Email:  email,

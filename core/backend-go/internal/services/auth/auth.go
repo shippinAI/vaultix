@@ -127,6 +127,8 @@ type Identity struct {
 	// TokenVersionID is the session/token version ID (for JWT user auth).
 	// Used for assume privilege validation to ensure token is still valid.
 	TokenVersionID uuid.UUID
+	// Nil means no validated user access-version claim; never infer version zero.
+	SessionAccessVersion *int64 `json:"-"`
 
 	// MFA fields (for JWT user auth).
 	IsMfaVerified bool
