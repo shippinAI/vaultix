@@ -172,6 +172,8 @@ unverified. No frozen source/snapshot host was contacted.
 
 ## Verification, rollout and next action
 
+The scoped result is recorded in [AUTH-03 A protocol evidence](nomen-protocol-evidence.md).
+
 AUTH-03 A is newly authored native Go, exercised directly over a TLS fixture using
 its real HTTP client and an independent JWT verifier for API client assertions.
 Failure tests include malformed/duplicate claims, redirects, bounded bodies,

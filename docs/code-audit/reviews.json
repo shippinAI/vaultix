@@ -4838,7 +4838,7 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "4dfe5222bc2c04c125c1a1f60af1cb79edda5f30",
+      "blob": "dfa6bd32630976da2cddb3488a6a2487a1a97c9b",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
@@ -5285,50 +5285,50 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
       "blob": "5fbde871f94be2d526192440d6821b0593d610f6",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "scope": "Fully authored/read native provider protocol and TLS boundary tests. Source 418e8ada: 54 Nomen outcomes within 787 native internal race outcomes, pinned lint zero issues, issuer-guard negative control and canonical image identity/layer equality passed. Unmounted; no actor/binding/tenant/public-login or parity claim.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/auth/nomen-protocol-evidence.md",
+        "docs/auth/nomen-execution-plan.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/client_auth.go",
       "blob": "ff1591b904afd673f58995157e1ab3ad3fb391f5",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "scope": "Fully authored/read native provider protocol and TLS boundary tests. Source 418e8ada: 54 Nomen outcomes within 787 native internal race outcomes, pinned lint zero issues, issuer-guard negative control and canonical image identity/layer equality passed. Unmounted; no actor/binding/tenant/public-login or parity claim.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/auth/nomen-protocol-evidence.md",
+        "docs/auth/nomen-execution-plan.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/claims.go",
       "blob": "0f75985bf51db531617d90d998e064e5ccd565e0",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "scope": "Fully authored/read native provider protocol and TLS boundary tests. Source 418e8ada: 54 Nomen outcomes within 787 native internal race outcomes, pinned lint zero issues, issuer-guard negative control and canonical image identity/layer equality passed. Unmounted; no actor/binding/tenant/public-login or parity claim.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/auth/nomen-protocol-evidence.md",
+        "docs/auth/nomen-execution-plan.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
       "blob": "207bcf9f76c6336dc3394a427c62c2fd74deb6f5",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
+      "scope": "Fully authored/read native provider protocol and TLS boundary tests. Source 418e8ada: 54 Nomen outcomes within 787 native internal race outcomes, pinned lint zero issues, issuer-guard negative control and canonical image identity/layer equality passed. Unmounted; no actor/binding/tenant/public-login or parity claim.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/auth/nomen-protocol-evidence.md",
+        "docs/auth/nomen-execution-plan.md"
       ]
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "1a9ec8e781b9259f9531f5f27cafd30a55d5887a",
+      "blob": "3d938c67462f97d35906e0bcdee149c2483def40",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
@@ -5346,6 +5346,16 @@
       "evidence": [
         "docs/auth/nomen-execution-plan.md",
         "docs/auth/nomen-execution-sources.json"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-protocol-evidence.md",
+      "blob": "db6a421f6b22219fc9ee00b41fa304f44111c634",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Reviewed scoped protocol evidence and exact limitations; no additional runtime acceptance.",
+      "evidence": [
+        "docs/auth/nomen-protocol-evidence.md"
       ]
     }
   ]

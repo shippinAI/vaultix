@@ -49,8 +49,9 @@ AUTH-05 remains a live acceptance gate, not a reason to stop independent work.
 AUTH-02's current source trace, introspection decision and delegated-token
 correction are recorded in [0070](0070-nomen-authority-contract.md). External
 bearer acceptance remains disabled/unimplemented; AUTH-03 still requires the
-native verifier and durable issuer/subject binding, followed by actual route
-integration in AUTH-04.
+complete verifier integration and durable issuer/subject binding, followed by actual
+route integration in AUTH-04. The [native protocol component](auth/nomen-protocol-evidence.md)
+has scoped fixture/race evidence and remains unmounted.
 
 The owner's 2026-10-30 UI/DevSCIF steering is captured in
 [0071](0071-devscif-governance-experience.md): evolve existing controls with

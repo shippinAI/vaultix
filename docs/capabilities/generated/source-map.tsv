@@ -156,10 +156,10 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	access	identit
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	access	identity	core/backend-go/internal/services/auth	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	access	identity	core/backend-go/internal/services/auth	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	access	identity	core/backend-go/internal/services/auth	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
-core/backend-go/internal/services/auth/nomen/claims.go	access	identity	core/backend-go/internal/services/auth	0f75985bf51db531617d90d998e064e5ccd565e0	authored
-core/backend-go/internal/services/auth/nomen/client_auth.go	access	identity	core/backend-go/internal/services/auth	ff1591b904afd673f58995157e1ab3ad3fb391f5	authored
-core/backend-go/internal/services/auth/nomen/introspection.go	access	identity	core/backend-go/internal/services/auth	5fbde871f94be2d526192440d6821b0593d610f6	authored
-core/backend-go/internal/services/auth/nomen/introspection_test.go	access	identity	core/backend-go/internal/services/auth	207bcf9f76c6336dc3394a427c62c2fd74deb6f5	authored
+core/backend-go/internal/services/auth/nomen/claims.go	access	identity	core/backend-go/internal/services/auth	0f75985bf51db531617d90d998e064e5ccd565e0	verified
+core/backend-go/internal/services/auth/nomen/client_auth.go	access	identity	core/backend-go/internal/services/auth	ff1591b904afd673f58995157e1ab3ad3fb391f5	verified
+core/backend-go/internal/services/auth/nomen/introspection.go	access	identity	core/backend-go/internal/services/auth	5fbde871f94be2d526192440d6821b0593d610f6	verified
+core/backend-go/internal/services/auth/nomen/introspection_test.go	access	identity	core/backend-go/internal/services/auth	207bcf9f76c6336dc3394a427c62c2fd74deb6f5	verified
 core/backend-go/internal/services/kms/kms.go	kms	kms	core/backend-go/internal/services/kms	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
 core/backend-go/internal/services/kms/kms_org.go	kms	kms	core/backend-go/internal/services/kms	9bea7672ac02e63344c99764fee013e1fe2e3983	unread
 core/backend-go/internal/services/kms/kms_project.go	kms	kms	core/backend-go/internal/services/kms	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
