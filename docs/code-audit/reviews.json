@@ -5328,13 +5328,14 @@
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "3d938c67462f97d35906e0bcdee149c2483def40",
+      "blob": "56b951d8340b61ba9f5bf944aaeca2487b3a6007",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
+      "scope": "Reviewed exact binding lifecycle evidence, source/image lineage, failed receipt history and remaining fresh-authentication/UI/actor/live gates. No additional runtime acceptance.",
       "evidence": [
         "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/auth/nomen-execution-sources.json",
+        "docs/auth/nomen-binding-lifecycle.md"
       ]
     },
     {
@@ -5361,9 +5362,9 @@
     {
       "path": "core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts",
       "blob": "08881fcf3fe43057f64235c88cbd014fea92d963",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
       "evidence": [
         "docs/auth/nomen-binding-lifecycle.md"
       ]
@@ -5371,9 +5372,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/bindings.go",
       "blob": "8d9a6b27eaf123a6e2f5c6ebe6de7f4c90243b50",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
       "evidence": [
         "docs/auth/nomen-binding-lifecycle.md"
       ]
@@ -5381,9 +5382,9 @@
     {
       "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
       "blob": "9cd3cb6360317ab4ec6b6fcce4edeb2002c5eff6",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
       "evidence": [
         "docs/auth/nomen-binding-lifecycle.md"
       ]
@@ -5391,19 +5392,19 @@
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
       "blob": "78ba356babb9838f7731775e26f78d763a388e05",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
       "evidence": [
         "docs/auth/nomen-binding-lifecycle.md"
       ]
     },
     {
       "path": "docs/auth/nomen-binding-lifecycle.md",
-      "blob": "35d667d7116da568c01986a1bae7a10e5bcb954c",
+      "blob": "c93f49fed33681465459df378004306c0ea13345",
       "status": "authored",
       "decision": "modify",
-      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "scope": "Reviewed exact binding lifecycle evidence, source/image lineage, failed receipt history and remaining fresh-authentication/UI/actor/live gates. No additional runtime acceptance.",
       "evidence": [
         "docs/auth/nomen-binding-lifecycle.md"
       ]

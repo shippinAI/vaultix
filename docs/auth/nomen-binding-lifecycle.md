@@ -63,11 +63,11 @@ authored/read. Existing consumer review is scoped, not a whole-file authorship c
 | `core/backend-go/internal/database/pg/pg.go` | Full module | Primary and replicas are explicit; authority reads use primary. |
 | `core/backend-go/internal/services/auditlog/auditlog.go` | Full module | Async queue requires org/project and cannot atomically persist this global account binding. |
 | `core/backend-go/internal/services/auth/auth.go` | Identity/context/session and assumed-privilege types/helpers | Linking accepts only first-party human sessions and rejects assumed privilege. |
-| `core/backend-go/internal/services/auth/apiauth/authenticator.go` | 1?260 and 550?620 | Existing JWT checks reject delegated markers and validate current user/session/membership restrictions. |
-| `core/backend/src/services/user/user-service.ts` | 554?622 | Self-delete deletes the user transactionally and preserves the last-admin guard; FK behavior must not obstruct it. |
-| `core/backend/src/services/super-admin/super-admin-service.ts` | 750?837 | Admin single/bulk delete uses existing transactions and cleanup. |
-| `core/backend/src/server/routes/v1/admin-router.ts` | 497?554 | Existing authenticated admin deletion route used by cross-version acceptance. |
-| `core/backend/src/auto-start-migrations.ts` | 399?439, 546?600 | Startup handles an ahead database without applying missing older migrations; must prove previous binary startup. |
+| `core/backend-go/internal/services/auth/apiauth/authenticator.go` | 1-260 and 550-620 | Existing JWT checks reject delegated markers and validate current user/session/membership restrictions. |
+| `core/backend/src/services/user/user-service.ts` | 554-622 | Self-delete deletes the user transactionally and preserves the last-admin guard; FK behavior must not obstruct it. |
+| `core/backend/src/services/super-admin/super-admin-service.ts` | 750-837 | Admin single/bulk delete uses existing transactions and cleanup. |
+| `core/backend/src/server/routes/v1/admin-router.ts` | 497-554 | Existing authenticated admin deletion route used by cross-version acceptance. |
+| `core/backend/src/auto-start-migrations.ts` | 399-439, 546-600 | Startup handles an ahead database without applying missing older migrations; must prove previous binary startup. |
 | `core/backend/src/db/knexfile.ts`, `core/backend/src/db/schemas/users.ts` | Full modules | Existing migration registry and accepted/locked/ghost user constraints. |
 | `scripts/lib/disposable-image.mjs` | Full module | Tests own isolated containers/networks; operator targets are excluded and raw diagnostics withheld. |
 
@@ -91,7 +91,57 @@ provider-I/O check. The migration harness starts the previous canonical image,
 creates encrypted data, upgrades through startup, checks actual empty down/up and
 nonempty refusal, then runs the old binary against the upgraded store and exercises
 its user-deletion API. It checks exact ciphertext and decrypted fixture canary only
-inside the test process. Runtime tests and receipts are pending acceptance.
+inside the test process. The scoped acceptance results below passed.
+
+## Accepted evidence and exact limits
+
+Implementation source: `3c7f8865893611e2478d642134df57b6b2d1b149`.
+Corrected acceptance source: `52a03006895361a9540e2de13cc823859b529774`.
+Canonical final image:
+`sha256:65e2f4f99d053971b0ca7da58538a87725330b509ede7b79ce990c8073266367`.
+The final image's runtime filesystem layers exactly equal the implementation image
+`sha256:1856177c2b2908f91fe763ef1898d4d9a50a862e7649f9d97af7e45397e732bd`.
+Only the test switch style and bodyless DELETE harness changed between these
+source revisions. Final image revision identity passed. Receipt-only documentation
+commits do not change the accepted runtime source.
+
+| Verification | Observed result | Local receipt (task worktree) |
+| --- | --- | --- |
+| Canonical build/application gates on implementation source | All 16 passed, including Dragonfly/Redis application, encrypted recovery, tenant isolation, proxy boundary and both admission providers | `.cache/self-hosted-build-l4BOeZ/result.json` |
+| Native internal race suite on unchanged implementation source | 787 test/subtest outcomes passed | `.cache/nomen-binding-native.json`, native-race step |
+| Full native integration/race suite on implementation source | 703 outcomes passed, zero failed, 8 external-provider tests skipped | `.cache/go-proof-5FktOC/result.json` |
+| Final committed authentication integration/race suite | 323 outcomes passed, including all 14 binding lifecycle outcomes | `.cache/binding-final-native.json` |
+| Final committed pinned Go lint | golangci-lint 2.15.0, integration tags, zero issues | `.cache/binding-final-native.json`, lint step |
+| Final canonical image and layer comparison | Revision identity and exact runtime-layer equality passed | `.cache/binding-final-image.json` |
+| Final committed migration harness | All five checks passed; owned fixtures cleaned up | `.cache/nomen-binding-migration-mIOIYE/result.json` |
+
+The initial lint receipt remains failed for one test-only if/else style finding;
+the corrected concurrency test retains every assertion. Initial migration receipts
+remain failed because the harness advertised application/json on a bodyless DELETE.
+Correcting request framing made the previous binary's actual deletion route pass;
+no production parser, deletion rule, schema guard or assertion was weakened.
+The earlier diagnostic-only pass is not substituted for the final committed harness.
+
+History-write failure is injected with an independent database constraint; the test
+proves no partial binding becomes resolvable and the same intent succeeds after
+recovery. Competing accounts share one provider subject and must produce exactly
+one successful claim. A one-connection pool and provider callback independently
+prove that provider I/O does not hold the transaction. These exercise failure
+boundaries rather than checking implementation-generated expected values.
+Counts include subtests and do not establish complete capability parity. The
+fresh-authentication adapter and provider remain fixtures. Journal receipt matching
+and local hashes establish consistency, not independent attestation. No live
+provider, browser linking, notification delivery or public-cloud gate is closed.
+
+## Next integration gates
+
+Existing MFA session service/router and step-up helpers were read for the next
+consumer integration. Their generic ACTIVE cache entries lack the required
+intent-specific authenticated time and access version; legacy entries can omit
+the initiating session. Do not reuse generic MFA grace as identity-link authority.
+Implement a versioned proof with mandatory user/session/version/time and explicit
+link/revoke purpose, preserving existing MFA/PAM consumers and testing replay,
+expiry, MFA requirements and session revocation. No permissive adapter is supplied.
 
 Before public linking: implement and verify the real fresh-authentication adapter,
 intent-specific link/revoke confirmations, origin/CSRF and browser state/PKCE checks,

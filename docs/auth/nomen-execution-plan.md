@@ -52,7 +52,7 @@ trace remains in 0070. No existing domain file is stamped rewritten by this plan
 | Packet | Implement in place | Exit gate and dependency |
 | --- | --- | --- |
 | AUTH-03 A: provider protocol | Native `core/backend-go/internal/services/auth/nomen/` component; pinned HTTPS issuer/endpoint; authenticated introspection; strict bounded claims; no positive cache. | TLS fixture success, invalid/expired/wrong-audience/client denial, redirect/timeout/malformed-provider failure and recovery, independent assertion signature verification, concurrency/race and pinned lint. This component returns metadata only and remains unmounted. |
-| AUTH-03 B: durable binding | Add a reviewed additive migration and native DAL for exact issuer + case-sensitive subject bound to an existing user; explicit link/unlink flow with provenance and audit. | Real DB unique/concurrent binding, unknown/rebound subject denial, deletion/revocation, old binary compatibility and rollback. Requires full review of user deletion, migrations, DAL and audit consumers first. |
+| AUTH-03 B: durable binding | Add a reviewed additive migration and native primary-pool service for exact issuer + case-sensitive subject bound to an existing user; explicit link/unlink flow with provenance and audit. | Real DB unique/concurrent binding, unknown/rebound subject denial, deletion/revocation, old binary compatibility and rollback. Requires full review of user deletion, migrations, database and audit consumers first. |
 | AUTH-03 C: actor and tenant | Disjoint local/machine/service/external authentication profiles; resolve binding and current account/membership policy on primary DB; select an authorized tenant. | Locked/unaccepted/deleted user, inactive/invited membership, direct/group precedence, suborganization isolation, live revoke, SSO/MFA restrictions, existing session/token regression and provider outage recovery. Depends on A+B. |
 | AUTH-04: native source actions | Register native projects/references and the same MCP catalog using complete Go domain permissions, data and audit ownership; version bootstrap metadata in the existing core contract. | Actual DB permission changes visible to CLI and long-lived MCP; pagination, empty/denied states, plain errors, 404 concealment, value-canary exclusion, routing rollback and ownership evidence. Depends on C. |
 | AUTH-06: guided client/UI | Read validated instance connection metadata; org selection; device approval/progress/recovery; accessible account-link and connection dialogs; preserve session storage/rotation and API/issuer/account/org binding. | Exact command with no extra provider flags; keyboard/screen-reader/reflow/reduced-motion review; cancel, expired, denied and recovery states; protected verification before storage; actual Windows keyring acceptance. Fixture UX work can proceed before live registration. |
@@ -66,9 +66,11 @@ tokens cannot be substituted.
 
 ### Binding and authorization decisions to resolve before cutover
 
-Use one additive binding owner, proposed `vaultix_identity_bindings`, with a unique
-exact issuer/subject pair, user linkage, proof provenance and revocation state.
-This is a design proposal, not an applied schema. Never create `nomen_vault_*` tables.
+The additive `vaultix_identity_bindings` owner now preserves a unique exact
+issuer/subject pair, user linkage, proof provenance and revocation state.
+See [the lifecycle checkpoint](nomen-binding-lifecycle.md) for accepted migration
+and native-service evidence. Public linking remains unmounted. Never create
+`nomen_vault_*` tables.
 Account linking must prove both the existing Vaultix account and current Nomen
 subject with a short-lived, single-use, origin/intent-bound challenge and reviewed
 PKCE/state protection. An email match is never sufficient. Revocation/deletion must
@@ -188,14 +190,16 @@ source. Compare runtime layers with the accepted image; if changed, exercise the
 canonical application/regression gates. Save exact source/image/check receipts in
 local journals and publish only reviewed summaries. Never reduce a baseline.
 
-Rollback of this unmounted component is code-only; no data/session/store changes
-exist. Later binding migrations must be additive and compatible with old binaries;
+AUTH-03 A protocol rollback remains code-only. AUTH-03 B now adds binding tables:
+binary rollback retains them, and schema down refuses nonempty identity history.
+Old-binary compatibility is proven in the linked lifecycle checkpoint;
 route cutover must have an explicit owner switch and reconciliation. Disabling
 external acceptance must not delete bindings or mint fallback local sessions.
 
-Next implementation: AUTH-03 B full binding/delete/audit consumer review and real
-DB migration/concurrency tests, followed by C actor policy and AUTH-04 source-action
-ownership. Public registration can proceed alongside this work; only the live
+Next implementation: AUTH-03 B intent-specific fresh-authentication proof,
+link/revoke confirmations and notifications, followed by C actor policy and
+AUTH-04 source-action ownership. Persistence acceptance does not close the
+remaining B consumers. Public registration can proceed alongside this work; only the live
 gate waits for operator-controlled settings and human approval. No public login,
 whole CLI parity, all-UI acceptance, public-cloud readiness or DevSCIF certification
 is claimed by the protocol component or this plan.
