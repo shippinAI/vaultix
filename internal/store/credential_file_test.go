@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -25,6 +26,12 @@ func TestPrivateCredentialFile(t *testing.T) {
 	}
 	if _, err := CredentialFile(path, "replacement"); err != nil {
 		t.Fatal(err)
+	}
+	if _, err := CredentialFile(path, strings.Repeat("x", 65537)); err == nil {
+		t.Fatal("oversized credential saved")
+	}
+	if value, err := CredentialFile(path, ""); err != nil || value != "replacement" {
+		t.Fatal("failed save changed credential")
 	}
 	os.Chmod(path, 0644)
 	if _, err := CredentialFile(path, ""); err == nil {

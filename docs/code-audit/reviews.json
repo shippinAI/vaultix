@@ -2368,10 +2368,10 @@
     },
     {
       "path": "README.md",
-      "blob": "74a809e674202397ab71bb68ff37cc125f944394",
-      "status": "verified",
+      "blob": "1032b87100c3ac7a68033c7cb5f96b16ddc18909",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete README read. Authored 0067 headless CLI and metadata-only MCP instructions; clarified separate Codex and Vaultix authorization, explicit private storage and incomplete live Nomen renewal. Retained remaining product and deployment documentation. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2391,7 +2391,9 @@
         ".cache/app-image-proof-5NZO8A/workflow-result.json",
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
@@ -4419,16 +4421,18 @@
     },
     {
       "path": "internal/cli/auth_cmds.go",
-      "blob": "faccb262b8d3482496443bb9ab72bce2c77fd5dd",
-      "status": "verified",
+      "blob": "0e492f4a0a2ff0f88bc208e27152d3a61946e0d2",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
@@ -4461,16 +4465,18 @@
     },
     {
       "path": "internal/cli/session.go",
-      "blob": "58f9c129daff83559f937662e1f46b646cbdd9a8",
-      "status": "verified",
+      "blob": "30e49cc315ade981e8ace6a20601adc0c192ee28",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
@@ -4503,16 +4509,18 @@
     },
     {
       "path": "internal/oidc/device.go",
-      "blob": "6298e3f9cb0526de68e72017701c84fa598d1e8b",
-      "status": "verified",
+      "blob": "1bf1d6f45b139aafea0b7197ac2232b260207cb6",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
@@ -4531,30 +4539,34 @@
     },
     {
       "path": "internal/store/credential_file.go",
-      "blob": "39be2494a236e9c05ec038adfea24e7ad01e6f23",
-      "status": "verified",
+      "blob": "3c0d1bd81579e52c6323d471e8d244f3ec42b044",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
       "path": "internal/store/credential_file_test.go",
-      "blob": "c1308451c59589d10b822a24625a975d14a83769",
-      "status": "verified",
+      "blob": "11d69726da19e4697d53d14d86ea9b1d26628622",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     },
     {
@@ -4587,16 +4599,117 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "bfad88b0e9c5924eb002eb3679a006f8bbaee35c",
-      "status": "verified",
+      "blob": "57affdfe04aca690322b777721ed76c5651e94c5",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/cli/renewal_test.go",
+      "blob": "1afa7eab6e3c68d409c023929c9c8cbb2153a600",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/oidc/refresh.go",
+      "blob": "9b79c529de964e195e7b74d0b1766f08f9f6d032",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/oidc/refresh_test.go",
+      "blob": "c7f8034b80fe4cc7facde8f217572642c505c3bd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/store/credential_lock.go",
+      "blob": "e72a6a48efad794eb139945d517b34cbdd5d4d75",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/store/credential_lock_unix.go",
+      "blob": "e223e77ac2612655d0ea75ac12731c95c76d865a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/store/credential_lock_windows.go",
+      "blob": "573e956787f076d942e2f182f765a90cc337b4e8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/store/credential_lock_other.go",
+      "blob": "3d3ffd6537668030f9b31b42ff8a2e0bdf4de6b2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "internal/store/credential_lock_test.go",
+      "blob": "766b1ae15b2bbb9da54fd1db26db1b87bd9bbf92",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/device-issuer.mjs",
+      "blob": "fc5b5c5a1a52e8837c54eee24ac25df22720b066",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authored for 0068: saved Nomen device-session renewal, issuer/client/API binding, rotating token persistence, OS-level credential locking and crash/rejection recovery. Protected metadata verification and existing server authorization preserved. Fixture issuer is not live Nomen mapping; Windows keyring is mocked. Final committed artifacts and canonical build pending.",
+      "evidence": [
+        "docs/0068-device-session-renewal.md",
+        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json"
       ]
     }
   ]

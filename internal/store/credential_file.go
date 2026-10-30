@@ -40,6 +40,9 @@ func CredentialFile(path, set string) (string, error) {
 		}
 		return strings.TrimSpace(string(data)), nil
 	}
+	if len(set) > 65536 {
+		return "", errors.New("credential exceeds the private storage limit")
+	}
 	file, err := os.CreateTemp(dir, ".vaultix-credential-*")
 	if err != nil {
 		return "", err
@@ -57,7 +60,10 @@ func CredentialFile(path, set string) (string, error) {
 	if err = file.Close(); err != nil {
 		return "", err
 	}
-	return "", os.Rename(tmp, path)
+	if err := os.Rename(tmp, path); err != nil {
+		return "", err
+	}
+	return "", syncCredentialDirectory(dir)
 }
 
 func ForgetCredentialFile(path string) error {
@@ -67,5 +73,19 @@ func ForgetCredentialFile(path string) error {
 		}
 		return err
 	}
-	return os.Remove(path)
+	if err := os.Remove(path); err != nil {
+		return err
+	}
+	return syncCredentialDirectory(filepath.Dir(path))
+}
+
+// Persist the directory entry as well as file contents before a rotating token
+// is sent or considered saved. A failed flush is reported, never ignored.
+func syncCredentialDirectory(dir string) error {
+	f, err := os.Open(dir)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	return f.Sync()
 }

@@ -105,6 +105,47 @@ try {
   const machineReply = cli(["mcp"], JSON.stringify(messages[3])+"\n");
   assert.ok(JSON.parse(JSON.parse(machineReply).result.content[0].text).projects.some(p => p.id === project.id));
   check("machine identity login obtains scoped access for the same MCP actions");
+  phase = "device issuer fixture";
+  const initial = await api(`/api/v1/auth/token-auth/identities/${identity.id}/tokens`, { method: "POST", token: admin, body: { name: "Device protocol initial" } });
+  const next = await api(`/api/v1/auth/token-auth/identities/${identity.id}/tokens`, { method: "POST", token: admin, body: { name: "Device protocol renewed" } });
+  const fixture = { initialAccess: initial.accessToken, nextAccess: next.accessToken, initialRefresh: randomBytes(32).toString("hex"), nextRefresh: randomBytes(32).toString("hex"), deviceCode: randomBytes(32).toString("hex") };
+  sensitive.push(...Object.values(fixture));
+  docker(["cp", resolve(root, "scripts/fixtures/device-issuer.mjs"), `${app}:/tmp/device-issuer.mjs`]);
+  docker(["exec", "-i", app, "node", "-e", "let data='';process.stdin.on('data',c=>data+=c);process.stdin.on('end',()=>require('node:fs').writeFileSync('/tmp/vaultix-cli-home/issuer.json',data,{mode:0o600}));"], { input: JSON.stringify(fixture) });
+  docker(["exec", "-d", app, "node", "/tmp/device-issuer.mjs", "/tmp/vaultix-cli-home/issuer.json"]);
+  const issuerRequest = (path, method = "GET") => {
+    const response = docker(["exec", app, "node", "-e", "fetch('http://127.0.0.1:18181'+process.argv[1],{method:process.argv[2]}).then(async r=>{if(!r.ok)process.exit(1);console.log(await r.text())}).catch(()=>process.exit(1));", path, method], { allowFailure: true });
+    return response.status === 0 ? JSON.parse(response.stdout.toString()) : null;
+  };
+  await waitFor(() => issuerRequest("/counts") !== null, "device issuer fixture readiness");
+  const approval = cli([...login, "--sso", "--issuer", "http://127.0.0.1:18181", "--client-id", "vaultix-cli-fixture"]);
+  assert.ok(approval.includes("TEST-ONLY") && approval.includes("logged in"), "Device approval guidance missing");
+  check("fixture device approval persists a session only after real application authorization");
+  phase = "concurrent device renewal";
+  await new Promise(resolve => setTimeout(resolve, 2200));
+  // Four distinct CLI processes share the private store. The fixture rejects
+  // replay, so a second refresh request fails this check rather than hiding it.
+  const concurrent = docker(["exec", app, "node", "-e", "const {spawn}=require('node:child_process');Promise.all(Array.from({length:4},()=>new Promise(resolve=>{const p=spawn('/tmp/vaultix-cli',['auth','status'],{env:{...process.env,VAULTIX_HOME:'/tmp/vaultix-cli-home'},stdio:'ignore'});p.on('error',()=>resolve(false));p.on('exit',c=>resolve(c===0));}))).then(results=>process.exit(results.every(Boolean)?0:1));"], { allowFailure: true });
+  assert.equal(concurrent.status, 0, "Concurrent renewal failed");
+  assert.equal(issuerRequest("/counts").refreshes, 1, "Refresh token was replayed");
+  check("four CLI processes renew a fixture device session exactly once");
+  phase = "renewed MCP authorization";
+  const renewed = cli(["mcp"], JSON.stringify(messages[4])+"\n");
+  assert.equal(JSON.parse(JSON.parse(renewed).result.content[0].text).references[0].name, "CLI_REFERENCE");
+  cli(["mcp", "config"]);
+  await api(`/api/v1/auth/token-auth/tokens/${next.tokenData.id}/revoke`, { method: "POST", token: admin, body: {} });
+  cli(["auth", "status"], "", false);
+  cli(["mcp"], "", false);
+  check("renewed session reads real MCP references and obeys server revocation");
+  phase = "rejected renewal recovery";
+  assert.ok(issuerRequest("/reject", "POST"));
+  // Explicit expired fixture state avoids waiting an hour. No production
+  // credential or configured operator account is read or changed.
+  docker(["exec", app, "node", "-e", "const fs=require('node:fs'),p='/tmp/vaultix-cli-home/credential.json',c=JSON.parse(fs.readFileSync(p));c.expires_at=new Date(0).toISOString();c.refresh_after=new Date(0).toISOString();fs.writeFileSync(p,JSON.stringify(c),{mode:0o600});"]);
+  cli(["auth", "status"], "", false);
+  cli(["auth", "status"], "", false);
+  assert.equal(issuerRequest("/counts").refreshes, 2, "Rejected refresh token was retried");
+  check("rejected fixture renewal stays blocked without replay or credential disclosure");
   phase = "logout";
   cli(["logout"]);
   cli(["auth", "status"], "", false);

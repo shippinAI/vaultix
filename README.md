@@ -134,10 +134,16 @@ Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
 For a registered Nomen public client, `vaultix login --sso --api <instance>
 --issuer <issuer> --client-id <public-client-id>` prints a browser approval link
 that can be opened on another device. It requires protected Vaultix access
-before saving sign-in. Live Nomen-to-Vaultix authority mapping and automatic
-session renewal remain release gates; a device-flow fixture is not that proof.
+before saving sign-in. The CLI requests `openid profile email offline_access`;
+use `--scope` for the scopes registered for your public client. When the issuer
+grants a refresh token, saved sessions renew before expiry and preserve rotated
+tokens across CLI and MCP processes. Interrupted or rejected renewal requires
+sign-in again. External token overrides are never renewed or rewritten.
+Live Nomen registration, authority mapping and renewal acceptance remain release
+gates; a device-flow fixture is not that proof.
 `logout` forgets the local credential, not the issuer's session. See
-[headless login and AI acceptance](docs/0067-headless-ai-login.md).
+[headless login and AI acceptance](docs/0067-headless-ai-login.md) and
+[session renewal and recovery](docs/0068-device-session-renewal.md).
 
 ## Checks
 

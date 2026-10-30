@@ -36,8 +36,11 @@ type Flow struct {
 }
 
 type Session struct {
-	AccessToken string
-	ExpiresAt   time.Time
+	AccessToken   string
+	ExpiresAt     time.Time
+	RefreshToken  string
+	Issuer        string
+	TokenEndpoint string
 }
 
 type discovery struct {
@@ -124,6 +127,7 @@ func (f *Flow) RunSession(ctx context.Context, out io.Writer) (Session, error) {
 	pollCtx, cancel := context.WithTimeout(ctx, time.Duration(begun.ExpiresIn)*time.Second)
 	defer cancel()
 	session, err := f.poll(pollCtx, disc.TokenEndpoint, begun)
+	session.Issuer, session.TokenEndpoint = issuer, disc.TokenEndpoint
 	if ctx.Err() != nil {
 		return Session{}, ctx.Err()
 	}
@@ -190,12 +194,7 @@ func (f *Flow) poll(ctx context.Context, endpoint string, begun start) (Session,
 		if err := waitFor(ctx, interval); err != nil {
 			return Session{}, err
 		}
-		var token struct {
-			AccessToken string `json:"access_token"`
-			TokenType   string `json:"token_type"`
-			ExpiresIn   int    `json:"expires_in"`
-			Error       string `json:"error"`
-		}
+		var token tokenResponse
 		status, err := f.request(ctx, endpoint, url.Values{
 			"grant_type": {"urn:ietf:params:oauth:grant-type:device_code"}, "device_code": {begun.DeviceCode}, "client_id": {f.ClientID},
 		}, &token)
@@ -203,10 +202,7 @@ func (f *Flow) poll(ctx context.Context, endpoint string, begun start) (Session,
 			return Session{}, err
 		}
 		if status == http.StatusOK && token.Error == "" {
-			if token.AccessToken == "" || !strings.EqualFold(token.TokenType, "Bearer") || token.ExpiresIn <= 0 || token.ExpiresIn > 31536000 {
-				return Session{}, ErrNoToken
-			}
-			return Session{AccessToken: token.AccessToken, ExpiresAt: time.Now().Add(time.Duration(token.ExpiresIn) * time.Second)}, nil
+			return token.session()
 		}
 		if status != http.StatusBadRequest {
 			return Session{}, fmt.Errorf("oidc: token request rejected (HTTP %d)", status)

@@ -3,7 +3,6 @@ package cli
 import (
 	"bufio"
 	"context"
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -11,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"shippin.cloud/vaultix/internal/api"
 	"shippin.cloud/vaultix/internal/oidc"
@@ -87,6 +87,7 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 	ssoFlag := fs.Bool("sso", false, "Nomen device-code login (the default on a terminal)")
 	issuer := fs.String("issuer", os.Getenv("NOMEN_OIDC_ISSUER"), "Nomen issuer (default https://auth.shippin.ai)")
 	clientID := fs.String("client-id", os.Getenv("NOMEN_OIDC_CLIENT_ID"), "Nomen public client id")
+	scope := fs.String("scope", "openid profile email offline_access", "space-separated Nomen scopes approved for this public client")
 	credentialFile := fs.String("credential-file", "", "private credential file on POSIX headless hosts (instead of keyring)")
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -132,11 +133,12 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 			return err
 		}
 	case modeSSO:
-		session, err := (&oidc.Flow{Issuer: *issuer, ClientID: *clientID}).RunSession(ctx, out)
+		session, err := (&oidc.Flow{Issuer: *issuer, ClientID: *clientID, Scope: *scope}).RunSession(ctx, out)
 		if err != nil {
 			return err
 		}
-		c = cred{Type: "nomen", Token: session.AccessToken, ExpiresAt: session.ExpiresAt}
+		c = cred{Type: "nomen", Token: session.AccessToken, ExpiresAt: session.ExpiresAt, RefreshToken: session.RefreshToken, Issuer: session.Issuer, TokenEndpoint: session.TokenEndpoint, ClientID: *clientID}
+		c.RefreshAfter = refreshAfter(session.ExpiresAt)
 		if err := api.New(cfg.API, c.Token).VerifyAccess(ctx); err != nil {
 			return err
 		}
@@ -152,12 +154,7 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 		return errors.New("login: could not read credential input")
 	}
 	c.API = strings.TrimRight(cfg.API, "/")
-	b, _ := json.Marshal(c)
-	if cfg.CredentialFile != "" {
-		_, err = store.CredentialFile(cfg.CredentialFile, string(b))
-	} else {
-		_, err = store.Credential(string(b))
-	}
+	err = store.WithCredentialLock(ctx, cfg.CredentialFile, func() error { return saveCred(cfg, &c) })
 	if err != nil {
 		return fmt.Errorf("credential storage: %w (POSIX headless hosts: use --credential-file in a private directory)", err)
 	}
@@ -177,10 +174,14 @@ func Logout() error {
 	if err != nil {
 		return err
 	}
-	if cfg.CredentialFile != "" {
-		return store.ForgetCredentialFile(cfg.CredentialFile)
-	}
-	return store.Forget()
+	ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+	defer cancel()
+	return store.WithCredentialLock(ctx, cfg.CredentialFile, func() error {
+		if cfg.CredentialFile != "" {
+			return store.ForgetCredentialFile(cfg.CredentialFile)
+		}
+		return store.Forget()
+	})
 }
 
 // AuthStatus confirms protected access without printing account or token data.

@@ -1,5 +1,9 @@
 # Headless sign-in and locally authenticated AI connections
 
+Follow-up: [0068 device session renewal](0068-device-session-renewal.md) adds
+saved-session renewal and interruption recovery. The original evidence below
+remains scoped to this packet; live Nomen integration remains unaccepted.
+
 2026-10-29. Auth (Nomen) to Secrets only. Implementation packet for the root Go
 CLI, not a new identity service or a replacement for native domain migration.
 
