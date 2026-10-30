@@ -2380,7 +2380,7 @@
       "blob": "ce47ae00af8c42fe500d49fc0e6d9367624746bf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Reviewed current CLI instructions: native artifact names, domain selection, Windows key-file limitation, and explicit hosted authentication gap. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Reviewed current CLI instructions: native artifact names, domain selection, Windows key-file limitation, and explicit hosted authentication gap. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2412,7 +2412,11 @@
         ".ai/README.md",
         ".ai/references/skill-evaluation.md",
         "scripts/ai-journal.test.mjs",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
@@ -4385,31 +4389,39 @@
     {
       "path": "cmd/vaultix/main.go",
       "blob": "7ef6144d3405d7bf359819a1c19334a015fe0499",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read dispatcher in full. Authored Vaultix-only command naming/help and successful help dispatch. Existing command families retained; full vendor CLI parity absent. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read dispatcher in full. Authored Vaultix-only command naming/help and successful help dispatch. Existing command families retained; full vendor CLI parity absent. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/api/client.go",
       "blob": "fa7f497157d648154efbe102c236f35e5f4de297",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Reviewed API default example change only; transport and authorization behavior unchanged. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Reviewed API default example change only; transport and authorization behavior unchanged. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
@@ -4443,9 +4455,9 @@
     {
       "path": "internal/cli/auth_cmds.go",
       "blob": "5611cc25a98c418725e74be5c07d1f447f0fcc05",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read module in full. Authored validated domain selection, compatible --api, conflict/empty/positional rejection before credential use, and native executable names. Existing protected verification and Nomen/token/machine flows retained. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read module in full. Authored validated domain selection, compatible --api, conflict/empty/positional rejection before credential use, and native executable names. Existing protected verification and Nomen/token/machine flows retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4458,7 +4470,11 @@
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
@@ -4478,24 +4494,28 @@
     {
       "path": "internal/cli/config.go",
       "blob": "82e2f094127a018dc5b7bf9773b0216ca715b448",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read module in full. Fresh instance defaults to Vaultix.cloud; explicit saved self-hosted config remains authoritative. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read module in full. Fresh instance defaults to Vaultix.cloud; explicit saved self-hosted config remains authoritative. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/cli/session.go",
       "blob": "dfdf9b0d6c5fcb2dc76e698159be36363db75237",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read module in full. Changed instance mismatch guidance to --domain only; renewal and credential binding behavior unchanged. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read module in full. Changed instance mismatch guidance to --domain only; renewal and credential binding behavior unchanged. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4508,7 +4528,11 @@
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
@@ -4644,9 +4668,9 @@
     {
       "path": "scripts/test-cli-headless.mjs",
       "blob": "be45120f8f3cb5bdc428fc64e189ce8dbe6995d1",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read full harness and added both executable names, --domain, conflict preservation and old --api machine compatibility; retained existing real API/MCP/renewal/revocation checks. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read full harness and added both executable names, --domain, conflict preservation and old --api machine compatibility; retained existing real API/MCP/renewal/revocation checks. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4659,7 +4683,11 @@
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
@@ -5162,69 +5190,97 @@
       "blob": "9bedfb3978fd806eeb2d3e6c59c03d6ebf522efa",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored scoped implementation and explicit hosted identity/CLI capability gaps based on native dispatcher and current first-party command index. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Authored scoped implementation and explicit hosted identity/CLI capability gaps based on native dispatcher and current first-party command index. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/cli/domain_test.go",
       "blob": "ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/cli/login_mode_test.go",
       "blob": "d476cdc187f013085882aa0963681e6d752d6c6e",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/store/key.go",
       "blob": "6276c8208b3b38812ec0b31bad5255a9adda773b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read module in full. Reject unsupported Windows data-key files before writes; OS keyring and POSIX behavior preserved. No Windows ACL acceptance claim. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Read module in full. Reject unsupported Windows data-key files before writes; OS keyring and POSIX behavior preserved. No Windows ACL acceptance claim. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "internal/store/store_test.go",
       "blob": "6ba9e22866c6a893525630abd1083cf89262cd5e",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Retained encryption/wrong-key checks on both platforms, labelled POSIX permission assertion and added Windows no-file-on-denial check. Linux race suite required; keyring here is mocked. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Retained encryption/wrong-key checks on both platforms, labelled POSIX permission assertion and added Windows no-file-on-denial check. Linux race suite required; keyring here is mocked. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "scripts/build-cli.mjs",
       "blob": "bbc9426a798738277cc92b54174bfd5a85640b22",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Authored clean committed-source archive delivery for Linux/Windows amd64; both native executable names share bytes and hashes; no global install. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Authored clean committed-source archive delivery for Linux/Windows amd64; both native executable names share bytes and hashes; no global install. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     },
     {
       "path": "scripts/test-cli-delivery.mjs",
       "blob": "327f4401aec2b5812807681ed341054664ccb543",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Authored revision/hash validation, actual native help, Linux race suite and real packaged CLI workflow orchestration. Live issuer and parity excluded. Candidate verification is pending; older receipts apply only to their recorded scope/source. Hosted login and complete parity are not established.",
+      "scope": "Authored revision/hash validation, actual native help, Linux race suite and real packaged CLI workflow orchestration. Live issuer and parity excluded. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md"
+        "docs/0073-native-cli-domain-and-capabilities.md",
+        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
+        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
+        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
+        ".cache/headless-ai-login/.cache/cli-public-denial.json"
       ]
     }
   ]
