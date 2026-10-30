@@ -125,6 +125,11 @@ try {
   await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
   authEvents.push({ phase, event: "recovered-cookie-survives-grace-expiry" });
   phase = "authenticated-navigation";
+  phase = "organization-mfa";
+  await testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, evidence, expectedFailures });
+  assert.deepEqual(errors, []);
+  await page.goto(`${origin}/organizations/${bootstrap.organization.id}/projects`);
+  phase = "authenticated-navigation";
   // Native buttons must retain both keyboard activation paths.
   await page.getByRole("button", { name: "Secrets Management", exact: true }).press("Space");
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management`);
@@ -249,13 +254,10 @@ try {
   phase = "project-role-refresh";
   await testProjectRoleRefresh({ page, expect, origin, orgId: bootstrap.organization.id, projectId: project.id, token: selected.token, evidence });
   assert.deepEqual(errors, []);
-  phase = "organization-mfa";
-  await testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, evidence, expectedFailures });
-  assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled. Organization MFA evidence is in org-mfa-workflow.json.",
-    reports: ["project-role-refresh.json", "assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
+    reports: ["org-mfa-workflow.json", "project-role-refresh.json", "assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

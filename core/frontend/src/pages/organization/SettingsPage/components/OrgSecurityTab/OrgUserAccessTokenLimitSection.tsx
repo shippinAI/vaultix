@@ -102,7 +102,7 @@ export const OrgUserAccessTokenLimitSection = () => {
           <Clock className="size-4 text-accent" />
           Session Length
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-muted">
           Specify the duration of each login session for users in this organization.
         </CardDescription>
       </CardHeader>

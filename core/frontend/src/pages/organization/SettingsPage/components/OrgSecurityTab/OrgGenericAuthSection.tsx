@@ -120,7 +120,7 @@ const MfaSettingsForm = ({ org }: { org: Organization }) => {
             {current.enforced ? "Required" : "Optional"}
           </Badge>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-muted">
           Set organization-wide sign-in safeguards. Review your changes before applying them.
         </CardDescription>
       </CardHeader>

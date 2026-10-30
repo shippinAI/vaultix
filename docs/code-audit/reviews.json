@@ -266,7 +266,7 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "a698e7dc04f9058539bf4d7013bff5ca00004ac0",
+      "blob": "fcd7a37be2f03cd5cfc13c6c8c92ac439110cab1",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit. Complete existing harness read; append organization MFA workflow to the real disposable packaged application. Existing workflows retained.",
@@ -5088,7 +5088,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx",
-      "blob": "c1dc8372cc8e0420fdeeb1c8b828f714659c74f4",
+      "blob": "81b1038a950bfd38e6b520ee003b1c42a95fdb7c",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authorship: local MFA drafts, named controls and contextual help, review before mutation, Settings edit permission aligned with existing service, changed-fields-only payload, pending/duplicate guard, one shared error and retained failed draft. Service semantics and Nomen unchanged; browser acceptance pending.",
@@ -5118,13 +5118,23 @@
     },
     {
       "path": "scripts/check-org-mfa-ui.mjs",
-      "blob": "5e9707812c7de78c6a492570565262b45ee05b70",
+      "blob": "ec7ca020b9d7a9c423a124b35cde0569a8747dfb",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file authored: portable full frontend TypeScript and scoped MFA ESLint verification; propagate command failures.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md"
       ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete component read; only description color changes from accent to semantic muted to meet real-page contrast. Existing session-length validation and API behavior unchanged.",
+      "evidence": [
+        "docs/0071-devscif-governance-experience.md"
+      ],
+      "blob": "61c14195988abba6f02d9c85cc192afec02dbc2f"
     }
   ]
 }

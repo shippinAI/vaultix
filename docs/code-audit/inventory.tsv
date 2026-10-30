@@ -9609,9 +9609,9 @@ core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimEvents.tsx	db16b0d3a2b8245a9ea9271edf622c4f2c4a3a93	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/ScimTokenModal.tsx	6322b0e5e243a505b48f6f4cd0dce0beef1e34d8	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgProvisioningTab/index.tsx	c39b77b6ac4957634d4ebd18feb9595b49ad8dc2	product-code	unread
-core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	c1dc8372cc8e0420fdeeb1c8b828f714659c74f4	product-code	authored
+core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgGenericAuthSection.tsx	81b1038a950bfd38e6b520ee003b1c42a95fdb7c	product-code	authored
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgSecurityTab.tsx	e9968138416e84842d5f65561f989b4a5cd5e234	product-code	unread
-core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx	8fe904ce3447409c11d4d74bf4271d208e09c6dc	product-code	unread
+core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/OrgUserAccessTokenLimitSection.tsx	61c14195988abba6f02d9c85cc192afec02dbc2f	product-code	authored
 core/frontend/src/pages/organization/SettingsPage/components/OrgSecurityTab/index.tsx	565772a72e4ad5826c0f27172389b14046c1887b	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSsoTab/LDAPGroupMapModal.tsx	51aef1d754585ef65a448dac3b4bdece780d5d93	product-code	unread
 core/frontend/src/pages/organization/SettingsPage/components/OrgSsoTab/LDAPModal.tsx	b40ab26cb3dec3a39dd4fdb731baf0d22bcd21c5	product-code	unread
@@ -11763,11 +11763,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	697a7ccb2bbc04ddc3bf25e70f9794fa37edde70	generated	unread
-docs/capabilities/generated/source-map.tsv	1cf0efeeef27dc9f141f81f848db1ce0d841243f	generated	unread
+docs/capabilities/generated/source-map.tsv	18461191cc4f3aa4c055d6a100b43c7943af30a7	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	928bc41b5602745ccec8d0e52616be6273e4279c	generated	unread
-docs/migration/generated/modules.tsv	72e6ff59ccde24f4823d2f694ed7d3ab51287b8e	generated	unread
+docs/migration/generated/files.tsv	5a9f58995c86b71916aaac3baa18b1029650ba28	generated	unread
+docs/migration/generated/modules.tsv	15c8a7acf97e813fb8e1d61aef5fc6bad5e74c0b	generated	unread
 docs/migration/generated/summary.json	d5c8fa058a2c71a29eafb0d3ff7e28f64010162c	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11910,7 +11910,7 @@ scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-o
 scripts/check-auth-authority.mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	build-and-operations	unread
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
-scripts/check-org-mfa-ui.mjs	5e9707812c7de78c6a492570565262b45ee05b70	build-and-operations	authored
+scripts/check-org-mfa-ui.mjs	ec7ca020b9d7a9c423a124b35cde0569a8747dfb	build-and-operations	authored
 scripts/check-owned.sh	bd596fb1097dfad2e4e071ba051da0ea532fb658	build-and-operations	verified
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/fixtures/device-issuer.mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	build-and-operations	verified
@@ -11947,7 +11947,7 @@ scripts/test-go-test-evidence.mjs	b5583de0e3990833d120e86e707545c3a491a1e1	build
 scripts/test-guidance-contract.mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	build-and-operations	verified
 scripts/test-guided-interactions.mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	build-and-operations	verified
 scripts/test-identity-policy-startup.mjs	0b987ad6360d321ac5126d81634a38abfa98a504	build-and-operations	verified
-scripts/test-image-app.mjs	a698e7dc04f9058539bf4d7013bff5ca00004ac0	build-and-operations	authored
+scripts/test-image-app.mjs	fcd7a37be2f03cd5cfc13c6c8c92ac439110cab1	build-and-operations	authored
 scripts/test-learning-content.mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	build-and-operations	verified
 scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-and-operations	verified
 scripts/test-login-recovery.mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	build-and-operations	verified
