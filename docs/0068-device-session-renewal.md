@@ -94,4 +94,60 @@ external Nomen access token merely because device authorization succeeded.
 Those requirements must be implemented without trusting email claims as account
 links or weakening the existing authorization boundary.
 
-Final committed-artifact and image receipts are recorded after verification.
+## Accepted artifacts
+
+Engine source: `2e204ce752a21647ecd052d71fee9c29d39007aa`. CLI source: `30c06fe11c563d5ab48953da28a49e9b1ed0c709`. Canonical standalone image:
+`sha256:5224eaea3727f59898203434749ddbda1e19b4c50a1a0137894731861915efdf`.
+
+- 101 Linux root Go unit/race checks passed with no test failures or skips;
+  Windows vet passed. Receipt: `.cache/headless-ai-login/.cache/nomen-renewal-unit-build.json`.
+- 88 targeted Windows checks passed, with 4 explicit POSIX-only skips.
+  Receipts: `.cache/headless-ai-login/.cache/nomen-renewal-windows-tests.jsonl` and
+  `.cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl`.
+  The unrelated existing Windows encrypted-store mode-bit test still fails;
+  it was not changed or suppressed. The full root suite passed on Linux.
+- All 16 canonical build/application gates passed:
+  `.cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json`.
+- All 12 committed CLI/image integration checks passed and disposable resources
+  were cleaned up: `.cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json`.
+- Committed-source Windows/Linux amd64 artifacts:
+  `.cache/headless-ai-login/.cache/cli-build-VDpdVM/result.json`.
+  Linux SHA-256: `5a2da0a1afc80b089174c45f0bd9a92c44b456df80ed1e73fb19499799821b99`.
+  Windows SHA-256: `4b5ae177052979b47029d1fa63b2d2502647b65433f715ce257da861fa90601e`.
+
+The final CLI-only correction includes the stored newline in its 64 KiB limit.
+The Linux private-store race tests additionally prove rejection at 65,536 bytes
+and round-trip success at 65,535 bytes. Receipt:
+`.cache/headless-ai-login/.cache/nomen-renewal-boundary-tests.jsonl`.
+
+The standalone engine and root CLI remain separate artifacts. This packet
+changes no `core/` application source or database schema. Earlier 0067 image
+evidence remains historical; the accepted image above was rebuilt with the
+current committed-source revision. No GitHub Actions or registry build was used.
+
+## Next server integration package
+
+The implementation trace found two distinct existing boundaries. The TS
+`server/plugins/auth/inject-identity.ts` and Go
+`services/auth/apiauth/authenticator.go` verify application tokens and existing
+user sessions; the Go path also checks account locks and active organization
+membership. The existing browser OIDC service in
+`core/backend/src/ee/services/oidc/oidc-config-service.ts` uses a configured
+confidential client and looks up aliases by external subject, organization and
+OIDC alias type. That browser flow is not a public-device access-token verifier.
+These were dependency traces, not whole-module authorship acceptance.
+
+Before native Nomen access is enabled:
+
+1. Define the trusted issuer, intended API audience, public CLI registration and
+   token format/revocation contract. Do not accept ID tokens as API access tokens.
+2. Implement validated issuer-and-subject binding to an existing user, with
+   explicit organization selection and active membership checks. Existing aliases
+   cannot be assumed issuer-bound without reviewing configuration-change and
+   account-linking semantics. No email-only automatic link or first-login admin.
+3. Reuse the native permission evaluator and audit identity on the same project
+   and reference actions. Keep browser session ownership in Nomen and preserve
+   existing local login as the migration/rollback path. No second secrets store.
+4. Prove wrong issuer/audience/signature/expiry denial, membership removal,
+   cross-tenant denial, issuer revocation and real remote browser approval on
+   the canonical image before changing the public connection instructions.

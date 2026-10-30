@@ -128,7 +128,9 @@ change the accepted engine's core tree.
   `.cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json`.
 - 67 root Go unit/race checks passed, zero test failures/skips; vet passed.
   The command package has no tests. Receipt:
-  `.cache/headless-ai-login/.cache/cli-unit-build.json`.
+  `.cache/headless-ai-login/.cache/cli-unit-build.json` was the scratch receipt.
+  That path was reused by the 0068 follow-up; its historical 67-check result
+  is recorded here, while current scoped receipts are linked in 0068.
 - Eight final committed CLI/image checks passed, with disposable cleanup:
   `.cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json`.
 - Real packaged application workflow passed, including the six repeated editor
