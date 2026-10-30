@@ -5357,6 +5357,56 @@
       "evidence": [
         "docs/auth/nomen-protocol-evidence.md"
       ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts",
+      "blob": "08881fcf3fe43057f64235c88cbd014fea92d963",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "evidence": [
+        "docs/auth/nomen-binding-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/bindings.go",
+      "blob": "8d9a6b27eaf123a6e2f5c6ebe6de7f4c90243b50",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "evidence": [
+        "docs/auth/nomen-binding-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
+      "blob": "243d6f74447ea16af1ba277185fda9517517bc3f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "evidence": [
+        "docs/auth/nomen-binding-lifecycle.md"
+      ]
+    },
+    {
+      "path": "scripts/test-nomen-binding-migration.mjs",
+      "blob": "d7d1a7a3c9e9d77e1688f601fa601709c5d3c219",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "evidence": [
+        "docs/auth/nomen-binding-lifecycle.md"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-binding-lifecycle.md",
+      "blob": "35d667d7116da568c01986a1bae7a10e5bcb954c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Fully authored/read native binding lifecycle, additive migration and real-DB/old-new image verification. Verification pending; fresh authentication is a mandatory interface with fixture-only adapter. No public linking/actor/tenant/route or parity claim.",
+      "evidence": [
+        "docs/auth/nomen-binding-lifecycle.md"
+      ]
     }
   ]
 }

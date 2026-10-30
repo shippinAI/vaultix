@@ -156,6 +156,7 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	access	identit
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	access	identity	core/backend-go/internal/services/auth	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	access	identity	core/backend-go/internal/services/auth	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	access	identity	core/backend-go/internal/services/auth	7a2ed84fa66f7755f192af70dd51d31ade42d835	unread
+core/backend-go/internal/services/auth/nomen/bindings.go	access	identity	core/backend-go/internal/services/auth	8d9a6b27eaf123a6e2f5c6ebe6de7f4c90243b50	authored
 core/backend-go/internal/services/auth/nomen/claims.go	access	identity	core/backend-go/internal/services/auth	0f75985bf51db531617d90d998e064e5ccd565e0	verified
 core/backend-go/internal/services/auth/nomen/client_auth.go	access	identity	core/backend-go/internal/services/auth	ff1591b904afd673f58995157e1ab3ad3fb391f5	verified
 core/backend-go/internal/services/auth/nomen/introspection.go	access	identity	core/backend-go/internal/services/auth	5fbde871f94be2d526192440d6821b0593d610f6	verified
@@ -215,6 +216,7 @@ core/backend-go/tests/platform/auth/claims_format_test.go	access	identity	core/b
 core/backend-go/tests/platform/auth/delegated_token_test.go	access	identity	core/backend-go/tests/platform/auth	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	access	identity	core/backend-go/tests/platform/auth	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	access	authorization	core/backend-go/tests/platform/auth	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
+core/backend-go/tests/platform/auth/nomen_binding_test.go	access	identity	core/backend-go/tests/platform/auth	243d6f74447ea16af1ba277185fda9517517bc3f	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	access	identity	core/backend-go/tests/platform/auth	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	access	identity	core/backend-go/tests/platform/auth	007524dc9d814ef06aff4de5e5037e10f5ba32b6	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	operate	foundation	core/backend-go/tests/platform/bootstrap	2286ce2df00016cb92368996abd39b3941abe158	verified
@@ -862,6 +864,7 @@ core/backend/src/db/migrations/20260730120000_pam-discovered-account-staleness.t
 core/backend/src/db/migrations/20260801120000_add-alert-resource-lookup-index.ts	operate	foundation	core/backend/src/db/migrations	78f0022e945ef463092e8eb6f76b9fba357b7b0c	unread
 core/backend/src/db/migrations/20260803120000_add-pam-session-identity-id.ts	pam	pam	core/backend/src/db/migrations	11a664f1efa07b662d539e09af24adab62ec61a4	unread
 core/backend/src/db/migrations/20260804120000_reap-orphaned-identity-alerts.ts	access	identity	core/backend/src/db/migrations	a9a548c27332f21c8ae74cf0baac4930416ab2fc	unread
+core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	access	identity	core/backend/src/db/migrations	08881fcf3fe43057f64235c88cbd014fea92d963	authored
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	operate	foundation	core/backend/src/db/migrations/utils	93985ca767129782226d4b0620ac084132e5a21e	unread
 core/backend/src/db/migrations/utils/env-config.ts	operate	foundation	core/backend/src/db/migrations/utils	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	operate	foundation	core/backend/src/db/migrations/utils	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
@@ -9464,6 +9467,7 @@ scripts/test-login-failure.mjs	operate	delivery	scripts	09e59d34dad9500333a4ca70
 scripts/test-login-recovery.mjs	operate	delivery	scripts	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
+scripts/test-nomen-binding-migration.mjs	operate	delivery	scripts	d7d1a7a3c9e9d77e1688f601fa601709c5d3c219	authored
 scripts/test-notification-matrix.mjs	operate	delivery	scripts	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	operate	delivery	scripts	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
 scripts/test-org-mfa-workflow.mjs	operate	delivery	scripts	a1481766ab55f5856f4bf1b936b00dc54c17e39c	verified
