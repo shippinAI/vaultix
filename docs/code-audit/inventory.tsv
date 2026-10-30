@@ -11766,8 +11766,8 @@ docs/capabilities/generated/catalog.json	697a7ccb2bbc04ddc3bf25e70f9794fa37edde7
 docs/capabilities/generated/source-map.tsv	1cf0efeeef27dc9f141f81f848db1ce0d841243f	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	6446a2bfea865e82e8c49c6192ac7eb5dab5d7e3	generated	unread
-docs/migration/generated/modules.tsv	1194fc2f274eaba72b6f816190cd8d94d5743d5e	generated	unread
+docs/migration/generated/files.tsv	928bc41b5602745ccec8d0e52616be6273e4279c	generated	unread
+docs/migration/generated/modules.tsv	72e6ff59ccde24f4823d2f694ed7d3ab51287b8e	generated	unread
 docs/migration/generated/summary.json	d5c8fa058a2c71a29eafb0d3ff7e28f64010162c	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread

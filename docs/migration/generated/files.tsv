@@ -9413,7 +9413,7 @@ scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
-scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5e9707812c7de78c6a492570565262b45ee05b70	unread
+scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5e9707812c7de78c6a492570565262b45ee05b70	authored
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	bd596fb1097dfad2e4e071ba051da0ea532fb658	verified
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
