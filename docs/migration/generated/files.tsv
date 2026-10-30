@@ -9458,7 +9458,7 @@ scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
-scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	26f32a657f8f1fa1f473bc006d6dd4afe50acf64	authored
+scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b0a792374a5f6df2e1b368ff036db3796fb8b77f	authored
 scripts/test-production-admission.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified
 scripts/test-proxy-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	31abb675903176cfdabe2db161bcbbd62ed27351	verified

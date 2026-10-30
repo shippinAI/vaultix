@@ -35,6 +35,7 @@ export async function testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, org
   page.on("request", observe);
   expectedFailures.add(path);
   let release;
+  let pendingRoute;
   try {
     await page.goto(settings);
     await expect(toggle).toBeEnabled();
@@ -109,9 +110,12 @@ export async function testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, org
     await page.unroute(match);
     await clearNotifications();
     const gate = new Promise(resolveGate => { release = resolveGate; });
-    await page.route(match, async route => {
-      if (route.request().method() === "PATCH") await gate;
-      await route.continue();
+    await page.route(match, route => {
+      if (route.request().method() !== "PATCH") return route.continue();
+      pendingRoute = gate.then(() => route.continue());
+      // Await this in cleanup too: releasing a delayed request must finish
+      // before removing its handler or closing the browser after an assertion.
+      return pendingRoute;
     });
     const before = report.writes.length;
     await dialog.getByRole("button", { name: "Apply MFA Change" }).click();
@@ -120,7 +124,7 @@ export async function testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, org
     await page.keyboard.press("Escape");
     await expect(method).toBeDisabled();
     await expect(toggle).toBeDisabled();
-    assert.equal(report.writes.length, before + 1);
+    await expect.poll(() => report.writes.length).toBe(before + 1);
     release();
     await expect(page.getByText(/^MFA settings updated for /)).toBeVisible();
     await page.unroute(match);
@@ -166,7 +170,9 @@ export async function testOrgMfaWorkflow({ page, expect, AxeBuilder, origin, org
     ]);
     report.passed = true; save();
   } finally {
-    release?.(); await page.unroute(match); page.off("request", observe); expectedFailures.delete(path);
+    release?.();
+    await pendingRoute?.catch(() => {});
+    await page.unroute(match); page.off("request", observe); expectedFailures.delete(path);
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.emulateMedia({ reducedMotion: "no-preference" });
     save();

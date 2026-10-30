@@ -9458,7 +9458,7 @@ scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d
 scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-notification-matrix.mjs	operate	delivery	scripts	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	operate	delivery	scripts	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
-scripts/test-org-mfa-workflow.mjs	operate	delivery	scripts	26f32a657f8f1fa1f473bc006d6dd4afe50acf64	authored
+scripts/test-org-mfa-workflow.mjs	operate	delivery	scripts	b0a792374a5f6df2e1b368ff036db3796fb8b77f	authored
 scripts/test-production-admission.mjs	operate	delivery	scripts	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	operate	delivery	scripts	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified
 scripts/test-proxy-boundary.mjs	operate	delivery	scripts	31abb675903176cfdabe2db161bcbbd62ed27351	verified

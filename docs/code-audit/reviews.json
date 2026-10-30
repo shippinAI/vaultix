@@ -5098,10 +5098,10 @@
     },
     {
       "path": "scripts/test-org-mfa-workflow.mjs",
-      "blob": "26f32a657f8f1fa1f473bc006d6dd4afe50acf64",
+      "blob": "b0a792374a5f6df2e1b368ff036db3796fb8b77f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored real method persistence, real SMTP rejection and anonymous denial; separately injected UI outage/pending/read-only states, keyboard/help/focus/narrow/reduced-motion and axe. No raw credentials retained.",
+      "scope": "Authored real method persistence, real SMTP rejection and anonymous denial; separately injected UI outage/pending/read-only states, keyboard/help/focus/narrow/reduced-motion and axe. No raw credentials retained. Wait for the observed request before asserting count and drain delayed interception before teardown so failures retain their original cause.",
       "evidence": [
         "docs/0071-devscif-governance-experience.md"
       ]
