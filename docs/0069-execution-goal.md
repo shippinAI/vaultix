@@ -43,6 +43,12 @@ The next code work starts at **AUTH-02**. AUTH-02 through AUTH-04 can proceed
 using local deterministic fixtures while external registration is being resolved.
 AUTH-05 remains a live acceptance gate, not a reason to stop independent work.
 
+AUTH-02's current source trace, introspection decision and delegated-token
+correction are recorded in [0070](0070-nomen-authority-contract.md). External
+bearer acceptance remains disabled/unimplemented; AUTH-03 still requires the
+native verifier and durable issuer/subject binding, followed by actual route
+integration in AUTH-04.
+
 | Packet | Implementation and review scope | Required exit evidence |
 | --- | --- | --- |
 | AUTH-02 authority contract | Fully read TS identity middleware, Go `auth/apiauth` and permission callers, browser OIDC, user aliases, memberships and native project/reference routes. Record exact blobs, actor derivation and existing login/session behavior. Specify issuer, access-token format, intended audience, subject binding, organization selection, revocation and rollout contract. | Route-to-handler-to-authority/data trace; explicit decision for JWT validation versus authenticated introspection based on the actual issuer contract; no inferred account link from email or unsigned claims. |

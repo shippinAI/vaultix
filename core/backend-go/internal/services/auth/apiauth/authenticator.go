@@ -108,6 +108,11 @@ func (a *ApiAuthenticator) ValidateJWT(ctx context.Context, token string) (*auth
 
 // validateUserTokenClaims validates pre-parsed user JWT claims.
 func (a *ApiAuthenticator) validateUserTokenClaims(ctx context.Context, claims *UserJWTClaims) (*auth.Identity, error) {
+	// Go routes do not yet implement delegated OAuth scope intersection. A valid
+	// local signature/session cannot turn that credential into first-party authority.
+	if len(claims.OAuthClientID) > 0 {
+		return nil, errutil.Unauthorized("Delegated OAuth authentication is not supported for this endpoint")
+	}
 	// Access tokens from the removed Agent Sentinel (MCP) product were signed as
 	// ACCESS_TOKEN with an "mcp" claim and a live token session; without this guard
 	// they would validate as full user sessions despite having been endpoint-scoped.

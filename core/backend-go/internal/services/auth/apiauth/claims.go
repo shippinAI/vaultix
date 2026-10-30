@@ -30,6 +30,9 @@ type UnifiedJWTClaims struct {
 	// as full user sessions; json.RawMessage tolerates the historical bool and
 	// object encodings of the claim.
 	MCP json.RawMessage `json:"mcp,omitempty"`
+	// Retain presence, including malformed/null values, so delegated credentials
+	// cannot lose their scope boundary during conversion to a user session.
+	OAuthClientID json.RawMessage `json:"oauthClientId,omitempty"`
 
 	// Identity JWT fields
 	IdentityID            uuid.UUID     `json:"identityId,omitempty"`
@@ -61,6 +64,7 @@ func (c *UnifiedJWTClaims) ToUserClaims() *UserJWTClaims {
 		IsMfaVerified:     c.IsMfaVerified,
 		MfaMethod:         c.MfaMethod,
 		MCP:               c.MCP,
+		OAuthClientID:     c.OAuthClientID,
 	}
 }
 
@@ -117,7 +121,8 @@ type UserJWTClaims struct {
 	MfaMethod         string             `json:"mfaMethod,omitempty"`
 	// See UnifiedJWTClaims.MCP: present only on tokens from the removed Agent
 	// Sentinel (MCP) product, which must be rejected.
-	MCP json.RawMessage `json:"mcp,omitempty"`
+	MCP           json.RawMessage `json:"mcp,omitempty"`
+	OAuthClientID json.RawMessage `json:"oauthClientId,omitempty"`
 }
 
 // IdentityJWTClaims represents the JWT payload for machine identity access tokens.

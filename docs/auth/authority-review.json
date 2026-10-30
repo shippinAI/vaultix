@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "contract": "docs/0070-nomen-authority-contract.md",
+  "externalBearerAcceptance": "not-implemented",
+  "strategy": "authenticated-introspection",
+  "sources": [
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/claims.go",
+      "blob": "57ded52e1b8e33b3b4fa2c21774edae3d23d68b6",
+      "read": "complete",
+      "purpose": "Signed token classes and lossless delegated marker"
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
+      "blob": "48cfaed0b534daf3e6a49c941bb68d90dac47def",
+      "read": "complete",
+      "purpose": "Session, account, membership, machine authority and revocation"
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
+      "blob": "57a239176f1b3995ba737961b010f9b13b077c84",
+      "read": "complete",
+      "purpose": "Middleware modes and error boundary"
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/classify.go",
+      "blob": "9642571e5669d8ffdcf405dddcbe4788ec6bb446",
+      "read": "complete",
+      "purpose": "Token classification"
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/delegated_token_test.go",
+      "blob": "4e27d6028b6d5666e950af22a8f8477400483d08",
+      "read": "complete",
+      "purpose": "Authored denial-before-database regression"
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/delegated_token_test.go",
+      "blob": "a9df7d7b6f47bd8fe68f18814f114773ba32b771",
+      "read": "complete",
+      "purpose": "Authored real-session delegated denial and first-party recovery"
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/permission.go",
+      "blob": "f234ddffaa1570d24e72d25ead040197d502dc56",
+      "read": "complete",
+      "purpose": "Project authorization and primary membership/role evaluation"
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/sso.go",
+      "blob": "59dda7c076139412e49512b1a219404888e3ce3d",
+      "read": "complete",
+      "purpose": "Existing organization SSO enforcement"
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
+      "blob": "48f1ffe4fba00349e89c8675c99feb796cc68cca",
+      "read": "complete",
+      "purpose": "Native reference domain service, not mounted public route"
+    },
+    {
+      "path": "core/backend-go/internal/services/secretmanager/reference/projects.go",
+      "blob": "3a23ff25f52b9c9b615d09ef1db20afc856c33bc",
+      "read": "complete",
+      "purpose": "Native project read domain service"
+    },
+    {
+      "path": "core/backend/src/server/plugins/auth/inject-identity.ts",
+      "blob": "cb075120a4a34a9c04d911f607fc7c6b729363e8",
+      "read": "complete",
+      "purpose": "TS token class and OAuth context"
+    },
+    {
+      "path": "core/backend/src/server/plugins/auth/inject-permission.ts",
+      "blob": "5c1cd742c73860a1b447b46d2f7b1126032838fc",
+      "read": "complete",
+      "purpose": "Actor permission injection"
+    },
+    {
+      "path": "core/backend/src/server/plugins/auth/verify-auth.ts",
+      "blob": "4d61e98b63d60f03c4d2909657863619d48afb16",
+      "read": "complete",
+      "purpose": "Explicit route auth mode opt-in"
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-router.ts",
+      "blob": "6f091f4a2ad554149969ccb59f6432c5192e557a",
+      "read": "complete",
+      "purpose": "Public reference and MCP consumers"
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar-forwarding.ts",
+      "blob": "2dcea778178f5c8075783281ad4ccfb7c0f138e5",
+      "read": "complete",
+      "purpose": "Unregistered forwarding patterns"
+    },
+    {
+      "path": "core/backend/src/server/plugins/go-sidecar.ts",
+      "blob": "c642eeb9cdc039e0cc0c80d41b6a9004cfd515b8",
+      "read": "complete",
+      "purpose": "Conditional Go process and loopback binding"
+    },
+    {
+      "path": "core/backend/src/services/vaultix/reference-service.ts",
+      "blob": "d636f407c0247adcdb2f493dd4777f098aaec7a2",
+      "read": "complete",
+      "purpose": "TS metadata domain consumer"
+    },
+    {
+      "path": "core/backend/src/ee/services/oidc/oidc-config-service.ts",
+      "blob": "0fcad7517a9c4c15699c744ec838c500dcd23a4a",
+      "read": "complete",
+      "purpose": "Organization OIDC strategy, alias lookup, existing enrollment"
+    },
+    {
+      "path": "core/backend/src/ee/routes/v1/oidc-router.ts",
+      "blob": "c8459f4dada4c100efcd65d162151f8ec8ed531d",
+      "read": "complete",
+      "purpose": "Browser session/callback and configuration consumers"
+    },
+    {
+      "path": "core/backend/src/db/schemas/user-aliases.ts",
+      "blob": "428fa62cacee10bd51dd12899e712b13a66d3938",
+      "read": "complete",
+      "purpose": "Issuer absent from existing alias schema"
+    },
+    {
+      "path": "core/backend/src/services/user-alias/user-alias-dal.ts",
+      "blob": "366eadce0ec75d136dd3bf91c75f750bbed2c192",
+      "read": "complete",
+      "purpose": "Alias persistence"
+    },
+    {
+      "path": "core/backend/src/services/user-alias/user-alias-fns.ts",
+      "blob": "51f71df4d8b5d89f30a89ed22506074f57c1f6bc",
+      "read": "complete",
+      "purpose": "Existing alias enrollment helpers"
+    },
+    {
+      "path": "core/backend/src/db/migrations/20240311210135_ldap-config.ts",
+      "blob": "93ac2c7ac881fc101dd7a583518b3d0a233be639",
+      "read": "complete",
+      "purpose": "Initial alias persistence constraints"
+    },
+    {
+      "path": "core/backend/src/db/migrations/20240624161942_add-oidc-auth.ts",
+      "blob": "3f4b0636d2d5f6ffd5b8f4da1ab20ec763ef2358",
+      "read": "complete",
+      "purpose": "Existing OIDC config schema"
+    },
+    {
+      "path": "internal/oidc/device.go",
+      "blob": "1bf1d6f45b139aafea0b7197ac2232b260207cb6",
+      "read": "complete",
+      "purpose": "CLI discovery, device token transport and issuer default"
+    },
+    {
+      "path": "internal/oidc/refresh.go",
+      "blob": "9b79c529de964e195e7b74d0b1766f08f9f6d032",
+      "read": "complete",
+      "purpose": "Saved issuer/endpoint renewal; no server authority mapping"
+    },
+    {
+      "path": "core/backend/src/server/routes/index.ts",
+      "blob": "26911f2c2ed589f177daba668a9b80e7b3663860",
+      "read": [
+        [
+          4051,
+          4175
+        ]
+      ],
+      "purpose": "Actual spawn/shadow registration, disabled forwarding, auth hooks and TS Vaultix router wiring"
+    },
+    {
+      "path": "core/backend/src/services/auth/auth-login-service.ts",
+      "blob": "f9f34cc7ccf6a124f87c21c4bb5a544cede6adbc",
+      "read": [
+        [
+          223,
+          318
+        ],
+        [
+          1129,
+          1343
+        ]
+      ],
+      "purpose": "Session token issuance and organization selection only; other authentication functions remain outside this review"
+    },
+    {
+      "path": "core/backend/src/services/auth-token/auth-token-service.ts",
+      "blob": "198f6a3e20a09a349c95d8a4aa591cde95388794",
+      "read": [
+        [
+          395,
+          490
+        ]
+      ],
+      "purpose": "Local user JWT validation caller slice only"
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-client-service.ts",
+      "blob": "0ea9c00d156495b8e15117405d71cb5a2bbf981e",
+      "read": [
+        [
+          396,
+          445
+        ]
+      ],
+      "purpose": "Delegated local issuer claims only"
+    }
+  ]
+}

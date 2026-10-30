@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:vaultix:auth:authority-review:1",
+  "title": "AUTH-02 source review, not runtime configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "contract", "externalBearerAcceptance", "strategy", "sources"],
+  "properties": {
+    "version": {"const": 1},
+    "contract": {"const": "docs/0070-nomen-authority-contract.md"},
+    "externalBearerAcceptance": {"const": "not-implemented"},
+    "strategy": {"const": "authenticated-introspection"},
+    "sources": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["path", "blob", "read", "purpose"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(core|internal)/[A-Za-z0-9_./-]+$"},
+          "blob": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+          "read": {
+            "oneOf": [
+              {"const": "complete"},
+              {"type": "array", "minItems": 1, "items": {
+                "type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}],
+                "minItems": 2, "maxItems": 2
+              }}
+            ]
+          },
+          "purpose": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
