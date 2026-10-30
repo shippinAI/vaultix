@@ -2368,10 +2368,10 @@
     },
     {
       "path": "README.md",
-      "blob": "1032b87100c3ac7a68033c7cb5f96b16ddc18909",
+      "blob": "2547de1b851b73c5cbb851069f1369d68b576b91",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted.",
+      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
       "evidence": [
         "docs/0041-publication-history.md",
         ".cache/publication-proof-Ca5zjL/result.json",
@@ -2397,7 +2397,9 @@
         ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
+        "docs/0069-execution-goal.md",
+        ".cache/headless-ai-login/.cache/execution-plan-links.json"
       ]
     },
     {
@@ -4774,6 +4776,28 @@
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+      ]
+    },
+    {
+      "path": "docs/migration/README.md",
+      "blob": "e55fb4a8639ad426714d94af5c30010e8a023fcd",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
+      "evidence": [
+        "docs/0069-execution-goal.md",
+        ".cache/headless-ai-login/.cache/execution-plan-links.json"
+      ]
+    },
+    {
+      "path": "docs/0069-execution-goal.md",
+      "blob": "6c44025ac4a80e0cb38dae9cab81d53e760f955a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
+      "evidence": [
+        "docs/0069-execution-goal.md",
+        ".cache/headless-ai-login/.cache/execution-plan-links.json"
       ]
     }
   ]

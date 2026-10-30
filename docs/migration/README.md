@@ -86,6 +86,11 @@ invent dates, load targets, provider credentials or deployment readiness.
 
 ## First queue
 
+The current checkpoint and ordered work packets are maintained in
+[0069 execution goal](../0069-execution-goal.md). The next code packet is AUTH-02:
+trace and define the native Nomen authority contract. The original sequence below
+remains the dependency outline; CLI renewal evidence does not close AUTH-01.
+
 `STACK-01 → AUTH-01 → READ-01 → ACTION-01 → INJECT-01`, as specified in ADR-0027.
 Shared React upgrade/accessibility work can proceed alongside domain
 characterization. The separate workstream gates then cover rotations/providers,

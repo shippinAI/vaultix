@@ -17,6 +17,10 @@ defines domain ownership, AI-managed lifecycle boundaries, migration order and
 rollback gates. The [module map](docs/migration/README.md) tracks source coverage
 without counting discovery as completed rewriting.
 
+The [current execution goal and queue](docs/0069-execution-goal.md) starts with
+native Nomen authority mapping and live remote sign-in, then carries the same
+acceptance method through core/UI/AI migration and owned-infrastructure release.
+
 The [capability product plan](docs/0049-capability-product-plan.md) groups the
 product scope, acceptance gaps, UI direction, proposed service previews and AI
 workspace phases. Explore it locally with `node scripts/serve-capability-plan.mjs`

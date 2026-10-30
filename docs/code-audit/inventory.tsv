@@ -5,7 +5,7 @@ path	git_blob	kind	review_status
 AGENTS.md	b58c96c5ab0b857f0bc6f9e6daa3559eda28fe83	documentation	unread
 JOURNAL.md	75e6cc2c947e1175b4de09bef9b66c80ec9e6f64	documentation	unread
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
-README.md	1032b87100c3ac7a68033c7cb5f96b16ddc18909	documentation	verified
+README.md	2547de1b851b73c5cbb851069f1369d68b576b91	documentation	verified
 branding/README.md	1c5ae47302bcb82d91df9851d5d2e65aca83a4d1	documentation	unread
 branding/favicon.svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	asset	unread
 branding/mark.svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	asset	unread
@@ -11734,6 +11734,7 @@ docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	docum
 docs/0066-native-reference-reads.md	e384864f661cfb7c1b3435ce251660a9162409f1	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
+docs/0069-execution-goal.md	6c44025ac4a80e0cb38dae9cab81d53e760f955a	documentation	reviewed
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
@@ -11742,7 +11743,7 @@ docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-
 docs/capabilities/generated/catalog.json	a4a5ca58991cb1badce4b64c375334567b2a8ad1	generated	unread
 docs/capabilities/generated/source-map.tsv	1917f37f24ac08402e0114da8aef695282ebf68c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
-docs/migration/README.md	b57b072514db866fff2635479d7d0ab9595264b1	documentation	unread
+docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
 docs/migration/generated/files.tsv	7c6ee997215b094c2a8a7a64812d0821b8f7e263	generated	unread
 docs/migration/generated/modules.tsv	0b8860d1a3a679fdf4ac7e0728d418c7e4e97c8d	generated	unread
 docs/migration/generated/summary.json	6d98df94e59f62e2bce85ed422b425bccfb552ec	generated	unread
