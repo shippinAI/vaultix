@@ -72,7 +72,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
-      "blob": "a035f5807ca41b9b6026f74bc4cab9788c3bd891",
+      "blob": "5fbde871f94be2d526192440d6821b0593d610f6",
       "scope": "newly-authored-full-read",
       "ranges": []
     },
@@ -90,7 +90,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
-      "blob": "1aaae4a0ae68185f8ec5ea4ae8dff7b9c6d50542",
+      "blob": "207bcf9f76c6336dc3394a427c62c2fd74deb6f5",
       "scope": "newly-authored-full-read",
       "ranges": []
     },

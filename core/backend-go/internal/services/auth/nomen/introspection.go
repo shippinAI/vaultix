@@ -156,7 +156,7 @@ func (v *Verifier) Introspect(ctx context.Context, token string) (*Claims, error
 	return v.claims(response, time.Now())
 }
 
-func (v *Verifier) request(request *http.Request) (map[string]json.RawMessage, error) {
+func (v *Verifier) request(request *http.Request) (fields map[string]json.RawMessage, resultErr error) {
 	request.Header.Set("Accept", "application/json")
 	response, err := v.http.Do(request)
 	if err != nil {
@@ -165,8 +165,10 @@ func (v *Verifier) request(request *http.Request) (map[string]json.RawMessage, e
 		return nil, ErrUnavailable
 	}
 	defer func() {
-		// The response has a bounded read; close errors cannot change its claims.
-		_ = response.Body.Close()
+		// An incomplete transport lifecycle must not yield authenticated claims.
+		if err := response.Body.Close(); err != nil {
+			fields, resultErr = nil, ErrUnavailable
+		}
 	}()
 	mediaType, _, err := mime.ParseMediaType(response.Header.Get("Content-Type"))
 	if response.StatusCode != http.StatusOK || err != nil || mediaType != "application/json" {

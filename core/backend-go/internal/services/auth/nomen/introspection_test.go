@@ -356,3 +356,42 @@ func TestIntrospect_SubjectMustRemainExactASCII(t *testing.T) {
 		t.Fatal("a normalized/non-ASCII subject was accepted as an identity key")
 	}
 }
+
+type closeFailureBody struct{ io.ReadCloser }
+
+func (b closeFailureBody) Close() error {
+	if err := b.ReadCloser.Close(); err != nil {
+		return err
+	}
+	return errors.New("fixture transport cleanup failure")
+}
+
+type closeFailureTransport struct {
+	base http.RoundTripper
+	fail atomic.Bool
+}
+
+func (t *closeFailureTransport) RoundTrip(request *http.Request) (*http.Response, error) {
+	response, err := t.base.RoundTrip(request)
+	if err == nil && t.fail.Load() {
+		response.Body = closeFailureBody{response.Body}
+	}
+	return response, err
+}
+
+func TestIntrospect_TransportCloseFailureAndRecovery(t *testing.T) {
+	f := newFixture(t, func(w http.ResponseWriter, _ *http.Request, claims map[string]any) {
+		_ = json.NewEncoder(w).Encode(claims)
+	})
+	transport := &closeFailureTransport{base: f.deps.HTTPClient.Transport}
+	f.deps.HTTPClient.Transport = transport
+	v := f.verifier(t)
+	transport.fail.Store(true)
+	if claims, err := v.Introspect(context.Background(), tokenCanary); claims != nil || !errors.Is(err, ErrUnavailable) {
+		t.Fatal("transport cleanup failure yielded authenticated claims")
+	}
+	transport.fail.Store(false)
+	if _, err := v.Introspect(context.Background(), tokenCanary); err != nil {
+		t.Fatal("transport did not recover")
+	}
+}

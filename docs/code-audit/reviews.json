@@ -5284,7 +5284,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection.go",
-      "blob": "a035f5807ca41b9b6026f74bc4cab9788c3bd891",
+      "blob": "5fbde871f94be2d526192440d6821b0593d610f6",
       "status": "authored",
       "decision": "modify",
       "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
@@ -5317,7 +5317,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/introspection_test.go",
-      "blob": "1aaae4a0ae68185f8ec5ea4ae8dff7b9c6d50542",
+      "blob": "207bcf9f76c6336dc3394a427c62c2fd74deb6f5",
       "status": "authored",
       "decision": "modify",
       "scope": "New native provider-protocol component and TLS boundary tests; complete new module authored/read. Unmounted: no actor, tenant grant, DB binding or public-login claim. Verification pending committed-source race/lint/canonical build.",
@@ -5339,7 +5339,7 @@
     },
     {
       "path": "docs/auth/nomen-execution-sources.json",
-      "blob": "07e7ad5fbd6e8227498e24ab864d1d57d91d253d",
+      "blob": "a00d975e35cfa84afc270d30ea768f0256da99b6",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
