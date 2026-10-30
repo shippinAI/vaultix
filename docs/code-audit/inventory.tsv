@@ -12,6 +12,7 @@ path	git_blob	kind	review_status
 .ai/package.json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	product-code	reviewed
 .ai/references/skill-evaluation.md	4fb3bd061fbaa3bbe6ddbf2e2b0fc928e9fcd110	documentation	reviewed
 .ai/references/standards.md	e5933f4e522c87482bb3273dea2831083aa7d33c	documentation	reviewed
+.ai/references/verification.md	5f9c13665adf98e767834958bb2c553dc48946eb	documentation	reviewed
 .ai/schemas/contexts.schema.json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	product-code	reviewed
 .ai/schemas/journal-event.schema.json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	product-code	reviewed
 .github/workflows/ghcr.yml	c8fbfe9f525685b5fc7829729d1af1a1b4358d2b	build-and-operations	authored

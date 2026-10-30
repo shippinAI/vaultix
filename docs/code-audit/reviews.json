@@ -5045,6 +5045,18 @@
         ".ai/references/skill-evaluation.md",
         "scripts/ai-journal.test.mjs"
       ]
+    },
+    {
+      "path": ".ai/references/verification.md",
+      "blob": "5f9c13665adf98e767834958bb2c553dc48946eb",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored acceptance summary binds exact AI-tooling source, scoped tests, canonical image identity/layer equality and remaining limits. Not a claim of product behavior changes or independent skill evaluation.",
+      "evidence": [
+        "scripts/ai-journal.test.mjs",
+        ".ai/references/skill-evaluation.md",
+        ".cache/headless-ai-login/.cache/ai-grounding-build-ADICaS/result.json"
+      ]
     }
   ]
 }
