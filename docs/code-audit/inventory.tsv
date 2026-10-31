@@ -11783,11 +11783,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	de7cc498494ac8182188e40c26387cf3aba7e443	generated	unread
-docs/capabilities/generated/source-map.tsv	b61c4b6d4d04898e62f471c3707ac6266a07ef18	generated	unread
+docs/capabilities/generated/source-map.tsv	122c6b6276c4e442c5549257fb60b6429c39d266	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	b5fc166bed4714c5b7f0b7554b0c646c1b72f410	generated	unread
-docs/migration/generated/modules.tsv	f99bb9925a05c6485a3aa7abd7c447c6d993ec72	generated	unread
+docs/migration/generated/files.tsv	db5c00e7f72a7ed6f904bb5fc73111a38ca58d2f	generated	unread
+docs/migration/generated/modules.tsv	cf01590d87b96b9c54b188b3a03c2465e06c0b7a	generated	unread
 docs/migration/generated/summary.json	c46df88bad357aa4af939dfaed602ac5bc0bdc71	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
