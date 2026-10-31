@@ -1,6 +1,8 @@
+import { isDeepStrictEqual } from "node:util";
+
 import { validate as isUuid } from "uuid";
 
-import { DevicePreparationClaim } from "./device-event-delivery-types";
+import { DeviceCapturedEvent, DevicePreparationClaim } from "./device-event-delivery-types";
 
 export class DeviceEventUnresolvedError extends Error {
   constructor() {
@@ -48,7 +50,7 @@ const timestamp = (value: unknown): value is string =>
 // The database captures historical context, but its JSON version/size checks do
 // not define permission to copy arbitrary fields into audit, email or A2UI.
 // Unknown versions/fields stay unresolved; no mutable profile lookup repairs them.
-export const prepareDeviceEventSource = (claim: DevicePreparationClaim): DeviceEventSource => {
+export const prepareDeviceEventSource = (claim: DeviceCapturedEvent): DeviceEventSource => {
   const context = claim.sourceContext;
   const { provenance } = claim;
   if (
@@ -129,4 +131,52 @@ export const prepareDeviceEventSource = (claim: DevicePreparationClaim): DeviceE
       termination: canonicalDelete ? "canonical-delete" : "native"
     }
   };
+};
+
+// Decode the persisted normalized form through the same capture constraints.
+// Exact equality also rejects added nested fields and noncanonical timestamps.
+export const parsePreparedDeviceSource = (value: unknown): DeviceEventSource => {
+  if (
+    !object(value) ||
+    !object(value.subject) ||
+    !object(value.sessionOrigin) ||
+    !object(value.provenance) ||
+    typeof value.createdAt !== "string"
+  )
+    throw new DeviceEventUnresolvedError();
+  const canonicalDelete = value.provenance.termination === "canonical-delete";
+  const captured = {
+    id: value.eventId,
+    sessionId: value.sessionId,
+    orgId: value.orgId,
+    userId: value.subjectId,
+    action: value.action,
+    createdAt: new Date(value.createdAt),
+    sourceContext: {
+      version: value.version,
+      basis: value.basis,
+      subject: {
+        id: value.subjectId,
+        username: value.subject.username,
+        email: value.subject.email,
+        firstName: null,
+        lastName: null
+      },
+      organization: { id: value.orgId, name: value.organizationName },
+      sessionOrigin: value.sessionOrigin
+    },
+    provenance: {
+      authMethod: value.provenance.authMethod,
+      mfaVerified: value.provenance.mfaVerified,
+      mfaMethod: value.provenance.mfaMethod,
+      ssoBypass: value.provenance.ssoBypass,
+      rootOrgId: value.provenance.rootOrgId,
+      clientId: value.provenance.clientId,
+      ...(canonicalDelete ? { termination: "canonical-delete", initiator: "unattributed" } : {})
+    }
+  };
+  // The capture decoder validates every field; no assertion bypasses that boundary.
+  const source = prepareDeviceEventSource(captured as DeviceCapturedEvent);
+  if (!isDeepStrictEqual(value, source)) throw new DeviceEventUnresolvedError();
+  return source;
 };

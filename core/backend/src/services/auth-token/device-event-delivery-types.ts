@@ -30,6 +30,11 @@ export type DevicePreparationClaim = {
   preparationLeaseUntil: Date;
 };
 
+export type DeviceCapturedEvent = Pick<
+  DevicePreparationClaim,
+  "id" | "sessionId" | "orgId" | "userId" | "action" | "createdAt" | "sourceContext" | "provenance"
+>;
+
 export type PreparedDeviceDelivery = {
   destination: DeviceDeliveryDestination;
   recipientId: string;

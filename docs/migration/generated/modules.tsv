@@ -341,7 +341,7 @@ core/backend/src/services/app-connection	pam	Go-domain-migration	5	826fd8d58850b
 core/backend/src/services/approval-policy	authorization	Go-domain-migration	16	8831bb69c8486be58449e15fbb5290f3c40bb01d585cc38bbf4c9e8b2f8741ea	0	unassessed
 core/backend/src/services/approval-policy	pam	Go-domain-migration	3	447acb8cd487aa6bb9430da4a5ce61c66f9e21d000a56602ac61a2ff5eca9a8f	0	unassessed
 core/backend/src/services/auth	identity	Go-domain-migration	13	756ad1b4b543384f439ffb8eb9cce5742a9b694cbea803847be7dbb3fe78a439	0	unassessed
-core/backend/src/services/auth-token	identity	Go-domain-migration	15	7859b18392ad52f3fed5318e32de2070049ed384c7f0da55c5c7ed537faaced0	13	unassessed
+core/backend/src/services/auth-token	identity	Go-domain-migration	18	916a6204bde2c9f03073996fbdd50b5f46eb9ffe4b843d70e3d3234a29dcdf54	16	unassessed
 core/backend/src/services/cert-manager-export	pki	Go-domain-migration	2	3b3b0bdbdb6b385a96bde15a9a4b238cddca3354319cab411f0eb3b03c196b90	0	unassessed
 core/backend/src/services/cert-manager-instance	pki	Go-domain-migration	3	654a26bfe914234b6d627e0f434a99e0191eaf4972d9d93345c23da269988cec	0	unassessed
 core/backend/src/services/certificate	pki	Go-domain-migration	7	323ec6a41d882c2e1ba69855a039899a65a4ec8cba14ef250cecd8bfb4f2edae	0	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	76	24255008ce76255130aa556dedbb0003ca42890009bc4613342d761a62522ce0	69	unassessed
+scripts	delivery	supporting-tooling-or-contract	77	383125ac34342ce8a0f5066525dcd35a47fe2c797223104512f93b6a4270d035	70	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

@@ -3074,13 +3074,16 @@ core/backend/src/services/auth-token/auth-token-service.test.ts	access	identity	
 core/backend/src/services/auth-token/auth-token-service.ts	access	identity	core/backend/src/services/auth-token	2fc639692e3fc2931f3a8e2ccbca82ff5cb03453	authored
 core/backend/src/services/auth-token/auth-token-types.ts	access	identity	core/backend/src/services/auth-token	69423ebdede6c15019001bff370374689ec405af	unread
 core/backend/src/services/auth-token/device-delivery-store.spec.ts	access	identity	core/backend/src/services/auth-token	688957b3e630d24b4023dfe493733a9434deefd2	authored
-core/backend/src/services/auth-token/device-event-delivery-dal.ts	access	identity	core/backend/src/services/auth-token	9253abc659592e9d5584241c4fe9b340e69b7350	authored
-core/backend/src/services/auth-token/device-event-delivery-types.ts	access	identity	core/backend/src/services/auth-token	110f6d4289f882db3a41e8fbf5e083b5f052bfd7	authored
+core/backend/src/services/auth-token/device-event-delivery-dal.ts	access	identity	core/backend/src/services/auth-token	23e6fb45f95082617a49c10b00a23d37c0c02201	authored
+core/backend/src/services/auth-token/device-event-delivery-types.ts	access	identity	core/backend/src/services/auth-token	dbf1305d875677ea5d6db6ea763e2524f15baab2	authored
+core/backend/src/services/auth-token/device-event-dispatch.spec.ts	access	identity	core/backend/src/services/auth-token	2dd68762fba383f5f8eda505a680de7434aaa5db	authored
+core/backend/src/services/auth-token/device-event-dispatch.ts	access	identity	core/backend/src/services/auth-token	f2905e50a207f2b4af26270d922859a188eb41d0	authored
+core/backend/src/services/auth-token/device-event-payload.ts	access	identity	core/backend/src/services/auth-token	0a8f5ce2c82e4cf893bf32c9904f2aaef485e5cc	authored
 core/backend/src/services/auth-token/device-event-preparation.spec.ts	access	identity	core/backend/src/services/auth-token	06ece181c47c03828b5b07863cdef9667e5136d2	authored
 core/backend/src/services/auth-token/device-event-preparation.ts	access	identity	core/backend/src/services/auth-token	a21a70e2a81e75c7308529c4568056c865039257	authored
 core/backend/src/services/auth-token/device-event-recipient-dal.ts	access	identity	core/backend/src/services/auth-token	e493cb5ff1a25e9ffebd9e3f9e0725617fcdc702	authored
 core/backend/src/services/auth-token/device-event-recipient.spec.ts	access	identity	core/backend/src/services/auth-token	5cf4fa25f4f8bda11afcac1cbfd5033605809e5d	authored
-core/backend/src/services/auth-token/device-event-source.ts	access	identity	core/backend/src/services/auth-token	2173d10ec1179f8bfeb0aa66d514eb6c35ed43dc	authored
+core/backend/src/services/auth-token/device-event-source.ts	access	identity	core/backend/src/services/auth-token	452891d7aa6ff92cf7b742401d7f2e57f0b941bf	authored
 core/backend/src/services/auth-token/device-source-store.spec.ts	access	identity	core/backend/src/services/auth-token	e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a	authored
 core/backend/src/services/auth/auth-dal.ts	access	identity	core/backend/src/services/auth	fdf6afbcbe69ae04a5c40413be0bc4b7a730d06e	unread
 core/backend/src/services/auth/auth-fns.test.ts	access	identity	core/backend/src/services/auth	8041f23f694fb11d2322245230e765273f2aa414	unread
@@ -9542,6 +9545,7 @@ scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	
 scripts/verify-delivery-destination-store.mjs	operate	delivery	scripts	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	operate	delivery	scripts	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored
 scripts/verify-device-delivery-store.mjs	operate	delivery	scripts	4d501af3a8a9440006d7cc3febf680db24971eff	authored
+scripts/verify-device-event-dispatch.mjs	operate	delivery	scripts	ec3d81cfc98145a58108940f942a0e6c42846ba8	authored
 scripts/verify-device-event-preparation.mjs	operate	delivery	scripts	168f59e2524a4602f31d9b68de4baee2834343fc	authored
 scripts/verify-device-session-store.mjs	operate	delivery	scripts	7c20620882155e39c3fe3ee910804c58714ea095	authored
 scripts/verify-device-source-rollback.mjs	operate	delivery	scripts	da636434dd05dce4c2bd34233203a0d630e16a9b	authored

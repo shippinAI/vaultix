@@ -4,6 +4,7 @@ import { validate as isUuid } from "uuid";
 import { TDbClient } from "@app/db";
 
 import {
+  DeviceCapturedEvent,
   DeviceDeliveryClaim,
   DeviceDeliveryDisposition,
   DeviceDeliveryOutcome,
@@ -210,16 +211,45 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
       })
       .then(Boolean);
 
+  // Re-read the immutable row and its lease from the primary immediately before
+  // external work. Budgets use database time; application clock skew is irrelevant.
+  const inspectDelivery = async (claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">) =>
+    db.transaction(async (tx) => {
+      await tx.raw("SET LOCAL statement_timeout = '5s'");
+      const row = await deliveryFence(tx, claim)
+        .select(
+          "*",
+          tx.raw('EXTRACT(EPOCH FROM ("leaseUntil"-clock_timestamp()))::float8*1000 AS "leaseRemainingMs"'),
+          tx.raw('EXTRACT(EPOCH FROM ("expiresAt"-clock_timestamp()))::float8*1000 AS "expiryRemainingMs"')
+        )
+        .first<DeviceDeliveryClaim & { leaseRemainingMs: number; expiryRemainingMs: number }>();
+      if (!row) return undefined;
+      const source = await tx(EVENTS)
+        .where({ id: row.eventId })
+        .first<DeviceCapturedEvent>(
+          "id",
+          "sessionId",
+          "orgId",
+          "userId",
+          "action",
+          "createdAt",
+          "sourceContext",
+          "provenance"
+        );
+      return source ? { ...row, source } : undefined;
+    });
+
   const failDelivery = async (
     claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">,
-    reason: "retryable" | "uncertain"
+    reason: "retryable" | "uncertain" | "invalid"
   ) =>
     deliveryFence(db, claim)
       .update({
-        status:
-          reason === "uncertain"
-            ? "unknown"
-            : db.raw("CASE WHEN attempts>=? THEN 'exhausted' ELSE 'pending' END", [MAX_ATTEMPTS]),
+        status: {
+          invalid: "exhausted",
+          uncertain: "unknown",
+          retryable: db.raw("CASE WHEN attempts>=? THEN 'exhausted' ELSE 'pending' END", [MAX_ATTEMPTS])
+        }[reason],
         leaseToken: null,
         leaseUntil: null,
         nextAttemptAt: db.raw(`clock_timestamp()+LEAST(3600,5*power(2,attempts-1))*interval '1 second'`)
@@ -294,6 +324,7 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
     failPreparation,
     claimDeliveries,
     settleDelivery,
+    inspectDelivery,
     failDelivery,
     commitNotification,
     pruneSettled

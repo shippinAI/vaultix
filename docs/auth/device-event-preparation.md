@@ -1,5 +1,9 @@
 # Device security-event preparation
 
+Current continuation: [domain dispatch](device-event-dispatch.md) is implemented
+and under canonical verification. Background registration and public login remain
+open. Earlier checkpoint evidence below retains its original scope.
+
 This implements the recipient and preparation stages of
 [device event delivery](device-event-delivery.md). It does not register the
 dispatcher or activate public device authorization. Built-in Vaultix identity
