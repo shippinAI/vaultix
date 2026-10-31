@@ -1,6 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
 
 import { EventType, TAuditLogStreamEntry } from "@app/ee/services/audit-log/audit-log-types";
+import { RecordedOperation, runRecordedOperation } from "@app/lib/recorded-operation";
 import { ActorType } from "@app/services/auth/auth-type";
 import { NotificationType } from "@app/services/notification/notification-types";
 import { isRecordedMailbox, PreparedRecordedMail } from "@app/services/smtp/smtp-recorded-payload";
@@ -142,11 +143,14 @@ export const deviceEventPreparationFactory = ({
     };
   };
 
-  const prepare = async (claim: DevicePreparationClaim): Promise<boolean> => {
+  const preparePage = async (claim: DevicePreparationClaim, operation: RecordedOperation): Promise<boolean> => {
+    operation.remainingMs();
     const source = prepareDeviceEventSource(claim);
     const snapshot = await freeze(claim, source);
+    operation.remainingMs();
     const rows: PreparedDeviceDelivery[] = [];
     const notice = async (address: DeviceNoticeRecipient, kind: Recipient["kind"]) => {
+      operation.remainingMs();
       const recipient: Recipient = { userId: address.userId, orgId: address.orgId, kind };
       const notification: DeviceNotificationPayload = {
         version: 1,
@@ -177,6 +181,9 @@ export const deviceEventPreparationFactory = ({
             orgId: recipient.orgId
           }
         });
+        // Rendering uses the existing finite in-memory templates. Await it; do
+        // not mistake a rejected timer race for cancellation of the renderer.
+        operation.remainingMs();
         mailStatus = mail ? "prepared" : "disabled";
       }
       const payload: DeviceEmailPayload = { version: 1, kind: "email", source, recipient, mailStatus, mail };
@@ -209,13 +216,16 @@ export const deviceEventPreparationFactory = ({
     }
     let cursor: string | null = null;
     if (source.action === "issued" && source.provenance.ssoBypass) {
-      const page = await recipients.listAdministrators({
-        orgId: source.orgId,
-        rootOrgId: source.provenance.rootOrgId,
-        subjectId: source.subjectId,
-        after: claim.preparationCursor,
-        limit: 40
-      });
+      const page = await recipients.listAdministrators(
+        {
+          orgId: source.orgId,
+          rootOrgId: source.provenance.rootOrgId,
+          subjectId: source.subjectId,
+          after: claim.preparationCursor,
+          limit: 40
+        },
+        operation
+      );
       for (const recipient of page.recipients) {
         // Rendering is bounded and happens outside the page's database transaction.
         // eslint-disable-next-line no-await-in-loop
@@ -223,7 +233,10 @@ export const deviceEventPreparationFactory = ({
       }
       cursor = page.next;
     }
-    return deliveries.preparePage(claim, { snapshot, cursor, deliveries: rows });
+    operation.remainingMs();
+    return deliveries.preparePage(claim, { snapshot, cursor, deliveries: rows }, operation);
   };
+  const prepare = (claim: DevicePreparationClaim, signal?: AbortSignal) =>
+    runRecordedOperation(30000, signal, (operation) => preparePage(claim, operation));
   return { prepare };
 };

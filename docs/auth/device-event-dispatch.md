@@ -1,5 +1,9 @@
 # Device security-event dispatch
 
+Current continuation: [worker lifecycle](device-event-worker.md) is implemented
+and under canonical verification. Earlier unregistered-worker statements below
+describe their original checkpoints. Public device login remains unfinished.
+
 Current continuation: [bounded recorded-audit acceptance](recorded-audit-acceptance.md)
 is implemented and verified in the canonical image. Worker activation and the public
 login journey remain open. Historical evidence below retains its original scope.

@@ -249,6 +249,11 @@ import { authSignupServiceFactory } from "@app/services/auth/auth-signup-service
 import { mfaLockoutServiceFactory } from "@app/services/auth/mfa-lockout-service";
 import { tokenDALFactory } from "@app/services/auth-token/auth-token-dal";
 import { tokenServiceFactory } from "@app/services/auth-token/auth-token-service";
+import { deviceEventDeliveryDALFactory } from "@app/services/auth-token/device-event-delivery-dal";
+import { deviceEventDispatchFactory } from "@app/services/auth-token/device-event-dispatch";
+import { deviceEventPreparationFactory } from "@app/services/auth-token/device-event-preparation";
+import { deviceEventRecipientDALFactory } from "@app/services/auth-token/device-event-recipient-dal";
+import { deviceEventWorkerFactory } from "@app/services/auth-token/device-event-worker";
 import { certManagerExportServiceFactory } from "@app/services/cert-manager-export/cert-manager-export-service";
 import { certManagerInstanceServiceFactory } from "@app/services/cert-manager-instance/cert-manager-instance-service";
 import { certManagerProjectResolverFactory } from "@app/services/cert-manager-instance/cert-manager-project-resolver";
@@ -1072,6 +1077,27 @@ export const registerRoutes = async (
   });
 
   const announcementService = announcementServiceFactory({ userDAL, keyStore });
+
+  const deviceEventDeliveries = deviceEventDeliveryDALFactory(db);
+  const deviceEventRecipients = deviceEventRecipientDALFactory(db);
+  const deviceEventWorker = deviceEventWorkerFactory({
+    enabled: appCfg.QUEUE_WORKERS_ENABLED,
+    profile: appCfg.QUEUE_WORKER_PROFILE,
+    deliveries: deviceEventDeliveries,
+    preparation: deviceEventPreparationFactory({
+      deliveries: deviceEventDeliveries,
+      recipients: deviceEventRecipients,
+      smtp: smtpService,
+      auditRetentionDays: async (orgId) => (await licenseService.getPlan(orgId)).auditLogsRetentionDays
+    }),
+    dispatch: deviceEventDispatchFactory({
+      deliveries: deviceEventDeliveries,
+      recipients: deviceEventRecipients,
+      audit: auditLogQueue,
+      notifications: notificationService,
+      smtp: smtpService
+    })
+  });
 
   const clickhouseAuditLogDAL = clickhouse
     ? clickhouseAuditLogDALFactory(clickhouse, db, envConfig.CLICKHOUSE_AUDIT_LOG_TABLE_NAME)
@@ -4205,7 +4231,10 @@ export const registerRoutes = async (
     await server.register(registerBddNockRouter, { prefix: "/api/__bdd_nock__" });
   }
 
+  server.addHook("onReady", async () => deviceEventWorker.start());
+  server.addHook("preClose", async () => deviceEventWorker.stop());
   server.addHook("onClose", async () => {
+    await deviceEventWorker.stop();
     cronJobs.forEach((job) => job.stop());
     await cronJob.stop();
     await telemetryService.flushAll();

@@ -2,6 +2,8 @@ import type { Knex } from "knex";
 import { validate as isUuid } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 
 export type DeviceNoticeRecipient = {
   userId: string;
@@ -19,7 +21,13 @@ const validAudience = (audience: Audience) => {
 };
 
 export const deviceEventRecipientDALFactory = (db: TDbClient) => {
-  const administrators = async (page: Page, recipientId?: string, tx?: Knex): Promise<DeviceNoticeRecipient[]> => {
+  const administrators = async (
+    page: Page,
+    recipientId?: string,
+    tx?: Knex,
+    operation?: RecordedOperation
+  ): Promise<DeviceNoticeRecipient[]> => {
+    operation?.remainingMs();
     validAudience(page);
     const limit = page.limit ?? 40;
     if (
@@ -88,35 +96,41 @@ export const deviceEventRecipientDALFactory = (db: TDbClient) => {
       return result.rows;
     };
     if (tx) return execute(tx);
+    if (operation) return withRecordedTransaction(db, operation, execute);
     return db.transaction(async (connection) => {
       await connection.raw("SET LOCAL statement_timeout = '5s'");
       return execute(connection);
     });
   };
 
-  const listAdministrators = async (page: Page) => {
+  const listAdministrators = async (page: Page, operation?: RecordedOperation) => {
     const limit = page.limit ?? 40;
-    const rows = await administrators(page);
+    const rows = await administrators(page, undefined, undefined, operation);
     const recipients = rows.slice(0, limit);
     return { recipients, next: rows.length > limit ? recipients[recipients.length - 1].userId : null };
   };
 
   const findRecipient = async (
     audience: Audience & { userId: string; kind: "subject" | "administrator" },
-    tx?: Knex
+    tx?: Knex,
+    operation?: RecordedOperation
   ): Promise<DeviceNoticeRecipient | undefined> => {
+    operation?.remainingMs();
     validAudience(audience);
     if (!isUuid(audience.userId)) throw new Error("Invalid device notice recipient");
     if (audience.kind === "administrator") {
-      const [recipient] = await administrators({ ...audience, limit: 1 }, audience.userId, tx);
+      const [recipient] = await administrators({ ...audience, limit: 1 }, audience.userId, tx, operation);
       return recipient;
     }
     if (audience.kind !== "subject" || audience.userId !== audience.subjectId) return undefined;
     // Account security notices remain available to a locked account. They do not
     // grant that account a session or access to an organization's resources.
-    return (tx ?? db)("users")
-      .where({ id: audience.userId, isAccepted: true, isGhost: false })
-      .first<DeviceNoticeRecipient>("id as userId", "email", (tx ?? db).raw('?::uuid AS "orgId"', [audience.orgId]));
+    const execute = async (connection: Knex) =>
+      connection("users")
+        .where({ id: audience.userId, isAccepted: true, isGhost: false })
+        .first<DeviceNoticeRecipient>("id as userId", "email", connection.raw('?::uuid AS "orgId"', [audience.orgId]));
+    if (tx) return execute(tx);
+    return operation ? withRecordedTransaction(db, operation, execute) : execute(db);
   };
 
   return { listAdministrators, findRecipient };

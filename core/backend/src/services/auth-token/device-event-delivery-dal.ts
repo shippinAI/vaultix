@@ -2,6 +2,8 @@ import type { Knex } from "knex";
 import { validate as isUuid } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 
 import {
   DeviceCapturedEvent,
@@ -31,9 +33,19 @@ const snapshot = (value: DeviceDeliverySnapshot, maxBytes: number) => {
 };
 
 export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
-  const claimPreparation = async (limit = 20): Promise<DevicePreparationClaim[]> => {
-    const result = await db.raw<{ rows: (DevicePreparationClaim & { preparationStatus: string })[] }>(
-      `
+  const query = <T>(operation: RecordedOperation | undefined, work: (tx: Knex) => Promise<T>): Promise<T> =>
+    operation ? withRecordedTransaction(db, operation, work) : work(db);
+  const transaction = <T>(operation: RecordedOperation | undefined, work: (tx: Knex) => Promise<T>): Promise<T> =>
+    operation
+      ? withRecordedTransaction(db, operation, work)
+      : db.transaction(async (tx) => {
+          await tx.raw("SET LOCAL statement_timeout = '5s'");
+          return work(tx);
+        });
+  const claimPreparation = async (limit = 20, operation?: RecordedOperation): Promise<DevicePreparationClaim[]> => {
+    const result = await query(operation, async (tx) =>
+      tx.raw<{ rows: (DevicePreparationClaim & { preparationStatus: string })[] }>(
+        `
       WITH candidates AS (
         SELECT id FROM ${EVENTS}
         WHERE "preparationStatus" IN ('pending','preparing') AND "preparationNextAt"<=clock_timestamp()
@@ -46,7 +58,8 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
         "preparationNextAt"=clock_timestamp()+?*interval '1 second'
       FROM candidates c WHERE e.id=c.id RETURNING e.*
     `,
-      [batchSize(limit), MAX_ATTEMPTS, MAX_ATTEMPTS, MAX_ATTEMPTS, MAX_ATTEMPTS, LEASE_SECONDS, LEASE_SECONDS]
+        [batchSize(limit), MAX_ATTEMPTS, MAX_ATTEMPTS, MAX_ATTEMPTS, MAX_ATTEMPTS, LEASE_SECONDS, LEASE_SECONDS]
+      )
     );
     return result.rows.filter((row) => row.preparationStatus === "preparing");
   };
@@ -58,8 +71,10 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
 
   const preparePage = async (
     claim: Pick<DevicePreparationClaim, "id" | "preparationLease">,
-    data: { snapshot: DeviceDeliverySnapshot; cursor: string | null; deliveries: PreparedDeviceDelivery[] }
+    data: { snapshot: DeviceDeliverySnapshot; cursor: string | null; deliveries: PreparedDeviceDelivery[] },
+    operation?: RecordedOperation
   ): Promise<boolean> => {
+    operation?.remainingMs();
     const encoded = snapshot(data.snapshot, 16384);
     if (data.deliveries.length > 100 || (data.cursor !== null && !isUuid(data.cursor))) {
       throw new Error("Invalid device delivery preparation page");
@@ -81,8 +96,7 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
     if (new Set(rows.map((row) => `${row.destination}:${row.recipientId}`)).size !== rows.length) {
       throw new Error("Duplicate device delivery in preparation page");
     }
-    return db.transaction(async (tx) => {
-      await tx.raw("SET LOCAL statement_timeout = '5s'");
+    return transaction(operation, async (tx) => {
       const source = await preparationFence(tx, claim).forUpdate().first<{
         orgId: string;
         preparationCursor: string | null;
@@ -104,6 +118,7 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
         throw new Error("Device preparation cursor must advance");
       }
       for (const row of rows) {
+        operation?.remainingMs();
         if (row.destination === "audit" && row.recipientId !== source.orgId) {
           throw new Error("Device audit destination must match its source organization");
         }
@@ -149,25 +164,29 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
 
   const failPreparation = async (
     claim: Pick<DevicePreparationClaim, "id" | "preparationLease">,
-    reason: "retryable" | "unresolved"
+    reason: "retryable" | "unresolved",
+    operation?: RecordedOperation
   ) =>
-    preparationFence(db, claim)
-      .update({
-        preparationStatus:
-          reason === "unresolved"
-            ? "unresolved"
-            : db.raw(`CASE WHEN "preparationAttempts">=? THEN 'exhausted' ELSE 'pending' END`, [MAX_ATTEMPTS]),
-        preparationLease: null,
-        preparationLeaseUntil: null,
-        preparationNextAt: db.raw(
-          `clock_timestamp()+LEAST(3600,5*power(2,"preparationAttempts"-1))*interval '1 second'`
-        )
-      })
-      .then(Boolean);
+    query(operation, async (tx) =>
+      preparationFence(tx, claim)
+        .update({
+          preparationStatus:
+            reason === "unresolved"
+              ? "unresolved"
+              : tx.raw(`CASE WHEN "preparationAttempts">=? THEN 'exhausted' ELSE 'pending' END`, [MAX_ATTEMPTS]),
+          preparationLease: null,
+          preparationLeaseUntil: null,
+          preparationNextAt: tx.raw(
+            `clock_timestamp()+LEAST(3600,5*power(2,"preparationAttempts"-1))*interval '1 second'`
+          )
+        })
+        .then(Boolean)
+    );
 
-  const claimDeliveries = async (limit = 20): Promise<DeviceDeliveryClaim[]> => {
-    const result = await db.raw<{ rows: (DeviceDeliveryClaim & { status: string })[] }>(
-      `
+  const claimDeliveries = async (limit = 20, operation?: RecordedOperation): Promise<DeviceDeliveryClaim[]> => {
+    const result = await query(operation, async (tx) =>
+      tx.raw<{ rows: (DeviceDeliveryClaim & { status: string })[] }>(
+        `
       WITH candidates AS (
         SELECT d.id,CASE
           WHEN d.status='processing' AND d.destination='email' THEN 'unknown'
@@ -185,7 +204,8 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
         "settledAt"=CASE WHEN c.next_status='expired' THEN clock_timestamp() END
       FROM candidates c WHERE d.id=c.id RETURNING d.*
     `,
-      [MAX_ATTEMPTS, batchSize(limit), LEASE_SECONDS, LEASE_SECONDS]
+        [MAX_ATTEMPTS, batchSize(limit), LEASE_SECONDS, LEASE_SECONDS]
+      )
     );
     return result.rows.filter((row) => row.status === "processing");
   };
@@ -199,23 +219,30 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
     claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">,
     status: DeviceDeliveryDisposition,
     outcome: DeviceDeliveryOutcome = {},
-    tx: Knex = db
-  ) =>
-    deliveryFence(tx, claim)
-      .update({
-        status,
-        outcome,
-        settledAt: tx.raw("clock_timestamp()"),
-        leaseToken: null,
-        leaseUntil: null
-      })
-      .then(Boolean);
+    tx?: Knex,
+    operation?: RecordedOperation
+  ) => {
+    operation?.remainingMs();
+    const update = async (connection: Knex) =>
+      deliveryFence(connection, claim)
+        .update({
+          status,
+          outcome,
+          settledAt: connection.raw("clock_timestamp()"),
+          leaseToken: null,
+          leaseUntil: null
+        })
+        .then(Boolean);
+    return tx ? update(tx) : query(operation, update);
+  };
 
   // Re-read the immutable row and its lease from the primary immediately before
   // external work. Budgets use database time; application clock skew is irrelevant.
-  const inspectDelivery = async (claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">) =>
-    db.transaction(async (tx) => {
-      await tx.raw("SET LOCAL statement_timeout = '5s'");
+  const inspectDelivery = async (
+    claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">,
+    operation?: RecordedOperation
+  ) =>
+    transaction(operation, async (tx) => {
       const row = await deliveryFence(tx, claim)
         .select(
           "*",
@@ -241,27 +268,30 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
 
   const failDelivery = async (
     claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">,
-    reason: "retryable" | "uncertain" | "invalid"
+    reason: "retryable" | "uncertain" | "invalid",
+    operation?: RecordedOperation
   ) =>
-    deliveryFence(db, claim)
-      .update({
-        status: {
-          invalid: "exhausted",
-          uncertain: "unknown",
-          retryable: db.raw("CASE WHEN attempts>=? THEN 'exhausted' ELSE 'pending' END", [MAX_ATTEMPTS])
-        }[reason],
-        leaseToken: null,
-        leaseUntil: null,
-        nextAttemptAt: db.raw(`clock_timestamp()+LEAST(3600,5*power(2,attempts-1))*interval '1 second'`)
-      })
-      .then(Boolean);
+    query(operation, async (tx) =>
+      deliveryFence(tx, claim)
+        .update({
+          status: {
+            invalid: "exhausted",
+            uncertain: "unknown",
+            retryable: tx.raw("CASE WHEN attempts>=? THEN 'exhausted' ELSE 'pending' END", [MAX_ATTEMPTS])
+          }[reason],
+          leaseToken: null,
+          leaseUntil: null,
+          nextAttemptAt: tx.raw(`clock_timestamp()+LEAST(3600,5*power(2,attempts-1))*interval '1 second'`)
+        })
+        .then(Boolean)
+    );
 
   const commitNotification = async (
     claim: Pick<DeviceDeliveryClaim, "id" | "leaseToken">,
-    persist: (row: DeviceDeliveryClaim, tx: Knex) => Promise<"delivered" | "not-applicable">
+    persist: (row: DeviceDeliveryClaim, tx: Knex) => Promise<"delivered" | "not-applicable">,
+    operation?: RecordedOperation
   ): Promise<boolean> =>
-    db.transaction(async (tx) => {
-      await tx.raw("SET LOCAL statement_timeout = '5s'");
+    transaction(operation, async (tx) => {
       const row = await deliveryFence(tx, claim)
         .where("destination", "notification")
         .forUpdate()
@@ -271,21 +301,24 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
         row.expiresAt <=
         new Date((await tx.raw<{ rows: { now: Date }[] }>("SELECT clock_timestamp() AS now")).rows[0].now)
       ) {
-        return settleDelivery(claim, "expired", {}, tx);
+        return settleDelivery(claim, "expired", {}, tx, operation);
       }
       // This callback is database-only and must use tx. It may not enqueue or send.
       const disposition = await persist(row, tx);
-      if (!(await settleDelivery(claim, disposition, {}, tx)))
+      if (!(await settleDelivery(claim, disposition, {}, tx, operation)))
         throw new Error("Device notification lease expired before commit");
       return true;
     });
 
-  const pruneSettled = async (retentionDays: number, limit = 100): Promise<{ events: number; deliveries: number }> => {
+  const pruneSettled = async (
+    retentionDays: number,
+    limit = 100,
+    operation?: RecordedOperation
+  ): Promise<{ events: number; deliveries: number }> => {
     if (!Number.isInteger(retentionDays) || retentionDays < 30 || retentionDays > 3650)
       throw new Error("Invalid device event retention");
     batchSize(limit);
-    return db.transaction(async (tx) => {
-      await tx.raw("SET LOCAL statement_timeout = '5s'");
+    return transaction(operation, async (tx) => {
       // Delete recipients in bounded batches before their source. Cascading an
       // event with a large organization would otherwise make LIMIT misleading.
       const removed = await tx.raw<{ rows: { id: string }[] }>(
