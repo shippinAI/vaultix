@@ -1,6 +1,6 @@
 import { render } from "@react-email/components";
 import { createTransport } from "nodemailer";
-import addressparser from "nodemailer/lib/addressparser";
+import addressparser from "nodemailer/lib/addressparser/index.js";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import React from "react";
 import { validate as isUuid } from "uuid";
@@ -65,6 +65,7 @@ import {
   isRecordedMailbox,
   parsePreparedRecordedMail,
   PreparedRecordedMail,
+  recordedMailboxMatches,
   RecordedMailError
 } from "./smtp-recorded-payload";
 
@@ -334,9 +335,17 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     } catch (error) {
       throw classifyRecordedMailFailure(error);
     }
-    if (result.accepted?.length === 1 && result.accepted[0] === mail.recipient && !result.rejected?.length)
+    if (
+      result.accepted?.length === 1 &&
+      recordedMailboxMatches(mail.recipient, result.accepted[0]) &&
+      !result.rejected?.length
+    )
       return "accepted";
-    if (!result.accepted?.length && result.rejected?.length === 1 && result.rejected[0] === mail.recipient)
+    if (
+      !result.accepted?.length &&
+      result.rejected?.length === 1 &&
+      recordedMailboxMatches(mail.recipient, result.rejected[0])
+    )
       throw new RecordedMailError("retryable");
     throw new RecordedMailError("uncertain");
   };

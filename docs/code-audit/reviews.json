@@ -5856,10 +5856,10 @@
     },
     {
       "path": "core/backend/src/services/smtp/smtp-service.ts",
-      "blob": "8c2f862a8e4cfaeb0b5fdde7005927d1323ce4a5",
+      "blob": "20959eda45d40afe58495b5f2a70ec6bac040c3c",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 114 unit outcomes and seven real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5889,7 +5889,7 @@
       "blob": "9e87b0245282494fe0aaa861bde7115f672506cc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 114 unit outcomes and seven real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6006,30 +6006,30 @@
     },
     {
       "path": "core/backend/src/services/smtp/smtp-recorded-payload.ts",
-      "blob": "fb4998a344188f57580e45fb9beed9cb403ffc5a",
+      "blob": "be73bacf89efd7ebd47512228d6f7553fab7de5c",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 114 unit outcomes and seven real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
     },
     {
       "path": "core/backend/src/services/smtp/smtp-prepared.test.ts",
-      "blob": "6451ea0a38ac2ea75ba58bc143d6a320910bab0d",
+      "blob": "f6e010d56ec88197c5db843716e68eb3a260db95",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 114 unit outcomes and seven real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
     },
     {
       "path": "core/backend/src/services/smtp/smtp-prepared-transport.spec.ts",
-      "blob": "11cb45ea46aefba594c2413862f8630be5b8b54e",
+      "blob": "3e021992bb453a93ce5e9353fca87f64cca702ea",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 114 unit outcomes and seven real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Canonical image pending. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

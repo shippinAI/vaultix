@@ -1,3 +1,5 @@
+import { domainToASCII } from "node:url";
+
 export type PreparedRecordedMail = {
   version: 1;
   recipient: string;
@@ -28,6 +30,17 @@ const header = (value: unknown, max: number): value is string =>
 
 export const isRecordedMailbox = (value: unknown): value is string =>
   header(value, 320) && /^[^\s,;<>@()"\\]+@[^\s,;<>@()"\\]+$/u.test(value);
+
+export const recordedMailboxMatches = (expected: string, actual: unknown): boolean => {
+  const canonical = (value: unknown) => {
+    if (!isRecordedMailbox(value)) return null;
+    const at = value.indexOf("@");
+    const domain = domainToASCII(value.slice(at + 1));
+    return domain ? `${value.slice(0, at)}@${domain.toLowerCase()}` : null;
+  };
+  const mailbox = canonical(expected);
+  return mailbox !== null && mailbox === canonical(actual);
+};
 
 export const parsePreparedRecordedMail = (value: unknown): PreparedRecordedMail => {
   if (

@@ -197,3 +197,16 @@ test("real new-device template captures escaped session context and sends its pr
     await smtp.close();
   }
 }, 30000);
+
+test("real SMTP accepts internationalized recipient domains without misclassifying the normalized address", async () => {
+  const smtp = await startSmtp();
+  try {
+    const service = smtpServiceFactory(smtp.settings);
+    const prepared = await service.prepareRecordedMail({ ...preparation, recipient: "admin@b\u00fccher.invalid" });
+    expect(await service.sendPreparedRecordedMail(deliveryId, prepared)).toBe("accepted");
+    expect(smtp.recipients).toEqual(["RCPT TO:<admin@xn--bcher-kva.invalid>"]);
+    expect(smtp.messages).toHaveLength(1);
+  } finally {
+    await smtp.close();
+  }
+}, 30000);

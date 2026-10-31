@@ -319,3 +319,22 @@ Receipts: `.cache/prepared-security-mail-unit-yIfvjL/result.json`, `.cache/deliv
 `.cache/prepared-security-mail-lint.json`. The first six-case local receipt
 preceded the added new-device template scenario and is not evidence for seven cases.
 The initial lint findings were corrected; that failed receipt is retained locally.
+
+### Packaged runtime and mailbox correction
+
+The first canonical candidate failed its identity-lifetime startup gate because
+the runtime ESM loader does not accept Nodemailer's address-parser directory as
+an import. The source now names its explicit entry file. The failed image was
+not deployed, and the original gate is unchanged. Review also found that the
+mailer converts internationalized recipient domains to ASCII; outcome comparison
+now normalizes the domain while preserving the local part. The saved recipient
+and content remain unchanged.
+
+The corrected source passed 116 unit outcomes and eight actual destination
+scenarios, including an internationalized recipient accepted by real local SMTP.
+Full TypeScript checking and lint passed again. Receipts: `.cache/prepared-security-mail-unit-rJo1iZ/result.json`,
+`.cache/delivery-destination-store-y9ViWc/result.json`, `.cache/prepared-security-mail-typecheck.json` and
+`.cache/prepared-security-mail-lint-fix.json`. The initial failed artifact receipt
+is `.cache/self-hosted-build-wf0rnB/result.json`, with startup failure detail in
+`.cache/identity-policy-proof-oRfhlG/result.json`. Canonical verification of the
+corrected source is recorded separately.

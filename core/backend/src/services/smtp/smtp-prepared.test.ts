@@ -189,3 +189,16 @@ test("recorded transport overrides diagnostic logging even when configured globa
   smtpServiceFactory({ host: "smtp.vaultix.invalid", logger: true, debug: true });
   expect(mocks.transport.mock.calls[1][0]).toMatchObject({ logger: false, debug: false });
 });
+
+test.each(["accepted", "rejected"] as const)(
+  "matches internationalized mailbox normalization in SMTP %s results",
+  async (outcome) => {
+    mocks.sendMail.mockResolvedValue({ accepted: [], rejected: [], [outcome]: ["admin@xn--bcher-kva.invalid"] });
+    const result = smtpServiceFactory({ host: "smtp.vaultix.invalid" }).sendPreparedRecordedMail(deliveryId, {
+      ...payload,
+      recipient: "admin@b\u00fccher.invalid"
+    });
+    if (outcome === "accepted") expect(await result).toBe("accepted");
+    else await expect(result).rejects.toMatchObject({ disposition: "retryable" });
+  }
+);
