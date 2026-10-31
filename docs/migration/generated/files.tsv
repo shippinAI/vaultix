@@ -1356,10 +1356,10 @@ core/backend/src/ee/services/app-connections/oracledb/oracledb-connection-schema
 core/backend/src/ee/services/app-connections/oracledb/oracledb-connection-types.ts	core/backend/src/ee/services/app-connections	integrations	Go-domain-migration	ts	cffed12da0725cb0e9d531ac1bbcf6ed69b4e355	unread
 core/backend/src/ee/services/assume-privilege/assume-privilege-service.ts	core/backend/src/ee/services/assume-privilege	authorization	Go-domain-migration	ts	679898ed91cbd280b9e90f3cffa20ab3ca741da8	unread
 core/backend/src/ee/services/assume-privilege/assume-privilege-types.ts	core/backend/src/ee/services/assume-privilege	authorization	Go-domain-migration	ts	095ef0f8bd897a8b0ac2ca7df73288513ee911ff	unread
-core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-dal.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	04156701f34b941a0f951b85c84636f2feb538af	unread
+core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-dal.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	d427f2fc63b316cb431e1186ad586c4c38c7755e	authored
 core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-queue.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	5c26c150dc5f252bd85e8703c76c7a159d42b49a	unread
 core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service.test.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	87f79f6a930a562860359d772c85b523cb9ff2ec	unread
-core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	03854336d9cc2117c1811fd1088e95dee3d23477	unread
+core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	7c0d6fb32c5e3790f1b38439834a057bfe0bd532	authored
 core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-types.ts	core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	ts	0b4ac8e63dadf0f0df9abba060c743c61d23a669	unread
 core/backend/src/ee/services/audit-log-stream/audit-log-stream-batching.test.ts	core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	ts	81f79b2ea049aaebe875da4405099ed7d46dd769	unread
 core/backend/src/ee/services/audit-log-stream/audit-log-stream-batching.ts	core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	ts	69b24c5b5b253ad4f63041d8718a0c3a71ef758f	unread
@@ -1395,11 +1395,12 @@ core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-fns
 core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-schemas.ts	core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	ts	fd733c4e6b4e97426d6f8fcb4e059d7ea5b62170	unread
 core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-types.ts	core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	ts	fd8942925933708790f456ed02a0283aee26ca6e	unread
 core/backend/src/ee/services/audit-log/audit-log-clickhouse-dal.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	f545e5dfe4bdfb48b14abe6f711691b1126113d8	unread
-core/backend/src/ee/services/audit-log/audit-log-dal.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	e3b24c9e179bcf52462f14185881c15a8cfe6458	unread
+core/backend/src/ee/services/audit-log/audit-log-dal.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	9043f3ab7f53d13c1bf7bcfdfd1a71da15eb4686	authored
 core/backend/src/ee/services/audit-log/audit-log-queue.test.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	fa68108a1f21eb0ead5858a0776d717a09b1f48c	authored
-core/backend/src/ee/services/audit-log/audit-log-queue.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	46e03357c5968797f4c49fde459f91281a8e1e43	authored
+core/backend/src/ee/services/audit-log/audit-log-queue.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	1506b74bb73695b46f08355fcd7f97eef1940b7a	authored
 core/backend/src/ee/services/audit-log/audit-log-service.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	e986a30cb3508f6ad7d185b3d73cc02e3678f2d4	unread
 core/backend/src/ee/services/audit-log/audit-log-types.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	cad23d076f978366ab400a98bd63c70145e686ce	reviewed
+core/backend/src/ee/services/audit-log/audit-recorded-cancellation.spec.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	b402b0df327f4c4ece2636635f90c6376027fa4f	authored
 core/backend/src/ee/services/audit-log/audit-recorded-store.spec.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	6de9fff70183db0e11f9523b054ee399850d8afb	authored
 core/backend/src/ee/services/audit-log/fixtures/native-ingest-v1.json	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	json	61d7d6d766d6cb433f1bd7c6659eea97c04162dc	authored
 core/backend/src/ee/services/audit-report/audit-report-dal.ts	core/backend/src/ee/services/audit-report	audit	Go-domain-migration	ts	352987de968e363793585313b3f29f885e97c39e	unread
@@ -2080,6 +2081,7 @@ core/backend/src/lib/knex/index.ts	core/backend/src/lib/knex	foundation	Go-domai
 core/backend/src/lib/knex/join.ts	core/backend/src/lib/knex	foundation	Go-domain-migration	ts	6580bfa3d6fcfca3dba52c9eee299adee824ba33	unread
 core/backend/src/lib/knex/permission-filter-utils.ts	core/backend/src/lib/knex	authorization	Go-domain-migration	ts	d6e0f92a47d77890dc5231f8dc6075496567b3ec	unread
 core/backend/src/lib/knex/prependTableNameToFindFilter.ts	core/backend/src/lib/knex	foundation	Go-domain-migration	ts	3fb1dabb3100d9096a2a37e470d14f7ef6ddc48a	unread
+core/backend/src/lib/knex/recorded-transaction.ts	core/backend/src/lib/knex	foundation	Go-domain-migration	ts	09c9a095b6e2ff386a041a61fdef7caa00a1d6e5	authored
 core/backend/src/lib/knex/scim.ts	core/backend/src/lib/knex	identity	Go-domain-migration	ts	3758ed984b05d4635836a8d6d91d5aabab4eae08	unread
 core/backend/src/lib/knex/select.ts	core/backend/src/lib/knex	foundation	Go-domain-migration	ts	8cc3f48921dc45eb154c170d54c0a6b3c2f9b642	unread
 core/backend/src/lib/logger/index.ts	core/backend/src/lib/logger	foundation	Go-domain-migration	ts	a315fb386649b702dfa97603e8d07eb459882fc5	unread
@@ -2090,6 +2092,7 @@ core/backend/src/lib/ms/index.ts	core/backend/src/lib/ms	foundation	Go-domain-mi
 core/backend/src/lib/nanoid/index.ts	core/backend/src/lib/nanoid	foundation	Go-domain-migration	ts	7cfd413248f350aef64b1c40b9ffc3b861333bdb	unread
 core/backend/src/lib/pagerduty/integration-key.ts	core/backend/src/lib/pagerduty	integrations	Go-domain-migration	ts	9ceaa0c8d22a5898e4e263f1ce25021ef9b408e7	unread
 core/backend/src/lib/picomatch/index.ts	core/backend/src/lib/picomatch	foundation	Go-domain-migration	ts	1e222d72c9201068b045884246c2ee43e528b399	unread
+core/backend/src/lib/recorded-operation.ts	core/backend/src/lib	foundation	Go-domain-migration	ts	9e134c2d975a14aafedc5feef5a13e0dd141c0a2	authored
 core/backend/src/lib/red-lock/index.ts	core/backend/src/lib/red-lock	foundation	Go-domain-migration	ts	5dff1d03952ad98a14c4890bf22c33f5a510090c	unread
 core/backend/src/lib/regex/index.ts	core/backend/src/lib/regex	foundation	Go-domain-migration	ts	959fc741e4a011c0a5272dfe344594cda29d1a10	unread
 core/backend/src/lib/request-context/memo-keys.ts	core/backend/src/lib/request-context	foundation	Go-domain-migration	ts	b7780308614d4eafcca8b360c9afbf29d9ced38d	unread
@@ -3077,7 +3080,7 @@ core/backend/src/services/auth-token/device-delivery-store.spec.ts	core/backend/
 core/backend/src/services/auth-token/device-event-delivery-dal.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	23e6fb45f95082617a49c10b00a23d37c0c02201	authored
 core/backend/src/services/auth-token/device-event-delivery-types.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	dbf1305d875677ea5d6db6ea763e2524f15baab2	authored
 core/backend/src/services/auth-token/device-event-dispatch.spec.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	2dd68762fba383f5f8eda505a680de7434aaa5db	authored
-core/backend/src/services/auth-token/device-event-dispatch.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	f2905e50a207f2b4af26270d922859a188eb41d0	authored
+core/backend/src/services/auth-token/device-event-dispatch.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	9677c3d18391cac768bf0d3631f244665219a54e	authored
 core/backend/src/services/auth-token/device-event-payload.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	0a8f5ce2c82e4cf893bf32c9904f2aaef485e5cc	authored
 core/backend/src/services/auth-token/device-event-preparation.spec.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	06ece181c47c03828b5b07863cdef9667e5136d2	authored
 core/backend/src/services/auth-token/device-event-preparation.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	a21a70e2a81e75c7308529c4568056c865039257	authored
@@ -9545,7 +9548,7 @@ scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd4796
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored
 scripts/verify-device-delivery-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4d501af3a8a9440006d7cc3febf680db24971eff	authored
-scripts/verify-device-event-dispatch.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ec3d81cfc98145a58108940f942a0e6c42846ba8	authored
+scripts/verify-device-event-dispatch.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	59903485a989eefde9199b2d050b2ad0f2419dc0	authored
 scripts/verify-device-event-preparation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	168f59e2524a4602f31d9b68de4baee2834343fc	authored
 scripts/verify-device-session-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7c20620882155e39c3fe3ee910804c58714ea095	authored
 scripts/verify-device-source-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da636434dd05dce4c2bd34233203a0d630e16a9b	authored

@@ -1,10 +1,13 @@
 import { Knex } from "knex";
+import { validate as isUuid } from "uuid";
 
 import { TDbClient } from "@app/db";
-import { TableName, TAuditLogs } from "@app/db/schemas";
+import { TableName, TAuditLogs, TAuditLogStreams } from "@app/db/schemas";
 import { DatabaseError } from "@app/lib/errors";
 import { chunkArray } from "@app/lib/fn";
+import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
 import { logger } from "@app/lib/logger";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 
 import { AuditLogStreamOutboxStatus, TAuditLogStreamOutboxRow } from "./audit-log-stream-outbox-types";
 
@@ -19,6 +22,39 @@ export type TInsertOutboxRow = {
 const OUTBOX_INSERT_CHUNK_SIZE = 1_000;
 
 export const auditLogStreamOutboxDALFactory = (db: TDbClient) => {
+  // Only metadata is read; provider credentials are never part of acceptance.
+  // Already committed pairs are durable progress when a later page fails.
+  const recordedPage = async (
+    orgId: string,
+    auditLogId: string,
+    cursor: string | null,
+    operation: RecordedOperation,
+    accept: (streams: Pick<TAuditLogStreams, "id" | "orgId" | "filters">[], tx: Knex) => Promise<void>
+  ): Promise<string | null> => {
+    if (!isUuid(orgId) || !isUuid(auditLogId) || (cursor !== null && !isUuid(cursor)))
+      throw new Error("Invalid recorded audit destination identity");
+    return withRecordedTransaction(db, operation, async (tx) => {
+      const query = tx(`${TableName.AuditLogStream} as s`)
+        .where("s.orgId", orgId)
+        .whereNotExists(function missingPair() {
+          void this.select(tx.raw("1"))
+            .from(`${TableName.AuditLogStreamOutbox} as o`)
+            .whereRaw('o."streamId" = s.id')
+            .where("o.auditLogId", auditLogId);
+        })
+        .orderBy("s.id")
+        .limit(100);
+      if (cursor !== null) void query.where("s.id", ">", cursor);
+      const streams = await query.select<Pick<TAuditLogStreams, "id" | "orgId" | "filters">[]>(
+        "s.id",
+        "s.orgId",
+        "s.filters"
+      );
+      if (streams.length === 0) return null;
+      await accept(streams, tx);
+      return streams[streams.length - 1].id;
+    });
+  };
   const batchInsert = async (rows: TInsertOutboxRow[], tx?: Knex) => {
     if (rows.length === 0) return;
     try {
@@ -278,6 +314,7 @@ export const auditLogStreamOutboxDALFactory = (db: TDbClient) => {
   };
 
   return {
+    recordedPage,
     batchInsert,
     claimBatchForStream,
     commitDeliveryResult,

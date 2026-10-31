@@ -1,5 +1,9 @@
 # Device security-event dispatch
 
+Current continuation: [bounded recorded-audit acceptance](recorded-audit-acceptance.md)
+is implemented and under canonical verification. Worker activation and the public
+login journey remain open. Historical evidence below retains its original scope.
+
 This continues [event preparation](device-event-preparation.md) and the
 [full delivery obligation](device-event-delivery.md). The domain dispatcher is
 implemented against existing destination owners. It is not yet registered as a

@@ -5692,13 +5692,14 @@
     },
     {
       "path": "core/backend/src/ee/services/audit-log/audit-log-queue.ts",
-      "blob": "46e03357c5968797f4c49fde459f91281a8e1e43",
+      "blob": "1506b74bb73695b46f08355fcd7f97eef1940b7a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "docs/auth/recorded-audit-acceptance.md"
       ]
     },
     {
@@ -6189,12 +6190,13 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-dispatch.ts",
-      "blob": "f2905e50a207f2b4af26270d922859a188eb41d0",
+      "blob": "9677c3d18391cac768bf0d3631f244665219a54e",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
       "evidence": [
-        "docs/auth/device-event-dispatch.md"
+        "docs/auth/device-event-dispatch.md",
+        "docs/auth/recorded-audit-acceptance.md"
       ]
     },
     {
@@ -6209,12 +6211,73 @@
     },
     {
       "path": "scripts/verify-device-event-dispatch.mjs",
-      "blob": "ec3d81cfc98145a58108940f942a0e6c42846ba8",
+      "blob": "59903485a989eefde9199b2d050b2ad0f2419dc0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
       "evidence": [
-        "docs/auth/device-event-dispatch.md"
+        "docs/auth/device-event-dispatch.md",
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/recorded-operation.ts",
+      "blob": "9e134c2d975a14aafedc5feef5a13e0dd141c0a2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/knex/recorded-transaction.ts",
+      "blob": "09c9a095b6e2ff386a041a61fdef7caa00a1d6e5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log/audit-log-dal.ts",
+      "blob": "9043f3ab7f53d13c1bf7bcfdfd1a71da15eb4686",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-dal.ts",
+      "blob": "d427f2fc63b316cb431e1186ad586c4c38c7755e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service.ts",
+      "blob": "7c0d6fb32c5e3790f1b38439834a057bfe0bd532",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log/audit-recorded-cancellation.spec.ts",
+      "blob": "b402b0df327f4c4ece2636635f90c6376027fa4f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical recorded-audit image verification pending. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
+      "evidence": [
+        "docs/auth/recorded-audit-acceptance.md"
       ]
     }
   ]

@@ -8,7 +8,9 @@ import { getConfig } from "@app/lib/config/env";
 import { DatabaseError, GatewayTimeoutError } from "@app/lib/errors";
 import { chunkArray } from "@app/lib/fn";
 import { ormify, selectAllTableCols, TOrmify } from "@app/lib/knex";
+import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
 import { logger } from "@app/lib/logger";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 import { ActorType } from "@app/services/auth/auth-type";
 
 import { ACTOR_TYPE_TO_METADATA_ID_KEY, EventType, filterableSecretEvents } from "./audit-log-types";
@@ -24,7 +26,7 @@ type TAggregateQuery = {
 export interface TAuditLogDALFactory extends Omit<TOrmify<TableName.AuditLog>, "find"> {
   pruneAuditLog: () => Promise<void>;
   getApproximateRowCount: () => Promise<number>;
-  batchCreate: (logs: TAuditLogsInsert[]) => Promise<void>;
+  batchCreate: (logs: TAuditLogsInsert[], operation?: RecordedOperation) => Promise<void>;
   find: (
     arg: Omit<TFindQuery, "actor" | "eventType"> & {
       actorId?: string | undefined;
@@ -311,17 +313,21 @@ export const auditLogDALFactory = (db: TDbClient) => {
     return auditLogOrm.create(tx);
   };
 
-  const batchCreate: TAuditLogDALFactory["batchCreate"] = async (logs) => {
+  const batchCreate: TAuditLogDALFactory["batchCreate"] = async (logs, operation) => {
+    operation?.remainingMs();
     if (logs.length === 0) return;
     if (getConfig().DISABLE_POSTGRES_AUDIT_LOG_STORAGE) return;
 
     try {
-      await db.transaction(async (tx) => {
+      const insert = async (tx: knex.Knex) => {
         for (const chunk of chunkArray(logs, AUDIT_LOG_BATCH_INSERT_CHUNK_SIZE)) {
+          operation?.remainingMs();
           // eslint-disable-next-line no-await-in-loop
           await tx(TableName.AuditLog).insert(chunk).onConflict().ignore();
         }
-      });
+      };
+      if (operation) await withRecordedTransaction(db, operation, insert);
+      else await db.transaction(insert);
     } catch (error) {
       throw new DatabaseError({ error, name: "auditLogBulkInsert" });
     }

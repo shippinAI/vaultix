@@ -3,6 +3,7 @@ import { isDeepStrictEqual } from "node:util";
 import type { Knex } from "knex";
 
 import { TAuditLogQueueServiceFactory } from "@app/ee/services/audit-log/audit-log-queue";
+import { runRecordedOperation } from "@app/lib/recorded-operation";
 import { TNotificationServiceFactory } from "@app/services/notification/notification-service";
 import { recordedMailboxMatches, RecordedMailError } from "@app/services/smtp/smtp-recorded-payload";
 import { TSmtpService } from "@app/services/smtp/smtp-service";
@@ -49,6 +50,7 @@ export const deviceEventDispatchFactory = ({
     let sending = false;
     try {
       if (signal?.aborted) return await deliveries.failDelivery(claim, "retryable");
+      const inspectedAt = performance.now();
       const row = await deliveries.inspectDelivery(claim);
       if (!row) return false;
       const payload = parseDeviceDelivery(row);
@@ -81,7 +83,13 @@ export const deviceEventDispatchFactory = ({
       }
       if (payload.kind === "audit") {
         if (signal?.aborted) return await deliveries.failDelivery(row, "retryable");
-        const outcome = await audit.persistRecorded(payload.entry);
+        const budget = Math.floor(
+          Math.min(30000, row.leaseRemainingMs, row.expiryRemainingMs) - (performance.now() - inspectedAt) - 1000
+        );
+        if (budget <= 0) return await deliveries.failDelivery(row, "retryable");
+        const outcome = await runRecordedOperation(budget, signal, (operation) =>
+          audit.persistRecorded(payload.entry, operation)
+        );
         return await deliveries.settleDelivery(
           row,
           outcome.storage === "disabled" && outcome.fanout === "disabled" ? "disabled" : "delivered",

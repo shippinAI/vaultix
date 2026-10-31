@@ -7,6 +7,7 @@ import { TAuditLogStreamOutboxServiceFactory } from "@app/ee/services/audit-log-
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 import {
@@ -33,7 +34,7 @@ type TAuditLogQueueServiceFactoryDep = {
 
 export type TAuditLogQueueServiceFactory = {
   pushToLog: (data: TCreateAuditLogDTO) => Promise<void>;
-  persistRecorded: (data: TAuditLogStreamEntry) => Promise<TRecordedAuditDisposition>;
+  persistRecorded: (data: TAuditLogStreamEntry, operation?: RecordedOperation) => Promise<TRecordedAuditDisposition>;
 };
 
 export type TRecordedAuditDisposition = {
@@ -228,22 +229,27 @@ export const auditLogQueueServiceFactory = async ({
     };
   };
 
-  const insertBatch = async (logs: TAuditLogs[]) => {
+  const insertBatch = async (logs: TAuditLogs[], operation?: RecordedOperation) => {
+    operation?.remainingMs();
     if (isClickHouseBatchEnabled) {
       await clickhouseClient!.insert({
         table: CLICKHOUSE_AUDIT_LOG_TABLE_NAME,
         clickhouse_settings: CLICKHOUSE_AUDIT_LOG_INSERT_SETTINGS,
         values: logs,
-        format: "JSONEachRow"
+        format: "JSONEachRow",
+        ...(operation ? { abort_signal: operation.signal } : {})
       });
-    } else {
-      await auditLogDAL.batchCreate(logs);
-    }
+    } else if (operation) await auditLogDAL.batchCreate(logs, operation);
+    else await auditLogDAL.batchCreate(logs);
   };
 
   // The durable source retains its record until this method acknowledges both
   // configured destinations. Replays keep the source ID and sorting timestamp.
-  const persistRecorded = async (data: TAuditLogStreamEntry): Promise<TRecordedAuditDisposition> => {
+  const persistRecorded = async (
+    data: TAuditLogStreamEntry,
+    operation?: RecordedOperation
+  ): Promise<TRecordedAuditDisposition> => {
+    operation?.remainingMs();
     const log = enrichEntry(data);
     if (!log || !isUuid(log.id) || !isUuid(log.orgId ?? "") || !log.expiresAt || log.expiresAt <= log.createdAt) {
       throw new Error("Invalid recorded audit envelope");
@@ -251,8 +257,13 @@ export const auditLogQueueServiceFactory = async ({
     const cfg = getConfig();
     if (cfg.DISABLE_AUDIT_LOG_GENERATION) return { storage: "disabled", fanout: "disabled" };
     const storageEnabled = isClickHouseBatchEnabled || !cfg.DISABLE_POSTGRES_AUDIT_LOG_STORAGE;
-    if (storageEnabled) await insertBatch([log]);
-    if (cfg.AUDIT_LOG_STREAMS_ENABLED) await auditLogStreamOutboxService.enqueueForLogs([log]);
+    if (storageEnabled) await insertBatch([log], operation);
+    operation?.remainingMs();
+    if (cfg.AUDIT_LOG_STREAMS_ENABLED) {
+      if (operation) await auditLogStreamOutboxService.enqueueForLogs([log], operation);
+      else await auditLogStreamOutboxService.enqueueForLogs([log]);
+    }
+    operation?.remainingMs();
     return {
       storage: storageEnabled ? "persisted" : "disabled",
       fanout: cfg.AUDIT_LOG_STREAMS_ENABLED ? "enqueued" : "disabled"

@@ -2,6 +2,7 @@ import { TAuditLogs } from "@app/db/schemas";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { chunkArray } from "@app/lib/fn";
 import { logger } from "@app/lib/logger";
+import { RecordedOperation } from "@app/lib/recorded-operation";
 import {
   auditLogStreamDeliveryDurationHistogram,
   auditLogStreamDeliveryExhaustedCounter
@@ -77,7 +78,7 @@ export type TAuditLogStreamOutboxServiceFactoryDep = {
 };
 
 export type TAuditLogStreamOutboxServiceFactory = {
-  enqueueForLogs: (auditLogs: TAuditLogs[]) => Promise<void>;
+  enqueueForLogs: (auditLogs: TAuditLogs[], operation?: RecordedOperation) => Promise<void>;
   drainStream: (data: TAuditLogStreamFlushJobData) => Promise<void>;
   sweepStaleClaims: () => Promise<void>;
   pruneDeliveredRows: () => Promise<void>;
@@ -128,7 +129,39 @@ export const auditLogStreamOutboxServiceFactory = ({
   //   3. For each stream that received rows, try to win the 5s debounce SETNX once.
   //      The winner enqueues the flush job (delayed by FLUSH_DEBOUNCE_MS) on the
   //      provider queue; losers do nothing because their events are already covered.
-  const enqueueForLogs = async (auditLogs: TAuditLogs[]) => {
+  const enqueueRecorded = async (log: TAuditLogs, operation: RecordedOperation) => {
+    if (!log.orgId) return;
+    let cursor: string | null = null;
+    do {
+      operation.remainingMs();
+      // Every read/write in a page uses its primary transaction connection.
+      // No cache or provider operation runs while it is held.
+      // eslint-disable-next-line no-await-in-loop
+      cursor = await auditLogStreamOutboxDAL.recordedPage(log.orgId, log.id, cursor, operation, async (streams, tx) => {
+        let projectTypes = new Map<string, string>();
+        if (log.projectId && streams.some(streamHasProductFilter)) {
+          const projects = await projectDAL.findProjectTypesByIds([log.projectId], tx);
+          projectTypes = new Map(projects.map((project) => [project.id, project.type]));
+        }
+        const product = resolveAuditLogProduct(log, projectTypes);
+        const rows = streams
+          .filter((stream) => auditLogMatchesStreamFilter(product, stream.filters as TAuditLogStreamFilters | null))
+          .map((stream) => ({ streamId: stream.id, orgId: stream.orgId, payload: log }));
+        operation.remainingMs();
+        await auditLogStreamOutboxDAL.batchInsert(rows, tx);
+      });
+    } while (cursor !== null);
+    // The existing overdue-row sweeper schedules durable pending rows. Do not
+    // make source acknowledgment depend on a cache/queue wake-up succeeding.
+  };
+
+  const enqueueForLogs = async (auditLogs: TAuditLogs[], operation?: RecordedOperation) => {
+    if (operation) {
+      operation.remainingMs();
+      if (auditLogs.length !== 1) throw new Error("Recorded audit acceptance requires one source event");
+      await enqueueRecorded(auditLogs[0], operation);
+      return;
+    }
     if (auditLogs.length === 0) return;
 
     const logsByOrg = new Map<string, TAuditLogs[]>();
