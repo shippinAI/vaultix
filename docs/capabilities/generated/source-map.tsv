@@ -156,6 +156,10 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	access	identit
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	access	identity	core/backend-go/internal/services/auth	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	access	identity	core/backend-go/internal/services/auth	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	access	identity	core/backend-go/internal/services/auth	94ddf096b16810e0268a899d80deb490b7fa52fe	verified
+core/backend-go/internal/services/auth/device/codes.go	access	identity	core/backend-go/internal/services/auth	ec1a40ae09ae7efaba90f53299a4ea45630d5134	authored
+core/backend-go/internal/services/auth/device/codes_test.go	access	identity	core/backend-go/internal/services/auth	90b59773607e513d3635c5f787ee01398a3a6715	authored
+core/backend-go/internal/services/auth/device/service.go	access	identity	core/backend-go/internal/services/auth	573d26eb8d6071db0af6fc0b0919a7473892607e	authored
+core/backend-go/internal/services/auth/device/types.go	access	identity	core/backend-go/internal/services/auth	1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e	authored
 core/backend-go/internal/services/auth/nomen/bindings.go	access	identity	core/backend-go/internal/services/auth	c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475	verified
 core/backend-go/internal/services/auth/nomen/claims.go	access	identity	core/backend-go/internal/services/auth	0f75985bf51db531617d90d998e064e5ccd565e0	verified
 core/backend-go/internal/services/auth/nomen/client_auth.go	access	identity	core/backend-go/internal/services/auth	ff1591b904afd673f58995157e1ab3ad3fb391f5	verified
@@ -223,6 +227,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	access	identity	cor
 core/backend-go/tests/platform/auth/authority_test.go	access	identity	core/backend-go/tests/platform/auth	76698d9a0342d8a456c2d9a3906a5c05b6628207	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	access	identity	core/backend-go/tests/platform/auth	98ef59cc825bba533eeb57f0382ed6d205b3534b	verified
 core/backend-go/tests/platform/auth/delegated_token_test.go	access	identity	core/backend-go/tests/platform/auth	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
+core/backend-go/tests/platform/auth/device_authorization_test.go	access	identity	core/backend-go/tests/platform/auth	cc80d13a7a112f4055f3e17b3fe7089f2021840b	authored
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	access	identity	core/backend-go/tests/platform/auth	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	access	authorization	core/backend-go/tests/platform/auth	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	access	identity	core/backend-go/tests/platform/auth	5f5cbec926e13babfa2fecac41338799902e898b	verified
@@ -878,6 +883,7 @@ core/backend/src/db/migrations/20260804120000_reap-orphaned-identity-alerts.ts	a
 core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	access	identity	core/backend/src/db/migrations	08881fcf3fe43057f64235c88cbd014fea92d963	verified
 core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts	access	identity	core/backend/src/db/migrations	d590cbd01a3692820c5599f251c898902c096a3b	verified
 core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts	access	identity	core/backend/src/db/migrations	b2a428273b34318dfb868e34ff6557008e3409c2	verified
+core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	operate	foundation	core/backend/src/db/migrations	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	authored
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	operate	foundation	core/backend/src/db/migrations/utils	93985ca767129782226d4b0620ac084132e5a21e	unread
 core/backend/src/db/migrations/utils/env-config.ts	operate	foundation	core/backend/src/db/migrations/utils	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	operate	foundation	core/backend/src/db/migrations/utils	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
@@ -9465,6 +9471,7 @@ scripts/test-dashboard-create-workflow.mjs	operate	delivery	scripts	3ceb2f3be9f7
 scripts/test-dashboard-recovery.mjs	operate	delivery	scripts	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-dashboard-secret-paste.mjs	operate	delivery	scripts	3b814c46cb485d57a734188e437da26c936f8862	verified
 scripts/test-dashboard-secret-references.mjs	operate	delivery	scripts	a5a68d08436bf3956709fc37273e75e95423a325	verified
+scripts/test-device-grant-migration.mjs	operate	delivery	scripts	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	authored
 scripts/test-eager-upload.mjs	operate	delivery	scripts	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	operate	delivery	scripts	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified

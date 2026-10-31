@@ -5526,6 +5526,76 @@
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md"
       ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/types.go",
+      "blob": "1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/codes.go",
+      "blob": "ec1a40ae09ae7efaba90f53299a4ea45630d5134",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/service.go",
+      "blob": "573d26eb8d6071db0af6fc0b0919a7473892607e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/codes_test.go",
+      "blob": "90b59773607e513d3635c5f787ee01398a3a6715",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_authorization_test.go",
+      "blob": "cc80d13a7a112f4055f3e17b3fe7089f2021840b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts",
+      "blob": "f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "scripts/test-device-grant-migration.mjs",
+      "blob": "da6c3f380905a0f9bf42cebe6274a36ca7dbee25",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device grant state owner and additive schema; full source read/authored. Required transaction-bound policy and session collaborators remain unimplemented for production. Tests use explicit limited collaborators. Public routing, discovery, browser approval, CLI default, refresh and whole identity parity remain open. Verification pending exact candidate receipts.",
+      "evidence": [
+        "docs/auth/device-authorization-engine.md"
+      ]
     }
   ]
 }
