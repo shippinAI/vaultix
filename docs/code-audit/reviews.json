@@ -1972,23 +1972,12 @@
     },
     {
       "path": "core/backend/src/server/plugins/go-sidecar.ts",
-      "blob": "c642eeb9cdc039e0cc0c80d41b6a9004cfd515b8",
-      "status": "verified",
+      "blob": "6372f69539ba0ac88fa6302c7d57abe8859704f0",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Child environment receives the initialized issuer identity policy after launcher overrides, preventing policy divergence while native validation remains implemented in Go. Existing process supervision is retained; the elapsed-time restart reset still does not prove health. No forwarding or shadowing is enabled.",
+      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md",
-        "docs/0040-native-identity-lifetime-policy.md",
-        ".cache/lifetime-go-unit-epoch.jsonl",
-        ".cache/go-proof-v1YQ0E/result.json",
-        ".cache/go-proof-1EOCPM/result.json",
-        ".cache/unit-proof-vfJJjf/test-results.json",
-        ".cache/core-proof-mfFwYc/test-results.json",
-        ".cache/core-proof-xwLoUg/test-results.json",
-        ".cache/identity-policy-proof-oAErwy/result.json",
-        ".cache/dropzone-proof-YuxurI/result.json",
-        ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        "docs/auth/native-audit-delivery.md"
       ]
     },
     {
@@ -2156,22 +2145,12 @@
     },
     {
       "path": "core/backend/src/server/plugins/go-sidecar.test.ts",
-      "blob": "529ea5f9bb79d645892f909b0023865078f87064",
-      "status": "verified",
+      "blob": "8b24d1c23231d111e10dd94ce3bb724660a81544",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file authored/read. Mocked process creation verifies actual plugin wiring, canonical policy precedence and disabled behavior with server-close cleanup. Assertions select only non-secret policy/listen fields; this does not prove live Go cutover or restart health.",
+      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
       "evidence": [
-        "docs/0040-native-identity-lifetime-policy.md",
-        ".cache/lifetime-go-unit-epoch.jsonl",
-        ".cache/go-proof-v1YQ0E/result.json",
-        ".cache/go-proof-1EOCPM/result.json",
-        ".cache/unit-proof-vfJJjf/test-results.json",
-        ".cache/core-proof-mfFwYc/test-results.json",
-        ".cache/core-proof-xwLoUg/test-results.json",
-        ".cache/identity-policy-proof-oAErwy/result.json",
-        ".cache/dropzone-proof-YuxurI/result.json",
-        ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        "docs/auth/native-audit-delivery.md"
       ]
     },
     {
@@ -5735,6 +5714,36 @@
       "status": "authored",
       "decision": "modify",
       "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/secretmanager/secret/secret.go",
+      "blob": "0a08e6febd5b758cb87e862789cdb8cde7861370",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/secretmanager/secret/list_secrets.go",
+      "blob": "196cdb7ef5986a03f5a99d751b993e66d9d6eba2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go",
+      "blob": "7f25cb74462137dc98c154c2e43be71faa29044c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]

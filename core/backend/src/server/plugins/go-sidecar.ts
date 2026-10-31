@@ -37,6 +37,11 @@ export const goSidecarPlugin = fp(async (server, opts: GoSidecarOpts) => {
       env: {
         ...(resolveVaultixEnvironment({ ...process.env, ...opts.env }) as NodeJS.ProcessEnv),
         ...identityPolicyEnvironment(getConfig()),
+        // Shadow reads compare an operation already audited by the primary process.
+        // This is resolved process policy; request headers cannot suppress audit.
+        DISABLE_AUDIT_LOG_GENERATION: String(
+          getConfig().DISABLE_AUDIT_LOG_GENERATION || getConfig().GO_SIDECAR_SHADOW_ENABLED
+        ),
         PORT: "4040", // Override PORT so Go doesn't conflict with Node.js
         HOST: "127.0.0.1"
       }

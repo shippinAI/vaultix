@@ -111,10 +111,10 @@ core/backend-go/internal/server/api/platform_routes.go	operate	foundation	core/b
 core/backend-go/internal/server/api/platform_services.go	operate	foundation	core/backend-go/internal/server/api	6a64437cfef071abe7a083fed7f34ecef457308b	authored
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	35a2af5abac5d1521e932c47beea4844958ab6fa	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	eda488c30cc0d5bfb0bda66eb3a001288eecbb95	unread
-core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	dfc213257233b0cdc286efdff230c8d01d01f0a9	unread
-core/backend-go/internal/server/api/secretmanager/secret/list_secrets.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	e4d9a683d8bc0bfc4cbbf84e688f1cdb6f02a567	unread
+core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	7f25cb74462137dc98c154c2e43be71faa29044c	authored
+core/backend-go/internal/server/api/secretmanager/secret/list_secrets.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	196cdb7ef5986a03f5a99d751b993e66d9d6eba2	authored
 core/backend-go/internal/server/api/secretmanager/secret/openapi.yml	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	4e27ca7aacee8e402a69ca5009f48a4ea94c1ff2	unread
-core/backend-go/internal/server/api/secretmanager/secret/secret.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	a75d69d99a88ac4fe2b96713e5dcae57e871405c	unread
+core/backend-go/internal/server/api/secretmanager/secret/secret.go	secrets	secrets	core/backend-go/internal/server/api/secretmanager/secret	0a08e6febd5b758cb87e862789cdb8cde7861370	authored
 core/backend-go/internal/server/api/secretmanager_routes.go	secrets	secrets	core/backend-go/internal/server/api	2828a2b8621786f71a74a96883b47b76810bb7ec	unread
 core/backend-go/internal/server/api/secretmanager_services.go	secrets	secrets	core/backend-go/internal/server/api	247537eb22ebd73c4a2e5c08c9626141de200683	unread
 core/backend-go/internal/server/api/shared/cfg.yaml	operate	foundation	core/backend-go/internal/server/api/shared	a894bb4f1f807d34b5e20ea5b8de46fdeb4875ae	unread
@@ -2154,8 +2154,8 @@ core/backend/src/server/plugins/error-handler.ts	operate	foundation	core/backend
 core/backend/src/server/plugins/fastify-zod.ts	operate	foundation	core/backend/src/server/plugins	ea3f80f0896ee4d517ccaa84dc02e5727178b0b5	unread
 core/backend/src/server/plugins/go-sidecar-forwarding.ts	operate	foundation	core/backend/src/server/plugins	2dcea778178f5c8075783281ad4ccfb7c0f138e5	verified
 core/backend/src/server/plugins/go-sidecar-shadowing.ts	operate	foundation	core/backend/src/server/plugins	11a31f4313a7cb714520bae2b8c21292dd7409ed	verified
-core/backend/src/server/plugins/go-sidecar.test.ts	operate	foundation	core/backend/src/server/plugins	529ea5f9bb79d645892f909b0023865078f87064	verified
-core/backend/src/server/plugins/go-sidecar.ts	operate	foundation	core/backend/src/server/plugins	c642eeb9cdc039e0cc0c80d41b6a9004cfd515b8	verified
+core/backend/src/server/plugins/go-sidecar.test.ts	operate	foundation	core/backend/src/server/plugins	8b24d1c23231d111e10dd94ce3bb724660a81544	authored
+core/backend/src/server/plugins/go-sidecar.ts	operate	foundation	core/backend/src/server/plugins	6372f69539ba0ac88fa6302c7d57abe8859704f0	authored
 core/backend/src/server/plugins/inject-cert-manager-project-id.ts	pki	pki	core/backend/src/server/plugins	374fe5a981610151138c1bb873a7ca396f401f6d	unread
 core/backend/src/server/plugins/inject-pam-project-id.ts	pam	pam	core/backend/src/server/plugins	1e40e7688c0ea5e507e54bcf39c33f58df02936d	unread
 core/backend/src/server/plugins/inject-rate-limits.ts	operate	foundation	core/backend/src/server/plugins	3bde471e3934ad17b1f964f409ea3305a4d134b7	unread
@@ -9496,6 +9496,7 @@ scripts/test-learning-content.mjs	operate	delivery	scripts	f1bd3786eea1aa2dda648
 scripts/test-login-failure.mjs	operate	delivery	scripts	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	operate	delivery	scripts	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
+scripts/test-native-audit-image.mjs	operate	delivery	scripts	44ac4f5dd6a2b5f44710726d9af303f8ab7ba20b	unread
 scripts/test-native-ui.mjs	operate	delivery	scripts	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
 scripts/test-nomen-binding-migration.mjs	operate	delivery	scripts	e8e0660bd8deedcb82f53a4b16a3129d3c314969	verified
 scripts/test-notification-matrix.mjs	operate	delivery	scripts	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
@@ -9512,4 +9513,4 @@ scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b3
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
-scripts/verify-native-audit-boundary.mjs	operate	delivery	scripts	aaffabbaf8f61f171518ec97f41ccea7f0d3fb47	unread
+scripts/verify-native-audit-boundary.mjs	operate	delivery	scripts	ee8af04609af3a010c53cca1b55c99d58b4029f2	unread

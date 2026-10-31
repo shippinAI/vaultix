@@ -57,3 +57,23 @@ the prior flat Go record was skipped and trimmed without persistence or fanout.
 Current verification receipts and the exact canonical-image result must be recorded
 before this repair is accepted. No live ClickHouse or external sink result is
 implied by a mocked consumer dependency.
+
+## Native callers and shadow operation
+
+The first real-image probe authorized a native read but found no audit event.
+Both native list/get handlers still had audit calls disabled for historical
+shadow comparisons. The calls are restored after authorization and before the
+response, including individual-secret metadata redaction. Failure to enqueue
+an enabled audit fails the native read; asynchronous acceptance still does not
+prove durable persistence.
+
+Managed shadow processes receive `DISABLE_AUDIT_LOG_GENERATION=true` from the
+resolved shadow configuration. Primary native processes retain the explicit
+operator audit-generation setting. Request headers cannot turn audit off.
+Separately operated remote shadow workers must set this same operational switch
+themselves; the application cannot configure a remote process.
+
+`scripts/test-native-audit-image.mjs` exercises actual packaged native list/get
+reads, PostgreSQL persistence, encrypted-metadata redaction and anonymous denial
+on disposable infrastructure. The original failing probe is retained; this
+expanded proof must pass before the repair is accepted.

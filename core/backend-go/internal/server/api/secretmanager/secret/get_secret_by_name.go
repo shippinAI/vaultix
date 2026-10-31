@@ -186,11 +186,10 @@ func (h *Handler) getSecretByName(ctx context.Context, opts *getSecretByNameInte
 	// 6. Build response
 	secretRaw := h.buildSecretRaw(secret, opts.ProjectID)
 
-	// TODO: Re-enable audit logging once Go backend is primary
-	// // 7. Audit log
-	// if err := h.createGetSecretAuditLog(ctx, opts.ProjectID, opts.Environment, opts.SecretPath, &secretRaw); err != nil {
-	// 	return nil, err
-	// }
+	// Audit only after authorization and preserve the metadata redaction below.
+	if err := h.CreateGetSecretAuditLog(ctx, opts.ProjectID, opts.Environment, opts.SecretPath, &secretRaw); err != nil {
+		return nil, err
+	}
 
 	return &getSecretByNameResponse{Secret: secretRaw}, nil
 }

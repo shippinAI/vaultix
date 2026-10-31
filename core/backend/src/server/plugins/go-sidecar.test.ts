@@ -7,15 +7,18 @@ import { goSidecarPlugin } from "./go-sidecar";
 
 vi.mock("child_process", () => ({ spawn: vi.fn() }));
 vi.mock("@app/lib/logger", () => ({ logger: { info: vi.fn(), error: vi.fn() } }));
-vi.mock("@app/lib/config/env", () => ({
-  getConfig: () => ({
-    MAX_MACHINE_IDENTITY_TOKEN_AGE: 7200,
-    LEGACY_IDENTITY_ACCESS_TOKEN_EXPIRATION_ENFORCED_AT: new Date("Mon, 04 May 2026 00:00:00 GMT")
-  })
+const mockConfig = vi.hoisted(() => ({
+  MAX_MACHINE_IDENTITY_TOKEN_AGE: 7200,
+  LEGACY_IDENTITY_ACCESS_TOKEN_EXPIRATION_ENFORCED_AT: new Date("Mon, 04 May 2026 00:00:00 GMT"),
+  DISABLE_AUDIT_LOG_GENERATION: false,
+  GO_SIDECAR_SHADOW_ENABLED: false
 }));
+vi.mock("@app/lib/config/env", () => ({ getConfig: () => mockConfig }));
 
 afterEach(() => {
   vi.clearAllMocks();
+  mockConfig.DISABLE_AUDIT_LOG_GENERATION = false;
+  mockConfig.GO_SIDECAR_SHADOW_ENABLED = false;
 });
 
 describe("native authentication policy at process startup", () => {
@@ -65,5 +68,29 @@ describe("native authentication policy at process startup", () => {
     } finally {
       await server.close();
     }
+  });
+});
+
+describe("native audit process policy", () => {
+  it.each([
+    { shadow: false, disabled: false, expected: "false" },
+    { shadow: true, disabled: false, expected: "true" },
+    { shadow: false, disabled: true, expected: "true" },
+    { shadow: true, disabled: true, expected: "true" }
+  ])("preserves audit policy for shadow=$shadow disabled=$disabled", async ({ shadow, disabled, expected }) => {
+    mockConfig.GO_SIDECAR_SHADOW_ENABLED = shadow;
+    mockConfig.DISABLE_AUDIT_LOG_GENERATION = disabled;
+    const child = Object.assign(new EventEmitter(), { killed: false, kill: vi.fn() });
+    vi.mocked(spawn).mockReturnValue(child as unknown as ReturnType<typeof spawn>);
+    const server = Fastify();
+    try {
+      await server.register(goSidecarPlugin, { enabled: true, env: { DISABLE_AUDIT_LOG_GENERATION: "false" } });
+      await server.ready();
+      expect(spawn).toHaveBeenCalledOnce();
+      expect(vi.mocked(spawn).mock.calls[0][2]?.env?.DISABLE_AUDIT_LOG_GENERATION).toBe(expected);
+    } finally {
+      await server.close();
+    }
+    expect(child.kill).toHaveBeenCalledOnce();
   });
 });

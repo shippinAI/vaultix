@@ -166,11 +166,11 @@ func (h *Handler) listSecrets(ctx context.Context, opts *listSecretsInternalOpts
 	// 6. Build response
 	response := h.buildListSecretsResponse(result, opts.ProjectID, opts.IncludeImports)
 
-	// TODO: Re-enable audit logging once Go backend is primary
-	// // 7. Audit log
-	// if err := h.createGetSecretsAuditLog(ctx, opts.ProjectID, opts.Environment, opts.SecretPath, len(response.Secrets)); err != nil {
-	// 	return nil, err
-	// }
+	// Audit successful native reads before returning the response. Shadow-only
+	// processes suppress generation through configuration, not request headers.
+	if err := h.CreateGetSecretsAuditLog(ctx, opts.ProjectID, opts.Environment, opts.SecretPath, len(response.Secrets)); err != nil {
+		return nil, err
+	}
 
 	return response, nil
 }
