@@ -80,7 +80,7 @@ PostgreSQL documents that triggers run in the initiating transaction and errors
 roll back both effects; real-store verification must still prove cascade behavior
 and recovery on the pinned PostgreSQL 16 runtime.
 [Trigger behavior](https://www.postgresql.org/docs/16/trigger-definition.html).
-Source-capture verification is in progress; worker delivery remains unimplemented.
+Source-capture verification is recorded below; worker delivery remains unimplemented.
 
 [PostgreSQL's locking documentation](https://www.postgresql.org/docs/current/sql-select.html)
 describes `SKIP LOCKED` for queue-like consumers. [BullMQ's retry guidance](https://docs.bullmq.io/patterns/idempotent-jobs)
@@ -151,8 +151,35 @@ TypeScript checking and changed-file lint passed. Initial fixture DDL binding,
 test typing, formatting, and disposable signup setup failures are retained locally.
 The source fixture password now uses separated random bytes to avoid the existing
 repeated-character policy. These are local scoped checks; canonical-image and
-native integration verification are still pending.
+native integration verification are recorded below.
 
 Receipts: `.cache/device-source-store-DNFVMq/result.json`, `.cache/device-session-store-gA3Dm9/result.json`,
 `.cache/device-source-final-unit.json`, `.cache/device-source-final-lint.json`,
 `.cache/source-capture-lint-fix.json`, and `.cache/source-capture-typecheck.json`.
+
+### Canonical source-capture artifact
+
+Runtime source `33be24f5c7349fa2366f562d0e7212d4ac1a92aa` produced
+`sha256:39f67677e32a41744821233c7f792589758e7a04eea803977b27744a36c7021e`. All sixteen standard image gates passed.
+The image's migrated PostgreSQL store passed 25 native session integration/race
+outcomes and all eleven source-capture scenarios; 132 native secret-service
+outcomes and four real native audit checks also passed. Existing audit, notification
+and local SMTP destination scenarios passed again on this exact schema/image.
+
+These checks preserve existing browser/secret behavior and prove the scoped capture
+boundary. They do not prove a delivery worker, recipient preparation, current-request
+provenance for every lifecycle action, public device login or live federation.
+
+Receipts: `.cache/self-hosted-build-nzo2vT/result.json`, `.cache/native-audit-image-HcLi8J/result.json`,
+`.cache/device-source-store-GgIaY6/result.json`, `.cache/delivery-destination-store-igoIZQ/result.json`,
+`.cache/device-source-final-integration.json`, and
+`.cache/device-source-final-secrets.json`. Existing-image migration and binary
+compatibility evidence remains in `.cache/device-source-store-DNFVMq/result.json` and
+`.cache/device-session-store-gA3Dm9/result.json`. No original full lifecycle gate is closed by a scoped check.
+
+A separate real-image rollback check advanced migration history through the new
+image, restarted the previous `d6898f72` image on that database, invoked its real
+HTTP session-revocation API, then reupgraded. The owner and source events survived,
+and the previous API recorded the new deletion fact through the database hooks.
+This closes the gap left by direct migration-function tests that do not advance
+the migration-history table. Receipt: `.cache/device-source-rollback-GY7cQH/result.json`.

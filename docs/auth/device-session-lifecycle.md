@@ -155,9 +155,10 @@ Issuance, rotation and native revocation write credential-free security records
 in `vaultix_device_session_events` in the same transaction. These records survive
 canonical session/account deletion. Delivery timestamps remain unset: integrating
 bounded retries, retention and delivery through the existing audit and notification
-owners is still required. Existing generic session deletion continues to revoke
-device access, but this implementation does not add a security event to every
-legacy deletion path. That coverage remains part of delivery integration.
+owners is still required. At this session-owner checkpoint, generic deletion revoked device access without
+recording every deletion. The subsequent [source-capture stage](device-event-delivery.md)
+adds transactional canonical/account-cascade deletion facts and immutable context.
+Delivery, recipient preparation and full request provenance remain open.
 
 The additive migration preserves existing sessions as `browser`. Schema rollback
 refuses retained device sessions or security records. Keep the additive schema

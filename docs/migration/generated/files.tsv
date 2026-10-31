@@ -9526,5 +9526,6 @@ scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ad23e9723562174b538b2a41b1d469447f11dcc1	authored
 scripts/verify-device-session-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5d86a20105bb3bb5fd13986e875ff931d97071e3	authored
+scripts/verify-device-source-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da636434dd05dce4c2bd34233203a0d630e16a9b	authored
 scripts/verify-device-source-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7361fbd97ddb8662d004238eb614028aa0add100	authored
 scripts/verify-native-audit-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee8af04609af3a010c53cca1b55c99d58b4029f2	unread

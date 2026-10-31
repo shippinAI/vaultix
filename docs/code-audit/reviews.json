@@ -5777,7 +5777,7 @@
       "blob": "e2bf6c103d2f532ff871ca91370a3926885ecc00",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-event-delivery.md"
@@ -5798,7 +5798,7 @@
       "blob": "3d38aca518190a52e0052714bc1ce3a77c696966",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-event-delivery.md"
@@ -5899,7 +5899,7 @@
       "blob": "32ef2512459c4295a66849a931782492cc53e607",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5909,7 +5909,7 @@
       "blob": "e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5919,7 +5919,7 @@
       "blob": "7361fbd97ddb8662d004238eb614028aa0add100",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5929,7 +5929,17 @@
       "blob": "5d86a20105bb3bb5fd13986e875ff931d97071e3",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-device-source-rollback.mjs",
+      "blob": "da636434dd05dce4c2bd34233203a0d630e16a9b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Actual disposable canonical image upgrade/rollback/reupgrade with recorded migration history, previous binary authenticated HTTP session revocation and preserved context/owner. Four assertions plus cleanup passed on the exact candidate image. Does not prove worker delivery or public device login.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

@@ -11809,8 +11809,8 @@ docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
-docs/auth/device-event-delivery.md	e47b1d8ed56ea503d75e7c4b57edeb1cdd81189d	documentation	unread
-docs/auth/device-session-lifecycle.md	328230d664b76fb32f9116a3fef8335c91f9afc8	documentation	unread
+docs/auth/device-event-delivery.md	83e0b997dee5df86bcd52e4ff6f8541063ade106	documentation	unread
+docs/auth/device-session-lifecycle.md	f58fe603e81a207c9fcc9328330f833edc9a2b8a	documentation	unread
 docs/auth/native-audit-delivery.md	10366dedb54977b0e166e0dc1193536f5b0ea65b	documentation	unread
 docs/auth/nomen-binding-lifecycle.md	f9ce53ec60fe438b70244fb5f3607430130271bf	documentation	verified
 docs/auth/nomen-execution-plan.md	82df05526924f8ae8e6e2853d34dc37414b2e95c	documentation	reviewed
@@ -11823,13 +11823,13 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	7bb7c0ca6956fb049ca3641e0542937d0d600d8d	generated	unread
-docs/capabilities/generated/source-map.tsv	b34cd3b74a19eb023338245a70662e6e7553a94b	generated	unread
+docs/capabilities/generated/catalog.json	30aebf1f96e6e8905f03f58b0760cb8e5ee4b553	generated	unread
+docs/capabilities/generated/source-map.tsv	1081d2ec3573fc5f959edf453b93ee202e5cdb4f	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	01e811bd4fc505d842f439ae90065e5920ce0767	generated	unread
-docs/migration/generated/modules.tsv	d757a19127dc3e5db7d04157e2815c360d6e5666	generated	unread
-docs/migration/generated/summary.json	3891c8f0ae5bb33115fc4cccac3de068fb92cbfe	generated	unread
+docs/migration/generated/files.tsv	a40f951ecafbe6d3c792c671708b775a0a6fc7fc	generated	unread
+docs/migration/generated/modules.tsv	d124068c34fb6594131da746b82f6678bd25da5b	generated	unread
+docs/migration/generated/summary.json	3f68c8ec285c7be328df33c2958360513e797535	generated	unread
 docs/migration/workstreams.json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -12036,5 +12036,6 @@ scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-op
 scripts/up.sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	build-and-operations	authored
 scripts/verify-delivery-destination-store.mjs	ad23e9723562174b538b2a41b1d469447f11dcc1	build-and-operations	authored
 scripts/verify-device-session-store.mjs	5d86a20105bb3bb5fd13986e875ff931d97071e3	build-and-operations	authored
+scripts/verify-device-source-rollback.mjs	da636434dd05dce4c2bd34233203a0d630e16a9b	build-and-operations	authored
 scripts/verify-device-source-store.mjs	7361fbd97ddb8662d004238eb614028aa0add100	build-and-operations	authored
 scripts/verify-native-audit-boundary.mjs	ee8af04609af3a010c53cca1b55c99d58b4029f2	build-and-operations	unread
