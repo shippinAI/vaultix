@@ -90,7 +90,31 @@ The permission projection also runs the existing independently generated CASL
 vectors. These tests do not prove real external provider login or usable native
 device tokens.
 
-Verification is pending for this candidate. Existing grant-engine and image
-receipts remain scoped to [their accepted source](device-authorization-engine.md).
+Verified component checkpoint, 2026-10-31 UTC:
+
+- Runtime source: `076ba27b843c7a4ba76dd2ec87704e0a28ef13f8`.
+- Canonical image: `sha256:6938721edbb83b34897041da1197c6dabf6de740759edb4ba4d26bab830bbcea`.
+- All 16 canonical build/application gates passed, including existing real browser login/project workflows, Dragonfly/Redis, encrypted recovery, tenant isolation, proxy boundaries and admission.
+- 814 native unit/race and 868 native integration/race outcomes passed, including 63 authority outcomes. 8 external-provider KMS outcomes remain skipped. Pinned Go lint reports zero issues.
+- Disabling the policy-digest comparison in a disposable source copy caused the role-change redemption test to fail. The production baseline passed.
+- All 273 baseline UI routes and 2,290 baseline API operations are retained; the image reports 2,291 operations. The preservation baseline was not recaptured.
+
+The initial new role/group fixtures omitted required fields from the actual
+database schema. Required names, organization and slug fields were supplied;
+constraints and policy assertions were retained. An initial image attempt also
+exceeded the existing twenty-second limit for two issuer startup probes despite
+emitting the expected validation diagnostics. The accepted image passed all
+eighteen startup probes without changing that limit. Failed attempts remain in
+the private journal/evidence directory.
+
+Local receipts: `.cache/self-hosted-build-3QH0ej/result.json`,
+`.cache/authority-final-unit.json`, `.cache/authority-final-all.json`,
+`.cache/authority-final-lint.json`, and `.cache/authority-final-mutation.json`.
+Native source fingerprints match the canonical archive. These are local receipts,
+not independently attested certification.
+
 No public route, CLI default, database migration or existing login behavior is
-changed by this unmounted authority component.
+changed by this unmounted authority component. Its PostgreSQL tests use the real
+authority and a fixture session issuer; the image checks preserve existing
+application workflows. Complete remote login and live provider acceptance remain
+open in [0074](../0074-built-in-and-federated-identity.md).
