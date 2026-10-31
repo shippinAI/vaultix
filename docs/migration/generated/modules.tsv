@@ -341,7 +341,7 @@ core/backend/src/services/app-connection	pam	Go-domain-migration	5	826fd8d58850b
 core/backend/src/services/approval-policy	authorization	Go-domain-migration	16	8831bb69c8486be58449e15fbb5290f3c40bb01d585cc38bbf4c9e8b2f8741ea	0	unassessed
 core/backend/src/services/approval-policy	pam	Go-domain-migration	3	447acb8cd487aa6bb9430da4a5ce61c66f9e21d000a56602ac61a2ff5eca9a8f	0	unassessed
 core/backend/src/services/auth	identity	Go-domain-migration	13	756ad1b4b543384f439ffb8eb9cce5742a9b694cbea803847be7dbb3fe78a439	0	unassessed
-core/backend/src/services/auth-token	identity	Go-domain-migration	6	e0ef91dde01f0993da233215ede97c8fa5daa3eca3af0dd91e3e262460b42174	4	unassessed
+core/backend/src/services/auth-token	identity	Go-domain-migration	6	34d4b614b3f855bb214ed923f9f435014e7b8e38b08b602ce47cd9e616c11882	4	unassessed
 core/backend/src/services/cert-manager-export	pki	Go-domain-migration	2	3b3b0bdbdb6b385a96bde15a9a4b238cddca3354319cab411f0eb3b03c196b90	0	unassessed
 core/backend/src/services/cert-manager-instance	pki	Go-domain-migration	3	654a26bfe914234b6d627e0f434a99e0191eaf4972d9d93345c23da269988cec	0	unassessed
 core/backend/src/services/certificate	pki	Go-domain-migration	7	323ec6a41d882c2e1ba69855a039899a65a4ec8cba14ef250cecd8bfb4f2edae	0	unassessed
