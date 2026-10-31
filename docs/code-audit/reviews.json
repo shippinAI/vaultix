@@ -5695,7 +5695,7 @@
       "blob": "46e03357c5968797f4c49fde459f91281a8e1e43",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-event-delivery.md"
@@ -5706,7 +5706,7 @@
       "blob": "fa68108a1f21eb0ead5858a0776d717a09b1f48c",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-event-delivery.md"
@@ -5807,7 +5807,7 @@
       "blob": "6de9fff70183db0e11f9523b054ee399850d8afb",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5817,7 +5817,7 @@
       "blob": "46eb93fec8e91d1aceb4c3c5c46d58d53764d67e",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5827,7 +5827,7 @@
       "blob": "dfe5c2a4efe6736803bfde877da3c8ae5849cc20",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5837,7 +5837,7 @@
       "blob": "d7460e15f944d24ecb54c699a8ef8c2a03d581b3",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5847,7 +5847,7 @@
       "blob": "3a6670dcf40cdc54f99b826fcecb861f50c929cf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5857,7 +5857,7 @@
       "blob": "c92a9b5f3beca359d21dfaa8c0c57b68226bf37f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5867,7 +5867,7 @@
       "blob": "865b06a2373d30410243c10547478dae9c82ac7d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5877,7 +5877,7 @@
       "blob": "864a4b728dd7c4201789ad540fdca452a8fc16aa",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5887,7 +5887,7 @@
       "blob": "ad23e9723562174b538b2a41b1d469447f11dcc1",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay with caller transaction, and bounded single-recipient SMTP acceptance. Exact scoped destination units and actual PostgreSQL/local SMTP tests pass. Preserves existing asynchronous interfaces and native audit protocol. Canonical image verification pending; source worker/claims/provenance/legacy deletion, complete delivery/retention, actual resource consumers and public login remain open.",
+      "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

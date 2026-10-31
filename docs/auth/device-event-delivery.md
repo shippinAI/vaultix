@@ -51,7 +51,7 @@ prove the pending worker is implemented. Runtime PostgreSQL remains pinned to 16
 
 ## Current verification boundary
 
-Destination methods are under verification. Real PostgreSQL checks exercise audit
+Destination methods have scoped verification below. Real PostgreSQL checks exercise audit
 storage followed by fanout failure/retry, and notification replay, read-state
 preservation, conflicting recipients, caller rollback and independent workers with one connection each.
 Unit checks exercise both audit storage modes and SMTP acknowledgment semantics.
@@ -75,10 +75,26 @@ The first real-store attempt found a wrong notification conflict target: the tab
 is partitioned with primary key `(id, createdAt)`. This was corrected and verified,
 without changing the schema or lowering assertions. Logger test initialization,
 optional-row type errors and lint findings were also corrected. Initial failures
-remain local; canonical-image verification is still pending.
+remain local; canonical-image verification is recorded below.
 
 Receipts: `.cache/delivery-destination-unit-OEsdfV/result.json`, `.cache/delivery-destination-store-S3VA0v/result.json`,
 `.cache/delivery-destinations-typecheck.json`,
 `.cache/delivery-destinations-lint-fix.json`, and
 `.cache/native-audit-boundary-PDc288/result.json`. These are scoped local evidence,
 not independent attestation, full device-event delivery or provider acceptance.
+
+### Canonical artifact
+
+Runtime source `4cb430d42b33b383a00bb86296b2500c572b14ae` produced
+`sha256:d6898f72a8c23a46025bfb30194606f1f6868e54d3d1e7cb322829ed495555f8`. All sixteen standard image gates passed,
+including browser/project workflows, Dragonfly/Redis, encrypted recovery, tenant
+isolation, proxy boundaries and admission. Four additional checks proved actual
+native secrets audit persistence, redaction and anonymous denial on that image.
+
+Exact receipt source was compared with the committed archive. The unchanged native
+session/credential sources retain their prior scoped evidence; this does not repeat
+or broaden it into full source-worker or public device-flow acceptance.
+
+Image receipts: `.cache/self-hosted-build-Q7KW1R/result.json` and `.cache/native-audit-image-uh5YBt/result.json`.
+The source-worker requirements above remain open; no device endpoint or CLI default
+is activated by this checkpoint.
