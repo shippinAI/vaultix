@@ -160,7 +160,11 @@ core/backend-go/internal/services/auth/device/authority.go	access	identity	core/
 core/backend-go/internal/services/auth/device/authority_query.go	access	identity	core/backend-go/internal/services/auth	2b0c6fbfd22de8f3533ad4bcedf2e35c10c6e26c	verified
 core/backend-go/internal/services/auth/device/codes.go	access	identity	core/backend-go/internal/services/auth	ec1a40ae09ae7efaba90f53299a4ea45630d5134	verified
 core/backend-go/internal/services/auth/device/codes_test.go	access	identity	core/backend-go/internal/services/auth	90b59773607e513d3635c5f787ee01398a3a6715	verified
+core/backend-go/internal/services/auth/device/credentials.go	access	identity	core/backend-go/internal/services/auth	2eee2b8942c01c1d526746c79c7935c8bba22729	authored
+core/backend-go/internal/services/auth/device/credentials_test.go	access	identity	core/backend-go/internal/services/auth	2f2f9a172147b96720dca4085d1c87735587db11	authored
 core/backend-go/internal/services/auth/device/service.go	access	identity	core/backend-go/internal/services/auth	573d26eb8d6071db0af6fc0b0919a7473892607e	verified
+core/backend-go/internal/services/auth/device/testdata/credentials-v1.json	access	identity	core/backend-go/internal/services/auth	130e79007f452a2f3d96764f41d6fbc87807ef50	authored
+core/backend-go/internal/services/auth/device/testdata/generate-credentials.mjs	access	identity	core/backend-go/internal/services/auth	87816260e772e63435236732853bdba329f5ec78	authored
 core/backend-go/internal/services/auth/device/types.go	access	identity	core/backend-go/internal/services/auth	ecf7d48ecf76c2c62ecdb88f5d8eb584eb076042	verified
 core/backend-go/internal/services/auth/nomen/bindings.go	access	identity	core/backend-go/internal/services/auth	c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475	verified
 core/backend-go/internal/services/auth/nomen/claims.go	access	identity	core/backend-go/internal/services/auth	0f75985bf51db531617d90d998e064e5ccd565e0	verified

@@ -5629,6 +5629,46 @@
       "evidence": [
         "docs/auth/device-approval-authority.md"
       ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/credentials.go",
+      "blob": "2eee2b8942c01c1d526746c79c7935c8bba22729",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/credentials_test.go",
+      "blob": "2f2f9a172147b96720dca4085d1c87735587db11",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/testdata/generate-credentials.mjs",
+      "blob": "87816260e772e63435236732853bdba329f5ec78",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/testdata/credentials-v1.json",
+      "blob": "130e79007f452a2f3d96764f41d6fbc87807ef50",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
     }
   ]
 }

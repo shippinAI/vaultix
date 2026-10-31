@@ -49,7 +49,7 @@ core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	1cb6e5187e7b0209a11103cb9129976a0ac72a9755f72b7ccf6f0100dd2f6b3a	4	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	33	6a529658f7c9fcf06eaaffd89fbf09cbea275da2df6ecf506c77109f74737817	30	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	37	65a14b8b21065cacba9478addac05d095ace07bad5b720d25af29ff0ef50fb60	34	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	5	a0a079e111a69bb8df065001dcbb07545bdd9b9e792a2f089c5e29fae96921f1	2	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	18	47a2cc0081667de81a519e0c6d53823fddc3f8def130d37df09a1364688298ce	8	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518e974fe932c25c378d1f96b88e5b261b719c9c9f6e2efdc	0	unassessed
