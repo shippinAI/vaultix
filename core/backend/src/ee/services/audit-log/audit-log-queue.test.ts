@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
 import { QueueName } from "@app/queue";
 
 import { auditLogQueueServiceFactory } from "./audit-log-queue";
+import nativeEnvelope from "./fixtures/native-ingest-v1.json";
 
 // Mutable config the mocked getConfig() returns. CLICKHOUSE_AUDIT_LOG_ENABLED is read once at
 // factory construction; AUDIT_LOG_STREAMS_ENABLED is read per consumer run.
@@ -136,6 +137,69 @@ const pushedEntry = (keyStore: { streamAdd: { mock: { calls: unknown[][] } } }) 
 
 beforeEach(() => {
   vi.clearAllMocks();
+});
+
+describe.each([false, true])("native audit ingest (ClickHouse=%s)", (clickhouse) => {
+  const flat = {
+    ...nativeEnvelope,
+    actor: nativeEnvelope.actor.type,
+    actorMetadata: nativeEnvelope.actor.metadata,
+    event: undefined,
+    eventType: nativeEnvelope.event.type,
+    eventMetadata: nativeEnvelope.event.metadata
+  };
+
+  test.each([nativeEnvelope, flat])("persists and fans out native and legacy envelopes", async (envelope) => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    h.keyStore.streamCollect.mockResolvedValue(collectResult([envelope]));
+    await h.consumer();
+    const rows = clickhouse
+      ? h.clickhouseClient!.insert.mock.calls[0][0].values
+      : h.auditLogDAL.batchCreate.mock.calls[0][0];
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({
+      id: "019a3b00-0000-7000-8000-000000000001",
+      orgId: "33333333-3333-4333-8333-333333333333",
+      actor: "user",
+      actorMetadata: { userId: "11111111-1111-4111-8111-111111111111", authMethod: "email" },
+      eventType: "get-secrets",
+      eventMetadata: { environment: "dev", secretPath: "/", numberOfSecrets: 0 },
+      createdAt: new Date("2026-10-31T00:00:00Z"),
+      expiresAt: new Date("2026-11-30T00:00:00Z")
+    });
+    expect(h.auditLogStreamOutboxService.enqueueForLogs).toHaveBeenCalledWith(rows);
+    expect(h.keyStore.streamTrim).toHaveBeenCalledTimes(1);
+  });
+
+  test.each(["storage", "fanout"])("retries a %s failure with the original identity", async (failure) => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    const insert = clickhouse ? h.clickhouseClient!.insert : h.auditLogDAL.batchCreate;
+    if (failure === "storage") insert.mockRejectedValueOnce(new Error("storage unavailable"));
+    else h.auditLogStreamOutboxService.enqueueForLogs.mockRejectedValueOnce(new Error("fanout unavailable"));
+    h.keyStore.streamCollect.mockResolvedValue(collectResult([nativeEnvelope]));
+    await h.consumer();
+    expect(h.keyStore.streamTrim).not.toHaveBeenCalled();
+    if (failure === "storage") expect(h.auditLogStreamOutboxService.enqueueForLogs).not.toHaveBeenCalled();
+    await h.consumer();
+    expect(insert).toHaveBeenCalledTimes(2);
+    expect(insert.mock.calls[1]).toEqual(insert.mock.calls[0]);
+    expect(h.keyStore.streamTrim).toHaveBeenCalledTimes(1);
+  });
+
+  test("rejects malformed nested events instead of using a flat fallback", async () => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    h.keyStore.streamCollect.mockResolvedValue(
+      collectResult([
+        { ...flat, event: null },
+        { ...nativeEnvelope, createdAt: "invalid" },
+        { ...nativeEnvelope, id: undefined }
+      ])
+    );
+    await h.consumer();
+    expect(h.auditLogDAL.batchCreate).not.toHaveBeenCalled();
+    expect(h.clickhouseClient?.insert ?? vi.fn()).not.toHaveBeenCalled();
+    expect(h.auditLogStreamOutboxService.enqueueForLogs).not.toHaveBeenCalled();
+  });
 });
 
 describe("audit-log-queue construction", () => {

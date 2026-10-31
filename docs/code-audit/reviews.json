@@ -1867,23 +1867,12 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "197e58dd51259fb7648788e2729a4f4bf3bade40",
-      "status": "verified",
+      "blob": "6a64437cfef071abe7a083fed7f34ecef457308b",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read; service construction now passes validated identity policy through explicit native authentication dependencies and handles constructor failure. KMS, audit worker, permission and rate-limit ownership are retained and not newly certified by this wiring change.",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
       "evidence": [
-        "docs/0039-native-scoped-revocation.md",
-        "docs/0040-native-identity-lifetime-policy.md",
-        ".cache/lifetime-go-unit-epoch.jsonl",
-        ".cache/go-proof-v1YQ0E/result.json",
-        ".cache/go-proof-1EOCPM/result.json",
-        ".cache/unit-proof-vfJJjf/test-results.json",
-        ".cache/core-proof-mfFwYc/test-results.json",
-        ".cache/core-proof-xwLoUg/test-results.json",
-        ".cache/identity-policy-proof-oAErwy/result.json",
-        ".cache/dropzone-proof-YuxurI/result.json",
-        ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        "docs/auth/native-audit-delivery.md"
       ]
     },
     {
@@ -5668,6 +5657,86 @@
       "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auditlog/auditlog.go",
+      "blob": "7cd49ca79b7f1cef7eac1d77175177853ed981e7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auditlog/event.go",
+      "blob": "104d2f5a2143d38bb8f737925d591c166a80117d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auditlog/queue_handler.go",
+      "blob": "33aaa0b98cc14f6e697782c3bb372f7f5bec7543",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auditlog/queue_handler_test.go",
+      "blob": "eed221421f24569abbd71b7045210f7ca091c1d8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auditlog/producer_integration_test.go",
+      "blob": "48008eb0d433ac80af8699560145016ea9940812",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log/audit-log-queue.ts",
+      "blob": "20270a695bd573b02b7f42a7cd2b7907d99d2845",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log/audit-log-queue.test.ts",
+      "blob": "932ce0481c81e41da093c504b9525e7b3095da4a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/audit-log/fixtures/native-ingest-v1.json",
+      "blob": "61d7d6d766d6cb433f1bd7c6659eea97c04162dc",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "evidence": [
+        "docs/auth/native-audit-delivery.md"
       ]
     }
   ]

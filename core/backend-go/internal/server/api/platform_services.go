@@ -72,10 +72,8 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	})
 
 	auditLogQueueHandler := auditlog.NewQueueHandler(ctx, infra.Logger, &auditlog.QueueHandlerDeps{
-		DB:       infra.DB,
 		Project:  projectSvc,
 		License:  infra.License,
-		Config:   infra.Config,
 		KeyStore: infra.KeyStore,
 	})
 	auditLogQueueHandler.Register(infra.Queue)

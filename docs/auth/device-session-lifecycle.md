@@ -120,3 +120,7 @@ integration-pending scope.
 The audit probe receipt is `.cache/native-audit-probe.json`. Durable issuance
 events, retry identity and notification delivery remain part of the same session
 plan; an asynchronous enqueue call is insufficient evidence of atomic delivery.
+
+The in-place repair and its compatibility boundary are documented in
+[native audit delivery](native-audit-delivery.md). This prerequisite does not close
+the dedicated-session, transaction, notification or API-consumer obligations above.

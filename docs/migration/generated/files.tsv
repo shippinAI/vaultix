@@ -108,7 +108,7 @@ core/backend-go/internal/server/api/platform/projects/gen.go	core/backend-go/int
 core/backend-go/internal/server/api/platform/projects/handler.go	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	go	52baf54f3002c973a8ada03c5eb483ac16a171e4	verified
 core/backend-go/internal/server/api/platform/projects/openapi.yml	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	yml	b53a4afdec2c6b494366455739c677446fd62c28	verified
 core/backend-go/internal/server/api/platform_routes.go	core/backend-go/internal/server/api	foundation	Go-native	go	b5685b1ebc5f034857fa0d90c5c2885c6f52e3e7	unread
-core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	197e58dd51259fb7648788e2729a4f4bf3bade40	verified
+core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	6a64437cfef071abe7a083fed7f34ecef457308b	authored
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	yaml	35a2af5abac5d1521e932c47beea4844958ab6fa	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	eda488c30cc0d5bfb0bda66eb3a001288eecbb95	unread
 core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	dfc213257233b0cdc286efdff230c8d01d01f0a9	unread
@@ -136,10 +136,12 @@ core/backend-go/internal/services/assumeprivilege/service.go	core/backend-go/int
 core/backend-go/internal/services/assumeprivilege/service_test.go	core/backend-go/internal/services/assumeprivilege	authorization	Go-native	go	28fda7f87d55094e57a89417dd7c4b4f950a254f	verified
 core/backend-go/internal/services/assumeprivilege/types.go	core/backend-go/internal/services/assumeprivilege	authorization	Go-native	go	8680f7d30529f6733752d60c247cba7c3cf17fb4	verified
 core/backend-go/internal/services/auditlog/actor.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	c0bedc8fc1ca56e0ba137b163d4ccc3133a40dfd	unread
-core/backend-go/internal/services/auditlog/auditlog.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	550924a5bb2e1902ca3de54c3ebfcc2f24c0406a	unread
-core/backend-go/internal/services/auditlog/event.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	9641ec20666ef81dc0bdf23553fe3ba4eb2f1788	unread
+core/backend-go/internal/services/auditlog/auditlog.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	7cd49ca79b7f1cef7eac1d77175177853ed981e7	authored
+core/backend-go/internal/services/auditlog/event.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	104d2f5a2143d38bb8f737925d591c166a80117d	authored
 core/backend-go/internal/services/auditlog/info.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	unread
-core/backend-go/internal/services/auditlog/queue_handler.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	8fffcdc835dca60978a9a9ece66de24257e8c969	unread
+core/backend-go/internal/services/auditlog/producer_integration_test.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	48008eb0d433ac80af8699560145016ea9940812	authored
+core/backend-go/internal/services/auditlog/queue_handler.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	33aaa0b98cc14f6e697782c3bb372f7f5bec7543	authored
+core/backend-go/internal/services/auditlog/queue_handler_test.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	eed221421f24569abbd71b7045210f7ca091c1d8	authored
 core/backend-go/internal/services/auditlog/useragent.go	core/backend-go/internal/services/auditlog	audit	Go-native	go	debf555fd242540645332817c077bed76833d135	unread
 core/backend-go/internal/services/auth/apiauth/authenticator.go	core/backend-go/internal/services/auth	identity	Go-native	go	eebfb8e7033100e5c23777edb0da6393201f36dd	verified
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	verified
@@ -1388,10 +1390,11 @@ core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-sch
 core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-types.ts	core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	ts	fd8942925933708790f456ed02a0283aee26ca6e	unread
 core/backend/src/ee/services/audit-log/audit-log-clickhouse-dal.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	f545e5dfe4bdfb48b14abe6f711691b1126113d8	unread
 core/backend/src/ee/services/audit-log/audit-log-dal.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	e3b24c9e179bcf52462f14185881c15a8cfe6458	unread
-core/backend/src/ee/services/audit-log/audit-log-queue.test.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	c7babe2740551b880fddcd42b211e6e33a3c7643	unread
-core/backend/src/ee/services/audit-log/audit-log-queue.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	807b06c0273e987e564a8ca020dfeeb53e3e0c7e	unread
+core/backend/src/ee/services/audit-log/audit-log-queue.test.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	932ce0481c81e41da093c504b9525e7b3095da4a	authored
+core/backend/src/ee/services/audit-log/audit-log-queue.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	20270a695bd573b02b7f42a7cd2b7907d99d2845	authored
 core/backend/src/ee/services/audit-log/audit-log-service.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	e986a30cb3508f6ad7d185b3d73cc02e3678f2d4	unread
 core/backend/src/ee/services/audit-log/audit-log-types.ts	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	ts	81321eb11d7293ed621f8075e20c0acc6b9e71a5	unread
+core/backend/src/ee/services/audit-log/fixtures/native-ingest-v1.json	core/backend/src/ee/services/audit-log	audit	Go-domain-migration	json	61d7d6d766d6cb433f1bd7c6659eea97c04162dc	authored
 core/backend/src/ee/services/audit-report/audit-report-dal.ts	core/backend/src/ee/services/audit-report	audit	Go-domain-migration	ts	352987de968e363793585313b3f29f885e97c39e	unread
 core/backend/src/ee/services/audit-report/audit-report-fns.ts	core/backend/src/ee/services/audit-report	audit	Go-domain-migration	ts	094ce43b0124e21eda9f206b31fe1f59db6d6ade	unread
 core/backend/src/ee/services/audit-report/audit-report-generators.ts	core/backend/src/ee/services/audit-report	audit	Go-domain-migration	ts	c31d132f473057cfa21c08dceb52db4dce846739	unread
@@ -9509,3 +9512,4 @@ scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contra
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
+scripts/verify-native-audit-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aaffabbaf8f61f171518ec97f41ccea7f0d3fb47	unread

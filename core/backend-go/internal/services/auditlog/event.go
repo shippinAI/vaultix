@@ -3,6 +3,7 @@ package auditlog
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -10,7 +11,15 @@ import (
 )
 
 // TaskAuditLog is the typed task definition for audit log processing.
-var TaskAuditLog = queue.NewTask[*CreateAuditLogDTO](queue.TaskNameAuditLog)
+var TaskAuditLog = queue.NewTask[*queuedAuditLog](queue.TaskNameAuditLog)
+
+// queuedAuditLog pins delivery identity before enqueue. Embedding preserves the
+// old DTO wire shape so queued jobs remain readable during rolling upgrades.
+type queuedAuditLog struct {
+	CreateAuditLogDTO
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"createdAt"`
+}
 
 // EventType represents the type of audit event.
 type EventType string

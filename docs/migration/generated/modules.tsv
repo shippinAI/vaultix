@@ -39,7 +39,7 @@ core/backend-go/internal/libs/logutil	foundation	Go-native	1	fa1309ad3a8251693df
 core/backend-go/internal/libs/requestid	foundation	Go-native	1	a68779cad843e4d5a393b4b7a34f73fc3138c0367cb0aa7c4aedd624619ed44c	0	unassessed
 core/backend-go/internal/queue	foundation	Go-native	2	6c1833a8dbfcfd6372d7359fcfca6c234e253fee1312c6f4e0af249ae2a1e9ba	0	unassessed
 core/backend-go/internal/server	foundation	Go-native	1	4a2ddcdfb3f2aac1c4717e56cfc2474b633e39b92b1eaa330be4549a629f8356	0	unassessed
-core/backend-go/internal/server/api	foundation	Go-native	3	02eee1a6e1be0aba915f8100988cca60fc7e08c3b2a13498e30f07ba7a2d31cb	1	unassessed
+core/backend-go/internal/server/api	foundation	Go-native	3	e1598e3c26fcd0bed627181d858891b224c788a03654e1724364a8ac09b6e0dd	1	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	8c2ea48f3dfc5ba0e64b032fe8c696facceb4412699f03ffa07aa30c6e5aac8e	0	unassessed
 core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	533af5011e49d5b22a2a47b5e9661d6465e4079734bbd0332bba4b50aa5eb83c	3	unassessed
 core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	6	d44c34a78384f8afea716d8c8923681f02598055c6a5d906d39a735b225357fc	0	unassessed
@@ -48,7 +48,7 @@ core/backend-go/internal/server/api/templates	foundation	Go-native	1	34f212cfcb7
 core/backend-go/internal/server/api/validator	foundation	Go-native	1	af2aa4a26f2fefb6daf88c65b7b80d0aca436985c96efadc935f21d2fd0ba480	0	unassessed
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	1cb6e5187e7b0209a11103cb9129976a0ac72a9755f72b7ccf6f0100dd2f6b3a	4	unassessed
-core/backend-go/internal/services/auditlog	audit	Go-native	6	0f587250eda3be56aed0343d7e5113b190c33158ff0f092c8f44c8a03fd641f7	0	unassessed
+core/backend-go/internal/services/auditlog	audit	Go-native	8	2a39679220241f0070ab2ba4d3d5785fb65166f32c1dbb967d081acd3d961dda	5	unassessed
 core/backend-go/internal/services/auth	identity	Go-native	37	65a14b8b21065cacba9478addac05d095ace07bad5b720d25af29ff0ef50fb60	34	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	5	a0a079e111a69bb8df065001dcbb07545bdd9b9e792a2f089c5e29fae96921f1	2	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	18	47a2cc0081667de81a519e0c6d53823fddc3f8def130d37df09a1364688298ce	8	unassessed
@@ -158,7 +158,7 @@ core/backend/src/ee/services/access-approval-request	authorization	Go-domain-mig
 core/backend/src/ee/services/agent-proxy-ca	pam	Go-domain-migration	2	95923bf8a987d911b40d0dab6654471e683ea0b6d4ecb10f3258314e7f7ff9a7	0	unassessed
 core/backend/src/ee/services/app-connections	integrations	Go-domain-migration	17	e2a95680f512f6f540bbb36906c6b3805ae9057d709d21443cc8488a0ad30b81	0	unassessed
 core/backend/src/ee/services/assume-privilege	authorization	Go-domain-migration	2	378bb8a0986c5f68aca99b81a218d3b50407baef597e06ee6966888902799346	0	unassessed
-core/backend/src/ee/services/audit-log	audit	Go-domain-migration	6	85a652ce5ab3335d771259b018ea32cc6ba0e1c18a5027bc2b48a8f7078fa8aa	0	unassessed
+core/backend/src/ee/services/audit-log	audit	Go-domain-migration	7	76d877d6f33a6e3ba93c934876d03ce6048e50a2839d0c3c3fe29929d9c3edfe	3	unassessed
 core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	33	25162430801bf15fc370df75cbce6abd0bea514b7c08d83f08df9d6e65b01987	0	unassessed
 core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	5	79d1ac5becbd816dbad802ca2dcd124daaf2d2af7497fe17b647e20dd75ad1e3	0	unassessed
 core/backend/src/ee/services/audit-report	audit	Go-domain-migration	6	6f3815ef4ca3c2b0e1eeecd9ee077985b7c10f26fe1083abff35f640279b6c65	0	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	67	131eefa243314c999da84fd8ccc7eb6f14d42a0a5a911da1b097c5c0e1b1b9b5	62	unassessed
+scripts	delivery	supporting-tooling-or-contract	68	63e2ac88c83f97bac53ea372dffc59995b4aeee888c3d22f6baa67f203a7af56	62	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

@@ -3,6 +3,9 @@ package auditlog
 import (
 	"context"
 	"log/slog"
+	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/vaultix/api/internal/config"
 	"github.com/vaultix/api/internal/libs/errutil"
@@ -36,12 +39,20 @@ func (s *Service) CreateAuditLog(ctx context.Context, dto *CreateAuditLogDTO) er
 	if s.config.DisableAuditLogGeneration {
 		return nil
 	}
+	if dto == nil || dto.Event.Metadata == nil {
+		return errutil.BadRequest("Audit event is required")
+	}
 
 	if dto.ProjectID == nil && dto.OrgID == nil {
 		return errutil.BadRequest("Must specify either projectId or orgId").WithErrf("CreateAuditLog: both projectId and orgId are nil")
 	}
 
-	if err := queue.Enqueue(ctx, s.queue, TaskAuditLog, dto, queue.WithMaxRetry(3)); err != nil {
+	id, err := uuid.NewV7()
+	if err != nil {
+		return errutil.InternalServer("Failed to create audit log").WithErrf("CreateAuditLog: generate event ID: %w", err)
+	}
+	task := &queuedAuditLog{CreateAuditLogDTO: *dto, ID: id, CreatedAt: time.Now().UTC().Truncate(time.Millisecond)}
+	if err := queue.Enqueue(ctx, s.queue, TaskAuditLog, task, queue.WithMaxRetry(3)); err != nil {
 		s.logger.ErrorContext(ctx, "failed to enqueue audit log",
 			slog.String("eventType", string(dto.Event.Type())),
 			slog.Any("error", err),

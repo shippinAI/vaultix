@@ -42,7 +42,7 @@ const normalizeJsonPayload = (payload: unknown) => {
   if (typeof payload === "object" && payload !== null) {
     return payload;
   }
-  logger.error({ payload }, "audit-log-queue: Unexpected audit log payload type, expected object or array");
+  logger.error("audit-log-queue: Unexpected audit log payload type, expected object or array");
   return {};
 };
 
@@ -174,8 +174,8 @@ export const auditLogQueueServiceFactory = async ({
   // Unified consumer: drain a batch from the ingest stream, map each (already-resolved) entry to
   // an audit-log row, batch-insert into the active backend, fan out to the stream outbox, and
   // trim. No DB lookups happen here — org/plan/retention were resolved at push time. Trim happens only after a
-  // successful insert so a failed batch is retried on the next tick (re-inserts are idempotent:
-  // ClickHouse ReplacingMergeTree dedups on id, Postgres uses ON CONFLICT (id) DO NOTHING).
+  // successful insert and fanout. Retries preserve the full sorting key. PostgreSQL ignores
+  // conflicts; configured ClickHouse ReplacingMergeTree deduplication is eventual, not exactly once.
   const drainAuditLogStream = async () => {
     const { entries, lastId } = await keyStore.streamCollect(
       AUDIT_LOG_STREAM_KEY,
@@ -211,7 +211,11 @@ export const auditLogQueueServiceFactory = async ({
         return null;
       }
 
-      const entry = raw as TAuditLogStreamEntry;
+      const entry = raw as TAuditLogStreamEntry & {
+        actorMetadata?: unknown;
+        eventType?: string;
+        eventMetadata?: unknown;
+      };
       if (!entry.orgId || !entry.expiresAt) {
         logger.error(
           `audit-log-queue: Skipping entry missing resolved metadata [event=${entry.event?.type}] [orgId=${entry.orgId}]`
@@ -219,19 +223,46 @@ export const auditLogQueueServiceFactory = async ({
         return null;
       }
 
+      // Preserve flat entries emitted by older native workers during rolling upgrades.
+      // Do not fall back from a malformed nested event to a different flat event.
+      const actor =
+        typeof entry.actor === "string" ? { type: entry.actor, metadata: entry.actorMetadata } : entry.actor;
+      const event =
+        entry.event === undefined && typeof entry.eventType === "string"
+          ? { type: entry.eventType, metadata: entry.eventMetadata }
+          : entry.event;
       const createdAt = new Date(entry.createdAt);
+      const expiresAt = new Date(entry.expiresAt);
+      if (
+        typeof entry.id !== "string" ||
+        !entry.id ||
+        typeof entry.orgId !== "string" ||
+        typeof entry.createdAt !== "string" ||
+        typeof entry.expiresAt !== "string" ||
+        !actor ||
+        typeof actor.type !== "string" ||
+        !actor.type ||
+        !event ||
+        typeof event.type !== "string" ||
+        !event.type ||
+        !Number.isFinite(createdAt.getTime()) ||
+        !Number.isFinite(expiresAt.getTime())
+      ) {
+        logger.error("audit-log-queue: Skipping invalid audit ingest envelope");
+        return null;
+      }
       return {
         id: entry.id,
-        actor: entry.actor.type,
-        actorMetadata: normalizeJsonPayload(entry.actor.metadata),
+        actor: actor.type,
+        actorMetadata: normalizeJsonPayload(actor.metadata),
         ipAddress: normalizeEmptyValue(entry.ipAddress, isClickHouseBatchEnabled),
-        eventType: entry.event.type,
-        eventMetadata: normalizeJsonPayload(entry.event.metadata),
+        eventType: event.type,
+        eventMetadata: normalizeJsonPayload(event.metadata),
         userAgent: normalizeEmptyValue(entry.userAgent, isClickHouseBatchEnabled),
         userAgentType: normalizeEmptyValue(entry.userAgentType, isClickHouseBatchEnabled),
         projectId: normalizeEmptyValue(entry.projectId, isClickHouseBatchEnabled),
         orgId: entry.orgId,
-        expiresAt: new Date(entry.expiresAt),
+        expiresAt,
         createdAt,
         updatedAt: createdAt,
         // project name is only stored for non-ClickHouse insertion
