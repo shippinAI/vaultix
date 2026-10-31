@@ -64,7 +64,7 @@ func TestIdentityUsageCounter_RetentionMatchesIssuer(t *testing.T) {
 		"zero configured budgets issue a real token bounded by the same maximum-age policy")
 	require.NoError(t, client.Del(ctx, key).Err())
 	validator, err := apiauth.NewApiAuthenticator(ctx, slog.New(slog.NewTextHandler(io.Discard, nil)), &apiauth.AuthenticatorDeps{
-		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewKeyStore(client), AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewKeyStore(client), AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil,
 	})
 	require.NoError(t, err)
 	_, err = validator.ValidateIdentityAccessToken(ctx, login.AccessToken, "")

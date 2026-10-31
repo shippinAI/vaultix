@@ -84,7 +84,7 @@ func assumedRequest(t *testing.T, svc *permission.Service, project, grant string
 	errors := shared.NewErrorHandler(logger)
 	verifier := assumeprivilege.NewService(context.Background(), logger, &assumeprivilege.Deps{AuthSecret: infra.AuthSecret, PermissionService: svc})
 	authenticator, err := apiauth.NewApiAuthenticator(context.Background(), logger, &apiauth.AuthenticatorDeps{
-		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(), AssumePrivilege: verifier, ErrorHandler: errors, IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(), AssumePrivilege: verifier, ErrorHandler: errors, IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil,
 	})
 	require.NoError(t, err)
 	outcome := assumedOutcome{}
@@ -253,7 +253,7 @@ func TestAssumedAuthority_NativeGrantCompatibility(t *testing.T) {
 	node.AddUserToProject(t, project.ID, member.Email, []string{"no-access"})
 	permissions := newPermissionService()
 	service := assumeprivilege.NewService(context.Background(), infra.NopLogger(), &assumeprivilege.Deps{AuthSecret: infra.AuthSecret, PermissionService: permissions})
-	authenticator, err := apiauth.NewApiAuthenticator(context.Background(), infra.NopLogger(), &apiauth.AuthenticatorDeps{DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(), AssumePrivilege: service, ErrorHandler: shared.NewErrorHandler(infra.NopLogger()), IdentityPolicy: stack.Config().IdentityTokenPolicy})
+	authenticator, err := apiauth.NewApiAuthenticator(context.Background(), infra.NopLogger(), &apiauth.AuthenticatorDeps{DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(), AssumePrivilege: service, ErrorHandler: shared.NewErrorHandler(infra.NopLogger()), IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil})
 	require.NoError(t, err)
 	requester, err := authenticator.ValidateJWT(context.Background(), node.UserToken())
 	require.NoError(t, err)

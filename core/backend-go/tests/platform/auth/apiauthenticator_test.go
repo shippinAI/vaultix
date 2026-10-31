@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 	memKeyStore = keystore.NewMemoryKeyStore()
 	var err error
 	authenticator, err = apiauth.NewApiAuthenticator(context.Background(), slog.New(slog.NewTextHandler(os.Stderr, nil)), &apiauth.AuthenticatorDeps{
-		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: memKeyStore, AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: memKeyStore, AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil,
 	})
 	if err != nil {
 		stack.Stop()

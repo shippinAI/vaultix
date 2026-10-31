@@ -55,7 +55,7 @@ func TestNewApiAuthenticator_RequiresLifetimePolicy(t *testing.T) {
 		require.ErrorContains(t, err, "lifetime policy is required")
 		require.Nil(t, a)
 	}
-	_, err := NewApiAuthenticator(context.Background(), logger, &AuthenticatorDeps{DB: nil, AuthSecret: "", KeyStore: nil, AssumePrivilege: nil, ErrorHandler: nil, IdentityPolicy: testIdentityPolicy(t)})
+	_, err := NewApiAuthenticator(context.Background(), logger, &AuthenticatorDeps{DB: nil, AuthSecret: "", KeyStore: nil, AssumePrivilege: nil, ErrorHandler: nil, IdentityPolicy: testIdentityPolicy(t), DeviceAccess: nil})
 	require.NoError(t, err)
 	a := &ApiAuthenticator{}
 	require.ErrorContains(t, a.validateIdentityLifetime(&IdentityJWTClaims{}, time.Now()), "policy is unavailable")

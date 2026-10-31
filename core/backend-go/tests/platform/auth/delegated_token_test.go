@@ -25,7 +25,7 @@ func TestDelegatedToken_HTTPBoundaryPreservesFirstPartyAuthority(t *testing.T) {
 	validator, err := apiauth.NewApiAuthenticator(t.Context(), logger, &apiauth.AuthenticatorDeps{
 		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(),
 		ErrorHandler: shared.NewErrorHandler(logger), IdentityPolicy: stack.Config().IdentityTokenPolicy,
-		AssumePrivilege: nil,
+		AssumePrivilege: nil, DeviceAccess: nil,
 	})
 	require.NoError(t, err)
 	firstParty := stack.NodeJS().UserToken()

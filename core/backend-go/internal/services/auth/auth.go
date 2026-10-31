@@ -83,6 +83,7 @@ type AuthMode string
 
 const (
 	AuthModeJWT                 AuthMode = "jwt"
+	AuthModeDeviceAccess        AuthMode = "vaultix-device-access-v1"
 	AuthModeIdentityAccessToken AuthMode = "identity_access_token"
 	AuthModeServiceToken        AuthMode = "service_token"
 )

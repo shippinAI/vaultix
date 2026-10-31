@@ -1338,12 +1338,15 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "eebfb8e7033100e5c23777edb0da6393201f36dd",
-      "status": "verified",
+      "blob": "4a14c284622709697e0cd053e604c553fed53dd3",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-reauthentication.md",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -1381,10 +1384,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/usage_recovery_test.go",
-      "blob": "007524dc9d814ef06aff4de5e5037e10f5ba32b6",
-      "status": "verified",
+      "blob": "2b5ab0e39d3fdccc358580bb193ced31230a2827",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Real API-issued use-budget/counter-loss race fixture uses the same configured policy as the issuer. Existing concurrency and shared HTTP/native budget assertions are retained.",
+      "scope": "Complete file read. Real API-issued use-budget/counter-loss race fixture uses the same configured policy as the issuer. Existing concurrency and shared HTTP/native budget assertions are retained. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0036-identity-use-budget-concurrency.md",
         ".cache/unit-proof-LpFt8B/test-results.json",
@@ -1409,7 +1412,10 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -1542,10 +1548,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/apiauthenticator_test.go",
-      "blob": "4f2dc7bed7f3a7f3ec972c9d11644d8ff4fdf15e",
-      "status": "verified",
+      "blob": "4dda10bb509cca5f657d6189b7c707b832276f49",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Prior complete fixture review retained; TestMain now supplies a two-hour issuer/native policy and relative elapsed-grace anchor, with explicit constructor dependencies and failure cleanup. Existing user/identity/service-token assertions are retained. This does not establish Nomen ownership or external topology.",
+      "scope": "Prior complete fixture review retained; TestMain now supplies a two-hour issuer/native policy and relative elapsed-grace anchor, with explicit constructor dependencies and failure cleanup. Existing user/identity/service-token assertions are retained. This does not establish Nomen ownership or external topology. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0037-native-identity-claim-presence.md",
         ".cache/claims-presence-before.jsonl",
@@ -1568,7 +1574,10 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -1838,10 +1847,10 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "39eaddeed79a08a5018eb5092d9ad84eb57b2137",
-      "status": "verified",
+      "blob": "555c99f5df15168ca1488ad5fb3d1c928706ed6d",
+      "status": "authored",
       "decision": "modify",
-      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity.",
+      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0040-native-identity-lifetime-policy.md",
@@ -1854,7 +1863,10 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -1869,12 +1881,15 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "6a64437cfef071abe7a083fed7f34ecef457308b",
+      "blob": "2e20a8efa5aaf2c3a468d74933577132ba54e7e6",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
-        "docs/auth/native-audit-delivery.md"
+        "docs/auth/native-audit-delivery.md",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -2067,10 +2082,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go",
-      "blob": "49e36906f087c580b976745525f0d6f4666e39c6",
-      "status": "verified",
+      "blob": "2969c76ae5d0d7ceed7c71737d7d6c1685209d22",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file authored/read. Explicit clock instants verify before/at/within-millisecond/after grace, expiring-token exemption from this specific grace check, and rejection of absent dependency policy. These are unit boundary fixtures, not provider or wall-clock deployment evidence.",
+      "scope": "Complete file authored/read. Explicit clock instants verify before/at/within-millisecond/after grace, expiring-token exemption from this specific grace check, and rejection of absent dependency policy. These are unit boundary fixtures, not provider or wall-clock deployment evidence. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
         "docs/0040-native-identity-lifetime-policy.md",
         ".cache/lifetime-go-unit-epoch.jsonl",
@@ -2082,15 +2097,18 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/lifetime_policy_test.go",
-      "blob": "1b1635f6629acf6376642d2f3f032dd14e0fa6c3",
-      "status": "verified",
+      "blob": "b05946d0092da1f3f68e62a38814151ed58ffb51",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file authored/read. Real universal-auth issuance with zero budgets demonstrates actual maximum-age expiry/counter retention; native missing-counter recovery matches issuer TTL and consumes one use. Separately signed historical-format DB-backed fixtures deny missing expiry through HTTP and both native entry points after configured grace, with a valid expiring control. These are isolated fixtures, not real historical/operator credentials.",
+      "scope": "Complete file authored/read. Real universal-auth issuance with zero budgets demonstrates actual maximum-age expiry/counter retention; native missing-counter recovery matches issuer TTL and consumes one use. Separately signed historical-format DB-backed fixtures deny missing expiry through HTTP and both native entry points after configured grace, with a valid expiring control. These are isolated fixtures, not real historical/operator credentials. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0040-native-identity-lifetime-policy.md",
         ".cache/lifetime-go-unit-epoch.jsonl",
@@ -2102,7 +2120,10 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -2272,10 +2293,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/authority_test.go",
-      "blob": "76698d9a0342d8a456c2d9a3906a5c05b6628207",
-      "status": "verified",
+      "blob": "460a94c1e947fae872e89ad77c239050a1141c33",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete fixture authored/read. Actual issuer credentials plus explicitly signed legacy/sub-org fixtures operate on isolated PostgreSQL schema snapshots. Valid and primary-only denied controls precede frozen-replica comparisons; checks cover user/identity/service paths, group-only membership removal/deactivation, primary failure without fallback, sub-org ancestry and current service-project tenant. Schema copies omit constraints and do not prove physical replication, issuer HTTP replica behavior, group APIs or Nomen. No operator data or clocks are changed; cleanup owns only generated fixture schemas/pools.",
+      "scope": "Complete fixture authored/read. Actual issuer credentials plus explicitly signed legacy/sub-org fixtures operate on isolated PostgreSQL schema snapshots. Valid and primary-only denied controls precede frozen-replica comparisons; checks cover user/identity/service paths, group-only membership removal/deactivation, primary failure without fallback, sub-org ancestry and current service-project tenant. Schema copies omit constraints and do not prove physical replication, issuer HTTP replica behavior, group APIs or Nomen. No operator data or clocks are changed; cleanup owns only generated fixture schemas/pools. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0042-native-authentication-authority.md",
         ".cache/authority-baseline-controlled.json",
@@ -2288,7 +2309,10 @@
         ".cache/go-proof-1lgUPf/result.json",
         ".cache/authority-image-dragonfly.log",
         ".cache/authority-image-redis.log",
-        ".cache/app-image-proof-vLGe70/workflow-result.json"
+        ".cache/app-image-proof-vLGe70/workflow-result.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -3855,10 +3879,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/sso_session_test.go",
-      "blob": "82c7c6937c83756767155c38cb3c52d47dfd5fab",
-      "status": "verified",
-      "decision": "replace",
-      "scope": "Author issuer-backed email session validation through native authenticator followed by policy enable/disable permission checks. Other method labels remain fixtures, not provider sign-in evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "blob": "fd96dfd84137957003824b4d051c8dec9bcb0823",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Author issuer-backed email session validation through native authenticator followed by policy enable/disable permission checks. Other method labels remain fixtures, not provider sign-in evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
         ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
@@ -3866,7 +3890,10 @@
         ".cache/native-sso-policy/.cache/lint-image-final.json",
         ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
         ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json"
+        ".cache/native-sso-policy/.cache/casl-image-final.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -3955,28 +3982,34 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
-      "blob": "57a239176f1b3995ba737961b010f9b13b077c84",
-      "status": "verified",
+      "blob": "e7972d0101457843085666867488546e612bbd84",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
+      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
         "docs/0063-native-assumed-authority.md",
         "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
         "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
-        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries.",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/permission/assumed_authority_test.go",
-      "blob": "e00b50bc3609398aab2ce19b6e2b98ba3b8039d8",
-      "status": "verified",
+      "blob": "ac02fe6564979badb4ae19d9c4b001254f509d90",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Author bidirectional application/native grant interoperability with real sessions and native middleware/domain composition. Prove no-access targets, argument immutability, revocation, malformed/fallback/disabled cases, tenant/project boundaries, session invalidation and primary failure/recovery. Copied-schema and signed-claim fixtures are labelled; HTTP probe is not a production route. No secret reads or token receipts. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
+      "scope": "Author bidirectional application/native grant interoperability with real sessions and native middleware/domain composition. Prove no-access targets, argument immutability, revocation, malformed/fallback/disabled cases, tenant/project boundaries, session invalidation and primary failure/recovery. Copied-schema and signed-claim fixtures are labelled; HTTP probe is not a production route. No secret reads or token receipts. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0063-native-assumed-authority.md",
         "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
         "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
-        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
+        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries.",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -4948,13 +4981,16 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/delegated_token_test.go",
-      "blob": "121f7ca4048fad5bad15e48a7f821e325b2f2a63",
-      "status": "verified",
+      "blob": "b7e763da65fc85034e279dbbd44757d8d45bab94",
+      "status": "authored",
       "decision": "modify",
-      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
+      "scope": "AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/0070-nomen-authority-contract.md",
-        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
+        ".cache/headless-ai-login/.cache/auth02-acceptance.json",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -5241,12 +5277,15 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/auth.go",
-      "blob": "94ddf096b16810e0268a899d80deb490b7fa52fe",
-      "status": "verified",
+      "blob": "a7fdc103c3c7805b46f4c237f6494b5f9a2f6e38",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-reauthentication.md",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -5602,12 +5641,15 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/credentials.go",
-      "blob": "2eee2b8942c01c1d526746c79c7935c8bba22729",
+      "blob": "2ffe6cf799348c0815527e6dc62dc2f66fad8769",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
+      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
-        "docs/auth/device-session-lifecycle.md"
+        "docs/auth/device-session-lifecycle.md",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -5755,12 +5797,15 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/sessions.go",
-      "blob": "ac0bf2dc9b2124d5523f5484cdf60085bab045e2",
+      "blob": "11673fa82b0bd65fc88493fe958c0f241f1277bf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
-        "docs/auth/device-session-lifecycle.md"
+        "docs/auth/device-session-lifecycle.md",
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     },
     {
@@ -6323,6 +6368,114 @@
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-worker.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/secretmanager_routes.go",
+      "blob": "8f0a4c51ea8b0a37a0bb3abb927ede8f00d9ce9b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/classify.go",
+      "blob": "7503dc3e19bdcb597de39f762830628b2c736316",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/device_access_policy.go",
+      "blob": "b94eba805cad3d7b89872820fdf79f97afa0fcd6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/config/device_access_policy_test.go",
+      "blob": "86dd2ecafe7f88536a844302fb1517cf86b92dc5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/device_access.go",
+      "blob": "c1187df33f5e2d27c3f93e6e01719204e609a9d3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/apiauth/device_access_test.go",
+      "blob": "7f8f9730f568930ac4c0384493e2479e88aee3fb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/access.go",
+      "blob": "1b79717ff809bec0417a20fd3f7051affb3a42bd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/fixtures/deviceconsumer/main.go",
+      "blob": "94f737d49af562395e0c67556a3c09824496b405",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+      "blob": "07041e4f0e463769d0bf5f90d62ba331f6b93f93",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
+      "evidence": [
+        "docs/auth/device-api-consumers.md",
+        "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
+        "scripts/prove-device-api-image.mjs"
       ]
     }
   ]

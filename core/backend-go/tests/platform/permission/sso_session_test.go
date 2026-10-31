@@ -19,7 +19,7 @@ func TestSSOEnforcement_AuthenticatedEmailSession(t *testing.T) {
 	projectActor := authorityActors(t)[0]
 	validator, err := apiauth.NewApiAuthenticator(context.Background(), infra.NopLogger(), &apiauth.AuthenticatorDeps{
 		DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(),
-		AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil,
 	})
 	require.NoError(t, err)
 	// Validate the actual disposable issuer session, not a signed method fixture.

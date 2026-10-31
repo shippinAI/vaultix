@@ -19,6 +19,7 @@ const (
 	JWTAuth AuthMode = iota
 	IdentityAccessTokenAuth
 	ServiceTokenAuth
+	DeviceAccessAuth
 )
 
 const assumePrivilegeCookieName = "vaultix-project-assume-privileges"
@@ -92,6 +93,13 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 			// Classify and validate token
 			classifiedMode := ClassifyToken(token)
 			switch classifiedMode {
+			case auth.AuthModeDeviceAccess:
+				if !cfg.allowedModes[DeviceAccessAuth] {
+					a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
+					return
+				}
+				identity, err = a.ValidateDeviceAccess(ctx, token)
+				actualMode = DeviceAccessAuth
 			case auth.AuthModeServiceToken:
 				if !cfg.allowedModes[ServiceTokenAuth] {
 					a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
@@ -234,6 +242,8 @@ func mapClassifiedMode(mode auth.AuthMode) (AuthMode, bool) {
 		return IdentityAccessTokenAuth, true
 	case auth.AuthModeServiceToken:
 		return ServiceTokenAuth, true
+	case auth.AuthModeDeviceAccess:
+		return DeviceAccessAuth, true
 	default:
 		return 0, false
 	}

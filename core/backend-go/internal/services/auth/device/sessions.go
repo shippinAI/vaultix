@@ -27,10 +27,14 @@ type SessionsDeps struct {
 }
 
 type Sessions struct {
+	*AccessVerifier
+	lifetime time.Duration
+}
+
+type AccessVerifier struct {
 	db          pg.DB
 	credentials *Credentials
 	authority   *NativeAuthority
-	lifetime    time.Duration
 	logger      *slog.Logger
 }
 
@@ -41,14 +45,14 @@ func NewSessions(_ context.Context, logger *slog.Logger, deps *SessionsDeps) (*S
 		deps.RefreshLifetime < time.Second || deps.RefreshLifetime%time.Second != 0 || deps.RefreshLifetime > 365*24*time.Hour {
 		return nil, ErrUnavailable
 	}
-	return &Sessions{db: deps.DB, credentials: deps.Credentials, authority: deps.Authority, lifetime: deps.RefreshLifetime, logger: logger}, nil
+	return &Sessions{AccessVerifier: &AccessVerifier{db: deps.DB, credentials: deps.Credentials, authority: deps.Authority, logger: logger}, lifetime: deps.RefreshLifetime}, nil
 }
 
 func (s *Sessions) requestValid(request Request) bool {
 	return request.ClientID == ClientID && request.Scope == Scope && request.Resource == s.credentials.resource
 }
 
-func (s *Sessions) failure(ctx context.Context, operation string, err error) error {
+func (s *AccessVerifier) failure(ctx context.Context, operation string, err error) error {
 	if errors.Is(err, pgx.ErrNoRows) {
 		return ErrInvalidCredential
 	}
@@ -182,7 +186,7 @@ type storedSession struct {
 	now           time.Time
 }
 
-func (s *Sessions) load(ctx context.Context, tx pgx.Tx, user, id uuid.UUID) (*storedSession, error) {
+func (s *AccessVerifier) load(ctx context.Context, tx pgx.Tx, user, id uuid.UUID) (*storedSession, error) {
 	// Account deletion cascades to sessions. Every lifecycle operation uses the
 	// same user-before-session row lock order, including refresh-reuse revocation.
 	var locked uuid.UUID
@@ -334,7 +338,11 @@ func (s *Sessions) Revoke(ctx context.Context, request Request, token string) er
 	return s.revoke(ctx, tx, row, "revoked")
 }
 
-func (s *Sessions) ValidateAccess(ctx context.Context, token string) (AccessIdentity, error) {
+func (s *AccessVerifier) ValidateAccess(ctx context.Context, token string) (AccessIdentity, error) {
+	return s.withAccess(ctx, token, nil)
+}
+
+func (s *AccessVerifier) withAccess(ctx context.Context, token string, accept func(context.Context, pgx.Tx, AccessIdentity) error) (AccessIdentity, error) {
 	identity, err := s.credentials.VerifyAccess(token, time.Now())
 	if err != nil {
 		return AccessIdentity{}, err
@@ -359,6 +367,11 @@ func (s *Sessions) ValidateAccess(ctx context.Context, token string) (AccessIden
 	}
 	if err := s.authority.Revalidate(ctx, tx, &row.approval); err != nil {
 		return AccessIdentity{}, err
+	}
+	if accept != nil {
+		if err := accept(ctx, tx, identity); err != nil {
+			return AccessIdentity{}, err
+		}
 	}
 	return identity, nil
 }

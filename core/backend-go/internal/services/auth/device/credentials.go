@@ -19,7 +19,8 @@ import (
 
 const (
 	AccessTokenType = "vaultix-device-access-v1"
-	accessMediaType = "vaultix-device-at+jwt"
+	AccessMediaType = "vaultix-device-at+jwt"
+	accessMediaType = AccessMediaType
 	refreshPrefix   = "vxd1."
 	refreshBodySize = 16 + 16 + 8 + 32 // User, session, generation, random nonce.
 	refreshSize     = refreshBodySize + sha256.Size

@@ -11,6 +11,7 @@ import (
 	"github.com/vaultix/api/internal/services/assumeprivilege"
 	"github.com/vaultix/api/internal/services/auditlog"
 	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix/api/internal/services/auth/device"
 	"github.com/vaultix/api/internal/services/kms"
 	"github.com/vaultix/api/internal/services/permission"
 	"github.com/vaultix/api/internal/services/project"
@@ -58,9 +59,31 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		PermissionService: permissionSvc,
 	})
 
+	var deviceAccess apiauth.DeviceAccessVerifier
+	if infra.Config.DeviceAccessPolicy.Enabled {
+		credentials, err := device.NewCredentials(ctx, infra.Logger, &device.CredentialsDeps{
+			Secret: []byte(infra.Config.AuthSecret), Resource: infra.Config.SiteURL,
+			AccessLifetime: infra.Config.DeviceAccessPolicy.Lifetime,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("device access configuration is invalid")
+		}
+		authority, err := device.NewNativeAuthority(ctx, infra.Logger, &device.NativeAuthorityDeps{})
+		if err != nil {
+			return nil, fmt.Errorf("device access authority is unavailable")
+		}
+		deviceAccess, err = device.NewAccessVerifier(ctx, infra.Logger, &device.AccessVerifierDeps{
+			DB: infra.DB, Credentials: credentials, Authority: authority,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("device access verifier is unavailable")
+		}
+	}
+
 	apiAuthenticator, err := apiauth.NewApiAuthenticator(ctx, infra.Logger, &apiauth.AuthenticatorDeps{
 		DB: infra.DB, AuthSecret: infra.Config.AuthSecret, KeyStore: infra.KeyStore,
 		AssumePrivilege: assumePrivilegeSvc, ErrorHandler: shared.NewErrorHandler(infra.Logger), IdentityPolicy: infra.Config.IdentityTokenPolicy,
+		DeviceAccess: deviceAccess,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("authentication: %w", err)

@@ -80,7 +80,7 @@ func newAuthorityValidator(t *testing.T) (*authorityDB, *apiauth.ApiAuthenticato
 	db.unavailable = closed
 	validator, err := apiauth.NewApiAuthenticator(context.Background(), slog.New(slog.NewTextHandler(io.Discard, nil)), &apiauth.AuthenticatorDeps{
 		DB: db, AuthSecret: infra.AuthSecret, KeyStore: keystore.NewMemoryKeyStore(),
-		AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy,
+		AssumePrivilege: nil, ErrorHandler: infra.NewNopErrorHandler(), IdentityPolicy: stack.Config().IdentityTokenPolicy, DeviceAccess: nil,
 	})
 	require.NoError(t, err)
 	return db, validator

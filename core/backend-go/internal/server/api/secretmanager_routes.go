@@ -29,7 +29,7 @@ func RegisterSecretManagerRoutes(router chi.Router, logger *slog.Logger, platfor
 	// Secrets routes - all require authentication
 	router.Group(func(r chi.Router) {
 		r.Use(platform.ApiAuthenticator.RequireAuth(
-			apiauth.WithAuthModes(apiauth.JWTAuth, apiauth.IdentityAccessTokenAuth, apiauth.ServiceTokenAuth),
+			apiauth.WithAuthModes(apiauth.JWTAuth, apiauth.IdentityAccessTokenAuth, apiauth.ServiceTokenAuth, apiauth.DeviceAccessAuth),
 		))
 		r.Use(platform.RateLimit.Middleware(ratelimit.PresetSecrets))
 

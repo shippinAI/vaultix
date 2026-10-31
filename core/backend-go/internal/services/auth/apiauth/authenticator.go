@@ -35,6 +35,10 @@ type ErrorHandler interface {
 	HandleError(w http.ResponseWriter, r *http.Request, statusCode int, err error)
 }
 
+type DeviceAccessVerifier interface {
+	AuthenticateAccess(context.Context, string) (*auth.Identity, error)
+}
+
 // ApiAuthenticator validates Vaultix credentials against the existing identity
 // store. Native migration acceptance is tracked per authentication workflow.
 type ApiAuthenticator struct {
@@ -45,6 +49,7 @@ type ApiAuthenticator struct {
 	assumePrivilege AssumePrivilegeVerifier
 	errorHandler    ErrorHandler
 	identityPolicy  config.IdentityTokenPolicy
+	deviceAccess    DeviceAccessVerifier
 }
 
 type AuthenticatorDeps struct {
@@ -54,13 +59,14 @@ type AuthenticatorDeps struct {
 	AssumePrivilege AssumePrivilegeVerifier
 	ErrorHandler    ErrorHandler
 	IdentityPolicy  config.IdentityTokenPolicy
+	DeviceAccess    DeviceAccessVerifier
 }
 
 func NewApiAuthenticator(_ context.Context, logger *slog.Logger, deps *AuthenticatorDeps) (*ApiAuthenticator, error) {
 	if deps == nil || !deps.IdentityPolicy.Valid() {
 		return nil, fmt.Errorf("identity token lifetime policy is required")
 	}
-	return &ApiAuthenticator{logger: logger, db: deps.DB, authSecret: []byte(deps.AuthSecret), keyStore: deps.KeyStore, assumePrivilege: deps.AssumePrivilege, errorHandler: deps.ErrorHandler, identityPolicy: deps.IdentityPolicy}, nil
+	return &ApiAuthenticator{logger: logger, db: deps.DB, authSecret: []byte(deps.AuthSecret), keyStore: deps.KeyStore, assumePrivilege: deps.AssumePrivilege, errorHandler: deps.ErrorHandler, identityPolicy: deps.IdentityPolicy, deviceAccess: deps.DeviceAccess}, nil
 }
 
 // AssumePrivilege returns the assume privilege verifier.
@@ -72,6 +78,10 @@ func (a *ApiAuthenticator) AssumePrivilege() AssumePrivilegeVerifier {
 // This is the unified entry point for all JWT validation.
 // Returns (identity, authMode, error) where authMode indicates the actual token type.
 func (a *ApiAuthenticator) ValidateJWTToken(ctx context.Context, token, ipAddress string) (*auth.Identity, auth.AuthMode, error) {
+	if ClassifyToken(token) == auth.AuthModeDeviceAccess {
+		identity, err := a.ValidateDeviceAccess(ctx, token)
+		return identity, auth.AuthModeDeviceAccess, err
+	}
 	claims, err := parseJWT(token, a.authSecret)
 	if err != nil {
 		return nil, "", errutil.Unauthorized("Invalid JWT token").WithErrf("validateJWTToken: %w", err)
