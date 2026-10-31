@@ -240,7 +240,7 @@ export const tokenServiceFactory = ({ tokenDAL, userDAL, orgDAL, keyStore }: TAu
     { userId, ip, userAgent }: TIssueAuthTokenDTO,
     tx?: Knex
   ): Promise<TAuthTokenSessions | undefined> => {
-    let session = await tokenDAL.findOneTokenSession({ userId, ip, userAgent }, tx);
+    let session = await tokenDAL.findReusableTokenSession({ userId, ip, userAgent }, tx);
     if (!session) {
       session = await tokenDAL.insertTokenSession(userId, ip, userAgent, tx);
     }

@@ -165,6 +165,8 @@ core/backend-go/internal/services/auth/device/codes_test.go	core/backend-go/inte
 core/backend-go/internal/services/auth/device/credentials.go	core/backend-go/internal/services/auth	identity	Go-native	go	2eee2b8942c01c1d526746c79c7935c8bba22729	authored
 core/backend-go/internal/services/auth/device/credentials_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	2f2f9a172147b96720dca4085d1c87735587db11	authored
 core/backend-go/internal/services/auth/device/service.go	core/backend-go/internal/services/auth	identity	Go-native	go	573d26eb8d6071db0af6fc0b0919a7473892607e	verified
+core/backend-go/internal/services/auth/device/sessions.go	core/backend-go/internal/services/auth	identity	Go-native	go	ac0bf2dc9b2124d5523f5484cdf60085bab045e2	authored
+core/backend-go/internal/services/auth/device/sessions_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	e31c9c0252bdc2be78672bc39c0bbe1034d5555e	authored
 core/backend-go/internal/services/auth/device/testdata/credentials-v1.json	core/backend-go/internal/services/auth	identity	Go-native	json	130e79007f452a2f3d96764f41d6fbc87807ef50	authored
 core/backend-go/internal/services/auth/device/testdata/generate-credentials.mjs	core/backend-go/internal/services/auth	identity	Go-native	mjs	87816260e772e63435236732853bdba329f5ec78	authored
 core/backend-go/internal/services/auth/device/types.go	core/backend-go/internal/services/auth	identity	Go-native	go	ecf7d48ecf76c2c62ecdb88f5d8eb584eb076042	verified
@@ -237,6 +239,7 @@ core/backend-go/tests/platform/auth/claims_format_test.go	core/backend-go/tests/
 core/backend-go/tests/platform/auth/delegated_token_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
 core/backend-go/tests/platform/auth/device_authority_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	41ccfac8d2c133e5ecdaf6a84199b9876d384aa5	verified
 core/backend-go/tests/platform/auth/device_authorization_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	2c4ae3ecae9218727e3b5ff2450d448daa54b5d1	verified
+core/backend-go/tests/platform/auth/device_sessions_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	4030e02745aa02de04d6485f1ee3a62b563eb1f0	authored
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	core/backend-go/tests/platform/auth	authorization	Go-native	go	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	5f5cbec926e13babfa2fecac41338799902e898b	verified
@@ -893,6 +896,7 @@ core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	core/
 core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	d590cbd01a3692820c5599f251c898902c096a3b	verified
 core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	b2a428273b34318dfb868e34ff6557008e3409c2	verified
 core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	core/backend/src/db/migrations	foundation	Go-domain-migration	ts	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	verified
+core/backend/src/db/migrations/20261031160000_vaultix-device-sessions.ts	core/backend/src/db/migrations	foundation	Go-domain-migration	ts	20733eaff891b56bd62375f6b82256205bd9cf3a	authored
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	93985ca767129782226d4b0620ac084132e5a21e	unread
 core/backend/src/db/migrations/utils/env-config.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
@@ -3061,9 +3065,10 @@ core/backend/src/services/approval-policy/pam-access/pam-access-policy-factory.t
 core/backend/src/services/approval-policy/pam-access/pam-access-policy-schemas.ts	core/backend/src/services/approval-policy	pam	Go-domain-migration	ts	9284db35dad6d91c1e534a9e9fe71022b026b27d	unread
 core/backend/src/services/approval-policy/pam-access/pam-access-policy-types.ts	core/backend/src/services/approval-policy	pam	Go-domain-migration	ts	78118fcb0f7da2a309d8d8c802465f37fcda0802	unread
 core/backend/src/services/auth-token/auth-refresh-recovery.test.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	f125e62b8a5a1e1b3e9f8d4d931e826f3ce8298f	verified
-core/backend/src/services/auth-token/auth-token-dal.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	30f71f1fb8f816b4288314ad99d1cdffbe9eff34	reviewed
+core/backend/src/services/auth-token/auth-session-store.spec.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	666ba8c8e65168f66cc2c0856ae0009f6ca09b95	authored
+core/backend/src/services/auth-token/auth-token-dal.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	e518ed75e9b16ebc8b6d94045bd5102865ba0b44	authored
 core/backend/src/services/auth-token/auth-token-service.test.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	9dd7fcf14f87c55cc4ac6ea5e1601ab639771d9e	unread
-core/backend/src/services/auth-token/auth-token-service.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	198f6a3e20a09a349c95d8a4aa591cde95388794	authored
+core/backend/src/services/auth-token/auth-token-service.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	2fc639692e3fc2931f3a8e2ccbca82ff5cb03453	authored
 core/backend/src/services/auth-token/auth-token-types.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	69423ebdede6c15019001bff370374689ec405af	unread
 core/backend/src/services/auth/auth-dal.ts	core/backend/src/services/auth	identity	Go-domain-migration	ts	fdf6afbcbe69ae04a5c40413be0bc4b7a730d06e	unread
 core/backend/src/services/auth/auth-fns.test.ts	core/backend/src/services/auth	identity	Go-domain-migration	ts	8041f23f694fb11d2322245230e765273f2aa414	unread
@@ -9513,4 +9518,5 @@ scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contra
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
+scripts/verify-device-session-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3af5bab80c1300a8ab50f26e38b4593de0c863cf	unread
 scripts/verify-native-audit-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee8af04609af3a010c53cca1b55c99d58b4029f2	unread

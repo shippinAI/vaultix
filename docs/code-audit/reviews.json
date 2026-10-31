@@ -717,16 +717,17 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-token-service.ts",
-      "blob": "198f6a3e20a09a349c95d8a4aa591cde95388794",
+      "blob": "2fc639692e3fc2931f3a8e2ccbca82ff5cb03453",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read with router, session DAL, cache operations, login invalidation and delegated OAuth refresh caller. Recover a validated immediately preceding browser token with the current version and unchanged signed claims/expiry, without extending the cache marker or modifying the session. Reject mismatched/expired/delegated recovery contexts. Session invalidation clears grace; older versions cannot use grace after logout. Real database tests reproduce the original recovery/logout defects then pass on both caches, including replay revocation; unit guards preserve tenant/MFA/timestamps. Existing OTP/session logic is retained. Normal concurrent rotation, replica lag, OAuth recovery and Nomen remain explicit separate gates; this is not complete authentication-service acceptance.",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
       "evidence": [
         "docs/0031-refresh-recovery.md",
         ".cache/core-proof-ULt89h/test-results.json",
         ".cache/core-proof-5OZCo8/test-results.json",
         ".cache/core-proof-lZJx7V/test-results.json",
-        ".cache/unit-proof-UPFDNN/test-results.json"
+        ".cache/unit-proof-UPFDNN/test-results.json",
+        "docs/auth/device-session-lifecycle.md"
       ]
     },
     {
@@ -786,16 +787,17 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-token-dal.ts",
-      "blob": "30f71f1fb8f816b4288314ad99d1cdffbe9eff34",
-      "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete file read for refresh/session trace. Retains transaction-aware token/session CRUD, primary writes, replica session reads and separate access/refresh increments. No authored changes. Normal refresh increments are not compare-and-set; replica lag/concurrent rotation need characterization before migration. The recovery packet does not certify these concurrency properties.",
+      "blob": "e518ed75e9b16ebc8b6d94045bd5102865ba0b44",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
       "evidence": [
         "docs/0031-refresh-recovery.md",
         ".cache/core-proof-ULt89h/test-results.json",
         ".cache/core-proof-5OZCo8/test-results.json",
         ".cache/core-proof-lZJx7V/test-results.json",
-        ".cache/unit-proof-UPFDNN/test-results.json"
+        ".cache/unit-proof-UPFDNN/test-results.json",
+        "docs/auth/device-session-lifecycle.md"
       ]
     },
     {
@@ -5746,6 +5748,56 @@
       "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/sessions.go",
+      "blob": "ac0bf2dc9b2124d5523f5484cdf60085bab045e2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/sessions_test.go",
+      "blob": "e31c9c0252bdc2be78672bc39c0bbe1034d5555e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_sessions_test.go",
+      "blob": "4030e02745aa02de04d6485f1ee3a62b563eb1f0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031160000_vaultix-device-sessions.ts",
+      "blob": "20733eaff891b56bd62375f6b82256205bd9cf3a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/auth-session-store.spec.ts",
+      "blob": "666ba8c8e65168f66cc2c0856ae0009f6ca09b95",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "evidence": [
+        "docs/auth/device-session-lifecycle.md"
       ]
     }
   ]

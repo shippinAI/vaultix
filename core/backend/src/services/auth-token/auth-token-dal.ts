@@ -24,6 +24,17 @@ export const tokenDALFactory = (db: TDbClient) => {
     }
   };
 
+  const findReusableTokenSession = async (filter: Partial<TAuthTokenSessions>, tx?: Knex) => {
+    try {
+      return await (tx || db.replicaNode())(TableName.AuthTokenSession)
+        .where(filter)
+        .where("sessionType", "browser")
+        .first<TAuthTokenSessions>();
+    } catch (error) {
+      throw new DatabaseError({ error, name: "FindReusableTokenSession" });
+    }
+  };
+
   const deleteTokenForUser = async ({
     userId,
     type,
@@ -149,6 +160,7 @@ export const tokenDALFactory = (db: TDbClient) => {
     deleteTokensForUsers,
     decrementTriesField,
     findOneTokenSession,
+    findReusableTokenSession,
     insertTokenSession,
     incrementTokenSessionVersion,
     incrementRefreshVersion,

@@ -124,3 +124,49 @@ plan; an asynchronous enqueue call is insufficient evidence of atomic delivery.
 The in-place repair and its compatibility boundary are documented in
 [native audit delivery](native-audit-delivery.md). This prerequisite does not close
 the dedicated-session, transaction, notification or API-consumer obligations above.
+
+## Session owner implementation under verification
+
+`device.Sessions` now implements the grant issuer, rotation, revocation and
+database-backed access-profile validation. It creates a new canonical
+`auth_token_sessions` row with `sessionType=device-v1`, plus versioned device
+metadata. Browser and confidential OAuth reuse select only `browser` sessions;
+canonical session lookup, listing, version invalidation and deletion still include
+both kinds. The approving browser session is never the device session's parent.
+
+Issuance copies verified authentication, MFA and SSO-bypass provenance and the
+approval policy digest. Every renewal and access validation rechecks current
+account/session and organization/factor policy on the primary database. Policy
+changes require fresh approval. User-before-session locks serialize refresh and
+account deletion; all database work stays on the supplied transaction/connection.
+This conservative policy does not replace action-level authorization or establish
+measured public-service capacity.
+
+Refresh has a fixed absolute expiry, capped by the configured session lifetime
+and both selected/root organization limits. The constructor accepts one second
+through 365 days; access tokens remain capped by their shorter configured lifetime.
+Renewal does not extend the absolute expiry. Only the current refresh digest is
+stored. Authenticated older generations revoke their family; forged tokens,
+future generations and wrong current-token digests cannot trigger that revocation.
+Concurrent reuse can invalidate the winner's newly issued credentials, so clients
+must serialize renewal and recover explicitly from an uncertain response.
+
+Issuance, rotation and native revocation write credential-free security records
+in `vaultix_device_session_events` in the same transaction. These records survive
+canonical session/account deletion. Delivery timestamps remain unset: integrating
+bounded retries, retention and delivery through the existing audit and notification
+owners is still required. Existing generic session deletion continues to revoke
+device access, but this implementation does not add a security event to every
+legacy deletion path. That coverage remains part of delivery integration.
+
+The additive migration preserves existing sessions as `browser`. Schema rollback
+refuses retained device sessions or security records. Keep the additive schema
+during binary rollback. Older binaries do not understand the reuse discriminator;
+do not activate new issuance in mixed-version or rollback operation. The disposable
+store runner exercises real DAL/service reuse, revocation, migration guards and
+old-binary startup, separate from the native lifecycle tests.
+
+The public device endpoints, discovery, actual Go/TypeScript API consumers and
+browser/CLI activation remain unmounted. Current verification is pending; these
+implemented methods alone do not establish working public headless login or
+complete security-event/notification delivery.
