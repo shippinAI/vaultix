@@ -5774,12 +5774,13 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_sessions_test.go",
-      "blob": "4030e02745aa02de04d6485f1ee3a62b563eb1f0",
+      "blob": "e2bf6c103d2f532ff871ca91370a3926885ecc00",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
       "evidence": [
-        "docs/auth/device-session-lifecycle.md"
+        "docs/auth/device-session-lifecycle.md",
+        "docs/auth/device-event-delivery.md"
       ]
     },
     {
@@ -5794,12 +5795,13 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-session-store.spec.ts",
-      "blob": "666ba8c8e65168f66cc2c0856ae0009f6ca09b95",
+      "blob": "3d38aca518190a52e0052714bc1ce3a77c696966",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
       "evidence": [
-        "docs/auth/device-session-lifecycle.md"
+        "docs/auth/device-session-lifecycle.md",
+        "docs/auth/device-event-delivery.md"
       ]
     },
     {
@@ -5888,6 +5890,46 @@
       "status": "authored",
       "decision": "modify",
       "scope": "Authored recorded audit destination acknowledgement using existing storage/fanout, partition-key notification replay and caller transaction, and bounded single-recipient SMTP acceptance. Verified 62 unit outcomes, three actual PostgreSQL/local SMTP scenarios including independent one-connection workers with opposite batch order, 14 producer/real-cache and 59 consumer/launcher outcomes, full backend TypeScript check and changed-file lint; canonical image 16 gates plus four native audit checks. Existing asynchronous interfaces preserved. Source worker/claims/provenance/canonical deletion, full delivery/retention, actual resource consumers and public login remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031190000_vaultix-device-event-context.ts",
+      "blob": "32ef2512459c4295a66849a931782492cc53e607",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/device-source-store.spec.ts",
+      "blob": "e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-device-source-store.mjs",
+      "blob": "7361fbd97ddb8662d004238eb614028aa0add100",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-device-session-store.mjs",
+      "blob": "5d86a20105bb3bb5fd13986e875ff931d97071e3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored versioned immutable session-origin source context and transactional canonical metadata deletion capture, with explicit legacy uncertainty and unattributed initiator. Existing browser/session compatibility and rollback are exercised through real DAL/store. Local 11 source-store scenarios, one session compatibility scenario, 901 native unit/race outcomes, Go/TypeScript lint and full TypeScript check pass. Native integration and canonical image pending; no worker, delivery, current-request provenance, API consumer or public login completion claim.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

@@ -44,6 +44,44 @@ join notification persistence and acknowledgment in the supplied transaction.
    loss, concurrency, tenant binding and one-connection behavior on the canonical
    image before activation.
 
+## Source context and canonical deletion
+
+The additive `20261031190000_vaultix-device-event-context` migration captures a
+versioned `sourceContext` on new device-session metadata. It contains only the
+affected account's public profile, organization identity/name, and session-origin
+IP, user agent and creation time. It does not contain the approval policy digest,
+refresh digest, password hash, tokens or secret values. The database bounds the
+snapshot at 16 KiB. The context is immutable after capture and copied to security
+events; event identity, provenance and context are immutable while destination
+acknowledgments remain writable.
+
+This is **session-creation context**, not a claim about the current request or the
+person initiating a later deletion. Canonical deletion records explicitly mark
+their initiator as unattributed. Delivery must preserve that distinction rather
+than presenting the affected account as an administrator who deleted it.
+
+A `BEFORE DELETE` trigger on existing device metadata records a revocation fact
+when the canonical session DAL or an account cascade removes it. Native terminal
+events (`revoked`, `reuse`, `policy-denied`) retain their precise reason without a
+second event. Source-write failure rolls back deletion. Browser sessions remain
+outside this device event stream. These hooks preserve existing session decisions;
+they do not implement authentication or introduce a second identity store.
+
+Existing rows are not rewritten by the migration. Their absent context remains
+explicit. A later metadata update can capture still-available context with basis
+`legacy-capture`; it never rewrites historical events or claims a creation-time
+snapshot. If a legacy account disappears first, its deletion record retains its
+IDs and null context. The preparation worker must retain unresolved records and
+report them; public activation requires resolved preparation and full delivery
+acceptance. A rollback refuses retained session/event state; binary rollback keeps
+the additive schema. Empty-state down/up remains supported.
+
+PostgreSQL documents that triggers run in the initiating transaction and errors
+roll back both effects; real-store verification must still prove cascade behavior
+and recovery on the pinned PostgreSQL 16 runtime.
+[Trigger behavior](https://www.postgresql.org/docs/16/trigger-definition.html).
+Source-capture verification is in progress; worker delivery remains unimplemented.
+
 [PostgreSQL's locking documentation](https://www.postgresql.org/docs/current/sql-select.html)
 describes `SKIP LOCKED` for queue-like consumers. [BullMQ's retry guidance](https://docs.bullmq.io/patterns/idempotent-jobs)
 requires idempotent effects. Reviewed 2026-10-31; these inform the design and do not
@@ -98,3 +136,23 @@ or broaden it into full source-worker or public device-flow acceptance.
 Image receipts: `.cache/self-hosted-build-Q7KW1R/result.json` and `.cache/native-audit-image-uh5YBt/result.json`.
 The source-worker requirements above remain open; no device endpoint or CLI default
 is activated by this checkpoint.
+
+### Source capture local checkpoint
+
+Eleven real PostgreSQL scenarios cover immutable subject/session-origin snapshots,
+legacy uncertainty, canonical and account-cascade deletion, terminal reason dedup,
+one-connection concurrent revocation, tenant binding, injected event failure and
+transaction rollback. The existing session-store scenario now exercises both
+additive migrations and the actual captured deletion record, including browser
+reuse and empty-state down/up. Both disposable stores restarted the existing image.
+
+The native source snapshot passed 901 unit/race outcomes and zero lint issues;
+TypeScript checking and changed-file lint passed. Initial fixture DDL binding,
+test typing, formatting, and disposable signup setup failures are retained locally.
+The source fixture password now uses separated random bytes to avoid the existing
+repeated-character policy. These are local scoped checks; canonical-image and
+native integration verification are still pending.
+
+Receipts: `.cache/device-source-store-DNFVMq/result.json`, `.cache/device-session-store-gA3Dm9/result.json`,
+`.cache/device-source-final-unit.json`, `.cache/device-source-final-lint.json`,
+`.cache/source-capture-lint-fix.json`, and `.cache/source-capture-typecheck.json`.

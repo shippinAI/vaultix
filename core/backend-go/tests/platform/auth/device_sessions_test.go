@@ -53,6 +53,7 @@ func issueSession(t *testing.T, f *sessionFixture, ctx context.Context, actor *a
 	result, err := f.grant.service.Poll(sessionHTTP(ctx), deviceRequest(), grant.DeviceCode)
 	require.NoError(t, err)
 	t.Cleanup(func() {
+		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
 		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	return grant, result
@@ -86,6 +87,9 @@ func TestDeviceSessions_IssueRotateAndIndependentBrowser(t *testing.T) {
 			require.NotContains(t, stored, first.AccessToken)
 			require.NotContains(t, stored, first.RefreshToken)
 			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id AND action='issued' AND "auditDeliveredAt" IS NULL AND "notificationDeliveredAt" IS NULL`, pgx.NamedArgs{"id": identity.SessionID}))
+			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id
+ AND "sourceContext"->>'basis'='session-creation' AND "sourceContext"->'subject'->>'id'=@user
+ AND "sourceContext"->'organization'->>'id'=@org AND NOT ("sourceContext" ?| ARRAY['approval','refreshDigest','hashedPassword','policyDigest'])`, pgx.NamedArgs{"id": identity.SessionID, "user": actor.ActorID.String(), "org": actor.OrgID.String()}))
 			devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
 			require.Equal(t, 0, sessionCount(t, `SELECT count(*) FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}))
 			_, err = f.sessions.ValidateAccess(ctx, first.AccessToken)
@@ -203,6 +207,7 @@ func TestDeviceSessions_ConcurrentRefreshAndRedemption(t *testing.T) {
 	require.EqualValues(t, 1, wins.Load())
 	first := <-results
 	t.Cleanup(func() {
+		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
 		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	wins.Store(0)
@@ -261,6 +266,8 @@ func TestDeviceSessions_EventFailureRollsBackAndOneConnection(t *testing.T) {
 	first, err := f.grant.service.Poll(sessionHTTP(ctx), deviceRequest(), grant.DeviceCode)
 	require.NoError(t, err)
 	t.Cleanup(func() {
+		unblock()
+		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
 		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	block()
@@ -351,5 +358,8 @@ func TestDeviceSessions_SeparateFamiliesAndCanonicalLogout(t *testing.T) {
 	require.Error(t, err)
 	_, err = f.sessions.Renew(ctx, deviceRequest(), second.RefreshToken)
 	require.Error(t, err)
-	require.Equal(t, 3, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 4, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 2, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user AND action='revoked'`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user
+ AND action='revoked' AND provenance->>'termination'='canonical-delete' AND provenance->>'initiator'='unattributed'`, pgx.NamedArgs{"user": actor.ActorID}))
 }
