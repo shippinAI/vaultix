@@ -1,7 +1,7 @@
 # Device session security-event delivery
 
 Current continuation: [domain dispatch](device-event-dispatch.md) is implemented
-and under canonical verification. Background registration and public login remain
+and verified in the canonical image. Background registration and public login remain
 open. Earlier checkpoint evidence below retains its original scope.
 
 The native session owner writes security records in its source transaction. This

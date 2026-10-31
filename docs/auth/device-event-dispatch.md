@@ -83,3 +83,25 @@ binding. These local receipts precede canonical image acceptance.
 
 Receipts: `.cache/device-dispatch-store-3CI36f/result.json`, `.cache/device-dispatch-mutation-iskjjv/result.json`,
 `.cache/device-dispatch-typecheck.json` and `.cache/device-dispatch-lint-fix.json`.
+
+### Canonical artifact evidence
+
+Runtime source `1cfaab7174d37bb184f490cddbe5c97ef8482ab0` produced
+`sha256:b805afc7bc6f9779f4d97aa6e656cbf5a29434fada2ff61d07b9003f9addcbab`. All sixteen canonical image gates passed.
+The image passed four native audit checks; its migrated disposable stores passed
+all 56 dispatch/store/preparation scenarios and all 16 destination compatibility
+scenarios. Tested source bytes match the committed image archive. The source-binding
+negative control above is retained against identical source, not described as rerun.
+
+Receipts: `.cache/self-hosted-build-WBudYP/result.json`,
+`.cache/device-dispatch-store-k4mZ5m/result.json`, `.cache/delivery-destination-store-NZ5IyF/result.json` and
+`.cache/native-audit-image-ZesGub/result.json`. Previous unchanged Go/session, schema rollback and SMTP
+unit/mutation evidence retains its original source and artifact provenance.
+Registration, bounded audit shutdown, operational recovery and public login remain
+open; the image does not activate the device dispatcher.
+
+Actual application evidence: `.cache/app-image-proof-9jb3nO/result.json`. The canonical application gate
+exercised real email sign-in, authenticated product navigation, projects, secret
+workflows and denial behavior. The login and organization-first onboarding images
+were inspected. This is scoped application regression evidence, not complete
+federation, accessibility or enterprise parity.

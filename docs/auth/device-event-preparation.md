@@ -1,7 +1,7 @@
 # Device security-event preparation
 
 Current continuation: [domain dispatch](device-event-dispatch.md) is implemented
-and under canonical verification. Background registration and public login remain
+and verified in the canonical image. Background registration and public login remain
 open. Earlier checkpoint evidence below retains its original scope.
 
 This implements the recipient and preparation stages of

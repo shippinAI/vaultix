@@ -5959,7 +5959,7 @@
       "blob": "dbf1305d875677ea5d6db6ea763e2524f15baab2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "docs/auth/device-event-dispatch.md"
@@ -5970,7 +5970,7 @@
       "blob": "23e6fb45f95082617a49c10b00a23d37c0c02201",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "docs/auth/device-event-dispatch.md"
@@ -6091,7 +6091,7 @@
       "blob": "452891d7aa6ff92cf7b742401d7f2e57f0b941bf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
         "docs/auth/device-event-dispatch.md"
@@ -6182,7 +6182,7 @@
       "blob": "0a8f5ce2c82e4cf893bf32c9904f2aaef485e5cc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-dispatch.md"
       ]
@@ -6192,7 +6192,7 @@
       "blob": "f2905e50a207f2b4af26270d922859a188eb41d0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-dispatch.md"
       ]
@@ -6202,7 +6202,7 @@
       "blob": "2dd68762fba383f5f8eda505a680de7434aaa5db",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-dispatch.md"
       ]
@@ -6212,7 +6212,7 @@
       "blob": "ec3d81cfc98145a58108940f942a0e6c42846ba8",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical dispatch image verification pending. Worker registration, bounded audit drain, operations and public CLI remain open.",
+      "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
         "docs/auth/device-event-dispatch.md"
       ]
