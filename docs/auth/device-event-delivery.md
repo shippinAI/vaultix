@@ -396,3 +396,23 @@ Receipts: `.cache/mail-cancellation-unit-75uDwE/result.json`, `.cache/delivery-d
 `.cache/mail-cancellation-typecheck.json` and `.cache/mail-cancellation-lint-fix.json`.
 Initial implicit-parameter type/lint failures are retained locally. Canonical image
 verification is recorded separately.
+
+### Cancellable mail canonical artifact
+
+Runtime source `6c9eda495292011a7b0fc8dc6b5c2a78fb168085` produced
+`sha256:c98e3b48c4a28dfbf938f732ffa81068c2afe5b36043ef202ee5c149a5fde702`. All sixteen canonical image gates passed.
+The exact image also passed four native audit checks, and all sixteen destination
+scenarios passed against its migrated disposable store with source verified against
+the committed archive. Existing browser/project, encrypted recovery, cache variants,
+tenant isolation and admission gates remain unchanged.
+
+A disposable negative control removed active-socket destruction: the real
+post-DATA cancellation test failed because the connection remained open. Production
+source stayed unchanged. This checks that the test observes network cleanup rather
+than merely a rejected promise. Receipt: `.cache/mail-cancellation-mutation-jtMZcf/result.json`.
+
+Canonical receipts: `.cache/self-hosted-build-Ti1ku8/result.json`,
+`.cache/delivery-destination-store-OfNQdx/result.json` and `.cache/native-audit-image-WX6ePz/result.json`.
+Unchanged native session/store sources retain their exact-content-bound previous
+evidence; it is not relabeled as newly executed. The actual device-event worker
+and public headless login remain unimplemented.

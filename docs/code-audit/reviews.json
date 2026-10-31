@@ -5859,7 +5859,7 @@
       "blob": "4a774fa250926b79a7162a6a3a84c749ef9c5010",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5889,7 +5889,7 @@
       "blob": "52b4863a3c03173764e0afaf57b7962ca3a4e975",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6019,7 +6019,7 @@
       "blob": "4a440c0e08b9d364ab412569d21ebf2734d7783b",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6039,7 +6039,7 @@
       "blob": "0f7d948dac608929d6a623cf86a59261f2725eff",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6049,7 +6049,7 @@
       "blob": "fb34c04802b5107e037a6bafdac47bfc8da444c9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6059,7 +6059,7 @@
       "blob": "ca66bbc4739424a270775cd23d2fbd12849f17fe",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
