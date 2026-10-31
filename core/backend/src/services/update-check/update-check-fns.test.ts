@@ -2,6 +2,7 @@ import {
   isUpdateCheckEnabled,
   isVersionNewer,
   parseSemanticVersion,
+  readStableRelease,
   TSemanticVersion,
   TUpdateCheckGateInput
 } from "./update-check-fns";
@@ -22,9 +23,19 @@ describe("parseSemanticVersion", () => {
     expect(parseSemanticVersion("V0.162.10")).toEqual({ major: 0, minor: 162, patch: 10 });
   });
 
-  test("parses nightly/prerelease versions to their base version", () => {
-    expect(parseSemanticVersion("0.163.0-nightly-20260721")).toEqual({ major: 0, minor: 163, patch: 0 });
-    expect(parseSemanticVersion("v0.163.0-nightly-20260721.1")).toEqual({ major: 0, minor: 163, patch: 0 });
+  test("preserves nightly/prerelease precedence", () => {
+    expect(parseSemanticVersion("0.163.0-nightly-20260721")).toEqual({
+      major: 0,
+      minor: 163,
+      patch: 0,
+      prerelease: ["nightly-20260721"]
+    });
+    expect(parseSemanticVersion("v0.163.0-nightly-20260721.1")).toEqual({
+      major: 0,
+      minor: 163,
+      patch: 0,
+      prerelease: ["nightly-20260721", "1"]
+    });
   });
 
   test("returns null for values that are not semver-shaped", () => {
@@ -36,6 +47,56 @@ describe("parseSemanticVersion", () => {
     expect(parseSemanticVersion("0.162.10.1")).toBeNull();
     expect(parseSemanticVersion("latest")).toBeNull();
   });
+});
+
+test("stable releases outrank prereleases; numeric identifiers use numeric precedence", () => {
+  const ordered = [
+    "1.0.0-alpha",
+    "1.0.0-alpha.1",
+    "1.0.0-alpha.beta",
+    "1.0.0-beta",
+    "1.0.0-beta.2",
+    "1.0.0-beta.11",
+    "1.0.0-rc.1",
+    "1.0.0"
+  ];
+  ordered.forEach((a, i) => ordered.forEach((b, k) => expect(isVersionNewer(version(a), version(b))).toBe(i > k)));
+  expect(isVersionNewer(version("1.0.0+build.9"), version("1.0.0+build.1"))).toBe(false);
+  for (const input of [
+    "01.2.3",
+    "1.02.3",
+    "1.2.3-01",
+    "1.2.3-",
+    "1.2.3+",
+    "1.2.3-rc..1",
+    "1.2.3/evil",
+    "9007199254740992.0.0"
+  ])
+    expect(parseSemanticVersion(input)).toBeNull();
+});
+
+test("only published stable tags produce an owned release destination", () => {
+  const good = {
+    tag_name: "v2.0.0",
+    draft: false,
+    prerelease: false,
+    published_at: "2026-10-31T12:00:00Z",
+    html_url: "https://untrusted.invalid/"
+  };
+  expect(readStableRelease(good)).toEqual({
+    version: "2.0.0",
+    url: "https://github.com/shippinAI/vaultix/releases/tag/v2.0.0"
+  });
+  for (const input of [
+    null,
+    {},
+    { ...good, draft: true },
+    { ...good, prerelease: true },
+    { ...good, tag_name: "v3.0.0-rc.1" },
+    { ...good, tag_name: "v3.0.0\n" },
+    { ...good, published_at: "invalid" }
+  ])
+    expect(readStableRelease(input)).toBeNull();
 });
 
 describe("isVersionNewer", () => {

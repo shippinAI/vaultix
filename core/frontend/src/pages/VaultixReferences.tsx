@@ -22,7 +22,13 @@ import { LearningSignals } from "@app/components/vaultix/LearningSignals";
 import { listVaultixProjects, listVaultixReferences } from "@app/hooks/api/vaultix/actions";
 import { useVaultixGuide, type VaultixSourceAction } from "@app/hooks/api/vaultix/queries";
 
-export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) => {
+export const VaultixReferences = ({
+  action,
+  scopeKey = "guide"
+}: {
+  action: VaultixSourceAction;
+  scopeKey?: string;
+}) => {
   const guide = useVaultixGuide();
   const [projectId, setProjectId] = useState("");
   const [environment, setEnvironment] = useState("");
@@ -36,14 +42,14 @@ export const VaultixReferences = ({ action }: { action: VaultixSourceAction }) =
     offset: number;
   }>();
   const projects = useQuery({
-    queryKey: ["vaultix", "projects"],
+    queryKey: ["vaultix", "projects", scopeKey],
     queryFn: listVaultixProjects,
     retry: false,
     staleTime: 0,
     gcTime: 0
   });
   const references = useQuery({
-    queryKey: ["vaultix", "references", scope],
+    queryKey: ["vaultix", "references", scopeKey, scope],
     queryFn: () => listVaultixReferences(scope!),
     enabled: Boolean(scope),
     retry: false,

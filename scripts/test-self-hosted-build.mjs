@@ -51,6 +51,7 @@ cp.spawnSync=(name,args,options)=>{
     assert.equal(existsSync(resolve(context,'node_modules')),false,'Local dependencies must not enter build context');
     assert.ok(args.includes(resolve(context,'Dockerfile.standalone-vaultix')));
     assert.ok(args.includes('VAULTIX_SOURCE_REVISION='+process.env.FIXTURE_REVISION) || args.includes('--target'));
+    assert.ok(args.includes('VAULTIX_PLATFORM_VERSION=dev-'+process.env.FIXTURE_REVISION.slice(0,12)) || args.includes('--target'));
   }
   if(args[0]==='scripts/smoke-image.sh') {
     assert.equal(args[1],'${imageId}','Verify the immutable image');
@@ -82,9 +83,10 @@ syncBuiltinESMExports();
 const cases = [];
 for (const name of ["preflight", "application", "capabilities", "windows-archive", "login-policy-failure", "dirty", "locked", "build-failure", "application-failure", "recovery-failure", "isolation-failure", "proxy-failure", "admission-failure", "source-change", "tag-change"]) {
   const cwd = resolve(evidence, name);
-  for (const dir of ["scripts", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
+  for (const dir of ["scripts/lib", "core/e2e/node_modules/@playwright/test", "core/e2e/node_modules/@axe-core/playwright", ".cache"])
     mkdirSync(resolve(cwd, dir), { recursive: true });
   copyFileSync(resolve(root, "scripts/build-self-hosted.mjs"), resolve(cwd, "scripts/build-self-hosted.mjs"));
+  copyFileSync(resolve(root, "scripts/lib/release-version.mjs"), resolve(cwd, "scripts/lib/release-version.mjs"));
   writeFileSync(resolve(cwd, ".gitignore"), ".cache/\n**/node_modules/\n**/.env\n");
   writeFileSync(resolve(cwd, "core/e2e/package.json"), "{}");
   writeFileSync(resolve(cwd, "core/e2e/node_modules/@playwright/test/index.js"), "exports.chromium={executablePath:()=>__filename};");
@@ -119,6 +121,7 @@ for (const name of ["preflight", "application", "capabilities", "windows-archive
     const report = JSON.parse(readFileSync(resolve(cwd, ".cache", records[0], "result.json"), "utf8"));
     assert.equal(report.passed, accepted);
     assert.equal(report.revision, revision);
+    assert.equal(report.platformVersion, `dev-${revision.slice(0, 12)}`);
     if (accepted) assert.equal(report.imageId, imageId);
     if (name === "login-policy-failure") assert.equal(report.steps.at(-1).name, "login-failure-policy");
     if (accepted) assert.ok(report.steps.some(step => step.name === "login-failure-policy" && step.passed));

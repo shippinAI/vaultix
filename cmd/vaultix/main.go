@@ -13,11 +13,14 @@ import (
 	"time"
 
 	"shippin.cloud/vaultix/internal/cli"
+	"shippin.cloud/vaultix/internal/release"
 )
 
 func usageText() string {
 	name := cli.CommandName(os.Args[0])
 	return `usage: ` + name + ` <command>
+  version [--json]              show the installed CLI build
+  update check [--json]         check the stable Vaultix release channel
   login --domain=https://vaultix.cloud   select a Vaultix instance and sign in
   login                         Nomen device-code login (browser link, no password)
   login --universal             machine identity: client id and secret on stdin
@@ -44,6 +47,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, cli.CommandName(os.Args[0])+":", err)
 		os.Exit(1)
 	}
+	release.Notify(ctx, version, os.Args[1:], os.Stderr)
 }
 
 func dispatch(ctx context.Context, a []string) error {
@@ -55,6 +59,10 @@ func dispatch(ctx context.Context, a []string) error {
 	case "--help", "-h", "help":
 		fmt.Fprintln(os.Stdout, usageText())
 		return nil
+	case "version", "--version":
+		return printVersion(rest, os.Stdout)
+	case "update":
+		return checkUpdate(ctx, rest, os.Stdout)
 	case "login":
 		err := cli.Login(ctx, rest, os.Stdin, os.Stdout)
 		if errors.Is(err, flag.ErrHelp) {

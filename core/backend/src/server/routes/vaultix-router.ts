@@ -129,6 +129,48 @@ export const registerVaultixRouter = async (
     )
   );
 
+  server.get(
+    "/updates",
+    {
+      schema: {
+        tags: ["Vaultix"],
+        operationId: "getVaultixUpdateStatus",
+        summary: "Read cached Vaultix release status",
+        security: [{ bearerAuth: [] }]
+      },
+      config: { rateLimit: { max: 60, timeWindow: "1 minute" } }
+    },
+    async (request) => {
+      if (!canRead(request)) throw new UnauthorizedError();
+      return server.services.updateCheck.getStatus();
+    }
+  );
+  server.post(
+    "/updates/check",
+    {
+      bodyLimit: 1024,
+      schema: {
+        tags: ["Vaultix"],
+        operationId: "checkVaultixUpdates",
+        summary: "Refresh stable release metadata without installing software",
+        security: [{ bearerAuth: [] }]
+      },
+      config: { rateLimit: { max: 2, timeWindow: "1 minute" } }
+    },
+    async (request) => {
+      if (!canRead(request)) throw new UnauthorizedError();
+      if (
+        !request.body ||
+        typeof request.body !== "object" ||
+        Array.isArray(request.body) ||
+        Object.keys(request.body).length
+      )
+        throw new BadRequestError({ message: "Update checks accept an empty object." });
+      await server.services.updateCheck.refresh();
+      return server.services.updateCheck.getStatus();
+    }
+  );
+
   server.post(
     "/learning-context",
     {

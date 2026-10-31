@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { versionForRevision } from "./lib/release-version.mjs";
 
 assert.ok(process.argv.length === 2 || (process.argv.length === 3 && process.argv[2] === "--help"),
   "Usage: node scripts/build-cli.mjs [--help]");
@@ -23,6 +24,7 @@ const cleanRevision = () => {
   return command("git", ["rev-parse", "HEAD"]);
 };
 const revision = cleanRevision();
+const version = versionForRevision(root, revision);
 mkdirSync(resolve(root, ".cache"), { recursive: true });
 const directory = mkdtempSync(resolve(root, ".cache/cli-build-"));
 const source = resolve(directory, "source");
@@ -33,7 +35,7 @@ command("git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--
 command("tar", ["-xf", archive, "-C", source]);
 const sha256 = file => createHash("sha256").update(readFileSync(file)).digest("hex");
 const receipt = {
-  revision, sourceArchiveSha256: sha256(archive), toolchain: command("go", ["version"]),
+  revision, version, sourceArchiveSha256: sha256(archive), toolchain: command("go", ["version"]),
   passed: false, artifacts: [], exclusions: ["global installation", "hosted login", "full CLI feature parity"]
 };
 for (const target of ["linux", "windows"]) {
@@ -42,7 +44,7 @@ for (const target of ["linux", "windows"]) {
   mkdirSync(folder);
   const suffix = target === "windows" ? ".exe" : "";
   const file = resolve(folder, `vaultix${suffix}`);
-  command("go", ["build", "-buildvcs=false", "-trimpath", "-o", file, "./cmd/vaultix"], source,
+  command("go", ["build", "-buildvcs=false", "-trimpath", "-ldflags", `-X main.version=${version} -X main.revision=${revision}`, "-o", file, "./cmd/vaultix"], source,
     { GOOS: target, GOARCH: "amd64", CGO_ENABLED: "0", GOWORK: "off" });
   const alternate = resolve(folder, `vaultixl${suffix}`);
   copyFileSync(file, alternate);

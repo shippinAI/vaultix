@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.updates.v1.json",
+  "title": "Vaultix release discovery status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "state", "currentVersion", "channel", "releaseUrl"],
+  "properties": {
+    "schemaVersion": { "const": "vaultix.updates.v1" },
+    "state": { "enum": ["available", "current", "unknown", "unavailable", "unpublished", "development", "disabled", "managed"] },
+    "currentVersion": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "latestVersion": { "type": ["string", "null"], "maxLength": 128 },
+    "checkedAt": { "type": ["string", "null"], "format": "date-time" },
+    "channel": { "const": "stable" },
+    "releaseUrl": { "type": "string", "maxLength": 256, "pattern": "^https://github\\.com/shippinAI/vaultix/releases(?:/tag/[vV]?[0-9]+\\.[0-9]+\\.[0-9]+(?:\\+[0-9A-Za-z.-]+)?)?$" }
+  }
+}

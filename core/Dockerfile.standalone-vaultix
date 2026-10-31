@@ -2,6 +2,7 @@ ARG POSTHOG_HOST=https://app.posthog.com
 ARG POSTHOG_API_KEY=posthog-api-key
 ARG INTERCOM_ID=intercom-id
 ARG CAPTCHA_SITE_KEY=
+ARG VAULTIX_PLATFORM_VERSION=dev
 
 FROM node:22.22.0-trixie-slim AS base
 
@@ -248,7 +249,7 @@ COPY ai/ /backend/ai/
 # Make export-assets script executable for CDN asset extraction
 RUN sed -i 's/\r$//' /backend/scripts/export-assets.sh && chmod +x /backend/scripts/export-assets.sh
 
-ARG VAULTIX_PLATFORM_VERSION=0.162.19
+ARG VAULTIX_PLATFORM_VERSION
 ENV VAULTIX_PLATFORM_VERSION $VAULTIX_PLATFORM_VERSION
 
 ARG DD_GIT_REPOSITORY_URL

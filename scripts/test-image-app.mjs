@@ -18,6 +18,7 @@ import { testCreateSecretRecovery } from "./test-create-secret-recovery.mjs";
 import { testDashboardSecretPaste } from "./test-dashboard-secret-paste.mjs";
 import { testDashboardSecretReferences } from "./test-dashboard-secret-references.mjs";
 import { testDashboardCreateWorkflow } from "./test-dashboard-create-workflow.mjs";
+import { testUpdatesClyffyWorkflow } from "./test-updates-clyffy-workflow.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const origin = process.argv[2];
@@ -254,9 +255,12 @@ try {
   phase = "project-role-refresh";
   await testProjectRoleRefresh({ page, expect, origin, orgId: bootstrap.organization.id, projectId: project.id, token: selected.token, evidence });
   assert.deepEqual(errors, []);
+  phase = "updates-clyffy";
+  await testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, origin, orgId: bootstrap.organization.id, projectId: project.id, token: selected.token, evidence, expectedFailures });
+  assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
-    scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled. Organization MFA evidence is in org-mfa-workflow.json.",
+    scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled. Update and Clyffy evidence is in updates-clyffy-workflow.json; organization MFA evidence is in org-mfa-workflow.json.",
     reports: ["org-mfa-workflow.json", "project-role-refresh.json", "assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);

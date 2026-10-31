@@ -61,6 +61,7 @@ import {
   TooltipTrigger
 } from "@app/components/v3";
 import { SidebarTrigger } from "@app/components/v3/generic/Sidebar";
+import { ClyffyLauncher } from "@app/components/vaultix/ClyffyLauncher";
 import { envConfig } from "@app/config/env";
 import {
   OrgPermissionActions,
@@ -334,7 +335,7 @@ export const Navbar = () => {
   return (
     <div
       className={twMerge(
-        "z-10 flex min-h-12 items-center border-b border-border bg-card",
+        "z-10 flex min-h-12 flex-wrap items-center border-b border-border bg-card sm:flex-nowrap",
         isServerAdminPanel && "border-b-admin/30",
         !isServerAdminPanel && isProjectScope && "border-b-project/30"
       )}
@@ -348,7 +349,7 @@ export const Navbar = () => {
         <img src="/images/vaultix-mark.svg" alt="Vaultix" className="size-8" />
         <span className="hidden text-sm font-semibold text-foreground xl:inline">Vaultix</span>
       </Link>
-      <div className="mr-auto flex h-full min-w-34 items-center">
+      <div className="mr-auto flex h-full min-w-0 flex-1 basis-40 items-center sm:min-w-34 sm:basis-auto">
         {isServerAdminPanel ? (
           <div className="flex h-full items-center">
             <Tooltip>
@@ -594,6 +595,7 @@ export const Navbar = () => {
         )}
       </div>
 
+      {!isServerAdminPanel && <ClyffyLauncher key={currentOrg.id} />}
       <VersionBadge />
       <Badge variant="info" className="mt-[3px] mr-3 hidden md:inline-flex">
         Software features included
@@ -674,7 +676,7 @@ export const Navbar = () => {
                   Version: {envConfig.PLATFORM_VERSION}
                   {serverConfig.latestAvailableVersion && (
                     <a
-                      href="https://shippin.ai"
+                      href="https://github.com/shippinAI/vaultix/releases"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-info hover:underline"

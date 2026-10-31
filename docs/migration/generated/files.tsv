@@ -4,7 +4,7 @@ path	module	workstream	target	language	git_blob	review_state
 .ai/package.json	.ai	foundation	supporting-tooling-or-contract	json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	reviewed
 .ai/schemas/contexts.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	reviewed
 .ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
-.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	c8fbfe9f525685b5fc7829729d1af1a1b4358d2b	authored
+.github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	043aa43d3518a32e2d3978ba615be2c30c3918db	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	authored
 .gitignore	.	delivery	supporting-tooling-or-contract	build-config	3d7cf33f5660e76b0cc384a022d7c18332405d6f	unread
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
@@ -13,7 +13,9 @@ branding/og.svg	branding	ui	supporting-tooling-or-contract	svg	4e59d0f93c47bb3e8
 branding/strings.yaml	branding	ui	supporting-tooling-or-contract	yaml	62b84fc19f445e29470c1d6ab451f64d49d1ceaa	unread
 branding/tokens.css	branding	ui	supporting-tooling-or-contract	css	d2e324f2201dfcc9d83857ab807984b0be59317e	unread
 branding/wordmark.svg	branding	ui	supporting-tooling-or-contract	svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
-cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	7ef6144d3405d7bf359819a1c19334a015fe0499	verified
+cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	98b2e3afdd1073e4df34d93297bb93a4e3abc349	authored
+cmd/vaultix/version.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	6bc4a1bec0daded3d8f61c98cc9b1591f10478c7	authored
+cmd/vaultix/version_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	2af4c51659112f702e3e7e23cb8ca06d1623e1ba	authored
 compose/cache-redis.yml	compose	delivery	supporting-tooling-or-contract	yml	36015a7ed6436935e15eeb18ee7666f52158daca	unread
 compose/hosted.env.example	compose	delivery	supporting-tooling-or-contract	example	202f835ea31335fd8fd6e83a416d7b9dc5b56855	verified
 compose/instances.json	compose	delivery	supporting-tooling-or-contract	json	b503980ffd2f92787b81675b7e043acf3658816c	unread
@@ -22,6 +24,7 @@ compose/vaultix.yml	compose	delivery	supporting-tooling-or-contract	yml	57f7a2a5
 contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-or-contract	json	9e6fcebba7030c08db0d6b8f1e7128c7dcc709fd	unread
 contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	5df376a64d09a753422b58f778cfd17a40550008	unread
 contracts/vaultix.core.v1.json	contracts	foundation	supporting-tooling-or-contract	json	c75da452892984cc6f06cc3c880f9f63a1502aae	unread
+contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
 core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	a9ef7871c0869bac814b36618e9d649d84a94339	unread
 core/.env.dev.example	core	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
 core/.env.example	core	delivery	supporting-tooling-or-contract	example	74d4de37b9fd95a9f5f5ba483a400dce1809dc82	unread
@@ -33,7 +36,7 @@ core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
 core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	authored
-core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	8244083502cb292b6641c5dab07b425c4f89e046	verified
+core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	5a956d30591bca7e51ddfccce48180da60749b40	authored
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
 core/backend-go/.air.toml	core/backend-go	foundation	Go-native	toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	unread
@@ -2515,7 +2518,8 @@ core/backend/src/server/routes/v4/secret-router.ts	core/backend/src/server/route
 core/backend/src/server/routes/vaultix-learning.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	f18530ae53e50931e356643183da93a03b6590fd	verified
 core/backend/src/server/routes/vaultix-reference-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	1c659074f2afd17cbf5c467ac4e626c479f4d643	unread
 core/backend/src/server/routes/vaultix-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	473b94a0e5a86160ad3540e9129506586032a5b3	verified
-core/backend/src/server/routes/vaultix-router.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	6f091f4a2ad554149969ccb59f6432c5192e557a	verified
+core/backend/src/server/routes/vaultix-router.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	e772f84733e985e2232544e324187f8b81bc00cd	authored
+core/backend/src/server/routes/vaultix-updates-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	authored
 core/backend/src/services/access-token-queue/access-token-queue.ts	core/backend/src/services/access-token-queue	foundation	Go-domain-migration	ts	bb1fefef60093c8a23fc03ffa46b1592cb59ca1a	unread
 core/backend/src/services/account-recovery/account-recovery-service.ts	core/backend/src/services/account-recovery	identity	Go-domain-migration	ts	43dee817ef27c1842532abd7f8c2465e26896043	unread
 core/backend/src/services/additional-privilege/additional-privilege-dal.ts	core/backend/src/services/additional-privilege	authorization	Go-domain-migration	ts	8f6f78bb3ac3d507f6eaa1877b5590a0632f0af7	unread
@@ -4065,9 +4069,10 @@ core/backend/src/services/telemetry/telemetry-types.ts	core/backend/src/services
 core/backend/src/services/totp/totp-config-dal.ts	core/backend/src/services/totp	identity	Go-domain-migration	ts	15abb729a2c52d7c04b2c41d2546813bb006b73e	unread
 core/backend/src/services/totp/totp-service.ts	core/backend/src/services/totp	identity	Go-domain-migration	ts	86ce4f441ccfa67020fbf4a0d51cd53950d31ec2	verified
 core/backend/src/services/totp/totp-types.ts	core/backend/src/services/totp	identity	Go-domain-migration	ts	cc0e26e87877d79dbe2a53d136a87f9621daf44d	unread
-core/backend/src/services/update-check/update-check-fns.test.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	2bb0d0117016028d6a1694c6b3a787e3c30050cd	unread
-core/backend/src/services/update-check/update-check-fns.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	24abb9769a3e9bd74f2eb9589607768ba95d5513	unread
-core/backend/src/services/update-check/update-check-queue.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	9a9f292cd18e931d9b0822ba63e5a57f3b22d79a	unread
+core/backend/src/services/update-check/update-check-fns.test.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	d492f5a5e2dc881971bc7e171de1a30d876fa729	authored
+core/backend/src/services/update-check/update-check-fns.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	580f851be4c5c3d8a5d2ed0a0728c5dad17510a0	authored
+core/backend/src/services/update-check/update-check-queue.test.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	310b997d9a43b3b85c0838710f21213585f4f4e1	authored
+core/backend/src/services/update-check/update-check-queue.ts	core/backend/src/services/update-check	foundation	Go-domain-migration	ts	498fc48ec2f48d4cb35bd64738601d240bc0f590	authored
 core/backend/src/services/user-activation/user-activation-dal.ts	core/backend/src/services/user-activation	identity	Go-domain-migration	ts	6fc67707a109d946975a7a92202103df8a5a97a5	unread
 core/backend/src/services/user-activation/user-activation-service.ts	core/backend/src/services/user-activation	identity	Go-domain-migration	ts	f9f48a489e2f8ad8e66f7570287c64952f134f82	unread
 core/backend/src/services/user-activation/user-activation-types.ts	core/backend/src/services/user-activation	identity	Go-domain-migration	ts	6ca7c0c6fd92e31fe40bb3b1cfb1b03e7d6491d6	unread
@@ -5284,7 +5289,7 @@ core/frontend/src/components/v3/generic/Separator/Separator.stories.tsx	core/fro
 core/frontend/src/components/v3/generic/Separator/Separator.tsx	core/frontend/src/components/v3/generic/Separator	ui	React-TypeScript	tsx	b6f3c10c56484e6a177b814c0fecf777af29474f	unread
 core/frontend/src/components/v3/generic/Separator/index.ts	core/frontend/src/components/v3/generic/Separator	ui	React-TypeScript	ts	4060cb5ecddea884d797ea21910e8b04a45decd6	unread
 core/frontend/src/components/v3/generic/Sheet/Sheet.stories.tsx	core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	tsx	9c4d8717d8ca651e73698628ada98b1ea6516871	unread
-core/frontend/src/components/v3/generic/Sheet/Sheet.tsx	core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	tsx	339bcca2a33100fed9e50b08572b2f2a38509917	verified
+core/frontend/src/components/v3/generic/Sheet/Sheet.tsx	core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	tsx	730abe7be9c2ee6319b4b785c6be563268db33ce	authored
 core/frontend/src/components/v3/generic/Sheet/index.ts	core/frontend/src/components/v3/generic/Sheet	ui	React-TypeScript	ts	f49d7b617bca79f4d73a35b8d49368e47acf5b1f	unread
 core/frontend/src/components/v3/generic/Sidebar/Sidebar.tsx	core/frontend/src/components/v3/generic/Sidebar	ui	React-TypeScript	tsx	892ab8030ea6981569632d7f084e89456c22fc11	unread
 core/frontend/src/components/v3/generic/Sidebar/index.ts	core/frontend/src/components/v3/generic/Sidebar	ui	React-TypeScript	ts	d6789989723e649cf8082fd4a2224664160ec400	unread
@@ -5348,6 +5353,8 @@ core/frontend/src/components/v3/platform/VerificationCode/index.ts	core/frontend
 core/frontend/src/components/v3/platform/VerificationCode/useClientResendDelay.ts	core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	ts	7dc383afd83ec0728beaa65f348c4e55d36532db	unread
 core/frontend/src/components/v3/platform/index.ts	core/frontend/src/components/v3	ui	React-TypeScript	ts	4b3f876dc93a3aa083723106718a50cf4e119e9b	unread
 core/frontend/src/components/v3/utils/index.ts	core/frontend/src/components/v3	ui	React-TypeScript	ts	365058cebd7d2bdb327ca1c081b16e4937e11050	unread
+core/frontend/src/components/vaultix/ClyffyLauncher.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	76fb2c2273f1be48093bc1525e9624a60ab6a8d3	authored
+core/frontend/src/components/vaultix/ClyffyWorkspace.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	1c979e901c5cd579822b92e13e2f84d01e773fb9	authored
 core/frontend/src/components/vaultix/GuidedHelp.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	18e1ed10af10058f06dc60564214c3722c0e26b7	verified
 core/frontend/src/components/vaultix/LearningSignals.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	f77d52e03348706d94dd116fea3ad777f6492afe	verified
 core/frontend/src/components/vaultix/guidance-state.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c414fea8fac7297c3222426d130ba218195a5e36	verified
@@ -6216,6 +6223,7 @@ core/frontend/src/hooks/api/vaultix/guidance-contract.ts	core/frontend/src/hooks
 core/frontend/src/hooks/api/vaultix/guidance.ts	core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	ts	908bf8b648c66b3e6c15c5e102c3d33084cf1fa7	verified
 core/frontend/src/hooks/api/vaultix/learning.ts	core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	ts	c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce	verified
 core/frontend/src/hooks/api/vaultix/queries.ts	core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	ts	cf4ddde832753ee6ae58eb1b5d0b40d508f386e4	verified
+core/frontend/src/hooks/api/vaultix/updates.ts	core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	ts	3194ead50e777304c8ddfbabec121dbb2d299e17	authored
 core/frontend/src/hooks/api/webauthn/index.tsx	core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	tsx	1db2260fc3b4b9e022200e03b7e9868c247fcadf	unread
 core/frontend/src/hooks/api/webauthn/mutations.tsx	core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	tsx	b7581e8aac60a5e836ba78312433c8284a4f6661	unread
 core/frontend/src/hooks/api/webauthn/queries.tsx	core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	tsx	0644801426d5cddb0974e84e0e1327ea27d4ee89	unread
@@ -6269,10 +6277,10 @@ core/frontend/src/layouts/OrganizationLayout/components/InsecureConnectionBanner
 core/frontend/src/layouts/OrganizationLayout/components/InsecureConnectionBanner/index.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	a09b3576431c7e07fd829f70f92586657dc284d1	unread
 core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/MenuIconButton.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	515b7f4ea8141622266e67f2f5e2be5d2fc61a90	authored
 core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/index.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	6655c70912afa9312d8a21f2c5b63f0e42f2f66f	unread
-core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	bef731feb6d86479172e5eb5f7d970c5f495fc18	unread
+core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	4f8ae377967d5fc638ded13db01bcd4d93b62313	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Notification.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	ef7f2b65ca45f1a926b98a5f318824f9cc1eb15a	unread
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/NotificationDropdown.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	77c1fe1794b7f3a99fb5600afa02e1d112915b32	unread
-core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	67db8385a46fd4cf5cc6cf806c86709cc881f852	unread
+core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	341d321ac3ea1772cecda71c17c240b4ae528278	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/index.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	d97ce393e0cfade5e9d43761c1a76b3a9620569d	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/NetworkHealthBanner.tsx	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	tsx	403aa872fc769273401ed4709e7511cb50e9ab0e	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/index.ts	core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	ts	dd5cd43d992f1d4aa7da22a29483e79b909a15ab	unread
@@ -6345,7 +6353,7 @@ core/frontend/src/pages/MfaSessionPage/index.tsx	core/frontend/src/pages/MfaSess
 core/frontend/src/pages/MfaSessionPage/route.tsx	core/frontend/src/pages/MfaSessionPage	identity	React-TypeScript	tsx	a66b02443e5221d577abf3105c9a68d7fd8ffb86	unread
 core/frontend/src/pages/VaultixConnections.tsx	core/frontend/src/pages	ui	React-TypeScript	tsx	db7767af8f280c6876138800916baa6a087a30c3	verified
 core/frontend/src/pages/VaultixHome.tsx	core/frontend/src/pages	ui	React-TypeScript	tsx	fc738197358a1a82bd9d0ac5ce5dd4093d745663	verified
-core/frontend/src/pages/VaultixReferences.tsx	core/frontend/src/pages	ui	React-TypeScript	tsx	904513c69046fbee894d6fae05cfb2b7e67d0567	verified
+core/frontend/src/pages/VaultixReferences.tsx	core/frontend/src/pages	ui	React-TypeScript	tsx	657e073a388b89ab149ff9afcb2ef98a382e38ba	authored
 core/frontend/src/pages/admin/AccessManagementPage/AccessManagementPage.tsx	core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	tsx	be28cbe724ba46aac4a7d0b30872fd054d9369e5	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/AddServerAdminModal.tsx	core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	tsx	a066f0e7412c31745aaded3efef6361ac9dd21dc	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/ServerAdminsTable.tsx	core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	tsx	8970dddd88862579a4ac9afe3f9d878eede3c2ea	unread
@@ -9396,6 +9404,10 @@ internal/oidc/device.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	1
 internal/oidc/device_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	321d7e60ac500f99b11a9a53cb977605251b9ad4	verified
 internal/oidc/refresh.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	9b79c529de964e195e7b74d0b1766f08f9f6d032	verified
 internal/oidc/refresh_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	c7f8034b80fe4cc7facde8f217572642c505c3bd	verified
+internal/release/notice.go	internal/release	cli	Go-client-Rust-injection-boundary	go	d41b176efcb0b1f20b67be22259e88b5feab2800	authored
+internal/release/notice_test.go	internal/release	cli	Go-client-Rust-injection-boundary	go	688ad7456d9887972a18f28102bea0bf8ecb3d75	authored
+internal/release/release.go	internal/release	cli	Go-client-Rust-injection-boundary	go	7b13038dd90fde7b0c51523281340cb986fbb663	authored
+internal/release/release_test.go	internal/release	cli	Go-client-Rust-injection-boundary	go	a7eb04d51304ed608a8dfa7e4636dd75bbf7cd98	authored
 internal/store/credential_file.go	internal/store	cli	Go-client-Rust-injection-boundary	go	86c3c51621482d308dea57492a4c3d13c335044a	verified
 internal/store/credential_file_test.go	internal/store	cli	Go-client-Rust-injection-boundary	go	7aec042eb69880412b923a111343ef8bfece6401	verified
 internal/store/credential_lock.go	internal/store	cli	Go-client-Rust-injection-boundary	go	e72a6a48efad794eb139945d517b34cbdd5d4d75	verified
@@ -9487,8 +9499,8 @@ scripts/ai-journal.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	11062
 scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	091d95b9c26ee7de8ceccff9a74fb6d1cab6dcf1	reviewed
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
-scripts/build-cli.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	bbc9426a798738277cc92b54174bfd5a85640b22	verified
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6	verified
+scripts/build-cli.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	50a7f7f315dce61b8dcda144a75297d1be8ac9aa	authored
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee5fcebb39c823591876d919a6e53fb297c6ab26	authored
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
@@ -9500,11 +9512,13 @@ scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	2d0f70c4d2deb48d81b59941558cb29233052262	verified
+scripts/lib/release-version.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	authored
 scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/prove-device-api-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fa7ef8e7d277b72459a859a35d6ef5cfdf21ca10	unread
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	5317d57aa1a2f44f630b056cc3a916607c17f4b9	verified
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
+scripts/release-version.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c75c5026a0359f767cc876b667866f0d57d4eeb0	authored
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	ce4275be18ca18f1216eed158527ab792540fd2e	unread
 scripts/serve-capability-plan.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	verified
 scripts/smoke-image.sh	scripts	delivery	supporting-tooling-or-contract	sh	d4af9bd9e34654fb334be2b45edc128b842d3fad	verified
@@ -9534,7 +9548,7 @@ scripts/test-go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-guidance-contract.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	verified
 scripts/test-guided-interactions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	verified
 scripts/test-identity-policy-startup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0b987ad6360d321ac5126d81634a38abfa98a504	verified
-scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fcd7a37be2f03cd5cfc13c6c8c92ac439110cab1	verified
+scripts/test-image-app.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2edc5c9853fd6116aecdc121f152ce91e5300667	authored
 scripts/test-learning-content.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
@@ -9551,10 +9565,11 @@ scripts/test-proxy-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	
 scripts/test-publication.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	303254db93e9891bc8a2628977e0c0243476ce72	verified
-scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2a4d26dfec1328a28ccf0840bc99c530213ff81d	verified
+scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4fe9110742f7657b3575cb22439857500bddec80	authored
 scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
+scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3e378e4d82b6a69d5889c1582bd20ae71b751a91	authored
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored

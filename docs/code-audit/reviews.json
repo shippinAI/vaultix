@@ -57,17 +57,13 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
-      "blob": "904513c69046fbee894d6fae05cfb2b7e67d0567",
-      "status": "verified",
+      "blob": "657e073a388b89ab149ff9afcb2ef98a382e38ba",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -266,28 +262,13 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "fcd7a37be2f03cd5cfc13c6c8c92ac439110cab1",
-      "status": "verified",
+      "blob": "2edc5c9853fd6116aecdc121f152ce91e5300667",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped email-login recovery in 0060: safe status classification, inline v3 feedback, bounded Retry-After UI, no credential logging or automatic resubmission, preserved input and duplicate-submit protection. Existing authentication, redirects and server admission remain authoritative. Policy checks pass; packaged/browser acceptance recorded below. Other authentication flows and manual assistive-technology acceptance remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060. 0064 update: Full runner read. Register assumed-privilege acceptance after existing real workflows and include its receipt. Preserve setup, sign-in, secret/environment and other image checks; new workflow fixture boundaries remain explicit. Scoped committed-image acceptance recorded in 0064; remaining entry/provider/manual gates remain open. 0065 update: Read full runner and retained existing packaged workflow checks. Register real project-role refresh acceptance and receipt after assumed-privilege checks. New packet acceptance pending; historical evidence retains its original source and scope. 0065 canonical image acceptance: all four real refresh checks and 16 image gates pass; remaining scope stays explicit. Complete existing harness read; append organization MFA workflow to the real disposable packaged application. Existing workflows retained. Scoped GOV-UI-01 canonical application acceptance passed; see 0072 for fixture/live distinctions and remaining limitations.",
+      "scope": "Read complete canonical workflow harness; add scoped update/Clyffy proof after existing workflows. No inherited check removed.",
       "evidence": [
-        "docs/0060-login-recovery.md",
-        "scripts/test-login-failure.mjs",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/app-image-proof-ZtWfUq/login-recovery.json",
-        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
-        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json",
-        "docs/0064-assumed-privilege-workflow.md",
-        "Runtime source 4379096142d4d61135902fef59f38884448d020c",
-        "Canonical image sha256:b228ed4142c08edeb00408ae77622a191ef5aa4baf5253ac64b90c8f1b6bc3a1",
-        "0064: packaged workflow, six route tests, 45 native grant integrations per cache and 16 image gates pass; scope and remaining manual/provider checks are explicit.",
-        "docs/0065-project-role-refresh.md",
-        "0065: source-mount development role refresh passes four real checks, 403 denial, retained draft and both initial-role directions; canonical acceptance pending.",
-        "Runtime source 4bb6099f7bd8f51a83225993551037e8f35c40d0",
-        "Canonical image sha256:e1dbc8a406f20b4cab3b6aa233490f9ac5f573fdf085bd173533729b3781908a",
-        "0065: exact packaged acceptance and unchanged backend/native boundary.",
-        "docs/0071-devscif-governance-experience.md",
-        "docs/0072-governance-mfa-verification.md"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -883,16 +864,13 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "8244083502cb292b6641c5dab07b425c4f89e046",
-      "status": "verified",
+      "blob": "5a956d30591bca7e51ddfccce48180da60749b40",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped login recovery in 0060. First image passed the throttling/outage/network/credential/lock/duplicate-submit fixtures and three accessibility scans, then exposed the canonical Dockerfile fake CAPTCHA key. Default is now empty, explicit configuration remains supported. Password placeholder Unicode preserved and test failures emit metadata instead of credential-bearing browser assertion snapshots. Final packaged acceptance passed; external CAPTCHA and other authentication flows remain open. Combined 62650f77 canonical image passed all sixteen local application gates. Recovery fixtures, three real login checks and three recovery accessibility scans passed. Exact evidence and exclusions are recorded in 0060.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0060-login-recovery.md",
-        ".cache/login-recovery/.cache/app-image-proof-QJn3Uc/login-recovery.json",
-        "scripts/test-login-recovery.mjs",
-        ".cache/login-recovery/.cache/self-hosted-build-5lvGdz/result.json",
-        ".cache/login-recovery/.cache/app-image-proof-fsjL2L/login-recovery.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -1099,64 +1077,13 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "c8fbfe9f525685b5fc7829729d1af1a1b4358d2b",
+      "blob": "043aa43d3518a32e2d3978ba615be2c30c3918db",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete current workflow read. Automatic push/tag triggers removed in favor of workflow_dispatch per owner self-hosted direction. All existing optional cloud build, source/image identity, cache/browser/capability and publication gates retained. YAML parse verifies manual-only trigger. Cloud ephemeral-runner cleanup remains cloud-only; no self-hosted runner registered. Existing cloud billing/publication gates are not required by new local build path.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0032-native-toolchains.md",
-        "scripts/test-go-core.mjs",
-        "docs/0034-api-request-errors.md",
-        "docs/0038-notification-dialog-ownership.md",
-        ".cache/notification-proof-gVnaex/result.json",
-        ".cache/app-image-proof-hoAOol/workflow-result.json",
-        ".cache/notification-lint-final.log",
-        "docs/0039-native-scoped-revocation.md",
-        "scripts/test-go-test-evidence.mjs",
-        ".cache/go-proof-10RYK1/result.json",
-        "docs/0040-native-identity-lifetime-policy.md",
-        ".cache/lifetime-go-unit-epoch.jsonl",
-        ".cache/go-proof-v1YQ0E/result.json",
-        ".cache/go-proof-1EOCPM/result.json",
-        ".cache/unit-proof-vfJJjf/test-results.json",
-        ".cache/core-proof-mfFwYc/test-results.json",
-        ".cache/core-proof-xwLoUg/test-results.json",
-        ".cache/identity-policy-proof-oAErwy/result.json",
-        ".cache/dropzone-proof-YuxurI/result.json",
-        ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json",
-        "docs/0041-publication-history.md",
-        ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json",
-        "docs/0044-create-secret-workflow.md",
-        ".cache/membership-github-blocker.json",
-        "docs/0045-image-identity-and-revision.md",
-        ".cache/image-identity-baseline.json",
-        ".cache/image-identity-baseline-check.log",
-        ".cache/image-identity-engine.json",
-        ".cache/image-identity-panel.json",
-        ".cache/image-identity-wrong-revision.log",
-        ".cache/image-identity-runtime-comparison.json",
-        ".cache/image-identity-engine-smoke.log",
-        ".cache/publication-proof-EjOLFM/result.json",
-        ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json",
-        "docs/0046-dashboard-reference-editor.md",
-        ".cache/app-image-proof-2v6T9x/workflow-result.json",
-        ".cache/app-image-proof-2v6T9x/dashboard-secret-references.json",
-        ".cache/app-image-proof-2v6T9x/dashboard-reference-semantics.json",
-        ".cache/dashboard-reference-pending-lint.log",
-        "docs/0047-dashboard-create-workflow.md",
-        ".cache/app-image-proof-1653IB/workflow-result.json",
-        ".cache/app-image-proof-1653IB/dashboard-create-workflow.json",
-        ".cache/app-image-proof-1653IB/dashboard-create-accessibility.json",
-        ".cache/app-image-proof-1653IB/dashboard-create-attempts.json",
-        ".cache/dashboard-create-lint-final.log",
-        ".cache/dashboard-commit-lint-final.log",
-        "docs/0048-self-hosted-builds.md",
-        ".cache/self-hosted-fixtures-WxeKDm/result.json",
-        ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -1700,15 +1627,13 @@
     },
     {
       "path": "core/frontend/src/components/v3/generic/Sheet/Sheet.tsx",
-      "blob": "339bcca2a33100fed9e50b08572b2f2a38509917",
-      "status": "verified",
+      "blob": "730abe7be9c2ee6319b4b785c6be563268db33ce",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete primitive and stories read. Retain sides, portals and outside callbacks; add notification host, nonshrinking/wrapping footer, larger close control and header spacing. Browser fixture verifies right-side sheet with nested errors, not every production sheet workflow.",
+      "scope": "Full shared primitive read; only reduced-motion overlay behavior changed. Existing sheet semantics retained; browser acceptance pending.",
       "evidence": [
-        "docs/0038-notification-dialog-ownership.md",
-        ".cache/notification-proof-gVnaex/result.json",
-        ".cache/app-image-proof-hoAOol/workflow-result.json",
-        ".cache/notification-lint-final.log"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -2690,35 +2615,24 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "472b5f54a8c6fc6e56b146e69b0c6a5d583ed4f6",
-      "status": "verified",
+      "blob": "ee5fcebb39c823591876d919a6e53fb297c6ab26",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance passed in 0062. No global Git settings or operator data are changed. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md",
-        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
-        ".cache/native-sso-policy/.cache/native-unit-vet.json",
-        ".cache/native-sso-policy/.cache/lint-image-final.json",
-        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
-        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
       "path": "scripts/test-self-hosted-build.mjs",
-      "blob": "2a4d26dfec1328a28ccf0840bc99c530213ff81d",
-      "status": "verified",
+      "blob": "4fe9110742f7657b3575cb22439857500bddec80",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Preserve clean committed-source, immutable image, lock ownership and application/capability gates. Pin line-ending conversion for the archive command; real-Git Windows regression fails before and passes after, all 15 orchestration fixtures pass. Docker/gates are simulated in these fixtures; corrected canonical image acceptance passed in 0062. No global Git settings or operator data are changed. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0062-native-sso-enforcement.md",
-        ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
-        ".cache/native-sso-policy/.cache/native-unit-vet.json",
-        ".cache/native-sso-policy/.cache/lint-image-final.json",
-        ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
-        ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json",
-        ".cache/native-sso-policy/.cache/self-hosted-fixtures-tYqIC9/result.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -3390,16 +3304,13 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
-      "blob": "6f091f4a2ad554149969ccb59f6432c5192e557a",
-      "status": "verified",
+      "blob": "e772f84733e985e2232544e324187f8b81bc00cd",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped production request-admission repair in 0059: license-independent registration, shared native budgets, bounded dedicated cache connection, hashed MFA keys, and mandatory two-replica image proofs. Existing queue retry policy, route budgets, authorization and encrypted store retained. No tenant fairness, capacity, provider failover or whole-module parity claim.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0059-production-request-admission.md",
-        "core/backend/src/server/plugins/production-rate-limit.test.ts",
-        ".cache/production-admission/.cache/unit-proof-9PWVf7/test-results.json",
-        ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
-        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -4263,21 +4174,13 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "7ef6144d3405d7bf359819a1c19334a015fe0499",
-      "status": "verified",
+      "blob": "98b2e3afdd1073e4df34d93297bb93a4e3abc349",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Read dispatcher in full. Authored Vaultix-only command naming/help and successful help dispatch. Existing command families retained; full vendor CLI parity absent. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -5124,16 +5027,13 @@
     },
     {
       "path": "scripts/build-cli.mjs",
-      "blob": "bbc9426a798738277cc92b54174bfd5a85640b22",
-      "status": "verified",
+      "blob": "50a7f7f315dce61b8dcda144a75297d1be8ac9aa",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Authored clean committed-source archive delivery for Linux/Windows amd64; both native executable names share bytes and hashes; no global install. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Read complete existing delivery script; preserve Linux/Windows amd64 matrix, aliases, source archive/checksum/toolchain receipts. Add exact-tag/development version and revision linker identity only.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -6476,6 +6376,237 @@
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
         "scripts/prove-device-api-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/update-check/update-check-fns.test.ts",
+      "blob": "d492f5a5e2dc881971bc7e171de1a30d876fa729",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/update-check/update-check-fns.ts",
+      "blob": "580f851be4c5c3d8a5d2ed0a0728c5dad17510a0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/update-check/update-check-queue.ts",
+      "blob": "498fc48ec2f48d4cb35bd64738601d240bc0f590",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx",
+      "blob": "4f8ae377967d5fc638ded13db01bcd4d93b62313",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Full module read; scope limited to toolbar Clyffy launcher, update entry, mobile wrapping and owned release destination. Existing navigation, billing and account workflows retained; not whole-navbar authorship or accessibility acceptance.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx",
+      "blob": "341d321ac3ea1772cecda71c17c240b4ae528278",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/version.go",
+      "blob": "6bc4a1bec0daded3d8f61c98cc9b1591f10478c7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/version_test.go",
+      "blob": "2af4c51659112f702e3e7e23cb8ca06d1623e1ba",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.updates.v1.json",
+      "blob": "77beadb0341f0b210d37e490106df96ccb7751cb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-updates-router.test.ts",
+      "blob": "dbd775f0456fae27b7e321b197d39d7ba54e1e17",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/update-check/update-check-queue.test.ts",
+      "blob": "310b997d9a43b3b85c0838710f21213585f4f4e1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/ClyffyLauncher.tsx",
+      "blob": "76fb2c2273f1be48093bc1525e9624a60ab6a8d3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/ClyffyWorkspace.tsx",
+      "blob": "1c979e901c5cd579822b92e13e2f84d01e773fb9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/updates.ts",
+      "blob": "3194ead50e777304c8ddfbabec121dbb2d299e17",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "docs/releases-and-updates.md",
+      "blob": "fafedec48e8e61dd27be9a16087d1a9f1c886bf7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "internal/release/notice.go",
+      "blob": "d41b176efcb0b1f20b67be22259e88b5feab2800",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "internal/release/notice_test.go",
+      "blob": "688ad7456d9887972a18f28102bea0bf8ecb3d75",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "internal/release/release.go",
+      "blob": "7b13038dd90fde7b0c51523281340cb986fbb663",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "internal/release/release_test.go",
+      "blob": "a7eb04d51304ed608a8dfa7e4636dd75bbf7cd98",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-version.mjs",
+      "blob": "b91a424b3bb026f975dc9756605ecad141dd2a77",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "scripts/release-version.test.mjs",
+      "blob": "c75c5026a0359f767cc876b667866f0d57d4eeb0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-updates-clyffy-workflow.mjs",
+      "blob": "3e378e4d82b6a69d5889c1582bd20ae71b751a91",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     }
   ]

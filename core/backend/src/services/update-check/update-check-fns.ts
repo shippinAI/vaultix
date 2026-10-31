@@ -1,13 +1,15 @@
-// Parses release tags / platform versions like "v0.162.10", "0.162.10" or
-// "0.162.10-nightly-20260721" (the base version is used). Returns null for anything
-// that is not semver-shaped (dev mode, dedicated instance hash versions, etc.)
 export const parseSemanticVersion = (version?: string) => {
-  if (!version) return null;
-
-  const match = /^v?(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/i.exec(version.trim());
+  if (!version || version.length > 128) return null;
+  const match =
+    /^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/i.exec(
+      version.trim()
+    );
   if (!match) return null;
-
-  return { major: Number(match[1]), minor: Number(match[2]), patch: Number(match[3]) };
+  const prerelease = match[4]?.split(".");
+  if (prerelease?.some((part) => /^0\d+$/.test(part))) return null;
+  const [major, minor, patch] = match.slice(1, 4).map(Number);
+  if (![major, minor, patch].every(Number.isSafeInteger)) return null;
+  return { major, minor, patch, ...(prerelease ? { prerelease } : {}) };
 };
 
 export type TSemanticVersion = NonNullable<ReturnType<typeof parseSemanticVersion>>;
@@ -15,7 +17,21 @@ export type TSemanticVersion = NonNullable<ReturnType<typeof parseSemanticVersio
 export const isVersionNewer = (candidate: TSemanticVersion, current: TSemanticVersion) => {
   if (candidate.major !== current.major) return candidate.major > current.major;
   if (candidate.minor !== current.minor) return candidate.minor > current.minor;
-  return candidate.patch > current.patch;
+  if (candidate.patch !== current.patch) return candidate.patch > current.patch;
+  if (!candidate.prerelease) return Boolean(current.prerelease);
+  if (!current.prerelease) return false;
+  for (let i = 0; i < Math.min(candidate.prerelease.length, current.prerelease.length); i += 1) {
+    const a = candidate.prerelease[i];
+    const b = current.prerelease[i];
+    if (a !== b) {
+      const an = /^\d+$/.test(a);
+      const bn = /^\d+$/.test(b);
+      if (an !== bn) return !an;
+      if (an && a.length !== b.length) return a.length > b.length;
+      return a > b;
+    }
+  }
+  return candidate.prerelease.length > current.prerelease.length;
 };
 
 export type TUpdateCheckGateInput = {
@@ -26,12 +42,29 @@ export type TUpdateCheckGateInput = {
   platformVersion?: string;
 };
 
-// The update check only applies to standard self-hosted instances: cloud deploys
-// continuously, dedicated instances use hash versions that cannot be compared, and
-// an offline license explicitly signals an intentionally air-gapped instance.
 export const isUpdateCheckEnabled = (input: TUpdateCheckGateInput) =>
   !input.isVaultixCloud &&
   !input.isCloud &&
   !input.isUpdateCheckDisabled &&
   !input.hasOfflineLicense &&
   Boolean(parseSemanticVersion(input.platformVersion));
+
+export const RELEASES_URL = "https://github.com/shippinAI/vaultix/releases";
+export const LATEST_RELEASE_URL = "https://api.github.com/repos/shippinAI/vaultix/releases/latest";
+
+export const readStableRelease = (input: unknown) => {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+  const value = input as Record<string, unknown>;
+  if (
+    value.draft !== false ||
+    value.prerelease !== false ||
+    typeof value.tag_name !== "string" ||
+    value.tag_name !== value.tag_name.trim() ||
+    typeof value.published_at !== "string" ||
+    !Number.isFinite(Date.parse(value.published_at))
+  )
+    return null;
+  const parsed = parseSemanticVersion(value.tag_name);
+  if (!parsed || parsed.prerelease) return null;
+  return { version: value.tag_name.replace(/^v/i, ""), url: `${RELEASES_URL}/tag/${value.tag_name}` };
+};

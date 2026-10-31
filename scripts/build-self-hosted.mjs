@@ -6,6 +6,8 @@ import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { versionForRevision } from "./lib/release-version.mjs";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const mode = process.argv[2] ?? "--application";
 assert.ok(process.argv.length <= 3 && ["--check", "--application", "--capabilities", "--help"].includes(mode),
@@ -20,6 +22,7 @@ const cleanRevision = () => {
   return command("git", ["rev-parse", "HEAD"]);
 };
 const revision = cleanRevision();
+const platformVersion = versionForRevision(root, revision);
 assert.match(revision, /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/);
 const bash = process.platform === "win32" ? "C:/Program Files/Git/bin/bash.exe" : "bash";
 const nodeMajor = Number(process.versions.node.split(".")[0]);
@@ -34,7 +37,7 @@ const require = createRequire(resolve(root, "core/e2e/package.json"));
 const { chromium } = require("@playwright/test");
 require("@axe-core/playwright");
 if (!process.env.VAULTIX_BROWSER_CHANNEL) assert.ok(existsSync(chromium.executablePath()), "Install the pinned Playwright Chromium browser from core/e2e before verification");
-const preflight = { revision, node: process.versions.node, docker: daemon, scope: mode, automaticPublication: false };
+const preflight = { revision, platformVersion, node: process.versions.node, docker: daemon, scope: mode, automaticPublication: false };
 if (mode === "--check") {
   console.log(JSON.stringify(preflight, null, 2));
   process.exit(0);
@@ -80,7 +83,7 @@ try {
   step("extract-source", "tar", ["-xf", resolve(evidence, "source.tar"), "-C", source]);
   const context = resolve(source, "core");
   const dockerfile = resolve(context, "Dockerfile.standalone-vaultix");
-  step("canonical-image", "docker", ["build", "-f", dockerfile, "--build-arg", `VAULTIX_SOURCE_REVISION=${revision}`, "-t", image, context]);
+  step("canonical-image", "docker", ["build", "-f", dockerfile, "--build-arg", `VAULTIX_SOURCE_REVISION=${revision}`, "--build-arg", `VAULTIX_PLATFORM_VERSION=${platformVersion}`, "-t", image, context]);
   report.imageId = command("docker", ["image", "inspect", "--format", "{{.Id}}", image]);
   assert.match(report.imageId, /^sha256:[a-f0-9]{64}$/);
   node("image-identity", "scripts/check-image-identity.mjs", report.imageId, "engine", revision);
