@@ -11837,7 +11837,7 @@ docs/0073-native-cli-domain-and-capabilities.md	06d0648465c6b2f01a7dd1194bef437c
 docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56ae8f5c	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
-docs/auth/device-api-consumers.md	1931d2d38cb25f6120e339dfa0df9e31cf6af70e	documentation	unread
+docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
 docs/auth/device-event-delivery.md	f6f93c60c3f0496275d20a6909cdeb2501b261fb	documentation	unread

@@ -1,7 +1,7 @@
 # Native device access in resource consumers
 
 This increment connects the native device-session owner to the existing Go API
-authenticator and resource routes. It is under canonical image verification.
+authenticator and resource routes. Its native consumer boundary has passed the image checks below.
 Both built-in Vaultix accounts and permitted federated methods use the same
 account, session, tenant and permission owners. Method fixtures do not prove a
 live external provider login.
@@ -61,3 +61,21 @@ AI catalog. No secrets-value delivery or metadata-only claim is inferred from
 these authentication tests. Full event provenance, authorized operational repair,
 provider-specific live acceptance and complete identity parity remain separate
 obligations in [0074](../0074-built-in-and-federated-identity.md).
+
+## Accepted image checkpoint
+
+Source `f668606d63ff00298e19a4e23827d721e9ef0031` produced
+`sha256:496bcfa496dfbfe81a362ede1884bd6080b9c341ddafe40b6a41e36a13ec37fc`.
+All 16 canonical standalone-image gates passed. Exact native source passed
+926 unit/race outcomes, clean lint, and 147 integration outcomes, including the
+unchanged 25 session outcomes and 20 new consumer outcomes. The separate actual
+image proof passed all nine resource/authority/recovery checks and cleaned its
+disposable stores. An old-image control passed browser access and real grant
+issuance, then correctly failed device resource admission.
+
+Receipts in the local task checkout: `.cache/self-hosted-build-ve3fMd/result.json`,
+`.cache/device-api-image-7i26VL/result.json`,
+`.cache/device-api-integration-z9KNCq/result.json`. These establish this scoped
+consumer checkpoint; the unfinished public flow and live-provider gates above
+remain open. Update availability and visible MCP interaction work proceed in
+parallel with those retained obligations.
