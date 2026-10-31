@@ -312,7 +312,7 @@ site/sender configuration changes, definite recipient/DATA rejection, and an
 uncertain result when the server receives DATA but closes before acknowledging it.
 Disabled and malformed deliveries open no connection. Existing audit, notification
 and browser mail boundaries remain covered. Full backend TypeScript checking and
-changed-file lint pass. Canonical artifact verification is pending.
+changed-file lint pass. Canonical artifact verification is recorded below.
 
 Receipts: `.cache/prepared-security-mail-unit-yIfvjL/result.json`, `.cache/delivery-destination-store-vQPg3R/result.json`,
 `.cache/prepared-security-mail-typecheck.json` and
@@ -338,3 +338,25 @@ Full TypeScript checking and lint passed again. Receipts: `.cache/prepared-secur
 is `.cache/self-hosted-build-wf0rnB/result.json`, with startup failure detail in
 `.cache/identity-policy-proof-oRfhlG/result.json`. Canonical verification of the
 corrected source is recorded separately.
+
+### Prepared mail canonical artifact
+
+Runtime source `c3ddfb8e8721f15160333f172ca262f6d171b951` produced
+`sha256:fd6e53f42a8e95b364a93f9e5e68565a08fcc0bac854852e483126f1e4b7b44a`. All sixteen standard image gates passed, including
+existing built-in browser/project behavior, Dragonfly/Redis, encrypted recovery,
+tenant isolation, proxy boundaries and admission. Eight destination scenarios
+passed against a disposable database migrated by this image and the pinned backend
+runner, with tested source compared to the committed image archive. These invoke
+the actual renderer/SMTP and audit/notification owners, but do not invoke a
+registered device worker: that worker remains unimplemented.
+
+Receipts: `.cache/self-hosted-build-gaGdK2/result.json` and `.cache/delivery-destination-store-HWAuOr/result.json`.
+Unchanged session/source-store/native behavior retains its previous scoped
+content-bound evidence; it was not relabeled as newly executed. No public
+device endpoint or revised CLI default is activated.
+
+Four fresh native-audit checks also passed on this exact image: built-in session
+authorization, real queue/consumer persistence, metadata/canary redaction and
+anonymous denial. Receipt: `.cache/native-audit-image-viICsv/result.json`. The
+unchanged Go unit/session evidence above remains separate from this fresh runtime
+check.
