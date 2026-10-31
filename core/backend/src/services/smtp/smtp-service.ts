@@ -1,5 +1,6 @@
 import { render } from "@react-email/components";
 import { createTransport } from "nodemailer";
+import addressparser from "nodemailer/lib/addressparser";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import React from "react";
 import { validate as isUuid } from "uuid";
@@ -59,6 +60,13 @@ import {
   UnlockAccountTemplate
 } from "./emails";
 import DynamicSecretLeaseRevocationFailedTemplate from "./emails/DynamicSecretLeaseRevocationFailedTemplate";
+import {
+  classifyRecordedMailFailure,
+  isRecordedMailbox,
+  parsePreparedRecordedMail,
+  PreparedRecordedMail,
+  RecordedMailError
+} from "./smtp-recorded-payload";
 
 export type TSmtpConfig = SMTPTransport.Options;
 export type TSmtpAttachment = {
@@ -194,6 +202,8 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
   const smtp = createTransport(cfg);
   const recordedSmtp = createTransport({
     ...cfg,
+    logger: false,
+    debug: false,
     connectionTimeout: 10000,
     greetingTimeout: 10000,
     socketTimeout: 15000
@@ -265,6 +275,72 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     return "accepted";
   };
 
+  const prepareRecordedMail = async (
+    data: Pick<TSmtpSendMail, "template" | "subjectLine" | "substitutions"> & {
+      recipient: string;
+      createdAt: Date;
+    }
+  ): Promise<PreparedRecordedMail | null> => {
+    if (
+      !isRecordedMailbox(data.recipient) ||
+      !(data.createdAt instanceof Date) ||
+      !Number.isFinite(data.createdAt.getTime()) ||
+      typeof data.subjectLine !== "string" ||
+      !data.subjectLine.trim() ||
+      data.subjectLine.length > 255 ||
+      /[\p{Cc}]/u.test(data.subjectLine)
+    ) {
+      throw new RecordedMailError("invalid");
+    }
+    if (!isSmtpOn) return null;
+    if (typeof cfg.from === "string" && (cfg.from.length > 1024 || /[\p{Cc}]/u.test(cfg.from)))
+      throw new RecordedMailError("invalid");
+    const senders = typeof cfg.from === "string" ? addressparser(cfg.from) : [cfg.from];
+    const sender = senders[0];
+    if (senders.length !== 1 || !sender || !("address" in sender)) throw new RecordedMailError("invalid");
+    let html: string;
+    try {
+      html = await renderMail(data);
+    } catch {
+      throw new RecordedMailError("invalid");
+    }
+    return parsePreparedRecordedMail({
+      version: 1,
+      recipient: data.recipient,
+      from: { name: sender.name ?? "", address: sender.address },
+      subject: data.subjectLine,
+      html,
+      createdAt: data.createdAt.toISOString()
+    });
+  };
+
+  const sendPreparedRecordedMail = async (deliveryId: string, payload: unknown): Promise<"accepted" | "disabled"> => {
+    if (!isUuid(deliveryId)) throw new RecordedMailError("invalid");
+    const mail = parsePreparedRecordedMail(payload);
+    if (!isSmtpOn) return "disabled";
+    let result: SMTPTransport.SentMessageInfo;
+    try {
+      result = await recordedSmtp.sendMail({
+        from: mail.from,
+        to: mail.recipient,
+        envelope: { from: mail.from.address, to: [mail.recipient] },
+        subject: mail.subject,
+        html: mail.html,
+        date: new Date(mail.createdAt),
+        messageId: `<${deliveryId}@vaultix.cloud>`,
+        disableFileAccess: true,
+        disableUrlAccess: true
+      });
+    } catch (error) {
+      throw classifyRecordedMailFailure(error);
+    }
+    if (result.accepted?.length === 1 && result.accepted[0] === mail.recipient && !result.rejected?.length)
+      return "accepted";
+    if (!result.accepted?.length && result.rejected?.length === 1 && result.rejected[0] === mail.recipient)
+      throw new RecordedMailError("retryable");
+    throw new RecordedMailError("uncertain");
+  };
+
   const verify = async () => {
     const isConnected = smtp
       .verify()
@@ -281,7 +357,7 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     return isConnected;
   };
 
-  return { sendMail, sendRecordedMail, verify };
+  return { sendMail, sendRecordedMail, prepareRecordedMail, sendPreparedRecordedMail, verify };
 };
 
 export const throwIfSmtpError = (err: unknown, logMessage: string) => {

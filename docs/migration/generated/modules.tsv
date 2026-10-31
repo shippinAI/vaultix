@@ -451,7 +451,7 @@ core/backend/src/services/slack	secrets	Go-domain-migration	1	bfb4aa3763a0265dbc
 core/backend/src/services/smtp	audit	Go-domain-migration	2	2f5e74af1d754aa0ac674c358ee484190385fc70376cc7147ec75c5a563c5285	0	unassessed
 core/backend/src/services/smtp	authorization	Go-domain-migration	4	20032ba9ee6879639283764acc89fdb35919d39492d281b32366cc6212a8cde7	0	unassessed
 core/backend/src/services/smtp	automation	Go-domain-migration	4	dbcb37e9c3439893dd6cf37dc204d420fc8377c7e94e52715a5a041a19a0902f	0	unassessed
-core/backend/src/services/smtp	foundation	Go-domain-migration	26	16dc2a1deb918e68c7b52b5f842ed2ab290bec66a4d93dc11cd32033936a44ad	3	unassessed
+core/backend/src/services/smtp	foundation	Go-domain-migration	29	a313904e9fa80e9a149158a51bce8f75a2fce974fd9770dd5b92cc8a5a779982	6	unassessed
 core/backend/src/services/smtp	identity	Go-domain-migration	7	0560bbae475a910952b3f940006623a6d4479dce6a1ea9943785bba9b86eeaa3	0	unassessed
 core/backend/src/services/smtp	integrations	Go-domain-migration	2	2bbd290424c668bb0d631df95cbe70543881aa4011ab1953c1ff2f9a81ddce08	0	unassessed
 core/backend/src/services/smtp	pam	Go-domain-migration	2	8188b3e81bec4a4a744d5b99784818e3b2e8118146920ee4d8c61ee86aaa3411	0	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	75	ebdcec17328de8c4e72fd34ad7317d58c976802925733d2c7100f34524d26d2c	68	unassessed
+scripts	delivery	supporting-tooling-or-contract	75	18d612e9555e3b1c6f4c4c48a8c01928069cfd413a91910a563cedeeb95b675d	68	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

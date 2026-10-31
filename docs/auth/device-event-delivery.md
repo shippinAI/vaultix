@@ -268,3 +268,54 @@ Receipts: `.cache/self-hosted-build-nOS7P1/result.json`, `.cache/device-delivery
 `.cache/device-source-store-2UehNG/result.json`, `.cache/device-delivery-rollback-pNAIje/result.json`,
 `.cache/native-audit-image-VALJJg/result.json`, `.cache/delivery-destination-store-oU6krt/result.json`,
 and `.cache/device-delivery-native-integration.json`.
+
+## Prepared security mail
+
+The existing SMTP owner now provides `prepareRecordedMail` and
+`sendPreparedRecordedMail` for durable security-event delivery. Preparation captures
+the rendered HTML, one recipient, sender, subject and source timestamp in a strict
+version 1 JSON payload. Sending uses that saved content and the delivery's stable
+Message-ID; it does not read the template, current site URL or current sender again.
+Transport credentials remain in server configuration. Preparation returns null when
+SMTP is disabled, which the source preparer must record as an explicit disabled
+destination; it is not successful delivery. Sending an existing prepared notice also
+reports disabled if SMTP has since been disabled.
+
+Payload validation rejects unknown fields, attachments, multiple recipients, control
+characters in headers, noncanonical timestamps and oversized content. These are
+shape and routing checks, not secret redaction: the domain preparer must still select
+permitted source fields. The recorded transport suppresses diagnostic logging, and
+the prepared send path returns bounded error categories without retaining the SMTP
+server's raw response or credentials.
+
+Known pre-message failures and explicit negative DATA responses permit a bounded
+retry. Lost or ambiguous acknowledgments remain uncertain. In the pinned Nodemailer
+8.0.5 implementation, `CONN` can label a socket failure after DATA; that command alone
+cannot establish that nothing was sent. A stable Message-ID does not guarantee
+deduplication. See [SMTP acknowledgment semantics](https://www.rfc-editor.org/rfc/rfc5321.html)
+and [Nodemailer's error fields](https://nodemailer.com/errors), reviewed 2026-10-31
+against the pinned runtime source and local transport behavior.
+
+Existing browser and template-based recorded sends remain available. The actual
+source preparer and dispatcher must use the prepared contract. They are still
+unimplemented. Connection/greeting/socket timeouts bound individual waits, not the
+entire delivery: cancellation, shutdown and lease coordination remain worker
+activation gates. This change does not enable public headless login or establish
+live-provider delivery.
+
+### Prepared mail local verification
+
+The candidate passed 114 unit outcomes, including the existing recorded audit/mail
+checks, and seven actual PostgreSQL/local SMTP scenarios. The real renderer covers
+both SSO-bypass and new-device notices. Local SMTP proves identical replay after
+site/sender configuration changes, definite recipient/DATA rejection, and an
+uncertain result when the server receives DATA but closes before acknowledging it.
+Disabled and malformed deliveries open no connection. Existing audit, notification
+and browser mail boundaries remain covered. Full backend TypeScript checking and
+changed-file lint pass. Canonical artifact verification is pending.
+
+Receipts: `.cache/prepared-security-mail-unit-yIfvjL/result.json`, `.cache/delivery-destination-store-vQPg3R/result.json`,
+`.cache/prepared-security-mail-typecheck.json` and
+`.cache/prepared-security-mail-lint.json`. The first six-case local receipt
+preceded the added new-device template scenario and is not evidence for seven cases.
+The initial lint findings were corrected; that failed receipt is retained locally.
