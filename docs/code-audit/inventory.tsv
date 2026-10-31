@@ -252,7 +252,7 @@ core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	568393176eefbb2d972bd17d0c598ae64c42d3c9	test	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	5f5cbec926e13babfa2fecac41338799902e898b	test	authored
-core/backend-go/tests/platform/auth/reauthentication_test.go	60a55af6660f0c367a846db952f145ab4c094804	test	authored
+core/backend-go/tests/platform/auth/reauthentication_test.go	b6562970d7d227b2cfcc2a85de604b0c63192bb1	test	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	007524dc9d814ef06aff4de5e5037e10f5ba32b6	test	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified
@@ -11783,11 +11783,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	de7cc498494ac8182188e40c26387cf3aba7e443	generated	unread
-docs/capabilities/generated/source-map.tsv	1a974e520ebb53b586da478233ff7e614321a46f	generated	unread
+docs/capabilities/generated/source-map.tsv	cbf0a46dd84310b0f895b5c345704f697453db63	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	e55fb4a8639ad426714d94af5c30010e8a023fcd	documentation	reviewed
-docs/migration/generated/files.tsv	0330a89486a050f4ba3194333e5a0734d6c4cba5	generated	unread
-docs/migration/generated/modules.tsv	0f0cfc6580a87f01063b8de528ef8dc639ab6630	generated	unread
+docs/migration/generated/files.tsv	ac7bd88c2ef14d18fb5b5cbf6d853f8f3256ecc7	generated	unread
+docs/migration/generated/modules.tsv	e909c3c012dc998b1c7e718307cd7e9703add2f3	generated	unread
 docs/migration/generated/summary.json	c46df88bad357aa4af939dfaed602ac5bc0bdc71	generated	unread
 docs/migration/workstreams.json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	product-code	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread

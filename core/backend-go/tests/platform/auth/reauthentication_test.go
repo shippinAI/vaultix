@@ -373,9 +373,9 @@ func TestReauthentication_ExplicitVersionZero(t *testing.T) {
 func TestReauthentication_SuborganizationAndInstancePolicy(t *testing.T) {
 	for _, scenario := range []string{"root-mfa", "selected-mfa", "instance-password-disabled", "fips-instance", "suborg-success"} {
 		t.Run(scenario, func(t *testing.T) {
-			ctx, actor := newReauthenticationAccount(t)
+			_, actor := newReauthenticationAccount(t)
 			child := reauthenticationOrganization(t, actor.ActorID, actor.OrgID)
-			ctx, actor = reauthenticationContext(t, actor.ActorID, actor.TokenVersionID, child, actor.OrgID, 1)
+			ctx, actor := reauthenticationContext(t, actor.ActorID, actor.TokenVersionID, child, actor.OrgID, 1)
 			fixture, producer, intent := newReauthentication(t, stack.DB())
 			var err error
 			switch scenario {
