@@ -158,7 +158,7 @@ core/backend/src/ee/services/access-approval-request	authorization	Go-domain-mig
 core/backend/src/ee/services/agent-proxy-ca	pam	Go-domain-migration	2	95923bf8a987d911b40d0dab6654471e683ea0b6d4ecb10f3258314e7f7ff9a7	0	unassessed
 core/backend/src/ee/services/app-connections	integrations	Go-domain-migration	17	e2a95680f512f6f540bbb36906c6b3805ae9057d709d21443cc8488a0ad30b81	0	unassessed
 core/backend/src/ee/services/assume-privilege	authorization	Go-domain-migration	2	378bb8a0986c5f68aca99b81a218d3b50407baef597e06ee6966888902799346	0	unassessed
-core/backend/src/ee/services/audit-log	audit	Go-domain-migration	8	50c35ac671df719f112f147e3893051a042213628f3ebe4128bb7878163a132d	4	unassessed
+core/backend/src/ee/services/audit-log	audit	Go-domain-migration	8	e80cc591770e150356fd4326c66e01a97b307dddf28658ab76a3007bb7242011	5	unassessed
 core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	33	25162430801bf15fc370df75cbce6abd0bea514b7c08d83f08df9d6e65b01987	0	unassessed
 core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	5	79d1ac5becbd816dbad802ca2dcd124daaf2d2af7497fe17b647e20dd75ad1e3	0	unassessed
 core/backend/src/ee/services/audit-report	audit	Go-domain-migration	6	6f3815ef4ca3c2b0e1eeecd9ee077985b7c10f26fe1083abff35f640279b6c65	0	unassessed
@@ -341,7 +341,7 @@ core/backend/src/services/app-connection	pam	Go-domain-migration	5	826fd8d58850b
 core/backend/src/services/approval-policy	authorization	Go-domain-migration	16	8831bb69c8486be58449e15fbb5290f3c40bb01d585cc38bbf4c9e8b2f8741ea	0	unassessed
 core/backend/src/services/approval-policy	pam	Go-domain-migration	3	447acb8cd487aa6bb9430da4a5ce61c66f9e21d000a56602ac61a2ff5eca9a8f	0	unassessed
 core/backend/src/services/auth	identity	Go-domain-migration	13	756ad1b4b543384f439ffb8eb9cce5742a9b694cbea803847be7dbb3fe78a439	0	unassessed
-core/backend/src/services/auth-token	identity	Go-domain-migration	10	2377a602d836e9c91d059550a0511f01a72d06f95f70f9e5f7d1393e6110f17a	8	unassessed
+core/backend/src/services/auth-token	identity	Go-domain-migration	15	7859b18392ad52f3fed5318e32de2070049ed384c7f0da55c5c7ed537faaced0	13	unassessed
 core/backend/src/services/cert-manager-export	pki	Go-domain-migration	2	3b3b0bdbdb6b385a96bde15a9a4b238cddca3354319cab411f0eb3b03c196b90	0	unassessed
 core/backend/src/services/cert-manager-instance	pki	Go-domain-migration	3	654a26bfe914234b6d627e0f434a99e0191eaf4972d9d93345c23da269988cec	0	unassessed
 core/backend/src/services/certificate	pki	Go-domain-migration	7	323ec6a41d882c2e1ba69855a039899a65a4ec8cba14ef250cecd8bfb4f2edae	0	unassessed
@@ -652,7 +652,7 @@ core/frontend/src/hooks/api/approvalPolicies	authorization	React-TypeScript	4	35
 core/frontend/src/hooks/api/approvalRequests	authorization	React-TypeScript	4	f10bcdc98f5113748c5070d2162a7cc6d0ec6be2a3a22f93753e35b5b80ee9dd	0	unassessed
 core/frontend/src/hooks/api/assumePrivileges	authorization	React-TypeScript	3	d0f3962130cd0e19cffd214c7a3482b8e3e4f313acf807cbed567e593607b3b5	1	unassessed
 core/frontend/src/hooks/api/auditLogStreams	audit	React-TypeScript	14	7caeb261cc3cccf7b4a97648cc84d378c77ec3036caf9883977aa6da7b8ab351	0	unassessed
-core/frontend/src/hooks/api/auditLogs	audit	React-TypeScript	6	8b69528efc2c8c086d1363a8598c3c3b671c93b43dc0a2a4fecb8ebe3529ed02	0	unassessed
+core/frontend/src/hooks/api/auditLogs	audit	React-TypeScript	6	86e23582a7d6867f733043b009cf6017bb6e31ed71a8261b7178d71e628aaa4c	3	unassessed
 core/frontend/src/hooks/api/auditReports	audit	React-TypeScript	4	2060a64b685490215a39f68ebd0a3240e6ade81b7640f45ef1f49a0d7b06befb	0	unassessed
 core/frontend/src/hooks/api/auth	identity	React-TypeScript	4	0db2458c9e534eefd514ce5e6e7901a569dd18f0ae864bf312370834489655b2	1	unassessed
 core/frontend/src/hooks/api/billingV2	ui	React-TypeScript	4	75ddfb00f8889481a11fb48861f2a01cb30ab11c6a7de8f4668b7700e50665cf	0	unassessed
@@ -856,7 +856,7 @@ core/frontend/src/pages/organization/AccessManagementPage	ui	React-TypeScript	24
 core/frontend/src/pages/organization/AppConnections	automation	React-TypeScript	2	3b8b5cea29e1d36e9f6acac637ac5669436258f0352f7d14e8a71b251e53fe51	0	unassessed
 core/frontend/src/pages/organization/AppConnections	integrations	React-TypeScript	108	574d9e1fd5e77c25b0d913e15ce2d3e5dbc3618b17d850a0aae2f43fbf7ab47e	0	unassessed
 core/frontend/src/pages/organization/AppConnections	pam	React-TypeScript	1	51427c26e3400eec626acca1637af70c935a87d426003e5286ef8bfbbf58a637	0	unassessed
-core/frontend/src/pages/organization/AuditLogsPage	audit	React-TypeScript	32	b416963263d1b67eea5f16c3597560a3863b4e830ac3456ddccc5b06641cb876	0	unassessed
+core/frontend/src/pages/organization/AuditLogsPage	audit	React-TypeScript	32	3a5e536cdb13368682b8336186a2554d63feb9b4ed6a8f393be6db682295a42e	1	unassessed
 core/frontend/src/pages/organization/AuditLogsPage	pam	React-TypeScript	1	b99ee49e877ae2f19f5dd9aac3ee23dcb0ee6f4e5f58f07055d4a9b492800f0c	0	unassessed
 core/frontend/src/pages/organization/BillingPage	ui	React-TypeScript	27	84aedf2db55e9b541a1e81f9dbd4439cff45227a97e832bc7aa31a05b7757463	0	unassessed
 core/frontend/src/pages/organization/BillingV2Page	ui	React-TypeScript	23	f60e9c5d0066e9e3d993d9f432eb36cf2c25a78b3189e7a2e9d4e8b0c6ea834e	0	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	75	56a7411cbf0b1d77b088f563def17f501c4dfa46de032904088682949fd9fae4	68	unassessed
+scripts	delivery	supporting-tooling-or-contract	76	24255008ce76255130aa556dedbb0003ca42890009bc4613342d761a62522ce0	69	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

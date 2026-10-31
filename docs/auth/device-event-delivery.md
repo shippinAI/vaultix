@@ -4,6 +4,11 @@ The native session owner writes security records in its source transaction. This
 work continues the delivery obligation in [the session lifecycle](device-session-lifecycle.md).
 Source persistence alone does not establish delivery or enable headless login.
 
+Current preparation work is described in [device-event-preparation](device-event-preparation.md).
+Its recipient resolver and domain preparer are implemented; dispatcher registration,
+delivery acceptance and public activation remain open. The checkpoints below retain
+their original historical scope.
+
 ## Destination ownership
 
 Keep session decisions in Go and deliver through the existing audit, notification

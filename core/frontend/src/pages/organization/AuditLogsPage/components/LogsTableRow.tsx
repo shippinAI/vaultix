@@ -40,8 +40,8 @@ const Tag = ({ label, value }: TagProps) => {
               <InfoIcon />
             </TooltipTrigger>
             <TooltipContent side="right" className="max-w-sm">
-              This action doesn&apos;t require authentication, so the requesting actor cannot be
-              identified.
+              The initiating actor was not established for this event. The affected account, when
+              known, is recorded in the event details.
             </TooltipContent>
           </Tooltip>
         )}

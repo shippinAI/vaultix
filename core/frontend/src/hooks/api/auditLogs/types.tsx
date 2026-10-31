@@ -832,6 +832,29 @@ interface OrgAdminBypassSSOEvent {
   metadata: Record<string, string>; // no metadata yet
 }
 
+interface DeviceSessionEvent {
+  type:
+    | EventType.DEVICE_SESSION_ISSUED
+    | EventType.DEVICE_SESSION_ROTATED
+    | EventType.DEVICE_SESSION_REUSE
+    | EventType.DEVICE_SESSION_REVOKED
+    | EventType.DEVICE_SESSION_POLICY_DENIED;
+  metadata: {
+    sessionId: string;
+    subjectId: string;
+    organizationName: string;
+    contextBasis: "session-creation" | "legacy-capture";
+    sessionOrigin: { ip: string; userAgent: string | null; createdAt: string };
+    authMethod: string;
+    mfaVerified: boolean;
+    mfaMethod: string;
+    ssoBypass: boolean;
+    rootOrgId: string;
+    clientId: "vaultix-cli";
+    termination: "native" | "canonical-delete";
+  };
+}
+
 interface CreateCertificateTemplate {
   type: EventType.CREATE_CERTIFICATE_TEMPLATE;
   metadata: {
@@ -976,6 +999,7 @@ interface DeleteProjectFolderGrantEvent {
 }
 
 export type Event =
+  | DeviceSessionEvent
   | GetSecretsEvent
   | GetSecretEvent
   | CreateSecretEvent

@@ -428,6 +428,11 @@ export enum EventType {
   ORG_ADMIN_ACCESS_PROJECT = "org-admin-accessed-project",
   ORG_ADMIN_BYPASS_SSO = "org-admin-bypassed-sso",
   USER_LOGIN = "user-login",
+  DEVICE_SESSION_ISSUED = "device-session-issued",
+  DEVICE_SESSION_ROTATED = "device-session-rotated",
+  DEVICE_SESSION_REUSE = "device-session-reuse",
+  DEVICE_SESSION_REVOKED = "device-session-revoked",
+  DEVICE_SESSION_POLICY_DENIED = "device-session-policy-denied",
   SELECT_ORGANIZATION = "select-organization",
   SELECT_SUB_ORGANIZATION = "select-sub-organization",
   CREATE_CERTIFICATE_POLICY = "create-certificate-policy",
@@ -3439,6 +3444,29 @@ interface UserLoginEvent {
   metadata: {
     organizationId?: string;
     authProvider?: string;
+  };
+}
+
+interface DeviceSessionEvent {
+  type:
+    | EventType.DEVICE_SESSION_ISSUED
+    | EventType.DEVICE_SESSION_ROTATED
+    | EventType.DEVICE_SESSION_REUSE
+    | EventType.DEVICE_SESSION_REVOKED
+    | EventType.DEVICE_SESSION_POLICY_DENIED;
+  metadata: {
+    sessionId: string;
+    subjectId: string;
+    organizationName: string;
+    contextBasis: "session-creation" | "legacy-capture";
+    sessionOrigin: { ip: string; userAgent: string | null; createdAt: string };
+    authMethod: string;
+    mfaVerified: boolean;
+    mfaMethod: string;
+    ssoBypass: boolean;
+    rootOrgId: string;
+    clientId: "vaultix-cli";
+    termination: "native" | "canonical-delete";
   };
 }
 
@@ -7011,6 +7039,7 @@ interface TestAlertChannelEvent {
 }
 
 export type Event =
+  | DeviceSessionEvent
   | CreateAlertEvent
   | UpdateAlertEvent
   | DeleteAlertEvent

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "scope": "Discovery only; module boundaries and assignments require review. No module is marked migrated.",
-  "mappedFiles": 9542,
+  "mappedFiles": 9548,
   "moduleGroups": 1071,
   "excludedKinds": [
     "documentation",
@@ -18,7 +18,7 @@
     },
     {
       "id": "identity",
-      "files": 824,
+      "files": 829,
       "dependsOn": [
         "foundation"
       ]
@@ -55,7 +55,7 @@
     },
     {
       "id": "delivery",
-      "files": 227,
+      "files": 228,
       "dependsOn": [
         "foundation"
       ]
