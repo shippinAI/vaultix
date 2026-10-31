@@ -95,7 +95,7 @@ preservation, conflicting recipients, caller rollback and independent workers wi
 Unit checks exercise both audit storage modes and SMTP acknowledgment semantics.
 Mocked ClickHouse, external sinks and SMTP are not live-provider evidence.
 
-The source worker, canonical deletion event coverage, full delivery/retention,
+The source worker, full delivery/retention,
 resource-token consumers and public HTTP/browser/CLI flow remain open. The original
 lifecycle plan retains these requirements; destination tests cannot satisfy them.
 
@@ -183,3 +183,67 @@ HTTP session-revocation API, then reupgraded. The owner and source events surviv
 and the previous API recorded the new deletion fact through the database hooks.
 This closes the gap left by direct migration-function tests that do not advance
 the migration-history table. Receipt: `.cache/device-source-rollback-GY7cQH/result.json`.
+
+## Durable preparation and delivery state
+
+The additive `20261031200000_vaultix-device-event-delivery` migration and
+`device-event-delivery-dal.ts` implement the database operations required by the
+source worker. They are not registered as a running worker yet. Existing native
+session decisions and the immutable event/context records remain unchanged.
+
+Preparation claims use the primary database, database time, a random lease token
+and a sixty-second lease. Each successful page saves at most 100 delivery records
+and advances its recipient cursor in the same transaction. The first versioned
+preparation snapshot is immutable. Prepared payloads, recipients, organization,
+expiry and identities are also immutable; conflicting replay rolls back the page.
+An event cannot finish preparation without its organization's audit record.
+Delivery claims wait until all preparation pages are complete.
+
+Each destination and recipient has a stable database identity and independent
+status. Claims use `FOR UPDATE SKIP LOCKED`, bounded batches and a fresh lease
+token. Completion and failure updates reject expired or replaced leases. Retryable
+failures back off from five seconds to one hour, up to twelve attempts; exhausted
+and unresolved records remain stored. An abandoned email claim becomes `unknown`
+because the sender may have accepted it before the worker disappeared. It is not
+automatically resent or pruned. Explicit uncertain outcomes use the same state.
+
+Notification persistence runs through the existing notification DAL inside the
+source acknowledgment transaction, using one connection. A failure or expired
+lease rolls back both effects. Once acknowledged, a user's subsequent deletion
+does not reopen the delivery. Network destinations must be called outside these
+transactions when the dispatcher is implemented. Disabled, not-applicable and
+expired dispositions remain distinct from successful delivery.
+
+Cleanup accepts an explicit retention period between 30 and 3,650 days. It only
+removes fully settled records after both preparation and settlement are older
+than that period, and after the session's device metadata is gone. Recipient
+deletion and source deletion are separately bounded; a large organization cannot
+turn a one-event limit into an unbounded cascade. Unresolved, pending, processing,
+exhausted and unknown work is retained. Schema rollback refuses retained delivery
+or preparation state; binary rollback retains the additive schema.
+
+These operations do not resolve recipient policy, construct approved audit events,
+validate destination-specific payload semantics or dispatch mail. The versioned
+JSON storage boundary is bounded and immutable, not a credential-redaction filter.
+The actual preparer must select permitted fields and preserve session-origin versus
+current-request provenance. Recipient pagination, worker registration, operational
+status/repair, destination wiring, full image acceptance and public login remain
+required. The previous scoped checks do not close those obligations.
+
+### Delivery state local verification
+
+Fourteen actual PostgreSQL scenarios passed with separate one-connection workers,
+including locked-row skipping, stale fences, transaction rollback, independent
+outcomes, immutable page replay, tenant mismatch, unknown email preservation,
+actual notification persistence and bounded recipient cleanup. The existing
+session compatibility test now rolls back the additive migrations in dependency
+order and preserves browser behavior. Full backend TypeScript checking and
+changed-file lint passed. Canonical image and migration-history rollback checks
+are pending; no dispatcher has been registered.
+
+Receipts: `.cache/device-delivery-store-0hWQ6O/result.json`, `.cache/device-session-store-6FH1DU/result.json`,
+`.cache/device-delivery-store-typecheck.json` and
+`.cache/device-delivery-store-lint-fix.json`. The first eleven-case receipt
+preceded the added retention/locking assertions; it is not reused as evidence
+for the final fourteen-case implementation. Initial formatting and test typing
+failures remain local.

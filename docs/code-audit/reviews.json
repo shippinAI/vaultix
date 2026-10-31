@@ -5795,10 +5795,10 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-session-store.spec.ts",
-      "blob": "3d38aca518190a52e0052714bc1ce3a77c696966",
+      "blob": "a90ed211a8cd8155f968d1879278386f8ffa15d9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-event-delivery.md"
@@ -5926,10 +5926,10 @@
     },
     {
       "path": "scripts/verify-device-session-store.mjs",
-      "blob": "5d86a20105bb3bb5fd13986e875ff931d97071e3",
+      "blob": "7c20620882155e39c3fe3ee910804c58714ea095",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5940,6 +5940,66 @@
       "status": "authored",
       "decision": "modify",
       "scope": "Actual disposable canonical image upgrade/rollback/reupgrade with recorded migration history, previous binary authenticated HTTP session revocation and preserved context/owner. Four assertions plus cleanup passed on the exact candidate image. Does not prove worker delivery or public device login.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031200000_vaultix-device-event-delivery.ts",
+      "blob": "000cc37c76c7627a26f5e599a486a6bf8f11652a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/device-event-delivery-types.ts",
+      "blob": "110f6d4289f882db3a41e8fbf5e083b5f052bfd7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/device-event-delivery-dal.ts",
+      "blob": "9253abc659592e9d5584241c4fe9b340e69b7350",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth-token/device-delivery-store.spec.ts",
+      "blob": "688957b3e630d24b4023dfe493733a9434deefd2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-device-delivery-store.mjs",
+      "blob": "4d501af3a8a9440006d7cc3febf680db24971eff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/verify-device-delivery-rollback.mjs",
+      "blob": "9bf43e9c305a298c16c5ac2e7719489733d903ff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

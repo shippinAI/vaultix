@@ -8,7 +8,7 @@ const h=createDisposableImageHarness(process.argv[2],()=>phase);
 const runner=process.argv[3];assert.match(runner??'',/^sha256:[a-f0-9]{64}$/);
 mkdirSync('.cache',{recursive:true});const directory=mkdtempSync(resolve('.cache/device-session-store-'));
 const report={passed:false,artifact:h.artifact,runner,cases:[],sources:[]};
-const paths=['core/backend/src/db/migrations/20261031160000_vaultix-device-sessions.ts','core/backend/src/db/migrations/20261031190000_vaultix-device-event-context.ts','core/backend/src/services/auth-token/auth-token-dal.ts','core/backend/src/services/auth-token/auth-token-service.ts','core/backend/src/services/auth-token/auth-session-store.spec.ts','scripts/verify-device-session-store.mjs'];
+const paths=['core/backend/src/db/migrations/20261031160000_vaultix-device-sessions.ts','core/backend/src/db/migrations/20261031190000_vaultix-device-event-context.ts','core/backend/src/db/migrations/20261031200000_vaultix-device-event-delivery.ts','core/backend/src/services/auth-token/auth-token-dal.ts','core/backend/src/services/auth-token/auth-token-service.ts','core/backend/src/services/auth-token/auth-session-store.spec.ts','scripts/verify-device-session-store.mjs'];
 report.sources=paths.map(path=>({path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}));
 const name='vaultix-session-store-'+randomBytes(8).toString('hex');
 try {

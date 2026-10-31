@@ -6,6 +6,10 @@ import { expect, test } from "vitest";
 import { TDbClient } from "@app/db";
 import { down, up } from "@app/db/migrations/20261031160000_vaultix-device-sessions";
 import { down as contextDown, up as contextUp } from "@app/db/migrations/20261031190000_vaultix-device-event-context";
+import {
+  down as deliveryDown,
+  up as deliveryUp
+} from "@app/db/migrations/20261031200000_vaultix-device-event-delivery";
 
 import { tokenDALFactory } from "./auth-token-dal";
 import { tokenServiceFactory } from "./auth-token-service";
@@ -41,6 +45,8 @@ test("real session store preserves browser reuse, all-session revocation and gua
     const existing = await db("auth_token_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion");
     if (!(await db.schema.hasColumn("auth_token_sessions", "sessionType"))) await db.transaction(up);
     if (!(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext"))) await db.transaction(contextUp);
+    if (!(await db.schema.hasColumn("vaultix_device_session_events", "preparationStatus")))
+      await db.transaction(deliveryUp);
     expect(await db("auth_token_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion")).toEqual(
       existing
     );
@@ -82,12 +88,14 @@ test("real session store preserves browser reuse, all-session revocation and gua
     await expect(db.transaction(contextDown)).rejects.toThrow();
     await expect(db.transaction(down)).rejects.toThrow();
     await db("vaultix_device_session_events").where({ sessionId: deviceId }).delete();
+    await db.transaction(deliveryDown);
     await db.transaction(contextDown);
     await db.transaction(down);
     expect(await db.schema.hasColumn("auth_token_sessions", "sessionType")).toBe(false);
     expect((await dal.findOneTokenSession({ id: replacement?.id }))?.id).toBe(replacement?.id);
     await db.transaction(up);
     await db.transaction(contextUp);
+    await db.transaction(deliveryUp);
     expect((await service.getUserTokenSession(filter))?.id).toBe(replacement?.id);
     await service.revokeAllMySessions(userId);
     expect(await dal.findTokenSessions({ userId })).toEqual([]);
