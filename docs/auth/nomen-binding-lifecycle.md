@@ -144,11 +144,12 @@ Existing MFA session service/router and step-up helpers were read for the next
 consumer integration. Their generic ACTIVE cache entries lack the required
 intent-specific authenticated time and access version; legacy entries can omit
 the initiating session. Do not reuse generic MFA grace as identity-link authority.
-Implement a versioned proof with mandatory user/session/version/time and explicit
-link/revoke purpose, preserving existing MFA/PAM consumers and testing replay,
-expiry, MFA requirements and session revocation. No permissive adapter is supplied.
+The native password proof now supplies mandatory user/session/version/time and
+explicit link/revoke purpose with transactional consumption. Its separate checkpoint
+includes replay, expiry, policy changes and session revocation. Required native
+factor and SSO methods remain to be implemented; no permissive adapter is supplied.
 
-Before public linking: implement and verify the real fresh-authentication adapter,
+Before public linking: finish and verify native factor/SSO reauthentication,
 intent-specific link/revoke confirmations, origin/CSRF and browser state/PKCE checks,
 rate limits, notifications, metadata response schema and accessible native UI.
 No automatic external acceptance is enabled by constructing a binding row.

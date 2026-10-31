@@ -1348,9 +1348,9 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
       "blob": "eebfb8e7033100e5c23777edb0da6393201f36dd",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -1512,9 +1512,9 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/claims.go",
       "blob": "81fc85f9fa13f848e7a9f468d591fd53d0460044",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -1542,9 +1542,9 @@
     {
       "path": "core/backend-go/internal/services/auth/apiauth/claims_presence_test.go",
       "blob": "35c2385f461f14142ffeea97bbc9ba4f44876d1b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5244,9 +5244,9 @@
     {
       "path": "docs/auth/nomen-execution-plan.md",
       "blob": "8b4e3875783128fb22d2c9f18fa655757f20912e",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5285,9 +5285,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/bindings.go",
       "blob": "c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5295,9 +5295,9 @@
     {
       "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
       "blob": "5f5cbec926e13babfa2fecac41338799902e898b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5305,19 +5305,19 @@
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
       "blob": "26b8200acc86730f302d9340f858c3369b1ff23c",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
       "path": "docs/auth/nomen-binding-lifecycle.md",
-      "blob": "d152deb23fcf560896e8ff27fb8c9d14a08780be",
-      "status": "authored",
+      "blob": "f9ce53ec60fe438b70244fb5f3607430130271bf",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5325,9 +5325,9 @@
     {
       "path": "core/backend-go/internal/services/auth/auth.go",
       "blob": "94ddf096b16810e0268a899d80deb490b7fa52fe",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5335,9 +5335,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/password.go",
       "blob": "942eaeb4c387191a9e360eaabf30823714dbbbe5",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5345,9 +5345,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/password_test.go",
       "blob": "bdeb31baab99df01c1090d224f83a7e90050a2c9",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5355,9 +5355,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/testdata/password-node-v1.json",
       "blob": "9a9c3fcc4d81e38ae1c093571e013259bb67fd6a",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5365,9 +5365,9 @@
     {
       "path": "core/backend-go/internal/services/auth/nomen/reauthentication.go",
       "blob": "ae5a6b387cb251e4a0ff45399264c89ad1f50454",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5375,9 +5375,9 @@
     {
       "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
       "blob": "26ac1cb6f41dfc772467b951a02728735e4a54f9",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -5385,19 +5385,19 @@
     {
       "path": "core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts",
       "blob": "d590cbd01a3692820c5599f251c898902c096a3b",
-      "status": "authored",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
       "path": "docs/auth/nomen-reauthentication.md",
-      "blob": "6f970339c7214b40e369f34090578da0ef190741",
-      "status": "authored",
+      "blob": "0ed6c3921a240e1fbd9f9a9b54769be985a7f541",
+      "status": "verified",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
