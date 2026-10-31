@@ -3,8 +3,10 @@
 This architecture and acceptance record covers the TOTP method of native identity
 reauthentication. It extends the [password proof](nomen-reauthentication.md) using
 the same user, session, encrypted factor and PostgreSQL store. Implementation is
-in progress; canonical image, migration and complete integration acceptance are
-pending. No public endpoint is enabled by this work.
+locally verified at the scoped checkpoint below. No public endpoint is enabled
+by this work. [Built-in identity and optional federation](../0074-built-in-and-federated-identity.md)
+remain first-class; this native proof supports sensitive account linking without
+making Nomen a prerequisite for existing built-in authentication.
 
 ## Authority and data ownership
 
@@ -88,13 +90,42 @@ The private immutable plan is journal session
 - Actual startup migration, empty down/up, nonempty down refusal, previous-binary
   startup/decryption/deletion, canonical application checks and preserved baselines.
 
-Scoped unit checks currently pass. Integration, lint, canonical application and
-migration results are pending; no accepted artifact is recorded for this method yet.
+Accepted scoped source: `2fa47afcc475f482713840ba95ac53592217ffb5`. Canonical image:
+`sha256:a28781a0c3d65d188019a7ce2a651e65e778255cb10ffd0dae15604dc9c8bad4`. Private receipts are relative to the task worktree.
+
+| Check | Observed result | Receipt |
+| --- | --- | --- |
+| Canonical standalone application | All 16 gates passed, including actual application, Dragonfly/Redis, encrypted recovery, tenant/proxy isolation and admission | `.cache/self-hosted-build-wjMBEc/result.json` |
+| Native internal race and lint | 810 outcomes passed; pinned golangci-lint 2.15.0 reports zero issues | `.cache/totp-native.json` |
+| Complete native integration/race | 777 outcomes passed, 8 external-provider skips; 32 TOTP, 42 password-proof and 14 binding outcomes | `.cache/go-proof-5yQDVC/result.json` |
+| Exact-source TypeScript checks | Scoped ESLint and full backend type-check passed | `.cache/totp-typescript-final.json` |
+| Actual old/new migration | 9 checks passed: concurrent fresh/resumed registration at pool size one, ciphertext continuity, down/up, retained security state, previous-binary deletion, concurrent fresh-root initialization, wrong-key denial and correct-key restart recovery | `.cache/nomen-binding-migration-E2dhv9/result.json` |
+| Deliberately broken disposable source | Removing durable replay and proof-UUID joins triggered the named replay and stale-provenance assertions | `.cache/totp-mutation.json` |
+
+Counts include subtests. Initial development receipts retain enrollment-fixture
+failures caused by an all-zero optional organization UUID, then assertion mismatches
+against the existing MFA error wrapper and deletion policy. The fixtures were
+corrected against actual consumers; production checks were not weakened. Final
+acceptance uses the exact canonical source and image, not the development image.
+Native built-in device login, complete factor/SSO ceremonies and public linking
+remain separate implementation and acceptance work.
+
 Candidate `8abfd322` passed its 16 application gates and 777 native integration
 outcomes, but failed the subsequent one-connection startup gate. Both the original
 failure and diagnostic reproduction are retained; they cannot count as migration
-acceptance. The repaired image must complete the unchanged obligations plus the
+acceptance. The repaired artifact recorded above completed the unchanged obligations and
 additional root-startup checks before publication.
+
+The verification harness was independently corrected after review found that
+its blocking Docker helper serialized enrollment requests. Final evidence uses
+concurrent fetches inside one disposable process. Cold-root preparation also
+accounts for historical migrations that initialize KMS: only the newly created
+empty fixture database has its synthetic root removed, after verifying no accounts,
+tenants, projects or encrypted data exist. Earlier fixture failures are retained.
+
+The runtime source above is unchanged by these test corrections. The final
+migration receipt binds SHA-256 fingerprints of the executed harness and shared
+helper; publication verifies those fingerprints and runtime source equality.
 The provider uses a TLS fixture. These checks cannot establish live Nomen, public
 login, remaining authentication methods, accessibility, capacity or enterprise parity.
 

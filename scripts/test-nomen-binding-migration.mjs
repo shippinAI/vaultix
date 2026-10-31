@@ -1,7 +1,7 @@
 // Disposable old/new binary and actual migration acceptance; no operator targets.
 import assert from "node:assert/strict";
-import { createHmac, randomBytes, randomUUID } from "node:crypto";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { createHash, createHmac, randomBytes, randomUUID } from "node:crypto";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createDisposableImageHarness } from "./lib/disposable-image.mjs";
 const [image, previous] = process.argv.slice(2);
@@ -14,12 +14,29 @@ const run = "vaultix-binding-" + randomBytes(8).toString("hex");
 mkdirSync(resolve(".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(".cache/nomen-binding-migration-"));
 const report = { passed: false, artifact: h.artifact, previous: old, checks: [], exclusions: ["public account linking", "real fresh-authentication proof", "live Nomen", "notification delivery", "tenant actor cutover"] };
+report.harnessSources = ["scripts/test-nomen-binding-migration.mjs", "scripts/lib/disposable-image.mjs"].map(path => ({ path, sha256: createHash("sha256").update(readFileSync(path)).digest("hex") }));
 const check = message => { report.checks.push(message); console.log("Vaultix binding: " + message); };
 const dbPassword = randomBytes(24).toString("hex"), user = randomUUID(), binding = randomUUID();
 const session = randomUUID();
 const password = "Vx9!" + [...randomBytes(24)].map(v => v.toString(16).padStart(2, "0")).join("-");
 const canary = randomBytes(32).toString("hex");
 const migrations = ["20261030220000_vaultix-identity-bindings.mjs", "20261031001000_vaultix-identity-reauthentication.mjs", "20261031010000_vaultix-totp-reauthentication.mjs"];
+function registerConcurrently(app, token) {
+  // The outer Docker helper blocks. Launch all HTTP requests inside one Node
+  // process so Promise.all genuinely overlaps requests to the application.
+  const code = `let input='';process.stdin.on('data',b=>input+=b).on('end',async()=>{
+    try { const {token}=JSON.parse(input);const results=await Promise.all(Array.from({length:4},async()=>{
+      const response=await fetch('http://127.0.0.1:8080/api/v1/user/me/totp/register',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:'{}',signal:AbortSignal.timeout(20000)});
+      return {status:response.status,body:await response.json()};
+    }));process.stdout.write(JSON.stringify(results)); }catch{process.exitCode=1;}
+  });`;
+  const result = docker(["exec", "-i", app, "node", "-e", code], { input: JSON.stringify({ token }), allowFailure: true, timeout: 25000 });
+  assert.ok(!result.error && result.status === 0, "Concurrent enrollment requests must complete");
+  const responses = JSON.parse(result.stdout.toString());
+  assert.equal(responses.length, 4);
+  assert.ok(responses.every(item => item.status === 200), "All concurrent enrollment requests must succeed");
+  return responses.map(item => item.body);
+}
 function migrate(app, migration, direction, expectedSuccess) {
   const code = `import knex from 'knex'; const db=knex({client:'pg',connection:process.env.DB_CONNECTION_URI});
     try { await db.migrate[${JSON.stringify(direction)}]({directory:'./dist/db/migrations',tableName:'vaultix_migrations',loadExtensions:['.mjs'],name:${JSON.stringify(migration)}}); }
@@ -53,9 +70,9 @@ try {
   output(["stop","-t","10",before]);
   phase="forward migration";
   const after=container(run+"-after",h.artifact.id,[],{...env,DB_POOL_MAX:"1"});await ready(after);
-  const registrations=await Promise.all(Array.from({length:4},()=>request(after,"/api/v1/user/me/totp/register",{method:"POST",token,body:{}})));
+  const registrations=registerConcurrently(after,token);
   assert.ok(registrations.every(item=>item.otpUrl===registrations[0].otpUrl),"Concurrent registration must retain one existing factor");
-  const fresh=await Promise.all(Array.from({length:4},()=>request(after,"/api/v1/user/me/totp/register",{method:"POST",token:enrollmentToken,body:{}})));
+  const fresh=registerConcurrently(after,enrollmentToken);
   assert.ok(fresh.every(item=>item.otpUrl===fresh[0].otpUrl),"Concurrent fresh registration must create one factor");
   assert.equal(sql(db,`SELECT count(*) FROM totp_configs WHERE "userId"='${user}';`),"1");
   check("actual fresh and resumed concurrent authenticator registration works with a one-connection pool");
@@ -106,18 +123,34 @@ try {
   assert.equal(sql(db,`SELECT "userId" IS NULL FROM vaultix_identity_bindings WHERE id='${binding}';`),"t");
   check("candidate restarts with preserved deletion tombstone");
   output(["stop","-t","10",after]);
-  phase="fresh root schema";
+  phase="fresh root database creation";
   sql(db,"CREATE DATABASE vaultix_fresh;");
   const freshSql=query=>output(["exec","-i",db,"psql","-X","-v","ON_ERROR_STOP=1","-U","vaultix","-d","vaultix_fresh","-At"],{input:query});
   const freshCacheName=run+"-fresh-cache";
+  phase="fresh root cache readiness";
   const freshCache=container(freshCacheName,"docker.dragonflydb.io/dragonflydb/dragonfly:v1.34.2",["--default_lua_flags=allow-undeclared-keys","--cache_mode=false","--maxmemory=512mb","--proactor_threads=2"]);
   await waitFor(()=>docker(["exec",freshCache,"redis-cli","ping"],{allowFailure:true}).status===0,"fresh cache readiness");
   const freshEnv={...env,DB_CONNECTION_URI:'postgres://vaultix:'+dbPassword+'@'+dbName+':5432/vaultix_fresh',VAULTIX_CACHE_URL:'redis://'+freshCacheName+':6379',DB_POOL_MAX:"1"};
   // Schema setup has its own migrator budget; application root initialization must use one connection.
   const migrateFresh=`import knex from 'knex';const db=knex({client:'pg',connection:process.env.DB_CONNECTION_URI});try{await db.migrate.latest({directory:'./dist/db/migrations',tableName:'vaultix_migrations',loadExtensions:['.mjs']});}catch{process.exitCode=2;}finally{await db.destroy();}`;
+  phase="fresh root schema migration";
   const migrator=container(run+"-fresh-migrator",h.artifact.id,["node","--input-type=module","-e",migrateFresh],freshEnv);
   await waitFor(()=>output(["inspect","--format","{{.State.Running}}",migrator])==="false","fresh schema migration");
   assert.equal(output(["inspect","--format","{{.State.ExitCode}}",migrator]),"0");
+  phase="fresh root empty key verification";
+  // Historical migrations initialize KMS even on an empty store. Establish the
+  // missing-root branch only in this newly created disposable database, after
+  // proving there are no accounts, tenants or encrypted values depending on it.
+  assert.equal(freshSql("SELECT (SELECT count(*) FROM users)+(SELECT count(*) FROM organizations)+(SELECT count(*) FROM projects);"),"0");
+  freshSql(`DO $$ DECLARE col record; occupied boolean; BEGIN
+    FOR col IN SELECT table_name,column_name FROM information_schema.columns
+      WHERE table_schema='public' AND table_name<>'kms_root_config' AND column_name ILIKE 'encrypted%'
+    LOOP
+      EXECUTE format('SELECT EXISTS(SELECT 1 FROM %I.%I WHERE %I IS NOT NULL)', 'public', col.table_name, col.column_name) INTO occupied;
+      IF occupied THEN RAISE EXCEPTION 'Cold-root fixture contains encrypted data'; END IF;
+    END LOOP;
+    DELETE FROM kms_root_config;
+  END $$;`);
   assert.equal(freshSql("SELECT count(*) FROM kms_root_config;"),"0");
   phase="concurrent fresh root startup";
   const freshA=container(run+"-fresh-a",h.artifact.id,[],freshEnv),freshB=container(run+"-fresh-b",h.artifact.id,[],freshEnv);
