@@ -77,3 +77,38 @@ themselves; the application cannot configure a remote process.
 reads, PostgreSQL persistence, encrypted-metadata redaction and anonymous denial
 on disposable infrastructure. The original failing probe is retained; this
 expanded proof must pass before the repair is accepted.
+
+## Accepted repair checkpoint
+
+Runtime source `4aa3d6c888644f9d0c0e9a90f9e59ace0f70433b` produced canonical image
+`sha256:288a19ed5eef7455f5d173c9038c0f276a269d518c29288ddbe745b288b3f4dd`. All sixteen standalone-image gates passed.
+Exact native source passed 888 unit/race outcomes and 132 secrets integration/race
+outcomes, with zero Go lint issues. The changed TypeScript passed lint. The
+cross-language check passed 14 producer/real-cache outcomes and 39 consumer/launcher
+outcomes. The secrets integration suite used the existing real schema from the
+prior image while compiling the current native source; the final image check below
+exercised the packaged implementation itself.
+
+The additional disposable real-image check used built-in identity, read an empty
+project and an individual secret directly through the packaged native Go API,
+and observed both audit events in PostgreSQL through the real queue and application
+consumer. Encrypted metadata was redacted, the generated secret-value canary was
+absent from the audit, and an anonymous read was denied. No live ClickHouse or
+external sink was exercised. Launcher tests separately verified managed shadow
+and explicit operator audit settings.
+
+The earlier image passed the standard gates but failed this additional native
+audit check because the native callers were still disabled. That failure led to
+restoring the callers and adding explicit shadow policy; it was not waived.
+Initial fixture-order and explicit test-dependency lint failures were also retained
+with their corrections.
+
+Local receipts: `.cache/self-hosted-build-xmLOBt/result.json`, `.cache/native-audit-image-UZAaGa/result.json`,
+`.cache/native-audit-boundary-twLLei/result.json`,
+`.cache/audit-callers-final-unit.json`, `.cache/audit-callers-final-secrets.json`,
+`.cache/audit-callers-final-lint.json`, and
+`.cache/audit-callers-typescript-lint-fix.json`. Working-copy source receipts were
+compared with the canonical archive; their pre-commit revision fields were not
+relabeled. These are local receipts, not independent attestation. Dedicated device
+sessions, transactionally durable issuance events, notifications, real API-profile
+consumers and public CLI activation remain open.

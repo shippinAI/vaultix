@@ -1870,7 +1870,7 @@
       "blob": "6a64437cfef071abe7a083fed7f34ecef457308b",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -1975,7 +1975,7 @@
       "blob": "6372f69539ba0ac88fa6302c7d57abe8859704f0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -2148,7 +2148,7 @@
       "blob": "8b24d1c23231d111e10dd94ce3bb724660a81544",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5643,7 +5643,7 @@
       "blob": "7cd49ca79b7f1cef7eac1d77175177853ed981e7",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5653,7 +5653,7 @@
       "blob": "104d2f5a2143d38bb8f737925d591c166a80117d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5663,7 +5663,7 @@
       "blob": "33aaa0b98cc14f6e697782c3bb372f7f5bec7543",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5673,7 +5673,7 @@
       "blob": "eed221421f24569abbd71b7045210f7ca091c1d8",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5683,7 +5683,7 @@
       "blob": "48008eb0d433ac80af8699560145016ea9940812",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5693,7 +5693,7 @@
       "blob": "20270a695bd573b02b7f42a7cd2b7907d99d2845",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5703,7 +5703,7 @@
       "blob": "932ce0481c81e41da093c504b9525e7b3095da4a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5713,7 +5713,7 @@
       "blob": "61d7d6d766d6cb433f1bd7c6659eea97c04162dc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native audit envelope and pre-enqueue event identity; shared storage/fanout routing, legacy queued/stream shapes and failed delivery retries. Actual Go-to-TypeScript protocol and real disposable queue checks authored. Exact final verification pending. Not a transactional issuance outbox or complete audit/provider parity; see scoped delivery contract.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5723,7 +5723,7 @@
       "blob": "0a08e6febd5b758cb87e862789cdb8cde7861370",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5733,7 +5733,7 @@
       "blob": "196cdb7ef5986a03f5a99d751b993e66d9d6eba2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
@@ -5743,7 +5743,7 @@
       "blob": "7f25cb74462137dc98c154c2e43be71faa29044c",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native successful list/get audit calls restored after authorization; encrypted metadata redaction preserved. Managed process shadow policy explicitly disables duplicate audit generation and honors operator disable settings. No client-header suppression. Exact final image and secrets regression verification pending; this does not establish full secrets or audit domain authorship.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
       "evidence": [
         "docs/auth/native-audit-delivery.md"
       ]
