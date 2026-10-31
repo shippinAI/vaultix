@@ -5602,7 +5602,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/authority.go",
-      "blob": "61de31b16d65d73f6b79232c14354d4bdd48629d",
+      "blob": "84330a0ef17f49b976e01c185f2aaab0ecc801a7",
       "status": "authored",
       "decision": "modify",
       "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
@@ -5622,7 +5622,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_authority_test.go",
-      "blob": "1f8c2e4b0c5e22c722eca5be87ee29e1ca670420",
+      "blob": "41ccfac8d2c133e5ecdaf6a84199b9876d384aa5",
       "status": "authored",
       "decision": "modify",
       "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",

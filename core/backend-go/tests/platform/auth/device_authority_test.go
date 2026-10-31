@@ -170,6 +170,7 @@ func TestDeviceAuthority_MethodEnforcementAndBypass(t *testing.T) {
 		{"google", "google", "member", true, false, true},
 		{"google-other-method", "oidc", "member", true, false, false},
 		{"bypass-admin", "email", "admin", false, true, true},
+		{"bypass-capability-unused", "oidc", "admin", false, true, true},
 		{"bypass-non-admin", "email", "member", false, true, false},
 		{"bypass-malformed-role", "email", "unknown", false, true, false},
 	} {
@@ -186,7 +187,7 @@ func TestDeviceAuthority_MethodEnforcementAndBypass(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.Equal(t, scenario.bypass, deviceApproval(t, grant.ID).SSOBypass)
+			require.Equal(t, scenario.name == "bypass-admin", deviceApproval(t, grant.ID).SSOBypass)
 			devicePollReady(t, grant.ID)
 			_, err = f.service.Poll(ctx, deviceRequest(), grant.DeviceCode)
 			require.NoError(t, err)
@@ -214,7 +215,7 @@ func TestDeviceAuthority_CustomDenyAndExpiredRole(t *testing.T) {
 				devicePolicyExec(t, `INSERT INTO additional_privileges(id,name,"actorUserId","orgId",permissions) VALUES(@id,'device-fixture',@user,@org,@rules)`, pgx.NamedArgs{"id": uuid.New(), "user": actor.ActorID, "org": actor.OrgID, "rules": rules})
 			default:
 				role := uuid.New()
-				devicePolicyExec(t, `INSERT INTO roles(id,slug,permissions) VALUES(@id,'device-fixture',@rules)`, pgx.NamedArgs{"id": role, "rules": rules})
+				devicePolicyExec(t, `INSERT INTO roles(id,name,slug,"orgId",permissions) VALUES(@id,'Device fixture','device-fixture',@org,@rules)`, pgx.NamedArgs{"id": role, "org": actor.OrgID, "rules": rules})
 				t.Cleanup(func() {
 					devicePolicyExec(t, `DELETE FROM membership_roles WHERE "customRoleId"=@id`, pgx.NamedArgs{"id": role})
 					devicePolicyExec(t, `DELETE FROM roles WHERE id=@id`, pgx.NamedArgs{"id": role})
@@ -236,7 +237,7 @@ func TestDeviceAuthority_CustomDenyAndExpiredRole(t *testing.T) {
 func TestDeviceAuthority_GroupsAndDirectPrecedence(t *testing.T) {
 	ctx, actor := newReauthenticationAccount(t)
 	group, membership := uuid.New(), uuid.New()
-	devicePolicyExec(t, `INSERT INTO groups(id) VALUES(@id)`, pgx.NamedArgs{"id": group})
+	devicePolicyExec(t, `INSERT INTO groups(id,name,slug,"orgId") VALUES(@id,'Device fixture',@slug,@org)`, pgx.NamedArgs{"id": group, "slug": group.String(), "org": actor.OrgID})
 	t.Cleanup(func() {
 		devicePolicyExec(t, `DELETE FROM memberships WHERE "actorGroupId"=@id`, pgx.NamedArgs{"id": group})
 		devicePolicyExec(t, `DELETE FROM user_group_membership WHERE "groupId"=@id`, pgx.NamedArgs{"id": group})

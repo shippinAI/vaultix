@@ -41,7 +41,9 @@ Root and selected organization SSO policies both apply. Each organization's bypa
 requires its explicit flag and the user's current capability in that organization.
 The canonical native permission module evaluates the same packed CASL rules,
 including unconditional denies, custom roles and additional privileges. Expired
-temporary roles cannot grant bypass. The resulting bypass provenance is retained
+temporary roles cannot grant bypass. Only actual use of that permission to bypass
+a method policy is recorded; compliant SSO does not become a bypass just because
+the user is an administrator. The resulting bypass provenance is retained
 for the required session/audit consumer; audit notifications are not implemented
 by this component.
 

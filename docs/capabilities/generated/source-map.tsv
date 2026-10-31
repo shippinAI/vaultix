@@ -156,7 +156,7 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	access	identit
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	access	identity	core/backend-go/internal/services/auth	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	access	identity	core/backend-go/internal/services/auth	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	access	identity	core/backend-go/internal/services/auth	94ddf096b16810e0268a899d80deb490b7fa52fe	verified
-core/backend-go/internal/services/auth/device/authority.go	access	identity	core/backend-go/internal/services/auth	61de31b16d65d73f6b79232c14354d4bdd48629d	authored
+core/backend-go/internal/services/auth/device/authority.go	access	identity	core/backend-go/internal/services/auth	84330a0ef17f49b976e01c185f2aaab0ecc801a7	authored
 core/backend-go/internal/services/auth/device/authority_query.go	access	identity	core/backend-go/internal/services/auth	2b0c6fbfd22de8f3533ad4bcedf2e35c10c6e26c	authored
 core/backend-go/internal/services/auth/device/codes.go	access	identity	core/backend-go/internal/services/auth	ec1a40ae09ae7efaba90f53299a4ea45630d5134	verified
 core/backend-go/internal/services/auth/device/codes_test.go	access	identity	core/backend-go/internal/services/auth	90b59773607e513d3635c5f787ee01398a3a6715	verified
@@ -229,7 +229,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	access	identity	cor
 core/backend-go/tests/platform/auth/authority_test.go	access	identity	core/backend-go/tests/platform/auth	76698d9a0342d8a456c2d9a3906a5c05b6628207	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	access	identity	core/backend-go/tests/platform/auth	98ef59cc825bba533eeb57f0382ed6d205b3534b	verified
 core/backend-go/tests/platform/auth/delegated_token_test.go	access	identity	core/backend-go/tests/platform/auth	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
-core/backend-go/tests/platform/auth/device_authority_test.go	access	identity	core/backend-go/tests/platform/auth	1f8c2e4b0c5e22c722eca5be87ee29e1ca670420	authored
+core/backend-go/tests/platform/auth/device_authority_test.go	access	identity	core/backend-go/tests/platform/auth	41ccfac8d2c133e5ecdaf6a84199b9876d384aa5	authored
 core/backend-go/tests/platform/auth/device_authorization_test.go	access	identity	core/backend-go/tests/platform/auth	2c4ae3ecae9218727e3b5ff2450d448daa54b5d1	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	access	identity	core/backend-go/tests/platform/auth	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	access	authorization	core/backend-go/tests/platform/auth	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified

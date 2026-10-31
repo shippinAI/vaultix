@@ -216,19 +216,19 @@ func (p *devicePolicy) evaluate(approval *Approval) (bool, error) {
 				return false, ErrDenied
 			}
 		}
-		if allowed {
-			bypass = true
-			continue
-		}
-		if org.Google && approval.AuthMethod != "google" {
-			return false, ErrDenied
-		}
+		methodAllowed := !org.Google || approval.AuthMethod == "google"
 		if org.AuthEnforced {
 			switch approval.AuthMethod {
 			case "oidc", "azure-saml", "okta-saml", "jumpcloud-saml", "google-saml", "keycloak-saml":
 			default:
+				methodAllowed = false
+			}
+		}
+		if !methodAllowed {
+			if !allowed {
 				return false, ErrDenied
 			}
+			bypass = true
 		}
 	}
 	return bypass, nil
