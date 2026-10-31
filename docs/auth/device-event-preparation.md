@@ -1,7 +1,7 @@
 # Device security-event preparation
 
 Current continuation: [worker lifecycle](device-event-worker.md) is implemented
-and under canonical verification. Earlier unregistered-worker statements below
+and verified in the canonical image. Earlier unregistered-worker statements below
 describe their original checkpoints. Public device login remains unfinished.
 
 Current continuation: [domain dispatch](device-event-dispatch.md) is implemented

@@ -1,7 +1,7 @@
 # Device session security-event delivery
 
 Current continuation: [worker lifecycle](device-event-worker.md) is implemented
-and under canonical verification. Earlier unregistered-worker statements below
+and verified in the canonical image. Earlier unregistered-worker statements below
 describe their original checkpoints. Public device login remains unfinished.
 
 Current continuation: [bounded recorded-audit acceptance](recorded-audit-acceptance.md)

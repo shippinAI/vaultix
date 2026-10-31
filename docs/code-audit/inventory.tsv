@@ -11832,10 +11832,10 @@ docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
-docs/auth/device-event-delivery.md	7d9c1b6826249fd1f89481661117e0bb1943c2ce	documentation	unread
-docs/auth/device-event-dispatch.md	fa81e34cb3f3fcee0233b848d868606c64fbd0ae	documentation	unread
-docs/auth/device-event-preparation.md	bcddcb741c5da509c5614c3bb8948f371f8a4bb0	documentation	unread
-docs/auth/device-event-worker.md	d090eeb1f91320037c4450101a01fe13253af3ce	documentation	unread
+docs/auth/device-event-delivery.md	f6f93c60c3f0496275d20a6909cdeb2501b261fb	documentation	unread
+docs/auth/device-event-dispatch.md	3054a12ceca6a95de4f1ce5834c3397ebf6e1c93	documentation	unread
+docs/auth/device-event-preparation.md	a2672a8d92292a65dd8fe4d0c4e498b153443827	documentation	unread
+docs/auth/device-event-worker.md	14f9bc7277a0a475229ee43501c19a261fe21b02	documentation	unread
 docs/auth/device-session-lifecycle.md	f58fe603e81a207c9fcc9328330f833edc9a2b8a	documentation	unread
 docs/auth/native-audit-delivery.md	10366dedb54977b0e166e0dc1193536f5b0ea65b	documentation	unread
 docs/auth/nomen-binding-lifecycle.md	f9ce53ec60fe438b70244fb5f3607430130271bf	documentation	verified
@@ -11844,7 +11844,7 @@ docs/auth/nomen-execution-sources.json	a00d975e35cfa84afc270d30ea768f0256da99b6	
 docs/auth/nomen-protocol-evidence.md	db6a421f6b22219fc9ee00b41fa304f44111c634	documentation	authored
 docs/auth/nomen-reauthentication.md	82d1b6677c18f17d43c474a0d6dfc10ec42f7441	documentation	verified
 docs/auth/nomen-totp-proof.md	4c57da3e69f665544e39e0326e46026fc5442a6a	documentation	verified
-docs/auth/recorded-audit-acceptance.md	9fcd72544d3256131129acddf3d392798cd4726e	documentation	unread
+docs/auth/recorded-audit-acceptance.md	e04b5f50cff7d982565f3e4605951fd152f6e6da	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified

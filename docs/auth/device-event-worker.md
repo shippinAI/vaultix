@@ -2,7 +2,7 @@
 
 This continues [recorded audit acceptance](recorded-audit-acceptance.md) and
 [source-bound dispatch](device-event-dispatch.md). Worker registration and its
-resource lifecycle are implemented and under verification. The public device
+resource lifecycle are implemented and verified in the canonical image. The public device
 authorization, API credential consumers, approval UI and CLI journey remain
 separate unfinished requirements. Both built-in Vaultix identity and optional
 federation retain the contract in [0074](../0074-built-in-and-federated-identity.md).
@@ -106,4 +106,24 @@ Receipts: `.cache/device-dispatch-store-x0BUMW/result.json`,
 `.cache/device-worker-mutation-maVNDl/result.json`, `.cache/recorded-audit-mutation-hb2p1l/result.json`, `.cache/device-dispatch-mutation-lIQQ22/result.json`,
 `.cache/device-worker-lifecycle-lint.json` and
 `.cache/device-worker-lifecycle-typecheck.json`. The initial run remains at
-`.cache/device-dispatch-store-00qiG3/result.json`. Canonical verification is pending.
+`.cache/device-dispatch-store-00qiG3/result.json`. Canonical evidence follows.
+
+## Canonical artifact evidence
+
+Runtime source `7242f8e2e319caf6cb27498f33b2be628cdefa6d` produced
+`sha256:624ccded60fddcab353c018d82dc63cbcea7ae8a8e62896e0fe4c9f475c8a247`. All sixteen canonical image gates passed.
+The image passed six actual worker/profile/replica/shutdown/restart checks and four
+native-audit checks. Its migrated disposable stores passed all 111 integration
+scenarios and all 16 destination compatibility scenarios. Tested core bytes match
+the committed image archive; the worker image harness is independently hashed.
+The three local negative controls retain exact-source provenance. Unchanged
+audit/SMTP units, Go/session and historical schema rollback receipts remain bound
+to their original source and artifacts.
+
+Receipts: `.cache/self-hosted-build-k8uY9r/result.json`, `.cache/device-worker-image-EMh29R/result.json`,
+`.cache/device-dispatch-store-ditoGT/result.json`, `.cache/delivery-destination-store-PgXETI/result.json`,
+`.cache/native-audit-image-CkcL1c/result.json` and `.cache/app-image-proof-FdgDKB/result.json`.
+The real browser gate exercised built-in sign-in, projects, secrets and denials.
+These are scoped regression checks, not complete accessibility or enterprise parity.
+Public device authorization, API consumers, approval UI, CLI, full provenance and
+authorized operational repair remain unfinished.

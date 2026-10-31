@@ -1,7 +1,7 @@
 # Bounded acceptance of recorded audit events
 
 Current continuation: [worker lifecycle](device-event-worker.md) is implemented
-and under canonical verification. Earlier unregistered-worker statements below
+and verified in the canonical image. Earlier unregistered-worker statements below
 describe their original checkpoints. Public device login remains unfinished.
 
 This continues [device dispatch](device-event-dispatch.md). It changes the
