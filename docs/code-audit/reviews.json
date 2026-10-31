@@ -328,23 +328,12 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "d9edacabd0fa191fd61de60bbcfeaa4f3b94da82",
-      "status": "authored",
+      "blob": "7802a86c4ba95bd2adcfc0089eacb731c3266ee9",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete authored workstream DAG and path-classification rules read. Domains have target acceptance requirements; current source inventory has no intake files. Rules assign discovery responsibility only, require module-level reconciliation, and do not establish the correctness or completeness of individual dependencies or capabilities. Planning checkpoint 2026-10-28: Read full migration dependency/rule plan. Assign authored capability planning tooling to foundation supporting work, before generic path rules. Generated capability outputs excluded from migration. No domain migration marked completed. AI setup checkpoint: Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0027-native-stack-and-ai-migration.md",
-        "docs/migration/README.md",
-        "scripts/test-migration-map.mjs",
-        ".cache/migration-map-check.log",
-        "docs/0049-capability-product-plan.md",
-        "node scripts/test-capability-map.mjs",
-        "node scripts/test-migration-map.mjs",
-        ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json",
-        ".ai/README.md",
-        ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -2292,46 +2281,12 @@
     },
     {
       "path": "README.md",
-      "blob": "ce47ae00af8c42fe500d49fc0e6d9367624746bf",
-      "status": "authored",
+      "blob": "36573d00631eace4e213b0ebff36bea6958c0c55",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed current CLI instructions: native artifact names, domain selection, Windows key-file limitation, and explicit hosted authentication gap. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0041-publication-history.md",
-        ".cache/publication-proof-Ca5zjL/result.json",
-        ".cache/publication-artifact-comparison.json",
-        "docs/0048-self-hosted-builds.md",
-        ".cache/self-hosted-fixtures-WxeKDm/result.json",
-        ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json",
-        "docs/0049-capability-product-plan.md",
-        "node scripts/test-capability-map.mjs",
-        "node scripts/test-migration-map.mjs",
-        ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json",
-        "docs/0050-organization-first-setup.md",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json",
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0068-device-session-renewal.md",
-        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0069-execution-goal.md",
-        ".cache/headless-ai-login/.cache/execution-plan-links.json",
-        ".ai/README.md",
-        ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs",
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -4742,24 +4697,22 @@
     },
     {
       "path": "docs/migration/README.md",
-      "blob": "e55fb4a8639ad426714d94af5c30010e8a023fcd",
+      "blob": "d50481a9f543fb1a723b053acd249a919f75efe7",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Current execution queue aligned to 0027/0029/0049/0054 and accepted 0068 evidence; AUTH-02 is next, live gates remain explicit. Local links verified. This is planning/navigation acceptance, not implemented identity mapping, whole-module authorship, capability parity or public-cloud readiness.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0069-execution-goal.md",
-        ".cache/headless-ai-login/.cache/execution-plan-links.json"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "dfa6bd32630976da2cddb3488a6a2487a1a97c9b",
-      "status": "authored",
+      "blob": "40777e344e34e578e76d54f3f2a3a2765d4c2ed3",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored researched AUTH-03..06 dependency/gap plan and exact scoped source grounding. No existing domain authorship or parity upgrade.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/auth/nomen-execution-plan.md",
-        "docs/auth/nomen-execution-sources.json"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -4860,14 +4813,12 @@
     },
     {
       "path": ".ai/contexts.json",
-      "blob": "d32e0915646bcd9e957fff72454e3ed3e6775ea4",
+      "blob": "1f7df8c25d2f5c640db5e2718925ae07a25679d0",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        ".ai/README.md",
-        ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -4980,14 +4931,12 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "7ca064673287c12b54b6bde748fceb428ce13e53",
+      "blob": "a4a72655fd80ba11e82acff3e54b14c38b042320",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed the AI-grounding integration change only: routes to portable skills/local journal, historic-journal pointer, or supporting-tooling workstream classification. Existing product decisions and historical text preserved. This does not claim whole-file renewed authorship or runtime acceptance.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        ".ai/README.md",
-        ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -5101,16 +5050,12 @@
     },
     {
       "path": "docs/0073-native-cli-domain-and-capabilities.md",
-      "blob": "9bedfb3978fd806eeb2d3e6c59c03d6ebf522efa",
-      "status": "authored",
+      "blob": "06d0648465c6b2f01a7dd1194bef437c6f501908",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored scoped implementation and explicit hosted identity/CLI capability gaps based on native dispatcher and current first-party command index. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -5243,12 +5188,12 @@
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "8b4e3875783128fb22d2c9f18fa655757f20912e",
-      "status": "verified",
+      "blob": "82df05526924f8ae8e6e2853d34dc37414b2e95c",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     },
     {
@@ -5304,10 +5249,10 @@
     },
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
-      "blob": "0affd1ef399ec024b1b18960661466952bfaff79",
+      "blob": "6b02c25b5a4c9b92d1b2ee57e879538965f423da",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete harness reviewed and extended with actual previous-binary factor enrollment, one-connection concurrent registration, three-migration round trip, retained TOTP replay/provenance and previous-binary decryption/deletion compatibility. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "scope": "Complete harness reviewed and extended with actual previous-binary factor enrollment, one-connection concurrent registration, three-migration round trip, retained TOTP replay/provenance and previous-binary decryption/deletion compatibility. Candidate verification is pending; no new canonical release acceptance claimed. Extended pending acceptance with the reproduced KMS pool-one startup defect, fresh software-root concurrency, wrong-key denial and unchanged-root recovery. Extended pending acceptance with the reproduced KMS pool-one startup defect, fresh software-root concurrency, wrong-key denial and unchanged-root recovery.",
       "evidence": [
         "docs/auth/nomen-totp-proof.md"
       ]
@@ -5484,12 +5429,102 @@
     },
     {
       "path": "docs/auth/nomen-totp-proof.md",
-      "blob": "9b93e1b6d4e5814577766a213e9124ee813be794",
+      "blob": "88e2b7496b47502069a6b7ef092535c2a4a47f23",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored architecture, exact ownership/replay/method/rollback contracts and verification obligations. Canonical acceptance explicitly pending. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "scope": "Authored architecture, exact ownership/replay/method/rollback contracts and verification obligations. Canonical acceptance explicitly pending. Candidate verification is pending; no new canonical release acceptance claimed. Extended pending acceptance with the reproduced KMS pool-one startup defect, fresh software-root concurrency, wrong-key denial and unchanged-root recovery. Extended pending acceptance with the reproduced KMS pool-one startup defect, fresh software-root concurrency, wrong-key denial and unchanged-root recovery.",
       "evidence": [
         "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/kms/kms-service.ts",
+      "blob": "ff8e18bf4bf7367c6286adc9f63f4ad86efc336d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete module read, root DAL complete read and transaction helper/caller trace. Scoped startup repair: current root reads and writes share short primary transactions; software/HSM generation and encryption occur outside transactions; concurrent initialization rechecks and retains the committed root; temporary generated bytes are cleared. Other KMS methods are not newly authored or accepted. Final canonical cold/existing-root, denial/recovery and regression evidence is pending.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "docs/0016-native-vaultix.md",
+      "blob": "62c964690325dcc3a2a747712ec65b95daa7689c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "docs/0027-native-stack-and-ai-migration.md",
+      "blob": "3de39fe6187d38f4386e3e9d8c8841febb5dc2da",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "docs/0074-built-in-and-federated-identity.md",
+      "blob": "f60a69a53297387db1e40fbed99dc17a56ae8f5c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-client-service.ts",
+      "blob": "0ea9c00d156495b8e15117405d71cb5a2bbf981e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete source read for dual identity grounding; no source change. Existing confidential-client authorization-code/refresh and explicitly scoped delegation are distinct from native public-client device login. Membership/federation/MFA, scope retention, session ownership and non-atomic cache code consumption require complete consumer/concurrency characterization before migration. No runtime acceptance or full domain authorship claimed.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-client-types.ts",
+      "blob": "7cff5c6dc5247a7011d902855961cbba172abcb5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete source read for dual identity grounding; no source change. Existing confidential-client authorization-code/refresh and explicitly scoped delegation are distinct from native public-client device login. Membership/federation/MFA, scope retention, session ownership and non-atomic cache code consumption require complete consumer/concurrency characterization before migration. No runtime acceptance or full domain authorship claimed.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-client-dal.ts",
+      "blob": "f4c18c8df589f7499e53ec4f701e5940b57fda1e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete source read for dual identity grounding; no source change. Existing confidential-client authorization-code/refresh and explicitly scoped delegation are distinct from native public-client device login. Membership/federation/MFA, scope retention, session ownership and non-atomic cache code consumption require complete consumer/concurrency characterization before migration. No runtime acceptance or full domain authorship claimed.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-client-fns.ts",
+      "blob": "cbf926fa1c0f986f09ef42e60f931bf9faaccab1",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete source read for dual identity grounding; no source change. Existing confidential-client authorization-code/refresh and explicitly scoped delegation are distinct from native public-client device login. Membership/federation/MFA, scope retention, session ownership and non-atomic cache code consumption require complete consumer/concurrency characterization before migration. No runtime acceptance or full domain authorship claimed.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/oauth-client/oauth-scope.ts",
+      "blob": "c9db2e95333ac3a830d511369fbc752dc023ef27",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete source read for dual identity grounding; no source change. Existing confidential-client authorization-code/refresh and explicitly scoped delegation are distinct from native public-client device login. Membership/federation/MFA, scope retention, session ownership and non-atomic cache code consumption require complete consumer/concurrency characterization before migration. No runtime acceptance or full domain authorship claimed.",
+      "evidence": [
+        "docs/0074-built-in-and-federated-identity.md"
       ]
     }
   ]

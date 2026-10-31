@@ -18,7 +18,8 @@ rollback gates. The [module map](docs/migration/README.md) tracks source coverag
 without counting discovery as completed rewriting.
 
 The [current execution goal and queue](docs/0069-execution-goal.md) starts with
-native Nomen authority mapping and live remote sign-in, then carries the same
+[built-in identity and optional federation](docs/0074-built-in-and-federated-identity.md),
+including native remote sign-in, then carries the same
 acceptance method through core/UI/AI migration and owned-infrastructure release.
 
 Project contributors use the [portable AI skills and local journal](.ai/README.md)
@@ -95,7 +96,8 @@ it never loads the local secret-value store. Direct HTTP at
 The native MCP teaches setup through the same authored catalog and configure
 steps used by the UI. Authenticated clients can list projects and secret
 references through the same actions as the native reference browser. Values
-and mutations are excluded. Hosted Nomen client sign-in is still a release gate.
+and mutations are excluded. Native built-in remote login and live acceptance
+of the optional Nomen profile remain separate delivery gates.
 See [AI setup and specialist instructions](core/ai/README.md), also included
 in the image at `/backend/ai`.
 
@@ -128,8 +130,11 @@ remains a compatible alias. A fresh configuration defaults to Vaultix.cloud;
 existing self-hosted configurations are preserved.
 
 **Hosted interactive login remains unfinished:** domain selection is supported,
-but Nomen public-client registration and server identity binding must be completed
-before the bare login command works end to end against Vaultix.cloud. See the
+but built-in device authorization and instance method discovery remain to be
+implemented. The current terminal default selects Nomen; its public-client
+registration and server binding also remain unfinished. Vaultix must support
+built-in identity, optional federation, or both, without requiring Nomen for
+built-in operation. See the
 [CLI delivery and capability gaps](docs/0073-native-cli-domain-and-capabilities.md).
 
 The Go CLI provides an encrypted local copy and application-process injection:

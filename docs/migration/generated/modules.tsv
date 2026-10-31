@@ -1,7 +1,7 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
 .	delivery	supporting-tooling-or-contract	1	009b1829738853481775b9ad41b09dde59c743588c8829457183cfeeb75ccc37	0	unassessed
-.ai	foundation	supporting-tooling-or-contract	3	7e2200e7eaafd0e6e1f197a0b02f993a31b0f240331663a388a993ac109a31f4	3	unassessed
+.ai	foundation	supporting-tooling-or-contract	3	f6b0ec54fd5628d6679a8d3f8690f366ba186da3c3ca4122d048fefe99f63b17	3	unassessed
 .ai/schemas	foundation	supporting-tooling-or-contract	2	701799bb7d2c3f519108c4ceb9248080afc2c40817fa437629b412979dc6a3e6	2	unassessed
 .github/workflows	delivery	supporting-tooling-or-contract	2	d9f570a71ca1cd72487acb42d7a3fb407e50922e1679502324e215ff3a537010	2	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
@@ -392,7 +392,7 @@ core/backend/src/services/identity-v2	authorization	Go-domain-migration	1	ce8efa
 core/backend/src/services/identity-v2	identity	Go-domain-migration	8	90c207b273e9a17e11ca32901b132d25615d518e935efe9936bcc7975ae20995	0	unassessed
 core/backend/src/services/integration	integrations	Go-domain-migration	4	e00682a8912c8f7709d97e50395bb78600476a9b74e19e38a9e7e0e8f36d9dde	0	unassessed
 core/backend/src/services/integration-auth	integrations	Go-domain-migration	12	ea73d661e17e77b84f5860edcefd962a683c2ca941b81e74b89322020d2cc4ca	0	unassessed
-core/backend/src/services/kms	kms	Go-domain-migration	7	f7d531fca4a1fe0c452e80bddd5ce617875d36fa45defc38706c661a136e3a8c	0	unassessed
+core/backend/src/services/kms	kms	Go-domain-migration	7	f95605516c126bfb398c6d39c595b4bd3e84ea471720313289c649feb9d9ba9c	1	unassessed
 core/backend/src/services/license-client	foundation	Go-domain-migration	33	0daa22db0c84cea870f02acc37f4badb57b1eced64b0f8a81664aaafa3bc5f40	0	unassessed
 core/backend/src/services/license-client	pki	Go-domain-migration	1	1198fb9dd68d71403794c11825862664491debc4a1e13d9ff940e378a890eeb0	0	unassessed
 core/backend/src/services/membership	authorization	Go-domain-migration	4	e29eebde09ba745e97ace428d44d410981d64c5a6a9243b91bfeba99b229a0b7	0	unassessed
@@ -406,7 +406,7 @@ core/backend/src/services/microsoft-teams	integrations	Go-domain-migration	1	d78
 core/backend/src/services/microsoft-teams	secrets	Go-domain-migration	1	3f1133ae757214e53d518880d20e0b452806c82613223299af787f7e232ec7bb	0	unassessed
 core/backend/src/services/notification	foundation	Go-domain-migration	3	bef318651d29a2fed64adc8ed01a213b69f3963d2bae57f1b5468a07db57f376	0	unassessed
 core/backend/src/services/notification	identity	Go-domain-migration	1	f02a067a88929c4d7ba8e2aa37693e1aee98ed7b9ded1d2aa4687e307f96c96e	0	unassessed
-core/backend/src/services/oauth-client	identity	Go-domain-migration	7	26fb2e40aa0a8d8dda89401afb78325803561965836b1eda732562eb6a7ed9ef	0	unassessed
+core/backend/src/services/oauth-client	identity	Go-domain-migration	7	26fb2e40aa0a8d8dda89401afb78325803561965836b1eda732562eb6a7ed9ef	5	unassessed
 core/backend/src/services/offline-usage-report	foundation	Go-domain-migration	3	25be14ddea25b1fbc10f77cb094d476ec9853c9163f324989da03b82e4c1689a	0	unassessed
 core/backend/src/services/org	foundation	Go-domain-migration	7	60fcfb3a1935ba2605c8bcd58ca7edcb2b7085eef898ece58bdc66d4d0bfeb35	1	unassessed
 core/backend/src/services/org-admin	foundation	Go-domain-migration	3	be774399aef2c4f96fb5f43da200d5aeb0d4e861049b6fef06129bf88fa3477a	0	unassessed
@@ -1039,7 +1039,7 @@ db/schemas	scanning	PostgreSQL-compatible	10	a5d15ef84c579426b6923f1bd40c2b7f960
 db/schemas	secrets	PostgreSQL-compatible	38	1a084ec35c5f868fff03d2949c4102ec463f4ebb3eb3ed10209d57aa6d4e8645	0	unassessed
 docs/auth	identity	supporting-tooling-or-contract	3	16098e8534607865e94a127c9e8313b16a3264cbd63c9aaa471fd71b0d7360c2	1	unassessed
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
-docs/migration	foundation	supporting-tooling-or-contract	1	233a5093074ce9548f1690c12838408b04d343341dc72ec5f35f83cf8a4b2806	1	unassessed
+docs/migration	foundation	supporting-tooling-or-contract	1	a16a199ebd60b45d456627806c1afceb0a12db155672e01b47480c8721529722	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
 internal/api	cli	Go-client-Rust-injection-boundary	5	a2a9cce16b86ede8686fdb68bf18de105732c9cbc3c974c30a5ddb7768e0441a	3	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	11	31f91bdc81be0273c7bf6e829944c941cd123474e0bf50f3c6253b34f736dd9f	9	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	66	b595153645ca6eccc7db452d63f2b724065f44e7d70d9cbd720e4f2de7f7e46e	61	unassessed
+scripts	delivery	supporting-tooling-or-contract	66	3911044f722f32e3afbab37be4e003b237e2cfcd7789707feb7aa70f71be254d	61	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

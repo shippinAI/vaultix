@@ -1,6 +1,6 @@
 path	module	workstream	target	language	git_blob	review_state
 .ai/.gitignore	.ai	foundation	supporting-tooling-or-contract	build-config	cd1c4ac38a4730496ef265ae68dc5d2cd112ffd5	reviewed
-.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	d32e0915646bcd9e957fff72454e3ed3e6775ea4	reviewed
+.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	1f7df8c25d2f5c640db5e2718925ae07a25679d0	reviewed
 .ai/package.json	.ai	foundation	supporting-tooling-or-contract	json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	reviewed
 .ai/schemas/contexts.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	reviewed
 .ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
@@ -3359,7 +3359,7 @@ core/backend/src/services/kms/internal-kms-key-version-dal.ts	core/backend/src/s
 core/backend/src/services/kms/kms-fns.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	89693ca1d36442a0adf11194f75681083ef1cbd0	unread
 core/backend/src/services/kms/kms-key-dal.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	60d1b1e60dcb09524e95fa645fdf7c149c11a742	unread
 core/backend/src/services/kms/kms-root-config-dal.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	1b9b9a2301ff1aebf75047ea3d66272d7512d034	unread
-core/backend/src/services/kms/kms-service.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	1a54bb11bf7b7f5ee4b5acc3a392bdc3a7915f9b	unread
+core/backend/src/services/kms/kms-service.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	ff8e18bf4bf7367c6286adc9f63f4ad86efc336d	authored
 core/backend/src/services/kms/kms-types.ts	core/backend/src/services/kms	kms	Go-domain-migration	ts	3a7b8f0e42ad572128ca4ec893b2e4ee3ee091bb	unread
 core/backend/src/services/license-client/dual-read/dual-read-service.ts	core/backend/src/services/license-client	foundation	Go-domain-migration	ts	3d10436ef315877be23256af88af091f35a4bca2	unread
 core/backend/src/services/license-client/dual-read/dual-read-types.ts	core/backend/src/services/license-client	foundation	Go-domain-migration	ts	a1a02bf35913860b91a50f4a51a1e307aafb8cfe	unread
@@ -3433,13 +3433,13 @@ core/backend/src/services/notification/notification-queue.ts	core/backend/src/se
 core/backend/src/services/notification/notification-service.ts	core/backend/src/services/notification	foundation	Go-domain-migration	ts	ed50c3f1cf9292f863e6c9b44002e8ea5ab44cd1	unread
 core/backend/src/services/notification/notification-types.ts	core/backend/src/services/notification	foundation	Go-domain-migration	ts	ad347a7231c737b0645ddc4be4d388363c26e2b5	unread
 core/backend/src/services/notification/user-notification-dal.ts	core/backend/src/services/notification	identity	Go-domain-migration	ts	334835de3024870c3d5819826d8eeadb399f43ac	unread
-core/backend/src/services/oauth-client/oauth-client-dal.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	f4c18c8df589f7499e53ec4f701e5940b57fda1e	unread
+core/backend/src/services/oauth-client/oauth-client-dal.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	f4c18c8df589f7499e53ec4f701e5940b57fda1e	reviewed
 core/backend/src/services/oauth-client/oauth-client-fns.test.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	9dc7258630f3c9dcb342f77c6b737d972c34ba93	unread
-core/backend/src/services/oauth-client/oauth-client-fns.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	cbf926fa1c0f986f09ef42e60f931bf9faaccab1	unread
-core/backend/src/services/oauth-client/oauth-client-service.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	0ea9c00d156495b8e15117405d71cb5a2bbf981e	unread
-core/backend/src/services/oauth-client/oauth-client-types.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	7cff5c6dc5247a7011d902855961cbba172abcb5	unread
+core/backend/src/services/oauth-client/oauth-client-fns.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	cbf926fa1c0f986f09ef42e60f931bf9faaccab1	reviewed
+core/backend/src/services/oauth-client/oauth-client-service.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	0ea9c00d156495b8e15117405d71cb5a2bbf981e	reviewed
+core/backend/src/services/oauth-client/oauth-client-types.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	7cff5c6dc5247a7011d902855961cbba172abcb5	reviewed
 core/backend/src/services/oauth-client/oauth-scope.test.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	9f297ec276dbd33c20b6c5cfaf2b695c43f1431a	unread
-core/backend/src/services/oauth-client/oauth-scope.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	c9db2e95333ac3a830d511369fbc752dc023ef27	unread
+core/backend/src/services/oauth-client/oauth-scope.ts	core/backend/src/services/oauth-client	identity	Go-domain-migration	ts	c9db2e95333ac3a830d511369fbc752dc023ef27	reviewed
 core/backend/src/services/offline-usage-report/offline-usage-report-dal.ts	core/backend/src/services/offline-usage-report	foundation	Go-domain-migration	ts	81eed929f8a26c0e5d71cbcf8aa97e7ca96a12a4	unread
 core/backend/src/services/offline-usage-report/offline-usage-report-service.ts	core/backend/src/services/offline-usage-report	foundation	Go-domain-migration	ts	d9729ff4556fcb0f39662a58606033e20e8f7d50	unread
 core/backend/src/services/offline-usage-report/offline-usage-report-types.ts	core/backend/src/services/offline-usage-report	foundation	Go-domain-migration	ts	614d5cccea589735d5f7da86c8217ce78abe2533	unread
@@ -9313,7 +9313,7 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	d9edacabd0fa191fd61de60bbcfeaa4f3b94da82	authored
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -9480,7 +9480,7 @@ scripts/test-login-failure.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-login-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
 scripts/test-migration-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	70ae145e8dc67495778bffd89501c03e6d2cbb3a	verified
-scripts/test-nomen-binding-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0affd1ef399ec024b1b18960661466952bfaff79	authored
+scripts/test-nomen-binding-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6b02c25b5a4c9b92d1b2ee57e879538965f423da	authored
 scripts/test-notification-matrix.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	verified
 scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	verified
 scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	verified

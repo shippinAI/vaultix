@@ -3,7 +3,7 @@
   "direction": "Vaultix.cloud native React/Go/Rust product; DevSCIF.com profiles share the engine",
   "workstreams": [
     { "id": "foundation", "title": "Contracts, database compatibility and shared runtime", "dependsOn": [], "gates": ["schema-and-ciphertext-fixtures", "error-contracts", "included-features-not-authorization", "single-writer-cutover", "rollback-rehearsal"] },
-    { "id": "identity", "title": "Nomen identity and workload authentication", "dependsOn": ["foundation"], "gates": ["real-issuer-audience-expiry", "session-and-logout-ownership", "tenant-mapping", "revocation"] },
+    { "id": "identity", "title": "Built-in identity, external federation and workload authentication", "dependsOn": ["foundation"], "gates": ["built-in-without-external-provider", "combined-login-method-enforcement", "account-factor-recovery-compatibility", "real-issuer-audience-expiry", "session-and-logout-ownership", "tenant-mapping", "revocation"] },
     { "id": "authorization", "title": "Permissions, approvals and organization isolation", "dependsOn": ["identity"], "gates": ["cross-tenant-denial", "policy-differential-tests", "approval-parameter-binding", "revocation-races"] },
     { "id": "ui", "title": "Native React workflows and interaction system", "dependsOn": ["foundation"], "gates": ["route-continuity", "keyboard-and-screen-reader", "real-service-browser", "reflow-and-reduced-motion"] },
     { "id": "secrets", "title": "Projects, environments and encrypted secret lifecycle", "dependsOn": ["authorization"], "gates": ["create-update-version-restore", "imports-precedence-cycles", "ciphertext-compatibility", "no-values-in-metadata", "transaction-concurrency"] },

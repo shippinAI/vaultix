@@ -37,14 +37,19 @@ ACL review remain distinct from mocked keyring tests.
 
 ## Exact hosted login is still a release gate
 
-The no-flags terminal flow remains Nomen device authorization under the accepted
-identity contract. It requires a registered public client. The hosted service
+The no-flags terminal implementation currently selects Nomen device authorization.
+That is a gap against the owner's [dual identity decision](0074-built-in-and-federated-identity.md),
+which requires built-in Vaultix login and optional federation. Native built-in
+device authorization and instance-advertised method selection still need
+implementation and acceptance; the domain flag alone does not supply them.
+The current Nomen profile requires a registered public client. The hosted service
 does not yet implement the external access-token verification and durable
 issuer/subject mapping specified in [0070](0070-nomen-authority-contract.md).
 Domain parsing, a public health response or a fixture issuer cannot close this
 gap. Do not advertise this packet as completed hosted interactive login.
 
-Complete AUTH-03/04 native verifier, account binding, organization selection and
+For built-in login, complete IDENTITY-01..06 in 0074. For the optional Nomen
+profile, complete AUTH-03/04 native verifier, account binding, organization selection and
 source-action authorization; configure the public client, intended audience and
 resource-server introspection credentials; then pass AUTH-05 with real human
 approval, protected project access, refresh and issuer revocation. Keep account

@@ -104,6 +104,38 @@ try {
   output(["stop","-t","10",rollback]);output(["start",after]);await ready(after);
   phase="candidate restart";
   assert.equal(sql(db,`SELECT "userId" IS NULL FROM vaultix_identity_bindings WHERE id='${binding}';`),"t");
-  check("candidate restarts with preserved deletion tombstone");report.passed=true;
+  check("candidate restarts with preserved deletion tombstone");
+  output(["stop","-t","10",after]);
+  phase="fresh root schema";
+  sql(db,"CREATE DATABASE vaultix_fresh;");
+  const freshSql=query=>output(["exec","-i",db,"psql","-X","-v","ON_ERROR_STOP=1","-U","vaultix","-d","vaultix_fresh","-At"],{input:query});
+  const freshCacheName=run+"-fresh-cache";
+  const freshCache=container(freshCacheName,"docker.dragonflydb.io/dragonflydb/dragonfly:v1.34.2",["--default_lua_flags=allow-undeclared-keys","--cache_mode=false","--maxmemory=512mb","--proactor_threads=2"]);
+  await waitFor(()=>docker(["exec",freshCache,"redis-cli","ping"],{allowFailure:true}).status===0,"fresh cache readiness");
+  const freshEnv={...env,DB_CONNECTION_URI:'postgres://vaultix:'+dbPassword+'@'+dbName+':5432/vaultix_fresh',VAULTIX_CACHE_URL:'redis://'+freshCacheName+':6379',DB_POOL_MAX:"1"};
+  // Schema setup has its own migrator budget; application root initialization must use one connection.
+  const migrateFresh=`import knex from 'knex';const db=knex({client:'pg',connection:process.env.DB_CONNECTION_URI});try{await db.migrate.latest({directory:'./dist/db/migrations',tableName:'vaultix_migrations',loadExtensions:['.mjs']});}catch{process.exitCode=2;}finally{await db.destroy();}`;
+  const migrator=container(run+"-fresh-migrator",h.artifact.id,["node","--input-type=module","-e",migrateFresh],freshEnv);
+  await waitFor(()=>output(["inspect","--format","{{.State.Running}}",migrator])==="false","fresh schema migration");
+  assert.equal(output(["inspect","--format","{{.State.ExitCode}}",migrator]),"0");
+  assert.equal(freshSql("SELECT count(*) FROM kms_root_config;"),"0");
+  phase="concurrent fresh root startup";
+  const freshA=container(run+"-fresh-a",h.artifact.id,[],freshEnv),freshB=container(run+"-fresh-b",h.artifact.id,[],freshEnv);
+  await Promise.all([ready(freshA),ready(freshB)]);
+  assert.equal(freshSql("SELECT count(*) FROM kms_root_config;"),"1");
+  const rootCipher=freshSql('SELECT encode("encryptedRootKey",\'hex\') FROM kms_root_config;');assert.ok(rootCipher);
+  check("two one-connection application instances initialize one fresh root key");
+  output(["stop","-t","10",freshA]);output(["stop","-t","10",freshB]);
+  phase="wrong root encryption key";
+  const wrong=container(run+"-wrong-key",h.artifact.id,[],{...freshEnv,ENCRYPTION_KEY:randomBytes(16).toString("hex")});
+  await waitFor(()=>output(["inspect","--format","{{.State.Running}}",wrong])==="false","wrong-key startup denial");
+  assert.notEqual(output(["inspect","--format","{{.State.ExitCode}}",wrong]),"0");
+  assert.equal(freshSql('SELECT encode("encryptedRootKey",\'hex\') FROM kms_root_config;'),rootCipher);
+  check("wrong encryption key cannot start or replace the committed root");
+  phase="fresh root restart recovery";
+  output(["start",freshA]);await ready(freshA);
+  assert.equal(freshSql('SELECT encode("encryptedRootKey",\'hex\') FROM kms_root_config;'),rootCipher);
+  check("correct-key one-connection restart recovers the unchanged root");
+  report.passed=true;
 } catch { report.failedPhase=phase;process.exitCode=1; }
 finally { report.cleanedUp=h.cleanup();if(!report.cleanedUp){report.passed=false;process.exitCode=1;}writeFileSync(resolve(evidence,"result.json"),JSON.stringify(report,null,2)+"\n");console.log(JSON.stringify({passed:report.passed,checks:report.checks.length,failedPhase:report.failedPhase,evidence})); }

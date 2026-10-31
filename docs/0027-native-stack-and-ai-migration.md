@@ -19,8 +19,12 @@ Reviewed correct logic can be retained with a reason; generated and third-party
 code keeps its provenance. No mass string substitution, arbitrary deletion, or
 removal of features to make the new implementation easier to ship.
 
-The sequence remains Auth (Nomen) → Secrets (Vaultix). Existing secrets-related
-gateway/PAM adapters are in scope; starting Zuul/Mesh work requires the separate
+The sequence remains Auth (built-in and federated) → Secrets (Vaultix).
+The owner's [2026-10-30 identity correction](0074-built-in-and-federated-identity.md)
+requires independent built-in operation and optional external federation, with
+one existing account/membership model and encrypted store. Nomen is not a
+prerequisite for built-in accounts, MFA, recovery, sessions or machine identity.
+Existing secrets-related gateway/PAM adapters are in scope; starting Zuul/Mesh work requires the separate
 scope decision. No Nomen/Zuul runtime imports or `nomen_vault_*` tables.
 
 ## Observed starting point
@@ -48,7 +52,8 @@ online/offline policy and target-workload verification before AI-managed deliver
 flowchart TD
     U[Human operator] --> R[Native React workflows]
     C[Local Clyffy / Codex / own AI client] --> M[MCP adapter]
-    N[Nomen issuer and session owner] --> A[Go actor and tenant verification]
+    L[Vaultix built-in identity and application sessions] --> A[Go actor and tenant verification]
+    N[Optional external federation including Nomen] --> A
     R --> A
     M --> A
     A --> S[Shared catalog actions and domain use cases]
@@ -154,8 +159,8 @@ delivery task. No global tooling changes are needed for this plan.
 
 AI manages lifecycle **intent**, references and approved automation. Vaultix and
 the target workload handle values. Codex's local ChatGPT sign-in provides model
-access; Vaultix authentication is a separate Nomen flow. No subscription-password
-collection, token copying or shared identity session. Own-provider configurations
+access; Vaultix authentication uses its separate built-in or federated flow.
+No subscription-password collection, token copying or shared identity session. Own-provider configurations
 remain in the user's client. Official [Codex authentication](https://developers.openai.com/codex/auth)
 and [MCP configuration](https://developers.openai.com/codex/mcp) document these
 distinct sign-in and server-authentication capabilities; actual Nomen/Codex
@@ -210,7 +215,7 @@ The generated file/module maps are discovery aids, not completed reviews.
 | Wave | Concrete deliverable | Required evidence before cutover |
 | --- | --- | --- |
 | 0: characterize | Reconcile ownership map, unsupported/deprecated behavior, API response/schema fixtures, encrypted DB snapshots from disposable fixtures, queue payloads and existing test gaps | Every selected module fully read; route preservation plus behavior matrix; no blank unknowns silently marked done |
-| 1: foundations and identity | Supported toolchains; Go contract/validation/error conventions; Nomen actor/tenant mapping; canonical product configuration | Real issuer/audience/expiry/logout/revocation, cross-tenant denial, existing-login migration and tested rollback |
+| 1: foundations and identity | Supported toolchains; Go contract/validation/error conventions; Built-in and federated actor/tenant mapping; canonical product configuration | Independent built-in operation, combined method enforcement, provider-specific issuer/audience/expiry/logout/revocation, cross-tenant denial, existing-login migration and tested rollback |
 | 2: first complete Go slice | Project/environment/reference reading in existing Go services; native React UI and MCP use the same domain behavior | Old/new differential tests on deterministic fixture data, pagination/import/role semantics, real UI, no value exposure, latency baseline |
 | 3: lifecycle and actions | Create/update/version/restore/delete, approval binding, idempotency, audit/outbox, source-action execution history | Positive/denied/conflict/concurrent/failure/cancel paths; encrypted restore; same human/AI authorization |
 | 4: application delivery | Rust broker plus Go CLI integration, target-only redemption, generation/import connection workflows | Real target app consumes a canary; agent never sees it; replay/expiry/revocation/wrong-process denial on supported OSes |
@@ -229,9 +234,10 @@ be inferred from file counts. Wave exit is evidence-based, not calendar-based.
    patch; prove root CLI, sidecar, panel and canonical image. Inventory React 19
    peer incompatibilities and Rust toolchain/MSRV independently.
 2. **AUTH-01:** trace `core/backend-go/internal/services/auth` and `permission`,
-   current TS middleware, and native route authentication. Specify Nomen
-   discovery/client registration and actor/organization mapping; keep integration
-   incomplete until real issuer acceptance. Do not weaken current login meanwhile.
+   current TS middleware, and native route authentication. Preserve built-in
+   credentials, factors, recovery and sessions while specifying optional federation
+   and shared actor/organization mapping. Follow IDENTITY-01..06 in 0074; retain
+   real issuer acceptance for each provider without making it a built-in dependency.
 3. **READ-01:** fully read `services/vaultix/reference-service.ts`, its DAL and
    router, existing Go project/secretmanager/permission services and callers.
    Author Go metadata queries against the existing store. Differential tests must

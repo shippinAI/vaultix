@@ -20,7 +20,9 @@ and [workstreams.json](migration/workstreams.json). The UI execution method is
 [0029](0029-ui-workflow-execution.md); product grouping and capability scope are
 [0049](0049-capability-product-plan.md) and [the capability catalog](capabilities/README.md).
 Public-service acceptance remains [0054](0054-public-cloud-service.md).
-Auth (Nomen) precedes Secrets. Mesh is outside this checkout's authorized work.
+Auth (built-in and federated) precedes Secrets. Mesh is outside this checkout's authorized work.
+The owner's 2026-10-30 [dual identity correction](0074-built-in-and-federated-identity.md)
+supersedes Nomen-only prerequisites in this queue and earlier architecture.
 
 ## Starting checkpoint
 
@@ -37,7 +39,17 @@ Exact checkpoint receipts and image/CLI identities are in
 prove public Nomen sign-in. Existing scoped proofs stay valid for their recorded
 claims. Nothing in this plan expands them into blanket parity or cloud readiness.
 
-## Immediate queue: finish the identity boundary
+## Immediate queue: preserve built-in identity and support federation
+
+Execute IDENTITY-01 through IDENTITY-06 in [0074](0074-built-in-and-federated-identity.md):
+characterize existing built-in and federated workflows, version instance login
+metadata, implement native built-in remote authorization, preserve shared actor
+and tenant policy, author accessible connection workflows, and prove both modes.
+Self-hosted built-in operation must not require Nomen. The current native CLI
+default to Nomen is an implementation gap, not the intended product contract.
+
+The external Nomen integration retains the obligations below. Its live provider
+gates apply to that integration; they do not block independent built-in identity.
 
 AUTH-02 has scoped authority-contract evidence; AUTH-03 is now in progress.
 The [researched execution breakdown](auth/nomen-execution-plan.md) maps the native

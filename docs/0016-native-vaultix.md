@@ -25,7 +25,9 @@ The native workspace, API identity, and AI connection choices are described in
 
 This supersedes the paid-tier policy in 0013 and the requirement in 0011/0014
 to deploy the panel beside the engine. It does not authorize a second vault,
-an authentication runtime fork, or work on mesh. Nomen remains the identity
+a fork of the Nomen runtime, or work on mesh. Vaultix retains and natively
+evolves its own identity system alongside optional federation, including Nomen.
+[0074](0074-built-in-and-federated-identity.md) supersedes the earlier Nomen-only
 boundary. The existing encrypted engine and its migrations remain the store.
 
 ## Landed in this migration

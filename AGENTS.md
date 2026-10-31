@@ -3,12 +3,20 @@
 **Owner:** AngryVibes LLC. **Host:** shippin.ai. **Product:** Vaultix.
 
 Vaultix is **Shippin secrets you own**. Stay in this tree. Sequence is
-only **Auth (Nomen) → Secrets (this instance) → Mesh (Zuul)**.
+only **Auth (built-in and federated) → Secrets (this instance) → Mesh (Zuul)**.
 
 This file is the agent router. Specs live in `docs/`. Humans start at
 [`README.md`](README.md).
 
-## Current direction (2026-10-25)
+## Current direction
+
+Identity correction (2026-10-30): support both Vaultix-managed identity and
+external federation, including Nomen/OIDC/SAML. Read
+`docs/0074-built-in-and-federated-identity.md`. Built-in accounts, MFA, recovery,
+sessions and machine identities remain first-class and work without Nomen.
+Both paths share existing accounts, tenant policy and the encrypted store.
+This supersedes earlier Nomen-only prerequisites; provider-specific acceptance
+remains required before enabling that integration.
 
 Public cloud target (2026-10-28): Vaultix.cloud is a true public cloud service
 operated on owned infrastructure, with the same engine available for self-hosting.
@@ -98,7 +106,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 -Build `Dockerfile.standalone-vaultix`.
 - `leftover/` is notes and dumps. Do not grow it.
 - No fetch, no clone, no connection to a snapshot host. `leftover/consider-upstream.sh` refuses (`docs/0015-frozen-no-connection.md`).
-- Identity is Nomen OIDC. Cookie/session stay in Nomen.
+- Identity supports built-in Vaultix accounts and optional external federation. Vaultix owns built-in credentials and application sessions; providers own their credentials and provider sessions. Preserve method policy and explicit session provenance.
 - Clyffy manages secret **references**, never values in chat or A2UI.
 - Catalog wins: `Decide` is pure. Frontier only with a recorded reason.
 - Vaultix software capabilities are included; feature availability and authorization are separate.
@@ -130,6 +138,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 
 | Task | Read |
 | --- | --- |
+| Identity / login / sessions | `docs/0074-built-in-and-federated-identity.md` + existing auth consumers |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
 | Stack migration / AI-managed lifecycle | `docs/0027-native-stack-and-ai-migration.md` + `docs/migration/` |

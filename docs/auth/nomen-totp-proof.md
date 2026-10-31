@@ -58,6 +58,15 @@ check exercises concurrent registration against the real API. Enrollment confirm
 remains a separate existing ceremony; its code is not newly classified as an
 authentication replay event by this change.
 
+The actual one-connection application gate also exposed an existing KMS startup
+deadlock: its root lookup and creation omitted the open transaction. Startup now
+reads through a short primary transaction, generates/encrypts a candidate root
+outside the transaction, then locks and rechecks before creating it. Concurrent
+instances use the committed winner. Temporary generated plaintext is cleared;
+stored root ciphertext and the existing format remain unchanged. Fresh-root
+concurrency, wrong-key denial and correct-key restart are additional acceptance
+checks. Software fixtures do not establish hardware/HSM acceptance.
+
 Empty migration down/up is supported. Nonempty down refuses to erase replay or
 proof provenance. Binary rollback retains the additive tables, factors and encrypted
 secrets. Older binaries do not write the new durable TOTP counter: their cache-loss
@@ -81,6 +90,11 @@ The private immutable plan is journal session
 
 Scoped unit checks currently pass. Integration, lint, canonical application and
 migration results are pending; no accepted artifact is recorded for this method yet.
+Candidate `8abfd322` passed its 16 application gates and 777 native integration
+outcomes, but failed the subsequent one-connection startup gate. Both the original
+failure and diagnostic reproduction are retained; they cannot count as migration
+acceptance. The repaired image must complete the unchanged obligations plus the
+additional root-startup checks before publication.
 The provider uses a TLS fixture. These checks cannot establish live Nomen, public
 login, remaining authentication methods, accessibility, capacity or enterprise parity.
 

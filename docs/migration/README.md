@@ -87,9 +87,12 @@ invent dates, load targets, provider credentials or deployment readiness.
 ## First queue
 
 The current checkpoint and ordered work packets are maintained in
-[0069 execution goal](../0069-execution-goal.md). The next code packet is AUTH-02:
-trace and define the native Nomen authority contract. The original sequence below
-remains the dependency outline; CLI renewal evidence does not close AUTH-01.
+[0069 execution goal](../0069-execution-goal.md). The owner's
+[dual identity correction](../0074-built-in-and-federated-identity.md) establishes
+IDENTITY-01..06 for independent built-in identity and optional federation.
+Retain the external AUTH-03/04/05 gates for Nomen; they are not prerequisites
+for built-in operation. The original sequence below remains the dependency
+outline; CLI renewal evidence does not close AUTH-01.
 
 `STACK-01 → AUTH-01 → READ-01 → ACTION-01 → INJECT-01`, as specified in ADR-0027.
 Shared React upgrade/accessibility work can proceed alongside domain

@@ -6,13 +6,22 @@ Product scope remains [the capability catalog](../capabilities/README.md) and
 [native migration](../0027-native-stack-and-ai-migration.md). This document decomposes
 those accepted packets; it does not introduce a replacement roadmap.
 
-## Required user journey
+## Scope correction: optional external identity
+
+The owner's [dual identity decision](../0074-built-in-and-federated-identity.md)
+requires first-class built-in Vaultix identity and optional external federation.
+This plan specifies the Nomen integration only. Its prerequisites do not gate
+built-in login or self-hosted operation. Preserve its protocol, binding, policy
+and live-provider obligations while executing the shared IDENTITY-01..06 queue.
+
+## Required user journey for the Nomen profile
 
 The target command is `vaultixl login --domain=https://vaultix.cloud` (the same
 native binary is also named `vaultix`). A new user should not need an issuer,
 OAuth client registration or federation configuration to get started. The instance
-supplies validated public connection metadata. The CLI shows Nomen's approval URL
-and short user code, supports another-device approval, and explains pending,
+supplies validated public connection metadata. When the Nomen profile is enabled
+and selected, the CLI shows Nomen's approval URL and short user code, supports
+another-device approval, and explains pending,
 denied, expired and canceled states. Nomen owns credentials, MFA and its session.
 Tokens never go in browser URLs, clipboard instructions, chat or A2UI events.
 
@@ -201,8 +210,9 @@ the local-password proof method and action-specific consumption; its verificatio
 and remaining method matrix are tracked separately. MFA/federation never fall back
 to password-only proof.
 
-Next implementation: AUTH-03 B native factor/SSO fresh-authentication proof,
-link/revoke confirmations and notifications, followed by C actor policy and
+For this optional integration, remaining implementation includes AUTH-03 B native
+factor/SSO fresh-authentication proof, link/revoke confirmations and notifications,
+followed by C actor policy and
 AUTH-04 source-action ownership. Persistence acceptance does not close the
 remaining B consumers. Public registration can proceed alongside this work; only the live
 gate waits for operator-controlled settings and human approval. No public login,

@@ -1476,12 +1476,12 @@ export const kmsServiceFactory = ({
   };
 
   const startService = async (hsmStatus: THsmStatus) => {
-    const kmsRootConfig = await kmsRootConfigDAL.transaction(async (tx) => {
+    let kmsRootConfig = await kmsRootConfigDAL.transaction(async (tx) => {
       await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.KmsRootKeyInit]);
-      // check if KMS root key was already generated and saved in DB
-      const existingRootConfig = await kmsRootConfigDAL.findById(KMS_ROOT_CONFIG_UUID);
-      if (existingRootConfig) return existingRootConfig;
+      return kmsRootConfigDAL.findById(KMS_ROOT_CONFIG_UUID, tx);
+    });
 
+    if (!kmsRootConfig) {
       const isHsmActive = hsmStatus.isHsmConfigured;
 
       logger.info(`KMS: Generating new ROOT Key with ${isHsmActive ? "HSM" : "software"} encryption`);
@@ -1489,19 +1489,32 @@ export const kmsServiceFactory = ({
 
       const encryptionStrategy = isHsmActive ? RootKeyEncryptionStrategy.HSM : RootKeyEncryptionStrategy.Software;
 
-      const encryptedRootKey = await $encryptRootKey(newRootKey, encryptionStrategy).catch((err) => {
+      let encryptedRootKey: Buffer;
+      try {
+        encryptedRootKey = await $encryptRootKey(newRootKey, encryptionStrategy);
+      } catch (err) {
         logger.error({ hsmEnabled: isHsmActive, encryptionStrategy }, "KMS: Failed to encrypt ROOT Key");
         throw err;
-      });
+      } finally {
+        newRootKey.fill(0);
+      }
 
-      const newRootConfig = await kmsRootConfigDAL.create({
-        // @ts-expect-error id is kept as fixed for idempotence and to avoid race condition
-        id: KMS_ROOT_CONFIG_UUID,
-        encryptedRootKey,
-        encryptionStrategy
+      kmsRootConfig = await kmsRootConfigDAL.transaction(async (tx) => {
+        await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.KmsRootKeyInit]);
+        // Another instance may have initialized the root while key generation ran.
+        const existingRootConfig = await kmsRootConfigDAL.findById(KMS_ROOT_CONFIG_UUID, tx);
+        if (existingRootConfig) return existingRootConfig;
+        return kmsRootConfigDAL.create(
+          {
+            // @ts-expect-error id is kept as fixed for idempotence and to avoid race condition
+            id: KMS_ROOT_CONFIG_UUID,
+            encryptedRootKey,
+            encryptionStrategy
+          },
+          tx
+        );
       });
-      return newRootConfig;
-    });
+    }
 
     const decryptedRootKey = await $decryptRootKey(kmsRootConfig);
 
