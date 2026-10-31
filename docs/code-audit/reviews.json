@@ -5798,7 +5798,7 @@
       "blob": "a90ed211a8cd8155f968d1879278386f8ffa15d9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-event-delivery.md"
@@ -5929,7 +5929,7 @@
       "blob": "7c20620882155e39c3fe3ee910804c58714ea095",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5949,7 +5949,7 @@
       "blob": "000cc37c76c7627a26f5e599a486a6bf8f11652a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5959,7 +5959,7 @@
       "blob": "110f6d4289f882db3a41e8fbf5e083b5f052bfd7",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5969,7 +5969,7 @@
       "blob": "9253abc659592e9d5584241c4fe9b340e69b7350",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5979,7 +5979,7 @@
       "blob": "688957b3e630d24b4023dfe493733a9434deefd2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5989,7 +5989,7 @@
       "blob": "4d501af3a8a9440006d7cc3febf680db24971eff",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5999,7 +5999,7 @@
       "blob": "9bf43e9c305a298c16c5ac2e7719489733d903ff",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored additive primary-database preparation and per-destination delivery state, immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Fourteen real PostgreSQL scenarios plus existing canonical session compatibility, full TypeScript check and lint pass. Actual notification persistence and acknowledgment share one connection/transaction. Image rollback verifier is authored but not yet run. Canonical image, actual recipient preparation/dispatch/registration/operations and public device flow remain open.",
+      "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

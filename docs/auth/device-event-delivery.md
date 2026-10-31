@@ -239,11 +239,32 @@ actual notification persistence and bounded recipient cleanup. The existing
 session compatibility test now rolls back the additive migrations in dependency
 order and preserves browser behavior. Full backend TypeScript checking and
 changed-file lint passed. Canonical image and migration-history rollback checks
-are pending; no dispatcher has been registered.
+are recorded below; no dispatcher has been registered.
 
 Receipts: `.cache/device-delivery-store-0hWQ6O/result.json`, `.cache/device-session-store-6FH1DU/result.json`,
 `.cache/device-delivery-store-typecheck.json` and
 `.cache/device-delivery-store-lint-fix.json`. The first eleven-case receipt
 preceded the added retention/locking assertions; it is not reused as evidence
-for the final fourteen-case implementation. Initial formatting and test typing
-failures remain local.
+for the final fourteen-case implementation. Initial formatting output is retained locally; the test typing correction
+is recorded in the journal.
+
+### Canonical delivery-state artifact
+
+Runtime source `34dd50262ac33ce759df91f91384861ed36d2893` produced
+`sha256:49a0d4be726f3916b73be0417f2665a6466d96efc53040c116457adc68f6c3ac`. All sixteen standard image gates passed.
+The exact image also passed all fourteen delivery-state scenarios, eleven existing
+source-capture scenarios, 25 native session integration/race outcomes, four native
+audit checks and three recorded-destination PostgreSQL/local SMTP scenarios.
+The existing session-store compatibility test covers the three additive migrations
+in dependency order.
+
+The real upgrade/rollback/reupgrade check advanced migration history, restarted
+the previous `39f67677` binary, invoked its authenticated session-revocation API,
+and preserved an unknown delivery alongside its immutable source. Reupgrade
+preserved that state and the newly pending revocation event. This is binary and
+store compatibility evidence, not a running source worker or public device flow.
+
+Receipts: `.cache/self-hosted-build-nOS7P1/result.json`, `.cache/device-delivery-store-Ye6tlN/result.json`,
+`.cache/device-source-store-2UehNG/result.json`, `.cache/device-delivery-rollback-pNAIje/result.json`,
+`.cache/native-audit-image-VALJJg/result.json`, `.cache/delivery-destination-store-oU6krt/result.json`,
+and `.cache/device-delivery-native-integration.json`.
