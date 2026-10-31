@@ -221,7 +221,7 @@ core/backend-go/tests/platform/auth/delegated_token_test.go	core/backend-go/test
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	core/backend-go/tests/platform/auth	authorization	Go-native	go	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	5f5cbec926e13babfa2fecac41338799902e898b	authored
-core/backend-go/tests/platform/auth/reauthentication_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	fd1c6186082458d002c32903c6af2fa6a0cf9338	authored
+core/backend-go/tests/platform/auth/reauthentication_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	60a55af6660f0c367a846db952f145ab4c094804	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	007524dc9d814ef06aff4de5e5037e10f5ba32b6	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	core/backend-go/tests/platform/bootstrap	foundation	Go-native	go	2286ce2df00016cb92368996abd39b3941abe158	verified

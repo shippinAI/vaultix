@@ -252,7 +252,7 @@ core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	568393176eefbb2d972bd17d0c598ae64c42d3c9	test	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	5f5cbec926e13babfa2fecac41338799902e898b	test	authored
-core/backend-go/tests/platform/auth/reauthentication_test.go	fd1c6186082458d002c32903c6af2fa6a0cf9338	test	authored
+core/backend-go/tests/platform/auth/reauthentication_test.go	60a55af6660f0c367a846db952f145ab4c094804	test	authored
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	007524dc9d814ef06aff4de5e5037e10f5ba32b6	test	verified
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified

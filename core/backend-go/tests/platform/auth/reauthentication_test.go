@@ -87,11 +87,17 @@ func TestReauthentication_RealPasswordBindingAndTargetedRevocation(t *testing.T)
 	require.NoError(t, err)
 	require.ErrorIs(t, fixture.service.Revoke(ctx, binding, linkOnly.Code), nomen.ErrLinkDenied)
 	revoke := nomen.IdentityIntent{Action: nomen.IdentityRevoke, Issuer: fixture.issuer, BindingID: binding}
+	otherBinding := uuid.New()
+	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vaultix_identity_bindings(id,issuer,subject,"userId","proofId","sessionId") VALUES($1,$2,$3,$4,$5,$6)`, otherBinding, fixture.issuer, "other-"+fixture.subject, actor.ActorID, uuid.New(), actor.TokenVersionID)
+	require.NoError(t, err)
 	revocation, err := producer.Authenticate(ctx, revoke, reauthPassword)
 	require.NoError(t, err)
 	_, err = fixture.service.BeginLink(ctx, revocation.Code)
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)
-	require.ErrorIs(t, fixture.service.Revoke(ctx, uuid.New(), revocation.Code), nomen.ErrLinkDenied)
+	require.ErrorIs(t, fixture.service.Revoke(ctx, otherBinding, revocation.Code), nomen.ErrLinkDenied)
+	otherOwner, err := fixture.service.Resolve(ctx, "other-"+fixture.subject)
+	require.NoError(t, err)
+	require.Equal(t, actor.ActorID, otherOwner)
 	require.NoError(t, fixture.service.Revoke(ctx, binding, revocation.Code))
 	require.ErrorIs(t, fixture.service.Revoke(ctx, binding, revocation.Code), nomen.ErrLinkDenied)
 	_, err = fixture.service.Resolve(ctx, fixture.subject)
@@ -191,9 +197,13 @@ func TestReauthentication_SupersessionExpiryAndChangesAfterProof(t *testing.T) {
 			case "other-user":
 				ctx, _ = newReauthenticationAccount(t)
 			case "other-session":
-				actor.TokenVersionID = uuid.New()
+				otherSession := uuid.New()
+				_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO auth_token_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES($1,$2,1,1,'127.0.0.1','alternative-session',NOW(),NOW(),NOW())`, otherSession, actor.ActorID)
+				require.NoError(t, err)
+				ctx, _ = reauthenticationContext(t, actor.ActorID, otherSession, actor.OrgID, actor.RootOrgID, 1)
 			case "other-org":
-				actor.OrgID = uuid.New()
+				otherOrg := reauthenticationOrganization(t, actor.ActorID, uuid.Nil)
+				ctx, _ = reauthenticationContext(t, actor.ActorID, actor.TokenVersionID, otherOrg, otherOrg, 1)
 			}
 			require.NoError(t, err)
 			_, err = fixture.service.BeginLink(ctx, proof.Code)
@@ -292,4 +302,112 @@ func TestReauthentication_OneConnection(t *testing.T) {
 	require.NoError(t, err)
 	_, err = fixture.service.CompleteLink(ctx, challenge.Code, "fixture-access-canary")
 	require.NoError(t, err)
+}
+
+func reauthenticationOrganization(t *testing.T, user, root uuid.UUID) uuid.UUID {
+	t.Helper()
+	id := uuid.New()
+	var parent *uuid.UUID
+	if root != uuid.Nil {
+		parent = &root
+	}
+	_, err := stack.DB().Primary().Exec(context.Background(), `INSERT INTO organizations(id,name,slug,"rootOrgId","parentOrgId") VALUES($1,'alternative-reauth-org',$2,$3,$3)`, id, id.String(), parent)
+	require.NoError(t, err)
+	t.Cleanup(func() {
+		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM organizations WHERE id=$1`, id)
+		require.NoError(t, err)
+	})
+	_, err = stack.DB().Primary().Exec(context.Background(), `INSERT INTO memberships(id,"actorUserId",scope,"scopeOrgId",status,"isActive") VALUES($1,$2,'organization',$3,'accepted',true)`, uuid.New(), user, id)
+	require.NoError(t, err)
+	return id
+}
+
+func reauthenticationContext(t *testing.T, user, session, org, root uuid.UUID, version int) (context.Context, *auth.Identity) {
+	t.Helper()
+	token := signUserJWT(t, infra.AuthSecret, func(c *apiauth.UserJWTClaims) {
+		c.UserID = user
+		c.TokenVersionID = session
+		c.OrganizationID = root
+		c.AccessVersion = version
+		c.AuthMethod = "email"
+		if org != root {
+			c.SubOrganizationID = org
+		}
+	})
+	actor, err := authenticator.ValidateJWT(context.Background(), token)
+	require.NoError(t, err)
+	return auth.WithIdentity(context.Background(), actor), actor
+}
+
+func TestReauthentication_ValidAlternativeIssuer(t *testing.T) {
+	ctx, _ := newReauthenticationAccount(t)
+	fixture, producer, intent := newReauthentication(t, stack.DB())
+	proof, err := producer.Authenticate(ctx, intent, reauthPassword)
+	require.NoError(t, err)
+	otherIssuer := "https://other-issuer.example.test"
+	logger := slog.New(slog.NewTextHandler(&fixture.logs, nil))
+	otherProducer, err := nomen.NewPasswordReauthentication(ctx, logger, &nomen.PasswordReauthenticationDeps{DB: stack.DB(), Issuer: otherIssuer})
+	require.NoError(t, err)
+	otherBinding, err := nomen.NewBindingService(ctx, logger, &nomen.BindingDeps{DB: stack.DB(), Issuer: otherIssuer, FreshAuthentication: otherProducer, Introspection: fixture.verifier})
+	require.NoError(t, err)
+	_, err = otherBinding.BeginLink(ctx, proof.Code)
+	require.ErrorIs(t, err, nomen.ErrLinkDenied)
+	_, err = fixture.service.BeginLink(ctx, proof.Code)
+	require.NoError(t, err)
+}
+
+func TestReauthentication_ExplicitVersionZero(t *testing.T) {
+	ctx, actor := newReauthenticationAccount(t)
+	_, err := stack.DB().Primary().Exec(ctx, `UPDATE auth_token_sessions SET "accessVersion"=0 WHERE id=$1`, actor.TokenVersionID)
+	require.NoError(t, err)
+	ctx, actor = reauthenticationContext(t, actor.ActorID, actor.TokenVersionID, actor.OrgID, actor.RootOrgID, 0)
+	require.NotNil(t, actor.SessionAccessVersion)
+	require.Zero(t, *actor.SessionAccessVersion)
+	fixture, producer, intent := newReauthentication(t, stack.DB())
+	proof, err := producer.Authenticate(ctx, intent, reauthPassword)
+	require.NoError(t, err)
+	_, err = fixture.service.BeginLink(ctx, proof.Code)
+	require.NoError(t, err)
+}
+
+func TestReauthentication_SuborganizationAndInstancePolicy(t *testing.T) {
+	for _, scenario := range []string{"root-mfa", "selected-mfa", "instance-password-disabled", "fips-instance", "suborg-success"} {
+		t.Run(scenario, func(t *testing.T) {
+			ctx, actor := newReauthenticationAccount(t)
+			child := reauthenticationOrganization(t, actor.ActorID, actor.OrgID)
+			ctx, actor = reauthenticationContext(t, actor.ActorID, actor.TokenVersionID, child, actor.OrgID, 1)
+			fixture, producer, intent := newReauthentication(t, stack.DB())
+			var err error
+			switch scenario {
+			case "root-mfa":
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE organizations SET "enforceMfa"=true WHERE id=$1`, actor.RootOrgID)
+			case "selected-mfa":
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE organizations SET "enforceMfa"=true WHERE id=$1`, actor.OrgID)
+			case "instance-password-disabled", "fips-instance":
+				var instance uuid.UUID
+				var enabled []string
+				var fips bool
+				require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT id,"enabledLoginMethods","fipsEnabled" FROM super_admin WHERE initialized IS TRUE ORDER BY id LIMIT 1`).Scan(&instance, &enabled, &fips))
+				t.Cleanup(func() {
+					_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE super_admin SET "enabledLoginMethods"=$2,"fipsEnabled"=$3 WHERE id=$1`, instance, enabled, fips)
+					require.NoError(t, err)
+				})
+				if scenario == "fips-instance" {
+					_, err = stack.DB().Primary().Exec(ctx, `UPDATE super_admin SET "fipsEnabled"=true WHERE id=$1`, instance)
+				} else {
+					_, err = stack.DB().Primary().Exec(ctx, `UPDATE super_admin SET "enabledLoginMethods"=ARRAY[]::text[] WHERE id=$1`, instance)
+				}
+			case "suborg-success":
+			}
+			require.NoError(t, err)
+			proof, err := producer.Authenticate(ctx, intent, reauthPassword)
+			if scenario != "suborg-success" {
+				require.ErrorIs(t, err, nomen.ErrReauthenticationMethod)
+				return
+			}
+			require.NoError(t, err)
+			_, err = fixture.service.BeginLink(ctx, proof.Code)
+			require.NoError(t, err)
+		})
+	}
 }

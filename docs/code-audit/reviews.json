@@ -5396,10 +5396,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
-      "blob": "fd1c6186082458d002c32903c6af2fa6a0cf9338",
+      "blob": "60a55af6660f0c367a846db952f145ab4c094804",
       "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates. Strengthened valid alternative session/organization/issuer/revoke-target oracles and zero-version/suborganization/instance-policy cases; final verification pending.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
