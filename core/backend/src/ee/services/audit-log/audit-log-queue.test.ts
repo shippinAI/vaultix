@@ -13,6 +13,7 @@ const mockConfig = {
   CLICKHOUSE_AUDIT_LOG_INSERT_SETTINGS: {},
   AUDIT_LOG_STREAMS_ENABLED: false,
   DISABLE_POSTGRES_AUDIT_LOG_STORAGE: false,
+  DISABLE_AUDIT_LOG_GENERATION: false,
   QUEUE_WORKERS_ENABLED: true
 };
 
@@ -137,6 +138,86 @@ const pushedEntry = (keyStore: { streamAdd: { mock: { calls: unknown[][] } } }) 
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockConfig.DISABLE_AUDIT_LOG_GENERATION = false;
+  mockConfig.DISABLE_POSTGRES_AUDIT_LOG_STORAGE = false;
+});
+
+describe.each([false, true])("durable audit destination (ClickHouse=%s)", (clickhouse) => {
+  test("acknowledges persistence and configured fanout without relying on the ingest cache", async () => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    h.keyStore.streamAdd.mockRejectedValue(new Error("cache unavailable"));
+    expect(await h.service.persistRecorded(nativeEnvelope as never)).toEqual({
+      storage: "persisted",
+      fanout: "enqueued"
+    });
+    const insert = clickhouse ? h.clickhouseClient!.insert : h.auditLogDAL.batchCreate;
+    expect(insert).toHaveBeenCalledTimes(1);
+    expect(insert.mock.invocationCallOrder[0]).toBeLessThan(
+      h.auditLogStreamOutboxService.enqueueForLogs.mock.invocationCallOrder[0]
+    );
+    expect(h.keyStore.streamAdd).not.toHaveBeenCalled();
+    expect(h.licenseService.getPlan).not.toHaveBeenCalled();
+    expect(h.projectDAL.findById).not.toHaveBeenCalled();
+  });
+
+  test.each(["storage", "fanout"])("propagates %s failure and replays the original event", async (failure) => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    const insert = clickhouse ? h.clickhouseClient!.insert : h.auditLogDAL.batchCreate;
+    if (failure === "storage") insert.mockRejectedValueOnce(new Error("storage unavailable"));
+    else h.auditLogStreamOutboxService.enqueueForLogs.mockRejectedValueOnce(new Error("fanout unavailable"));
+    await expect(h.service.persistRecorded(nativeEnvelope as never)).rejects.toThrow(`${failure} unavailable`);
+    if (failure === "storage") expect(h.auditLogStreamOutboxService.enqueueForLogs).not.toHaveBeenCalled();
+    await expect(h.service.persistRecorded(nativeEnvelope as never)).resolves.toEqual({
+      storage: "persisted",
+      fanout: "enqueued"
+    });
+    expect(insert.mock.calls[1]).toEqual(insert.mock.calls[0]);
+    expect(h.keyStore.streamTrim).not.toHaveBeenCalled();
+  });
+
+  test("reports disabled generation explicitly without claiming persistence", async () => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    mockConfig.DISABLE_AUDIT_LOG_GENERATION = true;
+    expect(await h.service.persistRecorded(nativeEnvelope as never)).toEqual({
+      storage: "disabled",
+      fanout: "disabled"
+    });
+    expect(h.auditLogDAL.batchCreate).not.toHaveBeenCalled();
+    expect(h.clickhouseClient?.insert ?? vi.fn()).not.toHaveBeenCalled();
+    expect(h.auditLogStreamOutboxService.enqueueForLogs).not.toHaveBeenCalled();
+  });
+
+  test("retains configured storage and fanout switches", async () => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    mockConfig.DISABLE_POSTGRES_AUDIT_LOG_STORAGE = true;
+    expect(await h.service.persistRecorded(nativeEnvelope as never)).toEqual({
+      storage: clickhouse ? "persisted" : "disabled",
+      fanout: "enqueued"
+    });
+    expect(h.auditLogDAL.batchCreate).not.toHaveBeenCalled();
+    mockConfig.AUDIT_LOG_STREAMS_ENABLED = false;
+    expect(await h.service.persistRecorded(nativeEnvelope as never)).toEqual({
+      storage: clickhouse ? "persisted" : "disabled",
+      fanout: "disabled"
+    });
+    expect(h.auditLogStreamOutboxService.enqueueForLogs).toHaveBeenCalledTimes(1);
+  });
+
+  test.each([
+    { id: "invalid" },
+    { orgId: "invalid" },
+    { createdAt: "invalid" },
+    { expiresAt: nativeEnvelope.createdAt },
+    { event: null }
+  ])("rejects invalid durable identity/retention without acknowledging it", async (invalid) => {
+    const h = await createHarness({ clickhouse, streamsEnabled: true });
+    await expect(h.service.persistRecorded({ ...nativeEnvelope, ...invalid } as never)).rejects.toThrow(
+      "Invalid recorded audit envelope"
+    );
+    expect(h.auditLogDAL.batchCreate).not.toHaveBeenCalled();
+    expect(h.clickhouseClient?.insert ?? vi.fn()).not.toHaveBeenCalled();
+    expect(h.auditLogStreamOutboxService.enqueueForLogs).not.toHaveBeenCalled();
+  });
 });
 
 describe.each([false, true])("native audit ingest (ClickHouse=%s)", (clickhouse) => {

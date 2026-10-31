@@ -35,3 +35,8 @@ export interface TCreateUserNotificationDTO {
   body?: string;
   link?: string;
 }
+
+export type TRecordedUserNotification = TCreateUserNotificationDTO & {
+  id: string;
+  createdAt: Date;
+};

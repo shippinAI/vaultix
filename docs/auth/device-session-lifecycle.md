@@ -203,3 +203,7 @@ The initial lint/type failures and cancelled image candidate remain recorded.
 These receipts are local evidence, not independent attestation or whole-identity
 acceptance. Complete delivery, actual API consumers and public workflow gates remain
 in the original open plan.
+
+The destination handoff and remaining source-worker requirements are tracked in
+[device event delivery](device-event-delivery.md). Destination acceptance does not
+close the source delivery or public login obligations.

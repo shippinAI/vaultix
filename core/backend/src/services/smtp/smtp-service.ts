@@ -2,6 +2,7 @@ import { render } from "@react-email/components";
 import { createTransport } from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import React from "react";
+import { validate as isUuid } from "uuid";
 
 import { getConfig } from "@app/lib/config/env";
 import { InternalServerError } from "@app/lib/errors";
@@ -191,9 +192,15 @@ const EmailTemplateMap: Record<SmtpTemplates, React.FC<any>> = {
 
 export const smtpServiceFactory = (cfg: TSmtpConfig) => {
   const smtp = createTransport(cfg);
+  const recordedSmtp = createTransport({
+    ...cfg,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000
+  });
   const isSmtpOn = Boolean(cfg.host);
 
-  const sendMail = async ({ substitutions, recipients, template, subjectLine, attachments }: TSmtpSendMail) => {
+  const renderMail = async ({ substitutions, template }: Pick<TSmtpSendMail, "substitutions" | "template">) => {
     const appCfg = getConfig();
 
     const EmailTemplate = EmailTemplateMap[template];
@@ -202,13 +209,17 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
       throw new Error(`Email template ${template} not found`);
     }
 
-    const htmlToSend = await render(
+    return render(
       React.createElement(EmailTemplate, {
         ...substitutions,
         isCloud: appCfg.isCloud,
         siteUrl: appCfg.SITE_URL
       })
     );
+  };
+
+  const sendMail = async ({ substitutions, recipients, template, subjectLine, attachments }: TSmtpSendMail) => {
+    const htmlToSend = await renderMail({ substitutions, template });
 
     if (isSmtpOn) {
       await smtp.sendMail({
@@ -229,6 +240,31 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     }
   };
 
+  const sendRecordedMail = async (data: TSmtpSendMail & { deliveryId: string }): Promise<"accepted" | "disabled"> => {
+    if (
+      !isUuid(data.deliveryId) ||
+      data.recipients.length !== 1 ||
+      !data.recipients[0] ||
+      data.recipients[0].length > 320 ||
+      !/^[^\s,;<>@]+@[^\s,;<>@]+$/u.test(data.recipients[0])
+    ) {
+      throw new Error("Invalid recorded mail delivery");
+    }
+    if (!isSmtpOn) return "disabled";
+    const result = await recordedSmtp.sendMail({
+      from: cfg.from,
+      to: data.recipients[0],
+      subject: data.subjectLine,
+      html: await renderMail(data),
+      attachments: data.attachments,
+      messageId: `<${data.deliveryId}@vaultix.cloud>`
+    });
+    if (!result.accepted?.length || result.rejected?.length) throw new Error("Recorded mail was not accepted");
+    // SMTP acceptance is not inbox delivery. A lost acknowledgement can still
+    // duplicate mail; Message-ID is stable but is not a server dedup guarantee.
+    return "accepted";
+  };
+
   const verify = async () => {
     const isConnected = smtp
       .verify()
@@ -245,7 +281,7 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     return isConnected;
   };
 
-  return { sendMail, verify };
+  return { sendMail, sendRecordedMail, verify };
 };
 
 export const throwIfSmtpError = (err: unknown, logMessage: string) => {

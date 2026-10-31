@@ -1394,10 +1394,11 @@ core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-sch
 core/backend/src/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-types.ts	governance	audit	core/backend/src/ee/services/audit-log-stream	fd8942925933708790f456ed02a0283aee26ca6e	unread
 core/backend/src/ee/services/audit-log/audit-log-clickhouse-dal.ts	governance	audit	core/backend/src/ee/services/audit-log	f545e5dfe4bdfb48b14abe6f711691b1126113d8	unread
 core/backend/src/ee/services/audit-log/audit-log-dal.ts	governance	audit	core/backend/src/ee/services/audit-log	e3b24c9e179bcf52462f14185881c15a8cfe6458	unread
-core/backend/src/ee/services/audit-log/audit-log-queue.test.ts	governance	audit	core/backend/src/ee/services/audit-log	932ce0481c81e41da093c504b9525e7b3095da4a	authored
-core/backend/src/ee/services/audit-log/audit-log-queue.ts	governance	audit	core/backend/src/ee/services/audit-log	20270a695bd573b02b7f42a7cd2b7907d99d2845	authored
+core/backend/src/ee/services/audit-log/audit-log-queue.test.ts	governance	audit	core/backend/src/ee/services/audit-log	fa68108a1f21eb0ead5858a0776d717a09b1f48c	authored
+core/backend/src/ee/services/audit-log/audit-log-queue.ts	governance	audit	core/backend/src/ee/services/audit-log	46e03357c5968797f4c49fde459f91281a8e1e43	authored
 core/backend/src/ee/services/audit-log/audit-log-service.ts	governance	audit	core/backend/src/ee/services/audit-log	e986a30cb3508f6ad7d185b3d73cc02e3678f2d4	unread
 core/backend/src/ee/services/audit-log/audit-log-types.ts	governance	audit	core/backend/src/ee/services/audit-log	81321eb11d7293ed621f8075e20c0acc6b9e71a5	unread
+core/backend/src/ee/services/audit-log/audit-recorded-store.spec.ts	governance	audit	core/backend/src/ee/services/audit-log	6de9fff70183db0e11f9523b054ee399850d8afb	authored
 core/backend/src/ee/services/audit-log/fixtures/native-ingest-v1.json	governance	audit	core/backend/src/ee/services/audit-log	61d7d6d766d6cb433f1bd7c6659eea97c04162dc	authored
 core/backend/src/ee/services/audit-report/audit-report-dal.ts	governance	audit	core/backend/src/ee/services/audit-report	352987de968e363793585313b3f29f885e97c39e	unread
 core/backend/src/ee/services/audit-report/audit-report-fns.ts	governance	audit	core/backend/src/ee/services/audit-report	094ce43b0124e21eda9f206b31fe1f59db6d6ade	unread
@@ -3451,9 +3452,10 @@ core/backend/src/services/microsoft-teams/microsoft-teams-service.ts	operate	fou
 core/backend/src/services/microsoft-teams/microsoft-teams-types.ts	operate	foundation	core/backend/src/services/microsoft-teams	7427cb0d53b92ccfb336d1f165d2a6037ab49085	unread
 core/backend/src/services/microsoft-teams/project-microsoft-teams-config-dal.ts	secrets	secrets	core/backend/src/services/microsoft-teams	b1f9fec02410849b80fa78054886e4b59b905758	unread
 core/backend/src/services/notification/notification-queue.ts	operate	foundation	core/backend/src/services/notification	4ce7c62ac038eab359dece9ec8e7b017850851d6	unread
-core/backend/src/services/notification/notification-service.ts	operate	foundation	core/backend/src/services/notification	ed50c3f1cf9292f863e6c9b44002e8ea5ab44cd1	unread
-core/backend/src/services/notification/notification-types.ts	operate	foundation	core/backend/src/services/notification	ad347a7231c737b0645ddc4be4d388363c26e2b5	unread
-core/backend/src/services/notification/user-notification-dal.ts	access	identity	core/backend/src/services/notification	334835de3024870c3d5819826d8eeadb399f43ac	unread
+core/backend/src/services/notification/notification-service.ts	operate	foundation	core/backend/src/services/notification	46eb93fec8e91d1aceb4c3c5c46d58d53764d67e	authored
+core/backend/src/services/notification/notification-store.spec.ts	operate	foundation	core/backend/src/services/notification	3a6670dcf40cdc54f99b826fcecb861f50c929cf	authored
+core/backend/src/services/notification/notification-types.ts	operate	foundation	core/backend/src/services/notification	dfe5c2a4efe6736803bfde877da3c8ae5849cc20	authored
+core/backend/src/services/notification/user-notification-dal.ts	access	identity	core/backend/src/services/notification	d7460e15f944d24ecb54c699a8ef8c2a03d581b3	authored
 core/backend/src/services/oauth-client/oauth-client-dal.ts	access	identity	core/backend/src/services/oauth-client	f4c18c8df589f7499e53ec4f701e5940b57fda1e	reviewed
 core/backend/src/services/oauth-client/oauth-client-fns.test.ts	access	identity	core/backend/src/services/oauth-client	9dc7258630f3c9dcb342f77c6b737d972c34ba93	unread
 core/backend/src/services/oauth-client/oauth-client-fns.ts	access	identity	core/backend/src/services/oauth-client	cbf926fa1c0f986f09ef42e60f931bf9faaccab1	reviewed
@@ -4016,7 +4018,9 @@ core/backend/src/services/smtp/emails/SignupExistingAccountTemplate.tsx	access	i
 core/backend/src/services/smtp/emails/SubOrganizationInvitationTemplate.tsx	operate	foundation	core/backend/src/services/smtp	0a8446e084ac558e13fcad15f0f28e46cb2cf589	unread
 core/backend/src/services/smtp/emails/UnlockAccountTemplate.tsx	operate	foundation	core/backend/src/services/smtp	b78fa418f356cc65d3b9c5c5214e9a1cc144c7de	unread
 core/backend/src/services/smtp/emails/index.ts	operate	foundation	core/backend/src/services/smtp	72fda33802c78ec83c0cf20897e26e165f282b7a	unread
-core/backend/src/services/smtp/smtp-service.ts	operate	foundation	core/backend/src/services/smtp	4a469a0b61ee310f724937b9e00aa69998d9020b	unread
+core/backend/src/services/smtp/smtp-recorded-transport.spec.ts	operate	foundation	core/backend/src/services/smtp	864a4b728dd7c4201789ad540fdca452a8fc16aa	authored
+core/backend/src/services/smtp/smtp-recorded.test.ts	operate	foundation	core/backend/src/services/smtp	865b06a2373d30410243c10547478dae9c82ac7d	authored
+core/backend/src/services/smtp/smtp-service.ts	operate	foundation	core/backend/src/services/smtp	c92a9b5f3beca359d21dfaa8c0c57b68226bf37f	authored
 core/backend/src/services/super-admin/invalidate-cache-queue.ts	operate	foundation	core/backend/src/services/super-admin	0eda4e643b4130417c876c1543b3dec029493802	unread
 core/backend/src/services/super-admin/super-admin-dal.ts	operate	foundation	core/backend/src/services/super-admin	89a20b20d07aac62ff9279cf93353174fbf5999a	verified
 core/backend/src/services/super-admin/super-admin-fns.ts	operate	foundation	core/backend/src/services/super-admin	12ac0e7d79e762547aea39b7451a347342acf75b	unread
@@ -9518,5 +9522,6 @@ scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b3
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
+scripts/verify-delivery-destination-store.mjs	operate	delivery	scripts	ad23e9723562174b538b2a41b1d469447f11dcc1	authored
 scripts/verify-device-session-store.mjs	operate	delivery	scripts	3af5bab80c1300a8ab50f26e38b4593de0c863cf	unread
 scripts/verify-native-audit-boundary.mjs	operate	delivery	scripts	ee8af04609af3a010c53cca1b55c99d58b4029f2	unread

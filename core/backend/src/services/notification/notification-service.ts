@@ -1,7 +1,9 @@
+import type { Knex } from "knex";
+
 import { NotFoundError, UnauthorizedError } from "@app/lib/errors";
 
 import { TNotificationQueueServiceFactory } from "./notification-queue";
-import { TCreateUserNotificationDTO } from "./notification-types";
+import { TCreateUserNotificationDTO, TRecordedUserNotification } from "./notification-types";
 import { TUserNotificationDALFactory } from "./user-notification-dal";
 
 type TNotificationServiceFactoryDep = {
@@ -33,6 +35,9 @@ export const notificationServiceFactory = ({
   const createUserNotifications = async (data: TCreateUserNotificationDTO[]) => {
     return notificationQueue.pushUserNotifications(data);
   };
+
+  const persistRecordedNotifications = async (data: TRecordedUserNotification[], tx?: Knex) =>
+    userNotificationDAL.persistRecorded(data, tx);
 
   const deleteUserNotification = async ({ userId, notificationId }: { userId: string; notificationId: string }) => {
     if (!userId) throw new UnauthorizedError({ message: "Invalid userId" });
@@ -74,6 +79,7 @@ export const notificationServiceFactory = ({
   return {
     listUserNotifications,
     createUserNotifications,
+    persistRecordedNotifications,
     deleteUserNotification,
     markUserNotificationsAsRead,
     updateUserNotification

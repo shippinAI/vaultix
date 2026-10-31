@@ -158,7 +158,7 @@ core/backend/src/ee/services/access-approval-request	authorization	Go-domain-mig
 core/backend/src/ee/services/agent-proxy-ca	pam	Go-domain-migration	2	95923bf8a987d911b40d0dab6654471e683ea0b6d4ecb10f3258314e7f7ff9a7	0	unassessed
 core/backend/src/ee/services/app-connections	integrations	Go-domain-migration	17	e2a95680f512f6f540bbb36906c6b3805ae9057d709d21443cc8488a0ad30b81	0	unassessed
 core/backend/src/ee/services/assume-privilege	authorization	Go-domain-migration	2	378bb8a0986c5f68aca99b81a218d3b50407baef597e06ee6966888902799346	0	unassessed
-core/backend/src/ee/services/audit-log	audit	Go-domain-migration	7	76d877d6f33a6e3ba93c934876d03ce6048e50a2839d0c3c3fe29929d9c3edfe	3	unassessed
+core/backend/src/ee/services/audit-log	audit	Go-domain-migration	8	50c35ac671df719f112f147e3893051a042213628f3ebe4128bb7878163a132d	4	unassessed
 core/backend/src/ee/services/audit-log-stream	audit	Go-domain-migration	33	25162430801bf15fc370df75cbce6abd0bea514b7c08d83f08df9d6e65b01987	0	unassessed
 core/backend/src/ee/services/audit-log-stream-outbox	audit	Go-domain-migration	5	79d1ac5becbd816dbad802ca2dcd124daaf2d2af7497fe17b647e20dd75ad1e3	0	unassessed
 core/backend/src/ee/services/audit-report	audit	Go-domain-migration	6	6f3815ef4ca3c2b0e1eeecd9ee077985b7c10f26fe1083abff35f640279b6c65	0	unassessed
@@ -404,8 +404,8 @@ core/backend/src/services/mfa-session	identity	Go-domain-migration	3	d37ea3eadb1
 core/backend/src/services/microsoft-teams	foundation	Go-domain-migration	3	99d682124f4611b6c34d8dfc59a91326bf2c3ad875342f4f4caec5bc53f36730	0	unassessed
 core/backend/src/services/microsoft-teams	integrations	Go-domain-migration	1	d78dad1272f45537d5dda1f2a728014babdd4377c425363d718d9da9d6be78ae	0	unassessed
 core/backend/src/services/microsoft-teams	secrets	Go-domain-migration	1	3f1133ae757214e53d518880d20e0b452806c82613223299af787f7e232ec7bb	0	unassessed
-core/backend/src/services/notification	foundation	Go-domain-migration	3	bef318651d29a2fed64adc8ed01a213b69f3963d2bae57f1b5468a07db57f376	0	unassessed
-core/backend/src/services/notification	identity	Go-domain-migration	1	f02a067a88929c4d7ba8e2aa37693e1aee98ed7b9ded1d2aa4687e307f96c96e	0	unassessed
+core/backend/src/services/notification	foundation	Go-domain-migration	4	51310ff8494bfdde20fd76e99f55db42a9729dd6362a0a73818778891d58609e	3	unassessed
+core/backend/src/services/notification	identity	Go-domain-migration	1	123badb23a17752d2dda464fc2b0da59c3a287d6778db190f1908b22fd94d64c	1	unassessed
 core/backend/src/services/oauth-client	identity	Go-domain-migration	7	26fb2e40aa0a8d8dda89401afb78325803561965836b1eda732562eb6a7ed9ef	5	unassessed
 core/backend/src/services/offline-usage-report	foundation	Go-domain-migration	3	25be14ddea25b1fbc10f77cb094d476ec9853c9163f324989da03b82e4c1689a	0	unassessed
 core/backend/src/services/org	foundation	Go-domain-migration	7	60fcfb3a1935ba2605c8bcd58ca7edcb2b7085eef898ece58bdc66d4d0bfeb35	1	unassessed
@@ -451,7 +451,7 @@ core/backend/src/services/slack	secrets	Go-domain-migration	1	bfb4aa3763a0265dbc
 core/backend/src/services/smtp	audit	Go-domain-migration	2	2f5e74af1d754aa0ac674c358ee484190385fc70376cc7147ec75c5a563c5285	0	unassessed
 core/backend/src/services/smtp	authorization	Go-domain-migration	4	20032ba9ee6879639283764acc89fdb35919d39492d281b32366cc6212a8cde7	0	unassessed
 core/backend/src/services/smtp	automation	Go-domain-migration	4	dbcb37e9c3439893dd6cf37dc204d420fc8377c7e94e52715a5a041a19a0902f	0	unassessed
-core/backend/src/services/smtp	foundation	Go-domain-migration	24	f34c94f7234fc872a935d466ab951de53f9430605b8874f38ac1f30a3bcb4ac4	0	unassessed
+core/backend/src/services/smtp	foundation	Go-domain-migration	26	16dc2a1deb918e68c7b52b5f842ed2ab290bec66a4d93dc11cd32033936a44ad	3	unassessed
 core/backend/src/services/smtp	identity	Go-domain-migration	7	0560bbae475a910952b3f940006623a6d4479dce6a1ea9943785bba9b86eeaa3	0	unassessed
 core/backend/src/services/smtp	integrations	Go-domain-migration	2	2bbd290424c668bb0d631df95cbe70543881aa4011ab1953c1ff2f9a81ddce08	0	unassessed
 core/backend/src/services/smtp	pam	Go-domain-migration	2	8188b3e81bec4a4a744d5b99784818e3b2e8118146920ee4d8c61ee86aaa3411	0	unassessed
@@ -1067,6 +1067,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	70	c389f22173b4822ab5111f01e729aa91b4636cc55194709425e33c8442f76c02	62	unassessed
+scripts	delivery	supporting-tooling-or-contract	71	d402e25d12fba3ec4ebb1217b2066fd4b52e1f4c4e42877da8729cf8ae263a04	63	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	2	41a0c7140d285050ca8d55ffe14e2bcbd1c554b77105be83e3edb371eb5e2f38	2	unassessed

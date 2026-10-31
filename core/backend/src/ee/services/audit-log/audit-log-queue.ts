@@ -1,6 +1,6 @@
 import type { ClickHouseClient } from "@clickhouse/client";
 import { randomUUID } from "crypto";
-import { v7 as uuidv7 } from "uuid";
+import { v7 as uuidv7, validate as isUuid } from "uuid";
 
 import type { TAuditLogs } from "@app/db/schemas";
 import { TAuditLogStreamOutboxServiceFactory } from "@app/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service";
@@ -33,6 +33,12 @@ type TAuditLogQueueServiceFactoryDep = {
 
 export type TAuditLogQueueServiceFactory = {
   pushToLog: (data: TCreateAuditLogDTO) => Promise<void>;
+  persistRecorded: (data: TAuditLogStreamEntry) => Promise<TRecordedAuditDisposition>;
+};
+
+export type TRecordedAuditDisposition = {
+  storage: "persisted" | "disabled";
+  fanout: "enqueued" | "disabled";
 };
 
 const normalizeJsonPayload = (payload: unknown) => {
@@ -158,6 +164,70 @@ export const auditLogQueueServiceFactory = async ({
     }
   };
 
+  const enrichEntry = (raw: unknown): TAuditLogs | null => {
+    if (typeof raw !== "object" || raw === null) {
+      logger.error("audit-log-queue: Skipping non-object audit log stream entry");
+      return null;
+    }
+
+    const entry = raw as TAuditLogStreamEntry & {
+      actorMetadata?: unknown;
+      eventType?: string;
+      eventMetadata?: unknown;
+    };
+    if (!entry.orgId || !entry.expiresAt) {
+      logger.error(
+        `audit-log-queue: Skipping entry missing resolved metadata [event=${entry.event?.type}] [orgId=${entry.orgId}]`
+      );
+      return null;
+    }
+
+    // Preserve flat entries emitted by older native workers during rolling upgrades.
+    // Do not fall back from a malformed nested event to a different flat event.
+    const actor = typeof entry.actor === "string" ? { type: entry.actor, metadata: entry.actorMetadata } : entry.actor;
+    const event =
+      entry.event === undefined && typeof entry.eventType === "string"
+        ? { type: entry.eventType, metadata: entry.eventMetadata }
+        : entry.event;
+    const createdAt = new Date(entry.createdAt);
+    const expiresAt = new Date(entry.expiresAt);
+    if (
+      typeof entry.id !== "string" ||
+      !entry.id ||
+      typeof entry.orgId !== "string" ||
+      typeof entry.createdAt !== "string" ||
+      typeof entry.expiresAt !== "string" ||
+      !actor ||
+      typeof actor.type !== "string" ||
+      !actor.type ||
+      !event ||
+      typeof event.type !== "string" ||
+      !event.type ||
+      !Number.isFinite(createdAt.getTime()) ||
+      !Number.isFinite(expiresAt.getTime())
+    ) {
+      logger.error("audit-log-queue: Skipping invalid audit ingest envelope");
+      return null;
+    }
+    return {
+      id: entry.id,
+      actor: actor.type,
+      actorMetadata: normalizeJsonPayload(actor.metadata),
+      ipAddress: normalizeEmptyValue(entry.ipAddress, isClickHouseBatchEnabled),
+      eventType: event.type,
+      eventMetadata: normalizeJsonPayload(event.metadata),
+      userAgent: normalizeEmptyValue(entry.userAgent, isClickHouseBatchEnabled),
+      userAgentType: normalizeEmptyValue(entry.userAgentType, isClickHouseBatchEnabled),
+      projectId: normalizeEmptyValue(entry.projectId, isClickHouseBatchEnabled),
+      orgId: entry.orgId,
+      expiresAt,
+      createdAt,
+      updatedAt: createdAt,
+      // project name is only stored for non-ClickHouse insertion
+      ...(!isClickHouseBatchEnabled ? { projectName: entry.projectName } : {})
+    };
+  };
+
   const insertBatch = async (logs: TAuditLogs[]) => {
     if (isClickHouseBatchEnabled) {
       await clickhouseClient!.insert({
@@ -169,6 +239,24 @@ export const auditLogQueueServiceFactory = async ({
     } else {
       await auditLogDAL.batchCreate(logs);
     }
+  };
+
+  // The durable source retains its record until this method acknowledges both
+  // configured destinations. Replays keep the source ID and sorting timestamp.
+  const persistRecorded = async (data: TAuditLogStreamEntry): Promise<TRecordedAuditDisposition> => {
+    const log = enrichEntry(data);
+    if (!log || !isUuid(log.id) || !isUuid(log.orgId ?? "") || !log.expiresAt || log.expiresAt <= log.createdAt) {
+      throw new Error("Invalid recorded audit envelope");
+    }
+    const cfg = getConfig();
+    if (cfg.DISABLE_AUDIT_LOG_GENERATION) return { storage: "disabled", fanout: "disabled" };
+    const storageEnabled = isClickHouseBatchEnabled || !cfg.DISABLE_POSTGRES_AUDIT_LOG_STORAGE;
+    if (storageEnabled) await insertBatch([log]);
+    if (cfg.AUDIT_LOG_STREAMS_ENABLED) await auditLogStreamOutboxService.enqueueForLogs([log]);
+    return {
+      storage: storageEnabled ? "persisted" : "disabled",
+      fanout: cfg.AUDIT_LOG_STREAMS_ENABLED ? "enqueued" : "disabled"
+    };
   };
 
   // Unified consumer: drain a batch from the ingest stream, map each (already-resolved) entry to
@@ -205,70 +293,6 @@ export const auditLogQueueServiceFactory = async ({
     // resolved at push time (see buildStreamEntry), so this is a pure shape transform with no DB
     // lookups. Entries that predate push-time resolution (in-flight during a rolling deploy) lack
     // `orgId`/`expiresAt`; drop them rather than persist a row with a missing org or expiry.
-    const enrichEntry = (raw: unknown): TAuditLogs | null => {
-      if (typeof raw !== "object" || raw === null) {
-        logger.error("audit-log-queue: Skipping non-object audit log stream entry");
-        return null;
-      }
-
-      const entry = raw as TAuditLogStreamEntry & {
-        actorMetadata?: unknown;
-        eventType?: string;
-        eventMetadata?: unknown;
-      };
-      if (!entry.orgId || !entry.expiresAt) {
-        logger.error(
-          `audit-log-queue: Skipping entry missing resolved metadata [event=${entry.event?.type}] [orgId=${entry.orgId}]`
-        );
-        return null;
-      }
-
-      // Preserve flat entries emitted by older native workers during rolling upgrades.
-      // Do not fall back from a malformed nested event to a different flat event.
-      const actor =
-        typeof entry.actor === "string" ? { type: entry.actor, metadata: entry.actorMetadata } : entry.actor;
-      const event =
-        entry.event === undefined && typeof entry.eventType === "string"
-          ? { type: entry.eventType, metadata: entry.eventMetadata }
-          : entry.event;
-      const createdAt = new Date(entry.createdAt);
-      const expiresAt = new Date(entry.expiresAt);
-      if (
-        typeof entry.id !== "string" ||
-        !entry.id ||
-        typeof entry.orgId !== "string" ||
-        typeof entry.createdAt !== "string" ||
-        typeof entry.expiresAt !== "string" ||
-        !actor ||
-        typeof actor.type !== "string" ||
-        !actor.type ||
-        !event ||
-        typeof event.type !== "string" ||
-        !event.type ||
-        !Number.isFinite(createdAt.getTime()) ||
-        !Number.isFinite(expiresAt.getTime())
-      ) {
-        logger.error("audit-log-queue: Skipping invalid audit ingest envelope");
-        return null;
-      }
-      return {
-        id: entry.id,
-        actor: actor.type,
-        actorMetadata: normalizeJsonPayload(actor.metadata),
-        ipAddress: normalizeEmptyValue(entry.ipAddress, isClickHouseBatchEnabled),
-        eventType: event.type,
-        eventMetadata: normalizeJsonPayload(event.metadata),
-        userAgent: normalizeEmptyValue(entry.userAgent, isClickHouseBatchEnabled),
-        userAgentType: normalizeEmptyValue(entry.userAgentType, isClickHouseBatchEnabled),
-        projectId: normalizeEmptyValue(entry.projectId, isClickHouseBatchEnabled),
-        orgId: entry.orgId,
-        expiresAt,
-        createdAt,
-        updatedAt: createdAt,
-        // project name is only stored for non-ClickHouse insertion
-        ...(!isClickHouseBatchEnabled ? { projectName: entry.projectName } : {})
-      };
-    };
 
     // Per-entry guard: a single unmappable entry (corrupt or unexpected shape) is skipped,
     // never allowed to throw out of the map and abort the whole batch
@@ -379,6 +403,7 @@ export const auditLogQueueServiceFactory = async ({
   }
 
   return {
-    pushToLog
+    pushToLog,
+    persistRecorded
   };
 };

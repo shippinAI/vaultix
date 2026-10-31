@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict';
+import {randomBytes,createHash} from 'node:crypto';
+import {mkdirSync,mkdtempSync,readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createDisposableImageHarness} from './lib/disposable-image.mjs';
+let phase='artifact';
+const h=createDisposableImageHarness(process.argv[2],()=>phase);
+const runner=process.argv[3];assert.match(runner??'',/^sha256:[a-f0-9]{64}$/);
+mkdirSync('.cache',{recursive:true});const directory=mkdtempSync(resolve('.cache/delivery-destination-store-'));
+const report={passed:false,artifact:h.artifact,runner,cases:[],sources:[]};
+const paths=['core/backend/src/services/smtp/smtp-service.ts','core/backend/src/services/smtp/smtp-recorded-transport.spec.ts','core/backend/src/ee/services/audit-log/audit-log-queue.ts','core/backend/src/ee/services/audit-log/audit-recorded-store.spec.ts','core/backend/src/services/notification/user-notification-dal.ts','core/backend/src/services/notification/notification-service.ts','core/backend/src/services/notification/notification-types.ts','core/backend/src/services/notification/notification-store.spec.ts','scripts/verify-delivery-destination-store.mjs'];
+report.sources=paths.map(path=>({path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}));
+const name='vaultix-delivery-store-'+randomBytes(8).toString('hex');
+try {
+ h.createNetwork(name);phase='database';
+ const password=randomBytes(24).toString('hex'),dbName=name+'-db',cacheName=name+'-cache';
+ const db=h.container(dbName,'postgres:16.6-alpine',[],{POSTGRES_USER:'vaultix',POSTGRES_DB:'vaultix',POSTGRES_PASSWORD:password});
+ const cache=h.container(cacheName,'redis:7.4-alpine');
+ await h.waitFor(()=>h.docker(['exec',db,'pg_isready','-U','vaultix','-d','vaultix'],{allowFailure:true}).status===0,'database');
+ await h.waitFor(()=>h.docker(['exec',cache,'redis-cli','ping'],{allowFailure:true}).status===0,'cache');
+ const connection=`postgres://vaultix:${password}@${dbName}:5432/vaultix`;
+ const app=h.container(name+'-app',h.artifact.id,[],{DB_CONNECTION_URI:connection,VAULTIX_CACHE_PROVIDER:'redis',VAULTIX_CACHE_URL:`redis://${cacheName}:6379`,ENCRYPTION_KEY:randomBytes(16).toString('hex'),AUTH_SECRET:randomBytes(32).toString('hex'),SITE_URL:'http://127.0.0.1:8200',TELEMETRY_ENABLED:'false',DISABLE_UPDATE_CHECK:'true'});
+ await h.ready(app);phase='existing built-in owner';
+ const owner=await h.request(app,'/api/v1/admin/signup',{method:'POST',body:{email:name+'@vaultix.invalid',password:'Vx9!'+randomBytes(24).toString('hex'),firstName:'Store',organizationName:'Store verification'}});
+ const user=h.sql(db,`SELECT id FROM users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
+ h.output(['stop',app]);phase='real audit and notification destinations';
+ const test=h.container(name+'-test',runner,['sleep','600'],{VAULTIX_SESSION_TEST_DATABASE:connection,VAULTIX_SESSION_TEST_USER:user,VAULTIX_SESSION_TEST_ORG:owner.organization.id});
+ h.output(['cp',resolve('core/backend/src'),test+':/app/']);
+ const config=resolve(directory,'vitest.session.config.mts');writeFileSync(config,`import {defineConfig} from 'vitest/config';export default defineConfig({test:{include:['src/services/smtp/smtp-recorded-transport.spec.ts','src/services/notification/notification-store.spec.ts','src/ee/services/audit-log/audit-recorded-store.spec.ts'],testTimeout:30000},resolve:{alias:{'@app':'/app/src'}}});`);
+ h.output(['cp',config,test+':/app/vitest.session.config.mts']);
+ const result=h.docker(['exec','-w','/app',test,'node','node_modules/vitest/vitest.mjs','run','-c','vitest.session.config.mts','--reporter=json','--outputFile=/app/session-result.json'],{allowFailure:true});
+ h.output(['cp',test+':/app/session-result.json',resolve(directory,'tests.json')]);
+ const outcome=JSON.parse(readFileSync(resolve(directory,'tests.json')));
+ report.cases=outcome.testResults.flatMap(r=>r.assertionResults).map(r=>({name:r.fullName,status:r.status}));
+ assert.equal(result.status,0,'Delivery destination store tests failed; raw diagnostics retained privately');assert.ok(report.cases.length>0&&report.cases.every(c=>c.status==='passed'));
+ phase='existing application restart';h.output(['start',app]);await h.ready(app);
+ assert.equal((await h.request(app,'/api/v1/admin/config')).config.initialized,true);
+ report.applicationRestart=true;report.passed=true;
+} catch(error) {report.failure={phase,message:error.code==='ERR_ASSERTION'?error.message:'Delivery destination store verification failed; raw diagnostics withheld.'};process.exitCode=1;}
+finally {report.cleanupPassed=h.cleanup();if(!report.cleanupPassed){report.passed=false;process.exitCode=1}writeFileSync(resolve(directory,'result.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({passed:report.passed,cases:report.cases,failure:report.failure,cleanupPassed:report.cleanupPassed,directory}));}
