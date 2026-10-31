@@ -65,7 +65,7 @@ Notification/audit export retention remains a separate required consumer.
 | Existing account/policy | New proof path | Remaining acceptance |
 | --- | --- | --- |
 | Verified local email/password, no required MFA/federation, selected organization | Native password producer and transaction-bound consumer implemented | Actual canonical DB, concurrency, lifecycle, hash compatibility and regression checks below |
-| User or organization requires MFA | Explicitly unavailable; cannot fall back to password only | Native TOTP, email challenge and passkey ceremonies with current method policy, replay/attempt controls and cancellation |
+| User or organization requires MFA | [Native password-plus-TOTP](nomen-totp-proof.md) is implemented and under verification; other required methods remain unavailable; no password-only fallback | Canonical TOTP acceptance, native email challenge and passkey ceremonies with current method policy, replay/attempt controls and cancellation |
 | Federated/SSO account or enforced federation | Explicitly unavailable | Purpose-bound fresh provider assertion and assurance policy; no generic local session or email match substitutes |
 | FIPS-enabled instance | Explicitly unavailable | Separately accepted native cryptographic deployment profile; format compatibility is not certification |
 | Browser/CLI/Clyffy | No new public route or tool | Human confirmation, origin/CSRF/state/PKCE, guided accessible UI, notifications, actor/tenant policy and live Nomen acceptance |

@@ -37,18 +37,22 @@ var (
 )
 
 type PasswordReauthenticationDeps struct {
-	DB     pg.DB
-	Issuer string
+	DB           pg.DB
+	Issuer       string
+	FactorCrypto AuthenticationFactorCrypto
+	FactorReplay AuthenticationFactorReplay
 }
 
-// PasswordReauthentication owns the local-password method only. MFA, federation,
-// disabled password login and absent organization context fail closed. This does
+// PasswordReauthentication owns password and password-plus-TOTP methods. Other
+// required factors, federation and disabled password login fail closed. This does
 // not enable a public route or replace the existing login/MFA flows.
 type PasswordReauthentication struct {
-	db     pg.DB
-	issuer string
-	logger *slog.Logger
-	slots  chan struct{}
+	db           pg.DB
+	issuer       string
+	logger       *slog.Logger
+	slots        chan struct{}
+	factorCrypto AuthenticationFactorCrypto
+	factorReplay AuthenticationFactorReplay
 }
 
 type ReauthenticationProof struct {
@@ -69,7 +73,10 @@ func NewPasswordReauthentication(_ context.Context, logger *slog.Logger, deps *P
 	if fips140.Enabled() {
 		return nil, ErrReauthenticationMethod
 	}
-	return &PasswordReauthentication{db: deps.DB, issuer: deps.Issuer, logger: logger, slots: make(chan struct{}, 2)}, nil
+	if (deps.FactorCrypto == nil) != (deps.FactorReplay == nil) {
+		return nil, ErrConfiguration
+	}
+	return &PasswordReauthentication{db: deps.DB, issuer: deps.Issuer, logger: logger, slots: make(chan struct{}, 2), factorCrypto: deps.FactorCrypto, factorReplay: deps.FactorReplay}, nil
 }
 
 func (s *PasswordReauthentication) validateIntent(intent IdentityIntent) error {
@@ -100,33 +107,37 @@ func (s *PasswordReauthentication) transaction(ctx context.Context, fn func(cont
 // credential locks only database rows. Expensive password verification happens
 // between transactions; the current account, session, policy and hash are checked
 // again before issuing or consuming a proof.
-func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, actor *auth.Identity, intent IdentityIntent) (string, error) {
+func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, actor *auth.Identity, intent IdentityIntent, useTOTP bool) (*reauthenticationCredential, error) {
 	if actor.SessionAccessVersion == nil || actor.OrgID == uuid.Nil || actor.RootOrgID == uuid.Nil {
-		return "", ErrLinkDenied
+		return nil, ErrLinkDenied
+	}
+	if useTOTP && (s.factorCrypto == nil || s.factorReplay == nil) {
+		return nil, ErrReauthenticationMethod
 	}
 	if err := lockAccount(ctx, tx, actor, *actor.SessionAccessVersion); err != nil {
-		return "", err
+		return nil, err
 	}
-	var encoded string
+	var encoded, userMethod string
 	var passwordAllowed, mfaEnabled bool
-	err := tx.QueryRow(ctx, `SELECT COALESCE("hashedPassword",''),COALESCE('email'=ANY("authMethods"),false) AND "isEmailVerified" IS TRUE,"isMfaEnabled" IS TRUE FROM users WHERE id=$1`, actor.ActorID).Scan(&encoded, &passwordAllowed, &mfaEnabled)
+	err := tx.QueryRow(ctx, `SELECT COALESCE("hashedPassword",''),COALESCE('email'=ANY("authMethods"),false) AND "isEmailVerified" IS TRUE,"isMfaEnabled" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM users WHERE id=$1`, actor.ActorID).Scan(&encoded, &passwordAllowed, &mfaEnabled, &userMethod)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	if !passwordAllowed || encoded == "" || mfaEnabled || actor.AuthMethod != "email" {
-		return "", ErrReauthenticationMethod
+	if !passwordAllowed || encoded == "" || actor.AuthMethod != "email" {
+		return nil, ErrReauthenticationMethod
 	}
-	rows, err := tx.Query(ctx, `SELECT id,COALESCE("rootOrgId",id),"enforceMfa" IS TRUE,"authEnforced" IS TRUE FROM organizations WHERE id=$1 OR id=$2 ORDER BY id FOR SHARE`, actor.OrgID, actor.RootOrgID)
+	rows, err := tx.Query(ctx, `SELECT id,COALESCE("rootOrgId",id),"enforceMfa" IS TRUE,"authEnforced" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM organizations WHERE id=$1 OR id=$2 ORDER BY id FOR SHARE`, actor.OrgID, actor.RootOrgID)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	foundOrg, foundRoot, allowed := false, false, true
+	foundOrg, foundRoot, allowed, orgRequired := false, false, true, false
 	for rows.Next() {
 		var id, root uuid.UUID
 		var orgMfa, federated bool
-		if err := rows.Scan(&id, &root, &orgMfa, &federated); err != nil {
+		var method string
+		if err := rows.Scan(&id, &root, &orgMfa, &federated, &method); err != nil {
 			rows.Close()
-			return "", err
+			return nil, err
 		}
 		if id == actor.OrgID {
 			foundOrg = root == actor.RootOrgID
@@ -134,40 +145,61 @@ func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, ac
 		if id == actor.RootOrgID {
 			foundRoot = true
 		}
-		allowed = allowed && !orgMfa && !federated
+		orgRequired = orgRequired || orgMfa
+		allowed = allowed && !federated && (!orgMfa || (useTOTP && method == "totp"))
 	}
 	rows.Close()
 	if err := rows.Err(); err != nil {
-		return "", err
+		return nil, err
 	}
 	if !foundOrg || !foundRoot {
-		return "", ErrLinkDenied
+		return nil, ErrLinkDenied
 	}
-	if !allowed {
-		return "", ErrReauthenticationMethod
+	// Enforced organization methods override the user preference. Conflicting
+	// root/selected requirements cannot be satisfied by substituting one factor.
+	if !allowed || (!orgRequired && mfaEnabled && (!useTOTP || userMethod != "totp")) {
+		return nil, ErrReauthenticationMethod
 	}
 	var emailEnabled, fipsEnabled bool
 	err = tx.QueryRow(ctx, `SELECT "enabledLoginMethods" IS NULL OR 'email'=ANY("enabledLoginMethods"),"fipsEnabled" FROM super_admin WHERE initialized IS TRUE ORDER BY id LIMIT 1 FOR SHARE`).Scan(&emailEnabled, &fipsEnabled)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if !emailEnabled || fipsEnabled {
-		return "", ErrReauthenticationMethod
+		return nil, ErrReauthenticationMethod
 	}
 	if intent.Action == IdentityRevoke {
 		var owned bool
 		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM vaultix_identity_bindings WHERE id=$1 AND "userId"=$2 AND issuer=$3)`, intent.BindingID, actor.ActorID, s.issuer).Scan(&owned)
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 		if !owned {
-			return "", ErrLinkDenied
+			return nil, ErrLinkDenied
 		}
 	}
-	return encoded, nil
+	credential := &reauthenticationCredential{password: encoded}
+	if useTOTP {
+		err = tx.QueryRow(ctx, `SELECT id,"encryptedSecret" FROM totp_configs WHERE "userId"=$1 AND "isVerified" IS TRUE FOR SHARE`, actor.ActorID).Scan(&credential.factorID, &credential.encryptedFactor)
+		if err != nil {
+			return nil, err
+		}
+		credential.factorDigest = sha256.Sum256(credential.encryptedFactor)
+	}
+	return credential, nil
 }
 
 func (s *PasswordReauthentication) Authenticate(ctx context.Context, intent IdentityIntent, password string) (*ReauthenticationProof, error) {
+	return s.authenticate(ctx, intent, password, "", false)
+}
+
+// AuthenticateTOTP proves both current password and the enrolled authenticator.
+// It never treats a generic MFA session or a caller-supplied time as authority.
+func (s *PasswordReauthentication) AuthenticateTOTP(ctx context.Context, intent IdentityIntent, password, code string) (*ReauthenticationProof, error) {
+	return s.authenticate(ctx, intent, password, code, true)
+}
+
+func (s *PasswordReauthentication) authenticate(ctx context.Context, intent IdentityIntent, password, totpCode string, useTOTP bool) (*ReauthenticationProof, error) {
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 	actor, err := linkingActor(ctx)
@@ -177,13 +209,13 @@ func (s *PasswordReauthentication) Authenticate(ctx context.Context, intent Iden
 	if err := s.validateIntent(intent); err != nil {
 		return nil, err
 	}
-	if password == "" || len(password) > 1024 {
+	if password == "" || len(password) > 1024 || (useTOTP && !validTOTPCode(totpCode)) {
 		return nil, ErrLinkDenied
 	}
-	var encoded string
+	var credential *reauthenticationCredential
 	err = s.transaction(ctx, func(ctx context.Context, tx pgx.Tx) error {
 		var err error
-		encoded, err = s.credential(ctx, tx, actor, intent)
+		credential, err = s.credential(ctx, tx, actor, intent, useTOTP)
 		if err != nil {
 			return err
 		}
@@ -201,32 +233,68 @@ func (s *PasswordReauthentication) Authenticate(ctx context.Context, intent Iden
 	if err != nil {
 		return nil, s.failure(ctx, err)
 	}
-	if err := verifyPassword(ctx, s.slots, password, encoded); err != nil {
+	if err := verifyPassword(ctx, s.slots, password, credential.password); err != nil {
 		return nil, err
+	}
+	var step int64
+	if useTOTP {
+		secret, err := s.factorCrypto.DecryptAuthenticationFactor(ctx, credential.encryptedFactor)
+		if err != nil {
+			return nil, ErrBindingUnavailable
+		}
+		step, err = matchTOTP(secret, totpCode, time.Now())
+		clear(secret)
+		if err != nil {
+			return nil, err
+		}
+		// Keep the legacy cross-runtime exclusion. Once claimed, never release the
+		// code on a later SQL failure; recovery uses the next authenticator code.
+		claimed, err := s.factorReplay.SetItemWithExpiryNX(ctx, "used-totp-code:"+actor.ActorID.String()+":"+totpCode, 120*time.Second, "1")
+		if err != nil {
+			return nil, ErrBindingUnavailable
+		}
+		if !claimed {
+			return nil, ErrLinkDenied
+		}
 	}
 	var random [32]byte
 	if _, err := rand.Read(random[:]); err != nil {
 		return nil, ErrBindingUnavailable
 	}
 	code := base64.RawURLEncoding.EncodeToString(random[:])
-	digest, policy := sha256.Sum256([]byte(code)), sha256.Sum256([]byte(encoded))
+	digest, policy := sha256.Sum256([]byte(code)), credential.policyDigest()
+	proofID := uuid.New()
 	var expires time.Time
 	err = s.transaction(ctx, func(ctx context.Context, tx pgx.Tx) error {
-		current, err := s.credential(ctx, tx, actor, intent)
+		current, err := s.credential(ctx, tx, actor, intent, useTOTP)
 		if err != nil {
 			return err
 		}
-		if current != encoded {
+		if current.policyDigest() != policy {
 			return ErrLinkDenied
+		}
+		if useTOTP {
+			if err := consumeTOTPStep(ctx, tx, current.factorID, step); err != nil {
+				return err
+			}
 		}
 		var target *uuid.UUID
 		if intent.BindingID != uuid.Nil {
 			target = &intent.BindingID
 		}
-		return tx.QueryRow(ctx, `INSERT INTO vaultix_identity_reauth_proofs ("userId",id,digest,issuer,action,"bindingId","sessionId","accessVersion","orgId","policyDigest","authenticatedAt","expiresAt")
+		err = tx.QueryRow(ctx, `INSERT INTO vaultix_identity_reauth_proofs ("userId",id,digest,issuer,action,"bindingId","sessionId","accessVersion","orgId","policyDigest","authenticatedAt","expiresAt")
    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,statement_timestamp(),statement_timestamp()+interval '5 minutes')
    ON CONFLICT ("userId") DO UPDATE SET id=EXCLUDED.id,digest=EXCLUDED.digest,issuer=EXCLUDED.issuer,action=EXCLUDED.action,"bindingId"=EXCLUDED."bindingId","sessionId"=EXCLUDED."sessionId","accessVersion"=EXCLUDED."accessVersion","orgId"=EXCLUDED."orgId","policyDigest"=EXCLUDED."policyDigest","consumedAt"=NULL,"authenticatedAt"=EXCLUDED."authenticatedAt","expiresAt"=EXCLUDED."expiresAt"
-   RETURNING "expiresAt"`, actor.ActorID, uuid.New(), digest[:], s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&expires)
+   RETURNING "expiresAt"`, actor.ActorID, proofID, digest[:], s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&expires)
+		if err != nil {
+			return err
+		}
+		if useTOTP {
+			_, err = tx.Exec(ctx, `INSERT INTO vaultix_identity_reauth_totp ("userId","proofId","factorId","factorDigest",step) VALUES($1,$2,$3,$4,$5) ON CONFLICT ("userId") DO UPDATE SET "proofId"=EXCLUDED."proofId","factorId"=EXCLUDED."factorId","factorDigest"=EXCLUDED."factorDigest",step=EXCLUDED.step`, actor.ActorID, proofID, current.factorID, current.factorDigest[:], step)
+		} else {
+			_, err = tx.Exec(ctx, `DELETE FROM vaultix_identity_reauth_totp WHERE "userId"=$1`, actor.ActorID)
+		}
+		return err
 	})
 	if err != nil {
 		return nil, s.failure(ctx, err)
@@ -249,11 +317,12 @@ func (s *PasswordReauthentication) VerifyIdentityAction(ctx context.Context, tx 
 	if err != nil || len(decoded) != 32 {
 		return nil, ErrLinkDenied
 	}
-	encoded, err := s.credential(ctx, tx, actor, intent)
+	digest := sha256.Sum256([]byte(proof))
+	credential, err := s.proofCredential(ctx, tx, actor, intent, digest[:], uuid.Nil)
 	if err != nil {
 		return nil, s.failure(ctx, err)
 	}
-	digest, policy := sha256.Sum256([]byte(proof)), sha256.Sum256([]byte(encoded))
+	policy := credential.policyDigest()
 	authorization := new(LinkAuthorization)
 	var target *uuid.UUID
 	if intent.BindingID != uuid.Nil {
@@ -275,11 +344,11 @@ func (s *PasswordReauthentication) ValidateIdentityAction(ctx context.Context, t
 	if err := s.validateIntent(intent); err != nil {
 		return err
 	}
-	encoded, err := s.credential(ctx, tx, actor, intent)
+	credential, err := s.proofCredential(ctx, tx, actor, intent, nil, proofID)
 	if err != nil {
 		return s.failure(ctx, err)
 	}
-	policy := sha256.Sum256([]byte(encoded))
+	policy := credential.policyDigest()
 	var target *uuid.UUID
 	if intent.BindingID != uuid.Nil {
 		target = &intent.BindingID

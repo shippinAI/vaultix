@@ -59,7 +59,7 @@ func newReauthentication(t *testing.T, db pg.DB) (*linkingFixture, *nomen.Passwo
 	t.Helper()
 	fixture := newLinkingFixture(t, db)
 	logger := slog.New(slog.NewTextHandler(&fixture.logs, nil))
-	producer, err := nomen.NewPasswordReauthentication(context.Background(), logger, &nomen.PasswordReauthenticationDeps{DB: db, Issuer: fixture.issuer})
+	producer, err := nomen.NewPasswordReauthentication(context.Background(), logger, &nomen.PasswordReauthenticationDeps{DB: db, Issuer: fixture.issuer, FactorCrypto: nil, FactorReplay: nil})
 	require.NoError(t, err)
 	fixture.service, err = nomen.NewBindingService(context.Background(), logger, &nomen.BindingDeps{DB: db, Issuer: fixture.issuer, FreshAuthentication: producer, Introspection: fixture.verifier})
 	require.NoError(t, err)
@@ -348,7 +348,7 @@ func TestReauthentication_ValidAlternativeIssuer(t *testing.T) {
 	require.NoError(t, err)
 	otherIssuer := "https://other-issuer.example.test"
 	logger := slog.New(slog.NewTextHandler(&fixture.logs, nil))
-	otherProducer, err := nomen.NewPasswordReauthentication(ctx, logger, &nomen.PasswordReauthenticationDeps{DB: stack.DB(), Issuer: otherIssuer})
+	otherProducer, err := nomen.NewPasswordReauthentication(ctx, logger, &nomen.PasswordReauthenticationDeps{DB: stack.DB(), Issuer: otherIssuer, FactorCrypto: nil, FactorReplay: nil})
 	require.NoError(t, err)
 	otherBinding, err := nomen.NewBindingService(ctx, logger, &nomen.BindingDeps{DB: stack.DB(), Issuer: otherIssuer, FreshAuthentication: otherProducer, Introspection: fixture.verifier})
 	require.NoError(t, err)

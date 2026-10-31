@@ -5304,12 +5304,12 @@
     },
     {
       "path": "scripts/test-nomen-binding-migration.mjs",
-      "blob": "26b8200acc86730f302d9340f858c3369b1ff23c",
-      "status": "verified",
+      "blob": "0affd1ef399ec024b1b18960661466952bfaff79",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Complete harness reviewed and extended with actual previous-binary factor enrollment, one-connection concurrent registration, three-migration round trip, retained TOTP replay/provenance and previous-binary decryption/deletion compatibility. Candidate verification is pending; no new canonical release acceptance claimed.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-totp-proof.md"
       ]
     },
     {
@@ -5364,22 +5364,22 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/reauthentication.go",
-      "blob": "ae5a6b387cb251e4a0ff45399264c89ad1f50454",
-      "status": "verified",
+      "blob": "5e4457a78e1866adc8f7f029abe331f2d1c4ac27",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Complete producer/consumer read and native password-plus-TOTP implementation. Current required-method, factor, session and credential checks; shared attempt budget; atomic step/proof/provenance writes. Public mounting and full method matrix remain open. Candidate verification is pending; no new canonical release acceptance claimed.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-totp-proof.md"
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
-      "blob": "26ac1cb6f41dfc772467b951a02728735e4a54f9",
-      "status": "verified",
+      "blob": "cabc60f0bb5b37bb4f47e26b1d2ce9a44ea869f5",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Existing accepted password regression assertions preserved. Two constructor calls explicitly supply absent factor dependencies for password-only compatibility; updated constructor usage requires current regression/lint evidence. Candidate verification is pending; no new canonical release acceptance claimed.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-totp-proof.md"
       ]
     },
     {
@@ -5394,12 +5394,102 @@
     },
     {
       "path": "docs/auth/nomen-reauthentication.md",
-      "blob": "0ed6c3921a240e1fbd9f9a9b54769be985a7f541",
-      "status": "verified",
+      "blob": "5a1a77a73d1f3a39bfedb542c7a94fbed5081199",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
+      "scope": "Previous accepted password evidence retained; method matrix now points to in-progress native TOTP acceptance without claiming public MFA readiness. Candidate verification is pending; no new canonical release acceptance claimed.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/reauthentication_factor.go",
+      "blob": "fa88ed7c55615a49039cde397b5aa4586de73544",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new helper. Narrow crypto/cache interfaces, domain-separated factor policy digest, monotonic PostgreSQL step consumption and proof-UUID-bound factor provenance. No external I/O inside the binding transaction. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/totp.go",
+      "blob": "9c18150d609f9f6913726ea55d9c61432e8d3b45",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new bounded SHA-1 TOTP verifier matching pinned enrolled-factor profile and highest accepted time step. Independently generated RFC/Node vectors exist; no FIPS acceptance claimed. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/nomen/totp_test.go",
+      "blob": "069db5665782a5e010eabda522a785f00cc5e8b1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete independent RFC and pinned Node vectors plus malformed-input and window denial assertions. These are algorithm compatibility evidence, not complete authentication acceptance. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/kms/authentication_factor.go",
+      "blob": "79fd4aa3d0d4d7b5d079f68e9300db6b0d406368",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new internal root-protected-factor decrypt operation; copied root key is cleared, no key export or database/provider work. Existing KMS and cipher modules read completely. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/kms/authentication_factor_test.go",
+      "blob": "ee0e497d94732ffdfb54a6680cc93c5a5f6ac354",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete independent Node AES-GCM fixture, integrity/cancellation/closed-service denial and copied-key preservation checks. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/totp_reauthentication_test.go",
+      "blob": "f6203e99bfb280aa43bdfd2499f47356f88b0ca0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete real Node enrollment/native KMS/Go proof and binding integration fixtures. Cross-runtime cache-loss replay, current factor/method/root policy, provider-time change, link/revoke, failure recovery, concurrent code and pool-one probes. TLS provider and seeded pending MFA sessions remain fixtures. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/totp/totp-service.ts",
+      "blob": "86ce4f441ccfa67020fbf4a0d51cd53950d31ec2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete existing module read. Authentication verification now uses highest matching step and shared durable replay with user-before-factor locks; SQL failure retains cache claim and exposes recovery guidance. Registration now passes tx to all DAL calls; delete locks user first. Existing enrollment ceremony is retained, not claimed as a complete native factor lifecycle. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts",
+      "blob": "b2a428273b34318dfb868e34ff6557008e3409c2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete additive replay/proof-factor schema. Original factor/proof ciphertext/schema retained; account/factor deletion cascades bounded state; nonempty down refuses security-state erasure. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
+      ]
+    },
+    {
+      "path": "docs/auth/nomen-totp-proof.md",
+      "blob": "9b93e1b6d4e5814577766a213e9124ee813be794",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored architecture, exact ownership/replay/method/rollback contracts and verification obligations. Canonical acceptance explicitly pending. Candidate verification is pending; no new canonical release acceptance claimed.",
+      "evidence": [
+        "docs/auth/nomen-totp-proof.md"
       ]
     }
   ]
