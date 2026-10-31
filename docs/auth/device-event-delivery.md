@@ -1,7 +1,7 @@
 # Device session security-event delivery
 
 Current continuation: [bounded recorded-audit acceptance](recorded-audit-acceptance.md)
-is implemented and under canonical verification. Worker activation and the public
+is implemented and verified in the canonical image. Worker activation and the public
 login journey remain open. Historical evidence below retains its original scope.
 
 Current continuation: [domain dispatch](device-event-dispatch.md) is implemented

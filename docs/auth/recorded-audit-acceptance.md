@@ -2,7 +2,7 @@
 
 This continues [device dispatch](device-event-dispatch.md). It changes the
 existing audit storage and stream-outbox owners in place. It does not register
-the device worker or enable public headless login. Verification is in progress.
+the device worker or enable public headless login. Canonical acceptance for this increment passed.
 
 ## Operation and database ownership
 
@@ -99,4 +99,27 @@ remain unchanged; the 14 new cases test actual resource ownership and fanout.
 Receipts: `.cache/device-dispatch-store-7EUIaQ/result.json`, `.cache/mail-cancellation-unit-vJdbo4/result.json`,
 `.cache/recorded-audit-mutation-fDGEiZ/result.json`, `.cache/device-dispatch-mutation-bx8wGJ/result.json`,
 `.cache/recorded-audit-lint.json` and `.cache/recorded-audit-typecheck.json`.
-Canonical image acceptance remains pending for this increment.
+Canonical evidence follows.
+
+## Canonical artifact evidence
+
+Runtime source `0bf0405b4499ad41302d33ea9d588df71a957574` produced
+`sha256:b59d87453871e9eaf52a93702efbf2a8c36d7011f7a403dc0877ec60afecdc15`. All sixteen canonical image gates passed.
+Fresh disposable stores passed all 88 recorded-audit/dispatch/preparation scenarios,
+all 16 destination compatibility scenarios and four actual native-audit checks.
+Tested source bytes match the committed image archive. The two negative controls
+and 122 unit cases above are exact-source local evidence, not described as rerun
+inside the final image. Unchanged schema rollback and Go/session evidence retains
+its original artifact and source provenance.
+
+Receipts: `.cache/self-hosted-build-hUCBH0/result.json`,
+`.cache/device-dispatch-store-UKrheB/result.json`, `.cache/delivery-destination-store-olQhl4/result.json`,
+`.cache/native-audit-image-Yzp2oN/result.json` and `.cache/app-image-proof-y1sbvj/result.json`.
+The real application gate exercised email sign-in, projects, secrets and denial
+behavior. This establishes scoped regression acceptance, not complete federation,
+accessibility or enterprise parity. The device worker remains unregistered.
+
+The actual `onboarding-organization.png`, `login.png` and
+`authenticated-projects.png` captures in that application receipt directory were
+visually inspected for Vaultix identity, organization-first setup and authenticated
+application loading. This visual inspection does not certify all workflows.

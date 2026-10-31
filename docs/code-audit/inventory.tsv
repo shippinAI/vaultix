@@ -11830,8 +11830,8 @@ docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
-docs/auth/device-event-delivery.md	6eb7d2e59ba6dd62f749ff601b143d6bce56e213	documentation	unread
-docs/auth/device-event-dispatch.md	126b7982e3ffcbbea593e04ca86c1216dec69131	documentation	unread
+docs/auth/device-event-delivery.md	37032f2fc75086e5d8997aa25781562ba8a42d75	documentation	unread
+docs/auth/device-event-dispatch.md	71d843d1b46d07cb2235ba1af4a8adb73406217b	documentation	unread
 docs/auth/device-event-preparation.md	ab906414fabf351f35d70a7e3b585dea95f92b3c	documentation	unread
 docs/auth/device-session-lifecycle.md	f58fe603e81a207c9fcc9328330f833edc9a2b8a	documentation	unread
 docs/auth/native-audit-delivery.md	10366dedb54977b0e166e0dc1193536f5b0ea65b	documentation	unread
@@ -11841,7 +11841,7 @@ docs/auth/nomen-execution-sources.json	a00d975e35cfa84afc270d30ea768f0256da99b6	
 docs/auth/nomen-protocol-evidence.md	db6a421f6b22219fc9ee00b41fa304f44111c634	documentation	authored
 docs/auth/nomen-reauthentication.md	82d1b6677c18f17d43c474a0d6dfc10ec42f7441	documentation	verified
 docs/auth/nomen-totp-proof.md	4c57da3e69f665544e39e0326e46026fc5442a6a	documentation	verified
-docs/auth/recorded-audit-acceptance.md	bc25dd757810d26cdc0f71c0edbb895a36c2447e	documentation	unread
+docs/auth/recorded-audit-acceptance.md	73827e40df8e5dc7f1b403408c55eb47d82d45c8	documentation	unread
 docs/capabilities/README.md	dad96ae4bafeb9f0e401e121eb0829875aebf205	documentation	authored
 docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
