@@ -5856,10 +5856,10 @@
     },
     {
       "path": "core/backend/src/services/smtp/smtp-service.ts",
-      "blob": "20959eda45d40afe58495b5f2a70ec6bac040c3c",
+      "blob": "4a774fa250926b79a7162a6a3a84c749ef9c5010",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Exact canonical source/image passed 16 application gates; all eight destination scenarios passed using the image-migrated database and matching committed source in the pinned backend runner. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -5886,10 +5886,10 @@
     },
     {
       "path": "scripts/verify-delivery-destination-store.mjs",
-      "blob": "9e87b0245282494fe0aaa861bde7115f672506cc",
+      "blob": "52b4863a3c03173764e0afaf57b7962ca3a4e975",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Exact canonical source/image passed 16 application gates; all eight destination scenarios passed using the image-migrated database and matching committed source in the pinned backend runner. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6016,10 +6016,10 @@
     },
     {
       "path": "core/backend/src/services/smtp/smtp-prepared.test.ts",
-      "blob": "f6e010d56ec88197c5db843716e68eb3a260db95",
+      "blob": "4a440c0e08b9d364ab412569d21ebf2734d7783b",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Exact canonical source/image passed 16 application gates; all eight destination scenarios passed using the image-migrated database and matching committed source in the pinned backend runner. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]
@@ -6030,6 +6030,36 @@
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned prepared security mail in the existing SMTP owner, strict routing/content bounds, stable sender/date/Message-ID, internationalized mailbox comparison and explicit ESM import and conservative sanitized retry/uncertainty classification against pinned Nodemailer 8.0.5. Existing browser and recorded-template interfaces retained. 116 unit outcomes and eight real PostgreSQL/local SMTP cases including post-DATA disconnect, frozen replay after configuration change, new-device rendering and unchanged audit/notification boundaries; full backend typecheck and changed-file lint. Exact canonical source/image passed 16 application gates; all eight destination scenarios passed using the image-migrated database and matching committed source in the pinned backend runner. Domain recipient/preparation/dispatch, operations, whole-attempt cancellation and public device login remain open.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/smtp/smtp-recorded-transport.ts",
+      "blob": "0f7d948dac608929d6a623cf86a59261f2725eff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/smtp/smtp-recorded-transport.test.ts",
+      "blob": "fb34c04802b5107e037a6bafdac47bfc8da444c9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
+      "evidence": [
+        "docs/auth/device-event-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/smtp/smtp-cancellation.spec.ts",
+      "blob": "ca66bbc4739424a270775cd23d2fbd12849f17fe",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image pending.",
       "evidence": [
         "docs/auth/device-event-delivery.md"
       ]

@@ -68,6 +68,7 @@ import {
   recordedMailboxMatches,
   RecordedMailError
 } from "./smtp-recorded-payload";
+import { sendRecordedSmtp } from "./smtp-recorded-transport";
 
 export type TSmtpConfig = SMTPTransport.Options;
 export type TSmtpAttachment = {
@@ -315,24 +316,33 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
     });
   };
 
-  const sendPreparedRecordedMail = async (deliveryId: string, payload: unknown): Promise<"accepted" | "disabled"> => {
+  const sendPreparedRecordedMail = async (
+    deliveryId: string,
+    payload: unknown,
+    signal?: AbortSignal
+  ): Promise<"accepted" | "disabled"> => {
     if (!isUuid(deliveryId)) throw new RecordedMailError("invalid");
     const mail = parsePreparedRecordedMail(payload);
     if (!isSmtpOn) return "disabled";
     let result: SMTPTransport.SentMessageInfo;
     try {
-      result = await recordedSmtp.sendMail({
-        from: mail.from,
-        to: mail.recipient,
-        envelope: { from: mail.from.address, to: [mail.recipient] },
-        subject: mail.subject,
-        html: mail.html,
-        date: new Date(mail.createdAt),
-        messageId: `<${deliveryId}@vaultix.cloud>`,
-        disableFileAccess: true,
-        disableUrlAccess: true
-      });
+      result = await sendRecordedSmtp(
+        cfg,
+        {
+          from: mail.from,
+          to: mail.recipient,
+          envelope: { from: mail.from.address, to: [mail.recipient] },
+          subject: mail.subject,
+          html: mail.html,
+          date: new Date(mail.createdAt),
+          messageId: `<${deliveryId}@vaultix.cloud>`,
+          disableFileAccess: true,
+          disableUrlAccess: true
+        },
+        signal
+      );
     } catch (error) {
+      if (error instanceof RecordedMailError) throw error;
       throw classifyRecordedMailFailure(error);
     }
     if (

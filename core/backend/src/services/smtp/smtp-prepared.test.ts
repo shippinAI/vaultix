@@ -28,7 +28,7 @@ const preparation = {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mocks.transport.mockReturnValue({ sendMail: mocks.sendMail });
+  mocks.transport.mockReturnValue({ sendMail: mocks.sendMail, close: vi.fn() });
   mocks.sendMail.mockResolvedValue({ accepted: [payload.recipient], rejected: [] });
   mocks.render.mockResolvedValue(payload.html);
 });

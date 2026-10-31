@@ -360,3 +360,39 @@ authorization, real queue/consumer persistence, metadata/canary redaction and
 anonymous denial. Receipt: `.cache/native-audit-image-viICsv/result.json`. The
 unchanged Go unit/session evidence above remains separate from this fresh runtime
 check.
+
+## Cancellable prepared mail attempts
+
+Prepared sends now accept an optional caller AbortSignal and enforce a 30-second
+total attempt deadline, including connection setup and an active SMTP exchange.
+Connection establishment has its own ten-second bound. Each attempt owns its TCP
+socket through Nodemailer's connection hook and destroys that socket on cancellation
+or completion. Nodemailer still owns SMTP, authentication, implicit TLS and STARTTLS;
+a TLS wrapper cannot leave the underlying connection running after cancellation.
+Browser and legacy template-based recorded sends retain their existing behavior.
+
+A caller aborted before sending creates no transport or connection. A started
+abort or total deadline remains uncertain: closing a socket cannot undo server
+acceptance. Known connection-establishment failure remains retryable. Late callbacks
+cannot reopen a cancelled attempt, and timers and caller listeners are released.
+These semantics use the documented [connection hook](https://nodemailer.com/extras/smtp-connection)
+and [socket destruction](https://nodejs.org/api/net.html#socketdestroyerror), checked
+against the pinned implementation and actual local connections.
+
+The source worker must still choose a concurrency limit, coordinate caller aborts
+with shutdown and lease expiration, and record uncertain outcomes durably. This
+change resolves the per-attempt transport prerequisite; it does not register a
+worker or enable public device login. It supersedes the earlier transport-cancellation
+limitation above, without closing those integration requirements.
+
+Local evidence: 122 unit outcomes and 16 actual destination scenarios passed,
+including cancellation before greeting and after DATA, an SMTP server continuously
+dripping responses past idle limits, independent concurrent attempts, trusted TLS,
+untrusted certificates, hostname mismatch and required STARTTLS without plaintext
+fallback. Existing frozen payload replay, audit and atomic notification tests also
+passed. Full backend TypeScript checking and lint pass.
+
+Receipts: `.cache/mail-cancellation-unit-75uDwE/result.json`, `.cache/delivery-destination-store-hLtR1G/result.json`,
+`.cache/mail-cancellation-typecheck.json` and `.cache/mail-cancellation-lint-fix.json`.
+Initial implicit-parameter type/lint failures are retained locally. Canonical image
+verification is recorded separately.
