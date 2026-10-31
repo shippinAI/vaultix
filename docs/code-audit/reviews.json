@@ -720,7 +720,7 @@
       "blob": "2fc639692e3fc2931f3a8e2ccbca82ff5cb03453",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/0031-refresh-recovery.md",
         ".cache/core-proof-ULt89h/test-results.json",
@@ -790,7 +790,7 @@
       "blob": "f8db4e83508f718ce00f4f2691015057dbec2929",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/0031-refresh-recovery.md",
         ".cache/core-proof-ULt89h/test-results.json",
@@ -5755,7 +5755,7 @@
       "blob": "ac0bf2dc9b2124d5523f5484cdf60085bab045e2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5765,7 +5765,7 @@
       "blob": "e31c9c0252bdc2be78672bc39c0bbe1034d5555e",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5775,7 +5775,7 @@
       "blob": "4030e02745aa02de04d6485f1ee3a62b563eb1f0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5785,7 +5785,7 @@
       "blob": "20733eaff891b56bd62375f6b82256205bd9cf3a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5795,7 +5795,7 @@
       "blob": "666ba8c8e65168f66cc2c0856ae0009f6ca09b95",
       "status": "authored",
       "decision": "modify",
-      "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",
+      "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]

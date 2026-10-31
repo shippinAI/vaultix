@@ -167,6 +167,39 @@ store runner exercises real DAL/service reuse, revocation, migration guards and
 old-binary startup, separate from the native lifecycle tests.
 
 The public device endpoints, discovery, actual Go/TypeScript API consumers and
-browser/CLI activation remain unmounted. Current verification is pending; these
-implemented methods alone do not establish working public headless login or
+browser/CLI activation remain unmounted. The scoped verification below covers these methods; they alone do not establish working public headless login or
 complete security-event/notification delivery.
+
+### Verified session-owner checkpoint
+
+Runtime source `0d285074018b2a08b5444281e1087cd3814a77c3` produced canonical image
+`sha256:ad495f22a7009bce0429def10156e0b64ec0c61633b4d9e8cd7a671a5586f7cd`. Its sixteen standard gates passed,
+including existing browser/project workflows, cache alternatives, encrypted recovery,
+tenant isolation and admission. The separate actual native secrets audit check also
+passed for that exact image.
+
+Exact source passed 901 native unit/race outcomes and 25
+device-session integration/race outcomes against the image's migrated PostgreSQL
+store. Go lint and changed TypeScript lint passed; full backend TypeScript checking
+reported zero diagnostics. The real TypeScript DAL/service check used a one-connection
+pool to verify reuse separation, listing, canonical revocation, rollback guards and
+old-binary restart with the additive schema.
+
+Native integration covers independent browser/device sessions, built-in and
+federated method provenance, fixed expiry, wrong-tenant claims, forged/future
+refresh non-revocation, confirmed reuse, concurrent issuance/rotation, canonical
+logout, factor/policy changes and event-write rollback followed by recovery.
+Federated method fixtures are not live provider assertions. API routes and CLI
+activation remain unmounted; event persistence does not prove delivery.
+
+Local receipts: `.cache/self-hosted-build-kgDMLc/result.json`, `.cache/native-audit-image-MY18rA/result.json`,
+`.cache/device-session-owner-final-unit.json`,
+`.cache/device-session-owner-final-integration.json`,
+`.cache/device-session-owner-final-lint.json`,
+`.cache/device-session-typecheck.json`, and
+`.cache/device-session-store-6OpOTB/result.json`. Pre-commit source snapshots were
+compared with the canonical archive, without relabeling their revision fields.
+The initial lint/type failures and cancelled image candidate remain recorded.
+These receipts are local evidence, not independent attestation or whole-identity
+acceptance. Complete delivery, actual API consumers and public workflow gates remain
+in the original open plan.
