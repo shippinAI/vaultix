@@ -16,8 +16,9 @@ Access tokens use HS256, `typ: vaultix-device-at+jwt`, and
 `authTokenType: vaultix-device-access-v1`. Issuer and the single audience are the
 configured instance resource. The public client is `vaultix-cli`, with the explicit
 first-party scope `vaultix:user`. Subject, user, dedicated session, access version,
-root/selected organization and authentication/MFA provenance are required and
-checked. The profile rejects delegated OAuth/MCP markers. No policy snapshot or
+root/selected organization and authentication method are required and checked.
+MFA claims are structurally checked: false or omitted verification means
+unverified; true requires a recognized factor method. The profile rejects delegated OAuth/MCP markers. No policy snapshot or
 secret value is encoded. Access lifetime is a whole-second duration from one second
 through one day; the session owner must also cap it against organization/session
 expiry. Existing browser lifetime configuration is unchanged.
@@ -76,3 +77,46 @@ not evidence that Vaultix's new session lifecycle is already complete.
 
 The execution journal retains the entire session/consumer/image plan. Passing
 credential vectors alone does not satisfy its integration or image obligations.
+
+## Credential checkpoint evidence
+
+Runtime source `c8ff701237d0423fbef641b29e94d96d63bec25d` produced canonical image
+`sha256:43cba3e3e2fb2f129b6dcc41a4b79babf269fedbe4535ffcc3765c3a4e7cbbbf`. All sixteen standalone-image gates passed, including
+real browser login/project workflows, both cache providers, encrypted recovery,
+tenant isolation, proxy boundaries and admission. Existing capability baselines
+were retained.
+
+The exact native source content passed 875 unit/race outcomes, including
+61 credential outcomes, and pinned lint with zero issues. Independent Node
+fixtures verify the profile; disabling refresh HMAC verification in a disposable
+copy makes the integrity test fail. Initial lint failures and their corrections
+remain in the private evidence directory. Source snapshots captured before the
+commit match its canonical archive by content; the older base revision recorded
+in those working-copy receipts is not substituted for that content comparison.
+
+Receipts are local: `.cache/session-credentials-final-unit.json`,
+`.cache/session-credentials-final-lint.json`,
+`.cache/session-credentials-mutation.json`, and
+`.cache/self-hosted-build-G1az8e/result.json`. They are not independent attestation.
+The lifecycle plan remains open. No production session issuer, refresh/revocation
+owner, actual API-profile consumer or public CLI flow is established by these
+credential checks. The authorship ledger therefore retains an authored,
+integration-pending scope.
+
+### Integration findings that must be resolved
+
+- Browser and confidential OAuth issuance both use `getUserTokenSession`, which
+  reuses rows by user/IP/user-agent. Exclude dedicated device sessions from that
+  specific lookup while preserving canonical session listing/version/revocation.
+- A local cross-language probe captured the actual Go audit producer's
+  ClickHouse-mode stream JSON and supplied it to the actual TypeScript consumer.
+  The record was skipped and trimmed without persistence or external-stream
+  fanout: the producer uses flat actor/event fields; the consumer expects nested
+  envelopes. The acceptance assertion failed and the drop characterization
+  passed. Local storage/stream dependencies were mocked, so this is protocol
+  evidence, not live ClickHouse acceptance. Repair and retain an enduring
+  producer/consumer test before device sessions depend on this path.
+
+The audit probe receipt is `.cache/native-audit-probe.json`. Durable issuance
+events, retry identity and notification delivery remain part of the same session
+plan; an asynchronous enqueue call is insufficient evidence of atomic delivery.

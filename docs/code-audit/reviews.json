@@ -5635,7 +5635,7 @@
       "blob": "2eee2b8942c01c1d526746c79c7935c8bba22729",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5645,7 +5645,7 @@
       "blob": "2f2f9a172147b96720dca4085d1c87735587db11",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5655,7 +5655,7 @@
       "blob": "87816260e772e63435236732853bdba329f5ec78",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]
@@ -5665,7 +5665,7 @@
       "blob": "130e79007f452a2f3d96764f41d6fbc87807ef50",
       "status": "authored",
       "decision": "modify",
-      "scope": "Native versioned device access/refresh credential profile, separate cryptographic domains, strict instance/client/scope/provenance/lifetime checks and authenticated generation locators. Independent Node crypto vectors and native adversarial tests authored. Exact final verification pending. No production session issuer, rotation/revocation, durable audit, real API consumer or public activation is claimed.",
+      "scope": "Native device credential profile authored and verified with independent Node vectors, 875 native unit/race outcomes, zero pinned lint issues and refresh-HMAC mutation detection. Canonical image preserves existing application workflows. Actual session issuer/rotation/revocation, durable event delivery and API/CLI consumers remain unimplemented; this entry is authored, not whole-lifecycle verified.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md"
       ]

@@ -11795,7 +11795,7 @@ docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
-docs/auth/device-session-lifecycle.md	18cd621fa66deb86041703955c31045382ccfd74	documentation	unread
+docs/auth/device-session-lifecycle.md	328f6bf2c6c29dd321aa4a9de7b538d5cb5c7d45	documentation	unread
 docs/auth/nomen-binding-lifecycle.md	f9ce53ec60fe438b70244fb5f3607430130271bf	documentation	verified
 docs/auth/nomen-execution-plan.md	82df05526924f8ae8e6e2853d34dc37414b2e95c	documentation	reviewed
 docs/auth/nomen-execution-sources.json	a00d975e35cfa84afc270d30ea768f0256da99b6	product-code	authored
