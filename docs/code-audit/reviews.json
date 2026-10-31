@@ -1347,10 +1347,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "a255de8b40825a9bf3a252ec34c71d1cc15476e0",
+      "blob": "eebfb8e7033100e5c23777edb0da6393201f36dd",
       "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates.",
+      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]
@@ -1511,24 +1511,12 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/claims.go",
-      "blob": "57ded52e1b8e33b3b4fa2c21774edae3d23d68b6",
-      "status": "verified",
+      "blob": "81fc85f9fa13f848e7a9f468d591fd53d0460044",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Optional lifetime fields now retain absent/null versus explicit zero through both Go claim structs and unified conversion. The complete-claim predicate requires all four anchors. Existing JWT parser, algorithm/signature/expiry checks and tenant/auth fields retained. This is scoped wire-classification acceptance, not full Nomen or native authenticator parity. AUTH-02: complete file read. Preserve delegated OAuth marker through claim conversion and deny before first-party session lookup; Go scope intersection is not implemented. Real middleware unit and disposable-DB acceptance are required; Nomen bearer acceptance and public route migration remain open. See 0070 for exact proof and limitations. Final AUTH-02 candidate 7b059d47838b4b9bebd7fa6c4f7d0e2bf5a99941 passed the scoped checks in 0070; 689 Go integration test/subtest passes, eight external-provider skips. Prior authenticator control returned 204 instead of required 401. External issuer and native public route acceptance remain open.",
+      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
       "evidence": [
-        "docs/0037-native-identity-claim-presence.md",
-        ".cache/claims-presence-before.jsonl",
-        ".cache/claims-real-before.jsonl",
-        ".cache/claims-legacy-before.jsonl",
-        ".cache/claims-go-unit.jsonl",
-        ".cache/claims-go-lint-final.log",
-        ".cache/go-proof-TNtYOZ/result.json",
-        ".cache/go-proof-teQVEL/result.json",
-        ".cache/app-image-proof-iVxZeL/workflow-result.json",
-        ".cache/claims-image-smoke-dragonfly.log",
-        ".cache/claims-image-smoke-redis.log",
-        "docs/0070-nomen-authority-contract.md",
-        ".cache/headless-ai-login/.cache/auth02-acceptance.json"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
@@ -1553,22 +1541,12 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/claims_presence_test.go",
-      "blob": "8f119a7b62c641110fb0d0443b52894e3b06e773",
-      "status": "verified",
+      "blob": "35c2385f461f14142ffeea97bbc9ba4f44876d1b",
+      "status": "authored",
       "decision": "modify",
-      "scope": "New wire contract tests cover absent/null/zero/positive and invalid integer representations for each lifetime field, direct/unified decoding, conversion and serialization. A signed fixture exercises the existing parser with explicit zero anchors. These are fixture-level format assertions, with real issuer evidence separate.",
+      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
       "evidence": [
-        "docs/0037-native-identity-claim-presence.md",
-        ".cache/claims-presence-before.jsonl",
-        ".cache/claims-real-before.jsonl",
-        ".cache/claims-legacy-before.jsonl",
-        ".cache/claims-go-unit.jsonl",
-        ".cache/claims-go-lint-final.log",
-        ".cache/go-proof-TNtYOZ/result.json",
-        ".cache/go-proof-teQVEL/result.json",
-        ".cache/app-image-proof-iVxZeL/workflow-result.json",
-        ".cache/claims-image-smoke-dragonfly.log",
-        ".cache/claims-image-smoke-redis.log"
+        "docs/auth/nomen-reauthentication.md"
       ]
     },
     {
@@ -5396,10 +5374,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
-      "blob": "b6562970d7d227b2cfcc2a85de604b0c63192bb1",
+      "blob": "26ac1cb6f41dfc772467b951a02728735e4a54f9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored scoped native reauthentication changes: validated access-version propagation, action/target proof and binding consumption, local-password verifier/producer, additive migration and tests. Verification pending. Existing unrelated behavior not newly claimed; MFA/federation/public routes remain activation gates. Strengthened valid alternative session/organization/issuer/revoke-target oracles and zero-version/suborganization/instance-policy cases; final verification pending.",
+      "scope": "Read complete affected claim modules and authored explicit signed access-version presence through conversion and native proof identity. Existing ordinary-session validation retained; signed absent/null proof denial and explicit-zero success are required. Final corrected-candidate verification pending.",
       "evidence": [
         "docs/auth/nomen-reauthentication.md"
       ]

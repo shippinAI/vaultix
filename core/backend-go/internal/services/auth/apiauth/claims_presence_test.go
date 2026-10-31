@@ -85,3 +85,43 @@ func TestParseJWT_ExplicitZeroLifetimeClaims(t *testing.T) {
 	require.NoError(t, err)
 	require.True(t, claims.ToIdentityClaims().HasFullRenewClaims())
 }
+
+func TestParseJWT_UserAccessVersionPresence(t *testing.T) {
+	t.Parallel()
+	for _, state := range []string{"absent", "null", "zero", "positive", "string", "fraction", "boolean"} {
+		t.Run(state, func(t *testing.T) {
+			t.Parallel()
+			payload := jwt.MapClaims{"authTokenType": "accessToken", "exp": time.Now().Add(time.Hour).Unix()}
+			switch state {
+			case "null":
+				payload["accessVersion"] = nil
+			case "zero":
+				payload["accessVersion"] = 0
+			case "positive":
+				payload["accessVersion"] = 2
+			case "string":
+				payload["accessVersion"] = "0"
+			case "fraction":
+				payload["accessVersion"] = 0.5
+			case "boolean":
+				payload["accessVersion"] = false
+			}
+			const secret = "user-claim-presence-fixture"
+			token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, payload).SignedString([]byte(secret))
+			require.NoError(t, err)
+			claims, err := parseJWT(token, []byte(secret))
+			if state == "string" || state == "fraction" || state == "boolean" {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			user := claims.ToUserClaims()
+			require.Equal(t, state == "zero" || state == "positive", user.accessVersionPresent)
+			if state == "positive" {
+				require.Equal(t, 2, user.AccessVersion)
+			} else {
+				require.Zero(t, user.AccessVersion)
+			}
+		})
+	}
+}

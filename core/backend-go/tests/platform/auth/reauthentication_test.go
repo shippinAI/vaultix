@@ -10,7 +10,9 @@ import (
 	"sync"
 	"sync/atomic"
 	"testing"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
@@ -408,6 +410,37 @@ func TestReauthentication_SuborganizationAndInstancePolicy(t *testing.T) {
 			require.NoError(t, err)
 			_, err = fixture.service.BeginLink(ctx, proof.Code)
 			require.NoError(t, err)
+		})
+	}
+}
+
+func TestReauthentication_SignedMissingVersion(t *testing.T) {
+	for _, state := range []string{"absent", "null"} {
+		t.Run(state, func(t *testing.T) {
+			ctx, actor := newReauthenticationAccount(t)
+			_, err := stack.DB().Primary().Exec(ctx, `UPDATE auth_token_sessions SET "accessVersion"=0 WHERE id=$1`, actor.TokenVersionID)
+			require.NoError(t, err)
+			claims := jwt.MapClaims{"authTokenType": auth.AuthTokenTypeAccessToken, "userId": actor.ActorID, "tokenVersionId": actor.TokenVersionID, "organizationId": actor.OrgID, "authMethod": "email", "exp": time.Now().Add(time.Hour).Unix()}
+			if state == "null" {
+				claims["accessVersion"] = nil
+			}
+			token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(infra.AuthSecret))
+			require.NoError(t, err)
+			// Legacy ordinary-session behavior remains; missing provenance cannot authorize a new proof.
+			actor, err = authenticator.ValidateJWT(context.Background(), token)
+			require.NoError(t, err)
+			require.Nil(t, actor.SessionAccessVersion)
+			unified, mode, err := authenticator.ValidateJWTToken(context.Background(), token, "")
+			require.NoError(t, err)
+			require.Equal(t, auth.AuthModeJWT, mode)
+			require.Nil(t, unified.SessionAccessVersion)
+			ctx = auth.WithIdentity(context.Background(), actor)
+			_, producer, intent := newReauthentication(t, stack.DB())
+			_, err = producer.Authenticate(ctx, intent, reauthPassword)
+			require.ErrorIs(t, err, nomen.ErrLinkDenied)
+			var count int
+			require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT count(*) FROM vaultix_identity_reauth_proofs WHERE "userId"=$1`, actor.ActorID).Scan(&count))
+			require.Zero(t, count)
 		})
 	}
 }

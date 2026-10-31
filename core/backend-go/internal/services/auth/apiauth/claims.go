@@ -20,7 +20,7 @@ type UnifiedJWTClaims struct {
 	AuthMethod        string    `json:"authMethod,omitempty"`
 	UserID            uuid.UUID `json:"userId,omitempty"`
 	TokenVersionID    uuid.UUID `json:"tokenVersionId,omitempty"`
-	AccessVersion     int       `json:"accessVersion,omitempty"`
+	AccessVersion     *int      `json:"accessVersion,omitempty"`
 	OrganizationID    uuid.UUID `json:"organizationId,omitempty"`
 	SubOrganizationID uuid.UUID `json:"subOrganizationId,omitempty"`
 	IsMfaVerified     bool      `json:"isMfaVerified,omitempty"`
@@ -52,19 +52,24 @@ type UnifiedJWTClaims struct {
 
 // ToUserClaims converts to UserJWTClaims for user token validation.
 func (c *UnifiedJWTClaims) ToUserClaims() *UserJWTClaims {
+	var accessVersion int
+	if c.AccessVersion != nil {
+		accessVersion = *c.AccessVersion
+	}
 	return &UserJWTClaims{
-		RegisteredClaims:  c.RegisteredClaims,
-		AuthTokenType:     c.AuthTokenType,
-		AuthMethod:        c.AuthMethod,
-		UserID:            c.UserID,
-		TokenVersionID:    c.TokenVersionID,
-		AccessVersion:     c.AccessVersion,
-		OrganizationID:    c.OrganizationID,
-		SubOrganizationID: c.SubOrganizationID,
-		IsMfaVerified:     c.IsMfaVerified,
-		MfaMethod:         c.MfaMethod,
-		MCP:               c.MCP,
-		OAuthClientID:     c.OAuthClientID,
+		RegisteredClaims:     c.RegisteredClaims,
+		AuthTokenType:        c.AuthTokenType,
+		AuthMethod:           c.AuthMethod,
+		UserID:               c.UserID,
+		TokenVersionID:       c.TokenVersionID,
+		AccessVersion:        accessVersion,
+		accessVersionPresent: c.AccessVersion != nil,
+		OrganizationID:       c.OrganizationID,
+		SubOrganizationID:    c.SubOrganizationID,
+		IsMfaVerified:        c.IsMfaVerified,
+		MfaMethod:            c.MfaMethod,
+		MCP:                  c.MCP,
+		OAuthClientID:        c.OAuthClientID,
 	}
 }
 
@@ -110,15 +115,17 @@ func parseJWT(token string, secret []byte) (*UnifiedJWTClaims, error) {
 // Exact match of the Node.js AuthModeJwtTokenPayload.
 type UserJWTClaims struct {
 	jwt.RegisteredClaims
-	AuthTokenType     auth.AuthTokenType `json:"authTokenType"`
-	AuthMethod        string             `json:"authMethod,omitempty"`
-	UserID            uuid.UUID          `json:"userId"`
-	TokenVersionID    uuid.UUID          `json:"tokenVersionId"`
-	AccessVersion     int                `json:"accessVersion"`
-	OrganizationID    uuid.UUID          `json:"organizationId,omitempty"`
-	SubOrganizationID uuid.UUID          `json:"subOrganizationId,omitempty"`
-	IsMfaVerified     bool               `json:"isMfaVerified,omitempty"`
-	MfaMethod         string             `json:"mfaMethod,omitempty"`
+	AuthTokenType  auth.AuthTokenType `json:"authTokenType"`
+	AuthMethod     string             `json:"authMethod,omitempty"`
+	UserID         uuid.UUID          `json:"userId"`
+	TokenVersionID uuid.UUID          `json:"tokenVersionId"`
+	AccessVersion  int                `json:"accessVersion"`
+	// Preserve decoder presence for sensitive operations without changing legacy session validation.
+	accessVersionPresent bool
+	OrganizationID       uuid.UUID `json:"organizationId,omitempty"`
+	SubOrganizationID    uuid.UUID `json:"subOrganizationId,omitempty"`
+	IsMfaVerified        bool      `json:"isMfaVerified,omitempty"`
+	MfaMethod            string    `json:"mfaMethod,omitempty"`
 	// See UnifiedJWTClaims.MCP: present only on tokens from the removed Agent
 	// Sentinel (MCP) product, which must be rejected.
 	MCP           json.RawMessage `json:"mcp,omitempty"`
