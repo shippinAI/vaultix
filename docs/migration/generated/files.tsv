@@ -156,10 +156,10 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	core/backend-g
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	verified
 core/backend-go/internal/services/auth/auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	94ddf096b16810e0268a899d80deb490b7fa52fe	verified
-core/backend-go/internal/services/auth/device/codes.go	core/backend-go/internal/services/auth	identity	Go-native	go	ec1a40ae09ae7efaba90f53299a4ea45630d5134	authored
-core/backend-go/internal/services/auth/device/codes_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	90b59773607e513d3635c5f787ee01398a3a6715	authored
-core/backend-go/internal/services/auth/device/service.go	core/backend-go/internal/services/auth	identity	Go-native	go	573d26eb8d6071db0af6fc0b0919a7473892607e	authored
-core/backend-go/internal/services/auth/device/types.go	core/backend-go/internal/services/auth	identity	Go-native	go	1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e	authored
+core/backend-go/internal/services/auth/device/codes.go	core/backend-go/internal/services/auth	identity	Go-native	go	ec1a40ae09ae7efaba90f53299a4ea45630d5134	verified
+core/backend-go/internal/services/auth/device/codes_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	90b59773607e513d3635c5f787ee01398a3a6715	verified
+core/backend-go/internal/services/auth/device/service.go	core/backend-go/internal/services/auth	identity	Go-native	go	573d26eb8d6071db0af6fc0b0919a7473892607e	verified
+core/backend-go/internal/services/auth/device/types.go	core/backend-go/internal/services/auth	identity	Go-native	go	1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e	verified
 core/backend-go/internal/services/auth/nomen/bindings.go	core/backend-go/internal/services/auth	identity	Go-native	go	c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475	verified
 core/backend-go/internal/services/auth/nomen/claims.go	core/backend-go/internal/services/auth	identity	Go-native	go	0f75985bf51db531617d90d998e064e5ccd565e0	verified
 core/backend-go/internal/services/auth/nomen/client_auth.go	core/backend-go/internal/services/auth	identity	Go-native	go	ff1591b904afd673f58995157e1ab3ad3fb391f5	verified
@@ -227,7 +227,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	core/backend-go/tes
 core/backend-go/tests/platform/auth/authority_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	76698d9a0342d8a456c2d9a3906a5c05b6628207	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	98ef59cc825bba533eeb57f0382ed6d205b3534b	verified
 core/backend-go/tests/platform/auth/delegated_token_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	verified
-core/backend-go/tests/platform/auth/device_authorization_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	cc80d13a7a112f4055f3e17b3fe7089f2021840b	authored
+core/backend-go/tests/platform/auth/device_authorization_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	2c4ae3ecae9218727e3b5ff2450d448daa54b5d1	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	core/backend-go/tests/platform/auth	authorization	Go-native	go	568393176eefbb2d972bd17d0c598ae64c42d3c9	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	5f5cbec926e13babfa2fecac41338799902e898b	verified
@@ -883,7 +883,7 @@ core/backend/src/db/migrations/20260804120000_reap-orphaned-identity-alerts.ts	c
 core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	08881fcf3fe43057f64235c88cbd014fea92d963	verified
 core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	d590cbd01a3692820c5599f251c898902c096a3b	verified
 core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts	core/backend/src/db/migrations	identity	Go-domain-migration	ts	b2a428273b34318dfb868e34ff6557008e3409c2	verified
-core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	core/backend/src/db/migrations	foundation	Go-domain-migration	ts	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	authored
+core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	core/backend/src/db/migrations	foundation	Go-domain-migration	ts	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	verified
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	93985ca767129782226d4b0620ac084132e5a21e	unread
 core/backend/src/db/migrations/utils/env-config.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	core/backend/src/db/migrations/utils	foundation	Go-domain-migration	ts	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
@@ -9471,7 +9471,7 @@ scripts/test-dashboard-create-workflow.mjs	scripts	delivery	supporting-tooling-o
 scripts/test-dashboard-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	verified
 scripts/test-dashboard-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3b814c46cb485d57a734188e437da26c936f8862	verified
 scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a5a68d08436bf3956709fc37273e75e95423a325	verified
-scripts/test-device-grant-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	authored
+scripts/test-device-grant-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	verified
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-encrypted-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified

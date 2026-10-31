@@ -63,9 +63,29 @@ binary rollback, session-deletion cascade and restart with existing ciphertext.
 Nonempty rollback retains the additive schema; it must never delete active
 authorization state merely to make an older binary start.
 
-Verification is pending until exact source/image receipts are recorded. Existing
-UI/API baselines must remain unchanged. No public routes, discovery metadata, CLI
-defaults or identity-provider acceptance are enabled by this component.
+Verified component checkpoint, 2026-10-31 UTC:
+
+- Canonical runtime source: `7ad474856840f18ca66446344a58633ce3ee1d61`.
+- Standalone image: `sha256:909222e0a17f81e2b857a702449a171cd588ce241c791964d9fc4bf7326123c3`.
+- All 16 canonical build/application gates passed, including real browser login/project workflows, Dragonfly/Redis, encrypted recovery, tenant isolation, proxy boundaries and admission.
+- 814 native unit/race outcomes and 805 integration/race outcomes passed; 8 external-provider outcomes remain skipped. All 28 new device-grant outcomes passed with explicitly limited policy/session collaborators. Go lint reports zero issues; migration TypeScript lint passed.
+- All five actual old/new image migration/rollback/restart checks passed.
+- Removing the final expiry guard in a disposable source copy caused the named expiry-during-issuance test to fail. The baseline passed before this mutation.
+- Existing 273 UI routes and 2,290 API operations remain unchanged.
+
+The first database run exposed a fixture defect: two separate clock reads could
+make an intended ten-minute expired fixture exceed the schema limit by microseconds.
+Four test-only SQL statements now create nine-minute expired fixtures. The schema,
+production code and assertions were retained. The corrected test hashes are bound
+to the integration receipt; all remaining image source matches the canonical
+runtime commit. The rejected result is preserved locally.
+
+Local receipts: `.cache/self-hosted-build-yANQLy/result.json`,
+`.cache/device-native-full.json`, `.cache/device-integration-all.json`,
+`.cache/device-mutation.json`, and `.cache/device-migration-1IJ1RP/result.json`.
+These are local evidence, not independently attested certification. No public
+routes, discovery metadata, CLI defaults or identity-provider acceptance are
+enabled by this component.
 
 ## Required continuation
 

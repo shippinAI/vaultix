@@ -77,7 +77,7 @@ func (f *deviceCollaborators) IssueDeviceSession(ctx context.Context, tx pgx.Tx,
 		return device.Session{}, err
 	}
 	if f.expireOnIssue {
-		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '11 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE "userId"=@user`, pgx.NamedArgs{"user": approval.UserID})
+		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE "userId"=@user`, pgx.NamedArgs{"user": approval.UserID})
 		if err != nil {
 			return device.Session{}, err
 		}
@@ -260,7 +260,7 @@ func TestDeviceAuthorization_DenialCancellationAndExpiry(t *testing.T) {
 				require.ErrorIs(t, f.service.Deny(ctx, grant.UserCode), device.ErrInvalidGrant)
 				require.NoError(t, f.service.Cancel(ctx, deviceRequest(), grant.DeviceCode))
 			case "expired":
-				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '11 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
+				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
 				require.NoError(t, err)
 				require.ErrorIs(t, f.service.Approve(ctx, grant.UserCode, actor), device.ErrExpired)
 				expected = device.ErrExpired
@@ -442,13 +442,13 @@ func TestDeviceAuthorization_GlobalAdmissionAndBoundedCleanup(t *testing.T) {
 		require.NoError(t, err)
 	})
 	require.Len(t, ids, 3)
-	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '11 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
+	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
 	require.NoError(t, err)
 	_ = startDevice(t, f) // Start reclaims expired slots before admission.
 	// Independent SQL creates 260 expired rows with distinct digests. Cleanup
 	// must be bounded even when the expiry backlog is larger than one batch.
 	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vaultix_device_authorizations(id,"deviceDigest","userCodeDigest","clientId",resource,scope,"createdAt","expiresAt","nextPollAt")
- SELECT gen_random_uuid(),decode(md5('device-fixture-'||num)||md5('device-fixture-'||num),'hex'),decode(md5('user-fixture-'||num)||md5('user-fixture-'||num),'hex'),'cleanup-fixture','https://cleanup.example.test','fixture',clock_timestamp()-interval '11 minutes',clock_timestamp()-interval '1 minute',clock_timestamp() FROM generate_series(1,260) num`)
+ SELECT gen_random_uuid(),decode(md5('device-fixture-'||num)||md5('device-fixture-'||num),'hex'),decode(md5('user-fixture-'||num)||md5('user-fixture-'||num),'hex'),'cleanup-fixture','https://cleanup.example.test','fixture',clock_timestamp()-interval '10 minutes',clock_timestamp()-interval '1 minute',clock_timestamp() FROM generate_series(1,260) num`)
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vaultix_device_authorizations WHERE "clientId"='cleanup-fixture'`)

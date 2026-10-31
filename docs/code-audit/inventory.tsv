@@ -186,10 +186,10 @@ core/backend-go/internal/services/auth/apiauth/revocation_test.go	b7f5a4fda5d5bd
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	test	verified
 core/backend-go/internal/services/auth/apiauth/usage_recovery_test.go	78750e26492652ad1ebfb1ac4a5eefc7f5c8ccf4	test	verified
 core/backend-go/internal/services/auth/auth.go	94ddf096b16810e0268a899d80deb490b7fa52fe	product-code	verified
-core/backend-go/internal/services/auth/device/codes.go	ec1a40ae09ae7efaba90f53299a4ea45630d5134	product-code	authored
-core/backend-go/internal/services/auth/device/codes_test.go	90b59773607e513d3635c5f787ee01398a3a6715	test	authored
-core/backend-go/internal/services/auth/device/service.go	573d26eb8d6071db0af6fc0b0919a7473892607e	product-code	authored
-core/backend-go/internal/services/auth/device/types.go	1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e	product-code	authored
+core/backend-go/internal/services/auth/device/codes.go	ec1a40ae09ae7efaba90f53299a4ea45630d5134	product-code	verified
+core/backend-go/internal/services/auth/device/codes_test.go	90b59773607e513d3635c5f787ee01398a3a6715	test	verified
+core/backend-go/internal/services/auth/device/service.go	573d26eb8d6071db0af6fc0b0919a7473892607e	product-code	verified
+core/backend-go/internal/services/auth/device/types.go	1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e	product-code	verified
 core/backend-go/internal/services/auth/nomen/bindings.go	c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475	product-code	verified
 core/backend-go/internal/services/auth/nomen/claims.go	0f75985bf51db531617d90d998e064e5ccd565e0	product-code	verified
 core/backend-go/internal/services/auth/nomen/client_auth.go	ff1591b904afd673f58995157e1ab3ad3fb391f5	product-code	verified
@@ -258,7 +258,7 @@ core/backend-go/tests/platform/auth/apiauthenticator_test.go	4f2dc7bed7f3a7f3ec9
 core/backend-go/tests/platform/auth/authority_test.go	76698d9a0342d8a456c2d9a3906a5c05b6628207	test	verified
 core/backend-go/tests/platform/auth/claims_format_test.go	98ef59cc825bba533eeb57f0382ed6d205b3534b	test	verified
 core/backend-go/tests/platform/auth/delegated_token_test.go	121f7ca4048fad5bad15e48a7f821e325b2f2a63	test	verified
-core/backend-go/tests/platform/auth/device_authorization_test.go	cc80d13a7a112f4055f3e17b3fe7089f2021840b	test	authored
+core/backend-go/tests/platform/auth/device_authorization_test.go	2c4ae3ecae9218727e3b5ff2450d448daa54b5d1	test	verified
 core/backend-go/tests/platform/auth/lifetime_policy_test.go	1b1635f6629acf6376642d2f3f032dd14e0fa6c3	test	verified
 core/backend-go/tests/platform/auth/membership_precedence_test.go	568393176eefbb2d972bd17d0c598ae64c42d3c9	test	verified
 core/backend-go/tests/platform/auth/nomen_binding_test.go	5f5cbec926e13babfa2fecac41338799902e898b	test	verified
@@ -948,7 +948,7 @@ core/backend/src/db/migrations/20260804120000_reap-orphaned-identity-alerts.ts	a
 core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts	08881fcf3fe43057f64235c88cbd014fea92d963	product-code	verified
 core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts	d590cbd01a3692820c5599f251c898902c096a3b	product-code	verified
 core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts	b2a428273b34318dfb868e34ff6557008e3409c2	product-code	verified
-core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	product-code	authored
+core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts	f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d	product-code	verified
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	93985ca767129782226d4b0620ac084132e5a21e	product-code	unread
 core/backend/src/db/migrations/utils/env-config.ts	31fd1c9dcf98143a1020afc6970c51f5a953624f	product-code	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	8e5c5866218fc533b2cff6de743e3237bc486b29	product-code	unread
@@ -11786,7 +11786,7 @@ docs/0073-native-cli-domain-and-capabilities.md	06d0648465c6b2f01a7dd1194bef437c
 docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56ae8f5c	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
-docs/auth/device-authorization-engine.md	5f1c81f106c4a25e0016ea6d07398d3a2e23a5a7	documentation	unread
+docs/auth/device-authorization-engine.md	8418a36232d41876ee3886a608b5a1bbc4faae8b	documentation	unread
 docs/auth/nomen-binding-lifecycle.md	f9ce53ec60fe438b70244fb5f3607430130271bf	documentation	verified
 docs/auth/nomen-execution-plan.md	82df05526924f8ae8e6e2853d34dc37414b2e95c	documentation	reviewed
 docs/auth/nomen-execution-sources.json	a00d975e35cfa84afc270d30ea768f0256da99b6	product-code	authored
@@ -11799,11 +11799,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	45ac5c6b156325a43594c31966bd300c3432332d	generated	unread
-docs/capabilities/generated/source-map.tsv	8f267b1c97f91d452b367760a8ad91881a3478eb	generated	unread
+docs/capabilities/generated/source-map.tsv	7e3a3e525ac4fa9b14a7e3fb88f737388ff5cc57	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	9a78453ea9287115e6587f40665deaf8ec54afd5	generated	unread
-docs/migration/generated/modules.tsv	da3c446cb1711854d02a216554f14c46a4f75312	generated	unread
+docs/migration/generated/files.tsv	3f022a52c14dc311f6d97d334fcd8bf5add39da0	generated	unread
+docs/migration/generated/modules.tsv	fd63d89af91cb5e1b52a765c8fc1d3bb617678c4	generated	unread
 docs/migration/generated/summary.json	2e6446a8fbd97f786c0ffa6df68c1fb0beaf3ab9	generated	unread
 docs/migration/workstreams.json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -11977,7 +11977,7 @@ scripts/test-dashboard-create-workflow.mjs	3ceb2f3be9f7fa1724fd1ccbca844fae79e33
 scripts/test-dashboard-recovery.mjs	0ad0c3499923f010d6c7bf581a742bb454b7133d	build-and-operations	verified
 scripts/test-dashboard-secret-paste.mjs	3b814c46cb485d57a734188e437da26c936f8862	build-and-operations	verified
 scripts/test-dashboard-secret-references.mjs	a5a68d08436bf3956709fc37273e75e95423a325	build-and-operations	verified
-scripts/test-device-grant-migration.mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	build-and-operations	authored
+scripts/test-device-grant-migration.mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	build-and-operations	verified
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
 scripts/test-encrypted-recovery.mjs	292d31f56f92316c80e6fa2d28b60f1890712021	build-and-operations	verified
 scripts/test-environment-workflow.mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	build-and-operations	verified
