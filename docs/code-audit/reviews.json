@@ -787,7 +787,7 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-token-dal.ts",
-      "blob": "e518ed75e9b16ebc8b6d94045bd5102865ba0b44",
+      "blob": "f8db4e83508f718ce00f4f2691015057dbec2929",
       "status": "authored",
       "decision": "modify",
       "scope": "Dedicated canonical device session issuance, rotation, authenticated reuse revocation, primary-database policy validation and durable security-event persistence; browser/OAuth reuse discriminator preserves all-session listing/revocation. Exact native/store/migration/image verification pending. No public API consumer, headless endpoint, audit/notification delivery or complete identity parity claim.",

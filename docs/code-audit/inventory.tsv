@@ -3134,7 +3134,7 @@ core/backend/src/services/approval-policy/pam-access/pam-access-policy-schemas.t
 core/backend/src/services/approval-policy/pam-access/pam-access-policy-types.ts	78118fcb0f7da2a309d8d8c802465f37fcda0802	product-code	unread
 core/backend/src/services/auth-token/auth-refresh-recovery.test.ts	f125e62b8a5a1e1b3e9f8d4d931e826f3ce8298f	test	verified
 core/backend/src/services/auth-token/auth-session-store.spec.ts	666ba8c8e65168f66cc2c0856ae0009f6ca09b95	test	authored
-core/backend/src/services/auth-token/auth-token-dal.ts	e518ed75e9b16ebc8b6d94045bd5102865ba0b44	product-code	authored
+core/backend/src/services/auth-token/auth-token-dal.ts	f8db4e83508f718ce00f4f2691015057dbec2929	product-code	authored
 core/backend/src/services/auth-token/auth-token-service.test.ts	9dd7fcf14f87c55cc4ac6ea5e1601ab639771d9e	test	unread
 core/backend/src/services/auth-token/auth-token-service.ts	2fc639692e3fc2931f3a8e2ccbca82ff5cb03453	product-code	authored
 core/backend/src/services/auth-token/auth-token-types.ts	69423ebdede6c15019001bff370374689ec405af	product-code	unread
@@ -11817,11 +11817,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	d0a622add0022079322c3f86cd72d675cc221112	generated	unread
-docs/capabilities/generated/source-map.tsv	2b5e3a66a008c59c62e85392d0edb14ad763d54b	generated	unread
+docs/capabilities/generated/source-map.tsv	e38e3bcf11182d331a87bfd8c1419d63ee97572a	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	a0f5f1c9de0bb946b6cc96d48328b06d4708f906	generated	unread
-docs/migration/generated/modules.tsv	79469ef42a3633a51687188491ebd51337009624	generated	unread
+docs/migration/generated/files.tsv	b65e6b5dd64c8f58c6f48b4098acbd27008b437f	generated	unread
+docs/migration/generated/modules.tsv	8b06994d58141be3be368b2fdcca049366917d3f	generated	unread
 docs/migration/generated/summary.json	49c450d3d920274d14c8beea625882deb4788b91	generated	unread
 docs/migration/workstreams.json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread

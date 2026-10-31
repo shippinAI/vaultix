@@ -24,7 +24,10 @@ export const tokenDALFactory = (db: TDbClient) => {
     }
   };
 
-  const findReusableTokenSession = async (filter: Partial<TAuthTokenSessions>, tx?: Knex) => {
+  const findReusableTokenSession = async (
+    filter: Partial<TAuthTokenSessions>,
+    tx?: Knex
+  ): Promise<TAuthTokenSessions | undefined> => {
     try {
       return await (tx || db.replicaNode())(TableName.AuthTokenSession)
         .where(filter)
