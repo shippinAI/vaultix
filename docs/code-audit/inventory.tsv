@@ -11825,7 +11825,7 @@ docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	
 docs/auth/device-approval-authority.md	85426d24c84f6bf8e0dd40db073f0e575bc7816d	documentation	unread
 docs/auth/device-authorization-engine.md	7a8c10fa0bebde7cd190cb8e89b6f2cf0caced8e	documentation	unread
 docs/auth/device-event-delivery.md	1581809610a778c1e6058a9fc8e9ffe5bb9fc99e	documentation	unread
-docs/auth/device-event-preparation.md	1922b9b86c2091a3d25d082c011552d6003c1e10	documentation	unread
+docs/auth/device-event-preparation.md	187a118d19c48437aa185ac56681e184e814f8bf	documentation	unread
 docs/auth/device-session-lifecycle.md	f58fe603e81a207c9fcc9328330f833edc9a2b8a	documentation	unread
 docs/auth/native-audit-delivery.md	10366dedb54977b0e166e0dc1193536f5b0ea65b	documentation	unread
 docs/auth/nomen-binding-lifecycle.md	f9ce53ec60fe438b70244fb5f3607430130271bf	documentation	verified

@@ -99,3 +99,18 @@ typing and Windows line-ending lint failures were corrected without suppressing
 rules. Receipts: `.cache/device-preparation-store-kERB9A/result.json`, `.cache/device-worker-typecheck.json`,
 `.cache/device-worker-lint-fix.json` and `.cache/device-preparation-ui.json`.
 Canonical image acceptance is recorded separately below.
+
+### Canonical artifact evidence
+
+Runtime source `9e1550035d6b3d97a888139c34004cb25ff4916b` produced
+`sha256:5413f5df97941f68899ea42e9e53ad8bde1166b79bd2e5afec9aec1608ad8e96`. All sixteen canonical image gates passed.
+The image passed four native audit checks. Its migrated disposable stores passed
+all 21 recipient/preparation scenarios and all 16 existing destination scenarios,
+including real SMTP cancellation/TLS, notification persistence and audit retries.
+Tested source bytes were compared with the committed image archive.
+
+Receipts: `.cache/self-hosted-build-oxUSXp/result.json`,
+`.cache/device-preparation-store-8qDMtm/result.json`, `.cache/delivery-destination-store-cBw35P/result.json` and
+`.cache/native-audit-image-l4eoGR/result.json`. Previous exact-content-bound Go/session and SMTP unit/mutation
+evidence is retained as prior evidence, not described as newly executed.
+The dispatcher and public headless login remain unimplemented.

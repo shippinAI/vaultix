@@ -6069,7 +6069,7 @@
       "blob": "e493cb5ff1a25e9ffebd9e3f9e0725617fcdc702",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6079,7 +6079,7 @@
       "blob": "5cf4fa25f4f8bda11afcac1cbfd5033605809e5d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6089,7 +6089,7 @@
       "blob": "2173d10ec1179f8bfeb0aa66d514eb6c35ed43dc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6099,7 +6099,7 @@
       "blob": "a21a70e2a81e75c7308529c4568056c865039257",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6109,7 +6109,7 @@
       "blob": "06ece181c47c03828b5b07863cdef9667e5136d2",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6119,7 +6119,7 @@
       "blob": "168f59e2524a4602f31d9b68de4baee2834343fc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. Canonical image verification pending.",
+      "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6129,7 +6129,7 @@
       "blob": "cad23d076f978366ab400a98bd63c70145e686ce",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image verification pending.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6139,7 +6139,7 @@
       "blob": "12d9d40428379cd13667b7d437d3d0d4f4a99821",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image verification pending.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6149,7 +6149,7 @@
       "blob": "6ecbc1fc897d2a58f03f3ec7babce3f22f98a8ff",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image verification pending.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6159,7 +6159,7 @@
       "blob": "6fb87a6331adad0bfb7b8e3f8a00ff2dab803989",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image verification pending.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
@@ -6169,7 +6169,7 @@
       "blob": "d4788f09e14411f11ad02741eae062a7a739605e",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image verification pending.",
+      "scope": "Read complete module and added the scoped device-session audit types, catalog labels or attribution explanation. Existing events retained. This is scoped authorship, not complete UI/audit-domain conversion. Backend/frontend types and changed-file lint pass; canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md"
       ]
