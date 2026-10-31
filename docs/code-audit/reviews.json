@@ -3835,10 +3835,10 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/sso.go",
-      "blob": "59dda7c076139412e49512b1a219404888e3ce3d",
-      "status": "verified",
-      "decision": "replace",
-      "scope": "Author native authenticated-method enforcement and a narrowly scoped organization bypass projection matching CASL subject-type semantics. Fail closed for missing methods, malformed role rules and primary failures; no general organization permission resolver or provider login claim. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "blob": "6fad951974144c7655a3c6e6642277aacc0f1ea5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
         ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
@@ -3846,15 +3846,16 @@
         ".cache/native-sso-policy/.cache/lint-image-final.json",
         ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
         ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json"
+        ".cache/native-sso-policy/.cache/casl-image-final.json",
+        "docs/auth/device-approval-authority.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/sso_test.go",
-      "blob": "6763eea594e20edec662ca62b2e56ce487f5de05",
-      "status": "verified",
-      "decision": "replace",
-      "scope": "Author shared CASL bypass vectors, malformed policy denial and parser fuzzing; positive and deny precedence evidence scoped to one capability. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
+      "blob": "2d49922f99564797f206bd4b80c92708a5ac5617",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
       "evidence": [
         "docs/0062-native-sso-enforcement.md",
         ".cache/native-sso-policy/.cache/self-hosted-build-JXWygI/result.json",
@@ -3862,7 +3863,8 @@
         ".cache/native-sso-policy/.cache/lint-image-final.json",
         ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
         ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json"
+        ".cache/native-sso-policy/.cache/casl-image-final.json",
+        "docs/auth/device-approval-authority.md"
       ]
     },
     {
@@ -5529,12 +5531,13 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/types.go",
-      "blob": "1592bdb5246f5dc8f11fe06f4832f5bf49cf2e1e",
-      "status": "verified",
+      "blob": "ecf7d48ecf76c2c62ecdb88f5d8eb584eb076042",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Native device grant component: complete source authorship and scoped unit/race, real PostgreSQL lifecycle/atomic rollback/concurrency, canonical image and actual additive migration/binary rollback checks. Corrected expiry fixtures retain schema and assertions; mutation catches removed final expiry guard. Policy/session collaborators are limited fixtures. Production policy/session issuance, public routes, discovery, browser approval, CLI default, refresh, provider acceptance and whole identity parity remain open.",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
       "evidence": [
-        "docs/auth/device-authorization-engine.md"
+        "docs/auth/device-authorization-engine.md",
+        "docs/auth/device-approval-authority.md"
       ]
     },
     {
@@ -5595,6 +5598,36 @@
       "scope": "Native device grant component: complete source authorship and scoped unit/race, real PostgreSQL lifecycle/atomic rollback/concurrency, canonical image and actual additive migration/binary rollback checks. Corrected expiry fixtures retain schema and assertions; mutation catches removed final expiry guard. Policy/session collaborators are limited fixtures. Production policy/session issuance, public routes, discovery, browser approval, CLI default, refresh, provider acceptance and whole identity parity remain open.",
       "evidence": [
         "docs/auth/device-authorization-engine.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/authority.go",
+      "blob": "61de31b16d65d73f6b79232c14354d4bdd48629d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
+      "evidence": [
+        "docs/auth/device-approval-authority.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/device/authority_query.go",
+      "blob": "2b0c6fbfd22de8f3533ad4bcedf2e35c10c6e26c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
+      "evidence": [
+        "docs/auth/device-approval-authority.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_authority_test.go",
+      "blob": "1f8c2e4b0c5e22c722eca5be87ee29e1ca670420",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Native device approval authority authored against existing account/session/membership/MFA/SSO data. One primary policy snapshot, canonical bypass projection, stale-policy rejection and explicit bypass provenance. Verification pending; dedicated session/refresh/audit, routes, UI/CLI and external provider acceptance remain open.",
+      "evidence": [
+        "docs/auth/device-approval-authority.md"
       ]
     }
   ]

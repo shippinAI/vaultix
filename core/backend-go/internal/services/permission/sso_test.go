@@ -24,11 +24,16 @@ func TestOrganizationSSOBypass_ParityVectors(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
 			var roles []roleWithPermissions
+			var snapshot []OrganizationSSORole
 			for _, role := range test.Roles {
 				rules := string(role.Permissions)
 				roles = append(roles, roleWithPermissions{Role: role.Role, Permissions: &rules})
+				snapshot = append(snapshot, OrganizationSSORole{Role: role.Role, Permissions: &rules})
 			}
 			allowed, err := organizationSSOBypass(roles)
+			require.NoError(t, err)
+			require.Equal(t, test.Allowed, allowed)
+			allowed, err = EvaluateOrganizationSSOBypass(snapshot)
 			require.NoError(t, err)
 			require.Equal(t, test.Allowed, allowed)
 		})

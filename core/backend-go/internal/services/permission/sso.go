@@ -13,6 +13,23 @@ import (
 
 const ssoBypassAction = "bypass-sso-enforcement"
 
+// OrganizationSSORole contains already-active rules from an authorization
+// snapshot. Membership, temporary expiry and tenant checks belong to its owner.
+type OrganizationSSORole struct {
+	Role        string  `json:"role"`
+	Permissions *string `json:"permissions"`
+}
+
+// EvaluateOrganizationSSOBypass shares the existing CASL subject-type projection
+// with transaction-bound callers without opening another database connection.
+func EvaluateOrganizationSSOBypass(roles []OrganizationSSORole) (bool, error) {
+	projected := make([]roleWithPermissions, 0, len(roles))
+	for _, role := range roles {
+		projected = append(projected, roleWithPermissions(role))
+	}
+	return organizationSSOBypass(projected)
+}
+
 // enforceProjectSSO uses the authenticated method, never a request-body field.
 // Machine/service actors have separate authentication policies. Empty native
 // methods cannot represent the trusted null exemption used by TypeScript jobs.

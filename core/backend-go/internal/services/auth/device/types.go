@@ -44,6 +44,7 @@ type Approval struct {
 	MFAVerified   bool      `json:"mfaVerified"`
 	MFAMethod     string    `json:"mfaMethod"`
 	PolicyDigest  [32]byte  `json:"policyDigest"`
+	SSOBypass     bool      `json:"ssoBypass,omitempty"`
 }
 
 // Authority must perform bounded database-only work on the supplied primary

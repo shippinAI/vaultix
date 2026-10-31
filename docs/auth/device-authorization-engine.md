@@ -39,8 +39,11 @@ is never replayed to recover credentials.
 The required `Authority` and `SessionIssuer` interfaces have no permissive defaults.
 They must use the supplied primary transaction, perform bounded database work,
 and enforce current account, membership, tenant, method and factor policy. The
-integration fixtures deliberately implement only a limited authority/session
+original integration fixtures deliberately implement only a limited authority/session
 contract; they are not production implementations or valid credential issuers.
+The [native approval authority](device-approval-authority.md) now owns the real
+account/tenant policy implementation; its separate acceptance and remaining
+session/HTTP/browser/CLI obligations are recorded there.
 
 Admission uses one database-wide lock and a configurable maximum of 1–10,000
 outstanding rows. Completed/denied rows count until expiry. Cleanup deletes at most
@@ -89,7 +92,7 @@ enabled by this component.
 
 ## Required continuation
 
-1. Implement the real native tenant/session authority, including root and selected
+1. Verify and integrate the native approval authority, preserving root and selected
    organization policy, group membership, lockout, method enforcement and MFA.
 2. Implement first-party session issuance, refresh rotation/reuse, revocation,
    audit provenance and recovery against the existing session model.
