@@ -6419,7 +6419,7 @@
     },
     {
       "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx",
-      "blob": "b12344cf40f7a92cf9b3c2947109da001200edec",
+      "blob": "b067fdfdbbef130b449f65d0b3eebefb33d9e266",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
@@ -6507,7 +6507,7 @@
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/updates.ts",
-      "blob": "3194ead50e777304c8ddfbabec121dbb2d299e17",
+      "blob": "e07da02487f1e5e23263649e68cc9085bde3c0f9",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
@@ -6595,7 +6595,7 @@
     },
     {
       "path": "scripts/test-updates-clyffy-workflow.mjs",
-      "blob": "78c6413a61b3ad45499c2827dffa968a6fd2e481",
+      "blob": "1d688f5fd15107041d1d53c562ac82f677020765",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",

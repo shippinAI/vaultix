@@ -750,7 +750,7 @@ core/frontend/src/hooks/api/trustedIps	ui	React-TypeScript	3	21dfa6c82dd199c8079
 core/frontend/src/hooks/api/userActivation	identity	React-TypeScript	3	db349c3758da6bda760dc8db3a92cef23a12b9f4021413187883c7fc86ffe5b5	0	unassessed
 core/frontend/src/hooks/api/userEngagement	identity	React-TypeScript	3	60dae35d0a840a882052defecc0fc73f549bb19d8deb720de0b78ff805506613	0	unassessed
 core/frontend/src/hooks/api/users	identity	React-TypeScript	5	daba24a12f462fb47aadafeda67c616bfc94e1a834a9d2f2bc9571299f8588a9	0	unassessed
-core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	7	849c13b9fe876dfa655161fb11d0afd97aedb2ec3db3d83d460ee6c209b53f6d	5	unassessed
+core/frontend/src/hooks/api/vaultix	ai	React-TypeScript	7	204edcc95bcf2e43b2bb47e8c81f45c21a815e5632b6eb2e769583d43bd07b16	5	unassessed
 core/frontend/src/hooks/api/webauthn	identity	React-TypeScript	5	e9c722ae615aa5ae964bb99ee3369659f282cc2a565988a40aaae45b5b9460e4	0	unassessed
 core/frontend/src/hooks/api/webhooks	integrations	React-TypeScript	4	e4f95e10485133d0e0b7ba6b584b2d6eb23c5eedbddfbcc03f2a6ea6e4c2655d	0	unassessed
 core/frontend/src/hooks/api/workflowIntegrations	integrations	React-TypeScript	4	6b2e4e169ff3b6dff81feace0f4b51545de3fe24fbc95a32bf37edc2a1a44568	0	unassessed
@@ -766,7 +766,7 @@ core/frontend/src/layouts/OrganizationLayout	pam	React-TypeScript	1	43e20919389f
 core/frontend/src/layouts/OrganizationLayout	pki	React-TypeScript	1	04981270dec6b53b08e1e909abc1b71ba781197349ca498f18abf58a16b9f0ad	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	scanning	React-TypeScript	1	94d0d416ce9c98294e38d86049869e71acaa6837bea10ed5ce94d18d58bfa7ab	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	secrets	React-TypeScript	4	addebaad7f314330359b6bb71d19a058422e2ae500890e7c8f64eff6df9f3d3f	0	unassessed
-core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	30	8bae2d375786ccd99b3df5041caaf87952f7159592af5dd0b53f16e523dd39bc	3	unassessed
+core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	30	8b47524510b3f89732053475c2f8da2e7abb44e6011b78f96bca38a50d05f7f9	3	unassessed
 core/frontend/src/layouts/PamLayout	pam	React-TypeScript	2	015bbaaf94ec1e457db2aa546e0e78ed9f6a21d6e64078f07bb18c6a953d9249	0	unassessed
 core/frontend/src/layouts/PersonalSettingsLayout	ui	React-TypeScript	2	eef6ff4c0ca32e9118d2e1ae9ff526063d900fc672a2817849dbf8403de57604	0	unassessed
 core/frontend/src/layouts/PkiManagerLayout	pki	React-TypeScript	3	be9636a9c9826645fd14847026698a421c7dc78e26c6e28d0bea2ed7870a281c	0	unassessed
@@ -1070,6 +1070,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	81	73ac78a105c32c597bcb3fe315660fa98172320335b7f07a4fe8816b5e63f5bb	73	unassessed
+scripts	delivery	supporting-tooling-or-contract	81	501ee984edc9d49c359df6c9b3b6b219a5f559f6a593f123e0119fea07541422	73	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	1	1e51c0c6db841d365dd777eee238644f4f1d53757930d9a117f179e6c93d8d1f	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	3	5146b35644e86ee40cb07e379926f5fb33713d4c0288a400c7b16c436babff4c	3	unassessed

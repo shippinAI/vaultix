@@ -78,12 +78,14 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
     failCheck = true;
     await dialog.getByRole("button", { name: "Check for Updates", exact: true }).click();
     await expect(dialog.getByRole("status")).toContainText("could not be refreshed");
+    await expect(page.getByText("Bad Request", { exact: true })).toHaveCount(0);
     failCheck = false;
     fixture = { ...fixture, state: "current", currentVersion: "1.1.0" };
     await dialog.getByRole("button", { name: "Check for Updates", exact: true }).click();
     await expect(dialog.getByRole("status")).toContainText("at or ahead");
+    await expect(page.getByText("Bad Request", { exact: true })).toHaveCount(0);
     assert.equal(checksPosted, 2);
-    record("Available release link; failed explicit check retains dialog; retry recovers to current", true);
+    record("Available release link; failed explicit check retains dialog; retry recovers to current without a duplicate generic toast", true);
     await page.setViewportSize({ width: 320, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await fits(dialog);

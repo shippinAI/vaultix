@@ -6223,7 +6223,7 @@ core/frontend/src/hooks/api/vaultix/guidance-contract.ts	ai	ai	core/frontend/src
 core/frontend/src/hooks/api/vaultix/guidance.ts	ai	ai	core/frontend/src/hooks/api/vaultix	908bf8b648c66b3e6c15c5e102c3d33084cf1fa7	verified
 core/frontend/src/hooks/api/vaultix/learning.ts	ai	ai	core/frontend/src/hooks/api/vaultix	c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce	verified
 core/frontend/src/hooks/api/vaultix/queries.ts	ai	ai	core/frontend/src/hooks/api/vaultix	cf4ddde832753ee6ae58eb1b5d0b40d508f386e4	verified
-core/frontend/src/hooks/api/vaultix/updates.ts	ai	ai	core/frontend/src/hooks/api/vaultix	3194ead50e777304c8ddfbabec121dbb2d299e17	authored
+core/frontend/src/hooks/api/vaultix/updates.ts	ai	ai	core/frontend/src/hooks/api/vaultix	e07da02487f1e5e23263649e68cc9085bde3c0f9	authored
 core/frontend/src/hooks/api/webauthn/index.tsx	access	identity	core/frontend/src/hooks/api/webauthn	1db2260fc3b4b9e022200e03b7e9868c247fcadf	unread
 core/frontend/src/hooks/api/webauthn/mutations.tsx	access	identity	core/frontend/src/hooks/api/webauthn	b7581e8aac60a5e836ba78312433c8284a4f6661	unread
 core/frontend/src/hooks/api/webauthn/queries.tsx	access	identity	core/frontend/src/hooks/api/webauthn	0644801426d5cddb0974e84e0e1327ea27d4ee89	unread
@@ -6280,7 +6280,7 @@ core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/index.tsx
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	4f8ae377967d5fc638ded13db01bcd4d93b62313	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Notification.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	ef7f2b65ca45f1a926b98a5f318824f9cc1eb15a	unread
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/NotificationDropdown.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	77c1fe1794b7f3a99fb5600afa02e1d112915b32	unread
-core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	b12344cf40f7a92cf9b3c2947109da001200edec	authored
+core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	b067fdfdbbef130b449f65d0b3eebefb33d9e266	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/index.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	d97ce393e0cfade5e9d43761c1a76b3a9620569d	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/NetworkHealthBanner.tsx	experience	ui	core/frontend/src/layouts/OrganizationLayout	403aa872fc769273401ed4709e7511cb50e9ab0e	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/index.ts	experience	ui	core/frontend/src/layouts/OrganizationLayout	dd5cd43d992f1d4aa7da22a29483e79b909a15ab	unread
@@ -9569,7 +9569,7 @@ scripts/test-self-hosted-build.mjs	operate	delivery	scripts	4fe9110742f7657b3575
 scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified
 scripts/test-tenant-isolation.mjs	operate	delivery	scripts	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	operate	delivery	scripts	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
-scripts/test-updates-clyffy-workflow.mjs	operate	delivery	scripts	78c6413a61b3ad45499c2827dffa968a6fd2e481	authored
+scripts/test-updates-clyffy-workflow.mjs	operate	delivery	scripts	1d688f5fd15107041d1d53c562ac82f677020765	authored
 scripts/up.sh	operate	delivery	scripts	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	operate	delivery	scripts	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	operate	delivery	scripts	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored

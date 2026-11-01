@@ -8613,7 +8613,7 @@ core/frontend/src/hooks/api/vaultix/guidance-contract.ts	b11e4efc79b22c33fd13e06
 core/frontend/src/hooks/api/vaultix/guidance.ts	908bf8b648c66b3e6c15c5e102c3d33084cf1fa7	product-code	verified
 core/frontend/src/hooks/api/vaultix/learning.ts	c51ba79bc1b82fc43236b9ada8fb4bd04842c8ce	product-code	verified
 core/frontend/src/hooks/api/vaultix/queries.ts	cf4ddde832753ee6ae58eb1b5d0b40d508f386e4	product-code	verified
-core/frontend/src/hooks/api/vaultix/updates.ts	3194ead50e777304c8ddfbabec121dbb2d299e17	product-code	authored
+core/frontend/src/hooks/api/vaultix/updates.ts	e07da02487f1e5e23263649e68cc9085bde3c0f9	product-code	authored
 core/frontend/src/hooks/api/webauthn/index.tsx	1db2260fc3b4b9e022200e03b7e9868c247fcadf	product-code	unread
 core/frontend/src/hooks/api/webauthn/mutations.tsx	b7581e8aac60a5e836ba78312433c8284a4f6661	product-code	unread
 core/frontend/src/hooks/api/webauthn/queries.tsx	0644801426d5cddb0974e84e0e1327ea27d4ee89	product-code	unread
@@ -8670,7 +8670,7 @@ core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/index.tsx
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	4f8ae377967d5fc638ded13db01bcd4d93b62313	product-code	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Notification.tsx	ef7f2b65ca45f1a926b98a5f318824f9cc1eb15a	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/NotificationDropdown.tsx	77c1fe1794b7f3a99fb5600afa02e1d112915b32	product-code	unread
-core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	b12344cf40f7a92cf9b3c2947109da001200edec	product-code	authored
+core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	b067fdfdbbef130b449f65d0b3eebefb33d9e266	product-code	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/index.tsx	d97ce393e0cfade5e9d43761c1a76b3a9620569d	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/NetworkHealthBanner.tsx	403aa872fc769273401ed4709e7511cb50e9ab0e	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/NetworkHealthBanner/index.ts	dd5cd43d992f1d4aa7da22a29483e79b909a15ab	product-code	unread
@@ -11867,11 +11867,11 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	1dcda92bef1677f9fda236162b5a356d7a9da902	generated	unread
-docs/capabilities/generated/source-map.tsv	2b5c7d20fefc689beccdb9c511f85797cc73bfd2	generated	unread
+docs/capabilities/generated/source-map.tsv	4c3cf3a8091617b1ba07b930c9b84fe21e1adeaa	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	f2d924dadc29906fbe76852a533f13e14a20dc40	generated	unread
-docs/migration/generated/modules.tsv	88cfcc8a27cbfc455b50f2e67c3d1ef9fc1f2475	generated	unread
+docs/migration/generated/files.tsv	7395b289c7b5f669c1dffab69fae46c8127ddbbf	generated	unread
+docs/migration/generated/modules.tsv	57ece6a1933919a01ce9dde538867083c05d775a	generated	unread
 docs/migration/generated/summary.json	d7e9642ebbeda5feab956b7e4fcce017509022f5	generated	unread
 docs/migration/workstreams.json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12085,7 +12085,7 @@ scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	buil
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-tenant-isolation.mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
-scripts/test-updates-clyffy-workflow.mjs	78c6413a61b3ad45499c2827dffa968a6fd2e481	build-and-operations	authored
+scripts/test-updates-clyffy-workflow.mjs	1d688f5fd15107041d1d53c562ac82f677020765	build-and-operations	authored
 scripts/up.sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	build-and-operations	authored
 scripts/verify-delivery-destination-store.mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	build-and-operations	authored
 scripts/verify-device-delivery-rollback.mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	build-and-operations	authored

@@ -73,8 +73,17 @@ export const useVaultixUpdates = () =>
 export const useCheckVaultixUpdates = () => {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: async () =>
-      readUpdateStatus((await apiRequest.post<unknown>("/api/v1/vaultix/updates/check", {})).data),
+    mutationFn: async () => {
+      try {
+        return readUpdateStatus(
+          (await apiRequest.post<unknown>("/api/v1/vaultix/updates/check", {})).data
+        );
+      } catch {
+        // The dialog owns failure and retry feedback. Keep transport diagnostics local
+        // instead of also triggering the shared Axios mutation notification.
+        throw new Error("Vaultix update status could not be refreshed.");
+      }
+    },
     onSuccess: (data) => {
       client.setQueryData(queryKey, data);
     }

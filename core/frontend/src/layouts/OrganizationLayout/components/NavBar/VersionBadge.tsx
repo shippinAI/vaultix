@@ -33,7 +33,7 @@ export const VersionBadge = () => {
   let statusMessage = data ? messages[data.state] : "Loading update status…";
   if (status.isError || check.isError)
     statusMessage =
-      "Update status could not be refreshed. Try again when your connection is available.";
+      "Update status could not be refreshed. Try again. If it keeps failing, ask your administrator to check access and connectivity.";
   if (check.isPending) statusMessage = "Checking the stable release channel…";
   return (
     <Dialog open={open} onOpenChange={setOpen}>
