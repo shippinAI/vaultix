@@ -6,6 +6,7 @@
 **/.env.*
 docs
 e2e
+media
 helm-charts
 company
 backend/bdd

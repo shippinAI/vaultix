@@ -309,10 +309,10 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "7802a86c4ba95bd2adcfc0089eacb731c3266ee9",
+      "blob": "3205b5e8214c7348a76c38fa319c7531d32f27ce",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Reviewed full rules and DAG. Assign local core/media authored teaching renderer to the UI workstream; this discovery classification grants no migration or live-assist acceptance.",
       "evidence": [
         "docs/0074-built-in-and-federated-identity.md"
       ]
@@ -6965,6 +6965,126 @@
       "evidence": [
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md"
+      ]
+    },
+    {
+      "path": ".gitignore",
+      "blob": "c042d631f2d51fe282984974074109cd841475f7",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/.dockerignore",
+      "blob": "77b38baf11c156d4bf0029a4448e40f6a2ab6f4c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "docs/0024-interaction-and-teaching-system.md",
+      "blob": "357c1556c87e3d6203bef0bf72c3aead7c17aad5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/README.md",
+      "blob": "56192caeab33a3fa64b7a572b865ba543a7363d0",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/package.json",
+      "blob": "40c8a35d2eb926f80556feeea410515857a000bd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/tsconfig.json",
+      "blob": "0c85f877b6c16ed95d7ddef46949d15456691234",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/story.mjs",
+      "blob": "967a857dec3ff569eccd907b8470f9efb9669126",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/src/index.tsx",
+      "blob": "308105eb5cf790f2a4858faba8e0f672515b2c0a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "core/media/render.mjs",
+      "blob": "009e1134382fdc49f395b362f18a2d239b696b16",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "scripts/test-vaultix-media.mjs",
+      "blob": "db70bd77cfa3acbd61c1614e38162763de0f8e05",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "evidence": [
+        "scripts/test-vaultix-media.mjs",
+        "core/media/README.md",
+        "docs/0024-interaction-and-teaching-system.md"
       ]
     }
   ]

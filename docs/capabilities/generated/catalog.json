@@ -2604,19 +2604,19 @@
       "capabilities": 8,
       "ui": 12,
       "api": 1,
-      "sourceFiles": 1400
+      "sourceFiles": 1402
     },
     "experience": {
       "capabilities": 6,
       "ui": 1,
       "api": 0,
-      "sourceFiles": 904
+      "sourceFiles": 909
     }
   },
   "coverage": {
     "uiRoutes": 273,
     "apiOperations": 2290,
-    "sourceFiles": 9599,
+    "sourceFiles": 9606,
     "providerEntries": 187,
     "capabilityRequirements": 86,
     "unclassified": 0

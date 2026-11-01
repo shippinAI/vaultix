@@ -24,7 +24,7 @@
     { "pattern": "^\\.ai/|^\\.agents/", "workstream": "foundation" },
     { "pattern": "^docs/capabilities/", "workstream": "foundation" },
     { "pattern": "^go\\.mod$", "workstream": "cli" },
-    { "pattern": "^branding/|^core/(company|img|docs)/|^docs/references/", "workstream": "ui" },
+    { "pattern": "^branding/|^core/(company|img|docs|media)/|^docs/references/", "workstream": "ui" },
     { "pattern": "^core/[^/]+$|^core/(docker|docker-swarm|cloudformation|nginx|\\.husky|\\.greptile|upgrade-impact)/|^\\.gitignore$", "workstream": "delivery" },
     { "pattern": "^panel/", "workstream": "legacy-panel" },
     { "pattern": "^(cmd|internal)/", "workstream": "cli" },

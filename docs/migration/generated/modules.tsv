@@ -1,6 +1,6 @@
 module	workstream	target	files	source_digest	reviewed_files	migration_state
 .	cli	supporting-tooling-or-contract	1	7d9b58e22d9bee1dbf3893bab2e02d6531464c4b3333c39f0251f455b1b0f89c	1	unassessed
-.	delivery	supporting-tooling-or-contract	1	3cf42f2b70d4aab94fa2a26753bee33b761c88d85b76964a96dc0436b03622f2	0	unassessed
+.	delivery	supporting-tooling-or-contract	1	4c12573a947db70b91fd01992b212f51fc38b2c79492d88bd6498ce1425ab967	1	unassessed
 .ai	foundation	supporting-tooling-or-contract	3	f6b0ec54fd5628d6679a8d3f8690f366ba186da3c3ca4122d048fefe99f63b17	3	unassessed
 .ai/schemas	foundation	supporting-tooling-or-contract	2	701799bb7d2c3f519108c4ceb9248080afc2c40817fa437629b412979dc6a3e6	2	unassessed
 .github/workflows	delivery	supporting-tooling-or-contract	2	dc92bed5de4b46c219c21e1547dc4e29879703fbd33338dfd2afd805b3202177	2	unassessed
@@ -8,7 +8,7 @@ branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	3	ba2dc38560e773913eba62593a9da3f0da8f72764e767af68c36502a2c49d9c2	3	unassessed
 compose	delivery	supporting-tooling-or-contract	5	5e70a69056323e10b5995b1c7f03546d139f3ffc88fdda8e3aa1283d2c3475c3	3	unassessed
 contracts	foundation	supporting-tooling-or-contract	4	485682589b61c3f0b570e048bf24e859f92ea8e37c06f2d0798f157165e7daa0	1	unassessed
-core	delivery	supporting-tooling-or-contract	26	d18eaa402a8664bf1478c480a67402b9d3e01916fbcc497477e5666ebec7cbfe	2	unassessed
+core	delivery	supporting-tooling-or-contract	26	a4ea055ae4f6af1b646d57fd9d04dd0397aba0c4df08635e244f7e629ea5274c	3	unassessed
 core/.greptile	delivery	supporting-tooling-or-contract	2	3608612865de3c63d8bc9dcf7785427d75c2b4606af67419eec437c9ea8785d6	0	unassessed
 core/.husky	delivery	supporting-tooling-or-contract	1	d4449fa923f40b42794bec6c7f7cbbd6f2de0b1a5905fb8f3db07fbdee174cc8	0	unassessed
 core/backend	delivery	Go-domain-migration	4	efeadffe3e7fc07566aa5c24017e759391df663ee52036b26383a51a5e56b5c1	0	unassessed
@@ -1006,6 +1006,8 @@ core/helm-charts/infisical-nkp/templates	delivery	supporting-tooling-or-contract
 core/helm-charts/infisical-standalone-postgres	delivery	supporting-tooling-or-contract	3	088e4f88cb577116442a238f6a8ae379f1bbb780d23b065ce01b5fdbcc7bf0de	0	unassessed
 core/helm-charts/infisical-standalone-postgres/templates	delivery	supporting-tooling-or-contract	5	ce9e330c6eb0622ac575bde630d020431d7da47e180e67f271b508e6a8afb5c8	0	unassessed
 core/img	ui	supporting-tooling-or-contract	7	1f3fa4822a926d1d1bb5f601b31504721b403b4850af1ff04912bad559c105ad	0	unassessed
+core/media	ui	supporting-tooling-or-contract	4	130887bea1130443c65505cb6410c7e4e57924db8f3211afbabfdd5bfb7936e6	4	unassessed
+core/media/src	ui	supporting-tooling-or-contract	1	6b76fa61923f8801b3176fe57734d360cf726ab49a7b68bc9c2efd0fb5789db3	1	unassessed
 core/nginx	delivery	supporting-tooling-or-contract	2	f2617f16f7fe06037434265c94bb56161cf5e48f15d97fe50e1785aa52774389	0	unassessed
 core/sink	foundation	supporting-tooling-or-contract	6	7f045d87428b12440f3cef55267283e3a5f84ab939bae371e8d0825cbe9bc1bd	0	unassessed
 core/sink/oidc-server	identity	supporting-tooling-or-contract	3	3ae0f0e96669027762db7efa7db80a6ea1fc2af4f8de1b9e27cda339d7539325	0	unassessed
@@ -1042,7 +1044,7 @@ db/schemas	scanning	PostgreSQL-compatible	10	a5d15ef84c579426b6923f1bd40c2b7f960
 db/schemas	secrets	PostgreSQL-compatible	38	1a084ec35c5f868fff03d2949c4102ec463f4ebb3eb3ed10209d57aa6d4e8645	0	unassessed
 docs/auth	identity	supporting-tooling-or-contract	3	16098e8534607865e94a127c9e8313b16a3264cbd63c9aaa471fd71b0d7360c2	1	unassessed
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
-docs/migration	foundation	supporting-tooling-or-contract	1	a16a199ebd60b45d456627806c1afceb0a12db155672e01b47480c8721529722	1	unassessed
+docs/migration	foundation	supporting-tooling-or-contract	1	9ad81dbe1879e65d08116697bd1da3d9db0143ae737557b435b8b67783695f03	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
 internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	11	e78c8a8c9ab8de84e293a1597f417135d44c80a282f41b9b9e4d272e51cd8a4b	9	unassessed
@@ -1071,6 +1073,6 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	84	8c5b90b0513952d1923f5a2cb841a6e9fe7c71b94422ce6e14121b87d9097491	76	unassessed
+scripts	delivery	supporting-tooling-or-contract	85	16204e1ecb5b02c2879947b4936bf7aef2d0b58930c4b1efc60cfc8f40d67915	77	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	3	5146b35644e86ee40cb07e379926f5fb33713d4c0288a400c7b16c436babff4c	3	unassessed

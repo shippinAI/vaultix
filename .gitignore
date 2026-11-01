@@ -1,5 +1,6 @@
 /vaultix
 /.cache/
+/.remotion/
 run/
 panel/vaultix
 panel/vaultix-panel

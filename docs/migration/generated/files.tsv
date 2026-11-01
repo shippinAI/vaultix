@@ -6,7 +6,7 @@ path	module	workstream	target	language	git_blob	review_state
 .ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
 .github/workflows/ghcr.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	043aa43d3518a32e2d3978ba615be2c30c3918db	authored
 .github/workflows/owned.yml	.github/workflows	delivery	supporting-tooling-or-contract	yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	authored
-.gitignore	.	delivery	supporting-tooling-or-contract	build-config	824fde32d6134c0e6287fc6120952b1a8e8834b2	unread
+.gitignore	.	delivery	supporting-tooling-or-contract	build-config	c042d631f2d51fe282984974074109cd841475f7	reviewed
 branding/favicon.svg	branding	ui	supporting-tooling-or-contract	svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	unread
 branding/mark.svg	branding	ui	supporting-tooling-or-contract	svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 branding/og.svg	branding	ui	supporting-tooling-or-contract	svg	4e59d0f93c47bb3e89caa06d85390ad46b474376	unread
@@ -25,7 +25,7 @@ contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-
 contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	5df376a64d09a753422b58f778cfd17a40550008	unread
 contracts/vaultix.core.v1.json	contracts	foundation	supporting-tooling-or-contract	json	c75da452892984cc6f06cc3c880f9f63a1502aae	unread
 contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
-core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	a9ef7871c0869bac814b36618e9d649d84a94339	unread
+core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	77b38baf11c156d4bf0029a4448e40f6a2ab6f4c	reviewed
 core/.env.dev.example	core	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
 core/.env.example	core	delivery	supporting-tooling-or-contract	example	74d4de37b9fd95a9f5f5ba483a400dce1809dc82	unread
 core/.envrc	core	delivery	supporting-tooling-or-contract	build-config	ae4b4fb806adf9ef53679846094de87b9dfac40a	unread
@@ -8514,6 +8514,11 @@ core/img/logoname-black.svg	core/img	ui	supporting-tooling-or-contract	svg	6586f
 core/img/logoname-white.svg	core/img	ui	supporting-tooling-or-contract	svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
 core/img/logoname.svg	core/img	ui	supporting-tooling-or-contract	svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
 core/img/logotransparent.png	core/img	ui	supporting-tooling-or-contract	png	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
+core/media/package.json	core/media	ui	supporting-tooling-or-contract	json	40c8a35d2eb926f80556feeea410515857a000bd	authored
+core/media/render.mjs	core/media	ui	supporting-tooling-or-contract	mjs	009e1134382fdc49f395b362f18a2d239b696b16	authored
+core/media/src/index.tsx	core/media/src	ui	supporting-tooling-or-contract	tsx	308105eb5cf790f2a4858faba8e0f672515b2c0a	authored
+core/media/story.mjs	core/media	ui	supporting-tooling-or-contract	mjs	967a857dec3ff569eccd907b8470f9efb9669126	authored
+core/media/tsconfig.json	core/media	ui	supporting-tooling-or-contract	json	0c85f877b6c16ed95d7ddef46949d15456691234	authored
 core/nginx/default.conf	core/nginx	delivery	supporting-tooling-or-contract	conf	80a882f898f3fa6ae1bf22c0c5bb16d4a53767f4	unread
 core/nginx/default.dev.conf	core/nginx	delivery	supporting-tooling-or-contract	conf	c9cdc51ae1ddf86bc83b57058550d30bc9a77755	unread
 core/otel-collector-config.yaml	core	delivery	supporting-tooling-or-contract	yaml	eb5607471e122a9bbd1c07aff8d7bad7502295f3	unread
@@ -9392,7 +9397,7 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	7802a86c4ba95bd2adcfc0089eacb731c3266ee9	reviewed
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	3205b5e8214c7348a76c38fa319c7531d32f27ce	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -9589,6 +9594,7 @@ scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contra
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1d688f5fd15107041d1d53c562ac82f677020765	authored
+scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	authored
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored
