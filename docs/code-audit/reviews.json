@@ -6892,10 +6892,10 @@
     },
     {
       "path": "scripts/test-mcp-app-image.mjs",
-      "blob": "bed710faada2249ac44491c353879086e6fdfaef",
+      "blob": "3a33449fade566a9f1fe29cd3a6e6ab90ce7f091",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Corrected the test HTTP client to omit JSON Content-Type on bodyless DELETE; actual CLI/two-replica/native-view proof passes. Product/CLI source is unchanged.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
         "scripts/test-mcp-app.mjs",

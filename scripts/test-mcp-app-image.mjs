@@ -54,7 +54,7 @@ try {
   const init = { protocolVersion: "2025-11-25", clientInfo: { name: "vaultix-independent-host", version: "1" }, capabilities: { extensions: { "io.modelcontextprotocol/ui": { mimeTypes: ["text/html;profile=mcp-app"] } } } };
   const http = (target, method, params, context = {}, token = issued.accessToken, verb = "POST") => {
     const code = `let s='';process.stdin.on('data',b=>s+=b).on('end',async()=>{try{const q=JSON.parse(s),r=await fetch('http://127.0.0.1:8080/api/v1/vaultix/mcp',{method:q.verb,headers:q.headers,...(q.verb==='POST'?{body:JSON.stringify(q.body)}:{}),signal:AbortSignal.timeout(20000)});process.stdout.write(JSON.stringify({status:r.status,session:r.headers.get('mcp-session-id'),body:await r.text()}));}catch{process.exitCode=1;}});`;
-    return JSON.parse(docker(["exec", "-i", target, "node", "-e", code], { input: JSON.stringify({ verb, headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...context }, body: { jsonrpc: "2.0", id: 1, method, params } }) }).stdout.toString());
+    return JSON.parse(docker(["exec", "-i", target, "node", "-e", code], { input: JSON.stringify({ verb, headers: { ...(verb === "POST" ? { "Content-Type": "application/json" } : {}), Authorization: `Bearer ${token}`, ...context }, body: { jsonrpc: "2.0", id: 1, method, params } }) }).stdout.toString());
   };
   phase = "shared session across actual replicas";
   const opened = http(app, "initialize", init);
