@@ -2,13 +2,15 @@
 
 Vaultix's in-app Clyffy drawer already uses the protected MCP project and secret
 reference actions. It includes contextual help and guided dialogs. It is not an
-embedded app inside an external AI client. The server currently advertises tools
-and returns text results; it does not yet advertise MCP Apps or serve UI resources.
+embedded app inside an external AI client. The server also supports explicitly
+negotiated MCP Apps resources for authenticated clients. A standalone React
+reference browser shares the application's controls and validated catalog; it
+does not embed the application viewport. Actual AI-client acceptance remains open.
 
 The [interaction system](0024-interaction-and-teaching-system.md) and
 [native migration](0027-native-stack-and-ai-migration.md) remain authoritative.
-This packet covers the connection prerequisite for the external view. It does not
-change authentication, add a second action API, or establish host compatibility.
+The implementation preserves authentication and the existing source actions.
+Neither a protocol fixture nor a working local image establishes host compatibility.
 
 ## Connection lifecycle
 
@@ -42,23 +44,69 @@ Local HTTP/stdio fixtures check fresh authentication, isolation, malformed
 initialization, expiry, explicit recovery and stateless compatibility. Packaged
 CLI acceptance must also pass against the actual standalone Vaultix image.
 
-## Remaining implementation and acceptance
+## Server and view contract
 
-1. **Server negotiation.** Preserve the client's `io.modelcontextprotocol/ui`
+Clients opt in with `capabilities.extensions["io.modelcontextprotocol/ui"]`
+and the `text/html;profile=mcp-app` MIME type during initialization. Only an
+authenticated actor with the reference service and a verified packaged resource
+receives the extension and a session identifier. Anonymous, text-only and
+API-only installations retain their existing tools and text responses.
+
+The existing cache holds protocol context under a hash of authentication mode,
+actor type/ID, organization and authentication method. It stores no credentials.
+Issuance is atomic and limited to eight sessions per binding per one-hour window;
+sessions expire after four hours without sliding renewal. Session and quota keys
+share a Redis Cluster hash slot. Dragonfly and Redis tests do not establish live
+ElastiCache or Redis Cluster deployment acceptance. Every request still passes
+current authentication, and every source action re-evaluates existing permissions.
+Cache failures return a safe 503; issuance exhaustion returns 429 with Retry-After.
+
+Missing, expired or differently bound sessions return HTTP 404. Incorrect protocol
+headers return 400. Domain denial inside a valid session returns a tool error,
+preserving the session and preventing an accidental reconnect/replay. Auth failures
+remain HTTP 401. DELETE retires the current caller's session across replicas;
+clients that do not send DELETE rely on the fixed expiry.
+
+The frontend build produces one HTML resource under `dist/mcp-apps/`, copied into
+the standalone image with the other frontend assets. Its manifest pins bytes,
+SHA-256 and the exact `ui://vaultix/references/v1/<digest>.html` URI. The server
+loads only fixed deployment-owned paths and refuses an inconsistent artifact.
+Resource metadata allows no external network, fonts, frames or other domains.
+The view has no browser authentication or direct API client. Host-proxied tool
+calls use the same catalog and project/reference services as the application.
+
+The bridge pins the parent window and origin, bounds messages to 8 MiB and pending
+calls to eight, and times out requests/initial tool input after 15 seconds. It
+accepts complete bounded scope inputs as form suggestions; users explicitly run
+the reference action. Partial streamed input is ignored. Host layout hints are
+bounded; host-supplied CSS, fonts, HTML and URLs are never injected. Cancellation
+and teardown remove listeners, reject pending calls and clear cached data.
+Unsupported hosts receive recovery guidance. This is a bounded implementation
+of the stable Apps protocol, not a claim of every optional extension feature.
+
+Shared controls provide keyboard tooltips, contextual guided dialogs, focus
+restoration, loading/denial/empty feedback, reference filtering and clipboard
+fallback. The embedded path works in an opaque sandbox without form permissions.
+Repeating a reference query explicitly rechecks access and hides cached results
+while checking or after denial. Guides never execute actions or attest success.
+
+## Acceptance obligations
+
+1. **Server negotiation.** Verify preservation of the client's `io.modelcontextprotocol/ui`
    capability across requests. Use the existing shared cache for bounded,
    expiring transport context; bind it to the authenticated actor and organization.
    Every action must still pass current authentication and authorization. Test
    cross-actor/tenant reuse, revoked access, expiry, cache outage and multiple
    server replicas. Public catalog clients and clients without UI support retain
    their text workflow. Do not advertise an extension before its resources exist.
-2. **Owned resource and native view.** Add one predeclared, versioned `ui://`
+2. **Owned resource and native view.** Verify the predeclared, versioned `ui://`
    resource using `text/html;profile=mcp-app`. Link only the existing authorized
    project/reference tools through `_meta.ui.resourceUri`. Bundle a native React
    view with contextual help, loading/error/empty states and accessible dialogs.
    Use an exact resource allowlist, no arbitrary URLs/files, no external network
    domains, no provider credentials and no secret values. Keep meaningful text
    results available to clients that cannot display the view.
-3. **Bridge lifecycle.** Initialize with the host, validate tool inputs/results,
+3. **Bridge lifecycle.** Verify initialization with the host, validated tool inputs/results,
    invoke the existing source actions through the host, and clear state at
    teardown. Bound messages and discard stale responses after context changes.
    Teaching completion must remain distinct from service success. The host owns
@@ -73,6 +121,12 @@ CLI acceptance must also pass against the actual standalone Vaultix image.
 
 The resource and bridge contract follows the [stable MCP Apps specification,
 2026-01-26](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx).
-Real host selection and acceptance remain open. None of the connection checks
-establish completed embedded popups, whole-UI accessibility, capability parity or
-public-cloud readiness.
+`scripts/test-mcp-app.mjs` operates the built resource in an independent opaque
+sandbox with strict CSP. `scripts/test-mcp-app-image.mjs <image> <linux-cli>`
+exercises the packaged CLI, two actual server replicas and shared cache/store,
+then operates the returned resource against real source actions. Backend route,
+resource-integrity and disposable-cache tests cover negotiation and failure paths.
+Their exact artifact receipts belong to the local journal. They do not replace
+the actual host and manual assistive-technology gates. Real host selection and
+acceptance remain open; whole-UI accessibility, capability parity and public-cloud
+readiness remain separate obligations.

@@ -1,0 +1,394 @@
+{
+  "provenance": "Public, tenant-independent catalog/guidance/configure from the accepted local Vaultix image. Reference and permission responses are independent browser fixtures.",
+  "catalog": {
+    "schemaVersion": "vaultix.catalog.v1",
+    "product": "Vaultix",
+    "owner": "AngryVibes LLC",
+    "tagline": "Secrets you own. Built for the way you build.",
+    "source": "catalog",
+    "actions": [
+      {
+        "id": "vaultix.projects.list",
+        "component": "action-button",
+        "label": "Browse Secret References",
+        "narration": "Choose an app you can access in this organization."
+      },
+      {
+        "id": "vaultix.secrets.references",
+        "component": "action-button",
+        "label": "Show References",
+        "narration": "Check access and show names in this environment and folder."
+      }
+    ],
+    "entries": [
+      {
+        "id": "project",
+        "title": "One Project for Each App",
+        "description": "Keep an app's secrets together, with separate development and production environments."
+      },
+      {
+        "id": "reference",
+        "title": "Give AI Names, Never Values",
+        "description": "Clyffy works with secret references. Enter the actual key in Vaultix, outside the conversation."
+      },
+      {
+        "id": "injection",
+        "title": "Connect Your App",
+        "description": "Give your application access to only the secrets and environment it needs."
+      },
+      {
+        "id": "control",
+        "title": "Keep Control as You Grow",
+        "description": "Vaultix's direction is free software features, including approvals, rotation, audit, and team controls. Feature parity is still being built and verified."
+      }
+    ],
+    "didYouKnow": [
+      {
+        "id": "ref-names-not-values",
+        "kind": "did-you-know",
+        "title": "Share the reference, keep the value in your vault",
+        "description": "Reference tools list names you may access. They do not return secret values, comments, personal overrides, or imported secrets.",
+        "context": [
+          "references"
+        ],
+        "source": "catalog"
+      },
+      {
+        "id": "client-credentials",
+        "kind": "did-you-know",
+        "title": "Your AI credentials stay in your client",
+        "description": "Use your existing local Codex sign-in or provider setup. Adding the MCP connection does not sign you in to Vaultix or grant secret access.",
+        "context": [
+          "connections"
+        ],
+        "source": "catalog"
+      }
+    ],
+    "knowledgeDrops": [
+      {
+        "id": "environment-bounds",
+        "kind": "knowledge-drop",
+        "title": "Check the environment before each lookup",
+        "description": "The same name can refer to different values in development and production. Choose the app, environment, and folder before requesting references.",
+        "context": [
+          "references"
+        ],
+        "source": "catalog"
+      },
+      {
+        "id": "mcp-boundary",
+        "kind": "knowledge-drop",
+        "title": "Guidance and execution have separate results",
+        "description": "Reviewing a lesson or copying a connection does not execute a vault action. Current MCP tools provide guidance and authorized reference reads; secret-changing tools are not available yet.",
+        "context": [
+          "connections"
+        ],
+        "source": "catalog"
+      }
+    ],
+    "enterpriseCapabilities": [
+      {
+        "id": "references-versioning",
+        "title": "References & versioning",
+        "summary": "Scoped secret references, imports, and recovery workflows that keep values out of chat and model contexts.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Secrets"
+      },
+      {
+        "id": "approvals-review",
+        "title": "Approvals & change review",
+        "summary": "Request, review, and enforce change policies across key secret operations and environment changes.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Governance"
+      },
+      {
+        "id": "identity-access",
+        "title": "Identity, MFA & RBAC",
+        "summary": "Organization, group, role, SSO, LDAP, and MFA-powered access controls with tenant boundaries.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Access"
+      },
+      {
+        "id": "audit-logging",
+        "title": "Audit & compliance trails",
+        "summary": "Audit entries for requests, approvals, access changes, and recovery flows with redaction-safe logs.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Operations"
+      },
+      {
+        "id": "rotation-dynamic-creds",
+        "title": "Rotation & dynamic credentials",
+        "summary": "Time-bound credentials and rotation workflows for workloads, destinations, and connected integrations.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Lifecycle"
+      },
+      {
+        "id": "pki-pam-kms",
+        "title": "PKI, PAM & KMS",
+        "summary": "Certificate lifecycle management, privileged access workflows, and key custody with explicit policy boundaries.",
+        "featurePolicy": "included",
+        "reviewStatus": "in-progress",
+        "category": "Enterprise"
+      }
+    ]
+  },
+  "guidance": {
+    "schemaVersion": "vaultix.guidance.v1",
+    "source": "catalog",
+    "a2uiVersion": "0.9.1",
+    "guides": [
+      {
+        "id": "references",
+        "title": "Find the Right Secret Reference",
+        "summary": "Choose a scope, check access, and use a name without exposing its value.",
+        "steps": [
+          {
+            "id": "app",
+            "component": "configure-step",
+            "target": "reference-app",
+            "title": "Start with Your App",
+            "hint": "Each app has its own project and access rules.",
+            "body": "Choose the app you are working on. Only projects available to your current organization and permissions appear here.",
+            "teaches": "A project keeps an application's secrets and access boundaries together."
+          },
+          {
+            "id": "environment",
+            "component": "configure-step",
+            "target": "reference-environment",
+            "title": "Choose the Environment",
+            "hint": "Keep development and production access separate.",
+            "body": "Select the environment your app will run in. Changing the app clears the environment and previous results so you cannot mistake an old scope for the new one.",
+            "teaches": "The same secret name can refer to different values in different environments."
+          },
+          {
+            "id": "folder",
+            "component": "configure-step",
+            "target": "reference-path",
+            "title": "Narrow the Folder",
+            "hint": "Start at / or choose a specific folder you may access.",
+            "body": "Use a path beginning with /. Check the app, environment and folder before asking Vaultix for references. An unavailable folder does not reveal whether another tenant owns it.",
+            "teaches": "Scope limits what an action may read; it does not grant permission."
+          },
+          {
+            "id": "names",
+            "component": "configure-step",
+            "target": "reference-submit",
+            "title": "Read Names, Keep Values Private",
+            "hint": "This action returns names and versions, never values.",
+            "body": "Show References checks your access. Copy Name copies only the reference name. Clyffy uses the same authorized source action; your application's value delivery is a separate flow.",
+            "teaches": "Learning this workflow does not execute it or change your vault."
+          }
+        ]
+      },
+      {
+        "id": "connections",
+        "title": "Connect Your AI Client",
+        "summary": "Keep model sign-in in your own client and give Clyffy scoped tools.",
+        "steps": [
+          {
+            "id": "client",
+            "component": "configure-step",
+            "target": "connection-codex-subscription",
+            "title": "Bring Your Own AI Setup",
+            "hint": "Subscription and provider credentials stay in your client.",
+            "body": "Choose local Codex subscription sign-in, your existing Codex configuration, or another MCP client. Vaultix never asks you to paste your model credentials.",
+            "teaches": "Your AI provider and Vaultix authorization are separate connections."
+          },
+          {
+            "id": "configuration",
+            "component": "configure-step",
+            "target": "connection-configuration",
+            "title": "Add the Instance Connection",
+            "hint": "Copy this connection into your client's MCP settings.",
+            "body": "The connection points to this Vaultix instance. Add it to your existing client settings without replacing unrelated configuration. It contains no credentials.",
+            "teaches": "A connection URL tells the client where tools live; it does not authorize secret access."
+          },
+          {
+            "id": "boundaries",
+            "component": "configure-step",
+            "target": "connection-access",
+            "title": "Check What Is Available",
+            "hint": "Guidance is public; reference reads require authorization.",
+            "body": "Read the current access status below. Clyffy can explain setup and list authorized references. Native mutation, injection and hosted Nomen sign-in still need implementation and acceptance evidence.",
+            "teaches": "Completing this guide does not prove client sign-in or grant permissions."
+          }
+        ]
+      },
+      {
+        "id": "organization",
+        "title": "Name Your Organization",
+        "summary": "Create a home for your projects and team before setting up your owner account.",
+        "steps": [
+          {
+            "id": "name",
+            "component": "configure-step",
+            "target": "organization-name",
+            "title": "Use a Name You Recognize",
+            "hint": "Name your business, team, brand, or personal workspace.",
+            "body": "An organization groups your projects, members, and access policies. Use your business or team name, or keep the suggested name. You can rename it later in organization settings.",
+            "teaches": "This is a display name. It does not register a domain, create public sign-in, or grant access."
+          },
+          {
+            "id": "suggestion",
+            "component": "configure-step",
+            "target": "organization-name-suggest",
+            "title": "Start with a Suggested Name",
+            "hint": "Generate another editable example.",
+            "body": "Suggest Another Name fills the name field with a new example. You can replace it with your own name before continuing.",
+            "teaches": "A suggested organization name is not a password or a secret."
+          },
+          {
+            "id": "continue",
+            "component": "configure-step",
+            "target": "organization-continue",
+            "title": "Continue with Your Organization",
+            "hint": "Review the name before the next step.",
+            "body": "For a new instance, continue to create your owner account with your own email and password. If you are already signed in, this action creates your organization.",
+            "teaches": "Reviewing this guide does not submit the form. Only the form button performs the next action."
+          }
+        ]
+      },
+      {
+        "id": "owner",
+        "title": "Create Your Owner Account",
+        "summary": "Use your own credentials to administer this Vaultix instance.",
+        "steps": [
+          {
+            "id": "email",
+            "component": "configure-step",
+            "target": "admin-signup-email",
+            "title": "Choose Your Sign-in Email",
+            "hint": "Use an email address you control.",
+            "body": "This first account is the instance administrator and owns the first organization. Enter your own name and email. Invite teammates after entering the workspace.",
+            "teaches": "Creating the owner does not enable public signup or configure federation."
+          },
+          {
+            "id": "password",
+            "component": "configure-step",
+            "target": "admin-signup-password",
+            "title": "Set Your Own Password",
+            "hint": "Use a unique password and save it in your password manager.",
+            "body": "Choose and confirm a password that meets the requirements shown below the field. Password managers and paste are supported. There is no shared default password to reuse.",
+            "teaches": "Your password belongs only in the sign-in form and your password manager. Never send it to Clyffy, chat, or a guide."
+          },
+          {
+            "id": "create",
+            "component": "configure-step",
+            "target": "admin-signup-create",
+            "title": "Create Your Workspace",
+            "hint": "Save the owner and organization, then enter Vaultix.",
+            "body": "Create Workspace submits your account and organization. A new self-hosted instance starts invite-only with email and password sign-in. Set up federation and other access choices later in settings.",
+            "teaches": "If opening the workspace fails after creation, retry opening it or sign in. You do not need another owner account."
+          }
+        ]
+      }
+    ],
+    "workflowGuides": [
+      {
+        "id": "environment-create",
+        "title": "Create an Environment",
+        "summary": "Give a deployment stage its own secret scope without changing other environments.",
+        "steps": [
+          {
+            "id": "name",
+            "component": "configure-step",
+            "target": "environment-name",
+            "title": "Name the Deployment Stage",
+            "hint": "Use a readable name such as Preview or Staging.",
+            "body": "The name identifies this stage in your project. Choose a name your team will recognize. Creating an environment does not copy secrets from another environment.",
+            "teaches": "A separate environment keeps configuration distinct. Access is still controlled by project permissions and policies."
+          },
+          {
+            "id": "slug",
+            "component": "configure-step",
+            "target": "environment-slug",
+            "title": "Choose a Stable Identifier",
+            "hint": "CLI commands and integrations use the slug.",
+            "body": "Vaultix suggests a slug from the name until you edit it yourself. Use lowercase letters, numbers, and single hyphens between words. Choose an identifier that will remain meaningful as your app grows.",
+            "teaches": "The name is for people; the slug is the identifier used by clients and references. Check it before connecting workloads."
+          },
+          {
+            "id": "save",
+            "component": "configure-step",
+            "target": "environment-save",
+            "title": "Create When You Are Ready",
+            "hint": "Only Create submits the environment.",
+            "body": "Review the name and slug, then use Create. Vaultix checks your permissions and rejects duplicate slugs. If saving fails, your entries stay in the form so you can correct them or retry.",
+            "teaches": "Reviewing this guide does not create an environment, copy secrets, or grant access."
+          }
+        ]
+      },
+      {
+        "id": "environment-update",
+        "title": "Update an Environment Safely",
+        "summary": "Keep client configuration in mind when changing an environment identifier.",
+        "steps": [
+          {
+            "id": "name",
+            "component": "configure-step",
+            "target": "environment-name",
+            "title": "Update the Display Name",
+            "hint": "Renaming does not automatically change the slug.",
+            "body": "Use a name your team recognizes. In this update form, the slug stays unchanged unless you edit it explicitly.",
+            "teaches": "A clearer display name can help your team without changing the identifier clients use."
+          },
+          {
+            "id": "slug",
+            "component": "configure-step",
+            "target": "environment-slug",
+            "title": "Review Clients Before Changing the Slug",
+            "hint": "Existing clients may still use the old identifier.",
+            "body": "Changing the slug can break CLI commands, integrations, and secret references using its old value. Review those consumers before saving and update their configuration as needed.",
+            "teaches": "This form does not update external client configuration or prove that every dependent workload has been migrated."
+          },
+          {
+            "id": "save",
+            "component": "configure-step",
+            "target": "environment-save",
+            "title": "Save the Reviewed Change",
+            "hint": "Only Update submits your edits.",
+            "body": "Use Update when the name and slug are ready. A rejected save keeps your edits for correction or retry. Cancel closes the form without submitting those edits.",
+            "teaches": "Completing a lesson is separate from saving a change. Permissions remain enforced by the server."
+          }
+        ]
+      }
+    ]
+  },
+  "configure": {
+    "schemaVersion": "vaultix.configure.v1",
+    "source": "catalog",
+    "components": [
+      {
+        "id": "sign-in",
+        "component": "configure-step",
+        "title": "Open Your Vault",
+        "description": "Sign in to create or choose the project for your app.",
+        "href": "/login",
+        "label": "Open Vaultix"
+      },
+      {
+        "id": "store",
+        "component": "configure-step",
+        "title": "Add Your First Secret",
+        "description": "Choose the development environment and add the key in the secret editor. Keep the value out of chat."
+      },
+      {
+        "id": "connect",
+        "component": "configure-step",
+        "title": "Connect Your App",
+        "description": "Use a scoped machine identity for your app. Keep production credentials separate from development."
+      },
+      {
+        "id": "clyffy",
+        "component": "configure-step",
+        "title": "Meet Clyffy",
+        "description": "Connect your local Codex client to the Vaultix guide. Authenticated reference tools can list names you may access; secret-changing tools are not available yet."
+      }
+    ]
+  }
+}

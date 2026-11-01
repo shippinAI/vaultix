@@ -3,7 +3,6 @@ import { forwardRef } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "cva";
 
-import { Lottie } from "@app/components/v2/Lottie";
 import { cn } from "@app/components/v3/utils";
 
 const buttonVariants = cva(
@@ -103,7 +102,23 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <>
         {_children}
         {isPending && (
-          <Lottie icon="vaultix_loading_white" isAutoPlay className="absolute w-8 rounded-xl" />
+          <svg
+            role="status"
+            aria-label="Loading"
+            viewBox="0 0 64 64"
+            fill="none"
+            className="absolute size-8! text-project"
+          >
+            <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+            <path
+              className="origin-center motion-safe:animate-spin"
+              d="M32 4a28 28 0 0 1 28 28"
+              stroke="currentColor"
+              strokeWidth="3"
+            />
+            <path d="M19 19h26v26H19z" stroke="currentColor" strokeWidth="2" />
+            <path d="m24 27 8 12 8-12" stroke="currentColor" strokeWidth="3" />
+          </svg>
         )}
       </>
     );

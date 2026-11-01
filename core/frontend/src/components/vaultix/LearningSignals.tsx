@@ -1,6 +1,11 @@
 import { LightbulbIcon } from "lucide-react";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@app/components/v3";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@app/components/v3/generic/Accordion/Accordion";
 import type {
   VaultixCapabilityFamily,
   VaultixTeachingSignal

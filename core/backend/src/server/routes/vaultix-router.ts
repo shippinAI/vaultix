@@ -22,12 +22,15 @@ import {
 import { getVaultixGuidance } from "@app/services/vaultix/guidance";
 import { parseLearningContext } from "@app/services/vaultix/learning-input";
 import { handleVaultixMcp } from "@app/services/vaultix/mcp";
+import { loadMcpAppResource, McpAppResource, requestsMcpApp } from "@app/services/vaultix/mcp-app-resource";
+import { createMcpSessionService, McpSessionBinding, McpSessionError } from "@app/services/vaultix/mcp-session-service";
 import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
 import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
 
 export const registerVaultixRouter = async (
   server: FastifyInstance,
   options: {
+    appResource?: () => Promise<McpAppResource | undefined>;
     references?: VaultixReferenceService;
     auditReferences?: (
       request: FastifyRequest,
@@ -35,6 +38,7 @@ export const registerVaultixRouter = async (
     ) => Promise<void>;
   }
 ) => {
+  const appResource = (options.appResource ?? loadMcpAppResource)();
   const canRead = (request: FastifyRequest) =>
     Boolean(
       request.auth &&
@@ -70,7 +74,8 @@ export const registerVaultixRouter = async (
     const code =
       error instanceof Error && "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : 500;
     let status = code >= 400 && code < 500 ? code : 500;
-    if (error instanceof UnauthorizedError || error instanceof jwt.JsonWebTokenError) status = 401;
+    if (error instanceof McpSessionError) status = error.statusCode;
+    else if (error instanceof UnauthorizedError || error instanceof jwt.JsonWebTokenError) status = 401;
     else if (error instanceof BadRequestError) status = 400;
     else if (error instanceof RateLimitError) status = 429;
     else if (
@@ -85,10 +90,27 @@ export const registerVaultixRouter = async (
       401: "Sign in to access your vault.",
       404: "This resource is unavailable.",
       429: "Too many requests. Wait for the Retry-After interval and try again.",
-      500: "Vaultix could not complete the request."
+      500: "Vaultix could not complete the request.",
+      503: "Vaultix MCP is temporarily unavailable. Retry when the service recovers."
     };
+    if (error instanceof McpSessionError && status === 429) void reply.header("Retry-After", "3600");
     return reply.code(status).send({ error: messages[status] ?? "Invalid Vaultix request." });
   });
+
+  const sessionBinding = (request: FastifyRequest): McpSessionBinding => {
+    if (!canRead(request)) throw new UnauthorizedError();
+    return {
+      authMode: request.auth.authMode,
+      actor: request.permission.type,
+      actorId: request.permission.id,
+      orgId: request.permission.orgId,
+      authMethod: request.permission.authMethod ?? null
+    };
+  };
+  const sessions = () => {
+    if (!server.hasDecorator("redis") || !server.redis) throw new McpSessionError(503);
+    return createMcpSessionService(server.redis);
+  };
 
   server.addHook("onRequest", async (request, reply) => {
     void reply.header("Cache-Control", "no-store");
@@ -241,26 +263,90 @@ export const registerVaultixRouter = async (
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
     },
     async (request, reply) => {
-      const response = await handleVaultixMcp(
-        request.body,
-        options.references
-          ? {
-              tools: canRead(request) ? referenceTools : [],
-              names: referenceTools.map((tool) => tool.name),
-              call: (name, args) => runAction(request, name, args)
-            }
-          : undefined
-      );
+      const sessionId = request.headers["mcp-session-id"];
+      const body = request.body as { method?: unknown } | undefined;
+      if (sessionId !== undefined && typeof sessionId !== "string") throw new McpSessionError(404);
+      if (sessionId !== undefined) {
+        await sessions().read(sessionBinding(request), sessionId, request.headers["mcp-protocol-version"]);
+        if (body?.method === "initialize") throw new McpSessionError(400);
+      }
+      const wantsApp = requestsMcpApp(request.body) && canRead(request) && Boolean(options.references);
+      const resource = sessionId !== undefined || wantsApp ? await appResource : undefined;
+      const response = await Promise.resolve(
+        handleVaultixMcp(
+          request.body,
+          options.references
+            ? {
+                tools: canRead(request) ? referenceTools : [],
+                names: referenceTools.map((tool) => tool.name),
+                call: (name, args) => runAction(request, name, args)
+              }
+            : undefined,
+          resource
+        )
+      ).catch((error: unknown) => {
+        // HTTP 404 is reserved for expired/mismatched MCP sessions. A denied
+        // domain action is a tool result, not a request to reinitialize/replay.
+        if (
+          sessionId === undefined ||
+          !(
+            error instanceof BadRequestError ||
+            error instanceof NotFoundError ||
+            error instanceof ForbiddenRequestError ||
+            error instanceof ForbiddenError
+          )
+        )
+          throw error;
+        return {
+          jsonrpc: "2.0",
+          id: (request.body as { id: string | number }).id,
+          result: {
+            isError: true,
+            content: [
+              {
+                type: "text",
+                text:
+                  error instanceof BadRequestError
+                    ? "Invalid Vaultix action arguments."
+                    : "This resource is unavailable."
+              }
+            ]
+          }
+        };
+      });
       if (response === undefined) return reply.code(202).send();
+      if (
+        wantsApp &&
+        resource &&
+        "result" in response &&
+        response.result &&
+        typeof response.result === "object" &&
+        "protocolVersion" in response.result &&
+        typeof response.result.protocolVersion === "string"
+      ) {
+        const id = await sessions().create(sessionBinding(request), response.result.protocolVersion);
+        void reply.header("Mcp-Session-Id", id);
+      }
       return reply.send(response);
     }
   );
 
   server.route({
-    method: ["GET", "DELETE"],
+    method: ["GET"],
     url: "/mcp",
     config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     handler: async (_request, reply) =>
       reply.header("Allow", "POST").code(405).send({ error: "Use POST for the stateless Vaultix MCP endpoint." })
+  });
+  server.delete("/mcp", { config: { rateLimit: { max: 120, timeWindow: "1 minute" } } }, async (request, reply) => {
+    const id = request.headers["mcp-session-id"];
+    if (id === undefined)
+      return reply.header("Allow", "POST").code(405).send({ error: "Specify an MCP session to close." });
+    if (typeof id !== "string") throw new McpSessionError(404);
+    const binding = sessionBinding(request);
+    const service = sessions();
+    await service.read(binding, id, request.headers["mcp-protocol-version"]);
+    await service.remove(binding, id);
+    return reply.code(204).send();
   });
 };

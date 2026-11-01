@@ -57,13 +57,16 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
-      "blob": "657e073a388b89ab149ff9afcb2ef98a382e38ba",
+      "blob": "bb6f9212442c6418dd1e781af6073cc784c8addc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -139,19 +142,16 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/GuidedHelp.tsx",
-      "blob": "18e1ed10af10058f06dc60564214c3722c0e26b7",
-      "status": "verified",
+      "blob": "7713be99a2fa7ef83231c5ce828f4f0b65b5fcc7",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Authenticated environment teaching packet 0053: optional backward-compatible workflow content, bounded pure reader, form-scoped focus targets and nested guided dialogs. Existing mutation/permission/validation/retry behavior retained. No input values in authored teaching or identifier-only history. Scoped acceptance passed on 217aa3db: real create/update after guide use, no lesson mutations, nested keyboard focus, retained inputs, recovery and narrow/reduced-motion scans. Existing packaged native UI suite also passed. Not complete environment-domain migration, manual assistive-technology acceptance or all-UI conformance.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/0053-authenticated-environment-teaching.md",
-        "scripts/test-guidance-contract.mjs",
-        "scripts/test-guided-interactions.mjs",
-        "scripts/test-environment-workflow.mjs",
-        ".cache/self-hosted-build-UyUBo1/result.json",
-        ".cache/app-image-proof-sKT8bZ/environment-teaching.json",
-        ".cache/app-image-proof-sKT8bZ/environment-accessibility.json",
-        ".cache/ui-proof-6gtdSD/accessibility.json"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -373,14 +373,16 @@
     },
     {
       "path": "core/frontend/src/index.css",
-      "blob": "d8c191dc61525f987a191c09743d7d2db2dcd5fe",
+      "blob": "03ccaf7b46d5fa859534ba7f8707fa7b37af594e",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete stylesheet read. Add semantic recessed/elevated shadow tokens; existing raw palettes, global utilities, legacy motion and third-party styling retained. Recessed token verified in auth layout. This does not mark all legacy colors/motion or all elevation consumers converted or accessible.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/0028-visual-loading-system.md",
-        ".cache/loading-proof-Ss8GJr/result.json",
-        ".cache/ui-proof-UKNPvQ/accessibility.json"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -3082,32 +3084,30 @@
     },
     {
       "path": "core/frontend/src/hooks/api/vaultix/queries.ts",
-      "blob": "cf4ddde832753ee6ae58eb1b5d0b40d508f386e4",
-      "status": "verified",
+      "blob": "705ad9563d8636452c89d8897255329a82d08840",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
       "path": "core/frontend/src/components/vaultix/LearningSignals.tsx",
-      "blob": "f77d52e03348706d94dd116fea3ad777f6492afe",
-      "status": "verified",
+      "blob": "c96413823868c64849a7919a8807b9c91d69a4b9",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -3271,16 +3271,16 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.ts",
-      "blob": "76d6c3968672bf3c9e59c4f50ae0c6b4148d1aae",
-      "status": "verified",
+      "blob": "57205fd2a387ce44a0b61cb01ca305a814cf88c7",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/0057-learning-context-integration.md",
-        "core/backend/src/server/routes/vaultix-learning.test.ts",
-        "core/backend/src/server/plugins/swagger.test.ts",
-        ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json",
-        ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -3299,13 +3299,16 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
-      "blob": "e772f84733e985e2232544e324187f8b81bc00cd",
+      "blob": "db5b4f95564f5a38d7cf2d778de76e8c2b49a570",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     },
     {
@@ -6623,14 +6626,296 @@
     },
     {
       "path": "docs/mcp-embedded-apps.md",
-      "blob": "0b387b61f72ef0e3f40809b4dc393fdbd22bc50a",
+      "blob": "21e2f44647d3a3d07f30c74371d3e6147fcb329f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
-        "internal/api/mcp_test.go",
-        "internal/cli/mcp_test.go"
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/package.json",
+      "blob": "660508d49ea41818677f2c49054999cb2253f3a2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Button/Button.tsx",
+      "blob": "11e14089801de426ead0e61f399809772e3fa82a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/actions.ts",
+      "blob": "b4c1627c2ad127288a89fbb63a67f4037c7ee176",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+      "blob": "e60add1907f0b0d67d92f1de35543651359caed8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp-app-resource.test.ts",
+      "blob": "969a83b8957524e82a154e7ca311a1faeeee3c09",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp-app-resource.ts",
+      "blob": "c38283997ace7ed395ef400bc6d382f92dc9dc19",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp-session-cache.test.ts",
+      "blob": "4a2deb069ffbbf254c15e12dbb4a9ae9bcbdd8bf",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp-session-service.ts",
+      "blob": "50c2270292d1dcfec0b9f860121e426865c29da1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/scripts/build-mcp-app.mjs",
+      "blob": "c0fb986a3465e6bd761c5bf06baceef4cdeeb977",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/GuidedHelpView.tsx",
+      "blob": "621bdfb0c4d6c5e635792adc191d21636379e483",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+      "blob": "0bae71f28092cb0317ceee7a65b2fa36b468e41c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/catalog-contract.ts",
+      "blob": "608cd53c67a20ea7dd7e472f7e13cd2ce1cccee3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/vaultix/reference-contract.ts",
+      "blob": "52e96275f13e372325cf85adfc51d43e630bb225",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/mcp-app/app.css",
+      "blob": "7c0cc3fa5a40ba004de2bb49c8ac5d8cbc1461b1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/mcp-app/bridge.ts",
+      "blob": "61f469cb676f8c340eb1ffc605f9457e6cee56c7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/mcp-app/main.tsx",
+      "blob": "7b38d251c20e4ba307a976feed00c343ed8721e1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "core/frontend/src/theme.css",
+      "blob": "860f0ed3397628358b1fe857675ea98789c78e9f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/mcp-app-content.json",
+      "blob": "45dda9b04d8d31047e5d96f2881069f48bef59fb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "scripts/test-mcp-app-image.mjs",
+      "blob": "bed710faada2249ac44491c353879086e6fdfaef",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "scripts/test-mcp-app.mjs",
+      "blob": "f0a036ee1f8d24085618585ee7314746f91db451",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "scripts/test-mcp-app.mjs",
+        "scripts/test-mcp-app-image.mjs",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
       ]
     }
   ]

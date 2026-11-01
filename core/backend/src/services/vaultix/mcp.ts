@@ -1,5 +1,6 @@
 import { readVaultixTool, specialistInstructions, vaultixTools } from "./catalog";
 import { parseLearningContext } from "./learning-input";
+import { describeMcpAppResource, mcpAppExtension, mcpAppMimeType, McpAppResource } from "./mcp-app-resource";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -10,7 +11,8 @@ export const handleVaultixMcp = (
     tools: unknown[];
     names: string[];
     call: (name: string, args: unknown) => Promise<unknown>;
-  }
+  },
+  app?: McpAppResource
 ) => {
   const validId =
     isRecord(body) &&
@@ -38,10 +40,18 @@ export const handleVaultixMcp = (
         return error(-32602, "Initialization requires protocolVersion, clientInfo, and capabilities.");
       }
       return result({
-        protocolVersion: ["2024-11-05", "2025-03-26", "2025-06-18"].includes(params.protocolVersion)
+        protocolVersion: ["2024-11-05", "2025-03-26", "2025-06-18", "2025-11-25"].includes(params.protocolVersion)
           ? params.protocolVersion
           : "2025-03-26",
-        capabilities: { tools: { listChanged: false } },
+        capabilities: {
+          tools: { listChanged: false },
+          ...(app
+            ? {
+                resources: { subscribe: false, listChanged: false },
+                extensions: { [mcpAppExtension]: { mimeTypes: [mcpAppMimeType] } }
+              }
+            : {})
+        },
         serverInfo: { name: "vaultix-clyffy", version: "1.0.0" },
         instructions: specialistInstructions
       });
@@ -49,7 +59,24 @@ export const handleVaultixMcp = (
       return result({});
     case "tools/list":
       if (Object.keys(params).length) return error(-32602, "This tool list has no pagination parameters.");
-      return result({ tools: [...vaultixTools, ...(actions?.tools ?? [])] });
+      return result({
+        tools: [
+          ...vaultixTools,
+          ...(actions?.tools ?? []).map((tool) =>
+            app && isRecord(tool)
+              ? { ...tool, _meta: { ui: { resourceUri: app.uri, visibility: ["model", "app"] } } }
+              : tool
+          )
+        ]
+      });
+    case "resources/list":
+      if (!app) return error(-32601, "Method not found.");
+      if (Object.keys(params).length) return error(-32602, "This resource list has no pagination parameters.");
+      return result({ resources: [describeMcpAppResource(app)] });
+    case "resources/read":
+      if (!app) return error(-32601, "Method not found.");
+      if (Object.keys(params).length !== 1 || params.uri !== app.uri) return error(-32602, "Unknown Vaultix resource.");
+      return result({ contents: [{ ...describeMcpAppResource(app), text: app.text }] });
     case "tools/call": {
       if (
         typeof params.name !== "string" ||
