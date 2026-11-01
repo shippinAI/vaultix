@@ -41,6 +41,12 @@ claims. Nothing in this plan expands them into blanket parity or cloud readiness
 
 ## Immediate queue: preserve built-in identity and support federation
 
+The 2026-11-01 [usable-secrets and update-delivery plan](0075-usable-secrets-and-update-delivery.md)
+is the immediate execution focus: public built-in CLI login, application secret
+consumption, verified server updates/recovery, actual AI-client and assistive-
+technology acceptance. Its immutable checks preserve the wider queue below;
+component receipts do not close that user journey.
+
 Execute IDENTITY-01 through IDENTITY-06 in [0074](0074-built-in-and-federated-identity.md):
 characterize existing built-in and federated workflows, version instance login
 metadata, implement native built-in remote authorization, preserve shared actor

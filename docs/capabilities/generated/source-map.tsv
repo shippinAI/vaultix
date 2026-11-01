@@ -9568,7 +9568,7 @@ scripts/test-image-app.mjs	operate	delivery	scripts	2edc5c9853fd6116aecdc121f152
 scripts/test-learning-content.mjs	operate	delivery	scripts	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	verified
 scripts/test-login-failure.mjs	operate	delivery	scripts	09e59d34dad9500333a4ca70c02307a769d2c755	verified
 scripts/test-login-recovery.mjs	operate	delivery	scripts	2967dc7ba3c15fd11e494e1d60edd6a6388c7145	verified
-scripts/test-mcp-app-image.mjs	operate	delivery	scripts	bed710faada2249ac44491c353879086e6fdfaef	authored
+scripts/test-mcp-app-image.mjs	operate	delivery	scripts	3a33449fade566a9f1fe29cd3a6e6ab90ce7f091	authored
 scripts/test-mcp-app.mjs	operate	delivery	scripts	f0a036ee1f8d24085618585ee7314746f91db451	authored
 scripts/test-migration-map.mjs	operate	delivery	scripts	dc89a485b77e7fd262a5f77d662e5e78fa47b349	verified
 scripts/test-native-audit-image.mjs	operate	delivery	scripts	44ac4f5dd6a2b5f44710726d9af303f8ab7ba20b	unread

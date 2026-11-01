@@ -4607,12 +4607,13 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "40777e344e34e578e76d54f3f2a3a2765d4c2ed3",
-      "status": "reviewed",
+      "blob": "453c6e4c07191ed7466e218ff7e5ff2887097d50",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "scripts/ai-journal.test.mjs"
       ]
     },
     {
@@ -6515,13 +6516,13 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "0c21fc4b164338d7fcbc2f58c9268f441b73fa7c",
+      "blob": "b1eb5e5c6acbcc63c2f06d112b071fa95ea23e23",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "scripts/ai-journal.test.mjs"
       ]
     },
     {
@@ -6916,6 +6917,17 @@
         "scripts/test-mcp-app-image.mjs",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
         "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+      ]
+    },
+    {
+      "path": "docs/0075-usable-secrets-and-update-delivery.md",
+      "blob": "501ad0b3b1b89f1da8d73f556dffc22f93c405cb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
+      "evidence": [
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "scripts/ai-journal.test.mjs"
       ]
     }
   ]

@@ -88,8 +88,10 @@ Guided lessons, contextual tooltips, status messages, denial/retry states and
 focus restoration use the shared native components.
 
 This is an in-application MCP consumer. It is not an AI inference session,
-remote viewport driver, or embedded client app. MCP Apps resource discovery,
-host capability negotiation and a verified compatible AI-host experience remain
-open. The existing readonly tools do not gain secret-changing authority from
+remote viewport driver, or embedded client app. A separate native MCP Apps resource
+and host capability negotiation are now implemented as described in
+[embedded interactions](mcp-embedded-apps.md); actual compatible AI-client
+acceptance remains open. The [delivery plan](0075-usable-secrets-and-update-delivery.md)
+tracks that review and stable distribution. The existing readonly tools do not gain secret-changing authority from
 being displayed in a sheet. Whole-workflow conversion and real screen-reader
 acceptance remain required.
