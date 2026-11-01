@@ -58,11 +58,11 @@ try {
   for (const executable of ["/tmp/vaultix", "/tmp/vaultixl"]) {
     const help = cli(["--help"], "", true, executable);
     assert.ok(help.startsWith(`usage: ${executable.slice(5)} <command>`));
-    assert.ok(help.includes("login --domain=https://vaultix.cloud") && !/vaultix/i.test(help));
+    assert.ok(help.includes("login --domain=https://vaultix.cloud") && !/infisical/i.test(help));
     const loginHelp = cli(["login", "--help"], "", true, executable);
-    assert.ok(loginHelp.includes("-domain") && !/vaultix/i.test(loginHelp));
+    assert.ok(loginHelp.includes("-domain") && !/infisical/i.test(loginHelp));
   }
-  cli(["login", "--vaultix"], "", false);
+  cli(["login", "--infisical"], "", false);
   check("both native command names expose Vaultix help and reject the vendor flag");
   phase = "provisioning";
   const owner = await api("/api/v1/admin/signup", { method: "POST", body: { email: `${run}@vaultix.invalid`, password, firstName: "CLI", organizationName: "CLI Proof" } });

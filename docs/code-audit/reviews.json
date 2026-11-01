@@ -2663,15 +2663,13 @@
     },
     {
       "path": "scripts/check-owned.sh",
-      "blob": "bd596fb1097dfad2e4e071ba051da0ea532fb658",
+      "blob": "2d2c47df31fba8f499a94d98c4785d2e59242791",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete current check read. Canonical local image default replaces mandatory GHCR default; product source/artwork, frozen archive and default license behavior checks retained. Actual owned-source check passes. This static guard establishes only its enumerated checks, not whole-product authorship.",
+      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
       "evidence": [
-        "docs/0048-self-hosted-builds.md",
-        ".cache/self-hosted-fixtures-WxeKDm/result.json",
-        ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json"
+        "scripts/test-owned-branding.mjs",
+        "docs/delivery/implementation.md"
       ]
     },
     {
@@ -6956,6 +6954,17 @@
         "docs/delivery/implementation.md",
         "docs/delivery/acceptance.md",
         "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-branding.mjs",
+      "blob": "db0fd0ac943943212fe2245745433958dd6e0572",
+      "status": "verified",
+      "decision": "modify",
+      "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
+      "evidence": [
+        "scripts/test-owned-branding.mjs",
+        "docs/delivery/implementation.md"
       ]
     }
   ]
