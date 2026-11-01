@@ -22,11 +22,11 @@ func TestChooseLogin(t *testing.T) {
 
 func TestCommandName(t *testing.T) {
 	for input, expected := range map[string]string{
-		"/usr/local/bin/vaultixl":  "vaultixl",
-		`C:\tools\vaultixl.exe`:    "vaultixl",
-		"VAULTIXL.EXE":             "vaultixl",
-		"vaultix.exe":              "vaultix",
-		"/usr/local/bin/infisical": "vaultix",
+		"/usr/local/bin/vaultixl": "vaultixl",
+		`C:\tools\vaultixl.exe`:   "vaultixl",
+		"VAULTIXL.EXE":            "vaultixl",
+		"vaultix.exe":             "vaultix",
+		"/usr/local/bin/vaultixix",
 	} {
 		if got := CommandName(input); got != expected {
 			t.Errorf("command name %q: got %q, want %q", input, got, expected)

@@ -20,3 +20,8 @@ leftover/api-inventory/__pycache__/
 **/.env.*
 !**/.env.example
 !**/.env.dev.example
+
+/vaultix-admin.json
+/cloudflare-dns-api.token
+/vm152-vaultix.env
+/zitadel-vaultix-app.json
