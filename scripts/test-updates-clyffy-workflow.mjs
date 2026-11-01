@@ -13,13 +13,13 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
     checks.push({ name, fixtures });
     writeFileSync(resolve(evidence, "updates-clyffy-workflow.json"), JSON.stringify({ passed: false, checks, accessibility }, null, 2));
   };
-  const audit = async state => {
+  const audit = async (state, fixtures = false) => {
     await page.evaluate(async () => Promise.all(document.getAnimations()
       .filter(animation => animation.effect?.getTiming().iterations !== Infinity)
       .map(animation => animation.finished.catch(() => {}))));
     const report = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
     accessibility.push({ state, engine: report.testEngine, violations: report.violations.map(rule => ({ id: rule.id, nodes: rule.nodes.map(node => node.target) })), manualReview: report.incomplete.map(rule => rule.id) });
-    record(`Accessibility scan: ${state}`);
+    record(`Accessibility scan: ${state}`, fixtures);
     assert.equal(report.violations.length, 0, `Inspect updates-clyffy-workflow.json for ${state}`);
   };
   const fits = async locator => {
@@ -32,8 +32,8 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
   assert.equal(actual.status, 200);
   const actualStatus = await actual.json();
   assert.equal(actualStatus.schemaVersion, "vaultix.updates.v1");
+  assert.equal(actualStatus.state, "disabled", "The disposable image explicitly disables external release discovery");
   if (actualStatus.currentVersion.startsWith("dev-")) {
-    assert.equal(actualStatus.state, "development", "Untagged image must be identified as development");
     assert.match(actualStatus.currentVersion, /^dev-[a-f0-9]{12}$/);
   } else assert.match(actualStatus.currentVersion, /^v?\d+\.\d+\.\d+/);
   const anonymous = await fetch(`${origin}${updatesPath}`);
@@ -50,7 +50,7 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
   await expect(page.getByRole("tooltip")).toContainText("View this build");
   await trigger.press("Enter");
   const dialog = page.getByRole("dialog", { name: "Vaultix Updates", exact: true });
-  if (actualStatus.state === "development") await expect(dialog.getByRole("status")).toContainText("development build");
+  await expect(dialog.getByRole("status")).toContainText("disabled for this instance");
   await expect(dialog.getByText(actualStatus.currentVersion, { exact: true })).toBeVisible();
   await audit("actual-update-dialog");
   await page.screenshot({ path: resolve(evidence, "vaultix-updates-desktop.png"), fullPage: true });
@@ -87,7 +87,12 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
     await page.setViewportSize({ width: 320, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await fits(dialog);
-    await audit("update-dialog-320px-reduced-motion");
+    const information = dialog.getByRole("region", { name: "Release Information", exact: true });
+    await information.focus();
+    await information.press("End");
+    await expect.poll(() => information.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await information.press("Home");
+    await audit("update-dialog-320px-reduced-motion", true);
     await page.screenshot({ path: resolve(evidence, "vaultix-updates-mobile.png"), fullPage: true });
     await page.keyboard.press("Escape");
     fixture = { ...fixture, state: "available", releaseUrl: "https://untrusted.invalid/update" };
@@ -149,8 +154,15 @@ export async function testUpdatesClyffyWorkflow({ page, expect, AxeBuilder, orig
   await page.screenshot({ path: resolve(evidence, "clyffy-references-desktop.png"), fullPage: true });
   record("Actual project/environment MCP selection and persisted secret reference; response and DOM exclude canary value");
   await sheet.getByRole("textbox", { name: "Folder", exact: true }).fill("/missing-ui-proof");
-  await sheet.getByRole("button", { name: "Show References", exact: true }).click();
-  await expect(sheet.getByRole("alert")).toContainText("folder is unavailable");
+  expectedFailures.add("/api/v1/vaultix/mcp");
+  try {
+    const deniedResponse = page.waitForResponse(isReferences);
+    await sheet.getByRole("button", { name: "Show References", exact: true }).click();
+    const denied = await deniedResponse;
+    assert.equal(denied.status(), 404);
+    assert.equal(typeof (await denied.json()).error, "string");
+    await expect(sheet.getByRole("alert")).toContainText("folder is unavailable");
+  } finally { expectedFailures.delete("/api/v1/vaultix/mcp"); }
   await expect(sheet.getByText("MCP_UI_REFERENCE", { exact: true })).toHaveCount(0);
   await sheet.getByRole("textbox", { name: "Folder", exact: true }).fill("/");
   await sheet.getByRole("button", { name: "Show References", exact: true }).click();

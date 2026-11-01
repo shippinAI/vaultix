@@ -67,7 +67,12 @@ export const VersionBadge = () => {
             Release information for this instance and your CLI.
           </DialogDescription>
         </DialogHeader>
-        <DialogBody className="space-y-5 pb-2">
+        <DialogBody
+          role="region"
+          aria-label="Release Information"
+          tabIndex={0}
+          className="space-y-5 pb-2 focus-visible:outline-2 focus-visible:outline-info"
+        >
           <div
             role="status"
             aria-live="polite"

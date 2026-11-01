@@ -2650,18 +2650,13 @@
     },
     {
       "path": "compose/vaultix.yml",
-      "blob": "57f7a2a51f5f9b1433afe01775131fceed099ce4",
-      "status": "verified",
+      "blob": "326ab40079059c4248c3c9c59fb4ed5ccd45a18f",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete manifest read. Application and optional panel default to locally built tags, canonical standalone Dockerfile retained, explicit source revision build args supported. Real Compose fixture render verifies defaults, immutable image override, Dragonfly, loopback binding and unchanged volume definitions. Existing operational env/cache/provider options, health checks and encrypted PostgreSQL store retained. No operator env inspected, production changes, HA or restore claim. The final local Docker Compose rollout selects the accepted immutable image without build/pull or dependency recreation; runtime image, health, HTTP responses and preserved database/cache container IDs verified.",
+      "scope": "Complete manifest read; change only the direct standalone build version default from inherited0.162.19 to dev. Preserve Dragonfly default, explicit Redis/provider alternatives, image override, loopback binding, health checks, volumes and existing verified delivery behavior. Canonical local deployment proof remains required for this candidate; no HA or cloud readiness claim.",
       "evidence": [
-        "docs/0048-self-hosted-builds.md",
-        ".cache/self-hosted-fixtures-WxeKDm/result.json",
-        ".cache/publication-proof-cvitRq/result.json",
-        ".cache/self-hosted-compose-Bod5ym/result.json",
-        ".cache/self-hosted-build-OXAKQP/result.json",
-        ".cache/self-hosted-runtime-comparison.json",
-        ".cache/self-hosted-preview-result.json"
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
       ]
     },
     {
@@ -6424,7 +6419,7 @@
     },
     {
       "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx",
-      "blob": "341d321ac3ea1772cecda71c17c240b4ae528278",
+      "blob": "b12344cf40f7a92cf9b3c2947109da001200edec",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
@@ -6523,7 +6518,7 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "fafedec48e8e61dd27be9a16087d1a9f1c886bf7",
+      "blob": "0c21fc4b164338d7fcbc2f58c9268f441b73fa7c",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
@@ -6600,10 +6595,21 @@
     },
     {
       "path": "scripts/test-updates-clyffy-workflow.mjs",
-      "blob": "3e378e4d82b6a69d5889c1582bd20ae71b751a91",
+      "blob": "78c6413a61b3ad45499c2827dffa968a6fd2e481",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "evidence": [
+        "docs/releases-and-updates.md",
+        "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/secret-manager/OverviewPage/OverviewPage.tsx",
+      "blob": "cb562ccf5e8a8b439410c3bd7ae85a67fb6b6931",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Read the complete 4032-line module. Scope is only readable batch-mode badges in empty/populated views and removal of the nested tooltip button in the populated view. Preserve batch operations, imports, permissions and other existing workflows. Other inherited UI/copy and whole-module authorship remain open; no parity claim.",
       "evidence": [
         "docs/releases-and-updates.md",
         "scripts/test-updates-clyffy-workflow.mjs"

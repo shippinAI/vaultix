@@ -2897,11 +2897,7 @@ const OverviewPageContent = () => {
                     </Badge>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Badge
-                          asChild
-                          className={isOverviewBatchMode ? "" : "opacity-75"}
-                          variant={isOverviewBatchMode ? "warning" : "neutral"}
-                        >
+                        <Badge asChild variant={isOverviewBatchMode ? "warning" : "neutral"}>
                           <button type="button" onClick={toggleBatchMode}>
                             <GroupIcon />
                             Batch Edit Mode
@@ -3142,10 +3138,9 @@ const OverviewPageContent = () => {
                                   </button>
                                 </Badge>
                                 <Tooltip>
-                                  <TooltipTrigger>
+                                  <TooltipTrigger asChild>
                                     <Badge
                                       asChild
-                                      className={isOverviewBatchMode ? "" : "opacity-75"}
                                       variant={isOverviewBatchMode ? "warning" : "neutral"}
                                     >
                                       <button type="button" onClick={toggleBatchMode}>

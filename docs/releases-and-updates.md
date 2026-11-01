@@ -1,8 +1,9 @@
 # Vaultix releases and update availability
 
 The application and native `vaultix` / `vaultixl` CLI share the release-status
-contract in `contracts/vaultix.updates.v1.json`. This work is under verification;
-it is not evidence of a published stable release or complete MCP Apps support.
+contract in `contracts/vaultix.updates.v1.json`. This document describes the
+implementation and its acceptance gates; a source commit does not establish a
+published stable release or complete MCP Apps support.
 
 ## Build identity and release channel
 
@@ -14,6 +15,26 @@ version. CLI binaries carry version and source revision through linker metadata.
 The existing Linux/amd64 and Windows/amd64 build matrix, aliases, source archive
 hash and toolchain receipts remain intact. No global install or hosted runner is
 required.
+
+## Verification and retained gaps
+
+The canonical standalone build runs `scripts/test-updates-clyffy-workflow.mjs`
+inside the existing disposable application workflow. It checks actual build
+metadata, denied anonymous access, keyboard tooltips/dialogs, narrow reflow,
+scrollable information, nested guidance and a persisted secret reference through
+MCP. Secret-value canaries must be absent from the response and UI. Missing-folder
+denial must clear stale results and allow recovery. Release-available, network
+failure and untrusted-link cases are explicitly browser fixtures; they do not
+prove that a release was published. Full-page accessibility scans retain their
+failures and require source fixes rather than exclusions. Real screen-reader and
+embedded-host review remain open.
+
+Local CLI delivery retains source archives and binary checksums for both command
+names on Linux and Windows. The existing packaged CLI proof exercises login,
+MCP protocol output and reference-only permissions against the standalone image.
+Public release assets, signatures and an artifact manifest are still separate
+delivery work. The owned GitHub repository was confirmed public with no releases
+on 2026-10-31; version checks must not invent an available release.
 
 An exact source tag identifies a build; it does not publish an update. Discovery
 uses only `https://api.github.com/repos/shippinAI/vaultix/releases/latest`.
