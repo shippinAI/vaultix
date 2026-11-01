@@ -15,6 +15,16 @@ This focuses the [execution queue](0069-execution-goal.md) while preserving the
 whole-tree authorship and [public-cloud gates](0054-public-cloud-service.md).
 Auth and Secrets remain the scope; Mesh needs separate authorization.
 
+The [implementation specification](delivery/implementation.md) now supplies the
+source findings, public protocol, native route ownership, CLI/UI state behavior,
+artifact/signing/upgrade design and dependency-ordered task register. Its
+[acceptance matrix](delivery/acceptance.md) defines concrete independent scenarios.
+Those documents deepen this plan; their tasks and cases are not implementation
+or verification claims.
+Their P00 prerequisite records a concurrent `85361217` source-integrity regression
+found during planning. Resolve its compile, branding-test and dependency/provenance
+issues before LOGIN or accepting a new build; retain the earlier verified preview.
+
 ## Grounded starting state
 
 | Boundary | Existing behavior | Missing delivery |
@@ -205,6 +215,7 @@ is missing. No placeholder pass, mock application or skip-as-success is acceptab
 | `ai-host-system` | `node scripts/accept-vaultix-delivery.mjs ai-host` | Integration prerequisites; actual-client review still required |
 | `a11y-system` | `node scripts/accept-vaultix-delivery.mjs a11y` | Packaged keyboard/reflow/axe and failure/recovery |
 | `drift-integration` | `node --test scripts/ai-journal.test.mjs` | Staleness, weakened-plan, missing-layer, tamper and failure controls |
+| `source-integration` | `node scripts/accept-vaultix-delivery.mjs source` | Current source compiles; branding/dependency/provenance checks and fresh canonical artifact pass after P00 repair |
 | `updates-manual` | Actual owned-server deployment/recovery review | Server identity, retrieved artifacts, protected journeys and timings |
 | `ai-host-manual` | Actual supported-client session | Versions/capabilities, steps, outcomes and limitations |
 | `a11y-manual` | Actual assistive-technology review | Browser/AT, workflow states, announcements, defects and retests |
@@ -247,7 +258,8 @@ Primary sources reviewed 2026-11-01:
 - [Docker pull](https://docs.docker.com/reference/cli/docker/image/pull/): digest pinning and platform selection.
 - [W3C evaluation](https://www.w3.org/WAI/test-evaluate/): tools alone do not establish accessibility; human evaluation remains necessary.
 
-**Next packet: LOGIN.** Reconcile accepted native grant/session/event/consumer
+**Next packet: P00, then LOGIN.** Repair the recorded current-source regression;
+reconcile accepted native grant/session/event/consumer
 work, fully trace remaining public composition and authority, freeze the contract
 and predeclare real browser/CLI acceptance before changing the CLI default. The
 exit is usable built-in login against the image, not another unmounted component.

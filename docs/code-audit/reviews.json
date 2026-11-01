@@ -6921,12 +6921,40 @@
     },
     {
       "path": "docs/0075-usable-secrets-and-update-delivery.md",
-      "blob": "501ad0b3b1b89f1da8d73f556dffc22f93c405cb",
+      "blob": "12e2229ee68c08c769ecbc71d1fa907bf9f806a0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
+      "scope": "Authored delivery implementation specification and independent acceptance matrix:24 dependency-ordered tasks/46 cases, including P00 repair for observed concurrent85361217 source regression. Documentation only; new auth/routes/installer/manual evidence designs are planned, not implemented. Existing product/runtime acceptance remains open.",
       "evidence": [
         "docs/0075-usable-secrets-and-update-delivery.md",
+        "docs/delivery/implementation.md",
+        "docs/delivery/acceptance.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "docs/delivery/implementation.md",
+      "blob": "426549b8ee0d98d0ab061ef9dc0b0086a8461e2d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored delivery implementation specification and independent acceptance matrix:24 dependency-ordered tasks/46 cases, including P00 repair for observed concurrent85361217 source regression. Documentation only; new auth/routes/installer/manual evidence designs are planned, not implemented. Existing product/runtime acceptance remains open.",
+      "evidence": [
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "docs/delivery/implementation.md",
+        "docs/delivery/acceptance.md",
+        "scripts/ai-journal.test.mjs"
+      ]
+    },
+    {
+      "path": "docs/delivery/acceptance.md",
+      "blob": "c6176b238bfd0dbf6ce13c0200b0d25cde30cd94",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored delivery implementation specification and independent acceptance matrix:24 dependency-ordered tasks/46 cases, including P00 repair for observed concurrent85361217 source regression. Documentation only; new auth/routes/installer/manual evidence designs are planned, not implemented. Existing product/runtime acceptance remains open.",
+      "evidence": [
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "docs/delivery/implementation.md",
+        "docs/delivery/acceptance.md",
         "scripts/ai-journal.test.mjs"
       ]
     }
