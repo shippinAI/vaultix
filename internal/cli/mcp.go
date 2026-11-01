@@ -13,6 +13,8 @@ import (
 	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
+
+	"shippin.cloud/vaultix/internal/api"
 )
 
 // MCP serves newline-delimited stdio using the same core catalog as HTTP.
@@ -30,6 +32,7 @@ func MCP(ctx context.Context, stdin io.Reader, out io.Writer) error {
 	if err := c.VerifyAccess(ctx); err != nil {
 		return err
 	}
+	connection := &api.MCPConnection{}
 	return serveMCP(ctx, stdin, out, func(ctx context.Context, message json.RawMessage) (json.RawMessage, error) {
 		// Reread per request: logout, expiry and replacement credentials take
 		// effect without keeping an old token alive in a long-lived AI process.
@@ -37,7 +40,7 @@ func MCP(ctx context.Context, stdin io.Reader, out io.Writer) error {
 		if err != nil {
 			return nil, errors.New("Vaultix sign-in unavailable; run vaultix login outside your AI client")
 		}
-		return client.MCP(ctx, message)
+		return connection.Call(ctx, client, message)
 	})
 }
 

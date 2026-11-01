@@ -4213,16 +4213,14 @@
     },
     {
       "path": "internal/api/mcp.go",
-      "blob": "5f5a8b9247aa3f1e0fc7c7dc53c7eaac342af17d",
-      "status": "verified",
+      "blob": "7647b59bbe35b9d3e3d080d432c7a02cf696e1a8",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        "docs/mcp-embedded-apps.md",
+        "internal/api/mcp_test.go",
+        "internal/cli/mcp_test.go"
       ]
     },
     {
@@ -4310,30 +4308,26 @@
     },
     {
       "path": "internal/cli/mcp.go",
-      "blob": "7d560195a2f558a67ebc53cfbe2e4f42add1837a",
-      "status": "verified",
+      "blob": "0676d7aff7b3d8d831cb1bb297477446354c429e",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        "docs/mcp-embedded-apps.md",
+        "internal/api/mcp_test.go",
+        "internal/cli/mcp_test.go"
       ]
     },
     {
       "path": "internal/cli/mcp_test.go",
-      "blob": "be669bdade07fe42cb3891c6325dbdbea65529d0",
-      "status": "verified",
+      "blob": "05b1419f38c56d0cc34115b3d2d1371a9d51e4f2",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Final CLI-only review adds bounded valid request IDs, semantic numeric correlation and UTF-8 frame checks. Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        "docs/mcp-embedded-apps.md",
+        "internal/api/mcp_test.go",
+        "internal/cli/mcp_test.go"
       ]
     },
     {
@@ -6613,6 +6607,30 @@
       "evidence": [
         "docs/releases-and-updates.md",
         "scripts/test-updates-clyffy-workflow.mjs"
+      ]
+    },
+    {
+      "path": "internal/api/mcp_test.go",
+      "blob": "c0de552ce776ca0604a4e7d702004d411becb67c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "internal/api/mcp_test.go",
+        "internal/cli/mcp_test.go"
+      ]
+    },
+    {
+      "path": "docs/mcp-embedded-apps.md",
+      "blob": "0b387b61f72ef0e3f40809b4dc393fdbd22bc50a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete module read; scoped MCP HTTP connection lifecycle authored/tested. Preserve per-request credential rereads, metadata-only existing catalog and stateless compatibility. Session headers remain in memory and cannot replace authorization. This is not server Apps negotiation, resource/view implementation or real host acceptance.",
+      "evidence": [
+        "docs/mcp-embedded-apps.md",
+        "internal/api/mcp_test.go",
+        "internal/cli/mcp_test.go"
       ]
     }
   ]

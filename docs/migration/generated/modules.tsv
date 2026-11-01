@@ -1043,8 +1043,8 @@ docs/auth	identity	supporting-tooling-or-contract	3	16098e8534607865e94a127c9e83
 docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bccbb2758f42ce0db542f72c2cc83c719154e2db5fc5dcaa	4	unassessed
 docs/migration	foundation	supporting-tooling-or-contract	1	a16a199ebd60b45d456627806c1afceb0a12db155672e01b47480c8721529722	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
-internal/api	cli	Go-client-Rust-injection-boundary	5	a2a9cce16b86ede8686fdb68bf18de105732c9cbc3c974c30a5ddb7768e0441a	3	unassessed
-internal/cli	cli	Go-client-Rust-injection-boundary	11	31f91bdc81be0273c7bf6e829944c941cd123474e0bf50f3c6253b34f736dd9f	9	unassessed
+internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
+internal/cli	cli	Go-client-Rust-injection-boundary	11	e78c8a8c9ab8de84e293a1597f417135d44c80a282f41b9b9e4d272e51cd8a4b	9	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	5412a370cf0219f65855303f06ec978c03e1cebbc2647e07719a7d5ca610ebb4	4	unassessed
 internal/release	cli	Go-client-Rust-injection-boundary	4	c87da1cde031b117e57f32bbc5f433fa8cd7366f9db0192f9f6bd3d3a1af0119	4	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	10	24b31a2f2dcad061bd96e3f2c576bb2f1aefb968abbeb929892e6fef631fa43e	9	unassessed
