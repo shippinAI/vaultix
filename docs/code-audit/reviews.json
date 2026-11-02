@@ -831,15 +831,15 @@
     },
     {
       "path": "go.mod",
-      "blob": "b748b624e3eee3988f1d8660cd149096801e8aa1",
-      "status": "authored",
+      "blob": "87db0ab95720f70b168aa58a6ff980fb22778e81",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Reconciles the owned Go language/toolchain requirement to 1.27.3, retaining all dependency versions and the vendored gocasl provenance/minimum. This is compiler compatibility review, not authorship of dependencies or domain services.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/0032-native-toolchains.md",
-        ".cache/go1273-root-packages.jsonl",
-        ".cache/go1273-panel-complete-tree.jsonl",
-        ".cache/go1273-backend-unit-release.jsonl"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -2656,13 +2656,15 @@
     },
     {
       "path": "compose/vaultix.yml",
-      "blob": "326ab40079059c4248c3c9c59fb4ed5ccd45a18f",
-      "status": "authored",
+      "blob": "b00992b8f3b2a2f0ac28dd32bef3ab18d13c9783",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete manifest read; change only the direct standalone build version default from inherited0.162.19 to dev. Preserve Dragonfly default, explicit Redis/provider alternatives, image override, loopback binding, health checks, volumes and existing verified delivery behavior. Canonical local deployment proof remains required for this candidate; no HA or cloud readiness claim.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -4172,14 +4174,15 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "66e1b2a5edd48f1d21c158156f69947132d467b3",
-      "status": "authored",
+      "blob": "0cafa3349d792dca4e15539af6b813379470be0b",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -4834,15 +4837,15 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "19191956ab51c151eaa2c2bd1f10ea8d5cd9cdae",
+      "blob": "300a1bec0d6aee32617c7468e81e2279743a6141",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/0107-public-experience-and-recorded-workflow.md",
-        "scripts/test-public-experience.mjs",
-        "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -5025,13 +5028,15 @@
     },
     {
       "path": "scripts/build-cli.mjs",
-      "blob": "50a7f7f315dce61b8dcda144a75297d1be8ac9aa",
-      "status": "authored",
+      "blob": "653033a13da81dc2be8a8966cf8c3773262d9dd7",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete existing delivery script; preserve Linux/Windows amd64 matrix, aliases, source archive/checksum/toolchain receipts. Add exact-tag/development version and revision linker identity only.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -9029,14 +9034,15 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "9fcfb6c17c604f72fa05ab0e2a24bda7e0cedded",
-      "status": "authored",
+      "blob": "181c39e73339b22ee21d3fd17b4088899d13f357",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -9101,14 +9107,15 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "0687d4b6a8c5d6a71872f0dd2de26738402e85d9",
-      "status": "authored",
+      "blob": "c3d6bf5a4335333f05ec8963819cc276716c53aa",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     },
     {
@@ -9121,6 +9128,201 @@
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
         "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "go.sum",
+      "blob": "07fa0c03ef0082d72b524995609f6f109592890c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/server.go",
+      "blob": "3d08f65bf6761048ba3bad617816960f2a562026",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "compose/embed.go",
+      "blob": "e8e0f8c65e4448d45698ac4648bb46c402b1552b",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.instance-operation.v1.json",
+      "blob": "136d0aa1d4d2709bf8399a8dff3fc3ec96b5a976",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "docs/0109-native-install-and-upgrade.md",
+      "blob": "d32b1119dae70286c2c0a0f52f836b1e83aa74a7",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/backup.go",
+      "blob": "d4dabbb22c0b863b812675fc08b58ed7c3663a34",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/candidate.go",
+      "blob": "22d52b1727b13fe5adcea79578a766a512a81687",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/docker.go",
+      "blob": "a58042449a1b664b2867621f307e00e41e369edd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/files.go",
+      "blob": "ae6cc78e5fa95324a3ecdd19968d7396e3753766",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/lifecycle.go",
+      "blob": "73916d42b1662f49875c078f6b754c006b55816c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/lock_unix.go",
+      "blob": "6ab9c14c86790ceb639bfde8e33676393b6b0230",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/lock_windows.go",
+      "blob": "242c118bcc4ab480c989a2c33af3012c0e601116",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/platform_test.go",
+      "blob": "001793b4b770b6c4939c9579cd8854585ad43e9c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/types.go",
+      "blob": "36a830f123a7dd726dfd8a217bcab9761479c9cd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-server-lifecycle.mjs",
+      "blob": "3407aecccc5bf3b16bd02a92d0f7cad0197831c6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/platform_test.go",
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/verify-pull-request.mjs"
       ]
     }
   ]

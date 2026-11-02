@@ -36,6 +36,12 @@ Failed checks report failure. A changed head/base needs renewed verification.
 Confirm the actual merged result; a successful API call is not itself proof of
 a merge or production deployment.
 
+The verifier also requires `.cache/lifecycle-inputs.json` with an accepted earlier
+`baselineReceipt` and an immutable `clientImage` containing Docker CLI/Compose.
+It selects the newly built CLI and candidate receipt itself, then requires real
+Linux install/upgrade/recovery acceptance before reporting success. See
+[native instance lifecycle](0109-native-install-and-upgrade.md) for the contract.
+
 This is **automatic merging after explicitly started local verification**, not
 an unattended PR worker. Never run unreviewed fork code on the operator's persistent
 host. The driver refuses forks, drafts and conflicts and does not fetch/check out
@@ -66,6 +72,11 @@ The build requires committed clean source and reports its exact source revision,
 image ID and `.cache/self-hosted-build-*/result.json` receipt. It runs disposable
 tests and does not modify the operator's running instance. Successful source
 pull/build is distinct from updating the deployed application.
+
+The compiled `vaultix server install`, `adopt`, `upgrade`, `status` and `recover`
+commands provide the native path described in
+[0109](0109-native-install-and-upgrade.md). Adoption uses the existing private
+configuration; it must not generate replacement credentials for an existing store.
 
 For the existing manual deployment path, first retain a recoverable backup and
 check the successful receipt. Persist its `imageId` as `VAULTIX_ENGINE_IMAGE` in
