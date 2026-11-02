@@ -21,6 +21,7 @@ func usageText() string {
 	return `usage: ` + name + ` <command>
   version [--json]              show the installed CLI build
   update check [--json]         check the stable Vaultix release channel
+  update verify --bundle DIR --trust FILE [--checkpoint FILE]  verify a signed release without installing
   login --domain=https://vaultix.cloud   select a Vaultix instance and sign in
   login                         Nomen device-code login (browser link, no password)
   login --universal             machine identity: client id and secret on stdin

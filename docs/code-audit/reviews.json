@@ -4172,13 +4172,14 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "98b2e3afdd1073e4df34d93297bb93a4e3abc349",
+      "blob": "66e1b2a5edd48f1d21c158156f69947132d467b3",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
       ]
     },
     {
@@ -6432,13 +6433,14 @@
     },
     {
       "path": "cmd/vaultix/version.go",
-      "blob": "6bc4a1bec0daded3d8f61c98cc9b1591f10478c7",
+      "blob": "0480f90015d322734583c68d35c4580658921419",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
       ]
     },
     {
@@ -6520,13 +6522,14 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "b1eb5e5c6acbcc63c2f06d112b071fa95ea23e23",
+      "blob": "75bf9dd5fe624f2fee6b5d94400bb0da12e7fed1",
       "status": "authored",
       "decision": "modify",
-      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
-        "docs/0075-usable-secrets-and-update-delivery.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
       ]
     },
     {
@@ -8938,6 +8941,186 @@
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
         "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": ".github/pull_request_template.md",
+      "blob": "b52790075005f98f63d04b16853d9442a708b779",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/verify_release.go",
+      "blob": "913f1b14bbed953f966f40c95c33bcb5f2e5b6cd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.release-checkpoint.v1.json",
+      "blob": "6b677b5270041e39e249c0fcb359d4b840ddcad8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.release-manifest.v1.json",
+      "blob": "4cf7799458f0c58c5fcf1a60bfc40af2767f880b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.release-signature.v1.json",
+      "blob": "9da6229b405dd7e0e3e9620fd55064047e270024",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.release-trust.v1.json",
+      "blob": "8cde0f6dd6ad11a800b7e27ec264683775bb9539",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "docs/0108-platform-services-and-upgrades.md",
+      "blob": "a635120f7b1ce996300fd7fa0ba6cbf6544cdeb5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "docs/pr-delivery.md",
+      "blob": "4d2bb15806c14bc0c50092fd75f5269e53f2bd87",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "internal/release/bundle.go",
+      "blob": "98dd8ab494a3b52e90efd12b9556e1f647b58785",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/pr-verification.mjs",
+      "blob": "90c2f503fde2379a844e7d04ab54e12e14662992",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-bundle.mjs",
+      "blob": "04dcb65d2a7adf3a51202afd6ad4e8c206b45305",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/pr-verification.test.mjs",
+      "blob": "717c0710c46d8b44b7cc7617ba2ca160e5b5d42d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/release-bundle.test.mjs",
+      "blob": "e950ace4a7b519b6d3aa991c9af10237279a59ef",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/verify-pull-request.mjs",
+      "blob": "0687d4b6a8c5d6a71872f0dd2de26738402e85d9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
+      ]
+    },
+    {
+      "path": "scripts/verify-release-bundle.mjs",
+      "blob": "d004836cf10ff442e0fe17292871c7c94459519a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "evidence": [
+        "docs/pr-delivery.md",
+        "scripts/pr-verification.test.mjs",
+        "scripts/release-bundle.test.mjs"
       ]
     }
   ]
