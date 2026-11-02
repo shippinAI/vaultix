@@ -23,6 +23,8 @@ func usageText() string {
   update check [--json]         check the stable Vaultix release channel
   update verify --bundle DIR --trust FILE [--checkpoint FILE]  verify a signed release without installing
   update download --version VERSION --directory DIR --trust FILE  download a verified release bundle
+  update install --directory DIR (--version VERSION | --bundle DIR) [--trust FILE]  install/update managed Linux CLI
+  update status --directory DIR  verify the installed native pair and accepted release
   server install|adopt|upgrade|status|recover  manage a self-hosted instance
   login --domain=https://vaultix.cloud   select a Vaultix instance and sign in
   login                         Nomen device-code login (browser link, no password)

@@ -88,9 +88,16 @@ try {
       assert.ok(downloaded.passed && downloaded.cleanupPassed && !downloaded.development);
       assert.equal(downloaded.revision, head);
       assert.equal(downloaded.cliSha256, linux.sha256);
+      writeFileSync(resolve(root, '.cache/cli-install-inputs.json'), JSON.stringify({ clientImage: goImage, development: false }, null, 2) + '\n', { mode: 0o600 });
+      check('cli-install', process.execPath, ['scripts/test-cli-install.mjs']);
+      const installedPath = resolve(root, '.cache/cli-install-acceptance.json');
+      const installed = JSON.parse(readFileSync(installedPath));
+      assert.ok(installed.passed && installed.cleanupPassed && !installed.development);
+      assert.equal(installed.revision, head);
+      assert.equal(installed.cliSha256, linux.sha256);
       report.canonicalReceipt = build.path;
       const cliPath = resolve(root, '.cache/cli-domain-acceptance.json');
-      report.receipts = [build.path, cliPath, lifecyclePath, downloadPath].map(path => ({ path, sha256: digest(path) }));
+      report.receipts = [build.path, cliPath, lifecyclePath, downloadPath, installedPath].map(path => ({ path, sha256: digest(path) }));
       return { build: build.data, cli: JSON.parse(readFileSync(cliPath)) };
     },
     checkArtifacts: async ({ imageId, revision }, cli) => {

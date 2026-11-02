@@ -181,6 +181,38 @@ try {
   }
   check('all requests omit authority, forbidden redirect never connects, failures clean staging and retain the prior accepted bundle');
   check('existing headless credential and instance configuration files remain byte-identical');
+  // Compose acquisition and native activation through the actual --version
+  // command. Earlier download-only cases retain their small independent bytes.
+  // This second fixture serves real native executables built from this source.
+  const installBinary = resolve(evidence, 'install-candidate');
+  sync('go', ['build', '-buildvcs=false', '-trimpath', '-ldflags', `-X main.version=1.2.3 -X main.revision=${manifest.revision}`, '-o', installBinary, './cmd/vaultix'],
+    { env: { ...process.env, GOOS: 'linux', GOARCH: 'amd64', CGO_ENABLED: '0' } });
+  const installBytes = readFileSync(installBinary);
+  for (const artifact of manifest.artifacts.filter(a => a.kind === 'cli' && a.platform === 'linux/amd64')) {
+    artifact.bytes = installBytes.length; artifact.sha256 = sha256(installBytes); bodies.set(artifact.name, installBytes);
+  }
+  const installRaw = canonical(manifest);
+  bodies.set('release-manifest.json', installRaw);
+  bodies.set('release-signature.json', canonical({ schemaVersion: 'vaultix.release-signature.v1', keyId: sha256(der), signature: sign(null, installRaw, key).toString('base64') }));
+  for (const asset of listing.assets) asset.size = bodies.get(asset.name).length;
+  const installCommand = (directory, success = true) => run(['exec', id, '/bin/vaultix', 'update', 'install', '--version', '1.2.3', '--directory', directory, '--trust', '/proof/trust.json', '--json'], success);
+  mode = 'good';
+  const installed = JSON.parse((await installCommand('/output/installed')).out);
+  assert.ok(installed.verified && installed.changed); assert.equal(installed.version, '1.2.3');
+  for (const command of ['vaultix', 'vaultixl']) {
+    const identity = JSON.parse((await run(['exec', id, `/output/installed/current/${command}`, 'version', '--json'])).out);
+    assert.equal(identity.version, '1.2.3'); assert.equal(identity.revision, manifest.revision);
+  }
+  assert.equal((await run(['exec', id, 'find', '/output/installed', '-name', '.acquire-*'])).out.trim(), '');
+  check('native install --version acquires real signed executable bytes over TLS and activates both commands without retaining temporary downloads');
+  mode = 'tamper'; await installCommand('/output/refused-install', false);
+  await run(['exec', id, 'test', '!', '-e', '/output/refused-install']);
+  assert.ok(requests.every(r => !r.authorization && !r.cookie));
+  for (const file of ['credentials.json', 'config.json']) {
+    const copied = resolve(evidence, `after-install-${file}`); await run(['cp', `${id}:/output/auth/${file}`, copied]);
+    assert.equal(sha256(readFileSync(copied)), sha256(readFileSync(resolve(fixture, file))));
+  }
+  check('tampered remote install publishes no installation and never sends or changes existing credentials');
   if (!report.development) {
     assert.equal(sync('git', ['rev-parse', 'HEAD']).toString().trim(), revision);
     assert.equal(sync('git', ['status', '--porcelain']).toString().trim(), '');

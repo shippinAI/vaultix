@@ -6,9 +6,11 @@ instance lifecycle; it does not install a CLI executable, execute a downloaded
 script, modify an instance or advance an installation's accepted checkpoint.
 
 This implements the acquisition dependency in delivery U02/U03. Production key
-custody, signed public publication, native CLI first-install/self-update, Windows
-running-executable replacement and public-release acceptance remain required work.
-An example version below is not a claim that that release is published.
+custody, signed public publication, Windows installation and running-executable
+replacement, and public-release acceptance remain required work.
+The Linux native installer is now specified in [0111](0111-native-cli-installation.md);
+Windows installation and public publication remain open. An example version below
+is not a claim that that release is published.
 
 ## Download, review and apply
 
@@ -86,10 +88,10 @@ the destination can exist despite a failed command: inspect and run `update veri
 before using it. Do not delete a previously accepted bundle merely to retry.
 
 Signed bytes establish artifact identity, not build quality, schema compatibility,
-SBOM completeness, compliance certification or successful deployment. Native CLI
-installation must still handle package-manager ownership, both command names,
-interruption and Windows running-file behavior. It must consume this verification
-owner instead of implementing a separate trust policy.
+SBOM completeness, compliance certification or successful deployment. The
+[Linux native installer](0111-native-cli-installation.md) consumes this verifier
+and handles both commands, managed-directory ownership and process interruption.
+Windows installation and running-file behavior remain separate required work.
 
 ## Evidence and next delivery gates
 
@@ -108,7 +110,7 @@ The protected local PR verifier binds this check to its exact packaged CLI, reco
 the receipt and requires cleanup before publishing success. Development runs remain
 explicitly labelled and cannot satisfy the committed-source gate.
 
-Continue U02 publication and U03 native installation, then rehearse U04 against the
+Continue U02 publication and U03 Windows installation, then rehearse U04 against the
 operator's actual server topology. The broader Auth, Secrets, UI, cloud and DevSCIF
 requirements remain in their existing plans.
 

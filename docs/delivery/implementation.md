@@ -271,7 +271,9 @@ requires explicit rollback selection, compatible schema and a trusted prior arti
 
 Extend `vaultix update check` and application discovery to validate release readiness,
 not only GitHub tag metadata. Preserve v1 states and compatible readers. Planned CLI
-installation command is `vaultix update install --version <version>`; normal notices
+installation command is `vaultix update install --version <version>`; the Linux
+managed-directory implementation is described in [0111](../0111-native-cli-installation.md).
+Normal notices
 do not replace executables. Windows replacement must account for running-file locks
 and both aliases; interruption leaves either the old verified pair or the new pair.
 
