@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
@@ -44,7 +45,7 @@ func TestPolicyIntegrity_MalformedRoleCannotDropDenials(t *testing.T) {
 				require.True(t, checker.CanReadSecretValue("dev", "/", "SCOPED", nil))
 			}
 			assertScoped()
-			for _, malformed := range []string{`[["readValue","secrets",42,true]]`, `[["readValue","secrets",{},"deny"]]`, `not json`} {
+			for _, malformed := range []string{`[["readValue","secrets",42,true]]`, `[["readValue","secrets",{},"deny"]]`} {
 				permissionExec(t, db.primary, `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, malformed)
 				result, err := service.GetProjectPermission(context.Background(), &actor)
 				require.Error(t, err, "malformed denial must invalidate the complete authority, including other grants")
@@ -52,6 +53,13 @@ func TestPolicyIntegrity_MalformedRoleCannotDropDenials(t *testing.T) {
 				permissionExec(t, db.primary, `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, valid)
 				assertScoped()
 			}
+			// PostgreSQL rejects non-JSON before a role can be persisted. Verify
+			// that boundary and that rejection leaves the valid denial intact.
+			_, err := db.primary.Exec(context.Background(), `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, `not json`)
+			var jsonError *pgconn.PgError
+			require.ErrorAs(t, err, &jsonError)
+			require.Equal(t, "22P02", jsonError.Code)
+			assertScoped()
 		})
 	}
 }

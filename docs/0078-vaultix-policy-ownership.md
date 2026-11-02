@@ -32,6 +32,8 @@ rejects the entire request. It cannot drop that role's denials while retaining
 grants from other roles. Database-backed tests cover both user and machine
 identity memberships, scoped deny precedence, malformed tuples and recovery
 after the role is repaired.
+The database rejects non-JSON input before persistence; the integration test also
+checks that this rejection leaves the previously valid denial unchanged.
 
 JSON entry points enforce a default 1 MiB limit; `LoadOptions.MaxSize` can explicitly
 set the byte limit for the JSON API. Expanded policies permit at most 16,384 rules.

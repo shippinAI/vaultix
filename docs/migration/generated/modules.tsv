@@ -70,7 +70,7 @@ core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c598
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
 core/backend-go/tests/platform/keystore	kms	Go-native	1	09b3c8bf5c894b4c54109d5583c17e52ed209377102c91fb9a5da6835a6af553	1	unassessed
 core/backend-go/tests/platform/kms	kms	Go-native	1	7f05e8ef21069b0e14a32ff7284ef15eb723b448be00b097e4c925b4e9de102b	0	unassessed
-core/backend-go/tests/platform/permission	authorization	Go-native	6	ea429553ae34f1b06b94917145122c61139f97de0356f882a9e80066765e3845	6	unassessed
+core/backend-go/tests/platform/permission	authorization	Go-native	6	6d93f740021b638d97b63a7daf2f5fa49bb45e0478cf3e2f531bc09a825c87f8	6	unassessed
 core/backend-go/tests/platform/projects	secrets	Go-native	1	9007c408381cdad439206ae3bac73da89def12c464bcbb7f0d69c1c6ac366105	1	unassessed
 core/backend-go/tests/platform/ratelimit	foundation	Go-native	1	d3427e178075238ea9adc595f476c762d267d111b9a79bd045b6a686f19bad15	0	unassessed
 core/backend-go/tests/secretmanager/secrets	authorization	Go-native	2	4161e3204197f430824b8869b359f1851839cd871e30fe247a95cecee4328063	0	unassessed

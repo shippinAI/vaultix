@@ -8533,7 +8533,7 @@
     },
     {
       "path": "docs/0078-vaultix-policy-ownership.md",
-      "blob": "000230e94de885084afc18b6fbc45c32cc906f10",
+      "blob": "cab7438e7d8a46e5f6298ae6f6dcc07be848b256",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
@@ -8572,10 +8572,10 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/policy_integrity_test.go",
-      "blob": "d3b500e6fe3949618777622579fa9be774f86221",
+      "blob": "c80a610ee089b2ec6f7a53e6a9ed27fe9ede5d2f",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete new database-backed policy integrity test read. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
+      "scope": "Complete new database-backed policy integrity test read. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. PostgreSQL JSON syntax rejection is asserted at the database boundary with SQLSTATE 22P02 and preserved-denial verification; malformed valid JSON remains a resolver-denial test.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "core/backend-go/tests/platform/permission/policy_integrity_test.go",
