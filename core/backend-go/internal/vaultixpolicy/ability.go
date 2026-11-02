@@ -78,13 +78,20 @@ func (b *AbilityBuilder) Build() (*Ability, error) {
 	if len(b.rules) > maxPolicyRules {
 		return nil, fmt.Errorf("vaultix policy exceeds the rule limit")
 	}
-	vars, err := snapshotValue(b.vars)
+	// Expanded rules share a construction budget. A small JSON input must not
+	// multiply a large condition or field list into unbounded private copies.
+	remaining := maxPolicyNodes - len(b.rules)
+	vars, err := snapshotWithinBudget(b.vars, &remaining)
 	if err != nil {
 		return nil, err
 	}
 	rules := make([]rawRule, len(b.rules))
 	for i, rule := range b.rules {
-		conditions, err := snapshotValue(rule.Conditions)
+		if len(rule.Fields) > remaining {
+			return nil, fmt.Errorf("vaultix policy exceeds structural limits")
+		}
+		remaining -= len(rule.Fields)
+		conditions, err := snapshotWithinBudget(rule.Conditions, &remaining)
 		if err != nil {
 			return nil, fmt.Errorf("vaultix policy rule %d: %w", i, err)
 		}

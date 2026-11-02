@@ -13,7 +13,11 @@ const maxPolicyRules = 16384
 // Depth and node bounds also reject cycles without recursively exhausting the process.
 func snapshotValue(value any) (any, error) {
 	remaining := maxPolicyNodes
-	copied, err := copyPolicyValue(reflect.ValueOf(value), 0, &remaining)
+	return snapshotWithinBudget(value, &remaining)
+}
+
+func snapshotWithinBudget(value any, remaining *int) (any, error) {
+	copied, err := copyPolicyValue(reflect.ValueOf(value), 0, remaining)
 	if err != nil || !copied.IsValid() {
 		return nil, err
 	}

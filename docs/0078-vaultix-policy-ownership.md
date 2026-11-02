@@ -35,8 +35,11 @@ after the role is repaired.
 
 JSON entry points enforce a default 1 MiB limit; `LoadOptions.MaxSize` can explicitly
 set the byte limit for the JSON API. Expanded policies permit at most 16,384 rules.
-Snapshots permit at most 64 traversal levels and 100,000 visited nodes per copied
-value. Typed scalar values, string-keyed maps, arrays and slices are supported;
+Snapshots permit at most 64 traversal levels and a shared 100,000-node construction
+budget across variables, expanded rules, conditions and field entries. The budget
+applies before copying: a compact multi-action rule cannot multiply a large
+condition or field list into excessive allocation. Typed scalar values,
+string-keyed maps, arrays and slices are supported;
 executable values, pointers and cyclic/deeper structures are rejected. Operator
 functions are trusted application code, not user-provided executable policy.
 

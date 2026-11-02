@@ -2,10 +2,47 @@ package vaultixpolicy
 
 import (
 	"encoding/json"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
 )
+
+func TestBuild_BoundsExpandedPolicy(t *testing.T) {
+	actions := make([]string, 256)
+	fields := make([]string, 1000)
+	values := make([]any, 1000)
+	for i := range actions {
+		actions[i] = "read" + strconv.Itoa(i)
+	}
+	for i := range fields {
+		fields[i] = "field" + strconv.Itoa(i)
+		values[i] = i
+	}
+	for _, rule := range []JSONRule{
+		{Action: actions, Subject: []string{"MockSubject"}, Conditions: Cond{"ID": Op{"$in": values}}},
+		{Action: actions, Subject: []string{"MockSubject"}, Fields: fields},
+	} {
+		encoded, err := json.Marshal([]JSONRule{rule})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(encoded) >= 64*1024 {
+			t.Fatal("fixture must be compact enough to pass the input byte limit")
+		}
+		ability, err := LoadFromJSON(encoded, LoadOptions{})
+		if err == nil || ability != nil {
+			t.Fatal("compact JSON expanded beyond the complete policy construction budget")
+		}
+		if Can(ability, DefineAction[mockSubject]("read0"), mockSubject{ID: 1}) {
+			t.Fatal("rejected expansion retained authority")
+		}
+	}
+	ability, err := LoadFromJSON([]byte(`[{"action":"read","subject":"MockSubject","conditions":{"ID":1}}]`), LoadOptions{})
+	if err != nil || !Can(ability, DefineAction[mockSubject]("read"), mockSubject{ID: 1}) || Can(ability, DefineAction[mockSubject]("read"), mockSubject{ID: 2}) {
+		t.Fatal("bounded policy did not recover with its scope intact")
+	}
+}
 
 func TestBuild_RejectsMalformedAuthorityAndRecovers(t *testing.T) {
 	for _, conditions := range []string{
