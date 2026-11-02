@@ -91,6 +91,8 @@ nonzero, and status reports a pending operation separately from application heal
    archive transactionally, compare migration count and a streamed fingerprint of
    encrypted secret rows, then remove that probe. This is a recovery rehearsal,
    not an assertion of semantic equivalence for every enterprise workflow.
+   Readiness requires TCP on loopback: the official PostgreSQL image's temporary
+   initialization server can answer Unix-socket probes before normal startup.
 6. Recheck checkpoint hashes, replace only the application with `--no-deps`, and
    verify its exact image and health plus unchanged database/cache identities.
 
@@ -142,6 +144,9 @@ config drift, failed backup, concurrent processes, actual process death and
 recovery, existing account/project/ciphertext/decryption, denied anonymous access,
 new writes, no-outage same-image application and explicit adoption. Faults are
 injected only in a disposable Docker CLI test driver, never in product code.
+An additional delayed-initialization case rejects an early restore and proves
+the native command waits for the normal PostgreSQL server. It reproduces the
+Unix-socket readiness flaw in the initial lifecycle implementation.
 
 Local `.cache/lifecycle-inputs.json` supplies `baselineReceipt`, `candidateReceipt`,
 `cli`, and an immutable `clientImage` with Docker CLI/Compose. `development: true`

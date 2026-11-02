@@ -40,7 +40,7 @@ compose/embed.go	e8e0f8c65e4448d45698ac4648bb46c402b1552b	build-and-operations	r
 compose/hosted.env.example	202f835ea31335fd8fd6e83a416d7b9dc5b56855	build-and-operations	verified
 compose/instances.json	b503980ffd2f92787b81675b7e043acf3658816c	build-and-operations	unread
 compose/self.env.example	9481d556836e1b505d725e2368e143abd3d3d7e8	build-and-operations	verified
-compose/vaultix.yml	b00992b8f3b2a2f0ac28dd32bef3ab18d13c9783	build-and-operations	reviewed
+compose/vaultix.yml	a8d55380abb2d7c4e4e40755ba46080e7319f4ba	build-and-operations	reviewed
 contracts/shippin.vaultix.panel.v1.json	9e6fcebba7030c08db0d6b8f1e7128c7dcc709fd	product-code	unread
 contracts/vaultix-capability-surface.v1.json	5df376a64d09a753422b58f778cfd17a40550008	product-code	unread
 contracts/vaultix.core.v1.json	c75da452892984cc6f06cc3c880f9f63a1502aae	product-code	unread
@@ -11908,7 +11908,7 @@ docs/0077-owned-runtime-dependencies.md	881ec6f3e7dc3b17b0b5a613aa41826296aa736a
 docs/0078-vaultix-policy-ownership.md	cab7438e7d8a46e5f6298ae6f6dcc07be848b256	documentation	authored
 docs/0107-public-experience-and-recorded-workflow.md	e1d29d167f9e0ec2a0b3cc5e79e756d2dd36f8d0	documentation	reviewed
 docs/0108-platform-services-and-upgrades.md	a635120f7b1ce996300fd7fa0ba6cbf6544cdeb5	documentation	authored
-docs/0109-native-install-and-upgrade.md	d32b1119dae70286c2c0a0f52f836b1e83aa74a7	documentation	reviewed
+docs/0109-native-install-and-upgrade.md	e1d97c222aaad55e6b79075c98fca4048d304b03	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11939,8 +11939,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	a0a1b709982f2bbdcafed56972b7b19161ce1665	generated	unread
-docs/migration/generated/modules.tsv	7a1ad9fdcbcfe4c337a82365fa4fed640b8f3d5a	generated	unread
+docs/migration/generated/files.tsv	8ebde2ff5a9c194f2c74ecd24b4f8f0c8561ed79	generated	unread
+docs/migration/generated/modules.tsv	34ae3cec04e0c575a7a52d33921ce2487dc212c9	generated	unread
 docs/migration/generated/summary.json	7a4bf278185329dc2c38521f1a86ac5b5b8521d0	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	181c39e73339b22ee21d3fd17b4088899d13f357	documentation	reviewed
@@ -11975,12 +11975,12 @@ internal/oidc/refresh.go	9b79c529de964e195e7b74d0b1766f08f9f6d032	product-code	v
 internal/oidc/refresh_test.go	c7f8034b80fe4cc7facde8f217572642c505c3bd	test	verified
 internal/platform/backup.go	d4dabbb22c0b863b812675fc08b58ed7c3663a34	product-code	authored
 internal/platform/candidate.go	22d52b1727b13fe5adcea79578a766a512a81687	product-code	authored
-internal/platform/docker.go	637368819f73ac078851134625661d2af1c729ef	product-code	authored
+internal/platform/docker.go	39ba909f2220560cac518e1d193fd26eb7b507a3	product-code	authored
 internal/platform/files.go	8b9c2d65b9d462e9bffc0046b44eb2e14dcfe17a	product-code	authored
 internal/platform/lifecycle.go	b6d342c1facc2425b41685ed3ec33404ee972f3c	product-code	authored
 internal/platform/lock_unix.go	6ab9c14c86790ceb639bfde8e33676393b6b0230	product-code	authored
 internal/platform/lock_windows.go	242c118bcc4ab480c989a2c33af3012c0e601116	product-code	authored
-internal/platform/platform_test.go	3a39fc7c1cc7adaad3c54d5c09ffc930ad3f803b	test	authored
+internal/platform/platform_test.go	8863cf2d19ca4f07d5a9b41df9190303b13e2192	test	authored
 internal/platform/types.go	36a830f123a7dd726dfd8a217bcab9761479c9cd	product-code	authored
 internal/release/bundle.go	98dd8ab494a3b52e90efd12b9556e1f647b58785	product-code	authored
 internal/release/notice.go	d41b176efcb0b1f20b67be22259e88b5feab2800	product-code	authored
@@ -12187,7 +12187,7 @@ scripts/test-reference-commands.mjs	509963bd7f6c226928eca313b044d3ceb8f8bdcc	bui
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	build-and-operations	authored
-scripts/test-server-lifecycle.mjs	ba82d0478f86f8afb05922d1fe9ace575d10d6eb	build-and-operations	reviewed
+scripts/test-server-lifecycle.mjs	aa8951f1fd2a92eaa4df0e044b849fac226afef3	build-and-operations	reviewed
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-tenant-isolation.mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread

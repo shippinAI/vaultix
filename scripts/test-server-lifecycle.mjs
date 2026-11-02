@@ -61,7 +61,11 @@ try {
   client(['mkdir', '-p', '/proof', '/test-bin']);
   for (const [name, file] of [['baseline', inputs.baselineReceipt], ['candidate', inputs.candidateReceipt]]) output(['cp', resolve(file), `${runner}:/proof/${name}.json`]);
   // Faults exist only in this disposable test driver; product code has no test bypass.
-  privateWrite('/test-bin/docker', '#!/bin/sh\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
+  // The official image temporarily serves Unix sockets during initialization.
+  // Make that window deterministic and reject any restore started in it.
+  privateWrite('/test-bin/slow-init.sh', '#!/bin/sh\ntouch /tmp/vaultix-init-pending\nsleep 5\ntouch /tmp/vaultix-init-complete\n');
+  client(['chmod', '644', '/test-bin/slow-init.sh']);
+  privateWrite('/test-bin/docker', '#!/bin/sh\ncase "$1:$2:$3" in\ncreate:--name:vaultix-restore-*)\n id=$(/usr/local/bin/docker "$@") || exit $?\n /usr/local/bin/docker cp /test-bin/slow-init.sh "$id:/docker-entrypoint-initdb.d/vaultix-proof.sh" || exit $?\n echo "$id" >> /state/delayed-probes\n echo "$id"\n exit 0\n ;;\nesac\nif [ "$1:$2:$4" = "exec:-i:pg_restore" ]; then\n if ! /usr/local/bin/docker exec "$3" test -f /tmp/vaultix-init-complete; then touch /state/early-restore; exit 82; fi\nfi\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
   client(['chmod', '755', '/test-bin/docker']);
   const port = 20000 + randomBytes(2).readUInt16BE() % 30000;
   phase = 'native installation';
@@ -145,6 +149,9 @@ try {
   assert.deepEqual(inspect(service('db')).Mounts, database.Mounts);
   assert.ok(recovered.operation.backup.endsWith('.age') && /^[a-f0-9]{64}$/.test(recovered.operation.backupHash));
   assert.equal(output(['ps', '-aq', '--filter', `label=vaultix.lifecycle.operation=${operation}`]), '');
+  client(['test', '-s', '/state/delayed-probes']);
+  client(['test', '!', '-e', '/state/early-restore']);
+  check('restore waits for completed PostgreSQL initialization instead of accepting the temporary Unix-socket server');
   check('OS lock excludes concurrent processes; killed native operation resumes with an isolated full restore rehearsal and unchanged database/cache');
   phase = 'fresh credentials and existing secret';
   const login = await api('/api/v3/auth/login', { method: 'POST', body: { email, password } });
@@ -178,6 +185,10 @@ try {
 } finally {
   let cleanup = true;
   const remove = args => { if (docker(args, { allowFailure: true }).status !== 0) cleanup = false; };
+  if (runner) report.postgresInitializationGuard = {
+    delayedProbeCreated: docker(['exec', runner, 'test', '-s', '/state/delayed-probes'], { allowFailure: true }).status === 0,
+    earlyRestoreAttempted: docker(['exec', runner, 'test', '-e', '/state/early-restore'], { allowFailure: true }).status === 0
+  };
   if (runner) remove(['rm', '-f', '-v', runner]);
   // Random exact project is created only by this run. Never prune or use an operator project.
   for (const id of output(['ps', '-aq', '--filter', `label=com.docker.compose.project=${project}`]).split(/\s+/).filter(Boolean)) remove(['rm', '-f', '-v', id]);
