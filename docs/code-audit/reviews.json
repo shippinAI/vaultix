@@ -9029,7 +9029,7 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "4d2bb15806c14bc0c50092fd75f5269e53f2bd87",
+      "blob": "9fcfb6c17c604f72fa05ab0e2a24bda7e0cedded",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",

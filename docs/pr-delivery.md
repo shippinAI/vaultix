@@ -69,9 +69,17 @@ pull/build is distinct from updating the deployed application.
 
 For the existing manual deployment path, first retain a recoverable backup and
 check the successful receipt. Persist its `imageId` as `VAULTIX_ENGINE_IMAGE` in
-the **existing** `compose/vaultix.env`, then use `bash scripts/up.sh` with the
-existing project/configuration. Do not use `VAULTIX_PULL=1` for a locally built
-image. Verify the running revision, health, existing login and secret access.
+the **existing** `compose/vaultix.env`, then apply that configuration explicitly:
+
+```sh
+docker compose --env-file compose/vaultix.env -f compose/vaultix.yml up -d --no-build
+```
+
+Use the existing project/configuration if your installation overrides these
+paths or the project name. The current `scripts/up.sh` selects `--no-build` only
+when `VAULTIX_ENGINE_IMAGE` is also exported in the calling shell; setting it only
+in the env file does not select that branch. Do not use `VAULTIX_PULL=1` for a
+locally built image. Verify the running revision, health, existing login and secret access.
 Keep the prior image and matching backup/key recovery information. Do not assume
 an old image is safe against a changed database schema.
 
