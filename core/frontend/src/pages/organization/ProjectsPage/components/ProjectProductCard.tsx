@@ -88,16 +88,13 @@ export const ProjectProductCard = ({
 
       {stats.length > 0 && (
         <dl className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3">
-          {stats.map((stat, index) => (
-            <div key={stat.label} className="flex items-center gap-4">
-              <div>
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="text-sm font-medium text-foreground">{stat.value}</dd>
-                <p className="text-xs text-muted">{stat.label}</p>
-              </div>
-              {index < stats.length - 1 && (
-                <div aria-hidden="true" className="h-4 w-px bg-border" />
-              )}
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="flex flex-col border-r border-border pr-4 last:border-r-0 last:pr-0"
+            >
+              <dt className="order-2 text-xs text-muted">{stat.label}</dt>
+              <dd className="text-sm font-medium text-foreground">{stat.value}</dd>
             </div>
           ))}
         </dl>

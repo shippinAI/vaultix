@@ -8669,10 +8669,10 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
-      "blob": "40f5e24a56e0e964b9520b10cc8c7ccd003f054e",
+      "blob": "37799141879162d078f825746039e0e78ef7b646",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed explicit navigation and preserved permissions, corrected definition-list semantics after canonical dashboard accessibility failure; verified real dashboard recording with axe and inspected rendered frames. Scoped review, not whole-product parity.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -8721,7 +8721,7 @@
     },
     {
       "path": "scripts/record-vaultix-workflow.mjs",
-      "blob": "d6037d1c15b4e9992379dea9828acebc2e3dee82",
+      "blob": "f07080572beb85294e742d348445f67f08bca34f",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -8890,7 +8890,7 @@
     },
     {
       "path": "core/frontend/public/media/vaultix-tour-poster.jpg",
-      "blob": "c3f1dc1f09ed6207615d7eba86ee77678a89bb6f",
+      "blob": "770aa0d023b1273aa8739bba99db43316132ee39",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -8903,7 +8903,7 @@
     },
     {
       "path": "core/frontend/public/media/vaultix-tour.json",
-      "blob": "b7c0366ceb98c18dda40c716a1843e25f845e58f",
+      "blob": "bacfc46f19fecebdbba59b2c54aa1a167f761442",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -8916,7 +8916,7 @@
     },
     {
       "path": "core/frontend/public/media/vaultix-tour.mp4",
-      "blob": "dbf8640e4ade910f2490ebb5922fb8227c45e2e5",
+      "blob": "8b5405ed593380ca2d70b217927d4ff16aec4c4e",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -8929,7 +8929,7 @@
     },
     {
       "path": "core/frontend/public/media/vaultix-tour.vtt",
-      "blob": "a2b37c8986b980e00b7fef27e6052e276d26bc00",
+      "blob": "cfdcbc5a5325a96616f0dd5a7d8d2afbcfd50a99",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",

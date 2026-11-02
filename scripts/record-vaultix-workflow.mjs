@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {randomBytes,createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
-import {mkdirSync,mkdtempSync,readFileSync,writeFileSync,copyFileSync,readdirSync} from 'node:fs';
+import {mkdirSync,mkdtempSync,readFileSync,writeFileSync,copyFileSync,readdirSync,realpathSync} from 'node:fs';
 import {dirname,resolve,relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createDisposableImageHarness} from './lib/disposable-image.mjs';
@@ -23,6 +23,7 @@ const email=`${run}@vaultix.invalid`;
 const dbPassword=randomBytes(24).toString('hex');
 const require=createRequire(resolve(root,'core/e2e/package.json'));
 const {chromium,expect}=require('@playwright/test');
+const AxeBuilder=require('@axe-core/playwright').default;
 let browser,server,recording,recordingPage;
 const report={schemaVersion:'vaultix.recording.v1',passed:false,backend:artifact,frontend:files,width:1600,height:900,chapters:[],scope:'Actual current frontend with a disposable canonical backend; scripted human-equivalent UI actions, no connected AI',credentialsRecorded:false};
 try {
@@ -49,12 +50,13 @@ try {
   phase='frontend';
   const {createServer}=await import('../core/frontend/node_modules/vite/dist/node/index.js');
   process.chdir(resolve(root,'core/frontend'));
-  server=await createServer({root:resolve(root,'core/frontend'),cacheDir:resolve(root,'core/frontend/node_modules',run),optimizeDeps:{include:['crypto']},configFile:resolve(root,'core/frontend/vite.config.ts'),server:{host:'127.0.0.1',port:0,strictPort:false,proxy:{'/api':{target:backend,changeOrigin:false},'/runtime-ui-env.js':{target:backend,changeOrigin:false}}}});
+  server=await createServer({root:resolve(root,'core/frontend'),cacheDir:resolve(root,'core/frontend/node_modules',run),optimizeDeps:{include:['crypto']},configFile:resolve(root,'core/frontend/vite.config.ts'),server:{fs:{allow:[resolve(root,'core/frontend'),realpathSync(resolve(root,'core/frontend/node_modules'))]},host:'127.0.0.1',port:0,strictPort:false,proxy:{'/api':{target:backend,changeOrigin:false},'/runtime-ui-env.js':{target:backend,changeOrigin:false}}}});
   await server.listen();
   const origin=`http://127.0.0.1:${server.httpServer.address().port}`;
   browser=await chromium.launch({headless:true});
   const auth=await browser.newContext({viewport:{width:1600,height:900}});
   auth.setDefaultTimeout(20000);
+  auth.setDefaultNavigationTimeout(90000);
   const login=await auth.newPage();
   await login.goto(`${origin}/login`);
   await login.getByLabel('Email',{exact:true}).fill(email);
@@ -66,6 +68,7 @@ try {
   phase='recording';
   recording=await browser.newContext({viewport:{width:1600,height:900},storageState,recordVideo:{dir:resolve(evidence,'raw'),size:{width:1600,height:900}}});
   recording.setDefaultTimeout(20000);
+  recording.setDefaultNavigationTimeout(60000);
   const page=await recording.newPage();recordingPage=page;const started=Date.now();const errors=[];
   page.on('pageerror',()=>errors.push('pageerror'));
   const pause=ms=>new Promise(r=>setTimeout(r,ms));
@@ -73,6 +76,11 @@ try {
   await page.goto(`${origin}/organizations/${owner.organization.id}/projects`);
   await expect(page.getByRole('heading',{name:'Organization Overview',exact:true})).toBeVisible({timeout:60000});
   assert.equal(await page.locator('input[type=password]').count(),0);
+  const warning=page.getByRole('button',{name:'Dismiss warning',exact:true});
+  if(await warning.count())await warning.first().click();
+  const accessibility=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+  report.accessibility={violations:accessibility.violations.map(x=>x.id),manualReview:accessibility.incomplete.map(x=>x.id)};
+  assert.deepEqual(report.accessibility.violations,[],'Recorded dashboard must pass its automated accessibility scan');
   chapter('Your project workspace');await pause(1600);
   await page.getByRole('button',{name:'Open Secrets Management',exact:true}).click();
   await expect(page.getByRole('button',{name:'Create Project',exact:true})).toBeVisible();await pause(1000);
@@ -84,6 +92,7 @@ try {
   await dialog.getByRole('button',{name:'Create Project',exact:true}).click();
   assert.equal((await response).status(),200);
   await expect(page.getByRole('heading',{name:'Project Overview',exact:true})).toBeVisible({timeout:30000});
+  await expect(page.getByText('Upload your secrets',{exact:true})).toBeVisible({timeout:30000});
   chapter('Your application, organized');await pause(2400);
   await page.getByRole('button',{name:'Open Clyffy',exact:true}).click();
   const sheet=page.getByRole('dialog',{name:'Clyffy Workspace',exact:true});

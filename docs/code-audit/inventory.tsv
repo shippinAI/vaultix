@@ -6798,10 +6798,10 @@ core/frontend/public/lotties/toggle-settings.json	38e64147f531d317ac90977b6160bb
 core/frontend/public/lotties/user.json	7a58c45f82955182cae5598fc06de328ea592a10	product-code	unread
 core/frontend/public/lotties/verified.json	9815ab2d9bcdb66e989efc804a96ba83a5ec405c	product-code	unread
 core/frontend/public/lotties/wrench.json	be373f39bfda6ef01f8bf7330749367435bc0450	product-code	unread
-core/frontend/public/media/vaultix-tour-poster.jpg	c3f1dc1f09ed6207615d7eba86ee77678a89bb6f	asset	reviewed
-core/frontend/public/media/vaultix-tour.json	b7c0366ceb98c18dda40c716a1843e25f845e58f	product-code	reviewed
-core/frontend/public/media/vaultix-tour.mp4	dbf8640e4ade910f2490ebb5922fb8227c45e2e5	asset	reviewed
-core/frontend/public/media/vaultix-tour.vtt	a2b37c8986b980e00b7fef27e6052e276d26bc00	product-code	reviewed
+core/frontend/public/media/vaultix-tour-poster.jpg	770aa0d023b1273aa8739bba99db43316132ee39	asset	reviewed
+core/frontend/public/media/vaultix-tour.json	bacfc46f19fecebdbba59b2c54aa1a167f761442	product-code	reviewed
+core/frontend/public/media/vaultix-tour.mp4	8b5405ed593380ca2d70b217927d4ff16aec4c4e	asset	reviewed
+core/frontend/public/media/vaultix-tour.vtt	cfdcbc5a5325a96616f0dd5a7d8d2afbcfd50a99	product-code	reviewed
 core/frontend/public/vite.svg	e7b8dfb1b2a60bd50538bec9f876511b9cac21e3	asset	unread
 core/frontend/scripts/build-mcp-app.mjs	c0fb986a3465e6bd761c5bf06baceef4cdeeb977	product-code	authored
 core/frontend/scripts/healthcheck.js	30a964d9df1a04361a15e93d9c0d6eac777ac910	product-code	unread
@@ -9650,7 +9650,7 @@ core/frontend/src/pages/organization/ProjectsPage/ProjectTypePage/route.tsx	0dfc
 core/frontend/src/pages/organization/ProjectsPage/ProjectsPage.tsx	8b0d23658ff92b0d35fe9884098d84f9798b6ef7	product-code	unread
 core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx	adc4bc9dc96882c5de9ee09ba504c270457c1c8d	product-code	reviewed
 core/frontend/src/pages/organization/ProjectsPage/components/ProjectListToggle.tsx	d07deb258be49cb199897610d1ae8fcaef742984	product-code	unread
-core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	40f5e24a56e0e964b9520b10cc8c7ccd003f054e	product-code	reviewed
+core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	37799141879162d078f825746039e0e78ef7b646	product-code	reviewed
 core/frontend/src/pages/organization/ProjectsPage/route.tsx	c3e684569c23409a9b7169a6cb0730d6e7730381	product-code	unread
 core/frontend/src/pages/organization/RoleByIDPage/RoleByIDPage.tsx	b5fafa386d805b908b12b4d593d1eae185f7ad3e	product-code	unread
 core/frontend/src/pages/organization/RoleByIDPage/components/DuplicateOrgRoleModal.tsx	79437c0d2da01bf98e9557a686eafea66ef548f7	product-code	unread
@@ -11928,8 +11928,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	1d13f95215539106cb9341e52b706ba24fc70b4e	generated	unread
-docs/migration/generated/modules.tsv	923c1bf8be56e8b3f8d4ad06f41286e678ccea35	generated	unread
+docs/migration/generated/files.tsv	51f1de180f0106cae4d6e14828c65a1ea25c4f84	generated	unread
+docs/migration/generated/modules.tsv	18186fc8d7953a9651f894854113e352d86ba5dd	generated	unread
 docs/migration/generated/summary.json	4e8e64c2e2edb342fa6e23d4abcb20313e97b412	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12101,7 +12101,7 @@ scripts/map-migration.mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	build-and-ope
 scripts/prove-device-api-image.mjs	fa7ef8e7d277b72459a859a35d6ef5cfdf21ca10	build-and-operations	unread
 scripts/publish-github.sh	5317d57aa1a2f44f630b056cc3a916607c17f4b9	build-and-operations	verified
 scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-operations	unread
-scripts/record-vaultix-workflow.mjs	d6037d1c15b4e9992379dea9828acebc2e3dee82	build-and-operations	reviewed
+scripts/record-vaultix-workflow.mjs	f07080572beb85294e742d348445f67f08bca34f	build-and-operations	reviewed
 scripts/release-version.test.mjs	c75c5026a0359f767cc876b667866f0d57d4eeb0	test	authored
 scripts/run-core.sh	3f5a2185b9bb9569006ad152f44eba03034fcfcf	build-and-operations	reviewed
 scripts/serve-capability-plan.mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	build-and-operations	verified
