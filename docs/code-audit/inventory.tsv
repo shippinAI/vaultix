@@ -11943,8 +11943,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	6694ab7d7c9e59210d092825a5f6d8381a1c8f9f	documentation	reviewed
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	6340e0551b3bd3265a279c988459ecbc6b4d4724	generated	unread
-docs/migration/generated/modules.tsv	3ea69c35cfe1bdceccc7efbd6f23843ab14cde3c	generated	unread
+docs/migration/generated/files.tsv	a340824456ad3eca4e3e452f3850b16054f35ca6	generated	unread
+docs/migration/generated/modules.tsv	9ca825b91d42b02e87aa3b1b88031f495ef83357	generated	unread
 docs/migration/generated/summary.json	16f34320bea36ae21252a12c1471747919a0df39	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	370d35b106ecd29aaa15f14a66ca9c97a9c245f9	documentation	reviewed
