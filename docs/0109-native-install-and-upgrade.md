@@ -134,6 +134,11 @@ Production key custody, signed stable publication, public binary downloads and
 automatic update discovery remain separate release work. A verified source merge
 does not mean a published release or an upgraded customer server.
 
+The native `vaultix update download` acquisition command is described in
+[0110](0110-verified-release-download.md). It retrieves a complete signed bundle
+from an explicitly selected published release using independently provisioned
+trust. This client capability is not evidence that a public release exists.
+
 ## Evidence
 
 `go test ./internal/platform ./cmd/vaultix` exercises file publication, OS locks,

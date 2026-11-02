@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"runtime"
 	"runtime/debug"
 
@@ -48,6 +49,9 @@ func printVersion(args []string, out io.Writer) error {
 }
 
 func checkUpdate(ctx context.Context, args []string, out io.Writer) error {
+	if len(args) > 0 && args[0] == "download" {
+		return downloadRelease(ctx, args[1:], out, os.Stderr)
+	}
 	if len(args) > 0 && args[0] == "verify" {
 		return verifyReleaseBundle(args[1:], out)
 	}

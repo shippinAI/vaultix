@@ -42,6 +42,11 @@ It selects the newly built CLI and candidate receipt itself, then requires real
 Linux install/upgrade/recovery acceptance before reporting success. See
 [native instance lifecycle](0109-native-install-and-upgrade.md) for the contract.
 
+The verifier also runs the packaged CLI's signed acquisition boundary through
+controlled TLS/redirect fixtures and independent Node verification. It binds the
+result to the exact CLI hash and requires cleanup. See
+[0110](0110-verified-release-download.md); this does not prove live release publication.
+
 This is **automatic merging after explicitly started local verification**, not
 an unattended PR worker. Never run unreviewed fork code on the operator's persistent
 host. The driver refuses forks, drafts and conflicts and does not fetch/check out

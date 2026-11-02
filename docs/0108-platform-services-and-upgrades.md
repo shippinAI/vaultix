@@ -124,8 +124,9 @@ transport with pinned enrollment and explicit host scope. The host executor allo
 only registered services, verified artifacts and bounded operations. Its durable
 journal contains no secret values. Retain a restricted local recovery path for
 application outages. Agent self-upgrades need a separate supervisor/rollback path.
-The planned Node upgrade command in delivery U03, the console and CLI must use
-this same operation owner; do not introduce independent upgrade state machines.
+The native Go instance lifecycle in [0109](0109-native-install-and-upgrade.md)
+supersedes the planned Node upgrade command in delivery U03. The console and CLI
+must use this same operation owner; do not introduce independent upgrade state machines.
 
 ## Upgrade lifecycle
 
