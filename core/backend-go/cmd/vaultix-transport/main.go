@@ -15,6 +15,10 @@ import (
 )
 
 func main() {
+	os.Exit(run())
+}
+
+func run() int {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 	output := json.NewEncoder(os.Stdout)
@@ -34,7 +38,12 @@ func main() {
 		}
 		if err == nil {
 			// EOF means the owning operation (or parent process) has gone away.
-			go func() { _, _ = io.Copy(io.Discard, input); cancel() }()
+			go func() {
+				defer cancel()
+				if _, copyErr := io.Copy(io.Discard, input); copyErr != nil {
+					return // Broken parent input terminates the operation just like EOF.
+				}
+			}()
 			err = gatewaytransport.Run(ctx, config, notify)
 		}
 	}
@@ -45,7 +54,10 @@ func main() {
 		if len(message) > 512 {
 			message = "gateway transport failed"
 		}
-		_ = notify(gatewaytransport.Status{Version: 1, Error: message})
-		os.Exit(1)
+		if notifyErr := notify(gatewaytransport.Status{Version: 1, Error: message}); notifyErr != nil {
+			return 1 // The parent pipe is unavailable; never expose the request on stderr.
+		}
+		return 1
 	}
+	return 0
 }

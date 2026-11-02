@@ -11,7 +11,7 @@ var handlebarsPattern = regexp.MustCompile(`\{\{([^}]+)\}\}`)
 // InterpolateRulesJSON resolves Handlebars-style templates (e.g. {{identity.id}})
 // in a JSON rules string by replacing them with the actual values from vars.
 // This mirrors the Node.js behavior where interpolation happens on the raw JSON
-// string before CASL parses the rules — gocasl never sees template syntax.
+// string before CASL parses the rules — vaultixpolicy never sees template syntax.
 func InterpolateRulesJSON(rulesJSON string, vars map[string]any) string {
 	return handlebarsPattern.ReplaceAllStringFunc(rulesJSON, func(match string) string {
 		path := strings.TrimSpace(match[2 : len(match)-2])

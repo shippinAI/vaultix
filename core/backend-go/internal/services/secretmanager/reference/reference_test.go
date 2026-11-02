@@ -11,7 +11,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/libs/errutil"
 	"github.com/vaultix/api/internal/services/auth"
@@ -75,7 +76,7 @@ func TestQuery_BoundsAndFolderCompatibility(t *testing.T) {
 
 func TestList_RefusesBeforeMetadataLookup(t *testing.T) {
 	denied := errors.New("authority unavailable")
-	emptyAbility, err := gocasl.LoadFromJSON([]byte(`[]`), gocasl.LoadOptions{})
+	emptyAbility, err := vaultixpolicy.LoadFromJSON([]byte(`[]`), vaultixpolicy.LoadOptions{})
 	require.NoError(t, err)
 	for _, scenario := range []struct {
 		name       string

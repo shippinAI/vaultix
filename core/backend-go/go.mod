@@ -1,7 +1,5 @@
 module github.com/vaultix/api
 
-replace github.com/vaultix/gocasl => ./third_party/gocasl
-
 go 1.27.3
 
 require (
@@ -28,7 +26,6 @@ require (
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/stretchr/testify v1.12.1
 	github.com/testcontainers/testcontainers-go v0.41.0
-	github.com/vaultix/gocasl v0.0.7
 	go.uber.org/goleak v1.3.0
 	golang.org/x/crypto v0.54.0
 	google.golang.org/api v0.281.0

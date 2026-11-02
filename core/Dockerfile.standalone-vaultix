@@ -63,7 +63,6 @@ USER 1001
 FROM golang:1.27.3-trixie AS go-builder
 WORKDIR /app
 COPY backend-go/go.mod backend-go/go.sum ./
-COPY backend-go/third_party/ ./third_party/
 RUN go mod download
 COPY backend-go/ .
 RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-s -w" -o /go-sidecar ./cmd/vaultix/main.go
@@ -248,6 +247,8 @@ COPY --from=backend-runner /app /backend
 COPY --from=frontend-runner /app ./backend/frontend-build
 COPY --from=go-builder /go-sidecar /backend/go-sidecar
 COPY --from=go-builder /vaultix-transport /backend/vaultix-transport
+COPY --from=go-builder /app/internal/vaultixpolicy/LICENSE /backend/notices/vaultixpolicy-LICENSE
+COPY --from=go-builder /app/internal/vaultixpolicy/PROVENANCE.md /backend/notices/vaultixpolicy-PROVENANCE.md
 COPY ai/ /backend/ai/
 
 # Make export-assets script executable for CDN asset extraction

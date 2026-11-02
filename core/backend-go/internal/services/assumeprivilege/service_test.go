@@ -11,7 +11,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/auth"
 	"github.com/vaultix/api/internal/services/permission"
@@ -29,30 +30,30 @@ func (m *mockPermissionService) GetProjectPermission(_ context.Context, _ *permi
 	return m.getProjectPermissionResult, m.getProjectPermissionErr
 }
 
-func buildTestAbility(t *testing.T, canAssumeMember, canAssumeIdentity bool) *gocasl.Ability {
+func buildTestAbility(t *testing.T, canAssumeMember, canAssumeIdentity bool) *vaultixpolicy.Ability {
 	t.Helper()
-	var rules []gocasl.JSONRule
+	var rules []vaultixpolicy.JSONRule
 	if canAssumeMember {
-		rules = append(rules, gocasl.JSONRule{
+		rules = append(rules, vaultixpolicy.JSONRule{
 			Action:  []string{project.MemberActionAssumePrivileges.Name()},
 			Subject: []string{project.SubMember},
 		})
 	}
 	if canAssumeIdentity {
-		rules = append(rules, gocasl.JSONRule{
+		rules = append(rules, vaultixpolicy.JSONRule{
 			Action:  []string{project.IdentityActionAssumePrivileges.Name()},
 			Subject: []string{project.SubIdentity},
 		})
 	}
 	if len(rules) == 0 {
-		rules = append(rules, gocasl.JSONRule{
+		rules = append(rules, vaultixpolicy.JSONRule{
 			Action:  []string{"read"},
 			Subject: []string{"none"},
 		})
 	}
 	rulesJSON, err := json.Marshal(rules)
 	require.NoError(t, err)
-	ability, err := gocasl.LoadFromJSON(rulesJSON, gocasl.LoadOptions{
+	ability, err := vaultixpolicy.LoadFromJSON(rulesJSON, vaultixpolicy.LoadOptions{
 		FieldOps: permission.PermissionFieldOps(),
 	})
 	require.NoError(t, err)

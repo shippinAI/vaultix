@@ -1,24 +1,24 @@
 package platform
 
 import (
-	"github.com/vaultix/gocasl"
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // AssumePrivilegeChecker implements permission checks for assume privilege operations.
 type AssumePrivilegeChecker struct {
-	ability *gocasl.Ability
+	ability *vaultixpolicy.Ability
 }
 
 // NewAssumePrivilegeChecker creates an AssumePrivilegeChecker from a CASL ability.
-func NewAssumePrivilegeChecker(ability *gocasl.Ability) *AssumePrivilegeChecker {
+func NewAssumePrivilegeChecker(ability *vaultixpolicy.Ability) *AssumePrivilegeChecker {
 	return &AssumePrivilegeChecker{ability: ability}
 }
 
 // CanAssumeMemberPrivileges checks if the actor can assume another member's privileges.
 func (c *AssumePrivilegeChecker) CanAssumeMemberPrivileges() bool {
-	return gocasl.Can(c.ability, project.MemberActionAssumePrivileges, project.MemberSubject{})
+	return vaultixpolicy.Can(c.ability, project.MemberActionAssumePrivileges, project.MemberSubject{})
 }
 
 // CanAssumeIdentityPrivileges checks if the actor can assume an identity's privileges.
@@ -26,5 +26,5 @@ func (c *AssumePrivilegeChecker) CanAssumeIdentityPrivileges(identityID string) 
 	subject := project.IdentitySubject{
 		IdentityID: identityID,
 	}
-	return gocasl.Can(c.ability, project.IdentityActionAssumePrivileges, subject)
+	return vaultixpolicy.Can(c.ability, project.IdentityActionAssumePrivileges, subject)
 }

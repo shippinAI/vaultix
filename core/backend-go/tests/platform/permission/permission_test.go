@@ -11,7 +11,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/auth"
 	"github.com/vaultix/api/internal/services/permission"
@@ -71,33 +72,33 @@ func TestIdentityAdmin_CanDoEverything(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionEdit, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionDelete, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionEdit, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionDelete, project.SecretFolderSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionEdit, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionDelete, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionEdit, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionDelete, project.MemberSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.ProjectActionEdit, project.ProjectSubject{}))
-	assert.True(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionEdit, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.RoleActionRead, project.RoleSubject{}))
-	assert.True(t, gocasl.Can(ability, project.RoleActionCreate, project.RoleSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.RoleActionRead, project.RoleSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.RoleActionCreate, project.RoleSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionCreate, project.IdentitySubject{}))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionCreate, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.EnvironmentsActionRead, project.EnvironmentsSubject{}))
-	assert.True(t, gocasl.Can(ability, project.EnvironmentsActionCreate, project.EnvironmentsSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.EnvironmentsActionRead, project.EnvironmentsSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.EnvironmentsActionCreate, project.EnvironmentsSubject{}))
 
 	assert.True(t, result.HasRole("admin"))
 	assert.False(t, result.HasRole("viewer"))
@@ -111,18 +112,18 @@ func TestIdentityMember_LimitedAccess(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.MemberActionGrantPrivileges, project.MemberSubject{}))
-	assert.False(t, gocasl.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionGrantPrivileges, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
 
 	assert.True(t, result.HasRole("member"))
 	assert.False(t, result.HasRole("admin"))
@@ -136,32 +137,32 @@ func TestIdentityViewer_ReadOnly(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
-	assert.True(t, gocasl.Can(ability, project.EnvironmentsActionRead, project.EnvironmentsSubject{}))
-	assert.True(t, gocasl.Can(ability, project.TagsActionRead, project.TagsSubject{}))
-	assert.True(t, gocasl.Can(ability, project.RoleActionRead, project.RoleSubject{}))
-	assert.True(t, gocasl.Can(ability, project.AuditLogsActionRead, project.AuditLogsSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.EnvironmentsActionRead, project.EnvironmentsSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.TagsActionRead, project.TagsSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.RoleActionRead, project.RoleSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.AuditLogsActionRead, project.AuditLogsSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretFolderActionEdit, project.SecretFolderSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretFolderActionDelete, project.SecretFolderSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretFolderActionCreate, project.SecretFolderSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretFolderActionEdit, project.SecretFolderSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretFolderActionDelete, project.SecretFolderSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
-	assert.False(t, gocasl.Can(ability, project.MemberActionDelete, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionDelete, project.MemberSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.DynamicSecretActionCreateRootCredential, project.DynamicSecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.DynamicSecretActionCreateRootCredential, project.DynamicSecretSubject{}))
 
 	assert.True(t, result.HasRole("viewer"))
 }
@@ -174,12 +175,12 @@ func TestIdentityNoAccess_DeniedEverything(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.False(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
-	assert.False(t, gocasl.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
 
 	assert.True(t, result.HasRole("no-access"))
 }
@@ -215,15 +216,15 @@ func TestUserAdmin_CanDoEverything(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeUser, user.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
 
 	assert.True(t, result.HasRole("admin"))
 }
@@ -236,15 +237,15 @@ func TestUserViewer_ReadOnly(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeUser, user.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 
 	assert.True(t, result.HasRole("viewer"))
 }
@@ -313,8 +314,8 @@ func TestProjectTypeAny_Allowed(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, resultAny)
 
-	assert.True(t, gocasl.Can(result.Permission.Ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(resultAny.Permission.Ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(result.Permission.Ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(resultAny.Permission.Ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
 }
 
 // ===========================
@@ -393,16 +394,16 @@ func TestIdentityCustomRole_SecretsReadCreateOnly(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.False(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.False(t, gocasl.Can(ability, project.ProjectActionEdit, project.ProjectSubject{}))
-	assert.False(t, gocasl.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionEdit, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.IdentityActionRead, project.IdentitySubject{}))
 
 	assert.True(t, result.HasRole(customRole.Slug))
 	assert.False(t, result.HasRole("admin"))
@@ -428,16 +429,16 @@ func TestIdentityCustomRole_EnvironmentScoped(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "dev"}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "dev"}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "production"}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "staging"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "production"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{Environment: "staging"}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{Environment: "dev"}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{Environment: "dev"}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{Environment: "dev"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{Environment: "dev"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{Environment: "dev"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{Environment: "dev"}))
 }
 
 func TestIdentityCustomRole_GlobSecretPath(t *testing.T) {
@@ -461,13 +462,13 @@ func TestIdentityCustomRole_GlobSecretPath(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/app/config"}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/app/nested/deep"}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/app/config"}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/app/nested/deep"}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/other/path"}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/other/path"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{SecretPath: "/"}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
 }
 
 // ===========================
@@ -485,15 +486,15 @@ func TestGroupAdmin_UserInheritsFullAccess(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeUser, user.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
-	assert.True(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionCreate, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionGrantPrivileges, project.IdentitySubject{}))
 }
 
 func TestGroupViewer_UserInheritsReadOnly(t *testing.T) {
@@ -507,15 +508,15 @@ func TestGroupViewer_UserInheritsReadOnly(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeUser, user.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 }
 
 // ===========================
@@ -537,14 +538,14 @@ func TestIdentityAdditionalPrivilege_ExtendsRole(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
 }
 
 // ===========================
@@ -572,11 +573,11 @@ func TestIdentityTemporaryRole_ActiveGrantsAccess(t *testing.T) {
 	result := getProjectPermission(t, auth.ActorTypeIdentity, identity.ID)
 	ability := result.Permission.Ability
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
-	assert.True(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 }
 
 func TestIdentityTemporaryRole_ExpiredDeniesAccess(t *testing.T) {
@@ -610,8 +611,8 @@ func TestIdentityTemporaryRole_ExpiredDeniesAccess(t *testing.T) {
 	require.NoError(t, err)
 	ability := result.Permission.Ability
 
-	assert.False(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.False(t, gocasl.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
-	assert.False(t, gocasl.Can(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.False(t, vaultixpolicy.Can(ability, project.MemberActionRead, project.MemberSubject{}))
 }

@@ -6,7 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )
@@ -43,11 +44,11 @@ func TestBuildProjectPermissionRules_CustomRole(t *testing.T) {
 	t.Parallel()
 
 	// PackedRule format: [actions, subject, conditions, inverted]
-	packed := []gocasl.PackedRule{
+	packed := []vaultixpolicy.PackedRule{
 		{
-			gocasl.StringOrSlice{"read"},
-			gocasl.StringOrSlice{project.SubSecrets},
-			gocasl.Cond{"environment": "prod"},
+			vaultixpolicy.StringOrSlice{"read"},
+			vaultixpolicy.StringOrSlice{project.SubSecrets},
+			vaultixpolicy.Cond{"environment": "prod"},
 			false,
 		},
 	}
@@ -60,8 +61,8 @@ func TestBuildProjectPermissionRules_CustomRole(t *testing.T) {
 
 	require.Len(t, rules, 1)
 	assert.Empty(t, errs)
-	assert.Equal(t, gocasl.StringOrSlice{"read"}, rules[0].Action)
-	assert.Equal(t, gocasl.StringOrSlice{project.SubSecrets}, rules[0].Subject)
+	assert.Equal(t, vaultixpolicy.StringOrSlice{"read"}, rules[0].Action)
+	assert.Equal(t, vaultixpolicy.StringOrSlice{project.SubSecrets}, rules[0].Subject)
 	assert.Equal(t, "prod", rules[0].Conditions["environment"])
 }
 
@@ -84,6 +85,35 @@ func TestBuildProjectPermissionRules_CustomRoleInvalidJSON(t *testing.T) {
 	assert.Len(t, errs, 1, "invalid JSON must return parse error")
 }
 
+func TestBuildProjectPermissionRules_MalformedConstraintsDoNotGrant(t *testing.T) {
+	t.Parallel()
+	for _, packed := range []string{
+		`[["read","secrets",42]]`,
+		`[["read","secrets",{"environment":"prod"},"deny"]]`,
+		`[["read","secrets",0,false,["environment",42]]]`,
+	} {
+		t.Run(packed, func(t *testing.T) {
+			rules, errs := buildProjectPermissionRules([]roleWithPermissions{{Role: project.RoleCustom, Permissions: &packed}})
+			require.Empty(t, rules)
+			require.Len(t, errs, 1)
+			encoded, err := json.Marshal(rules)
+			require.NoError(t, err)
+			ability, err := vaultixpolicy.LoadFromJSON(encoded, vaultixpolicy.LoadOptions{})
+			require.NoError(t, err)
+			assert.False(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{Environment: "prod"}))
+		})
+	}
+	valid := `[["readValue","secrets",{"environment":"prod"}]]`
+	rules, errs := buildProjectPermissionRules([]roleWithPermissions{{Role: project.RoleCustom, Permissions: &valid}})
+	require.Empty(t, errs)
+	encoded, err := json.Marshal(rules)
+	require.NoError(t, err)
+	ability, err := vaultixpolicy.LoadFromJSON(encoded, vaultixpolicy.LoadOptions{})
+	require.NoError(t, err)
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{Environment: "prod"}))
+	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{Environment: "dev"}))
+}
+
 func TestBuildProjectPermissionRules_UnknownRoleProducesNothing(t *testing.T) {
 	t.Parallel()
 
@@ -97,12 +127,12 @@ func TestBuildProjectPermissionRules_InvertedRulesPreserved(t *testing.T) {
 	t.Parallel()
 
 	// Create a custom role with an inverted (forbid) rule + a non-inverted rule.
-	// gocasl auto-prioritizes forbid rules at evaluation time.
-	packed := []gocasl.PackedRule{
+	// vaultixpolicy auto-prioritizes forbid rules at evaluation time.
+	packed := []vaultixpolicy.PackedRule{
 		// inverted rule (deny read secrets)
-		{gocasl.StringOrSlice{"read"}, gocasl.StringOrSlice{project.SubSecrets}, nil, true},
+		{vaultixpolicy.StringOrSlice{"read"}, vaultixpolicy.StringOrSlice{project.SubSecrets}, nil, true},
 		// allow rule
-		{gocasl.StringOrSlice{"create"}, gocasl.StringOrSlice{project.SubSecrets}, nil, false},
+		{vaultixpolicy.StringOrSlice{"create"}, vaultixpolicy.StringOrSlice{project.SubSecrets}, nil, false},
 	}
 	packedJSON, err := json.Marshal(packed)
 	require.NoError(t, err)
@@ -152,8 +182,8 @@ func TestBuildServiceTokenProjectPermission_ReadOnly(t *testing.T) {
 	rules := buildServiceTokenProjectPermission(scopes, []string{"read"})
 
 	require.Len(t, rules, 1, "read-only should produce 1 rule")
-	assert.Equal(t, gocasl.StringOrSlice{"read"}, rules[0].Action)
-	assert.Equal(t, gocasl.Op{"$glob": "/app/**"}, rules[0].Conditions["secretPath"])
+	assert.Equal(t, vaultixpolicy.StringOrSlice{"read"}, rules[0].Action)
+	assert.Equal(t, vaultixpolicy.Op{"$glob": "/app/**"}, rules[0].Conditions["secretPath"])
 	assert.Equal(t, "prod", rules[0].Conditions["environment"])
 }
 
@@ -166,7 +196,7 @@ func TestBuildServiceTokenProjectPermission_WriteOnly(t *testing.T) {
 	rules := buildServiceTokenProjectPermission(scopes, []string{"write"})
 
 	require.Len(t, rules, 1, "write-only should produce 1 rule")
-	assert.Equal(t, gocasl.StringOrSlice{"edit", "create", "delete"}, rules[0].Action)
+	assert.Equal(t, vaultixpolicy.StringOrSlice{"edit", "create", "delete"}, rules[0].Action)
 }
 
 func TestBuildServiceTokenProjectPermission_ReadWrite(t *testing.T) {

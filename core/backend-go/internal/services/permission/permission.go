@@ -10,7 +10,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/database/pg"
 	"github.com/vaultix/api/internal/database/pg/qb"
@@ -44,7 +45,7 @@ type GetProjectPermissionArgs struct {
 
 // ProjectPermission is the resolved permission set for a project-level actor.
 type ProjectPermission struct {
-	Ability *gocasl.Ability
+	Ability *vaultixpolicy.Ability
 }
 
 // Membership represents a project membership entry with its assigned roles.
@@ -242,7 +243,7 @@ func (p *Service) GetProjectPermission(ctx context.Context, args *GetProjectPerm
 	rulesStr := InterpolateRulesJSON(string(rulesJSON), vars)
 
 	// 17. Load ability from interpolated JSON
-	ability, err := gocasl.LoadFromJSON([]byte(rulesStr), gocasl.LoadOptions{
+	ability, err := vaultixpolicy.LoadFromJSON([]byte(rulesStr), vaultixpolicy.LoadOptions{
 		FieldOps: PermissionFieldOps(),
 	})
 	if err != nil {
@@ -318,7 +319,7 @@ func (p *Service) getServiceTokenProjectPermission(
 		return nil, errutil.InternalServer("Failed to marshal service token rules").WithErrf("getServiceTokenProjectPermission: %w", err)
 	}
 
-	ability, err := gocasl.LoadFromJSON(rulesJSON, gocasl.LoadOptions{
+	ability, err := vaultixpolicy.LoadFromJSON(rulesJSON, vaultixpolicy.LoadOptions{
 		FieldOps: PermissionFieldOps(),
 	})
 	if err != nil {

@@ -113,8 +113,7 @@ jobs:
         working-directory: core/backend-go
       - run: go test -race ./internal/...
         working-directory: core/backend-go
-      - run: go test ./...
-        working-directory: core/backend-go/third_party/gocasl
+      - run: node scripts/test-vaultix-policy.mjs
 
   panel:
     needs: checks

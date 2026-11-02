@@ -9,27 +9,28 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )
 
 // ---- helpers ----
 
-// loadAbilityFromRules marshals JSONRules to JSON and loads via gocasl.LoadFromJSON
+// loadAbilityFromRules marshals JSONRules to JSON and loads via vaultixpolicy.LoadFromJSON
 // with the custom $glob operator. This simulates the real permission evaluation path.
-func loadAbilityFromRules(t *testing.T, rules []gocasl.JSONRule, vars map[string]any) *gocasl.Ability {
+func loadAbilityFromRules(t *testing.T, rules []vaultixpolicy.JSONRule, vars map[string]any) *vaultixpolicy.Ability {
 	t.Helper()
 
 	rulesJSON, err := json.Marshal(rules)
 	require.NoError(t, err)
 
-	opts := gocasl.LoadOptions{
+	opts := vaultixpolicy.LoadOptions{
 		FieldOps: PermissionFieldOps(),
 		Vars:     vars,
 	}
 
-	ability, err := gocasl.LoadFromJSON(rulesJSON, opts)
+	ability, err := vaultixpolicy.LoadFromJSON(rulesJSON, opts)
 	require.NoError(t, err)
 
 	return ability
@@ -44,12 +45,12 @@ func TestAdminRole_CanCRUDSecrets(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.AdminPermissions, nil)
 
 	sub := project.SecretSubject{Environment: "prod", SecretPath: "/app"}
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, sub))
 }
 
 func TestAdminRole_CanCRUDSecretFolders(t *testing.T) {
@@ -57,10 +58,10 @@ func TestAdminRole_CanCRUDSecretFolders(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.AdminPermissions, nil)
 
 	sub := project.SecretFolderSubject{Environment: "dev", SecretPath: "/"}
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionDelete, sub))
 }
 
 func TestAdminRole_CanManageMembers(t *testing.T) {
@@ -68,12 +69,12 @@ func TestAdminRole_CanManageMembers(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.AdminPermissions, nil)
 
 	sub := project.MemberSubject{}
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionDelete, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionGrantPrivileges, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionAssignRole, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionGrantPrivileges, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionAssignRole, sub))
 }
 
 func TestAdminRole_CanManageIdentities(t *testing.T) {
@@ -81,14 +82,14 @@ func TestAdminRole_CanManageIdentities(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.AdminPermissions, nil)
 
 	sub := project.IdentitySubject{}
-	assert.True(t, gocasl.Can(ability, project.IdentityActionRead, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionDelete, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionGrantPrivileges, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionRevokeAuth, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionCreateToken, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionGetToken, sub))
-	assert.True(t, gocasl.Can(ability, project.IdentityActionDeleteToken, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionRead, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionGrantPrivileges, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionRevokeAuth, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionCreateToken, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionGetToken, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionDeleteToken, sub))
 }
 
 func TestAdminRole_CanDeleteProject(t *testing.T) {
@@ -96,8 +97,8 @@ func TestAdminRole_CanDeleteProject(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.AdminPermissions, nil)
 
 	sub := project.ProjectSubject{}
-	assert.True(t, gocasl.Can(ability, project.ProjectActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.ProjectActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.ProjectActionDelete, sub))
 }
 
 // =====================================================
@@ -109,8 +110,8 @@ func TestViewerRole_CanReadSecretMetadataAndValue(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.SecretSubject{Environment: "prod", SecretPath: "/"}
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeSecret, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionReadValue, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, sub))
 }
 
 func TestViewerRole_CannotWriteSecrets(t *testing.T) {
@@ -118,9 +119,9 @@ func TestViewerRole_CannotWriteSecrets(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.SecretSubject{Environment: "prod", SecretPath: "/"}
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionCreate, sub), "viewer must NOT create secrets")
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionEdit, sub), "viewer must NOT edit secrets")
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDelete, sub), "viewer must NOT delete secrets")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionCreate, sub), "viewer must NOT create secrets")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionEdit, sub), "viewer must NOT edit secrets")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDelete, sub), "viewer must NOT delete secrets")
 }
 
 func TestViewerRole_CannotWriteSecretFolders(t *testing.T) {
@@ -128,10 +129,10 @@ func TestViewerRole_CannotWriteSecretFolders(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.SecretFolderSubject{Environment: "prod", SecretPath: "/"}
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead, sub))
-	assert.True(t, gocasl.Cannot(ability, project.SecretFolderActionCreate, sub), "viewer must NOT create folders")
-	assert.True(t, gocasl.Cannot(ability, project.SecretFolderActionEdit, sub), "viewer must NOT edit folders")
-	assert.True(t, gocasl.Cannot(ability, project.SecretFolderActionDelete, sub), "viewer must NOT delete folders")
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretFolderActionCreate, sub), "viewer must NOT create folders")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretFolderActionEdit, sub), "viewer must NOT edit folders")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretFolderActionDelete, sub), "viewer must NOT delete folders")
 }
 
 func TestViewerRole_CannotManageMembers(t *testing.T) {
@@ -139,10 +140,10 @@ func TestViewerRole_CannotManageMembers(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.MemberSubject{}
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, sub))
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionCreate, sub), "viewer must NOT create members")
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionDelete, sub), "viewer must NOT delete members")
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionGrantPrivileges, sub), "viewer must NOT grant privileges")
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionCreate, sub), "viewer must NOT create members")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionDelete, sub), "viewer must NOT delete members")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionGrantPrivileges, sub), "viewer must NOT grant privileges")
 }
 
 func TestViewerRole_CannotDeleteProject(t *testing.T) {
@@ -150,8 +151,8 @@ func TestViewerRole_CannotDeleteProject(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.ProjectSubject{}
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionEdit, sub), "viewer must NOT edit project")
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionDelete, sub), "viewer must NOT delete project")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionEdit, sub), "viewer must NOT edit project")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionDelete, sub), "viewer must NOT delete project")
 }
 
 func TestViewerRole_CannotWriteDynamicSecrets(t *testing.T) {
@@ -159,10 +160,10 @@ func TestViewerRole_CannotWriteDynamicSecrets(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.ViewerPermissions, nil)
 
 	sub := project.DynamicSecretSubject{Environment: "prod", SecretPath: "/"}
-	assert.True(t, gocasl.Can(ability, project.DynamicSecretActionReadRootCredential, sub))
-	assert.True(t, gocasl.Cannot(ability, project.DynamicSecretActionCreateRootCredential, sub))
-	assert.True(t, gocasl.Cannot(ability, project.DynamicSecretActionEditRootCredential, sub))
-	assert.True(t, gocasl.Cannot(ability, project.DynamicSecretActionDeleteRootCredential, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.DynamicSecretActionReadRootCredential, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.DynamicSecretActionCreateRootCredential, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.DynamicSecretActionEditRootCredential, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.DynamicSecretActionDeleteRootCredential, sub))
 }
 
 // =====================================================
@@ -174,9 +175,9 @@ func TestMemberRole_CanCRUDSecrets(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.MemberPermissions, nil)
 
 	sub := project.SecretSubject{Environment: "staging", SecretPath: "/app"}
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, sub))
 }
 
 func TestMemberRole_CannotDeleteProject(t *testing.T) {
@@ -184,8 +185,8 @@ func TestMemberRole_CannotDeleteProject(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.MemberPermissions, nil)
 
 	sub := project.ProjectSubject{}
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionEdit, sub), "member must NOT edit project")
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionDelete, sub), "member must NOT delete project")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionEdit, sub), "member must NOT edit project")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionDelete, sub), "member must NOT delete project")
 }
 
 func TestMemberRole_CannotGrantPrivileges(t *testing.T) {
@@ -193,10 +194,10 @@ func TestMemberRole_CannotGrantPrivileges(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.MemberPermissions, nil)
 
 	sub := project.MemberSubject{}
-	assert.True(t, gocasl.Can(ability, project.MemberActionRead, sub))
-	assert.True(t, gocasl.Can(ability, project.MemberActionCreate, sub))
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionGrantPrivileges, sub), "member must NOT grant privileges")
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionAssignRole, sub), "member must NOT assign roles")
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionRead, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.MemberActionCreate, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionGrantPrivileges, sub), "member must NOT grant privileges")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionAssignRole, sub), "member must NOT assign roles")
 }
 
 // =====================================================
@@ -207,11 +208,11 @@ func TestNoAccessRole_CannotDoAnything(t *testing.T) {
 	t.Parallel()
 	ability := loadAbilityFromRules(t, project.NoAccessPermissions, nil)
 
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionCreate, project.SecretSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionCreate, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretFolderActionRead, project.SecretFolderSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionDelete, project.ProjectSubject{}))
 }
 
 // =====================================================
@@ -223,16 +224,16 @@ func TestCryptographicOperatorRole_OnlyCmekCryptoOps(t *testing.T) {
 	ability := loadAbilityFromRules(t, project.CryptographicOperatorPermissions, nil)
 
 	sub := project.CmekSubject{}
-	assert.True(t, gocasl.Can(ability, project.CmekActionEncrypt, sub))
-	assert.True(t, gocasl.Can(ability, project.CmekActionDecrypt, sub))
-	assert.True(t, gocasl.Can(ability, project.CmekActionSign, sub))
-	assert.True(t, gocasl.Can(ability, project.CmekActionVerify, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.CmekActionEncrypt, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.CmekActionDecrypt, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.CmekActionSign, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.CmekActionVerify, sub))
 
 	// Must not have CRUD or other access
-	assert.True(t, gocasl.Cannot(ability, project.CmekActionRead, sub))
-	assert.True(t, gocasl.Cannot(ability, project.CmekActionCreate, sub))
-	assert.True(t, gocasl.Cannot(ability, project.CmekActionDelete, sub))
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.CmekActionRead, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.CmekActionCreate, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.CmekActionDelete, sub))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue, project.SecretSubject{}))
 }
 
 // =====================================================
@@ -242,8 +243,8 @@ func TestCryptographicOperatorRole_OnlyCmekCryptoOps(t *testing.T) {
 func TestCustomRole_EnvironmentCondition_AllowsProdOnly(t *testing.T) {
 	t.Parallel()
 
-	packed := []gocasl.PackedRule{
-		{gocasl.StringOrSlice{"read"}, gocasl.StringOrSlice{project.SubSecrets}, gocasl.Cond{"environment": "prod"}, false},
+	packed := []vaultixpolicy.PackedRule{
+		{vaultixpolicy.StringOrSlice{"read"}, vaultixpolicy.StringOrSlice{project.SubSecrets}, vaultixpolicy.Cond{"environment": "prod"}, false},
 	}
 	packedJSON, _ := json.Marshal(packed)
 	packedStr := string(packedJSON)
@@ -255,20 +256,20 @@ func TestCustomRole_EnvironmentCondition_AllowsProdOnly(t *testing.T) {
 	prodSecret := project.SecretSubject{Environment: "prod", SecretPath: "/app"}
 	stagingSecret := project.SecretSubject{Environment: "staging", SecretPath: "/app"}
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, prodSecret), "must read prod secrets")
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue, stagingSecret), "must NOT read staging secrets")
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, prodSecret), "must read prod secrets")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue, stagingSecret), "must NOT read staging secrets")
 }
 
 func TestCustomRole_SecretPathGlobCondition(t *testing.T) {
 	t.Parallel()
 
-	packed := []gocasl.PackedRule{
+	packed := []vaultixpolicy.PackedRule{
 		{
-			gocasl.StringOrSlice{"read"},
-			gocasl.StringOrSlice{project.SubSecrets},
-			gocasl.Cond{
+			vaultixpolicy.StringOrSlice{"read"},
+			vaultixpolicy.StringOrSlice{project.SubSecrets},
+			vaultixpolicy.Cond{
 				"environment": "prod",
-				"secretPath":  gocasl.Op{"$glob": "/app/**"},
+				"secretPath":  vaultixpolicy.Op{"$glob": "/app/**"},
 			},
 			false,
 		},
@@ -280,19 +281,19 @@ func TestCustomRole_SecretPathGlobCondition(t *testing.T) {
 	rules, _ := buildProjectPermissionRules(roles)
 	ability := loadAbilityFromRules(t, rules, nil)
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}),
 		"must read secrets under /app/**")
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db/nested"}),
 		"must read secrets deeply nested under /app/**")
 
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/other"}),
 		"must NOT read secrets outside /app/**")
 
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "staging", SecretPath: "/app/db"}),
 		"must NOT read secrets in wrong environment")
 }
@@ -301,9 +302,9 @@ func TestCustomRole_InvertedRuleBlocksSpecificAction(t *testing.T) {
 	t.Parallel()
 
 	// Allow all CRUD, but forbid delete on prod.
-	rules := []gocasl.JSONRule{
-		{Action: gocasl.StringOrSlice{"read", "create", "edit", "delete"}, Subject: gocasl.StringOrSlice{project.SubSecrets}},
-		{Action: gocasl.StringOrSlice{"delete"}, Subject: gocasl.StringOrSlice{project.SubSecrets}, Conditions: gocasl.Cond{"environment": "prod"}, Inverted: true},
+	rules := []vaultixpolicy.JSONRule{
+		{Action: vaultixpolicy.StringOrSlice{"read", "create", "edit", "delete"}, Subject: vaultixpolicy.StringOrSlice{project.SubSecrets}},
+		{Action: vaultixpolicy.StringOrSlice{"delete"}, Subject: vaultixpolicy.StringOrSlice{project.SubSecrets}, Conditions: vaultixpolicy.Cond{"environment": "prod"}, Inverted: true},
 	}
 	ability := loadAbilityFromRules(t, rules, nil)
 
@@ -311,24 +312,24 @@ func TestCustomRole_InvertedRuleBlocksSpecificAction(t *testing.T) {
 	stagingSecret := project.SecretSubject{Environment: "staging", SecretPath: "/"}
 
 	// Can read/create/edit everywhere
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, prodSecret))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, prodSecret))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, prodSecret))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, prodSecret))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, prodSecret))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, prodSecret))
 
 	// Delete blocked on prod, allowed on staging
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDelete, prodSecret), "delete must be blocked on prod")
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, stagingSecret), "delete must be allowed on staging")
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDelete, prodSecret), "delete must be blocked on prod")
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, stagingSecret), "delete must be allowed on staging")
 }
 
 func TestCustomRole_InConditionOnEnvironment(t *testing.T) {
 	t.Parallel()
 
 	// Allow read on specific environments via $in
-	packed := []gocasl.PackedRule{
+	packed := []vaultixpolicy.PackedRule{
 		{
-			gocasl.StringOrSlice{"read"},
-			gocasl.StringOrSlice{project.SubSecrets},
-			gocasl.Cond{"environment": gocasl.Op{"$in": []any{"dev", "staging"}}},
+			vaultixpolicy.StringOrSlice{"read"},
+			vaultixpolicy.StringOrSlice{project.SubSecrets},
+			vaultixpolicy.Cond{"environment": vaultixpolicy.Op{"$in": []any{"dev", "staging"}}},
 			false,
 		},
 	}
@@ -339,11 +340,11 @@ func TestCustomRole_InConditionOnEnvironment(t *testing.T) {
 	rules, _ := buildProjectPermissionRules(roles)
 	ability := loadAbilityFromRules(t, rules, nil)
 
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "dev"}))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "staging"}))
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod"}),
 		"prod must be denied when $in only includes dev and staging")
 }
@@ -352,13 +353,13 @@ func TestCustomRole_MultipleConditionsOnSecretFields(t *testing.T) {
 	t.Parallel()
 
 	// Allow read only on specific environment + secretPath pattern
-	packed := []gocasl.PackedRule{
+	packed := []vaultixpolicy.PackedRule{
 		{
-			gocasl.StringOrSlice{"read"},
-			gocasl.StringOrSlice{project.SubSecrets},
-			gocasl.Cond{
+			vaultixpolicy.StringOrSlice{"read"},
+			vaultixpolicy.StringOrSlice{project.SubSecrets},
+			vaultixpolicy.Cond{
 				"environment": "prod",
-				"secretPath":  gocasl.Op{"$glob": "/database/**"},
+				"secretPath":  vaultixpolicy.Op{"$glob": "/database/**"},
 			},
 			false,
 		},
@@ -371,15 +372,15 @@ func TestCustomRole_MultipleConditionsOnSecretFields(t *testing.T) {
 	ability := loadAbilityFromRules(t, rules, nil)
 
 	// Both conditions must match
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/database/mysql"}))
 
 	// Wrong env, right path → denied
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "staging", SecretPath: "/database/mysql"}))
 
 	// Right env, wrong path → denied
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/config"}))
 }
 
@@ -397,35 +398,35 @@ func TestServiceToken_ScopedReadAccess(t *testing.T) {
 	ability := loadAbilityFromRules(t, rules, nil)
 
 	// Can read secrets under /app/**
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}))
 
 	// Can read secret folders under /app/**
-	assert.True(t, gocasl.Can(ability, project.SecretFolderActionRead,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretFolderActionRead,
 		project.SecretFolderSubject{Environment: "prod", SecretPath: "/app/db"}))
 
 	// Can read secret imports under /app/**
-	assert.True(t, gocasl.Can(ability, project.SecretImportActionRead,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretImportActionRead,
 		project.SecretImportSubject{Environment: "prod", SecretPath: "/app/db"}))
 
 	// Cannot read in wrong environment
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "staging", SecretPath: "/app/db"}),
 		"must NOT read in different environment")
 
 	// Cannot read outside scoped path
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/other"}),
 		"must NOT read outside scoped path")
 
 	// Cannot write (read-only token)
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionCreate,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionCreate,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}),
 		"read-only token must NOT create")
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionEdit,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionEdit,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}),
 		"read-only token must NOT edit")
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDelete,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDelete,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}),
 		"read-only token must NOT delete")
 }
@@ -440,14 +441,14 @@ func TestServiceToken_ScopedWriteAccess(t *testing.T) {
 	ability := loadAbilityFromRules(t, rules, nil)
 
 	sub := project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionCreate, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionEdit, sub))
-	assert.True(t, gocasl.Can(ability, project.SecretActionDelete, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionCreate, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionEdit, sub))
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDelete, sub))
 
 	// Still cannot write outside scope
 	outsideSub := project.SecretSubject{Environment: "prod", SecretPath: "/other"}
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionCreate, outsideSub),
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionCreate, outsideSub),
 		"must NOT write outside scoped path")
 }
 
@@ -462,17 +463,17 @@ func TestServiceToken_MultiScopeIsolation(t *testing.T) {
 	ability := loadAbilityFromRules(t, rules, nil)
 
 	// Prod: can read /app/**, cannot read /other
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/app/db"}))
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "prod", SecretPath: "/other"}))
 
 	// Staging: can read root / only
-	assert.True(t, gocasl.Can(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "staging", SecretPath: "/"}))
 
 	// Dev: no scope → denied
-	assert.True(t, gocasl.Cannot(ability, project.SecretActionDescribeAndReadValue,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.SecretActionDescribeAndReadValue,
 		project.SecretSubject{Environment: "dev", SecretPath: "/"}),
 		"env without scope must be denied")
 }
@@ -487,10 +488,10 @@ func TestServiceToken_NoAccessToNonSecretSubjects(t *testing.T) {
 	ability := loadAbilityFromRules(t, rules, nil)
 
 	// Service tokens should not have member/identity/project access
-	assert.True(t, gocasl.Cannot(ability, project.MemberActionRead, project.MemberSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.IdentityActionRead, project.IdentitySubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.ProjectActionDelete, project.ProjectSubject{}))
-	assert.True(t, gocasl.Cannot(ability, project.CaActionRead, project.CertificateAuthoritySubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.MemberActionRead, project.MemberSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.IdentityActionRead, project.IdentitySubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.ProjectActionDelete, project.ProjectSubject{}))
+	assert.True(t, vaultixpolicy.Cannot(ability, project.CaActionRead, project.CertificateAuthoritySubject{}))
 }
 
 // =====================================================
@@ -501,12 +502,12 @@ func TestTemplateVars_IdentityIdInterpolation(t *testing.T) {
 	t.Parallel()
 
 	// Tests the full pipeline: Handlebars templates in rules JSON → InterpolateRulesJSON
-	// resolves values → gocasl loads the interpolated JSON with actual values baked in.
-	rules := []gocasl.JSONRule{
+	// resolves values → vaultixpolicy loads the interpolated JSON with actual values baked in.
+	rules := []vaultixpolicy.JSONRule{
 		{
-			Action:  gocasl.StringOrSlice{"read"},
-			Subject: gocasl.StringOrSlice{project.SubIdentity},
-			Conditions: gocasl.Cond{
+			Action:  vaultixpolicy.StringOrSlice{"read"},
+			Subject: vaultixpolicy.StringOrSlice{project.SubIdentity},
+			Conditions: vaultixpolicy.Cond{
 				"identityId": "{{identity.id}}",
 			},
 		},
@@ -523,17 +524,17 @@ func TestTemplateVars_IdentityIdInterpolation(t *testing.T) {
 	}
 
 	interpolated := InterpolateRulesJSON(string(rulesJSON), vars)
-	ability, err := gocasl.LoadFromJSON([]byte(interpolated), gocasl.LoadOptions{
+	ability, err := vaultixpolicy.LoadFromJSON([]byte(interpolated), vaultixpolicy.LoadOptions{
 		FieldOps: PermissionFieldOps(),
 	})
 	require.NoError(t, err)
 
 	// Can read own identity
-	assert.True(t, gocasl.Can(ability, project.IdentityActionRead,
+	assert.True(t, vaultixpolicy.Can(ability, project.IdentityActionRead,
 		project.IdentitySubject{IdentityID: actorID}))
 
 	// Cannot read other identity
-	assert.True(t, gocasl.Cannot(ability, project.IdentityActionRead,
+	assert.True(t, vaultixpolicy.Cannot(ability, project.IdentityActionRead,
 		project.IdentitySubject{IdentityID: uuid.New().String()}),
 		"must NOT read other identity")
 }

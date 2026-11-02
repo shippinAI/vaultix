@@ -1,13 +1,13 @@
 package project
 
-import "github.com/vaultix/gocasl"
+import "github.com/vaultix/api/internal/vaultixpolicy"
 
-// ss is a shorthand for gocasl.StringOrSlice to keep rule definitions compact.
-func ss(vals ...string) gocasl.StringOrSlice { return vals }
+// ss is a shorthand for vaultixpolicy.StringOrSlice to keep rule definitions compact.
+func ss(vals ...string) vaultixpolicy.StringOrSlice { return vals }
 
 // AdminPermissions defines the full permission set for the admin role.
 // Exact port of buildAdminPermissionRules() from default-roles.ts.
-var AdminPermissions = []gocasl.JSONRule{
+var AdminPermissions = []vaultixpolicy.JSONRule{
 	// SecretFolders
 	{Action: ss(SecretFolderActionRead.Name(), SecretFolderActionCreate.Name(), SecretFolderActionEdit.Name(), SecretFolderActionDelete.Name()), Subject: ss(SubSecretFolders)},
 
@@ -158,7 +158,7 @@ var AdminPermissions = []gocasl.JSONRule{
 
 // MemberPermissions defines the permission set for the member role.
 // Exact port of buildMemberPermissionRules() from default-roles.ts.
-var MemberPermissions = []gocasl.JSONRule{
+var MemberPermissions = []vaultixpolicy.JSONRule{
 	// Secrets
 	{Action: ss(SecretActionDescribeAndReadValue.Name(), SecretActionDescribeSecret.Name(), SecretActionReadValue.Name(), SecretActionCreate.Name(), SecretActionEdit.Name(), SecretActionDelete.Name()), Subject: ss(SubSecrets)},
 
@@ -291,7 +291,7 @@ var MemberPermissions = []gocasl.JSONRule{
 
 // ViewerPermissions defines the permission set for the viewer role.
 // Exact port of buildViewerPermissionRules() from default-roles.ts.
-var ViewerPermissions = []gocasl.JSONRule{
+var ViewerPermissions = []vaultixpolicy.JSONRule{
 	// Secrets
 	{Action: ss(SecretActionDescribeSecret.Name(), SecretActionReadValue.Name()), Subject: ss(SubSecrets)},
 
@@ -405,10 +405,10 @@ var ViewerPermissions = []gocasl.JSONRule{
 }
 
 // NoAccessPermissions defines the (empty) permission set for the no-access role.
-var NoAccessPermissions = []gocasl.JSONRule{}
+var NoAccessPermissions = []vaultixpolicy.JSONRule{}
 
 // CryptographicOperatorPermissions defines the permission set for the cryptographic-operator role.
 // Exact port of buildCryptographicOperatorPermissionRules() from default-roles.ts.
-var CryptographicOperatorPermissions = []gocasl.JSONRule{
+var CryptographicOperatorPermissions = []vaultixpolicy.JSONRule{
 	{Action: ss(CmekActionEncrypt.Name(), CmekActionDecrypt.Name(), CmekActionSign.Name(), CmekActionVerify.Name()), Subject: ss(SubCmek)},
 }

@@ -5,7 +5,8 @@ import (
 	"strings"
 
 	"github.com/bmatcuk/doublestar/v4"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 )
 
 // opGlob implements the $glob operator for path matching.
@@ -34,17 +35,17 @@ func opGlob(fieldValue, constraint any) bool {
 // arrayMembership matches each field element against the candidate list, as
 // the application's CASL matcher does. Negation applies to the whole match:
 // one excluded tag must make $nin false even when other tags are allowed.
-func arrayMembership(base gocasl.FieldOp, negate bool) gocasl.FieldOp {
-	return gocasl.FieldOp{
+func arrayMembership(base vaultixpolicy.FieldOp, negate bool) vaultixpolicy.FieldOp {
+	return vaultixpolicy.FieldOp{
 		Validate: base.Validate,
-		Compile: func(cc *gocasl.CompileCtx, field string, constraint any) gocasl.Condition {
+		Compile: func(cc *vaultixpolicy.CompileCtx, field string, constraint any) vaultixpolicy.Condition {
 			contains := base.Compile(cc, field, constraint)
-			return func(subject gocasl.Subject) bool {
+			return func(subject vaultixpolicy.Subject) bool {
 				value := reflect.ValueOf(subject.GetField(field))
 				matched := false
 				if value.IsValid() && (value.Kind() == reflect.Slice || value.Kind() == reflect.Array) {
 					for i := 0; i < value.Len(); i++ {
-						if contains(gocasl.MapSubject{field: value.Index(i).Interface()}) {
+						if contains(vaultixpolicy.MapSubject{field: value.Index(i).Interface()}) {
 							matched = true
 							break
 						}
@@ -59,9 +60,9 @@ func arrayMembership(base gocasl.FieldOp, negate bool) gocasl.FieldOp {
 }
 
 // PermissionFieldOps adds the product's path and array membership semantics.
-func PermissionFieldOps() gocasl.FieldOps {
-	ops := gocasl.DefaultFieldOps()
-	return ops.With("$glob", gocasl.Compare(opGlob)).
+func PermissionFieldOps() vaultixpolicy.FieldOps {
+	ops := vaultixpolicy.DefaultFieldOps()
+	return ops.With("$glob", vaultixpolicy.Compare(opGlob)).
 		With("$in", arrayMembership(ops["$in"], false)).
 		With("$nin", arrayMembership(ops["$in"], true))
 }

@@ -233,20 +233,20 @@ All errors include request ID and are logged appropriately (warn for 4xx, error 
 
 ### Permission Checker Pattern
 
-Permission checks use `gocasl`. Instead of calling `gocasl.Can()` directly in handlers/services, wrap each domain's checks in a dedicated checker type under `services/permission/<product>/`:
+Permission checks use the owned `internal/vaultixpolicy` package. Instead of calling `vaultixpolicy.Can()` directly in handlers/services, wrap each domain's checks in a dedicated checker type under `services/permission/<product>/`:
 
 ```go
 // services/permission/project/secret_permission.go
 type SecretAccessChecker struct {
-    ability *gocasl.Ability
+    ability *vaultixpolicy.Ability
 }
 
-func NewSecretAccessChecker(ability *gocasl.Ability) *SecretAccessChecker {
+func NewSecretAccessChecker(ability *vaultixpolicy.Ability) *SecretAccessChecker {
     return &SecretAccessChecker{ability: ability}
 }
 
 func (c *SecretAccessChecker) CanReadSecretValue(env, path, key string, tags []string) bool {
-    return gocasl.Can(c.ability, project.SecretActionReadValue, project.SecretSubject{
+    return vaultixpolicy.Can(c.ability, project.SecretActionReadValue, project.SecretSubject{
         Environment: env, SecretPath: path, SecretName: key, SecretTags: tags,
     })
 }
@@ -262,11 +262,11 @@ if !checker.CanReadSecretValue(env, path, key, tags) {
 }
 ```
 
-**Why**: keeps subject construction and action selection in one place per domain, makes checkers easy to mock in tests, and prevents handler/service code from depending on `gocasl` directly. Existing checkers: `SecretAccessChecker`, `AssumePrivilegeChecker`.
+**Why**: keeps subject construction and action selection in one place per domain, makes checkers easy to mock in tests, and prevents handler/service code from depending on `vaultixpolicy` directly. Existing checkers: `SecretAccessChecker`, `AssumePrivilegeChecker`.
 
 Actions and subjects live in `services/permission/project/{actions.go,subjects.go}`:
-- `gocasl.DefineAction[SubjectType]("verb")` — typed action constants
-- Subject structs implement `SubjectType() string` and `GetField(string) any` so CASL can match field-conditional rules
+- `vaultixpolicy.DefineAction[SubjectType]("verb")` — typed action constants
+- Subject structs implement `SubjectType() string` and `GetField(string) any` so Vaultix policy can match field-conditional rules
 
 **Database access**: services receive `pg.DB` and execute raw pgx queries via helper packages. Use `db.Primary()` for writes, `db.Replica()` for reads.
 
@@ -352,4 +352,4 @@ secrets, _ := pgx.CollectRows(rows, pgx.RowToStructByName[Secret])
 
 ## Vaultix runtime
 
-The image entrypoint is cmd/vaultix/main.go. The included feature policy is internal/ee/services/license/included.go; NewService has no billing clients or background license synchronization. The Node launcher passes resolved cache aliases to the sidecar. The permission evaluator is pinned under third_party/gocasl with its MIT notice and provenance preserved; run its own tests when changing it.
+The image entrypoint is cmd/vaultix/main.go. The included feature policy is internal/ee/services/license/included.go; NewService has no billing clients or background license synchronization. The Node launcher passes resolved cache aliases to the sidecar. The permission evaluator is maintained directly in internal/vaultixpolicy, with no nested module or replacement dependency. Its MIT notice and provenance ship in the image. Run node scripts/test-vaultix-policy.mjs from the repository root and the native image acceptance in docs/0078-vaultix-policy-ownership.md when changing this boundary.

@@ -1,11 +1,10 @@
 package permission
 
 import (
-	"encoding/json"
 	"fmt"
 	"slices"
 
-	"github.com/vaultix/gocasl"
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )
@@ -17,12 +16,12 @@ type roleWithPermissions struct {
 }
 
 // buildProjectPermissionRules maps role slugs to their builtin JSONRule sets and
-// unpacks custom roles via gocasl.UnpackRules.
+// validates and unpacks custom roles via vaultixpolicy.DecodePackedRules.
 // Returns the combined rules and any parse errors encountered (fail-closed: invalid
 // custom roles yield no rules but parsing continues for other roles).
-// Exact port of buildProjectPermissionRules from permission-service.ts:77-109.
-func buildProjectPermissionRules(roles []roleWithPermissions) ([]gocasl.JSONRule, []error) {
-	var allRules []gocasl.JSONRule
+// The persisted encoding is shared with the existing TypeScript permission service.
+func buildProjectPermissionRules(roles []roleWithPermissions) ([]vaultixpolicy.JSONRule, []error) {
+	var allRules []vaultixpolicy.JSONRule
 	var parseErrors []error
 
 	for _, roleEntry := range roles {
@@ -39,11 +38,10 @@ func buildProjectPermissionRules(roles []roleWithPermissions) ([]gocasl.JSONRule
 			allRules = append(allRules, project.CryptographicOperatorPermissions...)
 		case project.RoleCustom:
 			if roleEntry.Permissions != nil {
-				var packed []gocasl.PackedRule
-				if err := json.Unmarshal([]byte(*roleEntry.Permissions), &packed); err != nil {
+				unpacked, err := vaultixpolicy.DecodePackedRules([]byte(*roleEntry.Permissions))
+				if err != nil {
 					parseErrors = append(parseErrors, fmt.Errorf("custom role permissions parse failed: %w", err))
 				} else {
-					unpacked := gocasl.UnpackRules(packed)
 					allRules = append(allRules, unpacked...)
 				}
 			}
@@ -62,33 +60,33 @@ type ServiceTokenScope struct {
 // buildServiceTokenProjectPermission builds scoped rules with $glob conditions
 // on secretPath and exact match on environment.
 // Port of buildServiceTokenProjectPermission from project-permission.ts:1848-1887.
-func buildServiceTokenProjectPermission(scopes []ServiceTokenScope, permissions []string) []gocasl.JSONRule {
+func buildServiceTokenProjectPermission(scopes []ServiceTokenScope, permissions []string) []vaultixpolicy.JSONRule {
 	canWrite := containsString(permissions, "write")
 	canRead := containsString(permissions, "read")
 
-	subjects := gocasl.StringOrSlice{
+	subjects := vaultixpolicy.StringOrSlice{
 		project.SubSecrets,
 		project.SubSecretImports,
 		project.SubSecretFolders,
 	}
 
-	var rules []gocasl.JSONRule
+	var rules []vaultixpolicy.JSONRule
 	for _, scope := range scopes {
-		cond := gocasl.Cond{
-			"secretPath":  gocasl.Op{"$glob": scope.SecretPath},
+		cond := vaultixpolicy.Cond{
+			"secretPath":  vaultixpolicy.Op{"$glob": scope.SecretPath},
 			"environment": scope.Environment,
 		}
 
 		if canWrite {
-			rules = append(rules, gocasl.JSONRule{
-				Action:     gocasl.StringOrSlice{"edit", "create", "delete"},
+			rules = append(rules, vaultixpolicy.JSONRule{
+				Action:     vaultixpolicy.StringOrSlice{"edit", "create", "delete"},
 				Subject:    subjects,
 				Conditions: cond,
 			})
 		}
 		if canRead {
-			rules = append(rules, gocasl.JSONRule{
-				Action:     gocasl.StringOrSlice{"read"},
+			rules = append(rules, vaultixpolicy.JSONRule{
+				Action:     vaultixpolicy.StringOrSlice{"read"},
 				Subject:    subjects,
 				Conditions: cond,
 			})

@@ -91,7 +91,8 @@ CLI installer endpoint has been removed from the older backend recipes.
 
 This change does not establish whole-tree independent authorship, every enterprise
 capability, live external-provider parity, cloud readiness or the remaining UI
-work. Existing third-party notices and the explicit vendored authorization
-library remain visible. The broader migration and recorded-workflow plans remain
+work. Existing third-party notices remain visible. The formerly vendored Go
+authorization module is absorbed by [Vaultix policy](0078-vaultix-policy-ownership.md).
+The broader migration and recorded-workflow plans remain
 open. Operator data and encryption keys must be preserved during image updates;
 the build verifier does not deploy or replace the existing operator database.

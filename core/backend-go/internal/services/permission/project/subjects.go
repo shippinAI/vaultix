@@ -417,8 +417,8 @@ type CertificateSubject struct {
 	Status       string
 }
 
-func (s CertificateSubject) SubjectType() string { return SubCertificates } //nolint:gocritic // value receiver required by gocasl.Subject interface
-func (s CertificateSubject) GetField(f string) any { //nolint:gocritic // value receiver required by gocasl.Subject interface
+func (s CertificateSubject) SubjectType() string { return SubCertificates } //nolint:gocritic // value receiver required by vaultixpolicy.Subject interface
+func (s CertificateSubject) GetField(f string) any { //nolint:gocritic // value receiver required by vaultixpolicy.Subject interface
 	switch f {
 	case "commonName":
 		return s.CommonName

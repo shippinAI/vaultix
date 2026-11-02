@@ -5,7 +5,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
 )
@@ -25,11 +26,11 @@ func TestPermissionArrayMembership_TagConditions(t *testing.T) {
 		{"nin-empty", "$nin", []string{}, true},
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
-			rules, err := json.Marshal([]gocasl.JSONRule{{Action: gocasl.StringOrSlice{"describeSecret"}, Subject: gocasl.StringOrSlice{"secrets"}, Conditions: gocasl.Cond{"secretTags": gocasl.Op{scenario.op: []string{"public"}}}}})
+			rules, err := json.Marshal([]vaultixpolicy.JSONRule{{Action: vaultixpolicy.StringOrSlice{"describeSecret"}, Subject: vaultixpolicy.StringOrSlice{"secrets"}, Conditions: vaultixpolicy.Cond{"secretTags": vaultixpolicy.Op{scenario.op: []string{"public"}}}}})
 			require.NoError(t, err)
-			ability, err := gocasl.LoadFromJSON(rules, gocasl.LoadOptions{FieldOps: PermissionFieldOps()})
+			ability, err := vaultixpolicy.LoadFromJSON(rules, vaultixpolicy.LoadOptions{FieldOps: PermissionFieldOps()})
 			require.NoError(t, err)
-			require.Equal(t, scenario.want, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{SecretTags: scenario.tags}))
+			require.Equal(t, scenario.want, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{SecretTags: scenario.tags}))
 		})
 	}
 }
@@ -49,18 +50,18 @@ func TestPermissionArrayMembership_ScalarAndArrayFields(t *testing.T) {
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
 			for _, operator := range []string{"$in", "$nin"} {
-				compiled := PermissionFieldOps()[operator].Compile(&gocasl.CompileCtx{Resolve: func(value any) any { return value }}, "name", []string{"public"})
-				require.Equal(t, scenario.want != (operator == "$nin"), compiled(gocasl.MapSubject{"name": scenario.field}))
+				compiled := PermissionFieldOps()[operator].Compile(&vaultixpolicy.CompileCtx{Resolve: func(value any) any { return value }}, "name", []string{"public"})
+				require.Equal(t, scenario.want != (operator == "$nin"), compiled(vaultixpolicy.MapSubject{"name": scenario.field}))
 			}
 		})
 	}
 }
 
 func TestPermissionArrayMembership_ConditionsAndDenyRemainEffective(t *testing.T) {
-	ability, err := gocasl.LoadFromJSON([]byte(`[
+	ability, err := vaultixpolicy.LoadFromJSON([]byte(`[
 		{"action":"describeSecret","subject":"secrets","conditions":{"environment":"dev","secretTags":{"$in":"{{ .tags }}"}}},
 		{"action":"describeSecret","subject":"secrets","inverted":true,"conditions":{"secretTags":{"$in":["restricted"]}}}
-	]`), gocasl.LoadOptions{FieldOps: PermissionFieldOps(), Vars: map[string]any{"tags": []string{"public"}}})
+	]`), vaultixpolicy.LoadOptions{FieldOps: PermissionFieldOps(), Vars: map[string]any{"tags": []string{"public"}}})
 	require.NoError(t, err)
 	for _, scenario := range []struct {
 		name, env string
@@ -72,7 +73,7 @@ func TestPermissionArrayMembership_ConditionsAndDenyRemainEffective(t *testing.T
 		{"matching-deny-refuses", "dev", []string{"public", "restricted"}, false},
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
-			require.Equal(t, scenario.want, gocasl.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{Environment: scenario.env, SecretTags: scenario.tags}))
+			require.Equal(t, scenario.want, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{Environment: scenario.env, SecretTags: scenario.tags}))
 		})
 	}
 }

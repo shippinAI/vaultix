@@ -40,7 +40,7 @@ type Status struct {
 	Error   string `json:"error,omitempty"`
 }
 
-func clientTLS(config Config) (*tls.Config, error) {
+func clientTLS(config *Config) (*tls.Config, error) {
 	roots := x509.NewCertPool()
 	if !roots.AppendCertsFromPEM([]byte(config.CA)) {
 		return nil, errors.New("invalid gateway CA")
@@ -75,7 +75,7 @@ func clientTLS(config Config) (*tls.Config, error) {
 	}, nil
 }
 
-func validate(config Config) error {
+func validate(config *Config) error {
 	if config.Version != 1 || (config.Mode != "ping" && config.Mode != "proxy") {
 		return errors.New("unsupported gateway transport request")
 	}
@@ -84,7 +84,7 @@ func validate(config Config) error {
 	}
 	if config.Mode == "proxy" {
 		command := strings.TrimSuffix(config.Command, "\n")
-		if len(command) > 512*1024 || strings.ContainsAny(command, "\r\n\x00") || !(strings.HasPrefix(command, "FORWARD-TCP ") || command == "FORWARD-HTTP" || strings.HasPrefix(command, "FORWARD-HTTP ")) {
+		if len(command) > 512*1024 || strings.ContainsAny(command, "\r\n\x00") || (!strings.HasPrefix(command, "FORWARD-TCP ") && command != "FORWARD-HTTP" && !strings.HasPrefix(command, "FORWARD-HTTP ")) {
 			return errors.New("invalid gateway forwarding command")
 		}
 		if config.Command != command+"\n" {
@@ -94,11 +94,13 @@ func validate(config Config) error {
 	return nil
 }
 
-func Run(ctx context.Context, config Config, notify func(Status) error) error {
-	if err := validate(config); err != nil {
+// Run copies the request so TLS callbacks and stream workers retain an immutable
+// request even if the caller reuses its Config after starting this operation.
+func Run(ctx context.Context, config Config, notify func(Status) error) error { //nolint:gocritic // the request value copy is an intentional ownership boundary
+	if err := validate(&config); err != nil {
 		return err
 	}
-	tlsConfig, err := clientTLS(config)
+	tlsConfig, err := clientTLS(&config)
 	if err != nil {
 		return err
 	}
@@ -112,8 +114,11 @@ func Run(ctx context.Context, config Config, notify func(Status) error) error {
 	if err != nil {
 		return fmt.Errorf("gateway handshake failed: %w", err)
 	}
-	defer connection.CloseWithError(0, "Vaultix transport closed")
-	stop := context.AfterFunc(ctx, func() { _ = connection.CloseWithError(0, "Vaultix operation cancelled") })
+	defer connection.CloseWithError(0, "Vaultix transport closed") //nolint:errcheck // terminal cleanup; the operation result is already determined
+	stop := context.AfterFunc(ctx, func() {
+		// Cancellation is terminal; closing an already closed peer has no recovery.
+		_ = connection.CloseWithError(0, "Vaultix operation canceled") //nolint:errcheck // terminal cancellation cleanup
+	})
 	defer stop()
 	if config.Mode == "ping" {
 		stream, openErr := connection.OpenStreamSync(ctx)
@@ -122,7 +127,7 @@ func Run(ctx context.Context, config Config, notify func(Status) error) error {
 		}
 		defer stream.CancelRead(0)
 		defer stream.CancelWrite(0)
-		if err = stream.SetDeadline(time.Now().Add(15 * time.Second)); err != nil {
+		if err := stream.SetDeadline(time.Now().Add(15 * time.Second)); err != nil {
 			return err
 		}
 		if _, err = io.WriteString(stream, "PING\n"); err != nil {
@@ -138,14 +143,14 @@ func Run(ctx context.Context, config Config, notify func(Status) error) error {
 		}
 		return notify(Status{Version: 1, OK: true})
 	}
-	listener, err := net.Listen("tcp4", "127.0.0.1:0")
+	listener, err := (&net.ListenConfig{}).Listen(ctx, "tcp4", "127.0.0.1:0")
 	if err != nil {
 		return err
 	}
-	defer listener.Close()
+	defer listener.Close() //nolint:errcheck // terminal cleanup; a concurrent cancellation can already close it
 	operationCtx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	stopListener := context.AfterFunc(operationCtx, func() { _ = listener.Close() })
+	stopListener := context.AfterFunc(operationCtx, func() { _ = listener.Close() }) //nolint:errcheck // closing releases Accept; there is no recovery after cancellation
 	defer stopListener()
 	stopConnection := context.AfterFunc(connection.Context(), cancel)
 	defer stopConnection()
@@ -155,7 +160,7 @@ func Run(ctx context.Context, config Config, notify func(Status) error) error {
 	if !ok {
 		return errors.New("invalid local gateway listener")
 	}
-	if err = notify(Status{Version: 1, Ready: true, Port: address.Port}); err != nil {
+	if err := notify(Status{Version: 1, Ready: true, Port: address.Port}); err != nil {
 		return err
 	}
 	for {
@@ -179,8 +184,8 @@ func Run(ctx context.Context, config Config, notify func(Status) error) error {
 }
 
 func forward(ctx context.Context, connection *quic.Conn, local net.Conn, command string) {
-	defer local.Close()
-	stopLocal := context.AfterFunc(ctx, func() { _ = local.Close() })
+	defer local.Close()                                               //nolint:errcheck // terminal cleanup, including already closed sockets
+	stopLocal := context.AfterFunc(ctx, func() { _ = local.Close() }) //nolint:errcheck // cancellation must release pending socket reads
 	defer stopLocal()
 	stream, err := connection.OpenStreamSync(ctx)
 	if err != nil {
@@ -204,9 +209,11 @@ func forward(ctx context.Context, connection *quic.Conn, local net.Conn, command
 			stream.CancelRead(1)
 		}
 	}()
-	_, _ = io.Copy(local, stream)
+	if _, copyErr := io.Copy(local, stream); copyErr != nil {
+		stream.CancelRead(1)
+	}
 	// Close releases a pending local read, including when the peer resets a stream.
-	_ = local.Close()
+	_ = local.Close() //nolint:errcheck // terminal shutdown; still cancel the QUIC write and join its worker if close fails
 	// A sender can also be blocked on QUIC flow control, after its local read.
 	// Cancel that write before waiting for it; closing TCP alone cannot release it.
 	stream.CancelWrite(0)

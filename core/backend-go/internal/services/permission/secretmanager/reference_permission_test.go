@@ -4,7 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/vaultix/gocasl"
+
+	"github.com/vaultix/api/internal/vaultixpolicy"
 )
 
 func TestCanDescribeSecrets_RequiresGrantAndPreservesRowChecks(t *testing.T) {
@@ -21,7 +22,7 @@ func TestCanDescribeSecrets_RequiresGrantAndPreservesRowChecks(t *testing.T) {
 		{"blanket-deny", `[{"action":"describeSecret","subject":"secrets"},{"action":"describeSecret","subject":"secrets","inverted":true}]`, false, false, false},
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
-			ability, err := gocasl.LoadFromJSON([]byte(scenario.rules), gocasl.LoadOptions{})
+			ability, err := vaultixpolicy.LoadFromJSON([]byte(scenario.rules), vaultixpolicy.LoadOptions{})
 			require.NoError(t, err)
 			checker := NewSecretAccessChecker(ability)
 			require.Equal(t, scenario.possible, checker.CanDescribeSecrets())
