@@ -4605,13 +4605,14 @@
     },
     {
       "path": "docs/0069-execution-goal.md",
-      "blob": "453c6e4c07191ed7466e218ff7e5ff2887097d50",
-      "status": "authored",
+      "blob": "d93133c58976e59c3224290f072787b5490ebced",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Focused delivery planning and readiness correction: public native login, actual application secret consumption, verified distribution/upgrade, real AI-client and manual accessibility. Documentation scope only; implementation and live acceptance remain open.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
       "evidence": [
-        "docs/0075-usable-secrets-and-update-delivery.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -6993,26 +6994,26 @@
     },
     {
       "path": "docs/0024-interaction-and-teaching-system.md",
-      "blob": "357c1556c87e3d6203bef0bf72c3aead7c17aad5",
+      "blob": "550f724798548d7529e5d9b8711d8ea60a5e8997",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
       "evidence": [
-        "scripts/test-vaultix-media.mjs",
-        "core/media/README.md",
-        "docs/0024-interaction-and-teaching-system.md"
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
       "path": "core/media/README.md",
-      "blob": "56192caeab33a3fa64b7a572b865ba543a7363d0",
+      "blob": "1517c302ee9936a91ca9e765f8ba35198770b27f",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
       "evidence": [
-        "scripts/test-vaultix-media.mjs",
-        "core/media/README.md",
-        "docs/0024-interaction-and-teaching-system.md"
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -7085,6 +7086,30 @@
         "scripts/test-vaultix-media.mjs",
         "core/media/README.md",
         "docs/0024-interaction-and-teaching-system.md"
+      ]
+    },
+    {
+      "path": "docs/0076-recorded-workflows-and-visible-assist.md",
+      "blob": "97b0afec270aeaf6b8c8ad7862e7963d90bcbe04",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Source-grounded research and implementation plan for actual-app capture, Remotion footage editing, in-place cards and visible authorized AI actions. Documentation only; implementation, live host, manual AT and deployment gates remain open.",
+      "evidence": [
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "docs/0029-ui-workflow-execution.md",
+      "blob": "c1712c3d5ba753177218e7727210c76d21c5dd96",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
+      "evidence": [
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     }
   ]

@@ -4,6 +4,11 @@ Continue Vaultix.cloud in the existing application, with DevSCIF tailoring on
 the same foundations. This plan advances the broader migration in [0027](0027-native-stack-and-ai-migration.md).
 It does not replace the domain, identity or capability acceptance gates.
 
+The next execution breakdown is [0076](0076-recorded-workflows-and-visible-assist.md):
+remake existing cards, establish shared help/action patterns, record actual
+application workflows and connect visible AI assistance with takeover. The
+historical slices and receipts below remain scoped to their original changes.
+
 ## Current slice: startup isolation and certificate distribution cards
 
 | Step | Change | Acceptance |

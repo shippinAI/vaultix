@@ -47,6 +47,13 @@ consumption, verified server updates/recovery, actual AI-client and assistive-
 technology acceptance. Its immutable checks preserve the wider queue below;
 component receipts do not close that user journey.
 
+The [recorded-workflow and visible-assist plan](0076-recorded-workflows-and-visible-assist.md)
+grounds the next UI/media work in existing cards, primitives, image tests and MCP
+actions. It defines real application capture, in-place card redesign, shared
+semantic actions and paired visible control with takeover. Its implementation
+packets preserve the login, secrets and update dependencies above; the plan is
+not evidence that those capabilities are already shipped.
+
 Execute IDENTITY-01 through IDENTITY-06 in [0074](0074-built-in-and-federated-identity.md):
 characterize existing built-in and federated workflows, version instance login
 metadata, implement native built-in remote authorization, preserve shared actor

@@ -7,6 +7,12 @@ motion. This extends [0021](0021-product-authorship-review.md) and
 [0022](0022-accessibility-acceptance.md); adding a help button does not complete
 the surrounding workflow's conversion.
 
+The concrete [recorded-workflow and visible-assist execution plan](0076-recorded-workflows-and-visible-assist.md)
+maps existing cards, help primitives, source actions and image tests to ordered
+implementation packets. It separates real app footage from illustrations and
+defines client pairing, shared command dispatch, takeover and acceptance gates.
+Those planned additions do not change the implemented scope recorded below.
+
 ## Owned interaction architecture
 
 The core authors lesson content in `services/vaultix/guidance.ts`. The native

@@ -1,5 +1,11 @@
 # Vaultix authored media
 
+This package currently renders illustrated scenes. The
+[recorded-application execution plan](../../docs/0076-recorded-workflows-and-visible-assist.md)
+specifies real app capture, footage provenance, a separate recorded composition
+and visible-assist acceptance. Those additions are planned, not supplied by the
+current renderer.
+
 Render the reference workflow locally with pinned Remotion dependencies:
 
 ```sh
