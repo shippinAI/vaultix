@@ -34,8 +34,11 @@ cmd/vaultix/download_release.go	3f6cda08b5b975d22e25ea7fde98b7a8c0cee65b	product
 cmd/vaultix/download_release_test.go	4d4efcba942e746c9e7c802b72a3e833bd69801f	test	reviewed
 cmd/vaultix/install_release.go	33aff1bc9e33b8f3566678537764e80a0c68e8f1	product-code	authored
 cmd/vaultix/install_release_test.go	add10da8eef563aa5d060b9eab72734d2c313771	test	authored
-cmd/vaultix/main.go	36dfde341b2043696a81b095b80697320ad0c4cc	product-code	authored
+cmd/vaultix/main.go	dc8f054753b66de3cddcc0b313995010a8cda7be	product-code	authored
 cmd/vaultix/server.go	3d08f65bf6761048ba3bad617816960f2a562026	product-code	authored
+cmd/vaultix/startup_other.go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	product-code	authored
+cmd/vaultix/startup_windows.go	a50bc4607c7337ab915b22fa86367700882e06da	product-code	authored
+cmd/vaultix/startup_windows_test.go	90221edd74ef721b9e5e95c2f56d674fe2726852	test	authored
 cmd/vaultix/verify_release.go	913f1b14bbed953f966f40c95c33bcb5f2e5b6cd	product-code	authored
 cmd/vaultix/version.go	0b2ba4d8d6246905cc4abe4451a6f5fe032aa26d	product-code	authored
 cmd/vaultix/version_test.go	2af4c51659112f702e3e7e23cb8ca06d1623e1ba	test	authored
@@ -11924,7 +11927,7 @@ docs/0108-platform-services-and-upgrades.md	06f30dba4c5486e77cdb9863ad2cb378279c
 docs/0109-native-install-and-upgrade.md	ba371d7056b6dcf0ebe7101bd6633283e9c498ed	documentation	reviewed
 docs/0110-invite-only-instance.md	0b39e0ebea1b4e94202216ce4a2e2803fcd17a44	documentation	unread
 docs/0110-verified-release-download.md	e4544efcc6e0613d008d89bb8b9d3fc371ccab7d	documentation	authored
-docs/0111-native-cli-installation.md	8b19a75d35db5fe3f3c67048e4a2fd913d1ae572	documentation	authored
+docs/0111-native-cli-installation.md	124b72effcae28e6748250bd2c33b8da01b9f8f5	documentation	authored
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11955,9 +11958,9 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	a8345d0e9f15d5bc931359d028ef9aa623de9ad8	generated	unread
-docs/migration/generated/modules.tsv	6b895e083d1111d9951bc417b225cb7f74c0698b	generated	unread
-docs/migration/generated/summary.json	d0a5e8173918c1e5135555b41b3f0955e094d6b3	generated	unread
+docs/migration/generated/files.tsv	4abc7964d05f8c09a80fcc7d80d4c50ec4463a0a	generated	unread
+docs/migration/generated/modules.tsv	61bb84fe7241ca941894744c4eac8ff9ac4ed549	generated	unread
+docs/migration/generated/summary.json	122065bcc7370f8306f39e0f5000bac72e15318d	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	6d8fa49cb54a1ca1e337383c42a1a7efba6281d5	documentation	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12138,6 +12141,7 @@ scripts/fixtures/mcp-app-content.json	45dda9b04d8d31047e5d96f2881069f48bef59fb	b
 scripts/fixtures/quic-peer/Dockerfile	f57667fab29816e5fc5ab899838c6d4af18f83c4	build-and-operations	reviewed
 scripts/fixtures/quic-peer/package-lock.json	b1cddfb397daa290e7bba8bed70c5c8de5fd6014	dependency-lock	unread
 scripts/fixtures/quic-peer/package.json	d1068d7328b7a89f4d13d638f3a8bfeafceaac55	build-and-operations	reviewed
+scripts/fixtures/windows-package/guest.ps1	d55f6c29b01ebd5951c8d164669147bbb71f317e	build-and-operations	authored
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
 scripts/lib/ai-journal.mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	build-and-operations	reviewed
 scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-and-operations	reviewed
@@ -12224,6 +12228,7 @@ scripts/test-updates-clyffy-workflow.mjs	1d688f5fd15107041d1d53c562ac82f67702076
 scripts/test-vaultix-media.mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	build-and-operations	authored
 scripts/test-vaultix-policy-image.mjs	ac19f03bedba7525496c890423936cdb7b96a857	build-and-operations	authored
 scripts/test-vaultix-policy.mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	build-and-operations	authored
+scripts/test-windows-package-activation.ps1	ff0f44c8f5387bdf2b2e8eaf66f15912e5221089	build-and-operations	authored
 scripts/up.sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	build-and-operations	authored
 scripts/verify-delivery-destination-store.mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	build-and-operations	authored
 scripts/verify-device-delivery-rollback.mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	build-and-operations	authored

@@ -48,11 +48,12 @@ Native executable names: vaultix and vaultixl. Existing --api login scripts rema
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
-	if err := dispatch(ctx, os.Args[1:]); err != nil {
+	args := commandArguments(os.Args)
+	if err := dispatch(ctx, args); err != nil {
 		fmt.Fprintln(os.Stderr, cli.CommandName(os.Args[0])+":", err)
 		os.Exit(1)
 	}
-	release.Notify(ctx, version, os.Args[1:], os.Stderr)
+	release.Notify(ctx, version, args, os.Stderr)
 }
 
 func dispatch(ctx context.Context, a []string) error {

@@ -4193,16 +4193,14 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "36dfde341b2043696a81b095b80697320ad0c4cc",
+      "blob": "dc8f054753b66de3cddcc0b313995010a8cda7be",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
       ]
     },
     {
@@ -9583,16 +9581,14 @@
     },
     {
       "path": "docs/0111-native-cli-installation.md",
-      "blob": "8b19a75d35db5fe3f3c67048e4a2fd913d1ae572",
+      "blob": "124b72effcae28e6748250bd2c33b8da01b9f8f5",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
       ]
     },
     {
@@ -9831,6 +9827,66 @@
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
         "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/startup_other.go",
+      "blob": "7e6cd821058e4f4067bdd0b96511ae131dbc154e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/startup_windows.go",
+      "blob": "a50bc4607c7337ab915b22fa86367700882e06da",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/startup_windows_test.go",
+      "blob": "90221edd74ef721b9e5e95c2f56d674fe2726852",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
+      ]
+    },
+    {
+      "path": "scripts/test-windows-package-activation.ps1",
+      "blob": "ff0f44c8f5387bdf2b2e8eaf66f15912e5221089",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/windows-package/guest.ps1",
+      "blob": "d55f6c29b01ebd5951c8d164669147bbb71f317e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "cmd/vaultix/startup_windows_test.go",
+        "scripts/test-windows-package-activation.ps1"
       ]
     }
   ]
