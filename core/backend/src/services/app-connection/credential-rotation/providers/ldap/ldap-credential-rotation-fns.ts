@@ -1,8 +1,9 @@
 /* eslint-disable no-await-in-loop */
-import ldap from "@vaultix/ldapjs";
+import { Attribute, Change, Client } from "ldapts";
 
 import { generatePassword } from "@app/ee/services/secret-rotation-v2/shared/utils";
 import { BadRequestError } from "@app/lib/errors";
+import { resolveDirectoryPrincipal } from "@app/lib/ldap/directory";
 import { logger } from "@app/lib/logger";
 import { DistinguishedNameRegex } from "@app/lib/regex";
 import {
@@ -10,7 +11,6 @@ import {
   executeWithPotentialGateway,
   extractDomainFromDN,
   extractHostFromReferralUrl,
-  isLdapReferral,
   isLdapReferralError,
   LdapReferralError,
   normalizeLdapUrl,
@@ -37,89 +37,29 @@ const MAX_REFERRAL_HOPS = 10;
 
 const getEncodedPassword = (password: string) => Buffer.from(`"${password}"`, "utf16le");
 
-const getDN = async (dn: string, client: ldap.Client, searchBase: string): Promise<string> => {
-  if (DistinguishedNameRegex.test(dn)) return dn;
+const getDN = (dn: string, client: Client, searchBase: string): Promise<string> =>
+  DistinguishedNameRegex.test(dn) ? Promise.resolve(dn) : resolveDirectoryPrincipal(client, dn, searchBase);
 
-  const opts: ldap.SearchOptions = {
-    filter: `(userPrincipalName=${dn})`,
-    scope: "sub",
-    attributes: ["dn"]
-  };
-
-  return new Promise((resolve, reject) => {
-    const handleSearchError = (error: Error) => {
-      if (isLdapReferral(error)) {
-        const ldapErr = error as Partial<LdapReferralError> & Error;
-        if (!ldapErr.dn) {
-          (ldapErr as { dn: string }).dn = searchBase;
-        }
-        if (!Array.isArray((ldapErr as { referrals?: unknown }).referrals)) {
-          (ldapErr as { referrals: string[] }).referrals = [];
-        }
-        (ldapErr as { referralSource: string }).referralSource = "search";
-        logger.info(
-          {
-            searchBase,
-            upn: dn,
-            referralDn: ldapErr.dn,
-            referralUrls: (ldapErr as { referrals?: string[] }).referrals ?? []
-          },
-          `LDAP DN resolution received referral [searchBase=${searchBase}] [upn=${dn}]`
-        );
-        reject(error);
-        return;
-      }
-
-      reject(new Error(`Provider Resolve DN Error: ${error.message}`));
-    };
-
-    client.search(searchBase, opts, (err, res) => {
-      if (err) {
-        handleSearchError(err);
-        return;
-      }
-
-      let userDn: string | null = null;
-
-      res.on("searchEntry", (entry) => {
-        userDn = entry.objectName;
-      });
-
-      res.on("error", (error) => {
-        handleSearchError(error);
-      });
-
-      res.on("end", () => {
-        if (userDn) {
-          resolve(userDn);
-        } else {
-          reject(new Error(`Unable to resolve DN for ${dn}.`));
-        }
-      });
-    });
-  });
-};
-
-const buildPasswordChanges = (provider: LdapProvider, currentPassword: string, newPassword: string): ldap.Change[] => {
+const buildPasswordChanges = (provider: LdapProvider, currentPassword: string, newPassword: string): Change[] => {
   switch (provider) {
     case LdapProvider.ActiveDirectory: {
       const currentEncoded = getEncodedPassword(currentPassword);
       const newEncoded = getEncodedPassword(newPassword);
 
       return [
-        new ldap.Change({
+        new Change({
           operation: "delete",
-          modification: {
+          modification: new Attribute({
             type: "unicodePwd",
             values: [currentEncoded]
-          }
+          })
         }),
-        new ldap.Change({
+        new Change({
           operation: "add",
-          modification: {
+          modification: new Attribute({
             type: "unicodePwd",
             values: [newEncoded]
-          }
+          })
         })
       ];
     }
@@ -139,7 +79,7 @@ const resolveSearchBase = (dn: string): string => {
 const performModify = async (
   connectionConfig: TLdapConnectionConfig,
   dn: string,
-  changes: ldap.Change[],
+  changes: Change[],
   services: TCredentialRotationProviderServices
 ): Promise<void> => {
   let capturedReferralError: LdapReferralError | undefined;
@@ -160,26 +100,15 @@ const performModify = async (
           throw getDnErr;
         }
 
-        await new Promise<void>((resolve, reject) => {
-          client.modify(userDn, changes, (err) => {
-            if (err) {
-              if (isLdapReferral(err)) {
-                const ldapErr = err as Partial<LdapReferralError> & Error;
-                if (!Array.isArray((ldapErr as { referrals?: unknown }).referrals)) {
-                  (ldapErr as { referrals: string[] }).referrals = [];
-                }
-                if (typeof ldapErr.dn !== "string") {
-                  (ldapErr as { dn: string }).dn = "";
-                }
-                (ldapErr as { referralSource: string }).referralSource = "modify";
-                capturedReferralError = ldapErr as LdapReferralError;
-              }
-              reject(err);
-            } else {
-              resolve();
-            }
-          });
-        });
+        try {
+          await client.modify(userDn, changes);
+        } catch (error) {
+          if (isLdapReferralError(error)) {
+            error.referralSource = "modify";
+            capturedReferralError = error;
+          }
+          throw error;
+        }
       },
       services.gatewayPoolService
     );

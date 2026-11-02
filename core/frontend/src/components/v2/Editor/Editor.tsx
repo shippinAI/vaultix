@@ -6,7 +6,7 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { ReactNode } from "@tanstack/react-router";
-import { cva, VariantProps } from "cva";
+import { cva, VariantProps } from "class-variance-authority";
 import { EditorState, LexicalEditor } from "lexical";
 import { twMerge } from "tailwind-merge";
 

@@ -71,15 +71,16 @@
     },
     {
       "path": "core/frontend/src/components/v3/generic/Field/Field.tsx",
-      "blob": "c4f902e88aba279abfbceca24ed962be29400806",
-      "status": "authored",
+      "blob": "7cfd31dd2d2ab0ca690ca93c21103919d52247ca",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Default field labels use the brighter semantic muted color after reproduced 4.18:1 contrast failure in the reference form. The corrected form passes axe; other consuming forms, error animations, disabled/selected variants and screen-reader relationships require workflow-specific review. Expanded federated sign-in fixtures reproduced a 4.05:1 separator contrast failure; separator text now uses the full muted color and passes the 14-state browser scan. Other consumers remain subject to their workflow reviews.",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
-        ".cache/ui-proof-MQayyC/accessibility.json"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
@@ -853,26 +854,30 @@
     },
     {
       "path": "core/backend-go/go.mod",
-      "blob": "0fde8f5e9736c53d34f94e2078683deb96c48d49",
-      "status": "authored",
+      "blob": "187eb1d6536bf36f908ac442adbe68d18db28842",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Reconciles the owned Go language/toolchain requirement to 1.27.3, retaining all dependency versions and the vendored gocasl provenance/minimum. This is compiler compatibility review, not authorship of dependencies or domain services.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
       "evidence": [
-        "docs/0032-native-toolchains.md",
-        ".cache/go1273-root-packages.jsonl",
-        ".cache/go1273-panel-complete-tree.jsonl",
-        ".cache/go1273-backend-unit-release.jsonl"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "5a956d30591bca7e51ddfccce48180da60749b40",
-      "status": "authored",
+      "blob": "c1299b2387a08cda2361d7579210ad9f00204de4",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
@@ -1679,15 +1684,16 @@
     },
     {
       "path": "core/frontend/src/components/v2/Drawer/Drawer.tsx",
-      "blob": "313f8d0f4d540c6f5736abb04c72e99891e6a31b",
-      "status": "verified",
+      "blob": "c9a31f900e8a550c69a0bbdf9616810e6106fb08",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete legacy primitive and Card composition read. Add modal notification host, associate title, keep footer placement and limit width to viewport. Preserve existing right-side/open/close/ref behavior. Narrow fixture previously extended 64 pixels outside viewport; unrelated drawer workflows remain separately reviewed.",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
       "evidence": [
-        "docs/0038-notification-dialog-ownership.md",
-        ".cache/notification-proof-gVnaex/result.json",
-        ".cache/app-image-proof-hoAOol/workflow-result.json",
-        ".cache/notification-lint-final.log"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
@@ -6640,30 +6646,30 @@
     },
     {
       "path": "core/frontend/package.json",
-      "blob": "660508d49ea41818677f2c49054999cb2253f3a2",
-      "status": "authored",
+      "blob": "576849f42ad677138eeed435d319ea8a0e0eb2fd",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
       "path": "core/frontend/src/components/v3/generic/Button/Button.tsx",
-      "blob": "11e14089801de426ead0e61f399809772e3fa82a",
-      "status": "authored",
+      "blob": "45ee802c59325b3843ac9afe689254f76621ac55",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
@@ -6970,14 +6976,16 @@
     },
     {
       "path": ".gitignore",
-      "blob": "c042d631f2d51fe282984974074109cd841475f7",
+      "blob": "9be9bbac89c574038e2e08337ea977ab9171008b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file authored/read for scoped local Remotion teaching-media delivery and visible-assist requirements. Uses existing guidance, semantic theme and owned artwork; no changes to auth, API, store or runtime routes. Renderer output is an illustration and cannot establish live assist, whole-UI conversion, landing enrollment or deployment readiness. Dependency lock retains third-party provenance and is not claimed as newly authored dependency code.",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
       "evidence": [
-        "scripts/test-vaultix-media.mjs",
-        "core/media/README.md",
-        "docs/0024-interaction-and-teaching-system.md"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     },
     {
@@ -7110,6 +7118,776 @@
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
         "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "core/backend/e2e-test/mocks/smtp.ts",
+      "blob": "47b3d181d6a93093f37f61d22a89bf1f14120563",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/package.json",
+      "blob": "efbd3c0ba01e78edfea3a8095e313b5710f61921",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/sanitized-schema.ts",
+      "blob": "f09e7342a47db291786cce095ecf4322899ed9e9",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/dynamic-secret/providers/ldap.ts",
+      "blob": "57e974189aeaad6eda2e031a87503e308770876a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/ldap-config/ldap-fns.ts",
+      "blob": "4533c3f2beded2c6a8ca5e0eb951d7bb4fc2a811",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/pam-discovery/active-directory/active-directory-discovery-factory.ts",
+      "blob": "ca8f5ede561e2650489ba36982e78b19eeb6d44b",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/pam-discovery/pam-discovery-fns.ts",
+      "blob": "55bec8f11d4eb9316224551859d4bf884d7f288d",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/ee/services/secret-rotation-v2/ldap-password/ldap-password-rotation-fns.ts",
+      "blob": "d194896a14423d09f01441151e6bc7f9f9f8e371",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/gateway/gateway.ts",
+      "blob": "dc5e98ebc0192575c01383b37466a6ed9c85587b",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/gateway/types.ts",
+      "blob": "837c85cd14033f550b352f98e22e4318cdcb47c2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/app-connection/credential-rotation/providers/ldap/ldap-credential-rotation-fns.ts",
+      "blob": "73ce63f4efb2d0df0837df57e8527a8626fb5517",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/app-connection/ldap/ldap-connection-fns.ts",
+      "blob": "9193f17f0fcf5e2cfe4ba3213e19d22c2ae7a738",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Alert/Alert.tsx",
+      "blob": "e0a911cf4488877b99f9f5c53793146a5b59078e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Button/Button.tsx",
+      "blob": "cf9f0023686150ee203689c8ea108ce2f7b9061e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Editor/Editor.tsx",
+      "blob": "e2ac5e49e8ae035f4a3105ae53a29d5b55e10ca8",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/IconButton/IconButton.tsx",
+      "blob": "1b8f2e01e9494babb9052adda973d87d062daa63",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Input/Input.tsx",
+      "blob": "63f9b25b3f36866a921676fdfdad7da434f97a29",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Slider/Slider.tsx",
+      "blob": "6b21016d15af67c025f93ff82b0c76708a63dba1",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/Tag/Tag.tsx",
+      "blob": "2f2ec6acb36cf9df8a2d7a713bb6474e21acd6bf",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v2/TextArea/TextArea.tsx",
+      "blob": "9cc46cd7daba61d2842be0f158c6de4daf8ee384",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Alert/Alert.tsx",
+      "blob": "31a9db3470a1c876f37140b59bd1169347825760",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Badge/Badge.tsx",
+      "blob": "48c3bf6a277e2babfd16992bb99070d949d6eed2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Button/ButtonBadge.tsx",
+      "blob": "c187b95a7d4d3975febae16d6ffd041781a0023e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/ButtonGroup/ButtonGroup.tsx",
+      "blob": "ee63f3074b5033435b85097325d58f71ea108dc4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Checkbox/Checkbox.tsx",
+      "blob": "81eda9d5af5043cfa3d00695cc9ac071e588c91c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Empty/Empty.tsx",
+      "blob": "afde8836ec0683fe628631aa4628286a66e20b9d",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/IconButton/IconButton.tsx",
+      "blob": "f1fdb3be9c54840c10959898b11a870895a5c561",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Input/Input.tsx",
+      "blob": "90bb1cee415a2617d09dea22e89c77b58c8a9b68",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/InputGroup/InputGroup.tsx",
+      "blob": "fdc36de7794c1b93a24f3581ee011732fd3c3bb1",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Item/Item.tsx",
+      "blob": "c0a8ea96d5555b73a8052ada8d49313656dc6bdf",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Select/Select.tsx",
+      "blob": "5a9a70efb861f94564c7becb86e3e5652d53dce9",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Sidebar/Sidebar.tsx",
+      "blob": "e238cc5a50abedb7510af868ae6cdf5e54450b15",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Stepper/Stepper.tsx",
+      "blob": "fc9a045c6fafdad6356b72ac811bcb2e28f26567",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Switch/Switch.tsx",
+      "blob": "f61a51472dba0c20ea5858c81a897cc7eee3bc9c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/Tabs/Tabs.tsx",
+      "blob": "136c2659ce66e0a5c5b51a66ecc61725b36b2139",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/v3/generic/TextArea/TextArea.tsx",
+      "blob": "0825f077d9b32b64773d4fef4698a80bd3b823dc",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete component read; scoped change only replaces the cva npm alias import with the accurately named class-variance-authority package. Existing presentation and behavior retained. This does not claim a UI redesign, all-consumer accessibility or whole-product authorship.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/run-core.sh",
+      "blob": "3f5a2185b9bb9569006ad152f44eba03034fcfcf",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/cmd/vaultix-transport/main.go",
+      "blob": "2e051b2c54759e670a482105de5f96e1b3729c5e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/gatewaytransport/transport.go",
+      "blob": "8fc44a3e2490e5961a0a4e4b92a8c78107a7a4ca",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/scripts/build-gateway-transport.mjs",
+      "blob": "cc9a120c229e8195164cf250c483d4aa523f4f41",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/scripts/check-owned-dependencies.mjs",
+      "blob": "187c487bdc624416983c3d586f73f3523b4f2db3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/scripts/patch-ldapts.mjs",
+      "blob": "b373bdd9a260de668bd38698ba973a6495a9e5b3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/analytics-views.ts",
+      "blob": "676564940243fcfdc5dc8a8d1498e84637ceb003",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/gateway/transport.ts",
+      "blob": "b608f18e94ab2e7751bd7f7fe8844ab1a7b41bdc",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/ldap/directory.ts",
+      "blob": "c03e598ea1bd38f2d7c745c69882f378b3ee1446",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/lib/ldap/ldif.ts",
+      "blob": "142907f7bc159d2e3ef31739c93fcc2f6be9a187",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "docs/0077-owned-runtime-dependencies.md",
+      "blob": "b558dfddeba34ea6ba7d0b06886dee4b0cfd81a3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/check-owned-dependency-image.mjs",
+      "blob": "5ab7fdfaa44e748c3808697650e6234c54eff6fd",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/quic-peer/package.json",
+      "blob": "d1068d7328b7a89f4d13d638f3a8bfeafceaac55",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/ldap-consumer-fixture.mjs",
+      "blob": "462baf6a8b4f8eeeaf720fa11250c2dfa91c7484",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/lib/test-certificates.mjs",
+      "blob": "0b5127cc31337707e71f6ea669e45bcfb0c66046",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-analytics.mjs",
+      "blob": "696b6f84c4f2190a1951ab551090fa3d93b9b504",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-dependencies.mjs",
+      "blob": "48c7b3da82aae0aad519636d5684faf10a823a5a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-ldap.mjs",
+      "blob": "9016af97aca4ef0b9a9f0071938a434e67727dad",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-quic.mjs",
+      "blob": "26f1bd399afc3a469d0f67ba132def0f6a31d8c0",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-dependencies.mjs",
+        "scripts/test-owned-ldap.mjs",
+        "scripts/test-owned-quic.mjs",
+        "scripts/test-owned-analytics.mjs"
       ]
     }
   ]

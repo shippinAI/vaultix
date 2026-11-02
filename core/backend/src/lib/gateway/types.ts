@@ -1,5 +1,3 @@
-import net from "node:net";
-
 import https from "https";
 
 export type TGatewayTlsOptions = { ca: string; cert: string; key: string };
@@ -40,13 +38,6 @@ export type TPingGatewayAndVerifyDTO = {
   identityId: string;
   orgId: string;
 };
-
-export interface IGatewayProxyServer {
-  server: net.Server;
-  port: number;
-  cleanup: () => Promise<void>;
-  getProxyError: () => string;
-}
 
 export type TGatewayV1RelayDetails = {
   relayAddress: string;

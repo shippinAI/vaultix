@@ -1,7 +1,7 @@
 import * as React from "react";
 import { forwardRef } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "cva";
+import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 import { Lottie } from "@app/components/v2/Lottie";

@@ -1,5 +1,5 @@
 import { forwardRef, TextareaHTMLAttributes } from "react";
-import { cva, VariantProps } from "cva";
+import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 type Props = {

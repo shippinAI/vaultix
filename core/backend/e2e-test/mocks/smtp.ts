@@ -8,7 +8,15 @@ export type TTestSmtpService = TSmtpService & {
 
 export const mockSmtpServer = (): TTestSmtpService => {
   const storage: TSmtpSendMail[] = [];
+  const unsupportedRecordedMail = async (): Promise<never> => {
+    throw new Error(
+      "Recorded mail requires the dedicated SMTP acceptance fixture; this mock captures legacy mail only."
+    );
+  };
   return {
+    sendRecordedMail: unsupportedRecordedMail,
+    prepareRecordedMail: unsupportedRecordedMail,
+    sendPreparedRecordedMail: unsupportedRecordedMail,
     sendMail: async (data) => {
       storage.push(data);
     },

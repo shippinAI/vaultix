@@ -5,6 +5,7 @@ run/
 panel/vaultix
 panel/vaultix-panel
 *.exe
+/core/backend/vaultix-transport
 compose/vaultix.env
 
 # chatmirror — local AI session mirrors (never commit: may contain tokens)

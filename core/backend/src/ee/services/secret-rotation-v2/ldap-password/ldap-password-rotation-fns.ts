@@ -1,4 +1,4 @@
-import ldap, { Client, SearchOptions } from "@vaultix/ldapjs";
+import { Attribute, Change, Client } from "ldapts";
 
 import {
   TRotationFactory,
@@ -8,6 +8,7 @@ import {
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
 } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+import { resolveDirectoryPrincipal } from "@app/lib/ldap/directory";
 import { logger } from "@app/lib/logger";
 import { DistinguishedNameRegex } from "@app/lib/regex";
 import { encryptAppConnectionCredentials } from "@app/services/app-connection/app-connection-fns";
@@ -16,7 +17,6 @@ import {
   executeWithPotentialGateway,
   extractDomainFromDN,
   extractHostFromReferralUrl,
-  isLdapReferral,
   isLdapReferralError,
   LdapProvider,
   LdapReferralError,
@@ -34,76 +34,18 @@ import {
 
 const getEncodedPassword = (password: string) => Buffer.from(`"${password}"`, "utf16le");
 
-const getDN = async (dn: string, client: Client): Promise<string> => {
-  if (DistinguishedNameRegex.test(dn)) return dn;
-
-  const opts: SearchOptions = {
-    filter: `(userPrincipalName=${dn})`,
-    scope: "sub",
-    attributes: ["dn"]
-  };
-
-  const base = dn
-    .split("@")[1]
-    .split(".")
-    .map((dc) => `dc=${dc}`)
-    .join(",");
-
-  return new Promise((resolve, reject) => {
-    const handleSearchError = (error: Error) => {
-      if (isLdapReferral(error)) {
-        const ldapErr = error as Partial<LdapReferralError> & Error;
-        // Search referrals from AD often have an empty matchedDN.
-        // Set dn to the search base so extractDomainFromDN has a fallback.
-        if (!ldapErr.dn) {
-          (ldapErr as { dn: string }).dn = base;
-        }
-        if (!Array.isArray((ldapErr as { referrals?: unknown }).referrals)) {
-          (ldapErr as { referrals: string[] }).referrals = [];
-        }
-        (ldapErr as { referralSource: string }).referralSource = "search";
-        logger.info(
-          {
-            searchBase: base,
-            upn: dn,
-            referralDn: ldapErr.dn,
-            referralUrls: (ldapErr as { referrals?: string[] }).referrals ?? []
-          },
-          `LDAP DN resolution received referral — propagating for upstream chase [searchBase=${base}] [upn=${dn}] [referralDn=${ldapErr.dn}]`
-        );
-        reject(error);
-        return;
-      }
-
-      logger.error(error, "LDAP Failed to get DN");
-      reject(new Error(`Provider Resolve DN Error: ${error.message}`));
-    };
-
-    client.search(base, opts, (err, res) => {
-      if (err) {
-        handleSearchError(err);
-        return;
-      }
-
-      let userDn: string | null;
-
-      res.on("searchEntry", (entry) => {
-        userDn = entry.objectName;
-      });
-
-      res.on("error", (error) => {
-        handleSearchError(error);
-      });
-
-      res.on("end", () => {
-        if (userDn) {
-          resolve(userDn);
-        } else {
-          reject(new Error(`Unable to resolve DN for ${dn}.`));
-        }
-      });
-    });
-  });
+const getDN = (dn: string, client: Client): Promise<string> => {
+  if (DistinguishedNameRegex.test(dn)) return Promise.resolve(dn);
+  const domain = dn.split("@")[1];
+  if (!domain) throw new Error("Directory principal must be a distinguished name or user@domain.");
+  return resolveDirectoryPrincipal(
+    client,
+    dn,
+    domain
+      .split(".")
+      .map((dc) => `dc=${dc}`)
+      .join(",")
+  );
 };
 
 export const ldapPasswordRotationFactory: TRotationFactory<
@@ -163,7 +105,7 @@ export const ldapPasswordRotationFactory: TRotationFactory<
 
     logger.info(rotationContext, "LDAP password rotation starting");
 
-    let changes: ldap.Change[] | ldap.Change;
+    let changes: Change[] | Change;
     let rotationStrategy: string;
 
     switch (credentials.provider) {
@@ -176,29 +118,29 @@ export const ldapPasswordRotationFactory: TRotationFactory<
             rotationStrategy = "delete+add (connection principal or current password provided)";
 
             changes = [
-              new ldap.Change({
+              new Change({
                 operation: "delete",
-                modification: {
+                modification: new Attribute({
                   type: "unicodePwd",
                   values: [currentEncodedPassword]
-                }
+                })
               }),
-              new ldap.Change({
+              new Change({
                 operation: "add",
-                modification: {
+                modification: new Attribute({
                   type: "unicodePwd",
                   values: [encodedPassword]
-                }
+                })
               })
             ];
           } else {
             rotationStrategy = "replace (target principal, admin-driven)";
-            changes = new ldap.Change({
+            changes = new Change({
               operation: "replace",
-              modification: {
+              modification: new Attribute({
                 type: "unicodePwd",
                 values: [encodedPassword]
-              }
+              })
             });
           }
         }
@@ -219,7 +161,7 @@ export const ldapPasswordRotationFactory: TRotationFactory<
       );
 
       // The gateway proxy (withGatewayV2Proxy) wraps all errors into a generic
-      // BadRequestError, destroying the ldapjs error metadata (name, code, dn,
+      // BadRequestError, destroying the directory error metadata (name, code, dn,
       // referrals) that the referral chase loop needs. We capture the raw
       // referral error here so we can re-throw it after the proxy's catch block.
       let capturedReferralError: LdapReferralError | undefined;
@@ -254,40 +196,15 @@ export const ldapPasswordRotationFactory: TRotationFactory<
               "LDAP password rotation — DN resolved, executing modify"
             );
 
-            await new Promise<void>((resolve, reject) => {
-              client.modify(userDn, changes, (err) => {
-                if (err) {
-                  if (isLdapReferral(err)) {
-                    const ldapErr = err as Partial<LdapReferralError> & Error;
-                    if (!Array.isArray((ldapErr as { referrals?: unknown }).referrals)) {
-                      (ldapErr as { referrals: string[] }).referrals = [];
-                    }
-                    if (typeof ldapErr.dn !== "string") {
-                      (ldapErr as { dn: string }).dn = "";
-                    }
-                    (ldapErr as { referralSource: string }).referralSource = "modify";
-                    logger.info(
-                      {
-                        errorDn: ldapErr.dn,
-                        referralUrls: (ldapErr as { referrals: string[] }).referrals,
-                        targetDn: userDn,
-                        url: modifyUrl
-                      },
-                      `LDAP modify referral — captured before gateway proxy [targetDn=${userDn}] [url=${modifyUrl}] [errorDn=${ldapErr.dn}]`
-                    );
-                    capturedReferralError = ldapErr as LdapReferralError;
-                  } else {
-                    logger.debug(
-                      { errorMessage: err.message, errorName: err.name, targetDn: userDn, url: modifyUrl },
-                      `LDAP modify error (non-referral) [targetDn=${userDn}] [url=${modifyUrl}] [errorName=${err.name}]`
-                    );
-                  }
-                  reject(err);
-                } else {
-                  resolve();
-                }
-              });
-            });
+            try {
+              await client.modify(userDn, changes);
+            } catch (error) {
+              if (isLdapReferralError(error)) {
+                error.referralSource = "modify";
+                capturedReferralError = error;
+              }
+              throw error;
+            }
           }
         );
       } catch (proxyErr) {

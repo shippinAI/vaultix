@@ -1,7 +1,7 @@
 import net from "node:net";
 
-import ldapjs from "@vaultix/ldapjs";
 import slugify from "@sindresorhus/slugify";
+import { Client, Entry } from "ldapts";
 import RE2 from "re2";
 
 import { BadRequestError } from "@app/lib/errors";
@@ -26,7 +26,6 @@ const LDAP_PAGE_SIZE = 500;
 const TRAILING_HYPHENS_REGEX = new RE2(/-+$/);
 
 type TGatewayDep = Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
-type TLdapAttribute = { type: string; values: string[]; buffers: Buffer[] };
 type TLdapComputer = { cn: string; dNSHostName: string; objectGUID: string; resolvedIp?: string };
 type TLdapUser = { sAMAccountName: string; objectGUID: string };
 type TWinRmLocalUser = { Name: string };
@@ -51,34 +50,33 @@ const parseObjectGUID = (buf: Buffer | undefined): string => {
   return "";
 };
 
-const getAttr = (entry: ldapjs.SearchEntry, name: string): string =>
-  (entry as unknown as { attributes: TLdapAttribute[] }).attributes?.find(
-    (a) => a.type.toLowerCase() === name.toLowerCase()
-  )?.values?.[0] ?? "";
+const attributeValue = (entry: Entry, name: string) => {
+  const key = Object.keys(entry).find((candidate) => candidate.toLowerCase() === name.toLowerCase());
+  const value = key ? entry[key] : undefined;
+  return Array.isArray(value) ? value[0] : value;
+};
 
-const getAttrBuffer = (entry: ldapjs.SearchEntry, name: string): Buffer | undefined =>
-  (entry as unknown as { attributes: TLdapAttribute[] }).attributes?.find(
-    (a) => a.type.toLowerCase() === name.toLowerCase()
-  )?.buffers?.[0];
+const getAttr = (entry: Entry, name: string): string => {
+  const value = attributeValue(entry, name);
+  return typeof value === "string" ? value : "";
+};
 
-const ldapSearch = (client: ldapjs.Client, baseDN: string, filter: string, attributes: string[]) =>
-  new Promise<ldapjs.SearchEntry[]>((resolve, reject) => {
-    const results: ldapjs.SearchEntry[] = [];
-    client.search(
-      baseDN,
-      { filter, scope: "sub", attributes, paged: { pageSize: LDAP_PAGE_SIZE }, timeLimit: LDAP_TIMEOUT / 1000 },
-      (err, res) => {
-        if (err) return reject(err);
-        res.on("searchEntry", (entry) => results.push(entry));
-        res.on("error", reject);
-        res.on("end", (result) =>
-          result?.status !== 0
-            ? reject(new Error(`LDAP search failed with status ${result?.status}`))
-            : resolve(results)
-        );
-      }
-    );
+const getAttrBuffer = (entry: Entry, name: string): Buffer | undefined => {
+  const value = attributeValue(entry, name);
+  return Buffer.isBuffer(value) ? value : undefined;
+};
+
+const ldapSearch = async (client: Client, baseDN: string, filter: string, attributes: string[]) => {
+  const { searchEntries } = await client.search(baseDN, {
+    filter,
+    scope: "sub",
+    attributes,
+    explicitBufferAttributes: ["objectGUID"],
+    paged: { pageSize: LDAP_PAGE_SIZE },
+    timeLimit: LDAP_TIMEOUT / 1000
   });
+  return searchEntries;
+};
 
 type TAdConnection = {
   domain: string;
@@ -99,10 +97,10 @@ const runLdap = <T>(
   credentials: { username: string; password?: string },
   gatewayId: string,
   gatewayV2Service: TGatewayDep,
-  operation: (client: ldapjs.Client) => Promise<T>
+  operation: (client: Client) => Promise<T>
 ): Promise<T> =>
   executeWithGateway(conn.dcAddress, conn.port, gatewayId, gatewayV2Service, async (proxyPort) => {
-    const client = ldapjs.createClient({
+    const client = new Client({
       url: `${conn.useLdaps ? "ldaps" : "ldap"}://localhost:${proxyPort}`,
       connectTimeout: LDAP_TIMEOUT,
       timeout: LDAP_TIMEOUT,
@@ -115,28 +113,12 @@ const runLdap = <T>(
       })
     });
 
-    // Unhandled 'error' events (e.g. TLS mismatch) would crash the process, so capture them
-    let clientError: Error | null = null;
-    client.on("error", (err: Error) => {
-      clientError = err;
-    });
-
     try {
       const bindDn = isDomainQualifiedUsername(conn.username) ? conn.username : `${conn.username}@${conn.domain}`;
-      await new Promise<void>((resolve, reject) => {
-        client.bind(bindDn, credentials.password ?? "", (err) => {
-          if (clientError) reject(clientError);
-          else if (err) reject(new Error(`LDAP bind failed: ${err.message}`));
-          else resolve();
-        });
-      });
+      await client.bind(bindDn, credentials.password ?? "");
       return await operation(client);
     } finally {
-      try {
-        client.unbind();
-      } catch {
-        // client may already be destroyed
-      }
+      await client.unbind();
     }
   });
 

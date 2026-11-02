@@ -1,4 +1,4 @@
-import ldapjs from "@vaultix/ldapjs";
+import { Client, InvalidCredentialsError } from "ldapts";
 
 import { BadRequestError } from "@app/lib/errors";
 import { GatewayProxyProtocol } from "@app/lib/gateway";
@@ -129,50 +129,29 @@ export const ldapBindCheckViaGateway = async (
   // An empty password is an LDAP unauthenticated bind, which AD accepts as anonymous success, so it would
   // falsely verify a nonexistent credential. Never let an empty password count as valid.
   if (!password) return Promise.resolve(false);
-  return executeWithGateway(
-    dcAddress,
-    port,
-    gatewayId,
-    gatewayV2Service,
-    (proxyPort) =>
-      new Promise<boolean>((resolve, reject) => {
-        const client = ldapjs.createClient({
-          url: `${useLdaps ? "ldaps" : "ldap"}://localhost:${proxyPort}`,
-          connectTimeout: LDAP_BIND_CHECK_TIMEOUT_MS,
-          timeout: LDAP_BIND_CHECK_TIMEOUT_MS,
-          ...(useLdaps && {
-            tlsOptions: {
-              rejectUnauthorized,
-              servername: tlsServerName || dcAddress,
-              ...(caCert && { ca: [caCert] })
-            }
-          })
-        });
-
-        let settled = false;
-        const finish = (run: () => void) => {
-          if (settled) return;
-          settled = true;
-          try {
-            client.unbind();
-          } catch {
-            // client may already be destroyed
-          }
-          run();
-        };
-
-        // A transport-level failure (TLS mismatch, a dropped gateway tunnel, a timeout) is NOT a credential
-        // rejection. Reject so the caller can retry, rather than silently reporting a valid credential as invalid.
-        client.on("error", (err) => finish(() => reject(err)));
-        client.bind(bindDn, password, (err) => {
-          if (!err) return finish(() => resolve(true));
-          // Only an actual "invalid credentials" (LDAP result 49) proves the password is wrong. Anything else
-          // (e.g. strongerAuthRequired, connection reset) is inconclusive and must not read as a bad password.
-          const isAuthRejection = err.name === "InvalidCredentialsError" || (err as { code?: number }).code === 49;
-          return finish(() => (isAuthRejection ? resolve(false) : reject(err)));
-        });
+  return executeWithGateway(dcAddress, port, gatewayId, gatewayV2Service, async (proxyPort) => {
+    const client = new Client({
+      url: `${useLdaps ? "ldaps" : "ldap"}://localhost:${proxyPort}`,
+      connectTimeout: LDAP_BIND_CHECK_TIMEOUT_MS,
+      timeout: LDAP_BIND_CHECK_TIMEOUT_MS,
+      ...(useLdaps && {
+        tlsOptions: {
+          rejectUnauthorized,
+          servername: tlsServerName || dcAddress,
+          ...(caCert && { ca: [caCert] })
+        }
       })
-  );
+    });
+    try {
+      await client.bind(bindDn, password);
+      return true;
+    } catch (error) {
+      if (error instanceof InvalidCredentialsError) return false;
+      throw error;
+    } finally {
+      await client.unbind();
+    }
+  });
 };
 
 export type TWinRmGatewayCredentials = {

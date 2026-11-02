@@ -1,6 +1,6 @@
 import { isIP } from "node:net";
 
-import ldap from "@vaultix/ldapjs";
+import { Client } from "ldapts";
 
 import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
 import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
@@ -9,7 +9,6 @@ import { getConfig } from "@app/lib/config/env";
 import { BadRequestError } from "@app/lib/errors";
 import { GatewayProxyProtocol } from "@app/lib/gateway";
 import { withGatewayV2Proxy } from "@app/lib/gateway-v2/gateway-v2";
-import { logger } from "@app/lib/logger";
 import { blockLocalAndPrivateIpAddresses } from "@app/lib/validator";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 
@@ -56,7 +55,7 @@ export type LdapReferralError = Error & {
 
 /**
  * Checks if an error is an LDAP Referral (code 10) without requiring `dn` to be populated.
- * Useful for search referrals where ldapjs sets `dn` to null.
+ * Search referrals may have an empty matched DN.
  */
 export const isLdapReferral = (err: unknown): boolean => {
   if (!(err instanceof Error)) return false;
@@ -144,48 +143,6 @@ export const buildReferralUrl = (originalUrl: string, targetDomain: string): str
   return constructLdapUrl(protocol, targetDomain, port);
 };
 
-const setupLdapClientHandlers = <T>(
-  client: ldap.Client,
-  dn: string,
-  password: string,
-  onSuccess: (client: ldap.Client) => T | Promise<T>
-): Promise<T> => {
-  return new Promise<T>((resolve, reject) => {
-    const handleError = (errorType: string, err: Error) => {
-      logger.error(err, errorType);
-      client.destroy();
-      reject(new Error(`${errorType.replace("LDAP ", "")} - ${err.message}`));
-    };
-
-    client.on("error", (err: Error) => handleError("LDAP Error", err));
-    client.on("connectError", (err: Error) => handleError("LDAP Connection Error", err));
-    client.on("connectRefused", (err: Error) => handleError("LDAP Connection Refused", err));
-    client.on("connectTimeout", (err: Error) => handleError("LDAP Connection Timeout", err));
-
-    client.on("connect", () => {
-      client.bind(dn, password, (err) => {
-        if (err) {
-          logger.error(err, "LDAP Bind Error");
-          client.destroy();
-          reject(new Error(`Bind Error: ${err.message}`));
-          return;
-        }
-
-        try {
-          const result = onSuccess(client);
-          if (result instanceof Promise) {
-            result.then((value) => resolve(value)).catch(reject);
-          } else {
-            resolve(result);
-          }
-        } catch (error) {
-          reject(error);
-        }
-      });
-    });
-  });
-};
-
 export const getLdapConnectionListItem = () => {
   return {
     name: "LDAP" as const,
@@ -205,7 +162,7 @@ export const getLdapConnectionClient = async ({
 
   const isSSL = url.startsWith("ldaps");
 
-  const client = ldap.createClient({
+  const client = new Client({
     url,
     timeout: LDAP_TIMEOUT,
     connectTimeout: LDAP_TIMEOUT,
@@ -217,13 +174,19 @@ export const getLdapConnectionClient = async ({
       : undefined
   });
 
-  return setupLdapClientHandlers<ldap.Client>(client, dn, password, (ldapClient) => ldapClient);
+  try {
+    await client.bind(dn, password);
+    return client;
+  } catch (error) {
+    await client.unbind();
+    throw error;
+  }
 };
 
 export const executeWithPotentialGateway = async <T>(
   config: TLdapConnectionConfig,
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">,
-  operation: (client: ldap.Client) => Promise<T>,
+  operation: (client: Client) => Promise<T>,
   gatewayPoolService?: Pick<TGatewayPoolServiceFactory, "resolveEffectiveGatewayId">
 ): Promise<T> => {
   const { gatewayId: directGatewayId, gatewayPoolId, credentials } = config;
@@ -257,7 +220,7 @@ export const executeWithPotentialGateway = async <T>(
         const proxyUrl = constructLdapUrl(protocol, "localhost", proxyPort);
         const isSSL = protocol === "ldaps";
 
-        const client = ldap.createClient({
+        const client = new Client({
           url: proxyUrl,
           timeout: LDAP_TIMEOUT,
           connectTimeout: LDAP_TIMEOUT,
@@ -272,13 +235,12 @@ export const executeWithPotentialGateway = async <T>(
             : undefined
         });
 
-        return setupLdapClientHandlers<T>(client, credentials.dn, credentials.password, async (ldapClient) => {
-          try {
-            return await operation(ldapClient);
-          } finally {
-            ldapClient.destroy();
-          }
-        });
+        try {
+          await client.bind(credentials.dn, credentials.password);
+          return await operation(client);
+        } finally {
+          await client.unbind();
+        }
       },
       {
         protocol: GatewayProxyProtocol.Tcp,
@@ -294,7 +256,7 @@ export const executeWithPotentialGateway = async <T>(
   try {
     return await operation(client);
   } finally {
-    client.destroy();
+    await client.unbind();
   }
 };
 
@@ -305,8 +267,7 @@ export const validateLdapConnectionCredentials = async (
 ) => {
   try {
     await executeWithPotentialGateway(config, gatewayV2Service, async (client) => {
-      // this shouldn't occur as handle connection error events in client but here as fallback
-      if (!client.connected) {
+      if (!client.isConnected) {
         throw new BadRequestError({ message: "Unable to connect to LDAP server" });
       }
     });

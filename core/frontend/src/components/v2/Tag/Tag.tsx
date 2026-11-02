@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { cva, VariantProps } from "cva";
+import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 type Props = {

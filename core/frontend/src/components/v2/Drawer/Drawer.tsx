@@ -2,7 +2,7 @@ import { forwardRef, ReactNode } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { cva, VariantProps } from "cva";
+import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 import { NotificationDock } from "@app/components/notifications/NotificationDock";
