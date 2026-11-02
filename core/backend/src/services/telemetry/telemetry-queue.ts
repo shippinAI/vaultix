@@ -33,7 +33,7 @@ export const telemetryQueueServiceFactory = ({
 }: TTelemetryQueueServiceFactoryDep) => {
   const appCfg = getConfig();
   const postHog =
-    appCfg.isProductionMode && appCfg.TELEMETRY_ENABLED
+    appCfg.isProductionMode && appCfg.TELEMETRY_ENABLED && appCfg.POSTHOG_PROJECT_API_KEY
       ? new PostHog(appCfg.POSTHOG_PROJECT_API_KEY, { host: appCfg.POSTHOG_HOST, flushAt: 1, flushInterval: 0 })
       : undefined;
 

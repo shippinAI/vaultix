@@ -139,13 +139,14 @@ export const telemetryServiceFactory = ({
     console.log(`
 To improve, Vaultix collects telemetry data about general usage.
 This helps us understand how the product is doing and guide our product development to create the best possible platform; it also helps us demonstrate growth as we support Vaultix as open-source software.
-To opt into telemetry, you can set "TELEMETRY_ENABLED=true" within the environment variables.
+To opt into telemetry, set "TELEMETRY_ENABLED=true" and your own "POSTHOG_PROJECT_API_KEY" within the environment variables.
 `);
   }
 
-  const postHog = appCfg.TELEMETRY_ENABLED
-    ? new PostHog(appCfg.POSTHOG_PROJECT_API_KEY, { host: appCfg.POSTHOG_HOST })
-    : undefined;
+  const postHog =
+    appCfg.TELEMETRY_ENABLED && appCfg.POSTHOG_PROJECT_API_KEY
+      ? new PostHog(appCfg.POSTHOG_PROJECT_API_KEY, { host: appCfg.POSTHOG_HOST })
+      : undefined;
 
   // used for email marketting email sending purpose
   const sendLoopsEvent = async (email: string, firstName?: string, lastName?: string) => {

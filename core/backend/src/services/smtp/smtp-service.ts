@@ -241,7 +241,7 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
         html: htmlToSend,
         attachments
       });
-    } else {
+    } else if (getConfig().isDevelopmentMode) {
       logger.info("SMTP is not configured. Outputting it in terminal");
       logger.info({
         from: cfg.from,
@@ -249,6 +249,9 @@ export const smtpServiceFactory = (cfg: TSmtpConfig) => {
         subject: subjectLine,
         html: htmlToSend
       });
+    } else {
+      // Subjects and bodies can carry invite links, confirmation codes and reset tokens.
+      logger.info({ template, recipientCount: recipients.length }, "SMTP is not configured. Email was not sent");
     }
   };
 

@@ -266,15 +266,18 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "f7365e86ffa8d85f75c290b5dd7311afe5323f97",
+      "blob": "f4eb39e78dfc00303bdab1e5a326b50c04785639",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -1893,17 +1896,20 @@
     },
     {
       "path": "core/backend/src/lib/config/env.ts",
-      "blob": "56868c160fbbe979f163499deeb076f8d3956dc3",
+      "blob": "42458c55ce43564659981864c7ecf2da94690b07",
       "status": "verified",
       "decision": "modify",
-      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
+      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
         ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
         ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -3248,15 +3254,18 @@
     },
     {
       "path": "scripts/test-tenant-isolation.mjs",
-      "blob": "6127ae17f54f40c849398eb6e56b7ba6243c0640",
+      "blob": "c753c55dcbefdbdb48a27781426c71b2ced94b77",
       "status": "verified",
       "decision": "modify",
-      "scope": "Read complete new packaged tenant harness. Provision two organizations and independent machine identities through APIs; require same HTTP/MCP authority, metadata-only references, foreign/missing denial equivalence, rejected actor injection, denied foreign writes/admin mutation, revocation and restart persistence. Initial ten checks pass; committed-image restart acceptance follows. Human signup/Nomen/all-provider/fairness acceptance explicitly excluded. Committed image 8918df20 passes all eleven real checks including revocation persistence after restart; cleanup succeeds. No assertion uses the provisioning owner as the tenant actor.",
+      "scope": "Read complete new packaged tenant harness. Provision two organizations and independent machine identities through APIs; require same HTTP/MCP authority, metadata-only references, foreign/missing denial equivalence, rejected actor injection, denied foreign writes/admin mutation, revocation and restart persistence. Initial ten checks pass; committed-image restart acceptance follows. Human signup/Nomen/all-provider/fairness acceptance explicitly excluded. Committed image 8918df20 passes all eleven real checks including revocation persistence after restart; cleanup succeeds. No assertion uses the provisioning owner as the tenant actor. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
         "docs/0056-machine-tenant-isolation.md",
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
         ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json",
-        ".cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json"
+        ".cache/tenant-isolation/.cache/tenant-isolation-zf7Tb7/result.json",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -3448,17 +3457,20 @@
     },
     {
       "path": "core/docs/self-hosting/configuration/envars.mdx",
-      "blob": "701ffc672836efd419e0b764b690b4d1cd4c3795",
+      "blob": "d04009468711f4717a818efe350903ad872aa239",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Proxy configuration section reviewed and rewritten with the secure default, explicit peer migration, vendor-header normalization and HTTPS/allowlist checks. This is scoped documentation review, not complete authorship of the remaining environment reference. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
+      "scope": "Proxy configuration section reviewed and rewritten with the secure default, explicit peer migration, vendor-header normalization and HTTPS/allowlist checks. This is scoped documentation review, not complete authorship of the remaining environment reference. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
         ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
         ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -4841,15 +4853,18 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "300a1bec0d6aee32617c7468e81e2279743a6141",
+      "blob": "536676bd0729c6a9070ef47d51e9869cf32808e5",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -5809,12 +5824,15 @@
     },
     {
       "path": "core/backend/src/services/smtp/smtp-service.ts",
-      "blob": "4a774fa250926b79a7162a6a3a84c749ef9c5010",
+      "blob": "a4b82cdef410c2acd6465a3ee8c11362f8d828d9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
+      "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -6259,12 +6277,15 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "b485192d0d5abeae42947a6b2945bb65eb8ca32f",
+      "blob": "129e3871371bb816a8b9827eb29430b2b783ed30",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
+      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
       "evidence": [
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     },
     {
@@ -9484,6 +9505,174 @@
         "scripts/test-release-download.mjs",
         "scripts/release-bundle.test.mjs",
         ".cache/download-guard-proof.json"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/plugins/serve-ui.ts",
+      "blob": "29346e0cd08b04e6db0dff461fee2b4d779db2ae",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/v2/organization-router.ts",
+      "blob": "b96539b91b3c8d1edfe827ab65b2ffbaa3096f3b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth/auth-signup-service.ts",
+      "blob": "5e75657ecd5a527c6920bc47044d42e82351c183",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/telemetry/telemetry-queue.ts",
+      "blob": "b3c30ef37d14e2b1265c17f9064b823e382b06b3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/telemetry/telemetry-service.ts",
+      "blob": "e1b73814fb3a70820b10b2ceaa2fd09f76c5fd10",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/organization/queries.tsx",
+      "blob": "f22f0e7f11adc2b7539d99fd432c825a4dc38dcc",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/NoOrgPage/NoOrgPage.tsx",
+      "blob": "144ca79fb22248aea4928bfb967131e82343d326",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/auth/auth-signup-org-gate.test.ts",
+      "blob": "69b844dfef1e19d1c1369ff1b227b2d2f8a24a1e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/org/org-creation-policy.test.ts",
+      "blob": "eb6d2a3d6fd57e83f72cfdbbd7a665a4a5e408e2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/org/org-creation-policy.ts",
+      "blob": "1bb34aae5409b3f17e15fa58e7e57fe31c542fae",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/smtp/smtp-unconfigured.test.ts",
+      "blob": "d8c2bc191eee5f59cf61c63465519e6757d2071c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/telemetry/telemetry-defaults.test.ts",
+      "blob": "63538e1ee438bb8d9a4bd0951ffc50c064d31394",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "scripts/check-candidate-receipt.mjs",
+      "blob": "97a54b029dcb57841f47f752725aa3739ad695c3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-invite-only-access.mjs",
+      "blob": "cecf13427d4681354e192cf0ef86c02e6dffef46",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0110-invite-only-instance.md",
+        "scripts/test-tenant-isolation.mjs",
+        "scripts/test-invite-only-access.mjs"
       ]
     }
   ]

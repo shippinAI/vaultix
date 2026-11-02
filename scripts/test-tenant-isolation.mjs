@@ -15,8 +15,8 @@ mkdirSync(resolve(root, ".cache"), { recursive: true });
 const evidence = mkdtempSync(resolve(root, ".cache/tenant-isolation-"));
 const run = `vaultix-tenants-${randomBytes(8).toString("hex")}`;
 const report = { passed: false, artifact, checks: [],
-  scope: "Two API-created organizations with independent machine identities on one packaged application",
-  exclusions: ["human tenant enrollment", "Nomen issuer/session acceptance", "all inherited endpoints", "jobs/imports/exports", "fairness under load", "multi-replica consistency"] };
+  scope: "Two API-created organizations with independent machine identities and one invited human on one packaged application",
+  exclusions: ["public human tenant enrollment", "Nomen issuer/session acceptance", "all inherited endpoints", "jobs/imports/exports", "fairness under load", "multi-replica consistency"] };
 const check = name => { report.checks.push(name); console.log(`Vaultix isolation: ${name}`); };
 const password = `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
 const databasePassword = randomBytes(24).toString("hex");
@@ -107,6 +107,46 @@ try {
     await api("/api/v1/admin/signup", { method: "POST", token: tenant.token, body: signup, status: 400 });
     check(`tenant ${index + 1}: instance configuration and repeated bootstrap denied`);
   }
+  phase = "invite-only enrollment";
+  const inviting = tenants[0];
+  const inviteEmail = `invitee-${run}@vaultix.invalid`;
+  assert.equal((await api("/api/status")).inviteOnlySignup, true, "Closed signup must report invite-only");
+  const invitation = await api("/api/v1/invite-org/signup", { method: "POST", token: inviting.admin,
+    body: { inviteeEmails: [inviteEmail], organizationId: inviting.organization.id } });
+  const inviteLink = invitation.completeInviteLinks?.find(entry => entry.email === inviteEmail)?.link;
+  assert.ok(inviteLink, "Without SMTP the invite API must return a shareable link");
+  const inviteCode = new URL(inviteLink).searchParams.get("token");
+  assert.ok(inviteCode, "Invite link must carry its token");
+  const mailLogMarker = "SMTP is not configured. Email was not sent";
+  const containerLogs = () => {
+    const logs = docker(["logs", app]);
+    return logs.stdout.toString() + logs.stderr.toString();
+  };
+  // Proves this mail path logged before relying on the absence of its token.
+  await waitFor(() => containerLogs().includes(mailLogMarker), "unsent mail log entry", 30_000);
+  assert.ok(!containerLogs().includes(inviteCode), "Invite token reached the container log");
+  const verified = await api("/api/v1/invite-org/verify", { method: "POST",
+    body: { email: inviteEmail, organizationId: inviting.organization.id, code: inviteCode } });
+  assert.ok(verified.token, "Closed signup must still admit an invited user");
+  const invitee = await api("/api/v3/signup/complete-account", { method: "POST", token: verified.token,
+    body: { type: "email", email: inviteEmail, firstName: "Invited", password, organizationName: "Invitee Escape" } });
+  // This list includes a pending invitation; the accepted list below fills only after selection.
+  const inviteeOrgs = async () => (await api("/api/v1/organization/accessible-with-sub-orgs", { token: invitee.token })).organizations.map(org => org.id);
+  assert.deepEqual(await inviteeOrgs(), [inviting.organization.id], "Invited signup created or lost an organization");
+  await api("/api/v3/auth/select-organization", { method: "POST", token: invitee.token, body: { organizationId: inviting.organization.id } });
+  const accepted = (await api("/api/v1/organization", { token: invitee.token })).organizations.map(org => org.id);
+  assert.deepEqual(accepted, [inviting.organization.id], "Selecting the organization must accept the invitation");
+  check("closed signup admits an invited user through the real link without logging its token");
+  const deniedOrg = await api("/api/v2/organizations", { method: "POST", token: invitee.token, body: { name: "Invitee Tenant" }, status: 403 });
+  assert.match(deniedOrg.message, /invite-only/, "Denial must explain invite-only access");
+  assert.deepEqual(await inviteeOrgs(), [inviting.organization.id], "Denied creation changed organizations");
+  assert.ok((await api("/api/v2/organizations", { method: "POST", token: owner.token, body: { name: "Administrator Tenant" } })).organization.id, "Instance administrator must keep organization creation");
+  check("invited users cannot create organizations while the instance administrator can");
+  const uiEnv = harness.http(app, "/runtime-ui-env.js");
+  assert.equal(uiEnv?.status, 200, "Runtime UI configuration must load");
+  assert.ok(!uiEnv.body.includes("phc_"), "A third-party analytics key reached browsers");
+  assert.match(uiEnv.body, /"TELEMETRY_CAPTURING_ENABLED":false/, "Browser telemetry must stay off");
+  check("browsers receive no analytics key and telemetry stays off");
   phase = "revocation";
   const revoked = tenants[0];
   await api(`/api/v1/auth/token-auth/tokens/${revoked.tokenId}/revoke`, { method: "POST", token: revoked.admin, body: {} });

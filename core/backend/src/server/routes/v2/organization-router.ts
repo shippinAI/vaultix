@@ -9,7 +9,9 @@ import { GenericResourceNameSchema } from "@app/server/lib/schemas";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { ActorType, AuthMode } from "@app/services/auth/auth-type";
+import { assertSelfServiceOrgCreationAllowed } from "@app/services/org/org-creation-policy";
 import { sanitizedOrganizationSchema } from "@app/services/org/org-schema";
+import { getServerCfg } from "@app/services/super-admin/super-admin-service";
 import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
 
 import { SanitizedUserSchema } from "../sanitizedSchemas";
@@ -430,6 +432,12 @@ export const registerOrgRouter = async (server: FastifyZodProvider) => {
     onRequest: verifyAuth([AuthMode.JWT, AuthMode.API_KEY], { requireOrg: false }),
     handler: async (req) => {
       if (req.auth.actor !== ActorType.USER) return;
+
+      const serverCfg = await getServerCfg();
+      assertSelfServiceOrgCreationAllowed({
+        allowSignUp: serverCfg.allowSignUp,
+        superAdmin: req.auth.user.superAdmin
+      });
 
       const organization = await server.services.org.createOrganization({
         userId: req.permission.id,
