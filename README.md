@@ -47,6 +47,13 @@ The current delivery priority is **self-hosted Vaultix on the owner's hardware**
 Builds and verification run locally; GitHub Actions and GHCR are optional.
 See [self-hosted builds and review](docs/0048-self-hosted-builds.md).
 
+For managed installation and updates, use the compiled
+[`vaultix server` lifecycle](docs/0109-native-install-and-upgrade.md), including
+adoption of a supported existing deployment. The
+[native Linux CLI installer](docs/0111-native-cli-installation.md) installs and
+updates both Vaultix command names from signed releases. Windows CLI activation
+and public signed-release publication remain open delivery gates.
+
 1. For a new instance, copy `compose/self.env.example` to `compose/vaultix.env`.
    Keep an existing operator configuration when upgrading.
 2. Set your public URL, database password, encryption key, and authentication

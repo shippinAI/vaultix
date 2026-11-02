@@ -47,6 +47,13 @@ controlled TLS/redirect fixtures and independent Node verification. It binds the
 result to the exact CLI hash and requires cleanup. See
 [0110](0110-verified-release-download.md); this does not prove live release publication.
 
+Native Linux CLI activation is a separate required stage. The verifier binds
+`scripts/test-cli-install.mjs` to the packaged CLI hash, exercises installed
+commands and interrupted updates on a native filesystem, and requires cleanup.
+The acquisition suite also exercises `update install --version` through TLS.
+Its fifth archived receipt is CLI installation. Windows activation remains an
+open gate in [0111](0111-native-cli-installation.md).
+
 This is **automatic merging after explicitly started local verification**, not
 an unattended PR worker. Never run unreviewed fork code on the operator's persistent
 host. The driver refuses forks, drafts and conflicts and does not fetch/check out
@@ -126,7 +133,8 @@ platform must have identical hashes and sizes. It verifies byte identity, not
 SBOM completeness, executable behavior, archive extraction safety or database
 compatibility execution. Those remain publication/installer acceptance gates.
 
-The returned checkpoint must be retained durably by a future installation owner.
+The native instance and Linux CLI installation owners retain accepted checkpoints;
+the verifier itself does not advance them.
 Without a previous checkpoint, verification explicitly reports first-use scope;
 it does not claim protection against previously accepted release replay. No
 automatic key rotation, unattended installer, TUF conformance or government

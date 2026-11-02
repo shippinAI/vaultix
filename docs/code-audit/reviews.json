@@ -2217,12 +2217,16 @@
     },
     {
       "path": "README.md",
-      "blob": "36573d00631eace4e213b0ebff36bea6958c0c55",
-      "status": "reviewed",
+      "blob": "2025ee4318d27b64ed0ffdd450c93c0159f59bef",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -4189,16 +4193,16 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "f98903416115109b69408410d0510284202562fd",
-      "status": "reviewed",
+      "blob": "36dfde341b2043696a81b095b80697320ad0c4cc",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -6463,16 +6467,16 @@
     },
     {
       "path": "cmd/vaultix/version.go",
-      "blob": "a8a9513b4edd82a31239ba49425002c528736ac0",
-      "status": "reviewed",
+      "blob": "0b2ba4d8d6246905cc4abe4451a6f5fe032aa26d",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -6972,16 +6976,16 @@
     },
     {
       "path": "docs/delivery/implementation.md",
-      "blob": "6694ab7d7c9e59210d092825a5f6d8381a1c8f9f",
-      "status": "reviewed",
+      "blob": "b1303a983f18978fef8fcc4633c01f4d4ce37795",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -9064,16 +9068,16 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "370d35b106ecd29aaa15f14a66ca9c97a9c245f9",
-      "status": "reviewed",
+      "blob": "6d8fa49cb54a1ca1e337383c42a1a7efba6281d5",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -9138,16 +9142,16 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "3e0eb3b11db6412e895036295965c0273b2e82c2",
-      "status": "reviewed",
+      "blob": "a787c87491a6f7a208cc7d99091cfb385a25e225",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
@@ -9481,30 +9485,184 @@
     },
     {
       "path": "scripts/test-release-download.mjs",
-      "blob": "d77d50914fb4186e05f5a55010476e8cd00b7564",
-      "status": "reviewed",
+      "blob": "9ab1b0494732b52dbdddb5cc07c00f69925683aa",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
       ]
     },
     {
       "path": "docs/0110-verified-release-download.md",
-      "blob": "68a0dfb9929568c1b0a9f080bd9a1472afe8a0da",
-      "status": "reviewed",
+      "blob": "e4544efcc6e0613d008d89bb8b9d3fc371ccab7d",
+      "status": "authored",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
       "evidence": [
-        "docs/0110-verified-release-download.md",
-        "internal/release/download_test.go",
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/install_release.go",
+      "blob": "33aff1bc9e33b8f3566678537764e80a0c68e8f1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "cmd/vaultix/install_release_test.go",
+      "blob": "add10da8eef563aa5d060b9eab72734d2c313771",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.cli-acceptance.v1.json",
+      "blob": "8415634300d25cca9e4a59210d8ee4abcc9b172e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.cli-install-result.v1.json",
+      "blob": "f58c1eb145eab8f781cdab77ca15b3995567f18b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.cli-install.v1.json",
+      "blob": "c1ae6aa282d068ad632077970155450dc18ba238",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "docs/0111-native-cli-installation.md",
+      "blob": "8b19a75d35db5fe3f3c67048e4a2fd913d1ae572",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "internal/release/install.go",
+      "blob": "59243626bfa7918e76c89968792cff9e6e53160f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "internal/release/install_linux.go",
+      "blob": "07a31f6d25715f083412b1cb1506c1c4ddc80ad5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "internal/release/install_linux_test.go",
+      "blob": "aa2acdf8f779c8df3cfe99a7d853c96a3681a4a1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "internal/release/install_other.go",
+      "blob": "015a4903e6d0196069de54a54aa4a9807364eb07",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
+      ]
+    },
+    {
+      "path": "scripts/test-cli-install.mjs",
+      "blob": "35bea5ae75d123df6264f2040a716d152248560d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "evidence": [
+        "docs/0111-native-cli-installation.md",
+        "internal/release/install_linux_test.go",
+        "scripts/test-cli-install.mjs",
+        "scripts/test-release-download.mjs",
+        ".cache/install-guard-proof.json"
       ]
     },
     {

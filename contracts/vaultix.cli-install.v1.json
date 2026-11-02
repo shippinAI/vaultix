@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.cli-install.v1.json",
+  "title": "Vaultix managed CLI installation owner",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "platform", "trustSha256"],
+  "properties": {
+    "schemaVersion": {"const": "vaultix.cli-install.v1"},
+    "platform": {"const": "linux/amd64"},
+    "trustSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -49,6 +49,12 @@ func printVersion(args []string, out io.Writer) error {
 }
 
 func checkUpdate(ctx context.Context, args []string, out io.Writer) error {
+	if len(args) > 0 && args[0] == "install" {
+		return installRelease(ctx, args[1:], out, os.Stderr)
+	}
+	if len(args) > 0 && args[0] == "status" {
+		return installationStatus(args[1:], out)
+	}
 	if len(args) > 0 && args[0] == "download" {
 		return downloadRelease(ctx, args[1:], out, os.Stderr)
 	}
