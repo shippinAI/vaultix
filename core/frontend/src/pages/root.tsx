@@ -27,7 +27,8 @@ const RootPage = () => {
 
 export const Route = createRootRouteWithContext<TRouterContext>()({
   component: RootPage,
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async ({ context, location }) => {
+    if (location.pathname === "/") return { authToken: null, serverConfig: null };
     const authToken = await context.queryClient
       .fetchQuery({
         queryKey: authKeys.getAuthToken,

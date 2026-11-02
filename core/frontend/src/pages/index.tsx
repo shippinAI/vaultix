@@ -1,9 +1,7 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+
+import { VaultixLanding } from "./public-site/VaultixLanding";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: () => {
-    // The existing auth middleware resolves setup, sign-in, organization selection,
-    // and an authenticated user's project dashboard. Help must not replace the app.
-    throw redirect({ to: "/login", replace: true });
-  }
+  component: VaultixLanding
 });

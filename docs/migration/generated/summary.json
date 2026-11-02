@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "scope": "Discovery only; module boundaries and assignments require review. No module is marked migrated.",
-  "mappedFiles": 9658,
-  "moduleGroups": 1087,
+  "mappedFiles": 9680,
+  "moduleGroups": 1090,
   "excludedKinds": [
     "documentation",
     "dependency-lock",
@@ -13,7 +13,7 @@
   "workstreams": [
     {
       "id": "foundation",
-      "files": 1121,
+      "files": 1122,
       "dependsOn": []
     },
     {
@@ -32,21 +32,21 @@
     },
     {
       "id": "ui",
-      "files": 909,
+      "files": 922,
       "dependsOn": [
         "foundation"
       ]
     },
     {
       "id": "secrets",
-      "files": 588,
+      "files": 589,
       "dependsOn": [
         "authorization"
       ]
     },
     {
       "id": "ai",
-      "files": 34,
+      "files": 37,
       "dependsOn": [
         "authorization",
         "secrets",
@@ -55,7 +55,7 @@
     },
     {
       "id": "delivery",
-      "files": 252,
+      "files": 256,
       "dependsOn": [
         "foundation"
       ]

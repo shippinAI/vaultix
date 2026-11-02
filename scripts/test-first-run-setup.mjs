@@ -26,6 +26,8 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
   });
   try {
     await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
     await expect(page.getByRole("heading", { name: "Name Your Organization", exact: true })).toBeVisible();
     const name = page.getByRole("textbox", { name: "Organization Name", exact: true });
     assert.ok((await name.inputValue()).length > 0, "Provide an editable name suggestion");
@@ -96,6 +98,8 @@ export async function testFirstRunSetup({ browser, expect, AxeBuilder, origin, e
     await expect(page.getByRole("alert").filter({ hasText: "Your account is ready" })).toBeVisible();
     assert.equal(signupRequests, 1, "Completion retries must not resubmit owner creation");
     await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
     await expect(page.getByRole("heading", { name: "Your Workspace Is Ready", exact: true })).toBeVisible();
     await expect(page.getByText("Invite-only", { exact: true })).toBeVisible();
     await audit("setup-recovery");

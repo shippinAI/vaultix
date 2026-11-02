@@ -12,7 +12,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   Skeleton
 } from "@app/components/v3";
@@ -37,6 +36,8 @@ import { useCertManagerInstanceState } from "@app/hooks/api/certManagerInstance"
 import { useOrgAdminAccessProject } from "@app/hooks/api/orgAdmin/mutation";
 import { resolvePamProjectId } from "@app/hooks/api/pam/queries";
 import { Project, ProjectType } from "@app/hooks/api/projects/types";
+
+import { ProjectProductCard } from "./ProjectProductCard";
 
 type ActiveProducts = ProjectType;
 
@@ -430,53 +431,11 @@ export const ProjectCategoryOverview = () => {
           const { iconClassName, containerClassName, cardClassName, titleUnderlineClassName } =
             PRODUCT_STYLES[type];
           const Icon = getProjectLucideIcon(type);
-
-          const tileBody = (
-            <>
-              <CardHeader>
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`shrink-0 rounded-sm border p-1.5 transition-colors duration-200 ${containerClassName}`}
-                  >
-                    <Icon className={iconClassName} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <CardDescription className="text-base font-semibold text-foreground">
-                      <span
-                        className={`underline decoration-[1.5px] underline-offset-4 ${titleUnderlineClassName}`}
-                      >
-                        {getProjectTitle(type)}
-                      </span>
-                    </CardDescription>
-                    <p
-                      id={`product-description-${type}`}
-                      className="mt-1 text-sm leading-relaxed text-muted"
-                    >
-                      {getProjectDescription(type)}
-                    </p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-3">
-                {stats.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
-                    {stats.map((stat, index) => (
-                      <div key={stat.label} className="flex items-center gap-4">
-                        <span className="text-muted">
-                          <span className="text-sm font-medium text-foreground">
-                            {formatNumber(stat.value)}
-                          </span>{" "}
-                          <span className="text-xs">{stat.label}</span>
-                        </span>
-                        {index < stats.length - 1 && <div className="h-4 w-px bg-border" />}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </>
-          );
-
+          const title = getProjectTitle(type);
+          const formattedStats = stats.map((stat) => ({
+            label: stat.label,
+            value: formatNumber(stat.value)
+          }));
           const isAccessBlocked =
             (type === ProjectType.CertificateManager && isCertManagerAccessBlocked) ||
             (type === ProjectType.PAM && isPamAccessBlocked);
@@ -492,28 +451,47 @@ export const ProjectCategoryOverview = () => {
             accessMessage = "Project lookup failed. Use Retry Certificate Manager above.";
           }
 
+          let actionLabel = `Open ${title}`;
+          let actionHint = "Use your current membership and permissions to continue.";
+          if (type === ProjectType.CertificateManager) {
+            actionLabel =
+              cmInstances.length > 1
+                ? "Choose Certificate Manager project"
+                : "Open Certificate Manager";
+            actionHint =
+              certManagerActiveProject?.name &&
+              certManagerActiveProject.id === certManagerActiveProjectId
+                ? `Default project: ${certManagerActiveProject.name}`
+                : "Continue with your selected Certificate Manager project.";
+            if (cmInstances.length === 0) {
+              actionLabel = "Set up Certificate Manager";
+              actionHint = "Certificate Manager is not configured for this organization yet.";
+            }
+          } else if (type === ProjectType.PAM) {
+            actionLabel = "Open Privileged Access Manager";
+            actionHint = "Vaultix may initialize this product before opening your workspace.";
+          }
+
           return (
-            <Card
+            <ProjectProductCard
               key={type}
-              className={`group relative h-auto min-w-0 rounded-md ${isUnavailable ? "" : cardClassName}`}
-            >
-              {tileBody}
-              <button
-                type="button"
-                aria-label={getProjectTitle(type)}
-                aria-describedby={`product-description-${type}${isUnavailable ? ` product-access-${type}` : ""}`}
-                aria-disabled={isUnavailable}
-                onClick={() => {
-                  if (!isUnavailable) handleTileClick(type);
-                }}
-                className={`absolute inset-0 rounded-md focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ring ${isUnavailable ? "cursor-not-allowed" : "cursor-pointer"}`}
-              />
-              {isUnavailable && (
-                <p id={`product-access-${type}`} className="text-sm text-muted">
-                  {accessMessage}
-                </p>
-              )}
-            </Card>
+              cardId={`project-${type}`}
+              title={title}
+              description={getProjectDescription(type)}
+              icon={Icon}
+              iconClassName={iconClassName}
+              iconContainerClassName={containerClassName}
+              titleUnderlineClassName={titleUnderlineClassName}
+              stats={formattedStats}
+              actionLabel={actionLabel}
+              actionHint={actionHint}
+              isActionDisabled={isUnavailable}
+              disabledReason={accessMessage}
+              className={isUnavailable ? "" : cardClassName}
+              onAction={() => {
+                if (!isUnavailable) handleTileClick(type);
+              }}
+            />
           );
         })}
       </div>

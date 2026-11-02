@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@app/components/v3";
 import { GuidanceHint, GuidedHelp } from "@app/components/vaultix/GuidedHelp";
 import { LearningSignals } from "@app/components/vaultix/LearningSignals";
-import { ReferenceWorkspace } from "@app/components/vaultix/ReferenceWorkspace";
+import { ReferenceTeaching } from "@app/components/vaultix/ReferenceTeaching";
 import { referenceActions } from "@app/hooks/api/vaultix/actions";
 import { useVaultixGuide, type VaultixSourceAction } from "@app/hooks/api/vaultix/queries";
 
@@ -16,7 +16,7 @@ export const VaultixReferences = ({
 }) => {
   const guide = useVaultixGuide();
   return (
-    <ReferenceWorkspace
+    <ReferenceTeaching
       action={action}
       scopeKey={scopeKey}
       client={referenceActions}

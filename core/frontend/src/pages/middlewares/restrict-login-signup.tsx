@@ -76,6 +76,8 @@ export const Route = createFileRoute("/_restrict-login-signup")({
     middlewares: [stripSearchParams({ callback_port: undefined, force: undefined })]
   },
   beforeLoad: async ({ context, location, search }) => {
+    if (!context.serverConfig)
+      throw new Error("Vaultix configuration is unavailable. Reload to try again.");
     if (!context.serverConfig.initialized) {
       if (location.pathname.endsWith("/admin/signup")) return;
       throw redirect({ to: "/admin/signup" });

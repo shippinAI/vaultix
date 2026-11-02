@@ -1,0 +1,114 @@
+import assert from 'node:assert/strict';
+import {randomBytes,createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {mkdirSync,mkdtempSync,readFileSync,writeFileSync,copyFileSync,readdirSync} from 'node:fs';
+import {dirname,resolve,relative} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createDisposableImageHarness} from './lib/disposable-image.mjs';
+
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+assert.equal(process.argv.length,3,'Usage: node scripts/record-vaultix-workflow.mjs <local-canonical-image>');
+let phase='inspect';
+const harness=createDisposableImageHarness(process.argv[2],()=>phase);
+const {artifact,container,docker,output,request,ready,waitFor}=harness;
+const digest=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+const files=[];
+function walk(dir){for(const e of readdirSync(dir,{withFileTypes:true})){const p=resolve(dir,e.name);if(e.isDirectory())walk(p);else if(e.isFile())files.push({path:relative(root,p).replaceAll('\\','/'),sha256:digest(p)});}}
+walk(resolve(root,'core/frontend/src'));
+mkdirSync(resolve(root,'.cache'),{recursive:true});
+const evidence=mkdtempSync(resolve(root,'.cache/recorded-workflow-'));
+const run=`vaultix-recording-${randomBytes(8).toString('hex')}`;
+const password=`Vx9!${[...randomBytes(24)].map(x=>x.toString(16).padStart(2,'0')).join('-')}`;
+const email=`${run}@vaultix.invalid`;
+const dbPassword=randomBytes(24).toString('hex');
+const require=createRequire(resolve(root,'core/e2e/package.json'));
+const {chromium,expect}=require('@playwright/test');
+let browser,server,recording,recordingPage;
+const report={schemaVersion:'vaultix.recording.v1',passed:false,backend:artifact,frontend:files,width:1600,height:900,chapters:[],scope:'Actual current frontend with a disposable canonical backend; scripted human-equivalent UI actions, no connected AI',credentialsRecorded:false};
+try {
+  // Docker internal networks do not publish ports. This disposable recording
+  // network permits a host browser, with HTTP bound exclusively to loopback.
+  phase='services';harness.createNetwork(run,{hostAccess:true});
+  const dbName=`${run}-db`,cacheName=`${run}-cache`;
+  const db=container(dbName,'postgres:16.6-alpine',[],{POSTGRES_USER:'vaultix',POSTGRES_DB:'vaultix',POSTGRES_PASSWORD:dbPassword});
+  const cache=container(cacheName,'docker.dragonflydb.io/dragonflydb/dragonfly:v1.34.2',['--default_lua_flags=allow-undeclared-keys','--cache_mode=false','--maxmemory=512mb','--proactor_threads=2']);
+  await waitFor(()=>docker(['exec',db,'pg_isready','-U','vaultix','-d','vaultix'],{allowFailure:true}).status===0,'database');
+  await waitFor(()=>docker(['exec',cache,'redis-cli','ping'],{allowFailure:true}).status===0,'cache');
+  const app=container(`${run}-app`,artifact.id,[],{DB_CONNECTION_URI:`postgres://vaultix:${dbPassword}@${dbName}:5432/vaultix`,VAULTIX_CACHE_PROVIDER:'dragonfly',VAULTIX_CACHE_URL:`redis://${cacheName}:6379`,ENCRYPTION_KEY:randomBytes(16).toString('hex'),AUTH_SECRET:randomBytes(32).toString('hex'),SITE_URL:'http://127.0.0.1:8200',TELEMETRY_ENABLED:'false',DISABLE_UPDATE_CHECK:'true'},{publishHttp:true});
+  await ready(app);
+  phase='loopback binding';
+  const port=output(['port',app,'8080/tcp']);assert.match(port,/^127\.0\.0\.1:\d+$/);
+  const backend=`http://${port}`;
+  const api=(path,options)=>request(app,path,options);
+  phase='bootstrap';
+  assert.equal((await api('/api/v1/admin/config')).config.initialized,false,'Refusing an initialized instance');
+  const owner=await api('/api/v1/admin/signup',{method:'POST',body:{email,password,firstName:'Orbit',lastName:'Builder',organizationName:'Orbit workshop'}});
+  phase='completion';
+  const selected=await api('/api/v3/auth/select-organization',{method:'POST',token:owner.token,body:{organizationId:owner.organization.id}});
+  await api('/api/v1/admin/config',{method:'PATCH',token:selected.token,body:{onboardingCompleted:true}});
+  phase='frontend';
+  const {createServer}=await import('../core/frontend/node_modules/vite/dist/node/index.js');
+  process.chdir(resolve(root,'core/frontend'));
+  server=await createServer({root:resolve(root,'core/frontend'),cacheDir:resolve(root,'core/frontend/node_modules',run),optimizeDeps:{include:['crypto']},configFile:resolve(root,'core/frontend/vite.config.ts'),server:{host:'127.0.0.1',port:0,strictPort:false,proxy:{'/api':{target:backend,changeOrigin:false},'/runtime-ui-env.js':{target:backend,changeOrigin:false}}}});
+  await server.listen();
+  const origin=`http://127.0.0.1:${server.httpServer.address().port}`;
+  browser=await chromium.launch({headless:true});
+  const auth=await browser.newContext({viewport:{width:1600,height:900}});
+  auth.setDefaultTimeout(20000);
+  const login=await auth.newPage();
+  await login.goto(`${origin}/login`);
+  await login.getByLabel('Email',{exact:true}).fill(email);
+  await login.getByLabel('Password',{exact:true}).fill(password);
+  await login.getByRole('button',{name:'Continue with Email',exact:true}).click();
+  await login.waitForURL(`${origin}/organizations/${owner.organization.id}/projects`,{timeout:60000});
+  const storageState=await auth.storageState();
+  await auth.close();
+  phase='recording';
+  recording=await browser.newContext({viewport:{width:1600,height:900},storageState,recordVideo:{dir:resolve(evidence,'raw'),size:{width:1600,height:900}}});
+  recording.setDefaultTimeout(20000);
+  const page=await recording.newPage();recordingPage=page;const started=Date.now();const errors=[];
+  page.on('pageerror',()=>errors.push('pageerror'));
+  const pause=ms=>new Promise(r=>setTimeout(r,ms));
+  const chapter=title=>{report.chapters.push({title,startSeconds:(Date.now()-started)/1000});console.log(`Recorded chapter: ${title}`);};
+  await page.goto(`${origin}/organizations/${owner.organization.id}/projects`);
+  await expect(page.getByRole('heading',{name:'Organization Overview',exact:true})).toBeVisible({timeout:60000});
+  assert.equal(await page.locator('input[type=password]').count(),0);
+  chapter('Your project workspace');await pause(1600);
+  await page.getByRole('button',{name:'Open Secrets Management',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Create Project',exact:true})).toBeVisible();await pause(1000);
+  chapter('Give your project a home');
+  await page.getByRole('button',{name:'Create Project',exact:true}).click();
+  const dialog=page.getByRole('dialog',{name:'Create a New Secrets Management Project'});
+  await dialog.getByLabel('Project Name',{exact:true}).fill('Orbit storefront');await pause(1500);
+  const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/v1/projects'&&r.request().method()==='POST');
+  await dialog.getByRole('button',{name:'Create Project',exact:true}).click();
+  assert.equal((await response).status(),200);
+  await expect(page.getByRole('heading',{name:'Project Overview',exact:true})).toBeVisible({timeout:30000});
+  chapter('Your application, organized');await pause(2400);
+  await page.getByRole('button',{name:'Open Clyffy',exact:true}).click();
+  const sheet=page.getByRole('dialog',{name:'Clyffy Workspace',exact:true});
+  await expect(sheet.getByRole('button',{name:'Show me',exact:true})).toBeEnabled();
+  chapter('Learn by watching the controls');
+  await sheet.getByRole('button',{name:'Show me',exact:true}).click();
+  await expect(sheet.getByText('References loaded. You are in control.',{exact:true})).toBeVisible({timeout:30000});
+  await expect(sheet.getByText('No accessible references on this page.',{exact:true})).toBeVisible();
+  await pause(1800);report.endSeconds=(Date.now()-started)/1000;
+  assert.deepEqual(errors,[]);
+  const video=page.video();await recording.close();recording=null;
+  copyFileSync(await video.path(),resolve(evidence,'workflow.webm'));
+  report.raw={name:'workflow.webm',sha256:digest(resolve(evidence,'workflow.webm'))};
+  for(const source of files)assert.equal(digest(resolve(root,source.path)),source.sha256,`Frontend changed during recording: ${source.path}`);
+  report.passed=true;
+}catch(error){report.failure={phase,type:error.name,...(typeof error.actual==='number'?{actual:error.actual}:{}),...(typeof error.expected==='number'?{expected:error.expected}:{}),locations:[...String(error.stack).matchAll(/(?:record-vaultix-workflow|disposable-image)\.mjs:\d+/g)].map(x=>x[0])};throw new Error(`Recording failed during ${phase}: ${JSON.stringify(report.failure)}`,{cause:undefined});}
+finally {
+  if(!report.passed && recordingPage) {
+    report.visibleState=await recordingPage.locator('h1,h2,[role=status],[role=alert]').allTextContents().catch(()=>[]);
+    await recordingPage.screenshot({path:resolve(evidence,'failure.png')}).catch(()=>{});
+  }
+  if(recording)await recording.close().catch(()=>{});
+  if(browser)await browser.close();if(server)await server.close();process.chdir(root);
+  report.cleanupPassed=harness.cleanup();
+  writeFileSync(resolve(evidence,'result.json'),JSON.stringify(report,null,2));
+  if(report.passed&&report.cleanupPassed)writeFileSync(resolve(root,'.cache/recorded-workflow-latest.json'),JSON.stringify({evidence,manifest:resolve(evidence,'result.json')}));
+  console.log(JSON.stringify({passed:report.passed,cleanupPassed:report.cleanupPassed,evidence,phase}));
+}

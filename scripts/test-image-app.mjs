@@ -1,5 +1,6 @@
 // Real browser sign-in against a disposable smoke-test image, never the operator's instance.
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -39,6 +40,10 @@ const authEvents = [];
 let phase = "entry";
 try {
   const { bootstrap, selected } = await testFirstRunSetup({ browser, expect, AxeBuilder, origin, email, password, evidence });
+  phase = "public-experience";
+  // A fresh browser exercises the published landing/media and shared controls
+  // against this same disposable image, independently of the signed-in tests.
+  execFileSync(process.execPath, [resolve(root, "scripts/test-public-experience.mjs"), origin], { cwd: root, stdio: "inherit", timeout: 180000 });
   phase = "login-recovery";
   await testLoginRecovery({ browser, expect, AxeBuilder, origin, email, password, organizationId: bootstrap.organization.id, evidence });
   phase = "entry";
@@ -89,6 +94,8 @@ try {
     }
   });
   await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
   await expect(page.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.equal(new URL(page.url()).pathname, "/login");
   assert.equal(chartRequests.length, 0, "Real image login must not load the chart renderer");
@@ -132,7 +139,7 @@ try {
   await page.goto(`${origin}/organizations/${bootstrap.organization.id}/projects`);
   phase = "authenticated-navigation";
   // Native buttons must retain both keyboard activation paths.
-  await page.getByRole("button", { name: "Secrets Management", exact: true }).press("Space");
+  await page.getByRole("button", { name: "Open Secrets Management", exact: true }).press("Space");
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/secret-management`);
   await expect(page.getByRole("heading", { name: "Secrets Management", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Create Project", exact: true })).toBeVisible();
@@ -193,16 +200,20 @@ try {
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
   await expect(page.getByRole("heading", { name: "Organization Overview", exact: true })).toBeVisible();
   for (const [name, slug] of [["KMS", "kms"], ["Secret Scanning", "secret-scanning"]]) {
-    await page.getByRole("button", { name, exact: true }).press("Enter");
+    await page.getByRole("button", { name: `Open ${name}`, exact: true }).press("Enter");
     await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects/${slug}`);
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
     await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
     await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
   }
-  const certificateTile = page.getByRole("button", { name: "Certificate Manager", exact: true });
+  const certificateTile = page.getByRole("button", { name: "Open Certificate Manager", exact: true });
   await expect(certificateTile).toHaveAttribute("aria-disabled", "false");
   await certificateTile.press("Space");
   await page.waitForURL(url => url.pathname.startsWith(`/organizations/${bootstrap.organization.id}/projects/cert-manager/`) && url.pathname.endsWith("/overview"));
@@ -211,8 +222,10 @@ try {
   assert.ok(chartRequests.length > 0, "Certificate dashboard must load the deferred chart renderer");
   await page.screenshot({ path: resolve(evidence, "certificate-dashboard.png"), fullPage: true });
   await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/projects`);
-  await page.getByRole("button", { name: "Privileged Access Manager", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "Open Privileged Access Manager", exact: true }).press("Enter");
   await page.waitForURL(`${origin}/organizations/${bootstrap.organization.id}/pam/accounts`);
   await expect(page.getByRole("heading", { name: "Accounts", exact: true })).toBeVisible();
   await page.screenshot({ path: resolve(evidence, "pam-accounts.png"), fullPage: true });
@@ -236,7 +249,7 @@ try {
   await expect(denied.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   assert.deepEqual(errors, []);
   writeFileSync(resolve(evidence, "result.json"), JSON.stringify({
-    passed: true, fixtures: false, checks: ["root opens login", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and completed overview response with rendered empty state", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated root resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
+    passed: true, fixtures: false, checks: ["public root opens existing login through Open Vaultix", "real email sign-in", "five loaded product categories", "secrets project navigation with Space", "real project creation and completed overview response with rendered empty state", "anonymous project API denied", "KMS and scanning navigation with Enter", "certificate dashboard navigation with Space", "PAM accounts navigation", "PAM access tabs: valid deep links, invalid fallback, keyboard selection and refresh", "Vaultix application branding", "authenticated Open Vaultix resumes app", "anonymous project access redirects to login", "no unexpected application API failures"]
   }, null, 2));
   phase = "dashboard-recovery";
   const recovery = await testDashboardRecovery({ page, expect, origin, orgId: bootstrap.organization.id, evidence, expectedFailures, audit });

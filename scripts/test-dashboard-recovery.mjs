@@ -19,7 +19,7 @@ export async function testDashboardRecovery({ page, expect, origin, orgId, evide
       await page.goto(dashboard);
       await expect(page.getByText(title, { exact: true })).toBeVisible({ timeout: 15000 });
       if (path.includes("cert-manager")) {
-        const tile = page.getByRole("button", { name: "Certificate Manager", exact: true });
+        const tile = page.getByRole("button", { name: /^(Open Certificate Manager|Set up Certificate Manager|Choose Certificate Manager project)$/ });
         await expect(tile).toHaveAttribute("aria-disabled", "true");
         await tile.press("Space");
         assert.equal(await page.getByRole("dialog").count(), 0, "An outage must not open instance setup.");
@@ -32,7 +32,7 @@ export async function testDashboardRecovery({ page, expect, origin, orgId, evide
     await page.getByRole("button", { name: retry, exact: true }).click();
     assert.equal((await recoveredResponse).status(), 200, "Retry must obtain a real successful response.");
     await expect(page.getByText(title, { exact: true })).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Secrets Management", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open Secrets Management", exact: true })).toBeVisible();
     expectedFailures.delete(path);
     checks.push(`${path}: outage distinguished from empty, retry restores real response`);
   }
@@ -42,7 +42,7 @@ export async function testDashboardRecovery({ page, expect, origin, orgId, evide
   await page.route(instanceMatch, route => route.fulfill({ json: { activeProjectId: null, projects: [], isMultiInstance: false } }));
   try {
     await page.goto(dashboard);
-    const tile = page.getByRole("button", { name: "Certificate Manager", exact: true });
+    const tile = page.getByRole("button", { name: /^(Open Certificate Manager|Set up Certificate Manager|Choose Certificate Manager project)$/ });
     await expect(tile).toHaveAttribute("aria-disabled", "false");
     await tile.press("Space");
     const setup = page.getByRole("dialog", { name: "Select an active Certificate Manager project" });
@@ -61,7 +61,7 @@ export async function testDashboardRecovery({ page, expect, origin, orgId, evide
   await page.route(instanceMatch, route => route.fulfill({ json: { activeProjectId: "00000000-0000-4000-8000-000000000003", projects: instances, isMultiInstance: true } }));
   try {
     await page.goto(dashboard);
-    await page.getByRole("button", { name: "Certificate Manager", exact: true }).press("Space");
+    await page.getByRole("button", { name: /^(Open Certificate Manager|Set up Certificate Manager|Choose Certificate Manager project)$/ }).press("Space");
     const picker = page.getByRole("dialog", { name: "Select a Certificate Manager project" });
     await expect(picker).toBeVisible();
     await expect(picker.getByRole("combobox", { name: "Certificate Manager project" })).toBeVisible();
@@ -76,7 +76,7 @@ export async function testDashboardRecovery({ page, expect, origin, orgId, evide
     await page.route(permissionsMatch, route => route.fulfill({ json: { permissions: [], memberships: [] } }));
     try {
       await page.goto(dashboard);
-      const tile = page.getByRole("button", { name: "Certificate Manager", exact: true });
+      const tile = page.getByRole("button", { name: /^(Open Certificate Manager|Set up Certificate Manager|Choose Certificate Manager project)$/ });
       await expect(tile).toHaveAttribute("aria-disabled", "true");
       await tile.focus();
       await expect(tile).toBeFocused();

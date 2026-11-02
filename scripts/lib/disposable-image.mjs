@@ -23,9 +23,11 @@ export function createDisposableImageHarness(requestedImage, getPhase) {
     while (Date.now() < deadline) { if (await test()) return; await pause(1000); }
     throw new Error(`Timed out: ${description}`);
   }
-  function container(name, image, args = [], env = {}) {
+  function container(name, image, args = [], env = {}, { publishHttp = false } = {}) {
     assert.ok(network, "Create an owned network first");
+    assert.ok(!publishHttp || image === artifact.id, "Only the inspected application may publish loopback HTTP");
     const id = output(["create", "--pull=never", "--init", "--name", name, "--network", network,
+      ...(publishHttp ? ["-p", "127.0.0.1::8080"] : []),
       ...Object.keys(env).flatMap(key => ["-e", key]), image, ...args], { env });
     assert.match(id, /^[a-f0-9]{64}$/);
     resources.push(id);
@@ -64,10 +66,10 @@ export function createDisposableImageHarness(requestedImage, getPhase) {
     return output(["exec", "-i", db, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", "vaultix", "-d", "vaultix", "-At"], { input: query });
   }
 
-  function createNetwork(name) {
+  function createNetwork(name, { hostAccess = false } = {}) {
     assert.equal(network, undefined, "This harness already owns a network");
     assert.match(name, /^vaultix-[a-z-]+-[a-f0-9]{16}$/);
-    network = output(["network", "create", "--internal", name]);
+    network = output(["network", "create", ...(hostAccess ? [] : ["--internal"]), name]);
     assert.match(network, /^[a-f0-9]{64}$/);
   }
   function cleanup() {

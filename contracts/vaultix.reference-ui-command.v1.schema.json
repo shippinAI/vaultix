@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/reference-ui-command.v1",
+  "title": "Vaultix local reference UI command",
+  "description": "Bounded commands for a mounted reference workspace. The receiver additionally verifies exact scope and existing authorized project/environment selections. This is not a remote execution endpoint.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "scope", "action"],
+  "properties": {
+    "version": { "const": 1 },
+    "scope": { "type": "string" },
+    "action": { "enum": ["reference.project", "reference.environment", "reference.folder", "reference.load", "reference.reset"] },
+    "value": { "type": "string", "minLength": 1, "maxLength": 1024 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "action": { "enum": ["reference.project", "reference.environment", "reference.folder"] } } },
+      "then": { "required": ["value"] },
+      "else": { "not": { "required": ["value"] } }
+    },
+    {
+      "if": { "properties": { "action": { "const": "reference.folder" } } },
+      "then": { "properties": { "value": { "pattern": "^/" } } }
+    }
+  ]
+}

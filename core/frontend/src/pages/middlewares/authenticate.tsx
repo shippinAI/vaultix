@@ -11,6 +11,8 @@ import { clearSession, fetchUserDetails, logoutUser } from "@app/hooks/api/users
 
 export const Route = createFileRoute("/_authenticate")({
   beforeLoad: async ({ context, location }) => {
+    if (!context.serverConfig)
+      throw new Error("Vaultix configuration is unavailable. Reload to try again.");
     if (!context.serverConfig.initialized) {
       throw redirect({ to: "/admin/signup" });
     }

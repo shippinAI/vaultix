@@ -12,6 +12,12 @@ large decorative downloads, bouncing controls and invented status counters.
 The shared Card and Button primitives retain their compact flat treatment.
 Keyboard focus must remain visible; muted text must remain readable.
 
+The public landing (0107) uses the same tokens with larger type, offset vector
+planes and a recording of the actual application edited in Remotion. Motion is
+purposeful and user-controlled. Scripted teaching exposes pause, resume and
+takeover; passive discovery never steals focus. Label sample data and scripted
+actions clearly. Reuse actual application controls rather than a second UI.
+
 Whole-UI acceptance targets WCAG 2.2 AA; see
 [`0022-accessibility-acceptance.md`](../docs/0022-accessibility-acceptance.md).
 Use persistent, associated form labels and semantic headings. Default field

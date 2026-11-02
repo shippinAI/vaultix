@@ -29,15 +29,15 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixHome.tsx",
-      "blob": "fc738197358a1a82bd9d0ac5ce5dd4093d745663",
-      "status": "verified",
+      "blob": "9083db027a6348d1769b23fdc5f2f57f0fc6558d",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read with catalog/query caller. Native workspace navigation now focuses changed-view headings and supports skip activation; home accessible name includes visible brand text. Browser proof covers authored navigation and catalog rejection, not all authenticated routes or Nomen. This optional guide now lives at /help; it is no longer the application entry. Uses the owned mark. Root authentication restoration is verified separately.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "scripts/test-native-ui.mjs",
-        ".cache/ui-proof-VhpsQq/accessibility.json",
-        "docs/0018-hosted-capability-proof.md: Accessibility checkpoint, 2026-10-26",
-        ".cache/ui-proof-siC0lq/accessibility.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -57,16 +57,15 @@
     },
     {
       "path": "core/frontend/src/pages/VaultixReferences.tsx",
-      "blob": "bb6f9212442c6418dd1e781af6073cc784c8addc",
-      "status": "authored",
+      "blob": "a7de0655179f7eadce8db6b13d4001df81a0c2c4",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -157,13 +156,15 @@
     },
     {
       "path": "core/frontend/src/pages/index.tsx",
-      "blob": "55f28f624070ca65cbf571f11c20d291b6a3a981",
-      "status": "verified",
+      "blob": "2a40c0fd7d556449b62f211680205ad5d4451e35",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file and existing auth/organization middleware flow read. Root delegates to the existing login flow, retaining setup, organization selection, MFA and permission handling. Real-image sign-in, authenticated root navigation and anonymous denial passed. No Nomen claim.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "scripts/test-image-app.mjs",
-        ".cache/app-image-proof-1egxxh/result.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -203,14 +204,15 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
-      "blob": "d6eafcb0c5eb1c2fb43fd3934218e3bfe8516743",
-      "status": "authored",
+      "blob": "adc4bc9dc96882c5de9ee09ba504c270457c1c8d",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete component read; route caller, project/stat queries, certificate instance hook, preference helper, permission branches, admin mutation, PAM resolver and dialog APIs traced. Native buttons preserve five product entries and keyboard activation; flat cards retain descriptions and readable denied reasons. Project/certificate/count failures have retry paths; pending/failed certificate lookup cannot open false setup. Existing membership/admin/request logic retained. Real product navigation and project creation passed; outages, multi-instance and denied-card behavior use explicit fixtures. Backend tenant/revocation/provider semantics and inherited duplicate error notifications remain separate review work.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0026-capability-preservation.md",
-        ".cache/app-image-proof-ChiHy5/result.json",
-        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -251,25 +253,28 @@
     },
     {
       "path": "scripts/test-dashboard-recovery.mjs",
-      "blob": "0ad0c3499923f010d6c7bf581a742bb454b7133d",
-      "status": "verified",
-      "decision": "replace",
-      "scope": "Complete authored fixture runner read and executed after real sign-in. Project/certificate/stat outages retry against restored real endpoints; empty configuration, multiple instances, stale default and denied keyboard activation are explicit fixture scenarios. No fixture ID reaches a real mutation. Results are separate from real-service evidence.",
+      "blob": "dfdf3906c79f1eab8ca7e9eabe673522fb450051",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0026-capability-preservation.md",
-        ".cache/app-image-proof-ChiHy5/result.json",
-        ".cache/app-image-proof-ChiHy5/dashboard-recovery.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "2edc5c9853fd6116aecdc121f152ce91e5300667",
-      "status": "authored",
+      "blob": "f7365e86ffa8d85f75c290b5dd7311afe5323f97",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete canonical workflow harness; add scoped update/Clyffy proof after existing workflows. No inherited check removed.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -420,16 +425,15 @@
     },
     {
       "path": "core/frontend/vite.config.ts",
-      "blob": "2962aa5078001a80e39be770a2a9ab59d32ac52f",
-      "status": "authored",
+      "blob": "6524ef7859dba2c834ed1c7206052bc2b54a0472",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete configuration read, including tsr.config.json and emitted dependency graph. Retain route splitting, dev proxy, versioned names and CDN URL behavior. Move shared React/CJS/polyfill dependencies out of chart ownership; keep shared D3 and Recharts/Victory families cohesive. Browser login excludes renderer; real image loads certificate dashboard and nonempty chart fixture. Existing other circular imports and large feature chunks remain open.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0028-visual-loading-system.md",
-        ".cache/bundle-proof-YDXub6/summary.json",
-        ".cache/loading-proof-O2Nme5/result.json",
-        ".cache/app-image-proof-HsMMTW/result.json",
-        ".cache/app-image-proof-HsMMTW/chart-rendering.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -814,16 +818,15 @@
     },
     {
       "path": "core/frontend/src/pages/middlewares/authenticate.tsx",
-      "blob": "06972c8cdaefc5c7a647b3c6e483a2611d1534b2",
+      "blob": "0355fdb1d3338bac20b6109cf52f7537270b22b8",
       "status": "reviewed",
-      "decision": "investigate",
-      "scope": "Complete file read with refresh client, API request path and route callers. Retain first-instance setup, refresh/user lookup, organization/suborganization selection and administrator-onboarding redirects. Current catch-all refresh failure redirects to login; transient failure UX and Nomen issuer/session wiring remain open. No authentication guard is bypassed by included capabilities.",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0031-refresh-recovery.md",
-        ".cache/core-proof-ULt89h/test-results.json",
-        ".cache/core-proof-5OZCo8/test-results.json",
-        ".cache/core-proof-lZJx7V/test-results.json",
-        ".cache/unit-proof-UPFDNN/test-results.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -1750,12 +1753,15 @@
     },
     {
       "path": "core/frontend/src/pages/root.tsx",
-      "blob": "169c9ac610e1f7674329da0db74111dc6650b4d8",
+      "blob": "249493a69aa876058a8ad6c22cf7ae5d7835004e",
       "status": "reviewed",
-      "decision": "retain",
-      "scope": "Complete root route read. Retain QueryClient/Tooltip providers and root notification mount, server-config loading and current auth-refresh behavior. Notification ownership changes stay inside the existing container. This review does not establish Nomen issuer/session ownership.",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0038-notification-dialog-ownership.md"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -2939,31 +2945,28 @@
     },
     {
       "path": "scripts/test-first-run-setup.mjs",
-      "blob": "e18e8f51d84e6e3422644b0ef78a683088ce7d59",
-      "status": "verified",
+      "blob": "a65b732e0bbda99492faa29d47e24084fecc6f71",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0050-organization-first-setup.md",
-        ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
-        ".cache/self-hosted-build-ueBbJX/result.json",
-        ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
       "path": "scripts/test-native-ui.mjs",
-      "blob": "70ae145e8dc67495778bffd89501c03e6d2cbb3a",
-      "status": "verified",
+      "blob": "d07ffe20e2ca1c0e088ebf54b23181d5e8dc6dfc",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Catalog-authored optional learning and integration scope in 0052. Fixed-area filtering, bounded additive reader, no tenant activity persistence or inferred expertise. Existing source actions, authentication and permissions retained. Scoped acceptance passed on 53c9e31a: canonical standalone, real application workflows, optional learning browser checks, additive-reader contract checks and Linux backend unit suite. No whole-product, live AI teaching, Nomen issuer or enterprise parity claim.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0052-learning-and-upload-integration.md",
-        "scripts/test-learning-content.mjs",
-        "scripts/test-native-ui.mjs",
-        ".cache/self-hosted-build-9d0xxS/result.json",
-        ".cache/ui-proof-OP5cxr/accessibility.json",
-        ".cache/unit-proof-kE4Mk6/test-results.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -3227,14 +3230,15 @@
     },
     {
       "path": "scripts/lib/disposable-image.mjs",
-      "blob": "2d0f70c4d2deb48d81b59941558cb29233052262",
-      "status": "verified",
+      "blob": "f8aa39ca705df1c28038e3a41373afa981c444d7",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete extracted disposable-image harness. Preserve bounded subprocess/internal HTTP requests, immutable image selection, owned internal network/container cleanup and redacted failures. The nine recovery checks pass using this helper; initial ten isolation checks also pass. No production runtime behavior or operator target accepted.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0056-machine-tenant-isolation.md",
-        ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
-        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -4829,12 +4833,15 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "a4a72655fd80ba11e82acff3e54b14c38b042320",
+      "blob": "19191956ab51c151eaa2c2bd1f10ea8d5cd9cdae",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -6778,16 +6785,15 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
-      "blob": "0bae71f28092cb0317ceee7a65b2fa36b468e41c",
-      "status": "authored",
+      "blob": "2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     },
     {
@@ -8581,6 +8587,357 @@
         "core/backend-go/tests/platform/permission/policy_integrity_test.go",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs"
+      ]
+    },
+    {
+      "path": "core/DESIGN.md",
+      "blob": "4449f1abb499082344d09afa37e27f8974f24685",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/ReferenceTeaching.tsx",
+      "blob": "b0e226c2aa5f8d82c04a2c94ec027552755dc0c0",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/reference-commands.ts",
+      "blob": "22eb18884cd649fa0206ae55ba684ee764d50304",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/reference-teaching.css",
+      "blob": "ecba2e63cc8074be6811fc42b34c633e7bc45c8a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/SignUpPage/route.tsx",
+      "blob": "6bc11e983583ad4c6f1ec5ccb306ea8437aa6b67",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/middlewares/restrict-login-signup.tsx",
+      "blob": "92b1eb4f47832a69ecf487c8e5d729627e8c1882",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
+      "blob": "40f5e24a56e0e964b9520b10cc8c7ccd003f054e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "docs/0025-application-entry-and-artwork.md",
+      "blob": "7a239586019ca805ea6e4279b1612983c5e2da4f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "docs/0107-public-experience-and-recorded-workflow.md",
+      "blob": "e1d29d167f9e0ec2a0b3cc5e79e756d2dd36f8d0",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "scripts/check-recorded-media.mjs",
+      "blob": "6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "scripts/record-vaultix-workflow.mjs",
+      "blob": "d6037d1c15b4e9992379dea9828acebc2e3dee82",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-public-experience.mjs",
+      "blob": "bfe4bf4aa5b5e52e7b9d19bb02fff609bc0ea60e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-reference-commands.mjs",
+      "blob": "509963bd7f6c226928eca313b044d3ceb8f8bdcc",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "contracts/vaultix.reference-ui-command.v1.schema.json",
+      "blob": "d3865799e3107319b64eb78195e844145992316e",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/media/publish-recorded.mjs",
+      "blob": "b256aba6377dc3d09fb24a557710ff0fd832ce41",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/media/recorded-story.mjs",
+      "blob": "ccaea684ffda32944c712b103ff3f76078792c69",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/media/render-recorded.mjs",
+      "blob": "e7a56f01c6c33851b5e10dfb21991da486e08233",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/media/source-provenance.mjs",
+      "blob": "b4c04f5d896d94ae7988f2bc8cd5319df7ccde17",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/media/src/recorded.tsx",
+      "blob": "81bd2142c135b88107866f2be4cec93b9da3fd5f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/public-site/public-site.css",
+      "blob": "b8524e5f9302cbc30a437499b6a10d856d14c12c",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/public-site/PublicRehearsal.tsx",
+      "blob": "c260ac5c95937bd993b457aec6aa35044bf9ce22",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/public-site/VaultixLanding.tsx",
+      "blob": "8416851c6855ebecba8fcf6c27b36f315902b47a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/vaultix-home/VaultixWorkspaceCards.tsx",
+      "blob": "7a5b9211f10100999503f5266f87ce4423c033e3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/public/media/vaultix-tour-poster.jpg",
+      "blob": "c3f1dc1f09ed6207615d7eba86ee77678a89bb6f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/public/media/vaultix-tour.json",
+      "blob": "b7c0366ceb98c18dda40c716a1843e25f845e58f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/public/media/vaultix-tour.mp4",
+      "blob": "dbf8640e4ade910f2490ebb5922fb8227c45e2e5",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/public/media/vaultix-tour.vtt",
+      "blob": "a2b37c8986b980e00b7fef27e6052e276d26bc00",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "evidence": [
+        "docs/0107-public-experience-and-recorded-workflow.md",
+        "scripts/test-public-experience.mjs",
+        "scripts/record-vaultix-workflow.mjs",
+        "scripts/test-image-app.mjs"
       ]
     }
   ]

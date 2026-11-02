@@ -1,0 +1,10 @@
+.vaultix-teaching-surface[data-vaultix-teaching-step="0"] #reference-app,
+.vaultix-teaching-surface[data-vaultix-teaching-step="1"] #reference-environment,
+.vaultix-teaching-surface[data-vaultix-teaching-step="2"] #reference-path,
+.vaultix-teaching-surface[data-vaultix-teaching-step="3"] #reference-submit {
+  outline: 2px solid var(--color-project);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vaultix-teaching-surface * { animation: none !important; transition: none !important; }
+}

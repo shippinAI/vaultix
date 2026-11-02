@@ -55,10 +55,14 @@ try {
   page.on("pageerror", (error) => failures.push(error.message));
   await page.route("**/*", (route) => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
   await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
   await page.getByRole("heading", { name: "Welcome back", level: 1, exact: true }).waitFor();
   assert.equal(new URL(page.url()).pathname, "/login");
   initialized = false;
   await page.goto(origin);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Build boldly.");
+  await page.getByRole("link", { name: "Open Vaultix", exact: true }).first().click();
   await page.getByRole("heading", { name: "Name Your Organization", level: 1, exact: true }).waitFor();
   assert.equal(new URL(page.url()).pathname, "/admin/signup");
   await expect(page.getByLabel("Organization Name", { exact: true })).toBeVisible();

@@ -6,6 +6,11 @@ Passing guide tests did not establish that the actual application loaded.
 
 ## Routing
 
+Superseded for the public root on 2026-11-02: see
+[0107](0107-public-experience-and-recorded-workflow.md). `/` now presents the
+public landing and recorded/guided experience; Open Vaultix enters the existing
+`/login` flow described below. Authentication and project behavior are retained.
+
 `pages/index.tsx` redirects to `/login`. The existing `restrict-login-signup`
 middleware resolves first-instance setup, login, organization selection, and
 authenticated project navigation. Protected routes still use `authenticate`

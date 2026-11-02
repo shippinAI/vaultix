@@ -10,6 +10,12 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+Public entry correction (2026-11-02): `/` is the public Vaultix landing with
+recorded Remotion media and a guided rehearsal. Open Vaultix enters the existing
+`/login` and authenticated application. Read
+`docs/0107-public-experience-and-recorded-workflow.md`. This supersedes the older
+root-to-auth redirect below; preserve all authentication and tenant guards.
+
 Identity correction (2026-10-30): support both Vaultix-managed identity and
 external federation, including Nomen/OIDC/SAML. Read
 `docs/0074-built-in-and-federated-identity.md`. Built-in accounts, MFA, recovery,

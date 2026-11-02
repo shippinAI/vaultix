@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {readFileSync,statSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {frontendTree,sha256} from '../core/media/source-provenance.mjs';
+import {recordedTitles,recordedCaptions,validateRecording} from '../core/media/recorded-story.mjs';
+import {getVideoMetadata} from '../core/media/node_modules/@remotion/renderer/dist/esm/index.mjs';
+const root=process.cwd(),dir=resolve(root,'core/frontend/public/media');
+const manifest=JSON.parse(readFileSync(resolve(dir,'vaultix-tour.json')));
+assert.equal(manifest.schemaVersion,'vaultix.public-recording.v1');assert.equal(manifest.remotion,'4.0.538');assert.equal(manifest.credentialsRecorded,false);
+assert.deepEqual(manifest.frontend,frontendTree(root));assert.match(manifest.backend.id,/^sha256:[a-f0-9]{64}$/);
+assert.equal(manifest.backend.title,'Vaultix');assert.equal(manifest.backend.url,'https://vaultix.cloud');
+assert.deepEqual(manifest.renderSources.map(x=>x.path),['core/media/src/recorded.tsx','core/media/render-recorded.mjs','core/media/recorded-story.mjs']);
+for(const file of manifest.renderSources)assert.equal(sha256(readFileSync(file.path,'utf8').replaceAll('\r\n','\n')),file.sha256);
+assert.deepEqual(manifest.files.map(f=>f.name),['vaultix-tour.mp4','vaultix-tour-poster.jpg','vaultix-tour.vtt']);
+for(const file of manifest.files){const path=resolve(dir,file.name);assert.equal(sha256(readFileSync(path)),file.sha256);assert.equal(statSync(path).size,file.bytes);}
+assert.ok(manifest.files[0].bytes<10*1024*1024);assert.ok(manifest.files[1].bytes<512*1024);
+const metadata=await getVideoMetadata(resolve(dir,'vaultix-tour.mp4'));
+assert.equal(metadata.width,1600);assert.equal(metadata.height,900);assert.equal(metadata.fps,30);assert.equal(metadata.durationInSeconds,manifest.durationSeconds);assert.ok(metadata.durationInSeconds>10&&metadata.durationInSeconds<90);
+assert.deepEqual(manifest.chapters.map(x=>x.title),recordedTitles);assert.deepEqual(manifest.chapters.map(x=>x.caption),recordedCaptions);
+const captions=readFileSync(resolve(dir,'vaultix-tour.vtt'),'utf8');assert.ok(captions.startsWith('WEBVTT\n'));for(const caption of recordedCaptions)assert.ok(captions.includes(caption));
+for(const invalid of [{},{schemaVersion:'vaultix.recording.v1',passed:false},{schemaVersion:'vaultix.recording.v1',passed:true,cleanupPassed:true,credentialsRecorded:true}])assert.throws(()=>validateRecording(invalid));
+console.log(JSON.stringify({passed:true,scope:manifest.scope,frontend:manifest.frontend,media:manifest.files,duration:metadata.durationInSeconds}));

@@ -9,9 +9,13 @@ import {
   LockKeyholeIcon
 } from "lucide-react";
 
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@app/components/v3";
+import { Badge, Button, Card } from "@app/components/v3";
 import { useVaultixGuide } from "@app/hooks/api/vaultix/queries";
 
+import {
+  VaultixPrinciplesCards,
+  VaultixWorkspaceSetupCard
+} from "./vaultix-home/VaultixWorkspaceCards";
 import { VaultixConnections } from "./VaultixConnections";
 import { VaultixReferences } from "./VaultixReferences";
 
@@ -154,45 +158,8 @@ export const VaultixHome = ({ initialized }: { initialized: boolean }) => {
           )}
           {view === "workspace" && guide.data && (
             <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    <h2>Your First App, Connected</h2>
-                  </CardTitle>
-                  <p className="text-sm text-muted">
-                    A clear path from a new app to secrets it can use.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ol className="grid gap-6 md:grid-cols-2">
-                    {guide.data.steps.map((step, index) => (
-                      <li key={step.id} className="flex gap-3">
-                        <span className="flex size-7 shrink-0 items-center justify-center rounded border border-project/30 bg-project/5 text-sm text-project">
-                          {index + 1}
-                        </span>
-                        <div>
-                          <h3 className="font-medium">{step.title}</h3>
-                          <p className="mt-1 text-sm leading-relaxed text-muted">
-                            {step.description}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-              <section aria-label="Vaultix principles" className="grid gap-4 sm:grid-cols-2">
-                {guide.data.entries.map((entry) => (
-                  <Card key={entry.id}>
-                    <CardHeader>
-                      <CardTitle className="text-base">{entry.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-sm leading-relaxed text-muted">
-                      {entry.description}
-                    </CardContent>
-                  </Card>
-                ))}
-              </section>
+              <VaultixWorkspaceSetupCard steps={guide.data.steps} />
+              <VaultixPrinciplesCards entries={guide.data.entries} />
             </>
           )}
           <footer className="mt-auto flex flex-wrap justify-between gap-3 border-t border-border pt-5 text-xs text-muted">

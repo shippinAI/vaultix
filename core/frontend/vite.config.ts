@@ -37,7 +37,8 @@ export default defineConfig(({ mode }) => {
       proxy: {
         "/api": {
           target: "http://127.0.0.1:8200",
-          changeOrigin: true,
+          // Keep the browser authority for Vaultix's same-origin MCP checks.
+          changeOrigin: false,
           secure: false,
           ws: true
         },
