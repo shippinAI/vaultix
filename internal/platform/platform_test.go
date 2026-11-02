@@ -201,6 +201,25 @@ func TestConfigurationDriftAndCheckpointMutation(t *testing.T) {
 	}
 }
 
+func TestRecoveryKeyChangeInvalidatesSavedOperation(t *testing.T) {
+	root := privateTemp(t)
+	if err := initialize(root, Instance{SchemaVersion: Schema, Project: "test", SiteURL: "https://test.example"}, "", false); err != nil {
+		t.Fatal(err)
+	}
+	s := fixtureState()
+	s.Configuration, _ = configuration(root)
+	replacement, err := newRecoveryKey()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(configPath(root, "recovery.key"), replacement, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if runOperation(context.Background(), &Docker{root: root}, &s, io.Discard) == nil {
+		t.Fatal("changed recovery key did not block the saved operation")
+	}
+}
+
 func TestProcessEnvironmentDoesNotCarryVaultCredentials(t *testing.T) {
 	t.Setenv("VAULTIX_TOKEN", "fixture-private")
 	t.Setenv("POSTGRES_PASSWORD", "fixture-private")

@@ -180,7 +180,7 @@ func saveState(root string, s *State, phase string) error {
 
 func configuration(root string) (string, error) {
 	var all []byte
-	for _, name := range []string{"instance.json", "compose.yml", "vaultix.env"} {
+	for _, name := range []string{"instance.json", "compose.yml", "vaultix.env", "recovery.key"} {
 		raw, err := privateRead(configPath(root, name), 1024*1024)
 		if err != nil {
 			return "", err

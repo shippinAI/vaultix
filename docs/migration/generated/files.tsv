@@ -9492,11 +9492,11 @@ internal/oidc/refresh_test.go	internal/oidc	cli	Go-client-Rust-injection-boundar
 internal/platform/backup.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	d4dabbb22c0b863b812675fc08b58ed7c3663a34	authored
 internal/platform/candidate.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	22d52b1727b13fe5adcea79578a766a512a81687	authored
 internal/platform/docker.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	802d4f9a34cd91e4245ffaab6fb678c9ad29923b	authored
-internal/platform/files.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	ae6cc78e5fa95324a3ecdd19968d7396e3753766	authored
+internal/platform/files.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	8b9c2d65b9d462e9bffc0046b44eb2e14dcfe17a	authored
 internal/platform/lifecycle.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	73916d42b1662f49875c078f6b754c006b55816c	authored
 internal/platform/lock_unix.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	6ab9c14c86790ceb639bfde8e33676393b6b0230	authored
 internal/platform/lock_windows.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	242c118bcc4ab480c989a2c33af3012c0e601116	authored
-internal/platform/platform_test.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	e6dbd6d0ae30b29bfbbab9efdef7bef44bb1ee47	authored
+internal/platform/platform_test.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	3a39fc7c1cc7adaad3c54d5c09ffc930ad3f803b	authored
 internal/platform/types.go	internal/platform	cli	Go-client-Rust-injection-boundary	go	36a830f123a7dd726dfd8a217bcab9761479c9cd	authored
 internal/release/bundle.go	internal/release	cli	Go-client-Rust-injection-boundary	go	98dd8ab494a3b52e90efd12b9556e1f647b58785	authored
 internal/release/notice.go	internal/release	cli	Go-client-Rust-injection-boundary	go	d41b176efcb0b1f20b67be22259e88b5feab2800	authored
