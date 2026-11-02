@@ -63,6 +63,10 @@ Normal third-party dependencies retain their real names and attribution.
   with an independently maintained MatrixAI peer; tenant, identity, CA, SAN,
   purpose and expiry denials; fragmented ping, concurrent forwarding and cleanup.
   The separately named MatrixAI test fixture is not a product dependency.
+- `node scripts/test-owned-quic-linux.mjs`: repeats the actual wire checks in
+  Linux x64 with networking disabled except loopback. It uses the locally built
+  `vaultix:verify-backend` test stage, rejects a mismatched backend lockfile and
+  archives the exact committed transport source. Linux ARM64 remains compile-only.
 - `node scripts/build-self-hosted.mjs`: clean committed source, canonical image,
   real browser application workflows, both caches, encrypted recovery and tenant
   boundaries. `node scripts/check-owned-dependency-image.mjs` binds these gates

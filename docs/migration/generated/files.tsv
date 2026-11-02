@@ -9539,6 +9539,7 @@ scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	2d2c47
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
 scripts/fixtures/mcp-app-content.json	scripts/fixtures	delivery	supporting-tooling-or-contract	json	45dda9b04d8d31047e5d96f2881069f48bef59fb	authored
+scripts/fixtures/quic-peer/Dockerfile	scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	build-config	f57667fab29816e5fc5ab899838c6d4af18f83c4	reviewed
 scripts/fixtures/quic-peer/package.json	scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	json	d1068d7328b7a89f4d13d638f3a8bfeafceaac55	reviewed
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
@@ -9599,6 +9600,7 @@ scripts/test-owned-branding.mjs	scripts	delivery	supporting-tooling-or-contract	
 scripts/test-owned-build-paths.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cba3e47d4cd890bc30835068716ef3d3fa8580d7	reviewed
 scripts/test-owned-dependencies.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	48c7b3da82aae0aad519636d5684faf10a823a5a	reviewed
 scripts/test-owned-ldap.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9016af97aca4ef0b9a9f0071938a434e67727dad	reviewed
+scripts/test-owned-quic-linux.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9c75122e4d022bb2a8fe7ee3634910a7eb34e90b	reviewed
 scripts/test-owned-quic.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	26f1bd399afc3a469d0f67ba132def0f6a31d8c0	reviewed
 scripts/test-production-admission.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified

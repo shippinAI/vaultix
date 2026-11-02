@@ -11874,7 +11874,7 @@ docs/0073-native-cli-domain-and-capabilities.md	06d0648465c6b2f01a7dd1194bef437c
 docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56ae8f5c	documentation	reviewed
 docs/0075-usable-secrets-and-update-delivery.md	12e2229ee68c08c769ecbc71d1fa907bf9f806a0	documentation	authored
 docs/0076-recorded-workflows-and-visible-assist.md	97b0afec270aeaf6b8c8ad7862e7963d90bcbe04	documentation	authored
-docs/0077-owned-runtime-dependencies.md	809dc2e44aaf932a67aebdfc0fb595961058be1b	documentation	reviewed
+docs/0077-owned-runtime-dependencies.md	61031e5f8979e8a7dd5a35b4d7bf67c03c2748bb	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11905,9 +11905,9 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	f99aed9a6fab7e30c871e38f421de8aef59ba6b6	generated	unread
-docs/migration/generated/modules.tsv	21185f55a32e24a0e4024ed7639d1445b6e7a6c2	generated	unread
-docs/migration/generated/summary.json	ba1ad27c1101ebbfb1be1cb50e5f7941d5b51274	generated	unread
+docs/migration/generated/files.tsv	0eae71ceb49617979e50a251cda4a8a143dc9eee	generated	unread
+docs/migration/generated/modules.tsv	7f30b00bf5fbbc1ec0f951d255d058295a0c8aa7	generated	unread
+docs/migration/generated/summary.json	dfcca5ac2e76eda830782b97f01f793aef56f454	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -12063,6 +12063,7 @@ scripts/check-owned.sh	2d2c47df31fba8f499a94d98c4785d2e59242791	build-and-operat
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/fixtures/device-issuer.mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	build-and-operations	verified
 scripts/fixtures/mcp-app-content.json	45dda9b04d8d31047e5d96f2881069f48bef59fb	build-and-operations	authored
+scripts/fixtures/quic-peer/Dockerfile	f57667fab29816e5fc5ab899838c6d4af18f83c4	build-and-operations	reviewed
 scripts/fixtures/quic-peer/package-lock.json	b1cddfb397daa290e7bba8bed70c5c8de5fd6014	dependency-lock	unread
 scripts/fixtures/quic-peer/package.json	d1068d7328b7a89f4d13d638f3a8bfeafceaac55	build-and-operations	reviewed
 scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-operations	verified
@@ -12124,6 +12125,7 @@ scripts/test-owned-branding.mjs	db0fd0ac943943212fe2245745433958dd6e0572	build-a
 scripts/test-owned-build-paths.mjs	cba3e47d4cd890bc30835068716ef3d3fa8580d7	build-and-operations	reviewed
 scripts/test-owned-dependencies.mjs	48c7b3da82aae0aad519636d5684faf10a823a5a	build-and-operations	reviewed
 scripts/test-owned-ldap.mjs	9016af97aca4ef0b9a9f0071938a434e67727dad	build-and-operations	reviewed
+scripts/test-owned-quic-linux.mjs	9c75122e4d022bb2a8fe7ee3634910a7eb34e90b	build-and-operations	reviewed
 scripts/test-owned-quic.mjs	26f1bd399afc3a469d0f67ba132def0f6a31d8c0	build-and-operations	reviewed
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified

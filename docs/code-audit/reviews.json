@@ -7756,7 +7756,7 @@
     },
     {
       "path": "docs/0077-owned-runtime-dependencies.md",
-      "blob": "809dc2e44aaf932a67aebdfc0fb595961058be1b",
+      "blob": "61031e5f8979e8a7dd5a35b4d7bf67c03c2748bb",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
@@ -7951,6 +7951,30 @@
     {
       "path": "scripts/test-owned-build-paths.mjs",
       "blob": "cba3e47d4cd890bc30835068716ef3d3fa8580d7",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/quic-peer/Dockerfile",
+      "blob": "f57667fab29816e5fc5ab899838c6d4af18f83c4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-quic-linux.mjs",
+      "blob": "9c75122e4d022bb2a8fe7ee3634910a7eb34e90b",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
