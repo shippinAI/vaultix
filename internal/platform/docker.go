@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -60,8 +61,29 @@ func (d *Docker) stream(ctx context.Context, input io.Reader, output io.Writer, 
 	cmd.Stdout = output
 	cmd.Stderr = io.Discard
 	cmd.WaitDelay = 5 * time.Second
-	if cmd.Run() != nil {
-		return errors.New("Docker operation failed; instance state is retained for recovery")
+	if err := cmd.Run(); err != nil {
+		// Name only fixed driver operations, never arguments or raw diagnostics.
+		operation := "command"
+		if len(args) > 0 {
+			switch args[0] {
+			case "compose", "image", "container", "create", "rm", "start", "stop", "ps", "info", "run":
+				operation = args[0]
+			case "exec":
+				operation = "exec"
+				for _, arg := range args {
+					switch arg {
+					case "pg_dump", "pg_restore", "pg_isready", "psql":
+						operation = arg
+					}
+				}
+			}
+		}
+		exitCode := -1
+		var exited *exec.ExitError
+		if errors.As(err, &exited) {
+			exitCode = exited.ExitCode()
+		}
+		return fmt.Errorf("Docker %s failed (exit %d); instance state is retained for recovery", operation, exitCode)
 	}
 	return nil
 }
@@ -363,7 +385,9 @@ func (d *Docker) dbNames(ctx context.Context, id string) (string, string, error)
 }
 func (d *Docker) waitPostgres(ctx context.Context, id, user, db string) error {
 	for i := 0; i < 90; i++ {
-		if _, err := d.run(ctx, "exec", id, "pg_isready", "-U", user, "-d", db); err == nil {
+		// The official entrypoint starts a temporary Unix-socket-only server to
+		// initialize the database. TCP becomes available after that server stops.
+		if _, err := d.run(ctx, "exec", id, "pg_isready", "-h", "127.0.0.1", "-U", user, "-d", db); err == nil {
 			return nil
 		}
 		select {

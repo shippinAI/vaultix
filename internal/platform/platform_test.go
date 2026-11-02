@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -337,5 +338,22 @@ func TestPreserveCompleteIdentityAndCacheConfiguration(t *testing.T) {
 		if preserveEnvironment(expected, actual, defaults) == nil {
 			t.Fatal("discarded operator override as image default")
 		}
+	}
+}
+
+func TestDockerFailureDiagnosticsDoNotExposeArgumentsOrStderr(t *testing.T) {
+	const canary = "PRIVATE-DOCKER-DIAGNOSTIC-CANARY"
+	if len(os.Args) > 1 && os.Args[len(os.Args)-1] == canary {
+		fmt.Fprintln(os.Stderr, canary)
+		os.Exit(7)
+	}
+	executable, err := os.Executable()
+	if err != nil {
+		t.Fatal(err)
+	}
+	d := Docker{executable: executable, root: privateTemp(t)}
+	err = d.stream(context.Background(), nil, io.Discard, "-test.run=^TestDockerFailureDiagnosticsDoNotExposeArgumentsOrStderr$", "--", canary)
+	if err == nil || strings.Contains(err.Error(), canary) || !strings.Contains(err.Error(), "exit 7") {
+		t.Fatal("Docker failure diagnostics leaked private data or omitted the exit status")
 	}
 }
