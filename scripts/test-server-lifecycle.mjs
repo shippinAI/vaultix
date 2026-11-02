@@ -88,6 +88,13 @@ try {
   cli(['upgrade', '--from-build', '/proof/wrong-image.json'], { success: false });
   assert.equal(inspect(app()).Id, originalApp); assert.equal(inspect(app()).State.Running, true);
   check('a receipt with mismatched image provenance is refused before disruption');
+  phase = 'omitted active configuration';
+  client(['cp', '/state/instance/config/vaultix.env', '/state/original.env']);
+  client(['sh', '-c', 'umask 077; sed "/^COMPOSE_PROFILES=/d" /state/original.env > /state/instance/config/vaultix.env']);
+  cli(['upgrade', '--from-build', '/proof/candidate.json', '--plan'], { success: false });
+  assert.equal(inspect(app()).Id, originalApp); assert.equal(inspect(app()).State.Running, true);
+  client(['cp', '/state/original.env', '/state/instance/config/vaultix.env']);
+  check('preflight rejects an omitted active setting before creating an upgrade operation');
   phase = 'reviewable upgrade and configuration drift';
   const planned = cli(['upgrade', '--from-build', '/proof/candidate.json', '--plan']); operation = planned.operation.operation;
   assert.equal(planned.operation.phase, 'planned');

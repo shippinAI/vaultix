@@ -283,3 +283,40 @@ func TestUnknownStateAndRecordFieldsRejected(t *testing.T) {
 		t.Fatal("unknown phase accepted")
 	}
 }
+
+func TestPreserveCompleteIdentityAndCacheConfiguration(t *testing.T) {
+	base := map[string]string{"ENCRYPTION_KEY": "fixture-key", "AUTH_SECRET": "fixture-auth", "DB_CONNECTION_URI": "fixture-store", "SITE_URL": "https://test.example", "GOOGLE_CLIENT_SECRET": "fixture-provider"}
+	for _, topology := range []map[string]string{
+		{"VAULTIX_CACHE_PROVIDER": "dragonfly", "VAULTIX_CACHE_URL": "redis://cache:6379"},
+		{"VAULTIX_CACHE_PROVIDER": "redis", "VAULTIX_CACHE_SENTINEL_HOSTS": "sentinel:26379", "VAULTIX_CACHE_SENTINEL_MASTER_NAME": "primary"},
+		{"VAULTIX_CACHE_PROVIDER": "elasticache", "VAULTIX_CACHE_CLUSTER_HOSTS": "cluster.example:6379", "VAULTIX_CACHE_TLS": "true", "VAULTIX_CACHE_URL": ""},
+	} {
+		expected, actual := map[string]string{}, map[string]string{}
+		for key, value := range base {
+			expected[key] = value
+			actual[key] = value
+		}
+		for key, value := range topology {
+			expected[key] = value
+			actual[key] = value
+		}
+		actual["PATH"] = "/image/bin"
+		expected["VAULTIX_PORT"] = "8200"
+		defaults := map[string]string{"PATH": "/image/bin"}
+		if err := preserveEnvironment(expected, actual, defaults); err != nil {
+			t.Fatal(err)
+		}
+		for _, key := range []string{"GOOGLE_CLIENT_SECRET", "VAULTIX_CACHE_PROVIDER"} {
+			original := expected[key]
+			delete(expected, key)
+			if preserveEnvironment(expected, actual, defaults) == nil {
+				t.Fatal("accepted lost operator setting")
+			}
+			expected[key] = original
+		}
+		actual["PATH"] = "/operator/bin"
+		if preserveEnvironment(expected, actual, defaults) == nil {
+			t.Fatal("discarded operator override as image default")
+		}
+	}
+}

@@ -265,10 +265,16 @@ func (d *Docker) runtimeKeys(ctx context.Context, s *State) error {
 	}
 	actual := envMap(current.Config.Env)
 	expected := cfg.Services["backend"].Environment
-	for _, key := range []string{"ENCRYPTION_KEY", "AUTH_SECRET", "DB_CONNECTION_URI", "SITE_URL", "VAULTIX_CACHE_URL", "VAULTIX_CACHE_PROVIDER"} {
-		if expected[key] == "" || actual[key] != expected[key] {
-			return errors.New("active identity/store configuration differs from the selected configuration")
-		}
+	defaultsRaw, err := d.run(ctx, "image", "inspect", "--format", "{{json .Config.Env}}", current.Image)
+	if err != nil {
+		return err
+	}
+	var defaults []string
+	if json.Unmarshal(defaultsRaw, &defaults) != nil {
+		return errors.New("cannot inspect application configuration defaults")
+	}
+	if err = preserveEnvironment(expected, actual, envMap(defaults)); err != nil {
+		return err
 	}
 	if expected["SITE_URL"] != d.instance.SiteURL {
 		return errors.New("site origin differs from the enrolled instance")
@@ -276,6 +282,32 @@ func (d *Docker) runtimeKeys(ctx context.Context, s *State) error {
 	bindings := current.NetworkSettings.Ports["8080/tcp"]
 	if len(bindings) != 1 || bindings[0].HostIp != "127.0.0.1" || bindings[0].HostPort != strconv.Itoa(d.instance.Port) || len(current.Mounts) != 0 || len(current.NetworkSettings.Networks) != 1 || current.NetworkSettings.Networks[d.instance.Project+"_default"] == nil {
 		return errors.New("deployment topology differs from the supported single-instance Compose layout; retain the existing deployment owner")
+	}
+	return nil
+}
+
+// Compare the complete operator environment, including provider credentials,
+// policy and every supported cache topology. Image-inherited defaults may be
+// absent from Compose; silently dropped explicit settings may not.
+func preserveEnvironment(expected, actual, defaults map[string]string) error {
+	for _, key := range []string{"ENCRYPTION_KEY", "AUTH_SECRET", "DB_CONNECTION_URI", "SITE_URL"} {
+		if expected[key] == "" || expected[key] != actual[key] {
+			return errors.New("active identity/store configuration differs from the selected configuration")
+		}
+	}
+	control := func(key string) bool { return key == "VAULTIX_BIND_ADDRESS" || key == "VAULTIX_PORT" }
+	for key, value := range expected {
+		if !control(key) && actual[key] != value {
+			return errors.New("selected environment differs from the running application; preserve its complete private configuration")
+		}
+	}
+	for key, value := range actual {
+		if _, present := expected[key]; present || control(key) {
+			continue
+		}
+		if inherited, present := defaults[key]; !present || inherited != value {
+			return errors.New("selected environment omits an active setting; preserve its complete private configuration")
+		}
 	}
 	return nil
 }

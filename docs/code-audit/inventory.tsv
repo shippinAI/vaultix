@@ -11939,8 +11939,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	70311ed4557e229506854d0b399e184c3fe82202	generated	unread
-docs/migration/generated/modules.tsv	2ee33efff244c57132ce879ec1be578e87ec8811	generated	unread
+docs/migration/generated/files.tsv	cfc0fa2a6280efe657ce05fa8e3b54f0a3467094	generated	unread
+docs/migration/generated/modules.tsv	04a5bfb6aaa02ebebe1958cf675846212ae9919c	generated	unread
 docs/migration/generated/summary.json	7a4bf278185329dc2c38521f1a86ac5b5b8521d0	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	181c39e73339b22ee21d3fd17b4088899d13f357	documentation	reviewed
@@ -11975,12 +11975,12 @@ internal/oidc/refresh.go	9b79c529de964e195e7b74d0b1766f08f9f6d032	product-code	v
 internal/oidc/refresh_test.go	c7f8034b80fe4cc7facde8f217572642c505c3bd	test	verified
 internal/platform/backup.go	d4dabbb22c0b863b812675fc08b58ed7c3663a34	product-code	authored
 internal/platform/candidate.go	22d52b1727b13fe5adcea79578a766a512a81687	product-code	authored
-internal/platform/docker.go	a58042449a1b664b2867621f307e00e41e369edd	product-code	authored
+internal/platform/docker.go	802d4f9a34cd91e4245ffaab6fb678c9ad29923b	product-code	authored
 internal/platform/files.go	ae6cc78e5fa95324a3ecdd19968d7396e3753766	product-code	authored
 internal/platform/lifecycle.go	73916d42b1662f49875c078f6b754c006b55816c	product-code	authored
 internal/platform/lock_unix.go	6ab9c14c86790ceb639bfde8e33676393b6b0230	product-code	authored
 internal/platform/lock_windows.go	242c118bcc4ab480c989a2c33af3012c0e601116	product-code	authored
-internal/platform/platform_test.go	001793b4b770b6c4939c9579cd8854585ad43e9c	test	authored
+internal/platform/platform_test.go	e6dbd6d0ae30b29bfbbab9efdef7bef44bb1ee47	test	authored
 internal/platform/types.go	36a830f123a7dd726dfd8a217bcab9761479c9cd	product-code	authored
 internal/release/bundle.go	98dd8ab494a3b52e90efd12b9556e1f647b58785	product-code	authored
 internal/release/notice.go	d41b176efcb0b1f20b67be22259e88b5feab2800	product-code	authored
@@ -12187,7 +12187,7 @@ scripts/test-reference-commands.mjs	509963bd7f6c226928eca313b044d3ceb8f8bdcc	bui
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	build-and-operations	authored
-scripts/test-server-lifecycle.mjs	3407aecccc5bf3b16bd02a92d0f7cad0197831c6	build-and-operations	reviewed
+scripts/test-server-lifecycle.mjs	d90f75eddfa94f86945db292ff6c6f89640239b4	build-and-operations	reviewed
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-tenant-isolation.mjs	6127ae17f54f40c849398eb6e56b7ba6243c0640	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
