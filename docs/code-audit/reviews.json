@@ -3691,15 +3691,15 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
-      "blob": "8d1d4490ad280b2f90cf435c6b9c312ecc523daf",
+      "blob": "b2fa739add5cc7a6a399b2ddf4ef66fc247151e0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
+        "core/backend-go/tests/platform/permission/policy_integrity_test.go",
         "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/test-vaultix-policy-image.mjs"
       ]
     },
     {
@@ -8533,15 +8533,15 @@
     },
     {
       "path": "docs/0078-vaultix-policy-ownership.md",
-      "blob": "8ac387fde8f9c05e9cc291d3782f085ecd7ea5d4",
+      "blob": "0e7eda3be92f7a781e0ec504a41486b52871c6cf",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
+        "core/backend-go/tests/platform/permission/policy_integrity_test.go",
         "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/test-vaultix-policy-image.mjs"
       ]
     },
     {
@@ -8568,6 +8568,19 @@
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
         "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/permission/policy_integrity_test.go",
+      "blob": "d3b500e6fe3949618777622579fa9be774f86221",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete new database-backed policy integrity test read. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "core/backend-go/tests/platform/permission/policy_integrity_test.go",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs"
       ]
     }
   ]

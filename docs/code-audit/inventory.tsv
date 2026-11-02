@@ -230,7 +230,7 @@ core/backend-go/internal/services/kms/kms_project.go	b1debfc7ad9c5bde3d033d0e140
 core/backend-go/internal/services/permission/array_operators_test.go	d10f3f756d4cf721c6b58c9f3f34953a9be3a61b	test	authored
 core/backend-go/internal/services/permission/operators.go	7fd36f5431fad5143f088f7fe6753d80275e28a6	product-code	authored
 core/backend-go/internal/services/permission/operators_test.go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	test	unread
-core/backend-go/internal/services/permission/permission.go	8d1d4490ad280b2f90cf435c6b9c312ecc523daf	product-code	authored
+core/backend-go/internal/services/permission/permission.go	b2fa739add5cc7a6a399b2ddf4ef66fc247151e0	product-code	authored
 core/backend-go/internal/services/permission/permission_test.go	e7166861bced64914cf5ba16f5880452094d6ab1	test	authored
 core/backend-go/internal/services/permission/platform/assume_privilege_permission.go	e0624a37439e49c75cb11fd05b2979c97ec6c070	product-code	authored
 core/backend-go/internal/services/permission/project/actions.go	efb007ac6bc68e08d82b8d288d32976187f2a8fe	product-code	authored
@@ -330,6 +330,7 @@ core/backend-go/tests/platform/kms/kms_test.go	8b5ad161edb1503e5a611d9fa0715bb56
 core/backend-go/tests/platform/permission/assumed_authority_test.go	ac02fe6564979badb4ae19d9c4b001254f509d90	test	authored
 core/backend-go/tests/platform/permission/authority_test.go	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	test	verified
 core/backend-go/tests/platform/permission/permission_test.go	97e18f136f943ec6b65a3bd0b18d2f8b5edfe29c	test	authored
+core/backend-go/tests/platform/permission/policy_integrity_test.go	d3b500e6fe3949618777622579fa9be774f86221	test	authored
 core/backend-go/tests/platform/permission/sso_session_test.go	fd96dfd84137957003824b4d051c8dec9bcb0823	test	authored
 core/backend-go/tests/platform/permission/sso_test.go	ccea6d15093fd2360271aeb94a012d2c63f2fb9f	test	verified
 core/backend-go/tests/platform/projects/projects_test.go	d0da91674b456a9921add9d8a3a8f40a034f26e3	test	verified
@@ -11877,7 +11878,7 @@ docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56a
 docs/0075-usable-secrets-and-update-delivery.md	12e2229ee68c08c769ecbc71d1fa907bf9f806a0	documentation	authored
 docs/0076-recorded-workflows-and-visible-assist.md	97b0afec270aeaf6b8c8ad7862e7963d90bcbe04	documentation	authored
 docs/0077-owned-runtime-dependencies.md	881ec6f3e7dc3b17b0b5a613aa41826296aa736a	documentation	authored
-docs/0078-vaultix-policy-ownership.md	8ac387fde8f9c05e9cc291d3782f085ecd7ea5d4	documentation	authored
+docs/0078-vaultix-policy-ownership.md	0e7eda3be92f7a781e0ec504a41486b52871c6cf	documentation	authored
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11908,9 +11909,9 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	87f476c0cbbde33a08e12d8b23306717c365fad4	generated	unread
-docs/migration/generated/modules.tsv	051fe50a47d3d3b4ebaffd3d1bec8b3d5b283247	generated	unread
-docs/migration/generated/summary.json	ae3801f521d8d5c25992fcf29ac43821a8f1e584	generated	unread
+docs/migration/generated/files.tsv	3b6eaeeb7158dc671b6ed4fe2b891398a4cdd4af	generated	unread
+docs/migration/generated/modules.tsv	ce23e75356168e5c6c512625e517a70d0f4b1483	generated	unread
+docs/migration/generated/summary.json	d461bdd42c54d712316407c636663c7fc3f29efe	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread

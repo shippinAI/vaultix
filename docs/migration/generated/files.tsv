@@ -200,7 +200,7 @@ core/backend-go/internal/services/kms/kms_project.go	core/backend-go/internal/se
 core/backend-go/internal/services/permission/array_operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	d10f3f756d4cf721c6b58c9f3f34953a9be3a61b	authored
 core/backend-go/internal/services/permission/operators.go	core/backend-go/internal/services/permission	authorization	Go-native	go	7fd36f5431fad5143f088f7fe6753d80275e28a6	authored
 core/backend-go/internal/services/permission/operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	unread
-core/backend-go/internal/services/permission/permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	8d1d4490ad280b2f90cf435c6b9c312ecc523daf	authored
+core/backend-go/internal/services/permission/permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	b2fa739add5cc7a6a399b2ddf4ef66fc247151e0	authored
 core/backend-go/internal/services/permission/permission_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	e7166861bced64914cf5ba16f5880452094d6ab1	authored
 core/backend-go/internal/services/permission/platform/assume_privilege_permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	e0624a37439e49c75cb11fd05b2979c97ec6c070	authored
 core/backend-go/internal/services/permission/project/actions.go	core/backend-go/internal/services/permission	authorization	Go-native	go	efb007ac6bc68e08d82b8d288d32976187f2a8fe	authored
@@ -297,6 +297,7 @@ core/backend-go/tests/platform/kms/kms_test.go	core/backend-go/tests/platform/km
 core/backend-go/tests/platform/permission/assumed_authority_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	ac02fe6564979badb4ae19d9c4b001254f509d90	authored
 core/backend-go/tests/platform/permission/authority_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	953d4a9291dd85c8a0fd72fcbc119bfe6d11a057	verified
 core/backend-go/tests/platform/permission/permission_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	97e18f136f943ec6b65a3bd0b18d2f8b5edfe29c	authored
+core/backend-go/tests/platform/permission/policy_integrity_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	d3b500e6fe3949618777622579fa9be774f86221	authored
 core/backend-go/tests/platform/permission/sso_session_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	fd96dfd84137957003824b4d051c8dec9bcb0823	authored
 core/backend-go/tests/platform/permission/sso_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	ccea6d15093fd2360271aeb94a012d2c63f2fb9f	verified
 core/backend-go/tests/platform/projects/projects_test.go	core/backend-go/tests/platform/projects	secrets	Go-native	go	d0da91674b456a9921add9d8a3a8f40a034f26e3	verified
