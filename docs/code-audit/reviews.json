@@ -854,30 +854,28 @@
     },
     {
       "path": "core/backend-go/go.mod",
-      "blob": "187eb1d6536bf36f908ac442adbe68d18db28842",
-      "status": "reviewed",
+      "blob": "bcb32a9ee5d3714193e265ed09733761c9b47a56",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "c1299b2387a08cda2361d7579210ad9f00204de4",
-      "status": "reviewed",
+      "blob": "c0bb45544263e51a9a289914a6e3635244006203",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -1084,13 +1082,15 @@
     },
     {
       "path": ".github/workflows/ghcr.yml",
-      "blob": "043aa43d3518a32e2d3978ba615be2c30c3918db",
+      "blob": "2696ebc263ef70ac1198b8cda74868884cadc635",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -3691,15 +3691,15 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
-      "blob": "f234ddffaa1570d24e72d25ead040197d502dc56",
-      "status": "verified",
+      "blob": "8d1d4490ad280b2f90cf435c6b9c312ecc523daf",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete permission file/caller trace retained from 0061/0062. Resolve assumed actors on a local argument copy so callers retain authenticated identity. Preserve primary authority, SSO, tenant/type, roles and encrypted-store compatibility. Nested assumption, delegated OAuth and native cutover remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md",
-        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
-        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
-        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -3861,15 +3861,15 @@
     },
     {
       "path": "core/backend-go/internal/services/assumeprivilege/service_test.go",
-      "blob": "28fda7f87d55094e57a89417dd7c4b4f950a254f",
-      "status": "verified",
+      "blob": "5c42ed08c9eed0784bb009f12d8bb90e6757af68",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete existing test file read. Preserve nine mock-based success/denial/revocation cases and supply the verified requester field in verification controls. Mock evidence is not issuer interoperability. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0063-native-assumed-authority.md",
-        "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
-        "Canonical image sha256:6254154ac8021ab382e6598fd41f1efcacd219bc94c9fd052f3e853e650a28a5",
-        "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -4038,54 +4038,54 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/operators.go",
-      "blob": "5a6d0c9ecf9828f2eb9492d80d9e2bd053770eec",
-      "status": "verified",
+      "blob": "7fd36f5431fad5143f088f7fe6753d80275e28a6",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read and modified. Retain glob matching; add CASL-compatible element membership for array-valued fields under $in/$nin through owned FieldOps, preserving scalar comparison and whole-match negation. No vendor edits. Shared authorization change; broader operator/rule-order parity remains open. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0066-native-reference-reads.md",
-        "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
-        "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/array_operators_test.go",
-      "blob": "ae3898ea966293e909328a06717fec3d13e7b161",
-      "status": "verified",
+      "blob": "d10f3f756d4cf721c6b58c9f3f34953a9be3a61b",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete test file authored/read. Matching/missing/empty/nil tags, scalar and typed/JSON array fields, whole-match negation, direct compiled variable resolution, combined conditions and matching deny. The array-membership baseline fails before the product fix. Nested vendor variable interpolation is not implemented by this test. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0066-native-reference-reads.md",
-        "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
-        "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/secretmanager/secret_permission.go",
-      "blob": "25f8b0457da895f804b711014cfadc4854cf7759",
-      "status": "verified",
+      "blob": "90e7ac80489ec852f4cd818271c9308b7aaadb95",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read and modified. Add possible describe/legacy-read grant check before folder lookup; retain required per-row checks and existing value checks. Unconditional native denies remain effective. Full CASL rule-order equivalence is not established. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0066-native-reference-reads.md",
-        "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
-        "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/secretmanager/reference_permission_test.go",
-      "blob": "b25803bcfaee4d78d2f669f5eeb064638d879efd",
-      "status": "verified",
+      "blob": "c5e0784a6e071cd84064dab52ecdc6f9e249c83f",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete test file authored/read. Subject-level and row-level describe, legacy read, conditional grant/deny, blanket denial and value-only rejection. This is checker evidence, not transport authentication proof. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0066-native-reference-reads.md",
-        "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
-        "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -4129,15 +4129,15 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference_test.go",
-      "blob": "20af49440e5d157902e94a0c373bcf2e96b58091",
-      "status": "verified",
+      "blob": "65c3a7e50e2d7dc1f02cbaac8af9cbbe81fbb7e6",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete test file authored/read. Query bounds/path compatibility, unsupported/anonymous actors, missing organization/authority and denied lookups refuse before metadata SQL. Empty reference serialization and project-list authentication boundaries covered. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
       "evidence": [
-        "docs/0066-native-reference-reads.md",
-        "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
-        "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -7632,30 +7632,30 @@
     },
     {
       "path": "core/backend-go/cmd/vaultix-transport/main.go",
-      "blob": "2e051b2c54759e670a482105de5f96e1b3729c5e",
-      "status": "reviewed",
+      "blob": "6f145a1dfaf350cedd5101a113dbf34da5d8a3d7",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete existing transport and process entry read. Preserve private stdin and established QUIC wire/identity behavior. Return process status after cleanup, listen with context, explicitly terminate failed stream copies; terminal close errors are deliberately nonrecoverable with local lint justifications. Full lint and real Windows/Linux wire verification are required.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs",
+        "scripts/test-owned-quic-linux.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/gatewaytransport/transport.go",
-      "blob": "8fc44a3e2490e5961a0a4e4b92a8c78107a7a4ca",
-      "status": "reviewed",
+      "blob": "c6b49556f3ee25a7dd8b540f3b6e2c99fc51d661",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete existing transport and process entry read. Preserve private stdin and established QUIC wire/identity behavior. Return process status after cleanup, listen with context, explicitly terminate failed stream copies; terminal close errors are deliberately nonrecoverable with local lint justifications. Full lint and real Windows/Linux wire verification are required.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs",
+        "scripts/test-owned-quic-linux.mjs"
       ]
     },
     {
@@ -7756,14 +7756,15 @@
     },
     {
       "path": "docs/0077-owned-runtime-dependencies.md",
-      "blob": "61031e5f8979e8a7dd5a35b4d7bf67c03c2748bb",
-      "status": "reviewed",
+      "blob": "881ec6f3e7dc3b17b0b5a613aa41826296aa736a",
+      "status": "authored",
       "decision": "modify",
-      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-build-paths.mjs",
-        "scripts/check-owned-dependency-image.mjs"
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     },
     {
@@ -7982,6 +7983,591 @@
         "docs/0077-owned-runtime-dependencies.md",
         "scripts/test-owned-build-paths.mjs",
         "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/ability.go",
+      "blob": "1e0f010673a347216e038e43b6ede794363f9aa1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/ability_test.go",
+      "blob": "f396a611b2b773b0bb45527c8f39f4a2c7c5f2e2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/action.go",
+      "blob": "3321bd55ec5d70a16ad4655625e5fe93566ec1ba",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/action_test.go",
+      "blob": "6dfdd1e07a5044c49e89d2f1e2e6df0695c26979",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/benchmark_test.go",
+      "blob": "535598b30311770a83e16560788e224637db4fb0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/condition.go",
+      "blob": "a444fe7bb283ecde946406abc3c2a2c0b06300e1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/condition_test.go",
+      "blob": "621bde1894315feb4395e40d7847634833f8846e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/core.go",
+      "blob": "e27feeb8afd4a030a7fb728d2ac7667e13a8c6d2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/core_test.go",
+      "blob": "027bddd4610cadb5cac2334658d7512c02008881",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/evaluator.go",
+      "blob": "76ff1f842a8853af2720e91861818043dfd39fb8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/evaluator_test.go",
+      "blob": "acc2e21fa16d1df84ce2d197bdb4d9364c5d7b29",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/index.go",
+      "blob": "dfacae0fe8884a882bb7dbfedf056a9cc9ae25d1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/index_test.go",
+      "blob": "b7b76e06a525d1dba59514a2567b9ae57e60bf4e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/integration_test.go",
+      "blob": "286364698187901065debe1ec1fe224644f84686",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/introspection.go",
+      "blob": "6b7bb32d0aad397a2ada07883457339b7aa0aaf6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/introspection_test.go",
+      "blob": "294142f98f23ba382de27243d35e0bcb59673beb",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/json.go",
+      "blob": "944fadf2e6a276f920a07e02a34005a8c27c71e4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/json_test.go",
+      "blob": "7e0645b9dfdda637aceb58936e34e3828fe4f7de",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/operators.go",
+      "blob": "249e024c6b650092f65ab9ce433c015387f89516",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/operators_test.go",
+      "blob": "237a1c0deb294cf0be34db5e1fb78dc4814bd5e9",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/pack.go",
+      "blob": "d346583cd038270913f5b03a353c7a2603f06764",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/pack_test.go",
+      "blob": "1872db165899b64faf6bfc4b77e7836d42425f83",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/packed_json.go",
+      "blob": "a34979e29d951c13de5668ddafe90bde7523d306",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/permissions.go",
+      "blob": "02bb1137fa575d2b9f17790bfb8c537c21ebe4fa",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/permissions_test.go",
+      "blob": "eb1d26d538473e78c6b7b3ff1adf3e15fe355d5c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/rule.go",
+      "blob": "b00d8936f8aad69dbd77dc6f635d1160a5a376a0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/rule_test.go",
+      "blob": "6f210b554ed2f58331744ad108028708e100fdb4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/snapshot.go",
+      "blob": "cfe9b8413dce3e13650b6084f9bcd97ea05ea885",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/snapshot_test.go",
+      "blob": "664591e57aeb08b849339b68cd4f5339afd3ed91",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/internal/compare/compare.go",
+      "blob": "09f92ba51914d23f163d07bcd08a6b65637aa2c5",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/LICENSE",
+      "blob": "c5f473ea1b79cf62384e6c0abe81da988dbd262f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/vaultixpolicy/PROVENANCE.md",
+      "blob": "93696a3375def4d16cf12b1d47bbefddb4b8a56c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/permission_test.go",
+      "blob": "e7166861bced64914cf5ba16f5880452094d6ab1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/platform/assume_privilege_permission.go",
+      "blob": "e0624a37439e49c75cb11fd05b2979c97ec6c070",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/project/actions.go",
+      "blob": "efb007ac6bc68e08d82b8d288d32976187f2a8fe",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/project/default_roles.go",
+      "blob": "ac1092ce0663d291a22a7192bb82b3ba31a5ad3d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/project/subjects.go",
+      "blob": "e5f1d0775c6bbb80d544388e66638ecb797e269e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/rules.go",
+      "blob": "db94dfdb116d89a41d0ce5c5f40332d10a78b697",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/rules_test.go",
+      "blob": "29ddedffdae168f36ba341b643b084fc3f3bee6c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/permission/template.go",
+      "blob": "160aaf0ac48a269f760456ff59446826d5c6f7e8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/permission/permission_test.go",
+      "blob": "97e18f136f943ec6b65a3bd0b18d2f8b5edfe29c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/CLAUDE.md",
+      "blob": "0217a9fcbc4c9f6d22147dc081084b1352dd49c0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "docs/0078-vaultix-policy-ownership.md",
+      "blob": "8ac387fde8f9c05e9cc291d3782f085ecd7ea5d4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-vaultix-policy.mjs",
+      "blob": "39f51da59ac9d66bcbc20c2aded97445ac93a323",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-vaultix-policy-image.mjs",
+      "blob": "ac19f03bedba7525496c890423936cdb7b96a857",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "evidence": [
+        "docs/0078-vaultix-policy-ownership.md",
+        "scripts/test-vaultix-policy.mjs",
+        "scripts/test-vaultix-policy-image.mjs",
+        "scripts/build-self-hosted.mjs"
       ]
     }
   ]
