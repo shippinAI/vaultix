@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.release-signature.v1.json",
+  "title": "Detached Vaultix release signature",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "keyId",
+    "signature"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "vaultix.release-signature.v1"
+    },
+    "keyId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+/]{86}==$"
+    }
+  }
+}

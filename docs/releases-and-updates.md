@@ -5,6 +5,12 @@ contract in `contracts/vaultix.updates.v1.json`. This document describes the
 implementation and its acceptance gates; a source commit does not establish a
 published stable release or complete MCP Apps support.
 
+[Verified PR delivery](pr-delivery.md) documents the local merge gate, server
+pull/build path and the new `vaultix update verify` signed-bundle consumer.
+Verification is implemented separately from installation and production trust
+provisioning. The [Platform Services plan](0108-platform-services-and-upgrades.md)
+retains the remaining graceful-upgrade and fleet acceptance gates.
+
 ## Build identity and release channel
 
 Both local build commands derive their version from one exact `vMAJOR.MINOR.PATCH`

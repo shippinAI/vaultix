@@ -13,8 +13,9 @@ branding/og.svg	branding	ui	supporting-tooling-or-contract	svg	4e59d0f93c47bb3e8
 branding/strings.yaml	branding	ui	supporting-tooling-or-contract	yaml	62b84fc19f445e29470c1d6ab451f64d49d1ceaa	unread
 branding/tokens.css	branding	ui	supporting-tooling-or-contract	css	d2e324f2201dfcc9d83857ab807984b0be59317e	unread
 branding/wordmark.svg	branding	ui	supporting-tooling-or-contract	svg	6586fb45f76053c0a622028e0acbe40a8bce18f1	unread
-cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	98b2e3afdd1073e4df34d93297bb93a4e3abc349	authored
-cmd/vaultix/version.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	6bc4a1bec0daded3d8f61c98cc9b1591f10478c7	authored
+cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	66e1b2a5edd48f1d21c158156f69947132d467b3	authored
+cmd/vaultix/verify_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	913f1b14bbed953f966f40c95c33bcb5f2e5b6cd	authored
+cmd/vaultix/version.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	0480f90015d322734583c68d35c4580658921419	authored
 cmd/vaultix/version_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	2af4c51659112f702e3e7e23cb8ca06d1623e1ba	authored
 compose/cache-redis.yml	compose	delivery	supporting-tooling-or-contract	yml	36015a7ed6436935e15eeb18ee7666f52158daca	unread
 compose/hosted.env.example	compose	delivery	supporting-tooling-or-contract	example	202f835ea31335fd8fd6e83a416d7b9dc5b56855	verified
@@ -25,6 +26,10 @@ contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-
 contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	5df376a64d09a753422b58f778cfd17a40550008	unread
 contracts/vaultix.core.v1.json	contracts	foundation	supporting-tooling-or-contract	json	c75da452892984cc6f06cc3c880f9f63a1502aae	unread
 contracts/vaultix.reference-ui-command.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	d3865799e3107319b64eb78195e844145992316e	reviewed
+contracts/vaultix.release-checkpoint.v1.json	contracts	automation	supporting-tooling-or-contract	json	6b677b5270041e39e249c0fcb359d4b840ddcad8	authored
+contracts/vaultix.release-manifest.v1.json	contracts	automation	supporting-tooling-or-contract	json	4cf7799458f0c58c5fcf1a60bfc40af2767f880b	authored
+contracts/vaultix.release-signature.v1.json	contracts	automation	supporting-tooling-or-contract	json	9da6229b405dd7e0e3e9620fd55064047e270024	authored
+contracts/vaultix.release-trust.v1.json	contracts	automation	supporting-tooling-or-contract	json	8cde0f6dd6ad11a800b7e27ec264683775bb9539	authored
 contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
 core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	77b38baf11c156d4bf0029a4448e40f6a2ab6f4c	reviewed
 core/.env.dev.example	core	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
@@ -9481,6 +9486,7 @@ internal/oidc/device.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	1
 internal/oidc/device_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	321d7e60ac500f99b11a9a53cb977605251b9ad4	verified
 internal/oidc/refresh.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	9b79c529de964e195e7b74d0b1766f08f9f6d032	verified
 internal/oidc/refresh_test.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	c7f8034b80fe4cc7facde8f217572642c505c3bd	verified
+internal/release/bundle.go	internal/release	cli	Go-client-Rust-injection-boundary	go	98dd8ab494a3b52e90efd12b9556e1f647b58785	authored
 internal/release/notice.go	internal/release	cli	Go-client-Rust-injection-boundary	go	d41b176efcb0b1f20b67be22259e88b5feab2800	authored
 internal/release/notice_test.go	internal/release	cli	Go-client-Rust-injection-boundary	go	688ad7456d9887972a18f28102bea0bf8ecb3d75	authored
 internal/release/release.go	internal/release	cli	Go-client-Rust-injection-boundary	go	7b13038dd90fde7b0c51523281340cb986fbb663	authored
@@ -9595,14 +9601,18 @@ scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	reviewed
+scripts/lib/pr-verification.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	90c2f503fde2379a844e7d04ab54e12e14662992	authored
+scripts/lib/release-bundle.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	04dcb65d2a7adf3a51202afd6ad4e8c206b45305	authored
 scripts/lib/release-version.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	authored
 scripts/lib/test-certificates.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	reviewed
 scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
+scripts/pr-verification.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	authored
 scripts/prove-device-api-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fa7ef8e7d277b72459a859a35d6ef5cfdf21ca10	unread
 scripts/publish-github.sh	scripts	delivery	supporting-tooling-or-contract	sh	5317d57aa1a2f44f630b056cc3a916607c17f4b9	verified
 scripts/rebrand-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	unread
 scripts/record-vaultix-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f07080572beb85294e742d348445f67f08bca34f	reviewed
+scripts/release-bundle.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e950ace4a7b519b6d3aa991c9af10237279a59ef	authored
 scripts/release-version.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c75c5026a0359f767cc876b667866f0d57d4eeb0	authored
 scripts/run-core.sh	scripts	delivery	supporting-tooling-or-contract	sh	3f5a2185b9bb9569006ad152f44eba03034fcfcf	reviewed
 scripts/serve-capability-plan.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	verified
@@ -9679,3 +9689,5 @@ scripts/verify-device-session-store.mjs	scripts	delivery	supporting-tooling-or-c
 scripts/verify-device-source-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da636434dd05dce4c2bd34233203a0d630e16a9b	authored
 scripts/verify-device-source-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7361fbd97ddb8662d004238eb614028aa0add100	authored
 scripts/verify-native-audit-boundary.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee8af04609af3a010c53cca1b55c99d58b4029f2	unread
+scripts/verify-pull-request.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0687d4b6a8c5d6a71872f0dd2de26738402e85d9	authored
+scripts/verify-release-bundle.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d004836cf10ff442e0fe17292871c7c94459519a	authored
