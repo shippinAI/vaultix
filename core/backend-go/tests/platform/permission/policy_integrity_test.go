@@ -25,7 +25,9 @@ func TestPolicyIntegrity_MalformedRoleCannotDropDenials(t *testing.T) {
 				column = "actorIdentityId"
 			}
 			roleID := uuid.New()
-			valid := `[["readValue","secrets",{"environment":"prod"},true]]`
+			// The secret consumer accepts both granular readValue and the existing
+			// combined read action. Deny both to constrain the admin's grants.
+			valid := `[[["read","readValue"],"secrets",{"environment":"prod"},true]]`
 			db, service := newPermissionAuthority(t, func(pool *pgxpool.Pool) {
 				permissionExec(t, pool, `INSERT INTO roles (id, slug, permissions) VALUES ($1, 'integrity-denial', $2)`, roleID, valid)
 				// Keep the existing admin role and add a scoped explicit denial.
