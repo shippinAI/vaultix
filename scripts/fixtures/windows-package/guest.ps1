@@ -78,7 +78,7 @@ try {
   }
   if((Get-FileHash -LiteralPath $config).Hash -ne $before) {throw 'Updated configuration changed'}
   Mark 'relaunch-both-commands-and-keyring'
-  @{passed=$true; guestOnly=$true; steps=$steps; limitations=@('No interrupted package-manager transaction test','No product package installer implementation','Test signing only','No production certificate or package identity decision')} | ConvertTo-Json -Depth 5 | Set-Content C:\VaultixOutput\result.json
+  @{passed=$true; guestOnly=$true; steps=$steps; windowsVersion=[Environment]::OSVersion.Version.ToString(); powershellVersion=$PSVersionTable.PSVersion.ToString(); limitations=@('No interrupted package-manager transaction test','No product package installer implementation','Test signing only','No production certificate or package identity decision')} | ConvertTo-Json -Depth 5 | Set-Content C:\VaultixOutput\result.json
 } catch {
   $failure=$_.Exception.Message
   $detail=$_.ToString()

@@ -17,11 +17,11 @@ cmd/vaultix/download_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundar
 cmd/vaultix/download_release_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	4d4efcba942e746c9e7c802b72a3e833bd69801f	reviewed
 cmd/vaultix/install_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	33aff1bc9e33b8f3566678537764e80a0c68e8f1	authored
 cmd/vaultix/install_release_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	add10da8eef563aa5d060b9eab72734d2c313771	authored
-cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	dc8f054753b66de3cddcc0b313995010a8cda7be	stale
+cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	dc8f054753b66de3cddcc0b313995010a8cda7be	authored
 cmd/vaultix/server.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	3d08f65bf6761048ba3bad617816960f2a562026	authored
-cmd/vaultix/startup_other.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	unread
-cmd/vaultix/startup_windows.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	a50bc4607c7337ab915b22fa86367700882e06da	unread
-cmd/vaultix/startup_windows_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	90221edd74ef721b9e5e95c2f56d674fe2726852	unread
+cmd/vaultix/startup_other.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	authored
+cmd/vaultix/startup_windows.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	a50bc4607c7337ab915b22fa86367700882e06da	authored
+cmd/vaultix/startup_windows_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	90221edd74ef721b9e5e95c2f56d674fe2726852	authored
 cmd/vaultix/verify_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	913f1b14bbed953f966f40c95c33bcb5f2e5b6cd	authored
 cmd/vaultix/version.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	0b2ba4d8d6246905cc4abe4451a6f5fe032aa26d	authored
 cmd/vaultix/version_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	2af4c51659112f702e3e7e23cb8ca06d1623e1ba	authored
@@ -9635,7 +9635,7 @@ scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-
 scripts/fixtures/mcp-app-content.json	scripts/fixtures	delivery	supporting-tooling-or-contract	json	45dda9b04d8d31047e5d96f2881069f48bef59fb	authored
 scripts/fixtures/quic-peer/Dockerfile	scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	build-config	f57667fab29816e5fc5ab899838c6d4af18f83c4	reviewed
 scripts/fixtures/quic-peer/package.json	scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	json	d1068d7328b7a89f4d13d638f3a8bfeafceaac55	reviewed
-scripts/fixtures/windows-package/guest.ps1	scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	ps1	2b21dd78b1b59c2d2f5b97f2e304701482cddf09	unread
+scripts/fixtures/windows-package/guest.ps1	scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	ps1	d55f6c29b01ebd5951c8d164669147bbb71f317e	authored
 scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	verified
 scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
@@ -9722,7 +9722,7 @@ scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-
 scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	authored
 scripts/test-vaultix-policy-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ac19f03bedba7525496c890423936cdb7b96a857	authored
 scripts/test-vaultix-policy.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	authored
-scripts/test-windows-package-activation.ps1	scripts	delivery	supporting-tooling-or-contract	ps1	0d8129eb828bde08359ea8bda8c60666b0a45ac3	unread
+scripts/test-windows-package-activation.ps1	scripts	delivery	supporting-tooling-or-contract	ps1	ff0f44c8f5387bdf2b2e8eaf66f15912e5221089	authored
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored

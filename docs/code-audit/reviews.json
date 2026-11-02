@@ -9867,7 +9867,7 @@
     },
     {
       "path": "scripts/test-windows-package-activation.ps1",
-      "blob": "0d8129eb828bde08359ea8bda8c60666b0a45ac3",
+      "blob": "ff0f44c8f5387bdf2b2e8eaf66f15912e5221089",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
@@ -9879,7 +9879,7 @@
     },
     {
       "path": "scripts/fixtures/windows-package/guest.ps1",
-      "blob": "2b21dd78b1b59c2d2f5b97f2e304701482cddf09",
+      "blob": "d55f6c29b01ebd5951c8d164669147bbb71f317e",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",

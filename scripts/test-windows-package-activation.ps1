@@ -19,11 +19,13 @@ if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
 tar -xf $archive -C $source
 if ($LASTEXITCODE -ne 0) { throw 'Source extraction failed' }
 Add-Type -AssemblyName System.Drawing
+$artifacts=@()
 foreach ($v in @('1.2.3','1.2.4')) {
   $layout = (New-Item -ItemType Directory -Path (Join-Path $probeRoot $v)).FullName
   & go -C $source build -p 2 -buildvcs=false -trimpath -ldflags "-X main.version=$v -X main.revision=$rev" -o (Join-Path $layout 'vaultix.exe') ./cmd/vaultix
   if ($LASTEXITCODE -ne 0) { throw 'Native fixture build failed' }
   Copy-Item -LiteralPath (Join-Path $layout 'vaultix.exe') -Destination (Join-Path $layout 'vaultixl.exe')
+  $artifacts+=@{version=$v;sha256=(Get-FileHash -LiteralPath (Join-Path $layout 'vaultix.exe') -Algorithm SHA256).Hash.ToLowerInvariant()}
   $bitmap = New-Object System.Drawing.Bitmap 150,150
   $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
   $graphics.Clear([System.Drawing.Color]::DarkSlateBlue)
@@ -63,7 +65,7 @@ $outputXml = [System.Security.SecurityElement]::Escape($probeOutput)
 $process = Start-Process -FilePath "$env:WINDIR\System32\WindowsSandbox.exe" -ArgumentList ('"' + (Join-Path $probeRoot 'probe.wsb') + '"') -WindowStyle Hidden -PassThru
 
 $receipt=Join-Path $repoRoot ('.cache/windows-package-'+$FirstCommand+'.json')
-$report=@{passed=$false;revision=$rev;firstCommand=$FirstCommand;hostTrustModified=$false;evidence=$probeRoot;startedAt=[DateTime]::UtcNow.ToString('o');sourceArchiveSha256=(Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()}
+$report=@{passed=$false;revision=$rev;artifacts=$artifacts;firstCommand=$FirstCommand;hostTrustModified=$false;evidence=$probeRoot;startedAt=[DateTime]::UtcNow.ToString('o');sourceArchiveSha256=(Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()}
 $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $receipt
 $result=Join-Path $probeOutput 'result.json'
 $deadline=[DateTime]::UtcNow.AddSeconds(240)
@@ -73,10 +75,9 @@ while(-not (Test-Path -LiteralPath $result)) {
 }
 $guest=Get-Content -Raw -LiteralPath $result | ConvertFrom-Json
 $report.guest=$guest
-$report.passed=($guest.passed -eq $true)
 $report.completedAt=[DateTime]::UtcNow.ToString('o')
 $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $receipt
-if(-not $report.passed){throw ('Guest acceptance failed: '+$guest.error)}
+if($guest.passed -ne $true){throw ('Guest acceptance failed: '+$guest.error)}
 # The guest shuts itself down. Do not terminate unrelated host processes.
 $shutdownDeadline=[DateTime]::UtcNow.AddSeconds(45)
 while(Get-Process WindowsSandbox*,WindowsSandboxClient* -ErrorAction SilentlyContinue) {
@@ -84,5 +85,7 @@ while(Get-Process WindowsSandbox*,WindowsSandboxClient* -ErrorAction SilentlyCon
   Start-Sleep -Seconds 2
 }
 $report.cleanupPassed=$true
+if ((git rev-parse HEAD).Trim() -ne $rev -or (git status --porcelain=v1 | Out-String).Trim()) {throw 'Source changed during package acceptance'}
+$report.passed=$true
 $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $receipt
 Get-Content -LiteralPath $receipt
