@@ -94,6 +94,22 @@ is not shipped. Windows package activation is under investigation; actual signed
 package installation, deferred activation, interruption, both native entry points
 and existing Credential Manager/configuration compatibility remain required.
 
+The native Windows CLI recognizes one observed deferred-activation quirk:
+PowerShell can deliver the registered executable path twice before the command.
+Correction requires OS-reported package and executable paths, the current user's
+known LocalAppData directory, an exact duplicated WindowsApps command path, and
+one of the two native Vaultix executable names. Portable executables and ordinary
+arguments are unchanged. No command is retried or forwarded to another engine.
+
+`scripts/test-windows-package-activation.ps1 -FirstCommand vaultix` (and separately
+`vaultixl`) exercises the first post-update launch in a fresh offline Windows
+Sandbox. It uses Windows SDK 10.0.26100.0 tools, guest-only test certificates,
+actual native executables, an in-use deferred update, existing encrypted
+configuration/Credential Manager state, and corrupt-package/argument rejection.
+The host's certificate trust and installed CLI are untouched. Receipt files are
+under `.cache/windows-package-*`. This is Windows 11 fixture acceptance, not an
+implemented public Windows installer or interrupted-transaction acceptance.
+
 Public signed releases, production trust/key custody, coordinated stable promotion,
 actual operator server rehearsal and manual acceptance also remain open. Native
 instance install/adopt/upgrade is separately owned by [0109](0109-native-install-and-upgrade.md).
@@ -101,3 +117,5 @@ instance install/adopt/upgrade is separately owned by [0109](0109-native-install
 Research: [Linux rename semantics](https://man7.org/linux/man-pages/man2/rename.2.html),
 [Windows rename information](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/ns-ntifs-_file_rename_information),
 and [MSIX update activation options](https://learn.microsoft.com/en-us/windows/msix/desktop/managing-your-msix-deployment-update).
+Native launch context uses [GetCurrentPackagePath](https://learn.microsoft.com/en-us/windows/win32/api/appmodel/nf-appmodel-getcurrentpackagepath)
+and [SHGetKnownFolderPath](https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderpath).
