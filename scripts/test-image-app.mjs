@@ -11,6 +11,7 @@ import { testProjectRoleRefresh } from "./test-project-role-refresh.mjs";
 import { testOrgMfaWorkflow } from "./test-org-mfa-workflow.mjs";
 import { testLoginRecovery } from "./test-login-recovery.mjs";
 import { testFirstRunSetup } from "./test-first-run-setup.mjs";
+import { testInviteOnlyAccess } from "./test-invite-only-access.mjs";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 import { testChartRendering } from "./test-chart-rendering.mjs";
 import { testEnvironmentWorkflow } from "./test-environment-workflow.mjs";
@@ -44,6 +45,8 @@ try {
   // A fresh browser exercises the published landing/media and shared controls
   // against this same disposable image, independently of the signed-in tests.
   execFileSync(process.execPath, [resolve(root, "scripts/test-public-experience.mjs"), origin], { cwd: root, stdio: "inherit", timeout: 180000 });
+  phase = "invite-only-access";
+  await testInviteOnlyAccess({ browser, expect, AxeBuilder, origin, organizationId: bootstrap.organization.id, token: selected.token, password, evidence });
   phase = "login-recovery";
   await testLoginRecovery({ browser, expect, AxeBuilder, origin, email, password, organizationId: bootstrap.organization.id, evidence });
   phase = "entry";
@@ -274,7 +277,7 @@ try {
   writeFileSync(resolve(evidence, "workflow-result.json"), JSON.stringify({
     passed: true,
     scope: "This disposable packaged-application run; real operations and injected fixtures remain separately labelled. Update and Clyffy evidence is in updates-clyffy-workflow.json; organization MFA evidence is in org-mfa-workflow.json.",
-    reports: ["org-mfa-workflow.json", "project-role-refresh.json", "assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
+    reports: ["invite-only-access.json", "org-mfa-workflow.json", "project-role-refresh.json", "assumed-privilege-workflow.json", "login-recovery.json", "onboarding-result.json", "onboarding-accessibility.json", "result.json", "project-overview.json", "auth-navigation.json", "dashboard-recovery.json", "chart-rendering.json", "environment-lifecycle.json", "environment-recovery.json", "environment-accessibility.json", "create-secret-workflow.json", "create-secret-accessibility.json", "create-secret-recovery.json", "dashboard-secret-paste.json", "dashboard-secret-references.json", "dashboard-reference-semantics.json", "dashboard-create-workflow.json", "dashboard-create-accessibility.json", "dashboard-create-semantics.json", "dashboard-create-attempts.json"]
   }, null, 2));
   console.log(`Real image application checks passed. Evidence: ${evidence}`);
 } catch (error) {

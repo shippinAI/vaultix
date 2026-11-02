@@ -4168,7 +4168,7 @@ export const registerRoutes = async (
         date: new Date(),
         message: "Ok",
         emailConfigured: cfg.isSmtpConfigured,
-        inviteOnlySignup: Boolean(serverCfg.allowSignUp),
+        inviteOnlySignup: !serverCfg.allowSignUp,
         redisConfigured: cfg.isRedisConfigured,
         secretScanningConfigured: cfg.isSecretScanningConfigured,
         samlDefaultOrgSlug: cfg.samlDefaultOrgSlug,

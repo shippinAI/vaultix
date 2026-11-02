@@ -49,9 +49,9 @@ Example values:
 
 </ParamField>
 
-<ParamField query="TELEMETRY_ENABLED" type="string" default="true" optional>
-  Telemetry helps us improve vaultix, but if you want to disable it, you may set
-  this to `false`.
+<ParamField query="TELEMETRY_ENABLED" type="string" default="false" optional>
+  Telemetry is off by default. To send usage data to your own PostHog project,
+  set this to `true` and also set `POSTHOG_PROJECT_API_KEY`.
 </ParamField>
 
 <ParamField query="DISABLE_UPDATE_CHECK" type="bool" default="false" optional>

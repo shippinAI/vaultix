@@ -9,9 +9,11 @@ import { isDisposableEmail, sanitizeEmail, validateEmail } from "@app/lib/valida
 
 import { TAuthTokenServiceFactory } from "../auth-token/auth-token-service";
 import { TokenType } from "../auth-token/auth-token-types";
+import { assertSelfServiceOrgCreationAllowed } from "../org/org-creation-policy";
 import { TOrgDALFactory } from "../org/org-dal";
 import { TOrgServiceFactory } from "../org/org-service";
 import { SmtpTemplates, throwIfSmtpError, TSmtpService } from "../smtp/smtp-service";
+import { getServerCfg } from "../super-admin/super-admin-service";
 import { TUserDALFactory } from "../user/user-dal";
 import { TUserAliasDALFactory } from "../user-alias/user-alias-dal";
 import { TAuthDALFactory } from "./auth-dal";
@@ -195,6 +197,9 @@ export const authSignupServiceFactory = ({
         throw new BadRequestError({ message: "Invalid token" });
       }
 
+      // Read before the transaction so this lookup never holds one pool connection while waiting on another.
+      const serverCfg = await getServerCfg();
+
       const updatedUser = await authDAL.transaction(async (tx) => {
         const us = await userDAL.updateById(
           user.id,
@@ -212,6 +217,8 @@ export const authSignupServiceFactory = ({
         );
         isInvitedUser = existingMemberships.length > 0;
         if (!isInvitedUser && dto.organizationName) {
+          assertSelfServiceOrgCreationAllowed({ allowSignUp: serverCfg.allowSignUp, superAdmin: user.superAdmin });
+
           const org = await orgService.createOrganization(
             {
               userId: user.id,
