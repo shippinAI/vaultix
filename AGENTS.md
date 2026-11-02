@@ -10,6 +10,9 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+Invite-only access (2026-11-02): read `docs/0110-invite-only-instance.md` for
+what closed signup means on one instance. It is not CLOUD-01 or public enrollment.
+
 Native instance lifecycle (2026-11-02): read
 `docs/0109-native-install-and-upgrade.md` for compiled `vaultix server`
 install/adopt/upgrade/status/recover. Preserve keys and dependency identities;

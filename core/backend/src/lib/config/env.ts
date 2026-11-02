@@ -259,9 +259,9 @@ const envSchema = z
     // Ensure that the SITE_URL never ends with a trailing slash
     SITE_URL: zpStr(z.string().transform((val) => (val ? removeTrailingSlash(val) : val))).optional(),
     // Telemetry
-    TELEMETRY_ENABLED: zodStrBool.default("true"),
+    TELEMETRY_ENABLED: zodStrBool.default("false"),
     POSTHOG_HOST: zpStr(z.string().optional().default("https://app.posthog.com")),
-    POSTHOG_PROJECT_API_KEY: zpStr(z.string().optional().default("phc_swoSUd69FLA4ztGPkBhnNHDVbrssfPkuYEGCquN33FCX")),
+    POSTHOG_PROJECT_API_KEY: zpStr(z.string().optional()),
     LOOPS_API_KEY: zpStr(z.string().optional()),
     // HubSpot Forms API for capturing signups
     HUBSPOT_PORTAL_ID: zpStr(z.string().optional()),

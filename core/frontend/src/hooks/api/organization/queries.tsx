@@ -125,10 +125,15 @@ export const useGetOrganizationById = (id: string, options?: { enabled?: boolean
   });
 };
 
-export const useCreateOrg = (options: { invalidate: boolean } = { invalidate: true }) => {
+export const useCreateOrg = (
+  options: { invalidate: boolean; handledErrorCodes?: string[] } = { invalidate: true }
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: options.handledErrorCodes?.length
+      ? { handledErrorCodes: options.handledErrorCodes }
+      : undefined,
     mutationFn: async ({ name }: { name: string }) => {
       const {
         data: { organization }
