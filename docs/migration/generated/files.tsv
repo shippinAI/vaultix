@@ -233,7 +233,7 @@ core/backend-go/internal/services/secretmanager/secretimport/lookup.go	core/back
 core/backend-go/internal/services/secretmanager/secretimport/lookup_test.go	core/backend-go/internal/services/secretmanager	secrets	Go-native	go	b0ee596b5840546c4028b8e8468bea1914692067	unread
 core/backend-go/internal/services/secretmanager/secretimport/secretimport.go	core/backend-go/internal/services/secretmanager	secrets	Go-native	go	0073e1001d35a1d971234099f5a1b58c5a3235c8	unread
 core/backend-go/internal/services/serverconfig/serverconfig.go	core/backend-go/internal/services/serverconfig	foundation	Go-native	go	e8d8bbfc3b3cad9455baddd6b7a4a5faeb07b1ed	unread
-core/backend-go/internal/vaultixpolicy/ability.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	1e0f010673a347216e038e43b6ede794363f9aa1	authored
+core/backend-go/internal/vaultixpolicy/ability.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	4e956d64d86e1c95b6f74ea94633fa6066b05868	authored
 core/backend-go/internal/vaultixpolicy/ability_test.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	f396a611b2b773b0bb45527c8f39f4a2c7c5f2e2	authored
 core/backend-go/internal/vaultixpolicy/action.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	3321bd55ec5d70a16ad4655625e5fe93566ec1ba	authored
 core/backend-go/internal/vaultixpolicy/action_test.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	6dfdd1e07a5044c49e89d2f1e2e6df0695c26979	authored
@@ -261,8 +261,8 @@ core/backend-go/internal/vaultixpolicy/permissions.go	core/backend-go/internal/v
 core/backend-go/internal/vaultixpolicy/permissions_test.go	core/backend-go/internal/vaultixpolicy	authorization	Go-native	go	eb1d26d538473e78c6b7b3ff1adf3e15fe355d5c	authored
 core/backend-go/internal/vaultixpolicy/rule.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	b00d8936f8aad69dbd77dc6f635d1160a5a376a0	authored
 core/backend-go/internal/vaultixpolicy/rule_test.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	6f210b554ed2f58331744ad108028708e100fdb4	authored
-core/backend-go/internal/vaultixpolicy/snapshot.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	cfe9b8413dce3e13650b6084f9bcd97ea05ea885	authored
-core/backend-go/internal/vaultixpolicy/snapshot_test.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	664591e57aeb08b849339b68cd4f5339afd3ed91	authored
+core/backend-go/internal/vaultixpolicy/snapshot.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	46a5567d4c5b1feca34a76fa820fd6df8fd2b52d	authored
+core/backend-go/internal/vaultixpolicy/snapshot_test.go	core/backend-go/internal/vaultixpolicy	foundation	Go-native	go	d437c0c510c87eef1eee844b27e777c8e1408ff1	authored
 core/backend-go/tests/fixtures/deviceconsumer/main.go	core/backend-go/tests/fixtures/deviceconsumer	foundation	Go-native	go	94f737d49af562395e0c67556a3c09824496b405	authored
 core/backend-go/tests/infra/builder.go	core/backend-go/tests/infra	foundation	Go-native	go	cce4e4bc2b50aaebeb2765c666e8511b9bb76a13	verified
 core/backend-go/tests/infra/constants.go	core/backend-go/tests/infra	foundation	Go-native	go	7ccc0dc8fb93f39dd8a811c2a2cdc9af4cc5f684	unread

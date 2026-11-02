@@ -7987,10 +7987,10 @@
     },
     {
       "path": "core/backend-go/internal/vaultixpolicy/ability.go",
-      "blob": "1e0f010673a347216e038e43b6ede794363f9aa1",
+      "blob": "4e956d64d86e1c95b6f74ea94633fa6066b05868",
       "status": "authored",
       "decision": "modify",
-      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8338,10 +8338,10 @@
     },
     {
       "path": "core/backend-go/internal/vaultixpolicy/snapshot.go",
-      "blob": "cfe9b8413dce3e13650b6084f9bcd97ea05ea885",
+      "blob": "46a5567d4c5b1feca34a76fa820fd6df8fd2b52d",
       "status": "authored",
       "decision": "modify",
-      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8351,10 +8351,10 @@
     },
     {
       "path": "core/backend-go/internal/vaultixpolicy/snapshot_test.go",
-      "blob": "664591e57aeb08b849339b68cd4f5339afd3ed91",
+      "blob": "d437c0c510c87eef1eee844b27e777c8e1408ff1",
       "status": "authored",
       "decision": "modify",
-      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity.",
+      "scope": "Entire evaluator and retained cases read. Absorbed as direct internal Vaultix policy, with immutable bounded snapshots, malformed-policy rejection, strict persisted tuple decoding, nil-authority denial and safe collection comparisons. Retained rule vocabulary, explicit-deny behavior and stored encoding; source history and original MIT notice preserved. Tests are scoped authorization evidence, not whole-product parity. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -8533,10 +8533,10 @@
     },
     {
       "path": "docs/0078-vaultix-policy-ownership.md",
-      "blob": "0e7eda3be92f7a781e0ec504a41486b52871c6cf",
+      "blob": "000230e94de885084afc18b6fbc45c32cc906f10",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
+      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. Complete expansion-bound correction reviewed: share the 100000-node budget across the entire construction, including fields, before copying. Compact 256-action / 1000-item JSON fixture rejected after failing against the prior implementation; valid scoped recovery and retained consumer race cases remain required.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "core/backend-go/tests/platform/permission/policy_integrity_test.go",

@@ -265,7 +265,7 @@ core/backend-go/internal/services/secretmanager/secretimport/secretimport.go	007
 core/backend-go/internal/services/serverconfig/serverconfig.go	e8d8bbfc3b3cad9455baddd6b7a4a5faeb07b1ed	product-code	unread
 core/backend-go/internal/vaultixpolicy/LICENSE	c5f473ea1b79cf62384e6c0abe81da988dbd262f	documentation	authored
 core/backend-go/internal/vaultixpolicy/PROVENANCE.md	93696a3375def4d16cf12b1d47bbefddb4b8a56c	documentation	authored
-core/backend-go/internal/vaultixpolicy/ability.go	1e0f010673a347216e038e43b6ede794363f9aa1	product-code	authored
+core/backend-go/internal/vaultixpolicy/ability.go	4e956d64d86e1c95b6f74ea94633fa6066b05868	product-code	authored
 core/backend-go/internal/vaultixpolicy/ability_test.go	f396a611b2b773b0bb45527c8f39f4a2c7c5f2e2	test	authored
 core/backend-go/internal/vaultixpolicy/action.go	3321bd55ec5d70a16ad4655625e5fe93566ec1ba	product-code	authored
 core/backend-go/internal/vaultixpolicy/action_test.go	6dfdd1e07a5044c49e89d2f1e2e6df0695c26979	test	authored
@@ -293,8 +293,8 @@ core/backend-go/internal/vaultixpolicy/permissions.go	02bb1137fa575d2b9f17790bfb
 core/backend-go/internal/vaultixpolicy/permissions_test.go	eb1d26d538473e78c6b7b3ff1adf3e15fe355d5c	test	authored
 core/backend-go/internal/vaultixpolicy/rule.go	b00d8936f8aad69dbd77dc6f635d1160a5a376a0	product-code	authored
 core/backend-go/internal/vaultixpolicy/rule_test.go	6f210b554ed2f58331744ad108028708e100fdb4	test	authored
-core/backend-go/internal/vaultixpolicy/snapshot.go	cfe9b8413dce3e13650b6084f9bcd97ea05ea885	product-code	authored
-core/backend-go/internal/vaultixpolicy/snapshot_test.go	664591e57aeb08b849339b68cd4f5339afd3ed91	test	authored
+core/backend-go/internal/vaultixpolicy/snapshot.go	46a5567d4c5b1feca34a76fa820fd6df8fd2b52d	product-code	authored
+core/backend-go/internal/vaultixpolicy/snapshot_test.go	d437c0c510c87eef1eee844b27e777c8e1408ff1	test	authored
 core/backend-go/llm/TESTING_GUIDELINE.md	c546b58fbf86b6f60b891f3bfee6feb4a81f66e7	documentation	unread
 core/backend-go/tests/fixtures/deviceconsumer/main.go	94f737d49af562395e0c67556a3c09824496b405	test	authored
 core/backend-go/tests/infra/builder.go	cce4e4bc2b50aaebeb2765c666e8511b9bb76a13	test	verified
@@ -11878,7 +11878,7 @@ docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56a
 docs/0075-usable-secrets-and-update-delivery.md	12e2229ee68c08c769ecbc71d1fa907bf9f806a0	documentation	authored
 docs/0076-recorded-workflows-and-visible-assist.md	97b0afec270aeaf6b8c8ad7862e7963d90bcbe04	documentation	authored
 docs/0077-owned-runtime-dependencies.md	881ec6f3e7dc3b17b0b5a613aa41826296aa736a	documentation	authored
-docs/0078-vaultix-policy-ownership.md	0e7eda3be92f7a781e0ec504a41486b52871c6cf	documentation	authored
+docs/0078-vaultix-policy-ownership.md	000230e94de885084afc18b6fbc45c32cc906f10	documentation	authored
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11909,8 +11909,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	3b6eaeeb7158dc671b6ed4fe2b891398a4cdd4af	generated	unread
-docs/migration/generated/modules.tsv	ce23e75356168e5c6c512625e517a70d0f4b1483	generated	unread
+docs/migration/generated/files.tsv	1543300e42eb5b2234f82a562e43afa7262eb525	generated	unread
+docs/migration/generated/modules.tsv	a28ea6393bfdf5ee387219813b6c1c8338a22bc9	generated	unread
 docs/migration/generated/summary.json	d461bdd42c54d712316407c636663c7fc3f29efe	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread

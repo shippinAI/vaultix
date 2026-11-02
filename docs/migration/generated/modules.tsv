@@ -58,7 +58,7 @@ core/backend-go/internal/services/project	secrets	Go-native	1	fb533479495db9e518
 core/backend-go/internal/services/secretmanager	secrets	Go-native	16	784d42a23dfb086a727762b581ff8c53965fe576d3da2fa73fca723819b6bbee	4	unassessed
 core/backend-go/internal/services/serverconfig	foundation	Go-native	1	d72719942931611c1643950f3f1b94682d16a52204582699cca90575db347083	0	unassessed
 core/backend-go/internal/vaultixpolicy	authorization	Go-native	2	313dc563055d7b60fceb343e36da67dac30cc78a01ffe7a3baa115b508388f8e	2	unassessed
-core/backend-go/internal/vaultixpolicy	foundation	Go-native	26	cd5852dc47b15b99b0987d504028f3a8ac7b48efaec96002feeadbd5812e36ce	26	unassessed
+core/backend-go/internal/vaultixpolicy	foundation	Go-native	26	42caafe9486494273939f651d44fe7dd9b249817c235ef47993fd14f116883f1	26	unassessed
 core/backend-go/internal/vaultixpolicy	integrations	Go-native	1	31c22e7e0c0c725d807ac108d394b62de0a34f99ceadcc328de39f8b3eeb6f6d	1	unassessed
 core/backend-go/internal/vaultixpolicy/internal/compare	foundation	Go-native	1	e93e8ec4930f9648777a0867ccc804a3c785fad1e42191a398d060b6bbf2e5ed	1	unassessed
 core/backend-go/tests/fixtures/deviceconsumer	foundation	Go-native	1	f02ffb7d9d1b21767b19dc73fd3a34444485081d2e39591634f0848d50d5e951	1	unassessed
