@@ -27,6 +27,12 @@ could become unconditional rules. Empty literal objects now require equality wit
 an empty object instead of matching every field value. Valid policy semantics are
 retained; accepting malformed authority is deliberately not preserved.
 
+If any persisted custom role cannot be decoded, project authority resolution
+rejects the entire request. It cannot drop that role's denials while retaining
+grants from other roles. Database-backed tests cover both user and machine
+identity memberships, scoped deny precedence, malformed tuples and recovery
+after the role is repaired.
+
 JSON entry points enforce a default 1 MiB limit; `LoadOptions.MaxSize` can explicitly
 set the byte limit for the JSON API. Expanded policies permit at most 16,384 rules.
 Snapshots permit at most 64 traversal levels and 100,000 visited nodes per copied

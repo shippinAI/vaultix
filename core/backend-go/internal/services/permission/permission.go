@@ -193,9 +193,14 @@ func (p *Service) GetProjectPermission(ctx context.Context, args *GetProjectPerm
 	// 11. Build rules
 	rules, parseErrors := buildProjectPermissionRules(permissionFromRoles)
 	for _, parseErr := range parseErrors {
-		p.logger.WarnContext(ctx, "custom role permission parse failed (fail-closed: role contributes no rules)",
+		p.logger.WarnContext(ctx, "custom role permission parse failed; project authority rejected",
 			slog.String("projectId", args.ProjectID),
 			slog.Any("error", parseErr))
+	}
+	if len(parseErrors) > 0 {
+		// Dropping a malformed role can also drop explicit denials while other
+		// roles grant access. Resolve the entire authority or reject it.
+		return nil, errutil.Forbidden("Project permission rules are invalid")
 	}
 
 	// 12. Marshal rules to JSON
