@@ -19,6 +19,7 @@ const actual=execFileSync('docker',['image','inspect','--format','{{.Id}}',recei
 assert.equal(actual,receipt.imageId);
 const graph=execFileSync('docker',['run','--rm','--network','none','--entrypoint','node',actual,'scripts/check-owned-dependencies.mjs'],{encoding:'utf8'});
 assert.equal(JSON.parse(graph).passed,true);
+execFileSync('docker',['run','--rm','--network','none','--entrypoint','node',actual,'scripts/build-gateway-transport.mjs'],{stdio:'pipe'});
 const native=spawnSync('docker',['run','--rm','-i','--network','none','--entrypoint','/backend/vaultix-transport',actual],{input:'{"version":2}\n',encoding:'utf8'});
 assert.equal(native.status,1);
 assert.match(JSON.parse(native.stdout).error,/unsupported gateway transport request/);

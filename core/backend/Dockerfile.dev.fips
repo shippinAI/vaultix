@@ -1,4 +1,10 @@
 ARG TOOLCHAIN_IMAGE=ghcr.io/vaultix/backend-fips-toolchain:main
+# Explicit local context: --build-context vaultix-native=../backend-go
+FROM golang:1.27.3-trixie AS gateway-transport
+WORKDIR /src
+COPY --from=vaultix-native . .
+RUN CGO_ENABLED=0 go build -trimpath -o /vaultix-transport ./cmd/vaultix-transport
+
 FROM ${TOOLCHAIN_IMAGE}
 
 # ? App setup
@@ -7,6 +13,7 @@ WORKDIR /app
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
+COPY scripts/patch-ldapts.mjs ./scripts/patch-ldapts.mjs
 
 COPY dev-entrypoint.sh dev-entrypoint.sh
 RUN chmod +x dev-entrypoint.sh
@@ -14,6 +21,8 @@ RUN chmod +x dev-entrypoint.sh
 RUN npm install
 
 COPY . .
+
+COPY --from=gateway-transport /vaultix-transport /app/vaultix-transport
 
 ENV HOST=0.0.0.0
 ENV OPENSSL_CONF=/app/nodejs.fips.cnf

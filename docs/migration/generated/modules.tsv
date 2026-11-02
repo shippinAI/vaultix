@@ -8,10 +8,10 @@ branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	3	ba2dc38560e773913eba62593a9da3f0da8f72764e767af68c36502a2c49d9c2	3	unassessed
 compose	delivery	supporting-tooling-or-contract	5	5e70a69056323e10b5995b1c7f03546d139f3ffc88fdda8e3aa1283d2c3475c3	3	unassessed
 contracts	foundation	supporting-tooling-or-contract	4	485682589b61c3f0b570e048bf24e859f92ea8e37c06f2d0798f157165e7daa0	1	unassessed
-core	delivery	supporting-tooling-or-contract	26	3bb193856eb31bd843432907b30b8520e667adefa06ab1d04dba4bdd5689b497	3	unassessed
+core	delivery	supporting-tooling-or-contract	26	33881e301f154a7b0b131842255ac0f017e9925b3367bb5aa154eccf078f5382	6	unassessed
 core/.greptile	delivery	supporting-tooling-or-contract	2	3608612865de3c63d8bc9dcf7785427d75c2b4606af67419eec437c9ea8785d6	0	unassessed
 core/.husky	delivery	supporting-tooling-or-contract	1	d4449fa923f40b42794bec6c7f7cbbd6f2de0b1a5905fb8f3db07fbdee174cc8	0	unassessed
-core/backend	delivery	Go-domain-migration	4	efeadffe3e7fc07566aa5c24017e759391df663ee52036b26383a51a5e56b5c1	0	unassessed
+core/backend	delivery	Go-domain-migration	4	bb19c08118e5afba17163842b55b504c1f5e6edb4f04b12fba29a263f04c9be9	3	unassessed
 core/backend	foundation	Go-domain-migration	16	07fcc5987c14c35823bb3c69957ecafd1d7df24e6a07c109bff8bb711a6610b4	1	unassessed
 core/backend-go	delivery	Go-native	3	c2f65c587217ea47534a397dc4ea0bc9849d4aa0540a07de334b6475bea270bc	3	unassessed
 core/backend-go	foundation	Go-native	5	71c090242d68545d27f450afa4d5891ef49e331e531c9c2f2e5b47cd5a4622af	1	unassessed
@@ -100,7 +100,7 @@ core/backend/e2e-test/testUtils	identity	Go-domain-migration	2	9f244afbd3744490d
 core/backend/e2e-test/testUtils	secrets	Go-domain-migration	3	30d45e9bb12ca00234c2c96410b92d1fa5683c3dfe8a29f7be7032c81bc6dd61	0	unassessed
 core/backend/scripts	foundation	Go-domain-migration	10	923b9d88581b11088a85d524224512342d69585139d8a7d1af7dc675b6893345	1	unassessed
 core/backend/scripts	identity	Go-domain-migration	1	e1a5939390a90a401b102a78d02c76c94ce0dc9c32c5d8b20ac262c7136033a1	1	unassessed
-core/backend/scripts	pam	Go-domain-migration	1	cce33b7533803eeb0596c14e19fb8abf6be282857dbf4d9164ab22bbc152f38b	1	unassessed
+core/backend/scripts	pam	Go-domain-migration	1	dd290afaefe321d8de4b098ab862dfab0625efa7fdbf5618fad5c4d0633cdb67	1	unassessed
 core/backend/src	foundation	Go-domain-migration	5	5f9d2013ebce3afb57f64db227987368265a5863edc51dd87983c38fb627cdee	0	unassessed
 core/backend/src/@types	foundation	Go-domain-migration	6	39a9764ed99b1d5a82a1ea9c3c4f27d9fd674c6b452b4ae8d4db219ceeb5c566	0	unassessed
 core/backend/src/db	audit	Go-domain-migration	1	afc5bd34215a0eba98d73eb2638db8ca327a6809e9bfc234bcdd3984fe6ef519	0	unassessed
@@ -1078,7 +1078,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	90	b072902bb1823979fc3ccc425191b94d231d54d4fdda3e20edff8f836dc4d159	83	unassessed
+scripts	delivery	supporting-tooling-or-contract	91	ab3aad5d6ce2d6fbd11487ccfcd2db0e3c75928b237b0ef6a8c0bac70e8aa3d1	84	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	1	9bb5698cfcea08a5037d1f4939ab64c714179c90b2bfdb83de4ccdae7e66a7db	1	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	5	0c5c3ae6cb9a469842c47a0af776f16f806d5f1ca0c753d027090f63a5dd13ab	5	unassessed

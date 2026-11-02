@@ -83,6 +83,8 @@ services:
       - db
     build:
       context: ./backend
+      additional_contexts:
+        vaultix-native: ./backend-go
       dockerfile: Dockerfile.dev
     env_file: .env
     environment:
@@ -95,6 +97,8 @@ services:
     container_name: vaultix-dev-api
     build:
       context: ./backend
+      additional_contexts:
+        vaultix-native: ./backend-go
       dockerfile: Dockerfile.dev
     depends_on:
       db:

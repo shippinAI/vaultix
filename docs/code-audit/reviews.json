@@ -2489,22 +2489,14 @@
     },
     {
       "path": "core/Dockerfile.ghcr",
-      "blob": "940393edd2f4878b1871aa9d6a435356f9c25113",
-      "status": "authored",
+      "blob": "816f39991163321588f4dfb05efd55ac4c3da840",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete reduced-image definition read. Header identifies it as a legacy reduced build outside the canonical release workflow; URL and explicit source revision align with Vaultix.cloud. Missing full standalone components remain explicit. This definition was not built or accepted as a capability-complete release; only the canonical Dockerfile is the release path.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
       "evidence": [
-        "docs/0045-image-identity-and-revision.md",
-        ".cache/image-identity-baseline.json",
-        ".cache/image-identity-baseline-check.log",
-        ".cache/image-identity-engine.json",
-        ".cache/image-identity-panel.json",
-        ".cache/image-identity-wrong-revision.log",
-        ".cache/image-identity-runtime-comparison.json",
-        ".cache/image-identity-engine-smoke.log",
-        ".cache/publication-proof-EjOLFM/result.json",
-        ".cache/publication-proof-rDfJRI/result.json",
-        ".cache/image-identity-promotion-failure.json"
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
       ]
     },
     {
@@ -7668,16 +7660,14 @@
     },
     {
       "path": "core/backend/scripts/build-gateway-transport.mjs",
-      "blob": "cc9a120c229e8195164cf250c483d4aa523f4f41",
+      "blob": "975b1f4a9f03439f6a4f3ffb7729cc0ad357a0ef",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
       ]
     },
     {
@@ -7766,30 +7756,26 @@
     },
     {
       "path": "docs/0077-owned-runtime-dependencies.md",
-      "blob": "b558dfddeba34ea6ba7d0b06886dee4b0cfd81a3",
+      "blob": "809dc2e44aaf932a67aebdfc0fb595961058be1b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
       ]
     },
     {
       "path": "scripts/check-owned-dependency-image.mjs",
-      "blob": "5ab7fdfaa44e748c3808697650e6234c54eff6fd",
+      "blob": "71e6500c3e34d39a378a380d02e7c555b887f493",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
       "evidence": [
         "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
       ]
     },
     {
@@ -7888,6 +7874,90 @@
         "scripts/test-owned-ldap.mjs",
         "scripts/test-owned-quic.mjs",
         "scripts/test-owned-analytics.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/Dockerfile",
+      "blob": "e36417137db6fea49f40f6a74e245c341c8904ab",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/Dockerfile.dev",
+      "blob": "078b3ae2e05f3fa3644681d7e4083428367a0b76",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/Dockerfile.dev.fips",
+      "blob": "36e3a4dcf121b21e5709c93a4b6c5e5cadbeb8f6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/docker-compose.bdd.yml",
+      "blob": "d85c898d9c33144f0dbaed1eba9dfa3fed64d553",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/docker-compose.dev-read-replica.yml",
+      "blob": "8539d502400d1ce48bc8a3f20c72f0b93fdb5096",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "core/docker-compose.dev.yml",
+      "blob": "57958afbaeebf3c81f939612ad0953205933ba1f",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-owned-build-paths.mjs",
+      "blob": "cba3e47d4cd890bc30835068716ef3d3fa8580d7",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module read; preserve backend dependency installation and native gateway packaging across canonical and existing development build consumers. Explicit local Go context, no extra deployed service. Full historical profile/FIPS acceptance is not claimed.",
+      "evidence": [
+        "docs/0077-owned-runtime-dependencies.md",
+        "scripts/test-owned-build-paths.mjs",
+        "scripts/check-owned-dependency-image.mjs"
       ]
     }
   ]

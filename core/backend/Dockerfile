@@ -1,3 +1,9 @@
+# Explicit local context: --build-context vaultix-native=../backend-go
+FROM golang:1.27.3-trixie AS gateway-transport
+WORKDIR /src
+COPY --from=vaultix-native . .
+RUN CGO_ENABLED=0 go build -trimpath -o /vaultix-transport ./cmd/vaultix-transport
+
 # Build stage
 FROM node:22.22.0-trixie-slim AS build
 
@@ -18,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
+COPY scripts/patch-ldapts.mjs ./scripts/patch-ldapts.mjs
 RUN npm ci
 
 COPY . .
@@ -61,6 +68,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
+COPY scripts/patch-ldapts.mjs ./scripts/patch-ldapts.mjs
 RUN npm ci --omit=dev
 
 # Production stage
@@ -78,8 +86,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     bash \
     git \
-    && curl -1sLf 'https://artifacts-cli.vaultix.com/setup.deb.sh' | bash \
-    && apt-get update && apt-get install -y vaultix=0.43.79 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN printf "[FreeTDS]\nDescription = FreeTDS Driver\nDriver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\nSetup = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\nFileUsage = 1\n" > /etc/odbcinst.ini
@@ -101,6 +107,8 @@ COPY --from=prod-deps /app/node_modules ./node_modules
 
 HEALTHCHECK --interval=10s --timeout=3s --start-period=10s \
     CMD node healthcheck.js
+
+COPY --from=gateway-transport /vaultix-transport /app/vaultix-transport
 
 ENV HOST=0.0.0.0
 

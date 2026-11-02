@@ -57,7 +57,7 @@ core/CLAUDE.md	b7d56ae73145999f0e3c0d44c18c3301fbfe2502	documentation	authored
 core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	unread
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4deee69a67d07507485f843317e3bc61af542618	documentation	unread
-core/Dockerfile.ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	build-and-operations	authored
+core/Dockerfile.ghcr	816f39991163321588f4dfb05efd55ac4c3da840	build-and-operations	reviewed
 core/Dockerfile.standalone-vaultix	c1299b2387a08cda2361d7579210ad9f00204de4	build-and-operations	reviewed
 core/LICENSE	0de22f21bb6228e393c37b17b17089f1382a28a6	documentation	unread
 core/Makefile	329e030c6ba55e576a37749b6d4757e3002cdaf4	product-code	unread
@@ -347,9 +347,9 @@ core/backend/.npmrc	7253a5ceee98e9a69d5e36d9d2e02969757bf239	product-code	unread
 core/backend/.prettierrc.json	987f567d4e3b2a7789ab0e97e20a73b4016f6ed2	product-code	unread
 core/backend/CLAUDE.md	58806d87e827b9e5b48a4ae9b65c809c82c9c9be	documentation	unread
 core/backend/CODE_QUALITY.md	68e4efb0e66677bc8d69a84ee5ceeac693f45568	documentation	unread
-core/backend/Dockerfile	4b903090f0e4c949bb46ccd954dd14990f92fa82	build-and-operations	unread
-core/backend/Dockerfile.dev	a86fb5716fb961f45be38f400f77dbd4ac34618f	build-and-operations	unread
-core/backend/Dockerfile.dev.fips	c4197f4502e3dea30140e34a6de1caa768985581	build-and-operations	unread
+core/backend/Dockerfile	e36417137db6fea49f40f6a74e245c341c8904ab	build-and-operations	reviewed
+core/backend/Dockerfile.dev	078b3ae2e05f3fa3644681d7e4083428367a0b76	build-and-operations	reviewed
+core/backend/Dockerfile.dev.fips	36e3a4dcf121b21e5709c93a4b6c5e5cadbeb8f6	build-and-operations	reviewed
 core/backend/Dockerfile.fips-toolchain	603982f8a03baaef10697ccaeebc44e94521b9aa	build-and-operations	unread
 core/backend/babel.config.json	59480d0848498cae080cca834204d8ebb5771cc0	product-code	unread
 core/backend/bdd/.env.example	a3172fabb7260a19d586b0fbf0d8f43be022ba7e	product-code	unread
@@ -440,7 +440,7 @@ core/backend/nodemon.json	2542bca4dca5d74d7ac9c3d61913388e39eb3514	product-code	
 core/backend/package-lock.json	887f8f939bf2377d95e52e69f7e5212a00444141	dependency-lock	unread
 core/backend/package.json	efbd3c0ba01e78edfea3a8095e313b5710f61921	product-code	reviewed
 core/backend/scripts/bake-announcements.ts	3ff455585a6a5fe63e163de3bef07a4eafce3e64	product-code	unread
-core/backend/scripts/build-gateway-transport.mjs	cc9a120c229e8195164cf250c483d4aa523f4f41	product-code	reviewed
+core/backend/scripts/build-gateway-transport.mjs	975b1f4a9f03439f6a4f3ffb7729cc0ad357a0ef	product-code	reviewed
 core/backend/scripts/check-owned-dependencies.mjs	187c487bdc624416983c3d586f73f3523b4f2db3	product-code	reviewed
 core/backend/scripts/create-backend-file.ts	39e9c816c37b0501c0bca783bf715792735f2687	product-code	unread
 core/backend/scripts/create-migration.ts	3e34b94139f03f1c051bd20db6f3539edbe803f2	product-code	unread
@@ -4213,9 +4213,9 @@ core/company/mint.json	66ba62d161f6476561c6880bbe3176db4297abf5	product-code	unr
 core/company/style.css	f5e1bfc496834c3b71bd8bb235a7985c1637f88a	product-code	unread
 core/ct.yaml	cbc673111aa1e60fc764603cf68bf4ac42133065	build-and-operations	unread
 core/cypress.config.js	f50a1c607a6752041a56d39124a0be736b613bc4	product-code	unread
-core/docker-compose.bdd.yml	daf908282a907082aa05a79497004c86de170171	build-and-operations	unread
-core/docker-compose.dev-read-replica.yml	f7176c01182641525fc9c0361edbf28afd17ab03	build-and-operations	unread
-core/docker-compose.dev.yml	e348dfe4c6a173ddce55fd88ade0f8f8f6ca82d2	build-and-operations	unread
+core/docker-compose.bdd.yml	d85c898d9c33144f0dbaed1eba9dfa3fed64d553	build-and-operations	reviewed
+core/docker-compose.dev-read-replica.yml	8539d502400d1ce48bc8a3f20c72f0b93fdb5096	build-and-operations	reviewed
+core/docker-compose.dev.yml	57958afbaeebf3c81f939612ad0953205933ba1f	build-and-operations	reviewed
 core/docker-compose.e2e-dbs.yml	2406cdfa3bf89f5f39a80a3899702678759ba2de	build-and-operations	unread
 core/docker-compose.prod.yml	c13f503becbe1ba69e9f90fffc55a8ecdf3f4e10	build-and-operations	unread
 core/docker-swarm/.env-example	ea68ff41c20da1c33bc428ceccbdd7b7e232c619	product-code	unread
@@ -11874,7 +11874,7 @@ docs/0073-native-cli-domain-and-capabilities.md	06d0648465c6b2f01a7dd1194bef437c
 docs/0074-built-in-and-federated-identity.md	f60a69a53297387db1e40fbed99dc17a56ae8f5c	documentation	reviewed
 docs/0075-usable-secrets-and-update-delivery.md	12e2229ee68c08c769ecbc71d1fa907bf9f806a0	documentation	authored
 docs/0076-recorded-workflows-and-visible-assist.md	97b0afec270aeaf6b8c8ad7862e7963d90bcbe04	documentation	authored
-docs/0077-owned-runtime-dependencies.md	b558dfddeba34ea6ba7d0b06886dee4b0cfd81a3	documentation	reviewed
+docs/0077-owned-runtime-dependencies.md	809dc2e44aaf932a67aebdfc0fb595961058be1b	documentation	reviewed
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11905,9 +11905,9 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	426549b8ee0d98d0ab061ef9dc0b0086a8461e2d	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	952e387ac46cca1337fcf0e7e029299b34867a77	generated	unread
-docs/migration/generated/modules.tsv	547320086efe2fa1a15feeb297043e1021ec5916	generated	unread
-docs/migration/generated/summary.json	733a46c42235619d65088570d3c2e6066e270442	generated	unread
+docs/migration/generated/files.tsv	f99aed9a6fab7e30c871e38f421de8aef59ba6b6	generated	unread
+docs/migration/generated/modules.tsv	21185f55a32e24a0e4024ed7639d1445b6e7a6c2	generated	unread
+docs/migration/generated/summary.json	ba1ad27c1101ebbfb1be1cb50e5f7941d5b51274	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
 docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
@@ -12058,7 +12058,7 @@ scripts/check-auth-authority.mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	build-
 scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	build-and-operations	verified
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
 scripts/check-org-mfa-ui.mjs	ec7ca020b9d7a9c423a124b35cde0569a8747dfb	build-and-operations	verified
-scripts/check-owned-dependency-image.mjs	5ab7fdfaa44e748c3808697650e6234c54eff6fd	build-and-operations	reviewed
+scripts/check-owned-dependency-image.mjs	71e6500c3e34d39a378a380d02e7c555b887f493	build-and-operations	reviewed
 scripts/check-owned.sh	2d2c47df31fba8f499a94d98c4785d2e59242791	build-and-operations	verified
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/fixtures/device-issuer.mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	build-and-operations	verified
@@ -12121,6 +12121,7 @@ scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-
 scripts/test-org-mfa-workflow.mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	build-and-operations	verified
 scripts/test-owned-analytics.mjs	696b6f84c4f2190a1951ab551090fa3d93b9b504	build-and-operations	reviewed
 scripts/test-owned-branding.mjs	db0fd0ac943943212fe2245745433958dd6e0572	build-and-operations	verified
+scripts/test-owned-build-paths.mjs	cba3e47d4cd890bc30835068716ef3d3fa8580d7	build-and-operations	reviewed
 scripts/test-owned-dependencies.mjs	48c7b3da82aae0aad519636d5684faf10a823a5a	build-and-operations	reviewed
 scripts/test-owned-ldap.mjs	9016af97aca4ef0b9a9f0071938a434e67727dad	build-and-operations	reviewed
 scripts/test-owned-quic.mjs	26f1bd399afc3a469d0f67ba132def0f6a31d8c0	build-and-operations	reviewed

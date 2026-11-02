@@ -96,6 +96,8 @@ services:
     container_name: vaultix-dev-api
     build:
       context: ./backend
+      additional_contexts:
+        vaultix-native: ./backend-go
       dockerfile: Dockerfile.dev.fips
       args:
         TOOLCHAIN_IMAGE: ${TOOLCHAIN_IMAGE:-ghcr.io/vaultix/backend-fips-toolchain:main}

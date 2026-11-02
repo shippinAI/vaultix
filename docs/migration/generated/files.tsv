@@ -35,7 +35,7 @@ core/.greptile/config.json	core/.greptile	delivery	supporting-tooling-or-contrac
 core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract	json	c6a3722c73c2518a4eef5785fc01b86d63dfe3ab	unread
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
-core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	940393edd2f4878b1871aa9d6a435356f9c25113	authored
+core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	816f39991163321588f4dfb05efd55ac4c3da840	reviewed
 core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	c1299b2387a08cda2361d7579210ad9f00204de4	reviewed
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
@@ -284,9 +284,9 @@ core/backend/.eslintrc.js	core/backend	foundation	Go-domain-migration	js	f901f0d
 core/backend/.gitignore	core/backend	foundation	Go-domain-migration	build-config	dbb2683fb46a16be1c06cc616399468d63daa62c	unread
 core/backend/.npmrc	core/backend	foundation	Go-domain-migration	build-config	7253a5ceee98e9a69d5e36d9d2e02969757bf239	unread
 core/backend/.prettierrc.json	core/backend	foundation	Go-domain-migration	json	987f567d4e3b2a7789ab0e97e20a73b4016f6ed2	unread
-core/backend/Dockerfile	core/backend	delivery	Go-domain-migration	build-config	4b903090f0e4c949bb46ccd954dd14990f92fa82	unread
-core/backend/Dockerfile.dev	core/backend	delivery	Go-domain-migration	dev	a86fb5716fb961f45be38f400f77dbd4ac34618f	unread
-core/backend/Dockerfile.dev.fips	core/backend	delivery	Go-domain-migration	fips	c4197f4502e3dea30140e34a6de1caa768985581	unread
+core/backend/Dockerfile	core/backend	delivery	Go-domain-migration	build-config	e36417137db6fea49f40f6a74e245c341c8904ab	reviewed
+core/backend/Dockerfile.dev	core/backend	delivery	Go-domain-migration	dev	078b3ae2e05f3fa3644681d7e4083428367a0b76	reviewed
+core/backend/Dockerfile.dev.fips	core/backend	delivery	Go-domain-migration	fips	36e3a4dcf121b21e5709c93a4b6c5e5cadbeb8f6	reviewed
 core/backend/Dockerfile.fips-toolchain	core/backend	delivery	Go-domain-migration	fips-toolchain	603982f8a03baaef10697ccaeebc44e94521b9aa	unread
 core/backend/babel.config.json	core/backend	foundation	Go-domain-migration	json	59480d0848498cae080cca834204d8ebb5771cc0	unread
 core/backend/bdd/.env.example	core/backend/bdd	foundation	Go-domain-migration	example	a3172fabb7260a19d586b0fbf0d8f43be022ba7e	unread
@@ -375,7 +375,7 @@ core/backend/nodejs.fips.cnf	core/backend	foundation	Go-domain-migration	cnf	47d
 core/backend/nodemon.json	core/backend	foundation	Go-domain-migration	json	2542bca4dca5d74d7ac9c3d61913388e39eb3514	unread
 core/backend/package.json	core/backend	foundation	Go-domain-migration	json	efbd3c0ba01e78edfea3a8095e313b5710f61921	reviewed
 core/backend/scripts/bake-announcements.ts	core/backend/scripts	foundation	Go-domain-migration	ts	3ff455585a6a5fe63e163de3bef07a4eafce3e64	unread
-core/backend/scripts/build-gateway-transport.mjs	core/backend/scripts	pam	Go-domain-migration	mjs	cc9a120c229e8195164cf250c483d4aa523f4f41	reviewed
+core/backend/scripts/build-gateway-transport.mjs	core/backend/scripts	pam	Go-domain-migration	mjs	975b1f4a9f03439f6a4f3ffb7729cc0ad357a0ef	reviewed
 core/backend/scripts/check-owned-dependencies.mjs	core/backend/scripts	foundation	Go-domain-migration	mjs	187c487bdc624416983c3d586f73f3523b4f2db3	reviewed
 core/backend/scripts/create-backend-file.ts	core/backend/scripts	foundation	Go-domain-migration	ts	39e9c816c37b0501c0bca783bf715792735f2687	unread
 core/backend/scripts/create-migration.ts	core/backend/scripts	foundation	Go-domain-migration	ts	3e34b94139f03f1c051bd20db6f3539edbe803f2	unread
@@ -4133,9 +4133,9 @@ core/company/mint.json	core/company	ui	supporting-tooling-or-contract	json	66ba6
 core/company/style.css	core/company	ui	supporting-tooling-or-contract	css	f5e1bfc496834c3b71bd8bb235a7985c1637f88a	unread
 core/ct.yaml	core	delivery	supporting-tooling-or-contract	yaml	cbc673111aa1e60fc764603cf68bf4ac42133065	unread
 core/cypress.config.js	core	delivery	supporting-tooling-or-contract	js	f50a1c607a6752041a56d39124a0be736b613bc4	unread
-core/docker-compose.bdd.yml	core	delivery	supporting-tooling-or-contract	yml	daf908282a907082aa05a79497004c86de170171	unread
-core/docker-compose.dev-read-replica.yml	core	delivery	supporting-tooling-or-contract	yml	f7176c01182641525fc9c0361edbf28afd17ab03	unread
-core/docker-compose.dev.yml	core	delivery	supporting-tooling-or-contract	yml	e348dfe4c6a173ddce55fd88ade0f8f8f6ca82d2	unread
+core/docker-compose.bdd.yml	core	delivery	supporting-tooling-or-contract	yml	d85c898d9c33144f0dbaed1eba9dfa3fed64d553	reviewed
+core/docker-compose.dev-read-replica.yml	core	delivery	supporting-tooling-or-contract	yml	8539d502400d1ce48bc8a3f20c72f0b93fdb5096	reviewed
+core/docker-compose.dev.yml	core	delivery	supporting-tooling-or-contract	yml	57958afbaeebf3c81f939612ad0953205933ba1f	reviewed
 core/docker-compose.e2e-dbs.yml	core	delivery	supporting-tooling-or-contract	yml	2406cdfa3bf89f5f39a80a3899702678759ba2de	unread
 core/docker-compose.prod.yml	core	delivery	supporting-tooling-or-contract	yml	c13f503becbe1ba69e9f90fffc55a8ecdf3f4e10	unread
 core/docker-swarm/.env-example	core/docker-swarm	delivery	supporting-tooling-or-contract	build-config	ea68ff41c20da1c33bc428ceccbdd7b7e232c619	unread
@@ -9534,7 +9534,7 @@ scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/check-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	verified
 scripts/check-image-identity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	verified
 scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ec7ca020b9d7a9c423a124b35cde0569a8747dfb	verified
-scripts/check-owned-dependency-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5ab7fdfaa44e748c3808697650e6234c54eff6fd	reviewed
+scripts/check-owned-dependency-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	71e6500c3e34d39a378a380d02e7c555b887f493	reviewed
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	2d2c47df31fba8f499a94d98c4785d2e59242791	verified
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
@@ -9596,6 +9596,7 @@ scripts/test-notification-ui.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/test-org-mfa-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	verified
 scripts/test-owned-analytics.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	696b6f84c4f2190a1951ab551090fa3d93b9b504	reviewed
 scripts/test-owned-branding.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	db0fd0ac943943212fe2245745433958dd6e0572	verified
+scripts/test-owned-build-paths.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	cba3e47d4cd890bc30835068716ef3d3fa8580d7	reviewed
 scripts/test-owned-dependencies.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	48c7b3da82aae0aad519636d5684faf10a823a5a	reviewed
 scripts/test-owned-ldap.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9016af97aca4ef0b9a9f0071938a434e67727dad	reviewed
 scripts/test-owned-quic.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	26f1bd399afc3a469d0f67ba132def0f6a31d8c0	reviewed
