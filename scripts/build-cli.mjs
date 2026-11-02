@@ -31,7 +31,7 @@ const source = resolve(directory, "source");
 mkdirSync(source);
 const archive = resolve(directory, "source.tar");
 command("git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--format=tar",
-  `--output=${archive}`, revision, "cmd", "internal", "go.mod", "go.sum"]);
+  `--output=${archive}`, revision, "cmd", "internal", "compose/embed.go", "compose/vaultix.yml", "compose/self.env.example", "go.mod", "go.sum"]);
 command("tar", ["-xf", archive, "-C", source]);
 const sha256 = file => createHash("sha256").update(readFileSync(file)).digest("hex");
 const receipt = {

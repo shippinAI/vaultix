@@ -65,9 +65,25 @@ try {
       check('canonical-artifacts', process.execPath, ['scripts/check-owned-dependency-image.mjs']);
       check('cli-build', process.execPath, ['scripts/build-cli.mjs']);
       check('cli-acceptance', process.execPath, ['scripts/test-cli-delivery.mjs', build.path, goImage]);
+      // The baseline and Docker client image are explicitly provisioned on the
+      // owned verifier. Candidate artifacts always come from this exact commit.
+      const lifecycleInputs = resolve(root, '.cache/lifecycle-inputs.json');
+      const provisioned = JSON.parse(readFileSync(lifecycleInputs));
+      const builtCLI = JSON.parse(readFileSync(resolve(root, '.cache/committed-cli.json')));
+      const linux = builtCLI.artifacts.find(a => a.platform === 'linux/amd64');
+      assert.ok(linux && builtCLI.revision === head && builtCLI.passed);
+      writeFileSync(lifecycleInputs, JSON.stringify({ baselineReceipt: provisioned.baselineReceipt,
+        clientImage: provisioned.clientImage, candidateReceipt: build.path, cli: linux.files[0], development: false }, null, 2) + '\n', { mode: 0o600 });
+      check('server-lifecycle', process.execPath, ['scripts/test-server-lifecycle.mjs']);
+      const lifecyclePath = resolve(root, '.cache/lifecycle-acceptance.json');
+      const lifecycle = JSON.parse(readFileSync(lifecyclePath));
+      assert.ok(lifecycle.passed && lifecycle.cleanupPassed && !lifecycle.development);
+      assert.equal(lifecycle.revision, head);
+      assert.equal(lifecycle.candidate, build.data.imageId);
+      assert.equal(lifecycle.cliSha256, linux.sha256);
       report.canonicalReceipt = build.path;
       const cliPath = resolve(root, '.cache/cli-domain-acceptance.json');
-      report.receipts = [build.path, cliPath].map(path => ({ path, sha256: digest(path) }));
+      report.receipts = [build.path, cliPath, lifecyclePath].map(path => ({ path, sha256: digest(path) }));
       return { build: build.data, cli: JSON.parse(readFileSync(cliPath)) };
     },
     checkArtifacts: async ({ imageId, revision }, cli) => {

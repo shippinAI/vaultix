@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.instance-operation.v1.json",
+  "title": "Vaultix single-instance lifecycle result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instance",
+    "operation",
+    "ready",
+    "recoveryRequired",
+    "message"
+  ],
+  "properties": {
+    "instance": {
+      "$ref": "#/$defs/instance"
+    },
+    "operation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/state"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ready": {
+      "type": "boolean"
+    },
+    "recoveryRequired": {
+      "type": "boolean"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image",
+        "revision",
+        "migrations",
+        "evidence",
+        "trust"
+      ],
+      "properties": {
+        "image": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "migrations": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "evidence": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "trust": {
+          "enum": [
+            "local-build",
+            "signed-bundle",
+            "existing-instance"
+          ]
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "checkpoint": {
+          "$ref": "https://vaultix.cloud/contracts/vaultix.release-checkpoint.v1.json"
+        }
+      }
+    },
+    "instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "id",
+        "project",
+        "siteUrl",
+        "port",
+        "daemon"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "vaultix.instance-operation.v1"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,47}$"
+        },
+        "project": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,47}$"
+        },
+        "siteUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "daemon": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "sequence",
+        "previous",
+        "operation",
+        "action",
+        "phase",
+        "configuration",
+        "candidate",
+        "updatedAt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "vaultix.instance-operation.v1"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "previous": {
+          "type": "string",
+          "pattern": "^([a-f0-9]{64})?$"
+        },
+        "operation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,47}$"
+        },
+        "action": {
+          "enum": [
+            "install",
+            "adopt",
+            "upgrade"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "planned",
+            "dependencies",
+            "stopping",
+            "snapshot",
+            "replacing",
+            "validating",
+            "ready"
+          ]
+        },
+        "configuration": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "candidate": {
+          "$ref": "#/$defs/candidate"
+        },
+        "priorImage": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "priorContainer": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "database": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "databaseImage": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "databaseVolume": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cache": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "backup": {
+          "type": "string",
+          "pattern": "^op-[a-z0-9-]+\\.database\\.age$"
+        },
+        "backupHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "environmentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

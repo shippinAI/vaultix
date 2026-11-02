@@ -22,6 +22,7 @@ func usageText() string {
   version [--json]              show the installed CLI build
   update check [--json]         check the stable Vaultix release channel
   update verify --bundle DIR --trust FILE [--checkpoint FILE]  verify a signed release without installing
+  server install|adopt|upgrade|status|recover  manage a self-hosted instance
   login --domain=https://vaultix.cloud   select a Vaultix instance and sign in
   login                         Nomen device-code login (browser link, no password)
   login --universal             machine identity: client id and secret on stdin
@@ -64,6 +65,8 @@ func dispatch(ctx context.Context, a []string) error {
 		return printVersion(rest, os.Stdout)
 	case "update":
 		return checkUpdate(ctx, rest, os.Stdout)
+	case "server":
+		return serverCommand(ctx, rest, os.Stdout, os.Stderr)
 	case "login":
 		err := cli.Login(ctx, rest, os.Stdin, os.Stdout)
 		if errors.Is(err, flag.ErrHelp) {
