@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.release-download.v1.json",
+  "title": "Vaultix verified release acquisition result",
+  "description": "Complete downloaded bundle, not installation or public release acceptance. The returned checkpoint is not automatically adopted by an installation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "directory", "version", "revision", "checkpoint", "priorCheckpointSupplied", "artifacts", "bytes", "verified", "installed"],
+  "properties": {
+    "schemaVersion": { "const": "vaultix.release-download.v1" },
+    "directory": { "type": "string", "minLength": 1 },
+    "version": { "$ref": "https://vaultix.cloud/contracts/vaultix.release-manifest.v1.json#/properties/version" },
+    "revision": { "$ref": "https://vaultix.cloud/contracts/vaultix.release-manifest.v1.json#/properties/revision" },
+    "checkpoint": { "$ref": "https://vaultix.cloud/contracts/vaultix.release-checkpoint.v1.json" },
+    "priorCheckpointSupplied": { "type": "boolean" },
+    "artifacts": { "type": "integer", "minimum": 7, "maximum": 64 },
+    "bytes": { "type": "integer", "minimum": 1, "maximum": 68719476736 },
+    "verified": { "const": true },
+    "installed": { "const": false }
+  }
+}

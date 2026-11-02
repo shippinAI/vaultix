@@ -275,9 +275,11 @@ installation command is `vaultix update install --version <version>`; normal not
 do not replace executables. Windows replacement must account for running-file locks
 and both aliases; interruption leaves either the old verified pair or the new pair.
 
-Planned server operation: `node scripts/upgrade-self-hosted.mjs --plan --release <version>`
-produces a reviewable non-secret plan; `--apply` executes its exact artifact/config
-selection. Persist state as checked transitions: preflight → backup verified →
+The native Go operation owner in [0109](../0109-native-install-and-upgrade.md)
+supersedes the earlier planned Node upgrade command. `vaultix server upgrade --plan`
+produces a reviewable non-secret operation; `--apply` executes its exact artifact/config
+selection. Do not create another lifecycle owner. The complete target remains
+checked transitions: preflight → backup verified →
 artifact verified → service changed → health → protected smoke → accepted, or
 failed → compatible rollback / explicit restore. Each stage is resumable or clearly
 requires recovery. Concurrent upgrades, changed configuration since plan creation,
