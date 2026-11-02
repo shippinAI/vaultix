@@ -9223,10 +9223,10 @@
     },
     {
       "path": "internal/platform/docker.go",
-      "blob": "802d4f9a34cd91e4245ffaab6fb678c9ad29923b",
+      "blob": "637368819f73ac078851134625661d2af1c729ef",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9249,10 +9249,10 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "73916d42b1662f49875c078f6b754c006b55816c",
+      "blob": "b6d342c1facc2425b41685ed3ec33404ee972f3c",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9314,10 +9314,10 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "d90f75eddfa94f86945db292ff6c6f89640239b4",
+      "blob": "ba82d0478f86f8afb05922d1fe9ace575d10d6eb",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",

@@ -113,10 +113,24 @@ try {
   assert.equal(inspect(app()).State.ExitCode, 0);
   check('failed backup prevents replacement after a clean bounded application shutdown');
   client(['rm', '/state/fail-backup']); client(['touch', '/state/hold-backup']);
+  const startRecovery = () => {
+    const child = spawn('docker', ['exec', '-e', 'PATH=/test-bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', runner,
+      'sh', '-c', 'echo $$ > /state/active-pid; exec vaultix server recover --directory /state/instance --json'], { windowsHide: true, stdio: 'ignore' });
+    return new Promise(resolve => { child.once('error', () => resolve(-1)); child.once('exit', code => resolve(code)); });
+  };
+  phase = 'configuration changes during backup';
+  const drifted = startRecovery();
+  await h.waitFor(() => docker(['exec', runner, 'test', '-f', '/state/entered'], { allowFailure: true }).status === 0, 'backup drift gate');
+  client(['sh', '-c', 'printf "\\n# drift during checkpoint\\n" >> /state/instance/config/vaultix.env']);
+  client(['rm', '/state/hold-backup']);
+  assert.notEqual(await drifted, 0);
+  assert.equal(cli(['status']).operation.phase, 'snapshot');
+  assert.equal(inspect(app()).Id, before.Id); assert.equal(inspect(app()).State.Running, false);
+  client(['cp', '/state/original.env', '/state/instance/config/vaultix.env']);
+  client(['rm', '/state/entered']); client(['touch', '/state/hold-backup']);
+  check('configuration changed during backup blocks phase advancement and replacement; original configuration restores recovery');
   phase = 'concurrent operation and actual process interruption';
-  const child = spawn('docker', ['exec', '-e', 'PATH=/test-bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', runner,
-    'sh', '-c', 'echo $$ > /state/active-pid; exec vaultix server recover --directory /state/instance --json'], { windowsHide: true, stdio: 'ignore' });
-  const exited = new Promise(resolve => { child.once('error', () => resolve(-1)); child.once('exit', code => resolve(code)); });
+  const exited = startRecovery();
   await h.waitFor(() => docker(['exec', runner, 'test', '-f', '/state/entered'], { allowFailure: true }).status === 0, 'backup interruption gate');
   cli(['recover'], { success: false });
   client(['sh', '-c', 'kill -9 "$(cat /state/active-pid)"']);

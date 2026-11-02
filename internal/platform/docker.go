@@ -229,7 +229,7 @@ func (d *Docker) healthy(ctx context.Context, image string) error {
 	if c == nil || c.Image != image || !c.State.Running || c.State.Health == nil || c.State.Health.Status != "healthy" {
 		return errors.New("selected application is not healthy")
 	}
-	return nil
+	return d.runtimeConfiguration(ctx, c.ID, c.Image)
 }
 func (d *Docker) preserved(ctx context.Context, s *State) error {
 	db, err := d.service(ctx, "db")
@@ -248,12 +248,12 @@ func (d *Docker) preserved(ctx context.Context, s *State) error {
 	}
 	return nil
 }
-func (d *Docker) runtimeKeys(ctx context.Context, s *State) error {
-	current, err := d.inspect(ctx, s.PriorContainer)
+func (d *Docker) runtimeConfiguration(ctx context.Context, container, image string) error {
+	current, err := d.inspect(ctx, container)
 	if err != nil {
 		return err
 	}
-	raw, err := d.compose(ctx, s.PriorImage, "config", "--format", "json")
+	raw, err := d.compose(ctx, image, "config", "--format", "json")
 	if err != nil {
 		return err
 	}

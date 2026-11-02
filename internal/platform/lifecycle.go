@@ -224,7 +224,7 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 			if err = bindDependencies(ctx, d, next); err != nil {
 				return result, err
 			}
-			if err = d.runtimeKeys(ctx, next); err != nil {
+			if err = d.runtimeConfiguration(ctx, next.PriorContainer, next.PriorImage); err != nil {
 				return result, err
 			}
 		}
@@ -351,6 +351,9 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 		return err
 	}
 	transition := func(phase string) error {
+		if fp, err := configuration(d.root); err != nil || fp != s.Configuration {
+			return errors.New("configuration changed during the operation; phase was not advanced")
+		}
 		if err := saveState(d.root, s, phase); err != nil {
 			return err
 		}
@@ -360,6 +363,9 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 	for {
 		if err := ctx.Err(); err != nil {
 			return err
+		}
+		if fp, err := configuration(d.root); err != nil || fp != s.Configuration {
+			return errors.New("configuration changed during the operation; effect was not started")
 		}
 		switch s.Phase {
 		case "planned":
@@ -371,7 +377,7 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 				if err := d.preserved(ctx, s); err != nil {
 					return err
 				}
-				if err := d.runtimeKeys(ctx, s); err != nil {
+				if err := d.runtimeConfiguration(ctx, s.PriorContainer, s.PriorImage); err != nil {
 					return err
 				}
 				if err := transition("stopping"); err != nil {

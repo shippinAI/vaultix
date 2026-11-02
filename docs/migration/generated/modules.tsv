@@ -1062,7 +1062,7 @@ docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73f
 internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	11	e78c8a8c9ab8de84e293a1597f417135d44c80a282f41b9b9e4d272e51cd8a4b	9	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	5412a370cf0219f65855303f06ec978c03e1cebbc2647e07719a7d5ca610ebb4	4	unassessed
-internal/platform	cli	Go-client-Rust-injection-boundary	9	051c6f42a1c03bcf4f3580bdb2150379ca53a3fcfb387a3fb4a0f4cd452b5a54	9	unassessed
+internal/platform	cli	Go-client-Rust-injection-boundary	9	648f8354a33eff92329c741b2ca5846ee67d7e54dcec68ead4508b252bb58054	9	unassessed
 internal/release	cli	Go-client-Rust-injection-boundary	5	7b5b94aeb0faeb6c1a66cddcddca382d4af3521cef7f0ac86b5447f8d09b17f8	5	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	10	24b31a2f2dcad061bd96e3f2c576bb2f1aefb968abbeb929892e6fef631fa43e	9	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
@@ -1087,7 +1087,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	103	314aef87f4022a5cb4049fc7174348bc69cb49bdac4edb402d3e3b64258569b8	96	unassessed
+scripts	delivery	supporting-tooling-or-contract	103	70fce6829361a1c8781e6ac44575ad81a3430403dbc9eb9485301f8bf8e634d9	96	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/lib	delivery	supporting-tooling-or-contract	7	123b1cf3980e2cbe2b0954f93b91b624dac35d5e29545c884305fbd54472dca2	7	unassessed
