@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { logger } from "@app/lib/logger";
+
 import { deliverOrganizationInvitation } from "./organization-invitation";
 
 vi.mock("@app/lib/logger", () => ({ logger: { error: vi.fn() } }));
@@ -40,6 +42,18 @@ describe("deliverOrganizationInvitation", () => {
       delivery: "link",
       link
     });
+  });
+
+  it("keeps the recipient out of the logs when mail fails", async () => {
+    const failure = Object.assign(new Error(`Can't send mail to ${email}`), { code: "EENVELOPE", rejected: [email] });
+    await deliverOrganizationInvitation({
+      email,
+      isSmtpConfigured: true,
+      createLink,
+      sendMail: () => Promise.reject(failure)
+    });
+    expect(JSON.stringify(vi.mocked(logger.error).mock.calls)).not.toContain(email);
+    expect(vi.mocked(logger.error).mock.calls.at(-1)?.[0]).toMatchObject({ code: "EENVELOPE" });
   });
 
   it("reports failure without sending when no link could be created", async () => {

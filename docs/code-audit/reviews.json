@@ -1046,7 +1046,7 @@
     },
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
-      "blob": "a64b5a8aade7731a5a3865b96c4dc613ef1cbc8a",
+      "blob": "766f6cd751374f87e912976de747998465edd39e",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file reviewed in onboarding packets; this change authors only first-owner initialization and configuration startup/cache recovery. Browser and machine creation serialize on the same database lock and atomically persist owner, organization defaults, token records and configuration. Hashing and external customer preparation precede the transaction; cache invalidation/reporting follow commit. Fresh self-hosted defaults are email-only/invite-only. Existing administration, integration encryption and authorization paths remain; native Nomen/Go migration and broader administrator concurrency are not completed. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -1057,7 +1057,8 @@
         "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Invitation link and mail extracted so createOrganization, resendOrgInvite and the new reissueOrganizationInvitation share them. Resend without SMTP now refuses instead of cancelling a shared link. Adds findUserOrganizationIds."
       ]
     },
     {
@@ -3602,7 +3603,7 @@
     },
     {
       "path": "core/backend/src/server/config/rateLimiter.ts",
-      "blob": "5a16f25284ae3215fcf467b0d65854a0418db069",
+      "blob": "291725466e78f0049d35890d5510712bdf0a74bf",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
@@ -3611,7 +3612,8 @@
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
         ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
-        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json",
+        "Adds earlyAccessRequestLimit, 5 a minute per client counting IPv6 by its /64. Exercised by the rate limit step of scripts/test-early-access.mjs."
       ]
     },
     {
@@ -6300,7 +6302,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "6027ff45fb1ee91664ea181debbbc116ddde1a27",
+      "blob": "dbd18b8d1f0dda56b920a2002eae63ee3f7847b0",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -6311,7 +6313,8 @@
         "scripts/test-invite-only-access.mjs",
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change."
       ]
     },
     {
@@ -10005,14 +10008,15 @@
     },
     {
       "path": "core/backend/src/server/routes/early-access-router.ts",
-      "blob": "17e0efad85f24ccf445c28a578b015bc19ad9c2d",
+      "blob": "f4c9626832568cba727d1e04882905b02160c62f",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Independent review traced every route: all administrator routes are guarded. Adds JSON-only submission, reissue and bulk delete, each behind the same guard. Denial for anonymous and organization-admin callers is in scripts/test-early-access.mjs."
       ]
     },
     {
@@ -10029,98 +10033,106 @@
     },
     {
       "path": "core/backend/src/services/early-access/early-access-dal.ts",
-      "blob": "2b088c6a10a62192621b8720f0f186f1be560a06",
+      "blob": "f1851e14fa083dac2d13f43e27cb49d5d0374ee0",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "List and bulk delete share one filter. Bulk delete writes to the primary and is exercised through the console in scripts/test-early-access.mjs."
       ]
     },
     {
       "path": "core/backend/src/services/early-access/early-access-input.test.ts",
-      "blob": "9c9a04050728414fdfaea83a8d5b76a228243cfd",
+      "blob": "b698e74804ebf6507fda795925d787b7abb91a2b",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds hostile addresses, directional overrides, joiners that must survive, the bulk filter and a non-text organization name."
       ]
     },
     {
       "path": "core/backend/src/services/early-access/early-access-input.ts",
-      "blob": "f3bf926136db394cfd70320f744a1367343393af",
+      "blob": "f2bed1fc3025f88b046f6d98d60cc333dc8621d1",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Independent review found the local part unvalidated. Address form now matches the existing organization route; directional overrides and C1 controls refused; organization name checked in plain TypeScript instead of the Zod schema."
       ]
     },
     {
       "path": "core/backend/src/services/early-access/early-access-service.test.ts",
-      "blob": "9e49aa08e6a02caac882b7ae34db2c9c95ed213e",
+      "blob": "d9ddea50a3cd9aaec6312532267b55531369d9fe",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds refusal for an address with another organization, concurrent loser reporting, reissue rules and bulk delete."
       ]
     },
     {
       "path": "core/backend/src/services/early-access/early-access-service.ts",
-      "blob": "6cc194d1cc243b9c134d614199aceb66c918175d",
+      "blob": "0fe6cb28460bdcf637335d2e72322d5247d5db91",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Independent review traced that an invitation token opens every organization its user was invited to. An address with another organization now gets no invitation here. Adds reissue and bulk delete, and reports a concurrent loser as already invited."
       ]
     },
     {
       "path": "core/backend/src/services/early-access/early-access-types.ts",
-      "blob": "5c3664321351f19f22f3691e06886fca489fc98f",
+      "blob": "95b98f73bdac6e666f1404eca81bfac9cff8a5b1",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds the bulk delete filter type."
       ]
     },
     {
       "path": "core/backend/src/services/super-admin/organization-invitation.test.ts",
-      "blob": "e1eb3fe8e3dca4a605b17c0a55aeac51be831e3d",
+      "blob": "3266c6c3d400374a1f1834ffcfae1b570af3e6f8",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds a test that a mail failure keeps the recipient out of the logs."
       ]
     },
     {
       "path": "core/backend/src/services/super-admin/organization-invitation.ts",
-      "blob": "d7659f3a8313e64ea35d55729f3e3207f08f02e2",
+      "blob": "de1d67c7b358b9a53fe8389160503fb72244de0e",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Logs only the kind of failure, because mail errors quote their recipients."
       ]
     },
     {
@@ -10149,26 +10161,28 @@
     },
     {
       "path": "core/frontend/src/hooks/api/earlyAccess/queries.ts",
-      "blob": "6492b828771295df40216d75bdb874205c47483b",
+      "blob": "612ee61989f82a2de64dbd140cca79b7a882f3b1",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds reissue and bulk delete mutations."
       ]
     },
     {
       "path": "core/frontend/src/hooks/api/earlyAccess/types.ts",
-      "blob": "333969f14873ab05c6e4308e3ce6a0dd37ea08ed",
+      "blob": "10b699a7454193866f9fff90332f40218bb9719f",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds the bulk delete filter type."
       ]
     },
     {
@@ -10209,14 +10223,15 @@
     },
     {
       "path": "core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessRequestsTable.tsx",
-      "blob": "e4eab9ec2d0ada43d21aca004945c5c49a43d7e1",
+      "blob": "f26ae26584899ea428dfefe0dbf7ca6155418784",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Adds Send a new invitation and Delete all shown, exercised in a browser with accessibility checks by scripts/test-early-access.mjs."
       ]
     },
     {
@@ -10233,14 +10248,15 @@
     },
     {
       "path": "core/frontend/src/pages/admin/EarlyAccessPage/components/InviteEarlyAccessModal.tsx",
-      "blob": "05472dd2730eabac346c39a6569ba1ffe5ed1e7c",
+      "blob": "5cb98ec7a31f3df26e7f0f78c10c9906daea142e",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Says the address is unverified and that a link sets up the account, is for that address only and lasts 72 hours. Organization name checked in plain TypeScript instead of the Zod schema."
       ]
     },
     {
@@ -10294,14 +10310,15 @@
     },
     {
       "path": "scripts/test-early-access.mjs",
-      "blob": "a72f673ec48b3e090cd29775892fc6a4cb4b86b0",
+      "blob": "4b5cfbf68920ccd59fe514b1e516c7d74e84e52c",
       "status": "reviewed",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Independent review found organization-admin denial skipped invite and decline, and no hostile address cases. Adds those, form posts, a foreign preflight, a pending invitation elsewhere, a replacement link and bulk delete."
       ]
     },
     {

@@ -23,13 +23,26 @@ The administrator can then:
 
 - **Invite** a pending or declined request. This creates a new organization with the
   requester as its admin, then emails the invitation. Without working SMTP, the
-  administrator gets the invitation link once, to share themselves. Listing requests
-  never returns a link.
+  administrator gets the invitation link once, to share themselves. It lasts 72 hours.
+  Listing requests never returns a link.
+- **Send a new invitation** on an invited request that has not been accepted. This
+  replaces the outstanding link, which stops working, and emails the new one or shows
+  it once.
 - **Decline** a pending request. The requester is not told.
-- **Delete** any request, which removes the personal data.
+- **Delete** any request. After an invite, the address stays on the user and membership
+  that the invitation created, because those are the account rather than the request.
+- **Delete all shown** pending or declined requests, narrowed by search. This is how to
+  recover from a flood.
 
-Inviting into an existing organization is not offered. The administrator is not made
-a member of the new organization.
+Inviting into an existing organization is not offered, and neither is inviting an address
+that already has an account or a pending invitation in another organization. An
+invitation's token belongs to the user, so whoever completes that account could enter
+those organizations too, and an outsider chooses the address a request names. Those go
+through Resource Overview, which sends mail only. The administrator is not made a member
+of the new organization.
+
+Without SMTP, Resend in Resource Overview refuses, because rotating the token without
+mail would only cancel a link someone already shared.
 
 ## Abuse and privacy
 
@@ -39,11 +52,24 @@ The form is unauthenticated and on the public internet, so:
   inbox, and the only mail it can lead to follows an administrator's decision.
 - A repeat address gets the same answer and changes nothing, so the form does not
   reveal who has asked and cannot reopen a decision.
-- Submissions are limited per address, body size is bounded, disposable addresses are
-  refused, unknown fields are refused and a hidden field catches simple bots. There is
-  no CAPTCHA. Once 10,000 requests are pending, new ones are refused.
+- Addresses are not verified, because nothing is mailed. Anyone can submit someone else's
+  address, which grants nothing because the invitation goes to that mailbox, but the
+  details on a request may not come from its owner. Whoever submits first sets those
+  details, and the real owner is told their request was received.
+- Submissions are limited to 5 a minute per client, counting an IPv6 client by its /64.
+  Behind a reverse proxy, set `TRUSTED_PROXY_CIDRS`, or every visitor counts as one
+  client. The route takes JSON only, so a page on another site cannot make its visitors'
+  browsers submit. Body size is bounded, disposable addresses are refused, unknown fields
+  are refused and a hidden field catches simple bots. There is no CAPTCHA.
+- Once 10,000 requests are pending, new ones are refused for everyone. A single client
+  can reach that in about 33 hours, and more quickly with more addresses, so this bounds
+  the store rather than keeping the form available. Closing the form and **Delete all
+  shown** recover from it.
+- An address must be plain ASCII in the form the existing organization route accepts.
+  Other fields refuse control characters and directional overrides.
 - Submitted text is stored as text and rendered as text.
-- IP addresses are not stored.
+- IP addresses are not in the requests table. Request logs hold them as they do for every
+  route, and an administrator's search term appears in the logged URL.
 
 Instance administrators can read requests. Organization admins cannot. The operator is
 the data controller for what the form collects. Vaultix does not ship a privacy policy
@@ -57,7 +83,8 @@ the sidecar is off by default. Approval also depends on organization creation, i
 tokens and mail, all of which are still in TypeScript. A Go version would split one
 decision across two runtimes and two transactions. It moves when those domains do.
 New validation is plain TypeScript with no new Zod. The table schema follows the
-generated convention every table uses.
+generated convention every table uses. Its name rule repeats the one the existing
+organization route applies, rather than calling that route's Zod schema.
 
 ## Schema and upgrades
 
@@ -88,13 +115,18 @@ real browser and real services to cover the closed default, the administrator op
 the form, validation, submission, keyboard focus, 320-pixel reflow and automated
 accessibility checks. It then covers duplicates, the hidden field, inert markup, the
 invitation link through to the requester landing in their organization, single-winner
-concurrent invites, denial for anonymous users and organization admins, decline,
-delete, closing the form and rate limiting.
+concurrent invites, refusing an address invited elsewhere, a replacement link, denial
+for anonymous users and organization admins, decline, delete, bulk delete, hostile
+addresses, form-encoded posts, closing the form and rate limiting.
 
 ## Remaining limits
 
 - Real SMTP delivery of the invitation was not tested. The email and failed-delivery
   branches have unit tests only.
+- A link already handed out for a new address still opens any organization that later
+  invites the same unaccepted account. That needs the link to reach someone other than
+  the mailbox owner, and inviting that address from another organization.
+- A filled queue is not rate limited across clients, and the cap is not load tested.
 - No notification tells an administrator that a request arrived.
 - The existing Add Organization dialog still gives no link when SMTP is off.
 - The shared danger color measures 4.41:1 on the card surface, under the 4.5:1 that small

@@ -16,14 +16,15 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
       ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(20000) });
     return { status: response.status, headers: response.headers, body: await response.json().catch(() => null) };
   };
-  // The public endpoint has a low per-address limit, so earlier steps can legitimately use it up.
-  const submit = async body => {
+  // The public endpoint has a low per-client limit, so earlier steps can legitimately use it up.
+  const untilAllowed = async attempt => {
     for (;;) {
-      const result = await call("/api/v1/early-access/requests", { method: "POST", body, auth: null });
+      const result = await attempt();
       if (result.status !== 429) return result;
       await new Promise(done => setTimeout(done, (Number(result.headers.get("retry-after")) || 10) * 1000 + 1000));
     }
   };
+  const submit = body => untilAllowed(() => call("/api/v1/early-access/requests", { method: "POST", body, auth: null }));
   const status = async () => (await call("/api/v1/early-access/status", { auth: null })).body.acceptingRequests;
   const list = async query => {
     const result = await call(`/api/v1/early-access/requests?${new URLSearchParams(query)}`);
@@ -152,6 +153,27 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     assert.equal(typeof failure.body.error, "string", "Expected failures carry a plain error string");
     check("repeats, automated submissions and invalid input add nothing");
 
+    const tag = randomBytes(6).toString("hex");
+    const hostile = [`\u202emoc.${tag}@eoj.invalid`, `per\u200bson${tag}@vaultix.invalid`, `nul\u0000${tag}@vaultix.invalid`, `<img>${tag}@vaultix.invalid`];
+    for (const email of hostile) {
+      const refused = await submit({ email });
+      assert.equal(refused.status, 400, "A hostile address is an invalid request, not a server failure");
+      assert.equal(typeof refused.body.error, "string");
+    }
+    assert.equal((await submit({ email: unique("bidi"), name: `a\u202eb` })).status, 400, "Directional overrides stay out of stored text");
+    assert.equal((await list({ search: tag })).totalCount, 0, "No hostile address reaches the store");
+    const formAddress = unique("form");
+    const formPost = await untilAllowed(async () => {
+      const response = await fetch(`${origin}/api/v1/early-access/requests`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ email: formAddress }), signal: AbortSignal.timeout(20000) });
+      return { status: response.status, headers: response.headers };
+    });
+    assert.equal(formPost.status, 400, "A page on another site must not be able to post a form here");
+    assert.equal((await list({ search: formAddress })).totalCount, 0);
+    const foreign = await fetch(`${origin}/api/v1/early-access/requests`, { method: "OPTIONS", headers: { Origin: "https://elsewhere.invalid", "Access-Control-Request-Method": "POST", "Access-Control-Request-Headers": "content-type" }, signal: AbortSignal.timeout(20000) });
+    assert.notEqual(foreign.headers.get("access-control-allow-origin"), "https://elsewhere.invalid", "Another site's JSON post must fail its preflight");
+    check("hostile addresses and text, and form posts from other sites, are refused");
+
     await admin.reload();
     await expect(row(admin, requester)).toBeVisible({ timeout: 15000 });
     await expect(row(admin, requester).getByText(markup, { exact: true })).toBeVisible();
@@ -193,8 +215,44 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     const race = await Promise.all(["Race One", "Race Two", "Race Three"].map(organizationName =>
       call(`/api/v1/early-access/requests/${concurrent.id}/invite`, { method: "POST", body: { organizationName } })));
     assert.equal(race.filter(result => result.status === 200).length, 1, "Exactly one concurrent invite wins");
+    assert.equal(race.filter(result => result.status === 400).length, 2, "A concurrent loser is told so, not given a server failure");
     assert.equal(await organizationCount(), organizationsBefore + 2, "Losing invites roll back their organizations");
     check("repeated and concurrent invites leave exactly one organization");
+
+    const elsewhere = unique("elsewhere");
+    const existing = await call("/api/v1/admin/organization-management/organizations", { method: "POST", body: { name: "Existing Organization", inviteAdminEmails: [elsewhere] } });
+    assert.equal(existing.status, 200, "An organization with a pending invitation is the case under test");
+    assert.equal((await submit({ email: elsewhere })).status, 200);
+    const elsewhereRequest = (await list({ search: elsewhere })).requests[0];
+    const organizationsWithExisting = await organizationCount();
+    const refusedInvite = await call(`/api/v1/early-access/requests/${elsewhereRequest.id}/invite`, { method: "POST", body: { organizationName: "Not Created" } });
+    assert.equal(refusedInvite.status, 400, "An invitation link could open the other organization");
+    assert.equal(typeof refusedInvite.body.error, "string");
+    assert.ok(!JSON.stringify(refusedInvite.body).includes("signupinvite"), "A refusal must not carry a link");
+    assert.equal(await organizationCount(), organizationsWithExisting, "A refused invite creates nothing");
+    assert.equal((await list({ search: elsewhere })).requests[0].status, "pending", "The request is still there to handle another way");
+    check("an address with a pending invitation elsewhere gets no invitation link from here");
+
+    const firstLink = new URL(race.find(result => result.status === 200).body.invitation.link);
+    await admin.getByRole("combobox", { name: "Filter requests by status" }).click();
+    await admin.getByRole("option", { name: "Invited", exact: true }).click();
+    await rowAction(admin, concurrentTarget, "Send a new invitation");
+    const reissueDialog = admin.getByRole("dialog", { name: "Share this invitation" });
+    await expect(reissueDialog).toBeVisible({ timeout: 30000 });
+    await expect(reissueDialog.getByText("72 hours")).toBeVisible();
+    await audit(admin, "admin-reissue-link");
+    const secondLink = new URL(await reissueDialog.getByLabel("Invitation link").inputValue());
+    await reissueDialog.getByRole("button", { name: "Done" }).click();
+    assert.notEqual(secondLink.searchParams.get("token"), firstLink.searchParams.get("token"), "A replacement link has a new token");
+    const verifyInvite = link => call("/api/v1/invite-org/verify", { method: "POST", auth: null, body: { email: link.searchParams.get("to"), organizationId: link.searchParams.get("organization_id"), code: link.searchParams.get("token") } });
+    assert.notEqual((await verifyInvite(firstLink)).status, 200, "A replaced link stops working");
+    assert.equal((await verifyInvite(secondLink)).status, 200, "The replacement link works");
+    const pendingMembership = (await call(`/api/v1/admin/organization-management/organizations?limit=100`)).body.organizations.find(organization => organization.id === existing.body.organization.id).members.find(member => member.user.email === elsewhere);
+    const resent = await call(`/api/v1/admin/organization-management/organizations/${existing.body.organization.id}/memberships/${pendingMembership.membershipId}/resend-invite`, { method: "POST" });
+    assert.equal(resent.status, 400, "Without mail, resending would only cancel a link already shared");
+    await admin.getByRole("combobox", { name: "Filter requests by status" }).click();
+    await admin.getByRole("option", { name: "Pending", exact: true }).click();
+    check("a lost link can be replaced, the old one stops working, and resending without mail refuses");
 
     const invitedVisitor = await session();
     contexts.push(invitedVisitor.context);
@@ -222,10 +280,16 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     assert.ok(requesterAuth, "The application must authenticate the invited session");
     assert.equal((await call("/api/v1/early-access/requests", { auth: requesterAuth })).status, 403, "An organization admin is not an instance admin");
     assert.equal((await call(`/api/v1/early-access/requests/${concurrent.id}`, { method: "DELETE", auth: requesterAuth })).status, 403);
+    assert.equal((await call(`/api/v1/early-access/requests/${elsewhereRequest.id}/invite`, { method: "POST", body: { organizationName: "Denied" }, auth: requesterAuth })).status, 403);
+    assert.equal((await call(`/api/v1/early-access/requests/${elsewhereRequest.id}/decline`, { method: "POST", auth: requesterAuth })).status, 403);
+    assert.equal((await call(`/api/v1/early-access/requests/${concurrent.id}/reissue-invitation`, { method: "POST", auth: requesterAuth })).status, 403);
+    assert.equal((await call("/api/v1/early-access/requests/delete-matching", { method: "POST", body: { status: "pending" }, auth: requesterAuth })).status, 403);
+    assert.equal((await list({ search: elsewhere })).totalCount, 1, "A denied bulk delete removes nothing");
+    assert.equal((await call(`/api/v1/early-access/requests/${invited.id}/reissue-invitation`, { method: "POST" })).status, 400, "An accepted invitation has nothing to replace");
     assert.equal((await call("/api/v1/admin/config", { method: "PATCH", body: { earlyAccessRequestsEnabled: false }, auth: requesterAuth })).status, 403);
     await invitedVisitor.page.goto(`${origin}/admin/early-access`);
     await invitedVisitor.page.waitForURL(url => new URL(url).pathname.startsWith("/organizations/"), { timeout: 30000 });
-    check("a non-administrator cannot read requests, change the setting or open the page");
+    check("a non-administrator cannot read, invite, decline, reissue or delete requests, change the setting or open the page");
 
     const declined = unique("declined");
     const removed = unique("removed");
@@ -247,10 +311,31 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     assert.equal((await list({ search: removed })).totalCount, 0, "Deleting removes the personal data");
     check("an administrator can decline and delete requests");
 
+    const floodTag = randomBytes(6).toString("hex");
+    const floodAddresses = [`flood-${floodTag}-a@vaultix.invalid`, `flood-${floodTag}-b@vaultix.invalid`];
+    for (const email of floodAddresses) assert.equal((await submit({ email })).status, 200);
+    const survivor = (await list({ search: elsewhere })).totalCount;
+    await admin.reload();
+    await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag);
+    const bulk = admin.getByRole("button", { name: "Delete all 2 shown", exact: true });
+    await expect(bulk).toBeVisible({ timeout: 15000 });
+    await bulk.click();
+    const bulkDialog = admin.getByRole("alertdialog");
+    await bulkDialog.getByRole("textbox").fill("delete");
+    await bulkDialog.getByRole("button", { name: "Delete", exact: true }).click();
+    await expect(bulkDialog).toHaveCount(0, { timeout: 15000 });
+    assert.equal((await list({ search: floodTag })).totalCount, 0, "Bulk delete removes what the filter shows");
+    assert.equal((await list({ search: elsewhere })).totalCount, survivor, "Bulk delete leaves what the filter does not show");
+    assert.equal((await call("/api/v1/early-access/requests/delete-matching", { method: "POST", body: { status: "invited" } })).status, 400, "Invited requests do not go in bulk");
+    assert.ok((await list({ search: requester })).totalCount === 1, "An invited request survives");
+    assert.equal((await call("/api/v1/early-access/requests/delete-matching", { method: "POST", body: { status: "pending" }, auth: null })).status, 401);
+    await admin.getByRole("textbox", { name: "Search early access requests" }).fill("");
+    check("an administrator can recover from a flood by deleting what a filter shows, and nothing else");
+
     await toggle.click();
     await expect(toggle).not.toBeChecked();
     await expect.poll(status, { timeout: 15000 }).toBe(false);
-    assert.equal((await call("/api/v1/early-access/requests", { method: "POST", body: { email: unique("late") }, auth: null })).status, 403);
+    assert.equal((await submit({ email: unique("late") })).status, 403);
     const after = await open();
     await after.goto(origin);
     const statusAfter = after.waitForResponse(response => response.url().endsWith("/api/v1/early-access/status")).catch(() => null);
@@ -267,7 +352,7 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     }
     assert.ok(limited, "The public endpoint must be rate limited");
     assert.equal(typeof limited.body.error, "string");
-    check("the public endpoint is rate limited per address");
+    check("the public endpoint is rate limited per client");
     report.passed = true;
     save();
   } catch (error) {

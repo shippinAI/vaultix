@@ -15,14 +15,20 @@ const submission = { email: "person@example.com", name: null, organization: null
 const organization = { id: "org-id", name: "Acme" };
 const pendingRequest = { id: "request-id", email: "person@example.com", status: "pending" };
 
-const setup = ({ enabled = true, pending = 0, request = pendingRequest as object | null } = {}) => {
+const setup = ({
+  enabled = true,
+  pending = 0,
+  request = pendingRequest as object | null,
+  organizations = [] as string[]
+} = {}) => {
   const earlyAccessDAL = {
     insertIfNew: vi.fn().mockResolvedValue(undefined),
     countByStatus: vi.fn().mockResolvedValue(pending),
     list: vi.fn().mockResolvedValue({ requests: [], totalCount: 0 }),
     findById: vi.fn().mockResolvedValue(request),
     review: vi.fn().mockResolvedValue({ ...pendingRequest, status: "invited" }),
-    deleteById: vi.fn().mockResolvedValue(request)
+    deleteById: vi.fn().mockResolvedValue(request),
+    deleteMatching: vi.fn().mockResolvedValue(3)
   };
   const tx = { name: "tx" };
   // Stands in for the real transaction: the callback's throw must escape, as it would roll back.
@@ -32,13 +38,16 @@ const setup = ({ enabled = true, pending = 0, request = pendingRequest as object
       return { organization, invitations: [{ email: "person@example.com", delivery: "link", link: "https://link" }] };
     }
   );
+  const reissueOrganizationInvitation = vi.fn().mockResolvedValue({ email: "person@example.com", delivery: "email" });
   const service = earlyAccessServiceFactory({
     earlyAccessDAL,
     getServerCfg: async () => ({ earlyAccessRequestsEnabled: enabled }),
     // @ts-expect-error the fixture organization carries only the fields under test
-    createOrganization
+    createOrganization,
+    findUserOrganizationIds: async () => organizations,
+    reissueOrganizationInvitation
   });
-  return { service, earlyAccessDAL, createOrganization, tx };
+  return { service, earlyAccessDAL, createOrganization, reissueOrganizationInvitation, tx };
 };
 
 describe("submitRequest", () => {
@@ -117,6 +126,75 @@ describe("inviteRequest", () => {
     const { service, createOrganization } = setup({ request: null });
     await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toBeInstanceOf(NotFoundError);
     expect(createOrganization).not.toHaveBeenCalled();
+  });
+
+  it("refuses an address with another organization, because a link could open it", async () => {
+    const { service, createOrganization } = setup({ organizations: ["other-org"] });
+    await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toThrow("another organization");
+    expect(createOrganization).not.toHaveBeenCalled();
+  });
+
+  it("reports a concurrent loser as already invited rather than a database failure", async () => {
+    const { service, earlyAccessDAL, createOrganization } = setup();
+    createOrganization.mockRejectedValueOnce(new Error("duplicate key value violates unique constraint"));
+    earlyAccessDAL.findById
+      .mockResolvedValueOnce(pendingRequest)
+      .mockResolvedValueOnce({ ...pendingRequest, status: "invited" });
+    await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toThrow("already been invited");
+  });
+
+  it("keeps any other failure as it was", async () => {
+    const { service, earlyAccessDAL, createOrganization } = setup();
+    const failure = new Error("database unavailable");
+    createOrganization.mockRejectedValueOnce(failure);
+    earlyAccessDAL.findById.mockResolvedValue(pendingRequest);
+    await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toBe(failure);
+  });
+});
+
+describe("reissueInvitation", () => {
+  const invitedRequest = { ...pendingRequest, status: "invited", invitedOrgId: "org-id" };
+
+  it("issues a new invitation for the organization on the request", async () => {
+    const { service, reissueOrganizationInvitation } = setup({ request: invitedRequest, organizations: ["org-id"] });
+    await expect(service.reissueInvitation("request-id", actor)).resolves.toMatchObject({ delivery: "email" });
+    expect(reissueOrganizationInvitation).toHaveBeenCalledWith(
+      { organizationId: "org-id", email: "person@example.com" },
+      actor
+    );
+  });
+
+  it("refuses once the address has picked up another organization", async () => {
+    const { service, reissueOrganizationInvitation } = setup({
+      request: invitedRequest,
+      organizations: ["org-id", "other-org"]
+    });
+    await expect(service.reissueInvitation("request-id", actor)).rejects.toThrow("another organization");
+    expect(reissueOrganizationInvitation).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["pending", pendingRequest],
+    ["declined", { ...pendingRequest, status: "declined" }],
+    ["invited, with its organization since deleted", { ...pendingRequest, status: "invited", invitedOrgId: null }]
+  ])("refuses a request that is %s", async (_label, request) => {
+    const { service, reissueOrganizationInvitation } = setup({ request });
+    await expect(service.reissueInvitation("request-id", actor)).rejects.toBeInstanceOf(BadRequestError);
+    expect(reissueOrganizationInvitation).not.toHaveBeenCalled();
+  });
+
+  it("reports a request that no longer exists", async () => {
+    const { service } = setup({ request: null });
+    await expect(service.reissueInvitation("request-id", actor)).rejects.toBeInstanceOf(NotFoundError);
+  });
+});
+
+describe("deleteMatchingRequests", () => {
+  it("passes the filter through and reports how many went", async () => {
+    const { service, earlyAccessDAL } = setup();
+    const filter = { status: "pending" as const, search: "spam" };
+    await expect(service.deleteMatchingRequests(filter)).resolves.toEqual({ deletedCount: 3 });
+    expect(earlyAccessDAL.deleteMatching).toHaveBeenCalledWith(filter);
   });
 });
 

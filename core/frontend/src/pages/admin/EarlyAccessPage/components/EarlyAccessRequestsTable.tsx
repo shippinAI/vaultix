@@ -4,6 +4,7 @@ import {
   faEllipsisV,
   faMagnifyingGlass,
   faPaperPlane,
+  faRotateRight,
   faTrash,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +14,7 @@ import { format } from "date-fns";
 import { createNotification } from "@app/components/notifications";
 import {
   Badge,
+  Button,
   Pagination,
   Select,
   SelectContent,
@@ -31,7 +33,9 @@ import {
   TEarlyAccessStatus,
   useDeclineEarlyAccessRequest,
   useDeleteEarlyAccessRequest,
-  useGetEarlyAccessRequests
+  useDeleteMatchingEarlyAccessRequests,
+  useGetEarlyAccessRequests,
+  useReissueEarlyAccessInvitation
 } from "@app/hooks/api/earlyAccess";
 import {
   EmptyState,
@@ -54,7 +58,7 @@ import {
   Input
 } from "@app/pages/admin/components/AdminV3Adapters";
 
-import { InviteEarlyAccessModal } from "./InviteEarlyAccessModal";
+import { InvitationLinkModal, InviteEarlyAccessModal } from "./InviteEarlyAccessModal";
 
 type StatusFilter = TEarlyAccessStatus | "all";
 
@@ -79,6 +83,8 @@ export const EarlyAccessRequestsTable = () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const [inviting, setInviting] = useState<TEarlyAccessRequest>();
   const [deleting, setDeleting] = useState<TEarlyAccessRequest>();
+  const [isDeletingMatching, setIsDeletingMatching] = useState(false);
+  const [reissued, setReissued] = useState<{ email: string; link: string }>();
 
   const { offset, limit, setPage, perPage, page, setPerPage } = usePagination("", {
     initPerPage: getUserTablePreference(TABLE_PREFERENCE, PreferenceKey.PerPage, 25)
@@ -96,6 +102,12 @@ export const EarlyAccessRequestsTable = () => {
 
   const { mutate: declineRequest } = useDeclineEarlyAccessRequest();
   const { mutateAsync: deleteRequest } = useDeleteEarlyAccessRequest();
+  const { mutateAsync: deleteMatching } = useDeleteMatchingEarlyAccessRequests();
+  const { mutate: reissueInvitation } = useReissueEarlyAccessInvitation();
+
+  // Invited requests record a decision, so they do not go in bulk.
+  const bulkStatus =
+    statusFilter === "pending" || statusFilter === "declined" ? statusFilter : undefined;
 
   return (
     <div className="rounded-lg border border-border bg-card p-5 text-foreground">
@@ -134,6 +146,11 @@ export const EarlyAccessRequestsTable = () => {
             ))}
           </SelectContent>
         </Select>
+        {bulkStatus && totalCount > 0 && (
+          <Button variant="ghost" type="button" onClick={() => setIsDeletingMatching(true)}>
+            Delete all {totalCount} shown
+          </Button>
+        )}
       </div>
       <div className="mt-4">
         <TableContainer>
@@ -197,6 +214,37 @@ export const EarlyAccessRequestsTable = () => {
                                   Invite
                                 </DropdownMenuItem>
                               )}
+                              {request.status === "invited" && (
+                                <DropdownMenuItem
+                                  icon={<FontAwesomeIcon icon={faRotateRight} />}
+                                  onClick={() =>
+                                    reissueInvitation(request.id, {
+                                      onSuccess: (invitation) => {
+                                        if (invitation.delivery === "link") {
+                                          setReissued({
+                                            email: invitation.email,
+                                            link: invitation.link
+                                          });
+                                          return;
+                                        }
+                                        createNotification(
+                                          invitation.delivery === "email"
+                                            ? {
+                                                type: "success",
+                                                text: `Invitation emailed to ${request.email}.`
+                                              }
+                                            : {
+                                                type: "error",
+                                                text: "The invitation could not be delivered. Try again."
+                                              }
+                                        );
+                                      }
+                                    })
+                                  }
+                                >
+                                  Send a new invitation
+                                </DropdownMenuItem>
+                              )}
                               {request.status === "pending" && (
                                 <DropdownMenuItem
                                   icon={<FontAwesomeIcon icon={faBan} />}
@@ -246,6 +294,25 @@ export const EarlyAccessRequestsTable = () => {
         )}
       </div>
       <InviteEarlyAccessModal request={inviting} onClose={() => setInviting(undefined)} />
+      <InvitationLinkModal invitation={reissued} onClose={() => setReissued(undefined)} />
+      <DeleteActionModal
+        isOpen={isDeletingMatching}
+        deleteKey="delete"
+        title={`Delete all ${totalCount} ${bulkStatus ?? ""} requests shown${debouncedSearch ? ` for "${debouncedSearch}"` : ""}?`}
+        onChange={setIsDeletingMatching}
+        onDeleteApproved={async () => {
+          if (!bulkStatus) return;
+          const deletedCount = await deleteMatching({
+            status: bulkStatus,
+            search: debouncedSearch || undefined
+          });
+          createNotification({
+            type: "success",
+            text: deletedCount === 1 ? "1 request deleted." : `${deletedCount} requests deleted.`
+          });
+          setIsDeletingMatching(false);
+        }}
+      />
       <DeleteActionModal
         isOpen={Boolean(deleting)}
         deleteKey="delete"

@@ -19,6 +19,11 @@ export type TEarlyAccessFilter = {
   offset: number;
 };
 
+export type TEarlyAccessBulkDeleteFilter = {
+  status: "pending" | "declined";
+  search?: string;
+};
+
 export type TEarlyAccessRequestsResponse = {
   requests: TEarlyAccessRequest[];
   totalCount: number;

@@ -9,6 +9,11 @@ export type TEarlyAccessSubmission = {
   useCase: string | null;
 };
 
+export type TEarlyAccessBulkDeleteFilter = {
+  status: Extract<TEarlyAccessStatus, "pending" | "declined">;
+  search?: string;
+};
+
 export type TEarlyAccessListFilter = {
   status?: TEarlyAccessStatus;
   search?: string;

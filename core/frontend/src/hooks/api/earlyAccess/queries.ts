@@ -4,7 +4,9 @@ import { apiRequest } from "@app/config/request";
 
 import { adminStandaloneKeys } from "../admin/queries";
 import {
+  TEarlyAccessBulkDeleteFilter,
   TEarlyAccessFilter,
+  TEarlyAccessInvitation,
   TEarlyAccessRequest,
   TEarlyAccessRequestsResponse,
   TInviteEarlyAccessRequestResponse
@@ -49,6 +51,30 @@ export const useInviteEarlyAccessRequest = () => {
       queryClient.invalidateQueries({ queryKey: earlyAccessKeys.all });
       queryClient.invalidateQueries({ queryKey: [adminStandaloneKeys.getOrganizations] });
     }
+  });
+};
+
+export const useReissueEarlyAccessInvitation = () =>
+  useMutation({
+    mutationFn: async (requestId: string) => {
+      const { data } = await apiRequest.post<{ invitation: TEarlyAccessInvitation }>(
+        `${BASE_URL}/${requestId}/reissue-invitation`
+      );
+      return data.invitation;
+    }
+  });
+
+export const useDeleteMatchingEarlyAccessRequests = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (filter: TEarlyAccessBulkDeleteFilter) => {
+      const { data } = await apiRequest.post<{ deletedCount: number }>(
+        `${BASE_URL}/delete-matching`,
+        filter
+      );
+      return data.deletedCount;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: earlyAccessKeys.all })
   });
 };
 

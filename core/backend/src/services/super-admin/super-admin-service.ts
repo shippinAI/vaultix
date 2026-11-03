@@ -882,6 +882,35 @@ export const superAdminServiceFactory = ({
     });
   };
 
+  const createInvitationLink = async (userId: string, email: string, organizationId: string) => {
+    const token = await tokenService.createTokenForUser({
+      type: TokenType.TOKEN_EMAIL_ORG_INVITATION,
+      userId,
+      orgId: organizationId
+    });
+    return `${getConfig().SITE_URL}/signupinvite?token=${token}&to=${encodeURIComponent(
+      email
+    )}&organization_id=${organizationId}`;
+  };
+
+  const mailInvitation = (
+    email: string,
+    organizationName: string | undefined,
+    serverAdmin: Pick<TUsers, "firstName" | "email"> | null | undefined,
+    callbackUrl: string
+  ) =>
+    smtpService.sendMail({
+      template: SmtpTemplates.OrgInvite,
+      subjectLine: "Vaultix organization invitation",
+      recipients: [email],
+      substitutions: {
+        inviterFirstName: serverAdmin?.firstName,
+        inviterUsername: serverAdmin?.email,
+        organizationName,
+        callback_url: callbackUrl
+      }
+    });
+
   const createOrganization = async (
     { name, inviteAdminEmails: emails }: TCreateOrganizationDTO,
     actor: OrgServiceActor,
@@ -1014,14 +1043,7 @@ export const superAdminServiceFactory = ({
                 if (isAccepted) return `${appCfg.SITE_URL}/login?org_id=${organization.id}`;
 
                 // new user, send regular invite
-                const token = await tokenService.createTokenForUser({
-                  type: TokenType.TOKEN_EMAIL_ORG_INVITATION,
-                  userId,
-                  orgId: organization.id
-                });
-                return `${appCfg.SITE_URL}/signupinvite?token=${token}&to=${encodeURIComponent(
-                  email
-                )}&organization_id=${organization.id}`;
+                return createInvitationLink(userId, email, organization.id);
               },
               sendMail: (callbackUrl) =>
                 isAccepted
@@ -1038,23 +1060,48 @@ export const superAdminServiceFactory = ({
                         callback_url: callbackUrl
                       }
                     })
-                  : smtpService.sendMail({
-                      template: SmtpTemplates.OrgInvite,
-                      subjectLine: "Vaultix organization invitation",
-                      recipients: [email],
-                      substitutions: {
-                        inviterFirstName: serverAdmin?.firstName,
-                        inviterUsername: serverAdmin?.email,
-                        organizationName: organization.name,
-                        callback_url: callbackUrl
-                      }
-                    })
+                  : mailInvitation(email, organization.name, serverAdmin, callbackUrl)
             })
           : []
       )
     );
 
     return { organization, invitations };
+  };
+
+  const findUserOrganizationIds = async (email: string) => {
+    const user = await userDAL.findOne({ username: email });
+    if (!user) return [];
+    const memberships = await membershipUserDAL.find({ actorUserId: user.id, scope: AccessScope.Organization });
+    return memberships.map(({ scopeOrgId }) => scopeOrgId);
+  };
+
+  // Replaces the outstanding token, so an earlier link stops working. Unlike resendOrgInvite this
+  // can hand the link back, because its caller has somewhere to show it.
+  const reissueOrganizationInvitation = async (
+    { organizationId, email }: { organizationId: string; email: string },
+    actor: OrgServiceActor
+  ) => {
+    const user = await userDAL.findOne({ username: email });
+    const membership = user
+      ? await membershipUserDAL.findOne({
+          actorUserId: user.id,
+          scopeOrgId: organizationId,
+          scope: AccessScope.Organization
+        })
+      : undefined;
+    if (!user || !membership) throw new NotFoundError({ message: "This invitation no longer exists." });
+    if (user.isAccepted || membership.status === OrgMembershipStatus.Accepted)
+      throw new BadRequestError({ message: "This user has already accepted their invitation." });
+
+    const organization = await orgDAL.findOrgById(organizationId);
+    const serverAdmin = await userDAL.findById(actor.id);
+    return deliverOrganizationInvitation({
+      email,
+      isSmtpConfigured: getConfig().isSmtpConfigured,
+      createLink: () => createInvitationLink(user.id, email, organizationId),
+      sendMail: (callbackUrl) => mailInvitation(email, organization?.name, serverAdmin, callbackUrl)
+    });
   };
 
   const deleteOrganization = async (organizationId: string) => {
@@ -1185,28 +1232,19 @@ export const superAdminServiceFactory = ({
       orgDAL.findOrgById(orgMembership.scopeOrgId)
     );
 
-    const appCfg = getConfig();
+    // Rotating the token without mail would only cancel a link someone already shared.
+    if (!getConfig().isSmtpConfigured)
+      throw new BadRequestError({
+        message: "Email isn't configured, so this can't reach them and would cancel any invitation link already shared."
+      });
+
     const serverAdmin = await userDAL.findById(actor.id);
-
-    const token = await tokenService.createTokenForUser({
-      type: TokenType.TOKEN_EMAIL_ORG_INVITATION,
-      userId: orgMembership.actorUserId,
-      orgId: orgMembership.scopeOrgId
-    });
-
-    await smtpService.sendMail({
-      template: SmtpTemplates.OrgInvite,
-      subjectLine: "Vaultix organization invitation",
-      recipients: [orgMembership.inviteEmail],
-      substitutions: {
-        inviterFirstName: serverAdmin?.firstName,
-        inviterUsername: serverAdmin?.email,
-        organizationName: org?.name,
-        callback_url: `${appCfg.SITE_URL}/signupinvite?token=${token}&to=${encodeURIComponent(
-          orgMembership.inviteEmail
-        )}&organization_id=${orgMembership.scopeOrgId}`
-      }
-    });
+    const callbackUrl = await createInvitationLink(
+      orgMembership.actorUserId,
+      orgMembership.inviteEmail,
+      orgMembership.scopeOrgId
+    );
+    await mailInvitation(orgMembership.inviteEmail, org?.name, serverAdmin, callbackUrl);
 
     return { ...orgMembership, orgId: organizationId, role: "" };
   };
@@ -1417,6 +1455,8 @@ export const superAdminServiceFactory = ({
     getEnvOverridesOrganized,
     deleteUsers,
     createOrganization,
+    findUserOrganizationIds,
+    reissueOrganizationInvitation,
     joinOrganization,
     resendOrgInvite,
     getEmailDomains,

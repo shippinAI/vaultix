@@ -16,12 +16,20 @@ import {
   Input
 } from "@app/components/v3";
 import { TEarlyAccessRequest, useInviteEarlyAccessRequest } from "@app/hooks/api/earlyAccess";
-import { GenericResourceNameSchema } from "@app/lib/schemas";
 
+// The rule the existing organization route applies to a name.
 const validateOrganizationName = (value: string) => {
-  const result = GenericResourceNameSchema.safeParse(value);
-  return result.success || (result.error.issues[0]?.message ?? "Enter a valid name.");
+  const name = value.trim();
+  if (!name) return "Name must be at least 1 character";
+  if (name.length > 64) return "Name must be 64 or fewer characters";
+  return (
+    /^[a-zA-Z0-9_ -]+$/.test(name) ||
+    "Name can only contain alphanumeric characters, dashes, underscores, and spaces"
+  );
 };
+
+const describeLink = (email?: string) =>
+  `Email isn't available, so send this link to ${email} yourself, at that address only. Whoever holds it can set up that account. It expires in 72 hours and won't be shown again.`;
 
 const InviteForm = ({
   request,
@@ -56,7 +64,7 @@ const InviteForm = ({
           ? { type: "success", text: `Invitation emailed to ${request.email}.` }
           : {
               type: "error",
-              text: "The organization was created, but the invitation could not be delivered. Resend it from Resource Overview."
+              text: "The organization was created, but the invitation could not be delivered. Use Send a new invitation on this request."
             }
       );
       onClose();
@@ -128,6 +136,24 @@ const InviteLink = ({ link, onClose }: { link: string; onClose: () => void }) =>
   </div>
 );
 
+export const InvitationLinkModal = ({
+  invitation,
+  onClose
+}: {
+  invitation: { email: string; link: string } | undefined;
+  onClose: () => void;
+}) => (
+  <Dialog open={Boolean(invitation)} onOpenChange={(isOpen) => !isOpen && onClose()}>
+    <DialogContent className="sm:max-w-lg">
+      <DialogHeader className="text-left">
+        <DialogTitle>Share this invitation</DialogTitle>
+        <DialogDescription>{describeLink(invitation?.email)}</DialogDescription>
+      </DialogHeader>
+      {invitation && <InviteLink link={invitation.link} onClose={onClose} />}
+    </DialogContent>
+  </Dialog>
+);
+
 export const InviteEarlyAccessModal = ({
   request,
   onClose
@@ -148,8 +174,8 @@ export const InviteEarlyAccessModal = ({
           <DialogTitle>{link ? "Share this invitation" : "Invite to Vaultix"}</DialogTitle>
           <DialogDescription>
             {link
-              ? `Email isn't available, so send this link to ${request?.email} yourself. Anyone with it can accept the invitation, and it won't be shown again.`
-              : `This creates an organization for ${request?.email} and makes them its admin.`}
+              ? describeLink(request?.email)
+              : `This creates an organization for ${request?.email} and makes them its admin. Anyone can submit any address, so the details on this request may not come from its owner.`}
           </DialogDescription>
         </DialogHeader>
         {link && <InviteLink link={link} onClose={close} />}

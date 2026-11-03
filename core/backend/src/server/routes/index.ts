@@ -4190,7 +4190,9 @@ export const registerRoutes = async (
     service: earlyAccessServiceFactory({
       earlyAccessDAL: earlyAccessDALFactory(db),
       getServerCfg,
-      createOrganization: superAdminService.createOrganization
+      createOrganization: superAdminService.createOrganization,
+      findUserOrganizationIds: superAdminService.findUserOrganizationIds,
+      reissueOrganizationInvitation: superAdminService.reissueOrganizationInvitation
     })
   });
 

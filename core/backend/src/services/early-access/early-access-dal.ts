@@ -6,7 +6,12 @@ import { DatabaseError } from "@app/lib/errors";
 import { sanitizeSqlLikeString } from "@app/lib/fn";
 import { ormify } from "@app/lib/knex";
 
-import { TEarlyAccessListFilter, TEarlyAccessStatus, TEarlyAccessSubmission } from "./early-access-types";
+import {
+  TEarlyAccessBulkDeleteFilter,
+  TEarlyAccessListFilter,
+  TEarlyAccessStatus,
+  TEarlyAccessSubmission
+} from "./early-access-types";
 
 export type TEarlyAccessDALFactory = ReturnType<typeof earlyAccessDALFactory>;
 
@@ -15,6 +20,20 @@ type TEarlyAccessReview = {
   status: TEarlyAccessStatus;
   reviewedByUserId: string;
   invitedOrgId?: string;
+};
+
+const matching = <T extends Knex.QueryBuilder>(
+  query: T,
+  { status, search }: { status?: TEarlyAccessStatus; search?: string }
+) => {
+  if (status) void query.where({ status });
+  if (search) {
+    const term = `%${sanitizeSqlLikeString(search)}%`;
+    void query.where((inner) => {
+      void inner.whereILike("email", term).orWhereILike("name", term).orWhereILike("organization", term);
+    });
+  }
+  return query;
 };
 
 export const earlyAccessDALFactory = (db: TDbClient) => {
@@ -42,17 +61,7 @@ export const earlyAccessDALFactory = (db: TDbClient) => {
   };
 
   const list = async ({ status, search, limit, offset }: TEarlyAccessListFilter) => {
-    const filtered = () => {
-      const query = db.replicaNode()(TableName.VaultixEarlyAccessRequests);
-      if (status) void query.where({ status });
-      if (search) {
-        const term = `%${sanitizeSqlLikeString(search)}%`;
-        void query.where((inner) => {
-          void inner.whereILike("email", term).orWhereILike("name", term).orWhereILike("organization", term);
-        });
-      }
-      return query;
-    };
+    const filtered = () => matching(db.replicaNode()(TableName.VaultixEarlyAccessRequests), { status, search });
     try {
       const requests = await filtered()
         .select("*")
@@ -64,6 +73,14 @@ export const earlyAccessDALFactory = (db: TDbClient) => {
       return { requests: requests as TVaultixEarlyAccessRequests[], totalCount: Number(total?.count ?? 0) };
     } catch (error) {
       throw new DatabaseError({ error, name: "List early access requests" });
+    }
+  };
+
+  const deleteMatching = async (filter: TEarlyAccessBulkDeleteFilter) => {
+    try {
+      return await matching(db(TableName.VaultixEarlyAccessRequests), filter).delete();
+    } catch (error) {
+      throw new DatabaseError({ error, name: "Delete early access requests" });
     }
   };
 
@@ -86,5 +103,5 @@ export const earlyAccessDALFactory = (db: TDbClient) => {
     }
   };
 
-  return { ...earlyAccessOrm, insertIfNew, countByStatus, list, review };
+  return { ...earlyAccessOrm, insertIfNew, countByStatus, list, deleteMatching, review };
 };

@@ -1,10 +1,12 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from "fastify";
 
-import { readLimit, requestAccessLimit, writeLimit } from "@app/server/config/rateLimiter";
+import { BadRequestError } from "@app/lib/errors";
+import { earlyAccessRequestLimit, readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifySuperAdmin } from "@app/server/plugins/auth/superAdmin";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode } from "@app/services/auth/auth-type";
 import {
+  parseEarlyAccessBulkDelete,
   parseEarlyAccessInvite,
   parseEarlyAccessListQuery,
   parseEarlyAccessRequestId,
@@ -13,6 +15,7 @@ import {
 import type { TEarlyAccessServiceFactory } from "@app/services/early-access/early-access-service";
 
 const SUBMISSION_BODY_LIMIT = 16 * 1024;
+const JSON_BODY = /^application\/json\s*(?:;|$)/i;
 
 const verifyInstanceAdmin = (req: FastifyRequest, res: FastifyReply, done: HookHandlerDoneFunction) => {
   verifyAuth([AuthMode.JWT])(req, res, () => {
@@ -40,8 +43,11 @@ export const registerEarlyAccessRouter = async (
     method: "POST",
     url: "/requests",
     bodyLimit: SUBMISSION_BODY_LIMIT,
-    config: { rateLimit: requestAccessLimit },
+    config: { rateLimit: earlyAccessRequestLimit },
     handler: async (req) => {
+      // Any site can post a form here without a preflight, spending its visitors' allowance.
+      if (!JSON_BODY.test(req.headers["content-type"] ?? ""))
+        throw new BadRequestError({ message: "Send the request as a JSON object." });
       await service.submitRequest(parseEarlyAccessSubmission(req.body));
       return { received: true };
     }
@@ -64,6 +70,24 @@ export const registerEarlyAccessRouter = async (
       const { organizationName } = parseEarlyAccessInvite(req.body);
       return service.inviteRequest(parseEarlyAccessRequestId(req.params), organizationName, req.permission);
     }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests/:requestId/reissue-invitation",
+    config: { rateLimit: writeLimit },
+    onRequest: verifyInstanceAdmin,
+    handler: async (req) => ({
+      invitation: await service.reissueInvitation(parseEarlyAccessRequestId(req.params), req.permission)
+    })
+  });
+
+  server.route({
+    method: "POST",
+    url: "/requests/delete-matching",
+    config: { rateLimit: writeLimit },
+    onRequest: verifyInstanceAdmin,
+    handler: async (req) => service.deleteMatchingRequests(parseEarlyAccessBulkDelete(req.body))
   });
 
   server.route({
