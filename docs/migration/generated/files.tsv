@@ -9707,7 +9707,7 @@ scripts/test-device-http.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/test-device-worker-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	authored
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-early-access-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0aa9a589c9658620b7bf00088d8909ca379af398	reviewed
-scripts/test-early-access.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	062f1071ddd360289354e6f21151819036631e29	reviewed
+scripts/test-early-access.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	63817183ec0bf01fe3b4336bf6d3fc28eb3c7cc9	reviewed
 scripts/test-encrypted-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified
 scripts/test-first-run-setup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a65b732e0bbda99492faa29d47e24084fecc6f71	reviewed

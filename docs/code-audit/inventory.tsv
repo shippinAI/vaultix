@@ -11980,15 +11980,15 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	d2e91a4140cb0aba503f3d01b58d6fd08cade025	generated	unread
-docs/capabilities/generated/source-map.tsv	f1f4d1f3f9c55a1f9bb2db02014623bebef733e3	generated	unread
+docs/capabilities/generated/source-map.tsv	d2fc65a58c76cabe2bfbaffbeea522affcc586b6	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	32d1ba54f29ff4773f29b66a5f3abaee9cac4477	generated	unread
-docs/migration/generated/modules.tsv	368dcfc7d74b584a2945dd4f4274d1f3c0191890	generated	unread
+docs/migration/generated/files.tsv	41e4f64fe7bc6fe193cb91dc18f50c688b32a46e	generated	unread
+docs/migration/generated/modules.tsv	7cdaba9e53221d8ef97a08da182bae9345c9692b	generated	unread
 docs/migration/generated/summary.json	d8a659dbbff2af18d72a0e1ada91742de37c1fbd	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored
@@ -12217,7 +12217,7 @@ scripts/test-device-http.mjs	fdb3a1099dd3571328e27eca2d32141f45f6e21b	build-and-
 scripts/test-device-worker-image.mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	build-and-operations	authored
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
 scripts/test-early-access-migration.mjs	0aa9a589c9658620b7bf00088d8909ca379af398	build-and-operations	reviewed
-scripts/test-early-access.mjs	062f1071ddd360289354e6f21151819036631e29	build-and-operations	reviewed
+scripts/test-early-access.mjs	63817183ec0bf01fe3b4336bf6d3fc28eb3c7cc9	build-and-operations	reviewed
 scripts/test-encrypted-recovery.mjs	292d31f56f92316c80e6fa2d28b60f1890712021	build-and-operations	verified
 scripts/test-environment-workflow.mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	build-and-operations	verified
 scripts/test-first-run-setup.mjs	a65b732e0bbda99492faa29d47e24084fecc6f71	build-and-operations	reviewed

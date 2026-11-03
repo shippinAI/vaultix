@@ -319,10 +319,11 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag);
     const bulk = admin.getByRole("button", { name: "Delete all 2 matching", exact: true });
     await expect(bulk).toBeEnabled({ timeout: 15000 });
-    // While a wider filter loads, the screen still shows this one's rows and count.
+    // While a filter not seen yet loads, the screen still shows this one's rows and count.
+    // A filter already loaded shows its own at once, so it would not reach this state.
     const slowList = async route => { await new Promise(done => setTimeout(done, 4000)); await route.continue(); };
     await admin.route("**/api/v1/early-access/requests?*", slowList);
-    await admin.getByRole("textbox", { name: "Search early access requests" }).fill("");
+    await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag.slice(0, 8));
     await admin.waitForTimeout(1500);
     await expect(bulk).toBeDisabled();
     await admin.unroute("**/api/v1/early-access/requests?*", slowList);
