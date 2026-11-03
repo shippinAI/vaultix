@@ -29,8 +29,9 @@ const (
 )
 
 type Config struct {
-	IdentityTokenPolicy IdentityTokenPolicy
-	DeviceAccessPolicy  DeviceAccessPolicy
+	IdentityTokenPolicy        IdentityTokenPolicy
+	DeviceAccessPolicy         DeviceAccessPolicy
+	DeviceAuthorizationEnabled bool
 	// Server
 	VaultixPlatformVersion                 string
 	KubernetesAutoFetchServiceAccountToken bool
@@ -736,6 +737,10 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 	cfg.DeviceAccessPolicy = devicePolicy
+	cfg.DeviceAuthorizationEnabled, err = ParseDeviceAuthorizationEnabled(os.Getenv("VAULTIX_DEVICE_AUTHORIZATION_ENABLED"), devicePolicy)
+	if err != nil {
+		return nil, err
+	}
 
 	// Parse NODE_ENV
 	nodeEnvStr := os.Getenv("NODE_ENV")
