@@ -1795,10 +1795,10 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "555c99f5df15168ca1488ad5fb3d1c928706ed6d",
-      "status": "authored",
+      "blob": "e17f6832fed8b51056fcb7b04baa6399f8cff7b2",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0040-native-identity-lifetime-policy.md",
@@ -1814,7 +1814,10 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -1829,15 +1832,18 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "2e20a8efa5aaf2c3a468d74933577132ba54e7e6",
-      "status": "authored",
+      "blob": "a05b9281a9ec6699921fcad2ecdcac789955bc1e",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -2727,16 +2733,19 @@
     },
     {
       "path": "docs/capabilities/README.md",
-      "blob": "dad96ae4bafeb9f0e401e121eb0829875aebf205",
-      "status": "authored",
+      "blob": "94297f8290ba724d7ccac28e11211c8b8930583d",
+      "status": "reviewed",
       "decision": "retain",
-      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity.",
+      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -3295,16 +3304,15 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.ts",
-      "blob": "57205fd2a387ce44a0b61cb01ca305a814cf88c7",
-      "status": "authored",
+      "blob": "7ae714e629379b71c15f31c74fa03339297be6d5",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
       ]
     },
     {
@@ -5413,12 +5421,15 @@
     },
     {
       "path": "docs/0074-built-in-and-federated-identity.md",
-      "blob": "f60a69a53297387db1e40fbed99dc17a56ae8f5c",
+      "blob": "8287dc69a039450e46be68a9a33ce13152c7d286",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0074-built-in-and-federated-identity.md",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -6338,26 +6349,32 @@
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy.go",
-      "blob": "b94eba805cad3d7b89872820fdf79f97afa0fcd6",
-      "status": "authored",
+      "blob": "fe4038610c6c6055e9336485b761448325ce01f8",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy_test.go",
-      "blob": "86dd2ecafe7f88536a844302fb1517cf86b92dc5",
-      "status": "authored",
+      "blob": "f948beefa7e1b99bdc0f2dbd7002e21392e79fc0",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -6739,16 +6756,15 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-      "blob": "e60add1907f0b0d67d92f1de35543651359caed8",
-      "status": "authored",
+      "blob": "6acbc598a80b2aca3eee099dad3ea483624df10c",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
       ]
     },
     {
@@ -9087,16 +9103,19 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "6d8fa49cb54a1ca1e337383c42a1a7efba6281d5",
+      "blob": "a6004600f6d77e0df9a7ce6dc25de63132935e2b",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9161,16 +9180,19 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "a787c87491a6f7a208cc7d99091cfb385a25e225",
+      "blob": "cdb0c8164d560dc589ff7119b4dfbef0d1dde414",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9200,15 +9222,18 @@
     },
     {
       "path": "cmd/vaultix/server.go",
-      "blob": "3d08f65bf6761048ba3bad617816960f2a562026",
+      "blob": "82beb97aed50e8cc1f32d0d12c72ae0bdd6e1c34",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Usage text now says --discard-writes is required whenever rollback restores the database. Unit tests in cmd/vaultix pass."
       ]
     },
     {
@@ -9226,29 +9251,35 @@
     },
     {
       "path": "contracts/vaultix.instance-operation.v1.json",
-      "blob": "136d0aa1d4d2709bf8399a8dff3fc3ec96b5a976",
+      "blob": "72db91094be9e7bd043e9415e7232b0e2cc7c472",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "ba371d7056b6dcf0ebe7101bd6633283e9c498ed",
+      "blob": "bb81d461d6c29d87a286817ef443181ef24742dc",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
         "scripts/test-release-download.mjs",
         "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/download-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Rollback, last resort and limits revised against the code after a second independent review; earlier-CLI statement corrected."
       ]
     },
     {
@@ -9279,10 +9310,10 @@
     },
     {
       "path": "internal/platform/docker.go",
-      "blob": "39ba909f2220560cac518e1d193fd26eb7b507a3",
+      "blob": "de80af3a33cd655214d88442732aba5ce10e1026",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9290,7 +9321,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9308,15 +9341,18 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "b6d342c1facc2425b41685ed3ec33404ee972f3c",
+      "blob": "0b3dba987759a428f9a6f07a6797df553deea94e",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced every phase and kill point. Time limit before the rehearsal returns the previous application; rollback rebinds recreated dependencies; restoring stops an application started by hand; newest verified checkpoint carried on upgrades. TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit fails with the guard removed."
       ]
     },
     {
@@ -9363,23 +9399,26 @@
     },
     {
       "path": "internal/platform/types.go",
-      "blob": "36a830f123a7dd726dfd8a217bcab9761479c9cd",
+      "blob": "4b319445475ec3a4227d5ca25f067f66d09992a4",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "An upgrade may now carry the newest verified release checkpoint; other actions still may not. Covered by TestRollbackDoesNotRewindReleaseReplayProtection."
       ]
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "aa8951f1fd2a92eaa4df0e044b849fac226afef3",
+      "blob": "f9151e613aca54de482c72129d5074b2aa228a30",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9387,7 +9426,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -10259,6 +10300,178 @@
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp.test.ts",
+      "blob": "940080d4c987ace577e2bc02ffa936f846da6cd6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
+      "evidence": [
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+      ]
+    },
+    {
+      "path": "internal/platform/rollback.go",
+      "blob": "e565db0b0acc3d9503d7335794c51b6cb0865aaf",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced each kill point in restoreStore and found no data-loss or wrong-database path. Every restore needs --discard-writes; rebindDependencies refuses a fresh volume when no restore follows; a retry after a committed swap neither repeats nor rechecks it; named separates an absent container from a Docker failure. Removing the store check or restoring the recheck fails scripts/test-server-migration.mjs at its expected scenario."
+      ]
+    },
+    {
+      "path": "internal/platform/schema.go",
+      "blob": "6d82584accc962a847b17c045616099fd71b7f48",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/schema_test.go",
+      "blob": "695c4ae105beb9b3014639f8efcc9cde798012e3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Adds TestASavedPlanCanAlwaysBeCancelled and TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit, and extends the replay and eligibility tests. go test ./internal/platform passes."
+      ]
+    },
+    {
+      "path": "scripts/test-server-migration.mjs",
+      "blob": "a52c464c55cf007d310f3b2ae02fd27cf04f1e88",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review found two scenarios weaker than their names; both now do what they claim. Adds Ctrl-C, recreated dependencies, last resort and fresh volume scenarios. 28 checks passed on a development CLI with cleanup."
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler.go",
+      "blob": "be7b0d945865cbd3cff198eaed5ef4ffe941a90f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler_test.go",
+      "blob": "1d61e24d3d91753cf979cd6bb888b7e29768c166",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/limiter.go",
+      "blob": "57c6e25e16f23187d6653a8e8e8e6bd0621064e7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform_routes.go",
+      "blob": "d97d68d24ad40518cacd780d64ea1d40ee75d9ff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_http_test.go",
+      "blob": "67225b1117d2357437c268c082dc8137364c4992",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/0113-vaultix-identity-execution.md",
+      "blob": "b6727db6a7f0b4a92d599b7121b4f9bee4021a93",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/capabilities/vaultix-capabilities.md",
+      "blob": "2921e43176626920f642ba82929a1893e1ebebf3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/export-vaultix-capabilities.mjs",
+      "blob": "feb541794fcebf2513e92913c9e0c1c181ea5888",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-device-http.mjs",
+      "blob": "fdb3a1099dd3571328e27eca2d32141f45f6e21b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     }
   ]

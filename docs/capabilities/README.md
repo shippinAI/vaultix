@@ -1,5 +1,10 @@
 # Capability planning workspace
 
+The [Vaultix capability register](vaultix-capabilities.md) lists all 86 current
+requirements in their 13 product groups. The
+[identity implementation register](../0113-vaultix-identity-execution.md) breaks
+out built-in accounts, federation, machine methods and unfinished human CLI work.
+
 Start with [the product plan](../0049-capability-product-plan.md). This workspace
 connects product requirements to structural discovery without certifying that a
 feature works. It is a planning artifact, not the application or its action catalog.

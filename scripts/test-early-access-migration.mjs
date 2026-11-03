@@ -1,5 +1,5 @@
-// Old-to-new rehearsal of the early-access schema change against a real store. `vaultix server
-// upgrade` refuses a changed migration set, so this is the evidence for the manual path.
+// Old-to-new rehearsal of the early-access schema change against a real store. This covers the
+// schema itself and the manual path; scripts/test-server-lifecycle.mjs covers `vaultix server upgrade`.
 // All state is disposable and fixture-owned; no credentials, response bodies or SQL values are printed.
 import assert from "node:assert/strict";
 import { createHash, randomBytes } from "node:crypto";
@@ -17,7 +17,7 @@ mkdirSync(resolve(".cache"), { recursive: true });
 const directory = mkdtempSync(resolve(".cache/early-access-migration-"));
 const report = { passed: false, candidate: h.artifact, previous: old, checks: [],
   sources: ["scripts/test-early-access-migration.mjs", "scripts/lib/disposable-image.mjs"].map(path => ({ path, sha256: createHash("sha256").update(readFileSync(path)).digest("hex") })),
-  limits: ["Schema and store compatibility for this one additive migration. Does not change or satisfy the `vaultix server upgrade` refusal of changed migration sets."] };
+  limits: ["Schema and store compatibility for this one additive migration. The `vaultix server upgrade` path is exercised by scripts/test-server-lifecycle.mjs."] };
 const check = name => { report.checks.push(name); console.log("Vaultix early access: " + name); };
 const migration = "20261102120000_vaultix-early-access-requests.mjs";
 function migrate(app, direction, succeeds) {

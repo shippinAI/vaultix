@@ -66,21 +66,20 @@ generated convention every table uses.
 Both are additive. Down refuses while requests exist, so a binary rollback cannot
 erase them.
 
-**`vaultix server upgrade` refuses this change.** It deliberately rejects any changed
-migration set ([0109](0109-native-install-and-upgrade.md)), and this slice does not
-change that. An instance on an earlier image reaches this one in one of two ways:
+`vaultix server upgrade` takes this as a changed migration set: it rehearses the
+migration on a restored copy, applies it and verifies the result before the new
+application starts ([0109](0109-native-install-and-upgrade.md)). `vaultix server
+rollback` restores the checkpoint rather than running the down migration, so it needs
+`--discard-writes`, and requests submitted since the upgrade leave the live store and
+stay in the retained database. A deployment the CLI does not manage can use the manual
+path in [pr-delivery](pr-delivery.md).
 
-- A fresh `vaultix server install`.
-- The manual path in [pr-delivery](pr-delivery.md): keep a recoverable backup, set the
-  new image and let canonical startup apply the migration.
-
-`scripts/test-early-access-migration.mjs CANDIDATE PREVIOUS` rehearses that manual
-path on disposable state. It proves an existing store migrates and keeps its secrets,
+The merge gate's lifecycle acceptance upgrades an earlier baseline to this image through
+that path, and its report names the migration it applied.
+`scripts/test-early-access-migration.mjs CANDIDATE PREVIOUS` tests the schema change
+itself on disposable state. It proves an existing store migrates and keeps its secrets,
 the previous image still runs on the migrated store, and restarting the candidate keeps
-requests. It does not replace the lifecycle command's own checkpoint and restore steps.
-
-The lifecycle acceptance in the merge gate needs a baseline image with the same
-migration set, so an earlier baseline fails there by design.
+requests.
 
 ## Verification
 

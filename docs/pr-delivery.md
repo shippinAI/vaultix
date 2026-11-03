@@ -41,6 +41,10 @@ The verifier also requires `.cache/lifecycle-inputs.json` with an accepted earli
 It selects the newly built CLI and candidate receipt itself, then requires real
 Linux install/upgrade/recovery acceptance before reporting success. See
 [native instance lifecycle](0109-native-install-and-upgrade.md) for the contract.
+A candidate that adds a migration takes the changed-set path in that stage.
+`scripts/test-server-migration.mjs` is a separate required stage that drives each
+failure and interruption of that path with derived images, whatever the candidate
+carries. Its receipt is the sixth one archived.
 
 The verifier also runs the packaged CLI's signed acquisition boundary through
 controlled TLS/redirect fixtures and independent Node verification. It binds the
@@ -85,8 +89,8 @@ image ID and `.cache/self-hosted-build-*/result.json` receipt. It runs disposabl
 tests and does not modify the operator's running instance. Successful source
 pull/build is distinct from updating the deployed application.
 
-The compiled `vaultix server install`, `adopt`, `upgrade`, `status` and `recover`
-commands provide the native path described in
+The compiled `vaultix server install`, `adopt`, `upgrade`, `status`, `recover` and
+`rollback` commands provide the native path described in
 [0109](0109-native-install-and-upgrade.md). Adoption uses the existing private
 configuration; it must not generate replacement credentials for an existing store.
 
