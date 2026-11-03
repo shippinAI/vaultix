@@ -79,10 +79,11 @@
 .public-early-access-link { display:inline-flex; align-items:center; gap:8px; margin-top:24px; font-size:13px; color:var(--color-project); }
 .public-early-access-link svg { width:14px; }
 .public-early-access { display:grid; grid-template-columns:1fr 1.05fr; gap:64px; align-items:start; padding-top:0; scroll-margin-top:25px; }
-.public-early-access-copy>p { margin-top:20px; max-width:420px; font-size:14px; line-height:1.8; color:var(--color-muted); }
+.public-early-access-copy>p:not(.public-eyebrow) { margin-top:20px; max-width:420px; font-size:14px; line-height:1.8; color:var(--color-muted); }
 .public-early-access-card { min-width:0; padding:30px; border:1px solid var(--color-border); border-radius:7px; background:var(--color-card); }
 .public-early-access-card form { display:flex; flex-direction:column; gap:18px; }
 .public-early-access-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.public-early-access-card [data-slot="field-error"],.public-early-access-card form>[role="alert"] { color:color-mix(in srgb,var(--color-danger) 80%,var(--color-foreground)); }
 .public-early-access-notice { font-size:12px; line-height:1.7; color:var(--color-muted); }
 .public-early-access-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
 .public-early-access-done h3 { font-size:24px; letter-spacing:-.7px; display:flex; align-items:center; gap:10px; outline:none; }

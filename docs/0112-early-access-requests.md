@@ -98,6 +98,8 @@ delete, closing the form and rate limiting.
   branches have unit tests only.
 - No notification tells an administrator that a request arrived.
 - The existing Add Organization dialog still gives no link when SMTP is off.
+- The shared danger color measures 4.41:1 on the card surface, under the 4.5:1 that small
+  text needs. This form uses a lighter mix. Other forms on cards still use the shared color.
 - Automated scans are not manual screen-reader acceptance
   ([0022](0022-accessibility-acceptance.md)).
 - CLOUD-01 stays open, including enrollment abuse controls at public scale.

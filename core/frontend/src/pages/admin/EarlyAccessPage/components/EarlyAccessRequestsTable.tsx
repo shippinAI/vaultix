@@ -107,14 +107,15 @@ export const EarlyAccessRequestsTable = () => {
         </p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <Input
-          aria-label="Search early access requests"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          leftIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-          placeholder="Search by email, name or organization..."
-          className="min-w-64 flex-1"
-        />
+        <div className="min-w-64 flex-1">
+          <Input
+            aria-label="Search early access requests"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            leftIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+            placeholder="Search by email, name or organization..."
+          />
+        </div>
         <Select
           value={statusFilter}
           onValueChange={(value) => {

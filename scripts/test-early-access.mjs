@@ -48,6 +48,8 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
   const rowAction = async (page, email, action) => {
     await page.getByRole("button", { name: `Options for ${email}`, exact: true }).click();
     await page.getByRole("menuitem", { name: action, exact: true }).click();
+    // A closing menu is still in the DOM, fading, and a dialog can hide it from role queries.
+    await expect(page.locator("[role=menu]")).toHaveCount(0);
   };
   let admin;
   try {
@@ -100,6 +102,7 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     await form.getByRole("button", { name: "Request early access" }).click();
     await expect(form.getByRole("alert").filter({ hasText: "Enter a valid email address." })).toBeVisible();
     await audit(visitor, "landing-form-errors");
+    await form.screenshot({ path: resolve(evidence, "early-access-form.png") });
     assert.equal((await list({})).totalCount, 0, "Invalid input must not reach the store");
 
     const requester = unique("requester");
