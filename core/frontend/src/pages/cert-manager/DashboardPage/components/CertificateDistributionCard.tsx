@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from "@app/components/v3/generic/Card";
+import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
 
 import { CHART_COLORS } from "./chart-theme";
 
@@ -23,13 +24,15 @@ type Props = {
   description: string;
   entries: CertificateChartEntry[];
   emptyMessage?: string;
+  actionBaseId?: string;
 };
 
 export const CertificateDistributionCard = ({
   title,
   description,
   entries,
-  emptyMessage = "No data available"
+  emptyMessage = "No data available",
+  actionBaseId
 }: Props) => {
   const titleId = useId();
   const chartData = entries.map((entry, index) => ({
@@ -127,6 +130,15 @@ export const CertificateDistributionCard = ({
                         className={`${rowClass} cursor-pointer hover:bg-container-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring`}
                         aria-describedby={`${titleId}-hint`}
                         onClick={entry.onSelect}
+                        {...vaultixActionTrigger(
+                          actionBaseId
+                            ? `${actionBaseId}.select`
+                            : "vaultix.cert.dashboard.chart.select",
+                          {
+                            scope: "cert-dashboard",
+                            target: entry.id
+                          }
+                        )}
                       >
                         {contents}
                       </button>
