@@ -1789,10 +1789,10 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "555c99f5df15168ca1488ad5fb3d1c928706ed6d",
-      "status": "authored",
+      "blob": "e17f6832fed8b51056fcb7b04baa6399f8cff7b2",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0040-native-identity-lifetime-policy.md",
@@ -1808,7 +1808,10 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -1823,15 +1826,18 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "2e20a8efa5aaf2c3a468d74933577132ba54e7e6",
-      "status": "authored",
+      "blob": "a05b9281a9ec6699921fcad2ecdcac789955bc1e",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -2721,16 +2727,19 @@
     },
     {
       "path": "docs/capabilities/README.md",
-      "blob": "dad96ae4bafeb9f0e401e121eb0829875aebf205",
-      "status": "authored",
+      "blob": "94297f8290ba724d7ccac28e11211c8b8930583d",
+      "status": "reviewed",
       "decision": "retain",
-      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity.",
+      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -5403,12 +5412,15 @@
     },
     {
       "path": "docs/0074-built-in-and-federated-identity.md",
-      "blob": "f60a69a53297387db1e40fbed99dc17a56ae8f5c",
+      "blob": "8287dc69a039450e46be68a9a33ce13152c7d286",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0074-built-in-and-federated-identity.md",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -6325,26 +6337,32 @@
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy.go",
-      "blob": "b94eba805cad3d7b89872820fdf79f97afa0fcd6",
-      "status": "authored",
+      "blob": "fe4038610c6c6055e9336485b761448325ce01f8",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy_test.go",
-      "blob": "86dd2ecafe7f88536a844302fb1517cf86b92dc5",
-      "status": "authored",
+      "blob": "f948beefa7e1b99bdc0f2dbd7002e21392e79fc0",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -9898,6 +9916,114 @@
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler.go",
+      "blob": "be7b0d945865cbd3cff198eaed5ef4ffe941a90f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler_test.go",
+      "blob": "1d61e24d3d91753cf979cd6bb888b7e29768c166",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/limiter.go",
+      "blob": "57c6e25e16f23187d6653a8e8e8e6bd0621064e7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform_routes.go",
+      "blob": "d97d68d24ad40518cacd780d64ea1d40ee75d9ff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_http_test.go",
+      "blob": "67225b1117d2357437c268c082dc8137364c4992",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/0113-vaultix-identity-execution.md",
+      "blob": "b6727db6a7f0b4a92d599b7121b4f9bee4021a93",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/capabilities/vaultix-capabilities.md",
+      "blob": "2921e43176626920f642ba82929a1893e1ebebf3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/export-vaultix-capabilities.mjs",
+      "blob": "feb541794fcebf2513e92913c9e0c1c181ea5888",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-device-http.mjs",
+      "blob": "fdb3a1099dd3571328e27eca2d32141f45f6e21b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     }
   ]

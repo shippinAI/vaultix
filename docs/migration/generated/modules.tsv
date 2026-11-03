@@ -19,7 +19,7 @@ core/backend-go	foundation	Go-native	5	3b9134fa99cb6d1d761432504cf5e013f7c6ad5a1
 core/backend-go/cmd/vaultix	ai	Go-native	1	708bcffe49fa2359122abcb5265b9779292b6f61152ae41401341b9f180b5d82	1	unassessed
 core/backend-go/cmd/vaultix-transport	foundation	Go-native	1	bc83a0c1e805d037f5596173f803664e15d0623212a7644837f6a51cab891314	1	unassessed
 core/backend-go/docker-test	delivery	Go-native	1	6e9ff5705c5b68a151beec9a1fcd49119d34a1c6f32c4910b416f0462f0bed0b	1	unassessed
-core/backend-go/internal/config	foundation	Go-native	4	4cee9267c91d5ef6a849847688234e5d27f9e383a9b79153945c612759c9064f	4	unassessed
+core/backend-go/internal/config	foundation	Go-native	4	53f6825ff538f00c3e59f01182b2da26f99e7afdd73b9e184d293fd1a6214dc6	4	unassessed
 core/backend-go/internal/config	identity	Go-native	2	c48f256ee02ce9f5baeaf8361ba4e4405945696ff9422dd755094518504971e1	2	unassessed
 core/backend-go/internal/database/pg	foundation	Go-native	2	c250624c92e202ebf556343524ad1f9514b5b82984476ecd0835e269cf2f1c20	0	unassessed
 core/backend-go/internal/database/pg/pglock	foundation	Go-native	1	2d18db7e9321a7644f273ccae1d572bfbc2720a50bf6b1d109948120244b1b38	0	unassessed
@@ -42,8 +42,9 @@ core/backend-go/internal/libs/logutil	foundation	Go-native	1	fa1309ad3a8251693df
 core/backend-go/internal/libs/requestid	foundation	Go-native	1	a68779cad843e4d5a393b4b7a34f73fc3138c0367cb0aa7c4aedd624619ed44c	0	unassessed
 core/backend-go/internal/queue	foundation	Go-native	2	6c1833a8dbfcfd6372d7359fcfca6c234e253fee1312c6f4e0af249ae2a1e9ba	0	unassessed
 core/backend-go/internal/server	foundation	Go-native	1	4a2ddcdfb3f2aac1c4717e56cfc2474b633e39b92b1eaa330be4549a629f8356	0	unassessed
-core/backend-go/internal/server/api	foundation	Go-native	3	ab6e3ca4a3b3e4d42a243e92be6fef8567587fc613b34c0017a1f131c3626d7b	1	unassessed
+core/backend-go/internal/server/api	foundation	Go-native	3	399dbac3ed575c7c442fb7b2d552b88e74ef5559737db38388611c6a9e29bfad	2	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	8a6a8f248e01075d2ac9a05c683a3aefe93104fec34614580a8b0c32eb2b8f3b	1	unassessed
+core/backend-go/internal/server/api/platform/deviceauth	foundation	Go-native	3	4ce723be767e156c5a4333befcc44165485b7c499de04ff5a0c9d97211be2420	3	unassessed
 core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	533af5011e49d5b22a2a47b5e9661d6465e4079734bbd0332bba4b50aa5eb83c	3	unassessed
 core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	6	d23dfba45e923b46bdc336fa908921180663a71b449076de6166c7452f7a51c9	3	unassessed
 core/backend-go/internal/server/api/shared	foundation	Go-native	6	4c6c32be285ee2fc51cf3735092ef240cabd2d27cf8af6eba16c67f6848ae51e	0	unassessed
@@ -65,7 +66,7 @@ core/backend-go/internal/vaultixpolicy/internal/compare	foundation	Go-native	1	e
 core/backend-go/tests/fixtures/deviceconsumer	foundation	Go-native	1	f02ffb7d9d1b21767b19dc73fd3a34444485081d2e39591634f0848d50d5e951	1	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	7798f2ac228f5bb20dd933854061272f66762613e27e5475c17c22fc0241ba17	3	unassessed
 core/backend-go/tests/platform/auth	authorization	Go-native	1	102070d44f359c2755a04f41f05b8fa7519d2fd8385c6d3314e03ae01832d611	1	unassessed
-core/backend-go/tests/platform/auth	identity	Go-native	14	ed0b2750f2b62adcaeb54c70c51454d2815d1a6f9dcf67a78491c4446da4a0c2	14	unassessed
+core/backend-go/tests/platform/auth	identity	Go-native	15	0349bfdb577a2dee94090932d7e79e8d8594f2af2a684b26dad62b0d629ae34a	15	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
 core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c5988bc3f73ca5fc3df24b6c0adef1eb943ac0ad7468419	0	unassessed
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
@@ -1087,7 +1088,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	109	e6b95a27182c0994688cc627fc79d1b96bea135f44340a679fc006731946162c	101	unassessed
+scripts	delivery	supporting-tooling-or-contract	111	19dba73a63545cbb0f37e32343cfb0795ae7a04c27dbdd6385fff90fa3bac6df	103	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
