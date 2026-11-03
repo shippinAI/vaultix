@@ -12,6 +12,9 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 Invite-only access (2026-11-02): read `docs/0110-invite-only-instance.md` for
 what closed signup means on one instance. It is not CLOUD-01 or public enrollment.
+Early-access requests (2026-11-02): read `docs/0112-early-access-requests.md`. The
+landing form is off by default and reviewed in `/admin/early-access`. Its migration
+is a changed set, so `vaultix server upgrade` rehearses it on a restored copy first.
 
 Native instance lifecycle (2026-11-02): read
 `docs/0109-native-install-and-upgrade.md` for compiled `vaultix server`

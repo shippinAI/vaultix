@@ -108,7 +108,7 @@ core/backend/scripts	foundation	Go-domain-migration	10	923b9d88581b11088a85d5242
 core/backend/scripts	identity	Go-domain-migration	1	e1a5939390a90a401b102a78d02c76c94ce0dc9c32c5d8b20ac262c7136033a1	1	unassessed
 core/backend/scripts	pam	Go-domain-migration	1	dd290afaefe321d8de4b098ab862dfab0625efa7fdbf5618fad5c4d0633cdb67	1	unassessed
 core/backend/src	foundation	Go-domain-migration	5	5f9d2013ebce3afb57f64db227987368265a5863edc51dd87983c38fb627cdee	0	unassessed
-core/backend/src/@types	foundation	Go-domain-migration	6	39a9764ed99b1d5a82a1ea9c3c4f27d9fd674c6b452b4ae8d4db219ceeb5c566	0	unassessed
+core/backend/src/@types	foundation	Go-domain-migration	6	fa960d8d03a79ff11438bbbd5ea7e4ffe6d4bcbf94e158302b67995ea6690118	1	unassessed
 core/backend/src/db	audit	Go-domain-migration	1	afc5bd34215a0eba98d73eb2638db8ca327a6809e9bfc234bcdd3984fe6ef519	0	unassessed
 core/backend/src/db	foundation	Go-domain-migration	12	dc851df56f2885c78ed84592a34e6992637f8909b7e431297fbabd4338540c59	2	unassessed
 core/backend/src/db	identity	Go-domain-migration	3	53ed8a93d07d389f13d7febc7b0d20581e825f832694108163126d0a77bd2720	0	unassessed
@@ -116,7 +116,7 @@ core/backend/src/db/manual-migrations	audit	Go-domain-migration	1	a456acef5c86ca
 core/backend/src/db/migrations	audit	Go-domain-migration	12	12b0963d58aabfb3a61325d660560be454fb28132b919caecc059500f5d77a7d	0	unassessed
 core/backend/src/db/migrations	authorization	Go-domain-migration	44	c7018ba5a560cfa677696a1c89e3481c667899a4da5a0483a12d53cd50f5504a	0	unassessed
 core/backend/src/db/migrations	automation	Go-domain-migration	13	f5b1fa8eba11b014fd01d563709813637456835b5d808c6785a8247e877dfa63	0	unassessed
-core/backend/src/db/migrations	foundation	Go-domain-migration	203	8caa318c00d2c518a7c613c3cba07978ad710ec5a7da56135c9aa5f0ee8d2551	4	unassessed
+core/backend/src/db/migrations	foundation	Go-domain-migration	204	04baa4ccaa4727d4f64a25514602a89554dc70b6db304af6672019a45ddfbf83	5	unassessed
 core/backend/src/db/migrations	identity	Go-domain-migration	67	cb90b9762741ae1ed6397fbc7639af57d66beaac6e0e57d1b0561c5acbc44949	3	unassessed
 core/backend/src/db/migrations	integrations	Go-domain-migration	25	1fe133c4be036ae4200d93e37e756b0e70ce9297d10ecc1a515f46870383508f	0	unassessed
 core/backend/src/db/migrations	kms	Go-domain-migration	21	35fa1ff3fa22574d338d843d19f8c1a82eaf5c0e36762663beefdb9aeb592330	0	unassessed
@@ -127,7 +127,7 @@ core/backend/src/db/migrations/utils	foundation	Go-domain-migration	4	18f2aedde4
 core/backend/src/db/schemas	audit	Go-domain-migration	4	2518b7cbb2745fb12865f6da80f6c55c59d80e7705c06d0c98b3e23ad842f588	0	unassessed
 core/backend/src/db/schemas	authorization	Go-domain-migration	47	b137c429dac9fd626d8587b0509aef64b586ce3c9c43b7d4d917554ef90a090d	0	unassessed
 core/backend/src/db/schemas	automation	Go-domain-migration	12	0aa2c8e6e135f23267c380f5817255aabb91c1996c4de13b91a493d48db6dc78	0	unassessed
-core/backend/src/db/schemas	foundation	Go-domain-migration	31	6f4f28da6fafc41ef79f836c9a3aebae4e13b8fba1907d226a51a43391363c9c	0	unassessed
+core/backend/src/db/schemas	foundation	Go-domain-migration	32	cdd937e2ca765aa3bb3622b128387c9f66d52b9d964b084b6884ef41278b5a69	2	unassessed
 core/backend/src/db/schemas	identity	Go-domain-migration	38	d9fb62d110c8ee380ebafda871f1f80a640eabcd9ce3de38659f30e303222349	0	unassessed
 core/backend/src/db/schemas	integrations	Go-domain-migration	10	0430d01a254b4e00bb399869ec48c78d17edfb1f8c9fd3fd033ab5c01a7c4c12	0	unassessed
 core/backend/src/db/schemas	kms	Go-domain-migration	10	94dd3ffebdbe9f23106b76e203b9838fef18ebb250b5d1703b900d1d8787ae0e	0	unassessed
@@ -265,7 +265,7 @@ core/backend/src/lib/files	foundation	Go-domain-migration	2	11b791a02b3531b5e548
 core/backend/src/lib/fn	foundation	Go-domain-migration	8	dacba4c9f38b76319827ca1490dbacf08b17095d092a4a2ea8c361d59fdb9a0f	0	unassessed
 core/backend/src/lib/gateway	pam	Go-domain-migration	4	57807cb5c339b73c3e18b9e06fac1471bc3dad9be871a9d2d7789baed85a8c8d	3	unassessed
 core/backend/src/lib/gateway-v2	pam	Go-domain-migration	8	a2c9c45eb954d71ee53af4bd0e108bd1de12971d92d19a5ab8447108a69c0029	0	unassessed
-core/backend/src/lib/ip	foundation	Go-domain-migration	2	dedf184e62109776372d093a586afe20a96d1ffb5590c9c290ae6a3c360ecd88	0	unassessed
+core/backend/src/lib/ip	foundation	Go-domain-migration	3	448e1dead2108e000ac591e081b3dae7ce06280de5a70f0e1e2a3b6f398302e1	0	unassessed
 core/backend/src/lib/knex	authorization	Go-domain-migration	1	1e1b4fa7d334278deb6641e61c0a1cb43b728c80e9f4f2d2215f037ac89ca29f	0	unassessed
 core/backend/src/lib/knex	foundation	Go-domain-migration	7	6570fd43a2e8867e2119339165e1084f0bdb315def5ca6967b6dc0f4af60831f	1	unassessed
 core/backend/src/lib/knex	identity	Go-domain-migration	1	44fe76b1540f1e8b445348eb3e9fb1caf637f39d50f61fb0b84cdadfe7a2f843	0	unassessed
@@ -294,7 +294,7 @@ core/backend/src/lib/workflow-integrations/notification-handlers	automation	Go-d
 core/backend/src/lib/zod	foundation	Go-domain-migration	1	d7bfafea98bf969ea8464af74867641c740673f4c06e120a0fb3f21e64be084e	1	unassessed
 core/backend/src/queue	foundation	Go-domain-migration	2	dec12f48d4ef6df4390091a9281038f096387ea45beaafb0a7e298215c0c844e	0	unassessed
 core/backend/src/server	foundation	Go-domain-migration	2	0c052646764844d1b16fd3f5c51527ce0fbde4ee76b40cc3d2474d4c0837deb6	1	unassessed
-core/backend/src/server/config	foundation	Go-domain-migration	1	4fe91975858a477ea41a36181b70b97179ce28b6d4b2a2b83384d84e887f3f2f	1	unassessed
+core/backend/src/server/config	foundation	Go-domain-migration	1	adfcb52315af62a313f9374d5b99a8032cc4f1f457b3a7cdd9e6db896dfbf783	1	unassessed
 core/backend/src/server/lib	foundation	Go-domain-migration	5	83ef39944155e6bde20a7b4ae7e5f39848a43297d83eea49792feecb0dd5e989	0	unassessed
 core/backend/src/server/plugins	audit	Go-domain-migration	1	942f9ce630bdf5516b4cad6c7be8f9e5627920d33f5d4c2efacc34a43fe10fc3	0	unassessed
 core/backend/src/server/plugins	foundation	Go-domain-migration	22	43988f8f28bdec86c05d461061c93d03f590f84f3cad2d8fd64517c2e7e6bc90	16	unassessed
@@ -304,14 +304,14 @@ core/backend/src/server/plugins	pki	Go-domain-migration	1	0a9caf3c7c938fb298fbf4
 core/backend/src/server/plugins	secrets	Go-domain-migration	2	6c8234f5d263114e406dadb7e335d1fa7fd5f5f23f06e0548c3eea14bda5ffef	0	unassessed
 core/backend/src/server/plugins/auth	authorization	Go-domain-migration	2	43e06f46760469fbaaf5e63a8fa1c49301ae08ce2d103baef0644a5cafd5c758	1	unassessed
 core/backend/src/server/plugins/auth	identity	Go-domain-migration	5	f46c8f267d1c0d2577480964cb27b43e8239d2753793448297d648f00184b28d	0	unassessed
-core/backend/src/server/routes	foundation	Go-domain-migration	8	8d24f2fdcc1416320dd710547fd81f80b143d15bf7023ee8f0ec6c957ff3e83c	6	unassessed
+core/backend/src/server/routes	foundation	Go-domain-migration	9	3ddbb9851b2eb4cdf436c1439c4875d23df903b2bb8af5bf586d43cbdc65b24f	7	unassessed
 core/backend/src/server/routes	identity	Go-domain-migration	1	680e63475c95fddceecf5d6aa5aecbb33f96b18cf5163c0a9b2be5e816be5371	0	unassessed
 core/backend/src/server/routes/bdd	foundation	Go-domain-migration	2	dc2d7a3c06d9762d262856e4325a232616868b6e59886088c4839fa217b1ce70	0	unassessed
 core/backend/src/server/routes/sanitizedSchema	authorization	Go-domain-migration	3	0f8beb00b001b2831a7816d2d42f441de852295a20516d9d18a96830d1e61451	0	unassessed
 core/backend/src/server/routes/sanitizedSchema	foundation	Go-domain-migration	1	38f3ac41e28c26875642814ead883c431436f0240011f743822230209406654e	0	unassessed
 core/backend/src/server/routes/v1	authorization	Go-domain-migration	9	29202f0dd109a9f953aaffc428a8734a2ad36f1b2eb7581e3f2a052d55a80832	0	unassessed
 core/backend/src/server/routes/v1	automation	Go-domain-migration	1	740a07316c7a050498b9f0e0e7dfbd2c5982a806206874ec2982b8f59ad6e7f1	0	unassessed
-core/backend/src/server/routes/v1	foundation	Go-domain-migration	21	4f1cfe9d1a339c1027ac5a18c7cb861507df5108832329e66116b7b020e6fb2a	0	unassessed
+core/backend/src/server/routes/v1	foundation	Go-domain-migration	21	4a6e9a4d5f59fd9a1df848c232fffbcd61e0fe3fb9f0e1c06bbecd172eae5ba6	1	unassessed
 core/backend/src/server/routes/v1	identity	Go-domain-migration	24	cdd6105eca4b58a7ebdf282612bc6ae5f8b30dbf475dbdeb7435f5b4363fa29d	1	unassessed
 core/backend/src/server/routes/v1	integrations	Go-domain-migration	4	ebf50c3e96ac435a84db43f9fafc57244ebf84bd207c5e70f3de420054be884e	0	unassessed
 core/backend/src/server/routes/v1	kms	Go-domain-migration	3	5d865cbebdcc646053f404eaadf7cc39474784671de02c20b7a0780d7cba7dc6	0	unassessed
@@ -372,6 +372,7 @@ core/backend/src/services/certificate-v3	pki	Go-domain-migration	6	530d60f7842cc
 core/backend/src/services/cmek	kms	Go-domain-migration	2	e8df8971716ecc23c02295387ac1c4184db776747fae11debf0b4b8720611943	0	unassessed
 core/backend/src/services/connection-queue	foundation	Go-domain-migration	2	dfcc04445d8dfb310b051f2eb846debcd7dff139f04cef348ce135760cf6467c	0	unassessed
 core/backend/src/services/convertor	foundation	Go-domain-migration	1	337081ee8a4a170875ae68444e8c9ec82503a06ea75d522a48b0077dca100dc4	0	unassessed
+core/backend/src/services/early-access	foundation	Go-domain-migration	6	c6c2440b462363a66e088e4b01795af4e57f2943bff967cb3f2d2b942dbf617b	6	unassessed
 core/backend/src/services/enrollment-config	pki	Go-domain-migration	5	56ce7a33096e42c16390d4fee76ffec8ab2354364524c46c26464c83e56bf2d7	0	unassessed
 core/backend/src/services/external-group-org-role-mapping	foundation	Go-domain-migration	4	8b5f01f5eda693e2ed7964d6bf6a62a2ae57495a7b7200ffc1784e1721a583f9	0	unassessed
 core/backend/src/services/external-migration	foundation	Go-domain-migration	10	4fa25ed69443abe5a3c9e66b1386cb7b1bf71421b2a12073d30b180f7e495952	0	unassessed
@@ -471,7 +472,7 @@ core/backend/src/services/smtp	pam	Go-domain-migration	2	8188b3e81bec4a4a744d5b9
 core/backend/src/services/smtp	pki	Go-domain-migration	2	e8bfc5b3796ac47916845775c53b56d80cc809920c0df819adba9966ab4971f9	0	unassessed
 core/backend/src/services/smtp	scanning	Go-domain-migration	3	06ef7fe4e94de1cb4067c1b355849f54197945fa78210ac1117beb8a45a54bd9	0	unassessed
 core/backend/src/services/smtp	secrets	Go-domain-migration	4	5dc09b3370810d9fd67de4691bba280d120f712754b77b5e90cc3ff2d1995dc0	0	unassessed
-core/backend/src/services/super-admin	foundation	Go-domain-migration	5	6ad0fd6634b220735f8a58deecb4ba54cce596997cafc80235fc50d9e1ffafb1	2	unassessed
+core/backend/src/services/super-admin	foundation	Go-domain-migration	7	48cbae071b95eb2321f2d8aa6a7f0f47ec33619b8b68244bc0369e396311b1b0	4	unassessed
 core/backend/src/services/telemetry	foundation	Go-domain-migration	5	1b0199f2d20b2eaf020c04aefc0cf37c5c2129880e8b3888d3d39122b443c63e	3	unassessed
 core/backend/src/services/totp	identity	Go-domain-migration	3	4e85c082f808e30f15c7a5e15784cb75eaed1f0a7aa2d2891308a601231c4c07	1	unassessed
 core/backend/src/services/update-check	foundation	Go-domain-migration	4	a275b68714219a67903ebe77dd15203e20180fe3ce566cba22a87db02fc68a19	4	unassessed
@@ -526,7 +527,7 @@ core/frontend/public/lotties	pki	React-TypeScript	4	a71346197dd15f5d597203da50f5
 core/frontend/public/lotties	ui	React-TypeScript	18	102bd224a3d027ac4d4c2ebe8be96c836d4c8c4fb8c0f83b00d22dbb43583b77	0	unassessed
 core/frontend/public/media	ui	React-TypeScript	4	be5efdeed7fd165931e8cd1b15d41853e6374f070303ee34bb44f80ba651a988	4	unassessed
 core/frontend/scripts	ui	React-TypeScript	9	e6402b15dd5888f9a273e667cc004f40158faf1d6373a7010188ce6b22cdf2cc	1	unassessed
-core/frontend/src	ui	React-TypeScript	8	15b1c088f469460ba09e34a761bf2d66b9198f4062ffebc86859f15d254f2dd9	3	unassessed
+core/frontend/src	ui	React-TypeScript	8	badfef36dc1cd866b668b253588e7cfd44f59d1a254810053674925859dfbffb	4	unassessed
 core/frontend/src/components/analytics	ui	React-TypeScript	1	b12b2ac255095bd07fc2ee86d06d729a2f716fdd15acb01fc07f53d270a088cc	0	unassessed
 core/frontend/src/components/announcements	ui	React-TypeScript	3	068bf9ba669dc1a784c3a4d664986aa35381141e0cfd8c022ba65f78709fbd01	0	unassessed
 core/frontend/src/components/app-connections	integrations	React-TypeScript	2	3d3224e68311c6e1f98481ddbc000e392685117af9135b9b0d5c111fe7d554b0	0	unassessed
@@ -656,7 +657,7 @@ core/frontend/src/hooks	ui	React-TypeScript	17	719ef9e5a7086379720dba20986133833
 core/frontend/src/hooks/api	ui	React-TypeScript	3	6d4263e9d6ca8ddb0175e6388c115e9576dc8c90062b7841b6d1fb8861784450	1	unassessed
 core/frontend/src/hooks/api/accessApproval	authorization	React-TypeScript	4	de5d863848f2205b1a8998209fafab379feba49f403d18387b9994079ab96257	0	unassessed
 core/frontend/src/hooks/api/accountRecovery	ui	React-TypeScript	3	7b128be4b0b56502e7cdf775f22bcbd3decb3d41daac5437457ab7d93ada2c23	0	unassessed
-core/frontend/src/hooks/api/admin	ui	React-TypeScript	4	cd06ac7841ccca661ba2582f6cab155b3e91dbd8a29fd6a0850c11c81b043b29	0	unassessed
+core/frontend/src/hooks/api/admin	ui	React-TypeScript	4	29bb41253727366c80d7abae9cbbfe2a0ed8227b3583682cbfe254bd10d852ce	1	unassessed
 core/frontend/src/hooks/api/alerts	ui	React-TypeScript	5	fb7004eac4f6308403764bb6f1761c36dff2313171b91a7bd658c8fca5f1bd5b	0	unassessed
 core/frontend/src/hooks/api/announcement	ui	React-TypeScript	4	750f474702f7ed00105da5236c50daca9dd03f0cfca57eb6cc8b3aad8f0c09dc	0	unassessed
 core/frontend/src/hooks/api/appConnections	integrations	React-TypeScript	258	610626a0662b20885873ef7a125f9f3c7cf3ef2fad2bdfde65f5fb86e17fd75f	0	unassessed
@@ -684,6 +685,7 @@ core/frontend/src/hooks/api/cmeks	kms	React-TypeScript	4	f37ccf4fb9777015b23b7cf
 core/frontend/src/hooks/api/dashboard	ui	React-TypeScript	3	f5d4831cb40d55e61b38cdcdad6b136e110999408d2f2b949f6f0f00a8214e20	0	unassessed
 core/frontend/src/hooks/api/dynamicSecret	automation	React-TypeScript	5	eedda2afbce86bbc7f9974ab0006741a2bba6454cf76ab8d21fa86a5ae01709d	0	unassessed
 core/frontend/src/hooks/api/dynamicSecretLease	automation	React-TypeScript	4	ffca6971809daf921fdb9d9bcdd161449035eb45c92d2b65a09005863f429e45	0	unassessed
+core/frontend/src/hooks/api/earlyAccess	ui	React-TypeScript	3	9e2bcc453a8fe0f33ecbbc14edeaa0f165a8ca0a0557dc517f69d7f66fcc146c	3	unassessed
 core/frontend/src/hooks/api/emailDomains	ui	React-TypeScript	4	eb6afc39702cacad134cd4ce58df1d3381b89de3d6b32a3721fc05b4fd3b5d3d	0	unassessed
 core/frontend/src/hooks/api/externalGroupOrgRoleMappings	ui	React-TypeScript	4	7611734f05a4f7f061387ada786214ca3ca51560d1d1e20302ce87062fbcc85f	0	unassessed
 core/frontend/src/hooks/api/folderCommits	secrets	React-TypeScript	3	cb232e5131e05d27692c547eab161fd7a09b79baeda7b16d5dc5d95e08c11b58	0	unassessed
@@ -769,7 +771,7 @@ core/frontend/src/hooks/api/workflowIntegrations	integrations	React-TypeScript	4
 core/frontend/src/hooks/utils	secrets	React-TypeScript	1	fb4fd4743228c61784b03fe8bafa649b6a88ee38c47854f794a55fe5f126f2a8	0	unassessed
 core/frontend/src/hooks/utils	ui	React-TypeScript	1	7457e741c2ad9a71be1bc0c81f2d262b1349ddac0de355de23d5a7425d81d5aa	0	unassessed
 core/frontend/src/layouts/AdminLayout	identity	React-TypeScript	2	dced6764bfb81f0df85518f227459ef762a465b4c36fdea9b429450a67cba9a2	0	unassessed
-core/frontend/src/layouts/AdminLayout	ui	React-TypeScript	4	6f3beb47b55cf429248ea6473f4af7a16052f0b24d0bdf3b28f4fb1d9db397b1	0	unassessed
+core/frontend/src/layouts/AdminLayout	ui	React-TypeScript	4	5141fd347422e09897ab1480d7615829ceb6920622b201db9d585090bb139d93	2	unassessed
 core/frontend/src/layouts/KmsLayout	kms	React-TypeScript	2	e4f4196318dff7a2b725c1b38a2ae4e4b24e804064e60acb45c8decf7c0a5d54	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	audit	React-TypeScript	2	5c7b7548cc1ed57ffdefcdfa499f4af15ff2ea6d3274e481ae6322401be97c6b	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	authorization	React-TypeScript	1	d9762a70cc391839ac9aa208e2378e9d6057585cc7db4eb234675117825c91c5	0	unassessed
@@ -778,7 +780,7 @@ core/frontend/src/layouts/OrganizationLayout	pam	React-TypeScript	1	43e20919389f
 core/frontend/src/layouts/OrganizationLayout	pki	React-TypeScript	1	04981270dec6b53b08e1e909abc1b71ba781197349ca498f18abf58a16b9f0ad	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	scanning	React-TypeScript	1	94d0d416ce9c98294e38d86049869e71acaa6837bea10ed5ce94d18d58bfa7ab	0	unassessed
 core/frontend/src/layouts/OrganizationLayout	secrets	React-TypeScript	4	addebaad7f314330359b6bb71d19a058422e2ae500890e7c8f64eff6df9f3d3f	0	unassessed
-core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	30	8b47524510b3f89732053475c2f8da2e7abb44e6011b78f96bca38a50d05f7f9	3	unassessed
+core/frontend/src/layouts/OrganizationLayout	ui	React-TypeScript	30	65bf15e90f9a17e98b49ed5242320c195c6f24f9ebb7316f18ed31bff25c0191	3	unassessed
 core/frontend/src/layouts/PamLayout	pam	React-TypeScript	2	015bbaaf94ec1e457db2aa546e0e78ed9f6a21d6e64078f07bb18c6a953d9249	0	unassessed
 core/frontend/src/layouts/PersonalSettingsLayout	ui	React-TypeScript	2	eef6ff4c0ca32e9118d2e1ae9ff526063d900fc672a2817849dbf8403de57604	0	unassessed
 core/frontend/src/layouts/PkiManagerLayout	pki	React-TypeScript	3	be9636a9c9826645fd14847026698a421c7dc78e26c6e28d0bea2ed7870a281c	0	unassessed
@@ -797,6 +799,7 @@ core/frontend/src/pages/admin	ui	React-TypeScript	1	5d03d3457712506f8ac8231b103b
 core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	5	08656a2582c42cf78baf2aafd1dab328ed8d505f80f5cc425a6c60d2718dc715	0	unassessed
 core/frontend/src/pages/admin/AuthenticationPage	identity	React-TypeScript	4	63f965f7a70657e2e3c8757668ae9f46268c7bd1fb353ce9ef7e69d1d552a022	0	unassessed
 core/frontend/src/pages/admin/CachingPage	ui	React-TypeScript	4	7216f26b1d91a3449e1fd2186a66de0996b27ac67d677909fcfd654f0a027388	0	unassessed
+core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	5	116c02551a5699218715556b0dcd7ae15131aa7c1455c8e743d70a5a379e2a07	5	unassessed
 core/frontend/src/pages/admin/EncryptionPage	ui	React-TypeScript	4	7b836854f24aa0b2c39d74c489865ba18ca3abbdedc7a4281f59321910a87464	0	unassessed
 core/frontend/src/pages/admin/EnvironmentPage	secrets	React-TypeScript	4	064c1bbbac8147b5a300196c5d567c54675a5e3cad69f610cd137ff9a300db51	0	unassessed
 core/frontend/src/pages/admin/GeneralPage	ui	React-TypeScript	5	8ed55f322c115dff4a755f39790a1e2f95ed344f392b2f6c0d4c9453e34149af	0	unassessed
@@ -955,7 +958,7 @@ core/frontend/src/pages/project/RoleDetailsBySlugPage	secrets	React-TypeScript	1
 core/frontend/src/pages/project/SettingsPage	audit	React-TypeScript	2	d0e23ea6670e28a7def481020be0a3707b01af43014ef801f28feddc6c49b209	0	unassessed
 core/frontend/src/pages/project/SettingsPage	pam	React-TypeScript	1	759cf8cc56942dac0ba7fba3e32dd21fd254df32bf19783353f1f7ea7458ffdc	0	unassessed
 core/frontend/src/pages/project/SettingsPage	secrets	React-TypeScript	9	7b7deb3b43a89c9998fe3080299e278c9ab54cbba7b87014b71ff72803f365b5	0	unassessed
-core/frontend/src/pages/public-site	ui	React-TypeScript	3	a032bd6e033ade4ea06f12bf20a8087676edd315b46350efdf6a1d3769ee29ce	3	unassessed
+core/frontend/src/pages/public-site	ui	React-TypeScript	4	a49187ab11f6061f7bff563a4205b91452a4690f68ec835fc3e306a03a2ef206	4	unassessed
 core/frontend/src/pages/public/ErrorPage	secrets	React-TypeScript	1	b4ec2b11fda1fd78606fcc31ea3e84281c738533e81a0a02d013de5b09fa52c7	0	unassessed
 core/frontend/src/pages/public/ErrorPage	ui	React-TypeScript	3	83e33f3aba9663371b0e7946d4d36c5654f376ca38299d8592a843863fd63768	0	unassessed
 core/frontend/src/pages/public/ForbiddenPage	ui	React-TypeScript	1	cb0a1964ca6313c33f4e474159a82e7a2d28ddbfeb2319205e725c250fe741d2	0	unassessed
@@ -1088,7 +1091,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	112	3f8ad35157b8a5aca07657a719791ac608a72de045631fd2316943bd67dbc1ff	104	unassessed
+scripts	delivery	supporting-tooling-or-contract	114	42b89f26caccc7866cff7cae70fab75b93b98a2bb233220b0e1460824974876e	106	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed

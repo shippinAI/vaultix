@@ -36,6 +36,8 @@ import {
   TooltipTrigger
 } from "@app/components/v3/generic/Tooltip/Tooltip";
 
+import { EarlyAccessSection, useEarlyAccessAvailability } from "./EarlyAccessSection";
+
 import "./public-site.css";
 
 const PublicRehearsal = lazy(() => import("./PublicRehearsal"));
@@ -71,6 +73,7 @@ export const VaultixLanding = () => {
   const [demoOpen, setDemoOpen] = useState(false);
   const [promptVisible, setPromptVisible] = useState(false);
   const [explanation, setExplanation] = useState(false);
+  const earlyAccessOpen = useEarlyAccessAvailability();
   const demoHeading = useRef<HTMLHeadingElement>(null);
   const dialogOpener = useRef<HTMLElement | null>(null);
   const openVideo = () => {
@@ -115,6 +118,7 @@ export const VaultixLanding = () => {
           <a href="#platform">Platform</a>
           <a href="#experience">Experience</a>
           <a href="#how-it-works">How it works</a>
+          {earlyAccessOpen && <a href="#early-access">Early access</a>}
         </nav>
         <Button asChild variant="outline">
           <Link to="/login">
@@ -146,6 +150,11 @@ export const VaultixLanding = () => {
                 Watch Vaultix
               </Button>
             </div>
+            {earlyAccessOpen && (
+              <a className="public-early-access-link" href="#early-access">
+                Invite-only for now. Request early access <ArrowRightIcon />
+              </a>
+            )}
             <div className="public-trust">
               <span>
                 <CheckIcon />
@@ -406,6 +415,7 @@ export const VaultixLanding = () => {
             </Button>
           </div>
         </section>
+        {earlyAccessOpen && <EarlyAccessSection />}
       </main>
       <footer className="public-footer public-container">
         <Link to="/" className="public-brand">

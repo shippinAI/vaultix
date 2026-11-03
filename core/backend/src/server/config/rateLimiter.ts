@@ -4,6 +4,7 @@ import type { RateLimitOptions, RateLimitPluginOptions } from "@fastify/rate-lim
 import type { Cluster, Redis } from "ioredis";
 
 import { RateLimitError } from "@app/lib/errors";
+import { rateLimitClientKey } from "@app/lib/ip";
 
 export const globalRateLimiterCfg = (redis: Redis | Cluster): RateLimitPluginOptions => {
   return {
@@ -120,6 +121,14 @@ export const requestAccessLimit: RateLimitOptions = {
   hook: "preValidation",
   max: 10,
   keyGenerator: (req) => req.realIp
+};
+
+// One person asks once. This is what stands between a single client and the pending cap.
+export const earlyAccessRequestLimit: RateLimitOptions = {
+  timeWindow: 60 * 1000,
+  hook: "preValidation",
+  max: 5,
+  keyGenerator: (req) => rateLimitClientKey(req.realIp)
 };
 
 export const smtpRateLimit = ({

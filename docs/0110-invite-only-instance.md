@@ -2,9 +2,10 @@
 
 Accepted direction, 2026-11-02. This defines what closed signup means on one
 Vaultix instance, so an operator can share that instance with invited users. It
-does not satisfy CLOUD-01 in [0054](0054-public-cloud-service.md), add public
-enrollment or add an early-access request form. The inherited TypeScript auth
-service remains the active writer; this is not a native identity migration.
+does not satisfy CLOUD-01 in [0054](0054-public-cloud-service.md) or add public
+enrollment. Early-access requests are in [0112](0112-early-access-requests.md). The
+inherited TypeScript auth service remains the active writer; this is not a native
+identity migration.
 
 ## Behavior
 
@@ -51,7 +52,8 @@ and keyboard sign-out.
 
 ## Remaining limits
 
-- No waitlist, request-access form or invite codes exist.
+- No invite codes exist. Requests to join are reviewed by an administrator
+  ([0112](0112-early-access-requests.md)).
 - CLOUD-01 stays open: real issuer and session acceptance, enrollment abuse controls
   and recovery are not established here.
 - The onboarding organization step shows the same denial as an error message; it is

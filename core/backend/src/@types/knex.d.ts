@@ -811,6 +811,11 @@ import {
   TUserNotificationsInsert,
   TUserNotificationsUpdate
 } from "@app/db/schemas/user-notifications";
+import {
+  TVaultixEarlyAccessRequests,
+  TVaultixEarlyAccessRequestsInsert,
+  TVaultixEarlyAccessRequestsUpdate
+} from "@app/db/schemas/vaultix-early-access-requests";
 
 declare module "knex" {
   namespace Knex {
@@ -1133,6 +1138,11 @@ declare module "knex/types/tables" {
     >;
     [TableName.Integration]: KnexOriginal.CompositeTableType<TIntegrations, TIntegrationsInsert, TIntegrationsUpdate>;
     [TableName.Webhook]: KnexOriginal.CompositeTableType<TWebhooks, TWebhooksInsert, TWebhooksUpdate>;
+    [TableName.VaultixEarlyAccessRequests]: KnexOriginal.CompositeTableType<
+      TVaultixEarlyAccessRequests,
+      TVaultixEarlyAccessRequestsInsert,
+      TVaultixEarlyAccessRequestsUpdate
+    >;
     [TableName.ServiceToken]: KnexOriginal.CompositeTableType<
       TServiceTokens,
       TServiceTokensInsert,
