@@ -4869,7 +4869,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "d6504be632cc770147240858422af2d80d261f00",
+      "blob": "e7308eebad836cce38fe2da6c242481cf8769019",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md. CLOUD-01-EARLY-ACCESS: updated only for the early-access direction in docs/0112-early-access-requests.md.",
@@ -4883,7 +4883,8 @@
         "scripts/test-invite-only-access.mjs",
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Merged main and this branch read in full. The early-access entry no longer says the upgrade refuses this change; the lifecycle entry from main is kept."
       ]
     },
     {
@@ -10280,14 +10281,15 @@
     },
     {
       "path": "scripts/test-early-access-migration.mjs",
-      "blob": "57e9e94668a89893bb2a3f4c08421c8161e1e6c3",
+      "blob": "0aa9a589c9658620b7bf00088d8909ca379af398",
       "status": "reviewed",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Header and limits updated for the changed-set path now on main. Behavior unchanged."
       ]
     },
     {

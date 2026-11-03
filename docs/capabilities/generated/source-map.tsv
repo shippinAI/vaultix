@@ -9705,7 +9705,7 @@ scripts/test-device-grant-migration.mjs	operate	delivery	scripts	da6c3f380905a0f
 scripts/test-device-http.mjs	operate	delivery	scripts	fdb3a1099dd3571328e27eca2d32141f45f6e21b	authored
 scripts/test-device-worker-image.mjs	operate	delivery	scripts	59a2f26139654e900cf3de122a08c5796c93c7b9	authored
 scripts/test-eager-upload.mjs	operate	delivery	scripts	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
-scripts/test-early-access-migration.mjs	operate	delivery	scripts	0aa9a589c9658620b7bf00088d8909ca379af398	stale
+scripts/test-early-access-migration.mjs	operate	delivery	scripts	0aa9a589c9658620b7bf00088d8909ca379af398	reviewed
 scripts/test-early-access.mjs	operate	delivery	scripts	a72f673ec48b3e090cd29775892fc6a4cb4b86b0	reviewed
 scripts/test-encrypted-recovery.mjs	operate	delivery	scripts	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	operate	delivery	scripts	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified

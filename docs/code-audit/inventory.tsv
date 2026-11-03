@@ -19,7 +19,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2696ebc263ef70ac1198b8cda74868884cadc635	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	9be9bbac89c574038e2e08337ea977ab9171008b	product-code	reviewed
-AGENTS.md	bf760d111dbcd441843c12fada73a157bd023a0a	documentation	stale
+AGENTS.md	e7308eebad836cce38fe2da6c242481cf8769019	documentation	reviewed
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
 README.md	2025ee4318d27b64ed0ffdd450c93c0159f59bef	documentation	authored
@@ -11979,15 +11979,15 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	48d90b7ccd8bd356855114759286db0808fa8f15	generated	unread
-docs/capabilities/generated/source-map.tsv	9f5b13cb582eda5d28f04bf4205f762bc5b160c3	generated	unread
+docs/capabilities/generated/source-map.tsv	b7aafcbc49987fb28bf8d312c3f72e56618eec62	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	3c0603139c6cc9682be38aa8f2251177db173a3f	generated	unread
-docs/migration/generated/modules.tsv	9c38d85d862974258f46ee47bac95e8cc376b21a	generated	unread
+docs/migration/generated/files.tsv	eb3f77e76fcce2a067a2750a507e9f9178a14c7e	generated	unread
+docs/migration/generated/modules.tsv	a575d898abb872d60f50ec32c51c1b578ab391ab	generated	unread
 docs/migration/generated/summary.json	6ca50214272824778781a1ca76560b266e925078	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored
@@ -12215,7 +12215,7 @@ scripts/test-device-grant-migration.mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25
 scripts/test-device-http.mjs	fdb3a1099dd3571328e27eca2d32141f45f6e21b	build-and-operations	authored
 scripts/test-device-worker-image.mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	build-and-operations	authored
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
-scripts/test-early-access-migration.mjs	0aa9a589c9658620b7bf00088d8909ca379af398	build-and-operations	stale
+scripts/test-early-access-migration.mjs	0aa9a589c9658620b7bf00088d8909ca379af398	build-and-operations	reviewed
 scripts/test-early-access.mjs	a72f673ec48b3e090cd29775892fc6a4cb4b86b0	build-and-operations	reviewed
 scripts/test-encrypted-recovery.mjs	292d31f56f92316c80e6fa2d28b60f1890712021	build-and-operations	verified
 scripts/test-environment-workflow.mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	build-and-operations	verified
