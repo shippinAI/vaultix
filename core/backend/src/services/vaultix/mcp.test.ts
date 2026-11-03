@@ -42,6 +42,24 @@ describe("Clyffy native MCP", () => {
     expect(listed).not.toMatch(/vaultix\.(inject|redeem|secret|source\.act)/);
   });
 
+  test("accepts protocol metadata independently of tool and pagination parameters", () => {
+    const metadata = { progressToken: 7, "test.example/context": { value: "CANARY-METADATA" } };
+    expect(call("tools/list", { _meta: metadata })).toEqual(call("tools/list"));
+    const request = { name: "vaultix.catalog.get", arguments: {} };
+    expect(call("tools/call", { ...request, _meta: metadata })).toEqual(call("tools/call", request));
+    expect(call("tools/list", { _meta: metadata, cursor: "CANARY-CURSOR" })).toMatchObject({ error: { code: -32602 } });
+    expect(call("tools/list", { _meta: metadata, value: "CANARY-SECRET" })).toMatchObject({ error: { code: -32602 } });
+    expect(JSON.stringify(call("tools/list", { _meta: metadata }))).not.toContain("CANARY-METADATA");
+  });
+
+  test.each([null, [], 1, "CANARY-METADATA"])("rejects malformed request metadata %#", (_meta) => {
+    for (const method of ["tools/list", "resources/list", "resources/read", "tools/call", "ping"]) {
+      const response = call(method, { _meta });
+      expect(response).toMatchObject({ error: { code: -32602 } });
+      expect(JSON.stringify(response)).not.toContain("CANARY-METADATA");
+    }
+  });
+
   test("rejects supplied secrets and unknown tools without echoing values", () => {
     const response = call("tools/call", { name: "vaultix.catalog.get", arguments: { value: "CANARY-SECRET" } });
     expect(response).toMatchObject({ error: { code: -32602 } });

@@ -2575,7 +2575,7 @@ core/backend/src/server/routes/v3/signup-router.ts	core/backend/src/server/route
 core/backend/src/server/routes/v4/index.ts	core/backend/src/server/routes/v4	foundation	Go-domain-migration	ts	db2e6922234476732595c0b0720385588b13899b	unread
 core/backend/src/server/routes/v4/secret-router.ts	core/backend/src/server/routes/v4	secrets	Go-domain-migration	ts	ddcc7608b003cd5926ad4831530c79f260c639e1	unread
 core/backend/src/server/routes/vaultix-learning.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	f18530ae53e50931e356643183da93a03b6590fd	verified
-core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	e60add1907f0b0d67d92f1de35543651359caed8	authored
+core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	6acbc598a80b2aca3eee099dad3ea483624df10c	reviewed
 core/backend/src/server/routes/vaultix-reference-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	1c659074f2afd17cbf5c467ac4e626c479f4d643	unread
 core/backend/src/server/routes/vaultix-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	473b94a0e5a86160ad3540e9129506586032a5b3	verified
 core/backend/src/server/routes/vaultix-router.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	db5b4f95564f5a38d7cf2d778de76e8c2b49a570	authored
@@ -4159,8 +4159,8 @@ core/backend/src/services/vaultix/mcp-app-resource.test.ts	core/backend/src/serv
 core/backend/src/services/vaultix/mcp-app-resource.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	c38283997ace7ed395ef400bc6d382f92dc9dc19	authored
 core/backend/src/services/vaultix/mcp-session-cache.test.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	4a2deb069ffbbf254c15e12dbb4a9ae9bcbdd8bf	authored
 core/backend/src/services/vaultix/mcp-session-service.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	50c2270292d1dcfec0b9f860121e426865c29da1	authored
-core/backend/src/services/vaultix/mcp.test.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	686105c9edd2081f6c908b58d4248c2415ea57c7	unread
-core/backend/src/services/vaultix/mcp.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	57205fd2a387ce44a0b61cb01ca305a814cf88c7	authored
+core/backend/src/services/vaultix/mcp.test.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	940080d4c987ace577e2bc02ffa936f846da6cd6	reviewed
+core/backend/src/services/vaultix/mcp.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	7ae714e629379b71c15f31c74fa03339297be6d5	reviewed
 core/backend/src/services/vaultix/reference-input.test.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	f8f9f05dfe99898e440e51ecbfd408a0abcff06f	unread
 core/backend/src/services/vaultix/reference-input.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	119a96baa61fb51d137bef23ef9b7e8e5f56d4d2	unread
 core/backend/src/services/vaultix/reference-service.test.ts	core/backend/src/services/vaultix	ai	Go-domain-migration	ts	799f694e62d5e1733d7e597b3f698b954e0b71e0	unread
@@ -9665,6 +9665,7 @@ scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract
 scripts/test-cli-delivery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	327f4401aec2b5812807681ed341054664ccb543	verified
 scripts/test-cli-headless.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	be45120f8f3cb5bdc428fc64e189ce8dbe6995d1	verified
 scripts/test-cli-install.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35bea5ae75d123df6264f2040a716d152248560d	authored
+scripts/test-codex-client.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c7cba10871addf750ff1ebcd064bba3b47b34663	unread
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	verified
 scripts/test-create-secret-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	49a201f6c9cde534e88bbf6213d7bfb4854d4237	verified
 scripts/test-create-secret-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	verified

@@ -3289,16 +3289,15 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.ts",
-      "blob": "57205fd2a387ce44a0b61cb01ca305a814cf88c7",
-      "status": "authored",
+      "blob": "7ae714e629379b71c15f31c74fa03339297be6d5",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
       ]
     },
     {
@@ -6724,16 +6723,15 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-      "blob": "e60add1907f0b0d67d92f1de35543651359caed8",
-      "status": "authored",
+      "blob": "6acbc598a80b2aca3eee099dad3ea483624df10c",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
       "evidence": [
-        "docs/mcp-embedded-apps.md",
-        "scripts/test-mcp-app.mjs",
-        "scripts/test-mcp-app-image.mjs",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
       ]
     },
     {
@@ -9887,6 +9885,19 @@
         "docs/0111-native-cli-installation.md",
         "cmd/vaultix/startup_windows_test.go",
         "scripts/test-windows-package-activation.ps1"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/mcp.test.ts",
+      "blob": "940080d4c987ace577e2bc02ffa936f846da6cd6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
+      "evidence": [
+        "docs/0112-real-codex-acceptance.md",
+        "scripts/test-codex-client.mjs",
+        "core/backend/src/services/vaultix/mcp.test.ts",
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
       ]
     }
   ]

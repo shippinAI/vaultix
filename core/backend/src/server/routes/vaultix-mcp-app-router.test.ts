@@ -116,6 +116,37 @@ describe("negotiated Vaultix MCP Apps routes", () => {
     expect((await post("tools/list")).body).not.toContain("resourceUri");
     expect(cache.eval).not.toHaveBeenCalled();
   });
+  test("request metadata supports discovery and resource reads without becoming authority or arguments", async () => {
+    const headers = await open();
+    const metadata = { progressToken: 0, "test.example/context": "CANARY-METADATA" };
+    await Promise.all(
+      ["tools/list", "resources/list"].map(async (method) => {
+        const response = await post(method, { _meta: metadata }, headers);
+        expect(response.json()).toEqual((await post(method, {}, headers)).json());
+        expect(response.body).not.toContain("CANARY-METADATA");
+        expect((await post(method, { _meta: metadata, cursor: "invalid" }, headers)).json()).toMatchObject({
+          error: { code: -32602 }
+        });
+      })
+    );
+    expect((await post("resources/read", { uri, _meta: metadata }, headers)).json()).toEqual(
+      (await post("resources/read", { uri }, headers)).json()
+    );
+    await post("tools/call", { name: "vaultix.projects.list", arguments: {}, _meta: metadata }, headers);
+    expect(listProjects).toHaveBeenCalledWith({
+      actor: ActorType.IDENTITY,
+      actorId: "actor-a",
+      actorOrgId: "org-a",
+      actorAuthMethod: null
+    });
+    const forged = { _meta: { authorization: "actor-a", orgId: "org-a", "mcp-session-id": headers["mcp-session-id"] } };
+    expect((await post("tools/list", forged, {})).body).not.toContain("vaultix.projects.list");
+    expect((await post("resources/read", { uri, ...forged }, {})).json()).toMatchObject({ error: { code: -32601 } });
+    expect((await post("tools/call", { name: "vaultix.projects.list", arguments: {}, ...forged }, {})).statusCode).toBe(
+      401
+    );
+    expect(listProjects).toHaveBeenCalledTimes(1);
+  });
   test("binds actor and organization, rechecks authentication, rejects protocol mismatch and expired context", async () => {
     const headers = await open();
     expect((await post("resources/list", {}, { ...headers, authorization: "actor-b" })).statusCode).toBe(404);
