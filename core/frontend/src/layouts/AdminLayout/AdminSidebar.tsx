@@ -14,7 +14,8 @@ import {
   Plug,
   Shield,
   ShieldCheck,
-  User
+  User,
+  UserPlus
 } from "lucide-react";
 
 import {
@@ -69,6 +70,7 @@ const adminNavItems: AdminNavItem[] = [
     link: "/admin/resources/overview",
     submenu: RESOURCE_OVERVIEW_SUBMENU
   },
+  { label: "Early Access", icon: UserPlus, link: "/admin/early-access" },
   { label: "Access Control", icon: Shield, link: "/admin/access-management" },
   { label: "Encryption", icon: Lock, link: "/admin/encryption" },
   { label: "Authentication", icon: ShieldCheck, link: "/admin/authentication" },

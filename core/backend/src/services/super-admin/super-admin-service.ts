@@ -6,6 +6,7 @@ import {
   IdentityAuthMethod,
   OrgMembershipRole,
   OrgMembershipStatus,
+  TOrganizations,
   TSuperAdmin,
   TSuperAdminUpdate,
   TUsers
@@ -57,6 +58,7 @@ import { TUserDALFactory } from "../user/user-dal";
 import { TUserAliasDALFactory } from "../user-alias/user-alias-dal";
 import { UserAliasType } from "../user-alias/user-alias-types";
 import { TInvalidateCacheQueueFactory } from "./invalidate-cache-queue";
+import { deliverOrganizationInvitation } from "./organization-invitation";
 import { TSuperAdminDALFactory } from "./super-admin-dal";
 import {
   CacheType,
@@ -882,7 +884,9 @@ export const superAdminServiceFactory = ({
 
   const createOrganization = async (
     { name, inviteAdminEmails: emails }: TCreateOrganizationDTO,
-    actor: OrgServiceActor
+    actor: OrgServiceActor,
+    // Runs inside the creation transaction. Throwing rolls the organization back.
+    onOrganizationCreated?: (organization: TOrganizations, tx: Knex) => Promise<void>
   ) => {
     const appCfg = getConfig();
 
@@ -993,56 +997,64 @@ export const superAdminServiceFactory = ({
         users.push(inviteeUser);
       }
 
+      await onOrganizationCreated?.(org, tx);
+
       return { organization: org, users };
     });
 
     await licenseService.updateSubscriptionOrgMemberCount(organization.id);
 
-    await Promise.allSettled(
-      usersToEmail.map(async (user) => {
-        if (!user.email) return;
+    const invitations = await Promise.all(
+      usersToEmail.flatMap(({ id: userId, email, isAccepted }) =>
+        email
+          ? deliverOrganizationInvitation({
+              email,
+              isSmtpConfigured: appCfg.isSmtpConfigured,
+              createLink: async () => {
+                if (isAccepted) return `${appCfg.SITE_URL}/login?org_id=${organization.id}`;
 
-        if (user.isAccepted) {
-          return smtpService.sendMail({
-            template: SmtpTemplates.OrgAssignment,
-            subjectLine: "You've been added to an Vaultix organization",
-            recipients: [user.email],
-            substitutions: {
-              inviterFirstName: serverAdmin?.firstName,
-              inviterUsername: serverAdmin?.email,
-              organizationName: organization.name,
-              email: user.email,
-              organizationId: organization.id,
-              callback_url: `${appCfg.SITE_URL}/login?org_id=${organization.id}`
-            }
-          });
-        }
-
-        // new user, send regular invite
-
-        const token = await tokenService.createTokenForUser({
-          type: TokenType.TOKEN_EMAIL_ORG_INVITATION,
-          userId: user.id,
-          orgId: organization.id
-        });
-
-        return smtpService.sendMail({
-          template: SmtpTemplates.OrgInvite,
-          subjectLine: "Vaultix organization invitation",
-          recipients: [user.email],
-          substitutions: {
-            inviterFirstName: serverAdmin?.firstName,
-            inviterUsername: serverAdmin?.email,
-            organizationName: organization.name,
-            callback_url: `${appCfg.SITE_URL}/signupinvite?token=${token}&to=${encodeURIComponent(
-              user.email
-            )}&organization_id=${organization.id}`
-          }
-        });
-      })
+                // new user, send regular invite
+                const token = await tokenService.createTokenForUser({
+                  type: TokenType.TOKEN_EMAIL_ORG_INVITATION,
+                  userId,
+                  orgId: organization.id
+                });
+                return `${appCfg.SITE_URL}/signupinvite?token=${token}&to=${encodeURIComponent(
+                  email
+                )}&organization_id=${organization.id}`;
+              },
+              sendMail: (callbackUrl) =>
+                isAccepted
+                  ? smtpService.sendMail({
+                      template: SmtpTemplates.OrgAssignment,
+                      subjectLine: "You've been added to an Vaultix organization",
+                      recipients: [email],
+                      substitutions: {
+                        inviterFirstName: serverAdmin?.firstName,
+                        inviterUsername: serverAdmin?.email,
+                        organizationName: organization.name,
+                        email,
+                        organizationId: organization.id,
+                        callback_url: callbackUrl
+                      }
+                    })
+                  : smtpService.sendMail({
+                      template: SmtpTemplates.OrgInvite,
+                      subjectLine: "Vaultix organization invitation",
+                      recipients: [email],
+                      substitutions: {
+                        inviterFirstName: serverAdmin?.firstName,
+                        inviterUsername: serverAdmin?.email,
+                        organizationName: organization.name,
+                        callback_url: callbackUrl
+                      }
+                    })
+            })
+          : []
+      )
     );
 
-    return organization;
+    return { organization, invitations };
   };
 
   const deleteOrganization = async (organizationId: string) => {

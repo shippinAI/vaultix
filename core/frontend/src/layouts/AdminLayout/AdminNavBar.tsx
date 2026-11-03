@@ -7,6 +7,7 @@ import {
   faKey,
   faLock,
   faPlug,
+  faUserPlus,
   faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,6 +34,11 @@ const generalTabs = [
     label: "Resource Overview",
     icon: faBuilding,
     link: "/admin/resources/overview"
+  },
+  {
+    label: "Early Access",
+    icon: faUserPlus,
+    link: "/admin/early-access"
   },
   {
     label: "Access Control",

@@ -188,6 +188,7 @@ export enum TableName {
   // @depreciated
   KmsKeyVersion = "kms_key_versions",
   WorkflowIntegrations = "workflow_integrations",
+  VaultixEarlyAccessRequests = "vaultix_early_access_requests",
   SlackIntegrations = "slack_integrations",
   ProjectSlackConfigs = "project_slack_configs",
   AppConnection = "app_connections",

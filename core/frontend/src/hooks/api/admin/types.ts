@@ -102,6 +102,7 @@ export type TServerConfig = {
   fipsEnabled?: boolean;
   paramsFolderSecretDetectionEnabled?: boolean;
   isOfflineUsageReportsEnabled?: boolean;
+  earlyAccessRequestsEnabled?: boolean;
 };
 
 export type TUpdateServerConfigDTO = {
