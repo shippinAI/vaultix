@@ -1087,7 +1087,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	110	b19cb573e4eae542961bb59266476933f0aea59a3e67e1164846669a83f247ec	102	unassessed
+scripts	delivery	supporting-tooling-or-contract	110	66f432b18dba6d792008fb4c112d5e9fd317c4c9604b781d78fac1e82aacd82b	102	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed

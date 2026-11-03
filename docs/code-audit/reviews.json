@@ -9961,7 +9961,7 @@
     },
     {
       "path": "scripts/test-server-migration.mjs",
-      "blob": "eafce1e512406ab3ca596db491485a262139a68e",
+      "blob": "1649c4233511714791ed622cc269bebfcf8f513b",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",

@@ -11959,8 +11959,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	4bb6a5e13adaa633f3d3394aa3ac4c677fb973d8	generated	unread
-docs/migration/generated/modules.tsv	0b9afbd1c896a17f90dbe1c535753bacc3d0ad40	generated	unread
+docs/migration/generated/files.tsv	bf4ffe28863a09c9831b1d84e7d72437ae6fa2fa	generated	unread
+docs/migration/generated/modules.tsv	b21a71e9939b3a1b4ff9cf8dffc9dba963a64c2a	generated	unread
 docs/migration/generated/summary.json	01ca84c6fb178badbd808a0ee3963b9046d05069	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored
@@ -12226,7 +12226,7 @@ scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	build-and-operations	authored
 scripts/test-server-lifecycle.mjs	f9151e613aca54de482c72129d5074b2aa228a30	build-and-operations	reviewed
-scripts/test-server-migration.mjs	eafce1e512406ab3ca596db491485a262139a68e	build-and-operations	reviewed
+scripts/test-server-migration.mjs	1649c4233511714791ed622cc269bebfcf8f513b	build-and-operations	reviewed
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-tenant-isolation.mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
