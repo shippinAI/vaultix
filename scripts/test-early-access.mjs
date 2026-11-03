@@ -326,7 +326,7 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag.slice(0, 8));
     await admin.waitForTimeout(1500);
     await expect(bulk).toBeDisabled();
-    await admin.unroute("**/api/v1/early-access/requests?*", slowList);
+    await admin.unrouteAll({ behavior: "wait" });
     await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag);
     await expect(bulk).toBeEnabled({ timeout: 15000 });
     await bulk.click();
