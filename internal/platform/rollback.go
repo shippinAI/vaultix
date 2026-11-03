@@ -32,11 +32,14 @@ func rollbackState(s *State, discardWrites bool) (*State, error) {
 	if s.Action != "upgrade" || s.Prior == nil {
 		return nil, errors.New("this operation has no previous application to return to")
 	}
-	if s.Prior.Image == s.Candidate.Image {
+	// A saved plan has not changed anything, so it can always be cancelled.
+	if s.Prior.Image == s.Candidate.Image && s.Phase != "planned" {
 		return nil, errors.New("this operation did not change the application image; there is nothing to roll back")
 	}
-	if liveStoreChanged(s.Migration, s.Phase) && candidateMayHaveServed(s.Phase) && !discardWrites {
-		return nil, errors.New("the new application may have accepted writes, and rollback restores the database to the checkpoint taken before the upgrade; repeat with --discard-writes to accept that")
+	// The new application may have accepted writes. Before it starts, one started by
+	// hand may have, even if it has been stopped again, so a restore always asks.
+	if liveStoreChanged(s.Migration, s.Phase) && !discardWrites {
+		return nil, errors.New("rollback restores the database to the checkpoint taken before this upgrade, which removes anything written since from the live store; repeat with --discard-writes to accept that")
 	}
 	next := *s
 	reverted := s.Candidate
@@ -61,7 +64,7 @@ func newestCheckpoint(a, b *release.ReleaseCheckpoint) *release.ReleaseCheckpoin
 // rollbackPreflight refuses what would block a rollback once it is saved. Saving
 // commits to it and the next step stops an application, so this is the last point
 // where the operator can walk away with everything as it is.
-func (d *Docker) rollbackPreflight(ctx context.Context, next *State, discardWrites bool) error {
+func (d *Docker) rollbackPreflight(ctx context.Context, next *State) error {
 	if err := d.image(ctx, next.Candidate.Image, next.Candidate.Revision); err != nil {
 		return errors.New("the previous application image is no longer available on this host")
 	}
@@ -71,7 +74,8 @@ func (d *Docker) rollbackPreflight(ctx context.Context, next *State, discardWrit
 	if next.RevertedFrom == "planned" {
 		return nil
 	}
-	if err := d.preserved(ctx, next); err != nil {
+	restores := liveStoreChanged(next.Migration, next.RevertedFrom)
+	if err := d.rebindDependencies(ctx, next, restores); err != nil {
 		return err
 	}
 	current, err := d.service(ctx, "backend")
@@ -81,7 +85,7 @@ func (d *Docker) rollbackPreflight(ctx context.Context, next *State, discardWrit
 	if current != nil && current.Image != next.Candidate.Image && current.Image != next.Reverted.Image {
 		return errors.New("running image changed outside this operation owner")
 	}
-	if !liveStoreChanged(next.Migration, next.RevertedFrom) {
+	if !restores {
 		return nil
 	}
 	if err = checkBackup(d.root, next); err != nil {
@@ -90,12 +94,59 @@ func (d *Docker) rollbackPreflight(ctx context.Context, next *State, discardWrit
 	if _, err = privateRead(configPath(d.root, "recovery.key"), 8192); err != nil {
 		return errors.New("recovery key is unavailable")
 	}
-	// Before the candidate starts nothing should be running, so whatever is was started
-	// by hand, and its writes are about to leave the live store.
-	if current != nil && current.State.Running && !discardWrites {
-		return errors.New("an application is running against this database, and rollback restores it from the checkpoint; repeat with --discard-writes to accept losing its writes")
+	return nil
+}
+
+// rebindDependencies follows a PostgreSQL or cache container recreated while an
+// operation was pending, because its ID can never come back and the data is in the
+// named volume. Only going back accepts this. A fresh volume under the same name looks
+// identical, so recovery forward stays strict, and a rollback that is not about to
+// restore the store must find it still there before an application starts on it.
+func (d *Docker) rebindDependencies(ctx context.Context, s *State, restores bool) error {
+	db, err := d.service(ctx, "db")
+	if err != nil {
+		return err
+	}
+	if db == nil {
+		return errors.New("the database container is missing; start it again from the instance's Compose files, then retry")
+	}
+	if db.Image != s.DatabaseImage || volume(db) != s.DatabaseVolume {
+		return errors.New("database identity or volume changed")
+	}
+	cache, err := d.service(ctx, "cache")
+	if err != nil {
+		return err
+	}
+	if (cache == nil) != (s.Cache == "") {
+		return errors.New("the cache container is missing or new; start it again from the instance's Compose files, then retry")
+	}
+	if db.ID != s.Database && !restores {
+		user, name, err := d.dbNames(ctx, db.ID)
+		if err != nil {
+			return err
+		}
+		if applied, err := d.appliedMigrations(ctx, db.ID, user, name); err != nil || len(applied) == 0 {
+			return errors.New("cannot confirm the recreated database container holds this instance's store; check that it is running with its original volume, then retry")
+		}
+	}
+	s.Database = db.ID
+	if cache != nil {
+		s.Cache = cache.ID
 	}
 	return nil
+}
+
+// named tells an absent container from a Docker failure, which inspect cannot.
+func (d *Docker) named(ctx context.Context, name string) (*containerInfo, error) {
+	raw, err := d.run(ctx, "ps", "-aq", "--no-trunc", "--filter", "name=^/"+name+"$")
+	if err != nil || len(raw) == 0 {
+		return nil, err
+	}
+	c, err := d.inspect(ctx, string(raw))
+	if err != nil {
+		return nil, err
+	}
+	return &c, nil
 }
 
 // discardRehearsal runs even when the operation's context has ended, because the
@@ -113,8 +164,11 @@ func (d *Docker) revert(ctx context.Context, s *State) error {
 	// An interrupted attempt can leave a copy of the store and a container holding
 	// real settings, and an abandoned migration must not keep writing to this store.
 	for _, role := range []string{"restore", "rehearsal", "migrate"} {
-		c, err := d.inspect(ctx, "vaultix-"+role+"-"+s.Operation)
+		c, err := d.named(ctx, "vaultix-"+role+"-"+s.Operation)
 		if err != nil {
+			return err
+		}
+		if c == nil {
 			continue
 		}
 		if c.Config.Labels["vaultix.lifecycle.operation"] != s.Operation {
@@ -197,6 +251,9 @@ func (d *Docker) restoreStore(ctx context.Context, s *State) error {
 	if err != nil {
 		return err
 	}
+	// A committed swap is not repeated or checked again. The copy was proven before it,
+	// so anything that differs now was written afterwards and is not this rollback's to
+	// refuse or remove.
 	if !bytes.Equal(swapped, []byte("1")) {
 		for _, query := range []string{
 			fmt.Sprintf(`DROP DATABASE IF EXISTS %q WITH (FORCE);`, restored),
@@ -218,9 +275,9 @@ func (d *Docker) restoreStore(ctx context.Context, s *State) error {
 		if _, err = maintenance(fmt.Sprintf(`BEGIN; ALTER DATABASE %q RENAME TO %q; ALTER DATABASE %q RENAME TO %q; COMMIT;`, db, replaced, restored, db)); err != nil {
 			return err
 		}
-	}
-	if err = d.checkRestored(ctx, s, user, db); err != nil {
-		return err
+		if err = d.checkRestored(ctx, s, user, db); err != nil {
+			return err
+		}
 	}
 	s.RetainedDatabase = replaced
 	// Entries the failed application cached can describe writes that are no longer

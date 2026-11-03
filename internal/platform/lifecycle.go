@@ -134,7 +134,7 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 		if err != nil {
 			return result, err
 		}
-		if err = d.rollbackPreflight(ctx, next, o.DiscardWrites); err != nil {
+		if err = d.rollbackPreflight(ctx, next); err != nil {
 			return result, err
 		}
 		phase := "reverting"
@@ -237,7 +237,9 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 		if err != nil {
 			return result, err
 		}
-		next := &State{Operation: "op-" + randomHex(12), Action: action, Configuration: fingerprint, Candidate: target}
+		// The newest verified release outlives a local build or a cancelled plan, so
+		// neither reopens replay of an older signed one.
+		next := &State{Operation: "op-" + randomHex(12), Action: action, Configuration: fingerprint, Candidate: target, RetainedCheckpoint: prior}
 		if action != "install" {
 			current, err := d.service(ctx, "backend")
 			if err != nil || current == nil {
@@ -310,6 +312,10 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 // application at once: nothing live changed, so there is no decision to wait for.
 func advance(ctx context.Context, d *Docker, s *State, progress io.Writer) error {
 	err := runOperation(ctx, d, s, progress)
+	// The time limit can also expire just before the rehearsal itself starts.
+	if err != nil && s.Phase == "rehearsing" && errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		err = rehearsalOutcome(ctx, err)
+	}
 	var refused *rehearsalError
 	if !errors.As(err, &refused) {
 		return err
@@ -424,6 +430,12 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 	}
 	if err := d.claim(ctx, s.Candidate.Image); err != nil {
 		return err
+	}
+	if s.Action == "rollback" {
+		restores := liveStoreChanged(s.Migration, s.RevertedFrom) && (s.Phase == "reverting" || s.Phase == "restoring")
+		if err := d.rebindDependencies(ctx, s, restores); err != nil {
+			return err
+		}
 	}
 	transition := func(phase string) error {
 		if fp, err := configuration(d.root); err != nil || fp != s.Configuration {
@@ -549,6 +561,11 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 			}
 		case "restoring":
 			if err := d.preserved(ctx, s); err != nil {
+				return err
+			}
+			// An application started by hand since an interruption must not write to the
+			// store being replaced, and the operator has already accepted the restore.
+			if err := d.revert(ctx, s); err != nil {
 				return err
 			}
 			if err := d.restoreStore(ctx, s); err != nil {

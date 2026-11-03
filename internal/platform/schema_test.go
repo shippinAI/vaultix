@@ -249,8 +249,9 @@ func TestRollbackEligibility(t *testing.T) {
 		{"stopping", true, false, true, false},
 		{"snapshot", true, false, true, false},
 		{"rehearsing", true, false, true, false},
-		// The candidate application has not run yet, so nothing can be lost here.
-		{"migrating", true, false, true, true},
+		// The candidate has not run, but an application started by hand may have written.
+		{"migrating", true, false, false, true},
+		{"migrating", true, true, true, true},
 		{"replacing", true, false, false, true},
 		{"validating", true, false, false, true},
 		{"ready", true, false, false, true},
@@ -307,6 +308,19 @@ func TestRollbackRefusals(t *testing.T) {
 	}
 }
 
+func TestASavedPlanCanAlwaysBeCancelled(t *testing.T) {
+	s := upgradeFixture("planned", false)
+	s.Prior.Image, s.PriorImage = s.Candidate.Image, s.Candidate.Image
+	next, err := rollbackState(s, false)
+	if err != nil {
+		t.Fatalf("a same-image plan has changed nothing and must be cancellable: %v", err)
+	}
+	next.SchemaVersion, next.Sequence, next.UpdatedAt, next.Previous, next.Phase = Schema, 2, "2026-11-03T00:00:00Z", strings.Repeat("2", 64), "ready"
+	if err = next.validate(); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestRollbackDoesNotRewindReleaseReplayProtection(t *testing.T) {
 	older := &release.ReleaseCheckpoint{SchemaVersion: "vaultix.release-checkpoint.v1", Sequence: 4, SHA256: strings.Repeat("a", 64)}
 	newer := &release.ReleaseCheckpoint{SchemaVersion: "vaultix.release-checkpoint.v1", Sequence: 7, SHA256: strings.Repeat("b", 64)}
@@ -322,6 +336,85 @@ func TestRollbackDoesNotRewindReleaseReplayProtection(t *testing.T) {
 	}
 	if newestCheckpoint(next.RetainedCheckpoint, next.Candidate.Checkpoint) != newer {
 		t.Fatal("the next upgrade would accept a replayed release")
+	}
+	// A plan from a local build carries no checkpoint of its own, and cancelling it
+	// must not lose the one the instance remembers.
+	planned := upgradeFixture("planned", false)
+	planned.RetainedCheckpoint = newer
+	planned.SchemaVersion, planned.Sequence, planned.UpdatedAt, planned.Previous = Schema, 2, "2026-11-03T00:00:00Z", strings.Repeat("2", 64)
+	if err = planned.validate(); err != nil {
+		t.Fatalf("an upgrade must be able to carry the newest verified release: %v", err)
+	}
+	cancelled, err := rollbackState(planned, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if newestCheckpoint(cancelled.RetainedCheckpoint, cancelled.Candidate.Checkpoint) != newer {
+		t.Fatal("cancelling a plan would accept a replayed release")
+	}
+	install := fixtureState()
+	install.RetainedCheckpoint = newer
+	install.SchemaVersion, install.Sequence, install.UpdatedAt, install.Phase = Schema, 1, "2026-11-03T00:00:00Z", "planned"
+	if install.validate() == nil {
+		t.Fatal("only an upgrade has an earlier release to remember")
+	}
+}
+
+// advance decides by what the context reports, so the application's fate on an
+// interrupt or the time limit is exercised here, up to the first Docker effect.
+func TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit(t *testing.T) {
+	expired := func() (context.Context, context.CancelFunc) {
+		return context.WithDeadline(context.Background(), time.Now().Add(-time.Second))
+	}
+	interrupted := func() (context.Context, context.CancelFunc) {
+		ctx, cancel := context.WithCancel(context.Background())
+		cancel()
+		return ctx, cancel
+	}
+	for _, tc := range []struct {
+		name, phase string
+		context     func() (context.Context, context.CancelFunc)
+		returns     bool
+	}{
+		{"time limit in rehearsal", "rehearsing", expired, true},
+		{"interrupt in rehearsal", "rehearsing", interrupted, false},
+		{"time limit in checkpoint", "snapshot", expired, false},
+		{"time limit in live migration", "migrating", expired, false},
+	} {
+		d, _ := fakeDocker(t, "0", "")
+		if err := os.Mkdir(filepath.Join(d.root, "config"), 0700); err != nil {
+			t.Fatal(err)
+		}
+		for _, name := range []string{"instance.json", "compose.yml", "vaultix.env", "recovery.key"} {
+			if err := newFile(configPath(d.root, name), []byte(name)); err != nil {
+				t.Fatal(err)
+			}
+		}
+		s := upgradeFixture(tc.phase, true)
+		fingerprint, err := configuration(d.root)
+		if err != nil {
+			t.Fatal(err)
+		}
+		s.Configuration = fingerprint
+		if err = saveState(d.root, s, tc.phase); err != nil {
+			t.Fatal(err)
+		}
+		ctx, cancel := tc.context()
+		err = advance(ctx, d, s, io.Discard)
+		cancel()
+		if err == nil {
+			t.Fatalf("%s: the fake Docker cannot finish an operation", tc.name)
+		}
+		saved, loadErr := loadState(d.root)
+		if loadErr != nil {
+			t.Fatal(loadErr)
+		}
+		if returned := saved.Action == "rollback" && saved.RevertedFrom == tc.phase; returned != tc.returns {
+			t.Fatalf("%s: returned to the previous application=%v, state %s/%s", tc.name, returned, saved.Action, saved.Phase)
+		}
+		if !tc.returns && saved.Phase != tc.phase {
+			t.Fatalf("%s: the operation must stay where it was for the operator, found %s", tc.name, saved.Phase)
+		}
 	}
 }
 

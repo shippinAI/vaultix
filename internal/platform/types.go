@@ -199,7 +199,7 @@ func (s State) validateTransition() error {
 		}
 	}
 	if s.Action != "rollback" {
-		if s.Reverted != nil || s.RevertedFrom != "" || s.RetainedCheckpoint != nil || s.RetainedDatabase != "" {
+		if s.Reverted != nil || s.RevertedFrom != "" || s.RetainedDatabase != "" || s.RetainedCheckpoint != nil && s.Action != "upgrade" {
 			return errors.New("rollback record does not belong to this operation")
 		}
 		return nil

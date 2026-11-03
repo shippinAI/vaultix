@@ -146,6 +146,8 @@ names must equal the candidate's set, the lock must be free and the fingerprint 
 `secrets_v2` ciphertext must be unchanged. A failure here, or running out of time,
 has changed nothing live, so the previous application restarts automatically and the
 command exits nonzero. Ctrl-C instead keeps the operation for `recover` or `rollback`.
+A checkpoint that fails or runs out of time before this phase behaves like any failed
+checkpoint: the application stays down until one of those two commands.
 
 **Migrating.** The same command runs against the live database in a detached, named
 container, and the same checks run before the application starts. If the CLI dies
@@ -169,9 +171,9 @@ operation planned by an earlier CLI has no record to return to.
 
 | Upgrade reached | What rollback does | Required |
 | --- | --- | --- |
-| `planned` | Cancels the saved operation with no Docker effects | |
+| `planned` | Cancels the saved operation with no Docker effects, including a same-image plan | |
 | `stopping`, `snapshot`, `rehearsing` | Restarts the previous application | |
-| `migrating` | Restores the checkpoint and restarts; the new application never ran | `--discard-writes` only if an application was started by hand |
+| `migrating` | Restores the checkpoint and restarts; the new application never ran | `--discard-writes` |
 | `replacing`, `validating`, `ready` with a changed set | Restores, clears the local cache and restarts | `--discard-writes` |
 | Any phase with an unchanged set | Replaces only the image; the database is not touched | |
 
@@ -180,23 +182,59 @@ A restore never overwrites the live database. It restores beside it as
 the checkpoint, then swaps both names in one transaction. The database it replaced
 stays as `vaultix-replaced-*`, named in `operation.retainedDatabase`, until the
 operator drops it, so a rollback taken in error can still be investigated. An
-interrupted rollback resumes with `recover` and does not repeat a committed swap.
+interrupted rollback resumes with `recover`. It does not repeat a committed swap, and
+it keeps anything written after one. An application started by hand before the swap is
+stopped again first, because the operator has already accepted the restore.
 
 `--discard-writes` accepts that writes made since the checkpoint leave the live
-store, because the new application's port is published as soon as it starts. Clearing
-the local cache keeps entries about those writes from being served, and it also
-discards queued background jobs. An external cache is not cleared: the result says
-so, and the operator must clear it. Down migrations are never run.
+store. Every restore asks for it. The new application's port is published as soon as it
+starts, and before that an application started by hand can have written, even if it
+has been stopped again. Clearing the local cache keeps entries about those writes from
+being served, and it also discards queued background jobs. An external cache is not
+cleared: the result says so, and the operator must clear it. Down migrations are never
+run.
 
 Rollback removes anything an interrupted attempt left behind, including a restored
 copy of the store and a container holding real settings.
 
 These refuse a rollback before anything is saved or stopped, so the application is
-left as it is: a missing prior image, configuration drift, a changed database or cache
-container, a running image that is neither side of the upgrade, and, when a restore
-is needed, a changed or missing checkpoint or recovery key. If one of these changes
-after a rollback has started, it stops with the application down until the file or
-container is back, then `recover` continues.
+left as it is: a missing prior image, configuration drift, a database container with
+another image or volume, a missing database or cache container, a running image that
+is neither side of the upgrade, and, when a restore is needed, a changed or missing
+checkpoint or recovery key. If one of these changes after a rollback has started, it
+stops with the application down until that is put right, then `recover` continues.
+
+Rollback follows a database or cache container recreated while an operation was
+pending, because its ID can never come back and the data is in the named volume.
+`recover` moving an upgrade forward does not: a fresh volume under the same name would
+look identical, so it refuses and `rollback` is the way out. For the same reason a
+rollback that does not restore must find the store's migration history in the recreated
+container before it starts an application there.
+
+To start a missing dependency, with `PROJECT`, `DIR` and `IMAGE` taken from the
+operation, where `IMAGE` is an image ID without its `sha256:` prefix:
+
+```sh
+docker compose --project-name PROJECT --project-directory DIR/config \
+  --env-file DIR/config/vaultix.env -f DIR/config/compose.yml \
+  -f DIR/selection-IMAGE.json up -d --no-deps --no-build --wait db cache
+```
+
+**If no command can proceed.** A lost checkpoint file blocks both `recover` and
+`rollback` when the operation depends on it, because neither continues without a way
+back. A same-image operation or an installation has no rollback, so a recreated
+dependency blocks it. The last resort leaves the journal behind:
+
+1. Wait for any container labelled `vaultix.lifecycle.operation=OPERATION` to exit and
+   remove it, because it can hold real settings.
+2. Start the application from a known-good container, or with the command above
+   naming `backend`.
+3. Remove the `vaultix-owner-PROJECT` container, then `adopt` into a new directory.
+
+The old directory stays as a record. The new one has no checkpoint from before the
+failed upgrade, so back up the store first. Rollback does not check free space: a full
+disk during a restore stops with the application down until space is freed, then
+`recover` continues.
 
 ## Trust and distribution
 
@@ -244,9 +282,12 @@ real PostgreSQL and Dragonfly, and images derived from the candidate that add
 test-only migrations. It covers planning and cancelling, each refusal it can reach,
 failing and ciphertext-rewriting rehearsals, a partial live migration, an application
 that never becomes healthy, a completed upgrade with new writes, rollback from each
-of those, and SIGKILL during rehearsal, live migration, restore and just after the
-swap. Its report records rollback time, which on this small store says nothing about
-a large one.
+of those, Ctrl-C during rehearsal, and SIGKILL during rehearsal and live migration,
+after a restore that was never swapped and just after the swap. It also covers
+recreated dependencies, an application started by hand, the last resort above and a
+fresh volume under the store's name. Its report records rollback time, which on this
+small store says nothing about a large one. Running out of time is exercised by unit
+test only, up to the first Docker effect of the restart.
 
 Not exercised: a full disk, an external cache, an external audit database (refused,
 unit tested), and an operator's production store. The rehearsal applies migrations
@@ -255,8 +296,8 @@ validation, where rollback applies. The dump and rehearsal share the command's
 30-minute limit, so a migration that cannot finish inside it cannot pass yet. The
 ciphertext fingerprint covers `secrets_v2`, not every encrypted table. A migration that deliberately rewrites that ciphertext is
 refused and needs its own reviewed path. New state fields are additive to the v1
-contract, and an earlier CLI refuses state written by this one, so finish a pending
-operation with this CLI before going back.
+contract, but an earlier CLI refuses a journal once this one has planned an upgrade in
+it, even a finished one, so keep using this CLI from then on.
 
 Local `.cache/lifecycle-inputs.json` supplies `baselineReceipt`, `candidateReceipt`,
 `cli`, and an immutable `clientImage` with Docker CLI/Compose. `development: true`

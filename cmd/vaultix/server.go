@@ -32,7 +32,7 @@ Linux/amd64 with Compose v2. Keys and operation state stay in the private instan
 directory. Existing deployments are adopted explicitly. Upgrades preserve data
 volumes. A changed migration set is rehearsed on a restored copy with no network
 before the live database is touched. --discard-writes accepts losing writes made
-since the checkpoint, and is required once the new application may have served.`
+since the checkpoint, and is required whenever rollback restores the database.`
 
 func serverCommand(ctx context.Context, args []string, out, progress io.Writer) error {
 	if len(args) == 0 {

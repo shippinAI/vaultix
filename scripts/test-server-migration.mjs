@@ -59,6 +59,10 @@ const tableExists = (table, database = 'vaultix') => sqlIn(database, `SELECT to_
 const appliedCount = () => Number(sql('SELECT count(*) FROM vaultix_migrations;'));
 const lockHeld = () => sql('SELECT count(*) FROM vaultix_migrations_lock WHERE is_locked <> 0;') !== '0';
 const databases = () => sqlIn('template1', "SELECT datname FROM pg_database WHERE NOT datistemplate ORDER BY 1;").split('\n');
+// The containers change and the named volume does not, as with an operator's own
+// compose run. The candidate's selection file exists from installation onward.
+const recreateDependencies = () => output(['exec', runner, 'docker', 'compose', '--project-name', project, '--project-directory', '/state/instance/config', '--env-file', '/state/instance/config/vaultix.env',
+  '-f', '/state/instance/config/compose.yml', '-f', `/state/instance/selection-${candidate.imageId.slice('sha256:'.length)}.json`, 'up', '-d', '--no-deps', '--no-build', '--force-recreate', '--wait', '--wait-timeout', '180', 'db', 'cache'], { timeout: 300_000 });
 
 // A derived image keeps the candidate's identity labels and adds only test files.
 // Image work on a busy shared host can pass the harness's usual limit. This container
@@ -126,22 +130,22 @@ wait)
  fi ;;
 exec)
  case " $* " in
- *" pg_restore "*"-d vaultix-restore-"*) [ ! -f /state/hold-restore ] || hold /state/hold-restore ;;
+ *" pg_restore "*"-d vaultix-restore-"*) if [ -f /state/hold-restore ]; then "$real" "$@" || exit $?; hold /state/hold-restore; fi ;;
  *"ALTER DATABASE"*) if [ -f /state/hold-swap ]; then "$real" "$@" || exit $?; hold /state/hold-swap; fi ;;
  esac ;;
 esac
 exec "$real" "$@"
 `;
-// Run one native command in the background, killable with SIGKILL at a gate.
-const background = (args) => {
-  const child = spawn('docker', ['exec', '-e', PATH, runner, 'sh', '-c', `echo $$ > /state/active-pid; exec vaultix server ${args} --directory /state/instance --json`], { windowsHide: true, stdio: 'ignore' });
+// Run one native command in the background, signalled at a gate.
+const background = (args, directory) => {
+  const child = spawn('docker', ['exec', '-e', PATH, runner, 'sh', '-c', `echo $$ > /state/active-pid; exec vaultix server ${args} --directory ${directory} --json`], { windowsHide: true, stdio: 'ignore' });
   return new Promise(done => { child.once('error', () => done(-1)); child.once('exit', code => done(code)); });
 };
-const killAtGate = async (gate, args, label) => {
+const killAtGate = async (gate, args, label, { signal = 'KILL', directory = '/state/instance' } = {}) => {
   client(['touch', gate]);
-  const exited = background(args);
+  const exited = background(args, directory);
   await h.waitFor(() => docker(['exec', runner, 'test', '-f', '/state/entered'], { allowFailure: true }).status === 0, label, 240_000);
-  client(['sh', '-c', 'kill -9 "$(cat /state/active-pid)"']);
+  client(['sh', '-c', `kill -${signal} "$(cat /state/active-pid)"`]);
   assert.notEqual(await exited, 0);
   client(['rm', '-f', gate, '/state/entered']);
   // Let the held shim observe the removed gate and exit before state is read.
@@ -223,6 +227,11 @@ try {
   assert.ok(cancelled.ready && cancelled.operation.action === 'rollback' && cancelled.operation.revertedFrom === 'planned');
   assert.equal(inspect(app()).Id, originalApp); assertOnCandidate();
   check('a plan names the pending migrations and changes nothing; rollback cancels it with no outage');
+  client(['sh', '-c', 'printf "\\n# reviewed note\\n" >> /state/instance/config/vaultix.env']);
+  assert.equal(cli(['upgrade', '--from-build', '/proof/candidate.json', '--plan']).operation.phase, 'planned');
+  assert.ok(cli(['rollback']).ready);
+  assert.equal(inspect(app()).Id, originalApp); assert.equal(inspect(app()).State.Running, true);
+  check('a same-image plan for changed configuration bytes can be cancelled too');
 
   phase = 'refusals before disruption';
   const refusedUnchanged = args => {
@@ -263,19 +272,36 @@ try {
   assert.equal(cli(['recover'], { success: false }).operation.phase, 'migrating');
   check('a failure on the live store stops before the application starts, reports the phase, and retrying does not hide it');
 
+  phase = 'recreated dependencies';
+  const databaseBefore = service('db'), cacheBefore = service('cache');
+  recreateDependencies();
+  assert.notEqual(service('db'), databaseBefore); assert.notEqual(service('cache'), cacheBefore);
+  assert.equal(cli(['recover'], { success: false }).operation.phase, 'migrating');
+  check('recovery forward refuses a recreated PostgreSQL or cache container, because a fresh volume under the same name would look identical');
+
   phase = 'application started by hand';
-  output(['start', failedLive.operation.priorContainer]);
+  const priorContainer = failedLive.operation.priorContainer;
+  output(['start', priorContainer]);
   cli(['rollback'], { success: false });
   assert.equal(cli(['status']).operation.action, 'upgrade');
-  assert.equal(inspect(failedLive.operation.priorContainer).State.Running, true);
-  check('an application started by hand against the half-migrated store blocks a rollback until the operator accepts losing its writes');
+  assert.equal(inspect(priorContainer).State.Running, true);
+  output(['stop', priorContainer]);
+  cli(['rollback'], { success: false });
+  assert.equal(cli(['status']).operation.action, 'upgrade');
+  output(['start', priorContainer]);
+  check('a rollback that restores needs the operator to accept losing writes, including those of an application started by hand and stopped again');
 
   phase = 'interrupted restore';
   await killAtGate('/state/hold-restore', 'rollback --discard-writes', 'restore gate');
   assert.equal(cli(['status']).operation.phase, 'restoring');
-  assert.equal(inspect(failedLive.operation.priorContainer).State.Running, false, 'Nothing may write while the store is replaced');
+  assert.equal(inspect(priorContainer).State.Running, false, 'Nothing may write while the store is replaced');
   assert.equal(tableExists('vaultix_lifecycle_partial'), true, 'Nothing is swapped until the copy is proven');
+  const copies = databases().filter(name => name.startsWith('vaultix-restore-'));
+  assert.equal(copies.length, 1); assert.equal(tableExists('secrets_v2', copies[0]), true, 'The kill should leave a restored copy that was never swapped');
+  recreateDependencies();
+  output(['start', priorContainer]);
   const recoveredLive = cli(['recover']);
+  assert.equal(inspect(service('db')).Id, recoveredLive.operation.database);
   assert.ok(recoveredLive.ready && recoveredLive.operation.action === 'rollback' && recoveredLive.operation.revertedFrom === 'migrating');
   const retainedLive = recoveredLive.operation.retainedDatabase;
   assert.match(retainedLive, /^vaultix-replaced-/);
@@ -283,7 +309,7 @@ try {
   assert.equal(tableExists('vaultix_lifecycle_partial', retainedLive), true, 'The replaced database must be kept');
   await assertPreserved();
   assert.ok(databases().every(name => !name.startsWith('vaultix-restore-')), 'No half-restored database may remain');
-  check('rollback after a failed live migration restores the checkpoint, survives being killed mid-restore, and keeps the replaced database');
+  check('rollback after a failed live migration restores the checkpoint and keeps the replaced database, and survives a kill before the swap, recreated dependencies and an application started by hand');
 
   phase = 'candidate never becomes healthy';
   const sick = cli(['upgrade', '--from-build', '/proof/unbootable.json'], { success: false });
@@ -302,6 +328,19 @@ try {
   await assertPreserved();
   assert.ok(recoveredSick.message.includes('local cache was cleared'));
   check('an application that never becomes healthy is rolled back with the store restored and the local cache cleared');
+
+  phase = 'operator interrupt during rehearsal';
+  const interrupted = cli(['upgrade', '--from-build', '/proof/forward.json', '--plan']);
+  const interruptedId = interrupted.operation.operation;
+  await killAtGate('/state/hold-rehearsal', `upgrade --apply ${interruptedId}`, 'rehearsal gate', { signal: 'INT' });
+  const kept = cli(['status']);
+  assert.ok(kept.recoveryRequired && kept.operation.action === 'upgrade' && kept.operation.phase === 'rehearsing', 'An interrupt is the operator\'s to decide');
+  assert.equal(inspect(interrupted.operation.priorContainer).State.Running, false, 'An interrupt must not restart the application');
+  assert.equal(output(['ps', '-aq', '--filter', `label=vaultix.lifecycle.operation=${interruptedId}`]), '', 'No copy of the store or its keys may remain');
+  const interruptedBack = cli(['rollback']);
+  assert.ok(interruptedBack.ready && interruptedBack.operation.revertedFrom === 'rehearsing');
+  assertOnCandidate(); await assertPreserved();
+  check('Ctrl-C during a rehearsal keeps the operation for the operator and leaves no copy of the store behind');
 
   phase = 'rollback from an interrupted rehearsal';
   const abandoned = cli(['upgrade', '--from-build', '/proof/forward.json', '--plan']);
@@ -376,16 +415,20 @@ try {
   assert.equal(tableExists('vaultix_lifecycle_forward'), false, 'The swap had already committed');
   const swapped = databases().filter(name => name.startsWith('vaultix-replaced-') && name !== retainedLive && tableExists('vaultix_lifecycle_forward', name));
   assert.equal(swapped.length, 1);
+  // As an application started by hand might write after the swap and before the retry.
+  sql("CREATE TEMP TABLE written AS SELECT * FROM secrets_v2 WHERE key='MIGRATION_CANARY'; UPDATE written SET id=gen_random_uuid(), key='WRITTEN_AFTER_SWAP'; INSERT INTO secrets_v2 SELECT * FROM written;");
   const restored = cli(['recover']);
   report.measurements.rollbackSeconds = Math.round((Date.now() - started) / 1000);
   assert.ok(restored.ready && restored.operation.revertedFrom === 'ready');
   assert.equal(restored.operation.retainedDatabase, swapped[0]);
   assert.equal(tableExists('vaultix_lifecycle_forward', swapped[0]), true, 'A repeated swap would have lost this');
+  assert.equal(sql("SELECT count(*) FROM secrets_v2 WHERE key='WRITTEN_AFTER_SWAP';"), '1', 'A retry must not refuse or remove what was written after the swap');
+  sql("DELETE FROM secrets_v2 WHERE key='WRITTEN_AFTER_SWAP';");
   assert.ok(sqlIn(swapped[0], "SELECT count(*) FROM secrets_v2 WHERE key='AFTER_UPGRADE';") === '1', 'Writes after the checkpoint stay in the retained database');
   assertOnCandidate();
   const afterRestore = await assertPreserved();
   await api(secretPath('AFTER_UPGRADE'), { token: afterRestore, status: 404 });
-  check('rollback after a completed upgrade returns to the checkpoint, is not repeated when killed right after the swap, and keeps later writes in the retained database');
+  check('rollback after a completed upgrade returns to the checkpoint and keeps earlier writes in the retained database; killed right after the swap, it does not repeat the swap or refuse what was written since');
 
   phase = 'upgrade again after rollback';
   const again = cli(['upgrade', '--from-build', '/proof/forward.json']);
@@ -404,13 +447,14 @@ try {
   check('a same-set upgrade takes the earlier path with no rehearsal');
   const imageOnly = cli(['upgrade', '--from-build', '/proof/forward.json']);
   assert.ok(imageOnly.ready && imageOnly.operation.migration === undefined);
+  await api('/api/v4/secrets/KEPT_THROUGH_ROLLBACK', { method: 'POST', token: await assertPreserved(), body: { ...scope, secretValue: canary } });
   const backOnce = cli(['rollback']);
   assert.ok(backOnce.ready && backOnce.operation.retainedDatabase === undefined);
   assert.equal(inspect(app()).Image, sameSet);
   assert.deepEqual(databases(), listed, 'A same-set rollback must not touch the database');
   assert.equal(tableExists('vaultix_lifecycle_forward'), true);
-  await assertPreserved();
-  check('rolling back a same-set upgrade changes only the image, needs no consent and keeps every write');
+  assert.equal((await api(secretPath('KEPT_THROUGH_ROLLBACK'), { token: await assertPreserved() })).secret.secretValue, canary, 'A write made on the rolled-back image must survive');
+  check('rolling back a same-set upgrade changes only the image, needs no consent and keeps a write made on the rolled-back image');
 
   phase = 'adopted instance';
   const claim = inspect(`vaultix-owner-${project}`);
@@ -424,6 +468,43 @@ try {
   const adoptedBack = cli(['rollback'], { directory: '/state/adopted' });
   assert.ok(adoptedBack.ready); assert.equal(adoptedBack.operation.candidate.trust, 'existing-instance');
   check('an adopted instance can plan and cancel a changed migration set');
+
+  phase = 'no command can proceed';
+  const adoptedDirectory = { directory: '/state/adopted' };
+  const stuck = cli(['upgrade', '--from-build', '/proof/later.json', '--plan'], adoptedDirectory);
+  await killAtGate('/state/hold-migrate', `upgrade --apply ${stuck.operation.operation}`, 'live migration gate', adoptedDirectory);
+  const stuckStatus = cli(['status'], adoptedDirectory);
+  assert.equal(stuckStatus.operation.phase, 'migrating');
+  client(['rm', `/state/adopted/${stuckStatus.operation.backup}`]);
+  cli(['recover'], { success: false, ...adoptedDirectory });
+  cli(['rollback', '--discard-writes'], { success: false, ...adoptedDirectory });
+  // The last resort docs/0109 names: nothing here goes through the stuck journal.
+  for (const id of output(['ps', '-aq', '--filter', `label=vaultix.lifecycle.operation=${stuck.operation.operation}`]).split(/\s+/).filter(Boolean)) {
+    output(['wait', id], { timeout: 240_000 });
+    output(['rm', '-f', '-v', id]);
+  }
+  output(['start', stuck.operation.priorContainer]);
+  await h.waitFor(() => inspect(stuck.operation.priorContainer).State.Health?.Status === 'healthy', 'application started by hand', 240_000);
+  output(['rm', inspect(`vaultix-owner-${project}`).Id]);
+  const reenrolledDirectory = { directory: '/state/reenrolled' };
+  assert.ok(cli(['adopt', '--env-file', '/state/adopted/config/vaultix.env', '--project', project, '--site-url', installed.instance.siteUrl, '--port', String(port)], reenrolledDirectory).ready);
+  await assertPreserved();
+  check('when a lost checkpoint blocks both recover and rollback, the application can be started by hand and adopted into a new directory');
+
+  phase = 'fresh volume under the same name';
+  const imageOnlyLast = cli(['upgrade', '--from-build', '/proof/later.json'], reenrolledDirectory);
+  assert.ok(imageOnlyLast.ready && imageOnlyLast.operation.migration === undefined);
+  const lastDatabase = inspect(service('db'));
+  const volumeName = lastDatabase.Mounts.find(mount => mount.Destination === '/var/lib/postgresql/data').Name;
+  output(['stop', app()]);
+  output(['rm', '-f', '-v', lastDatabase.Id]);
+  output(['volume', 'rm', volumeName]);
+  recreateDependencies();
+  assert.equal(inspect(service('db')).Mounts.find(mount => mount.Destination === '/var/lib/postgresql/data').Name, volumeName);
+  cli(['rollback'], { success: false, ...reenrolledDirectory });
+  const refusedEmpty = cli(['status'], reenrolledDirectory);
+  assert.ok(refusedEmpty.operation.action === 'upgrade' && refusedEmpty.operation.phase === 'ready');
+  check('rollback does not start an application on a fresh volume that has the same name as the store');
   report.passed = true;
 } catch (error) {
   report.failure = { phase, message: error.code === 'ERR_ASSERTION' ? error.message.split('\n')[0] : 'Operation failed; raw diagnostics withheld' };
