@@ -61,21 +61,29 @@ const lockHeld = () => sql('SELECT count(*) FROM vaultix_migrations_lock WHERE i
 const databases = () => sqlIn('template1', "SELECT datname FROM pg_database WHERE NOT datistemplate ORDER BY 1;").split('\n');
 
 // A derived image keeps the candidate's identity labels and adds only test files.
+// Image work on a busy shared host can pass the harness's usual limit. This container
+// has never run, so Docker's own error is safe to keep and is the only way to tell why.
 const derive = (name, files, changes = [], base = candidate.imageId) => {
-  const container = output(['create', base]);
+  const slow = { timeout: 600_000 };
+  const container = output(['create', base], slow);
   try {
     const directory = mkdtempSync(resolve(evidence, 'image-'));
     for (const [file, content] of Object.entries(files)) {
       const path = resolve(directory, file);
       writeFileSync(path, content);
-      output(['cp', path, `${container}:/backend/dist/db/migrations/${file}`]);
+      output(['cp', path, `${container}:/backend/dist/db/migrations/${file}`], slow);
     }
-    const id = output(['commit', ...changes.flatMap(change => ['--change', change]), container]);
+    const committed = docker(['commit', ...changes.flatMap(change => ['--change', change]), container], { ...slow, allowFailure: true });
+    if (committed.error || committed.status !== 0) {
+      writeFileSync(resolve(evidence, `derive-${name}-failure.json`), JSON.stringify({ status: committed.status, error: committed.error?.code, stderr: committed.stderr?.toString().slice(0, 2000) }), { mode: 0o600 });
+      assert.fail(`Could not derive the ${name} image`);
+    }
+    const id = committed.stdout.toString().trim();
     assert.match(id, /^sha256:[a-f0-9]{64}$/);
     images.push(id);
     privateWrite(`/proof/${name}.json`, JSON.stringify({ ...candidate, imageId: id }));
     return id;
-  } finally { output(['rm', '-f', container]); }
+  } finally { output(['rm', '-f', container], slow); }
 };
 const migration = (up, down = '') => `export async function up(knex) { ${up} }\nexport async function down(knex) { ${down} }\n`;
 const FORWARD = '29990101000000_lifecycle-forward.mjs';
