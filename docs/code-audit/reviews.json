@@ -4863,10 +4863,10 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "536676bd0729c6a9070ef47d51e9869cf32808e5",
+      "blob": "0e1ecbb21c386a88b7de3b3b2642fecff0815a57",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -4874,7 +4874,9 @@
         "scripts/verify-pull-request.mjs",
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9082,16 +9084,19 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "6d8fa49cb54a1ca1e337383c42a1a7efba6281d5",
+      "blob": "a6004600f6d77e0df9a7ce6dc25de63132935e2b",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9156,16 +9161,19 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "a787c87491a6f7a208cc7d99091cfb385a25e225",
+      "blob": "cdb0c8164d560dc589ff7119b4dfbef0d1dde414",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9195,15 +9203,18 @@
     },
     {
       "path": "cmd/vaultix/server.go",
-      "blob": "3d08f65bf6761048ba3bad617816960f2a562026",
+      "blob": "82beb97aed50e8cc1f32d0d12c72ae0bdd6e1c34",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Usage text now says --discard-writes is required whenever rollback restores the database. Unit tests in cmd/vaultix pass."
       ]
     },
     {
@@ -9221,29 +9232,35 @@
     },
     {
       "path": "contracts/vaultix.instance-operation.v1.json",
-      "blob": "136d0aa1d4d2709bf8399a8dff3fc3ec96b5a976",
+      "blob": "72db91094be9e7bd043e9415e7232b0e2cc7c472",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "ba371d7056b6dcf0ebe7101bd6633283e9c498ed",
+      "blob": "bb81d461d6c29d87a286817ef443181ef24742dc",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
         "scripts/test-release-download.mjs",
         "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/download-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Rollback, last resort and limits revised against the code after a second independent review; earlier-CLI statement corrected."
       ]
     },
     {
@@ -9274,10 +9291,10 @@
     },
     {
       "path": "internal/platform/docker.go",
-      "blob": "39ba909f2220560cac518e1d193fd26eb7b507a3",
+      "blob": "de80af3a33cd655214d88442732aba5ce10e1026",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9285,7 +9302,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9303,15 +9322,18 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "b6d342c1facc2425b41685ed3ec33404ee972f3c",
+      "blob": "0b3dba987759a428f9a6f07a6797df553deea94e",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced every phase and kill point. Time limit before the rehearsal returns the previous application; rollback rebinds recreated dependencies; restoring stops an application started by hand; newest verified checkpoint carried on upgrades. TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit fails with the guard removed."
       ]
     },
     {
@@ -9358,23 +9380,26 @@
     },
     {
       "path": "internal/platform/types.go",
-      "blob": "36a830f123a7dd726dfd8a217bcab9761479c9cd",
+      "blob": "4b319445475ec3a4227d5ca25f067f66d09992a4",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "An upgrade may now carry the newest verified release checkpoint; other actions still may not. Covered by TestRollbackDoesNotRewindReleaseReplayProtection."
       ]
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "aa8951f1fd2a92eaa4df0e044b849fac226afef3",
+      "blob": "f9151e613aca54de482c72129d5074b2aa228a30",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9382,7 +9407,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9916,6 +9943,57 @@
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+      ]
+    },
+    {
+      "path": "internal/platform/rollback.go",
+      "blob": "e565db0b0acc3d9503d7335794c51b6cb0865aaf",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced each kill point in restoreStore and found no data-loss or wrong-database path. Every restore needs --discard-writes; rebindDependencies refuses a fresh volume when no restore follows; a retry after a committed swap neither repeats nor rechecks it; named separates an absent container from a Docker failure. Removing the store check or restoring the recheck fails scripts/test-server-migration.mjs at its expected scenario."
+      ]
+    },
+    {
+      "path": "internal/platform/schema.go",
+      "blob": "6d82584accc962a847b17c045616099fd71b7f48",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/schema_test.go",
+      "blob": "695c4ae105beb9b3014639f8efcc9cde798012e3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Adds TestASavedPlanCanAlwaysBeCancelled and TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit, and extends the replay and eligibility tests. go test ./internal/platform passes."
+      ]
+    },
+    {
+      "path": "scripts/test-server-migration.mjs",
+      "blob": "a52c464c55cf007d310f3b2ae02fd27cf04f1e88",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review found two scenarios weaker than their names; both now do what they claim. Adds Ctrl-C, recreated dependencies, last resort and fresh volume scenarios. 28 checks passed on a development CLI with cleanup."
       ]
     },
     {
