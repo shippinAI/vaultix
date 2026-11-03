@@ -3334,10 +3334,10 @@ core/backend/src/services/connection-queue/connection-queue-fns.ts	core/backend/
 core/backend/src/services/connection-queue/index.ts	core/backend/src/services/connection-queue	foundation	Go-domain-migration	ts	7e51d42aa40be7e8513bd907bbe08950776242cd	unread
 core/backend/src/services/convertor/convertor-service.ts	core/backend/src/services/convertor	foundation	Go-domain-migration	ts	ca1e1d65851c17c1ac828d0f3a29ddbb69c14032	unread
 core/backend/src/services/early-access/early-access-dal.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	f1851e14fa083dac2d13f43e27cb49d5d0374ee0	authored
-core/backend/src/services/early-access/early-access-input.test.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	b698e74804ebf6507fda795925d787b7abb91a2b	authored
-core/backend/src/services/early-access/early-access-input.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	f2bed1fc3025f88b046f6d98d60cc333dc8621d1	authored
-core/backend/src/services/early-access/early-access-service.test.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	d9ddea50a3cd9aaec6312532267b55531369d9fe	authored
-core/backend/src/services/early-access/early-access-service.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	0fe6cb28460bdcf637335d2e72322d5247d5db91	authored
+core/backend/src/services/early-access/early-access-input.test.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	7772c895d9f29282ce254e7d2ff92c25e44df999	authored
+core/backend/src/services/early-access/early-access-input.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	f7bd714d0f7fee25aaf9131a966fc4317c594a39	authored
+core/backend/src/services/early-access/early-access-service.test.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	af2deb24b494f7bece840678f617d09d7a43922d	authored
+core/backend/src/services/early-access/early-access-service.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	1860b2bdd73c4aab1ec089072a18d8571b93a634	authored
 core/backend/src/services/early-access/early-access-types.ts	core/backend/src/services/early-access	foundation	Go-domain-migration	ts	95b98f73bdac6e666f1404eca81bfac9cff8a5b1	authored
 core/backend/src/services/enrollment-config/acme-enrollment-config-dal.ts	core/backend/src/services/enrollment-config	pki	Go-domain-migration	ts	758c08491d719619a76a738ba4d9f4f36e2e104e	unread
 core/backend/src/services/enrollment-config/api-enrollment-config-dal.ts	core/backend/src/services/enrollment-config	pki	Go-domain-migration	ts	ec4b8f76b418da4adcb294e8e678794f9914c086	unread
@@ -4140,7 +4140,7 @@ core/backend/src/services/super-admin/organization-invitation.test.ts	core/backe
 core/backend/src/services/super-admin/organization-invitation.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	de1d67c7b358b9a53fe8389160503fb72244de0e	authored
 core/backend/src/services/super-admin/super-admin-dal.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	89a20b20d07aac62ff9279cf93353174fbf5999a	verified
 core/backend/src/services/super-admin/super-admin-fns.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	12ac0e7d79e762547aea39b7451a347342acf75b	unread
-core/backend/src/services/super-admin/super-admin-service.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	766f6cd751374f87e912976de747998465edd39e	verified
+core/backend/src/services/super-admin/super-admin-service.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	d7de697608ec9696cec6895bcdfa951c7012b394	verified
 core/backend/src/services/super-admin/super-admin-types.ts	core/backend/src/services/super-admin	foundation	Go-domain-migration	ts	975b953ff0883ad255c485edd3d558e416003042	unread
 core/backend/src/services/telemetry/telemetry-dal.ts	core/backend/src/services/telemetry	foundation	Go-domain-migration	ts	df98dc424e24684472d7caf8e3b02bf48620c4a0	unread
 core/backend/src/services/telemetry/telemetry-defaults.test.ts	core/backend/src/services/telemetry	foundation	Go-domain-migration	ts	63538e1ee438bb8d9a4bd0951ffc50c064d31394	authored
@@ -6471,7 +6471,7 @@ core/frontend/src/pages/admin/CachingPage/components/CachingPageForm.tsx	core/fr
 core/frontend/src/pages/admin/CachingPage/components/index.ts	core/frontend/src/pages/admin/CachingPage	ui	React-TypeScript	ts	eeb3b87cd824a92327f138ed66c7bb29b8e02875	unread
 core/frontend/src/pages/admin/CachingPage/route.tsx	core/frontend/src/pages/admin/CachingPage	ui	React-TypeScript	tsx	1a6ac7773c6bee27472f47d726f34b4a4a57c8f6	unread
 core/frontend/src/pages/admin/EarlyAccessPage/EarlyAccessPage.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	c082d8fdfc8010b33c84b6dd44e89d0c42024319	authored
-core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessRequestsTable.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	f26ae26584899ea428dfefe0dbf7ca6155418784	authored
+core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessRequestsTable.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	c1d2c3a554ccc93eb0e7a8a10f9fe44c540dbf23	authored
 core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessSettings.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	7219ea82ecd399e5ada75dbd702f844400d2beb7	authored
 core/frontend/src/pages/admin/EarlyAccessPage/components/InviteEarlyAccessModal.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	5cb98ec7a31f3df26e7f0f78c10c9906daea142e	authored
 core/frontend/src/pages/admin/EarlyAccessPage/route.tsx	core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	tsx	2e74bba22965f587e3bff687a41cc2cf13164849	authored
@@ -9707,7 +9707,7 @@ scripts/test-device-http.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/test-device-worker-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	authored
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-early-access-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0aa9a589c9658620b7bf00088d8909ca379af398	reviewed
-scripts/test-early-access.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4b5cfbf68920ccd59fe514b1e516c7d74e84e52c	reviewed
+scripts/test-early-access.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	062f1071ddd360289354e6f21151819036631e29	reviewed
 scripts/test-encrypted-recovery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	292d31f56f92316c80e6fa2d28b60f1890712021	verified
 scripts/test-environment-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	verified
 scripts/test-first-run-setup.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a65b732e0bbda99492faa29d47e24084fecc6f71	reviewed

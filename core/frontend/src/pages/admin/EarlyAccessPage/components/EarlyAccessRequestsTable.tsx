@@ -83,14 +83,18 @@ export const EarlyAccessRequestsTable = () => {
   const [debouncedSearch] = useDebounce(search, 500);
   const [inviting, setInviting] = useState<TEarlyAccessRequest>();
   const [deleting, setDeleting] = useState<TEarlyAccessRequest>();
-  const [isDeletingMatching, setIsDeletingMatching] = useState(false);
+  const [bulkDelete, setBulkDelete] = useState<{
+    status: "pending" | "declined";
+    search?: string;
+    count: number;
+  }>();
   const [reissued, setReissued] = useState<{ email: string; link: string }>();
 
   const { offset, limit, setPage, perPage, page, setPerPage } = usePagination("", {
     initPerPage: getUserTablePreference(TABLE_PREFERENCE, PreferenceKey.PerPage, 25)
   });
 
-  const { data, isPending } = useGetEarlyAccessRequests({
+  const { data, isPending, isPlaceholderData } = useGetEarlyAccessRequests({
     limit,
     offset,
     status: statusFilter === "all" ? undefined : statusFilter,
@@ -108,6 +112,8 @@ export const EarlyAccessRequestsTable = () => {
   // Invited requests record a decision, so they do not go in bulk.
   const bulkStatus =
     statusFilter === "pending" || statusFilter === "declined" ? statusFilter : undefined;
+  // Until a new filter has loaded, the rows and count on screen still belong to the previous one.
+  const isShowingFilter = !isPlaceholderData && search === debouncedSearch;
 
   return (
     <div className="rounded-lg border border-border bg-card p-5 text-foreground">
@@ -147,8 +153,19 @@ export const EarlyAccessRequestsTable = () => {
           </SelectContent>
         </Select>
         {bulkStatus && totalCount > 0 && (
-          <Button variant="ghost" type="button" onClick={() => setIsDeletingMatching(true)}>
-            Delete all {totalCount} shown
+          <Button
+            variant="ghost"
+            type="button"
+            isDisabled={!isShowingFilter}
+            onClick={() =>
+              setBulkDelete({
+                status: bulkStatus,
+                search: debouncedSearch || undefined,
+                count: totalCount
+              })
+            }
+          >
+            Delete all {totalCount} matching
           </Button>
         )}
       </div>
@@ -296,21 +313,21 @@ export const EarlyAccessRequestsTable = () => {
       <InviteEarlyAccessModal request={inviting} onClose={() => setInviting(undefined)} />
       <InvitationLinkModal invitation={reissued} onClose={() => setReissued(undefined)} />
       <DeleteActionModal
-        isOpen={isDeletingMatching}
+        isOpen={Boolean(bulkDelete)}
         deleteKey="delete"
-        title={`Delete all ${totalCount} ${bulkStatus ?? ""} requests shown${debouncedSearch ? ` for "${debouncedSearch}"` : ""}?`}
-        onChange={setIsDeletingMatching}
+        title={`Delete all ${bulkDelete?.count} ${bulkDelete?.status} requests${bulkDelete?.search ? ` matching "${bulkDelete.search}"` : ""}?`}
+        onChange={(isOpen) => !isOpen && setBulkDelete(undefined)}
         onDeleteApproved={async () => {
-          if (!bulkStatus) return;
+          if (!bulkDelete) return;
           const deletedCount = await deleteMatching({
-            status: bulkStatus,
-            search: debouncedSearch || undefined
+            status: bulkDelete.status,
+            search: bulkDelete.search
           });
           createNotification({
             type: "success",
             text: deletedCount === 1 ? "1 request deleted." : `${deletedCount} requests deleted.`
           });
-          setIsDeletingMatching(false);
+          setBulkDelete(undefined);
         }}
       />
       <DeleteActionModal

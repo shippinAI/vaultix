@@ -1233,7 +1233,9 @@ export const superAdminServiceFactory = ({
     );
 
     // Rotating the token without mail would only cancel a link someone already shared.
-    if (!getConfig().isSmtpConfigured)
+    // Development mode prints the mail instead, so it still has somewhere to go.
+    const { isSmtpConfigured, isDevelopmentMode } = getConfig();
+    if (!isSmtpConfigured && !isDevelopmentMode)
       throw new BadRequestError({
         message: "Email isn't configured, so this can't reach them and would cancel any invitation link already shared."
       });

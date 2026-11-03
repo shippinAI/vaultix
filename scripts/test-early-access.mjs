@@ -317,10 +317,20 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     const survivor = (await list({ search: elsewhere })).totalCount;
     await admin.reload();
     await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag);
-    const bulk = admin.getByRole("button", { name: "Delete all 2 shown", exact: true });
-    await expect(bulk).toBeVisible({ timeout: 15000 });
+    const bulk = admin.getByRole("button", { name: "Delete all 2 matching", exact: true });
+    await expect(bulk).toBeEnabled({ timeout: 15000 });
+    // While a wider filter loads, the screen still shows this one's rows and count.
+    const slowList = async route => { await new Promise(done => setTimeout(done, 4000)); await route.continue(); };
+    await admin.route("**/api/v1/early-access/requests?*", slowList);
+    await admin.getByRole("textbox", { name: "Search early access requests" }).fill("");
+    await admin.waitForTimeout(1500);
+    await expect(bulk).toBeDisabled();
+    await admin.unroute("**/api/v1/early-access/requests?*", slowList);
+    await admin.getByRole("textbox", { name: "Search early access requests" }).fill(floodTag);
+    await expect(bulk).toBeEnabled({ timeout: 15000 });
     await bulk.click();
     const bulkDialog = admin.getByRole("alertdialog");
+    await expect(bulkDialog.getByText(`Delete all 2 pending requests matching "${floodTag}"?`)).toBeVisible();
     await bulkDialog.getByRole("textbox").fill("delete");
     await bulkDialog.getByRole("button", { name: "Delete", exact: true }).click();
     await expect(bulkDialog).toHaveCount(0, { timeout: 15000 });

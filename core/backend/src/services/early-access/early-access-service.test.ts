@@ -143,6 +143,19 @@ describe("inviteRequest", () => {
     await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toThrow("already been invited");
   });
 
+  it("keeps a failure after this attempt's own review as it was", async () => {
+    const { service, earlyAccessDAL, createOrganization, tx } = setup();
+    const failure = new Error("count update failed after commit");
+    createOrganization.mockImplementationOnce(async (_dto, _actor, onOrganizationCreated) => {
+      await onOrganizationCreated(organization, tx);
+      throw failure;
+    });
+    earlyAccessDAL.findById
+      .mockResolvedValueOnce(pendingRequest)
+      .mockResolvedValueOnce({ ...pendingRequest, status: "invited" });
+    await expect(service.inviteRequest("request-id", "Acme", actor)).rejects.toBe(failure);
+  });
+
   it("keeps any other failure as it was", async () => {
     const { service, earlyAccessDAL, createOrganization } = setup();
     const failure = new Error("database unavailable");

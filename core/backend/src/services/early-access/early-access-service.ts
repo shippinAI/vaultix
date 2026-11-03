@@ -50,7 +50,7 @@ export const earlyAccessServiceFactory = ({
     if (organizations.some((id) => id !== invitedOrgId))
       throw new BadRequestError({
         message:
-          "This address already has an account or a pending invitation in another organization, so an invitation link could open that organization too. Use Resource Overview instead."
+          "This address already has an account or a pending invitation in another organization, so an invitation link could open that organization too. Once they have accepted it, add them from Resource Overview."
       });
   };
 
@@ -109,7 +109,9 @@ export const earlyAccessServiceFactory = ({
       return { request: invited, organization, invitation: invitations[0] };
     } catch (error) {
       // For a new address, a concurrent invite loses on the user row before it reaches the review.
-      if ((await earlyAccessDAL.findById(requestId))?.status === "invited") throw alreadyInvited();
+      // A failure after this attempt's own review is real, and stays as it was.
+      if (invited === request && (await earlyAccessDAL.findById(requestId))?.status === "invited")
+        throw alreadyInvited();
       throw error;
     }
   };

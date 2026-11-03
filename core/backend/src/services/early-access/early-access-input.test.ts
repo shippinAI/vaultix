@@ -45,7 +45,8 @@ describe("parseEarlyAccessSubmission", () => {
     ["non-ASCII", { email: "pérson@example.com" }],
     ["a non-ASCII domain", { email: "person@exämple.com" }],
     ["a leading dot", { email: ".person@example.com" }],
-    ["two dots", { email: "per..son@example.com" }]
+    ["two dots", { email: "per..son@example.com" }],
+    ["a numeric top-level domain", { email: "person@127.0.0.11" }]
   ])("rejects an email that is %s", (_label, body) => {
     expect(() => parseEarlyAccessSubmission(body)).toThrow(BadRequestError);
   });

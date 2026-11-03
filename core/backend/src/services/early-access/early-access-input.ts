@@ -28,7 +28,7 @@ const SINGLE_LINE_CONTROL = /[\u0000-\u001f\u007f-\u009f\u2028\u2029\u202a-\u202
 const MULTI_LINE_CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/;
 // The form of address the existing organization route accepts. This one becomes a username, and
 // anything looser can look like another address in the console or evade the duplicate check.
-const EMAIL_FORM = /^(?!\.)(?!.*\.\.)[a-z0-9_'+.-]*[a-z0-9_+-]@[a-z0-9-]+(?:\.[a-z0-9-]+)+$/;
+const EMAIL_FORM = /^(?!\.)(?!.*\.\.)[a-z0-9_'+.-]*[a-z0-9_+-]@(?:[a-z0-9][a-z0-9-]*\.)+[a-z]{2,}$/;
 
 const asRecord = (value: unknown, message: string) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new BadRequestError({ message });

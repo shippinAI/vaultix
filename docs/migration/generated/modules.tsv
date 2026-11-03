@@ -372,7 +372,7 @@ core/backend/src/services/certificate-v3	pki	Go-domain-migration	6	530d60f7842cc
 core/backend/src/services/cmek	kms	Go-domain-migration	2	e8df8971716ecc23c02295387ac1c4184db776747fae11debf0b4b8720611943	0	unassessed
 core/backend/src/services/connection-queue	foundation	Go-domain-migration	2	dfcc04445d8dfb310b051f2eb846debcd7dff139f04cef348ce135760cf6467c	0	unassessed
 core/backend/src/services/convertor	foundation	Go-domain-migration	1	337081ee8a4a170875ae68444e8c9ec82503a06ea75d522a48b0077dca100dc4	0	unassessed
-core/backend/src/services/early-access	foundation	Go-domain-migration	6	5871bca784f60b3cb69d0f30c7176ac02992849c7591fab0a94b9a11b00a9c00	6	unassessed
+core/backend/src/services/early-access	foundation	Go-domain-migration	6	c6c2440b462363a66e088e4b01795af4e57f2943bff967cb3f2d2b942dbf617b	6	unassessed
 core/backend/src/services/enrollment-config	pki	Go-domain-migration	5	56ce7a33096e42c16390d4fee76ffec8ab2354364524c46c26464c83e56bf2d7	0	unassessed
 core/backend/src/services/external-group-org-role-mapping	foundation	Go-domain-migration	4	8b5f01f5eda693e2ed7964d6bf6a62a2ae57495a7b7200ffc1784e1721a583f9	0	unassessed
 core/backend/src/services/external-migration	foundation	Go-domain-migration	10	4fa25ed69443abe5a3c9e66b1386cb7b1bf71421b2a12073d30b180f7e495952	0	unassessed
@@ -472,7 +472,7 @@ core/backend/src/services/smtp	pam	Go-domain-migration	2	8188b3e81bec4a4a744d5b9
 core/backend/src/services/smtp	pki	Go-domain-migration	2	e8bfc5b3796ac47916845775c53b56d80cc809920c0df819adba9966ab4971f9	0	unassessed
 core/backend/src/services/smtp	scanning	Go-domain-migration	3	06ef7fe4e94de1cb4067c1b355849f54197945fa78210ac1117beb8a45a54bd9	0	unassessed
 core/backend/src/services/smtp	secrets	Go-domain-migration	4	5dc09b3370810d9fd67de4691bba280d120f712754b77b5e90cc3ff2d1995dc0	0	unassessed
-core/backend/src/services/super-admin	foundation	Go-domain-migration	7	b49a4adb7e76c5c96c71e57befef8f0e89397c029c344766c5ff9058ce8e3896	4	unassessed
+core/backend/src/services/super-admin	foundation	Go-domain-migration	7	48cbae071b95eb2321f2d8aa6a7f0f47ec33619b8b68244bc0369e396311b1b0	4	unassessed
 core/backend/src/services/telemetry	foundation	Go-domain-migration	5	1b0199f2d20b2eaf020c04aefc0cf37c5c2129880e8b3888d3d39122b443c63e	3	unassessed
 core/backend/src/services/totp	identity	Go-domain-migration	3	4e85c082f808e30f15c7a5e15784cb75eaed1f0a7aa2d2891308a601231c4c07	1	unassessed
 core/backend/src/services/update-check	foundation	Go-domain-migration	4	a275b68714219a67903ebe77dd15203e20180fe3ce566cba22a87db02fc68a19	4	unassessed
@@ -799,7 +799,7 @@ core/frontend/src/pages/admin	ui	React-TypeScript	1	5d03d3457712506f8ac8231b103b
 core/frontend/src/pages/admin/AccessManagementPage	ui	React-TypeScript	5	08656a2582c42cf78baf2aafd1dab328ed8d505f80f5cc425a6c60d2718dc715	0	unassessed
 core/frontend/src/pages/admin/AuthenticationPage	identity	React-TypeScript	4	63f965f7a70657e2e3c8757668ae9f46268c7bd1fb353ce9ef7e69d1d552a022	0	unassessed
 core/frontend/src/pages/admin/CachingPage	ui	React-TypeScript	4	7216f26b1d91a3449e1fd2186a66de0996b27ac67d677909fcfd654f0a027388	0	unassessed
-core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	5	999596e39f7b46b613562d1c83dbb3b2f127a3157f846e54790d6b36edec9e57	5	unassessed
+core/frontend/src/pages/admin/EarlyAccessPage	ui	React-TypeScript	5	116c02551a5699218715556b0dcd7ae15131aa7c1455c8e743d70a5a379e2a07	5	unassessed
 core/frontend/src/pages/admin/EncryptionPage	ui	React-TypeScript	4	7b836854f24aa0b2c39d74c489865ba18ca3abbdedc7a4281f59321910a87464	0	unassessed
 core/frontend/src/pages/admin/EnvironmentPage	secrets	React-TypeScript	4	064c1bbbac8147b5a300196c5d567c54675a5e3cad69f610cd137ff9a300db51	0	unassessed
 core/frontend/src/pages/admin/GeneralPage	ui	React-TypeScript	5	8ed55f322c115dff4a755f39790a1e2f95ed344f392b2f6c0d4c9453e34149af	0	unassessed
@@ -1091,7 +1091,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	114	1218fdeb166749e4473a8f4ba9a464df2186b4e3bf06507ff5007d7dc04fd68e	106	unassessed
+scripts	delivery	supporting-tooling-or-contract	114	6148bd89fb640b211eccc063cc0a339f98e249a95d9cfa9c1ca90b46f7ef1b64	106	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	2	aaa1425cdaa00a8d39eb6225a5991dc33aedcdb92a22450fcd50cdb8956fb1cd	2	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed

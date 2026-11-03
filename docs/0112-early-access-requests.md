@@ -26,23 +26,26 @@ The administrator can then:
   administrator gets the invitation link once, to share themselves. It lasts 72 hours.
   Listing requests never returns a link.
 - **Send a new invitation** on an invited request that has not been accepted. This
-  replaces the outstanding link, which stops working, and emails the new one or shows
-  it once.
+  replaces the outstanding link and emails the new one or shows it once. The old link
+  stops working, apart from a sign-up already started from it, which can finish for up
+  to 15 minutes.
 - **Decline** a pending request. The requester is not told.
 - **Delete** any request. After an invite, the address stays on the user and membership
   that the invitation created, because those are the account rather than the request.
-- **Delete all shown** pending or declined requests, narrowed by search. This is how to
-  recover from a flood.
+- **Delete all matching** pending or declined requests, narrowed by search. This is how
+  to recover from a flood. The filter and count are fixed when the dialog opens, and the
+  button is off until a changed filter has loaded. A matching request that arrives while
+  the dialog is open goes too, and the result reports the number actually deleted.
 
 Inviting into an existing organization is not offered, and neither is inviting an address
 that already has an account or a pending invitation in another organization. An
 invitation's token belongs to the user, so whoever completes that account could enter
-those organizations too, and an outsider chooses the address a request names. Those go
-through Resource Overview, which sends mail only. The administrator is not made a member
-of the new organization.
+those organizations too, and an outsider chooses the address a request names. Once that
+person has accepted, an administrator can add them from Resource Overview, which gives no
+link. The administrator is not made a member of the new organization.
 
-Without SMTP, Resend in Resource Overview refuses, because rotating the token without
-mail would only cancel a link someone already shared.
+Without SMTP, outside development mode, Resend in Resource Overview refuses, because
+rotating the token without mail would only cancel a link someone already shared.
 
 ## Abuse and privacy
 
@@ -58,13 +61,13 @@ The form is unauthenticated and on the public internet, so:
   details, and the real owner is told their request was received.
 - Submissions are limited to 5 a minute per client, counting an IPv6 client by its /64.
   Behind a reverse proxy, set `TRUSTED_PROXY_CIDRS`, or every visitor counts as one
-  client. The route takes JSON only, so a page on another site cannot make its visitors'
-  browsers submit. Body size is bounded, disposable addresses are refused, unknown fields
+  client. The route takes JSON only, so with `SITE_URL` set, as `vaultix server` always
+  does, a page on another site cannot make its visitors' browsers submit. Body size is bounded, disposable addresses are refused, unknown fields
   are refused and a hidden field catches simple bots. There is no CAPTCHA.
 - Once 10,000 requests are pending, new ones are refused for everyone. A single client
   can reach that in about 33 hours, and more quickly with more addresses, so this bounds
   the store rather than keeping the form available. Closing the form and **Delete all
-  shown** recover from it.
+  matching** recover from it.
 - An address must be plain ASCII in the form the existing organization route accepts.
   Other fields refuse control characters and directional overrides.
 - Submitted text is stored as text and rendered as text.
@@ -123,9 +126,14 @@ addresses, form-encoded posts, closing the form and rate limiting.
 
 - Real SMTP delivery of the invitation was not tested. The email and failed-delivery
   branches have unit tests only.
-- A link already handed out for a new address still opens any organization that later
-  invites the same unaccepted account. That needs the link to reach someone other than
-  the mailbox owner, and inviting that address from another organization.
+- A link that reaches someone other than the mailbox owner gives them that address's
+  account, and any organization that later invites the address is then theirs to enter by
+  signing in, with no link and no time limit. The console says to send a link to that
+  address only. To cancel an unused link, remove the person from the new organization.
+  **Send a new invitation** also replaces it, unless the address has since been invited
+  elsewhere, when it refuses.
+- The check for another organization runs when an invitation is issued, so it does not
+  cover an invitation from elsewhere that arrives later.
 - A filled queue is not rate limited across clients, and the cap is not load tested.
 - No notification tells an administrator that a request arrived.
 - The existing Add Organization dialog still gives no link when SMTP is off.
