@@ -10251,7 +10251,7 @@
     },
     {
       "path": "scripts/test-early-access.mjs",
-      "blob": "856c31d239d9349c85841efc1aae414f154a41b2",
+      "blob": "a72f673ec48b3e090cd29775892fc6a4cb4b86b0",
       "status": "reviewed",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",

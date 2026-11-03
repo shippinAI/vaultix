@@ -11979,8 +11979,8 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	b142b4fbe8b98bc1d241f2667773ae167593ea71	generated	unread
-docs/migration/generated/modules.tsv	c8a50651b82e4dc872026d45112ae6c4dfdbae05	generated	unread
+docs/migration/generated/files.tsv	5d08dc2fae89d668682200b7fdc9c49c1873c46a	generated	unread
+docs/migration/generated/modules.tsv	42a37ff5d554de6fa43365aecfdae17c3bd36864	generated	unread
 docs/migration/generated/summary.json	100041c83197a017d9ffbe0e7677e49610723225	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	6d8fa49cb54a1ca1e337383c42a1a7efba6281d5	documentation	authored
@@ -12203,7 +12203,7 @@ scripts/test-device-grant-migration.mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25
 scripts/test-device-worker-image.mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	build-and-operations	authored
 scripts/test-eager-upload.mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	build-and-operations	verified
 scripts/test-early-access-migration.mjs	57e9e94668a89893bb2a3f4c08421c8161e1e6c3	build-and-operations	reviewed
-scripts/test-early-access.mjs	856c31d239d9349c85841efc1aae414f154a41b2	build-and-operations	reviewed
+scripts/test-early-access.mjs	a72f673ec48b3e090cd29775892fc6a4cb4b86b0	build-and-operations	reviewed
 scripts/test-encrypted-recovery.mjs	292d31f56f92316c80e6fa2d28b60f1890712021	build-and-operations	verified
 scripts/test-environment-workflow.mjs	45c6eecccb74bdc5ec37e7931af5739fb0a3257f	build-and-operations	verified
 scripts/test-first-run-setup.mjs	a65b732e0bbda99492faa29d47e24084fecc6f71	build-and-operations	reviewed
