@@ -14,6 +14,9 @@ import (
 // RegisterPlatformRoutes initializes platform handlers and registers their routes.
 func RegisterPlatformRoutes(router chi.Router, logger *slog.Logger, svc *PlatformServices) {
 	l := logger.With(slog.String("product", "platform"))
+	if svc.DeviceAuthorization != nil {
+		svc.DeviceAuthorization.Register(router)
+	}
 
 	projectsHandler := projects.NewHandler(&projects.Deps{
 		Logger:     l,

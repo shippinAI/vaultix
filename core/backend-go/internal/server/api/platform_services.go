@@ -3,10 +3,12 @@ package api
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/vaultix/api/internal/ee/services/externalkms"
 	"github.com/vaultix/api/internal/ee/services/license"
 	"github.com/vaultix/api/internal/ee/services/ratelimit"
+	"github.com/vaultix/api/internal/server/api/platform/deviceauth"
 	"github.com/vaultix/api/internal/server/api/shared"
 	"github.com/vaultix/api/internal/services/assumeprivilege"
 	"github.com/vaultix/api/internal/services/auditlog"
@@ -19,14 +21,15 @@ import (
 
 // PlatformServices holds platform-level services shared across handlers.
 type PlatformServices struct {
-	ApiAuthenticator *apiauth.ApiAuthenticator
-	Permission       *permission.Service
-	KMS              *kms.Service
-	License          *license.Service
-	Project          *project.Service
-	AuditLog         *auditlog.Service
-	AssumePrivilege  *assumeprivilege.Service
-	RateLimit        *ratelimit.Service
+	ApiAuthenticator    *apiauth.ApiAuthenticator
+	DeviceAuthorization *deviceauth.Handler
+	Permission          *permission.Service
+	KMS                 *kms.Service
+	License             *license.Service
+	Project             *project.Service
+	AuditLog            *auditlog.Service
+	AssumePrivilege     *assumeprivilege.Service
+	RateLimit           *ratelimit.Service
 }
 
 func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, error) {
@@ -60,6 +63,11 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	})
 
 	var deviceAccess apiauth.DeviceAccessVerifier
+	var deviceGrants *device.Service
+	var deviceSessions *device.Sessions
+	if infra.Config.DeviceAuthorizationEnabled && !infra.Config.DeviceAccessPolicy.Enabled {
+		return nil, fmt.Errorf("device authorization requires device access validation")
+	}
 	if infra.Config.DeviceAccessPolicy.Enabled {
 		credentials, err := device.NewCredentials(ctx, infra.Logger, &device.CredentialsDeps{
 			Secret: []byte(infra.Config.AuthSecret), Resource: infra.Config.SiteURL,
@@ -78,6 +86,21 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		if err != nil {
 			return nil, fmt.Errorf("device access verifier is unavailable")
 		}
+		if infra.Config.DeviceAuthorizationEnabled {
+			deviceSessions, err = device.NewSessions(ctx, infra.Logger, &device.SessionsDeps{
+				DB: infra.DB, Credentials: credentials, Authority: authority, RefreshLifetime: 30 * 24 * time.Hour,
+			})
+			if err != nil {
+				return nil, fmt.Errorf("device session owner is unavailable")
+			}
+			deviceGrants, err = device.NewService(ctx, infra.Logger, &device.Deps{
+				DB: infra.DB, HashKey: []byte(infra.Config.AuthSecret), Resource: infra.Config.SiteURL,
+				MaxOutstanding: 10000, Authority: authority, SessionIssuer: deviceSessions,
+			})
+			if err != nil {
+				return nil, fmt.Errorf("device authorization owner is unavailable")
+			}
+		}
 	}
 
 	apiAuthenticator, err := apiauth.NewApiAuthenticator(ctx, infra.Logger, &apiauth.AuthenticatorDeps{
@@ -87,6 +110,20 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	})
 	if err != nil {
 		return nil, fmt.Errorf("authentication: %w", err)
+	}
+	var deviceHandler *deviceauth.Handler
+	if infra.Config.DeviceAuthorizationEnabled {
+		if infra.Redis == nil {
+			return nil, fmt.Errorf("device authorization requires shared request limiting")
+		}
+		deviceHandler, err = deviceauth.NewHandler(&deviceauth.Deps{
+			Grants: deviceGrants, Sessions: deviceSessions, Resource: infra.Config.SiteURL,
+			Limiter:     &deviceauth.RedisLimiter{Client: infra.Redis, Resource: infra.Config.SiteURL},
+			BrowserAuth: apiAuthenticator.RequireAuth(apiauth.WithAuthModes(apiauth.JWTAuth)),
+		})
+		if err != nil {
+			return nil, fmt.Errorf("device authorization HTTP configuration is invalid")
+		}
 	}
 
 	auditLogSvc := auditlog.NewService(ctx, infra.Logger, &auditlog.Deps{
@@ -109,14 +146,15 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	})
 
 	svc := &PlatformServices{
-		ApiAuthenticator: apiAuthenticator,
-		Permission:       permissionSvc,
-		KMS:              kmsSvc,
-		License:          infra.License,
-		Project:          projectSvc,
-		AuditLog:         auditLogSvc,
-		AssumePrivilege:  assumePrivilegeSvc,
-		RateLimit:        rateLimitSvc,
+		ApiAuthenticator:    apiAuthenticator,
+		DeviceAuthorization: deviceHandler,
+		Permission:          permissionSvc,
+		KMS:                 kmsSvc,
+		License:             infra.License,
+		Project:             projectSvc,
+		AuditLog:            auditLogSvc,
+		AssumePrivilege:     assumePrivilegeSvc,
+		RateLimit:           rateLimitSvc,
 	}
 
 	return svc, nil

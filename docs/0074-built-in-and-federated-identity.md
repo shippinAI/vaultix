@@ -110,7 +110,9 @@ Reviewed 2026-10-31 UTC. These standards guide implementation; they do not prove
 current Vaultix CLI or server already implements the required built-in device flow.
 
 Built-in web identity remains present and covered by existing scoped application
-checks. Native built-in device authorization and the revised CLI default are not
-implemented by this planning correction. No public login or whole-identity parity
-claim is made. Codex subscription sign-in stays local to the user's AI client and
-separate from both Vaultix identity modes; Clyffy receives secret references only.
+checks. Native grant/session ownership and resource validation now have scoped
+evidence; [0113](0113-vaultix-identity-execution.md) tracks HTTP integration and
+the remaining browser, discovery, CLI and MCP consumers. The revised CLI default
+is still unfinished. No complete public login or whole-identity parity claim is
+made. Codex subscription sign-in stays local to the user's AI client and separate
+from both Vaultix identity modes; Clyffy receives secret references only.
