@@ -31,3 +31,23 @@ func TestDeviceAccessPolicy_StrictRollout(t *testing.T) {
 		})
 	}
 }
+
+func TestDeviceAuthorizationPolicy_RequiresResourceValidation(t *testing.T) {
+	for _, test := range []struct {
+		value                  string
+		access, enabled, valid bool
+	}{
+		{"", false, false, true}, {"false", false, false, true}, {"true", false, false, false},
+		{"true", true, true, true}, {"false", true, false, true}, {"yes", true, false, false},
+	} {
+		t.Run(test.value, func(t *testing.T) {
+			enabled, err := ParseDeviceAuthorizationEnabled(test.value, DeviceAccessPolicy{Enabled: test.access})
+			if !test.valid {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.Equal(t, test.enabled, enabled)
+		})
+	}
+}
