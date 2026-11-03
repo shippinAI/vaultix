@@ -79,6 +79,38 @@
         }
       }
     },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "applied",
+        "pending"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "applied": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "pending": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,254}$"
+          }
+        },
+        "secrets": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
     "instance": {
       "type": "object",
       "additionalProperties": false,
@@ -152,7 +184,8 @@
           "enum": [
             "install",
             "adopt",
-            "upgrade"
+            "upgrade",
+            "rollback"
           ]
         },
         "phase": {
@@ -161,6 +194,10 @@
             "dependencies",
             "stopping",
             "snapshot",
+            "rehearsing",
+            "migrating",
+            "reverting",
+            "restoring",
             "replacing",
             "validating",
             "ready"
@@ -208,6 +245,34 @@
         "environmentHash": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$"
+        },
+        "migration": {
+          "$ref": "#/$defs/migration"
+        },
+        "prior": {
+          "$ref": "#/$defs/candidate"
+        },
+        "reverted": {
+          "$ref": "#/$defs/candidate"
+        },
+        "revertedFrom": {
+          "enum": [
+            "planned",
+            "stopping",
+            "snapshot",
+            "rehearsing",
+            "migrating",
+            "replacing",
+            "validating",
+            "ready"
+          ]
+        },
+        "retainedCheckpoint": {
+          "$ref": "https://vaultix.cloud/contracts/vaultix.release-checkpoint.v1.json"
+        },
+        "retainedDatabase": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,47}$"
         },
         "updatedAt": {
           "type": "string",

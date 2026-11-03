@@ -30,7 +30,7 @@ mkdirSync(resolve(root, '.cache'), { recursive: true });
 const evidence = mkdtempSync(resolve(root, '.cache/lifecycle-acceptance-'));
 const report = { passed: false, cliSha256: createHash('sha256').update(readFileSync(inputs.cli)).digest('hex'),
   baseline: baseline.imageId, candidate: candidate.imageId, revision: candidate.revision,
-  development: inputs.development === true, checks: [], exclusions: ['arbitrary schema migrations', 'fleet orchestration', 'external identity provider acceptance', 'operator production deployment'] };
+  development: inputs.development === true, checks: [], exclusions: ['failure paths of changed migration sets (scripts/test-server-migration.mjs)', 'fleet orchestration', 'external identity provider acceptance', 'operator production deployment'] };
 const check = name => { report.checks.push(name); console.log(`Vaultix lifecycle: ${name}`); };
 let runner, stateVolume, operation;
 const sensitive = [];
@@ -102,6 +102,13 @@ try {
   phase = 'reviewable upgrade and configuration drift';
   const planned = cli(['upgrade', '--from-build', '/proof/candidate.json', '--plan']); operation = planned.operation.operation;
   assert.equal(planned.operation.phase, 'planned');
+  // The images decide the path. State which one ran rather than leaving it implied.
+  const changedSet = planned.operation.candidate.migrations !== installed.operation.candidate.migrations;
+  assert.equal(Boolean(planned.operation.migration), changedSet);
+  const pending = planned.operation.migration?.pending ?? [];
+  report.migrationsApplied = pending;
+  const appliedOf = () => Number(h.sql(database.Id, `SELECT count(*) FROM vaultix_migrations WHERE name IN (${pending.map(name => `'${name}'`).join(',') || "''"});`));
+  assert.equal(appliedOf(), 0);
   const before = inspect(app());
   client(['cp', '/state/instance/config/vaultix.env', '/state/original.env']);
   client(['sh', '-c', 'printf "\\n# drift\\n" >> /state/instance/config/vaultix.env']);
@@ -147,6 +154,7 @@ try {
   assert.equal(inspect(app()).Image, candidate.imageId);
   assert.equal(inspect(service('db')).Id, database.Id); assert.equal(inspect(service('cache')).Id, cache.Id);
   assert.deepEqual(inspect(service('db')).Mounts, database.Mounts);
+  assert.equal(appliedOf(), pending.length, 'Every planned migration must be recorded in the store');
   assert.ok(recovered.operation.backup.endsWith('.age') && /^[a-f0-9]{64}$/.test(recovered.operation.backupHash));
   assert.equal(output(['ps', '-aq', '--filter', `label=vaultix.lifecycle.operation=${operation}`]), '');
   client(['test', '-s', '/state/delayed-probes']);

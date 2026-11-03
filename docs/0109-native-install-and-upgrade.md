@@ -7,11 +7,13 @@ image. Docker Compose is its deployment driver. It does not execute a downloaded
 shell installer, call a second secrets engine or replace the application store.
 
 This implements a bounded part of [Platform Services](0108-platform-services-and-upgrades.md)
-and [delivery acceptance](delivery/acceptance.md). It does not complete arbitrary
-database migrations, fleet rolling upgrades, the in-app service panel or release
-publication. Linux/amd64 Docker with Compose v2 and sufficient space for a full
-encrypted dump plus a temporary restored database are prerequisites. The operator
-must have Docker access. The control directory and its parent path must be trusted.
+and [delivery acceptance](delivery/acceptance.md). It does not prove that an
+arbitrary migration preserves meaning, and it does not cover fleet rolling upgrades,
+the in-app service panel or release publication. Linux/amd64 Docker with Compose v2
+and sufficient space for a full encrypted dump plus a temporary restored database
+are prerequisites. A rollback that restores also needs room for a second copy of
+the database in the live volume. The operator must have Docker access. The control
+directory and its parent path must be trusted.
 
 ## First installation
 
@@ -70,6 +72,8 @@ vaultix server upgrade --directory /srv/vaultix-instance --apply OPERATION_ID
 vaultix server status --directory /srv/vaultix-instance
 # If the operation was interrupted:
 vaultix server recover --directory /srv/vaultix-instance
+# To return to the previous application (see Rollback):
+vaultix server rollback --directory /srv/vaultix-instance
 ```
 
 Without `--plan`, upgrade validates and applies in one invocation. A same-image,
@@ -80,8 +84,9 @@ nonzero, and status reports a pending operation separately from application heal
 1. Validate the successful canonical receipt and actual immutable image identity,
    or verify a signed bundle and all artifact bytes with preprovisioned trust.
 2. Record the exact image, configuration fingerprint, Docker daemon, database,
-   volume and cache identities. Refuse changed migration file sets before stopping
-   the application. The initial implementation deliberately has no migration bypass.
+   volume and cache identities. For a changed migration file set, apply the planning
+   rules in [changed migration sets](#changed-migration-sets) before stopping the
+   application. There is no bypass for them.
 3. Send SIGTERM with a 90-second deadline. Require clean exit; forced shutdown
    does not authorize replacement. This is not proof that every background worker
    or externally managed writer has drained.
@@ -93,16 +98,16 @@ nonzero, and status reports a pending operation separately from application heal
    not an assertion of semantic equivalence for every enterprise workflow.
    Readiness requires TCP on loopback: the official PostgreSQL image's temporary
    initialization server can answer Unix-socket probes before normal startup.
-6. Recheck checkpoint hashes, replace only the application with `--no-deps`, and
+6. For a changed migration set, rehearse it on a restored copy and then apply it.
+7. Recheck checkpoint hashes, replace only the application with `--no-deps`, and
    verify its exact image and health plus unchanged database/cache identities.
 
 Immutable `event-*.json` snapshots are fsynced before effects. Recovery reconciles
 the saved phase and chosen artifact; it never silently selects a newer release.
 Configuration drift blocks the operation. Restore the original reviewed bytes
-before resuming. Recovery moves the saved operation forward; it does not overwrite
-the live database or blindly roll back after a new application may have written.
-An unrecoverable startup needs operator investigation with retained prior image,
-checkpoint and keys. Changed migration sets need a separately rehearsed path.
+before resuming. Recovery moves the saved operation forward. It never overwrites
+the live database or rolls back on its own after a new application may have
+written; that takes the explicit `rollback` command below.
 
 Keep the private instance directory and `config/recovery.key` in separate protected
 backup storage. The recovery key is an age hybrid identity, independent of the
@@ -115,6 +120,83 @@ No FIPS or government compliance certification is implied.
 POSIX mode checks, fsync and directory synchronization are implemented. Windows
 uses an OS file lock but inherits directory ACLs and does not claim identical
 power-loss durability; the Linux path is the deployment acceptance target.
+
+## Changed migration sets
+
+A plan lists the migrations it will apply in `operation.migration.pending` and
+changes nothing. The decision compares both images' migration files with the names
+recorded in the store. These are refused before the application stops:
+
+- A candidate that changes the bytes of a migration that already shipped.
+- A store holding a migration the candidate does not include, which is a downgrade.
+- A held migration lock, which needs investigation first.
+- `AUDIT_LOGS_DB_CONNECTION_URI`, because the checkpoint covers one database.
+- `GENERATE_SANITIZED_SCHEMA=true`, because startup then changes how migrations run.
+- A setting containing a line break, which the one-off container cannot receive.
+- A Windows-native CLI. The one-off container reads its settings from `/dev/stdin`, so
+  run the Linux binary on the Docker host.
+
+After the checkpoint, two phases run before the candidate application starts.
+
+**Rehearsing.** The checkpoint is restored into a temporary PostgreSQL. The
+candidate's own `knex migrate:latest` then runs against it with the real application
+settings, in a container sharing that database's network namespace: loopback only,
+no route to the live services. The result is read back from the database. Applied
+names must equal the candidate's set, the lock must be free and the fingerprint of
+`secrets_v2` ciphertext must be unchanged. A failure here, or running out of time,
+has changed nothing live, so the previous application restarts automatically and the
+command exits nonzero. Ctrl-C instead keeps the operation for `recover` or `rollback`.
+
+**Migrating.** The same command runs against the live database in a detached, named
+container, and the same checks run before the application starts. If the CLI dies
+the container keeps running, and recovery waits for it because removing a run in
+progress can strand the migration lock. Knex commits a batch as one transaction
+unless a migration in it opts out, as `CREATE INDEX CONCURRENTLY` must, and then each
+commits alone, so a failure here can leave some applied. It stops with the application
+down for the operator to choose: `recover` retries, `rollback` restores.
+
+Migration output goes to `OPERATION-rehearsal-*.log` and `OPERATION-migrate-*.log`
+in the private instance directory, including the output of an interrupted run, and
+never to results or diagnostics, because it can quote SQL. The application then
+starts, finds nothing pending and validates as usual.
+
+## Rollback
+
+`vaultix server rollback` targets the application recorded when the upgrade was
+planned. It stays available after the upgrade finishes, until a later operation
+replaces that record. A same-image upgrade counts as a later operation, and an
+operation planned by an earlier CLI has no record to return to.
+
+| Upgrade reached | What rollback does | Required |
+| --- | --- | --- |
+| `planned` | Cancels the saved operation with no Docker effects | |
+| `stopping`, `snapshot`, `rehearsing` | Restarts the previous application | |
+| `migrating` | Restores the checkpoint and restarts; the new application never ran | `--discard-writes` only if an application was started by hand |
+| `replacing`, `validating`, `ready` with a changed set | Restores, clears the local cache and restarts | `--discard-writes` |
+| Any phase with an unchanged set | Replaces only the image; the database is not touched | |
+
+A restore never overwrites the live database. It restores beside it as
+`vaultix-restore-*`, checks the applied migrations and ciphertext fingerprint against
+the checkpoint, then swaps both names in one transaction. The database it replaced
+stays as `vaultix-replaced-*`, named in `operation.retainedDatabase`, until the
+operator drops it, so a rollback taken in error can still be investigated. An
+interrupted rollback resumes with `recover` and does not repeat a committed swap.
+
+`--discard-writes` accepts that writes made since the checkpoint leave the live
+store, because the new application's port is published as soon as it starts. Clearing
+the local cache keeps entries about those writes from being served, and it also
+discards queued background jobs. An external cache is not cleared: the result says
+so, and the operator must clear it. Down migrations are never run.
+
+Rollback removes anything an interrupted attempt left behind, including a restored
+copy of the store and a container holding real settings.
+
+These refuse a rollback before anything is saved or stopped, so the application is
+left as it is: a missing prior image, configuration drift, a changed database or cache
+container, a running image that is neither side of the upgrade, and, when a restore
+is needed, a changed or missing checkpoint or recovery key. If one of these changes
+after a rollback has started, it stops with the application down until the file or
+container is back, then `recover` continues.
 
 ## Trust and distribution
 
@@ -142,7 +224,8 @@ trust. This client capability is not evidence that a public release exists.
 ## Evidence
 
 `go test ./internal/platform ./cmd/vaultix` exercises file publication, OS locks,
-state corruption, private configuration, receipt refusal and age interoperability.
+state corruption, private configuration, receipt refusal, age interoperability, the
+migration planning rules, rollback eligibility and state written by the earlier CLI.
 `scripts/test-server-lifecycle.mjs` runs the Linux binary against two distinct
 accepted real images and real PostgreSQL/Dragonfly. It exercises installation,
 config drift, failed backup, concurrent processes, actual process death and
@@ -152,6 +235,28 @@ injected only in a disposable Docker CLI test driver, never in product code.
 An additional delayed-initialization case rejects an early restore and proves
 the native command waits for the normal PostgreSQL server. It reproduces the
 Unix-socket readiness flaw in the initial lifecycle implementation.
+
+When the two images' migration sets differ, that test takes the changed-set path and
+its report names the migrations applied.
+
+`scripts/test-server-migration.mjs` drives the changed-set path with the same binary,
+real PostgreSQL and Dragonfly, and images derived from the candidate that add
+test-only migrations. It covers planning and cancelling, each refusal it can reach,
+failing and ciphertext-rewriting rehearsals, a partial live migration, an application
+that never becomes healthy, a completed upgrade with new writes, rollback from each
+of those, and SIGKILL during rehearsal, live migration, restore and just after the
+swap. Its report records rollback time, which on this small store says nothing about
+a large one.
+
+Not exercised: a full disk, an external cache, an external audit database (refused,
+unit tested), and an operator's production store. The rehearsal applies migrations
+but does not boot the candidate application on the copy, so that failure appears at
+validation, where rollback applies. The dump and rehearsal share the command's
+30-minute limit, so a migration that cannot finish inside it cannot pass yet. The
+ciphertext fingerprint covers `secrets_v2`, not every encrypted table. A migration that deliberately rewrites that ciphertext is
+refused and needs its own reviewed path. New state fields are additive to the v1
+contract, and an earlier CLI refuses state written by this one, so finish a pending
+operation with this CLI before going back.
 
 Local `.cache/lifecycle-inputs.json` supplies `baselineReceipt`, `candidateReceipt`,
 `cli`, and an immutable `clientImage` with Docker CLI/Compose. `development: true`

@@ -81,6 +81,13 @@ try {
       assert.equal(lifecycle.revision, head);
       assert.equal(lifecycle.candidate, build.data.imageId);
       assert.equal(lifecycle.cliSha256, linux.sha256);
+      check('server-migration', process.execPath, ['scripts/test-server-migration.mjs']);
+      const migrationPath = resolve(root, '.cache/server-migration-acceptance.json');
+      const migrated = JSON.parse(readFileSync(migrationPath));
+      assert.ok(migrated.passed && migrated.cleanupPassed && !migrated.development);
+      assert.equal(migrated.revision, head);
+      assert.equal(migrated.candidate, build.data.imageId);
+      assert.equal(migrated.cliSha256, linux.sha256);
       writeFileSync(resolve(root, '.cache/download-inputs.json'), JSON.stringify({ clientImage: goImage, development: false }, null, 2) + '\n', { mode: 0o600 });
       check('release-download', process.execPath, ['scripts/test-release-download.mjs']);
       const downloadPath = resolve(root, '.cache/download-acceptance.json');
@@ -97,7 +104,7 @@ try {
       assert.equal(installed.cliSha256, linux.sha256);
       report.canonicalReceipt = build.path;
       const cliPath = resolve(root, '.cache/cli-domain-acceptance.json');
-      report.receipts = [build.path, cliPath, lifecyclePath, downloadPath, installedPath].map(path => ({ path, sha256: digest(path) }));
+      report.receipts = [build.path, cliPath, lifecyclePath, downloadPath, installedPath, migrationPath].map(path => ({ path, sha256: digest(path) }));
       return { build: build.data, cli: JSON.parse(readFileSync(cliPath)) };
     },
     checkArtifacts: async ({ imageId, revision }, cli) => {

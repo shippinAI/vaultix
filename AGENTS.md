@@ -15,9 +15,10 @@ what closed signup means on one instance. It is not CLOUD-01 or public enrollmen
 
 Native instance lifecycle (2026-11-02): read
 `docs/0109-native-install-and-upgrade.md` for compiled `vaultix server`
-install/adopt/upgrade/status/recover. Preserve keys and dependency identities;
-require encrypted restore rehearsal before replacement. Changed migration sets,
-fleet controllers and public signed release publication remain separate gates.
+install/adopt/upgrade/status/recover/rollback. Preserve keys and dependency
+identities; require encrypted restore rehearsal before replacement, and rehearse a
+changed migration set on an isolated restored copy before the live store. Fleet
+controllers and public signed release publication remain separate gates.
 
 Public entry correction (2026-11-02): `/` is the public Vaultix landing with
 recorded Remotion media and a guided rehearsal. Open Vaultix enters the existing
