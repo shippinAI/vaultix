@@ -32,6 +32,7 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
   };
   const organizationCount = async () => (await call("/api/v1/admin/organization-management/organizations?limit=100")).body.organizations.length;
   const audit = async (page, state) => {
+    await page.waitForTimeout(300);
     const result = await new AxeBuilder({ page }).withTags(WCAG).analyze();
     report.violations[state] = result.violations.map(rule => ({ id: rule.id, nodes: rule.nodes.map(node => node.target) }));
     assert.equal(result.violations.length, 0, `Accessibility failure on ${state}`);
@@ -240,6 +241,8 @@ export async function testEarlyAccess({ browser, expect, AxeBuilder, origin, adm
     const deleteDialog = admin.getByRole("alertdialog");
     await deleteDialog.getByRole("textbox").fill("delete");
     await deleteDialog.getByRole("button", { name: "Delete", exact: true }).click();
+    // An open dialog hides the table from role queries, so the row only counts once it has closed.
+    await expect(deleteDialog).toHaveCount(0, { timeout: 15000 });
     await expect(row(admin, removed)).toHaveCount(0, { timeout: 15000 });
     assert.equal((await list({ search: removed })).totalCount, 0, "Deleting removes the personal data");
     check("an administrator can decline and delete requests");
