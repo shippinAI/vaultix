@@ -28,7 +28,8 @@ export const handleVaultixMcp = (
   }
   if (!validId) return error(-32600, "Invalid request ID.");
   if (body.params !== undefined && !isRecord(body.params)) return error(-32602, "Parameters must be an object.");
-  const params = body.params ?? {};
+  const { _meta: metadata, ...params } = body.params ?? {};
+  if (metadata !== undefined && !isRecord(metadata)) return error(-32602, "Request metadata must be an object.");
   const result = (value: unknown) => ({ jsonrpc: "2.0", id, result: value });
   switch (body.method) {
     case "initialize":
@@ -81,7 +82,7 @@ export const handleVaultixMcp = (
       if (
         typeof params.name !== "string" ||
         params.name.length > 128 ||
-        Object.keys(params).some((key) => !["name", "arguments", "_meta"].includes(key))
+        Object.keys(params).some((key) => !["name", "arguments"].includes(key))
       ) {
         return error(-32602, "Specify a Vaultix tool name and empty arguments.");
       }

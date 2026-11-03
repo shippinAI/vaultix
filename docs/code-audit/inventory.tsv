@@ -2616,7 +2616,7 @@ core/backend/src/server/routes/v3/signup-router.ts	e62da8b8c516f5ba1d28d7f3e43e4
 core/backend/src/server/routes/v4/index.ts	db2e6922234476732595c0b0720385588b13899b	product-code	unread
 core/backend/src/server/routes/v4/secret-router.ts	ddcc7608b003cd5926ad4831530c79f260c639e1	product-code	unread
 core/backend/src/server/routes/vaultix-learning.test.ts	f18530ae53e50931e356643183da93a03b6590fd	test	verified
-core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	e60add1907f0b0d67d92f1de35543651359caed8	test	authored
+core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	6acbc598a80b2aca3eee099dad3ea483624df10c	test	reviewed
 core/backend/src/server/routes/vaultix-reference-router.test.ts	1c659074f2afd17cbf5c467ac4e626c479f4d643	test	unread
 core/backend/src/server/routes/vaultix-router.test.ts	473b94a0e5a86160ad3540e9129506586032a5b3	test	verified
 core/backend/src/server/routes/vaultix-router.ts	db5b4f95564f5a38d7cf2d778de76e8c2b49a570	product-code	authored
@@ -4200,8 +4200,8 @@ core/backend/src/services/vaultix/mcp-app-resource.test.ts	969a83b8957524e82a154
 core/backend/src/services/vaultix/mcp-app-resource.ts	c38283997ace7ed395ef400bc6d382f92dc9dc19	product-code	authored
 core/backend/src/services/vaultix/mcp-session-cache.test.ts	4a2deb069ffbbf254c15e12dbb4a9ae9bcbdd8bf	test	authored
 core/backend/src/services/vaultix/mcp-session-service.ts	50c2270292d1dcfec0b9f860121e426865c29da1	product-code	authored
-core/backend/src/services/vaultix/mcp.test.ts	686105c9edd2081f6c908b58d4248c2415ea57c7	test	unread
-core/backend/src/services/vaultix/mcp.ts	57205fd2a387ce44a0b61cb01ca305a814cf88c7	product-code	authored
+core/backend/src/services/vaultix/mcp.test.ts	940080d4c987ace577e2bc02ffa936f846da6cd6	test	reviewed
+core/backend/src/services/vaultix/mcp.ts	7ae714e629379b71c15f31c74fa03339297be6d5	product-code	reviewed
 core/backend/src/services/vaultix/reference-input.test.ts	f8f9f05dfe99898e440e51ecbfd408a0abcff06f	test	unread
 core/backend/src/services/vaultix/reference-input.ts	119a96baa61fb51d137bef23ef9b7e8e5f56d4d2	product-code	unread
 core/backend/src/services/vaultix/reference-service.test.ts	799f694e62d5e1733d7e597b3f698b954e0b71e0	test	unread
@@ -11928,6 +11928,7 @@ docs/0109-native-install-and-upgrade.md	ba371d7056b6dcf0ebe7101bd6633283e9c498ed
 docs/0110-invite-only-instance.md	0b39e0ebea1b4e94202216ce4a2e2803fcd17a44	documentation	unread
 docs/0110-verified-release-download.md	e4544efcc6e0613d008d89bb8b9d3fc371ccab7d	documentation	authored
 docs/0111-native-cli-installation.md	124b72effcae28e6748250bd2c33b8da01b9f8f5	documentation	authored
+docs/0112-real-codex-acceptance.md	3940aa288d91d8fe470510b74381aee7fb7e3716	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11958,9 +11959,9 @@ docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentati
 docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	4abc7964d05f8c09a80fcc7d80d4c50ec4463a0a	generated	unread
-docs/migration/generated/modules.tsv	61bb84fe7241ca941894744c4eac8ff9ac4ed549	generated	unread
-docs/migration/generated/summary.json	122065bcc7370f8306f39e0f5000bac72e15318d	generated	unread
+docs/migration/generated/files.tsv	e09cb0413329355bbd65344ffc343d89c5bfe7b5	generated	unread
+docs/migration/generated/modules.tsv	5f3c857aade70328a437dff134bd5db9209273b7	generated	unread
+docs/migration/generated/summary.json	1a157d61cad23487946797ed0287ccf47834c77c	generated	unread
 docs/migration/workstreams.json	3205b5e8214c7348a76c38fa319c7531d32f27ce	product-code	reviewed
 docs/pr-delivery.md	6d8fa49cb54a1ca1e337383c42a1a7efba6281d5	documentation	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12171,6 +12172,7 @@ scripts/test-chart-rendering.mjs	f140cae078b3824158e199ada023741d0f046277	build-
 scripts/test-cli-delivery.mjs	327f4401aec2b5812807681ed341054664ccb543	build-and-operations	verified
 scripts/test-cli-headless.mjs	be45120f8f3cb5bdc428fc64e189ce8dbe6995d1	build-and-operations	verified
 scripts/test-cli-install.mjs	35bea5ae75d123df6264f2040a716d152248560d	build-and-operations	authored
+scripts/test-codex-client.mjs	c7cba10871addf750ff1ebcd064bba3b47b34663	build-and-operations	unread
 scripts/test-core.mjs	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	build-and-operations	verified
 scripts/test-create-secret-recovery.mjs	49a201f6c9cde534e88bbf6213d7bfb4854d4237	build-and-operations	verified
 scripts/test-create-secret-workflow.mjs	ce2a0bca932a5a22bd2803846622759ebd8a8b5f	build-and-operations	verified
