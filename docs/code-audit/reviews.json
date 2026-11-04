@@ -204,7 +204,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
-      "blob": "adc4bc9dc96882c5de9ee09ba504c270457c1c8d",
+      "blob": "41900c9ad58e4082c2734e1c112d6830172aebcd",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -212,7 +212,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action ID only."
       ]
     },
     {
@@ -541,7 +542,7 @@
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx",
-      "blob": "b6ad0c087ea8fde19b1087e66c13c6c0ad928c64",
+      "blob": "2b7215e7179416e1a55409683b663c04c84a633c",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete authored component reviewed with v3 Card, chart theme, distribution/expiry callers and dashboard composition. Named regions/headings, full labels, semantic matching rings/swatches, 44px filter targets, native keyboard buttons, visible focus and nonanimated SVG. Visible and spoken label order is aligned after axe reproduced a mismatch. Data without a filter is readable noninteractive content. Uses only dashboard metadata and existing navigation; no writes, auth changes, provider operations or secret values. Desktop/narrow card, empty, reduced-motion, six filter mappings and scoped axe acceptance pass. Real screen-reader and whole-dashboard/mobile acceptance remain open.",
@@ -551,12 +552,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Selecting a chart entry behaves as before."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx",
-      "blob": "b44891a8e58def6ba121b2232afe0a8be3b45e0b",
+      "blob": "fa8b63f091541a1b70f57358bd7d96735353666d",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read with dashboard caller, stats types and algorithm labels. Recompose the existing three distributions through CertificateDistributionCard; retain positive-count rows, algorithm/enrollment display names and enrollment/algorithm/CA inventory filters. Unknown algorithms and absent CA IDs no longer expose enabled inert actions. No fetching, permission, route or store changes. Authorized-response fixtures verify counts, long labels, keyboard filters and empty data; certificate issuance/provider parity is separate.",
@@ -566,12 +568,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx",
-      "blob": "a1abc3903c655dc68b4001af562410d8cc887035",
+      "blob": "e90d0346d6cc83431014d59a81680d41d24a7a21",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read. Recompose existing expiry card through CertificateDistributionCard. Retain expired/0-7d, 8-30d and 31-60d/61-90d/90d+ aggregation, last bucket occurrence behavior, all three rows including zero counts, empty state and exact inventory filters. The existing <7-days label and inclusive seven-day filter convention are retained. Keyboard fixture navigation verifies each filter. No API, authorization, certificate lifecycle or time-bucket semantics changed.",
@@ -581,7 +584,8 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
@@ -5014,7 +5018,7 @@
     },
     {
       "path": "internal/cli/domain_test.go",
-      "blob": "ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb",
+      "blob": "b32aa676dffb86f8e8b96dc0031415cf00a9a975",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5023,12 +5027,13 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename cut off a table row and stopped this file compiling. Row restored; go test ./internal/cli passes."
       ]
     },
     {
       "path": "internal/cli/login_mode_test.go",
-      "blob": "d476cdc187f013085882aa0963681e6d752d6c6e",
+      "blob": "50804b0c29bced09ec19d0f75672dd340dd0d1ba",
       "status": "verified",
       "decision": "modify",
       "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5037,7 +5042,8 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename removed the case proving any other program name falls back to the full client. Case restored with a neutral name; go test ./internal/cli passes."
       ]
     },
     {
@@ -7170,14 +7176,15 @@
     },
     {
       "path": "docs/0076-recorded-workflows-and-visible-assist.md",
-      "blob": "97b0afec270aeaf6b8c8ad7862e7963d90bcbe04",
+      "blob": "534c9e4094ec4d620e29ab52b4a84f7da64b4420",
       "status": "authored",
       "decision": "modify",
       "scope": "Source-grounded research and implementation plan for actual-app capture, Remotion footage editing, in-place cards and visible authorized AI actions. Documentation only; implementation, live host, manual AT and deployment gates remain open.",
       "evidence": [
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
-        "docs/0075-usable-secrets-and-update-delivery.md"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "Action trigger row now names the shipped data-vaultix-action helper. Read the diff against components/vaultix/action-trigger.ts."
       ]
     },
     {
@@ -8743,7 +8750,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
-      "blob": "37799141879162d078f825746039e0e78ef7b646",
+      "blob": "21a0c8b820ddad9da22578a97276c81614e03dd4",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed explicit navigation and preserved permissions, corrected definition-list semantics after canonical dashboard accessibility failure; verified real dashboard recording with axe and inspected rendered frames. Scoped review, not whole-product parity.",
@@ -8751,7 +8758,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Adds the required actionId property, supplied by its one caller."
       ]
     },
     {

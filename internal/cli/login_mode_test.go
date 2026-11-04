@@ -27,6 +27,7 @@ func TestCommandName(t *testing.T) {
 		"VAULTIXL.EXE":            "vaultixl",
 		"vaultix.exe":             "vaultix",
 		"/usr/local/bin/vaultix":  "vaultix",
+		"/usr/local/bin/renamed":  "vaultix",
 	} {
 		if got := CommandName(input); got != expected {
 			t.Errorf("command name %q: got %q, want %q", input, got, expected)
