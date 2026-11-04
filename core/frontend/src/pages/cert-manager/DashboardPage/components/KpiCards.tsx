@@ -1,6 +1,7 @@
 import { AlertTriangle, FileCheck, FileClock, FileKey, FileX } from "lucide-react";
 
-import { Badge, Card, CardContent } from "@app/components/v3";
+import { Badge, Button, Card, CardContent } from "@app/components/v3";
+import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
 import type { TDashboardStats } from "@app/hooks/api/certificates";
 
 type Props = {
@@ -101,14 +102,10 @@ export const KpiCards = ({ stats, onNavigate }: Props) => {
         const count = stats.totals[card.key];
         const badge = getBadge(card.key, stats);
         return (
-          <Card
-            key={card.key}
-            className="h-auto min-w-[180px] flex-1 cursor-pointer gap-0 p-0 transition-colors hover:bg-container-hover"
-            onClick={() => onNavigate(card.filters)}
-          >
+          <Card key={card.key} className="h-auto min-w-[180px] flex-1 gap-0 p-0">
             <CardContent className="flex h-full flex-col p-4">
               <div className="flex items-start justify-between">
-                <span className="text-base font-semibold text-foreground">{card.label}</span>
+                <h3 className="text-base font-semibold text-foreground">{card.label}</h3>
                 <div
                   className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${card.iconBg}`}
                 >
@@ -123,6 +120,22 @@ export const KpiCards = ({ stats, onNavigate }: Props) => {
                 <div className="mt-3 min-h-[22px]">
                   {badge && <Badge variant={badge.variant}>{badge.label}</Badge>}
                 </div>
+              </div>
+              <div className="mt-4 border-t border-border pt-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="self-start"
+                  aria-label={`Open inventory: ${card.label}`}
+                  onClick={() => onNavigate(card.filters)}
+                  {...vaultixActionTrigger(`vaultix.cert.dashboard.kpi.${card.key}`, {
+                    scope: "cert-dashboard",
+                    target: card.key
+                  })}
+                >
+                  Open inventory
+                </Button>
               </div>
             </CardContent>
           </Card>

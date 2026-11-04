@@ -2,6 +2,7 @@ import { LucideIcon } from "lucide-react";
 
 import { Button } from "@app/components/v3";
 import { cn } from "@app/components/v3/utils";
+import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
 
 type ProductStat = {
   label: string;
@@ -17,6 +18,7 @@ type ProjectProductCardProps = {
   iconContainerClassName: string;
   titleUnderlineClassName: string;
   stats: ProductStat[];
+  actionId: string;
   actionLabel: string;
   actionHint?: string;
   isActionDisabled: boolean;
@@ -34,6 +36,7 @@ export const ProjectProductCard = ({
   iconContainerClassName,
   titleUnderlineClassName,
   stats,
+  actionId,
   actionLabel,
   actionHint,
   isActionDisabled,
@@ -110,6 +113,7 @@ export const ProjectProductCard = ({
           onClick={() => {
             if (!isActionDisabled) onAction();
           }}
+          {...vaultixActionTrigger(actionId, { scope: "organization-projects", target: cardId })}
         >
           {actionLabel}
         </Button>

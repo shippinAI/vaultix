@@ -10,6 +10,7 @@ import {
   EmptyHeader,
   EmptyTitle
 } from "@app/components/v3";
+import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
 import type { TDashboardStats } from "@app/hooks/api/certificates";
 import { isPqcAlgorithm } from "@app/hooks/api/certificates/constants";
 
@@ -116,8 +117,12 @@ export const PqcReadinessChart = ({ stats, onNavigate }: Props) => {
                     <button
                       key={entry.label}
                       type="button"
-                      className="flex w-full cursor-pointer items-center gap-2 rounded px-1 py-0.5 text-xs transition-colors hover:bg-foreground/5"
+                      className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded px-1 py-0.5 text-xs transition-colors hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                       onClick={() => handleSegmentClick(entry.label)}
+                      {...vaultixActionTrigger("vaultix.cert.dashboard.pqc.select", {
+                        scope: "cert-dashboard",
+                        target: entry.label
+                      })}
                     >
                       <span
                         className="h-2.5 w-2.5 shrink-0 rounded-full"

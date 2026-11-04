@@ -33,6 +33,7 @@ export const ExpirationTimeline = ({ buckets, onNavigate }: Props) => {
       title="Expiration Timeline"
       description="Certificates by time to expiry"
       emptyMessage="No expiration data"
+      actionBaseId="vaultix.cert.dashboard.expiration"
       entries={DONUT_SEGMENTS.map((segment) => ({
         id: segment.label,
         label: segment.label,

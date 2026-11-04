@@ -204,7 +204,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
-      "blob": "adc4bc9dc96882c5de9ee09ba504c270457c1c8d",
+      "blob": "41900c9ad58e4082c2734e1c112d6830172aebcd",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -212,7 +212,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action ID only."
       ]
     },
     {
@@ -508,22 +509,14 @@
     },
     {
       "path": "scripts/test-chart-rendering.mjs",
-      "blob": "f140cae078b3824158e199ada023741d0f046277",
+      "blob": "077f96adfac2f4468212702de2a7e2cb0745d8c0",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use. Add narrow heading-fit assertion after shared PageHeader rewrite. CI navigation failures now retain route/headings/screenshot diagnostics with a bounded 30-second navigation wait. Local checks pass; CI resolution requires the new pipeline result. Concurrent upstream main integration 55baac66: fully read current chart test and six-line diff. Retain added exact-path navigation wait and existing assertions. No new browser execution evidence; prior receipts cover prior content.",
+      "scope": "Read complete module and certificate dashboard navigation consumer. Preserve the five KPI filter mappings through explicit buttons, add distinct accessible names retaining the visible label, and check keyboard activation plus scoped DOM markers against the packaged dashboard. Chart response fixtures remain identified; markers are not remote command authorization. Exact combined-image verification pending.",
       "evidence": [
-        "docs/0029-ui-workflow-execution.md",
-        ".cache/bundle-proof-0TPEKz/summary.json",
-        ".cache/loading-proof-sDIHXZ/result.json",
-        ".cache/app-image-proof-0o57wZ/result.json",
-        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
-        "docs/0030-environment-workflow.md",
-        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
-        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
-        "docs/0056-machine-tenant-isolation.md"
+        "scripts/test-chart-rendering.mjs",
+        "core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx",
+        "docs/0114-domain-scripted-ui-standard.md"
       ]
     },
     {
@@ -543,7 +536,7 @@
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx",
-      "blob": "b6ad0c087ea8fde19b1087e66c13c6c0ad928c64",
+      "blob": "2b7215e7179416e1a55409683b663c04c84a633c",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete authored component reviewed with v3 Card, chart theme, distribution/expiry callers and dashboard composition. Named regions/headings, full labels, semantic matching rings/swatches, 44px filter targets, native keyboard buttons, visible focus and nonanimated SVG. Visible and spoken label order is aligned after axe reproduced a mismatch. Data without a filter is readable noninteractive content. Uses only dashboard metadata and existing navigation; no writes, auth changes, provider operations or secret values. Desktop/narrow card, empty, reduced-motion, six filter mappings and scoped axe acceptance pass. Real screen-reader and whole-dashboard/mobile acceptance remain open.",
@@ -553,12 +546,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Selecting a chart entry behaves as before."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx",
-      "blob": "b44891a8e58def6ba121b2232afe0a8be3b45e0b",
+      "blob": "fa8b63f091541a1b70f57358bd7d96735353666d",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read with dashboard caller, stats types and algorithm labels. Recompose the existing three distributions through CertificateDistributionCard; retain positive-count rows, algorithm/enrollment display names and enrollment/algorithm/CA inventory filters. Unknown algorithms and absent CA IDs no longer expose enabled inert actions. No fetching, permission, route or store changes. Authorized-response fixtures verify counts, long labels, keyboard filters and empty data; certificate issuance/provider parity is separate.",
@@ -568,12 +562,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx",
-      "blob": "a1abc3903c655dc68b4001af562410d8cc887035",
+      "blob": "e90d0346d6cc83431014d59a81680d41d24a7a21",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read. Recompose existing expiry card through CertificateDistributionCard. Retain expired/0-7d, 8-30d and 31-60d/61-90d/90d+ aggregation, last bucket occurrence behavior, all three rows including zero counts, empty state and exact inventory filters. The existing <7-days label and inclusive seven-day filter convention are retained. Keyboard fixture navigation verifies each filter. No API, authorization, certificate lifecycle or time-bucket semantics changed.",
@@ -583,7 +578,8 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
@@ -4995,7 +4991,7 @@
     },
     {
       "path": "internal/cli/domain_test.go",
-      "blob": "ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb",
+      "blob": "b32aa676dffb86f8e8b96dc0031415cf00a9a975",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5004,12 +5000,13 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename cut off a table row and stopped this file compiling. Row restored; go test ./internal/cli passes."
       ]
     },
     {
       "path": "internal/cli/login_mode_test.go",
-      "blob": "d476cdc187f013085882aa0963681e6d752d6c6e",
+      "blob": "50804b0c29bced09ec19d0f75672dd340dd0d1ba",
       "status": "verified",
       "decision": "modify",
       "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5018,7 +5015,8 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename removed the case proving any other program name falls back to the full client. Case restored with a neutral name; go test ./internal/cli passes."
       ]
     },
     {
@@ -7151,14 +7149,18 @@
     },
     {
       "path": "docs/0076-recorded-workflows-and-visible-assist.md",
-      "blob": "b18f186496c06eb940205b1ac64f476a1d71e5df",
+      "blob": "ad1a5307c47577738744fed134fceb2ea4ba9c81",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete execution plan; add dated continuation distinguishing its original baseline from current local commands and the partial UI-01 contract. Preserve all runtime/manual/client obligations.",
+      "scope": "Reviewed combined planning document: retain the 0114 continuation and explicit data-vaultix-action metadata wording. DOM attributes do not establish mounted handlers, remote dispatch authority or completed AI control. All remaining plan gates stay explicit.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
-        "scripts/test-reference-commands.mjs"
+        "scripts/test-reference-commands.mjs",
+        "docs/0076-recorded-workflows-and-visible-assist.md",
+        "docs/0024-interaction-and-teaching-system.md",
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "Action trigger row now names the shipped data-vaultix-action helper. Read the diff against components/vaultix/action-trigger.ts."
       ]
     },
     {
@@ -8724,7 +8726,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
-      "blob": "37799141879162d078f825746039e0e78ef7b646",
+      "blob": "21a0c8b820ddad9da22578a97276c81614e03dd4",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed explicit navigation and preserved permissions, corrected definition-list semantics after canonical dashboard accessibility failure; verified real dashboard recording with axe and inspected rendered frames. Scoped review, not whole-product parity.",
@@ -8732,7 +8734,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Adds the required actionId property, supplied by its one caller."
       ]
     },
     {
@@ -10517,6 +10520,18 @@
         "internal/cli/run_cmds_test.go",
         "scripts/test-cli-headless.mjs",
         "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx",
+      "blob": "0fa5af505a1afb5b3468498c6fd72b210498e8df",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read complete module and certificate dashboard navigation consumer. Preserve the five KPI filter mappings through explicit buttons, add distinct accessible names retaining the visible label, and check keyboard activation plus scoped DOM markers against the packaged dashboard. Chart response fixtures remain identified; markers are not remote command authorization. Exact combined-image verification pending.",
+      "evidence": [
+        "scripts/test-chart-rendering.mjs",
+        "core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx",
+        "docs/0114-domain-scripted-ui-standard.md"
       ]
     }
   ]

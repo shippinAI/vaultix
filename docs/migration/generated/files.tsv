@@ -5451,6 +5451,7 @@ core/frontend/src/components/vaultix/GuidedHelpView.tsx	core/frontend/src/compon
 core/frontend/src/components/vaultix/LearningSignals.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	c96413823868c64849a7919a8807b9c91d69a4b9	authored
 core/frontend/src/components/vaultix/ReferenceTeaching.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	b0e226c2aa5f8d82c04a2c94ec027552755dc0c0	reviewed
 core/frontend/src/components/vaultix/ReferenceWorkspace.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72	reviewed
+core/frontend/src/components/vaultix/action-trigger.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	445e689d856ded612a183ee5cebe54d21c672721	unread
 core/frontend/src/components/vaultix/guidance-state.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c414fea8fac7297c3222426d130ba218195a5e36	verified
 core/frontend/src/components/vaultix/reference-commands.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	22eb18884cd649fa0206ae55ba684ee764d50304	reviewed
 core/frontend/src/components/vaultix/reference-teaching.css	core/frontend/src/components/vaultix	ai	React-TypeScript	css	ecba2e63cc8074be6811fc42b34c633e7bc45c8a	reviewed
@@ -6742,12 +6743,12 @@ core/frontend/src/pages/cert-manager/CodeSigningPage/components/index.ts	core/fr
 core/frontend/src/pages/cert-manager/CodeSigningPage/route.tsx	core/frontend/src/pages/cert-manager/CodeSigningPage	pki	React-TypeScript	tsx	418e6592e5debe0a688fdddf0c49fac147fa6004	unread
 core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	74b3dc0ce8bed5f676360aa72b1d3d8ffa5c1465	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/ActivityTrend.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	4425c11fbbee7b5e368981d866c59768f52feeff	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	b6ad0c087ea8fde19b1087e66c13c6c0ad928c64	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	2b7215e7179416e1a55409683b663c04c84a633c	verified
 core/frontend/src/pages/cert-manager/DashboardPage/components/CodeSigningSection.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	02e1dea83dc44033688681382d35822687e6aca8	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	b44891a8e58def6ba121b2232afe0a8be3b45e0b	verified
-core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	a1abc3903c655dc68b4001af562410d8cc887035	verified
-core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	20b0bafd129d3056f36ecd97b74f4373e42d49be	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/PqcReadinessChart.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	9b0f4dc4eb873fd93f92011d2410447ff65feecc	unread
+core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	fa8b63f091541a1b70f57358bd7d96735353666d	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	e90d0346d6cc83431014d59a81680d41d24a7a21	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	0fa5af505a1afb5b3468498c6fd72b210498e8df	reviewed
+core/frontend/src/pages/cert-manager/DashboardPage/components/PqcReadinessChart.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	36da9838b31891abb171e9b993badb721b1f8973	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/PqcTrend.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	110f49d4df48ee25babcf7fa4217651aa03e9f40	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/ValidityReadinessSection.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	c6f4bb6aec33e2d3754d8f84778435c1fac23c97	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/chart-theme.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	68ad561a01c7c737a2625f46283c7b36691ba007	unread
@@ -7335,9 +7336,9 @@ core/frontend/src/pages/organization/ProductSettingsPage/project-templates/Proje
 core/frontend/src/pages/organization/ProjectsPage/ProjectTypePage/ProjectTypePage.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	3c1444952217a71f3fc58c771465a1beaf9491b7	unread
 core/frontend/src/pages/organization/ProjectsPage/ProjectTypePage/route.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	0dfcc32e092ee1dfd6804b9322f1af50341ccb21	unread
 core/frontend/src/pages/organization/ProjectsPage/ProjectsPage.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	8b0d23658ff92b0d35fe9884098d84f9798b6ef7	unread
-core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	adc4bc9dc96882c5de9ee09ba504c270457c1c8d	reviewed
+core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	41900c9ad58e4082c2734e1c112d6830172aebcd	reviewed
 core/frontend/src/pages/organization/ProjectsPage/components/ProjectListToggle.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	d07deb258be49cb199897610d1ae8fcaef742984	unread
-core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	37799141879162d078f825746039e0e78ef7b646	reviewed
+core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	21a0c8b820ddad9da22578a97276c81614e03dd4	reviewed
 core/frontend/src/pages/organization/ProjectsPage/route.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	c3e684569c23409a9b7169a6cb0730d6e7730381	unread
 core/frontend/src/pages/organization/RoleByIDPage/RoleByIDPage.tsx	core/frontend/src/pages/organization/RoleByIDPage	ui	React-TypeScript	tsx	b5fafa386d805b908b12b4d593d1eae185f7ad3e	unread
 core/frontend/src/pages/organization/RoleByIDPage/components/DuplicateOrgRoleModal.tsx	core/frontend/src/pages/organization/RoleByIDPage	ui	React-TypeScript	tsx	79437c0d2da01bf98e9557a686eafea66ef548f7	unread
@@ -9520,8 +9521,8 @@ internal/api/secrets.go	internal/api	cli	Go-client-Rust-injection-boundary	go	1c
 internal/cli/auth_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	5611cc25a98c418725e74be5c07d1f447f0fcc05	verified
 internal/cli/auth_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	e0d71e96888eb56193aeae9fe09247c4881f6053	verified
 internal/cli/config.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	82e2f094127a018dc5b7bf9773b0216ca715b448	verified
-internal/cli/domain_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb	verified
-internal/cli/login_mode_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	d476cdc187f013085882aa0963681e6d752d6c6e	verified
+internal/cli/domain_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	b32aa676dffb86f8e8b96dc0031415cf00a9a975	verified
+internal/cli/login_mode_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	50804b0c29bced09ec19d0f75672dd340dd0d1ba	verified
 internal/cli/mcp.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	0676d7aff7b3d8d831cb1bb297477446354c429e	authored
 internal/cli/mcp_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	05b1419f38c56d0cc34115b3d2d1371a9d51e4f2	authored
 internal/cli/renewal_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	1afa7eab6e3c68d409c023929c9c8cbb2153a600	verified
@@ -9696,7 +9697,7 @@ scripts/test-assumed-privilege-workflow.mjs	scripts	delivery	supporting-tooling-
 scripts/test-capability-explorer.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
 scripts/test-capability-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
-scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f140cae078b3824158e199ada023741d0f046277	reviewed
+scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	077f96adfac2f4468212702de2a7e2cb0745d8c0	reviewed
 scripts/test-cli-delivery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	327f4401aec2b5812807681ed341054664ccb543	verified
 scripts/test-cli-headless.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e5694f5b93536b0e6f287e8405412e21a3e55545	reviewed
 scripts/test-cli-install.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35bea5ae75d123df6264f2040a716d152248560d	authored

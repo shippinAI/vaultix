@@ -483,6 +483,7 @@ export const ProjectCategoryOverview = () => {
               iconContainerClassName={containerClassName}
               titleUnderlineClassName={titleUnderlineClassName}
               stats={formattedStats}
+              actionId={`vaultix.projects.open.${projectTypeToUrlSlug(type)}`}
               actionLabel={actionLabel}
               actionHint={actionHint}
               isActionDisabled={isUnavailable}
