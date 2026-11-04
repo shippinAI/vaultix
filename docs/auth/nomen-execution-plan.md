@@ -178,7 +178,7 @@ unverified. No frozen source/snapshot host was contacted.
 | [ZITADEL endpoints](https://zitadel.com/docs/apis/openidoauth/endpoints) | Introspection claim profile and supported endpoints | A Bearer response label cannot replace live ID/refresh-token rejection |
 | [ZITADEL audience guidance](https://help.zitadel.com/security-best-practices-validating-audience-aud-claims-in-zitadel-access-tokens) (July 2025) | A client can request project audience independently of user grants | Always resolve local membership/permissions |
 | [Nomen public discovery](https://id.shippin.cloud/.well-known/openid-configuration) | Issuer id.shippin.cloud advertises device grant and introspection with private_key_jwt/client_secret_basic | No human approval, public client registration, refresh policy or tenant access established |
-| [Infisical CLI reference](https://infisical.com/docs/cli/reference) | Broader public command families require a native operation matrix | An index is not full flag/provider behavior or implementation evidence |
+| [vaultix CLI reference](https://vaultix.cloud/docs/cli/reference) | Broader public command families require a native operation matrix | An index is not full flag/provider behavior or implementation evidence |
 | [Doppler branch configurations](https://docs.doppler.com/docs/branch-configs) | Branch inheritance, overrides, promotion and history are distinct behaviors | Does not establish implementation or complete convergence |
 
 ## Verification, rollout and next action

@@ -18,24 +18,24 @@ description: "Learn how to authenticate with vaultix for services on Google Clou
 ```mermaid
 sequenceDiagram
   participant GCE as GCP Service
-  participant Infis as vaultix
+  participant vaultix as vaultix
   participant Google as OAuth2 API
 
   Note over GCE,Google: Step 1: Instance Identity Token Retrieval
   GCE->>Google: Request instance identity metadata token
   Google-->>GCE: Return JWT token with RS256 signature
 
-  Note over GCE,Infis: Step 2: Identity Token Login Operation
-  GCE->>Infis: Send JWT token to /api/v1/auth/gcp-auth/login
-  Infis->>Google: Request OAuth2 certificates
-  Google-->>Infis: Return certificates
+  Note over GCE,vaultix: Step 2: Identity Token Login Operation
+  GCE->>vaultix: Send JWT token to /api/v1/auth/gcp-auth/login
+  vaultixixix->>Google: Request OAuth2 certificates
+  Google-->>vaultixixix: Return certificates
 
-  Note over Infis: Step 3: Identity Token Verification
-  Note over Infis: Step 4: Identity Property Validation
-  Infis->>GCE: Return short-lived access token
+  Note over vaultixix: Step 3: Identity Token Verification
+  Note over vaultix: Step 4: Identity Property Validation
+  vaultix->>GCE: Return short-lived access token
 
-  Note over GCE,Infis: Step 4: Access vaultix API with Token
-  GCE->>Infis: Make authenticated requests using the short-lived access token
+  Note over GCE,vaultix: Step 4: Access vaultix API with Token
+  GCE->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
     ## Concept
@@ -187,24 +187,24 @@ access the vaultix API using the GCP ID Token authentication method.
 ```mermaid
 sequenceDiagram
   participant GCE as Client
-  participant Infis as vaultix
+  participant vaultixix as vaultix
   participant Google as Cloud IAM
 
   Note over GCE,Google: Step 1: Signed JWT Token Generation
   GCE->>Google: Request to generate signed JWT token
   Google-->>GCE: Return signed JWT token
 
-  Note over GCE,Infis: Step 2: JWT Token Login Operation
-  GCE->>Infis: Send signed JWT token to /api/v1/auth/gcp-auth/login
-  Infis->>Google: Request public key
-  Google-->>Infis: Return public key
+  Note over GCE,vaultix: Step 2: JWT Token Login Operation
+  GCE->>vaultix: Send signed JWT token to /api/v1/auth/gcp-auth/login
+  vaultix->>Google: Request public key
+  Google-->>vaultix: Return public key
 
-  Note over Infis: Step 3: JWT Token Verification
-  Note over Infis: Step 4: JWT Property Validation
-  Infis->>GCE: Return short-lived access token
+  Note over vaultix: Step 3: JWT Token Verification
+  Note over vaultix: Step 4: JWT Property Validation
+  vaultix->>GCE: Return short-lived access token
 
-  Note over GCE,Infis: Step 5: Access vaultix API with Token
-  GCE->>Infis: Make authenticated requests using the short-lived access token
+  Note over GCE,vaultix: Step 5: Access vaultix API with Token
+  GCE->>vaultixix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

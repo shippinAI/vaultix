@@ -254,10 +254,14 @@ source archive and upgrade instructions. Linux/amd64 and Windows/amd64 are exist
 CLI build targets; only Linux/amd64 image execution is established locally. ARM and
 macOS are separate build/run gates if the selected target requires them.
 
-Build one exact version tag locally. Stage its assets in a public prerelease listing,
-not the stable discovery channel; explicitly pin that candidate for download and
-upgrade tests. After all advertised gates and owned-server rehearsal pass, promote
-the same artifacts to stable without rebuilding or replacing bytes. Never advertise
+Build one exact version tag locally. Stage a signed stable candidate as a complete
+published release with `make_latest=false`; explicitly pin it for download and
+owned-server upgrade tests. After all advertised gates and rehearsal pass, select
+the same signed artifacts as latest without rebuilding or replacing bytes.
+Preview SemVer releases instead keep their signed preview channel; do not promote
+those by toggling GitHub's prerelease flag, because the manifest and downloader
+would disagree. The publication command is described in
+[releases and updates](../releases-and-updates.md). Never advertise
 an empty release, publish different bytes under one version, or mark the whole
 migration complete to ship a scoped release.
 

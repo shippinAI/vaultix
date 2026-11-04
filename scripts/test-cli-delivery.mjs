@@ -49,9 +49,9 @@ try {
       for (const [index, file] of artifact.files.entries()) {
         const name = index === 0 ? "vaultix" : "vaultixl";
         const help = run(`${name}-help`, file, ["--help"]);
-        assert.ok(help.startsWith(`usage: ${name} <command>`) && help.includes("--domain=https://vaultix.cloud") && !/infisical/i.test(help));
+        assert.ok(help.startsWith(`usage: ${name} <command>`) && help.includes("--domain=https://vaultix.cloud") && !/vaultix/i.test(help));
         const login = run(`${name}-login-help`, file, ["login", "--help"]);
-        assert.ok(login.includes("-domain") && !/infisical/i.test(login));
+        assert.ok(login.includes("-domain") && !/vaultix/i.test(login));
       }
     }
   }
