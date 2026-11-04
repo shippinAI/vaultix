@@ -2,6 +2,8 @@
 
 Owner: AngryVibes LLC. Product: Vaultix.cloud. Suite: DevSCIF.com.
 Decision date: 2026-11-03. Grounding revision: `cec940d53ac39886bc5036efc4adfc5c01556779`.
+Integration base: `ffd3e5d14ca03a157f061392252bb41d917205a3`, including the existing
+early-access request/review workflow and migration-aware server upgrades.
 Status: **executable design contract and partial source map; remote execution not enabled**.
 
 Vaultix will expose authored, domain-specific commands that move the real UI through
@@ -66,7 +68,9 @@ workflow can run on `public` with isolated samples or on `tenant` with authorize
 real metadata. A public receipt cannot satisfy tenant acceptance. `auth` can explain
 configured methods and navigate authored help. Passwords, MFA/recovery codes,
 CAPTCHA, provider credentials and account-link consent stay local and human-only.
-Public enrollment submission is a mutation with abuse controls, not a navigation event.
+An early-access request is a mutation with abuse controls, not navigation or account
+enrollment. The existing implementation is documented in [0112](0112-early-access-requests.md);
+its semantic UI registration remains part of the public/access review.
 
 IDs follow `vaultix.ui.<domain>.<workflow>.<action>`. Existing source IDs such as
 `vaultix.secrets.references` remain the business authority. Existing local IDs such
@@ -210,5 +214,6 @@ Install the pinned `.ai` dependencies using the existing journal instructions if
 needed. The checker is offline tooling, not an MCP server or a product runtime.
 It joins the real command catalog and rejects a deliberately reduced ledger through
 the actual CLI. None of these checks substitutes for packaged UI/client acceptance.
-The earlier local preview remains available at `http://127.0.0.1:18220`; this packet
-changes no application image layers and does not claim new visible remote controls.
+This packet changes no application image layers relative to its integration base
+and does not claim new visible remote controls. Image verification still uses the
+exact candidate and existing protected delivery checks.

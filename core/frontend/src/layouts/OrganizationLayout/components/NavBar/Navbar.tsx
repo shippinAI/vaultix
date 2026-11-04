@@ -357,6 +357,7 @@ export const Navbar = () => {
                 <Link
                   to="/organizations/$orgId/projects"
                   params={{ orgId: currentOrg.id }}
+                  aria-label="Back to organization"
                   className="flex h-full items-center gap-x-1 border-r border-border pr-4 pl-2 text-muted transition-colors hover:text-foreground"
                 >
                   <ChevronLeft className="size-4" />

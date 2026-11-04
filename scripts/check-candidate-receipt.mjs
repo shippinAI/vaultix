@@ -24,4 +24,7 @@ const proof = JSON.parse(readFileSync(resolve(evidence, "invite-only-access.json
 assert.ok(proof.passed === true && proof.fixtures === false, "Invite-only browser proof did not pass");
 assert.deepEqual(proof.invitedCreateRequests, []);
 assert.deepEqual(proof.removedCreateRequests, [403]);
+const earlyAccess = JSON.parse(readFileSync(resolve(evidence, "early-access.json"), "utf8"));
+assert.equal(earlyAccess.passed, true, "The early-access workflow must have passed on this image");
+assert.ok(earlyAccess.checks.length >= 14, "The early-access receipt is incomplete");
 console.log(JSON.stringify({ revision: head, image: data.imageId, receipt: path, browserChecks: proof.checks.length }));
