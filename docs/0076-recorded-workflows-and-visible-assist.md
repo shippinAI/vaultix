@@ -5,6 +5,14 @@ Plan date: 2026-11-01 (America/New_York).
 Grounded source: `50f993659bf6aac93184a1687cd32930f7683fde`.
 Status: **researched execution plan; the new capabilities below are not implemented**.
 
+2026-11-03 continuation: [0114](0114-domain-scripted-ui-standard.md) delivers the
+experimental UI action schema, partial workflow ledger and offline validation
+portion of UI-01, grounded in the now-existing local reference commands/public
+rehearsal. This document retains its original planning baseline; its blanket
+planned labels are not a current implementation inventory. Full runtime binding,
+card redesign and paired remote-client acceptance remain open; use 0114 and the
+ledger for the precise scope of this continuation.
+
 The outcome is a real Vaultix application whose existing cards and workflows are
 authored in place, whose controls explain themselves, and whose approved actions
 can be performed visibly by a connected assistant. Record that application and
@@ -105,7 +113,7 @@ These are **proposed component responsibilities**, not new shipped components:
 | Responsibility | Implementation owner | Contract |
 | --- | --- | --- |
 | Context help | Evolve `GuidedHelpView`/`GuidanceHintView` and v3 Tooltip | A short noninteractive description on focus/hover; a named button opens a deeper explanation. Essential instructions stay inline. Touch users can open the same explanation. |
-| Action trigger | Feature-owned React adapter + v3 Button/link/menu | Click, keyboard and approved assist events call the same command. Availability, pending and denial have readable explanations. A DOM click is not the command contract. |
+| Action trigger | Feature-owned React adapter + v3 Button/link/menu | Click, keyboard and approved assist events call the same command. Availability, pending and denial have readable explanations. A DOM click is not the command contract. Implementation uses explicit `data-vaultix-action`, `data-vaultix-action-scope` and `data-vaultix-action-target` attributes on actionable controls. |
 | Review dialog/sheet | Existing v3 Dialog/Sheet + feature form | Scope and proposed metadata, consequence, explicit confirm/cancel, correct initial focus and restoration. Preserve validation and pending guards. Authentication/secret-entry fields remain human-only. |
 | Action status | Existing notification API/dock + inline status | One outcome from the actual operation; polite progress, concise failure, persistent recovery for important failures. Toast is supplementary and contains no values or credentials. |
 | Assist controls | Proposed `components/vaultix/assist/` | Explain, show, assist, pause, take over and try it yourself; visible actor, scope and next step. Controls remain reachable within the active modal focus boundary. |

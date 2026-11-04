@@ -1,0 +1,574 @@
+{
+  "kind": "manifest",
+  "version": 1,
+  "domains": [
+    {
+      "id": "public",
+      "coverage": "partial",
+      "pending": [
+        "Register navigation, help, video controls and rehearsal controls; preserve explicit sample labeling.",
+        "Review early-access submission separately: persistence is a source mutation, not navigation."
+      ]
+    },
+    {
+      "id": "auth",
+      "coverage": "partial",
+      "pending": [
+        "Review complete built-in, Google and optional federation, setup, recovery, MFA and device approval workflows.",
+        "Expose metadata guidance only; credentials, CAPTCHA, codes and account-link confirmation stay human-only."
+      ]
+    },
+    {
+      "id": "workspace",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "secrets",
+      "coverage": "partial",
+      "pending": [
+        "Register retry, search, copy-name and pagination; the five current commands are not complete workflow coverage.",
+        "Build mounted bindings and operation receipts; then prove paired reference execution.",
+        "Review remaining secrets workflows against existing API/UI preservation baselines."
+      ]
+    },
+    {
+      "id": "access",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "automation",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "connect",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "pki",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "kms",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "pam",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "detect",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "ai",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "governance",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "operate",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    },
+    {
+      "id": "experience",
+      "coverage": "unreviewed",
+      "pending": [
+        "Read and map complete existing workflows before claiming action coverage. Preserve all current capabilities and source permissions."
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "vaultix.ui.secrets.reference.project",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Choose project",
+      "help": "Choose project. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public",
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "local",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "chooseProject",
+        "command": "reference.project"
+      },
+      "target": "reference-app",
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/valueInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.environment",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Choose environment",
+      "help": "Choose environment. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public",
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "local",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "chooseEnvironment",
+        "command": "reference.environment"
+      },
+      "target": "reference-environment",
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/valueInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.folder",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Choose folder",
+      "help": "Choose folder. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public",
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "local",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "choosePath",
+        "command": "reference.folder"
+      },
+      "target": "reference-path",
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/folderInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.load",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Load reference names",
+      "help": "Load reference names. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public",
+        "tenant"
+      ],
+      "effect": "read",
+      "status": "local",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "loadReferences",
+        "command": "reference.load"
+      },
+      "target": "reference-submit",
+      "sourceAction": "vaultix.secrets.references",
+      "permission": "Existing source action authorization; public rehearsal uses its isolated sample client.",
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/referenceResult",
+      "confirmation": "none",
+      "replay": "read-revalidate"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.reset",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Reset reference workspace",
+      "help": "Reset reference workspace. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public",
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "local",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "execute",
+        "command": "reference.reset"
+      },
+      "target": "reference-app",
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.public.rehearsal.open",
+      "version": 1,
+      "domain": "public",
+      "label": "Open labeled sample rehearsal",
+      "help": "Open labeled sample rehearsal. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/public-site/VaultixLanding.tsx",
+        "handler": "openDemo",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.public.video.open",
+      "version": 1,
+      "domain": "public",
+      "label": "Open recorded application demonstration",
+      "help": "Open recorded application demonstration. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/public-site/VaultixLanding.tsx",
+        "handler": "openVideo",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.public.signin.open",
+      "version": 1,
+      "domain": "public",
+      "label": "Open sign-in",
+      "help": "Open sign-in. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "public"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/public-site/VaultixLanding.tsx",
+        "handler": "VaultixLanding",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.auth.methods.explain",
+      "version": 1,
+      "domain": "auth",
+      "label": "Explain available sign-in methods",
+      "help": "Explain available sign-in methods. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "auth"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/auth/LoginPage/LoginPage.tsx",
+        "handler": "LoginPage",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.auth.credentials.enter",
+      "version": 1,
+      "domain": "auth",
+      "label": "Enter credentials locally",
+      "help": "Enter credentials locally. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "auth"
+      ],
+      "effect": "human-only",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/auth/LoginPage/components/InitialStep/InitialStep.tsx",
+        "handler": "InitialStep",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "human",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.auth.federation.start",
+      "version": 1,
+      "domain": "auth",
+      "label": "Start a configured provider sign-in",
+      "help": "Start a configured provider sign-in. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "auth"
+      ],
+      "effect": "human-only",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/auth/LoginPage/components/SocialLoginButton.tsx",
+        "handler": "SocialLoginButton",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "human",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.auth.mfa.complete",
+      "version": 1,
+      "domain": "auth",
+      "label": "Complete MFA locally",
+      "help": "Complete MFA locally. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "auth"
+      ],
+      "effect": "human-only",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/pages/MfaSessionPage/MfaSessionPage.tsx",
+        "handler": "MfaSessionPage",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "human",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.retry",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Retry project discovery",
+      "help": "Retry project discovery. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "ReferenceWorkspace",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.search",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Filter reference names",
+      "help": "Filter reference names. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "ReferenceWorkspace",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.copy-name",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Copy a reference name",
+      "help": "Copy a reference name. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "ReferenceWorkspace",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.page",
+      "version": 1,
+      "domain": "secrets",
+      "label": "Change reference page",
+      "help": "Change reference page. Use the existing feature handler and preserve its validation and access checks.",
+      "surfaces": [
+        "tenant"
+      ],
+      "effect": "local",
+      "status": "planned",
+      "remote": false,
+      "source": {
+        "path": "core/frontend/src/components/vaultix/ReferenceWorkspace.tsx",
+        "handler": "ReferenceWorkspace",
+        "command": null
+      },
+      "target": null,
+      "sourceAction": null,
+      "permission": null,
+      "inputSchema": "#/$defs/emptyInput",
+      "resultSchema": "#/$defs/localResult",
+      "confirmation": "none",
+      "replay": "never"
+    }
+  ],
+  "scripts": [
+    {
+      "id": "vaultix.ui.secrets.reference.public-walkthrough",
+      "domain": "secrets",
+      "surface": "public",
+      "status": "planned",
+      "remote": false,
+      "steps": [
+        {
+          "action": "vaultix.ui.secrets.reference.project",
+          "valueFrom": "project"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.environment",
+          "valueFrom": "environment"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.folder",
+          "valueFrom": "folder"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.load",
+          "valueFrom": null
+        }
+      ]
+    },
+    {
+      "id": "vaultix.ui.secrets.reference.tenant-walkthrough",
+      "domain": "secrets",
+      "surface": "tenant",
+      "status": "planned",
+      "remote": false,
+      "steps": [
+        {
+          "action": "vaultix.ui.secrets.reference.project",
+          "valueFrom": "project"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.environment",
+          "valueFrom": "environment"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.folder",
+          "valueFrom": "folder"
+        },
+        {
+          "action": "vaultix.ui.secrets.reference.load",
+          "valueFrom": null
+        }
+      ]
+    }
+  ]
+}

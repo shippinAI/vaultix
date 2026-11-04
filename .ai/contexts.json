@@ -9,7 +9,9 @@
     "capabilities": "docs/capabilities/catalog.mjs",
     "authorship": "docs/code-audit/reviews.json",
     "api": "contracts/vaultix.core.v1.json",
-    "journal_schema": ".ai/schemas/journal-event.schema.json"
+    "journal_schema": ".ai/schemas/journal-event.schema.json",
+    "ui_actions": "contracts/vaultix.ui-actions.v1.schema.json",
+    "ui_workflows": "docs/interaction/workflows.json"
   },
   "folders": [
     { "path": ".", "read": ["AGENTS.md", "docs/0069-execution-goal.md", "docs/0074-built-in-and-federated-identity.md"], "boundary": "Vaultix Auth to Secrets; preserve encrypted store and compatibility; no Mesh work." },
@@ -20,6 +22,7 @@
     { "path": "internal", "read": ["docs/0074-built-in-and-federated-identity.md", "docs/0067-headless-ai-login.md", "docs/0068-device-session-renewal.md"], "boundary": "Root Go CLI auth, local credentials, MCP and target-only delivery; never AI value injection." },
     { "path": "scripts", "read": ["docs/0048-self-hosted-builds.md"], "boundary": "Local reproducible verification and owned-resource cleanup; no operator data mutation in fixtures." },
     { "path": "docs", "read": ["docs/0021-product-authorship-review.md", "docs/migration/README.md"], "boundary": "Canonical product decisions and scoped evidence; discovery is not authorship." },
+    { "path": "docs/interaction", "read": ["docs/0114-domain-scripted-ui-standard.md", "docs/interaction/README.md", ".agents/skills/domain-ui-actions/SKILL.md"], "boundary": "Domain-owned UI events; partial evidence stays partial; no remote authority from a ledger." },
     { "path": ".ai", "read": [".ai/AGENTS.md", ".ai/README.md"], "boundary": "Portable agent context and local journal, separate from product runtime." },
     { "path": ".agents", "read": [".agents/AGENTS.md"], "boundary": "Single canonical skill source with progressive context loading." }
   ]

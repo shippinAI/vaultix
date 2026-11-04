@@ -70,6 +70,7 @@ export const DistributionCharts = ({ stats, onNavigate }: Props) => {
             title={chart.title}
             description={chart.description}
             entries={entries}
+            actionBaseId={`vaultix.cert.dashboard.distribution.${chart.key}`}
           />
         );
       })}

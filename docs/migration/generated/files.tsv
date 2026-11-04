@@ -1,6 +1,6 @@
 path	module	workstream	target	language	git_blob	review_state
 .ai/.gitignore	.ai	foundation	supporting-tooling-or-contract	build-config	cd1c4ac38a4730496ef265ae68dc5d2cd112ffd5	reviewed
-.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	1f7df8c25d2f5c640db5e2718925ae07a25679d0	reviewed
+.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	60dd03ec982e1f48499e43dc42756d4130d45719	reviewed
 .ai/package.json	.ai	foundation	supporting-tooling-or-contract	json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	reviewed
 .ai/schemas/contexts.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	reviewed
 .ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
@@ -17,7 +17,7 @@ cmd/vaultix/download_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundar
 cmd/vaultix/download_release_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	4d4efcba942e746c9e7c802b72a3e833bd69801f	reviewed
 cmd/vaultix/install_release.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	33aff1bc9e33b8f3566678537764e80a0c68e8f1	authored
 cmd/vaultix/install_release_test.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	add10da8eef563aa5d060b9eab72734d2c313771	authored
-cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	dc8f054753b66de3cddcc0b313995010a8cda7be	authored
+cmd/vaultix/main.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	2c115931a205591e3a1eea26bbacbd3cefcdcce2	reviewed
 cmd/vaultix/server.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	82beb97aed50e8cc1f32d0d12c72ae0bdd6e1c34	authored
 cmd/vaultix/startup_other.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	authored
 cmd/vaultix/startup_windows.go	cmd/vaultix	cli	Go-client-Rust-injection-boundary	go	a50bc4607c7337ab915b22fa86367700882e06da	authored
@@ -44,6 +44,7 @@ contracts/vaultix.release-download.v1.json	contracts	automation	supporting-tooli
 contracts/vaultix.release-manifest.v1.json	contracts	automation	supporting-tooling-or-contract	json	4cf7799458f0c58c5fcf1a60bfc40af2767f880b	authored
 contracts/vaultix.release-signature.v1.json	contracts	automation	supporting-tooling-or-contract	json	9da6229b405dd7e0e3e9620fd55064047e270024	authored
 contracts/vaultix.release-trust.v1.json	contracts	automation	supporting-tooling-or-contract	json	8cde0f6dd6ad11a800b7e27ec264683775bb9539	authored
+contracts/vaultix.ui-actions.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	dc1a7903c17456291fdbecc5f961add7a3020517	unread
 contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
 core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	77b38baf11c156d4bf0029a4448e40f6a2ab6f4c	reviewed
 core/.env.dev.example	core	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
@@ -56,7 +57,7 @@ core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
 core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	816f39991163321588f4dfb05efd55ac4c3da840	reviewed
-core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	c0bb45544263e51a9a289914a6e3635244006203	authored
+core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e	reviewed
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
 core/backend-go/.air.toml	core/backend-go	foundation	Go-native	toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	unread
@@ -5450,6 +5451,7 @@ core/frontend/src/components/vaultix/GuidedHelpView.tsx	core/frontend/src/compon
 core/frontend/src/components/vaultix/LearningSignals.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	c96413823868c64849a7919a8807b9c91d69a4b9	authored
 core/frontend/src/components/vaultix/ReferenceTeaching.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	b0e226c2aa5f8d82c04a2c94ec027552755dc0c0	reviewed
 core/frontend/src/components/vaultix/ReferenceWorkspace.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72	reviewed
+core/frontend/src/components/vaultix/action-trigger.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	445e689d856ded612a183ee5cebe54d21c672721	unread
 core/frontend/src/components/vaultix/guidance-state.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c414fea8fac7297c3222426d130ba218195a5e36	verified
 core/frontend/src/components/vaultix/reference-commands.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	22eb18884cd649fa0206ae55ba684ee764d50304	reviewed
 core/frontend/src/components/vaultix/reference-teaching.css	core/frontend/src/components/vaultix	ai	React-TypeScript	css	ecba2e63cc8074be6811fc42b34c633e7bc45c8a	reviewed
@@ -6741,12 +6743,12 @@ core/frontend/src/pages/cert-manager/CodeSigningPage/components/index.ts	core/fr
 core/frontend/src/pages/cert-manager/CodeSigningPage/route.tsx	core/frontend/src/pages/cert-manager/CodeSigningPage	pki	React-TypeScript	tsx	418e6592e5debe0a688fdddf0c49fac147fa6004	unread
 core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	74b3dc0ce8bed5f676360aa72b1d3d8ffa5c1465	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/ActivityTrend.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	4425c11fbbee7b5e368981d866c59768f52feeff	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	b6ad0c087ea8fde19b1087e66c13c6c0ad928c64	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	2b7215e7179416e1a55409683b663c04c84a633c	verified
 core/frontend/src/pages/cert-manager/DashboardPage/components/CodeSigningSection.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	02e1dea83dc44033688681382d35822687e6aca8	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	b44891a8e58def6ba121b2232afe0a8be3b45e0b	verified
-core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	a1abc3903c655dc68b4001af562410d8cc887035	verified
-core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	20b0bafd129d3056f36ecd97b74f4373e42d49be	unread
-core/frontend/src/pages/cert-manager/DashboardPage/components/PqcReadinessChart.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	9b0f4dc4eb873fd93f92011d2410447ff65feecc	unread
+core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	fa8b63f091541a1b70f57358bd7d96735353666d	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	e90d0346d6cc83431014d59a81680d41d24a7a21	verified
+core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	0fa5af505a1afb5b3468498c6fd72b210498e8df	reviewed
+core/frontend/src/pages/cert-manager/DashboardPage/components/PqcReadinessChart.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	36da9838b31891abb171e9b993badb721b1f8973	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/PqcTrend.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	110f49d4df48ee25babcf7fa4217651aa03e9f40	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/ValidityReadinessSection.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	c6f4bb6aec33e2d3754d8f84778435c1fac23c97	unread
 core/frontend/src/pages/cert-manager/DashboardPage/components/chart-theme.tsx	core/frontend/src/pages/cert-manager/DashboardPage	pam	React-TypeScript	tsx	68ad561a01c7c737a2625f46283c7b36691ba007	unread
@@ -7334,9 +7336,9 @@ core/frontend/src/pages/organization/ProductSettingsPage/project-templates/Proje
 core/frontend/src/pages/organization/ProjectsPage/ProjectTypePage/ProjectTypePage.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	3c1444952217a71f3fc58c771465a1beaf9491b7	unread
 core/frontend/src/pages/organization/ProjectsPage/ProjectTypePage/route.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	0dfcc32e092ee1dfd6804b9322f1af50341ccb21	unread
 core/frontend/src/pages/organization/ProjectsPage/ProjectsPage.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	8b0d23658ff92b0d35fe9884098d84f9798b6ef7	unread
-core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	adc4bc9dc96882c5de9ee09ba504c270457c1c8d	reviewed
+core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	41900c9ad58e4082c2734e1c112d6830172aebcd	reviewed
 core/frontend/src/pages/organization/ProjectsPage/components/ProjectListToggle.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	d07deb258be49cb199897610d1ae8fcaef742984	unread
-core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	37799141879162d078f825746039e0e78ef7b646	reviewed
+core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	21a0c8b820ddad9da22578a97276c81614e03dd4	reviewed
 core/frontend/src/pages/organization/ProjectsPage/route.tsx	core/frontend/src/pages/organization/ProjectsPage	secrets	React-TypeScript	tsx	c3e684569c23409a9b7169a6cb0730d6e7730381	unread
 core/frontend/src/pages/organization/RoleByIDPage/RoleByIDPage.tsx	core/frontend/src/pages/organization/RoleByIDPage	ui	React-TypeScript	tsx	b5fafa386d805b908b12b4d593d1eae185f7ad3e	unread
 core/frontend/src/pages/organization/RoleByIDPage/components/DuplicateOrgRoleModal.tsx	core/frontend/src/pages/organization/RoleByIDPage	ui	React-TypeScript	tsx	79437c0d2da01bf98e9557a686eafea66ef548f7	unread
@@ -9503,7 +9505,8 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	3205b5e8214c7348a76c38fa319c7531d32f27ce	reviewed
+docs/interaction/workflows.json	docs/interaction	ui	supporting-tooling-or-contract	json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	unread
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
@@ -9518,12 +9521,13 @@ internal/api/secrets.go	internal/api	cli	Go-client-Rust-injection-boundary	go	1c
 internal/cli/auth_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	5611cc25a98c418725e74be5c07d1f447f0fcc05	verified
 internal/cli/auth_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	e0d71e96888eb56193aeae9fe09247c4881f6053	verified
 internal/cli/config.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	82e2f094127a018dc5b7bf9773b0216ca715b448	verified
-internal/cli/domain_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb	verified
-internal/cli/login_mode_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	d476cdc187f013085882aa0963681e6d752d6c6e	verified
+internal/cli/domain_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	b32aa676dffb86f8e8b96dc0031415cf00a9a975	verified
+internal/cli/login_mode_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	50804b0c29bced09ec19d0f75672dd340dd0d1ba	verified
 internal/cli/mcp.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	0676d7aff7b3d8d831cb1bb297477446354c429e	authored
 internal/cli/mcp_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	05b1419f38c56d0cc34115b3d2d1371a9d51e4f2	authored
 internal/cli/renewal_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	1afa7eab6e3c68d409c023929c9c8cbb2153a600	verified
-internal/cli/run_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	f35d6a2ed856fe2bf85c6c0fc1c5adb1d7130aea	unread
+internal/cli/run_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	addc9008d3886357935e0012eed82867ded52f62	reviewed
+internal/cli/run_cmds_test.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	7f4704bae440821b12dd8e4422956ac23f96df65	reviewed
 internal/cli/session.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	dfdf9b0d6c5fcb2dc76e698159be36363db75237	verified
 internal/cli/sync_cmds.go	internal/cli	cli	Go-client-Rust-injection-boundary	go	b403a49edd3df35ce07b739c3b4b81d4ced9fcf7	unread
 internal/oidc/device.go	internal/oidc	cli	Go-client-Rust-injection-boundary	go	1bf1d6f45b139aafea0b7197ac2232b260207cb6	verified
@@ -9648,7 +9652,7 @@ scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
 scripts/build-cli.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	653033a13da81dc2be8a8966cf8c3773262d9dd7	reviewed
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee5fcebb39c823591876d919a6e53fb297c6ab26	authored
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5ae3013ab7bfedf0918e4a7c83cf7378b6ebf345	reviewed
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
 scripts/check-candidate-receipt.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4e3d00898118bdcb5eb1c10a5e5b68d9bef14f0b	reviewed
@@ -9658,8 +9662,10 @@ scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/check-owned-dependency-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	71e6500c3e34d39a378a380d02e7c555b887f493	reviewed
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	2d2c47df31fba8f499a94d98c4785d2e59242791	verified
 scripts/check-recorded-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	reviewed
+scripts/check-ui-action-standard.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7aaa4f7b50ae29e45a17246c137f9aee536c4709	unread
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/export-vaultix-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	feb541794fcebf2513e92913c9e0c1c181ea5888	authored
+scripts/fixtures/cli-workload.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	1a235af5d2d86b05a22e57be2ec1c3406c16fda8	reviewed
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
 scripts/fixtures/mcp-app-content.json	scripts/fixtures	delivery	supporting-tooling-or-contract	json	45dda9b04d8d31047e5d96f2881069f48bef59fb	authored
 scripts/fixtures/quic-peer/Dockerfile	scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	build-config	f57667fab29816e5fc5ab899838c6d4af18f83c4	reviewed
@@ -9673,6 +9679,7 @@ scripts/lib/pr-verification.mjs	scripts/lib	delivery	supporting-tooling-or-contr
 scripts/lib/release-bundle.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	04dcb65d2a7adf3a51202afd6ad4e8c206b45305	authored
 scripts/lib/release-version.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	authored
 scripts/lib/test-certificates.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	reviewed
+scripts/lib/ui-action-standard.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	unread
 scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/pr-verification.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	authored
@@ -9690,9 +9697,9 @@ scripts/test-assumed-privilege-workflow.mjs	scripts	delivery	supporting-tooling-
 scripts/test-capability-explorer.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	verified
 scripts/test-capability-map.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	verified
 scripts/test-capability-surface.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a6ff78877d1ded9319b36480330d8c72494961b2	verified
-scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f140cae078b3824158e199ada023741d0f046277	reviewed
+scripts/test-chart-rendering.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	077f96adfac2f4468212702de2a7e2cb0745d8c0	reviewed
 scripts/test-cli-delivery.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	327f4401aec2b5812807681ed341054664ccb543	verified
-scripts/test-cli-headless.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	be45120f8f3cb5bdc428fc64e189ce8dbe6995d1	verified
+scripts/test-cli-headless.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	e5694f5b93536b0e6f287e8405412e21a3e55545	reviewed
 scripts/test-cli-install.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	35bea5ae75d123df6264f2040a716d152248560d	authored
 scripts/test-codex-client.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c7cba10871addf750ff1ebcd064bba3b47b34663	unread
 scripts/test-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	verified
@@ -9757,6 +9764,7 @@ scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-vaultix-policy-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ac19f03bedba7525496c890423936cdb7b96a857	authored
 scripts/test-vaultix-policy.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	authored
 scripts/test-windows-package-activation.ps1	scripts	delivery	supporting-tooling-or-contract	ps1	ff0f44c8f5387bdf2b2e8eaf66f15912e5221089	authored
+scripts/ui-action-standard.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	554ccb1a6dcc1a813dfc2f4f4d2c4a7eb3ece69d	unread
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored

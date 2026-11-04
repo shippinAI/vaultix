@@ -13,6 +13,11 @@ implementation packets. It separates real app footage from illustrations and
 defines client pairing, shared command dispatch, takeover and acceptance gates.
 Those planned additions do not change the implemented scope recorded below.
 
+The [domain scripted UI standard](0114-domain-scripted-ui-standard.md) adds a
+machine-checked partial ledger, public/auth/tenant boundaries, per-domain MCP
+discovery design and a comparative token/resource benchmark plan. Existing local
+commands remain local; the new contract does not enable remote execution.
+
 ## Owned interaction architecture
 
 The core authors lesson content in `services/vaultix/guidance.ts`. The native

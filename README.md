@@ -165,6 +165,11 @@ The separate local data-key file uses `init --key-file` on POSIX hosts; Windows
 refuses this fallback before writing a key and uses Credential Manager instead.
 Local entries use AES-256-GCM.
 Resolve sync conflicts explicitly; the daemon does not silently overwrite them.
+`vaultix run` requires a successful online pull before starting the application.
+Denied access, expired credentials and network failures stop the command even
+when a local copy exists. `vaultix run --offline -- ...` explicitly uses that
+copy without checking current server access or revocation. Offline mode cannot
+revoke values already copied to the host and is not an AI injection boundary.
 
 For a registered Nomen public client, `vaultix login --sso --domain <instance>
 --issuer <issuer> --client-id <public-client-id>` prints a browser approval link

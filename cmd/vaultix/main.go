@@ -38,7 +38,8 @@ func usageText() string {
   pull [--on-conflict ask|local|remote]    server -> local
   push [--on-conflict ask|local|remote]    two-way; missing keys are created
   set KEY  (value on stdin)   rm KEY   ls (names only)
-  run [--offline] -- CMD ARGS   pull, then run CMD with the secrets in its environment
+  run -- CMD ARGS               require a successful pull, then run CMD with secrets
+  run --offline -- CMD ARGS     use cached secrets without checking server access
   hook [bash|zsh]               print the pre-session pull snippet
   daemon [--every 5m]           two-way sync loop (conflicts left for you)
 

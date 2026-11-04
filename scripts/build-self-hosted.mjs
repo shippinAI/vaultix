@@ -75,6 +75,8 @@ const node = (name, script, ...args) => step(name, process.execPath, [script, ..
 try {
   node("source-inventory", "scripts/audit-codebase.mjs", "--check");
   node("migration-map", "scripts/map-migration.mjs", "--check");
+  step("ui-action-standard", process.execPath, ["--experimental-strip-types", "--test", "scripts/ui-action-standard.test.mjs"]);
+  step("ui-command-compatibility", process.execPath, ["--experimental-strip-types", "scripts/test-reference-commands.mjs"]);
   step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
   // Archive committed source without operator-specific line-ending conversion.

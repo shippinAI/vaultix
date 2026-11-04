@@ -125,13 +125,38 @@ export async function testChartRendering({ page, expect, AxeBuilder, origin, das
         throw error;
       });
     }
+    const kpis = [
+      { label: "Total Certificates", target: "total", params: {} },
+      { label: "Active", target: "active", params: { filterStatus: "active" } },
+      { label: "Expiring Soon", target: "expiringSoon", params: { filterStatus: "active", filterExpiresDays: "30" } },
+      { label: "Expired", target: "expired", params: { filterStatus: "expired" } },
+      { label: "Revoked", target: "revoked", params: { filterStatus: "revoked" } }
+    ];
+    for (const [index, kpi] of kpis.entries()) {
+      await open();
+      await expect(page.getByRole("heading", { name: kpi.label, exact: true })).toBeVisible();
+      const button = page.getByRole("button", { name: `Open inventory: ${kpi.label}`, exact: true });
+      await expect(button).toHaveAttribute("data-vaultix-action", `vaultix.cert.dashboard.kpi.${kpi.target}`);
+      await expect(button).toHaveAttribute("data-vaultix-action-scope", "cert-dashboard");
+      await expect(button).toHaveAttribute("data-vaultix-action-target", kpi.target);
+      await button.focus();
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Shift+Tab");
+      await expect(button).toBeFocused();
+      await page.keyboard.press(index % 2 ? "Space" : "Enter");
+      await page.waitForURL(url => url.pathname.endsWith("/inventory") &&
+        ["filterStatus", "filterExpiresDays"].every(key => {
+          const actual = url.searchParams.get(key), expected = kpi.params[key];
+          return expected === undefined ? actual === null : actual === expected || actual === JSON.stringify(expected);
+        }), { timeout: 10000 });
+    }
     empty = true;
     await open();
     await expect(cards.getByText("No data available", { exact: true })).toHaveCount(3);
     await expect(cards.getByText("No expiration data", { exact: true })).toBeVisible();
     await expect(cards.locator("button, .recharts-pie")).toHaveCount(0);
     await audit("empty");
-    return { fixtures: true, checks: ["eight full-size vector sectors without entrance animation", "complete long labels and 44px targets at desktop and 390px viewport", "nonactionable data has no inert buttons", "six filter mappings via Enter and Space with visible focus", "stable reduced-motion geometry", "empty cards", "scoped axe rules across three card states"] };
+    return { fixtures: true, checks: ["eight full-size vector sectors without entrance animation", "complete long labels and 44px targets at desktop and 390px viewport", "nonactionable data has no inert buttons", "six filter mappings via Enter and Space with visible focus", "five uniquely named KPI buttons preserve filter navigation and scoped action markers via keyboard", "stable reduced-motion geometry", "empty cards", "scoped axe rules across three card states"] };
   } finally {
     await page.unroute(match);
     await page.setViewportSize(viewport);

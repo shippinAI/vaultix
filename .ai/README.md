@@ -14,6 +14,7 @@ It does not replace folder instructions. Skills live once in `.agents/skills/`:
 | grounded-delivery | Read existing implementation, research uncertain assumptions, establish requirements and a plan |
 | implementation-verification | Challenge the implementation across real boundaries and failure paths |
 | project-journaling | Save visible messages, decisions, plans, receipts and resumable handoffs |
+| domain-ui-actions | Port complete workflows with shared handlers, typed domain events and measured human/AI acceptance |
 
 Clients with skill discovery can load these directly. Other clients read the
 same Markdown and invoke the same CLI. No provider account, model SDK or global

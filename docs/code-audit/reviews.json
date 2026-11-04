@@ -204,7 +204,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
-      "blob": "adc4bc9dc96882c5de9ee09ba504c270457c1c8d",
+      "blob": "41900c9ad58e4082c2734e1c112d6830172aebcd",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -212,7 +212,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action ID only."
       ]
     },
     {
@@ -321,12 +322,14 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "3205b5e8214c7348a76c38fa319c7531d32f27ce",
+      "blob": "6662bf5dd2d5f42f56126e1790d45a8d413c42c8",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Reviewed full rules and DAG. Assign local core/media authored teaching renderer to the UI workstream; this discovery classification grants no migration or live-assist acceptance.",
+      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
@@ -506,22 +509,14 @@
     },
     {
       "path": "scripts/test-chart-rendering.mjs",
-      "blob": "f140cae078b3824158e199ada023741d0f046277",
+      "blob": "077f96adfac2f4468212702de2a7e2cb0745d8c0",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete fixture runner read and executed against the standalone image after real sign-in. Requires authorized stats response before substituting metadata counts. Verifies nonanimated full-size SVG, readable long labels, 44px targets, nonactionable rows, six keyboard filter mappings and focus, reduced motion, narrow card content and empty states. Scoped WCAG axe results are separate from real API/provider evidence and retain incomplete findings. Resets route, viewport and motion settings in finally. This does not certify complete dashboard reflow or assistive-technology use. Add narrow heading-fit assertion after shared PageHeader rewrite. CI navigation failures now retain route/headings/screenshot diagnostics with a bounded 30-second navigation wait. Local checks pass; CI resolution requires the new pipeline result. Concurrent upstream main integration 55baac66: fully read current chart test and six-line diff. Retain added exact-path navigation wait and existing assertions. No new browser execution evidence; prior receipts cover prior content.",
+      "scope": "Read complete module and certificate dashboard navigation consumer. Preserve the five KPI filter mappings through explicit buttons, add distinct accessible names retaining the visible label, and check keyboard activation plus scoped DOM markers against the packaged dashboard. Chart response fixtures remain identified; markers are not remote command authorization. Exact combined-image verification pending.",
       "evidence": [
-        "docs/0029-ui-workflow-execution.md",
-        ".cache/bundle-proof-0TPEKz/summary.json",
-        ".cache/loading-proof-sDIHXZ/result.json",
-        ".cache/app-image-proof-0o57wZ/result.json",
-        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
-        "docs/0030-environment-workflow.md",
-        ".cache/app-image-proof-SxVC1r/environment-lifecycle.json",
-        ".cache/app-image-proof-SxVC1r/environment-recovery.json",
-        ".cache/app-image-proof-SxVC1r/environment-accessibility.json",
-        "docs/0056-machine-tenant-isolation.md"
+        "scripts/test-chart-rendering.mjs",
+        "core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx",
+        "docs/0114-domain-scripted-ui-standard.md"
       ]
     },
     {
@@ -541,7 +536,7 @@
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx",
-      "blob": "b6ad0c087ea8fde19b1087e66c13c6c0ad928c64",
+      "blob": "2b7215e7179416e1a55409683b663c04c84a633c",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete authored component reviewed with v3 Card, chart theme, distribution/expiry callers and dashboard composition. Named regions/headings, full labels, semantic matching rings/swatches, 44px filter targets, native keyboard buttons, visible focus and nonanimated SVG. Visible and spoken label order is aligned after axe reproduced a mismatch. Data without a filter is readable noninteractive content. Uses only dashboard metadata and existing navigation; no writes, auth changes, provider operations or secret values. Desktop/narrow card, empty, reduced-motion, six filter mappings and scoped axe acceptance pass. Real screen-reader and whole-dashboard/mobile acceptance remain open.",
@@ -551,12 +546,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Selecting a chart entry behaves as before."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/DistributionCharts.tsx",
-      "blob": "b44891a8e58def6ba121b2232afe0a8be3b45e0b",
+      "blob": "fa8b63f091541a1b70f57358bd7d96735353666d",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read with dashboard caller, stats types and algorithm labels. Recompose the existing three distributions through CertificateDistributionCard; retain positive-count rows, algorithm/enrollment display names and enrollment/algorithm/CA inventory filters. Unknown algorithms and absent CA IDs no longer expose enabled inert actions. No fetching, permission, route or store changes. Authorized-response fixtures verify counts, long labels, keyboard filters and empty data; certificate issuance/provider parity is separate.",
@@ -566,12 +562,13 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/ExpirationTimeline.tsx",
-      "blob": "a1abc3903c655dc68b4001af562410d8cc887035",
+      "blob": "e90d0346d6cc83431014d59a81680d41d24a7a21",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete original and authored file read. Recompose existing expiry card through CertificateDistributionCard. Retain expired/0-7d, 8-30d and 31-60d/61-90d/90d+ aggregation, last bucket occurrence behavior, all three rows including zero counts, empty state and exact inventory filters. The existing <7-days label and inclusive seven-day filter convention are retained. Keyboard fixture navigation verifies each filter. No API, authorization, certificate lifecycle or time-bucket semantics changed.",
@@ -581,7 +578,8 @@
         ".cache/loading-proof-sDIHXZ/result.json",
         ".cache/app-image-proof-0o57wZ/result.json",
         ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json"
+        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action base ID only."
       ]
     },
     {
@@ -876,15 +874,14 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "c0bb45544263e51a9a289914a6e3635244006203",
-      "status": "authored",
+      "blob": "7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending.",
       "evidence": [
-        "docs/0078-vaultix-policy-ownership.md",
-        "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "scripts/test-cli-delivery.mjs",
+        "https://docs.docker.com/build/cache/optimize/"
       ]
     },
     {
@@ -2231,16 +2228,14 @@
     },
     {
       "path": "README.md",
-      "blob": "2025ee4318d27b64ed0ffdd450c93c0159f59bef",
-      "status": "authored",
+      "blob": "e049c6470e6d71f145c78a4b56014a2ce5c50428",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -2645,13 +2640,14 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "ee5fcebb39c823591876d919a6e53fb297c6ab26",
-      "status": "authored",
+      "blob": "5ae3013ab7bfedf0918e4a7c83cf7378b6ebf345",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
+      "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
       "evidence": [
-        "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
@@ -4210,14 +4206,14 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "dc8f054753b66de3cddcc0b313995010a8cda7be",
-      "status": "authored",
+      "blob": "2c115931a205591e3a1eea26bbacbd3cefcdcce2",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "cmd/vaultix/startup_windows_test.go",
-        "scripts/test-windows-package-activation.ps1"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -4476,27 +4472,14 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "be45120f8f3cb5bdc428fc64e189ce8dbe6995d1",
-      "status": "verified",
+      "blob": "e5694f5b93536b0e6f287e8405412e21a3e55545",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Read full harness and added both executable names, --domain, conflict preservation and old --api machine compatibility; retained existing real API/MCP/renewal/revocation checks. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0068-device-session-renewal.md",
-        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -4742,24 +4725,26 @@
     },
     {
       "path": ".ai/README.md",
-      "blob": "e709806042a0da3f8d622759af54904ec2b3739b",
+      "blob": "e05e51f8896c097301259e8d5e2e1356e09e538a",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored and reviewed provider-neutral project skills, canonical context/schema or journal tooling at this file scope. Real CLI tests cover history, schema denial, stale/altered evidence, plan weakening, concurrency, relocation, timeout and redaction; skill behavior scenarios are author self-review, not independent client evaluation. No product capability/cloud readiness claim; local receipts are not attestations.",
+      "scope": "Read complete journal usage/privacy instructions; add portable domain-ui-actions discovery without changing capture or verification claims.",
       "evidence": [
-        ".ai/README.md",
-        ".ai/references/skill-evaluation.md",
-        "scripts/ai-journal.test.mjs"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
       "path": ".ai/contexts.json",
-      "blob": "1f7df8c25d2f5c640db5e2718925ae07a25679d0",
+      "blob": "60dd03ec982e1f48499e43dc42756d4130d45719",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Read complete context routing/schema; add canonical action/ledger paths and the context-bound interaction folder. Context command resolves the files.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
@@ -4872,22 +4857,14 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "e7308eebad836cce38fe2da6c242481cf8769019",
+      "blob": "0972632ea13f4a84896b4f4ef77578a3fa87e0ce",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md. CLOUD-01-EARLY-ACCESS: updated only for the early-access direction in docs/0112-early-access-requests.md.",
+      "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
       "evidence": [
-        "docs/0109-native-install-and-upgrade.md",
-        "internal/platform/platform_test.go",
-        "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs",
-        "docs/0110-invite-only-instance.md",
-        "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs",
-        "docs/0112-early-access-requests.md",
-        "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs",
-        "Merged main and this branch read in full. The early-access entry no longer says the upgrade refuses this change; the lifecycle entry from main is kept."
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
@@ -5014,7 +4991,7 @@
     },
     {
       "path": "internal/cli/domain_test.go",
-      "blob": "ea2cc7c5d7e0ff8544e5c24f086583c0b77596fb",
+      "blob": "b32aa676dffb86f8e8b96dc0031415cf00a9a975",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored protected login/denial, no credential output, config/binding preservation, unsafe/conflicting input and fresh/saved default tests. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5023,12 +5000,13 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename cut off a table row and stopped this file compiling. Row restored; go test ./internal/cli passes."
       ]
     },
     {
       "path": "internal/cli/login_mode_test.go",
-      "blob": "d476cdc187f013085882aa0963681e6d752d6c6e",
+      "blob": "50804b0c29bced09ec19d0f75672dd340dd0d1ba",
       "status": "verified",
       "decision": "modify",
       "scope": "Read test module; native executable names verified including Windows paths and removal of vendor-name advertising; existing mode selection assertions retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5037,7 +5015,8 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "The bulk rename removed the case proving any other program name falls back to the full client. Case restored with a neutral name; go test ./internal/cli passes."
       ]
     },
     {
@@ -7074,14 +7053,14 @@
     },
     {
       "path": "docs/0024-interaction-and-teaching-system.md",
-      "blob": "550f724798548d7529e5d9b8711d8ea60a5e8997",
+      "blob": "7e0eced5c8bf69db04663793fbcc85cb105d7111",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Reviewed added execution-plan cross-reference and compatibility with existing documented scope. This change authors documentation only and does not renew previous runtime test receipts or imply whole-product authorship.",
+      "scope": "Read existing interaction implementation and boundaries; link the partial domain standard without upgrading local guidance to remote execution.",
       "evidence": [
-        "docs/0076-recorded-workflows-and-visible-assist.md",
-        "docs/0024-interaction-and-teaching-system.md",
-        "docs/0075-usable-secrets-and-update-delivery.md"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {
@@ -7170,14 +7149,18 @@
     },
     {
       "path": "docs/0076-recorded-workflows-and-visible-assist.md",
-      "blob": "97b0afec270aeaf6b8c8ad7862e7963d90bcbe04",
-      "status": "authored",
+      "blob": "ad1a5307c47577738744fed134fceb2ea4ba9c81",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Source-grounded research and implementation plan for actual-app capture, Remotion footage editing, in-place cards and visible authorized AI actions. Documentation only; implementation, live host, manual AT and deployment gates remain open.",
+      "scope": "Reviewed combined planning document: retain the 0114 continuation and explicit data-vaultix-action metadata wording. DOM attributes do not establish mounted handlers, remote dispatch authority or completed AI control. All remaining plan gates stay explicit.",
       "evidence": [
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs",
         "docs/0076-recorded-workflows-and-visible-assist.md",
         "docs/0024-interaction-and-teaching-system.md",
-        "docs/0075-usable-secrets-and-update-delivery.md"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "Action trigger row now names the shipped data-vaultix-action helper. Read the diff against components/vaultix/action-trigger.ts."
       ]
     },
     {
@@ -8743,7 +8726,7 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
-      "blob": "37799141879162d078f825746039e0e78ef7b646",
+      "blob": "21a0c8b820ddad9da22578a97276c81614e03dd4",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed explicit navigation and preserved permissions, corrected definition-list semantics after canonical dashboard accessibility failure; verified real dashboard recording with axe and inspected rendered frames. Scoped review, not whole-product parity.",
@@ -8751,7 +8734,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Adds the required actionId property, supplied by its one caller."
       ]
     },
     {
@@ -10500,6 +10484,54 @@
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "internal/cli/run_cmds.go",
+      "blob": "addc9008d3886357935e0012eed82867ded52f62",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "internal/cli/run_cmds_test.go",
+      "blob": "7f4704bae440821b12dd8e4422956ac23f96df65",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/cli-workload.mjs",
+      "blob": "1a235af5d2d86b05a22e57be2ec1c3406c16fda8",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/KpiCards.tsx",
+      "blob": "0fa5af505a1afb5b3468498c6fd72b210498e8df",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Read complete module and certificate dashboard navigation consumer. Preserve the five KPI filter mappings through explicit buttons, add distinct accessible names retaining the visible label, and check keyboard activation plus scoped DOM markers against the packaged dashboard. Chart response fixtures remain identified; markers are not remote command authorization. Exact combined-image verification pending.",
+      "evidence": [
+        "scripts/test-chart-rendering.mjs",
+        "core/frontend/src/pages/cert-manager/DashboardPage/DashboardPage.tsx",
+        "docs/0114-domain-scripted-ui-standard.md"
       ]
     }
   ]

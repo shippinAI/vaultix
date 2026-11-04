@@ -163,6 +163,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Stack migration / AI-managed lifecycle | `docs/0027-native-stack-and-ai-migration.md` + `docs/migration/` |
 | All-UI accessibility | `docs/0022-accessibility-acceptance.md` |
 | Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
+| Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
