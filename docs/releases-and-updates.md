@@ -58,6 +58,78 @@ upload releases. Signed distribution, automatic binary replacement, additional
 platform execution and a published artifact manifest remain separate gates.
 Do not advertise source pushes as installed or downloadable releases.
 
+## Owner publication command
+
+`scripts/publish-release.mjs` now owns draft/upload/publish effects on the public
+`shippinAI/vaultix` repository. It consumes an **already signed** bundle and the
+six retained receipts from the local PR verifier. It does not create a signing
+key, grant trust, manufacture a bundle/SBOM, or turn fixture tests into evidence
+of a real public download.
+
+Tag the reviewed candidate locally **before** running the PR verifier so its
+image and CLI carry the intended version. After that exact candidate has passed
+and merged, push that same tag. Do not retag different bytes or use a receipt from
+a previous unversioned build. Run the publisher from a clean checkout of the
+tagged candidate; it checks both local/remote tag identities and ancestry in main.
+
+Keep an input JSON file locally, for example:
+
+```json
+{
+  "bundle": "/srv/releases/vaultix-0.1.0",
+  "trust": "/srv/release-owner/public-trust.json",
+  "acceptance": "/srv/build/.cache/pr-verification-EXACT/result.json",
+  "notes": "/srv/releases/notes.md"
+}
+```
+
+An optional `checkpoint` points to the previously accepted canonical release
+checkpoint. The trust file contains public keys provisioned independently of the
+bundle. Neither trust, local receipts nor private configuration becomes a release
+asset. Supply the prepared image archive, native executables, source archive,
+SBOM and detached signature described in the manifest contract. Build receipts
+bind the image identity and executable hashes; source/SBOM generation and review
+remain producer obligations. A signature alone does not establish their contents.
+
+```sh
+node scripts/publish-release.mjs /srv/releases/publication.json --plan
+node scripts/publish-release.mjs /srv/releases/publication.json --draft
+node scripts/publish-release.mjs /srv/releases/publication.json --stage
+# Verify public download/install and the owned-server upgrade before promotion.
+node scripts/publish-release.mjs /srv/releases/publication.json --publish
+```
+
+The default is `--plan`, with no remote mutation. Draft mode uploads only the
+signed artifact set and its manifest/signature. Stage mode publishes the complete
+release with `make_latest=false`, making an explicit-version download available
+without selecting it for stable update discovery. Stable `--publish` requires an
+already staged public release and promotes those identical signed bytes to latest.
+The operator must accept the actual download/install/server evidence between these
+commands; the publication tests cannot supply that review. Publication rechecks local
+inputs, the source tag, the reviewed notes and every uploaded asset's size/state
+and GitHub SHA-256 digest. Matching complete draft uploads resume; unknown,
+incomplete or conflicting assets require investigation. There is no clobber,
+delete or tag-move path. A lost response can follow successful publication;
+retrying first verifies the existing release instead of replacing it.
+
+Each GitHub asset must be under 2 GiB, so measure the compressed image export
+before signing. Prefer repository release immutability, with all assets present
+in the draft before publication. The command does not enable that repository
+setting or claim that it is enabled. See [GitHub release limits](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
+and [immutable release publication](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases).
+
+The signed manifest's channel/version determines GitHub's prerelease flag.
+A preview must not be promoted by toggling that flag: the signature and downloader
+would then disagree with the listing. Use a coordinated stable version for the
+stage/test/promote path; its bytes stay unchanged. Stable publication refuses to move `latest` backward or
+substitute another build-metadata suffix at equal SemVer precedence.
+
+`node --test scripts/release-publication.test.mjs` exercises signed local files,
+receipt binding, invalid inputs, interrupted uploads and publication denial with
+a controlled GitHub adapter. It is part of the PR delivery boundary gate. Actual
+owner-key custody, bundle production, public acquisition/installation and remote
+server acceptance remain required before calling the public update path ready.
+
 ## User experience
 
 `vaultix version [--json]` reports the CLI build without network access.

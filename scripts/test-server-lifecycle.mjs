@@ -66,7 +66,7 @@ try {
   // Make that window deterministic and reject any restore started in it.
   privateWrite('/test-bin/slow-init.sh', '#!/bin/sh\ntouch /tmp/vaultix-init-pending\nsleep 5\ntouch /tmp/vaultix-init-complete\n');
   client(['chmod', '644', '/test-bin/slow-init.sh']);
-  privateWrite('/test-bin/docker', '#!/bin/sh\ncase "$1:$2:$3" in\ncreate:--name:vaultix-restore-*)\n id=$(/usr/local/bin/docker "$@") || exit $?\n /usr/local/bin/docker cp /test-bin/slow-init.sh "$id:/docker-entrypoint-initdb.d/vaultix-proof.sh" || exit $?\n echo "$id" >> /state/delayed-probes\n echo "$id"\n exit 0\n ;;\nesac\nif [ "$1:$2:$4" = "exec:-i:pg_restore" ]; then\n if ! /usr/local/bin/docker exec "$3" test -f /tmp/vaultix-init-complete; then touch /state/early-restore; exit 82; fi\nfi\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
+  privateWrite('/test-bin/docker', '#!/bin/sh\ncase "$1:$2:$3" in\ncreate:--name:vaultix-restore-*)\n id=$(/usr/local/bin/docker "$@") || exit $?\n /usr/local/bin/docker cp /test-bin/slow-init.sh "$id:/docker-entrypoint-initdb.d/vaultix-proof.sh" || exit $?\n echo "$id" >> /state/delayed-probes\n echo "$id"\n exit 0\n ;;\nesac\nif [ "$1:$2:$4" = "exec:-i:pg_restore" ] && grep -Fxq "$3" /state/delayed-probes; then\n if ! /usr/local/bin/docker exec "$3" test -f /tmp/vaultix-init-complete; then touch /state/early-restore; exit 82; fi\nfi\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
   client(['chmod', '755', '/test-bin/docker']);
   const port = 20000 + randomBytes(2).readUInt16BE() % 30000;
   const proxyPort = port + 1;
@@ -74,7 +74,7 @@ try {
   const proxyReachable = () => {
     // This client is outside the application's network. It must use the host
     // listener, not backend DNS, exec into the application, or its container IP.
-    assert.equal(JSON.parse(client(['wget', '-qO-', `http://vaultix-host:${proxyPort}/api/status`])).message, 'Ok');
+    assert.equal(JSON.parse(client(['wget', '-T', '10', '-qO-', `http://vaultix-host:${proxyPort}/api/status`])).message, 'Ok');
     const ports = inspect(app()).NetworkSettings.Ports['8080/tcp'];
     assert.deepEqual(ports.map(p => `${p.HostIp}:${p.HostPort}`).sort(), [`0.0.0.0:${proxyPort}`, `127.0.0.1:${port}`].sort());
   };

@@ -53,7 +53,7 @@ try {
     },
     verify: async ({ head }) => {
       report.revision = head; save();
-      check('delivery-boundaries', process.execPath, ['--test', 'scripts/pr-verification.test.mjs', 'scripts/release-bundle.test.mjs']);
+      check('delivery-boundaries', process.execPath, ['--test', 'scripts/pr-verification.test.mjs', 'scripts/release-bundle.test.mjs', 'scripts/release-publication.test.mjs']);
       const findBuilds = () => readdirSync(resolve(root, '.cache')).filter(name => name.startsWith('self-hosted-build-'))
         .map(name => resolve(root, '.cache', name, 'result.json'))
         .map(path => ({ path, data: JSON.parse(readFileSync(path)) }))

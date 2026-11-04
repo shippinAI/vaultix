@@ -6572,14 +6572,17 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "75bf9dd5fe624f2fee6b5d94400bb0da12e7fed1",
-      "status": "authored",
+      "blob": "80fe2d98b1ba325fd5f12d92d2a1a032c892fe19",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-bundle.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -6989,16 +6992,19 @@
     },
     {
       "path": "docs/delivery/implementation.md",
-      "blob": "b1303a983f18978fef8fcc4633c01f4d4ce37795",
-      "status": "authored",
+      "blob": "ca7304c778617e8b18c43a9a31aa9c9bf525e225",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9169,10 +9175,10 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "cdb0c8164d560dc589ff7119b4dfbef0d1dde414",
-      "status": "authored",
+      "blob": "7d2db0da48d3edf3b0b37de7780d170b9ecda34f",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
@@ -9181,7 +9187,10 @@
         ".cache/install-guard-proof.json",
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/schema_test.go",
-        "scripts/test-server-migration.mjs"
+        "scripts/test-server-migration.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9257,10 +9266,10 @@
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "516077c084d9b01bb00ac5e4ed639c14790654d2",
+      "blob": "d14798b6a13741ddf348644e3084febc6fea47c2",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
@@ -9272,7 +9281,9 @@
         "scripts/test-server-migration.mjs",
         "Rollback, last resort and limits revised against the code after a second independent review; earlier-CLI statement corrected.",
         "internal/platform/ingress_test.go",
-        "scripts/test-server-lifecycle.mjs"
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/release-publication.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9411,10 +9422,10 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "ce90096fdd3a623e62469a3dd7f18b5abb392544",
+      "blob": "68fc68a2db39078eb6dc058f92fb8f2977cc89d7",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9425,7 +9436,9 @@
         ".cache/lifecycle-acceptance-mNMlg6/result.json",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "internal/platform/ingress_test.go"
+        "internal/platform/ingress_test.go",
+        "scripts/release-publication.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -10578,6 +10591,42 @@
         "internal/platform/ingress_test.go",
         "scripts/test-server-lifecycle.mjs",
         "docs/0109-native-install-and-upgrade.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-publication.mjs",
+      "blob": "25e7e37d3d3f85004175e61a31f070a71814ff2a",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "evidence": [
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/publish-release.mjs",
+      "blob": "78b95b3dbd5fd620cea58a0d8752532549083308",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "evidence": [
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/release-publication.test.mjs",
+      "blob": "e9aad71f3aad275281ede70d3da12955748f9be6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "evidence": [
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
       ]
     }
   ]

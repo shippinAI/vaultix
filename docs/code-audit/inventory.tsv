@@ -11951,7 +11951,7 @@ docs/0077-owned-runtime-dependencies.md	881ec6f3e7dc3b17b0b5a613aa41826296aa736a
 docs/0078-vaultix-policy-ownership.md	cab7438e7d8a46e5f6298ae6f6dcc07be848b256	documentation	authored
 docs/0107-public-experience-and-recorded-workflow.md	e1d29d167f9e0ec2a0b3cc5e79e756d2dd36f8d0	documentation	reviewed
 docs/0108-platform-services-and-upgrades.md	06f30dba4c5486e77cdb9863ad2cb378279cf941	documentation	reviewed
-docs/0109-native-install-and-upgrade.md	516077c084d9b01bb00ac5e4ed639c14790654d2	documentation	reviewed
+docs/0109-native-install-and-upgrade.md	d14798b6a13741ddf348644e3084febc6fea47c2	documentation	reviewed
 docs/0110-invite-only-instance.md	3caa91326e44113e75a4249f8942554a2e942f5f	documentation	unread
 docs/0110-verified-release-download.md	e4544efcc6e0613d008d89bb8b9d3fc371ccab7d	documentation	authored
 docs/0111-native-cli-installation.md	124b72effcae28e6748250bd2c33b8da01b9f8f5	documentation	authored
@@ -11987,14 +11987,14 @@ docs/capabilities/generated/source-map.tsv	6c46281087ab89fb69859d539483b832731be
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
-docs/delivery/implementation.md	b1303a983f18978fef8fcc4633c01f4d4ce37795	documentation	authored
+docs/delivery/implementation.md	ca7304c778617e8b18c43a9a31aa9c9bf525e225	documentation	reviewed
 docs/interaction/README.md	c16517d3c3eb25119bfe442f553898d9799f23e4	documentation	unread
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	2e37c1fcb6defdf4f6749154f0f7f9f67393f93a	generated	unread
-docs/migration/generated/modules.tsv	bd1306017b75815fb3b547212acc285329047af5	generated	unread
-docs/migration/generated/summary.json	198d4df70398c96b943008e75d033a2689b2766d	generated	unread
+docs/migration/generated/files.tsv	8d8c98cbca56c44c594fa3563084d44ff76c0987	generated	unread
+docs/migration/generated/modules.tsv	61ed1f62b0331814acca374dc629ab10de598817	generated	unread
+docs/migration/generated/summary.json	afc05c8b820a1e06de5265bf0886894201fd8600	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12002,7 +12002,7 @@ docs/references/gaps-1.png	2073c0d90fe961ebd72a77612e667153346f9a52	asset	unread
 docs/references/gaps2.png	c542f09d1973c67b2f1f81a4137b39c47006d655	asset	unread
 docs/references/gaps3.png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	asset	unread
 docs/references/gaps4.png	1a381f561d212879c5490320e2ab4073d2b3bf17	asset	unread
-docs/releases-and-updates.md	75bf9dd5fe624f2fee6b5d94400bb0da12e7fed1	documentation	authored
+docs/releases-and-updates.md	80fe2d98b1ba325fd5f12d92d2a1a032c892fe19	documentation	reviewed
 go.mod	87db0ab95720f70b168aa58a6ff980fb22778e81	product-code	reviewed
 go.sum	07fa0c03ef0082d72b524995609f6f109592890c	dependency-lock	reviewed
 internal/api/auth_test.go	daba0f16fa0b22711620a169dcd0865fc04bbaf3	test	verified
@@ -12191,6 +12191,7 @@ scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-
 scripts/lib/ldap-consumer-fixture.mjs	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	build-and-operations	reviewed
 scripts/lib/pr-verification.mjs	90c2f503fde2379a844e7d04ab54e12e14662992	build-and-operations	authored
 scripts/lib/release-bundle.mjs	04dcb65d2a7adf3a51202afd6ad4e8c206b45305	build-and-operations	authored
+scripts/lib/release-publication.mjs	25e7e37d3d3f85004175e61a31f070a71814ff2a	build-and-operations	reviewed
 scripts/lib/release-version.mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	build-and-operations	authored
 scripts/lib/test-certificates.mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	build-and-operations	reviewed
 scripts/lib/ui-action-standard.mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	build-and-operations	unread
@@ -12199,9 +12200,11 @@ scripts/map-migration.mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	build-and-ope
 scripts/pr-verification.test.mjs	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	test	authored
 scripts/prove-device-api-image.mjs	fa7ef8e7d277b72459a859a35d6ef5cfdf21ca10	build-and-operations	unread
 scripts/publish-github.sh	5317d57aa1a2f44f630b056cc3a916607c17f4b9	build-and-operations	verified
+scripts/publish-release.mjs	78b95b3dbd5fd620cea58a0d8752532549083308	build-and-operations	reviewed
 scripts/rebrand-core.sh	528d3b6d0647c8c2deaa31f07fc5c61efacc38ee	build-and-operations	unread
 scripts/record-vaultix-workflow.mjs	f07080572beb85294e742d348445f67f08bca34f	build-and-operations	reviewed
 scripts/release-bundle.test.mjs	e950ace4a7b519b6d3aa991c9af10237279a59ef	test	authored
+scripts/release-publication.test.mjs	e9aad71f3aad275281ede70d3da12955748f9be6	test	reviewed
 scripts/release-version.test.mjs	c75c5026a0359f767cc876b667866f0d57d4eeb0	test	authored
 scripts/run-core.sh	3f5a2185b9bb9569006ad152f44eba03034fcfcf	build-and-operations	reviewed
 scripts/serve-capability-plan.mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	build-and-operations	verified
@@ -12268,7 +12271,7 @@ scripts/test-release-download.mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	build
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	build-and-operations	authored
-scripts/test-server-lifecycle.mjs	ce90096fdd3a623e62469a3dd7f18b5abb392544	build-and-operations	reviewed
+scripts/test-server-lifecycle.mjs	68fc68a2db39078eb6dc058f92fb8f2977cc89d7	build-and-operations	reviewed
 scripts/test-server-migration.mjs	abcd6b3ccc840b5ea3e9075d41fd8cfbe67b8883	build-and-operations	reviewed
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-tenant-isolation.mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	build-and-operations	verified
@@ -12289,5 +12292,5 @@ scripts/verify-device-session-store.mjs	7c20620882155e39c3fe3ee910804c58714ea095
 scripts/verify-device-source-rollback.mjs	da636434dd05dce4c2bd34233203a0d630e16a9b	build-and-operations	authored
 scripts/verify-device-source-store.mjs	7361fbd97ddb8662d004238eb614028aa0add100	build-and-operations	authored
 scripts/verify-native-audit-boundary.mjs	ee8af04609af3a010c53cca1b55c99d58b4029f2	build-and-operations	unread
-scripts/verify-pull-request.mjs	cdb0c8164d560dc589ff7119b4dfbef0d1dde414	build-and-operations	authored
+scripts/verify-pull-request.mjs	7d2db0da48d3edf3b0b37de7780d170b9ecda34f	build-and-operations	reviewed
 scripts/verify-release-bundle.mjs	d004836cf10ff442e0fe17292871c7c94459519a	build-and-operations	authored

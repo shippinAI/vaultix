@@ -67,7 +67,7 @@ for IPv6; enrollment does not broaden it or configure firewalls/TLS.
 
 `--proxy-bind` is repeatable on `install` and `adopt`. It always targets the existing
 application's TCP port 8080, retains the separate loopback listener, and refuses
-duplicate/overlapping ports, hostnames and unspecified addresses in the argument.
+duplicate/overlapping ports, hostnames and omitted host addresses in the argument.
 An explicit wildcard IP is permitted. Undeclared additional listeners, a missing
 listener, or a changed address/port stop adoption/upgrade before replacement.
 Upgrade, recovery and rollback read the saved bindings; they do not accept new
@@ -78,6 +78,12 @@ operation journals stay v1. Existing loopback-only v1 instances are read unchang
 and retain their existing selection/configuration bytes. Earlier CLIs refuse a v2
 instance, so keep using the newer CLI for an instance enrolled with proxy bindings.
 Changing a saved listener is configuration drift, not an implicit upgrade operation.
+
+If an earlier adoption was rejected after initializing its directory, preserve
+that directory and enroll with corrected options in a **new private directory**.
+The running application, store and env file stay the same; only the incomplete
+local enrollment is left behind. A successfully claimed deployment must keep its
+current lifecycle owner. Do not remove its ownership marker to bypass that check.
 
 Adoption validates the current Vaultix image, credentials/store connection,
 origin, cache configuration and supported network/port topology. It preserves the
