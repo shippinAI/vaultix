@@ -5,10 +5,10 @@ module	workstream	target	files	source_digest	reviewed_files	migration_state
 .ai/schemas	foundation	supporting-tooling-or-contract	2	701799bb7d2c3f519108c4ceb9248080afc2c40817fa437629b412979dc6a3e6	2	unassessed
 .github/workflows	delivery	supporting-tooling-or-contract	2	7c14348342b434712e44a1c1e26ca1a7ff4b8c78d3ebb2b998baf688d1b119e1	2	unassessed
 branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258a3c5bda1bb65e4f7b38f93521dc90	0	unassessed
-cmd/vaultix	cli	Go-client-Rust-injection-boundary	12	b5d95e9d002a9056df5cfdc770045f1e4b63ce74ede6521f4eb5346b474f77df	12	unassessed
+cmd/vaultix	cli	Go-client-Rust-injection-boundary	12	65eb9eb8d4c491c287dbda57aa7c847ead5d0d603a4895bd0b724376d048bd0b	12	unassessed
 compose	delivery	supporting-tooling-or-contract	6	870112f0b6e20e2799a98b9c690a773aa0734151a2723d1556ce9cef18553d9e	4	unassessed
 contracts	automation	supporting-tooling-or-contract	5	31f21d9f0526f502936f248a7a515e0373b5c1cb91a6b4c566c1335b9f0571b3	5	unassessed
-contracts	foundation	supporting-tooling-or-contract	10	7fb960da036ef9d26db6bc1b4394b908b41e517358ce03aca2e5667eb06f81bb	6	unassessed
+contracts	foundation	supporting-tooling-or-contract	11	5432e3ef97af16d6199682d82d5bd6081bc82c146686e7f9b30a4b7792e190a4	7	unassessed
 core	delivery	supporting-tooling-or-contract	26	9f88b2b9074abb1b4060a37696e9c9ca2fa41329c837854c703152c2466362da	6	unassessed
 core/.greptile	delivery	supporting-tooling-or-contract	2	3608612865de3c63d8bc9dcf7785427d75c2b4606af67419eec437c9ea8785d6	0	unassessed
 core/.husky	delivery	supporting-tooling-or-contract	1	d4449fa923f40b42794bec6c7f7cbbd6f2de0b1a5905fb8f3db07fbdee174cc8	0	unassessed
@@ -1067,7 +1067,7 @@ docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73f
 internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	12	6adf62ede49aca77ceefdf3a7e5fed3064ef67d4f579f1a2453d315769636b06	11	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	5412a370cf0219f65855303f06ec978c03e1cebbc2647e07719a7d5ca610ebb4	4	unassessed
-internal/platform	cli	Go-client-Rust-injection-boundary	12	1e2309af8bb6b9297dd0e646425f00c1a81cc077096ce6aad3af966eeeb50ffa	12	unassessed
+internal/platform	cli	Go-client-Rust-injection-boundary	14	d40c151b70e164a5d42a80a1fc6d4ca6af7d1bc4089269aa0a01b9e9d2845c57	14	unassessed
 internal/release	cli	Go-client-Rust-injection-boundary	14	ae214a3934240015772df2390bef51abf6ccf977d50d67051883652279c40542	14	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	10	24b31a2f2dcad061bd96e3f2c576bb2f1aefb968abbeb929892e6fef631fa43e	9	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed
@@ -1092,7 +1092,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	116	448ed0034c50ac94d60a6fb2e2ec7a7e1b1c836e7c8e7f1850109a8c573f306d	106	unassessed
+scripts	delivery	supporting-tooling-or-contract	116	004d167f0a1f8eaf4064a9b2badeb84e188e2f806057c4b640139b3a13e02eca	106	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
