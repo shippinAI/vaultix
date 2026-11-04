@@ -321,12 +321,14 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "3205b5e8214c7348a76c38fa319c7531d32f27ce",
+      "blob": "6662bf5dd2d5f42f56126e1790d45a8d413c42c8",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Reviewed full rules and DAG. Assign local core/media authored teaching renderer to the UI workstream; this discovery classification grants no migration or live-assist acceptance.",
+      "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0114-domain-scripted-ui-standard.md",
+        "scripts/ui-action-standard.test.mjs",
+        "scripts/test-reference-commands.mjs"
       ]
     },
     {

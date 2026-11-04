@@ -9504,8 +9504,8 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
-docs/interaction/workflows.json	docs/interaction	intake	supporting-tooling-or-contract	json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	unread
-docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	3205b5e8214c7348a76c38fa319c7531d32f27ce	reviewed
+docs/interaction/workflows.json	docs/interaction	ui	supporting-tooling-or-contract	json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	unread
+docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	docs/references	ui	supporting-tooling-or-contract	png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
