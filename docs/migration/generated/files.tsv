@@ -1,6 +1,6 @@
 path	module	workstream	target	language	git_blob	review_state
 .ai/.gitignore	.ai	foundation	supporting-tooling-or-contract	build-config	cd1c4ac38a4730496ef265ae68dc5d2cd112ffd5	reviewed
-.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	1f7df8c25d2f5c640db5e2718925ae07a25679d0	reviewed
+.ai/contexts.json	.ai	foundation	supporting-tooling-or-contract	json	60dd03ec982e1f48499e43dc42756d4130d45719	stale
 .ai/package.json	.ai	foundation	supporting-tooling-or-contract	json	acd7d93bf30fb96be08e46cc5c128fd60f0645a5	reviewed
 .ai/schemas/contexts.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	a8b2355c8a5981bdab0d7a193670fec3bb9a0ec2	reviewed
 .ai/schemas/journal-event.schema.json	.ai/schemas	foundation	supporting-tooling-or-contract	json	3ea9ab00c20d2e020dfedda0f03f2506df2ae6d4	reviewed
@@ -44,6 +44,7 @@ contracts/vaultix.release-download.v1.json	contracts	automation	supporting-tooli
 contracts/vaultix.release-manifest.v1.json	contracts	automation	supporting-tooling-or-contract	json	4cf7799458f0c58c5fcf1a60bfc40af2767f880b	authored
 contracts/vaultix.release-signature.v1.json	contracts	automation	supporting-tooling-or-contract	json	9da6229b405dd7e0e3e9620fd55064047e270024	authored
 contracts/vaultix.release-trust.v1.json	contracts	automation	supporting-tooling-or-contract	json	8cde0f6dd6ad11a800b7e27ec264683775bb9539	authored
+contracts/vaultix.ui-actions.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	dc1a7903c17456291fdbecc5f961add7a3020517	unread
 contracts/vaultix.updates.v1.json	contracts	foundation	supporting-tooling-or-contract	json	77beadb0341f0b210d37e490106df96ccb7751cb	authored
 core/.dockerignore	core	delivery	supporting-tooling-or-contract	build-config	77b38baf11c156d4bf0029a4448e40f6a2ab6f4c	reviewed
 core/.env.dev.example	core	delivery	supporting-tooling-or-contract	example	6b7827ace27e55a54a8a167fb66db450047c1b1f	unread
@@ -9482,6 +9483,7 @@ docs/capabilities/catalog.mjs	docs/capabilities	foundation	supporting-tooling-or
 docs/capabilities/explorer.css	docs/capabilities	foundation	supporting-tooling-or-contract	css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	verified
 docs/capabilities/explorer.html	docs/capabilities	foundation	supporting-tooling-or-contract	html	c579dacf8e759bafa29c058b9e08374ea908fc42	verified
 docs/capabilities/explorer.mjs	docs/capabilities	foundation	supporting-tooling-or-contract	mjs	699fa26c919398b097895b3ee53cf01cb0721c86	verified
+docs/interaction/workflows.json	docs/interaction	intake	supporting-tooling-or-contract	json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	unread
 docs/migration/workstreams.json	docs/migration	foundation	supporting-tooling-or-contract	json	3205b5e8214c7348a76c38fa319c7531d32f27ce	reviewed
 docs/references/gaps-1.png	docs/references	ui	supporting-tooling-or-contract	png	2073c0d90fe961ebd72a77612e667153346f9a52	unread
 docs/references/gaps2.png	docs/references	ui	supporting-tooling-or-contract	png	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
@@ -9624,7 +9626,7 @@ scripts/ai-journal.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/audit-codebase.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ca636d78d12d3735f613209704194207e919466d	verified
 scripts/backup.sh	scripts	delivery	supporting-tooling-or-contract	sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	unread
 scripts/build-cli.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	653033a13da81dc2be8a8966cf8c3773262d9dd7	reviewed
-scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ee5fcebb39c823591876d919a6e53fb297c6ab26	authored
+scripts/build-self-hosted.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5ae3013ab7bfedf0918e4a7c83cf7378b6ebf345	stale
 scripts/build-ui-report.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0f3906b5fed289660cfefddf462444fc756d9598	authored
 scripts/check-auth-authority.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	unread
 scripts/check-candidate-receipt.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	97a54b029dcb57841f47f752725aa3739ad695c3	reviewed
@@ -9634,6 +9636,7 @@ scripts/check-org-mfa-ui.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/check-owned-dependency-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	71e6500c3e34d39a378a380d02e7c555b887f493	reviewed
 scripts/check-owned.sh	scripts	delivery	supporting-tooling-or-contract	sh	2d2c47df31fba8f499a94d98c4785d2e59242791	verified
 scripts/check-recorded-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	reviewed
+scripts/check-ui-action-standard.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	7aaa4f7b50ae29e45a17246c137f9aee536c4709	unread
 scripts/check-ui-loading.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified
 scripts/export-vaultix-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	feb541794fcebf2513e92913c9e0c1c181ea5888	authored
 scripts/fixtures/device-issuer.mjs	scripts/fixtures	delivery	supporting-tooling-or-contract	mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	verified
@@ -9649,6 +9652,7 @@ scripts/lib/pr-verification.mjs	scripts/lib	delivery	supporting-tooling-or-contr
 scripts/lib/release-bundle.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	04dcb65d2a7adf3a51202afd6ad4e8c206b45305	authored
 scripts/lib/release-version.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	authored
 scripts/lib/test-certificates.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	reviewed
+scripts/lib/ui-action-standard.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	unread
 scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/pr-verification.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	authored
@@ -9730,6 +9734,7 @@ scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-vaultix-policy-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ac19f03bedba7525496c890423936cdb7b96a857	authored
 scripts/test-vaultix-policy.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	authored
 scripts/test-windows-package-activation.ps1	scripts	delivery	supporting-tooling-or-contract	ps1	ff0f44c8f5387bdf2b2e8eaf66f15912e5221089	authored
+scripts/ui-action-standard.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	554ccb1a6dcc1a813dfc2f4f4d2c4a7eb3ece69d	unread
 scripts/up.sh	scripts	delivery	supporting-tooling-or-contract	sh	f9a7b093ebd47961121f3fb0d84c8b29098afbb6	authored
 scripts/verify-delivery-destination-store.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	52b4863a3c03173764e0afaf57b7962ca3a4e975	authored
 scripts/verify-device-delivery-rollback.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9bf43e9c305a298c16c5ac2e7719489733d903ff	authored

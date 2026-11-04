@@ -1,0 +1,671 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.ui-actions.v1.schema.json",
+  "title": "Vaultix domain UI action design contract v1",
+  "description": "Experimental planning and local-binding contract. Validation is not authorization or remote implementation. Remote admission is deliberately false in this revision.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/binding"
+    },
+    {
+      "$ref": "#/$defs/invocation"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    }
+  ],
+  "$defs": {
+    "domain": {
+      "enum": [
+        "public",
+        "auth",
+        "workspace",
+        "secrets",
+        "access",
+        "automation",
+        "connect",
+        "pki",
+        "kms",
+        "pam",
+        "detect",
+        "ai",
+        "governance",
+        "operate",
+        "experience"
+      ]
+    },
+    "surface": {
+      "enum": [
+        "public",
+        "auth",
+        "tenant"
+      ]
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^vaultix\\.ui\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9.-]*$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^(?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_.-]+$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "positive": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "emptyInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {}
+    },
+    "valueInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      }
+    },
+    "folderInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^/"
+        }
+      }
+    },
+    "localResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted"
+      ],
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "referenceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accepted",
+        "completed",
+        "failed"
+      ],
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "failed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface",
+        "tenant",
+        "resource"
+      ],
+      "properties": {
+        "surface": {
+          "$ref": "#/$defs/surface"
+        },
+        "tenant": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resource": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "domainRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "coverage",
+        "pending"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/domain"
+        },
+        "coverage": {
+          "enum": [
+            "partial",
+            "unreviewed"
+          ]
+        },
+        "pending": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "handler",
+        "command"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "handler": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z][a-z0-9.-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "domain",
+        "label",
+        "help",
+        "surfaces",
+        "effect",
+        "status",
+        "remote",
+        "source",
+        "target",
+        "sourceAction",
+        "permission",
+        "inputSchema",
+        "resultSchema",
+        "confirmation",
+        "replay"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/actionId"
+        },
+        "version": {
+          "const": 1
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "help": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/surface"
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "effect": {
+          "enum": [
+            "local",
+            "read",
+            "mutation",
+            "human-only"
+          ]
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "local"
+          ]
+        },
+        "remote": {
+          "const": false
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z][a-z0-9.-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceAction": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "pattern": "^[a-z][a-z0-9.-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "permission": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inputSchema": {
+          "enum": [
+            "#/$defs/emptyInput",
+            "#/$defs/valueInput",
+            "#/$defs/folderInput"
+          ]
+        },
+        "resultSchema": {
+          "enum": [
+            "#/$defs/localResult",
+            "#/$defs/referenceResult"
+          ]
+        },
+        "confirmation": {
+          "enum": [
+            "none",
+            "human"
+          ]
+        },
+        "replay": {
+          "enum": [
+            "never",
+            "read-revalidate"
+          ]
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "valueFrom"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/actionId"
+        },
+        "valueFrom": {
+          "anyOf": [
+            {
+              "enum": [
+                "project",
+                "environment",
+                "folder"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "script": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "domain",
+        "surface",
+        "status",
+        "remote",
+        "steps"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/actionId"
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "surface": {
+          "$ref": "#/$defs/surface"
+        },
+        "status": {
+          "const": "planned"
+        },
+        "remote": {
+          "const": false
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/step"
+          },
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "version",
+        "action",
+        "definitionDigest",
+        "view",
+        "generation",
+        "scope",
+        "target",
+        "available"
+      ],
+      "properties": {
+        "kind": {
+          "const": "binding"
+        },
+        "version": {
+          "const": 1
+        },
+        "action": {
+          "$ref": "#/$defs/actionId"
+        },
+        "definitionDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "view": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z][a-z0-9.-]*$"
+        },
+        "available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "invocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "version",
+        "invocationId",
+        "action",
+        "definitionDigest",
+        "controlSession",
+        "view",
+        "generation",
+        "sequence",
+        "scope",
+        "expiresAt",
+        "input"
+      ],
+      "properties": {
+        "kind": {
+          "const": "invocation"
+        },
+        "version": {
+          "const": 1
+        },
+        "invocationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "action": {
+          "$ref": "#/$defs/actionId"
+        },
+        "definitionDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "controlSession": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "view": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "generation": {
+          "$ref": "#/$defs/positive"
+        },
+        "sequence": {
+          "$ref": "#/$defs/positive"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "input": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/emptyInput"
+            },
+            {
+              "$ref": "#/$defs/valueInput"
+            }
+          ]
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "version",
+        "invocationId",
+        "action",
+        "state",
+        "viewAcknowledged",
+        "operationId",
+        "error"
+      ],
+      "properties": {
+        "kind": {
+          "const": "receipt"
+        },
+        "version": {
+          "const": 1
+        },
+        "invocationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "action": {
+          "$ref": "#/$defs/actionId"
+        },
+        "state": {
+          "enum": [
+            "rejected",
+            "awaiting-human",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled",
+            "unknown"
+          ]
+        },
+        "viewAcknowledged": {
+          "type": "boolean"
+        },
+        "operationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "version",
+        "domains",
+        "actions",
+        "scripts"
+      ],
+      "properties": {
+        "kind": {
+          "const": "manifest"
+        },
+        "version": {
+          "const": 1
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/domainRecord"
+          },
+          "minItems": 15,
+          "maxItems": 15,
+          "uniqueItems": true
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/definition"
+          },
+          "minItems": 1,
+          "maxItems": 512,
+          "uniqueItems": true
+        },
+        "scripts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/script"
+          },
+          "minItems": 0,
+          "maxItems": 128,
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
