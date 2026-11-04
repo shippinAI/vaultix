@@ -91,7 +91,7 @@ func TestLoginDomainInputFailsBeforeCredentialUse(t *testing.T) {
 		{"--domain=https://vaultix.cloud?"},
 		{"--domain=https://vaultix.cloud#credential-canary"},
 		{"--domain=" + server.URL, "unexpected"},
-		{"--infisical"},
+		{"--vaultix
 	} {
 		var output strings.Builder
 		err := Login(context.Background(), args, strings.NewReader("credential-canary\n"), &output)
