@@ -22,7 +22,25 @@ import (
 type Options struct {
 	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment string
 	Port                                                                         int
-	Plan                                                                         bool
+	Plan, DiscardWrites                                                          bool
+}
+
+// rehearsalError means the live store was not touched, so the previous
+// application can return without any data decision.
+type rehearsalError struct{ cause error }
+
+func (e *rehearsalError) Error() string { return e.cause.Error() }
+
+// rehearsalOutcome keeps an operator's interrupt theirs to decide. Anything else,
+// including the time limit, means this rehearsal will not pass.
+func rehearsalOutcome(ctx context.Context, err error) error {
+	switch ctx.Err() {
+	case context.Canceled:
+		return err
+	case context.DeadlineExceeded:
+		return &rehearsalError{errors.New("it did not finish within the command's time limit")}
+	}
+	return &rehearsalError{err}
 }
 
 type Result struct {
@@ -44,10 +62,10 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	if o.Port == 0 {
 		o.Port = 8200
 	}
-	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" {
-		return result, errors.New("use server install, upgrade, adopt, status or recover")
+	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" {
+		return result, errors.New("use server install, upgrade, adopt, status, recover or rollback")
 	}
-	if o.Apply != "" && action != "upgrade" || o.Environment != "" && action != "install" && action != "adopt" || action == "adopt" && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) || action == "status" && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
+	if o.Apply != "" && action != "upgrade" || o.DiscardWrites && action != "rollback" || o.Environment != "" && action != "install" && action != "adopt" || (action == "adopt" || action == "status" || action == "rollback") && (o.BuildReceipt != "" || o.Bundle != "" || o.Trust != "" || o.Plan) {
 		return result, errors.New("arguments do not belong to the selected server operation")
 	}
 	root, err := privateDirectory(o.Directory, action == "install" || action == "adopt")
@@ -108,7 +126,26 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	}
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Minute)
 	defer cancel()
-	if action == "recover" || o.Apply != "" {
+	if action == "rollback" {
+		if s == nil {
+			return result, errors.New("no operation to roll back")
+		}
+		next, err := rollbackState(s, o.DiscardWrites)
+		if err != nil {
+			return result, err
+		}
+		if err = d.rollbackPreflight(ctx, next); err != nil {
+			return result, err
+		}
+		phase := "reverting"
+		if s.Phase == "planned" {
+			phase = "ready"
+		}
+		if err = saveState(root, next, phase); err != nil {
+			return result, err
+		}
+		s = next
+	} else if action == "recover" || o.Apply != "" {
 		if s == nil || s.Phase == "ready" {
 			return result, errors.New("no pending operation")
 		}
@@ -130,7 +167,7 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 		}
 		var prior *release.ReleaseCheckpoint
 		if s != nil {
-			prior = s.Candidate.Checkpoint
+			prior = newestCheckpoint(s.RetainedCheckpoint, s.Candidate.Checkpoint)
 		}
 		var target Candidate
 		if action != "adopt" {
@@ -200,7 +237,9 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 		if err != nil {
 			return result, err
 		}
-		next := &State{Operation: "op-" + randomHex(12), Action: action, Configuration: fingerprint, Candidate: target}
+		// The newest verified release outlives a local build or a cancelled plan, so
+		// neither reopens replay of an older signed one.
+		next := &State{Operation: "op-" + randomHex(12), Action: action, Configuration: fingerprint, Candidate: target, RetainedCheckpoint: prior}
 		if action != "install" {
 			current, err := d.service(ctx, "backend")
 			if err != nil || current == nil {
@@ -214,18 +253,19 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 			if err = d.healthy(ctx, current.Image); err != nil {
 				return result, err
 			}
-			oldMigrations, err := d.migrations(ctx, current.Image)
-			if err != nil {
-				return result, err
-			}
-			if oldMigrations != target.Migrations {
-				return result, errors.New("database migration set changed; a rehearsed migration/restore path is required before upgrade")
-			}
 			if err = bindDependencies(ctx, d, next); err != nil {
 				return result, err
 			}
 			if err = d.runtimeConfiguration(ctx, next.PriorContainer, next.PriorImage); err != nil {
 				return result, err
+			}
+			if action == "upgrade" {
+				prior := s.Candidate
+				next.Prior = &prior
+				next.Migration, err = d.planSchema(ctx, next, current.Image, target)
+				if err != nil {
+					return result, err
+				}
 			}
 		}
 		if err = d.claim(ctx, target.Image); err != nil {
@@ -244,17 +284,58 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	if o.Plan || s.Phase == "ready" {
 		result.Ready = s.Phase == "ready"
 		result.Message = "Saved selection; no application replacement performed."
+		if action == "rollback" {
+			result.Message = "Cancelled the saved upgrade; the running application was not changed."
+		}
 		return result, nil
 	}
-	if err = runOperation(ctx, d, s, progress); err != nil {
-		result.Operation, _ = loadState(root)
+	if err = advance(ctx, d, s, progress); err != nil {
+		if saved, loadErr := loadState(root); loadErr == nil && saved != nil {
+			result.Operation = saved
+			result.Ready = saved.Phase == "ready"
+			result.RecoveryRequired = saved.Phase != "ready"
+			if saved.Action == "upgrade" && saved.Prior != nil && saved.Prior.Image != saved.Candidate.Image && saved.Phase != "ready" {
+				err = fmt.Errorf("%w. Retry with vaultix server recover, or return to the previous application with vaultix server rollback", err)
+			}
+		}
+		result.Message = err.Error()
 		return result, err
 	}
 	result.Operation = s
 	result.Ready = true
 	result.RecoveryRequired = false
-	result.Message = "Vaultix is running. First installation continues with owner setup in the application. Back up the private instance directory and recovery key to separate storage."
+	result.Message = completionMessage(s)
 	return result, nil
+}
+
+// advance runs the saved operation. A failed rehearsal returns the previous
+// application at once: nothing live changed, so there is no decision to wait for.
+func advance(ctx context.Context, d *Docker, s *State, progress io.Writer) error {
+	err := runOperation(ctx, d, s, progress)
+	// The time limit can also expire just before the rehearsal itself starts.
+	if err != nil && s.Phase == "rehearsing" && errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		err = rehearsalOutcome(ctx, err)
+	}
+	var refused *rehearsalError
+	if !errors.As(err, &refused) {
+		return err
+	}
+	next, stateErr := rollbackState(s, false)
+	if stateErr == nil {
+		stateErr = saveState(d.root, next, "reverting")
+	}
+	if stateErr == nil {
+		*s = *next
+		// The time limit may be why the rehearsal ended; it must not also keep the
+		// application down.
+		restart, cancel := context.WithTimeout(context.WithoutCancel(ctx), 10*time.Minute)
+		defer cancel()
+		stateErr = runOperation(restart, d, s, progress)
+	}
+	if stateErr != nil {
+		return fmt.Errorf("migration rehearsal failed on a restored copy (%v), and the previous application could not be restarted (%v). The live database was not changed. Resume with vaultix server recover", refused, stateErr)
+	}
+	return fmt.Errorf("upgrade stopped: migration rehearsal failed on a restored copy (%v). The live database was not changed and the previous application is running again", refused)
 }
 
 func initialize(root string, i Instance, environment string, adopt bool) error {
@@ -332,7 +413,7 @@ func bindDependencies(ctx context.Context, d *Docker, s *State) error {
 }
 
 func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) error {
-	if s.Candidate.Trust == "signed-bundle" {
+	if s.Candidate.Trust == "signed-bundle" && s.Action != "rollback" {
 		expiry, err := time.Parse(time.RFC3339, s.Candidate.ExpiresAt)
 		if err != nil || !time.Now().Before(expiry) {
 			return errors.New("selected signed release has expired; keep the operation for reviewed recovery")
@@ -349,6 +430,12 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 	}
 	if err := d.claim(ctx, s.Candidate.Image); err != nil {
 		return err
+	}
+	if s.Action == "rollback" {
+		restores := liveStoreChanged(s.Migration, s.RevertedFrom) && (s.Phase == "reverting" || s.Phase == "restoring")
+		if err := d.rebindDependencies(ctx, s, restores); err != nil {
+			return err
+		}
 	}
 	transition := func(phase string) error {
 		if fp, err := configuration(d.root); err != nil || fp != s.Configuration {
@@ -419,7 +506,72 @@ func runOperation(ctx context.Context, d *Docker, s *State, progress io.Writer) 
 			if err = checkpoint(ctx, d, s); err != nil {
 				return err
 			}
-			if err = transition("replacing"); err != nil {
+			next := "replacing"
+			if s.Migration != nil {
+				next = "rehearsing"
+			}
+			if err = transition(next); err != nil {
+				return err
+			}
+		case "rehearsing":
+			if err := d.preserved(ctx, s); err != nil {
+				return err
+			}
+			if err := d.priorStopped(ctx, s); err != nil {
+				return err
+			}
+			if err := checkBackup(d.root, s); err != nil {
+				return err
+			}
+			if err := d.rehearse(ctx, s); err != nil {
+				return rehearsalOutcome(ctx, err)
+			}
+			if err := transition("migrating"); err != nil {
+				return err
+			}
+		case "migrating":
+			if err := d.preserved(ctx, s); err != nil {
+				return err
+			}
+			if err := d.priorStopped(ctx, s); err != nil {
+				return err
+			}
+			if err := checkBackup(d.root, s); err != nil {
+				return err
+			}
+			if err := d.migrateLive(ctx, s); err != nil {
+				return err
+			}
+			if err := transition("replacing"); err != nil {
+				return err
+			}
+		case "reverting":
+			if err := d.preserved(ctx, s); err != nil {
+				return err
+			}
+			if err := d.revert(ctx, s); err != nil {
+				return err
+			}
+			next := "replacing"
+			if liveStoreChanged(s.Migration, s.RevertedFrom) {
+				next = "restoring"
+			}
+			if err := transition(next); err != nil {
+				return err
+			}
+		case "restoring":
+			if err := d.preserved(ctx, s); err != nil {
+				return err
+			}
+			// An application started by hand since an interruption must not write to the
+			// store being replaced, and the operator has already accepted the restore.
+			if err := d.revert(ctx, s); err != nil {
+				return err
+			}
+			if err := d.restoreStore(ctx, s); err != nil {
+				return err
+			}
+			if err := transition("replacing"); err != nil {
 				return err
 			}
 		case "replacing":
@@ -513,6 +665,15 @@ func checkpoint(ctx context.Context, d *Docker, s *State) error {
 	s.EnvironmentHash = digest(sealed.Bytes())
 	if err = d.restoreProbe(ctx, s, key); err != nil {
 		return err
+	}
+	if s.Migration != nil {
+		user, db, err := d.dbNames(ctx, s.Database)
+		if err != nil {
+			return err
+		}
+		if s.Migration.Secrets, err = d.secretsFingerprint(ctx, s.Database, user, db); err != nil {
+			return err
+		}
 	}
 	return checkBackup(d.root, s)
 }

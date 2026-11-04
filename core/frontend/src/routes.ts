@@ -14,6 +14,7 @@ const adminRoute = route("/admin", [
     route("/integrations", "admin/IntegrationsPage/route.tsx"),
     route("/caching", "admin/CachingPage/route.tsx"),
     route("/resources/overview", "admin/ResourceOverviewPage/route.tsx"),
+    route("/early-access", "admin/EarlyAccessPage/route.tsx"),
     route("/access-management", "admin/AccessManagementPage/route.tsx")
   ])
 ]);

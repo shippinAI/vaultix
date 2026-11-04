@@ -12,7 +12,7 @@ import (
 	"shippin.cloud/vaultix/internal/platform"
 )
 
-const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover> --directory DIR
+const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover|rollback> --directory DIR
   install --from-build RECEIPT --site-url https://vaultix.example.com
           [--project vaultix] [--port 8200] [--env-file PRIVATE_FILE] [--plan]
   adopt --env-file EXISTING_PRIVATE_FILE --project EXISTING_PROJECT
@@ -21,13 +21,18 @@ const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover
   upgrade --bundle DIRECTORY --trust FILE [--plan]
   upgrade --apply OPERATION_ID
   recover                  resume the saved operation and artifact
+  rollback [--discard-writes]
+                           return to the previous application; a changed schema
+                           is restored from the upgrade's checkpoint
   status                   inspect saved state and actual application health
   --json                   JSON result without progress output
 
 Install also accepts --bundle DIRECTORY --trust FILE. The Docker engine must be
 Linux/amd64 with Compose v2. Keys and operation state stay in the private instance
 directory. Existing deployments are adopted explicitly. Upgrades preserve data
-volumes and reject changed migration sets before stopping the application.`
+volumes. A changed migration set is rehearsed on a restored copy with no network
+before the live database is touched. --discard-writes accepts losing writes made
+since the checkpoint, and is required whenever rollback restores the database.`
 
 func serverCommand(ctx context.Context, args []string, out, progress io.Writer) error {
 	if len(args) == 0 {
@@ -51,6 +56,7 @@ func serverCommand(ctx context.Context, args []string, out, progress io.Writer) 
 	fs.StringVar(&o.Environment, "env-file", "", "existing private environment file")
 	fs.StringVar(&o.Apply, "apply", "", "saved operation ID")
 	fs.BoolVar(&o.Plan, "plan", false, "save a reviewable operation without cutover")
+	fs.BoolVar(&o.DiscardWrites, "discard-writes", false, "accept losing writes made since the upgrade's checkpoint")
 	fs.BoolVar(&asJSON, "json", false, "machine-readable result")
 	if err := fs.Parse(args[1:]); errors.Is(err, flag.ErrHelp) {
 		_, err = fmt.Fprintln(out, serverUsage)

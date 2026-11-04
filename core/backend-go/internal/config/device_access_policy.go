@@ -11,6 +11,20 @@ type DeviceAccessPolicy struct {
 	Lifetime time.Duration
 }
 
+func ParseDeviceAuthorizationEnabled(value string, access DeviceAccessPolicy) (bool, error) {
+	if value == "" {
+		return false, nil
+	}
+	enabled, err := strconv.ParseBool(value)
+	if err != nil {
+		return false, fmt.Errorf("VAULTIX_DEVICE_AUTHORIZATION_ENABLED must be a boolean")
+	}
+	if enabled && !access.Enabled {
+		return false, fmt.Errorf("VAULTIX_DEVICE_AUTHORIZATION_ENABLED requires VAULTIX_DEVICE_ACCESS_ENABLED")
+	}
+	return enabled, nil
+}
+
 func ParseDeviceAccessPolicy(enabled, seconds string) (DeviceAccessPolicy, error) {
 	policy := DeviceAccessPolicy{Lifetime: 15 * time.Minute}
 	if enabled != "" {

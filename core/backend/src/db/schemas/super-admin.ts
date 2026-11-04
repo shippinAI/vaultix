@@ -37,7 +37,8 @@ export const SuperAdminSchema = z.object({
   encryptedGitHubAppConnectionPrivateKey: zodBuffer.nullable().optional(),
   encryptedEnvOverrides: zodBuffer.nullable().optional(),
   fipsEnabled: z.boolean().default(false),
-  onboardingCompleted: z.boolean().default(false)
+  onboardingCompleted: z.boolean().default(false),
+  earlyAccessRequestsEnabled: z.boolean().default(false)
 });
 
 export type TSuperAdmin = z.infer<typeof SuperAdminSchema>;

@@ -28,8 +28,8 @@ func (w *limitedOutput) Write(p []byte) (int, error) {
 	return w.Buffer.Write(p)
 }
 
-// No shell or operator-provided executable is used. Environment files remain on
-// disk; subprocess diagnostics cannot leak their expanded secret values.
+// No shell or operator-provided executable is used. Environment values reach a
+// container through compose or a pipe; diagnostics cannot leak their expansions.
 type Docker struct {
 	executable string
 	root       string
@@ -54,19 +54,27 @@ func commandEnvironment() []string {
 	return result
 }
 func (d *Docker) stream(ctx context.Context, input io.Reader, output io.Writer, args ...string) error {
+	return d.command(ctx, input, output, io.Discard, args...)
+}
+
+// combined captures stderr too, for the rare output that belongs in a private file.
+func (d *Docker) combined(ctx context.Context, output io.Writer, args ...string) error {
+	return d.command(ctx, nil, output, output, args...)
+}
+func (d *Docker) command(ctx context.Context, input io.Reader, output, diagnostics io.Writer, args ...string) error {
 	cmd := exec.CommandContext(ctx, d.executable, args...)
 	cmd.Dir = d.root
 	cmd.Env = commandEnvironment()
 	cmd.Stdin = input
 	cmd.Stdout = output
-	cmd.Stderr = io.Discard
+	cmd.Stderr = diagnostics
 	cmd.WaitDelay = 5 * time.Second
 	if err := cmd.Run(); err != nil {
 		// Name only fixed driver operations, never arguments or raw diagnostics.
 		operation := "command"
 		if len(args) > 0 {
 			switch args[0] {
-			case "compose", "image", "container", "create", "rm", "start", "stop", "ps", "info", "run":
+			case "compose", "image", "container", "create", "rm", "start", "stop", "ps", "info", "run", "wait", "logs":
 				operation = args[0]
 			case "exec":
 				operation = "exec"
@@ -270,23 +278,29 @@ func (d *Docker) preserved(ctx context.Context, s *State) error {
 	}
 	return nil
 }
-func (d *Docker) runtimeConfiguration(ctx context.Context, container, image string) error {
-	current, err := d.inspect(ctx, container)
-	if err != nil {
-		return err
-	}
+func (d *Docker) applicationEnvironment(ctx context.Context, image string) (map[string]string, error) {
 	raw, err := d.compose(ctx, image, "config", "--format", "json")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var cfg struct {
 		Services map[string]struct{ Environment map[string]string }
 	}
 	if json.Unmarshal(raw, &cfg) != nil {
-		return errors.New("cannot validate instance configuration")
+		return nil, errors.New("cannot validate instance configuration")
+	}
+	return cfg.Services["backend"].Environment, nil
+}
+func (d *Docker) runtimeConfiguration(ctx context.Context, container, image string) error {
+	current, err := d.inspect(ctx, container)
+	if err != nil {
+		return err
+	}
+	expected, err := d.applicationEnvironment(ctx, image)
+	if err != nil {
+		return err
 	}
 	actual := envMap(current.Config.Env)
-	expected := cfg.Services["backend"].Environment
 	defaultsRaw, err := d.run(ctx, "image", "inspect", "--format", "{{json .Config.Env}}", current.Image)
 	if err != nil {
 		return err
@@ -358,18 +372,8 @@ func (d *Docker) image(ctx context.Context, id, revision string) error {
 
 // The existing production migration loader reads these .mjs/.ts files. Hash
 // their actual bytes; a release label is not enough to authorize schema change.
-const migrationProbe = `const fs=require('fs'),p=require('path'),crypto=require('crypto');const dir='/backend/dist/db/migrations',names=fs.readdirSync(dir).filter(n=>/\.(mjs|ts)$/.test(n)).sort();if(!names.length||names.length>10000)process.exit(1);const h=crypto.createHash('sha256');for(const n of names){const f=p.join(dir,n);if(!fs.lstatSync(f).isFile())process.exit(1);h.update(n+'\0');h.update(fs.readFileSync(f));}process.stdout.write(h.digest('hex'));`
-
-func (d *Docker) migrations(ctx context.Context, image string) (string, error) {
-	raw, err := d.run(ctx, "run", "--rm", "--network", "none", "--read-only", "--entrypoint", "node", image, "-e", migrationProbe)
-	if err != nil {
-		return "", err
-	}
-	if !hashPattern.Match(raw) {
-		return "", errors.New("cannot establish image migration identity")
-	}
-	return string(raw), nil
-}
+// The set hash is stable across CLI versions so a saved operation still matches.
+const migrationProbe = `const fs=require('fs'),p=require('path'),crypto=require('crypto');const dir='/backend/dist/db/migrations',names=fs.readdirSync(dir).filter(n=>/\.(mjs|ts)$/.test(n)).sort();if(!names.length||names.length>10000)process.exit(1);const h=crypto.createHash('sha256'),files={};for(const n of names){const f=p.join(dir,n);if(!fs.lstatSync(f).isFile())process.exit(1);const b=fs.readFileSync(f);h.update(n+'\0');h.update(b);files[n]=crypto.createHash('sha256').update(b).digest('hex');}process.stdout.write(JSON.stringify({set:h.digest('hex'),files}));`
 
 func (d *Docker) dbNames(ctx context.Context, id string) (string, string, error) {
 	c, err := d.inspect(ctx, id)
@@ -399,9 +403,28 @@ func (d *Docker) waitPostgres(ctx context.Context, id, user, db string) error {
 	return errors.New("restore probe PostgreSQL did not become ready")
 }
 
+// restoreArchive decrypts the checkpoint into one database, in one transaction.
+func (d *Docker) restoreArchive(ctx context.Context, s *State, key []byte, container, user, db string) error {
+	f, err := os.Open(filepath.Join(d.root, s.Backup))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	reader, writer := io.Pipe()
+	result := make(chan error, 1)
+	go func() { err := decryptBackup(writer, f, key); writer.CloseWithError(err); result <- err }()
+	err = d.stream(ctx, reader, io.Discard, "exec", "-i", container, "pg_restore", "--exit-on-error", "--single-transaction", "--no-owner", "--no-acl", "-U", user, "-d", db)
+	reader.Close()
+	decryption := <-result
+	if err != nil {
+		return err
+	}
+	return decryption
+}
+
 // Full pg_restore executes against a disposable, network-isolated database.
 // The operator's database is never the restore target in this automatic path.
-func (d *Docker) restoreProbe(ctx context.Context, s *State, key []byte) (resultErr error) {
+func (d *Docker) withRestoredCopy(ctx context.Context, s *State, key []byte, use func(probe, user, db string) error) (resultErr error) {
 	user, db, err := d.dbNames(ctx, s.Database)
 	if err != nil {
 		return err
@@ -440,38 +463,28 @@ func (d *Docker) restoreProbe(ctx context.Context, s *State, key []byte) (result
 	if err = d.waitPostgres(ctx, c.ID, user, db); err != nil {
 		return err
 	}
-	f, err := os.Open(filepath.Join(d.root, s.Backup))
-	if err != nil {
+	if err = d.restoreArchive(ctx, s, key, c.ID, user, db); err != nil {
 		return err
 	}
-	defer f.Close()
-	reader, writer := io.Pipe()
-	result := make(chan error, 1)
-	go func() { err := decryptBackup(writer, f, key); writer.CloseWithError(err); result <- err }()
-	err = d.stream(ctx, reader, io.Discard, "exec", "-i", c.ID, "pg_restore", "--exit-on-error", "--single-transaction", "--no-owner", "--no-acl", "-U", user, "-d", db)
-	reader.Close()
-	decryption := <-result
-	if err != nil {
-		return err
-	}
-	if decryption != nil {
-		return decryption
-	}
-	// Stream ciphertext rows into a bounded-memory hash, not one database-sized
-	// string_agg value. No decrypted values or database output reach diagnostics.
-	const query = `SELECT count(*) FROM vaultix_migrations; COPY (SELECT id, encode("encryptedValue",'hex') FROM secrets_v2 ORDER BY id) TO STDOUT;`
-	original := sha256.New()
-	err = d.stream(ctx, nil, original, "exec", s.Database, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
-	if err != nil {
-		return err
-	}
-	restored := sha256.New()
-	err = d.stream(ctx, nil, restored, "exec", c.ID, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
-	if err != nil {
-		return err
-	}
-	if !bytes.Equal(original.Sum(nil), restored.Sum(nil)) {
-		return errors.New("restored migration/secret checkpoint differs")
-	}
-	return nil
+	return use(c.ID, user, db)
+}
+
+func (d *Docker) restoreProbe(ctx context.Context, s *State, key []byte) error {
+	return d.withRestoredCopy(ctx, s, key, func(probe, user, db string) error {
+		const query = "SELECT count(*) FROM vaultix_migrations; " + secretsQuery
+		original := sha256.New()
+		err := d.stream(ctx, nil, original, "exec", s.Database, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
+		if err != nil {
+			return err
+		}
+		restored := sha256.New()
+		err = d.stream(ctx, nil, restored, "exec", probe, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
+		if err != nil {
+			return err
+		}
+		if !bytes.Equal(original.Sum(nil), restored.Sum(nil)) {
+			return errors.New("restored migration/secret checkpoint differs")
+		}
+		return nil
+	})
 }

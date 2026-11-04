@@ -266,10 +266,10 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "f4eb39e78dfc00303bdab1e5a326b50c04785639",
+      "blob": "43032bbb3231b4ac7794955a4a78810ed04aa79b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
@@ -277,7 +277,10 @@
         "scripts/test-image-app.mjs",
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
       ]
     },
     {
@@ -1043,15 +1046,20 @@
     },
     {
       "path": "core/backend/src/services/super-admin/super-admin-service.ts",
-      "blob": "20f69496a263bacf9f90e7df6dc24155b5cbccb1",
+      "blob": "d7de697608ec9696cec6895bcdfa951c7012b394",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file reviewed in onboarding packets; this change authors only first-owner initialization and configuration startup/cache recovery. Browser and machine creation serialize on the same database lock and atomically persist owner, organization defaults, token records and configuration. Hashing and external customer preparation precede the transaction; cache invalidation/reporting follow commit. Fresh self-hosted defaults are email-only/invite-only. Existing administration, integration encryption and authorization paths remain; native Nomen/Go migration and broader administrator concurrency are not completed.",
+      "scope": "Complete file reviewed in onboarding packets; this change authors only first-owner initialization and configuration startup/cache recovery. Browser and machine creation serialize on the same database lock and atomically persist owner, organization defaults, token records and configuration. Hashing and external customer preparation precede the transaction; cache invalidation/reporting follow commit. Fresh self-hosted defaults are email-only/invite-only. Existing administration, integration encryption and authorization paths remain; native Nomen/Go migration and broader administrator concurrency are not completed. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "Implementation commit 6a7340c52b47b4d810b919f8dccb9b1fd9bbef1f",
         "docs/0051-first-owner-transaction.md",
         ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
-        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts"
+        "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Invitation link and mail extracted so createOrganization, resendOrgInvite and the new reissueOrganizationInvitation share them. Resend without SMTP now refuses instead of cancelling a shared link. Adds findUserOrganizationIds.",
+        "Invitation link and mail extracted so createOrganization, resendOrgInvite and the new reissueOrganizationInvitation share them. Resend without SMTP now refuses instead of cancelling a shared link. Adds findUserOrganizationIds."
       ]
     },
     {
@@ -1789,10 +1797,10 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "555c99f5df15168ca1488ad5fb3d1c928706ed6d",
-      "status": "authored",
+      "blob": "e17f6832fed8b51056fcb7b04baa6399f8cff7b2",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0039-native-scoped-revocation.md",
         "docs/0040-native-identity-lifetime-policy.md",
@@ -1808,7 +1816,10 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -1823,15 +1834,18 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "2e20a8efa5aaf2c3a468d74933577132ba54e7e6",
-      "status": "authored",
+      "blob": "a05b9281a9ec6699921fcad2ecdcac789955bc1e",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -2721,16 +2735,19 @@
     },
     {
       "path": "docs/capabilities/README.md",
-      "blob": "dad96ae4bafeb9f0e401e121eb0829875aebf205",
-      "status": "authored",
+      "blob": "94297f8290ba724d7ccac28e11211c8b8930583d",
+      "status": "reviewed",
       "decision": "retain",
-      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity.",
+      "scope": "Authored interpretation of capability/source/provider maps, regeneration order, evidence states and scope limits. Discovery does not count as authorship or end-to-end parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0049-capability-product-plan.md",
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -3587,7 +3604,7 @@
     },
     {
       "path": "core/backend/src/server/config/rateLimiter.ts",
-      "blob": "5a16f25284ae3215fcf467b0d65854a0418db069",
+      "blob": "291725466e78f0049d35890d5510712bdf0a74bf",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped repair in 0059. Real browser run reproduced static asset traffic exhausting the shared API fallback budget and replacing the application shell with a 429 response. Server-owned static route metadata now excludes UI delivery from API counters; API paths retain limits. Browser assertions are preserved, pending response promises observed and safe failure phase/status recorded. Seven focused admission tests pass.  Combined 3be1241e canonical image passed all fifteen local application gates, including both cache-backed two-replica admission proofs and real browser workflows. Exact receipts and open scope are recorded in 0059.",
@@ -3596,7 +3613,8 @@
         ".cache/production-admission/.cache/app-image-proof-Gexgsq/failure.json",
         "core/backend/src/server/plugins/production-rate-limit.test.ts",
         ".cache/production-admission/.cache/self-hosted-build-xU4kp0/result.json",
-        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json"
+        ".cache/production-admission/.cache/unit-proof-aM66FS/test-results.json",
+        "Adds earlyAccessRequestLimit, 5 a minute per client counting IPv6 by its /64. Exercised by the rate limit step of scripts/test-early-access.mjs."
       ]
     },
     {
@@ -4854,10 +4872,10 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "536676bd0729c6a9070ef47d51e9869cf32808e5",
+      "blob": "e7308eebad836cce38fe2da6c242481cf8769019",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. CLOUD-01-INVITE-ONLY: updated only for the invite-only direction and telemetry default in docs/0110-invite-only-instance.md. CLOUD-01-EARLY-ACCESS: updated only for the early-access direction in docs/0112-early-access-requests.md.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -4865,7 +4883,11 @@
         "scripts/verify-pull-request.mjs",
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Merged main and this branch read in full. The early-access entry no longer says the upgrade refuses this change; the lifecycle entry from main is kept."
       ]
     },
     {
@@ -5403,12 +5425,15 @@
     },
     {
       "path": "docs/0074-built-in-and-federated-identity.md",
-      "blob": "f60a69a53297387db1e40fbed99dc17a56ae8f5c",
+      "blob": "8287dc69a039450e46be68a9a33ce13152c7d286",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
+      "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0074-built-in-and-federated-identity.md",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -6278,15 +6303,19 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "129e3871371bb816a8b9827eb29430b2b783ed30",
+      "blob": "dbd18b8d1f0dda56b920a2002eae63ee3f7847b0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/auth/device-event-worker.md",
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change."
       ]
     },
     {
@@ -6325,26 +6354,32 @@
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy.go",
-      "blob": "b94eba805cad3d7b89872820fdf79f97afa0fcd6",
-      "status": "authored",
+      "blob": "fe4038610c6c6055e9336485b761448325ce01f8",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy_test.go",
-      "blob": "86dd2ecafe7f88536a844302fb1517cf86b92dc5",
-      "status": "authored",
+      "blob": "f948beefa7e1b99bdc0f2dbd7002e21392e79fc0",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     },
     {
@@ -6442,13 +6477,16 @@
     },
     {
       "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx",
-      "blob": "4f8ae377967d5fc638ded13db01bcd4d93b62313",
+      "blob": "3b1f95b244d842eed4a88ede0c9e6c9aed2560b3",
       "status": "authored",
       "decision": "modify",
-      "scope": "Full module read; scope limited to toolbar Clyffy launcher, update entry, mobile wrapping and owned release destination. Existing navigation, billing and account workflows retained; not whole-navbar authorship or accessibility acceptance.",
+      "scope": "Full module read; scope limited to toolbar Clyffy launcher, update entry, mobile wrapping and owned release destination. Existing navigation, billing and account workflows retained; not whole-navbar authorship or accessibility acceptance. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "scripts/test-updates-clyffy-workflow.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
       ]
     },
     {
@@ -8874,15 +8912,18 @@
     },
     {
       "path": "core/frontend/src/pages/public-site/public-site.css",
-      "blob": "b8524e5f9302cbc30a437499b6a10d856d14c12c",
+      "blob": "68cf07124e66969a074d10ab2d501559bb11baf6",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
       ]
     },
     {
@@ -8900,15 +8941,18 @@
     },
     {
       "path": "core/frontend/src/pages/public-site/VaultixLanding.tsx",
-      "blob": "8416851c6855ebecba8fcf6c27b36f315902b47a",
+      "blob": "6817ca3c8bdaa0765bcbae11acac68a55124ab66",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
       ]
     },
     {
@@ -9064,16 +9108,19 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "6d8fa49cb54a1ca1e337383c42a1a7efba6281d5",
+      "blob": "a6004600f6d77e0df9a7ce6dc25de63132935e2b",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9138,16 +9185,19 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "a787c87491a6f7a208cc7d99091cfb385a25e225",
+      "blob": "cdb0c8164d560dc589ff7119b4dfbef0d1dde414",
       "status": "authored",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9177,15 +9227,18 @@
     },
     {
       "path": "cmd/vaultix/server.go",
-      "blob": "3d08f65bf6761048ba3bad617816960f2a562026",
+      "blob": "82beb97aed50e8cc1f32d0d12c72ae0bdd6e1c34",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Usage text now says --discard-writes is required whenever rollback restores the database. Unit tests in cmd/vaultix pass."
       ]
     },
     {
@@ -9203,29 +9256,35 @@
     },
     {
       "path": "contracts/vaultix.instance-operation.v1.json",
-      "blob": "136d0aa1d4d2709bf8399a8dff3fc3ec96b5a976",
+      "blob": "72db91094be9e7bd043e9415e7232b0e2cc7c472",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "ba371d7056b6dcf0ebe7101bd6633283e9c498ed",
+      "blob": "bb81d461d6c29d87a286817ef443181ef24742dc",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
         "scripts/test-release-download.mjs",
         "scripts/release-bundle.test.mjs",
-        ".cache/download-guard-proof.json"
+        ".cache/download-guard-proof.json",
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Rollback, last resort and limits revised against the code after a second independent review; earlier-CLI statement corrected."
       ]
     },
     {
@@ -9256,10 +9315,10 @@
     },
     {
       "path": "internal/platform/docker.go",
-      "blob": "39ba909f2220560cac518e1d193fd26eb7b507a3",
+      "blob": "de80af3a33cd655214d88442732aba5ce10e1026",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9267,7 +9326,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9285,15 +9346,18 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "b6d342c1facc2425b41685ed3ec33404ee972f3c",
+      "blob": "0b3dba987759a428f9a6f07a6797df553deea94e",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced every phase and kill point. Time limit before the rehearsal returns the previous application; rollback rebinds recreated dependencies; restoring stops an application started by hand; newest verified checkpoint carried on upgrades. TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit fails with the guard removed."
       ]
     },
     {
@@ -9340,23 +9404,26 @@
     },
     {
       "path": "internal/platform/types.go",
-      "blob": "36a830f123a7dd726dfd8a217bcab9761479c9cd",
+      "blob": "4b319445475ec3a4227d5ca25f067f66d09992a4",
       "status": "authored",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "scripts/verify-pull-request.mjs"
+        "scripts/verify-pull-request.mjs",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "An upgrade may now carry the newest verified release checkpoint; other actions still may not. Covered by TestRollbackDoesNotRewindReleaseReplayProtection."
       ]
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "aa8951f1fd2a92eaa4df0e044b849fac226afef3",
+      "blob": "f9151e613aca54de482c72129d5074b2aa228a30",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9364,7 +9431,9 @@
         "scripts/verify-pull-request.mjs",
         ".cache/readiness-investigation.json",
         ".cache/lifecycle-acceptance-gUWJh0/result.json",
-        ".cache/lifecycle-acceptance-mNMlg6/result.json"
+        ".cache/lifecycle-acceptance-mNMlg6/result.json",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
       ]
     },
     {
@@ -9805,14 +9874,17 @@
     },
     {
       "path": "scripts/check-candidate-receipt.mjs",
-      "blob": "97a54b029dcb57841f47f752725aa3739ad695c3",
+      "blob": "4e3d00898118bdcb5eb1c10a5e5b68d9bef14f0b",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "scope": "CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
       ]
     },
     {
@@ -9888,6 +9960,377 @@
       ]
     },
     {
+      "path": "core/backend/src/@types/knex.d.ts",
+      "blob": "d342056c6ab411aa01b63d871818b02eebd0b8d4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/migrations/20261102120000_vaultix-early-access-requests.ts",
+      "blob": "23f9007df7922744ec27a93e0ba09824ffe212a4",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/schemas/index.ts",
+      "blob": "25fda95fb02e1dc2119a0b5c1e30b07b4c130b2d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/db/schemas/models.ts",
+      "blob": "decbcb6ccf60d4c66960c389db5c0d50483028b0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/early-access-router.ts",
+      "blob": "f4c9626832568cba727d1e04882905b02160c62f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Independent review traced every route: all administrator routes are guarded. Adds JSON-only submission, reissue and bulk delete, each behind the same guard. Denial for anonymous and organization-admin callers is in scripts/test-early-access.mjs."
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/v1/admin-router.ts",
+      "blob": "d1c3601d7c5127b5b13fb5249fe11c962c48df24",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-dal.ts",
+      "blob": "f1851e14fa083dac2d13f43e27cb49d5d0374ee0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "List and bulk delete share one filter. Bulk delete writes to the primary and is exercised through the console in scripts/test-early-access.mjs."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-input.test.ts",
+      "blob": "7772c895d9f29282ce254e7d2ff92c25e44df999",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds hostile addresses, directional overrides, joiners that must survive, the bulk filter and a non-text organization name.",
+        "Adds hostile addresses, directional overrides, joiners that must survive, the bulk filter and a non-text organization name."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-input.ts",
+      "blob": "f7bd714d0f7fee25aaf9131a966fc4317c594a39",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Independent review found the local part unvalidated. Address form now matches the existing organization route; directional overrides and C1 controls refused; organization name checked in plain TypeScript instead of the Zod schema.",
+        "Independent review found the local part unvalidated. Address form now matches the existing organization route; directional overrides and C1 controls refused; organization name checked in plain TypeScript instead of the Zod schema."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-service.test.ts",
+      "blob": "af2deb24b494f7bece840678f617d09d7a43922d",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds refusal for an address with another organization, concurrent loser reporting, reissue rules and bulk delete.",
+        "Adds refusal for an address with another organization, concurrent loser reporting, reissue rules and bulk delete."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-service.ts",
+      "blob": "1860b2bdd73c4aab1ec089072a18d8571b93a634",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Independent review traced that an invitation token opens every organization its user was invited to. An address with another organization now gets no invitation here. Adds reissue and bulk delete, and reports a concurrent loser as already invited.",
+        "Independent review traced that an invitation token opens every organization its user was invited to. An address with another organization now gets no invitation here. Adds reissue and bulk delete, and reports a concurrent loser as already invited."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/early-access/early-access-types.ts",
+      "blob": "95b98f73bdac6e666f1404eca81bfac9cff8a5b1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds the bulk delete filter type."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/super-admin/organization-invitation.test.ts",
+      "blob": "3266c6c3d400374a1f1834ffcfae1b570af3e6f8",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds a test that a mail failure keeps the recipient out of the logs."
+      ]
+    },
+    {
+      "path": "core/backend/src/services/super-admin/organization-invitation.ts",
+      "blob": "de1d67c7b358b9a53fe8389160503fb72244de0e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Logs only the kind of failure, because mail errors quote their recipients."
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/admin/types.ts",
+      "blob": "56a27d096679f2bbcaca118f4ca9f106c6a29068",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/earlyAccess/index.ts",
+      "blob": "2c1906d3698e4639f57e8b42bbe3338b2e186eb2",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/earlyAccess/queries.ts",
+      "blob": "612ee61989f82a2de64dbd140cca79b7a882f3b1",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds reissue and bulk delete mutations."
+      ]
+    },
+    {
+      "path": "core/frontend/src/hooks/api/earlyAccess/types.ts",
+      "blob": "10b699a7454193866f9fff90332f40218bb9719f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds the bulk delete filter type."
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/AdminLayout/AdminNavBar.tsx",
+      "blob": "bc44f45b5fdd73d8433697259ad6d947132db386",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/layouts/AdminLayout/AdminSidebar.tsx",
+      "blob": "6c6810cdf6f9825238e33477688d839da5008507",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/EarlyAccessPage/EarlyAccessPage.tsx",
+      "blob": "c082d8fdfc8010b33c84b6dd44e89d0c42024319",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessRequestsTable.tsx",
+      "blob": "c1d2c3a554ccc93eb0e7a8a10f9fe44c540dbf23",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Adds Send a new invitation and Delete all shown, exercised in a browser with accessibility checks by scripts/test-early-access.mjs.",
+        "Adds Send a new invitation and Delete all shown, exercised in a browser with accessibility checks by scripts/test-early-access.mjs."
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/EarlyAccessPage/components/EarlyAccessSettings.tsx",
+      "blob": "7219ea82ecd399e5ada75dbd702f844400d2beb7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/EarlyAccessPage/components/InviteEarlyAccessModal.tsx",
+      "blob": "5cb98ec7a31f3df26e7f0f78c10c9906daea142e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Says the address is unverified and that a link sets up the account, is for that address only and lasts 72 hours. Organization name checked in plain TypeScript instead of the Zod schema."
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/admin/EarlyAccessPage/route.tsx",
+      "blob": "2e74bba22965f587e3bff687a41cc2cf13164849",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/public-site/EarlyAccessSection.tsx",
+      "blob": "487d7948c781295ec68126b64eb8f7de51ebfd85",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "core/frontend/src/routes.ts",
+      "blob": "51850b83ba30aa48069b88cfb9d90ecf2a47b566",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-early-access-migration.mjs",
+      "blob": "0aa9a589c9658620b7bf00088d8909ca379af398",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Header and limits updated for the changed-set path now on main. Behavior unchanged."
+      ]
+    },
+    {
+      "path": "scripts/test-early-access.mjs",
+      "blob": "f6baa4b38a6db0e2af69879b384d5ca9231a136d",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "evidence": [
+        "docs/0112-early-access-requests.md",
+        "scripts/test-early-access.mjs",
+        "scripts/test-early-access-migration.mjs",
+        "Independent review found organization-admin denial skipped invite and decline, and no hostile address cases. Adds those, form posts, a foreign preflight, a pending invitation elsewhere, a replacement link and bulk delete.",
+        "Independent review found organization-admin denial skipped invite and decline, and no hostile address cases. Adds those, form posts, a foreign preflight, a pending invitation elsewhere, a replacement link and bulk delete.",
+        "The bulk delete loading check now uses a filter not seen yet, because a filter already loaded correctly shows its own rows at once.",
+        "Waits for held list requests before removing the route that delays them. All 18 early-access checks passed on the real image with no accessibility violations."
+      ]
+    },
+    {
       "path": "core/backend/src/services/vaultix/mcp.test.ts",
       "blob": "940080d4c987ace577e2bc02ffa936f846da6cd6",
       "status": "reviewed",
@@ -9898,6 +10341,165 @@
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+      ]
+    },
+    {
+      "path": "internal/platform/rollback.go",
+      "blob": "e565db0b0acc3d9503d7335794c51b6cb0865aaf",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review traced each kill point in restoreStore and found no data-loss or wrong-database path. Every restore needs --discard-writes; rebindDependencies refuses a fresh volume when no restore follows; a retry after a committed swap neither repeats nor rechecks it; named separates an absent container from a Docker failure. Removing the store check or restoring the recheck fails scripts/test-server-migration.mjs at its expected scenario."
+      ]
+    },
+    {
+      "path": "internal/platform/schema.go",
+      "blob": "6d82584accc962a847b17c045616099fd71b7f48",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs"
+      ]
+    },
+    {
+      "path": "internal/platform/schema_test.go",
+      "blob": "695c4ae105beb9b3014639f8efcc9cde798012e3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Adds TestASavedPlanCanAlwaysBeCancelled and TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit, and extends the replay and eligibility tests. go test ./internal/platform passes."
+      ]
+    },
+    {
+      "path": "scripts/test-server-migration.mjs",
+      "blob": "a52c464c55cf007d310f3b2ae02fd27cf04f1e88",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "evidence": [
+        "docs/0109-native-install-and-upgrade.md",
+        "internal/platform/schema_test.go",
+        "scripts/test-server-migration.mjs",
+        "Second independent review found two scenarios weaker than their names; both now do what they claim. Adds Ctrl-C, recreated dependencies, last resort and fresh volume scenarios. 28 checks passed on a development CLI with cleanup."
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler.go",
+      "blob": "be7b0d945865cbd3cff198eaed5ef4ffe941a90f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/handler_test.go",
+      "blob": "1d61e24d3d91753cf979cd6bb888b7e29768c166",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform/deviceauth/limiter.go",
+      "blob": "57c6e25e16f23187d6653a8e8e8e6bd0621064e7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/platform_routes.go",
+      "blob": "d97d68d24ad40518cacd780d64ea1d40ee75d9ff",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "core/backend-go/tests/platform/auth/device_http_test.go",
+      "blob": "67225b1117d2357437c268c082dc8137364c4992",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/0113-vaultix-identity-execution.md",
+      "blob": "b6727db6a7f0b4a92d599b7121b4f9bee4021a93",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "docs/capabilities/vaultix-capabilities.md",
+      "blob": "2921e43176626920f642ba82929a1893e1ebebf3",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/export-vaultix-capabilities.mjs",
+      "blob": "feb541794fcebf2513e92913c9e0c1c181ea5888",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "scripts/test-device-http.mjs",
+      "blob": "fdb3a1099dd3571328e27eca2d32141f45f6e21b",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "evidence": [
+        "docs/0113-vaultix-identity-execution.md",
+        "core/backend-go/tests/platform/auth/device_http_test.go",
+        "scripts/test-device-http.mjs"
       ]
     }
   ]

@@ -300,6 +300,8 @@ import { certificateV3QueueServiceFactory } from "@app/services/certificate-v3/c
 import { certificateV3ServiceFactory } from "@app/services/certificate-v3/certificate-v3-service";
 import { cmekServiceFactory } from "@app/services/cmek/cmek-service";
 import { convertorServiceFactory } from "@app/services/convertor/convertor-service";
+import { earlyAccessDALFactory } from "@app/services/early-access/early-access-dal";
+import { earlyAccessServiceFactory } from "@app/services/early-access/early-access-service";
 import { acmeEnrollmentConfigDALFactory } from "@app/services/enrollment-config/acme-enrollment-config-dal";
 import { apiEnrollmentConfigDALFactory } from "@app/services/enrollment-config/api-enrollment-config-dal";
 import { estEnrollmentConfigDALFactory } from "@app/services/enrollment-config/est-enrollment-config-dal";
@@ -537,6 +539,7 @@ import { shadowToGoSidecar } from "../plugins/go-sidecar-shadowing";
 import { injectPamProjectId } from "../plugins/inject-pam-project-id";
 import { injectRateLimits } from "../plugins/inject-rate-limits";
 import { forwardWritesToPrimary } from "../plugins/primary-forwarding-mode";
+import { registerEarlyAccessRouter } from "./early-access-router";
 import { registerV1Routes } from "./v1";
 import { initializeOauthConfigSync } from "./v1/sso-router";
 import { registerV2Routes } from "./v2";
@@ -4181,6 +4184,17 @@ export const registerRoutes = async (
   // register special routes
   await server.register(registerCertificateEstRouter, { prefix: "/.well-known/est" });
   await server.register(registerPkiScepRouter, { prefix: "/scep" });
+
+  await server.register(registerEarlyAccessRouter, {
+    prefix: "/api/v1/early-access",
+    service: earlyAccessServiceFactory({
+      earlyAccessDAL: earlyAccessDALFactory(db),
+      getServerCfg,
+      createOrganization: superAdminService.createOrganization,
+      findUserOrganizationIds: superAdminService.findUserOrganizationIds,
+      reissueOrganizationInvitation: superAdminService.reissueOrganizationInvitation
+    })
+  });
 
   // register routes for v1
   await server.register(registerVaultixRouter, {

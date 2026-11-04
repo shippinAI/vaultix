@@ -8,6 +8,22 @@ export enum IPType {
 }
 
 /**
+ * The unit a per-client limit counts. An IPv6 client usually controls a whole /64, so counting
+ * full addresses would let it rotate past any limit.
+ */
+export const rateLimitClientKey = (ip: string) => {
+  if (!net.isIPv6(ip) || ip.includes(".")) return ip;
+  const [head, tail] = ip.split("%")[0].split("::");
+  const left = head ? head.split(":") : [];
+  const right = tail ? tail.split(":") : [];
+  const groups = [...left, ...Array<string>(8 - left.length - right.length).fill("0"), ...right];
+  return `${groups
+    .slice(0, 4)
+    .map((group) => parseInt(group, 16).toString(16))
+    .join(":")}::/64`;
+};
+
+/**
  * Return details of IP [ip]:
  * - If [ip] is a specific IP address then return the IPv4/IPv6 address
  * - If [ip] is a subnet then return the network IPv4/IPv6 address and prefix

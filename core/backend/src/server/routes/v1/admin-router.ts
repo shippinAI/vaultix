@@ -62,6 +62,7 @@ const SanitizedSuperAdminSchema = z.object({
   paramsFolderSecretDetectionEnabled: z.boolean().optional(),
   isOfflineUsageReportsEnabled: z.boolean().optional(),
   isCrossProjectSecretSharingEnabled: z.boolean().optional(),
+  earlyAccessRequestsEnabled: z.boolean().optional(),
   // Always returned
   defaultAuthOrgSlug: z.string().nullable(),
   defaultAuthOrgAuthEnforced: z.boolean().nullish(),
@@ -155,6 +156,7 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
         trustLdapEmails: z.boolean().optional(),
         trustOidcEmails: z.boolean().optional(),
         onboardingCompleted: z.boolean().optional(),
+        earlyAccessRequestsEnabled: z.boolean().optional(),
         defaultAuthOrgId: z.string().optional().nullable(),
         enabledLoginMethods: z
           .nativeEnum(LoginMethod)
@@ -989,7 +991,7 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
       });
     },
     handler: async (req) => {
-      const organization = await server.services.superAdmin.createOrganization(req.body, req.permission);
+      const { organization } = await server.services.superAdmin.createOrganization(req.body, req.permission);
 
       void server.services.telemetry.sendPostHogEvents({
         event: PostHogEventTypes.OrganizationCreated,
