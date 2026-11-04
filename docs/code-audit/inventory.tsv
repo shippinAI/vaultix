@@ -23,7 +23,7 @@ path	git_blob	kind	review_status
 AGENTS.md	0972632ea13f4a84896b4f4ef77578a3fa87e0ce	documentation	reviewed
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
-README.md	2025ee4318d27b64ed0ffdd450c93c0159f59bef	documentation	authored
+README.md	e049c6470e6d71f145c78a4b56014a2ce5c50428	documentation	reviewed
 branding/README.md	1c5ae47302bcb82d91df9851d5d2e65aca83a4d1	documentation	unread
 branding/favicon.svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	asset	unread
 branding/mark.svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	asset	unread
@@ -35,7 +35,7 @@ cmd/vaultix/download_release.go	3f6cda08b5b975d22e25ea7fde98b7a8c0cee65b	product
 cmd/vaultix/download_release_test.go	4d4efcba942e746c9e7c802b72a3e833bd69801f	test	reviewed
 cmd/vaultix/install_release.go	33aff1bc9e33b8f3566678537764e80a0c68e8f1	product-code	authored
 cmd/vaultix/install_release_test.go	add10da8eef563aa5d060b9eab72734d2c313771	test	authored
-cmd/vaultix/main.go	dc8f054753b66de3cddcc0b313995010a8cda7be	product-code	authored
+cmd/vaultix/main.go	2c115931a205591e3a1eea26bbacbd3cefcdcce2	product-code	reviewed
 cmd/vaultix/server.go	82beb97aed50e8cc1f32d0d12c72ae0bdd6e1c34	product-code	authored
 cmd/vaultix/startup_other.go	7e6cd821058e4f4067bdd0b96511ae131dbc154e	product-code	authored
 cmd/vaultix/startup_windows.go	a50bc4607c7337ab915b22fa86367700882e06da	product-code	authored
@@ -11992,9 +11992,9 @@ docs/interaction/README.md	c16517d3c3eb25119bfe442f553898d9799f23e4	documentatio
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	c08789e208d877de017954c0072dd369dd958a57	generated	unread
-docs/migration/generated/modules.tsv	b8c3f1d525f8488fa34528f31fb326e4c307e70e	generated	unread
-docs/migration/generated/summary.json	f9600776dc457f4111f52acc76f325984b46b700	generated	unread
+docs/migration/generated/files.tsv	7b351f2cbaad26e24cdd353b0c3b00e7d16eb332	generated	unread
+docs/migration/generated/modules.tsv	b42bd9bad7075acde395d7092aed3df62abb4bd9	generated	unread
+docs/migration/generated/summary.json	c820bf4a489aeb2bf260cca0385559e0ac3183c7	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored
 docs/references/README.md	72ab40da53c8ed9fc83beb5f557e93acad3d62f6	documentation	unread
@@ -12019,7 +12019,8 @@ internal/cli/login_mode_test.go	d476cdc187f013085882aa0963681e6d752d6c6e	test	ve
 internal/cli/mcp.go	0676d7aff7b3d8d831cb1bb297477446354c429e	product-code	authored
 internal/cli/mcp_test.go	05b1419f38c56d0cc34115b3d2d1371a9d51e4f2	test	authored
 internal/cli/renewal_test.go	1afa7eab6e3c68d409c023929c9c8cbb2153a600	test	verified
-internal/cli/run_cmds.go	f35d6a2ed856fe2bf85c6c0fc1c5adb1d7130aea	product-code	unread
+internal/cli/run_cmds.go	addc9008d3886357935e0012eed82867ded52f62	product-code	reviewed
+internal/cli/run_cmds_test.go	7f4704bae440821b12dd8e4422956ac23f96df65	test	reviewed
 internal/cli/session.go	dfdf9b0d6c5fcb2dc76e698159be36363db75237	product-code	verified
 internal/cli/sync_cmds.go	b403a49edd3df35ce07b739c3b4b81d4ced9fcf7	product-code	unread
 internal/oidc/device.go	1bf1d6f45b139aafea0b7197ac2232b260207cb6	product-code	verified
@@ -12175,6 +12176,7 @@ scripts/check-recorded-media.mjs	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	build-
 scripts/check-ui-action-standard.mjs	7aaa4f7b50ae29e45a17246c137f9aee536c4709	build-and-operations	unread
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
 scripts/export-vaultix-capabilities.mjs	feb541794fcebf2513e92913c9e0c1c181ea5888	build-and-operations	authored
+scripts/fixtures/cli-workload.mjs	1a235af5d2d86b05a22e57be2ec1c3406c16fda8	build-and-operations	reviewed
 scripts/fixtures/device-issuer.mjs	fc5b5c5a1a52e8837c54eee24ac25df22720b066	build-and-operations	verified
 scripts/fixtures/mcp-app-content.json	45dda9b04d8d31047e5d96f2881069f48bef59fb	build-and-operations	authored
 scripts/fixtures/quic-peer/Dockerfile	f57667fab29816e5fc5ab899838c6d4af18f83c4	build-and-operations	reviewed
@@ -12209,7 +12211,7 @@ scripts/test-capability-map.mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	build-a
 scripts/test-capability-surface.mjs	a6ff78877d1ded9319b36480330d8c72494961b2	build-and-operations	verified
 scripts/test-chart-rendering.mjs	f140cae078b3824158e199ada023741d0f046277	build-and-operations	reviewed
 scripts/test-cli-delivery.mjs	327f4401aec2b5812807681ed341054664ccb543	build-and-operations	verified
-scripts/test-cli-headless.mjs	be45120f8f3cb5bdc428fc64e189ce8dbe6995d1	build-and-operations	verified
+scripts/test-cli-headless.mjs	e5694f5b93536b0e6f287e8405412e21a3e55545	build-and-operations	reviewed
 scripts/test-cli-install.mjs	35bea5ae75d123df6264f2040a716d152248560d	build-and-operations	authored
 scripts/test-codex-client.mjs	c7cba10871addf750ff1ebcd064bba3b47b34663	build-and-operations	unread
 scripts/test-core.mjs	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	build-and-operations	verified

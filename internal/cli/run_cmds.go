@@ -11,16 +11,19 @@ import (
 	"shippin.cloud/vaultix/internal/store"
 )
 
-// Run pulls (unless offline or the server is unreachable, then it uses the local copy), then
-// runs argv with the scope's secrets added to its environment. Values never touch argv.
+// Run requires a successful pull before starting the workload. Cached execution
+// is an explicit offline choice, which cannot check remote access or revocation.
+// Values never touch argv.
 func Run(ctx context.Context, argv []string, offline bool, errOut io.Writer) error {
 	if len(argv) == 0 {
 		return fmt.Errorf("usage: vaultix run [--offline] -- command [args]")
 	}
 	if !offline {
 		if err := Sync(ctx, []string{"--on-conflict=local"}, false, io.Discard); err != nil {
-			fmt.Fprintf(errOut, "vaultix: pull failed, using the local copy: %v\n", err)
+			return fmt.Errorf("pull failed; workload was not started: %w", err)
 		}
+	} else {
+		fmt.Fprintln(errOut, "vaultix: explicit offline mode uses cached secrets without checking current server access or revocation")
 	}
 	cfg, err := LoadConfig()
 	if err != nil {

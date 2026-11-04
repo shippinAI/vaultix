@@ -2232,16 +2232,14 @@
     },
     {
       "path": "README.md",
-      "blob": "2025ee4318d27b64ed0ffdd450c93c0159f59bef",
-      "status": "authored",
+      "blob": "e049c6470e6d71f145c78a4b56014a2ce5c50428",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -4212,14 +4210,14 @@
     },
     {
       "path": "cmd/vaultix/main.go",
-      "blob": "dc8f054753b66de3cddcc0b313995010a8cda7be",
-      "status": "authored",
+      "blob": "2c115931a205591e3a1eea26bbacbd3cefcdcce2",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Scoped Windows packaged startup correction: exact OS package/executable/known-folder context before dropping only duplicated argv0. Complete changed module read; ordinary and portable commands preserved. Disposable guest-only signing, no host trust or production installer change. Native unit guards pass; package and canonical acceptance are separate pending receipts, not enterprise or whole-product proof.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "cmd/vaultix/startup_windows_test.go",
-        "scripts/test-windows-package-activation.ps1"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -4478,27 +4476,14 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "be45120f8f3cb5bdc428fc64e189ce8dbe6995d1",
-      "status": "verified",
+      "blob": "e5694f5b93536b0e6f287e8405412e21a3e55545",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Read full harness and added both executable names, --domain, conflict preservation and old --api machine compatibility; retained existing real API/MCP/renewal/revocation checks. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
-        "docs/0067-headless-ai-login.md",
-        ".cache/headless-ai-login/.cache/cli-unit-build.json",
-        ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0068-device-session-renewal.md",
-        ".cache/headless-ai-login/.cache/cli-headless-PvrryF/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
-        "docs/0073-native-cli-domain-and-capabilities.md",
-        ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
-        ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
-        ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     },
     {
@@ -10496,6 +10481,42 @@
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs"
+      ]
+    },
+    {
+      "path": "internal/cli/run_cmds.go",
+      "blob": "addc9008d3886357935e0012eed82867ded52f62",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "internal/cli/run_cmds_test.go",
+      "blob": "7f4704bae440821b12dd8e4422956ac23f96df65",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
+      ]
+    },
+    {
+      "path": "scripts/fixtures/cli-workload.mjs",
+      "blob": "1a235af5d2d86b05a22e57be2ec1c3406c16fda8",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
+      "evidence": [
+        "internal/cli/run_cmds_test.go",
+        "scripts/test-cli-headless.mjs",
+        "docs/0075-usable-secrets-and-update-delivery.md"
       ]
     }
   ]
