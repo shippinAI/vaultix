@@ -57,7 +57,7 @@ core/.greptile/files.json	core/.greptile	delivery	supporting-tooling-or-contract
 core/.husky/pre-commit	core/.husky	delivery	supporting-tooling-or-contract	build-config	fe2d6e0c1a4b157721a3600bdf2a2fd2f05f4bff	unread
 core/.nvmrc	core	delivery	supporting-tooling-or-contract	build-config	2bd5a0a98a36cc08ada88b804d3be047e6aa5b8a	unread
 core/Dockerfile.ghcr	core	delivery	supporting-tooling-or-contract	ghcr	816f39991163321588f4dfb05efd55ac4c3da840	reviewed
-core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	c0bb45544263e51a9a289914a6e3635244006203	authored
+core/Dockerfile.standalone-vaultix	core	delivery	supporting-tooling-or-contract	standalone-vaultix	7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e	reviewed
 core/Makefile	core	delivery	supporting-tooling-or-contract	build-config	329e030c6ba55e576a37749b6d4757e3002cdaf4	unread
 core/PIN	core	delivery	supporting-tooling-or-contract	build-config	17f95aab1bf33bd56ee24308b78a97652fc555b2	unread
 core/backend-go/.air.toml	core/backend-go	foundation	Go-native	toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	unread

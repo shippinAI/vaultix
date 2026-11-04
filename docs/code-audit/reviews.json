@@ -878,15 +878,14 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "c0bb45544263e51a9a289914a6e3635244006203",
-      "status": "authored",
+      "blob": "7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
+      "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending.",
       "evidence": [
-        "docs/0078-vaultix-policy-ownership.md",
-        "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "scripts/test-cli-delivery.mjs",
+        "https://docs.docker.com/build/cache/optimize/"
       ]
     },
     {
