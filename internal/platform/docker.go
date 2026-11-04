@@ -189,7 +189,17 @@ func (d *Docker) selection(image string) (string, error) {
 	}
 	path := filepath.Join(d.root, "selection-"+strings.TrimPrefix(image, "sha256:")+".json")
 	label := map[string]string{"vaultix.lifecycle.instance": d.instance.ID}
-	data, _ := json.Marshal(map[string]any{"services": map[string]any{"backend": map[string]any{"image": image, "labels": label}, "db": map[string]any{"labels": label}, "cache": map[string]any{"labels": label}}})
+	backend := map[string]any{"image": image, "labels": label}
+	if len(d.instance.ProxyBindings) != 0 {
+		var ports []map[string]any
+		for _, binding := range d.instance.ProxyBindings {
+			ports = append(ports, map[string]any{"target": 8080, "published": strconv.Itoa(binding.Port), "host_ip": binding.HostIP, "protocol": "tcp"})
+		}
+		// Compose merges by IP/target/published/protocol, preserving the canonical
+		// loopback binding while adding these explicitly enrolled listeners.
+		backend["ports"] = ports
+	}
+	data, _ := json.Marshal(map[string]any{"services": map[string]any{"backend": backend, "db": map[string]any{"labels": label}, "cache": map[string]any{"labels": label}}})
 	data = append(data, '\n')
 	if existing, err := privateRead(path, 65536); err == nil {
 		if !bytes.Equal(existing, data) {
@@ -315,9 +325,11 @@ func (d *Docker) runtimeConfiguration(ctx context.Context, container, image stri
 	if expected["SITE_URL"] != d.instance.SiteURL {
 		return errors.New("site origin differs from the enrolled instance")
 	}
-	bindings := current.NetworkSettings.Ports["8080/tcp"]
-	if len(bindings) != 1 || bindings[0].HostIp != "127.0.0.1" || bindings[0].HostPort != strconv.Itoa(d.instance.Port) || len(current.Mounts) != 0 || len(current.NetworkSettings.Networks) != 1 || current.NetworkSettings.Networks[d.instance.Project+"_default"] == nil {
-		return errors.New("deployment topology differs from the supported single-instance Compose layout; retain the existing deployment owner")
+	if !d.instance.matchesPorts(current.NetworkSettings.Ports) {
+		return errors.New("application port bindings differ from the enrolled configuration; adopt with every existing additional listener declared by --proxy-bind IP:PORT")
+	}
+	if len(current.Mounts) != 0 || len(current.NetworkSettings.Networks) != 1 || current.NetworkSettings.Networks[d.instance.Project+"_default"] == nil {
+		return errors.New("deployment mounts or networks differ from the supported single-instance Compose layout; retain the existing deployment owner")
 	}
 	return nil
 }

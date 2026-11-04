@@ -56,6 +56,29 @@ vaultix server adopt --directory /srv/vaultix-instance \
   --env-file /existing/vaultix/compose/vaultix.env
 ```
 
+If the application also publishes a host port for a remote reverse proxy, enroll
+each existing additional HTTP listener explicitly with `--proxy-bind IP:PORT`.
+For example, an instance with `127.0.0.1:8200:8080` plus
+`10.42.0.8:8201:8080` uses `--port 8200 --proxy-bind 10.42.0.8:8201`.
+These are example addresses, not a deployment prescription. Use the actual
+`NetworkSettings.Ports` from `docker container inspect` on the existing backend.
+An existing wildcard listener must be declared as `0.0.0.0:PORT`, or `[::]:PORT`
+for IPv6; enrollment does not broaden it or configure firewalls/TLS.
+
+`--proxy-bind` is repeatable on `install` and `adopt`. It always targets the existing
+application's TCP port 8080, retains the separate loopback listener, and refuses
+duplicate/overlapping ports, hostnames and unspecified addresses in the argument.
+An explicit wildcard IP is permitted. Undeclared additional listeners, a missing
+listener, or a changed address/port stop adoption/upgrade before replacement.
+Upgrade, recovery and rollback read the saved bindings; they do not accept new
+`--proxy-bind` arguments or discover new authority from running containers.
+
+Instances with additional listeners use `vaultix.instance.v2` configuration;
+operation journals stay v1. Existing loopback-only v1 instances are read unchanged
+and retain their existing selection/configuration bytes. Earlier CLIs refuse a v2
+instance, so keep using the newer CLI for an instance enrolled with proxy bindings.
+Changing a saved listener is configuration drift, not an implicit upgrade operation.
+
 Adoption validates the current Vaultix image, credentials/store connection,
 origin, cache configuration and supported network/port topology. It preserves the
 running application, database, keys and named volume. A Portainer/Coolify-managed
@@ -273,6 +296,13 @@ injected only in a disposable Docker CLI test driver, never in product code.
 An additional delayed-initialization case rejects an early restore and proves
 the native command waits for the normal PostgreSQL server. It reproduces the
 Unix-socket readiness flaw in the initial lifecycle implementation.
+
+The lifecycle test also enrolls a second host listener, rejects adoption that
+omits it, and reaches `/api/status` from a separate Docker client outside the app
+network through that host port. It checks both published bindings after native
+recovery, rollback, a subsequent upgrade and re-adoption, with the database/cache
+identities and original secret ciphertext retained. This is local ingress-path
+acceptance, not acceptance of an operator's remote proxy or firewall.
 
 When the two images' migration sets differ, that test takes the changed-set path and
 its report names the migrations applied.

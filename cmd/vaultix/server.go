@@ -14,9 +14,10 @@ import (
 
 const serverUsage = `usage: vaultix server <install|adopt|upgrade|status|recover|rollback> --directory DIR
   install --from-build RECEIPT --site-url https://vaultix.example.com
-          [--project vaultix] [--port 8200] [--env-file PRIVATE_FILE] [--plan]
+          [--project vaultix] [--port 8200] [--proxy-bind IP:PORT]
+          [--env-file PRIVATE_FILE] [--plan]
   adopt --env-file EXISTING_PRIVATE_FILE --project EXISTING_PROJECT
-        --site-url https://vaultix.example.com [--port 8200]
+        --site-url https://vaultix.example.com [--port 8200] [--proxy-bind IP:PORT]
   upgrade --from-build RECEIPT [--plan]
   upgrade --bundle DIRECTORY --trust FILE [--plan]
   upgrade --apply OPERATION_ID
@@ -31,7 +32,10 @@ Install also accepts --bundle DIRECTORY --trust FILE. The Docker engine must be
 Linux/amd64 with Compose v2. Keys and operation state stay in the private instance
 directory. Existing deployments are adopted explicitly. Upgrades preserve data
 volumes. A changed migration set is rehearsed on a restored copy with no network
-before the live database is touched. --discard-writes accepts losing writes made
+before the live database is touched. Repeat --proxy-bind for each additional
+existing HTTP listener needed by a remote proxy; the default stays on loopback.
+Listeners are saved at enrollment and preserved by upgrade/recover/rollback.
+--discard-writes accepts losing writes made
 since the checkpoint, and is required whenever rollback restores the database.`
 
 func serverCommand(ctx context.Context, args []string, out, progress io.Writer) error {
@@ -50,6 +54,7 @@ func serverCommand(ctx context.Context, args []string, out, progress io.Writer) 
 	fs.StringVar(&o.Project, "project", "vaultix", "Compose project")
 	fs.StringVar(&o.SiteURL, "site-url", "", "public application origin")
 	fs.IntVar(&o.Port, "port", 8200, "loopback application port")
+	fs.Func("proxy-bind", "additional explicit IP:PORT for the reverse proxy (repeatable)", func(value string) error { o.ProxyBindings = append(o.ProxyBindings, value); return nil })
 	fs.StringVar(&o.BuildReceipt, "from-build", "", "canonical build receipt")
 	fs.StringVar(&o.Bundle, "bundle", "", "verified release bundle directory")
 	fs.StringVar(&o.Trust, "trust", "", "preprovisioned trust file")
