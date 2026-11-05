@@ -15,6 +15,7 @@ const Ajv = require('ajv/dist/2020');
 const ajv = new Ajv({ strict: true });
 require('ajv-formats')(ajv);
 ajv.addSchema(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.release-checkpoint.v1.json'))));
+ajv.addSchema(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.instance.v2.json'))));
 const validResult = ajv.compile(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.instance-operation.v1.json'))));
 const inputs = JSON.parse(readFileSync(resolve(root, '.cache/lifecycle-inputs.json')));
 const baseline = JSON.parse(readFileSync(inputs.baselineReceipt));
@@ -54,7 +55,7 @@ const privateWrite = (path, data) => docker(['exec', '-i', runner, 'sh', '-c', '
 try {
   stateVolume = output(['volume', 'create', '--label', `vaultix.lifecycle.test=${run}`, `${run}-state`]);
   runner = output(['create', '--name', `${run}-client`, '--label', `vaultix.lifecycle.test=${run}`, '--mount', 'type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock',
-    '--mount', `type=volume,source=${stateVolume},target=/state`, '--entrypoint', 'sleep', inputs.clientImage, 'infinity']);
+    '--add-host', 'vaultix-host:host-gateway', '--mount', `type=volume,source=${stateVolume},target=/state`, '--entrypoint', 'sleep', inputs.clientImage, 'infinity']);
   output(['start', runner]);
   output(['cp', resolve(inputs.cli), `${runner}:/usr/local/bin/vaultix`]);
   client(['chmod', '755', '/usr/local/bin/vaultix']);
@@ -65,15 +66,39 @@ try {
   // Make that window deterministic and reject any restore started in it.
   privateWrite('/test-bin/slow-init.sh', '#!/bin/sh\ntouch /tmp/vaultix-init-pending\nsleep 5\ntouch /tmp/vaultix-init-complete\n');
   client(['chmod', '644', '/test-bin/slow-init.sh']);
-  privateWrite('/test-bin/docker', '#!/bin/sh\ncase "$1:$2:$3" in\ncreate:--name:vaultix-restore-*)\n id=$(/usr/local/bin/docker "$@") || exit $?\n /usr/local/bin/docker cp /test-bin/slow-init.sh "$id:/docker-entrypoint-initdb.d/vaultix-proof.sh" || exit $?\n echo "$id" >> /state/delayed-probes\n echo "$id"\n exit 0\n ;;\nesac\nif [ "$1:$2:$4" = "exec:-i:pg_restore" ]; then\n if ! /usr/local/bin/docker exec "$3" test -f /tmp/vaultix-init-complete; then touch /state/early-restore; exit 82; fi\nfi\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
+  privateWrite('/test-bin/docker', '#!/bin/sh\ncase "$1:$2:$3" in\ncreate:--name:vaultix-restore-*)\n id=$(/usr/local/bin/docker "$@") || exit $?\n /usr/local/bin/docker cp /test-bin/slow-init.sh "$id:/docker-entrypoint-initdb.d/vaultix-proof.sh" || exit $?\n echo "$id" >> /state/delayed-probes\n echo "$id"\n exit 0\n ;;\nesac\nif [ "$1:$2:$4" = "exec:-i:pg_restore" ] && grep -Fxq "$3" /state/delayed-probes; then\n if ! /usr/local/bin/docker exec "$3" test -f /tmp/vaultix-init-complete; then touch /state/early-restore; exit 82; fi\nfi\ncase " $* " in\n*" pg_dump "*)\n [ ! -f /state/fail-backup ] || exit 71\n if [ -f /state/hold-backup ]; then touch /state/entered; while [ -f /state/hold-backup ]; do sleep 1; done; fi\n ;;\nesac\nexec /usr/local/bin/docker "$@"\n');
   client(['chmod', '755', '/test-bin/docker']);
   const port = 20000 + randomBytes(2).readUInt16BE() % 30000;
+  const proxyPort = port + 1;
+  const proxyBinding = `0.0.0.0:${proxyPort}`;
+  const proxyReachable = () => {
+    // This client is outside the application's network. It must use the host
+    // listener, not backend DNS, exec into the application, or its container IP.
+    assert.equal(JSON.parse(client(['wget', '-T', '10', '-qO-', `http://vaultix-host:${proxyPort}/api/status`])).message, 'Ok');
+    const ports = inspect(app()).NetworkSettings.Ports['8080/tcp'];
+    assert.deepEqual(ports.map(p => `${p.HostIp}:${p.HostPort}`).sort(), [`0.0.0.0:${proxyPort}`, `127.0.0.1:${port}`].sort());
+  };
   phase = 'native installation';
-  const installed = cli(['install', '--from-build', '/proof/baseline.json', '--site-url', `http://127.0.0.1:${port}`, '--project', project, '--port', String(port)]);
+  const installed = cli(['install', '--from-build', '/proof/baseline.json', '--site-url', `http://127.0.0.1:${port}`, '--project', project, '--port', String(port), '--proxy-bind', proxyBinding], { directory: '/state/original' });
   assert.ok(installed.ready && !installed.recoveryRequired);
   assert.equal(inspect(app()).Image, baseline.imageId);
   const database = inspect(service('db')), cache = inspect(service('cache'));
   check('compiled Linux install creates private configuration and a healthy Vaultix instance with Dragonfly');
+  proxyReachable();
+  phase = 'proxy deployment adoption';
+  const initialApp = inspect(app()).Id;
+  const originalOwner = inspect(`vaultix-owner-${project}`);
+  assert.equal(originalOwner.Config.Labels['vaultix.lifecycle.instance'], installed.instance.id);
+  output(['rm', originalOwner.Id]);
+  const enrollment = ['adopt', '--env-file', '/state/original/config/vaultix.env', '--project', project, '--site-url', installed.instance.siteUrl, '--port', String(port)];
+  cli(enrollment, { directory: '/state/rejected', success: false });
+  assert.equal(inspect(app()).Id, initialApp); proxyReachable();
+  const enrolled = cli([...enrollment, '--proxy-bind', proxyBinding]);
+  assert.ok(enrolled.ready); assert.equal(inspect(app()).Id, initialApp);
+  assert.equal(enrolled.instance.schemaVersion, 'vaultix.instance.v2');
+  assert.deepEqual(enrolled.instance.proxyBindings, [{ hostIp: '0.0.0.0', port: proxyPort }]);
+  assert.equal(inspect(service('db')).Id, database.Id);
+  check('adoption refuses an omitted proxy listener without outage; explicit enrollment preserves the running app and remote HTTP path');
   phase = 'existing identity and encrypted project';
   const password = `Vx9!${[...randomBytes(24)].map(v => v.toString(16).padStart(2, '0')).join('-')}`;
   const email = `${run}@vaultix.invalid`, canary = randomBytes(32).toString('hex'); sensitive.push(password, canary);
@@ -152,6 +177,7 @@ try {
   assert.ok(recovered.ready && !recovered.recoveryRequired);
   assert.equal(recovered.operation.operation, operation);
   assert.equal(inspect(app()).Image, candidate.imageId);
+  proxyReachable();
   assert.equal(inspect(service('db')).Id, database.Id); assert.equal(inspect(service('cache')).Id, cache.Id);
   assert.deepEqual(inspect(service('db')).Mounts, database.Mounts);
   assert.equal(appliedOf(), pending.length, 'Every planned migration must be recorded in the store');
@@ -173,6 +199,15 @@ try {
   await api('/api/v1/admin/signup', { method: 'POST', body: { email, password, firstName: 'Duplicate' }, status: 400 });
   await api('/api/v4/secrets/AFTER_UPGRADE', { method: 'POST', token: selected.token, body: { ...scope, secretValue: canary } });
   check('fresh built-in login, original project, exact ciphertext, authorized decryption and new writes survive upgrade; anonymous access and repeat bootstrap are denied');
+  phase = 'proxy preserving rollback';
+  const rolledBack = cli(['rollback', '--discard-writes']);
+  assert.ok(rolledBack.ready); assert.equal(inspect(app()).Image, baseline.imageId);
+  proxyReachable();
+  assert.equal(inspect(service('db')).Id, database.Id); assert.equal(inspect(service('cache')).Id, cache.Id);
+  assert.ok(h.sql(database.Id, 'SELECT encode("encryptedValue",\'hex\') FROM secrets_v2 WHERE key=\'LIFECYCLE_CANARY\';') === cipher);
+  assert.ok(cli(['upgrade', '--from-build', '/proof/candidate.json']).ready);
+  proxyReachable();
+  check('adopted instance retains both listeners and external HTTP reachability after interrupted recovery, rollback and a subsequent upgrade');
   phase = 'same-image idempotence'; const current = inspect(app()).Id;
   assert.ok(cli(['upgrade', '--from-build', '/proof/candidate.json']).ready);
   assert.equal(inspect(app()).Id, current);
@@ -180,11 +215,12 @@ try {
   phase = 'existing instance adoption';
   // Release only the synthetic ownership marker to model an existing unmanaged deployment.
   const claim = inspect(`vaultix-owner-${project}`);
-  assert.equal(claim.Config.Labels['vaultix.lifecycle.instance'], installed.instance.id);
+  assert.equal(claim.Config.Labels['vaultix.lifecycle.instance'], enrolled.instance.id);
   output(['rm', claim.Id]);
-  const adopted = cli(['adopt', '--env-file', '/state/instance/config/vaultix.env', '--project', project, '--site-url', installed.instance.siteUrl, '--port', String(port)], { directory: '/state/adopted' });
+  const adopted = cli(['adopt', '--env-file', '/state/instance/config/vaultix.env', '--project', project, '--site-url', installed.instance.siteUrl, '--port', String(port), '--proxy-bind', proxyBinding], { directory: '/state/adopted' });
   assert.ok(adopted.ready); assert.equal(inspect(app()).Id, current);
   assert.equal(inspect(service('db')).Id, database.Id);
+  proxyReachable();
   check('explicit adoption enrolls an existing supported instance without replacing its application or database');
   report.passed = true;
 } catch (error) {

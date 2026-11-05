@@ -13,7 +13,14 @@
   ],
   "properties": {
     "instance": {
-      "$ref": "#/$defs/instance"
+      "anyOf": [
+        {
+          "$ref": "#/$defs/instance"
+        },
+        {
+          "$ref": "https://vaultix.cloud/contracts/vaultix.instance.v2.json"
+        }
+      ]
     },
     "operation": {
       "anyOf": [

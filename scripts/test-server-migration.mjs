@@ -16,6 +16,7 @@ const Ajv = require('ajv/dist/2020');
 const ajv = new Ajv({ strict: true });
 require('ajv-formats')(ajv);
 ajv.addSchema(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.release-checkpoint.v1.json'))));
+ajv.addSchema(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.instance.v2.json'))));
 const validResult = ajv.compile(JSON.parse(readFileSync(resolve(root, 'contracts/vaultix.instance-operation.v1.json'))));
 const inputs = JSON.parse(readFileSync(resolve(root, '.cache/lifecycle-inputs.json')));
 const candidate = JSON.parse(readFileSync(inputs.candidateReceipt));

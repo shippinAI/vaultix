@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,7 @@ type Options struct {
 	Directory, Project, SiteURL, BuildReceipt, Bundle, Trust, Apply, Environment string
 	Port                                                                         int
 	Plan, DiscardWrites                                                          bool
+	ProxyBindings                                                                []string
 }
 
 // rehearsalError means the live store was not touched, so the previous
@@ -61,6 +63,13 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	}
 	if o.Port == 0 {
 		o.Port = 8200
+	}
+	bindings, err := parseProxyBindings(o.ProxyBindings, o.Port)
+	if err != nil {
+		return result, err
+	}
+	if len(bindings) != 0 && action != "install" && action != "adopt" {
+		return result, errors.New("--proxy-bind is only for install or adopt; upgrades use the saved listeners")
 	}
 	if action != "install" && action != "upgrade" && action != "status" && action != "recover" && action != "adopt" && action != "rollback" {
 		return result, errors.New("use server install, upgrade, adopt, status, recover or rollback")
@@ -194,6 +203,13 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 				return result, errors.New("--site-url must be an HTTPS origin or loopback HTTP origin")
 			}
 			instance = Instance{SchemaVersion: Schema, ID: "instance-" + randomHex(12), Project: o.Project, SiteURL: strings.TrimRight(o.SiteURL, "/"), Port: o.Port, Daemon: daemon}
+			if len(bindings) != 0 {
+				instance.SchemaVersion = InstanceSchema
+				instance.ProxyBindings = bindings
+			}
+			if err = instance.validate(); err != nil {
+				return result, err
+			}
 			d.instance = instance
 			if action == "install" {
 				for _, name := range []string{"backend", "db", "cache"} {
@@ -210,7 +226,7 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 				return result, err
 			}
 		} else if action == "install" || action == "adopt" {
-			if o.Project != instance.Project || strings.TrimRight(o.SiteURL, "/") != instance.SiteURL || o.Port != instance.Port {
+			if o.Project != instance.Project || strings.TrimRight(o.SiteURL, "/") != instance.SiteURL || o.Port != instance.Port || !slices.Equal(bindings, instance.ProxyBindings) {
 				return result, errors.New("partial initialization exists; resume with its original options")
 			}
 		}
@@ -369,8 +385,8 @@ func initialize(root string, i Instance, environment string, adopt bool) error {
 		}
 		env = []byte(text)
 	}
-	// Bind port only on loopback. TLS and edge trust remain the operator's existing
-	// reverse-proxy configuration, never silently broadened to all interfaces.
+	// Keep the default listener loopback-only. Additional explicitly enrolled
+	// proxy listeners are emitted by selection; TLS/firewall policy stays external.
 	env = append(env, []byte("\nVAULTIX_BIND_ADDRESS=127.0.0.1\nVAULTIX_PORT="+strconv.Itoa(i.Port)+"\n")...)
 	if err = newFile(filepath.Join(stage, "vaultix.env"), env); err != nil {
 		return err

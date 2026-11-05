@@ -42,20 +42,24 @@ type MigrationPlan struct {
 }
 
 type Instance struct {
-	SchemaVersion string `json:"schemaVersion"`
-	ID            string `json:"id"`
-	Project       string `json:"project"`
-	SiteURL       string `json:"siteUrl"`
-	Port          int    `json:"port"`
-	Daemon        string `json:"daemon"`
+	SchemaVersion string         `json:"schemaVersion"`
+	ID            string         `json:"id"`
+	Project       string         `json:"project"`
+	SiteURL       string         `json:"siteUrl"`
+	Port          int            `json:"port"`
+	Daemon        string         `json:"daemon"`
+	ProxyBindings []ProxyBinding `json:"proxyBindings,omitempty"`
 }
 
 func (i Instance) validate() error {
+	if i.SchemaVersion == InstanceSchema && len(i.ProxyBindings) == 0 {
+		return errors.New("extended instance requires explicit proxy bindings")
+	}
 	u, err := url.Parse(i.SiteURL)
-	if err != nil || i.SchemaVersion != Schema || !namePattern.MatchString(i.ID) || !namePattern.MatchString(i.Project) || i.Port < 1 || i.Port > 65535 || i.Daemon == "" || u.Host == "" || u.User != nil || u.RawQuery != "" || u.Fragment != "" || (u.Path != "" && u.Path != "/") || (u.Scheme != "https" && !(u.Scheme == "http" && (u.Hostname() == "127.0.0.1" || u.Hostname() == "localhost"))) {
+	if err != nil || (i.SchemaVersion != Schema && i.SchemaVersion != InstanceSchema) || (i.SchemaVersion == Schema && len(i.ProxyBindings) != 0) || !namePattern.MatchString(i.ID) || !namePattern.MatchString(i.Project) || i.Port < 1 || i.Port > 65535 || i.Daemon == "" || u.Host == "" || u.User != nil || u.RawQuery != "" || u.Fragment != "" || (u.Path != "" && u.Path != "/") || (u.Scheme != "https" && !(u.Scheme == "http" && (u.Hostname() == "127.0.0.1" || u.Hostname() == "localhost"))) {
 		return errors.New("invalid instance identity")
 	}
-	return nil
+	return validateProxyBindings(i.ProxyBindings, i.Port)
 }
 
 // An immutable snapshot is published before each externally visible effect.
