@@ -90,17 +90,14 @@ export function validateManifest(manifest) {
   return manifest;
 }
 
-export function verifyManifest(bytes, signatureBytes, trustBytes, { now = Date.now(), previous = null } = {}) {
-  const manifest = validateManifest(parseCanonical(bytes));
-  const signature = parseCanonical(signatureBytes, 4096), trust = parseCanonical(trustBytes, 16384);
-  fields(signature, ['schemaVersion', 'keyId', 'signature']);
-  assert.equal(signature.schemaVersion, 'vaultix.release-signature.v1'); text(signature.keyId, hex);
+export function validateTrust(trustBytes) {
+  const trust = parseCanonical(trustBytes, 16384);
   fields(trust, ['schemaVersion', 'keys']); assert.equal(trust.schemaVersion, 'vaultix.release-trust.v1');
   assert.ok(Array.isArray(trust.keys) && trust.keys.length > 0 && trust.keys.length <= 16);
-  const ids = new Set(); let selected;
+  const keys = new Map();
   for (const entry of trust.keys) {
     fields(entry, ['keyId', 'publicKey']); text(entry.keyId, hex);
-    assert.ok(!ids.has(entry.keyId), 'Duplicate trusted key'); ids.add(entry.keyId);
+    assert.ok(!keys.has(entry.keyId), 'Duplicate trusted key');
     assert.equal(typeof entry.publicKey, 'string');
     const der = Buffer.from(entry.publicKey, 'base64');
     assert.equal(der.toString('base64'), entry.publicKey);
@@ -108,8 +105,17 @@ export function verifyManifest(bytes, signatureBytes, trustBytes, { now = Date.n
     const key = createPublicKey({ key: der, format: 'der', type: 'spki' });
     assert.equal(key.asymmetricKeyType, 'ed25519');
     assert.ok(key.export({ format: 'der', type: 'spki' }).equals(der), 'Noncanonical public key');
-    if (entry.keyId === signature.keyId) selected = key;
+    keys.set(entry.keyId, key);
   }
+  return keys;
+}
+
+export function verifyManifest(bytes, signatureBytes, trustBytes, { now = Date.now(), previous = null } = {}) {
+  const manifest = validateManifest(parseCanonical(bytes));
+  const signature = parseCanonical(signatureBytes, 4096);
+  fields(signature, ['schemaVersion', 'keyId', 'signature']);
+  assert.equal(signature.schemaVersion, 'vaultix.release-signature.v1'); text(signature.keyId, hex);
+  const selected = validateTrust(trustBytes).get(signature.keyId);
   assert.ok(selected, 'Release signing key is not trusted');
   assert.equal(typeof signature.signature, 'string');
   const signed = Buffer.from(signature.signature, 'base64');
