@@ -21,6 +21,9 @@ type ProjectProductCardProps = {
   actionId: string;
   actionLabel: string;
   actionHint?: string;
+  secondaryActionLabel?: string;
+  secondaryActionId?: string;
+  onSecondaryAction?: () => void;
   isActionDisabled: boolean;
   disabledReason?: string;
   onAction: () => void;
@@ -39,6 +42,9 @@ export const ProjectProductCard = ({
   actionId,
   actionLabel,
   actionHint,
+  secondaryActionLabel,
+  secondaryActionId,
+  onSecondaryAction,
   isActionDisabled,
   disabledReason,
   onAction,
@@ -90,33 +96,49 @@ export const ProjectProductCard = ({
       </div>
 
       {stats.length > 0 && (
-        <dl className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3">
+        <dl className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
               className="flex flex-col border-r border-border pr-4 last:border-r-0 last:pr-0"
             >
               <dt className="order-2 text-xs text-muted">{stat.label}</dt>
-              <dd className="text-sm font-medium text-foreground">{stat.value}</dd>
+              <dd className="text-sm font-semibold text-foreground tabular-nums">{stat.value}</dd>
             </div>
           ))}
         </dl>
       )}
 
       <div className="mt-auto flex flex-col gap-2 border-t border-border pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          className="self-start"
-          aria-disabled={isActionDisabled}
-          aria-describedby={actionDescriptionId}
-          onClick={() => {
-            if (!isActionDisabled) onAction();
-          }}
-          {...vaultixActionTrigger(actionId, { scope: "organization-projects", target: cardId })}
-        >
-          {actionLabel}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="self-start"
+            aria-disabled={isActionDisabled}
+            aria-describedby={actionDescriptionId}
+            onClick={() => {
+              if (!isActionDisabled) onAction();
+            }}
+            {...vaultixActionTrigger(actionId, { scope: "organization-projects", target: cardId })}
+          >
+            {actionLabel}
+          </Button>
+          {secondaryActionLabel && onSecondaryAction && (
+            <Button
+              type="button"
+              variant="ghost"
+              className="self-start"
+              onClick={onSecondaryAction}
+              {...vaultixActionTrigger(secondaryActionId ?? `${actionId}.secondary`, {
+                scope: "organization-projects",
+                target: cardId
+              })}
+            >
+              {secondaryActionLabel}
+            </Button>
+          )}
+        </div>
         {isActionDisabled ? (
           <p id={statusId} className="text-sm text-muted">
             {disabledReason}

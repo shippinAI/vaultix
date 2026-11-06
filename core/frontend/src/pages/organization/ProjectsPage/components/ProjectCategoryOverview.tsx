@@ -486,6 +486,11 @@ export const ProjectCategoryOverview = () => {
               actionId={`vaultix.projects.open.${projectTypeToUrlSlug(type)}`}
               actionLabel={actionLabel}
               actionHint={actionHint}
+              secondaryActionLabel="Show me how"
+              secondaryActionId={`vaultix.projects.learn.${projectTypeToUrlSlug(type)}`}
+              onSecondaryAction={() => {
+                navigate({ to: "/help" });
+              }}
               isActionDisabled={isUnavailable}
               disabledReason={accessMessage}
               className={isUnavailable ? "" : cardClassName}

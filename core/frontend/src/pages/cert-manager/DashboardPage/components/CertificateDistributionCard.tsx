@@ -62,6 +62,9 @@ export const CertificateDistributionCard = ({
           </p>
         ) : (
           <>
+            <p className="text-xs text-muted">
+              {nonZeroData.length} active categories across {entries.length} segments.
+            </p>
             {/* Every visual value and action has an equivalent readable row below. */}
             <div aria-hidden="true" className="self-center">
               <PieChart width={120} height={120} accessibilityLayer={false}>
@@ -116,8 +119,8 @@ export const CertificateDistributionCard = ({
                     <span className="min-w-0 flex-1 text-left [overflow-wrap:anywhere]">
                       {entry.label}
                     </span>
-                    <span className="shrink-0 text-muted">{percentage}%</span>
-                    <span className="shrink-0 font-semibold">{entry.count}</span>
+                    <span className="shrink-0 text-muted tabular-nums">{percentage}%</span>
+                    <span className="shrink-0 font-semibold tabular-nums">{entry.count}</span>
                   </>
                 );
                 const rowClass =
@@ -150,7 +153,7 @@ export const CertificateDistributionCard = ({
               })}
             </ul>
             <div className="mt-auto flex items-center justify-between border-t border-border px-2 pt-3 text-xs text-foreground">
-              <span>Total</span>
+              <span>Total certificates</span>
               <span className="font-semibold">{total}</span>
             </div>
           </>
