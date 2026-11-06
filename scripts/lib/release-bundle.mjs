@@ -40,7 +40,9 @@ export function parseCanonical(bytes, limit = 65536) {
 }
 export function validateManifest(manifest) {
   fields(manifest, ['schemaVersion', 'version', 'channel', 'revision', 'sequence', 'issuedAt', 'expiresAt', 'minimumUpdaterVersion', 'migration', 'artifacts']);
-  assert.equal(manifest.schemaVersion, 'vaultix.release-manifest.v1');
+  assert.ok(['vaultix.release-manifest.v1', 'vaultix.release-manifest.v2'].includes(manifest.schemaVersion));
+  const packaged = manifest.schemaVersion === 'vaultix.release-manifest.v2';
+  assert.equal(manifest.minimumUpdaterVersion, packaged ? '1.1.0' : '1.0.0', 'Unsupported schema/updater pairing');
   version(manifest.version); version(manifest.minimumUpdaterVersion);
   assert.ok(['stable', 'preview'].includes(manifest.channel));
   assert.equal(manifest.channel === 'preview', Boolean(manifest.version.match(semver)[4]), 'Channel and version disagree');
@@ -62,7 +64,7 @@ export function validateManifest(manifest) {
     assert.ok(!artifact.name.includes('..') && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(artifact.name), 'Unsafe artifact name');
     assert.ok(!artifact.name.endsWith('.'), 'Unsafe artifact suffix');
     assert.ok(!names.has(artifact.name), 'Duplicate artifact'); names.add(artifact.name);
-    assert.ok(['cli', 'engine', 'source', 'sbom'].includes(artifact.kind));
+    assert.ok(['cli', 'engine', 'source', 'sbom', ...(packaged ? ['cli-package'] : [])].includes(artifact.kind));
     assert.ok(['linux/amd64', 'windows/amd64', 'any'].includes(artifact.platform));
     integer(artifact.bytes, 32 * 1024 ** 3); text(artifact.sha256, hex);
     if (artifact.kind === 'engine') {
@@ -77,6 +79,10 @@ export function validateManifest(manifest) {
       const peer = cli.get(artifact.platform);
       if (peer) assert.ok(peer.sha256 === artifact.sha256 && peer.bytes === artifact.bytes, 'CLI executable names disagree');
       cli.set(artifact.platform, artifact);
+    } else if (artifact.kind === 'cli-package') {
+      assert.equal(artifact.name, 'vaultix-cli-windows-amd64.msix');
+      assert.equal(artifact.platform, 'windows/amd64');
+      assert.ok(artifact.bytes <= 512 * 1024 ** 2, 'Windows package exceeds size limit');
     } else if (artifact.kind !== 'engine') {
       assert.equal(artifact.platform, 'any');
       if (artifact.kind === 'source') sources++;
@@ -87,6 +93,7 @@ export function validateManifest(manifest) {
   assert.equal(sources, 1, 'Exactly one source archive is required');
   assert.equal(sboms, 1, 'Exactly one SBOM is required');
   assert.equal(identities.size, 4, 'Both executable names for both supported platforms are required');
+  assert.equal(manifest.artifacts.filter(a => a.kind === 'cli-package').length, packaged ? 1 : 0, 'Windows package completeness');
   return manifest;
 }
 
@@ -117,8 +124,7 @@ export function verifyManifest(bytes, signatureBytes, trustBytes, { now = Date.n
   assert.ok(verify(null, bytes, selected, signed), 'Invalid release signature');
   assert.ok(Number.isFinite(now) && timestamp(manifest.issuedAt) <= now + 300000, 'Release issued in the future');
   assert.ok(timestamp(manifest.expiresAt) > now, 'Release metadata expired');
-  // This verifier implements v1; higher updater requirements cannot silently pass.
-  assert.equal(manifest.minimumUpdaterVersion, '1.0.0', 'Unsupported updater version');
+  // Each supported schema/updater pairing is checked above; unknown versions fail closed.
   const digest = sha256(bytes);
   if (previous !== null) {
     fields(previous, ['schemaVersion', 'sequence', 'sha256']);

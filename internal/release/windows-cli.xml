@@ -1,0 +1,21 @@
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10" xmlns:uap17="http://schemas.microsoft.com/appx/manifest/uap/windows10/17" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10" IgnorableNamespaces="uap uap5 uap10 uap17 rescap virtualization">
+  <Identity Name="Vaultix.CLI" Publisher="{{PUBLISHER}}" Version="{{VERSION}}" ProcessorArchitecture="x64" />
+  <Properties>
+    <DisplayName>Vaultix CLI</DisplayName><PublisherDisplayName>Vaultix</PublisherDisplayName><Logo>Vaultix.png</Logo>
+    <uap17:UpdateWhileInUse>defer</uap17:UpdateWhileInUse>
+    <virtualization:FileSystemWriteVirtualization><virtualization:ExcludedDirectories><virtualization:ExcludedDirectory>$(KnownFolder:RoamingAppData)\vaultix</virtualization:ExcludedDirectory></virtualization:ExcludedDirectories></virtualization:FileSystemWriteVirtualization>
+  </Properties>
+  <Resources><Resource Language="en-us"/></Resources>
+  <Dependencies><TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.26100.0" MaxVersionTested="10.0.26100.0" /></Dependencies>
+  <Applications>
+    <Application Id="Vaultix" Executable="vaultix.exe" uap10:Subsystem="console" uap10:RuntimeBehavior="packagedClassicApp" uap10:TrustLevel="mediumIL" uap10:SupportsMultipleInstances="true">
+      <uap:VisualElements DisplayName="Vaultix" Description="Shippin secrets you own" BackgroundColor="transparent" Square150x150Logo="Vaultix.png" Square44x44Logo="Vaultix.png" />
+      <Extensions><uap5:Extension Category="windows.appExecutionAlias"><uap5:AppExecutionAlias uap10:Subsystem="console"><uap5:ExecutionAlias Alias="vaultix.exe" /></uap5:AppExecutionAlias></uap5:Extension></Extensions>
+    </Application>
+    <Application Id="Vaultixl" Executable="vaultixl.exe" uap10:Subsystem="console" uap10:RuntimeBehavior="packagedClassicApp" uap10:TrustLevel="mediumIL" uap10:SupportsMultipleInstances="true">
+      <uap:VisualElements DisplayName="Vaultixl" Description="Shippin secrets you own" BackgroundColor="transparent" Square150x150Logo="Vaultix.png" Square44x44Logo="Vaultix.png" />
+      <Extensions><uap5:Extension Category="windows.appExecutionAlias"><uap5:AppExecutionAlias uap10:Subsystem="console"><uap5:ExecutionAlias Alias="vaultixl.exe" /></uap5:AppExecutionAlias></uap5:Extension></Extensions>
+    </Application>
+  </Applications>
+  <Capabilities><rescap:Capability Name="runFullTrust"/><rescap:Capability Name="unvirtualizedResources"/></Capabilities>
+</Package>

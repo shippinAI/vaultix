@@ -7,11 +7,12 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"runtime"
 	"shippin.cloud/vaultix/internal/release"
 	"time"
 )
 
-const installUsage = "usage: vaultix update install --directory DIR (--version SEMVER | --bundle DIR) [--trust FILE] [--preview] [--json]"
+const installUsage = "usage: vaultix update install [--directory DIR] (--version SEMVER | --bundle DIR) [--trust FILE] [--preview] [--json] (directory is required on Linux; Windows uses its per-user application directory)"
 
 func installRelease(ctx context.Context, args []string, out, progress io.Writer) error {
 	fs := flag.NewFlagSet("update install", flag.ContinueOnError)
@@ -27,7 +28,7 @@ func installRelease(ctx context.Context, args []string, out, progress io.Writer)
 	if err := fs.Parse(args); errors.Is(err, flag.ErrHelp) {
 		_, err = fmt.Fprintln(out, installUsage)
 		return err
-	} else if err != nil || fs.NArg() != 0 || o.Directory == "" || (o.Bundle == "") == (o.Version == "") {
+	} else if err != nil || fs.NArg() != 0 || (o.Directory == "" && runtime.GOOS != "windows") || (o.Bundle == "") == (o.Version == "") {
 		return errors.New(installUsage)
 	}
 	if !asJSON {
@@ -42,7 +43,7 @@ func installRelease(ctx context.Context, args []string, out, progress io.Writer)
 	return json.NewEncoder(out).Encode(result)
 }
 func installationStatus(args []string, out io.Writer) error {
-	const usage = "usage: vaultix update status --directory DIR [--json]"
+	const usage = "usage: vaultix update status [--directory DIR] [--json] (directory is required on Linux; Windows uses its per-user application directory)"
 	fs := flag.NewFlagSet("update status", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var directory string
@@ -52,7 +53,7 @@ func installationStatus(args []string, out io.Writer) error {
 	if err := fs.Parse(args); errors.Is(err, flag.ErrHelp) {
 		_, err = fmt.Fprintln(out, usage)
 		return err
-	} else if err != nil || fs.NArg() != 0 || directory == "" {
+	} else if err != nil || fs.NArg() != 0 || (directory == "" && runtime.GOOS != "windows") {
 		return errors.New(usage)
 	}
 	result, err := release.CLIInstallation(directory)

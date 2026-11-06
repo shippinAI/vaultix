@@ -145,7 +145,7 @@ func parseReleaseTime(s string) (time.Time, error) {
 }
 func validateRelease(m ReleaseManifest) error {
 	fail := errors.New("invalid release manifest")
-	if m.SchemaVersion != "vaultix.release-manifest.v1" || !validReleaseVersion(m.Version) || !validReleaseVersion(m.MinimumUpdaterVersion) || !releaseRevision.MatchString(m.Revision) || m.Sequence <= 0 || m.Sequence > 9007199254740991 {
+	if (m.SchemaVersion != "vaultix.release-manifest.v1" && m.SchemaVersion != "vaultix.release-manifest.v2") || !validReleaseVersion(m.Version) || !validReleaseVersion(m.MinimumUpdaterVersion) || !releaseRevision.MatchString(m.Revision) || m.Sequence <= 0 || m.Sequence > 9007199254740991 {
 		return fail
 	}
 	v, _ := Parse(m.Version)
@@ -175,7 +175,7 @@ func validateRelease(m ReleaseManifest) error {
 	}
 	names, identities := map[string]bool{}, map[string]bool{}
 	peers := map[string]ReleaseArtifact{}
-	engine, source, sbom := 0, 0, 0
+	engine, source, sbom, packages := 0, 0, 0, 0
 	for _, a := range m.Artifacts {
 		if !releaseName.MatchString(a.Name) || strings.Contains(a.Name, "..") || strings.HasSuffix(a.Name, ".") || reservedName.MatchString(a.Name) || names[a.Name] || a.Bytes <= 0 || a.Bytes > 32*1024*1024*1024 || !digestPattern.MatchString(a.SHA256) {
 			return fail
@@ -208,6 +208,11 @@ func validateRelease(m ReleaseManifest) error {
 				return fail
 			}
 			peers[a.Platform] = a
+		case "cli-package":
+			if m.SchemaVersion != "vaultix.release-manifest.v2" || a.Platform != "windows/amd64" || a.Name != "vaultix-cli-windows-amd64.msix" || a.Bytes > 512<<20 {
+				return fail
+			}
+			packages++
 		case "source", "sbom":
 			if a.Platform != "any" {
 				return fail
@@ -222,6 +227,10 @@ func validateRelease(m ReleaseManifest) error {
 		}
 	}
 	if engine != 1 || source != 1 || sbom != 1 || len(identities) != 4 {
+		return fail
+	}
+	if (m.SchemaVersion == "vaultix.release-manifest.v2" && (packages != 1 || m.MinimumUpdaterVersion != "1.1.0")) ||
+		(m.SchemaVersion == "vaultix.release-manifest.v1" && (packages != 0 || m.MinimumUpdaterVersion != "1.0.0")) {
 		return fail
 	}
 	return nil
@@ -277,7 +286,7 @@ func VerifyRelease(raw, signed, trusted []byte, now time.Time, previous *Release
 	if issued.After(now.Add(5*time.Minute)) || !expires.After(now) {
 		return m, checkpoint, errors.New("release metadata is expired or issued in the future")
 	}
-	if m.MinimumUpdaterVersion != "1.0.0" {
+	if m.MinimumUpdaterVersion != "1.0.0" && m.MinimumUpdaterVersion != "1.1.0" {
 		return m, checkpoint, errors.New("unsupported updater version")
 	}
 	checkpoint = ReleaseCheckpoint{SchemaVersion: "vaultix.release-checkpoint.v1", Sequence: m.Sequence, SHA256: hashBytes(raw)}
