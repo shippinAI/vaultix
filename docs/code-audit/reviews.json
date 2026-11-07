@@ -6572,16 +6572,14 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "80fe2d98b1ba325fd5f12d92d2a1a032c892fe19",
+      "blob": "dcd8862c76f4ef93814217093b7203b2ba102d20",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "scope": "Document producer inputs, custody contract, partial-output recovery, SBOM review and stage/test/promote requirements; public/VM acceptance remains separate.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs",
+        "scripts/release-preparation.test.mjs",
         "scripts/release-publication.test.mjs",
-        "scripts/test-server-lifecycle.mjs",
+        "scripts/release-bundle.test.mjs",
         "docs/releases-and-updates.md"
       ]
     },
@@ -9139,14 +9137,15 @@
     },
     {
       "path": "scripts/lib/release-bundle.mjs",
-      "blob": "04dcb65d2a7adf3a51202afd6ad4e8c206b45305",
-      "status": "authored",
+      "blob": "a53880ad8e866c6027707bdef2d2eeae6e89eaa0",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "Extract strict independent public trust parsing; retain canonical/signature/checkpoint and artifact verifier semantics. Node/native cross-consumer regression checks cover the shared contract.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9175,21 +9174,14 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "7d2db0da48d3edf3b0b37de7780d170b9ecda34f",
+      "blob": "7ad780054d5575f7a32cdc48a3d13958afa67474",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "scope": "Add producer boundaries to existing exact-head local protected delivery gate; canonical image and native runtime checks remain required.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json",
-        "docs/0109-native-install-and-upgrade.md",
-        "internal/platform/schema_test.go",
-        "scripts/test-server-migration.mjs",
+        "scripts/release-preparation.test.mjs",
         "scripts/release-publication.test.mjs",
-        "scripts/test-server-lifecycle.mjs",
+        "scripts/release-bundle.test.mjs",
         "docs/releases-and-updates.md"
       ]
     },
@@ -10595,13 +10587,14 @@
     },
     {
       "path": "scripts/lib/release-publication.mjs",
-      "blob": "25e7e37d3d3f85004175e61a31f070a71814ff2a",
+      "blob": "4b69d157297c0e4641acc7d0b299b5215aa0c145",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "scope": "Share existing six-receipt acceptance and public-test-key rejection with preparation/signing; retain publication channel, artifact and source gates.",
       "evidence": [
+        "scripts/release-preparation.test.mjs",
         "scripts/release-publication.test.mjs",
-        "scripts/test-server-lifecycle.mjs",
+        "scripts/release-bundle.test.mjs",
         "docs/releases-and-updates.md"
       ]
     },
@@ -10626,6 +10619,71 @@
       "evidence": [
         "scripts/release-publication.test.mjs",
         "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-preparation.mjs",
+      "blob": "c4610e04c1c2cbb3797a1a999f58d308d5729493",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Exclusive artifact production from accepted receipts; bounded copies/hashes; unsigned manifest last; independent-trust external signing with post-operation input revalidation and no overwrite.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-producer-process.mjs",
+      "blob": "d14bd3f25f84b17968cba5a7f7264a6342aa99f2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Direct executable/argv signer with bounded raw output and timeout; compressed source/image exports fail closed; exact local tag and immutable engine metadata checks. Trusted operator executables only.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/prepare-release.mjs",
+      "blob": "fb00f71d3ad8b8b34f046c036c06c6609473b6d4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Bounded local input parser and repeatable unsigned release preparation entry; safe diagnostics; no publication or key generation.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/sign-release.mjs",
+      "blob": "306c88e1d4b9c98c893f52791c8c8a6e5fb51a25",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Bounded local signer input entry; no shell or implicit trust; signature only after complete accepted-input and cryptographic verification.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/release-preparation.test.mjs",
+      "blob": "fddcbc9d3c4b04dbfc99bdcf94345dd0cc10e7f8",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Independent file fixture, real subprocess signature and publication consumer, stale/tampered inputs, output collisions, process failure/timeout and retry tests; ephemeral keys are fixture evidence only.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
         "docs/releases-and-updates.md"
       ]
     }

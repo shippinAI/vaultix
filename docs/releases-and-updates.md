@@ -58,6 +58,88 @@ upload releases. Signed distribution, automatic binary replacement, additional
 platform execution and a published artifact manifest remain separate gates.
 Do not advertise source pushes as installed or downloadable releases.
 
+## Owner preparation and signing
+
+Run `node scripts/prepare-release.mjs INPUTS.json` to produce a bundle from
+accepted source. This replaces manual export/copy steps; it does not build,
+approve, sign or publish a release. Use Node 22+, local Git and Docker on the
+owned verifier. A producer checkout can prepare an older accepted tag without
+rebuilding or relabeling its artifacts.
+
+```json
+{
+  "acceptance": "/srv/build/.cache/pr-verification-EXACT/result.json",
+  "output": "/srv/releases/vaultix-0.1.0",
+  "sbom": "/srv/reviewed/vaultix-sbom.tar.gz",
+  "sequence": 1,
+  "issuedAt": "2026-11-06T12:00:00Z",
+  "expiresAt": "2026-12-06T12:00:00Z",
+  "migration": {
+    "from": ["REVIEWED_SOURCE_MIGRATION_SET"],
+    "to": "REVIEWED_TARGET_MIGRATION_SET",
+    "rollback": "restore-required"
+  }
+}
+```
+
+Replace the example dates, sequence and migration identifiers with reviewed
+values. The validity window is at most 90 days. The sequence must advance the
+previous published checkpoint; preparation cannot infer fleet state. Migration
+declarations do not bypass native restore rehearsal or live-store inspection.
+The output parent must already exist; the output directory must be new. Failed
+preparation leaves partial files for inspection and never overwrites an existing
+bundle. Successful output contains seven artifacts and canonical unsigned
+`release-manifest.json`, written last. It is not yet downloadable release evidence.
+
+Preparation rechecks the six hash-bound acceptance receipts, both command names
+on both platforms, the exact local source tag, and immutable image labels. It
+streams compressed Docker/source exports from the accepted image ID/commit,
+verifies CLI hashes and bounds each asset below 2 GiB. The supplied SBOM is copied
+and hashed; its completeness, dependency provenance and security findings still
+require review against that exact source/image. No scanner is installed or
+invented inventory substituted automatically.
+
+For signing, provision public trust independently and use an owner-controlled
+signing service or local adapter. Keep private key values out of JSON, argv,
+environment overrides, logs and this checkout. Then run
+`node scripts/sign-release.mjs SIGNING.json`:
+
+```json
+{
+  "bundle": "/srv/releases/vaultix-0.1.0",
+  "acceptance": "/srv/build/.cache/pr-verification-EXACT/result.json",
+  "trust": "/srv/release-owner/public-trust.json",
+  "keyId": "SHA256_OF_PREPROVISIONED_ED25519_SPKI_DER",
+  "signer": {
+    "executable": "/srv/release-owner/sign-vaultix-manifest",
+    "args": []
+  }
+}
+```
+
+The executable is a trusted operator tool, never selected by downloaded content.
+Its contract is canonical manifest bytes on stdin and exactly 64 **raw** Ed25519
+signature bytes on stdout, followed by exit zero within 60 seconds. An adapter
+must perform the private signing operation and may use its own protected key
+reference. Do not assume a general-purpose crypto CLI accepts this streaming
+contract without an adapter. No shell is used; stderr is discarded and output is
+bounded. The command terminates its child on failure/timeout; adapters must not
+launch detached processes. See the [Node subprocess contract](https://nodejs.org/api/child_process.html).
+
+Before execution, signing verifies independent trust, acceptance and every asset.
+After execution it verifies the detached signature and rechecks manifest, trust,
+receipts and assets. Only then does it create `release-signature.json` exclusively.
+An existing valid signature from the requested key is retained without signing
+again. Wrong keys, public test trust, changed bytes and partial signatures fail
+closed. The private key never enters the producer; signer custody, backup and
+rotation remain owner operations. Successful local signing still does not prove
+public download/install or a production-server upgrade.
+
+The preparation/signing, existing Node/native verifier and publication boundary
+tests run in `scripts/release-preparation.test.mjs`, `release-bundle.test.mjs` and
+`release-publication.test.mjs`, including real subprocess failure and recovery.
+Their ephemeral test keys never authorize a production release.
+
 ## Owner publication command
 
 `scripts/publish-release.mjs` now owns draft/upload/publish effects on the public
@@ -127,7 +209,7 @@ substitute another build-metadata suffix at equal SemVer precedence.
 `node --test scripts/release-publication.test.mjs` exercises signed local files,
 receipt binding, invalid inputs, interrupted uploads and publication denial with
 a controlled GitHub adapter. It is part of the PR delivery boundary gate. Actual
-owner-key custody, bundle production, public acquisition/installation and remote
+owner-key custody, reviewed bundle production, public acquisition/installation and remote
 server acceptance remain required before calling the public update path ready.
 
 ## User experience
