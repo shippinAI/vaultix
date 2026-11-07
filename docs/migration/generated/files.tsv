@@ -5456,7 +5456,7 @@ core/frontend/src/components/vaultix/GuidedHelpView.tsx	core/frontend/src/compon
 core/frontend/src/components/vaultix/LearningSignals.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	c96413823868c64849a7919a8807b9c91d69a4b9	authored
 core/frontend/src/components/vaultix/ReferenceTeaching.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	b0e226c2aa5f8d82c04a2c94ec027552755dc0c0	reviewed
 core/frontend/src/components/vaultix/ReferenceWorkspace.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72	reviewed
-core/frontend/src/components/vaultix/WorkflowHelp.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	5b2a548f19ee9f3b544ebff368261a52fa5272cf	reviewed
+core/frontend/src/components/vaultix/WorkflowHelp.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	b4ece18b90f940ab9d25f884511fcdf930511fd3	reviewed
 core/frontend/src/components/vaultix/action-trigger.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	445e689d856ded612a183ee5cebe54d21c672721	unread
 core/frontend/src/components/vaultix/guidance-state.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c414fea8fac7297c3222426d130ba218195a5e36	verified
 core/frontend/src/components/vaultix/reference-commands.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	22eb18884cd649fa0206ae55ba684ee764d50304	reviewed
@@ -9738,7 +9738,7 @@ scripts/test-dashboard-secret-references.mjs	scripts	delivery	supporting-tooling
 scripts/test-device-grant-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	verified
 scripts/test-device-http.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fdb3a1099dd3571328e27eca2d32141f45f6e21b	authored
 scripts/test-device-worker-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	59a2f26139654e900cf3de122a08c5796c93c7b9	authored
-scripts/test-domain-workbench.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	d08df02709e8d21f983e8a293817559c9677b0be	unread
+scripts/test-domain-workbench.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b71236d476a41be955d8586b55a1e350e3e59e2e	unread
 scripts/test-eager-upload.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-early-access-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0aa9a589c9658620b7bf00088d8909ca379af398	reviewed
 scripts/test-early-access.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f6baa4b38a6db0e2af69879b384d5ca9231a136d	reviewed

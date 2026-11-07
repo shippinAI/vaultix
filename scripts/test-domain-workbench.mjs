@@ -58,6 +58,15 @@ try {
   await expect(dialog).toBeHidden();
   await expect(help).toBeFocused();
   checks.push("keyboard-tooltip-dialog-focus-return");
+  for (let cycle = 0; cycle < 20; cycle += 1) {
+    await page.keyboard.press("Enter");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "Back to My Workspace" })).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await expect(help).toBeFocused();
+  }
+  checks.push("twenty-consecutive-keyboard-guide-cycles");
   await open("disabled");
   await expect(page.getByRole("button", { name: "Open Secrets Management" })).toHaveAttribute("aria-disabled", "true");
   await page.getByRole("button", { name: "Show Me How: Secrets Management" }).click();

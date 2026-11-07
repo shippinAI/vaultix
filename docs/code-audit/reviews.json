@@ -10681,7 +10681,7 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/WorkflowHelp.tsx",
-      "blob": "5b2a548f19ee9f3b544ebff368261a52fa5272cf",
+      "blob": "b4ece18b90f940ab9d25f884511fcdf930511fd3",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Authored reusable local help dialog using v3 primitives. Human-opened modal, non-mutating content, visible label in accessible name, hover/focus tooltip, Escape and explicit focus restoration, reduced motion. No remote authority or secret values.",

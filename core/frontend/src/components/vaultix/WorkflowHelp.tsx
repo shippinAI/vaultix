@@ -62,6 +62,19 @@ export const WorkflowHelp = ({
       <DialogContent
         className="motion-reduce:animate-none"
         overlayClassName="motion-reduce:animate-none"
+        onKeyDown={(event) => {
+          // Focus can arrive before the document-level dismissable layer settles.
+          // Honor Escape from this guide without dismissing a nested surface.
+          if (
+            event.key === "Escape" &&
+            !event.defaultPrevented &&
+            !event.nativeEvent.isComposing &&
+            (event.target as HTMLElement).closest('[role="dialog"]') === event.currentTarget
+          ) {
+            event.preventDefault();
+            setOpen(false);
+          }
+        }}
         onCloseAutoFocus={(event) => {
           event.preventDefault();
           trigger.current?.focus();

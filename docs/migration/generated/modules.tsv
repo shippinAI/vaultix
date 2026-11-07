@@ -624,7 +624,7 @@ core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
-core/frontend/src/components/vaultix	ai	React-TypeScript	12	6098f0194cf88c9b7a9dd9b1076ba7df0bcc7b19cde1f8b531e936a71d44bff9	11	unassessed
+core/frontend/src/components/vaultix	ai	React-TypeScript	12	137bab08484b82a54c4f0f9fe00079bbca59bc4fecce2f2d7de54c0bb95d72a4	11	unassessed
 core/frontend/src/config	ui	React-TypeScript	2	e3890d31163aeaaa19def7fd2b6bf7ec31064f8739fcd2712cf398bc49a39961	1	unassessed
 core/frontend/src/const	ui	React-TypeScript	2	b7359f9953be2fd79c36a629caad384833eb1dd9e2e91619d9f24f84a8734367	0	unassessed
 core/frontend/src/consts	pam	React-TypeScript	1	d7235b0d911f8850790bf58a8346ae86bedcfdb984f1c64fdacf906017c6ac80	0	unassessed
@@ -1092,7 +1092,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	127	ce22a8c5fadda1fd68b02389e8e39b60613176c89ebf3cc17153a0b3dde54877	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	127	56d5d018aadfdf9634ac2c4e15c1c06ca54dfc9fdeb8fb2153656d6633066d6c	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
