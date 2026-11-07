@@ -37,6 +37,7 @@ import { useOrgAdminAccessProject } from "@app/hooks/api/orgAdmin/mutation";
 import { resolvePamProjectId } from "@app/hooks/api/pam/queries";
 import { Project, ProjectType } from "@app/hooks/api/projects/types";
 
+import { PRODUCT_GUIDANCE } from "./product-guidance";
 import { ProjectProductCard } from "./ProjectProductCard";
 
 type ActiveProducts = ProjectType;
@@ -486,11 +487,8 @@ export const ProjectCategoryOverview = () => {
               actionId={`vaultix.projects.open.${projectTypeToUrlSlug(type)}`}
               actionLabel={actionLabel}
               actionHint={actionHint}
-              secondaryActionLabel="Show me how"
               secondaryActionId={`vaultix.projects.learn.${projectTypeToUrlSlug(type)}`}
-              onSecondaryAction={() => {
-                navigate({ to: "/help" });
-              }}
+              guideSteps={PRODUCT_GUIDANCE[type]}
               isActionDisabled={isUnavailable}
               disabledReason={accessMessage}
               className={isUnavailable ? "" : cardClassName}

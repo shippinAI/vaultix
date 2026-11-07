@@ -1,6 +1,10 @@
 # Interaction ownership
 
 Start at [the domain UI standard](../0114-domain-scripted-ui-standard.md).
+The [separate mesh and UI workbench plan](../0116-domain-mesh-and-ui-workbench.md)
+defines development/product isolation, domain ownership, researched limits and
+the complete UI conversion sequence. Storybook is the local development surface;
+its MCP does not grant product execution authority.
 `workflows.json` is the canonical partial action/porting ledger specified by 0076.
 The schema is `contracts/vaultix.ui-actions.v1.schema.json`.
 Mesh knowledge/persona and dynamic trigger scaffolding is defined in

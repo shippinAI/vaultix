@@ -6,6 +6,7 @@ import { DocumentDecorator, RouterDecorator } from "./decorators";
 
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
 import "../src/index.css";
 
 initializePlatform();
@@ -25,15 +26,14 @@ const preview: Preview = {
       }
     },
     docs: {
-      backgroundColor: "var(--background)"
+      backgroundColor: "var(--color-background)"
     },
     a11y: {
       test: "todo"
     },
     backgrounds: {
-      default: "dark",
       options: {
-        dark: { name: "Dark", value: "var(--background)" },
+        dark: { name: "Dark", value: "var(--color-background)" },
         card: { name: "Card", value: "var(--color-card)" }
       }
     }

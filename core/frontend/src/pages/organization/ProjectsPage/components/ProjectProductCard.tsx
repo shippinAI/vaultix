@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react";
 import { Button } from "@app/components/v3";
 import { cn } from "@app/components/v3/utils";
 import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
+import { WorkflowHelp, WorkflowHelpStep } from "@app/components/vaultix/WorkflowHelp";
 
 type ProductStat = {
   label: string;
@@ -21,9 +22,8 @@ type ProjectProductCardProps = {
   actionId: string;
   actionLabel: string;
   actionHint?: string;
-  secondaryActionLabel?: string;
   secondaryActionId?: string;
-  onSecondaryAction?: () => void;
+  guideSteps?: readonly WorkflowHelpStep[];
   isActionDisabled: boolean;
   disabledReason?: string;
   onAction: () => void;
@@ -42,9 +42,8 @@ export const ProjectProductCard = ({
   actionId,
   actionLabel,
   actionHint,
-  secondaryActionLabel,
   secondaryActionId,
-  onSecondaryAction,
+  guideSteps,
   isActionDisabled,
   disabledReason,
   onAction,
@@ -56,7 +55,7 @@ export const ProjectProductCard = ({
   const actionDescriptionId = isActionDisabled ? statusId : descriptionId;
   const cardToneClass = isActionDisabled
     ? "border-border bg-card"
-    : "border-border bg-card transition-colors hover:bg-container-hover";
+    : "border-border bg-card transition-colors hover:bg-container-hover motion-reduce:transition-none";
 
   return (
     <article
@@ -96,7 +95,7 @@ export const ProjectProductCard = ({
       </div>
 
       {stats.length > 0 && (
-        <dl className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-3">
+        <dl className="my-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-sm border border-border bg-container p-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -114,7 +113,7 @@ export const ProjectProductCard = ({
           <Button
             type="button"
             variant="outline"
-            className="self-start"
+            className="h-auto min-h-9 max-w-full self-start py-2 text-left whitespace-normal"
             aria-disabled={isActionDisabled}
             aria-describedby={actionDescriptionId}
             onClick={() => {
@@ -124,19 +123,16 @@ export const ProjectProductCard = ({
           >
             {actionLabel}
           </Button>
-          {secondaryActionLabel && onSecondaryAction && (
-            <Button
-              type="button"
-              variant="ghost"
-              className="self-start"
-              onClick={onSecondaryAction}
-              {...vaultixActionTrigger(secondaryActionId ?? `${actionId}.secondary`, {
-                scope: "organization-projects",
-                target: cardId
-              })}
-            >
-              {secondaryActionLabel}
-            </Button>
+          {guideSteps && guideSteps.length > 0 && secondaryActionId && (
+            <WorkflowHelp
+              title={title}
+              description={description}
+              steps={guideSteps}
+              actionId={secondaryActionId}
+              scope="organization-projects"
+              target={cardId}
+              availability={isActionDisabled ? disabledReason : undefined}
+            />
           )}
         </div>
         {isActionDisabled ? (

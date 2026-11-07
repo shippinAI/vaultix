@@ -5,7 +5,8 @@ export const DocumentDecorator: Decorator = (Story) => {
   useEffect(() => {
     const root = document.documentElement;
 
-    root.setAttribute("class", "overflow-visible");
+    root.classList.add("overflow-visible");
+    return () => root.classList.remove("overflow-visible");
   }, []);
 
   return <Story />;
