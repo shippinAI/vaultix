@@ -14,15 +14,16 @@
     "ui_workflows": "docs/interaction/workflows.json"
   },
   "folders": [
-    { "path": ".", "read": ["AGENTS.md", "docs/0069-execution-goal.md", "docs/0074-built-in-and-federated-identity.md"], "boundary": "Vaultix Auth to Secrets; preserve encrypted store and compatibility; no Mesh work." },
+    { "path": ".", "read": ["AGENTS.md", "docs/0069-execution-goal.md", "docs/0074-built-in-and-federated-identity.md"], "boundary": "Vaultix Auth to Secrets to Mesh; preserve encrypted store and compatibility. Mesh design is in 0116; runtime admission remains gated." },
     { "path": "core", "read": ["core/AGENTS.md", "core/CLAUDE.md"], "boundary": "Canonical product engine, existing database and complete domain migrations." },
     { "path": "core/backend", "read": ["core/backend/CODE_QUALITY.md"], "boundary": "Existing server/domain behavior and migration compatibility; no new product Zod." },
     { "path": "core/backend-go", "read": ["docs/0027-native-stack-and-ai-migration.md"], "boundary": "Native Go domain ownership with existing authority and store." },
     { "path": "core/frontend", "read": ["core/DESIGN.md", "docs/0022-accessibility-acceptance.md", "docs/0024-interaction-and-teaching-system.md"], "boundary": "Native React workflow, guided accessible interactions and real service receipts." },
+    { "path": "core/frontend/.storybook", "read": ["docs/0116-domain-mesh-and-ui-workbench.md"], "boundary": "Loopback development MCP and real component stories; no customer authority. Windows uses CLI interaction tests because the embedded runner is unavailable." },
     { "path": "internal", "read": ["docs/0074-built-in-and-federated-identity.md", "docs/0067-headless-ai-login.md", "docs/0068-device-session-renewal.md"], "boundary": "Root Go CLI auth, local credentials, MCP and target-only delivery; never AI value injection." },
     { "path": "scripts", "read": ["docs/0048-self-hosted-builds.md"], "boundary": "Local reproducible verification and owned-resource cleanup; no operator data mutation in fixtures." },
     { "path": "docs", "read": ["docs/0021-product-authorship-review.md", "docs/migration/README.md"], "boundary": "Canonical product decisions and scoped evidence; discovery is not authorship." },
-    { "path": "docs/interaction", "read": ["docs/0114-domain-scripted-ui-standard.md", "docs/interaction/README.md", ".agents/skills/domain-ui-actions/SKILL.md"], "boundary": "Domain-owned UI events; partial evidence stays partial; no remote authority from a ledger." },
+    { "path": "docs/interaction", "read": ["docs/0114-domain-scripted-ui-standard.md", "docs/0116-domain-mesh-and-ui-workbench.md", "docs/interaction/README.md", ".agents/skills/domain-ui-actions/SKILL.md"], "boundary": "Domain-owned UI events; partial evidence stays partial; no remote authority from a ledger." },
     { "path": ".ai", "read": [".ai/AGENTS.md", ".ai/README.md"], "boundary": "Portable agent context and local journal, separate from product runtime." },
     { "path": ".agents", "read": [".agents/AGENTS.md"], "boundary": "Single canonical skill source with progressive context loading." }
   ]

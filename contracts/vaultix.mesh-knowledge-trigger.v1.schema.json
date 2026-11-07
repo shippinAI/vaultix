@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.mesh-knowledge-trigger.v1.schema.json",
+  "title": "Vaultix mesh knowledge trigger scaffold v1",
+  "description": "Scaffold contract for dynamic knowledge-drop and did-you-know triggers driven by scripted event receipts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "triggers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "vaultix.mesh-knowledge-trigger.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/trigger"
+      }
+    }
+  },
+  "$defs": {
+    "eventType": {
+      "enum": [
+        "knowledge-drop",
+        "did-you-know"
+      ]
+    },
+    "matchMode": {
+      "enum": [
+        "all",
+        "any"
+      ]
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_id",
+        "event_type",
+        "persona_id",
+        "when_action_id",
+        "when_outcome",
+        "match_mode",
+        "facts",
+        "payload_template_id",
+        "suppression_seconds",
+        "replay_guard"
+      ],
+      "properties": {
+        "trigger_id": {
+          "type": "string",
+          "pattern": "^vaultix\\.trigger\\.[a-z][a-z0-9.-]{2,120}$"
+        },
+        "event_type": {
+          "$ref": "#/$defs/eventType"
+        },
+        "persona_id": {
+          "type": "string",
+          "pattern": "^vaultix\\.persona\\.[a-z][a-z0-9.-]{2,120}$"
+        },
+        "when_action_id": {
+          "type": "string",
+          "pattern": "^vaultix\\.ui\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9.-]*$"
+        },
+        "when_outcome": {
+          "enum": [
+            "accepted",
+            "completed",
+            "failed",
+            "denied",
+            "recovered"
+          ]
+        },
+        "match_mode": {
+          "$ref": "#/$defs/matchMode"
+        },
+        "facts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key",
+              "op",
+              "value"
+            ],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_.-]{1,120}$"
+              },
+              "op": {
+                "enum": [
+                  "eq",
+                  "ne",
+                  "contains"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "payload_template_id": {
+          "type": "string",
+          "pattern": "^vaultix\\.knowledge\\.[a-z][a-z0-9.-]{2,120}$"
+        },
+        "suppression_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "replay_guard": {
+          "enum": [
+            "request-id",
+            "session-action",
+            "none"
+          ]
+        }
+      }
+    }
+  }
+}

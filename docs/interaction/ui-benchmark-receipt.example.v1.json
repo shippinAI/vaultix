@@ -1,0 +1,67 @@
+{
+  "schema_version": "vaultix.ui-benchmark-receipt.v1",
+  "receipt_id": "vaultix.benchmark.auth.login-status.20261106",
+  "generated_at": "2026-11-06T06:30:00.000Z",
+  "workflow": {
+    "workflow_id": "vaultix.ui.auth.login.status",
+    "surface": "auth",
+    "scenario": "Device flow status and recovery hint loop",
+    "seed": "auth-seed-20261106-a"
+  },
+  "parity_gate": {
+    "same_login_state": true,
+    "same_tenant_scope": true,
+    "same_mutation_count": true,
+    "same_completion_criteria": true,
+    "same_error_policy": true,
+    "valid": true
+  },
+  "runs": [
+    {
+      "method": "scripted-events",
+      "input_tokens": 1240,
+      "output_tokens": 390,
+      "model_calls": 4,
+      "latency_ms": 1850,
+      "browser_actions": 5,
+      "screenshots": 1,
+      "screenshot_bytes": 81234,
+      "cpu_ms": 610,
+      "peak_memory_mb": 218.5,
+      "error_rate": 0,
+      "recovery_success_rate": 1
+    },
+    {
+      "method": "playwright",
+      "input_tokens": 7420,
+      "output_tokens": 1980,
+      "model_calls": 19,
+      "latency_ms": 6340,
+      "browser_actions": 27,
+      "screenshots": 14,
+      "screenshot_bytes": 1422110,
+      "cpu_ms": 2580,
+      "peak_memory_mb": 511.3,
+      "error_rate": 0.05,
+      "recovery_success_rate": 0.8
+    }
+  ],
+  "summary": {
+    "winner": "scripted-events",
+    "token_reduction_percent": 79.7,
+    "latency_reduction_percent": 70.8,
+    "screenshot_reduction_percent": 92.9
+  },
+  "anti_gaming": {
+    "fixed_seed_data": true,
+    "failure_cases_included": true,
+    "confirmations_preserved": true,
+    "notes": "Equivalent workflow and timeout budgets validated before run."
+  },
+  "evidence": {
+    "fixture_or_live": "fixture",
+    "scripted_log": ".cache/bench/scripted-auth-login-status.log",
+    "playwright_log": ".cache/bench/playwright-auth-login-status.log",
+    "secret_scan_clean": true
+  }
+}

@@ -204,16 +204,16 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectCategoryOverview.tsx",
-      "blob": "41900c9ad58e4082c2734e1c112d6830172aebcd",
+      "blob": "d0c6ede723cc753f723afc6454b13787c550d3df",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
+      "scope": "Read complete module including permissions, setup, project selection, access requests, PAM initialization, retry and stats. Replace generic help-page navigation with product-specific local guide content; all primary access and navigation handlers retained.",
       "evidence": [
-        "docs/0107-public-experience-and-recorded-workflow.md",
-        "scripts/test-public-experience.mjs",
-        "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs",
-        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Passes the action ID only."
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     },
     {
@@ -267,21 +267,16 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "43032bbb3231b4ac7794955a4a78810ed04aa79b",
+      "blob": "e7d2f6be1ea1d6104a7e4f469883eb4575d3ace5",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
       "evidence": [
-        "docs/0107-public-experience-and-recorded-workflow.md",
-        "scripts/test-public-experience.mjs",
-        "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs",
-        "docs/0110-invite-only-instance.md",
-        "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs",
-        "docs/0112-early-access-requests.md",
-        "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     },
     {
@@ -536,18 +531,16 @@
     },
     {
       "path": "core/frontend/src/pages/cert-manager/DashboardPage/components/CertificateDistributionCard.tsx",
-      "blob": "2b7215e7179416e1a55409683b663c04c84a633c",
-      "status": "verified",
+      "blob": "e3a1b3e13e1de5f4b5d7f0e89acb6c1b0e4d3c7a",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete authored component reviewed with v3 Card, chart theme, distribution/expiry callers and dashboard composition. Named regions/headings, full labels, semantic matching rings/swatches, 44px filter targets, native keyboard buttons, visible focus and nonanimated SVG. Visible and spoken label order is aligned after axe reproduced a mismatch. Data without a filter is readable noninteractive content. Uses only dashboard metadata and existing navigation; no writes, auth changes, provider operations or secret values. Desktop/narrow card, empty, reduced-motion, six filter mappings and scoped axe acceptance pass. Real screen-reader and whole-dashboard/mobile acceptance remain open.",
+      "scope": "Read complete pre-existing owner card and stories after its merge; retain chart filtering, readable count rows, keyboard buttons and source callbacks. No source edit in this packet. This updates a stale review fingerprint from the owner card work, not a claim of new authorship.",
       "evidence": [
-        "docs/0029-ui-workflow-execution.md",
-        ".cache/bundle-proof-0TPEKz/summary.json",
-        ".cache/loading-proof-sDIHXZ/result.json",
-        ".cache/app-image-proof-0o57wZ/result.json",
-        ".cache/app-image-proof-0o57wZ/chart-rendering.json",
-        ".cache/app-image-proof-0o57wZ/chart-accessibility.json",
-        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Selecting a chart entry behaves as before."
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     },
     {
@@ -4737,14 +4730,13 @@
     },
     {
       "path": ".ai/contexts.json",
-      "blob": "60dd03ec982e1f48499e43dc42756d4130d45719",
+      "blob": "8540ab57e981442f5083f752e6b661e66e312316",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete context routing/schema; add canonical action/ledger paths and the context-bound interaction folder. Context command resolves the files.",
+      "scope": "Read complete context router and schema. Add Storybook folder grounding and 0116 mesh architecture to interaction context, preserving runtime admission gates. Context resolution verified; no product runtime or journal schema change.",
       "evidence": [
-        "docs/0114-domain-scripted-ui-standard.md",
-        "scripts/ui-action-standard.test.mjs",
-        "scripts/test-reference-commands.mjs"
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "node scripts/ai-journal.mjs context core/frontend/.storybook"
       ]
     },
     {
@@ -6572,14 +6564,15 @@
     },
     {
       "path": "docs/releases-and-updates.md",
-      "blob": "75bf9dd5fe624f2fee6b5d94400bb0da12e7fed1",
-      "status": "authored",
+      "blob": "dcd8862c76f4ef93814217093b7203b2ba102d20",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "Document producer inputs, custody contract, partial-output recovery, SBOM review and stage/test/promote requirements; public/VM acceptance remains separate.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -6698,16 +6691,16 @@
     },
     {
       "path": "core/frontend/package.json",
-      "blob": "576849f42ad677138eeed435d319ea8a0e0eb2fd",
+      "blob": "8c9cef1fc65543e40e19fd62f8c7bba974cc0bf9",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
+      "scope": "Read complete manifest. Pin coherent Storybook 10.6.5 development dependencies and Vitest browser tooling, add a loopback dev command and test script; production dependencies unchanged. MCP preview API has an observed Windows embedded-runner limitation; CLI tests retained.",
       "evidence": [
-        "docs/0077-owned-runtime-dependencies.md",
-        "scripts/test-owned-dependencies.mjs",
-        "scripts/test-owned-ldap.mjs",
-        "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     },
     {
@@ -6989,16 +6982,19 @@
     },
     {
       "path": "docs/delivery/implementation.md",
-      "blob": "b1303a983f18978fef8fcc4633c01f4d4ce37795",
-      "status": "authored",
+      "blob": "ca7304c778617e8b18c43a9a31aa9c9bf525e225",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
+      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/0111-native-cli-installation.md",
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -8726,16 +8722,16 @@
     },
     {
       "path": "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.tsx",
-      "blob": "21a0c8b820ddad9da22578a97276c81614e03dd4",
+      "blob": "2e07f7610203f2110cdac611356f4a46fda5d1ab",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "WEB-ASSIST-01: reviewed explicit navigation and preserved permissions, corrected definition-list semantics after canonical dashboard accessibility failure; verified real dashboard recording with axe and inspected rendered frames. Scoped review, not whole-product parity.",
+      "scope": "Read complete card and consumers. Preserve guarded primary activation and action attributes; add contextual help, narrow button reflow and inset stats. Action attributes remain locator metadata, not remote MCP bindings.",
       "evidence": [
-        "docs/0107-public-experience-and-recorded-workflow.md",
-        "scripts/test-public-experience.mjs",
-        "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs",
-        "Adds a data-vaultix-action trigger through components/vaultix/action-trigger.ts. Read the diff; ESLint and the application type check pass. Adds the required actionId property, supplied by its one caller."
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     },
     {
@@ -9133,14 +9129,15 @@
     },
     {
       "path": "scripts/lib/release-bundle.mjs",
-      "blob": "04dcb65d2a7adf3a51202afd6ad4e8c206b45305",
-      "status": "authored",
+      "blob": "a53880ad8e866c6027707bdef2d2eeae6e89eaa0",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
+      "scope": "Extract strict independent public trust parsing; retain canonical/signature/checkpoint and artifact verifier semantics. Node/native cross-consumer regression checks cover the shared contract.",
       "evidence": [
-        "docs/pr-delivery.md",
-        "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9169,19 +9166,15 @@
     },
     {
       "path": "scripts/verify-pull-request.mjs",
-      "blob": "cdb0c8164d560dc589ff7119b4dfbef0d1dde414",
-      "status": "authored",
+      "blob": "7ad780054d5575f7a32cdc48a3d13958afa67474",
+      "status": "reviewed",
       "decision": "modify",
-      "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
+      "scope": "Add producer boundaries to existing exact-head local protected delivery gate; canonical image and native runtime checks remain required.",
       "evidence": [
-        "docs/0111-native-cli-installation.md",
-        "internal/release/install_linux_test.go",
-        "scripts/test-cli-install.mjs",
-        "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json",
-        "docs/0109-native-install-and-upgrade.md",
-        "internal/platform/schema_test.go",
-        "scripts/test-server-migration.mjs"
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9257,10 +9250,10 @@
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "516077c084d9b01bb00ac5e4ed639c14790654d2",
+      "blob": "d14798b6a13741ddf348644e3084febc6fea47c2",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
       "evidence": [
         "docs/0110-verified-release-download.md",
         "internal/release/download_test.go",
@@ -9272,7 +9265,9 @@
         "scripts/test-server-migration.mjs",
         "Rollback, last resort and limits revised against the code after a second independent review; earlier-CLI statement corrected.",
         "internal/platform/ingress_test.go",
-        "scripts/test-server-lifecycle.mjs"
+        "scripts/test-server-lifecycle.mjs",
+        "scripts/release-publication.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -9411,10 +9406,10 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "ce90096fdd3a623e62469a3dd7f18b5abb392544",
+      "blob": "68fc68a2db39078eb6dc058f92fb8f2977cc89d7",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
+      "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/platform_test.go",
@@ -9425,7 +9420,9 @@
         ".cache/lifecycle-acceptance-mNMlg6/result.json",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "internal/platform/ingress_test.go"
+        "internal/platform/ingress_test.go",
+        "scripts/release-publication.test.mjs",
+        "docs/releases-and-updates.md"
       ]
     },
     {
@@ -10578,6 +10575,136 @@
         "internal/platform/ingress_test.go",
         "scripts/test-server-lifecycle.mjs",
         "docs/0109-native-install-and-upgrade.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-publication.mjs",
+      "blob": "4b69d157297c0e4641acc7d0b299b5215aa0c145",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Share existing six-receipt acceptance and public-test-key rejection with preparation/signing; retain publication channel, artifact and source gates.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/publish-release.mjs",
+      "blob": "78b95b3dbd5fd620cea58a0d8752532549083308",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "evidence": [
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/release-publication.test.mjs",
+      "blob": "e9aad71f3aad275281ede70d3da12955748f9be6",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
+      "evidence": [
+        "scripts/release-publication.test.mjs",
+        "scripts/test-server-lifecycle.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-preparation.mjs",
+      "blob": "c4610e04c1c2cbb3797a1a999f58d308d5729493",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Exclusive artifact production from accepted receipts; bounded copies/hashes; unsigned manifest last; independent-trust external signing with post-operation input revalidation and no overwrite.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/lib/release-producer-process.mjs",
+      "blob": "d14bd3f25f84b17968cba5a7f7264a6342aa99f2",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Direct executable/argv signer with bounded raw output and timeout; compressed source/image exports fail closed; exact local tag and immutable engine metadata checks. Trusted operator executables only.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/prepare-release.mjs",
+      "blob": "fb00f71d3ad8b8b34f046c036c06c6609473b6d4",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Bounded local input parser and repeatable unsigned release preparation entry; safe diagnostics; no publication or key generation.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/sign-release.mjs",
+      "blob": "306c88e1d4b9c98c893f52791c8c8a6e5fb51a25",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Bounded local signer input entry; no shell or implicit trust; signature only after complete accepted-input and cryptographic verification.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "scripts/release-preparation.test.mjs",
+      "blob": "fddcbc9d3c4b04dbfc99bdcf94345dd0cc10e7f8",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Independent file fixture, real subprocess signature and publication consumer, stale/tampered inputs, output collisions, process failure/timeout and retry tests; ephemeral keys are fixture evidence only.",
+      "evidence": [
+        "scripts/release-preparation.test.mjs",
+        "scripts/release-publication.test.mjs",
+        "scripts/release-bundle.test.mjs",
+        "docs/releases-and-updates.md"
+      ]
+    },
+    {
+      "path": "core/frontend/src/components/vaultix/WorkflowHelp.tsx",
+      "blob": "b4ece18b90f940ab9d25f884511fcdf930511fd3",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored reusable local help dialog using v3 primitives. Human-opened modal, non-mutating content, visible label in accessible name, hover/focus tooltip, Escape and explicit focus restoration, reduced motion. No remote authority or secret values.",
+      "evidence": [
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
+      ]
+    },
+    {
+      "path": "core/frontend/src/pages/organization/ProjectsPage/components/product-guidance.ts",
+      "blob": "4641923cd5d37d44f87cddba488265d5fa2db857",
+      "status": "reviewed",
+      "decision": "modify",
+      "scope": "Authored guidance for all five existing product categories based on their current entry branches. No business handlers or model execution policy.",
+      "evidence": [
+        "docs/0116-domain-mesh-and-ui-workbench.md",
+        "scripts/test-domain-workbench.mjs",
+        "scripts/test-product-guidance.mjs",
+        "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
       ]
     }
   ]

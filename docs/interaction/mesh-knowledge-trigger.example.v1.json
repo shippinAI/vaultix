@@ -1,0 +1,52 @@
+{
+  "schema_version": "vaultix.mesh-knowledge-trigger.v1",
+  "generated_at": "2026-11-06T05:00:00.000Z",
+  "triggers": [
+    {
+      "trigger_id": "vaultix.trigger.auth.retry-hint",
+      "event_type": "did-you-know",
+      "persona_id": "vaultix.persona.auth-device-flow",
+      "when_action_id": "vaultix.ui.auth.login.status",
+      "when_outcome": "failed",
+      "match_mode": "all",
+      "facts": [
+        {
+          "key": "error.code",
+          "op": "eq",
+          "value": "device_authorization_pending_timeout"
+        },
+        {
+          "key": "retry.count",
+          "op": "contains",
+          "value": "2"
+        }
+      ],
+      "payload_template_id": "vaultix.knowledge.auth.device-timeout-recovery",
+      "suppression_seconds": 180,
+      "replay_guard": "session-action"
+    },
+    {
+      "trigger_id": "vaultix.trigger.secrets.reference-folder-tip",
+      "event_type": "knowledge-drop",
+      "persona_id": "vaultix.persona.secrets-reference-flow",
+      "when_action_id": "vaultix.ui.secrets.references.folder.select",
+      "when_outcome": "completed",
+      "match_mode": "any",
+      "facts": [
+        {
+          "key": "folder.depth",
+          "op": "eq",
+          "value": "0"
+        },
+        {
+          "key": "references.loaded",
+          "op": "eq",
+          "value": "false"
+        }
+      ],
+      "payload_template_id": "vaultix.knowledge.secrets.folder-selection-tip",
+      "suppression_seconds": 300,
+      "replay_guard": "request-id"
+    }
+  ]
+}

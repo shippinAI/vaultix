@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.mesh-knowledge-personas.v1.schema.json",
+  "title": "Vaultix mesh knowledge personas scaffold v1",
+  "description": "Scaffold contract for reviewed knowledge/persona ownership. This schema does not grant runtime authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "personas"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "vaultix.mesh-knowledge-personas.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "personas": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/persona"
+      }
+    }
+  },
+  "$defs": {
+    "domain": {
+      "enum": [
+        "public",
+        "auth",
+        "workspace",
+        "secrets",
+        "access",
+        "automation",
+        "connect",
+        "pki",
+        "kms",
+        "pam",
+        "detect",
+        "ai",
+        "governance",
+        "operate",
+        "experience",
+        "mesh"
+      ]
+    },
+    "persona": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "persona_id",
+        "name",
+        "domain",
+        "intent",
+        "capabilities",
+        "boundaries",
+        "allowed_event_ids",
+        "safety_constraints",
+        "owner",
+        "reviewed_at",
+        "version"
+      ],
+      "properties": {
+        "persona_id": {
+          "type": "string",
+          "pattern": "^vaultix\\.persona\\.[a-z][a-z0-9.-]{2,120}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "domain": {
+          "$ref": "#/$defs/domain"
+        },
+        "intent": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "allowed_event_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^vaultix\\.ui\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9.-]*$"
+          }
+        },
+        "safety_constraints": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999999
+        }
+      }
+    }
+  }
+}

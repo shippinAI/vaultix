@@ -23,6 +23,47 @@ export function readPublicationFile(path, limit) {
   } finally { closeSync(fd); }
 }
 
+export function readReleaseAcceptance(acceptance) {
+  const acceptanceBytes = readPublicationFile(acceptance, 1024 * 1024);
+  const proof = JSON.parse(acceptanceBytes);
+  assert.equal(proof.passed, true, 'Publication needs accepted local verification');
+  assert.equal(proof.context, context);
+  assert.match(proof.revision, /^[a-f0-9]{40}$/);
+  assert.equal(proof.receipts?.length, 6, 'Missing canonical, CLI and lifecycle receipts');
+  const receipts = proof.receipts.map(entry => {
+    const bytes = readPublicationFile(entry.path, 1024 * 1024);
+    assert.equal(sha256(bytes), entry.sha256, 'Acceptance receipt changed');
+    return JSON.parse(bytes);
+  });
+  const [build, cli, lifecycle, download, install, migration] = receipts;
+  validateEvidence(build, cli, proof.revision);
+  assert.equal(proof.imageId, build.imageId);
+  const linux = cli.cli.find(a => a.platform === 'linux/amd64');
+  for (const receipt of [lifecycle, download, install, migration]) {
+    assert.ok(receipt.passed && receipt.cleanupPassed && receipt.development !== true, 'Incomplete or development acceptance');
+    assert.equal(receipt.revision, proof.revision);
+    assert.equal(receipt.cliSha256, linux.sha256);
+  }
+  for (const receipt of [lifecycle, migration]) assert.equal(receipt.candidate, build.imageId);
+  return { build, cli, acceptanceSha256: sha256(acceptanceBytes) };
+}
+
+export function verifyReleaseAcceptance(manifest, acceptance) {
+  const accepted = readReleaseAcceptance(acceptance);
+  assert.equal(accepted.build.revision, manifest.revision);
+  assert.equal(accepted.build.platformVersion, manifest.version, 'Build and signed version differ');
+  assert.equal(manifest.artifacts.find(a => a.kind === 'engine').imageId, accepted.build.imageId);
+  for (const artifact of manifest.artifacts.filter(a => a.kind === 'cli')) {
+    assert.equal(artifact.sha256, accepted.cli.cli.find(a => a.platform === artifact.platform)?.sha256, 'Bundle CLI differs from accepted CLI');
+  }
+  return accepted;
+}
+
+export function rejectPublicTestTrust(trusted) {
+  // This RFC 8032 private key is public and cannot authorize a release.
+  assert.ok(!parseCanonical(trusted, 16384).keys.some(k => k.keyId === '06e3fd8fda29bb60ab59557de61edb0aecdb231134be30e75b455f8e1b792fa9'), 'Public test key cannot be production release trust');
+}
+
 export async function loadPublication({ bundle, trust, acceptance, checkpoint, notes }) {
   const directory = realpathSync(resolve(bundle));
   assert.ok(!directory.includes('#'), 'Bundle path cannot contain a gh asset-label separator');
@@ -32,41 +73,14 @@ export async function loadPublication({ bundle, trust, acceptance, checkpoint, n
   const verified = verifyManifest(raw, signature, trusted, {
     previous: checkpoint ? parseCanonical(readPublicationFile(checkpoint, 4096), 4096) : null
   });
-  // This known public RFC 8032 key is used throughout consumer fault fixtures.
-  // Its private key is published, so it must never authorize a public release.
-  assert.ok(!parseCanonical(trusted, 16384).keys.some(k => k.keyId === '06e3fd8fda29bb60ab59557de61edb0aecdb231134be30e75b455f8e1b792fa9'), 'Public test key cannot be production release trust');
+  rejectPublicTestTrust(trusted);
   const { manifest } = verified;
   const notesText = new TextDecoder('utf-8', { fatal: true }).decode(readPublicationFile(notes, 65536));
   assert.ok(notesText.trim(), 'Release notes are required');
   assert.ok(manifest.artifacts.every(a => a.bytes < 2 * 1024 ** 3), 'GitHub release assets must be under 2 GiB; prepare a smaller compressed artifact before signing');
   assert.ok(manifest.artifacts.every(a => !['release-manifest.json', 'release-signature.json'].includes(a.name)), 'Artifact collides with signed metadata');
   const artifacts = await verifyArtifacts(manifest, directory);
-  const acceptanceBytes = readPublicationFile(acceptance, 1024 * 1024);
-  const proof = JSON.parse(acceptanceBytes);
-  assert.equal(proof.passed, true, 'Publication needs accepted local verification');
-  assert.equal(proof.context, context);
-  assert.equal(proof.revision, manifest.revision);
-  assert.equal(proof.receipts?.length, 6, 'Missing canonical, CLI and lifecycle receipts');
-  const receipts = proof.receipts.map(entry => {
-    const bytes = readPublicationFile(entry.path, 1024 * 1024);
-    assert.equal(sha256(bytes), entry.sha256, 'Acceptance receipt changed');
-    return JSON.parse(bytes);
-  });
-  const [build, cli, lifecycle, download, install, migration] = receipts;
-  validateEvidence(build, cli, manifest.revision);
-  assert.equal(build.platformVersion, manifest.version, 'Build and signed version differ');
-  assert.equal(proof.imageId, build.imageId);
-  assert.equal(manifest.artifacts.find(a => a.kind === 'engine').imageId, build.imageId);
-  for (const artifact of manifest.artifacts.filter(a => a.kind === 'cli')) {
-    assert.equal(artifact.sha256, cli.cli.find(a => a.platform === artifact.platform)?.sha256, 'Bundle CLI differs from accepted CLI');
-  }
-  const linux = cli.cli.find(a => a.platform === 'linux/amd64');
-  for (const receipt of [lifecycle, download, install, migration]) {
-    assert.ok(receipt.passed && receipt.cleanupPassed && receipt.development !== true, 'Incomplete or development acceptance');
-    assert.equal(receipt.revision, manifest.revision);
-    assert.equal(receipt.cliSha256, linux.sha256);
-  }
-  for (const receipt of [lifecycle, migration]) assert.equal(receipt.candidate, build.imageId);
+  const { acceptanceSha256 } = verifyReleaseAcceptance(manifest, acceptance);
   const assets = [...artifacts,
     { name: 'release-manifest.json', bytes: raw.length, sha256: sha256(raw) },
     { name: 'release-signature.json', bytes: signature.length, sha256: sha256(signature) }
@@ -74,7 +88,7 @@ export async function loadPublication({ bundle, trust, acceptance, checkpoint, n
   assert.equal(new Set(assets.map(a => a.name)).size, assets.length, 'Artifact collides with signed metadata');
   return { directory, tag: `v${manifest.version}`, revision: manifest.revision,
     preview: manifest.channel === 'preview', assets, checkpoint: verified.checkpoint,
-    acceptanceSha256: sha256(acceptanceBytes), notesSha256: sha256(Buffer.from(notesText)) };
+    acceptanceSha256, notesSha256: sha256(Buffer.from(notesText)) };
 }
 
 export function checkLatestStable(plan, latest) {
