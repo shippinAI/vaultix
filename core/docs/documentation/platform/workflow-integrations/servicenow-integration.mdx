@@ -44,12 +44,12 @@ If ServiceNow never returns a decision, the request expires in vaultix according
 
     | Role | Grants |
     | --- | --- |
-    | `x_infis_approvals.admin` | Full configuration access, including identity mappings. |
-    | `x_infis_approvals.approver` | View and decide on access requests. |
-    | `x_infis_approvals.viewer` | Read-only access to requests and their audit trail. |
-    | `x_infis_approvals.secret-manager-integration` | API-only role used by vaultix to create requests. |
+    | `x_vaultix_approvals.admin` | Full configuration access, including identity mappings. |
+    | `x_vaultix_approvals.approver` | View and decide on access requests. |
+    | `x_vaultix_approvals.viewer` | Read-only access to requests and their audit trail. |
+    | `x_vaultix_approvals.secret-manager-integration` | API-only role used by vaultix to create requests. |
 
-    Assign `x_infis_approvals.admin` to complete the rest of this setup, and `x_infis_approvals.approver` to your approver groups.
+    Assign `x_vaultix_approvals.admin` to complete the rest of this setup, and `x_vaultix_approvals.approver` to your approver groups.
 
   </Step>
 
@@ -102,7 +102,7 @@ If ServiceNow never returns a decision, the request expires in vaultix according
 
     1. Go to **All > Process Automation > Flow Designer**.
     2. Open **vaultix - Sequential Approval Template** and click **Copy Flow**.
-    3. Adjust the trigger condition. The trigger is a record created on **vaultix Access Request [x_infis_approvals_access_request]**, and the condition is what decides which requests this flow owns, for example `Environment is prod` or `Secret Path contains /payments`.
+    3. Adjust the trigger condition. The trigger is a record created on **vaultix Access Request [x_vaultix_approvals_access_request]**, and the condition is what decides which requests this flow owns, for example `Environment is prod` or `Secret Path contains /payments`.
     4. Fill in the approvers on each **Ask for Approval** step, along with the number of approvals required.
     5. Confirm that every branch, approved and rejected alike, ends with an **Update Record** action setting **State**, followed by the **vaultix - Notify Decision** action.
     6. Activate the flow.

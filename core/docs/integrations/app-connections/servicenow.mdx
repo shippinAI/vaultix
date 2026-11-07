@@ -38,7 +38,7 @@ Use a dedicated ServiceNow user for the connection rather than a personal accoun
     In the **Roles** related list on the user record, click **Edit** and add:
 
     ```
-    x_infis_approvals.secret-manager-integration
+    x_vaultix_approvals.secret-manager-integration
     ```
 
     This role grants exactly what vaultix needs: the ability to create and read vaultix access request records. It does not grant approval rights or access to anything else on the instance.
@@ -85,6 +85,6 @@ Change the password on the ServiceNow integration user, then update the **Passwo
 | Symptom                                       | Cause                                                                                                                                              |
 | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `401 Unauthorized` when saving the connection | Wrong username or password, or the user is locked out. Verify the credential by signing in with the ServiceNow REST API Explorer.                  |
-| `403 Forbidden` when saving the connection    | The user is missing the `x_infis_approvals.secret-manager-integration` role.                                                                       |
+| `403 Forbidden` when saving the connection    | The user is missing the `x_vaultix_approvals.secret-manager-integration` role.                                                                       |
 | `404 Not Found` when saving the connection    | The vaultix application is not installed on the instance, or the instance URL points at the wrong instance.                                      |
 | Connection times out                          | The instance is not reachable from vaultix. Use an vaultix Gateway, or allow vaultix's egress IPs on your instance's IP access control list. |

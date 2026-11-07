@@ -68,7 +68,7 @@ This is reachability/status evidence, not an authenticated hosted workflow.
 The root native dispatcher was read in full. Retained documentation under
 `core/docs/cli/commands` describes a broader CLI than that dispatcher implements.
 Those pages are source requirements, not evidence that the commands work. The
-[current first-party command index](https://infisical.com/docs/cli/reference),
+[current first-party command index](https://vaultix.cloud/docs/cli/reference),
 reviewed on 2026-10-30, also includes command families absent from the native
 dispatcher. No snapshot repository was fetched or cloned for this comparison.
 

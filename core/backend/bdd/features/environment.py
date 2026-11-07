@@ -96,7 +96,7 @@ def bootstrap_vaultix(context: Context):
                 "status": "active",
                 "configuration": {
                     "type": "root",
-                    "organization": "Infisican Inc",
+                    "organization": "Vaultix Cloud",
                     "ou": "",
                     "country": "",
                     "province": "",

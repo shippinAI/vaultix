@@ -18,7 +18,7 @@ func TestWordmarkIsVaultix(t *testing.T) {
 			t.Fatalf("wordmark missing %s", need)
 		}
 	}
-	if strings.Contains(strings.ToLower(s), "infisical") || strings.Contains(strings.ToLower(s), "authentik") {
+	if strings.Contains(strings.ToLower(s), "vaultix") || strings.Contains(strings.ToLower(s), "authentik") {
 		t.Fatal("wordmark carries leftover brand")
 	}
 }
@@ -28,7 +28,7 @@ func TestCustomerSurfacesForbidLeftoverBrand(t *testing.T) {
 		".",
 		filepath.Join("..", "..", "..", "..", "branding"),
 	}
-	bad := []string{"infisical", "authentik"}
+	bad := []string{"vaultix", "authentik"}
 	for _, root := range roots {
 		_ = filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
 			if err != nil || d.IsDir() {

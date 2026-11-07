@@ -18,7 +18,7 @@ func TestComposeConfigure(t *testing.T) {
 		t.Fatal("viewport missing configure path or source actions")
 	}
 	raw, _ := json.Marshal(d)
-	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
+	if strings.Contains(strings.ToLower(string(raw)), "vaultix") {
 		t.Fatal("viewport named leftover brand")
 	}
 	if strings.Contains(string(raw), `"value"`) && strings.Contains(string(raw), "sk-") {
