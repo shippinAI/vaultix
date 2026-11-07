@@ -1,6 +1,11 @@
 import { useMemo } from "react";
 import type { Decorator } from "@storybook/react-vite";
-import { createRootRoute, createRouter, RouterProvider } from "@tanstack/react-router";
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRouter,
+  RouterProvider
+} from "@tanstack/react-router";
 
 export const RouterDecorator: Decorator = (Story, params) => {
   const router = useMemo(() => {
@@ -9,9 +14,10 @@ export const RouterDecorator: Decorator = (Story, params) => {
     });
 
     return createRouter({
-      routeTree
+      routeTree,
+      history: createMemoryHistory({ initialEntries: ["/"] })
     });
   }, [Story, params]);
 
-  return <RouterProvider router={router as any} />;
+  return <RouterProvider<typeof router> router={router} />;
 };

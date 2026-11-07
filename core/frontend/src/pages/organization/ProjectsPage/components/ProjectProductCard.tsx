@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react";
 import { Button } from "@app/components/v3";
 import { cn } from "@app/components/v3/utils";
 import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
+import { WorkflowHelp, WorkflowHelpStep } from "@app/components/vaultix/WorkflowHelp";
 
 type ProductStat = {
   label: string;
@@ -21,6 +22,8 @@ type ProjectProductCardProps = {
   actionId: string;
   actionLabel: string;
   actionHint?: string;
+  secondaryActionId?: string;
+  guideSteps?: readonly WorkflowHelpStep[];
   isActionDisabled: boolean;
   disabledReason?: string;
   onAction: () => void;
@@ -39,6 +42,8 @@ export const ProjectProductCard = ({
   actionId,
   actionLabel,
   actionHint,
+  secondaryActionId,
+  guideSteps,
   isActionDisabled,
   disabledReason,
   onAction,
@@ -50,7 +55,7 @@ export const ProjectProductCard = ({
   const actionDescriptionId = isActionDisabled ? statusId : descriptionId;
   const cardToneClass = isActionDisabled
     ? "border-border bg-card"
-    : "border-border bg-card transition-colors hover:bg-container-hover";
+    : "border-border bg-card transition-colors hover:bg-container-hover motion-reduce:transition-none";
 
   return (
     <article
@@ -90,33 +95,46 @@ export const ProjectProductCard = ({
       </div>
 
       {stats.length > 0 && (
-        <dl className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3">
+        <dl className="my-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-sm border border-border bg-container p-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
               className="flex flex-col border-r border-border pr-4 last:border-r-0 last:pr-0"
             >
               <dt className="order-2 text-xs text-muted">{stat.label}</dt>
-              <dd className="text-sm font-medium text-foreground">{stat.value}</dd>
+              <dd className="text-sm font-semibold text-foreground tabular-nums">{stat.value}</dd>
             </div>
           ))}
         </dl>
       )}
 
       <div className="mt-auto flex flex-col gap-2 border-t border-border pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          className="self-start"
-          aria-disabled={isActionDisabled}
-          aria-describedby={actionDescriptionId}
-          onClick={() => {
-            if (!isActionDisabled) onAction();
-          }}
-          {...vaultixActionTrigger(actionId, { scope: "organization-projects", target: cardId })}
-        >
-          {actionLabel}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="h-auto min-h-9 max-w-full self-start py-2 text-left whitespace-normal"
+            aria-disabled={isActionDisabled}
+            aria-describedby={actionDescriptionId}
+            onClick={() => {
+              if (!isActionDisabled) onAction();
+            }}
+            {...vaultixActionTrigger(actionId, { scope: "organization-projects", target: cardId })}
+          >
+            {actionLabel}
+          </Button>
+          {guideSteps && guideSteps.length > 0 && secondaryActionId && (
+            <WorkflowHelp
+              title={title}
+              description={description}
+              steps={guideSteps}
+              actionId={secondaryActionId}
+              scope="organization-projects"
+              target={cardId}
+              availability={isActionDisabled ? disabledReason : undefined}
+            />
+          )}
+        </div>
         {isActionDisabled ? (
           <p id={statusId} className="text-sm text-muted">
             {disabledReason}
