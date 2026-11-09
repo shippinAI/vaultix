@@ -3071,24 +3071,25 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.test.ts",
-      "blob": "473b94a0e5a86160ad3540e9129506586032a5b3",
+      "blob": "84c165a2c6722c8e26b7bd36b123a22486dabf81",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0057-learning-context-integration.md",
         "core/backend/src/server/routes/vaultix-learning.test.ts",
         "core/backend/src/server/plugins/swagger.test.ts",
         ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json",
-        ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json"
+        ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
       "path": "core/backend/src/services/vaultix/catalog.ts",
-      "blob": "73e903458f31459e7746768d178e6e6d7fdf474e",
+      "blob": "3992d11de54500d9c3522e106d34bf8e808f2950",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0057-learning-context-integration.md",
         "core/backend/src/server/routes/vaultix-learning.test.ts",
@@ -3099,7 +3100,8 @@
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -3322,16 +3324,17 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
-      "blob": "db5b4f95564f5a38d7cf2d778de76e8c2b49a570",
+      "blob": "862f1a497e6ec81976abe228b1a5d51d191b15aa",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
         "scripts/test-mcp-app.mjs",
         "scripts/test-mcp-app-image.mjs",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "core/backend/src/services/vaultix/mcp-session-cache.test.ts"
+        "core/backend/src/services/vaultix/mcp-session-cache.test.ts",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -4256,10 +4259,10 @@
     },
     {
       "path": "internal/cli/auth_cmds.go",
-      "blob": "5611cc25a98c418725e74be5c07d1f447f0fcc05",
+      "blob": "93f7dfd041d58556414710cd5bfe9197d6f0188a",
       "status": "verified",
       "decision": "modify",
-      "scope": "Read module in full. Authored validated domain selection, compatible --api, conflict/empty/positional rejection before credential use, and native executable names. Existing protected verification and Nomen/token/machine flows retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
+      "scope": "Read module in full. Authored validated domain selection, compatible --api, conflict/empty/positional rejection before credential use, and native executable names. Existing protected verification and Nomen/token/machine flows retained. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4276,21 +4279,23 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
       "path": "internal/cli/auth_test.go",
-      "blob": "e0d71e96888eb56193aeae9fe09247c4881f6053",
+      "blob": "a31626bfbad3691d68d64f218b4f46a6d3c2fa0f",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -4363,10 +4368,10 @@
     },
     {
       "path": "internal/oidc/device.go",
-      "blob": "1bf1d6f45b139aafea0b7197ac2232b260207cb6",
+      "blob": "08225f5b36601841699f119ccfbea7a2af6b5175",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted.",
+      "scope": "Complete file read/authored for 0068. Saved device renewal, pinned issuer/client/API, OS credential locking and interrupted-rotation recovery verified by 101 Linux race checks, targeted Windows checks and 12 real-image CLI checks. Private POSIX storage is real; Windows keyring uses a memory fixture while its process lock is real. Unsupported-OS fallback and other POSIX platforms have no runtime acceptance. Core authorization unchanged. Live Nomen registration/mapping and whole-product readiness remain unaccepted. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
@@ -4378,21 +4383,23 @@
         ".cache/headless-ai-login/.cache/self-hosted-build-34K89D/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-A5JhpU/result.json",
         ".cache/headless-ai-login/.cache/nomen-renewal-unit-build.json",
-        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl"
+        ".cache/headless-ai-login/.cache/nomen-renewal-windows-storage.jsonl",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
       "path": "internal/oidc/device_test.go",
-      "blob": "321d7e60ac500f99b11a9a53cb977605251b9ad4",
+      "blob": "7cc0dc022aae5447bbcdc878c9e725117e43b2f6",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim.",
+      "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0067-headless-ai-login.md",
         ".cache/headless-ai-login/.cache/cli-unit-build.json",
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
-        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json"
+        ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -10321,15 +10328,16 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.test.ts",
-      "blob": "940080d4c987ace577e2bc02ffa936f846da6cd6",
+      "blob": "f5d318cdba17848df304d2168d656ca186ad3724",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
+      "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
       "evidence": [
         "docs/0112-real-codex-acceptance.md",
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
