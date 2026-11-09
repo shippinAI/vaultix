@@ -263,6 +263,11 @@ export type TExternalVaultixConnectionOption = TAppConnectionOptionBase & {
 export type TDopplerConnectionOption = TAppConnectionOptionBase & {
   app: AppConnection.Doppler;
 };
+
+export type TInfisicalConnectionOption = TAppConnectionOptionBase & {
+  app: AppConnection.Infisical;
+};
+
 export type TNetScalerConnectionOption = TAppConnectionOptionBase & {
   app: AppConnection.NetScaler;
 };
@@ -407,6 +412,7 @@ export type TAppConnectionOption =
   | TVenafiTppConnectionOption
   | TExternalVaultixConnectionOption
   | TDopplerConnectionOption
+  | TInfisicalConnectionOption
   | TNetScalerConnectionOption
   | TKempLoadMasterConnectionOption
   | TAnthropicConnectionOption
@@ -492,6 +498,7 @@ export type TAppConnectionOptionMap = {
   [AppConnection.VenafiTpp]: TVenafiTppConnectionOption;
   [AppConnection.ExternalVaultix]: TExternalVaultixConnectionOption;
   [AppConnection.Doppler]: TDopplerConnectionOption;
+  [AppConnection.Infisical]: TInfisicalConnectionOption;
   [AppConnection.NetScaler]: TNetScalerConnectionOption;
   [AppConnection.KempLoadMaster]: TKempLoadMasterConnectionOption;
   [AppConnection.Anthropic]: TAnthropicConnectionOption;

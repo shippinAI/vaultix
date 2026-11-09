@@ -1,7 +1,8 @@
 export enum ExternalMigrationProviders {
   Vault = "vault",
   EnvKey = "env-key",
-  Doppler = "doppler"
+  Doppler = "doppler",
+  Infisical = "infisical"
 }
 
 export type TDopplerProject = {
@@ -26,10 +27,40 @@ export type TDopplerConfig = {
   project: string;
 };
 
+export type TInfisicalProject = {
+  id: string;
+  slug: string;
+  name: string;
+  description?: string | null;
+};
+
+export type TInfisicalEnvironment = {
+  id: string;
+  slug: string;
+  name: string;
+  project: string;
+};
+
+export type TInfisicalSecret = {
+  key: string;
+  value: string;
+  environment: string;
+  project: string;
+};
+
 export type TImportDopplerSecretsDTO = {
   connectionId: string;
   dopplerProject: string;
   dopplerEnvironment: string;
+  targetProjectId: string;
+  targetEnvironment: string;
+  targetSecretPath: string;
+};
+
+export type TImportInfisicalSecretsDTO = {
+  connectionId: string;
+  infisicalProject: string;
+  infisicalEnvironment: string;
   targetProjectId: string;
   targetEnvironment: string;
   targetSecretPath: string;
