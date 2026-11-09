@@ -116,6 +116,10 @@ func TestPage_EmptyReferencesRemainAnArray(t *testing.T) {
 	require.Contains(t, string(encoded), `"nextOffset":null`)
 }
 
+func TestPublicOwnerStaysTypeScript(t *testing.T) {
+	require.Equal(t, "typescript", PublicOwner)
+}
+
 func TestListProjects_RefusesUnauthenticatedMetadataLookup(t *testing.T) {
 	svc := NewService(context.Background(), slog.New(slog.NewTextHandler(io.Discard, nil)), &Deps{DB: noReadDB{}, Permission: nil})
 	for _, ctx := range []context.Context{

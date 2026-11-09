@@ -1,6 +1,6 @@
 # Vaultix action plan
 
-Repository copy of the execution plan. Package 01 remains partial: raw-route denial is unit-verified, and client or image gates are open. Package 02 keeps both auth modes. Headless `--token` and `--universal` do not use Nomen. Interactive terminal SSO stays the existing client and is config-driven through `NOMEN_OIDC_ISSUER`; self-hosted core does not require it. The enterprise and hosting panel stays a separate surface. Later packages stay planned. Detail is in `docs/0117-assistant-reference-boundary.md`.
+Repository copy of the execution plan. Package 01 remains partial: raw-route denial is unit-verified, and client or image gates are open. Package 02 keeps both auth modes. Headless `--token` and `--universal` do not use Nomen. Interactive terminal SSO stays the existing client and is config-driven through `NOMEN_OIDC_ISSUER`; self-hosted core does not require it. The enterprise and hosting panel stays a separate surface. Package 04 has `$all` reference parity and leaves the public route on TypeScript. Detail is in `docs/0117-assistant-reference-boundary.md`.
 
 
 Commit: `eb61496c` (`eb61496c8483692506813567712c9fece3101cac`). `git status -sb` showed `main...origin/main` with no ahead/behind against the local origin ref. This pass did not fetch, so a newer remote commit is unverified. The audit file `vaultix-roadmap-audit.md` describes this same commit. No repository files were edited. No pull request, deploy, or live write is authorized.
@@ -149,7 +149,7 @@ These are not decided by this plan.
 4. Where the Grok bot repository lives, and whether a plugin is published. This repo should only grow the connection text.
 5. Mesh stays unauthorized until a separate yes.
 6. Duplicate `0110` and `0112` files stay under those names until `docs/plan/canonical-ids.json` exists. Confirm the four alias ids in the naming proposal before a rename.
-7. Go becomes owner one use case at a time, starting with reference reads in package 04. Confirm that TypeScript stays the owner until that package's differential test passes.
+7. Go becomes owner one use case at a time, starting with reference reads. TypeScript remains the public owner. The differential `$all` check now passes. Cutover still needs an explicit decision on last-matching CASL precedence versus the native deny-first evaluator, plus the HTTP, MCP, audit, and rate-limit gates in `docs/0066`.
 8. Who holds SMTP, backups, and the encryption key for the public instance.
 9. Whether pull request 24 is the upgrade-path change to continue, or whether it should be closed and replaced.
 
@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: `sec.raw-compat` with package 01. `sec.reference-reads` is package 04.
+Next task: the reference-read cutover decision in `docs/0066`. `$all` parity is tested. Public reads stay on TypeScript.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

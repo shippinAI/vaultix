@@ -18,6 +18,11 @@ import (
 	permsecret "github.com/vaultix/api/internal/services/permission/secretmanager"
 )
 
+// PublicOwner is the process that serves the public reference routes.
+// TypeScript remains the owner. Switching it requires the last-matching rule
+// decision and the HTTP, MCP, audit, and rate-limit gates in docs/0066.
+const PublicOwner = "typescript"
+
 type PermissionService interface {
 	GetProjectPermission(context.Context, *permission.GetProjectPermissionArgs) (*permission.GetProjectPermissionResult, error)
 }

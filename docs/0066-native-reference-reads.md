@@ -209,3 +209,23 @@ Transport review also identifies concrete work before switching ownership:
 No production routing, permission rule-order policy, audit ownership or public
 exposure is changed by this evidence commit. Continue the complete-use-case
 sequence above; the deployment remains usable while that work proceeds.
+
+## Product `$all` parity, 2026-11-09
+
+`PermissionFieldOps` now treats `$all` as CASL/Mongo containment: every candidate
+must be present in the tag array. An empty candidate list matches, and a
+non-array field does not. The vendored nested-condition `$all` remains unchanged
+for callers that do not use the product field operators.
+
+The native evaluator is still deny-first. CASL lets a later allow override an
+earlier forbid. That precedence is not changed. `reference.PublicOwner` stays
+`typescript`, and `/api/v1/vaultix/secret-references` is still served by the
+TypeScript service. Switching that route remains the open decision after the
+HTTP, MCP, audit, and rate-limit gates above.
+
+`go test -count=1 ./internal/services/permission/ ./internal/services/secretmanager/reference/`
+passed. `VAULTIX_TEST_IMAGE=sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1 go test -tags integration -run TestReference_MetadataOnlyDifferential ./tests/secretmanager/secrets/`
+passed, including the `$all` differential, foreign organization, value-only
+denial, and canary exclusion. That image is the packaged build of
+`d3214bf5336506398d5e29597aadaa804a3d4533`. This Go change does not alter that
+image's public behavior, so the packaged smoke was not rerun.

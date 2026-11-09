@@ -40,6 +40,12 @@ Connection text in the catalog and `core/ai/README.md` tells a Grok bot or other
 | `id.discovery` | `GET /api/v1/vaultix/auth/config` lists `builtin-password`, `builtin-universal`, and `builtin-token` with `headlessRequiresSso` false. Configured `NOMEN_OIDC_ISSUER` adds `sso`. `deviceAuthorization` stays false. | Mounted route test. Local issuer and empty-issuer Go tests passed. Database universal-auth: 12 passed. Loopback CLI `--universal` and `--token` passed. Packaged `scripts/test-cli-headless.mjs` passed 17 checks on image `sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1`, including token login and machine-identity login. | The CLI does not call `/auth/config`. No live issuer. Native device grant is not on the public Node port. |
 | `ui.entry-setup` | No UI behavior change. | `node scripts/test-app-entry.mjs` reads source and checks `/`, `/help`, `/login`, and `/admin/setup`. | No browser session. |
 
+## Package 04 slice
+
+`pkg.04-go-read-cutover` is partial. The existing Go reference service already reads names, versions, and timestamps from the primary store and compares them with the TypeScript route in `reference_integration_test.go`. This slice makes product `$all` tag checks match CASL containment and keeps that differential. It does not switch the public route.
+
+The remaining cutover decision is rule precedence. CASL uses the last matching rule, so a later allow can override an earlier forbid. The native evaluator is deny-first and still returns false for that case. `reference.PublicOwner` stays `typescript`. HTTP, MCP, audit, and rate-limit ownership stay with the current TypeScript route until that decision and the gates in `docs/0066` are accepted together.
+
 ## Loopback integration setup
 
 This host has no systemd. `policy-rc.d` denies service starts, so PostgreSQL 16 and Redis 7 were installed with apt and started directly: `pg_ctlcluster 16 main start` and `redis-server --bind 127.0.0.1 --protected-mode yes`. The e2e schema drop needs `max_locks_per_transaction` of at least 256; this host uses 512. `node scripts/prepare-local-integration.mjs` creates only the loopback role and database `vaultix_itest` and writes gitignored `core/.env.test`. It does not print generated secrets. It refuses a non-loopback URL, refuses to drop `vaultix_itest` when another role owns it, refuses to drop the role when that role owns any other database, and refuses to replace `core/.env.test` when that file points at a different database. `node --test scripts/prepare-local-integration.test.mjs` covers those guards.
@@ -56,7 +62,7 @@ That run includes Dragonfly and Redis smoke, encrypted recovery (9 checks), `scr
 
 `node scripts/build-cli.mjs` then `node scripts/test-cli-headless.mjs sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1` with the Linux/amd64 `vaultix` binary passed 17 checks. The image resources stayed on Docker bridge networks with disposable credentials. These packaged checks are separate from the loopback database specs above and from an installed Grok or Codex session.
 
-This host needed Docker Compose v2, the Buildx plugin, and `iptables-legacy` FORWARD policy `ACCEPT`. The legacy policy was `DROP` and blocked container-to-container TCP even though nftables rules accepted it. PostgreSQL 16 inside the image smoke uses the script's fixed smoke password, not `core/.env.test`.
+This host needed Docker Compose v2 and the Buildx plugin. `iptables-legacy` FORWARD policy `DROP` blocked container-to-container TCP. A temporary policy `ACCEPT` was used for the image run, then replaced by accept rules for `br+` interfaces and the policy was set back to `DROP`. PostgreSQL 16 inside the image smoke uses the script's fixed smoke password, not `core/.env.test`.
 
 ## Verification that did not run
 

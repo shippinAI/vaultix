@@ -4072,28 +4072,32 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/operators.go",
-      "blob": "7fd36f5431fad5143f088f7fe6753d80275e28a6",
+      "blob": "e046c0aa58bb37a171ddf87c6ab8fb9d14619480",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "docs/0066-native-reference-reads.md",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/array_operators_test.go",
-      "blob": "d10f3f756d4cf721c6b58c9f3f34953a9be3a61b",
+      "blob": "7209e600071e777e247d2ae4d135d57c533dd6d0",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "docs/0066-native-reference-reads.md",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -4124,15 +4128,16 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
-      "blob": "48f1ffe4fba00349e89c8675c99feb796cc68cca",
+      "blob": "81b4bc5c1e93f3b2af6461ea3c3ce8a8794dcb49",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
       "evidence": [
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
@@ -4163,28 +4168,31 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference_test.go",
-      "blob": "65c3a7e50e2d7dc1f02cbaac8af9cbbe81fbb7e6",
+      "blob": "7795f677580cbcd1df90be9f39258ebf74813fab",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "docs/0066-native-reference-reads.md",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {
       "path": "core/backend-go/tests/secretmanager/secrets/reference_integration_test.go",
-      "blob": "9054256427b555e4ddaac8bb4a480b2581653a79",
+      "blob": "34917ef662e378c3e99a4ea9236dbabace46e859",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
+      "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
       "evidence": [
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
+        "docs/0117-assistant-reference-boundary.md"
       ]
     },
     {

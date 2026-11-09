@@ -57,6 +57,45 @@ func TestPermissionArrayMembership_ScalarAndArrayFields(t *testing.T) {
 	}
 }
 
+func TestPermissionArrayAllMatchesContainedTags(t *testing.T) {
+	for _, scenario := range []struct {
+		name string
+		all  []string
+		tags []string
+		want bool
+	}{
+		{"both", []string{"public", "prod"}, []string{"prod", "public", "extra"}, true},
+		{"missing", []string{"public", "prod"}, []string{"public"}, false},
+		{"empty-constraint", []string{}, []string{"public"}, true},
+		{"empty-field", []string{"public"}, []string{}, false},
+		{"nil-field", []string{"public"}, nil, false},
+	} {
+		t.Run(scenario.name, func(t *testing.T) {
+			rules, err := json.Marshal([]vaultixpolicy.JSONRule{{
+				Action: vaultixpolicy.StringOrSlice{"describeSecret"}, Subject: vaultixpolicy.StringOrSlice{"secrets"},
+				Conditions: vaultixpolicy.Cond{"secretTags": vaultixpolicy.Op{"$all": scenario.all}},
+			}})
+			require.NoError(t, err)
+			ability, err := vaultixpolicy.LoadFromJSON(rules, vaultixpolicy.LoadOptions{FieldOps: PermissionFieldOps()})
+			require.NoError(t, err)
+			require.Equal(t, scenario.want, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{SecretTags: scenario.tags}))
+		})
+	}
+	scalar := PermissionFieldOps()["$all"].Compile(&vaultixpolicy.CompileCtx{Resolve: func(value any) any { return value }}, "secretTags", []string{"public"})
+	require.False(t, scalar(vaultixpolicy.MapSubject{"secretTags": "public"}))
+}
+
+func TestReferenceEvaluatorStaysDenyFirstUntilCutoverDecision(t *testing.T) {
+	// CASL lets the later allow override the earlier forbid. This evaluator
+	// still returns false. Public reference routes stay on TypeScript.
+	ability, err := vaultixpolicy.LoadFromJSON([]byte(`[
+		{"action":"describeSecret","subject":"secrets","inverted":true},
+		{"action":"describeSecret","subject":"secrets","conditions":{"secretName":"ALLOWED"}}
+	]`), vaultixpolicy.LoadOptions{FieldOps: PermissionFieldOps()})
+	require.NoError(t, err)
+	require.False(t, vaultixpolicy.Can(ability, project.SecretActionDescribeSecret, project.SecretSubject{SecretName: "ALLOWED"}))
+}
+
 func TestPermissionArrayMembership_ConditionsAndDenyRemainEffective(t *testing.T) {
 	ability, err := vaultixpolicy.LoadFromJSON([]byte(`[
 		{"action":"describeSecret","subject":"secrets","conditions":{"environment":"dev","secretTags":{"$in":"{{ .tags }}"}}},
