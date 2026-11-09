@@ -9845,7 +9845,7 @@ scripts/test-storybook-mcp.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1d688f5fd15107041d1d53c562ac82f677020765	authored
-scripts/test-user-sessions-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8621050927063530180499126173cf1f1f85d07f	unread
+scripts/test-user-sessions-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2c0c6da1929e0b602dad22f29e78752ae3462588	unread
 scripts/test-user-sessions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5379c2589c718249043bb88434a319bd1fdd38c9	unread
 scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	authored
 scripts/test-vaultix-policy-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ac19f03bedba7525496c890423936cdb7b96a857	authored
