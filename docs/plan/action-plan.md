@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: package 05 secret lifecycle. Reference dispatch parity on image `sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682` is recorded in `docs/0066`. The lifecycle exit is still the existing create, update, version, and restore behavior, approvals, assumed authority, and no secret-changing MCP tool. Those write paths stay on TypeScript until that package has its own tests and image receipt.
+Next task: a differential for secret writes only after the characterization in `secret-lifecycle-characterization.test.ts` is the baseline. TypeScript remains the write owner. No write-dispatch flag was added because no native write path exists yet. Core MCP still has no secret-changing tool. One existing behavior is recorded and not changed: `getSecretByName` decrypts a value before it rejects a describe-only value read. The denial does not return the value.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

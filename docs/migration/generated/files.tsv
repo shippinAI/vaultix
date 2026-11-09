@@ -4042,6 +4042,7 @@ core/backend/src/services/secret-sync/zabbix/zabbix-sync-types.ts	core/backend/s
 core/backend/src/services/secret-tag/secret-tag-dal.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	8768990fef7b6e36bc935d57069ef7b637d6988c	unread
 core/backend/src/services/secret-tag/secret-tag-service.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	da123053e294bca0f9700e8d827b3f4d8576cfd9	unread
 core/backend/src/services/secret-tag/secret-tag-types.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	ede0c55a32593ee91d424679daa6ff1f4265fd4f	unread
+core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	6150bebe4494fbe70229a6b2898ad88db37c3214	unread
 core/backend/src/services/secret-v2-bridge/secret-raw-describe-boundary.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	221321ee69cd8176b2f4b5a9e28c0896f8397af0	unread
 core/backend/src/services/secret-v2-bridge/secret-reference-fns.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	dcb66024373d12f0d3f7ec5d9ccefedd80eebe5b	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-dal.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	c00068cd447a1a735b14e323ddf6f513aa3efa18	unread
