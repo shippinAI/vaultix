@@ -5,8 +5,8 @@ import { validatePullRequest, validateEvidence, verifyAndReport, validateProtect
 const head = 'a'.repeat(40), main = 'b'.repeat(40), image = `sha256:${'c'.repeat(64)}`;
 const fixture = () => ({
   head, main, pr: { number: 3, state: 'open', draft: false, mergeable: true,
-    head: { sha: head, repo: { full_name: 'shippinAI/vaultix' } },
-    base: { sha: main, ref: 'main', repo: { full_name: 'shippinAI/vaultix' } } },
+    head: { sha: head, repo: { full_name: 'vaultix-cloud/vaultix' } },
+    base: { sha: main, ref: 'main', repo: { full_name: 'vaultix-cloud/vaultix' } } },
   build: { passed: true, revision: head, image: `vaultix:${head}`, imageId: image,
     steps: ['source-inventory', 'migration-map', 'login-failure-policy', 'owned-source', 'source-archive', 'extract-source',
       'canonical-image', 'image-identity', 'identity-lifetime', 'dragonfly-application', 'redis-application',

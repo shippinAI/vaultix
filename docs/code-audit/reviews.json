@@ -9156,14 +9156,15 @@
     },
     {
       "path": "scripts/lib/pr-verification.mjs",
-      "blob": "90c2f503fde2379a844e7d04ab54e12e14662992",
+      "blob": "7d7244495ef40e210eb193bebc42fd82b2a86f8e",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-bundle.test.mjs",
+        "The verifier now names the repository at its new home, vaultix-cloud/vaultix. Only the name changed; scripts/pr-verification.test.mjs passes."
       ]
     },
     {
@@ -9182,14 +9183,15 @@
     },
     {
       "path": "scripts/pr-verification.test.mjs",
-      "blob": "717c0710c46d8b44b7cc7617ba2ca160e5b5d42d",
+      "blob": "bc1d5e85cf758dae3c94f0cbaf55c06ec716987e",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-bundle.test.mjs",
+        "The verifier now names the repository at its new home, vaultix-cloud/vaultix. Only the name changed; scripts/pr-verification.test.mjs passes."
       ]
     },
     {

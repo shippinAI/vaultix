@@ -12030,7 +12030,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	2995350f95fa15d72d2dfb60bdecd6b564185388	generated	unread
-docs/capabilities/generated/source-map.tsv	3080f1dcf0c84549602def8af761ed1bd348c99c	generated	unread
+docs/capabilities/generated/source-map.tsv	310242259d138b2d292b6d6810f6fd3704ee83d0	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12042,8 +12042,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	12c2d312d0ded231a3891c84887c60c780fa2b35	generated	unread
-docs/migration/generated/modules.tsv	7fc9996de0543431d5c2df18a1ebd45c258b1b06	generated	unread
+docs/migration/generated/files.tsv	3d7a8b338bcf9ab6b53ce2c79911085f0a6e644a	generated	unread
+docs/migration/generated/modules.tsv	57ac41fa787b334df42d2bacf096a52445d424b7	generated	unread
 docs/migration/generated/summary.json	d334e358b07019be674495b166b901a2fa689686	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12255,7 +12255,7 @@ scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-
 scripts/lib/ai-journal.mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	build-and-operations	reviewed
 scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-and-operations	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	build-and-operations	reviewed
-scripts/lib/pr-verification.mjs	90c2f503fde2379a844e7d04ab54e12e14662992	build-and-operations	authored
+scripts/lib/pr-verification.mjs	7d7244495ef40e210eb193bebc42fd82b2a86f8e	build-and-operations	authored
 scripts/lib/release-bundle.mjs	8a962bce0527b818cf0ae0deeb0d47574091e7ee	build-and-operations	reviewed
 scripts/lib/release-preparation.mjs	c4610e04c1c2cbb3797a1a999f58d308d5729493	build-and-operations	reviewed
 scripts/lib/release-producer-process.mjs	d14bd3f25f84b17968cba5a7f7264a6342aa99f2	build-and-operations	reviewed
@@ -12266,7 +12266,7 @@ scripts/lib/ui-action-standard.mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	buil
 scripts/lib/ui-benchmark-receipt.mjs	a6171d6245aa73f31d28c6f4dc50f534557e0963	build-and-operations	unread
 scripts/map-capabilities.mjs	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	build-and-operations	verified
 scripts/map-migration.mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	build-and-operations	verified
-scripts/pr-verification.test.mjs	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	test	authored
+scripts/pr-verification.test.mjs	bc1d5e85cf758dae3c94f0cbaf55c06ec716987e	test	authored
 scripts/prepare-local-integration.mjs	062be46e50b981c0e18ed424ebb91b50b5f1b5f4	build-and-operations	unread
 scripts/prepare-local-integration.test.mjs	71aef55256d4f7f8056c2a11900b0078195f7a44	test	unread
 scripts/prepare-release.mjs	fb00f71d3ad8b8b34f046c036c06c6609473b6d4	build-and-operations	reviewed

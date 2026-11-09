@@ -9738,7 +9738,7 @@ scripts/go-test-evidence.mjs	operate	delivery	scripts	d7a3809998aa57ddc40200e763
 scripts/lib/ai-journal.mjs	operate	delivery	scripts/lib	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	operate	delivery	scripts/lib	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	operate	delivery	scripts/lib	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	reviewed
-scripts/lib/pr-verification.mjs	operate	delivery	scripts/lib	90c2f503fde2379a844e7d04ab54e12e14662992	authored
+scripts/lib/pr-verification.mjs	operate	delivery	scripts/lib	7d7244495ef40e210eb193bebc42fd82b2a86f8e	authored
 scripts/lib/release-bundle.mjs	operate	delivery	scripts/lib	8a962bce0527b818cf0ae0deeb0d47574091e7ee	reviewed
 scripts/lib/release-preparation.mjs	operate	delivery	scripts/lib	c4610e04c1c2cbb3797a1a999f58d308d5729493	reviewed
 scripts/lib/release-producer-process.mjs	operate	delivery	scripts/lib	d14bd3f25f84b17968cba5a7f7264a6342aa99f2	reviewed
@@ -9749,7 +9749,7 @@ scripts/lib/ui-action-standard.mjs	operate	delivery	scripts/lib	f1df50d2f430cf43
 scripts/lib/ui-benchmark-receipt.mjs	operate	delivery	scripts/lib	a6171d6245aa73f31d28c6f4dc50f534557e0963	unread
 scripts/map-capabilities.mjs	operate	delivery	scripts	d6c8c5f7b0b0ffb9c592e3c74d78dce95cb2def3	verified
 scripts/map-migration.mjs	operate	delivery	scripts	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
-scripts/pr-verification.test.mjs	operate	delivery	scripts	717c0710c46d8b44b7cc7617ba2ca160e5b5d42d	authored
+scripts/pr-verification.test.mjs	operate	delivery	scripts	bc1d5e85cf758dae3c94f0cbaf55c06ec716987e	authored
 scripts/prepare-local-integration.mjs	operate	delivery	scripts	062be46e50b981c0e18ed424ebb91b50b5f1b5f4	unread
 scripts/prepare-local-integration.test.mjs	operate	delivery	scripts	71aef55256d4f7f8056c2a11900b0078195f7a44	unread
 scripts/prepare-release.mjs	operate	delivery	scripts	fb00f71d3ad8b8b34f046c036c06c6609473b6d4	reviewed
