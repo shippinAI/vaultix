@@ -9134,7 +9134,7 @@
     },
     {
       "path": "docs/pr-delivery.md",
-      "blob": "a6004600f6d77e0df9a7ce6dc25de63132935e2b",
+      "blob": "a6a666c3236d80f7993a52bc78c2a154e0cd7315",
       "status": "authored",
       "decision": "modify",
       "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md.",
@@ -9146,7 +9146,8 @@
         ".cache/install-guard-proof.json",
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/schema_test.go",
-        "scripts/test-server-migration.mjs"
+        "scripts/test-server-migration.mjs",
+        "Adds the alpha phase note after the owner removed the merge requirements on main."
       ]
     },
     {

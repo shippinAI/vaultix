@@ -5,6 +5,19 @@ Vaultix source delivery uses GitHub PRs with the required
 infrastructure. The existing hosted workflows remain manual-only; this does not
 register a runner or start paid Actions on push/PR events.
 
+## Alpha phase
+
+Since 2026-11-09 the owner has removed the pull request and status check requirements on
+`main` for the alpha, so `git push origin main` works directly. Force-pushing and deleting
+`main` stay blocked. Nothing checks a push automatically.
+
+To run the full check by choice, use `node scripts/build-self-hosted.mjs`. The real-image
+upgrade tests can be run on their own. `scripts/verify-pull-request.mjs` refuses to run while
+`main` is unprotected, because it exists to merge through that protection.
+
+Restore the protection below and run the full gate before outside users store real secrets.
+The rest of this document describes that release process.
+
 ## Merge policy
 
 Repository auto-merge must be enabled. Protect `main` with an up-to-date base,
