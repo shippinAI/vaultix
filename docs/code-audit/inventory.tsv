@@ -11962,7 +11962,7 @@ docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	doc
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
-docs/0066-native-reference-reads.md	c6af7eacf949f5d00f01306c34069a57773846b0	documentation	unread
+docs/0066-native-reference-reads.md	33f11aa8214b9b6c5430e35be1dfbb5f68bb8775	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
 docs/0069-execution-goal.md	d93133c58976e59c3224290f072787b5490ebced	documentation	reviewed
@@ -11987,7 +11987,7 @@ docs/0113-vaultix-identity-execution.md	b6727db6a7f0b4a92d599b7121b4f9bee4021a93
 docs/0114-domain-scripted-ui-standard.md	e7801d6a30e2c0bf3ec8e2bce8d319a6269e0825	documentation	unread
 docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320d1c26be2573b4e72544d859fd8	documentation	unread
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
-docs/0117-assistant-reference-boundary.md	8532f8d6fc2013583abcf7e75c0d516431b2cd27	documentation	unread
+docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -12028,7 +12028,7 @@ docs/migration/generated/files.tsv	f235464de1fbd3411efafae530e77dc8981bbfff	gene
 docs/migration/generated/modules.tsv	dd79491e3cd1fa9c29d304b6ea61e4459953c9ac	generated	unread
 docs/migration/generated/summary.json	9ba33fc84eae527444a4e6f76710dc697e926c75	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
-docs/plan/action-plan.md	10c9fea192f544ca5f971fcd2af14692998ae0a2	documentation	unread
+docs/plan/action-plan.md	a6b13fe7c1d113c158853933a91edda66ed39f4d	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
 docs/plan/traceability.md	949ab9ab2b5cb545cd6adc0fe6dcf03822b34715	documentation	unread
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored

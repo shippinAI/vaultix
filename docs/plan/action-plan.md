@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: prove the packaged image with `VAULTIX_REFERENCE_DISPATCH=go` on the revision that contains the native reference handler. The code default remains TypeScript. Secret writes stay behind that image proof. Forbid-wins and `$all` parity are tested.
+Next task: package 05 secret lifecycle, after this reference cutover. The packaged image `sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682` from `49e4ba711de0f3514ffbd897aeaca4dae43f0a44` serves reference reads through the native sidecar. The code default remains TypeScript when dispatch is unset. Forbid-wins and `$all` parity are tested. Do not start secret writes until that image receipt is the one under review.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

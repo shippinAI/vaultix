@@ -291,5 +291,17 @@ remains the storage writer; native delivery appends the same `audit-log-stream`
 envelope. A canceled enqueue still returns before delivery.
 
 The packaged image sets `VAULTIX_REFERENCE_DISPATCH=go`, spawns the sidecar on
-`127.0.0.1:4040`, and waits for its health route before serving. That image
-proof is recorded separately from this source description.
+`127.0.0.1:4040`, and waits for its health route before serving.
+
+`node scripts/build-self-hosted.mjs` passed for commit
+`49e4ba711de0f3514ffbd897aeaca4dae43f0a44`. Image
+`sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682`,
+tag `vaultix:49e4ba711de0f3514ffbd897aeaca4dae43f0a44`. Receipt
+`.cache/self-hosted-build-4qPCdv/result.json`. The sidecar listened on
+`127.0.0.1:4040` and its health route returned 200 before the API served
+traffic. Passed steps include Dragonfly and Redis smoke, encrypted recovery,
+tenant isolation (including authorized, foreign, and unauthenticated reference
+routes), the proxy boundary, and admission on both caches. No registry push.
+This receipt does not include a later documentation commit.
+
+`node scripts/test-cli-headless.mjs sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682 /workspace/.cache/cli-build-4D6STq/linux-amd64/vaultix` passed 17 checks, including token login, machine-identity login, and MCP reference reads without values. Evidence `/workspace/.cache/cli-headless-8eGmQR`. The CLI binary was built before this server revision; the server under test is the image above.
