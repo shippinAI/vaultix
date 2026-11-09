@@ -89,7 +89,7 @@ core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	u
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4449f1abb499082344d09afa37e27f8974f24685	documentation	reviewed
 core/Dockerfile.ghcr	816f39991163321588f4dfb05efd55ac4c3da840	build-and-operations	reviewed
-core/Dockerfile.standalone-vaultix	633c8681f626bf590fb63b6ce101a1ca6372f398	build-and-operations	reviewed
+core/Dockerfile.standalone-vaultix	cbeb092d3d90afd3bcc7339e2f60a072d1ba190d	build-and-operations	reviewed
 core/Makefile	329e030c6ba55e576a37749b6d4757e3002cdaf4	product-code	unread
 core/PIN	17f95aab1bf33bd56ee24308b78a97652fc555b2	product-code	unread
 core/README.md	2e1514c1cb6d068f4cbefda3297dc0720ae30c8b	documentation	unread
@@ -178,8 +178,10 @@ core/backend-go/internal/server/api/platform/projects/cfg.yaml	72e809c18abcb44a7
 core/backend-go/internal/server/api/platform/projects/gen.go	e43f6b69f4b41d824247555017cb1c0f25c77133	product-code	verified
 core/backend-go/internal/server/api/platform/projects/handler.go	52baf54f3002c973a8ada03c5eb483ac16a171e4	product-code	verified
 core/backend-go/internal/server/api/platform/projects/openapi.yml	b53a4afdec2c6b494366455739c677446fd62c28	build-and-operations	verified
-core/backend-go/internal/server/api/platform_routes.go	d97d68d24ad40518cacd780d64ea1d40ee75d9ff	product-code	authored
-core/backend-go/internal/server/api/platform_services.go	85181a4deac564daeb9443d661baa33f2b2a3b66	product-code	reviewed
+core/backend-go/internal/server/api/platform/usersessions/handler.go	5111ef0242f31d4d3384b5aa1acd6f188bdfb527	product-code	unread
+core/backend-go/internal/server/api/platform/usersessions/handler_test.go	a9fd037afddd81f77011177fb1aeb229eb3696af	test	unread
+core/backend-go/internal/server/api/platform_routes.go	05e599e9133ab541411c94e110e8957387af36a4	product-code	authored
+core/backend-go/internal/server/api/platform_services.go	602d3066e94e9ff144fef25aab4122770ea5cb06	product-code	reviewed
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	35a2af5abac5d1521e932c47beea4844958ab6fa	build-and-operations	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	eda488c30cc0d5bfb0bda66eb3a001288eecbb95	product-code	unread
 core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	7f25cb74462137dc98c154c2e43be71faa29044c	product-code	authored
@@ -262,6 +264,7 @@ core/backend-go/internal/services/auth/nomen/reauthentication_factor.go	fa88ed7c
 core/backend-go/internal/services/auth/nomen/testdata/password-node-v1.json	9a9c3fcc4d81e38ae1c093571e013259bb67fd6a	product-code	verified
 core/backend-go/internal/services/auth/nomen/totp.go	9c18150d609f9f6913726ea55d9c61432e8d3b45	product-code	verified
 core/backend-go/internal/services/auth/nomen/totp_test.go	069db5665782a5e010eabda522a785f00cc5e8b1	test	verified
+core/backend-go/internal/services/auth/session/service.go	87e2b80effe8ef6e54f997a72337f6e06ff36476	product-code	unread
 core/backend-go/internal/services/kms/authentication_factor.go	79fd4aa3d0d4d7b5d079f68e9300db6b0d406368	product-code	verified
 core/backend-go/internal/services/kms/authentication_factor_test.go	ee0e497d94732ffdfb54a6680cc93c5a5f6ac354	test	verified
 core/backend-go/internal/services/kms/kms.go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	product-code	unread
@@ -363,6 +366,7 @@ core/backend-go/tests/platform/auth/reauthentication_test.go	cabc60f0bb5b37bb4f4
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	test	verified
 core/backend-go/tests/platform/auth/totp_reauthentication_test.go	f6203e99bfb280aa43bdfd2499f47356f88b0ca0	test	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	2b5ab0e39d3fdccc358580bb193ced31230a2827	test	authored
+core/backend-go/tests/platform/auth/usersessions_test.go	aa071bbc287ab0efae1de120250d2fa1381f1f75	test	unread
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	2286ce2df00016cb92368996abd39b3941abe158	test	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	c80d3e456982798c0fc5b0d8c258f870aed63168	test	unread
 core/backend-go/tests/platform/hsm/hsm_test.go	b6802db6984e80cad8679070f62c82ddb891d511	test	unread
@@ -2129,7 +2133,7 @@ core/backend/src/lib/config/cache.test.ts	7f0d90b154bcc19f58aad545b72c476168080a
 core/backend/src/lib/config/cache.ts	9f0e247b534658508dbc1157624e9c1bee743c88	product-code	unread
 core/backend/src/lib/config/clickhouse.ts	9a1129ed16d6a11907989da9ebae9cd366a61bee	product-code	unread
 core/backend/src/lib/config/const.ts	612234c1727a0a42ba29672693fa301ad31a5da5	product-code	unread
-core/backend/src/lib/config/env.ts	13705dc41b4b7fdeed662629bbf1b401ab7b4d7d	product-code	verified
+core/backend/src/lib/config/env.ts	cc5466bc95c6ea1503aca329a3c31ffc3f9784bc	product-code	verified
 core/backend/src/lib/config/identity-token-policy.test.ts	2fe3663ab7086eded1fbeee3bd5ea4c495927170	test	verified
 core/backend/src/lib/config/identity-token-policy.ts	50c7c56dc3957ba171185c5793bd0e4aa1115f0f	product-code	verified
 core/backend/src/lib/config/redis.ts	9aa23a24ac088ac40bb584a0707a84483e8bafaa	product-code	verified
@@ -2321,7 +2325,7 @@ core/backend/src/server/plugins/swagger.ts	bac29bd238b1bddf04d492134cfc3a97801c2
 core/backend/src/server/routes/bdd/bdd-nock-router.dev.ts	c5f6001f5586916623884563c6b5eaafdf65ae17	product-code	unread
 core/backend/src/server/routes/bdd/bdd-nock-router.ts	90f2ed00c62b0b74ac9f7f6f4d6834a5001e2ad3	product-code	unread
 core/backend/src/server/routes/early-access-router.ts	f4c9626832568cba727d1e04882905b02160c62f	product-code	authored
-core/backend/src/server/routes/index.ts	8924542e45dabf7afff1cb9aa14fa18e3df10095	product-code	authored
+core/backend/src/server/routes/index.ts	41746700234d4bfadb7b9674a6d6f6663700fee5	product-code	authored
 core/backend/src/server/routes/mfa-step-up-fns.ts	bbb188347747e61f33ec65724ef655e57f8707d9	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/directory-config.ts	61be4d9cf681e33683e8cc29df9ae3ba20c7fe5c	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/identitiy-additional-privilege.ts	0feb1ba55c197387eb6926e023b5ce807979ce8c	product-code	unread
@@ -2632,7 +2636,7 @@ core/backend/src/server/routes/v2/pki-templates-router.ts	c3e672f3a2d68630656739
 core/backend/src/server/routes/v2/secret-folder-router.ts	96fcb6a8a33196650a01ac85ad66697d5e8c37b3	product-code	unread
 core/backend/src/server/routes/v2/secret-import-router.ts	3e89014e809b988064ab67b59998e610e425fca9	product-code	unread
 core/backend/src/server/routes/v2/service-token-router.ts	96be91a4d130fb35134bf510d032f9caa4c06ff2	product-code	unread
-core/backend/src/server/routes/v2/user-router.ts	74b92a45de449fcfe5f8730b48c67fc69c613e4b	product-code	unread
+core/backend/src/server/routes/v2/user-router.ts	e034cd5b7bf488899e3158b44e0af60929dff2db	product-code	unread
 core/backend/src/server/routes/v3/builtin-login-route.test.ts	d0b236ca45cb99bea5c9cd15f8b96b4c17ce4e52	test	unread
 core/backend/src/server/routes/v3/deprecated-certificates-router.ts	d10966f95a83acc359b9e9b61e4568db9c96886b	product-code	unread
 core/backend/src/server/routes/v3/deprecated-secret-router.ts	fb30467854533f8961059065b08151318bab90e4	product-code	unread
@@ -3231,6 +3235,8 @@ core/backend/src/services/auth-token/device-event-source.ts	452891d7aa6ff92cf7b7
 core/backend/src/services/auth-token/device-event-worker.spec.ts	6e8ea6c0fac2b69018f1bcfa3a3162a8a24cc305	test	authored
 core/backend/src/services/auth-token/device-event-worker.ts	f1ba669d21b57fcd82c361a41f905a0f0e2d2940	product-code	authored
 core/backend/src/services/auth-token/device-source-store.spec.ts	e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a	test	authored
+core/backend/src/services/auth-token/session-dispatch.test.ts	83b02d58aee3d322632e06bd70bbe6c32fc8e63c	test	unread
+core/backend/src/services/auth-token/session-dispatch.ts	a5b9f967acfbfe146f38bdb41d1271e06193f86f	product-code	unread
 core/backend/src/services/auth/auth-dal.ts	fdf6afbcbe69ae04a5c40413be0bc4b7a730d06e	product-code	unread
 core/backend/src/services/auth/auth-fns.test.ts	8041f23f694fb11d2322245230e765273f2aa414	test	unread
 core/backend/src/services/auth/auth-fns.ts	a18321f5ac92f80c5e4a1e74fb3a3a812fc7ff5c	product-code	unread
@@ -12029,8 +12035,8 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	e0f33ac90ce69cd51277c59886671f8dc70ba708	generated	unread
-docs/capabilities/generated/source-map.tsv	78d7c38efe1a5c88a26f0d7b45e539298a906379	generated	unread
+docs/capabilities/generated/catalog.json	04169ea0e014e35682da1ae8964b9abc353e069d	generated	unread
+docs/capabilities/generated/source-map.tsv	59f43b6620d5085077fecb1cf24a3eafb90e354c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12042,9 +12048,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	21005866775238ee7f757e330d9d387a493e6466	generated	unread
-docs/migration/generated/modules.tsv	8c1d8d11fd2b4747cd5744d51d2894fde9cc13f4	generated	unread
-docs/migration/generated/summary.json	d334e358b07019be674495b166b901a2fa689686	generated	unread
+docs/migration/generated/files.tsv	2be06733b7aa9f85d2cce831db0313b70548a91d	generated	unread
+docs/migration/generated/modules.tsv	af7bbad018e40e30315ebea36dc3a278c6a7ad11	generated	unread
+docs/migration/generated/summary.json	0bafb0513b57932110551153df98a250facfc90f	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
@@ -12317,7 +12323,7 @@ scripts/test-go-test-evidence.mjs	b5583de0e3990833d120e86e707545c3a491a1e1	build
 scripts/test-guidance-contract.mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	build-and-operations	verified
 scripts/test-guided-interactions.mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	build-and-operations	verified
 scripts/test-identity-policy-startup.mjs	0b987ad6360d321ac5126d81634a38abfa98a504	build-and-operations	verified
-scripts/test-image-app.mjs	e7d2f6be1ea1d6104a7e4f469883eb4575d3ace5	build-and-operations	reviewed
+scripts/test-image-app.mjs	4dada7fbb8db96f884fac117ccdef0a90f5db13b	build-and-operations	reviewed
 scripts/test-invite-only-access.mjs	cecf13427d4681354e192cf0ef86c02e6dffef46	build-and-operations	reviewed
 scripts/test-learning-content.mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	build-and-operations	verified
 scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-and-operations	verified
@@ -12356,6 +12362,8 @@ scripts/test-storybook-mcp.mjs	fd8f1e8179459550d1665c0f65a13a5bbaa3eb54	build-an
 scripts/test-tenant-isolation.mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	build-and-operations	verified
 scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
 scripts/test-updates-clyffy-workflow.mjs	1d688f5fd15107041d1d53c562ac82f677020765	build-and-operations	authored
+scripts/test-user-sessions-image.mjs	8621050927063530180499126173cf1f1f85d07f	build-and-operations	unread
+scripts/test-user-sessions.mjs	5379c2589c718249043bb88434a319bd1fdd38c9	build-and-operations	unread
 scripts/test-vaultix-media.mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	build-and-operations	authored
 scripts/test-vaultix-policy-image.mjs	ac19f03bedba7525496c890423936cdb7b96a857	build-and-operations	authored
 scripts/test-vaultix-policy.mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	build-and-operations	authored

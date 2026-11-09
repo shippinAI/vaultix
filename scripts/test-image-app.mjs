@@ -13,6 +13,7 @@ import { testLoginRecovery } from "./test-login-recovery.mjs";
 import { testFirstRunSetup } from "./test-first-run-setup.mjs";
 import { testInviteOnlyAccess } from "./test-invite-only-access.mjs";
 import { testEarlyAccess } from "./test-early-access.mjs";
+import { testUserSessions } from "./test-user-sessions-image.mjs";
 import { testDashboardRecovery } from "./test-dashboard-recovery.mjs";
 import { testChartRendering } from "./test-chart-rendering.mjs";
 import { testEnvironmentWorkflow } from "./test-environment-workflow.mjs";
@@ -53,6 +54,8 @@ try {
   await testEarlyAccess({ browser, expect, AxeBuilder, origin, adminEmail: email, token: selected.token, password, evidence });
   phase = "login-recovery";
   await testLoginRecovery({ browser, expect, AxeBuilder, origin, email, password, organizationId: bootstrap.organization.id, evidence });
+  phase = "user-sessions";
+  await testUserSessions({ origin, email, password, organizationId: bootstrap.organization.id });
   phase = "entry";
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   // External integrations are outside this local acceptance test. No API/auth responses are mocked.

@@ -14,6 +14,7 @@ import (
 	"github.com/vaultix/api/internal/services/auditlog"
 	"github.com/vaultix/api/internal/services/auth/apiauth"
 	"github.com/vaultix/api/internal/services/auth/device"
+	"github.com/vaultix/api/internal/services/auth/session"
 	"github.com/vaultix/api/internal/services/kms"
 	"github.com/vaultix/api/internal/services/permission"
 	"github.com/vaultix/api/internal/services/project"
@@ -23,6 +24,7 @@ import (
 type PlatformServices struct {
 	ApiAuthenticator    *apiauth.ApiAuthenticator
 	DeviceAuthorization *deviceauth.Handler
+	UserSessions        *session.Service
 	Permission          *permission.Service
 	KMS                 *kms.Service
 	License             *license.Service
@@ -126,6 +128,11 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		}
 	}
 
+	userSessions, err := session.NewService(&session.Deps{DB: infra.DB})
+	if err != nil {
+		return nil, fmt.Errorf("user sessions: %w", err)
+	}
+
 	auditLogSvc := auditlog.NewService(ctx, infra.Logger, &auditlog.Deps{
 		Queue:  infra.Queue,
 		Config: infra.Config,
@@ -148,6 +155,7 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	svc := &PlatformServices{
 		ApiAuthenticator:    apiAuthenticator,
 		DeviceAuthorization: deviceHandler,
+		UserSessions:        userSessions,
 		Permission:          permissionSvc,
 		KMS:                 kmsSvc,
 		License:             infra.License,

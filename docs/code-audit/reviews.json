@@ -267,7 +267,7 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "e7d2f6be1ea1d6104a7e4f469883eb4575d3ace5",
+      "blob": "4dada7fbb8db96f884fac117ccdef0a90f5db13b",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
@@ -276,7 +276,8 @@
         "scripts/test-domain-workbench.mjs",
         "scripts/test-product-guidance.mjs",
         "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
-        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
+        "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity.",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -867,7 +868,7 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "633c8681f626bf590fb63b6ce101a1ca6372f398",
+      "blob": "cbeb092d3d90afd3bcc7339e2f60a072d1ba190d",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending. Packaged runtime sets VAULTIX_REFERENCE_DISPATCH=go and spawns the loopback sidecar.",
@@ -875,7 +876,8 @@
         "scripts/build-self-hosted.mjs",
         "scripts/test-cli-delivery.mjs",
         "https://docs.docker.com/build/cache/optimize/",
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -1827,7 +1829,7 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "85181a4deac564daeb9443d661baa33f2b2a3b66",
+      "blob": "602d3066e94e9ff144fef25aab4122770ea5cb06",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. NativeLimiterEnabled keeps the self-hosted Go limiter disabled; public Vaultix budgets stay on TypeScript.",
@@ -1839,7 +1841,8 @@
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs",
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -1904,7 +1907,7 @@
     },
     {
       "path": "core/backend/src/lib/config/env.ts",
-      "blob": "13705dc41b4b7fdeed662629bbf1b401ab7b4d7d",
+      "blob": "cc5466bc95c6ea1503aca329a3c31ffc3f9784bc",
       "status": "verified",
       "decision": "modify",
       "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. Adds VAULTIX_REFERENCE_DISPATCH, default typescript.",
@@ -1918,7 +1921,8 @@
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
         "scripts/test-invite-only-access.mjs",
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -6310,7 +6314,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "8924542e45dabf7afff1cb9aa14fa18e3df10095",
+      "blob": "41746700234d4bfadb7b9674a6d6f6663700fee5",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
@@ -6323,7 +6327,8 @@
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
         "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change.",
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -10481,14 +10486,15 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_routes.go",
-      "blob": "d97d68d24ad40518cacd780d64ea1d40ee75d9ff",
+      "blob": "05e599e9133ab541411c94e110e8957387af36a4",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {

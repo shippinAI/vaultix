@@ -7,6 +7,7 @@ import (
 
 	"github.com/vaultix/api/internal/ee/services/ratelimit"
 	"github.com/vaultix/api/internal/server/api/platform/projects"
+	"github.com/vaultix/api/internal/server/api/platform/usersessions"
 	"github.com/vaultix/api/internal/server/api/shared"
 	"github.com/vaultix/api/internal/services/auth/apiauth"
 )
@@ -17,6 +18,11 @@ func RegisterPlatformRoutes(router chi.Router, logger *slog.Logger, svc *Platfor
 	if svc.DeviceAuthorization != nil {
 		svc.DeviceAuthorization.Register(router)
 	}
+
+	usersessions.NewHandler(svc.UserSessions, shared.NewErrorHandler(l)).Register(router, svc.ApiAuthenticator.RequireAuth(
+		apiauth.WithAuthModes(apiauth.JWTAuth),
+		apiauth.WithAssumePrivilege(false),
+	))
 
 	projectsHandler := projects.NewHandler(&projects.Deps{
 		Logger:     l,

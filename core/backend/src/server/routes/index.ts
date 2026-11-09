@@ -4117,9 +4117,9 @@ export const registerRoutes = async (
   //   await server.register(forwardToGoSidecar, { sidecarUrl: envConfig.GOLANG_SIDECAR_URL });
   // }
   const referenceBaseUrl = envConfig.GOLANG_SIDECAR_URL || "http://127.0.0.1:4040";
-  if (envConfig.VAULTIX_REFERENCE_DISPATCH === "go") {
+  if (envConfig.VAULTIX_REFERENCE_DISPATCH === "go" || envConfig.VAULTIX_SESSION_DISPATCH === "go") {
     if (!envConfig.GO_SIDECAR_SPAWN_ENABLED && !envConfig.GOLANG_SIDECAR_URL)
-      throw new Error("VAULTIX_REFERENCE_DISPATCH=go requires the loopback Go sidecar.");
+      throw new Error("VAULTIX_REFERENCE_DISPATCH=go and VAULTIX_SESSION_DISPATCH=go require the loopback Go sidecar.");
     await waitForVaultixSidecar(referenceBaseUrl);
   }
 

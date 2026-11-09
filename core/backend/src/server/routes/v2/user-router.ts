@@ -2,16 +2,24 @@ import type { RegistrationResponseJSON } from "@simplewebauthn/server";
 import { z } from "zod";
 
 import { AuthTokenSessionsSchema } from "@app/db/schemas";
+import { getConfig } from "@app/lib/config/env";
 import { UnauthorizedError } from "@app/lib/errors";
 import { readLimit, smtpRateLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMethod, AuthMode, MfaMethod } from "@app/services/auth/auth-type";
+import { createVaultixSessionDispatch } from "@app/services/auth-token/session-dispatch";
 import { sanitizedOrganizationSchema } from "@app/services/org/org-schema";
 
 import { ensureStepUpMfa, getStepUpSessionId, MfaStepUpResource } from "../mfa-step-up-fns";
 import { SanitizedUserSchema } from "../sanitizedSchemas";
 
 export const registerUserRouter = async (server: FastifyZodProvider) => {
+  const envConfig = getConfig();
+  const sessionDispatch =
+    envConfig.VAULTIX_SESSION_DISPATCH === "go"
+      ? createVaultixSessionDispatch(envConfig.GOLANG_SIDECAR_URL || "http://127.0.0.1:4040")
+      : undefined;
+
   server.route({
     method: "POST",
     url: "/me/emails/code",
@@ -425,6 +433,7 @@ export const registerUserRouter = async (server: FastifyZodProvider) => {
     },
     onRequest: verifyAuth([AuthMode.JWT]),
     handler: async (req) => {
+      if (sessionDispatch) return sessionDispatch.list(req);
       const sessions = await server.services.authToken.getTokenSessionByUser(req.permission.id);
       return sessions;
     }
@@ -446,6 +455,7 @@ export const registerUserRouter = async (server: FastifyZodProvider) => {
     },
     onRequest: verifyAuth([AuthMode.JWT]),
     handler: async (req) => {
+      if (sessionDispatch) return sessionDispatch.revokeAll(req);
       await server.services.authToken.revokeAllMySessions(req.permission.id);
       return {
         message: "Successfully revoked all sessions"
@@ -472,6 +482,7 @@ export const registerUserRouter = async (server: FastifyZodProvider) => {
     },
     onRequest: verifyAuth([AuthMode.JWT]),
     handler: async (req) => {
+      if (sessionDispatch) return sessionDispatch.revoke(req, req.params.sessionId);
       await server.services.authToken.revokeMySessionById(req.permission.id, req.params.sessionId);
       return {
         message: "Successfully revoked session"
