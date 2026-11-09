@@ -1,5 +1,6 @@
 import fastify from "fastify";
 
+import { getVaultixAuthConfig, publicInstanceURL } from "@app/services/vaultix/auth-config";
 import type { VaultixLearningMemory } from "@app/services/vaultix/catalog";
 
 import { registerVaultixRouter } from "./vaultix-router";
@@ -11,6 +12,28 @@ describe("native Vaultix HTTP API", () => {
   });
   afterAll(async () => {
     await app.close();
+  });
+
+  test("publishes only the implemented password login and does not choose a CLI default", async () => {
+    const response = await app.inject("/api/v1/vaultix/auth/config");
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual(getVaultixAuthConfig(undefined));
+    const body = response.json<{
+      profiles: { id: string; requiresExternalIssuer: boolean }[];
+      cli: { interactiveDefault: string; deviceAuthorization: boolean; defaultChange: string };
+    }>();
+    expect(body.profiles.map((profile) => profile.id)).toEqual(["builtin-password"]);
+    expect(body.profiles.every((profile) => profile.requiresExternalIssuer === false)).toBe(true);
+    expect(body.cli).toEqual({
+      interactiveDefault: "sso",
+      preservedModes: ["token", "universal", "sso"],
+      deviceAuthorization: false,
+      defaultChange: "undecided"
+    });
+    expect(response.body).not.toContain("vaultix-cli");
+    expect(response.body).not.toContain("device_code");
+    expect(publicInstanceURL("https://user:secret@vaultix.example/path?token=1")).toBe("https://vaultix.example");
+    expect(publicInstanceURL("not a url")).toBe("");
   });
 
   test("serves catalog and product identity on the core API", async () => {

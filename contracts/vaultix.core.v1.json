@@ -11,6 +11,18 @@
     }
   ],
   "paths": {
+    "/auth/config": {
+      "get": {
+        "operationId": "vaultixAuthConfig",
+        "summary": "Read implemented Vaultix login methods",
+        "description": "Public. No query or credential. Lists the built-in password login that exists today. Device authorization is absent because it is not implemented. The CLI interactive default remains explicit SSO until that product decision is made. No tokens or secret values.",
+        "responses": {
+          "200": {
+            "description": "vaultix.auth.v1. builtin-password profile only. cli.deviceAuthorization is false and cli.defaultChange is undecided."
+          }
+        }
+      }
+    },
     "/product": {
       "get": {
         "operationId": "vaultixProduct",

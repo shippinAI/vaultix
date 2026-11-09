@@ -30,6 +30,16 @@ Connection text in the catalog and `core/ai/README.md` tells a Grok bot or other
 | Open pull request 24 | Not duplicated. | No. | Blocked until its diff is reviewed. |
 | `fnd.catalog-pipeline` | Not started. | `node scripts/map-capabilities.mjs --check` still fails: `Stale capability map: catalog.json`. | `--write` was not run. |
 
+## Package 02 slice
+
+`pkg.02-identity-discovery` is partial. The blocked choice is whether terminal `vaultix login` stops using explicit SSO. This slice does not change `chooseLogin`. `internal/cli/login_mode_test.go` still expects a terminal with no flags to select SSO.
+
+| Task | Implementation | Unit or static check | Not verified |
+| --- | --- | --- | --- |
+| `id.preserve-builtin` | Existing `POST /api/v3/auth/login` left in place. No auth data migration. | Mounted route test. The login service is a mock, so this is not a database session. Password is not in the response body. | Real account, MFA, signup, and invite-only database behavior. |
+| `id.discovery` | `GET /api/v1/vaultix/auth/config` on the core router. It lists only `builtin-password`, sets `deviceAuthorization` false, and sets `cli.defaultChange` to `undecided`. Userinfo in `SITE_URL` is stripped. | Mounted route test. | The CLI does not call this endpoint yet. Device grant routes are not implemented. |
+| `ui.entry-setup` | No UI behavior change. | `node scripts/test-app-entry.mjs` reads source and checks `/`, `/help`, `/login`, and `/admin/setup`. | No browser session. |
+
 ## Verification that did not run
 
 Docker is not installed, so image smoke, tenant-isolation image runs, and Go integration tests were not run. `npm run test:e2e` was not run: `core/.env.test` is absent. MCP session quota against a real Redis cache stays skipped unless `VAULTIX_TEST_MCP_CACHE_URL` is set. The public host was not modified. Whole-tree backend and frontend lint were already failing before this package; the files touched here pass eslint.

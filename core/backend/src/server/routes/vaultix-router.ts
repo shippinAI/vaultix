@@ -3,6 +3,7 @@ import rateLimit from "@fastify/rate-limit";
 import type { FastifyInstance, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 
+import { getConfig } from "@app/lib/config/env";
 import {
   BadRequestError,
   ForbiddenRequestError,
@@ -11,6 +12,7 @@ import {
   UnauthorizedError
 } from "@app/lib/errors";
 import { ActorType, AuthMode } from "@app/services/auth/auth-type";
+import { getVaultixAuthConfig } from "@app/services/vaultix/auth-config";
 import {
   buildVaultixLearningMemory,
   getVaultixCatalog,
@@ -141,6 +143,19 @@ export const registerVaultixRouter = async (
     ["/connections", getVaultixConnections],
     ["/ai/instructions", () => ({ instructions: specialistInstructions })]
   ] as const;
+  server.get(
+    "/auth/config",
+    {
+      schema: {
+        hide: false,
+        tags: ["Vaultix"],
+        summary: "Read implemented Vaultix login methods"
+      },
+      config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
+    },
+    async () => getVaultixAuthConfig(getConfig()?.SITE_URL)
+  );
+
   reads.forEach(([url, handler]) =>
     server.get(
       url,

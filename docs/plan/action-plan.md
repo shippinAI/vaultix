@@ -1,6 +1,6 @@
 # Vaultix action plan
 
-Repository copy of the execution plan. Package 01 review: describe-only denial is unit-verified on `GET /api/v3/secrets/raw`. `ai.client-connection` and `cli.stdio-mcp` are text or Go-unit only. No installed Grok or Codex connector was tested. Packages 02 through 13 remain planned. Status detail is in `docs/0117-assistant-reference-boundary.md`.
+Repository copy of the execution plan. Package 01 remains partial: raw-route denial is unit-verified, and client or image gates are open. Package 02 has a mounted `GET /api/v1/vaultix/auth/config` and a mocked `POST /api/v3/auth/login` test. The CLI interactive default is still SSO because that product choice is undecided. Later packages stay planned. Detail is in `docs/0117-assistant-reference-boundary.md`.
 
 
 Commit: `eb61496c` (`eb61496c8483692506813567712c9fece3101cac`). `git status -sb` showed `main...origin/main` with no ahead/behind against the local origin ref. This pass did not fetch, so a newer remote commit is unverified. The audit file `vaultix-roadmap-audit.md` describes this same commit. No repository files were edited. No pull request, deploy, or live write is authorized.

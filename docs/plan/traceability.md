@@ -5,7 +5,7 @@ Commit under review: package 01 only. Statuses are not completion percentages.
 | Status | Meaning |
 | --- | --- |
 | verified | This row's stated contradiction or contract sentence is covered by a unit test in package 01. |
-| partial | Package 01 implemented or tested part of the row. The rest stays open. |
+| partial | A started package tested part of the row. The rest stays open. |
 | planned | Not started, or only a rollup of work that is still open. |
 | blocked | Needs Jesse's decision or an external system. Not guessed. |
 | evidence | A document, TODO comment, or live observation. Not a separate build. |
@@ -35,8 +35,8 @@ Commit under review: package 01 only. Statuses are not completion percentages.
 | CLOUD-08 | packet | deliverable | delivery | del.user-lifecycle | pkg.07-cloud-recovery | planned |
 | DEVSCIF-01 | packet | deliverable | delivery | del.devscif-profile | pkg.11-trust-services | planned |
 | GOV-UI-01 | packet | deliverable | ui | ui.gov-mfa | pkg.09-ui | planned |
-| IDENTITY-01 | packet | deliverable | identity | id.preserve-builtin | pkg.02-identity-discovery | planned |
-| IDENTITY-02 | packet | deliverable | identity | id.discovery | pkg.02-identity-discovery | planned |
+| IDENTITY-01 | packet | deliverable | identity | id.preserve-builtin | pkg.02-identity-discovery | partial |
+| IDENTITY-02 | packet | deliverable | identity | id.discovery | pkg.02-identity-discovery | partial |
 | IDENTITY-03 | packet | deliverable | identity | id.device-login | pkg.03-device-login | planned |
 | IDENTITY-04 | packet | deliverable | authorization | authz.permission-parity | pkg.04-go-read-cutover | planned |
 | IDENTITY-05 | packet | deliverable | ui | ui.entry-setup | pkg.02-identity-discovery | planned |
@@ -134,7 +134,7 @@ Commit under review: package 01 only. Statuses are not completion percentages.
 | U04 | capability | deliverable | ui | ui.a11y | pkg.09-ui | planned |
 | U05 | capability | deliverable | ui | ui.entry-setup | pkg.02-identity-discovery | planned |
 | U06 | capability | deliverable | ui | ui.teaching | pkg.09-ui | planned |
-| W01 | capability | deliverable | ui | ui.entry-setup | pkg.02-identity-discovery | planned |
+| W01 | capability | deliverable | ui | ui.entry-setup | pkg.02-identity-discovery | partial |
 | W02 | capability | deliverable | ui | ui.workflows | pkg.09-ui | planned |
 | W03 | capability | deliverable | ui | ui.workflows | pkg.09-ui | planned |
 | W04 | capability | deliverable | authorization | authz.tenant | pkg.07-cloud-recovery | planned |
@@ -297,7 +297,7 @@ Commit under review: package 01 only. Statuses are not completion percentages.
 | README-CHECKS | readme | rollup | delivery | del.image-harness | pkg.07-cloud-recovery | planned |
 | README-CLI-LOGIN | readme | rollup | identity | id.discovery | pkg.02-identity-discovery | planned |
 | README-CLOUD-PRIMARY | readme | rollup | delivery | del.operations | pkg.07-cloud-recovery | planned |
-| README-ENTRY | readme | rollup | ui | ui.entry-setup | pkg.02-identity-discovery | planned |
+| README-ENTRY | readme | rollup | ui | ui.entry-setup | pkg.02-identity-discovery | partial |
 | README-MCP | readme | rollup | ai | ai.core-mcp-boundary | pkg.01-reference-boundary | partial |
 | README-SELF-HOST | readme | rollup | delivery | del.image-harness | pkg.07-cloud-recovery | planned |
 | shippin.vaultix.panel.v1 | contract | deliverable | legacy-panel | panel.boundary | pkg.12-panel | planned |
