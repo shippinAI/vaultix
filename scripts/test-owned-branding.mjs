@@ -31,7 +31,7 @@ mkdirSync(resolve(fixture, "core/frontend/src"), { recursive: true });
 const probe = resolve(fixture, "core/frontend/src/brand-proof.tsx");
 writeFileSync(probe, 'export const label = "Vaultix — vaultix.cloud — DevSCIF.com";\n');
 assert.equal(scan(fixture).status, 0, "Owned product names must remain accepted");
-for (const label of ["vaultix", "vaultix", "vaultix.cloud", "support@vaultix.cloud"]) {
+for (const label of ["Infisical", "INFISICAL", "infisical.com", "support@infisical.com"]) {
   writeFileSync(probe, `export const label = ${JSON.stringify(label)};\n`);
   const denied = scan(fixture);
   assert.notEqual(denied.status, 0, "Retired customer branding must fail the scanner");

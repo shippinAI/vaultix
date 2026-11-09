@@ -1145,7 +1145,7 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "b3cb59b8291b00a4246de4755a09c5998abc0732",
+      "blob": "d4af9bd9e34654fb334be2b45edc128b842d3fad",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
@@ -1155,7 +1155,8 @@
         "core/backend/src/server/plugins/swagger.test.ts",
         ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json",
         ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -2689,14 +2690,15 @@
     },
     {
       "path": "scripts/check-owned.sh",
-      "blob": "dc10ab7c75865791f8b07972efd696a75b982dcb",
+      "blob": "e7515d984080c839a8a24912e3a9fc698d3280ea",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -2747,7 +2749,7 @@
     },
     {
       "path": "docs/capabilities/catalog.mjs",
-      "blob": "c04fc2e157f7c6f95876caabcca1de324e98efa8",
+      "blob": "d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7",
       "status": "authored",
       "decision": "retain",
       "scope": "Authored 86 requirement outcomes and acceptance gates in 13 product groups with phase dependencies and scoped source references. No complete requirement is accepted; existing family labels require module-level investigation. Public comparison sources identify specification questions only.",
@@ -2757,7 +2759,8 @@
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
         ".cache/capability-plan-UP4E0v/result.json",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -4490,7 +4493,7 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "3625c4546dd63a8c39ba088132db61258ed166b8",
+      "blob": "e5694f5b93536b0e6f287e8405412e21a3e55545",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
@@ -4498,7 +4501,8 @@
         "internal/cli/run_cmds_test.go",
         "scripts/test-cli-headless.mjs",
         "docs/0075-usable-secrets-and-update-delivery.md",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -5081,7 +5085,7 @@
     },
     {
       "path": "scripts/test-cli-delivery.mjs",
-      "blob": "e9ca2d9307b7cb4cdbd369a187b546112eebe7bc",
+      "blob": "327f4401aec2b5812807681ed341054664ccb543",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored revision/hash validation, actual native help, Linux race suite and real packaged CLI workflow orchestration. Live issuer and parity excluded. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5091,7 +5095,8 @@
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
         ".cache/headless-ai-login/.cache/cli-public-denial.json",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -7045,14 +7050,15 @@
     },
     {
       "path": "scripts/test-owned-branding.mjs",
-      "blob": "de443877a53da6b0089a73b9331b20c098b5146a",
+      "blob": "db0fd0ac943943212fe2245745433958dd6e0572",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -7930,7 +7936,7 @@
     },
     {
       "path": "scripts/test-owned-dependencies.mjs",
-      "blob": "a62438ac1aea1c3ef3503421a432eb4eb14a8b30",
+      "blob": "48c7b3da82aae0aad519636d5684faf10a823a5a",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
@@ -7940,7 +7946,8 @@
         "scripts/test-owned-ldap.mjs",
         "scripts/test-owned-quic.mjs",
         "scripts/test-owned-analytics.mjs",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {
@@ -8642,7 +8649,7 @@
     },
     {
       "path": "scripts/test-vaultix-policy.mjs",
-      "blob": "78370b510974a1283ebb4bafe304c1d832eb96dc",
+      "blob": "39f51da59ac9d66bcbc20c2aded97445ac93a323",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
@@ -8651,7 +8658,8 @@
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
         "scripts/build-self-hosted.mjs",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
       ]
     },
     {

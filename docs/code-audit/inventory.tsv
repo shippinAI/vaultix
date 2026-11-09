@@ -7907,7 +7907,7 @@ core/frontend/src/helpers/reverseTruncate.ts	eba5f21d319138e284fbf31d40eb52e54d7
 core/frontend/src/helpers/roles.ts	0a3c201afe6aa6c866810cfcfecb763a2a9c88a3	product-code	unread
 core/frontend/src/helpers/secretRotationsV2.ts	9377dc0ffec1c77525a301fbeb3223a000aa31e4	product-code	unread
 core/frontend/src/helpers/secretScanningV2.ts	ee52266110c5aed18ec6cf140c0bc2a2fecebdf4	product-code	unread
-core/frontend/src/helpers/secretSyncs.ts	31151a901b9222929ed035613f03f07f1c0189ea	product-code	unread
+core/frontend/src/helpers/secretSyncs.ts	edfd0c3faf9d389fdf15bf9092108533de07f29e	product-code	unread
 core/frontend/src/helpers/sessionStorage.ts	187e58e637412faf8ed829aaac686d100a08f7bc	product-code	unread
 core/frontend/src/helpers/smb.ts	353babe146c4850ba166f786e069c72fd5e50adb	product-code	unread
 core/frontend/src/helpers/string.ts	ff12afced48a5393696f0ea61cccda30dfb7fbcf	product-code	unread
@@ -12025,12 +12025,12 @@ docs/auth/nomen-reauthentication.md	82d1b6677c18f17d43c474a0d6dfc10ec42f7441	doc
 docs/auth/nomen-totp-proof.md	4c57da3e69f665544e39e0326e46026fc5442a6a	documentation	verified
 docs/auth/recorded-audit-acceptance.md	e04b5f50cff7d982565f3e4605951fd152f6e6da	documentation	unread
 docs/capabilities/README.md	94297f8290ba724d7ccac28e11211c8b8930583d	documentation	reviewed
-docs/capabilities/catalog.mjs	c04fc2e157f7c6f95876caabcca1de324e98efa8	product-code	authored
+docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-code	authored
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	2995350f95fa15d72d2dfb60bdecd6b564185388	generated	unread
-docs/capabilities/generated/source-map.tsv	310242259d138b2d292b6d6810f6fd3704ee83d0	generated	unread
+docs/capabilities/generated/catalog.json	e0f33ac90ce69cd51277c59886671f8dc70ba708	generated	unread
+docs/capabilities/generated/source-map.tsv	78d7c38efe1a5c88a26f0d7b45e539298a906379	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12042,8 +12042,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	3d7a8b338bcf9ab6b53ce2c79911085f0a6e644a	generated	unread
-docs/migration/generated/modules.tsv	57ac41fa787b334df42d2bacf096a52445d424b7	generated	unread
+docs/migration/generated/files.tsv	21005866775238ee7f757e330d9d387a493e6466	generated	unread
+docs/migration/generated/modules.tsv	8c1d8d11fd2b4747cd5744d51d2894fde9cc13f4	generated	unread
 docs/migration/generated/summary.json	d334e358b07019be674495b166b901a2fa689686	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12151,7 +12151,7 @@ legal/README.md	28da7df9ce9706dab03bc4fd34fa04110d25b10d	documentation	unread
 legal/grant-nomen-vaultix-white-label-2026-08-28.md	506bb22361da3aa6548d17d31eda1c6786e729de	documentation	unread
 panel/.dockerignore	415b99fe3bf44391d922b737d1241ccb768c7a47	product-code	unread
 panel/Dockerfile	d6b694764171deb6d861cb42e7fb85c5db7ddc2b	build-and-operations	verified
-panel/alignment_test.go	2260e36400a972ccd8bbe61653f7f71fa1b4d414	test	unread
+panel/alignment_test.go	c24f6971e069e7cec955f9ec022fcc696be9e748	test	unread
 panel/go.mod	8628e222815c493077a374bedd4dff2ff1359d4c	product-code	authored
 panel/go.sum	eb3931e9a51c3e3fecf200b4a90c97a65f9625c3	dependency-lock	unread
 panel/instances.example.json	772f2ad43a9c848343f0e72c44418f466bcf53ae	product-code	unread
@@ -12166,7 +12166,7 @@ panel/internal/httpapi/manager_api.go	83b41cadd42437e6d135944b3d66285666f6e556	p
 panel/internal/httpapi/runtime_api.go	83c6cab975f2bf76114e84fa17813fd6d66f4a66	product-code	unread
 panel/internal/httpapi/runtime_api_test.go	3b63a6d380a14bd78cd97c110f1796fd1381ce0c	test	unread
 panel/internal/httpapi/server.go	dca50b55d44c676a2c0ba69611888b1d413b8625	product-code	unread
-panel/internal/httpapi/server_test.go	8b32951ce8cf7e8cf5175253851d80fbd61d3b7e	test	unread
+panel/internal/httpapi/server_test.go	8beb69f3d0dbfec78ad800bd199daf13a29ed190	test	unread
 panel/internal/httpapi/source_api.go	51ef9bfe83a1faeca7c95a4ea80e22d541c29805	product-code	unread
 panel/internal/httpapi/source_api_test.go	6f867a7a0da7d289c35dce9cd1f2f6d5df5c9f94	test	unread
 panel/internal/httpapi/usage_api.go	373e1cca0aef55f6754e92e1889f7dc77cc7a4ee	product-code	unread
@@ -12189,7 +12189,7 @@ panel/internal/runtime/a2ui.go	d7ef73ce19fd45cece13b3b83df252c1daf2c2fa	product-
 panel/internal/runtime/catalog.go	f36a7bc734cf4e38c8cc3fcadde47544d317dfc2	product-code	unread
 panel/internal/runtime/configure.go	c91e9d1e822c1b4c62cb3becf95090e42d147f99	product-code	unread
 panel/internal/runtime/decide.go	871ac596df44f43326f146a865ba33a1e03cdafd	product-code	unread
-panel/internal/runtime/runtime_test.go	8fffe1437562f7559e8e90726594dd723c5d925c	test	unread
+panel/internal/runtime/runtime_test.go	d42851d897e8b03151d9e9428580563a3da93df4	test	unread
 panel/internal/source/source.go	f362c111b9aa719782df54e8233cc8448cf746b3	product-code	unread
 panel/internal/source/source_test.go	e4d4e14add7425444d5529a3a8179e4e5a972c78	test	unread
 panel/internal/store/store.go	0a8788f05fd67a07d2305aa66b35bfddeb11893e	product-code	unread
@@ -12202,7 +12202,7 @@ panel/internal/usage/usage_test.go	2d90796919d1edf3e8697c929cb7bdb58ee0b406	test
 panel/internal/valves/valves.go	88f91b6aac3e206d4615e272ca342537a4e7b38f	product-code	unread
 panel/internal/valves/valves_test.go	738cc4bafa1c8c3d3719189cdccdaebd2936102a	test	unread
 panel/internal/vault/engine.go	711f1313097547210eca3f75a6853ed61b9006e1	product-code	unread
-panel/internal/vault/engine_test.go	eccf35c82a312f72341d80e3818bd3098cc5c303	test	unread
+panel/internal/vault/engine_test.go	e7c7fdb1dd8cbf737278f7d78aa7307c953950aa	test	unread
 panel/internal/vault/envelope.go	3032fe6a58f3b859cfcef79bbddf7dce5ecb670c	product-code	unread
 panel/internal/vault/import.go	aab386cc10038f0faea6c901040c687487eef479	product-code	unread
 panel/internal/vault/memory.go	d7c619175b072262ca4f9b5964fbc419c67701ef	product-code	unread
@@ -12210,9 +12210,9 @@ panel/internal/vault/postgres.go	0dfe76413a143e3dd297601f1508ffcca072a5ac	produc
 panel/internal/vault/postgres_test.go	d170f78f5d9156ffdf4ca29beb466b8a7d303e45	test	unread
 panel/internal/vault/schema.go	49cf58ed37056d378257b1fd14ff7e5b64a19d34	product-code	unread
 panel/internal/viewport/document.go	f94ffd16ebb390c1a43aa44e302dddc0c11cc78c	product-code	unread
-panel/internal/viewport/document_test.go	2ababbb0b1d4496d4047963ad6573b5ab7f4ac23	test	unread
+panel/internal/viewport/document_test.go	b92d77ef22e7651f4a8fda9f54679a22fc083f88	test	unread
 panel/internal/viewport/web/app.js	77627ff34536ee26161e4bfad5eaa70fa6f76578	product-code	unread
-panel/internal/viewport/web/brand_test.go	7cc992755750b8b7b9858e555d06275157c0c424	test	unread
+panel/internal/viewport/web/brand_test.go	db3280e311bf398ac7b50cc79db69e0284830684	test	unread
 panel/internal/viewport/web/embed.go	c40ed6bdaf1a2a9458f6efe2916204c423ae4d3a	product-code	unread
 panel/internal/viewport/web/favicon.svg	a22c2c29ab1b969e841c9c9fdd3187979cd3ecd7	asset	unread
 panel/internal/viewport/web/index.html	d8a312d216240860ff5dea7516e3e2a913603c4f	product-code	unread
@@ -12236,7 +12236,7 @@ scripts/check-capability-surface.mjs	577cc473169f29ddff86e6ed010e066152c3cfb5	bu
 scripts/check-image-identity.mjs	8e0320722f08f6e24451947cf8a78709e84a45b8	build-and-operations	verified
 scripts/check-org-mfa-ui.mjs	ec7ca020b9d7a9c423a124b35cde0569a8747dfb	build-and-operations	verified
 scripts/check-owned-dependency-image.mjs	71e6500c3e34d39a378a380d02e7c555b887f493	build-and-operations	reviewed
-scripts/check-owned.sh	dc10ab7c75865791f8b07972efd696a75b982dcb	build-and-operations	verified
+scripts/check-owned.sh	e7515d984080c839a8a24912e3a9fc698d3280ea	build-and-operations	verified
 scripts/check-recorded-media.mjs	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	build-and-operations	reviewed
 scripts/check-ui-action-standard.mjs	7aaa4f7b50ae29e45a17246c137f9aee536c4709	build-and-operations	unread
 scripts/check-ui-benchmark-receipt.mjs	bfc623a29e24f6f1d47996d2b2589817721df519	build-and-operations	unread
@@ -12283,7 +12283,7 @@ scripts/run-core.sh	3f5a2185b9bb9569006ad152f44eba03034fcfcf	build-and-operation
 scripts/run-local-auth-e2e.mjs	66835a46c58d19e18829fbfe1d9c92255abe430a	build-and-operations	unread
 scripts/serve-capability-plan.mjs	69b7f9db4c491b4dedcde0340f420cebb3ec0115	build-and-operations	verified
 scripts/sign-release.mjs	306c88e1d4b9c98c893f52791c8c8a6e5fb51a25	build-and-operations	reviewed
-scripts/smoke-image.sh	b3cb59b8291b00a4246de4755a09c5998abc0732	build-and-operations	verified
+scripts/smoke-image.sh	d4af9bd9e34654fb334be2b45edc128b842d3fad	build-and-operations	verified
 scripts/test-api-request-errors.mjs	930660062217b4797619f36773c7ccca9dcadb4a	build-and-operations	verified
 scripts/test-app-entry.mjs	237e4a90cbc3a723138189c6b4de0db446c0659b	build-and-operations	unread
 scripts/test-assumed-privilege-workflow.mjs	a75751b83e3a25055bb11d2d4f98507b4a5d0efa	build-and-operations	verified
@@ -12291,8 +12291,8 @@ scripts/test-capability-explorer.mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	bu
 scripts/test-capability-map.mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	build-and-operations	verified
 scripts/test-capability-surface.mjs	a6ff78877d1ded9319b36480330d8c72494961b2	build-and-operations	verified
 scripts/test-chart-rendering.mjs	077f96adfac2f4468212702de2a7e2cb0745d8c0	build-and-operations	reviewed
-scripts/test-cli-delivery.mjs	e9ca2d9307b7cb4cdbd369a187b546112eebe7bc	build-and-operations	verified
-scripts/test-cli-headless.mjs	3625c4546dd63a8c39ba088132db61258ed166b8	build-and-operations	reviewed
+scripts/test-cli-delivery.mjs	327f4401aec2b5812807681ed341054664ccb543	build-and-operations	verified
+scripts/test-cli-headless.mjs	e5694f5b93536b0e6f287e8405412e21a3e55545	build-and-operations	reviewed
 scripts/test-cli-install.mjs	35bea5ae75d123df6264f2040a716d152248560d	build-and-operations	authored
 scripts/test-codex-client.mjs	c7cba10871addf750ff1ebcd064bba3b47b34663	build-and-operations	unread
 scripts/test-core.mjs	8249a0fd225a19a7814ae7e5eb9bc1b700eb38f1	build-and-operations	verified
@@ -12332,9 +12332,9 @@ scripts/test-notification-matrix.mjs	ba338a7d48f400844f3b203ae22e198d9632c9e1	bu
 scripts/test-notification-ui.mjs	631086c4bf0107530efb9f80fcf545b7dc0a4a81	build-and-operations	verified
 scripts/test-org-mfa-workflow.mjs	a1481766ab55f5856f4bf1b936b00dc54c17e39c	build-and-operations	verified
 scripts/test-owned-analytics.mjs	696b6f84c4f2190a1951ab551090fa3d93b9b504	build-and-operations	reviewed
-scripts/test-owned-branding.mjs	de443877a53da6b0089a73b9331b20c098b5146a	build-and-operations	verified
+scripts/test-owned-branding.mjs	db0fd0ac943943212fe2245745433958dd6e0572	build-and-operations	verified
 scripts/test-owned-build-paths.mjs	cba3e47d4cd890bc30835068716ef3d3fa8580d7	build-and-operations	reviewed
-scripts/test-owned-dependencies.mjs	a62438ac1aea1c3ef3503421a432eb4eb14a8b30	build-and-operations	reviewed
+scripts/test-owned-dependencies.mjs	48c7b3da82aae0aad519636d5684faf10a823a5a	build-and-operations	reviewed
 scripts/test-owned-ldap.mjs	9016af97aca4ef0b9a9f0071938a434e67727dad	build-and-operations	reviewed
 scripts/test-owned-quic-linux.mjs	9c75122e4d022bb2a8fe7ee3634910a7eb34e90b	build-and-operations	reviewed
 scripts/test-owned-quic.mjs	26f1bd399afc3a469d0f67ba132def0f6a31d8c0	build-and-operations	reviewed
@@ -12358,7 +12358,7 @@ scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-op
 scripts/test-updates-clyffy-workflow.mjs	1d688f5fd15107041d1d53c562ac82f677020765	build-and-operations	authored
 scripts/test-vaultix-media.mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	build-and-operations	authored
 scripts/test-vaultix-policy-image.mjs	ac19f03bedba7525496c890423936cdb7b96a857	build-and-operations	authored
-scripts/test-vaultix-policy.mjs	78370b510974a1283ebb4bafe304c1d832eb96dc	build-and-operations	authored
+scripts/test-vaultix-policy.mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	build-and-operations	authored
 scripts/test-windows-cli-install.ps1	5ed0279cc07ea1f3d9d6c3ada6f64b968ae31e39	build-and-operations	unread
 scripts/test-windows-package-activation.ps1	ff0f44c8f5387bdf2b2e8eaf66f15912e5221089	build-and-operations	authored
 scripts/ui-action-standard.test.mjs	554ccb1a6dcc1a813dfc2f4f4d2c4a7eb3ece69d	test	unread
