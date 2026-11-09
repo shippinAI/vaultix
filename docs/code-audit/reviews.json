@@ -978,10 +978,10 @@
     },
     {
       "path": "core/backend-go/tests/infra/nodejs.go",
-      "blob": "1e0d8d368a154f6ba04fd4f454f03b6e56fb5dd5",
+      "blob": "1649ad2508d78eb0082cc94478f513fb25521e0b",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Canonical locally inspected issuer artifact receives the explicit identity fixture policy before startup. Other bootstrap/project/provider helpers are retained; their raw failure messages require the existing safe evidence collector and are not newly audited as secret-safe logs.",
+      "scope": "Complete file read. Canonical locally inspected issuer artifact receives the explicit identity fixture policy before startup. Other bootstrap/project/provider helpers are retained; their raw failure messages require the existing safe evidence collector and are not newly audited as secret-safe logs. Reference dispatch parity tests cover the 60-per-IP route budget and the ingress dispatch header.",
       "evidence": [
         "docs/0032-native-toolchains.md",
         "scripts/test-go-core.mjs",
@@ -10858,10 +10858,10 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-reference-dispatch.test.ts",
-      "blob": "8e647ffb562db1742c2b136c26acfabf103599fd",
+      "blob": "313b9ba3d2b78cd9166d15afbf4ea086a86e68bc",
       "status": "authored",
       "decision": "modify",
-      "scope": "Exercises the public router against a native reference listener, including spoofed headers, MCP dispatch, and a foreign denial.",
+      "scope": "Exercises the public router against a native reference listener, including spoofed headers, MCP dispatch, and a foreign denial. Reference dispatch parity tests cover the 60-per-IP route budget and the ingress dispatch header.",
       "evidence": [
         "docs/0066-native-reference-reads.md"
       ]

@@ -81,7 +81,12 @@ test("public reference dispatch uses the native route and ignores actor headers"
 
     const allowed = await app.inject({
       url: `/api/v1/vaultix/secret-references?projectId=${projectId}&environment=dev`,
-      headers: { authorization: "Bearer good", "x-actor-id": "forged-actor", "x-org-id": "forged-org" },
+      headers: {
+        authorization: "Bearer good",
+        "x-actor-id": "forged-actor",
+        "x-org-id": "forged-org",
+        "x-vaultix-dispatch": "mcp"
+      },
       remoteAddress: "203.0.113.20"
     });
     expect(allowed.statusCode).toBe(200);
@@ -98,7 +103,7 @@ test("public reference dispatch uses the native route and ignores actor headers"
     const mcp = await app.inject({
       method: "POST",
       url: "/api/v1/vaultix/mcp",
-      headers: { authorization: "Bearer good", "x-actor-id": "forged-actor" },
+      headers: { authorization: "Bearer good", "x-actor-id": "forged-actor", "x-vaultix-dispatch": "forged" },
       remoteAddress: "203.0.113.20",
       payload: {
         jsonrpc: "2.0",

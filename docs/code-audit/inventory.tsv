@@ -338,7 +338,7 @@ core/backend-go/tests/infra/constants.go	7ccc0dc8fb93f39dd8a811c2a2cdc9af4cc5f68
 core/backend-go/tests/infra/container.go	5f03d5a090ad7f56ae032bb9939249611482b890	test	unread
 core/backend-go/tests/infra/infisical_secrets.go	b936ddb404025ce7467255a3cbadd8eab1757071	test	unread
 core/backend-go/tests/infra/logger.go	aa6e30d54fb918fbfe3c7c4b51468bf0f6672cf4	test	unread
-core/backend-go/tests/infra/nodejs.go	1e0d8d368a154f6ba04fd4f454f03b6e56fb5dd5	test	verified
+core/backend-go/tests/infra/nodejs.go	1649ad2508d78eb0082cc94478f513fb25521e0b	test	verified
 core/backend-go/tests/infra/nodejs_types.go	bce6369f92fed8ae0e950f76f1cbc3d29d00b854	test	unread
 core/backend-go/tests/infra/postgres.go	a5c2c7964d16ca57a5e53ae150ff08e81c3b565f	test	unread
 core/backend-go/tests/infra/redis.go	4964e10bad022350167d66abb266750d3e729487	test	authored
@@ -2640,8 +2640,8 @@ core/backend/src/server/routes/v4/index.ts	db2e6922234476732595c0b0720385588b138
 core/backend/src/server/routes/v4/secret-router.ts	ddcc7608b003cd5926ad4831530c79f260c639e1	product-code	unread
 core/backend/src/server/routes/vaultix-learning.test.ts	f18530ae53e50931e356643183da93a03b6590fd	test	verified
 core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	6acbc598a80b2aca3eee099dad3ea483624df10c	test	reviewed
-core/backend/src/server/routes/vaultix-reference-dispatch.test.ts	8e647ffb562db1742c2b136c26acfabf103599fd	test	authored
-core/backend/src/server/routes/vaultix-reference-router.test.ts	30b96a35587761bf86a1252148443b94d126a0b2	test	unread
+core/backend/src/server/routes/vaultix-reference-dispatch.test.ts	313b9ba3d2b78cd9166d15afbf4ea086a86e68bc	test	authored
+core/backend/src/server/routes/vaultix-reference-router.test.ts	fa0277b27f78a6cd057025d0f9ac4989b8481245	test	unread
 core/backend/src/server/routes/vaultix-router.test.ts	254c25a5c96d70bb5f95a4c9a668f2e5f4a63223	test	verified
 core/backend/src/server/routes/vaultix-router.ts	3b58eb694d2cc3a0b6687f44ef7f8b6ca3503e1a	product-code	authored
 core/backend/src/server/routes/vaultix-updates-router.test.ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	test	authored
@@ -11962,7 +11962,7 @@ docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	doc
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
-docs/0066-native-reference-reads.md	33f11aa8214b9b6c5430e35be1dfbb5f68bb8775	documentation	unread
+docs/0066-native-reference-reads.md	839dd1ffb43b68da340649b16b5e5556d7cd09a2	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
 docs/0069-execution-goal.md	d93133c58976e59c3224290f072787b5490ebced	documentation	reviewed
@@ -12024,11 +12024,11 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	f235464de1fbd3411efafae530e77dc8981bbfff	generated	unread
-docs/migration/generated/modules.tsv	dd79491e3cd1fa9c29d304b6ea61e4459953c9ac	generated	unread
+docs/migration/generated/files.tsv	8908612c88ce87e9d6bdb91a4f2af8ad2bdd292a	generated	unread
+docs/migration/generated/modules.tsv	5032eed0381e3daefbb692aac532ba95aa4b7f24	generated	unread
 docs/migration/generated/summary.json	9ba33fc84eae527444a4e6f76710dc697e926c75	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
-docs/plan/action-plan.md	a6b13fe7c1d113c158853933a91edda66ed39f4d	documentation	unread
+docs/plan/action-plan.md	d27a81852fded2bd70ad012efb6796313440ca1d	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
 docs/plan/traceability.md	949ab9ab2b5cb545cd6adc0fe6dcf03822b34715	documentation	unread
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored

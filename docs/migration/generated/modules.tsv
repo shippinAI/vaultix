@@ -65,7 +65,7 @@ core/backend-go/internal/vaultixpolicy	foundation	Go-native	26	42caafe9486494273
 core/backend-go/internal/vaultixpolicy	integrations	Go-native	1	31c22e7e0c0c725d807ac108d394b62de0a34f99ceadcc328de39f8b3eeb6f6d	1	unassessed
 core/backend-go/internal/vaultixpolicy/internal/compare	foundation	Go-native	1	e93e8ec4930f9648777a0867ccc804a3c785fad1e42191a398d060b6bbf2e5ed	1	unassessed
 core/backend-go/tests/fixtures/deviceconsumer	foundation	Go-native	1	f02ffb7d9d1b21767b19dc73fd3a34444485081d2e39591634f0848d50d5e951	1	unassessed
-core/backend-go/tests/infra	foundation	Go-native	10	7798f2ac228f5bb20dd933854061272f66762613e27e5475c17c22fc0241ba17	3	unassessed
+core/backend-go/tests/infra	foundation	Go-native	10	7b3026e5fead3fe0d5241ee0a830781f44b1917df03dc871d6ea0b24fc335798	3	unassessed
 core/backend-go/tests/platform/auth	authorization	Go-native	1	102070d44f359c2755a04f41f05b8fa7519d2fd8385c6d3314e03ae01832d611	1	unassessed
 core/backend-go/tests/platform/auth	identity	Go-native	15	0349bfdb577a2dee94090932d7e79e8d8594f2af2a684b26dad62b0d629ae34a	15	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
@@ -305,7 +305,7 @@ core/backend/src/server/plugins	pki	Go-domain-migration	1	0a9caf3c7c938fb298fbf4
 core/backend/src/server/plugins	secrets	Go-domain-migration	2	6c8234f5d263114e406dadb7e335d1fa7fd5f5f23f06e0548c3eea14bda5ffef	0	unassessed
 core/backend/src/server/plugins/auth	authorization	Go-domain-migration	2	43e06f46760469fbaaf5e63a8fa1c49301ae08ce2d103baef0644a5cafd5c758	1	unassessed
 core/backend/src/server/plugins/auth	identity	Go-domain-migration	5	f46c8f267d1c0d2577480964cb27b43e8239d2753793448297d648f00184b28d	0	unassessed
-core/backend/src/server/routes	foundation	Go-domain-migration	10	1128d627a4e937e253a2e39cca5b027ff8e0d25621ab9f0f3c27447f05f8e963	8	unassessed
+core/backend/src/server/routes	foundation	Go-domain-migration	10	29c5acad8430d4ade6a146f0e1c1f0eee07b20847331bf79f65b4089bfb17421	8	unassessed
 core/backend/src/server/routes	identity	Go-domain-migration	1	680e63475c95fddceecf5d6aa5aecbb33f96b18cf5163c0a9b2be5e816be5371	0	unassessed
 core/backend/src/server/routes/bdd	foundation	Go-domain-migration	2	dc2d7a3c06d9762d262856e4325a232616868b6e59886088c4839fa217b1ce70	0	unassessed
 core/backend/src/server/routes/sanitizedSchema	authorization	Go-domain-migration	3	0f8beb00b001b2831a7816d2d42f441de852295a20516d9d18a96830d1e61451	0	unassessed

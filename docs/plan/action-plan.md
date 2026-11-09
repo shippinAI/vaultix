@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: package 05 secret lifecycle, after this reference cutover. The packaged image `sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682` from `49e4ba711de0f3514ffbd897aeaca4dae43f0a44` serves reference reads through the native sidecar. The code default remains TypeScript when dispatch is unset. Forbid-wins and `$all` parity are tested. Do not start secret writes until that image receipt is the one under review.
+Next task: package 05 secret lifecycle. Reference dispatch parity on image `sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682` is recorded in `docs/0066`. The lifecycle exit is still the existing create, update, version, and restore behavior, approvals, assumed authority, and no secret-changing MCP tool. Those write paths stay on TypeScript until that package has its own tests and image receipt.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 
