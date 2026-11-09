@@ -48,7 +48,68 @@ func buildProjectPermissionRules(roles []roleWithPermissions) ([]vaultixpolicy.J
 		}
 	}
 
-	return allRules, parseErrors
+	// Match the TypeScript project permission builder: expand a forbid of the
+	// new secret read actions so it also forbids the legacy read action, then
+	// place forbids after allows. CASL evaluates the last match, so that order
+	// makes a matching forbid win. The native evaluator is deny-first and
+	// reaches the same result.
+	return orderAllowsBeforeForbids(expandLegacyForbidActions(allRules)), parseErrors
+}
+
+type legacyForbidExpansion struct {
+	subject    string
+	legacy     string
+	newActions []string
+}
+
+var legacyForbidExpansions = []legacyForbidExpansion{
+	{project.SubSecrets, project.SecretActionDescribeAndReadValue.Name(), []string{project.SecretActionReadValue.Name(), project.SecretActionDescribeSecret.Name()}},
+	{project.SubMember, project.MemberActionGrantPrivileges.Name(), []string{project.MemberActionAssignRole.Name(), project.MemberActionAssignAdditionalPrivileges.Name()}},
+	{project.SubIdentity, project.IdentityActionGrantPrivileges.Name(), []string{project.IdentityActionAssignRole.Name(), project.IdentityActionAssignAdditionalPrivileges.Name()}},
+	{project.SubGroups, project.GroupActionGrantPrivileges.Name(), []string{project.GroupActionAssignRole.Name()}},
+}
+
+func expandLegacyForbidActions(rules []vaultixpolicy.JSONRule) []vaultixpolicy.JSONRule {
+	expanded := make([]vaultixpolicy.JSONRule, len(rules))
+	for i, rule := range rules {
+		expanded[i] = rule
+		if !rule.Inverted || len(rule.Subject) != 1 {
+			continue
+		}
+		for _, expansion := range legacyForbidExpansions {
+			if rule.Subject[0] != expansion.subject {
+				continue
+			}
+			coversNewAction, hasLegacy := false, false
+			for _, action := range rule.Action {
+				if action == expansion.legacy {
+					hasLegacy = true
+				}
+				for _, newer := range expansion.newActions {
+					if action == newer {
+						coversNewAction = true
+					}
+				}
+			}
+			if coversNewAction && !hasLegacy {
+				expanded[i].Action = append(append(vaultixpolicy.StringOrSlice{}, rule.Action...), expansion.legacy)
+			}
+		}
+	}
+	return expanded
+}
+
+func orderAllowsBeforeForbids(rules []vaultixpolicy.JSONRule) []vaultixpolicy.JSONRule {
+	ordered := make([]vaultixpolicy.JSONRule, 0, len(rules))
+	forbids := make([]vaultixpolicy.JSONRule, 0)
+	for _, rule := range rules {
+		if rule.Inverted {
+			forbids = append(forbids, rule)
+			continue
+		}
+		ordered = append(ordered, rule)
+	}
+	return append(ordered, forbids...)
 }
 
 // ServiceTokenScope represents a single scope entry from a service token.

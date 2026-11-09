@@ -210,22 +210,33 @@ No production routing, permission rule-order policy, audit ownership or public
 exposure is changed by this evidence commit. Continue the complete-use-case
 sequence above; the deployment remains usable while that work proceeds.
 
-## Product `$all` parity, 2026-11-09
+## Serving permission semantics, 2026-11-09
 
-`PermissionFieldOps` now treats `$all` as CASL/Mongo containment: every candidate
-must be present in the tag array. An empty candidate list matches, and a
-non-array field does not. The vendored nested-condition `$all` remains unchanged
-for callers that do not use the product field operators.
+The project permission builder in
+`core/backend/src/ee/services/permission/permission-service.ts` sorts allows
+before forbids and expands a forbid of `describeSecret` or `readValue` so it
+also forbids the legacy `read` action. CASL then uses the last matching rule,
+so a matching forbid wins. That is the behavior served by
+`GET /api/v1/vaultix/secret-references`. An unsorted CASL check, where a later
+allow overrides an earlier forbid, is not the serving contract.
 
-The native evaluator is still deny-first. CASL lets a later allow override an
-earlier forbid. That precedence is not changed. `reference.PublicOwner` stays
-`typescript`, and `/api/v1/vaultix/secret-references` is still served by the
-TypeScript service. Switching that route remains the open decision after the
-HTTP, MCP, audit, and rate-limit gates above.
+`buildProjectPermissionRules` now applies the same expansion and order. The
+native evaluator stays deny-first, which matches that result, and
+`vaultixpolicy.Can` is unchanged for callers that do not use this builder.
+`PermissionFieldOps` treats `$all` as CASL/Mongo containment. The vendored
+nested-condition `$all` remains for other callers.
+
+`reference.PublicOwner` stays `typescript`. The HTTP, MCP, audit, and rate-limit
+gates above are still unmet, so the public route was not switched. Native
+rate limiting still starts only for the cloud production profile, and the
+native audit queue still does not own retention. Direct public exposure of the
+Go authenticator remains unaccepted.
 
 `go test -count=1 ./internal/services/permission/ ./internal/services/secretmanager/reference/`
-passed. `VAULTIX_TEST_IMAGE=sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1 go test -tags integration -run TestReference_MetadataOnlyDifferential ./tests/secretmanager/secrets/`
-passed, including the `$all` differential, foreign organization, value-only
-denial, and canary exclusion. That image is the packaged build of
-`d3214bf5336506398d5e29597aadaa804a3d4533`. This Go change does not alter that
-image's public behavior, so the packaged smoke was not rerun.
+passed. Against image `sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1`
+from commit `d3214bf5336506398d5e29597aadaa804a3d4533`,
+`go test -tags integration -run TestReference_MetadataOnlyDifferential ./tests/secretmanager/secrets/`
+passed. That run compares this Go source with that image's TypeScript route,
+including `$all`, the legacy-read forbid, a foreign organization, value-only
+denial, and canary exclusion. The image does not contain this Go source change,
+and its public behavior was not rebuilt.

@@ -256,7 +256,7 @@ core/backend-go/internal/services/kms/authentication_factor_test.go	ee0e497d9473
 core/backend-go/internal/services/kms/kms.go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	product-code	unread
 core/backend-go/internal/services/kms/kms_org.go	9bea7672ac02e63344c99764fee013e1fe2e3983	product-code	unread
 core/backend-go/internal/services/kms/kms_project.go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	product-code	unread
-core/backend-go/internal/services/permission/array_operators_test.go	7209e600071e777e247d2ae4d135d57c533dd6d0	test	authored
+core/backend-go/internal/services/permission/array_operators_test.go	0fc562075ef44eae34a6e2390e514a71e77db2a9	test	authored
 core/backend-go/internal/services/permission/operators.go	e046c0aa58bb37a171ddf87c6ab8fb9d14619480	product-code	authored
 core/backend-go/internal/services/permission/operators_test.go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	test	unread
 core/backend-go/internal/services/permission/permission.go	b2fa739add5cc7a6a399b2ddf4ef66fc247151e0	product-code	authored
@@ -265,8 +265,8 @@ core/backend-go/internal/services/permission/platform/assume_privilege_permissio
 core/backend-go/internal/services/permission/project/actions.go	efb007ac6bc68e08d82b8d288d32976187f2a8fe	product-code	authored
 core/backend-go/internal/services/permission/project/default_roles.go	ac1092ce0663d291a22a7192bb82b3ba31a5ad3d	product-code	authored
 core/backend-go/internal/services/permission/project/subjects.go	e5f1d0775c6bbb80d544388e66638ecb797e269e	product-code	authored
-core/backend-go/internal/services/permission/rules.go	db94dfdb116d89a41d0ce5c5f40332d10a78b697	product-code	authored
-core/backend-go/internal/services/permission/rules_test.go	29ddedffdae168f36ba341b643b084fc3f3bee6c	test	authored
+core/backend-go/internal/services/permission/rules.go	c7aefc6b382c1c4a9bcdf1078ddfe21964069604	product-code	authored
+core/backend-go/internal/services/permission/rules_test.go	7289d3c7635bd57e1a86f52aba00611c1e0c9382	test	authored
 core/backend-go/internal/services/permission/secretmanager/reference_permission_test.go	c5e0784a6e071cd84064dab52ecdc6f9e249c83f	test	authored
 core/backend-go/internal/services/permission/secretmanager/secret_permission.go	90e7ac80489ec852f4cd818271c9308b7aaadb95	product-code	authored
 core/backend-go/internal/services/permission/sso.go	6fad951974144c7655a3c6e6642277aacc0f1ea5	product-code	verified
@@ -370,7 +370,7 @@ core/backend-go/tests/secretmanager/secrets/get_secret_by_name_permission_integr
 core/backend-go/tests/secretmanager/secrets/list_secrets_integration_test.go	1a518246d194bb838e64580c2805aa647d0928f1	test	unread
 core/backend-go/tests/secretmanager/secrets/list_secrets_permission_integration_test.go	d30192f3dcd9d38b1dd0c2107d504f6a72ef063a	test	unread
 core/backend-go/tests/secretmanager/secrets/main_test.go	5d6a299560f54bc01e6f64ffe610f5a015d71c49	test	unread
-core/backend-go/tests/secretmanager/secrets/reference_integration_test.go	34917ef662e378c3e99a4ea9236dbabace46e859	test	verified
+core/backend-go/tests/secretmanager/secrets/reference_integration_test.go	4888aec604367cb9c40f03df8a3337760c68c069	test	verified
 core/backend-go/tests/secretmanager/secrets/reference_projects_test.go	a41ef9fdbb91eb8f59165c855f6991ed5f4cf0ec	test	verified
 core/backend/.dockerignore	b484ea02a4e384bb39866ab237af20dde21ffb30	product-code	unread
 core/backend/.eslintignore	784cdc8711853b29b592684c267dbdb524917969	product-code	unread
@@ -11953,7 +11953,7 @@ docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	doc
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
-docs/0066-native-reference-reads.md	8744fd025283ec6cf7fc0248c0221b03773fb343	documentation	unread
+docs/0066-native-reference-reads.md	1930ce9acf9c7cab84e6debfe75b3e8c9508e434	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
 docs/0069-execution-goal.md	d93133c58976e59c3224290f072787b5490ebced	documentation	reviewed
@@ -11978,7 +11978,7 @@ docs/0113-vaultix-identity-execution.md	b6727db6a7f0b4a92d599b7121b4f9bee4021a93
 docs/0114-domain-scripted-ui-standard.md	e7801d6a30e2c0bf3ec8e2bce8d319a6269e0825	documentation	unread
 docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320d1c26be2573b4e72544d859fd8	documentation	unread
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
-docs/0117-assistant-reference-boundary.md	f824fc47412f343c0a58d37a1729e33d94db0cff	documentation	unread
+docs/0117-assistant-reference-boundary.md	b0f4f0a476a600feeeb8cd307e199cf4961f311a	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -12015,11 +12015,11 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	ec55e336d1a7926e4a0976708bb76745d288f6c4	generated	unread
-docs/migration/generated/modules.tsv	a487246b7b4e25411ecba29dbc33b2cf48cac921	generated	unread
+docs/migration/generated/files.tsv	d00dc52db73afd526fbf6d1cdf0b0c405b6498da	generated	unread
+docs/migration/generated/modules.tsv	53e39c97d1713e9f89555ea20b598667437ba22f	generated	unread
 docs/migration/generated/summary.json	0f561224fb75877f6837cbe41d8307ce286f4193	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
-docs/plan/action-plan.md	c36f7e77b2fa3a8c542af697f709dcb0e7188280	documentation	unread
+docs/plan/action-plan.md	0e8fa3f0c8bcc56581d3ff3e41adb6812beae52b	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
 docs/plan/traceability.md	949ab9ab2b5cb545cd6adc0fe6dcf03822b34715	documentation	unread
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored

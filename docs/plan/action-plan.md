@@ -149,7 +149,7 @@ These are not decided by this plan.
 4. Where the Grok bot repository lives, and whether a plugin is published. This repo should only grow the connection text.
 5. Mesh stays unauthorized until a separate yes.
 6. Duplicate `0110` and `0112` files stay under those names until `docs/plan/canonical-ids.json` exists. Confirm the four alias ids in the naming proposal before a rename.
-7. Go becomes owner one use case at a time, starting with reference reads. TypeScript remains the public owner. The differential `$all` check now passes. Cutover still needs an explicit decision on last-matching CASL precedence versus the native deny-first evaluator, plus the HTTP, MCP, audit, and rate-limit gates in `docs/0066`.
+7. Go becomes owner one use case at a time, starting with reference reads. The served contract already makes a matching forbid win, and the Go project-rule builder now follows that expansion and order. TypeScript remains the public owner until the HTTP, MCP, audit, and rate-limit gates in `docs/0066` pass together.
 8. Who holds SMTP, backups, and the encryption key for the public instance.
 9. Whether pull request 24 is the upgrade-path change to continue, or whether it should be closed and replaced.
 
@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: the reference-read cutover decision in `docs/0066`. `$all` parity is tested. Public reads stay on TypeScript.
+Next task: the HTTP, MCP, audit, and rate-limit gates in `docs/0066` before any public reference-route switch. Forbid-wins and `$all` parity are tested. Public reads stay on TypeScript.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

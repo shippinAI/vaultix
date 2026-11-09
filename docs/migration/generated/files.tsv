@@ -225,7 +225,7 @@ core/backend-go/internal/services/kms/authentication_factor_test.go	core/backend
 core/backend-go/internal/services/kms/kms.go	core/backend-go/internal/services/kms	kms	Go-native	go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
 core/backend-go/internal/services/kms/kms_org.go	core/backend-go/internal/services/kms	kms	Go-native	go	9bea7672ac02e63344c99764fee013e1fe2e3983	unread
 core/backend-go/internal/services/kms/kms_project.go	core/backend-go/internal/services/kms	kms	Go-native	go	b1debfc7ad9c5bde3d033d0e1408e9a8302c6540	unread
-core/backend-go/internal/services/permission/array_operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	7209e600071e777e247d2ae4d135d57c533dd6d0	authored
+core/backend-go/internal/services/permission/array_operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	0fc562075ef44eae34a6e2390e514a71e77db2a9	authored
 core/backend-go/internal/services/permission/operators.go	core/backend-go/internal/services/permission	authorization	Go-native	go	e046c0aa58bb37a171ddf87c6ab8fb9d14619480	authored
 core/backend-go/internal/services/permission/operators_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	5d9b8486e04ced6a39bb5ef98424652daab6a07b	unread
 core/backend-go/internal/services/permission/permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	b2fa739add5cc7a6a399b2ddf4ef66fc247151e0	authored
@@ -234,8 +234,8 @@ core/backend-go/internal/services/permission/platform/assume_privilege_permissio
 core/backend-go/internal/services/permission/project/actions.go	core/backend-go/internal/services/permission	authorization	Go-native	go	efb007ac6bc68e08d82b8d288d32976187f2a8fe	authored
 core/backend-go/internal/services/permission/project/default_roles.go	core/backend-go/internal/services/permission	authorization	Go-native	go	ac1092ce0663d291a22a7192bb82b3ba31a5ad3d	authored
 core/backend-go/internal/services/permission/project/subjects.go	core/backend-go/internal/services/permission	authorization	Go-native	go	e5f1d0775c6bbb80d544388e66638ecb797e269e	authored
-core/backend-go/internal/services/permission/rules.go	core/backend-go/internal/services/permission	authorization	Go-native	go	db94dfdb116d89a41d0ce5c5f40332d10a78b697	authored
-core/backend-go/internal/services/permission/rules_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	29ddedffdae168f36ba341b643b084fc3f3bee6c	authored
+core/backend-go/internal/services/permission/rules.go	core/backend-go/internal/services/permission	authorization	Go-native	go	c7aefc6b382c1c4a9bcdf1078ddfe21964069604	authored
+core/backend-go/internal/services/permission/rules_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	7289d3c7635bd57e1a86f52aba00611c1e0c9382	authored
 core/backend-go/internal/services/permission/secretmanager/reference_permission_test.go	core/backend-go/internal/services/permission	authorization	Go-native	go	c5e0784a6e071cd84064dab52ecdc6f9e249c83f	authored
 core/backend-go/internal/services/permission/secretmanager/secret_permission.go	core/backend-go/internal/services/permission	authorization	Go-native	go	90e7ac80489ec852f4cd818271c9308b7aaadb95	authored
 core/backend-go/internal/services/permission/sso.go	core/backend-go/internal/services/permission	authorization	Go-native	go	6fad951974144c7655a3c6e6642277aacc0f1ea5	verified
@@ -336,7 +336,7 @@ core/backend-go/tests/secretmanager/secrets/get_secret_by_name_permission_integr
 core/backend-go/tests/secretmanager/secrets/list_secrets_integration_test.go	core/backend-go/tests/secretmanager/secrets	integrations	Go-native	go	1a518246d194bb838e64580c2805aa647d0928f1	unread
 core/backend-go/tests/secretmanager/secrets/list_secrets_permission_integration_test.go	core/backend-go/tests/secretmanager/secrets	authorization	Go-native	go	d30192f3dcd9d38b1dd0c2107d504f6a72ef063a	unread
 core/backend-go/tests/secretmanager/secrets/main_test.go	core/backend-go/tests/secretmanager/secrets	secrets	Go-native	go	5d6a299560f54bc01e6f64ffe610f5a015d71c49	unread
-core/backend-go/tests/secretmanager/secrets/reference_integration_test.go	core/backend-go/tests/secretmanager/secrets	integrations	Go-native	go	34917ef662e378c3e99a4ea9236dbabace46e859	verified
+core/backend-go/tests/secretmanager/secrets/reference_integration_test.go	core/backend-go/tests/secretmanager/secrets	integrations	Go-native	go	4888aec604367cb9c40f03df8a3337760c68c069	verified
 core/backend-go/tests/secretmanager/secrets/reference_projects_test.go	core/backend-go/tests/secretmanager/secrets	secrets	Go-native	go	a41ef9fdbb91eb8f59165c855f6991ed5f4cf0ec	verified
 core/backend/.dockerignore	core/backend	foundation	Go-domain-migration	build-config	b484ea02a4e384bb39866ab237af20dde21ffb30	unread
 core/backend/.eslintignore	core/backend	foundation	Go-domain-migration	build-config	784cdc8711853b29b592684c267dbdb524917969	unread

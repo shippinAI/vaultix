@@ -4087,10 +4087,10 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/array_operators_test.go",
-      "blob": "7209e600071e777e247d2ae4d135d57c533dd6d0",
+      "blob": "0fc562075ef44eae34a6e2390e514a71e77db2a9",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
@@ -4183,10 +4183,10 @@
     },
     {
       "path": "core/backend-go/tests/secretmanager/secrets/reference_integration_test.go",
-      "blob": "34917ef662e378c3e99a4ea9236dbabace46e859",
+      "blob": "4888aec604367cb9c40f03df8a3337760c68c069",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
+      "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
       "evidence": [
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
@@ -8542,28 +8542,30 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/rules.go",
-      "blob": "db94dfdb116d89a41d0ce5c5f40332d10a78b697",
+      "blob": "c7aefc6b382c1c4a9bcdf1078ddfe21964069604",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/permission/rules_test.go",
-      "blob": "29ddedffdae168f36ba341b643b084fc3f3bee6c",
+      "blob": "7289d3c7635bd57e1a86f52aba00611c1e0c9382",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery.",
+      "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
       "evidence": [
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {

@@ -85,9 +85,10 @@ func TestPermissionArrayAllMatchesContainedTags(t *testing.T) {
 	require.False(t, scalar(vaultixpolicy.MapSubject{"secretTags": "public"}))
 }
 
-func TestReferenceEvaluatorStaysDenyFirstUntilCutoverDecision(t *testing.T) {
-	// CASL lets the later allow override the earlier forbid. This evaluator
-	// still returns false. Public reference routes stay on TypeScript.
+func TestMatchingForbidWinsEvenWhenAnAllowIsWrittenLater(t *testing.T) {
+	// The serving TypeScript builder places forbids after allows. CASL then
+	// uses the last match, so a matching forbid wins. This deny-first check
+	// has the same outcome and must not let the later allow through.
 	ability, err := vaultixpolicy.LoadFromJSON([]byte(`[
 		{"action":"describeSecret","subject":"secrets","inverted":true},
 		{"action":"describeSecret","subject":"secrets","conditions":{"secretName":"ALLOWED"}}

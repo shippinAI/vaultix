@@ -42,9 +42,9 @@ Connection text in the catalog and `core/ai/README.md` tells a Grok bot or other
 
 ## Package 04 slice
 
-`pkg.04-go-read-cutover` is partial. The existing Go reference service already reads names, versions, and timestamps from the primary store and compares them with the TypeScript route in `reference_integration_test.go`. This slice makes product `$all` tag checks match CASL containment and keeps that differential. It does not switch the public route.
+`pkg.04-go-read-cutover` is partial. The served project-permission contract sorts allows before forbids and expands a forbid of `describeSecret` or `readValue` so it also forbids legacy `read`. CASL's last match then makes a matching forbid win. The Go project-rule builder now does the same expansion and ordering. Its deny-first check matches that result. `vaultixpolicy.Can` is unchanged for other callers. Product `$all` tag checks match CASL containment.
 
-The remaining cutover decision is rule precedence. CASL uses the last matching rule, so a later allow can override an earlier forbid. The native evaluator is deny-first and still returns false for that case. `reference.PublicOwner` stays `typescript`. HTTP, MCP, audit, and rate-limit ownership stay with the current TypeScript route until that decision and the gates in `docs/0066` are accepted together.
+`reference.PublicOwner` stays `typescript`. The public reference route, MCP dispatch, audit ownership, and self-hosted rate limit are still the TypeScript route. Those gates in `docs/0066` are not closed. No new owner decision is required for the forbid-wins result: that is the behavior the current route already serves.
 
 ## Loopback integration setup
 
