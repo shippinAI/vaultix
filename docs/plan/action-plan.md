@@ -225,6 +225,8 @@ Constraints: one store. No value in MCP. Personal overrides stay out of the shar
 
 Next task: a native write path behind an explicit flag, with TypeScript remaining the default, and a differential against the loopback Postgres lifecycle in `e2e-test/routes/v3/secret-lifecycle-db.spec.ts`. No write-dispatch flag yet, because that path does not exist. Core MCP still has no secret-changing tool. A found secret's value read now checks `readValue` before decryption. A missing local secret can still resolve an import from a source scope, and that import function decrypts describable secrets before its own value check. `viewSecretValue: false` still decrypts so shared reads stay masked and personal reads stay visible. Pending approval values are encrypted with the project key before insert. Unencrypted approval metadata remains plaintext JSON when the caller sets `isEncrypted` false.
 
+Receipt: commit `baf60b152ff0e6d0259066c4389ab5aee86c0ac2`, image `sha256:e4f03076410060c63ec0b5d431c7d693dd86cf5c969ee3ad76c3cd6856889257`. The unit characterization passed 10 tests. The loopback spec passed 4 tests. Packaged smoke, isolation, proxy, admission, and 17 headless checks passed. Reference differential passed for both `go` and `typescript` dispatch.
+
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 
 ### ai

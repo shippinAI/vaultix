@@ -315,3 +315,13 @@ The TypeScript reference read calls `createAuditLog`, which calls `pushToLog`. T
 The public ingress builds a new header set. A caller `X-Vaultix-Dispatch` value is not copied. The MCP tool path sets that header to `mcp` itself. The dispatch test sends `mcp` on the HTTP read and `forged` on the MCP call; the native listener sees no dispatch header for HTTP and `mcp` for the tool call. The sidecar process binds `127.0.0.1:4040`. A non-loopback peer that presents the header is still counted by the native limiter.
 
 `TestReference_MetadataOnlyDifferential` passed against image `sha256:d5ada2273a1f71bec2c5efd5f46e4c48f3944a365d90cc64c8588b5de2fa4682` twice. With `VAULTIX_REFERENCE_DISPATCH=go` it passed in 26.760s. With `VAULTIX_REFERENCE_DISPATCH=typescript` it passed in 25.746s. The integration harness replaces the image environment, so the second run is the unset code path on that same image. No product runtime change followed these passes, so the image was not rebuilt.
+
+## Secret read order and rebuilt image, 2026-11-09
+
+`getSecretByName` now rejects a found secret's value read before decryption. The change is in `secret-v2-bridge-service.ts` at the `viewSecretValue` check. A describe-only caller receives `ForbiddenReadSecretError` and the decryptor is not called. A caller with `readValue` still receives the decrypted value. `viewSecretValue: false` still decrypts, then masks a shared value, because existing access-list and personal reads depend on that order. A missing local secret can still resolve an import; `fnSecretsV2FromImports` decrypts describable imported secrets before its own value check because the source scope can differ from the local path. That import order was not changed.
+
+`node scripts/build-self-hosted.mjs` passed for commit `baf60b152ff0e6d0259066c4389ab5aee86c0ac2`. Image `sha256:e4f03076410060c63ec0b5d431c7d693dd86cf5c969ee3ad76c3cd6856889257`, tag `vaultix:baf60b152ff0e6d0259066c4389ab5aee86c0ac2`. Receipt `.cache/self-hosted-build-7dWnaK/result.json`. Passed steps include Dragonfly and Redis smoke, encrypted recovery, tenant isolation, the proxy boundary, and admission on both caches. No registry push.
+
+`node scripts/test-cli-headless.mjs sha256:e4f03076410060c63ec0b5d431c7d693dd86cf5c969ee3ad76c3cd6856889257 /workspace/.cache/cli-build-4D6STq/linux-amd64/vaultix` passed 17 checks. Evidence `/workspace/.cache/cli-headless-4Cy8qm`. The CLI binary was built before this server revision.
+
+`TestReference_MetadataOnlyDifferential` passed against that image with `VAULTIX_REFERENCE_DISPATCH=go` in 28.649s and with `VAULTIX_REFERENCE_DISPATCH=typescript` in 27.838s.
