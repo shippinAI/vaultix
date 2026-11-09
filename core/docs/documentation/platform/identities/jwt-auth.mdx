@@ -13,23 +13,23 @@ The following sequence diagram illustrates the JWT Auth workflow for authenticat
 sequenceDiagram
     participant Client as Client Application
     participant Issuer as JWT Issuer
-    participant Infis as vaultix
+    participant vaultix as vaultix
 
     Client->>Issuer: Step 1: Request JWT token
     Issuer-->>Client: Return signed JWT with claims
 
-    Note over Client,Infis: Step 2: Login Operation
-    Client->>Infis: Send signed JWT to /api/v1/auth/jwt-auth/login
+    Note over Client,vaultix: Step 2: Login Operation
+    Client->>vaultix: Send signed JWT to /api/v1/auth/jwt-auth/login
 
-    Note over Infis: Step 3: JWT Validation
-    Infis->>Infis: Validate JWT signature using configured public keys or JWKS
-    Infis->>Infis: Verify required claims (aud, sub, iss)
+    Note over vaultix: Step 3: JWT Validation
+    vaultix->>vaultix: Validate JWT signature using configured public keys or JWKS
+    vaultix->>vaultix: Verify required claims (aud, sub, iss)
 
-    Note over Infis: Step 4: Token Generation
-    Infis->>Client: Return short-lived access token
+    Note over vaultixix: Step 4: Token Generation
+    vaultixix->>Client: Return short-lived access token
 
-    Note over Client,Infis: Step 5: Access vaultix API with Token
-    Client->>Infis: Make authenticated requests using the short-lived access token
+    Note over Client,vaultixix: Step 5: Access vaultix API with Token
+    Client->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

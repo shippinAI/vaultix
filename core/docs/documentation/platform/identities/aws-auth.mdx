@@ -12,23 +12,23 @@ The following sequence diagram illustrates the AWS Auth workflow for authenticat
 ```mermaid
 sequenceDiagram
   participant Client as Client
-  participant Infis as vaultix
+  participant vaultix as vaultix
   participant AWS as AWS STS
 
   Note over Client,Client: Step 1: Sign GetCallerIdentityQuery
 
-  Note over Client,Infis: Step 2: Login Operation
-  Client->>Infis: Send signed query details /api/v1/auth/aws-auth/login
+  Note over Client,vaultix: Step 2: Login Operation
+  Client->>vaultix: Send signed query details /api/v1/auth/aws-auth/login
 
-  Note over Infis,AWS: Step 3: Query verification
-  Infis->>AWS: Forward signed GetCallerIdentity query
-  AWS-->>Infis: Return IAM user/role details
+  Note over vaultix,AWS: Step 3: Query verification
+  vaultix->>AWS: Forward signed GetCallerIdentity query
+  AWS-->>vaultixixix: Return IAM user/role details
 
-  Note over Infis: Step 4: Identity Property Validation
-  Infis->>Client: Return short-lived access token
+  Note over vaultix: Step 4: Identity Property Validation
+  vaultix->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 5: Access vaultix API with Token
-  Client->>Infis: Make authenticated requests using the short-lived access token
+  Note over Client,vaultix: Step 5: Access vaultix API with Token
+  Client->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

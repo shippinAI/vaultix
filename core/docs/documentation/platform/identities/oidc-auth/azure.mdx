@@ -13,23 +13,23 @@ The following sequence diagram illustrates the OIDC Auth workflow for authentica
 sequenceDiagram
   participant Client as Azure Pipeline
   participant Idp as Identity Provider
-  participant Infis as vaultix
+  participant vaultix as vaultix
 
   Client->>Idp: Step 1: Request identity token
   Idp-->>Client: Return JWT with verifiable claims
 
-  Note over Client,Infis: Step 2: Login Operation
-  Client->>Infis: Send signed JWT to /api/v1/auth/oidc-auth/login
+  Note over Client,vaultix: Step 2: Login Operation
+  Client->>vaultixix: Send signed JWT to /api/v1/auth/oidc-auth/login
 
-  Note over Infis,Idp: Step 3: Query verification
-  Infis->>Idp: Request JWT public key using OIDC Discovery
-  Idp-->>Infis: Return public key
+  Note over vaultix,Idp: Step 3: Query verification
+  vaultixixix->>Idp: Request JWT public key using OIDC Discovery
+  Idp-->>vaultixixix: Return public key
 
-  Note over Infis: Step 4: JWT validation
-  Infis->>Client: Return short-lived access token
+  Note over vaultixixix: Step 4: JWT validation
+  vaultix->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 5: Access vaultix API with Token
-  Client->>Infis: Make authenticated requests using the short-lived access token
+  Note over Client,vaultix: Step 5: Access vaultix API with Token
+  Client->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept
