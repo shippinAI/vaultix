@@ -124,7 +124,7 @@ A short receipt in the PR: commit, commands, pass counts, and the sentence "View
 | Frontend `tsc` and `npm run build` | UI packages | Passed only with an 8 GB heap. Default heap aborted, exit 134 |
 | Frontend and backend `npm run lint` | Any UI or API PR | Failed. Frontend 72 errors and 5 warnings. Backend 26 errors and 4 warnings. Mostly Prettier. Do not autofix inside an unrelated package |
 | Docker | Image, tenant, smoke, Go integration | `docker: command not found`. Go integration panicked `rootless Docker not found` |
-| `core/.env.test` and Postgres, plus `libodbc.so.2` | `npm run test:e2e` | 42 files discovered, 0 tests. First missing ODBC library. After `unixodbc`, `getDatabaseCredentials` called `process.exit(-1)` because `.env.test` is absent |
+| Loopback Postgres, Redis, and `core/.env.test` | `node scripts/prepare-local-integration.mjs`, then `node scripts/run-local-auth-e2e.mjs password`, `machine`, and `references` | Password 6 passed, universal-auth 12 passed, reference boundary 5 passed. The rest of `npm run test:e2e` was not run. `max_locks_per_transaction` must be at least 256. |
 | `node scripts/map-capabilities.mjs --check` | Catalog edits | Failed: stale `catalog.json` |
 | `node scripts/test-capability-map.mjs` | Catalog structure | Passed |
 | Operator mail, keys, and DNS | Packages 07 and 08 | Not available in this plan. Live `emailConfigured` was false |
