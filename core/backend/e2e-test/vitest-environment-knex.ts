@@ -24,7 +24,8 @@ import { bootstrapCheck } from "@app/server/boot-strap-check";
 import { hsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
 import { kmsRootConfigDALFactory } from "@app/services/kms/kms-root-config-dal";
 
-dotenv.config({ path: path.join(__dirname, "../../.env.test"), debug: true });
+// debug stays off: core/.env.test holds disposable database credentials.
+dotenv.config({ path: path.join(__dirname, "../../.env.test") });
 export default {
   name: "knex-env",
   transformMode: "ssr",

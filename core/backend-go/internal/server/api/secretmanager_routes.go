@@ -8,6 +8,7 @@ import (
 	"github.com/vaultix/api/internal/ee/services/ratelimit"
 	"github.com/vaultix/api/internal/server/api/secretmanager/secret"
 	"github.com/vaultix/api/internal/server/api/shared"
+	"github.com/vaultix/api/internal/server/api/vaultixref"
 	"github.com/vaultix/api/internal/services/auth/apiauth"
 )
 
@@ -41,4 +42,13 @@ func RegisterSecretManagerRoutes(router chi.Router, logger *slog.Logger, platfor
 		r.Get("/api/v3/secrets/raw", secretsAdapter.ListSecretsRawV3)
 		r.Get("/api/v3/secrets/raw/{secretName}", secretsAdapter.GetSecretByNameRawV3)
 	})
+
+	// Reference reads use the public Vaultix error and the self-hosted route
+	// budgets. They do not use the cloud-only secret limiter.
+	vaultixref.NewHandler(l, svc.Reference, platform.AuditLog, vaultixref.NewLimiter(nil)).Register(router,
+		platform.ApiAuthenticator.RequireAuth(
+			apiauth.WithAuthModes(apiauth.JWTAuth, apiauth.IdentityAccessTokenAuth),
+			apiauth.WithPublicUnauthorized(),
+		),
+	)
 }

@@ -159,3 +159,23 @@ func TestAuditLog_FailuresAndRetention(t *testing.T) {
 	require.NoError(t, h.HandleAuditLog(t.Context(), auditFixture()))
 	require.Empty(t, store.entries)
 }
+
+func TestAuditLog_ProjectRetentionCapsIncludedPlan(t *testing.T) {
+	store := &capturedStream{}
+	h := auditHandler(store)
+	h.license = auditPlan{plan: &license.FeatureSet{AuditLogsRetentionDays: 365}}
+	days := 5
+	task := auditFixture()
+	task.ProjectID = new("22222222-2222-4222-8222-222222222222")
+	h.project = auditProject{project: &project.Project{
+		OrgID: *task.OrgID, Name: "Fixture project", AuditLogsRetentionDays: &days,
+	}}
+	require.NoError(t, h.HandleAuditLog(t.Context(), task))
+	var entry map[string]any
+	require.NoError(t, json.Unmarshal([]byte(store.entries[0]), &entry))
+	createdAt, err := time.Parse(time.RFC3339, entry["createdAt"].(string))
+	require.NoError(t, err)
+	expiresAt, err := time.Parse(time.RFC3339, entry["expiresAt"].(string))
+	require.NoError(t, err)
+	require.Equal(t, 5*24*time.Hour, expiresAt.Sub(createdAt))
+}

@@ -10,6 +10,7 @@ import (
 	"github.com/vaultix/api/internal/vaultixpolicy"
 
 	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix/api/internal/services/permission/secretmanager"
 )
 
 // ---- buildProjectPermissionRules ----
@@ -112,6 +113,32 @@ func TestBuildProjectPermissionRules_MalformedConstraintsDoNotGrant(t *testing.T
 	require.NoError(t, err)
 	assert.True(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{Environment: "prod"}))
 	assert.False(t, vaultixpolicy.Can(ability, project.SecretActionReadValue, project.SecretSubject{Environment: "dev"}))
+}
+
+func TestBuildProjectPermissionRules_ForbidOfNewSecretReadAlsoForbidsLegacyRead(t *testing.T) {
+	t.Parallel()
+
+	packed := []vaultixpolicy.PackedRule{
+		{vaultixpolicy.StringOrSlice{"describeSecret", "read", "readValue"}, vaultixpolicy.StringOrSlice{project.SubSecrets}, nil, false},
+		{vaultixpolicy.StringOrSlice{"describeSecret", "readValue"}, vaultixpolicy.StringOrSlice{project.SubSecrets}, vaultixpolicy.Cond{"environment": "dev"}, true},
+	}
+	packedJSON, err := json.Marshal(packed)
+	require.NoError(t, err)
+	packedStr := string(packedJSON)
+	rules, errs := buildProjectPermissionRules([]roleWithPermissions{{Role: project.RoleCustom, Permissions: &packedStr}})
+	require.Empty(t, errs)
+	require.Len(t, rules, 2)
+	require.False(t, rules[0].Inverted)
+	require.True(t, rules[1].Inverted)
+	require.ElementsMatch(t, []string{"describeSecret", "readValue", "read"}, []string(rules[1].Action))
+
+	encoded, err := json.Marshal(rules)
+	require.NoError(t, err)
+	ability, err := vaultixpolicy.LoadFromJSON(encoded, vaultixpolicy.LoadOptions{FieldOps: PermissionFieldOps()})
+	require.NoError(t, err)
+	checker := secretmanager.NewSecretAccessChecker(ability)
+	require.False(t, checker.CanDescribeSecret("dev", "/", "VISIBLE", nil))
+	require.True(t, checker.CanDescribeSecret("prod", "/", "VISIBLE", nil))
 }
 
 func TestBuildProjectPermissionRules_UnknownRoleProducesNothing(t *testing.T) {

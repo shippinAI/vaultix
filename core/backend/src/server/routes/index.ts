@@ -521,6 +521,7 @@ import { userActivationServiceFactory } from "@app/services/user-activation/user
 import { userAliasDALFactory } from "@app/services/user-alias/user-alias-dal";
 import { userEngagementServiceFactory } from "@app/services/user-engagement/user-engagement-service";
 import { vaultixFeatureServiceFactory } from "@app/services/vaultix/feature-service";
+import { createVaultixReferenceDispatch, waitForVaultixSidecar } from "@app/services/vaultix/reference-dispatch";
 import { vaultixReferenceServiceFactory } from "@app/services/vaultix/reference-service";
 import { webAuthnCredentialDALFactory } from "@app/services/webauthn/webauthn-credential-dal";
 import { webAuthnServiceFactory } from "@app/services/webauthn/webauthn-service";
@@ -4115,6 +4116,12 @@ export const registerRoutes = async (
   //   logger.info(`Go sidecar is configured: ${envConfig.GOLANG_SIDECAR_URL}`);
   //   await server.register(forwardToGoSidecar, { sidecarUrl: envConfig.GOLANG_SIDECAR_URL });
   // }
+  const referenceBaseUrl = envConfig.GOLANG_SIDECAR_URL || "http://127.0.0.1:4040";
+  if (envConfig.VAULTIX_REFERENCE_DISPATCH === "go") {
+    if (!envConfig.GO_SIDECAR_SPAWN_ENABLED && !envConfig.GOLANG_SIDECAR_URL)
+      throw new Error("VAULTIX_REFERENCE_DISPATCH=go requires the loopback Go sidecar.");
+    await waitForVaultixSidecar(referenceBaseUrl);
+  }
 
   const shouldForwardWritesToPrimaryInstance = Boolean(envConfig.VAULTIX_PRIMARY_INSTANCE_URL);
   if (shouldForwardWritesToPrimaryInstance) {
@@ -4197,24 +4204,30 @@ export const registerRoutes = async (
   });
 
   // register routes for v1
+  const nativeReferenceDispatch = envConfig.VAULTIX_REFERENCE_DISPATCH === "go";
   await server.register(registerVaultixRouter, {
     prefix: "/api/v1/vaultix",
-    references: vaultixReferenceServiceFactory({
-      permissionService,
-      projectService,
-      folderDAL,
-      secretDAL: secretV2BridgeDAL
-    }),
-    auditReferences: async (request, scope) => {
-      await auditLogService.createAuditLog({
-        ...request.auditLogInfo,
-        projectId: scope.projectId,
-        event: {
-          type: EventType.GET_SECRETS,
-          metadata: { environment: scope.environment, secretPath: scope.secretPath, numberOfSecrets: scope.count }
+    references: nativeReferenceDispatch
+      ? undefined
+      : vaultixReferenceServiceFactory({
+          permissionService,
+          projectService,
+          folderDAL,
+          secretDAL: secretV2BridgeDAL
+        }),
+    referenceDispatch: nativeReferenceDispatch ? createVaultixReferenceDispatch(referenceBaseUrl) : undefined,
+    auditReferences: nativeReferenceDispatch
+      ? undefined
+      : async (request, scope) => {
+          await auditLogService.createAuditLog({
+            ...request.auditLogInfo,
+            projectId: scope.projectId,
+            event: {
+              type: EventType.GET_SECRETS,
+              metadata: { environment: scope.environment, secretPath: scope.secretPath, numberOfSecrets: scope.count }
+            }
+          });
         }
-      });
-    }
   });
   await server.register(
     async (v1Server) => {

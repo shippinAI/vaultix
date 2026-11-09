@@ -19,6 +19,7 @@ The public core MCP exposes catalog and configure reads. With an authenticated V
 Reference pages contain no values, comments, custom metadata, personal overrides, or imported secrets. Follow nextOffset until null, even when a filtered page is empty. Confirm the project, environment, and folder before each read.
 The current core MCP cannot create, read values, rotate, inject, or delete secrets. Authentication must be supplied by the client authentication flow, never through tool arguments or chat.
 Do not substitute a legacy raw-values endpoint for a missing MCP tool. Direct the human to the authenticated UI.
+A Grok bot or any other MCP client uses this core endpoint, POST /api/v1/vaultix/mcp, or the local command vaultix mcp. The optional panel MCP is not the connector. Keep the bearer in the CLI credential file or the client host secret store, never in chat, tool arguments, or the printed configuration fragment.
 Codex runs locally with the user's own ChatGPT sign-in and plan limits. Vaultix does not collect that session or promise unlimited AI.
 For authenticated local MCP, the human signs in with the Vaultix CLI, checks vaultix auth status, and adds the fragment printed by vaultix mcp config. This launches vaultix mcp directly, never through vaultix run. Do not read its credential store. Nomen hosted sign-in and automatic renewal remain incomplete.
 `;
@@ -311,10 +312,11 @@ export const getVaultixConnections = () => ({
       id: "mcp-client",
       component: "configure-step",
       title: "Another AI client",
-      description: "Use your own model setup with stdio or Streamable HTTP MCP.",
+      description:
+        "Use your own model setup, including a Grok bot, with stdio or Streamable HTTP MCP. The optional panel MCP is not the connector.",
       steps: [
         "Open your client's MCP server settings.",
-        "For authorized references, sign in with the Vaultix CLI and launch vaultix mcp as a stdio server. The URL below provides public guidance over Streamable HTTP.",
+        "For authorized references, sign in with the Vaultix CLI and launch vaultix mcp as a stdio server, or POST /api/v1/vaultix/mcp. Keep the bearer in the CLI credential file or the client host secret store, never in chat or the printed fragment. The URL below provides public guidance over Streamable HTTP.",
         "Read vaultix.specialist.instructions before using the reference tools."
       ]
     }

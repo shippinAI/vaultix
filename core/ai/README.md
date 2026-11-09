@@ -36,13 +36,16 @@ For a local instance, use `http://127.0.0.1:8200/api/v1/vaultix/mcp`.
 Reconnect Codex, then ask: "Read the Vaultix specialist instructions and help
 me connect my app."
 
-The native core MCP supplies five public guidance tools:
+The native core MCP supplies six public guidance tools:
 
+- `vaultix.guidance.get`: the same reference and connection lessons used by native contextual help.
 - `vaultix.catalog.get`: the same concepts displayed by the UI.
 - `vaultix.configure.show`: the same authored setup steps displayed by the UI.
-- `vaultix.specialist.instructions`: Clyffy's operating instructions.
 - `vaultix.connections.get`: authored setup choices for subscriptions and existing AI clients.
-- `vaultix.guidance.get`: the same reference and connection lessons used by native contextual help.
+- `vaultix.specialist.instructions`: Clyffy's operating instructions.
+- `vaultix.learning.profile.get`: a temporary teaching profile from caller-supplied names. It grants no vault access.
+
+A Grok bot or any other MCP client uses this same core server. POST `/api/v1/vaultix/mcp` for public guidance. For authorized names, launch `vaultix mcp` after CLI sign-in, or send the bearer only from the client host secret store. The optional panel MCP is not the connector. Anonymous guidance does not create an MCP session. An authenticated client that negotiates the Vaultix app receives an Mcp-Session-Id bound to that actor and organization.
 
 Use **Guide Me** or a field's help button for interactive lessons in the UI.
 The lessons can explain and focus controls; they do not execute secret operations.

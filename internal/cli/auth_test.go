@@ -14,6 +14,136 @@ import (
 	"time"
 )
 
+func TestHeadlessUniversalLoginDoesNotCallSso(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("POSIX credential file tested on Linux; Windows uses the keyring")
+	}
+	home := t.TempDir()
+	os.Chmod(home, 0700)
+	t.Setenv("VAULTIX_HOME", home)
+	t.Setenv("VAULTIX_TOKEN", "")
+	t.Setenv("VAULTIX_TOKEN_FILE", "")
+	t.Setenv("NOMEN_OIDC_ISSUER", "https://issuer.example")
+	t.Setenv("NOMEN_OIDC_CLIENT_ID", "public-client")
+	var paths []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		paths = append(paths, r.URL.Path)
+		switch r.URL.Path {
+		case "/api/v1/auth/universal-auth/login":
+			io.WriteString(w, `{"accessToken":"fixture-access","expiresIn":60}`)
+		case "/api/v1/vaultix/projects":
+			if r.Header.Get("Authorization") != "Bearer fixture-access" {
+				w.WriteHeader(401)
+				return
+			}
+			io.WriteString(w, `{"projects":[]}`)
+		default:
+			w.WriteHeader(500)
+		}
+	}))
+	defer srv.Close()
+	file := filepath.Join(home, "credential.json")
+	secret := "fixture-client-secret"
+	var out strings.Builder
+	err := Login(context.Background(), []string{"--api", srv.URL, "--universal", "--credential-file", file}, strings.NewReader("fixture-client\n"+secret+"\n"), &out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(out.String(), secret) || strings.Contains(out.String(), "fixture-access") {
+		t.Fatal("credential printed")
+	}
+	if len(paths) != 2 || paths[0] != "/api/v1/auth/universal-auth/login" || paths[1] != "/api/v1/vaultix/projects" {
+		t.Fatalf("headless universal login used unexpected paths: %v", paths)
+	}
+}
+
+func TestConfiguredSsoLoginDoesNotUseBuiltinHeadless(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("POSIX credential file tested on Linux; Windows uses the keyring")
+	}
+	home := t.TempDir()
+	os.Chmod(home, 0700)
+	t.Setenv("VAULTIX_HOME", home)
+	t.Setenv("VAULTIX_TOKEN", "")
+	t.Setenv("VAULTIX_TOKEN_FILE", "")
+	var issuer *httptest.Server
+	var issuerPaths []string
+	issuer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		issuerPaths = append(issuerPaths, r.URL.Path)
+		var data map[string]any
+		switch r.URL.Path {
+		case "/.well-known/openid-configuration":
+			data = map[string]any{
+				"issuer":                        issuer.URL,
+				"device_authorization_endpoint": issuer.URL + "/device",
+				"token_endpoint":                issuer.URL + "/token",
+			}
+		case "/device":
+			data = map[string]any{
+				"device_code":               "private-device-code",
+				"user_code":                 "ABCD-EFGH",
+				"verification_uri":          issuer.URL + "/activate",
+				"verification_uri_complete": issuer.URL + "/activate?user_code=ABCD-EFGH",
+				"expires_in":                60,
+				"interval":                  1,
+			}
+		case "/token":
+			data = map[string]any{"access_token": "private-access-token", "token_type": "Bearer", "expires_in": 3600}
+		default:
+			http.NotFound(w, r)
+			return
+		}
+		json.NewEncoder(w).Encode(data)
+	}))
+	defer issuer.Close()
+	var apiPaths []string
+	api := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		apiPaths = append(apiPaths, r.URL.Path)
+		if r.URL.Path != "/api/v1/vaultix/projects" || r.Header.Get("Authorization") != "Bearer private-access-token" {
+			w.WriteHeader(401)
+			return
+		}
+		io.WriteString(w, `{"projects":[]}`)
+	}))
+	defer api.Close()
+	file := filepath.Join(home, "credential.json")
+	var out strings.Builder
+	err := Login(context.Background(), []string{
+		"--api", api.URL,
+		"--sso",
+		"--issuer", issuer.URL,
+		"--client-id", "vaultix-cli",
+		"--credential-file", file,
+	}, strings.NewReader(""), &out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(out.String(), "private-access-token") || strings.Contains(out.String(), "private-device-code") {
+		t.Fatal("sso credential printed")
+	}
+	if !strings.Contains(out.String(), "ABCD-EFGH") || !strings.Contains(out.String(), "(nomen)") {
+		t.Fatalf("configured sso login did not complete: %s", out.String())
+	}
+	if strings.Join(issuerPaths, ",") != "/.well-known/openid-configuration,/device,/token" {
+		t.Fatalf("issuer paths: %v", issuerPaths)
+	}
+	if len(apiPaths) != 1 || apiPaths[0] != "/api/v1/vaultix/projects" {
+		t.Fatalf("sso login used built-in exchange paths: %v", apiPaths)
+	}
+}
+
+func TestSsoWithoutIssuerDoesNotUseHostedDefault(t *testing.T) {
+	t.Setenv("VAULTIX_HOME", t.TempDir())
+	t.Setenv("VAULTIX_TOKEN", "")
+	t.Setenv("VAULTIX_TOKEN_FILE", "")
+	t.Setenv("NOMEN_OIDC_ISSUER", "")
+	t.Setenv("NOMEN_OIDC_CLIENT_ID", "public-client")
+	err := Login(context.Background(), []string{"--sso", "--api", "https://vaultix.example"}, strings.NewReader(""), io.Discard)
+	if err == nil || !strings.Contains(err.Error(), "NOMEN_OIDC_ISSUER") || strings.Contains(err.Error(), "shippin") {
+		t.Fatal(err)
+	}
+}
+
 func TestLoginDoesNotTrustPublicHealth(t *testing.T) {
 	t.Setenv("VAULTIX_HOME", t.TempDir())
 	t.Setenv("VAULTIX_TOKEN", "")

@@ -129,6 +129,14 @@ func startNodeJS(ctx context.Context, networkName string, files []testcontainers
 	for key, value := range identityPolicyEnv {
 		req.Env[key] = value
 	}
+	// The image bakes VAULTIX_REFERENCE_DISPATCH=go, but this request replaces
+	// the image environment. Forward an explicit dispatch so one image can prove
+	// both the unset TypeScript path and the native sidecar path.
+	for _, key := range []string{"VAULTIX_REFERENCE_DISPATCH", "GO_SIDECAR_SPAWN_ENABLED", "GOLANG_SIDECAR_URL"} {
+		if value := os.Getenv(key); value != "" {
+			req.Env[key] = value
+		}
+	}
 
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: req,

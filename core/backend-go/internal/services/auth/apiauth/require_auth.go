@@ -2,7 +2,6 @@ package apiauth
 
 import (
 	"context"
-	"net"
 	"net/http"
 	"strings"
 
@@ -26,8 +25,9 @@ const assumePrivilegeCookieName = "vaultix-project-assume-privileges"
 
 // authConfig holds the configuration for RequireAuth middleware.
 type authConfig struct {
-	allowedModes    map[AuthMode]bool
-	assumePrivilege bool
+	allowedModes       map[AuthMode]bool
+	assumePrivilege    bool
+	publicUnauthorized bool
 }
 
 // AuthOption configures RequireAuth behavior.
@@ -39,6 +39,14 @@ func WithAuthModes(modes ...AuthMode) AuthOption {
 		for _, mode := range modes {
 			c.allowedModes[mode] = true
 		}
+	}
+}
+
+// WithPublicUnauthorized writes the Vaultix reference sign-in error. The body
+// never includes the rejected credential or a client-supplied actor header.
+func WithPublicUnauthorized() AuthOption {
+	return func(c *authConfig) {
+		c.publicUnauthorized = true
 	}
 }
 
@@ -82,7 +90,7 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 
 			token := extractBearerToken(r)
 			if token == "" {
-				a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Missing authorization header"))
+				a.deny(cfg, w, r, errutil.Unauthorized("Missing authorization header"))
 				return
 			}
 
@@ -95,14 +103,14 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 			switch classifiedMode {
 			case auth.AuthModeDeviceAccess:
 				if !cfg.allowedModes[DeviceAccessAuth] {
-					a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
+					a.deny(cfg, w, r, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
 					return
 				}
 				identity, err = a.ValidateDeviceAccess(ctx, token)
 				actualMode = DeviceAccessAuth
 			case auth.AuthModeServiceToken:
 				if !cfg.allowedModes[ServiceTokenAuth] {
-					a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
+					a.deny(cfg, w, r, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
 					return
 				}
 				identity, err = a.ValidateServiceToken(ctx, token)
@@ -110,7 +118,7 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 
 			case auth.AuthModeJWT:
 				if !cfg.allowedModes[JWTAuth] && !cfg.allowedModes[IdentityAccessTokenAuth] {
-					a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
+					a.deny(cfg, w, r, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
 					return
 				}
 				var authMode auth.AuthMode
@@ -118,22 +126,20 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 				actualMode, _ = mapClassifiedMode(authMode)
 
 			default:
-				a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Unsupported authentication method"))
+				a.deny(cfg, w, r, errutil.Unauthorized("Unsupported authentication method"))
 				return
 			}
 
 			if err != nil {
-				a.errorHandler.HandleError(w, r, http.StatusUnauthorized, err)
+				a.deny(cfg, w, r, err)
 				return
 			}
-
 			if identity == nil {
-				a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication failed"))
+				a.deny(cfg, w, r, errutil.Unauthorized("Authentication failed"))
 				return
 			}
-
 			if !cfg.allowedModes[actualMode] {
-				a.errorHandler.HandleError(w, r, http.StatusUnauthorized, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
+				a.deny(cfg, w, r, errutil.Unauthorized("Authentication method not allowed for this endpoint"))
 				return
 			}
 
@@ -156,31 +162,21 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 	}
 }
 
-// getRealIP extracts the real client IP address from the request.
-// TODO: When Go becomes standalone, implement proper trusted proxy validation
-// similar to Node.js backend/src/server/plugins/ip.ts. For now, trust X-Real-IP
-// set by the Node.js proxy after its validation.
+// getRealIP uses the loopback ingress boundary. Forwarded headers from any
+// other peer are ignored.
+func (a *ApiAuthenticator) deny(cfg *authConfig, w http.ResponseWriter, r *http.Request, err error) {
+	if cfg.publicUnauthorized {
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "no-store")
+		w.WriteHeader(http.StatusUnauthorized)
+		_, _ = w.Write([]byte(`{"error":"Sign in to access your vault."}`))
+		return
+	}
+	a.errorHandler.HandleError(w, r, http.StatusUnauthorized, err)
+}
+
 func getRealIP(r *http.Request) string {
-	// X-Real-IP is set by Node.js proxy with the validated client IP
-	if xri := r.Header.Get("X-Real-IP"); xri != "" {
-		return strings.TrimSpace(xri)
-	}
-
-	// Check X-Forwarded-For header (may contain multiple IPs)
-	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-		// Take the first IP (original client)
-		if before, _, ok := strings.Cut(xff, ","); ok {
-			return strings.TrimSpace(before)
-		}
-		return strings.TrimSpace(xff)
-	}
-
-	// Fall back to RemoteAddr
-	ip, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return ip
+	return auth.ClientIP(r)
 }
 
 // injectAssumePrivilege checks for assume privilege cookie and injects details into context.

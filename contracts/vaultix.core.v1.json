@@ -11,6 +11,18 @@
     }
   ],
   "paths": {
+    "/auth/config": {
+      "get": {
+        "operationId": "vaultixAuthConfig",
+        "summary": "Read implemented Vaultix login methods",
+        "description": "Public. No query or credential. Built-in password, universal-auth, and access-token profiles are always present and do not require an external issuer. Headless CLI token and universal login do not use SSO. An sso profile is added only when NOMEN_OIDC_ISSUER is configured. The interactive terminal default remains the existing SSO client. Native device-grant HTTP is not advertised here. No tokens or secret values.",
+        "responses": {
+          "200": {
+            "description": "vaultix.auth.v1. cli.headlessRequiresSso is false."
+          }
+        }
+      }
+    },
     "/product": {
       "get": {
         "operationId": "vaultixProduct",
@@ -74,8 +86,8 @@
     "/mcp": {
       "post": {
         "operationId": "vaultixMcp",
-        "summary": "Stateless JSON-RPC for authored guidance and authenticated reference actions",
-        "description": "16 KiB request limit. Public guidance tools take empty arguments. Authenticated clients can call vaultix.projects.list and vaultix.secrets.references with the same validation and permissions as the UI. No secret values or mutations. HTTP errors use a plain error string. Protocol errors use JSON-RPC error objects.",
+        "summary": "JSON-RPC for authored guidance and authenticated reference actions",
+        "description": "16 KiB request limit. Public guidance tools take empty arguments. Anonymous guidance does not create an MCP session. An authenticated client that negotiates the Vaultix app receives an Mcp-Session-Id bound to that actor and organization. Authenticated clients can call vaultix.projects.list and vaultix.secrets.references with the same validation and permissions as the UI. No secret values or mutations. HTTP errors use a plain error string. Protocol errors use JSON-RPC error objects.",
         "requestBody": {
           "required": true,
           "content": {
