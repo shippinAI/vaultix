@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 const config: StorybookConfig = {
   stories: [
     "../src/components/v3/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../src/components/vaultix/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../src/pages/organization/ProjectsPage/components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../src/pages/cert-manager/DashboardPage/components/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
