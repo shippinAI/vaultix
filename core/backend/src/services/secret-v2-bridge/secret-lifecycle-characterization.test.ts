@@ -14,6 +14,7 @@ import { ForbiddenRequestError } from "@app/lib/errors";
 import { RequestContextKey } from "@app/lib/request-context/request-context-keys";
 import { ActorType } from "@app/services/auth/auth-type";
 import { folderCommitServiceFactory } from "@app/services/folder-commit/folder-commit-service";
+import { VAULTIX_SECRET_VALUE_HIDDEN_MASK } from "@app/services/secret/secret-fns";
 import { secretServiceFactory } from "@app/services/secret/secret-service";
 import { secretV2BridgeServiceFactory } from "@app/services/secret-v2-bridge/secret-v2-bridge-service";
 import { vaultixTools } from "@app/services/vaultix/catalog";
@@ -300,8 +301,138 @@ describe("current TypeScript secret lifecycle", () => {
         includeImports: false,
         expandSecretReferences: false
       })
-    ).rejects.toMatchObject({ name: "ForbiddenReadSecretError" });
-    expect(readDecryptor).toHaveBeenCalled();
+    ).rejects.toMatchObject({
+      name: "ForbiddenReadSecretError",
+      message: "You do not have permission to view secret value on secret with name 'CANARY_NAME'"
+    });
+    expect(readDecryptor).not.toHaveBeenCalled();
+
+    const maskedDecryptor = vi.fn(() => Buffer.from(canary));
+    const masked = secretV2BridgeServiceFactory({
+      secretDAL: {
+        findOneWithTags: vi.fn().mockResolvedValue({
+          id: "secret-1",
+          key: "CANARY_NAME",
+          version: 1,
+          type: SecretType.Shared,
+          userId: null,
+          folderId: "folder-1",
+          tags: [],
+          encryptedValue: Buffer.from("ciphertext"),
+          encryptedComment: Buffer.from("comment-ciphertext")
+        })
+      } as never,
+      projectDAL: {} as never,
+      projectEnvDAL: {} as never,
+      secretTagDAL: {} as never,
+      secretVersionDAL: {} as never,
+      folderCommitService: {} as never,
+      folderDAL: {
+        findBySecretPath: vi.fn().mockResolvedValue({ id: "folder-1", envId: "env-1" })
+      } as never,
+      permissionService: {
+        getProjectPermission: vi.fn(async () => permission([allow(ProjectPermissionSecretActions.DescribeSecret)]))
+      } as never,
+      permissionDAL: {} as never,
+      secretQueueService: {} as never,
+      secretImportDAL: {} as never,
+      secretVersionTagDAL: {} as never,
+      secretApprovalPolicyService: {} as never,
+      secretApprovalRequestDAL: {} as never,
+      secretApprovalRequestSecretDAL: {} as never,
+      kmsService: {
+        createCipherPairWithDataKey: vi.fn().mockResolvedValue({ decryptor: maskedDecryptor, encryptor: vi.fn() })
+      } as never,
+      resourceMetadataDAL: {} as never,
+      keyStore: {} as never,
+      reminderService: {} as never,
+      reminderDAL: {} as never,
+      secretValidationRuleService: {} as never,
+      projectFolderGrantDAL: {} as never,
+      orgDAL: {} as never,
+      licenseService: {} as never
+    });
+    const hidden = await masked.getSecretByName({
+      ...actor,
+      projectId,
+      environment: "dev",
+      path: "/",
+      type: SecretType.Shared,
+      secretName: "CANARY_NAME",
+      viewSecretValue: false,
+      includeImports: false,
+      expandSecretReferences: false
+    });
+    expect(maskedDecryptor).toHaveBeenCalled();
+    expect(hidden.secretValue).toBe(VAULTIX_SECRET_VALUE_HIDDEN_MASK);
+    expect(hidden.secretValueHidden).toBe(true);
+    expect(hidden.secretComment).toBe(canary);
+  });
+
+  test("a caller allowed to read the value still receives the decrypted secret", async () => {
+    const readDecryptor = vi.fn(() => Buffer.from(canary));
+    const reading = secretV2BridgeServiceFactory({
+      secretDAL: {
+        findOneWithTags: vi.fn().mockResolvedValue({
+          id: "secret-1",
+          key: "CANARY_NAME",
+          version: 1,
+          type: SecretType.Shared,
+          userId: null,
+          folderId: "folder-1",
+          tags: [],
+          encryptedValue: Buffer.from("ciphertext")
+        })
+      } as never,
+      projectDAL: {} as never,
+      projectEnvDAL: {} as never,
+      secretTagDAL: {} as never,
+      secretVersionDAL: {} as never,
+      folderCommitService: {} as never,
+      folderDAL: {
+        findBySecretPath: vi.fn().mockResolvedValue({ id: "folder-1", envId: "env-1" })
+      } as never,
+      permissionService: {
+        getProjectPermission: vi.fn(async () =>
+          permission([
+            allow(ProjectPermissionSecretActions.DescribeSecret),
+            allow(ProjectPermissionSecretActions.ReadValue)
+          ])
+        )
+      } as never,
+      permissionDAL: {} as never,
+      secretQueueService: {} as never,
+      secretImportDAL: {} as never,
+      secretVersionTagDAL: {} as never,
+      secretApprovalPolicyService: {} as never,
+      secretApprovalRequestDAL: {} as never,
+      secretApprovalRequestSecretDAL: {} as never,
+      kmsService: {
+        createCipherPairWithDataKey: vi.fn().mockResolvedValue({ decryptor: readDecryptor, encryptor: vi.fn() })
+      } as never,
+      resourceMetadataDAL: {} as never,
+      keyStore: {} as never,
+      reminderService: {} as never,
+      reminderDAL: {} as never,
+      secretValidationRuleService: {} as never,
+      projectFolderGrantDAL: {} as never,
+      orgDAL: {} as never,
+      licenseService: {} as never
+    });
+    const secret = await reading.getSecretByName({
+      ...actor,
+      projectId,
+      environment: "dev",
+      path: "/",
+      type: SecretType.Shared,
+      secretName: "CANARY_NAME",
+      viewSecretValue: true,
+      includeImports: false,
+      expandSecretReferences: false
+    });
+    expect(readDecryptor).toHaveBeenCalledOnce();
+    expect(secret.secretValue).toBe(canary);
+    expect(secret.secretValueHidden).toBe(false);
   });
 
   test("an approval policy records the pending create and does not store the secret", async () => {

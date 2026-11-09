@@ -2002,6 +2002,25 @@ export const secretV2BridgeServiceFactory = ({
     }
     if (!secret) throw new NotFoundError({ message: `Secret with name '${secretName}' not found` });
 
+    // Reject a found-secret value read before decryption. Import resolution stays
+    // above this check: a missing local secret can still come from a source scope
+    // the caller is allowed to read.
+    if (
+      viewSecretValue &&
+      secretType !== SecretType.Personal &&
+      !hasSecretReadValueOrDescribePermission(permission, ProjectPermissionSecretActions.ReadValue, {
+        environment,
+        secretPath: path,
+        secretName,
+        secretTags: (secret?.tags || []).map((el) => el.slug)
+      })
+    ) {
+      throw new ForbiddenRequestError({
+        message: `You do not have permission to view secret value on secret with name '${secretName}'`,
+        name: "ForbiddenReadSecretError"
+      });
+    }
+
     let secretValue = secret.encryptedValue
       ? secretManagerDecryptor({ cipherTextBlob: secret.encryptedValue }).toString()
       : "";

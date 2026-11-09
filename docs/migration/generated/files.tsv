@@ -423,6 +423,7 @@ core/backend/e2e-test/routes/v3/auth-select-org.spec.ts	core/backend/e2e-test/ro
 core/backend/e2e-test/routes/v3/auth-signup-oauth.spec.ts	core/backend/e2e-test/routes/v3	identity	Go-domain-migration	ts	c30088430c2bbb0c55906de12ece27586e15eb5e	unread
 core/backend/e2e-test/routes/v3/auth-signup-sso-enforced.spec.ts	core/backend/e2e-test/routes/v3	identity	Go-domain-migration	ts	c78ba85c90fd2fca3e34fdfcaaf348e993087a6a	unread
 core/backend/e2e-test/routes/v3/auth-signup-sso.spec.ts	core/backend/e2e-test/routes/v3	identity	Go-domain-migration	ts	884979e868ffd3d2da78b1c7b97cacadb3cc6af7	unread
+core/backend/e2e-test/routes/v3/secret-lifecycle-db.spec.ts	core/backend/e2e-test/routes/v3	secrets	Go-domain-migration	ts	b31fb02e216ecbec8b36431446478b2b8a0e6469	unread
 core/backend/e2e-test/routes/v3/secret-recursive.spec.ts	core/backend/e2e-test/routes/v3	secrets	Go-domain-migration	ts	ad879aeca8dc82beab9bf5a66976831be65983f6	unread
 core/backend/e2e-test/routes/v3/secret-reference.spec.ts	core/backend/e2e-test/routes/v3	secrets	Go-domain-migration	ts	8e84b9b0f2c28476c442c62d2850b14716aeff8f	unread
 core/backend/e2e-test/routes/v3/secret-rotations.spec.ts	core/backend/e2e-test/routes/v3	automation	Go-domain-migration	ts	782ca97f5c9ca0969b6c4b52761ff0f90f8b14e4	unread
@@ -4042,12 +4043,12 @@ core/backend/src/services/secret-sync/zabbix/zabbix-sync-types.ts	core/backend/s
 core/backend/src/services/secret-tag/secret-tag-dal.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	8768990fef7b6e36bc935d57069ef7b637d6988c	unread
 core/backend/src/services/secret-tag/secret-tag-service.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	da123053e294bca0f9700e8d827b3f4d8576cfd9	unread
 core/backend/src/services/secret-tag/secret-tag-types.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	ede0c55a32593ee91d424679daa6ff1f4265fd4f	unread
-core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	6150bebe4494fbe70229a6b2898ad88db37c3214	unread
+core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	8db0a4ebf27bc60440ce2b0f98db8c616f827115	unread
 core/backend/src/services/secret-v2-bridge/secret-raw-describe-boundary.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	221321ee69cd8176b2f4b5a9e28c0896f8397af0	unread
 core/backend/src/services/secret-v2-bridge/secret-reference-fns.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	dcb66024373d12f0d3f7ec5d9ccefedd80eebe5b	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-dal.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	c00068cd447a1a735b14e323ddf6f513aa3efa18	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-fns.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	6bab10b6b180d9e9110483e668087e2a9f7c763a	unread
-core/backend/src/services/secret-v2-bridge/secret-v2-bridge-service.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	15e62744f3e9de606ba7e0541ec8953176a152e7	unread
+core/backend/src/services/secret-v2-bridge/secret-v2-bridge-service.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	f3a5041c81155350d16581fd64e7c366da089c32	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-types.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	1b3092691a17638fcf012928ee0126af2ac30d63	unread
 core/backend/src/services/secret-v2-bridge/secret-version-dal.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	f00f1691f697dd0e6fc3d6eb40386508e552c1f6	unread
 core/backend/src/services/secret-v2-bridge/secret-version-tag-dal.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	f1a3531e968f21da962c0def0c3d094c463f22f8	unread

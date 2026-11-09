@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: a differential for secret writes only after the characterization in `secret-lifecycle-characterization.test.ts` is the baseline. TypeScript remains the write owner. No write-dispatch flag was added because no native write path exists yet. Core MCP still has no secret-changing tool. One existing behavior is recorded and not changed: `getSecretByName` decrypts a value before it rejects a describe-only value read. The denial does not return the value.
+Next task: a native write path behind an explicit flag, with TypeScript remaining the default, and a differential against the loopback Postgres lifecycle in `e2e-test/routes/v3/secret-lifecycle-db.spec.ts`. No write-dispatch flag yet, because that path does not exist. Core MCP still has no secret-changing tool. A found secret's value read now checks `readValue` before decryption. A missing local secret can still resolve an import from a source scope, and that import function decrypts describable secrets before its own value check. `viewSecretValue: false` still decrypts so shared reads stay masked and personal reads stay visible. Pending approval values are encrypted with the project key before insert. Unencrypted approval metadata remains plaintext JSON when the caller sets `isEncrypted` false.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

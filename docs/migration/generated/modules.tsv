@@ -99,7 +99,7 @@ core/backend/e2e-test/routes/v2	foundation	Go-domain-migration	1	653ca501c3075dd
 core/backend/e2e-test/routes/v2	secrets	Go-domain-migration	1	9c106061af6654b78c4b0bbb082c4184b214ee52690767fdc45f3e83b9af1f4b	0	unassessed
 core/backend/e2e-test/routes/v3	automation	Go-domain-migration	1	a9c2ddae9b8170a5784c04c2020dec38f326f7ed972d88455e47bd79641c800d	0	unassessed
 core/backend/e2e-test/routes/v3	identity	Go-domain-migration	9	14eddb646a83b4de93e950e79250895ba6329bdafc78d2a7e3a23e576ad15c71	0	unassessed
-core/backend/e2e-test/routes/v3	secrets	Go-domain-migration	4	bb65f33b8e1907d8adb99a71cfac0deef45405bb773644cd5e8482eb10848629	0	unassessed
+core/backend/e2e-test/routes/v3	secrets	Go-domain-migration	5	c07bdf92ea3911077d783eaead92cef61d906201880f92497949d883590fb7d8	0	unassessed
 core/backend/e2e-test/routes/v4	secrets	Go-domain-migration	1	8592764a1c67fdbead6d79389ffd128ffa1012e4e45bb683ca3399a450a7ee66	0	unassessed
 core/backend/e2e-test/setup	foundation	Go-domain-migration	1	0ded8c52ef2fb955a8a8978e8670086cdf92963f625a4cc83431fd3c4879e028	0	unassessed
 core/backend/e2e-test/testUtils	foundation	Go-domain-migration	2	6a62bb76ae801e7fd96bf131efaeb8f1bf282847022fc0cf41ad3eb1402042d9	0	unassessed
@@ -455,7 +455,7 @@ core/backend/src/services/secret-reminder-recipients	automation	Go-domain-migrat
 core/backend/src/services/secret-sharing	secrets	Go-domain-migration	3	741a3784bbb04e4618bf3baea9390673175b355e5c0b6e241cc79c1ad7382bd8	0	unassessed
 core/backend/src/services/secret-sync	integrations	Go-domain-migration	246	c499bc85de01b8152421fb55768636f1507ec2ffe0a960456e001cc0f40e0669	0	unassessed
 core/backend/src/services/secret-tag	secrets	Go-domain-migration	3	594a59385a4be4e73c0af373fb23e9ae5b6526944221934bf3234c6072f7d670	0	unassessed
-core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	9	6e23fdbbcce63e00d59a2e6116ed65b9440768c50e3858274ce6a5971bc67b85	0	unassessed
+core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	9	5213671b1fa76fc8722df30fa7aacaeb99af65468152a8ff5b8b8e029ccc016e	0	unassessed
 core/backend/src/services/secret-validation-rule	secrets	Go-domain-migration	7	e6830861c5457166035b65ec551f85e35e054da604a29811b1fb588b82c895ab	0	unassessed
 core/backend/src/services/service-token	foundation	Go-domain-migration	4	62867362fbb8f711c817cf78f0a601114a38cf6c802595f3f2ffcc9c923239b3	0	unassessed
 core/backend/src/services/signer	pki	Go-domain-migration	13	f6c4506fa5e31914dd56c0f82933715b24a9806ea7482d5d834a081dd47b46bb	0	unassessed
