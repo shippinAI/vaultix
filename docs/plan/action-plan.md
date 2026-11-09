@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: the HTTP, MCP, audit, and rate-limit gates in `docs/0066` before any public reference-route switch. Forbid-wins and `$all` parity are tested. Public reads stay on TypeScript.
+Next task: move HTTP/MCP dispatch, the native error shape, self-hosted rate-limit parity, and audit retention together before any public reference-route switch. Private proxy trust and canceled enqueue are tested and are not that switch. Forbid-wins and `$all` parity are tested. Public reads stay on TypeScript.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

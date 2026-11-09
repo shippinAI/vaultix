@@ -190,21 +190,21 @@ required compatibility work before switching reference routes. The first native
 read domain has not closed those gaps. Do not treat the passing existing suites
 as evidence for cases they do not exercise.
 
-Transport review also identifies concrete work before switching ownership:
+Transport review identifies the remaining work before switching ownership.
+The 2026-11-09 transport groundwork below closes only the private proxy-trust
+and canceled-enqueue checks. It does not switch the public route.
 
 - Transfer the existing UI/MCP action dispatch and metadata-only audit callback
-  together, preserving all guidance tools and protocol negotiation.
+  together, preserving all guidance tools and protocol negotiation. Open.
 - Preserve bounded inputs, no-store, origin checks, masked denials and redacted
   errors. The shared native error handler currently logs richer causes and uses
-  a different response shape. The native authenticator still trusts headers from
-  the local Node proxy; direct public exposure is not accepted.
-- Preserve production rate limits for self-hosted deployments. Native rate-limit
-  initialization currently enables its limiter only for the cloud production
-  profile; that is not equivalent to the current transport's shared limiter.
-- Review native audit queue ownership and retention: its handler has an explicit
-  project-retention TODO and still uses the Node ClickHouse consumer in stream
-  mode. Queue enqueue receives a context but currently calls the non-context
-  enqueue method. Cancellation, retry/deduplication and retention need acceptance.
+  a different response shape. Open. Direct public exposure of the Go listener
+  is not accepted.
+- Preserve the TypeScript route budgets for self-hosted deployments. The native
+  limiter still starts only for cloud production, which is not those budgets.
+  Open.
+- Native audit retention still depends on the license plan and the Node
+  ClickHouse consumer in stream mode. Retention ownership is open.
 
 No production routing, permission rule-order policy, audit ownership or public
 exposure is changed by this evidence commit. Continue the complete-use-case
@@ -226,11 +226,10 @@ native evaluator stays deny-first, which matches that result, and
 `PermissionFieldOps` treats `$all` as CASL/Mongo containment. The vendored
 nested-condition `$all` remains for other callers.
 
-`reference.PublicOwner` stays `typescript`. The HTTP, MCP, audit, and rate-limit
-gates above are still unmet, so the public route was not switched. Native
-rate limiting still starts only for the cloud production profile, and the
-native audit queue still does not own retention. Direct public exposure of the
-Go authenticator remains unaccepted.
+`reference.PublicOwner` stays `typescript`. HTTP/MCP dispatch, native error
+shape, self-hosted rate-limit parity, and audit retention are still open, so
+the public route was not switched. Direct public exposure of the Go listener
+remains unaccepted.
 
 `go test -count=1 ./internal/services/permission/ ./internal/services/secretmanager/reference/`
 passed. Against image `sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1`
@@ -240,3 +239,29 @@ passed. That run compares this Go source with that image's TypeScript route,
 including `$all`, the legacy-read forbid, a foreign organization, value-only
 denial, and canary exclusion. The image does not contain this Go source change,
 and its public behavior was not rebuilt.
+
+## Transport groundwork, 2026-11-09
+
+`auth.ClientIP` accepts `X-Real-IP` only when the TCP peer is loopback, which
+is the private Node ingress after it replaces client-supplied address headers.
+It never reads `X-Forwarded-For`. Any other peer is attributed by its socket
+address. `RequireAuth` and the device-authorization handler use that helper.
+The hosted native limiter, when enabled, keys a bearer token or otherwise
+`ClientIP`, so a non-loopback client cannot rotate `X-Real-IP` into a new
+budget. `NativeLimiterEnabled` remains cloud and production only. Self-hosted
+Go routes stay unlimited by that service; the public TypeScript routes keep
+their own budgets, including 120 catalog reads per minute.
+
+`queue.Enqueue` returns `context.Canceled` before delivery and passes the
+context to `EnqueueContext`. Audit retention is unchanged: a missing plan fails
+closed, and stream mode still uses the Node ClickHouse consumer.
+
+Route tests on `registerVaultixRouter` show an unauthenticated
+`GET /secret-references` and `vaultix.secrets.references` call return before
+the reference service or audit callback, ignore spoofed actor and address
+headers, and omit the canary value. The 121st `GET /catalog` on a fresh router
+returns 429 with a string `error`. Guidance tools and MCP session negotiation
+stay on this router. No image rebuild was required: the public TypeScript
+runtime is unchanged, and the recorded image
+`sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1`
+does not contain the Go helper.

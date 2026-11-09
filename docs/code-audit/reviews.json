@@ -1824,10 +1824,10 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "a05b9281a9ec6699921fcad2ecdcac789955bc1e",
+      "blob": "85181a4deac564daeb9443d661baa33f2b2a3b66",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. NativeLimiterEnabled keeps the self-hosted Go limiter disabled; public Vaultix budgets stay on TypeScript.",
       "evidence": [
         "docs/auth/native-audit-delivery.md",
         "docs/auth/device-api-consumers.md",
@@ -1835,7 +1835,8 @@
         "scripts/prove-device-api-image.mjs",
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -3071,17 +3072,18 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.test.ts",
-      "blob": "84c165a2c6722c8e26b7bd36b123a22486dabf81",
+      "blob": "254c25a5c96d70bb5f95a4c9a668f2e5f4a63223",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
+      "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session. Route tests cover spoofed actor and address headers, unauthenticated reference and MCP refusal without a read or audit, and the 121st catalog response as 429.",
       "evidence": [
         "docs/0057-learning-context-integration.md",
         "core/backend/src/server/routes/vaultix-learning.test.ts",
         "core/backend/src/server/plugins/swagger.test.ts",
         ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json",
         ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -3921,10 +3923,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
-      "blob": "e7972d0101457843085666867488546e612bbd84",
+      "blob": "5672dc4156f1960ba95669cc9a5dd906dd77d4a6",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Client IP now comes from auth.ClientIP: X-Real-IP only from a loopback peer, never X-Forwarded-For. Public exposure of this listener remains unaccepted.",
       "evidence": [
         "docs/0063-native-assumed-authority.md",
         "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
@@ -3932,7 +3934,8 @@
         "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries.",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -4128,10 +4131,10 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
-      "blob": "81b4bc5c1e93f3b2af6461ea3c3ce8a8794dcb49",
+      "blob": "ecd47df6aea2f54d188cb248ac8878d20a60baec",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision.",
+      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until HTTP/MCP, error shape, self-hosted rate-limit parity, and audit retention pass together.",
       "evidence": [
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
@@ -10405,14 +10408,15 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform/deviceauth/handler.go",
-      "blob": "be7b0d945865cbd3cff198eaed5ef4ffe941a90f",
+      "blob": "109d0ae16e81d41ee2548ba7bd93e2e8b1872691",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
+      "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. Device address attribution uses auth.ClientIP. The rollout flag stays off and this is not a public login route.",
       "evidence": [
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -10723,6 +10727,66 @@
         "scripts/test-product-guidance.mjs",
         "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
         "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity."
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/clientip.go",
+      "blob": "ea946e1b06cb4b55afb3b80db66298b4fefaa81e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Authored the loopback-only client address helper. X-Real-IP is accepted only from a loopback peer and only when it parses as an IP. X-Forwarded-For is never read. This does not make the Go listener a public endpoint.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/auth/clientip_test.go",
+      "blob": "22d3582a618ae9ce07f35f78a5a114c2deaec01e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Tests that a non-loopback peer cannot spoof X-Real-IP or X-Forwarded-For, that an invalid ingress address falls back to the loopback socket, and that a loopback peer uses a parsed ingress X-Real-IP rather than a forwarding chain.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/queue/enqueue_test.go",
+      "blob": "28332a94cc3307072ef49800181fc423a669d59f",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Tests that a canceled enqueue returns before delivery. Audit retention ownership is not covered by this test.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/queue/queue.go",
+      "blob": "69c014c64aa668ac1a08140b09b6bc905d9aa06c",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Enqueue returns context.Canceled before delivery and calls EnqueueContext. The rest of the queue service was not re-reviewed. Retention and the Node ClickHouse consumer remain open.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/ee/services/ratelimit/ratelimit.go",
+      "blob": "a707e838413cb6597565e15e43a0541540b57fc0",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "NativeLimiterEnabled stays cloud and production. Enabled limiter keys use auth.ClientIP instead of an untrusted forwarded address. Self-hosted reference budgets remain on TypeScript. The remainder of the limiter was not re-reviewed.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/ee/services/ratelimit/ratelimit_test.go",
+      "blob": "e4bcb3894e1524bdc3e079d914d62bb2c00894c6",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Adds the self-hosted disabled-limiter test and the non-loopback spoofed-address key test. Earlier limiter cases in this file were not re-reviewed.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
       ]
     }
   ]

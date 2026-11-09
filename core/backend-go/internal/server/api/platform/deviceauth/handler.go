@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io"
 	"mime"
-	"net"
 	"net/http"
 	"net/netip"
 	"net/url"
@@ -114,16 +113,12 @@ func (h *Handler) boundary(next http.Handler) http.Handler {
 		}
 		ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
 		defer cancel()
-		// Native listeners are private. The trusted application ingress replaces
-		// X-Real-IP; never use a client-supplied X-Forwarded-For chain here.
-		peer := r.Header.Get("X-Real-IP")
+		// Native listeners are private. Only a loopback ingress may supply
+		// X-Real-IP. A client-supplied forwarding chain is never an address.
+		peer := auth.ClientIP(r)
 		if peer == "" {
-			var err error
-			peer, _, err = net.SplitHostPort(r.RemoteAddr)
-			if err != nil {
-				fail(w, device.ErrInvalidRequest)
-				return
-			}
+			fail(w, device.ErrInvalidRequest)
+			return
 		}
 		ip, err := netip.ParseAddr(peer)
 		if err != nil {

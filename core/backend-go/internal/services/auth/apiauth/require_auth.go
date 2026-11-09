@@ -2,7 +2,6 @@ package apiauth
 
 import (
 	"context"
-	"net"
 	"net/http"
 	"strings"
 
@@ -156,31 +155,10 @@ func (a *ApiAuthenticator) RequireAuth(opts ...AuthOption) func(http.Handler) ht
 	}
 }
 
-// getRealIP extracts the real client IP address from the request.
-// TODO: When Go becomes standalone, implement proper trusted proxy validation
-// similar to Node.js backend/src/server/plugins/ip.ts. For now, trust X-Real-IP
-// set by the Node.js proxy after its validation.
+// getRealIP uses the loopback ingress boundary. Forwarded headers from any
+// other peer are ignored.
 func getRealIP(r *http.Request) string {
-	// X-Real-IP is set by Node.js proxy with the validated client IP
-	if xri := r.Header.Get("X-Real-IP"); xri != "" {
-		return strings.TrimSpace(xri)
-	}
-
-	// Check X-Forwarded-For header (may contain multiple IPs)
-	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-		// Take the first IP (original client)
-		if before, _, ok := strings.Cut(xff, ","); ok {
-			return strings.TrimSpace(before)
-		}
-		return strings.TrimSpace(xff)
-	}
-
-	// Fall back to RemoteAddr
-	ip, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return ip
+	return auth.ClientIP(r)
 }
 
 // injectAssumePrivilege checks for assume privilege cookie and injects details into context.

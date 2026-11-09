@@ -1,6 +1,7 @@
 import fastify from "fastify";
 
 import { getVaultixAuthConfig, publicInstanceURL } from "@app/services/vaultix/auth-config";
+import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
 import type { VaultixLearningMemory } from "@app/services/vaultix/catalog";
 
 import { registerVaultixRouter } from "./vaultix-router";
@@ -212,5 +213,69 @@ describe("native Vaultix HTTP API", () => {
     expect(response.statusCode).toBe(405);
     expect(response.headers.allow).toBe("POST");
     expect(typeof response.json<{ error: unknown }>().error).toBe("string");
+  });
+
+  test("ignores spoofed actor and address headers on an unauthenticated reference read", async () => {
+    const guarded = fastify();
+    let reads = 0;
+    let audits = 0;
+    await guarded.register(registerVaultixRouter, {
+      prefix: "/api/v1/vaultix",
+      references: {
+        listProjects: async () => {
+          reads += 1;
+          return { projects: [] };
+        },
+        listReferences: async () => {
+          reads += 1;
+          return { references: [{ name: "CANARY-SECRET", value: "CANARY-VALUE", comment: "CANARY-COMMENT" }] };
+        }
+      } as unknown as VaultixReferenceService,
+      auditReferences: async () => {
+        audits += 1;
+      }
+    });
+    const headers = {
+      "x-real-ip": "198.51.100.7",
+      "x-forwarded-for": "198.51.100.7",
+      "x-actor-id": "forged-actor",
+      "x-org-id": "forged-org",
+      authorization: "Bearer not-a-session"
+    };
+    const response = await guarded.inject({ url: "/api/v1/vaultix/secret-references", headers });
+    const mcp = await guarded.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      headers,
+      payload: {
+        jsonrpc: "2.0",
+        id: 1,
+        method: "tools/call",
+        params: { name: "vaultix.secrets.references", arguments: { projectId: "forged-project" } }
+      }
+    });
+    expect(response.statusCode).toBe(401);
+    expect(mcp.statusCode).toBeGreaterThanOrEqual(400);
+    expect(reads).toBe(0);
+    expect(audits).toBe(0);
+    expect(response.body).not.toContain("CANARY-VALUE");
+    expect(mcp.body).not.toContain("CANARY-VALUE");
+    expect(response.body).not.toContain("forged-actor");
+    await guarded.close();
+  });
+
+  test("enforces the public guidance rate limit", async () => {
+    const limited = fastify();
+    await limited.register(registerVaultixRouter, { prefix: "/api/v1/vaultix" });
+    const readUntilLimited = async (attempt: number): Promise<{ statusCode: number; body: string }> => {
+      const response = await limited.inject("/api/v1/vaultix/catalog");
+      if (response.statusCode === 429 || attempt === 120) return response;
+      expect(response.statusCode).toBe(200);
+      return readUntilLimited(attempt + 1);
+    };
+    const response = await readUntilLimited(0);
+    expect(response.statusCode).toBe(429);
+    expect(typeof JSON.parse(response.body).error).toBe("string");
+    await limited.close();
   });
 });

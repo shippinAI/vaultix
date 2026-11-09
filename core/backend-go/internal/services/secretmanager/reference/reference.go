@@ -19,8 +19,8 @@ import (
 )
 
 // PublicOwner is the process that serves the public reference routes.
-// TypeScript remains the owner. Switching it requires the last-matching rule
-// decision and the HTTP, MCP, audit, and rate-limit gates in docs/0066.
+// TypeScript remains the owner. Switching it requires the HTTP/MCP, error-shape,
+// self-hosted rate-limit, and audit-retention gates in docs/0066.
 const PublicOwner = "typescript"
 
 type PermissionService interface {

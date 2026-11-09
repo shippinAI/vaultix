@@ -142,7 +142,7 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		Redis:      infra.Redis,
 		LicenseSvc: infra.License,
 		IsCloud:    infra.Config.IsCloud,
-		IsEnabled:  infra.Config.IsCloud && infra.Config.IsProductionMode,
+		IsEnabled:  ratelimit.NativeLimiterEnabled(infra.Config.IsCloud, infra.Config.IsProductionMode),
 	})
 
 	svc := &PlatformServices{

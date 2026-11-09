@@ -42,6 +42,14 @@ type Deps struct {
 	IsEnabled  bool
 }
 
+// NativeLimiterEnabled is the current native limiter gate. Self-hosted and
+// non-production processes stay disabled because public Vaultix routes use the
+// TypeScript limiter. Enabling this for every self-hosted Go route would not
+// match those route budgets.
+func NativeLimiterEnabled(isCloud, isProduction bool) bool {
+	return isCloud && isProduction
+}
+
 // NewService creates a new rate limit service.
 // Rate limiting is only active when enabled (cloud + production).
 func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
@@ -61,7 +69,9 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 	limiter := httprate.NewRateLimiter(
 		DefaultLimits.ReadLimit,
 		defaultWindowLength,
-		httprate.WithKeyFuncs(httprate.KeyByRealIP),
+		httprate.WithKeyFuncs(func(r *http.Request) (string, error) {
+			return auth.ClientIP(r), nil
+		}),
 		httprate.WithLimitCounter(counter),
 		httprate.WithLimitHandler(rateLimitedHandler),
 	)
@@ -172,7 +182,7 @@ func keyByAuthToken(r *http.Request) (string, error) {
 	if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
 		return authHeader[7:], nil
 	}
-	return httprate.KeyByRealIP(r)
+	return auth.ClientIP(r), nil
 }
 
 func rateLimitedHandler(w http.ResponseWriter, r *http.Request) {
