@@ -12015,9 +12015,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	b23a67f5b037d7d916e16d5f2ba493af7e981d56	generated	unread
-docs/migration/generated/modules.tsv	a5cca85909afa39a5bb46d0899a039a34cc2ad7a	generated	unread
-docs/migration/generated/summary.json	5d586f9944ea0b9e336654eb4644997d9442c374	generated	unread
+docs/migration/generated/files.tsv	18cf61c98c930b873dc5ff06b508fb13292d4363	generated	unread
+docs/migration/generated/modules.tsv	d20f6c8062c92eb252dfe51388fce8ccbb313a1d	generated	unread
+docs/migration/generated/summary.json	0f561224fb75877f6837cbe41d8307ce286f4193	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	d19abf003af83e17bb70abd06e4d7796b03fccbb	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
