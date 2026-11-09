@@ -25,16 +25,34 @@ type CLIInstallOptions struct {
 	Progress                          io.Writer
 }
 type CLIInstallResult struct {
-	SchemaVersion     string            `json:"schemaVersion"`
-	Directory         string            `json:"directory"`
-	BinDirectory      string            `json:"binDirectory"`
-	Version           string            `json:"version"`
-	Revision          string            `json:"revision"`
-	Platform          string            `json:"platform"`
-	Checkpoint        ReleaseCheckpoint `json:"checkpoint"`
-	Changed           bool              `json:"changed"`
-	PreviousDirectory string            `json:"previousDirectory"`
-	Verified          bool              `json:"verified"`
+	SchemaVersion     string                  `json:"schemaVersion"`
+	Directory         string                  `json:"directory"`
+	BinDirectory      string                  `json:"binDirectory"`
+	Version           string                  `json:"version"`
+	Revision          string                  `json:"revision"`
+	Platform          string                  `json:"platform"`
+	Checkpoint        ReleaseCheckpoint       `json:"checkpoint"`
+	Changed           bool                    `json:"changed"`
+	PreviousDirectory string                  `json:"previousDirectory"`
+	Verified          bool                    `json:"verified"`
+	Windows           *CLIWindowsInstallation `json:"windows,omitempty"`
+}
+
+// Windows registration may be deferred while either native command is running.
+// The top-level version is the requested target; Active describes independently
+// verified registered bytes, and is nil before first activation.
+type CLIWindowsInstallation struct {
+	State           string            `json:"state"`
+	Publisher       string            `json:"publisher"`
+	PackageFamily   string            `json:"packageFamily"`
+	PackageFullName string            `json:"packageFullName"`
+	Active          *CLIWindowsActive `json:"active"`
+}
+type CLIWindowsActive struct {
+	Version         string            `json:"version"`
+	Revision        string            `json:"revision"`
+	PackageFullName string            `json:"packageFullName"`
+	Checkpoint      ReleaseCheckpoint `json:"checkpoint"`
 }
 type cliOwner struct {
 	SchemaVersion string `json:"schemaVersion"`
@@ -48,6 +66,9 @@ type cliAccepted struct {
 }
 
 func CLIInstallation(directory string) (CLIInstallResult, error) {
+	if runtime.GOOS == "windows" {
+		return windowsCLIInstallation(directory)
+	}
 	var result CLIInstallResult
 	if err := installPlatform(); err != nil {
 		return result, err
@@ -73,6 +94,9 @@ func CLIInstallation(directory string) (CLIInstallResult, error) {
 }
 
 func InstallCLI(ctx context.Context, o CLIInstallOptions) (CLIInstallResult, error) {
+	if runtime.GOOS == "windows" {
+		return installWindowsCLI(ctx, o)
+	}
 	return installCLI(ctx, o, time.Now, checkNativeCLI)
 }
 
@@ -279,7 +303,7 @@ func installCLI(ctx context.Context, o CLIInstallOptions, now func() time.Time, 
 }
 
 func cliResult(root string, m ReleaseManifest, cp ReleaseCheckpoint, changed bool, previous string) CLIInstallResult {
-	return CLIInstallResult{"vaultix.cli-install-result.v1", root, filepath.Join(root, "current"), m.Version, m.Revision, "linux/amd64", cp, changed, previous, true}
+	return CLIInstallResult{SchemaVersion: "vaultix.cli-install-result.v1", Directory: root, BinDirectory: filepath.Join(root, "current"), Version: m.Version, Revision: m.Revision, Platform: "linux/amd64", Checkpoint: cp, Changed: changed, PreviousDirectory: previous, Verified: true}
 }
 func installPlatform() error {
 	if runtime.GOOS != "linux" || runtime.GOARCH != "amd64" {

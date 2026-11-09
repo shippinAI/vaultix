@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.release-manifest.v2.json",
+  "title": "Vaultix coordinated release with native Windows package",
+  "description": "Exact sorted-key, two-space UTF-8 JSON with final LF. Detached Ed25519 signature covers these bytes. Cross-field identity, validity, compatibility and artifact completeness checks are required in addition to schema validation. V2 requires a Windows MSIX artifact and updater 1.1.0; v1 is preserved unchanged.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "version",
+    "channel",
+    "revision",
+    "sequence",
+    "issuedAt",
+    "expiresAt",
+    "minimumUpdaterVersion",
+    "migration",
+    "artifacts"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "vaultix.release-manifest.v2"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$",
+      "maxLength": 128
+    },
+    "channel": {
+      "enum": [
+        "stable",
+        "preview"
+      ]
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$",
+      "maxLength": 40
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "minimumUpdaterVersion": {
+      "const": "1.1.0"
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to",
+        "rollback"
+      ],
+      "properties": {
+        "from": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$",
+            "maxLength": 128
+          }
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$",
+          "maxLength": 128
+        },
+        "rollback": {
+          "enum": [
+            "compatible",
+            "restore-required"
+          ]
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "kind",
+          "platform",
+          "bytes",
+          "sha256",
+          "imageId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$",
+            "maxLength": 128
+          },
+          "kind": {
+            "enum": [
+              "cli",
+              "engine",
+              "source",
+              "sbom",
+              "cli-package"
+            ]
+          },
+          "platform": {
+            "enum": [
+              "linux/amd64",
+              "windows/amd64",
+              "any"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 34359738368
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "maxLength": 64
+          },
+          "imageId": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$",
+                "maxLength": 71
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "cli-package"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "properties": {
+                "name": {
+                  "const": "vaultix-cli-windows-amd64.msix"
+                },
+                "platform": {
+                  "const": "windows/amd64"
+                },
+                "bytes": {
+                "type": "integer",
+                  "maximum": 536870912
+                },
+                "imageId": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.cli-install-result.v2.json",
+  "title": "Vaultix Windows native CLI installation result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "directory",
+    "binDirectory",
+    "version",
+    "revision",
+    "platform",
+    "checkpoint",
+    "changed",
+    "previousDirectory",
+    "verified",
+    "windows"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "vaultix.cli-install-result.v2"
+    },
+    "directory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "binDirectory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "platform": {
+      "const": "windows/amd64"
+    },
+    "checkpoint": {
+      "$ref": "https://vaultix.cloud/contracts/vaultix.release-checkpoint.v1.json"
+    },
+    "changed": {
+      "type": "boolean"
+    },
+    "previousDirectory": {
+      "const": ""
+    },
+    "verified": {
+      "type": "boolean"
+    },
+    "windows": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "publisher",
+        "packageFamily",
+        "packageFullName",
+        "active"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "prepared",
+            "pending-activation",
+            "active"
+          ]
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8192
+        },
+        "packageFamily": {
+          "type": "string",
+          "pattern": "^Vaultix\\.CLI_[a-z0-9]{13}$"
+        },
+        "packageFullName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "active": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "revision",
+            "packageFullName",
+            "checkpoint"
+          ],
+          "properties": {
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "revision": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "packageFullName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "checkpoint": {
+              "$ref": "https://vaultix.cloud/contracts/vaultix.release-checkpoint.v1.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "verified": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "windows": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "active"
+              },
+              "active": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "windows": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "enum": [
+                  "prepared",
+                  "pending-activation"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

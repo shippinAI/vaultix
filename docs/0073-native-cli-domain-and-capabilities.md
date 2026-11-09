@@ -1,9 +1,4 @@
-# Native CLI domain selection and capability delivery
 
-2026-10-30. The owner's required command is
-`vaultixl login --domain=https://vaultix.cloud`. `vaultixl` and `vaultix` are
-supported names for the same native Go executable. Neither invokes a vendor
-program. No `--infisical` option is accepted or required.
 
 ## Implemented boundary
 
