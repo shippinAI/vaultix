@@ -1145,7 +1145,7 @@
     },
     {
       "path": "scripts/smoke-image.sh",
-      "blob": "d4af9bd9e34654fb334be2b45edc128b842d3fad",
+      "blob": "b3cb59b8291b00a4246de4755a09c5998abc0732",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped integration repair in 0057: bounded stateless teaching context, HTTP/MCP schema agreement, inherited compiler compatibility, and packaged assertions. Existing reference actor derivation and authorization remain intact. Learning score is caller-context heuristic, not verified expertise or persisted history. No public enrollment, live Nomen, distributed scale or whole-product parity claim. Integrated ba809e15 standalone acceptance passes, including real browser, Dragonfly/Redis, recovery and tenant-isolation checks. See 0057 for exact evidence and remaining gaps.",
@@ -1154,7 +1154,8 @@
         "core/backend/src/server/routes/vaultix-learning.test.ts",
         "core/backend/src/server/plugins/swagger.test.ts",
         ".cache/tenant-isolation/.cache/unit-proof-x7QKiA/test-results.json",
-        ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json"
+        ".cache/tenant-isolation/.cache/self-hosted-build-1xNJIs/result.json",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -2688,13 +2689,14 @@
     },
     {
       "path": "scripts/check-owned.sh",
-      "blob": "2d2c47df31fba8f499a94d98c4785d2e59242791",
+      "blob": "dc10ab7c75865791f8b07972efd696a75b982dcb",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
-        "docs/delivery/implementation.md"
+        "docs/delivery/implementation.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -2712,7 +2714,7 @@
     },
     {
       "path": "docs/0049-capability-product-plan.md",
-      "blob": "1c47665a658a2d3fe1c5a5ee0363a124818e5eb0",
+      "blob": "303d12e729f1930611b3aa69b6dc84367d6b7287",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored product scope, navigation, lifecycle acceptance, service-preview proposals, dependency phases and AI/DevSCIF control targets. These are requirements and decisions, not acceptance evidence for their implementations. Public-cloud clarification: read the complete plan; distinguish owned build infrastructure from public service production requirements, retaining workflow and migration acceptance. No implementation state advanced.",
@@ -2722,7 +2724,8 @@
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
         ".cache/capability-plan-UP4E0v/result.json",
-        "docs/0054-public-cloud-service.md"
+        "docs/0054-public-cloud-service.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -2744,7 +2747,7 @@
     },
     {
       "path": "docs/capabilities/catalog.mjs",
-      "blob": "d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7",
+      "blob": "c04fc2e157f7c6f95876caabcca1de324e98efa8",
       "status": "authored",
       "decision": "retain",
       "scope": "Authored 86 requirement outcomes and acceptance gates in 13 product groups with phase dependencies and scoped source references. No complete requirement is accepted; existing family labels require module-level investigation. Public comparison sources identify specification questions only.",
@@ -2753,7 +2756,8 @@
         "node scripts/test-capability-map.mjs",
         "node scripts/test-migration-map.mjs",
         ".cache/capability-plan-nHQGdd/result.json",
-        ".cache/capability-plan-UP4E0v/result.json"
+        ".cache/capability-plan-UP4E0v/result.json",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -4486,14 +4490,15 @@
     },
     {
       "path": "scripts/test-cli-headless.mjs",
-      "blob": "e5694f5b93536b0e6f287e8405412e21a3e55545",
+      "blob": "3625c4546dd63a8c39ba088132db61258ed166b8",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
         "internal/cli/run_cmds_test.go",
         "scripts/test-cli-headless.mjs",
-        "docs/0075-usable-secrets-and-update-delivery.md"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -4994,12 +4999,13 @@
     },
     {
       "path": "docs/0073-native-cli-domain-and-capabilities.md",
-      "blob": "06d0648465c6b2f01a7dd1194bef437c6f501908",
+      "blob": "ecb601f866deab2bd1240d7b70267e6053eea5ce",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0074-built-in-and-federated-identity.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -5075,7 +5081,7 @@
     },
     {
       "path": "scripts/test-cli-delivery.mjs",
-      "blob": "327f4401aec2b5812807681ed341054664ccb543",
+      "blob": "e9ca2d9307b7cb4cdbd369a187b546112eebe7bc",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored revision/hash validation, actual native help, Linux race suite and real packaged CLI workflow orchestration. Live issuer and parity excluded. Scoped delivery evidence for 898f1c51: Windows root unit suite, 109 Linux race tests, native executable help/hash checks, 14 packaged CLI workflows and 16 canonical image gates passed. Device approval remains a fixture. No successful hosted human login, real Windows keyring/ACL acceptance or full parity claim.",
@@ -5084,7 +5090,8 @@
         ".cache/headless-ai-login/.cache/cli-domain-acceptance.json",
         ".cache/headless-ai-login/.cache/cli-headless-BtfwuV/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-2GTdkj/result.json",
-        ".cache/headless-ai-login/.cache/cli-public-denial.json"
+        ".cache/headless-ai-login/.cache/cli-public-denial.json",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -5133,12 +5140,13 @@
     },
     {
       "path": "docs/auth/nomen-execution-plan.md",
-      "blob": "82df05526924f8ae8e6e2853d34dc37414b2e95c",
+      "blob": "8517686b74bdd00a5751bba7b675a886381132a1",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete document read. Owner correction makes built-in Vaultix identity and optional federation canonical, with shared tenant policy/store and retained external acceptance gates. Documents current native CLI default as a gap and orders IDENTITY-01..06; planning does not establish runtime implementation or parity.",
       "evidence": [
-        "docs/0074-built-in-and-federated-identity.md"
+        "docs/0074-built-in-and-federated-identity.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -7037,13 +7045,14 @@
     },
     {
       "path": "scripts/test-owned-branding.mjs",
-      "blob": "db0fd0ac943943212fe2245745433958dd6e0572",
+      "blob": "de443877a53da6b0089a73b9331b20c098b5146a",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
       "evidence": [
         "scripts/test-owned-branding.mjs",
-        "docs/delivery/implementation.md"
+        "docs/delivery/implementation.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -7921,7 +7930,7 @@
     },
     {
       "path": "scripts/test-owned-dependencies.mjs",
-      "blob": "48c7b3da82aae0aad519636d5684faf10a823a5a",
+      "blob": "a62438ac1aea1c3ef3503421a432eb4eb14a8b30",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
@@ -7930,7 +7939,8 @@
         "scripts/test-owned-dependencies.mjs",
         "scripts/test-owned-ldap.mjs",
         "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "scripts/test-owned-analytics.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -8632,7 +8642,7 @@
     },
     {
       "path": "scripts/test-vaultix-policy.mjs",
-      "blob": "39f51da59ac9d66bcbc20c2aded97445ac93a323",
+      "blob": "78370b510974a1283ebb4bafe304c1d832eb96dc",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
@@ -8640,7 +8650,8 @@
         "docs/0078-vaultix-policy-ownership.md",
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
-        "scripts/build-self-hosted.mjs"
+        "scripts/build-self-hosted.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -9132,14 +9143,15 @@
     },
     {
       "path": "internal/release/bundle.go",
-      "blob": "98dd8ab494a3b52e90efd12b9556e1f647b58785",
+      "blob": "6f7c0db275cc05652164b5442fe2cdba542c9719",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-bundle.test.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -9156,7 +9168,7 @@
     },
     {
       "path": "scripts/lib/release-bundle.mjs",
-      "blob": "a53880ad8e866c6027707bdef2d2eeae6e89eaa0",
+      "blob": "8a962bce0527b818cf0ae0deeb0d47574091e7ee",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Extract strict independent public trust parsing; retain canonical/signature/checkpoint and artifact verifier semantics. Node/native cross-consumer regression checks cover the shared contract.",
@@ -9164,7 +9176,8 @@
         "scripts/release-preparation.test.mjs",
         "scripts/release-publication.test.mjs",
         "scripts/release-bundle.test.mjs",
-        "docs/releases-and-updates.md"
+        "docs/releases-and-updates.md",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -9181,14 +9194,15 @@
     },
     {
       "path": "scripts/release-bundle.test.mjs",
-      "blob": "e950ace4a7b519b6d3aa991c9af10237279a59ef",
+      "blob": "7ecbb6725ac4742c289ba0dc662655dc9b4f9a99",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-01-PR: authored or reviewed this release-verification, protected local PR delivery or scoped operations-plan change. No whole-product parity, installer, fleet service or production signing claim.",
       "evidence": [
         "docs/pr-delivery.md",
         "scripts/pr-verification.test.mjs",
-        "scripts/release-bundle.test.mjs"
+        "scripts/release-bundle.test.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -9594,7 +9608,7 @@
     },
     {
       "path": "cmd/vaultix/install_release.go",
-      "blob": "33aff1bc9e33b8f3566678537764e80a0c68e8f1",
+      "blob": "10e7d572943ea3d7db336541e513bcf2c12352e9",
       "status": "authored",
       "decision": "modify",
       "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
@@ -9603,7 +9617,8 @@
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -9676,7 +9691,7 @@
     },
     {
       "path": "internal/release/install.go",
-      "blob": "59243626bfa7918e76c89968792cff9e6e53160f",
+      "blob": "38248100ba6b41cdd3e308c0b68549de09a1cfb5",
       "status": "authored",
       "decision": "modify",
       "scope": "U03 CLI installation: native Linux whole-directory activation with pinned signed trust, monotonic acceptance, executable validation, lock and retained prior generation. Compiled commands and existing downloader compose in place. Scoped native OS/TLS fixtures cover self-update, refusal and interruption; Windows activation is explicitly unresolved after a failed running-image replacement probe. This is not whole-product authorship, public publication or operator deployment.",
@@ -9685,7 +9700,8 @@
         "internal/release/install_linux_test.go",
         "scripts/test-cli-install.mjs",
         "scripts/test-release-download.mjs",
-        ".cache/install-guard-proof.json"
+        ".cache/install-guard-proof.json",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -10220,14 +10236,15 @@
     },
     {
       "path": "core/frontend/src/layouts/AdminLayout/AdminSidebar.tsx",
-      "blob": "6c6810cdf6f9825238e33477688d839da5008507",
+      "blob": "4cb2b74fe000c67053603966319ad89e19453394",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
@@ -10307,14 +10324,15 @@
     },
     {
       "path": "core/frontend/src/routes.ts",
-      "blob": "51850b83ba30aa48069b88cfb9d90ecf2a47b566",
+      "blob": "842d5fd68fb70b514d9452bc63d6b150e00aaaf8",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
       ]
     },
     {
