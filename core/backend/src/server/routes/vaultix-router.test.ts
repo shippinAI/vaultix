@@ -14,24 +14,39 @@ describe("native Vaultix HTTP API", () => {
     await app.close();
   });
 
-  test("publishes only the implemented password login and does not choose a CLI default", async () => {
+  test("publishes built-in headless login without requiring SSO", async () => {
+    const previous = process.env.NOMEN_OIDC_ISSUER;
+    delete process.env.NOMEN_OIDC_ISSUER;
     const response = await app.inject("/api/v1/vaultix/auth/config");
+    if (previous === undefined) delete process.env.NOMEN_OIDC_ISSUER;
+    else process.env.NOMEN_OIDC_ISSUER = previous;
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual(getVaultixAuthConfig(undefined));
     const body = response.json<{
-      profiles: { id: string; requiresExternalIssuer: boolean }[];
-      cli: { interactiveDefault: string; deviceAuthorization: boolean; defaultChange: string };
+      profiles: { id: string; requiresExternalIssuer: boolean; loginPath?: string }[];
+      cli: { headless: string[]; headlessRequiresSso: boolean; interactiveTerminalDefault: string };
     }>();
-    expect(body.profiles.map((profile) => profile.id)).toEqual(["builtin-password"]);
+    expect(body.profiles.map((profile) => profile.id)).toEqual([
+      "builtin-password",
+      "builtin-universal",
+      "builtin-token"
+    ]);
     expect(body.profiles.every((profile) => profile.requiresExternalIssuer === false)).toBe(true);
-    expect(body.cli).toEqual({
-      interactiveDefault: "sso",
-      preservedModes: ["token", "universal", "sso"],
-      deviceAuthorization: false,
-      defaultChange: "undecided"
-    });
-    expect(response.body).not.toContain("vaultix-cli");
+    expect(body.profiles.find((profile) => profile.id === "builtin-universal")?.loginPath).toBe(
+      "/api/v1/auth/universal-auth/login"
+    );
+    expect(body.cli.headlessRequiresSso).toBe(false);
+    expect(body.cli.headless).toEqual(["token", "universal"]);
+    expect(body.cli.interactiveTerminalDefault).toBe("sso");
     expect(response.body).not.toContain("device_code");
+    expect(response.body).not.toContain("auth.shippin.ai");
+    process.env.NOMEN_OIDC_ISSUER = "https://user:secret@issuer.example/path";
+    const configured = await app.inject("/api/v1/vaultix/auth/config");
+    delete process.env.NOMEN_OIDC_ISSUER;
+    if (previous !== undefined) process.env.NOMEN_OIDC_ISSUER = previous;
+    expect(configured.json()).toEqual(getVaultixAuthConfig(undefined, "https://user:secret@issuer.example/path"));
+    expect(configured.body).toContain("https://issuer.example");
+    expect(configured.body).not.toContain("secret");
     expect(publicInstanceURL("https://user:secret@vaultix.example/path?token=1")).toBe("https://vaultix.example");
     expect(publicInstanceURL("not a url")).toBe("");
   });

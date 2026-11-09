@@ -1,6 +1,6 @@
 # Vaultix action plan
 
-Repository copy of the execution plan. Package 01 remains partial: raw-route denial is unit-verified, and client or image gates are open. Package 02 has a mounted `GET /api/v1/vaultix/auth/config` and a mocked `POST /api/v3/auth/login` test. The CLI interactive default is still SSO because that product choice is undecided. Later packages stay planned. Detail is in `docs/0117-assistant-reference-boundary.md`.
+Repository copy of the execution plan. Package 01 remains partial: raw-route denial is unit-verified, and client or image gates are open. Package 02 keeps both auth modes. Headless `--token` and `--universal` do not use Nomen. Interactive terminal SSO stays the existing client and is config-driven through `NOMEN_OIDC_ISSUER`; self-hosted core does not require it. The enterprise and hosting panel stays a separate surface. Later packages stay planned. Detail is in `docs/0117-assistant-reference-boundary.md`.
 
 
 Commit: `eb61496c` (`eb61496c8483692506813567712c9fece3101cac`). `git status -sb` showed `main...origin/main` with no ahead/behind against the local origin ref. This pass did not fetch, so a newer remote commit is unverified. The audit file `vaultix-roadmap-audit.md` describes this same commit. No repository files were edited. No pull request, deploy, or live write is authorized.
@@ -145,7 +145,7 @@ These are not decided by this plan.
 
 1. Whether the built-in Viewer role should lose `readValue` later. Package 01 leaves Viewer as it is.
 2. Whether `https://vaultix.cloud` stays online while CLOUD-01 through CLOUD-08 are open. It was online on 2026-11-08. Taking it down or leaving it invite-only is an operator decision.
-3. Whether human login on that host must work with built-in accounts before any Nomen client exists. The product text in `docs/0074` says yes. The CLI still defaults to Nomen.
+3. Resolved as architecture: the hosted deployment uses Nomen, and the distributable core keeps built-in password, universal-auth, and token login without requiring Nomen. The hosting panel is a separate surface. Core discovery does not hardcode an issuer. Whether built-in accounts work on the live host is still unverified.
 4. Where the Grok bot repository lives, and whether a plugin is published. This repo should only grow the connection text.
 5. Mesh stays unauthorized until a separate yes.
 6. Duplicate `0110` and `0112` files stay under those names until `docs/plan/canonical-ids.json` exists. Confirm the four alias ids in the naming proposal before a rename.
@@ -175,15 +175,15 @@ Receipt: contract says stateless; router can issue a session; catalog check is s
 
 Authoritative files: `core/backend/src/server/routes/v3/login-router.ts`, signup and auth-token services, `core/backend-go/internal/services/auth/device/`, `internal/cli/auth_cmds.go`, `internal/oidc/`.
 
-Decisions: built-in login must work with Nomen absent. Device code in Go is not the public route yet. `GET /api/v1/vaultix/auth/config` returned 404 on the public host.
+Decisions: built-in password, universal-auth, and token login work with Nomen absent. Interactive terminal SSO uses a configured issuer and is not required for headless access. The Go device grant stays flag-off and is not the public Node route. `GET /api/v1/vaultix/auth/config` returned 404 on the public host when last checked; this branch serves it.
 
-Dependencies: package 02, then package 03.
+Dependencies: package 02, then package 03 for the existing device grant only when its approval UI, ingress, and CLI consumers pass together.
 
-Constraints: do not copy a Nomen runtime into this repo. Do not accept an ID token as an API bearer. Explicit `--sso` stays.
+Constraints: do not copy a Nomen runtime into this repo. Do not accept an ID token as an API bearer. Do not remove `--sso`, `--token`, or `--universal`. Do not change `chooseLogin` to force one mode.
 
-Next task: `id.preserve-builtin`, then `id.discovery`.
+Next task: database proof of the existing login routes. `cli.builtin-login` stays in package 03.
 
-Receipt: `internal/cli/login_mode_test.go` locks the Nomen terminal default. That test is expected to change when discovery lands.
+Receipt: `internal/cli/login_mode_test.go` locks terminal SSO and non-interactive token. `TestHeadlessUniversalLoginDoesNotCallSso` locks `--universal` to `/api/v1/auth/universal-auth/login`. That terminal default is not a blocker for headless login.
 
 ### authorization
 

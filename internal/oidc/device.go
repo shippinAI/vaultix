@@ -15,7 +15,6 @@ import (
 	"shippin.cloud/vaultix/internal/transport"
 )
 
-const DefaultIssuer = "https://auth.shippin.ai"
 const maxResponse = 1 << 20
 
 var (
@@ -71,7 +70,7 @@ func (f *Flow) RunSession(ctx context.Context, out io.Writer) (Session, error) {
 	}
 	issuer := strings.TrimRight(strings.TrimSpace(f.Issuer), "/")
 	if issuer == "" {
-		issuer = DefaultIssuer
+		return Session{}, errors.New("oidc: NOMEN_OIDC_ISSUER or --issuer is required")
 	}
 	u, err := transport.URL(issuer)
 	if err != nil || u.RawQuery != "" {

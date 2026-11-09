@@ -115,7 +115,7 @@ func Login(ctx context.Context, args []string, stdin io.Reader, out io.Writer) e
 	universal := fs.Bool("universal", false, "machine identity: client id and secret on stdin")
 	tokenFlag := fs.Bool("token", false, "read an access token from stdin")
 	ssoFlag := fs.Bool("sso", false, "Nomen device-code login (the default on a terminal)")
-	issuer := fs.String("issuer", os.Getenv("NOMEN_OIDC_ISSUER"), "Nomen issuer (default https://auth.shippin.ai)")
+	issuer := fs.String("issuer", os.Getenv("NOMEN_OIDC_ISSUER"), "Nomen issuer (NOMEN_OIDC_ISSUER or --issuer; not required for --token or --universal)")
 	clientID := fs.String("client-id", os.Getenv("NOMEN_OIDC_CLIENT_ID"), "Nomen public client id")
 	scope := fs.String("scope", "openid profile email offline_access", "space-separated Nomen scopes approved for this public client")
 	credentialFile := fs.String("credential-file", "", "private credential file on POSIX headless hosts (instead of keyring)")

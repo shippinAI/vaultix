@@ -32,12 +32,12 @@ Connection text in the catalog and `core/ai/README.md` tells a Grok bot or other
 
 ## Package 02 slice
 
-`pkg.02-identity-discovery` is partial. The blocked choice is whether terminal `vaultix login` stops using explicit SSO. This slice does not change `chooseLogin`. `internal/cli/login_mode_test.go` still expects a terminal with no flags to select SSO.
+`pkg.02-identity-discovery` is partial. Both modes stay. Headless machine login is the existing `--token` and `--universal` client, and a non-interactive stdin selects token. Those paths do not call Nomen. A terminal with no flags still uses the existing SSO client in `internal/oidc`; that is the hosted interactive default, not a requirement for self-hosted headless access. This slice does not change `chooseLogin`. Core discovery does not hardcode an issuer. An empty `--issuer` and empty `NOMEN_OIDC_ISSUER` no longer fall back to a hosted IdP. An `sso` profile appears only when `NOMEN_OIDC_ISSUER` is set, and userinfo is stripped. The Go device-grant HTTP handler remains flag-off and is not registered on the Node listener.
 
 | Task | Implementation | Unit or static check | Not verified |
 | --- | --- | --- | --- |
-| `id.preserve-builtin` | Existing `POST /api/v3/auth/login` left in place. No auth data migration. | Mounted route test. The login service is a mock, so this is not a database session. Password is not in the response body. | Real account, MFA, signup, and invite-only database behavior. |
-| `id.discovery` | `GET /api/v1/vaultix/auth/config` on the core router. It lists only `builtin-password`, sets `deviceAuthorization` false, and sets `cli.defaultChange` to `undecided`. Userinfo in `SITE_URL` is stripped. | Mounted route test. | The CLI does not call this endpoint yet. Device grant routes are not implemented. |
+| `id.preserve-builtin` | Existing `POST /api/v3/auth/login` and `POST /api/v1/auth/universal-auth/login` left in place. No auth data migration. | Mounted route tests. Both services are mocks, so neither is a database session. Password and client secret are not in the response bodies. | Real account, machine identity, MFA, signup, and invite-only database behavior. |
+| `id.discovery` | `GET /api/v1/vaultix/auth/config` lists `builtin-password`, `builtin-universal`, and `builtin-token` with `headlessRequiresSso` false. Configured `NOMEN_OIDC_ISSUER` adds `sso`. `deviceAuthorization` stays false. | Mounted route test. `TestHeadlessUniversalLoginDoesNotCallSso` records only universal-auth and project paths. `TestConfiguredSsoLoginDoesNotUseBuiltinHeadless` uses a local issuer and does not call universal-auth. `TestSsoWithoutIssuerDoesNotUseHostedDefault` and `TestEmptyIssuerDoesNotContactHostedIdP` make no issuer request. | The CLI does not call `/auth/config` yet. No live issuer and no database universal-auth login. Native device grant is not on the public Node port. |
 | `ui.entry-setup` | No UI behavior change. | `node scripts/test-app-entry.mjs` reads source and checks `/`, `/help`, `/login`, and `/admin/setup`. | No browser session. |
 
 ## Verification that did not run

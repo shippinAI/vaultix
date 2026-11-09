@@ -1,23 +1,25 @@
 export const builtinPasswordLoginPath = "/api/v3/auth/login";
 export const builtinPasswordUiPath = "/login";
+export const builtinUniversalLoginPath = "/api/v1/auth/universal-auth/login";
+
+export type VaultixAuthProfile = {
+  id: string;
+  method: string;
+  requiresExternalIssuer: boolean;
+  loginPath?: string;
+  uiPath?: string;
+  issuer?: string;
+};
 
 export type VaultixAuthConfig = {
   schemaVersion: "vaultix.auth.v1";
   instance: string;
-  profiles: [
-    {
-      id: "builtin-password";
-      method: "password";
-      loginPath: typeof builtinPasswordLoginPath;
-      uiPath: typeof builtinPasswordUiPath;
-      requiresExternalIssuer: false;
-    }
-  ];
+  profiles: VaultixAuthProfile[];
   cli: {
-    interactiveDefault: "sso";
-    preservedModes: ["token", "universal", "sso"];
+    headless: ["token", "universal"];
+    headlessRequiresSso: false;
+    interactiveTerminalDefault: "sso";
     deviceAuthorization: false;
-    defaultChange: "undecided";
   };
 };
 
@@ -38,22 +40,49 @@ export const publicInstanceURL = (raw: string | undefined) => {
   return url.origin;
 };
 
-export const getVaultixAuthConfig = (siteURL: string | undefined): VaultixAuthConfig => ({
-  schemaVersion: "vaultix.auth.v1",
-  instance: publicInstanceURL(siteURL),
-  profiles: [
-    {
-      id: "builtin-password",
-      method: "password",
-      loginPath: builtinPasswordLoginPath,
-      uiPath: builtinPasswordUiPath,
-      requiresExternalIssuer: false
-    }
-  ],
-  cli: {
-    interactiveDefault: "sso",
-    preservedModes: ["token", "universal", "sso"],
-    deviceAuthorization: false,
-    defaultChange: "undecided"
+const builtinProfiles = (): VaultixAuthProfile[] => [
+  {
+    id: "builtin-password",
+    method: "password",
+    loginPath: builtinPasswordLoginPath,
+    uiPath: builtinPasswordUiPath,
+    requiresExternalIssuer: false
+  },
+  {
+    id: "builtin-universal",
+    method: "universal-auth",
+    loginPath: builtinUniversalLoginPath,
+    requiresExternalIssuer: false
+  },
+  {
+    id: "builtin-token",
+    method: "access-token",
+    requiresExternalIssuer: false
   }
-});
+];
+
+// issuer is optional configuration for the existing SSO/device client. An empty
+// value leaves that profile off. Headless token and universal login stay present.
+export const getVaultixAuthConfig = (siteURL: string | undefined, issuer?: string): VaultixAuthConfig => {
+  const profiles = builtinProfiles();
+  const publicIssuer = publicInstanceURL(issuer);
+  if (publicIssuer) {
+    profiles.push({
+      id: "sso",
+      method: "oidc-device",
+      requiresExternalIssuer: true,
+      issuer: publicIssuer
+    });
+  }
+  return {
+    schemaVersion: "vaultix.auth.v1",
+    instance: publicInstanceURL(siteURL),
+    profiles,
+    cli: {
+      headless: ["token", "universal"],
+      headlessRequiresSso: false,
+      interactiveTerminalDefault: "sso",
+      deviceAuthorization: false
+    }
+  };
+};

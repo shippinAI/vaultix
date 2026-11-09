@@ -153,7 +153,7 @@ export const registerVaultixRouter = async (
       },
       config: { rateLimit: { max: 120, timeWindow: "1 minute" } }
     },
-    async () => getVaultixAuthConfig(getConfig()?.SITE_URL)
+    async () => getVaultixAuthConfig(getConfig()?.SITE_URL, process.env.NOMEN_OIDC_ISSUER)
   );
 
   reads.forEach(([url, handler]) =>

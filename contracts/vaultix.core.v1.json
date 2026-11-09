@@ -15,10 +15,10 @@
       "get": {
         "operationId": "vaultixAuthConfig",
         "summary": "Read implemented Vaultix login methods",
-        "description": "Public. No query or credential. Lists the built-in password login that exists today. Device authorization is absent because it is not implemented. The CLI interactive default remains explicit SSO until that product decision is made. No tokens or secret values.",
+        "description": "Public. No query or credential. Built-in password, universal-auth, and access-token profiles are always present and do not require an external issuer. Headless CLI token and universal login do not use SSO. An sso profile is added only when NOMEN_OIDC_ISSUER is configured. The interactive terminal default remains the existing SSO client. Native device-grant HTTP is not advertised here. No tokens or secret values.",
         "responses": {
           "200": {
-            "description": "vaultix.auth.v1. builtin-password profile only. cli.deviceAuthorization is false and cli.defaultChange is undecided."
+            "description": "vaultix.auth.v1. cli.headlessRequiresSso is false."
           }
         }
       }
