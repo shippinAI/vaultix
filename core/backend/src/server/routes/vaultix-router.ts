@@ -23,6 +23,7 @@ import { getVaultixGuidance } from "@app/services/vaultix/guidance";
 import { parseLearningContext } from "@app/services/vaultix/learning-input";
 import { handleVaultixMcp } from "@app/services/vaultix/mcp";
 import { loadMcpAppResource, McpAppResource, requestsMcpApp } from "@app/services/vaultix/mcp-app-resource";
+import { anonymousMcpSessionRule } from "@app/services/vaultix/mcp-session-contract";
 import { createMcpSessionService, McpSessionBinding, McpSessionError } from "@app/services/vaultix/mcp-session-service";
 import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
 import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
@@ -336,7 +337,10 @@ export const registerVaultixRouter = async (
     url: "/mcp",
     config: { rateLimit: { max: 120, timeWindow: "1 minute" } },
     handler: async (_request, reply) =>
-      reply.header("Allow", "POST").code(405).send({ error: "Use POST for the stateless Vaultix MCP endpoint." })
+      reply
+        .header("Allow", "POST")
+        .code(405)
+        .send({ error: `Use POST for Vaultix MCP. ${anonymousMcpSessionRule}` })
   });
   server.delete("/mcp", { config: { rateLimit: { max: 120, timeWindow: "1 minute" } } }, async (request, reply) => {
     const id = request.headers["mcp-session-id"];

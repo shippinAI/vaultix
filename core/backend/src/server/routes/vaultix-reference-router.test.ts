@@ -92,6 +92,30 @@ describe("Vaultix shared reference actions", () => {
     );
     expect(auditReferences).toHaveBeenCalledTimes(2);
   });
+  test("anonymous tool discovery lists guidance only", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      payload: { jsonrpc: "2.0", id: 1, method: "tools/list", params: {} }
+    });
+    const { result: listed } = response.json<{
+      result: { tools: { name: string; annotations: { readOnlyHint: boolean } }[] };
+    }>();
+    const { tools } = listed;
+    expect(tools.map((tool) => tool.name)).toEqual([
+      "vaultix.guidance.get",
+      "vaultix.catalog.get",
+      "vaultix.configure.show",
+      "vaultix.connections.get",
+      "vaultix.specialist.instructions",
+      "vaultix.learning.profile.get"
+    ]);
+    expect(tools.every((tool) => tool.annotations.readOnlyHint)).toBe(true);
+    expect(response.body).not.toContain("vaultix.projects.list");
+    expect(response.body).not.toContain("vaultix.secrets.references");
+    expect(response.headers["mcp-session-id"]).toBeUndefined();
+  });
+
   test("unauthorized and missing resources are indistinguishable", async () => {
     listReferences.mockRejectedValueOnce(new ForbiddenRequestError({ message: "CANARY-other-tenant" }));
     const response = await app.inject({
@@ -101,6 +125,20 @@ describe("Vaultix shared reference actions", () => {
     expect(response.statusCode).toBe(404);
     expect(response.body).not.toContain("CANARY");
     expect(auditReferences).not.toHaveBeenCalled();
+    listReferences.mockRejectedValueOnce(new ForbiddenRequestError({ message: "CANARY-other-tenant" }));
+    const mcp = await app.inject({
+      method: "POST",
+      url: "/api/v1/vaultix/mcp",
+      headers: { authorization: "Bearer test-fixture" },
+      payload: {
+        jsonrpc: "2.0",
+        id: 2,
+        method: "tools/call",
+        params: { name: "vaultix.secrets.references", arguments: input }
+      }
+    });
+    expect(mcp.statusCode).toBe(404);
+    expect(mcp.body).not.toContain("CANARY");
   });
   test("untrusted tenant and value arguments never reach the engine", async () => {
     const response = await app.inject({

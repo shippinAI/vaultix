@@ -74,8 +74,8 @@
     "/mcp": {
       "post": {
         "operationId": "vaultixMcp",
-        "summary": "Stateless JSON-RPC for authored guidance and authenticated reference actions",
-        "description": "16 KiB request limit. Public guidance tools take empty arguments. Authenticated clients can call vaultix.projects.list and vaultix.secrets.references with the same validation and permissions as the UI. No secret values or mutations. HTTP errors use a plain error string. Protocol errors use JSON-RPC error objects.",
+        "summary": "JSON-RPC for authored guidance and authenticated reference actions",
+        "description": "16 KiB request limit. Public guidance tools take empty arguments. Anonymous guidance does not create an MCP session. An authenticated client that negotiates the Vaultix app receives an Mcp-Session-Id bound to that actor and organization. Authenticated clients can call vaultix.projects.list and vaultix.secrets.references with the same validation and permissions as the UI. No secret values or mutations. HTTP errors use a plain error string. Protocol errors use JSON-RPC error objects.",
         "requestBody": {
           "required": true,
           "content": {

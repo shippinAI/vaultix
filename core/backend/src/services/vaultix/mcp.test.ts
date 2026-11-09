@@ -40,6 +40,24 @@ describe("Clyffy native MCP", () => {
     expect(listed).toContain('"readOnlyHint":true');
     expect(listed).toContain('"additionalProperties":false');
     expect(listed).not.toMatch(/vaultix\.(inject|redeem|secret|source\.act)/);
+    const names = (
+      call("tools/list") as { result: { tools: { name: string; annotations: { readOnlyHint: boolean } }[] } }
+    ).result.tools;
+    expect(names.map((tool) => tool.name)).toEqual([
+      "vaultix.guidance.get",
+      "vaultix.catalog.get",
+      "vaultix.configure.show",
+      "vaultix.connections.get",
+      "vaultix.specialist.instructions",
+      "vaultix.learning.profile.get"
+    ]);
+    expect(names.every((tool) => tool.annotations.readOnlyHint)).toBe(true);
+    const connections = JSON.stringify(getVaultixConnections());
+    expect(connections).toContain("POST /api/v1/vaultix/mcp");
+    expect(connections).toContain("vaultix mcp");
+    expect(connections).toContain("panel MCP is not the connector");
+    expect(connections).toContain("Grok bot");
+    expect(connections).not.toMatch(/Bearer\s+[A-Za-z0-9]/);
   });
 
   test("accepts protocol metadata independently of tool and pagination parameters", () => {
