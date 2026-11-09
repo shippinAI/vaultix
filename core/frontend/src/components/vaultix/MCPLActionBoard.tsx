@@ -18,8 +18,10 @@ const domainStyles: Record<McplDomain | "all", string> = {
   all: "border-border bg-container text-foreground",
   public: "border-project/25 bg-project/10 text-project",
   auth: "border-info/25 bg-info/10 text-info",
+  identity: "border-violet-500/30 bg-violet-500/10 text-violet-200",
   workspace: "border-org/25 bg-org/10 text-org",
   secrets: "border-success/25 bg-success/10 text-success",
+  policy: "border-amber-500/30 bg-amber-500/10 text-amber-200",
   connect: "border-warning/25 bg-warning/10 text-warning",
   ai: "border-sub-org/25 bg-sub-org/10 text-sub-org",
   operate: "border-danger/25 bg-danger/10 text-danger"
@@ -35,8 +37,10 @@ const statusStyles = {
 const domainIcons: Record<McplDomain, typeof Sparkles> = {
   public: Sparkles,
   auth: KeyRound,
+  identity: ShieldCheck,
   workspace: Waypoints,
   secrets: FolderKey,
+  policy: ShieldCheck,
   connect: ArrowRight,
   ai: Cpu,
   operate: ShieldCheck
@@ -46,8 +50,10 @@ const domainTabs: Array<{ value: McplDomain | "all"; label: string }> = [
   { value: "all", label: "All" },
   { value: "public", label: "Public" },
   { value: "auth", label: "Auth" },
+  { value: "identity", label: "Identity" },
   { value: "connect", label: "Connect" },
   { value: "secrets", label: "Secrets" },
+  { value: "policy", label: "Policy" },
   { value: "ai", label: "AI" },
   { value: "operate", label: "Operate" }
 ];

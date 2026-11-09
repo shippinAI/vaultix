@@ -1,6 +1,9 @@
+import { useMemo, useState } from "react";
 import { ArrowRight, CheckCircle2, Globe2, ShieldCheck, Sparkles, Wifi } from "lucide-react";
 
 import { Button } from "@app/components/v3/generic/Button/Button";
+
+export type ProviderImportLifecycleStep = "preview" | "approve" | "import" | "complete";
 
 export type ProviderImportDefinition = {
   id: string;
@@ -12,6 +15,13 @@ export type ProviderImportDefinition = {
   projectCount: number;
   environmentCount: number;
   capabilities: readonly string[];
+  lifecycle?: readonly ProviderImportLifecycleStep[];
+  importPolicy?: {
+    previewRequired: boolean;
+    approvalRequired: boolean;
+    referenceSafe: boolean;
+    syncMode: "dry-run" | "review" | "approved";
+  };
 };
 
 export type ProviderImportStudioProps = {
@@ -34,48 +44,106 @@ const providerIconStyles = {
   "local-ai": "border-sub-org/25 bg-sub-org/10 text-sub-org"
 } as const;
 
-export const ProviderImportStudio = ({
-  providers = [
-    {
-      id: "doppler",
-      name: "Doppler",
-      provider: "doppler",
-      status: "connected",
-      description: "Secrets and environments from your hosted Doppler workspace.",
-      lastSync: "2 minutes ago",
-      projectCount: 5,
-      environmentCount: 12,
-      capabilities: ["Project import", "Env mapping", "Approval gate"]
-    },
-    {
-      id: "infisical",
-      name: "Infisical",
-      provider: "infisical",
-      status: "needs-review",
-      description: "Import project metadata and values with scoped review before apply.",
-      lastSync: "18 minutes ago",
-      projectCount: 3,
-      environmentCount: 8,
-      capabilities: ["Project import", "Value preview", "Scoped policies"]
-    },
-    {
-      id: "local-ai",
-      name: "Local AI Sandbox",
-      provider: "local-ai",
-      status: "sandbox",
-      description: "Use a sandboxed local model to test the safest secret-handling patterns.",
-      lastSync: "Ready",
-      projectCount: 1,
-      environmentCount: 3,
-      capabilities: ["Dry run", "Reference-only", "Prompt isolation"]
+const lifecycleTitles: Record<ProviderImportLifecycleStep, string> = {
+  preview: "Review imports",
+  approve: "Approve mapping",
+  import: "Apply reference-safe sync",
+  complete: "Finalize and audit"
+};
+
+const defaultProviders: readonly ProviderImportDefinition[] = [
+  {
+    id: "doppler",
+    name: "Doppler",
+    provider: "doppler",
+    status: "connected",
+    description: "Secrets and environments from your hosted Doppler workspace.",
+    lastSync: "2 minutes ago",
+    projectCount: 5,
+    environmentCount: 12,
+    capabilities: ["Project import", "Env mapping", "Approval gate"],
+    lifecycle: ["preview", "approve", "import"],
+    importPolicy: {
+      previewRequired: true,
+      approvalRequired: true,
+      referenceSafe: true,
+      syncMode: "review"
     }
-  ],
+  },
+  {
+    id: "infisical",
+    name: "Infisical",
+    provider: "infisical",
+    status: "needs-review",
+    description: "Import project metadata and values with scoped review before apply.",
+    lastSync: "18 minutes ago",
+    projectCount: 3,
+    environmentCount: 8,
+    capabilities: ["Project import", "Value preview", "Scoped policies"],
+    lifecycle: ["preview", "approve", "import", "complete"],
+    importPolicy: {
+      previewRequired: true,
+      approvalRequired: true,
+      referenceSafe: true,
+      syncMode: "review"
+    }
+  },
+  {
+    id: "local-ai",
+    name: "Local AI Sandbox",
+    provider: "local-ai",
+    status: "sandbox",
+    description: "Use a sandboxed local model to test the safest secret-handling patterns.",
+    lastSync: "Ready",
+    projectCount: 1,
+    environmentCount: 3,
+    capabilities: ["Dry run", "Reference-only", "Prompt isolation"],
+    lifecycle: ["preview", "approve", "import"],
+    importPolicy: {
+      previewRequired: true,
+      approvalRequired: true,
+      referenceSafe: true,
+      syncMode: "dry-run"
+    }
+  }
+] as const satisfies readonly ProviderImportDefinition[];
+
+export const ProviderImportStudio = ({
+  providers = defaultProviders,
   onConnect,
   onPreview,
   onImport
 }: ProviderImportStudioProps) => {
+  const [selectedProviderId, setSelectedProviderId] = useState<string>(providers[0]?.id ?? "");
+  const [currentStep, setCurrentStep] = useState<ProviderImportLifecycleStep>("preview");
+
   const connectedCount = providers.filter((provider) => provider.status === "connected").length;
   const reviewCount = providers.filter((provider) => provider.status === "needs-review").length;
+
+  const selectedProvider = useMemo(
+    () => providers.find((provider) => provider.id === selectedProviderId) ?? providers[0],
+    [providers, selectedProviderId]
+  );
+
+  const lifecycleSteps = selectedProvider?.lifecycle ?? ["preview", "approve", "import"];
+
+  const handlePreview = (provider: ProviderImportDefinition) => {
+    setSelectedProviderId(provider.id);
+    setCurrentStep("preview");
+    onPreview?.(provider);
+  };
+
+  const handleConnect = (provider: ProviderImportDefinition) => {
+    setSelectedProviderId(provider.id);
+    setCurrentStep("approve");
+    onConnect?.(provider);
+  };
+
+  const handleImport = (provider: ProviderImportDefinition) => {
+    setSelectedProviderId(provider.id);
+    setCurrentStep("import");
+    onImport?.(provider);
+  };
 
   return (
     <section className="w-full rounded-lg border border-border bg-card p-4 text-foreground">
@@ -115,7 +183,9 @@ export const ProviderImportStudio = ({
         {providers.map((provider) => (
           <article
             key={provider.id}
-            className="flex min-h-[260px] flex-col rounded-md border border-border bg-container p-4"
+            className={`flex min-h-[260px] flex-col rounded-md border bg-container p-4 ${
+              selectedProvider?.id === provider.id ? "border-project/30" : "border-border"
+            }`}
           >
             <div className="flex items-start justify-between gap-3">
               <div
@@ -166,7 +236,7 @@ export const ProviderImportStudio = ({
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => onPreview?.(provider)}
+                onClick={() => handlePreview(provider)}
               >
                 Preview
               </Button>
@@ -174,7 +244,7 @@ export const ProviderImportStudio = ({
                 type="button"
                 variant="project"
                 size="sm"
-                onClick={() => onConnect?.(provider)}
+                onClick={() => handleConnect(provider)}
               >
                 Connect
               </Button>
@@ -183,7 +253,7 @@ export const ProviderImportStudio = ({
                 variant="outline"
                 size="sm"
                 className="ml-auto"
-                onClick={() => onImport?.(provider)}
+                onClick={() => handleImport(provider)}
               >
                 Import
                 <ArrowRight className="size-3.5" />
@@ -192,6 +262,46 @@ export const ProviderImportStudio = ({
           </article>
         ))}
       </div>
+
+      {selectedProvider && (
+        <div className="mt-5 rounded-md border border-border bg-container p-4">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <ShieldCheck className="size-4 text-success" aria-hidden="true" />
+              {selectedProvider.name} import flow
+            </div>
+            <span className="text-xs uppercase tracking-[0.12em] text-muted">
+              {selectedProvider.importPolicy?.syncMode ?? "review"}
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+            {lifecycleSteps.map((step, index) => {
+              const isActive = step === currentStep;
+              const isDone = lifecycleSteps.indexOf(currentStep) >= index;
+
+              return (
+                <div
+                  key={step}
+                  className={`rounded-md border p-3 ${
+                    isActive
+                      ? "border-project/30 bg-project/10"
+                      : isDone
+                        ? "border-success/20 bg-success/5"
+                        : "border-border bg-card"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 text-[10px] uppercase tracking-[0.12em] text-muted">
+                    <span>Step {index + 1}</span>
+                    {isDone && <CheckCircle2 className="size-3.5 text-success" aria-hidden="true" />}
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-foreground">{lifecycleTitles[step]}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="mt-5 rounded-md border border-border bg-container p-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-foreground">

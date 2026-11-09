@@ -1,80 +1,61 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Activity, Settings2, ShieldCheck, Sparkles } from "lucide-react";
 
 import { Button } from "@app/components/v3/generic/Button/Button";
 
 import { MCPLActionBoard } from "./MCPLActionBoard";
-import { MCPL_ACTIONS, type McplAction, type McplDomain } from "./mcpl-manifest";
+import {
+  DEFAULT_MCPL_MODULES,
+  MCPL_ACTIONS,
+  MCPL_PROVIDER_ADAPTERS,
+  createMcplRuntimeRegistry,
+  type McplAction,
+  type McplProviderRuntime,
+  type McplWorkbenchModule
+} from "./mcpl-manifest";
 import { ProviderImportStudio } from "./ProviderImportStudio";
 import { VaultixAmbientBackground } from "./VaultixAmbientBackground";
 
-type WorkbenchModule = {
-  id: McplDomain;
-  label: string;
-  enabled: boolean;
-  description: string;
-};
-
-const defaultModules: readonly WorkbenchModule[] = [
-  {
-    id: "public",
-    label: "Public rehearsal",
-    enabled: true,
-    description: "Landing flows and guided onboarding"
-  },
-  {
-    id: "auth",
-    label: "Auth admin",
-    enabled: true,
-    description: "Provider keys and credential policy"
-  },
-  {
-    id: "connect",
-    label: "Connectors",
-    enabled: true,
-    description: "Doppler, Infisical, provider imports"
-  },
-  {
-    id: "secrets",
-    label: "Secrets",
-    enabled: true,
-    description: "References, env mapping and value handling"
-  },
-  {
-    id: "ai",
-    label: "AI sandbox",
-    enabled: false,
-    description: "Local AI and controlled sandbox execution"
-  },
-  {
-    id: "operate",
-    label: "Operations",
-    enabled: true,
-    description: "Receipts, audits and review flows"
-  }
-];
-
 export type MCPLWorkbenchProps = {
   actions?: readonly McplAction[];
-  modules?: readonly WorkbenchModule[];
+  modules?: readonly McplWorkbenchModule[];
+  providers?: readonly McplProviderRuntime[];
 };
 
 export const MCPLWorkbench = ({
   actions = MCPL_ACTIONS,
-  modules = defaultModules
+  modules = DEFAULT_MCPL_MODULES,
+  providers = MCPL_PROVIDER_ADAPTERS
 }: MCPLWorkbenchProps) => {
-  const [moduleState, setModuleState] = useState(() => new Map(modules.map((module) => [module.id, module.enabled])));
+  const runtime = useMemo(
+    () => createMcplRuntimeRegistry({ actions, modules, providers }),
+    [actions, modules, providers]
+  );
+
+  const [moduleState, setModuleState] = useState(
+    () => new Map(runtime.modules.map((module) => [module.id, module.enabled]))
+  );
+
+  useEffect(() => {
+    setModuleState((current) => {
+      const next = new Map(current);
+      for (const module of runtime.modules) {
+        next.set(module.id, next.get(module.id) ?? module.enabled);
+      }
+      return next;
+    });
+  }, [runtime.modules]);
 
   const activeActions = useMemo(
     () =>
-      actions.filter((action) => {
+      runtime.actions.filter((action) => {
         const isEnabled = moduleState.get(action.domain) ?? false;
         return isEnabled;
       }),
-    [actions, moduleState]
+    [moduleState, runtime.actions]
   );
 
-  const enabledModules = modules.filter((module) => moduleState.get(module.id) ?? false);
+  const enabledModules = runtime.modules.filter((module) => moduleState.get(module.id) ?? false);
 
   return (
     <div className="relative w-full overflow-hidden rounded-lg border border-border bg-[#0f0d0b] text-foreground shadow-[0_0_55px_rgba(232,120,56,0.12)]">
@@ -107,7 +88,7 @@ export const MCPLWorkbench = ({
               Enabled modules
             </div>
             <div className="mt-4 space-y-3">
-              {modules.map((module) => {
+              {runtime.modules.map((module) => {
                 const isEnabled = moduleState.get(module.id) ?? false;
                 return (
                   <button
@@ -165,43 +146,7 @@ export const MCPLWorkbench = ({
 
             <MCPLActionBoard actions={activeActions} />
             <div className="mt-5">
-              <ProviderImportStudio
-                providers={[
-                  {
-                    id: "doppler",
-                    name: "Doppler",
-                    provider: "doppler",
-                    status: "connected",
-                    description: "Secrets and environments from your hosted Doppler workspace.",
-                    lastSync: "2 minutes ago",
-                    projectCount: 5,
-                    environmentCount: 12,
-                    capabilities: ["Project import", "Env mapping", "Approval gate"]
-                  },
-                  {
-                    id: "infisical",
-                    name: "Infisical",
-                    provider: "infisical",
-                    status: "needs-review",
-                    description: "Import project metadata and values with scoped review before apply.",
-                    lastSync: "18 minutes ago",
-                    projectCount: 3,
-                    environmentCount: 8,
-                    capabilities: ["Project import", "Value preview", "Scoped policies"]
-                  },
-                  {
-                    id: "local-ai",
-                    name: "Local AI Sandbox",
-                    provider: "local-ai",
-                    status: "sandbox",
-                    description: "Use a sandboxed local model to test the safest secret-handling patterns.",
-                    lastSync: "Ready",
-                    projectCount: 1,
-                    environmentCount: 3,
-                    capabilities: ["Dry run", "Reference-only", "Prompt isolation"]
-                  }
-                ]}
-              />
+              <ProviderImportStudio providers={runtime.providers} />
             </div>
           </div>
         </div>
