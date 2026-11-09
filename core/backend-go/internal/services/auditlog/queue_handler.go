@@ -63,14 +63,21 @@ func (h *QueueHandler) HandleAuditLog(ctx context.Context, task *queuedAuditLog)
 	}
 	orgID := task.OrgID
 	var projectName string
-	if orgID == nil && task.ProjectID != nil {
+	var projectRetention *int
+	if task.ProjectID != nil {
+		if h.project == nil {
+			return fmt.Errorf("finding audit project: project service unavailable")
+		}
 		proj, err := h.project.GetByID(ctx, *task.ProjectID)
 		if err != nil {
 			return fmt.Errorf("finding audit project: %w", err)
 		}
 		if proj != nil {
-			orgID = &proj.OrgID
+			if orgID == nil {
+				orgID = &proj.OrgID
+			}
 			projectName = proj.Name
+			projectRetention = proj.AuditLogsRetentionDays
 		}
 	}
 	if orgID == nil || *orgID == uuid.Nil {
@@ -83,7 +90,13 @@ func (h *QueueHandler) HandleAuditLog(ctx context.Context, task *queuedAuditLog)
 	if plan == nil {
 		return fmt.Errorf("missing audit retention policy")
 	}
-	if plan.AuditLogsRetentionDays == 0 {
+	retentionDays := int(plan.AuditLogsRetentionDays)
+	// A shorter project policy caps the plan. Zero or unset keeps the plan,
+	// matching the serving queue. The included self-hosted plan is 365 days.
+	if projectRetention != nil && *projectRetention > 0 && *projectRetention < retentionDays {
+		retentionDays = *projectRetention
+	}
+	if retentionDays == 0 {
 		return nil
 	}
 
@@ -112,7 +125,7 @@ func (h *QueueHandler) HandleAuditLog(ctx context.Context, task *queuedAuditLog)
 		ProjectName string    `json:"projectName,omitempty"`
 	}{
 		CreateAuditLogDTO: task.CreateAuditLogDTO, ID: id, CreatedAt: createdAt,
-		ExpiresAt:   createdAt.Add(time.Duration(plan.AuditLogsRetentionDays) * 24 * time.Hour),
+		ExpiresAt:   createdAt.Add(time.Duration(retentionDays) * 24 * time.Hour),
 		ProjectName: projectName,
 	}
 	entry.OrgID = orgID

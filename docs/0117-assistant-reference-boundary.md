@@ -44,7 +44,7 @@ Connection text in the catalog and `core/ai/README.md` tells a Grok bot or other
 
 `pkg.04-go-read-cutover` is partial. The served project-permission contract sorts allows before forbids and expands a forbid of `describeSecret` or `readValue` so it also forbids legacy `read`. CASL's last match then makes a matching forbid win. The Go project-rule builder now does the same expansion and ordering. Its deny-first check matches that result. `vaultixpolicy.Can` is unchanged for other callers. Product `$all` tag checks match CASL containment.
 
-`reference.PublicOwner` stays `typescript`. MCP dispatch, native error shape, self-hosted rate-limit parity, and audit retention stay open in `docs/0066`. The private proxy-trust helper and canceled audit enqueue are tested groundwork, not a route switch. No new owner decision is required for the forbid-wins result: that is the behavior the current route already serves.
+`reference.PublicOwner` stays `typescript` for an unset dispatch. `VAULTIX_REFERENCE_DISPATCH=go` sends HTTP and authenticated MCP reference actions to the native service, with the public error string, a 60-per-minute self-hosted budget, and included 365-day retention capped by a shorter project policy. Guidance and MCP session negotiation stay on TypeScript. The packaged image sets the Go dispatch. No new owner decision is required for the forbid-wins result: that is the behavior the current route already serves.
 
 ## Loopback integration setup
 

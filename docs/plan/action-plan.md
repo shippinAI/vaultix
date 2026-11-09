@@ -223,7 +223,7 @@ Dependencies: package 01 keeps the split. Package 04 moves the read. Package 05 
 
 Constraints: one store. No value in MCP. Personal overrides stay out of the shared reference list.
 
-Next task: move HTTP/MCP dispatch, the native error shape, self-hosted rate-limit parity, and audit retention together before any public reference-route switch. Private proxy trust and canceled enqueue are tested and are not that switch. Forbid-wins and `$all` parity are tested. Public reads stay on TypeScript.
+Next task: prove the packaged image with `VAULTIX_REFERENCE_DISPATCH=go` on the revision that contains the native reference handler. The code default remains TypeScript. Secret writes stay behind that image proof. Forbid-wins and `$all` parity are tested.
 
 Receipt: `findReferencePage` comment says the path must not load ciphertext.
 

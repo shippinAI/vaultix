@@ -27,6 +27,7 @@ import { handleVaultixMcp } from "@app/services/vaultix/mcp";
 import { loadMcpAppResource, McpAppResource, requestsMcpApp } from "@app/services/vaultix/mcp-app-resource";
 import { anonymousMcpSessionRule } from "@app/services/vaultix/mcp-session-contract";
 import { createMcpSessionService, McpSessionBinding, McpSessionError } from "@app/services/vaultix/mcp-session-service";
+import { createVaultixReferenceDispatch } from "@app/services/vaultix/reference-dispatch";
 import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
 import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
 
@@ -35,6 +36,7 @@ export const registerVaultixRouter = async (
   options: {
     appResource?: () => Promise<McpAppResource | undefined>;
     references?: VaultixReferenceService;
+    referenceDispatch?: ReturnType<typeof createVaultixReferenceDispatch>;
     auditReferences?: (
       request: FastifyRequest,
       scope: { projectId: string; environment: string; secretPath: string; count: number }
@@ -49,9 +51,14 @@ export const registerVaultixRouter = async (
         [ActorType.USER, ActorType.IDENTITY].includes(request.permission?.type) &&
         request.permission?.orgId
     );
-  const runAction = async (request: FastifyRequest, name: string, input: unknown) => {
+  const runAction = async (
+    request: FastifyRequest,
+    name: string,
+    input: unknown,
+    dispatch: "http" | "mcp" = "http"
+  ) => {
     if (!canRead(request)) throw new UnauthorizedError();
-    if (!options.references) throw new NotFoundError({});
+    if (!options.references && !options.referenceDispatch) throw new NotFoundError({});
     const actor = {
       actor: request.permission.type,
       actorId: request.permission.id,
@@ -61,9 +68,12 @@ export const registerVaultixRouter = async (
     if (name === "vaultix.projects.list") {
       if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).length)
         throw new BadRequestError({ message: "This action accepts no arguments." });
-      return options.references.listProjects(actor);
+      if (options.referenceDispatch) return options.referenceDispatch.listProjects(request, dispatch);
+      return options.references?.listProjects(actor);
     }
     const query = parseReferenceQuery(input);
+    if (options.referenceDispatch) return options.referenceDispatch.listReferences(request, query, dispatch);
+    if (!options.references) throw new NotFoundError({});
     const result = await options.references.listReferences(actor, query);
     await options.auditReferences?.(request, { ...query, count: result.references.length });
     return result;
@@ -236,7 +246,7 @@ export const registerVaultixRouter = async (
     }
   );
 
-  if (options.references) {
+  if (options.references || options.referenceDispatch) {
     server.get(
       "/projects",
       {
@@ -286,16 +296,17 @@ export const registerVaultixRouter = async (
         await sessions().read(sessionBinding(request), sessionId, request.headers["mcp-protocol-version"]);
         if (body?.method === "initialize") throw new McpSessionError(400);
       }
-      const wantsApp = requestsMcpApp(request.body) && canRead(request) && Boolean(options.references);
+      const referenceActions = Boolean(options.references || options.referenceDispatch);
+      const wantsApp = requestsMcpApp(request.body) && canRead(request) && referenceActions;
       const resource = sessionId !== undefined || wantsApp ? await appResource : undefined;
       const response = await Promise.resolve(
         handleVaultixMcp(
           request.body,
-          options.references
+          referenceActions
             ? {
                 tools: canRead(request) ? referenceTools : [],
                 names: referenceTools.map((tool) => tool.name),
-                call: (name, args) => runAction(request, name, args)
+                call: (name, args) => runAction(request, name, args, "mcp")
               }
             : undefined,
           resource

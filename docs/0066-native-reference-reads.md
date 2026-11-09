@@ -265,3 +265,31 @@ stay on this router. No image rebuild was required: the public TypeScript
 runtime is unchanged, and the recorded image
 `sha256:cb2e170c6186e8af1e637438b8a7e3873f310e2c6e6f2f18cfb2a0acda5290d1`
 does not contain the Go helper.
+
+## Transport integration, 2026-11-09
+
+`VAULTIX_REFERENCE_DISPATCH=go` makes both `GET /api/v1/vaultix/projects` and
+`GET /api/v1/vaultix/secret-references`, and the authenticated MCP tools
+`vaultix.projects.list` and `vaultix.secrets.references`, call the native
+reference service. The public ingress forwards only the verified bearer and
+the socket address. `X-Actor-Id` and `X-Org-Id` are not copied. Anonymous
+guidance, origin checks, and MCP session negotiation stay on the TypeScript
+router. The code default remains `typescript`.
+
+The native handler returns `{ "error": string }`, masks forbidden and missing
+resources as 404, and does not put a cause in the body. Direct reference and
+project routes allow 60 requests per minute on every deployment, including
+self-hosted. A loopback peer with `X-Vaultix-Dispatch: mcp` does not consume
+that budget, because the public MCP route already allows 120 per minute. Any
+other peer sending that header is still counted.
+
+Reference reads enqueue `get-secrets` with the name count only. Delivery
+failure does not fail the read. Retention uses the plan days, and a shorter
+positive project `auditLogsRetentionDays` caps it. The included self-hosted
+plan is 365 days. Zero retention still stores nothing. The Node stream consumer
+remains the storage writer; native delivery appends the same `audit-log-stream`
+envelope. A canceled enqueue still returns before delivery.
+
+The packaged image sets `VAULTIX_REFERENCE_DISPATCH=go`, spawns the sidecar on
+`127.0.0.1:4040`, and waits for its health route before serving. That image
+proof is recorded separately from this source description.

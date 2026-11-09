@@ -867,14 +867,15 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e",
+      "blob": "633c8681f626bf590fb63b6ce101a1ca6372f398",
       "status": "reviewed",
       "decision": "modify",
-      "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending.",
+      "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending. Packaged runtime sets VAULTIX_REFERENCE_DISPATCH=go and spawns the loopback sidecar.",
       "evidence": [
         "scripts/build-self-hosted.mjs",
         "scripts/test-cli-delivery.mjs",
-        "https://docs.docker.com/build/cache/optimize/"
+        "https://docs.docker.com/build/cache/optimize/",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -1901,10 +1902,10 @@
     },
     {
       "path": "core/backend/src/lib/config/env.ts",
-      "blob": "42458c55ce43564659981864c7ecf2da94690b07",
+      "blob": "13705dc41b4b7fdeed662629bbf1b401ab7b4d7d",
       "status": "verified",
       "decision": "modify",
-      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim.",
+      "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. Adds VAULTIX_REFERENCE_DISPATCH, default typescript.",
       "evidence": [
         "docs/0058-trusted-proxy-boundary.md",
         "core/backend/src/server/plugins/ip.test.ts",
@@ -1914,7 +1915,8 @@
         ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
         "docs/0110-invite-only-instance.md",
         "scripts/test-tenant-isolation.mjs",
-        "scripts/test-invite-only-access.mjs"
+        "scripts/test-invite-only-access.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -3326,17 +3328,18 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
-      "blob": "862f1a497e6ec81976abe228b1a5d51d191b15aa",
+      "blob": "3b58eb694d2cc3a0b6687f44ef7f8b6ca3503e1a",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
+      "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session. HTTP and MCP reference actions can dispatch to the native sidecar without copying actor headers.",
       "evidence": [
         "docs/mcp-embedded-apps.md",
         "scripts/test-mcp-app.mjs",
         "scripts/test-mcp-app-image.mjs",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
         "core/backend/src/services/vaultix/mcp-session-cache.test.ts",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -3923,10 +3926,10 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/require_auth.go",
-      "blob": "5672dc4156f1960ba95669cc9a5dd906dd77d4a6",
+      "blob": "e17e20ba60bd911871a7e3f3e1e8a0bb4cfcaa98",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Client IP now comes from auth.ClientIP: X-Real-IP only from a loopback peer, never X-Forwarded-For. Public exposure of this listener remains unaccepted.",
+      "scope": "Complete file read including cookie injection and proxy IP assumptions. Pass authenticated requester ID to grant verification; nil/failed verification emits the existing deletion cookie and retains ordinary authority. Keep mode checks and session validation unchanged. Browser cookie transport/path and standalone trusted-proxy acceptance remain open. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Client IP now comes from auth.ClientIP: X-Real-IP only from a loopback peer, never X-Forwarded-For. Public exposure of this listener remains unaccepted. Vaultix reference routes can request the public sign-in error without changing other routes.",
       "evidence": [
         "docs/0063-native-assumed-authority.md",
         "Runtime source 8a0ec825417efa7464be09323f74467d4f564906",
@@ -4131,10 +4134,10 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
-      "blob": "ecd47df6aea2f54d188cb248ac8878d20a60baec",
+      "blob": "cfd5a59d6d022924e466fa23b8a59cdb15e9db7d",
       "status": "verified",
       "decision": "modify",
-      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until HTTP/MCP, error shape, self-hosted rate-limit parity, and audit retention pass together.",
+      "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until HTTP/MCP, error shape, self-hosted rate-limit parity, and audit retention pass together. PublicOwner remains the unset-dispatch default. The packaged image selects the native sidecar.",
       "evidence": [
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
@@ -5641,22 +5644,24 @@
     },
     {
       "path": "core/backend-go/internal/services/auditlog/queue_handler.go",
-      "blob": "33aaa0b98cc14f6e697782c3bb372f7f5bec7543",
+      "blob": "2f48df5c1046929199af8d850af493f60ae48629",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. A shorter positive project retention caps the included plan. Zero plan retention still stores nothing.",
       "evidence": [
-        "docs/auth/native-audit-delivery.md"
+        "docs/auth/native-audit-delivery.md",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
       "path": "core/backend-go/internal/services/auditlog/queue_handler_test.go",
-      "blob": "eed221421f24569abbd71b7045210f7ca091c1d8",
+      "blob": "f2e3e5e0b16eb8a4767bbbfeeaa6a4e556c07949",
       "status": "authored",
       "decision": "modify",
-      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity.",
+      "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Covers the 365-day plan capped to five project days.",
       "evidence": [
-        "docs/auth/native-audit-delivery.md"
+        "docs/auth/native-audit-delivery.md",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -6292,10 +6297,10 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "dbd18b8d1f0dda56b920a2002eae63ee3f7847b0",
+      "blob": "8924542e45dabf7afff1cb9aa14fa18e3df10095",
       "status": "authored",
       "decision": "modify",
-      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
+      "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
       "evidence": [
         "docs/auth/device-event-worker.md",
         "docs/0110-invite-only-instance.md",
@@ -6304,7 +6309,8 @@
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
-        "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change."
+        "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change.",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -6319,14 +6325,15 @@
     },
     {
       "path": "core/backend-go/internal/server/api/secretmanager_routes.go",
-      "blob": "8f0a4c51ea8b0a37a0bb3abb927ede8f00d9ce9b",
+      "blob": "91000503256e8ef65fa0a996936d37c7db0fec20",
       "status": "authored",
       "decision": "modify",
-      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
+      "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Registers native reference routes outside the cloud-only secret limiter.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "docs/0066-native-reference-reads.md"
       ]
     },
     {
@@ -10785,6 +10792,86 @@
       "status": "authored",
       "decision": "modify",
       "scope": "Adds the self-hosted disabled-limiter test and the non-loopback spoofed-address key test. Earlier limiter cases in this file were not re-reviewed.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/services/project/project.go",
+      "blob": "c3b76f9d22297f15c71d614031b1234ff23d4b0a",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Loads nullable project audit retention for the reference audit cap. The rest of project lookup was not re-reviewed.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/secretmanager_services.go",
+      "blob": "89c974106e2a3b9d71f8e4e6058803356344876e",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Constructs the native reference service beside the existing secret services.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/vaultixref/errors.go",
+      "blob": "5994e9074ff3c3075cb08618fb795412a7e65d26",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Writes the public Vaultix error string and masks forbidden and missing resources as 404.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/vaultixref/handler.go",
+      "blob": "ff2ce7ef21372946928829ccbd749f1c8e76b902",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Serves project and reference reads from the authenticated context. Actor headers are not read. Audit failure does not fail the read.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/vaultixref/handler_test.go",
+      "blob": "2bac8e4a42e3664f3d38f1ec6df5822ee6e76b38",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Covers missing auth, spoofed actor headers, masked denial, audit failure, budget exhaustion, loopback MCP dispatch, and cancellation.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend-go/internal/server/api/vaultixref/limiter.go",
+      "blob": "b89c22a7d6f4402a12f0c2a0c7ee896ad37dcab7",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Enforces 60 project and reference requests per minute on every deployment. Only a loopback MCP dispatch skips that budget.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/server/routes/vaultix-reference-dispatch.test.ts",
+      "blob": "8e647ffb562db1742c2b136c26acfabf103599fd",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Exercises the public router against a native reference listener, including spoofed headers, MCP dispatch, and a foreign denial.",
+      "evidence": [
+        "docs/0066-native-reference-reads.md"
+      ]
+    },
+    {
+      "path": "core/backend/src/services/vaultix/reference-dispatch.ts",
+      "blob": "33cbca1168a0fe58c92437aeb2928598c6b83b90",
+      "status": "authored",
+      "decision": "modify",
+      "scope": "Forwards the verified bearer and socket address to the native reference routes and waits for sidecar health.",
       "evidence": [
         "docs/0066-native-reference-reads.md"
       ]

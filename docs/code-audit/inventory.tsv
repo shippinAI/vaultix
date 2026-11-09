@@ -85,7 +85,7 @@ core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	u
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4449f1abb499082344d09afa37e27f8974f24685	documentation	reviewed
 core/Dockerfile.ghcr	816f39991163321588f4dfb05efd55ac4c3da840	build-and-operations	reviewed
-core/Dockerfile.standalone-vaultix	7824c8bbfb1131b6070dfe42a4ee6b07a2e9221e	build-and-operations	reviewed
+core/Dockerfile.standalone-vaultix	633c8681f626bf590fb63b6ce101a1ca6372f398	build-and-operations	reviewed
 core/Makefile	329e030c6ba55e576a37749b6d4757e3002cdaf4	product-code	unread
 core/PIN	17f95aab1bf33bd56ee24308b78a97652fc555b2	product-code	unread
 core/README.md	2e1514c1cb6d068f4cbefda3297dc0720ae30c8b	documentation	unread
@@ -182,8 +182,8 @@ core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	7
 core/backend-go/internal/server/api/secretmanager/secret/list_secrets.go	196cdb7ef5986a03f5a99d751b993e66d9d6eba2	product-code	authored
 core/backend-go/internal/server/api/secretmanager/secret/openapi.yml	4e27ca7aacee8e402a69ca5009f48a4ea94c1ff2	build-and-operations	unread
 core/backend-go/internal/server/api/secretmanager/secret/secret.go	0a08e6febd5b758cb87e862789cdb8cde7861370	product-code	authored
-core/backend-go/internal/server/api/secretmanager_routes.go	8f0a4c51ea8b0a37a0bb3abb927ede8f00d9ce9b	product-code	authored
-core/backend-go/internal/server/api/secretmanager_services.go	247537eb22ebd73c4a2e5c08c9626141de200683	product-code	unread
+core/backend-go/internal/server/api/secretmanager_routes.go	91000503256e8ef65fa0a996936d37c7db0fec20	product-code	authored
+core/backend-go/internal/server/api/secretmanager_services.go	89c974106e2a3b9d71f8e4e6058803356344876e	product-code	authored
 core/backend-go/internal/server/api/shared/cfg.yaml	a894bb4f1f807d34b5e20ea5b8de46fdeb4875ae	build-and-operations	unread
 core/backend-go/internal/server/api/shared/errors.go	02b9fb55918641a7c30b5a829b5018ff0b240bf4	product-code	unread
 core/backend-go/internal/server/api/shared/gen.go	ad4e9a110b6277a386b14fc458daaa12c7840f38	product-code	unread
@@ -192,6 +192,10 @@ core/backend-go/internal/server/api/shared/overlay.yaml	06c9ee6dca1ee5f4e1f644a6
 core/backend-go/internal/server/api/shared/types.yaml	66f4cc77535e9425b5abfff83c94391f89faf77a	build-and-operations	unread
 core/backend-go/internal/server/api/templates/common.tmpl	f4f03dc230cb3d3602e2c6ae59550f3e55527a02	product-code	unread
 core/backend-go/internal/server/api/validator/validator.go	ad792be640f9cdd865b95c74b2b100bc79dbbb65	product-code	unread
+core/backend-go/internal/server/api/vaultixref/errors.go	5994e9074ff3c3075cb08618fb795412a7e65d26	product-code	authored
+core/backend-go/internal/server/api/vaultixref/handler.go	ff2ce7ef21372946928829ccbd749f1c8e76b902	product-code	authored
+core/backend-go/internal/server/api/vaultixref/handler_test.go	2bac8e4a42e3664f3d38f1ec6df5822ee6e76b38	test	authored
+core/backend-go/internal/server/api/vaultixref/limiter.go	b89c22a7d6f4402a12f0c2a0c7ee896ad37dcab7	product-code	authored
 core/backend-go/internal/server/middlewares/cors.go	527b0a3d67625b3c760f879207590fd22f1d7983	product-code	unread
 core/backend-go/internal/server/middlewares/recover.go	90f58ae7c469f2ea16ef529c57d14abc50cda46c	product-code	unread
 core/backend-go/internal/server/middlewares/security.go	ce0b314be11f918640726ca0d2ffe6e7445841a5	product-code	unread
@@ -207,8 +211,8 @@ core/backend-go/internal/services/auditlog/auditlog.go	7cd49ca79b7f1cef7eac1d771
 core/backend-go/internal/services/auditlog/event.go	104d2f5a2143d38bb8f737925d591c166a80117d	product-code	authored
 core/backend-go/internal/services/auditlog/info.go	ebc44b28aa714b4d6072dd7e5f1404ac8de63afa	product-code	unread
 core/backend-go/internal/services/auditlog/producer_integration_test.go	48008eb0d433ac80af8699560145016ea9940812	test	authored
-core/backend-go/internal/services/auditlog/queue_handler.go	33aaa0b98cc14f6e697782c3bb372f7f5bec7543	product-code	authored
-core/backend-go/internal/services/auditlog/queue_handler_test.go	eed221421f24569abbd71b7045210f7ca091c1d8	test	authored
+core/backend-go/internal/services/auditlog/queue_handler.go	2f48df5c1046929199af8d850af493f60ae48629	product-code	authored
+core/backend-go/internal/services/auditlog/queue_handler_test.go	f2e3e5e0b16eb8a4767bbbfeeaa6a4e556c07949	test	authored
 core/backend-go/internal/services/auditlog/useragent.go	debf555fd242540645332817c077bed76833d135	product-code	unread
 core/backend-go/internal/services/auth/apiauth/authenticator.go	4a14c284622709697e0cd053e604c553fed53dd3	product-code	authored
 core/backend-go/internal/services/auth/apiauth/authenticator_test.go	90993d7b9a22041bfb0ad58ecbe0cc7159147625	test	verified
@@ -221,7 +225,7 @@ core/backend-go/internal/services/auth/apiauth/device_access.go	c1187df33f5e2d27
 core/backend-go/internal/services/auth/apiauth/device_access_test.go	7f8f9730f568930ac4c0384493e2479e88aee3fb	test	authored
 core/backend-go/internal/services/auth/apiauth/ip.go	501ab8dbbe9dc83ca9f80f349e79dcc2a39332c6	product-code	unread
 core/backend-go/internal/services/auth/apiauth/lifetime_policy_test.go	2969c76ae5d0d7ceed7c71737d7d6c1685209d22	test	authored
-core/backend-go/internal/services/auth/apiauth/require_auth.go	5672dc4156f1960ba95669cc9a5dd906dd77d4a6	product-code	authored
+core/backend-go/internal/services/auth/apiauth/require_auth.go	e17e20ba60bd911871a7e3f3e1e8a0bb4cfcaa98	product-code	authored
 core/backend-go/internal/services/auth/apiauth/revocation.go	a41d178d9d78cc65fabbcf7abecb20b935b45bb4	product-code	verified
 core/backend-go/internal/services/auth/apiauth/revocation_test.go	b7f5a4fda5d5bd84bee1698fe5d2f9135e9da785	test	verified
 core/backend-go/internal/services/auth/apiauth/usage_counter_test.go	d69ed12640819b883e1b1b3bf8690aa2b5c43cd1	test	verified
@@ -277,11 +281,11 @@ core/backend-go/internal/services/permission/sso_test.go	2d49922f99564797f206bd4
 core/backend-go/internal/services/permission/template.go	160aaf0ac48a269f760456ff59446826d5c6f7e8	product-code	authored
 core/backend-go/internal/services/permission/template_test.go	f6df834a924b1d37f13ee869270008641f94b863	test	unread
 core/backend-go/internal/services/permission/testdata/sso-bypass.json	1974633d2e02765f7340cd10c1cc16edca075c53	product-code	verified
-core/backend-go/internal/services/project/project.go	c2e3ea859df2740e6937c4c586556243c550071c	product-code	unread
+core/backend-go/internal/services/project/project.go	c3b76f9d22297f15c71d614031b1234ff23d4b0a	product-code	authored
 core/backend-go/internal/services/secretmanager/environment/environment.go	2bddc4f9360ede5feacc8c7f40bb8d5d5a03c451	product-code	unread
 core/backend-go/internal/services/secretmanager/reference/folder.go	a12ca9e34f84ed333913cdab179ace28bbffb8a6	product-code	verified
 core/backend-go/internal/services/secretmanager/reference/projects.go	3a23ff25f52b9c9b615d09ef1db20afc856c33bc	product-code	verified
-core/backend-go/internal/services/secretmanager/reference/reference.go	ecd47df6aea2f54d188cb248ac8878d20a60baec	product-code	verified
+core/backend-go/internal/services/secretmanager/reference/reference.go	cfd5a59d6d022924e466fa23b8a59cdb15e9db7d	product-code	verified
 core/backend-go/internal/services/secretmanager/reference/reference_test.go	7795f677580cbcd1df90be9f39258ebf74813fab	test	authored
 core/backend-go/internal/services/secretmanager/secret/expansion.go	3b3df2fc234afc8aabdfa63116c4c80ea26e1237	product-code	unread
 core/backend-go/internal/services/secretmanager/secret/expansion_test.go	80ffc1e0abd615e50a6b153065a671aaa9f69e95	test	unread
@@ -2120,7 +2124,7 @@ core/backend/src/lib/config/cache.test.ts	7f0d90b154bcc19f58aad545b72c476168080a
 core/backend/src/lib/config/cache.ts	9f0e247b534658508dbc1157624e9c1bee743c88	product-code	unread
 core/backend/src/lib/config/clickhouse.ts	9a1129ed16d6a11907989da9ebae9cd366a61bee	product-code	unread
 core/backend/src/lib/config/const.ts	612234c1727a0a42ba29672693fa301ad31a5da5	product-code	unread
-core/backend/src/lib/config/env.ts	42458c55ce43564659981864c7ecf2da94690b07	product-code	verified
+core/backend/src/lib/config/env.ts	13705dc41b4b7fdeed662629bbf1b401ab7b4d7d	product-code	verified
 core/backend/src/lib/config/identity-token-policy.test.ts	2fe3663ab7086eded1fbeee3bd5ea4c495927170	test	verified
 core/backend/src/lib/config/identity-token-policy.ts	50c7c56dc3957ba171185c5793bd0e4aa1115f0f	product-code	verified
 core/backend/src/lib/config/redis.ts	9aa23a24ac088ac40bb584a0707a84483e8bafaa	product-code	verified
@@ -2312,7 +2316,7 @@ core/backend/src/server/plugins/swagger.ts	bac29bd238b1bddf04d492134cfc3a97801c2
 core/backend/src/server/routes/bdd/bdd-nock-router.dev.ts	c5f6001f5586916623884563c6b5eaafdf65ae17	product-code	unread
 core/backend/src/server/routes/bdd/bdd-nock-router.ts	90f2ed00c62b0b74ac9f7f6f4d6834a5001e2ad3	product-code	unread
 core/backend/src/server/routes/early-access-router.ts	f4c9626832568cba727d1e04882905b02160c62f	product-code	authored
-core/backend/src/server/routes/index.ts	dbd18b8d1f0dda56b920a2002eae63ee3f7847b0	product-code	authored
+core/backend/src/server/routes/index.ts	8924542e45dabf7afff1cb9aa14fa18e3df10095	product-code	authored
 core/backend/src/server/routes/mfa-step-up-fns.ts	bbb188347747e61f33ec65724ef655e57f8707d9	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/directory-config.ts	61be4d9cf681e33683e8cc29df9ae3ba20c7fe5c	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/identitiy-additional-privilege.ts	0feb1ba55c197387eb6926e023b5ce807979ce8c	product-code	unread
@@ -2636,9 +2640,10 @@ core/backend/src/server/routes/v4/index.ts	db2e6922234476732595c0b0720385588b138
 core/backend/src/server/routes/v4/secret-router.ts	ddcc7608b003cd5926ad4831530c79f260c639e1	product-code	unread
 core/backend/src/server/routes/vaultix-learning.test.ts	f18530ae53e50931e356643183da93a03b6590fd	test	verified
 core/backend/src/server/routes/vaultix-mcp-app-router.test.ts	6acbc598a80b2aca3eee099dad3ea483624df10c	test	reviewed
+core/backend/src/server/routes/vaultix-reference-dispatch.test.ts	8e647ffb562db1742c2b136c26acfabf103599fd	test	authored
 core/backend/src/server/routes/vaultix-reference-router.test.ts	30b96a35587761bf86a1252148443b94d126a0b2	test	unread
 core/backend/src/server/routes/vaultix-router.test.ts	254c25a5c96d70bb5f95a4c9a668f2e5f4a63223	test	verified
-core/backend/src/server/routes/vaultix-router.ts	862f1a497e6ec81976abe228b1a5d51d191b15aa	product-code	authored
+core/backend/src/server/routes/vaultix-router.ts	3b58eb694d2cc3a0b6687f44ef7f8b6ca3503e1a	product-code	authored
 core/backend/src/server/routes/vaultix-updates-router.test.ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	test	authored
 core/backend/src/services/access-token-queue/access-token-queue.ts	bb1fefef60093c8a23fc03ffa46b1592cb59ca1a	product-code	unread
 core/backend/src/services/account-recovery/account-recovery-service.ts	43dee817ef27c1842532abd7f8c2465e26896043	product-code	unread
@@ -4233,6 +4238,7 @@ core/backend/src/services/vaultix/mcp-session-contract.ts	d70b3c6ba08f80b515f8c2
 core/backend/src/services/vaultix/mcp-session-service.ts	50c2270292d1dcfec0b9f860121e426865c29da1	product-code	authored
 core/backend/src/services/vaultix/mcp.test.ts	f5d318cdba17848df304d2168d656ca186ad3724	test	reviewed
 core/backend/src/services/vaultix/mcp.ts	7ae714e629379b71c15f31c74fa03339297be6d5	product-code	reviewed
+core/backend/src/services/vaultix/reference-dispatch.ts	33cbca1168a0fe58c92437aeb2928598c6b83b90	product-code	authored
 core/backend/src/services/vaultix/reference-input.test.ts	f8f9f05dfe99898e440e51ecbfd408a0abcff06f	test	unread
 core/backend/src/services/vaultix/reference-input.ts	119a96baa61fb51d137bef23ef9b7e8e5f56d4d2	product-code	unread
 core/backend/src/services/vaultix/reference-service.test.ts	afb2bc42764bb284000a88905fa7a9518d2968bb	test	unread
@@ -11956,7 +11962,7 @@ docs/0062-native-sso-enforcement.md	5e1a89cac844000f241235dc715fe5e32ac65b8b	doc
 docs/0063-native-assumed-authority.md	82ad548dfdfc6ed7a03ae59b4bd1ca14e6094e11	documentation	unread
 docs/0064-assumed-privilege-workflow.md	36096f0f47ea28f4d7334bd59f52b8c034d3452b	documentation	unread
 docs/0065-project-role-refresh.md	1fd09f5fde07cf3c37b63ca4f32c71b6ae4d19da	documentation	unread
-docs/0066-native-reference-reads.md	863314accaa5a442a55cc13d68c926753edecbb5	documentation	unread
+docs/0066-native-reference-reads.md	c6af7eacf949f5d00f01306c34069a57773846b0	documentation	unread
 docs/0067-headless-ai-login.md	6eb468cbc716b2200fbd9e0947e0c370b5446491	documentation	unread
 docs/0068-device-session-renewal.md	3a6dd7895f9b979623fbb9c2c0416c4f6fb2521c	documentation	unread
 docs/0069-execution-goal.md	d93133c58976e59c3224290f072787b5490ebced	documentation	reviewed
@@ -11981,7 +11987,7 @@ docs/0113-vaultix-identity-execution.md	b6727db6a7f0b4a92d599b7121b4f9bee4021a93
 docs/0114-domain-scripted-ui-standard.md	e7801d6a30e2c0bf3ec8e2bce8d319a6269e0825	documentation	unread
 docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320d1c26be2573b4e72544d859fd8	documentation	unread
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
-docs/0117-assistant-reference-boundary.md	1ec1e54c36de353dc02f2ccd70638f4e57b78a0f	documentation	unread
+docs/0117-assistant-reference-boundary.md	8532f8d6fc2013583abcf7e75c0d516431b2cd27	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -12018,11 +12024,11 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	614ff41906159f3af1c79f48735d0631b6f8f9cf	generated	unread
-docs/migration/generated/modules.tsv	57519a8ba03a08b8dc469a1c1d3857e59cc0179e	generated	unread
-docs/migration/generated/summary.json	3b63ec0bea33731f0410d3c834b5cbdc52c6e13d	generated	unread
+docs/migration/generated/files.tsv	f235464de1fbd3411efafae530e77dc8981bbfff	generated	unread
+docs/migration/generated/modules.tsv	dd79491e3cd1fa9c29d304b6ea61e4459953c9ac	generated	unread
+docs/migration/generated/summary.json	9ba33fc84eae527444a4e6f76710dc697e926c75	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
-docs/plan/action-plan.md	18cc941c4cecfc1cff3ff4fba3e3a0b899ef0e01	documentation	unread
+docs/plan/action-plan.md	10c9fea192f544ca5f971fcd2af14692998ae0a2	documentation	unread
 docs/plan/naming.md	d62709bde80d97cd17f8ac69cd67437f45d65c6c	documentation	unread
 docs/plan/traceability.md	949ab9ab2b5cb545cd6adc0fe6dcf03822b34715	documentation	unread
 docs/pr-delivery.md	a6004600f6d77e0df9a7ce6dc25de63132935e2b	documentation	authored

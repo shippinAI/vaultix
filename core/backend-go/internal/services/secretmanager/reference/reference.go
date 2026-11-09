@@ -18,9 +18,9 @@ import (
 	permsecret "github.com/vaultix/api/internal/services/permission/secretmanager"
 )
 
-// PublicOwner is the process that serves the public reference routes.
-// TypeScript remains the owner. Switching it requires the HTTP/MCP, error-shape,
-// self-hosted rate-limit, and audit-retention gates in docs/0066.
+// PublicOwner is the owner when VAULTIX_REFERENCE_DISPATCH is unset.
+// The packaged image sets that dispatch to the native sidecar. This constant
+// is the code default, not the image owner.
 const PublicOwner = "typescript"
 
 type PermissionService interface {
