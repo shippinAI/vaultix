@@ -21,5 +21,8 @@ const {events,diagnostics}=collectGoTestEvidence(result.stdout??'');
 const failed=events.filter(e=>e.action==='fail');
 const tests=events.filter(e=>e.test&&e.action==='pass').length;
 const passed=result.status===0&&failed.length===0&&tests>0;
-console.log(JSON.stringify({passed,tests,failed:failed.map(e=>e.test??e.package),diagnostics:diagnostics?.slice?.(0,40),processError:result.error?.code,stderr:(result.stderr??'').slice(-1200)}));
+// Assertion text only comes from the tests' own output, and these tests use no secrets in it.
+const lines=(result.stdout??'').split('\n').flatMap(line=>{try{return [JSON.parse(line)];}catch{return [];}});
+const reasons=passed?[]:lines.filter(e=>e.Action==='output'&&failed.some(f=>f.test===e.Test)).map(e=>e.Output.trimEnd()).slice(-40);
+console.log(JSON.stringify({passed,tests,failed:failed.map(e=>e.test??e.package),reasons,diagnostics:diagnostics?.slice?.(0,40),processError:result.error?.code}));
 if(!passed)process.exitCode=1;

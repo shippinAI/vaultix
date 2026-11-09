@@ -718,7 +718,7 @@
     },
     {
       "path": "core/backend/src/server/routes/v1/auth-router.ts",
-      "blob": "c660db3176bc70d0ba6751e5789cc252eaf5639c",
+      "blob": "ec09899335f033484ab74a45f3b584809c004f1d",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read and route/service/cookie/error trace. Preserve logout/checkAuth/refresh contracts and authorization; after validated browser grace, send a current HttpOnly cookie and existing optional refreshToken response field. Cookie path, SameSite, HTTPS setting and access-token claims remain unchanged. Real recovery, expiry/replay and logout tests pass on both caches, and packaged browser recovery is separately recorded. Nomen session migration and concurrent rotation remain open.",
@@ -727,7 +727,8 @@
         ".cache/core-proof-ULt89h/test-results.json",
         ".cache/core-proof-5OZCo8/test-results.json",
         ".cache/core-proof-lZJx7V/test-results.json",
-        ".cache/unit-proof-UPFDNN/test-results.json"
+        ".cache/unit-proof-UPFDNN/test-results.json",
+        "Moves logout to the Go session owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {
@@ -1829,7 +1830,7 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "602d3066e94e9ff144fef25aab4122770ea5cb06",
+      "blob": "90e53c90663cdc204e18509e84573ff7584779bf",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. NativeLimiterEnabled keeps the self-hosted Go limiter disabled; public Vaultix budgets stay on TypeScript.",
@@ -1842,7 +1843,8 @@
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs",
         "docs/0066-native-reference-reads.md",
-        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
+        "Moves logout to the Go session owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
       ]
     },
     {

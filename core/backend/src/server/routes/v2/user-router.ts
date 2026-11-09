@@ -7,18 +7,14 @@ import { UnauthorizedError } from "@app/lib/errors";
 import { readLimit, smtpRateLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMethod, AuthMode, MfaMethod } from "@app/services/auth/auth-type";
-import { createVaultixSessionDispatch } from "@app/services/auth-token/session-dispatch";
+import { sessionDispatchFromConfig } from "@app/services/auth-token/session-dispatch";
 import { sanitizedOrganizationSchema } from "@app/services/org/org-schema";
 
 import { ensureStepUpMfa, getStepUpSessionId, MfaStepUpResource } from "../mfa-step-up-fns";
 import { SanitizedUserSchema } from "../sanitizedSchemas";
 
 export const registerUserRouter = async (server: FastifyZodProvider) => {
-  const envConfig = getConfig();
-  const sessionDispatch =
-    envConfig.VAULTIX_SESSION_DISPATCH === "go"
-      ? createVaultixSessionDispatch(envConfig.GOLANG_SIDECAR_URL || "http://127.0.0.1:4040")
-      : undefined;
+  const sessionDispatch = sessionDispatchFromConfig(getConfig());
 
   server.route({
     method: "POST",

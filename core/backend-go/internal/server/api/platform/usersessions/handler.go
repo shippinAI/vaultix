@@ -18,6 +18,8 @@ import (
 
 const (
 	Path           = "/api/v2/users/me/sessions"
+	LogoutPath     = "/api/v1/auth/logout"
+	maxLogoutBody  = 16 * 1024
 	requestTimeout = 5 * time.Second
 	// The form the application has always returned for these dates.
 	timestampFormat = "2006-01-02T15:04:05.000Z"
@@ -29,6 +31,7 @@ type Sessions interface {
 	List(context.Context, uuid.UUID) ([]session.Session, error)
 	Revoke(ctx context.Context, userID, sessionID uuid.UUID) error
 	RevokeAll(context.Context, uuid.UUID) error
+	Logout(ctx context.Context, refreshToken string) error
 }
 
 type ErrorWriter interface {
@@ -45,6 +48,7 @@ func NewHandler(sessions Sessions, errors ErrorWriter) *Handler {
 }
 
 func (h *Handler) Register(router chi.Router, authenticate func(http.Handler) http.Handler) {
+	router.Post(LogoutPath, h.logout)
 	router.Group(func(r chi.Router) {
 		r.Use(authenticate)
 		r.Get(Path, h.list)
@@ -137,6 +141,22 @@ func (h *Handler) revoke(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, map[string]string{"message": "Successfully revoked session"})
+}
+
+// logout has no bearer to check: the refresh token is the credential, and an
+// unusable one changes nothing.
+func (h *Handler) logout(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		RefreshToken string `json:"refreshToken"`
+	}
+	_ = json.NewDecoder(http.MaxBytesReader(w, r.Body, maxLogoutBody)).Decode(&body)
+	ctx, cancel := context.WithTimeout(r.Context(), requestTimeout)
+	defer cancel()
+	if err := h.sessions.Logout(ctx, body.RefreshToken); err != nil {
+		h.errors.HandleError(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	writeJSON(w, map[string]string{"message": "Successfully logged out"})
 }
 
 func writeJSON(w http.ResponseWriter, body any) {

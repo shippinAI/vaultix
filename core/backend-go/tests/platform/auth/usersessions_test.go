@@ -3,6 +3,7 @@
 package auth_test
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -13,6 +14,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
@@ -22,11 +24,12 @@ import (
 	"github.com/vaultix/api/internal/server/api/shared"
 	"github.com/vaultix/api/internal/services/auth/apiauth"
 	"github.com/vaultix/api/internal/services/auth/session"
+	"github.com/vaultix/api/tests/infra"
 )
 
 func sessionsServer(t *testing.T) (*httptest.Server, *session.Service) {
 	t.Helper()
-	service, err := session.NewService(&session.Deps{DB: stack.DB()})
+	service, err := session.NewService(&session.Deps{DB: stack.DB(), AuthSecret: infra.AuthSecret, KeyStore: memKeyStore})
 	require.NoError(t, err)
 	router := chi.NewRouter()
 	usersessions.NewHandler(service, shared.NewErrorHandler(slog.New(slog.DiscardHandler))).Register(router,
@@ -179,4 +182,156 @@ func TestUserSessions_RevokeAllRemovesOnlyThatUsersSessions(t *testing.T) {
 	listed, err = service.List(ctx, target)
 	require.NoError(t, err)
 	assert.Empty(t, listed)
+}
+
+type browserSignIn struct {
+	session uuid.UUID
+	refresh string
+}
+
+// signIn creates a real session through the application. A distinct user agent
+// keeps it from reusing an earlier session.
+func signIn(t *testing.T) browserSignIn {
+	t.Helper()
+	var login infra.LoginResponse
+	response, err := stack.NodeJS().Client().R().
+		SetHeader("User-Agent", "session-test-"+uuid.NewString()).
+		SetBody(infra.LoginRequest{Email: stack.NodeJS().UserEmail(), Password: "testpassword123"}).
+		SetResult(&login).
+		Post("/api/v3/auth/login")
+	require.NoError(t, err)
+	require.False(t, response.IsError(), response.String())
+	claims := &apiauth.UserJWTClaims{}
+	_, _, err = jwt.NewParser().ParseUnverified(login.AccessToken, claims)
+	require.NoError(t, err)
+	t.Cleanup(func() {
+		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM auth_token_sessions WHERE id = @id`, pgx.NamedArgs{"id": claims.TokenVersionID})
+	})
+	for _, cookie := range response.Cookies() {
+		if cookie.Name == "jid" {
+			return browserSignIn{session: claims.TokenVersionID, refresh: cookie.Value}
+		}
+	}
+	require.Fail(t, "sign-in returned no refresh cookie")
+	return browserSignIn{}
+}
+
+func sessionVersions(t *testing.T, id uuid.UUID) (int64, int64) {
+	t.Helper()
+	var access, refresh int64
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT "accessVersion", "refreshVersion" FROM auth_token_sessions WHERE id = @id`, pgx.NamedArgs{"id": id}).Scan(&access, &refresh))
+	return access, refresh
+}
+
+func goLogout(t *testing.T, url, token string) (int, string) {
+	t.Helper()
+	body, err := json.Marshal(map[string]string{"refreshToken": token})
+	require.NoError(t, err)
+	response, err := http.Post(url+usersessions.LogoutPath, "application/json", bytes.NewReader(body))
+	require.NoError(t, err)
+	defer response.Body.Close()
+	raw, err := io.ReadAll(response.Body)
+	require.NoError(t, err)
+	return response.StatusCode, string(raw)
+}
+
+func typescriptLogout(t *testing.T, token string) (int, string) {
+	t.Helper()
+	request, err := http.NewRequestWithContext(context.Background(), http.MethodPost, stack.NodeJS().URL()+usersessions.LogoutPath, http.NoBody)
+	require.NoError(t, err)
+	request.AddCookie(&http.Cookie{Name: "jid", Value: token})
+	response, err := http.DefaultClient.Do(request)
+	require.NoError(t, err)
+	defer response.Body.Close()
+	raw, err := io.ReadAll(response.Body)
+	require.NoError(t, err)
+	return response.StatusCode, string(raw)
+}
+
+func refreshToken(t *testing.T, secret string, user, sessionID uuid.UUID, version int64, change func(jwt.MapClaims)) string {
+	t.Helper()
+	claims := jwt.MapClaims{"authTokenType": "refreshToken", "userId": user.String(), "tokenVersionId": sessionID.String(), "refreshVersion": version, "exp": time.Now().Add(time.Hour).Unix()}
+	if change != nil {
+		change(claims)
+	}
+	signed, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(secret))
+	require.NoError(t, err)
+	return signed
+}
+
+func TestUserSessions_LogoutMatchesTheTypeScriptRoute(t *testing.T) {
+	server, _ := sessionsServer(t)
+	viaTypeScript, viaGo := signIn(t), signIn(t)
+	beforeAccess, beforeRefresh := sessionVersions(t, viaGo.session)
+
+	typescriptStatus, typescriptBody := typescriptLogout(t, viaTypeScript.refresh)
+	goStatus, goBody := goLogout(t, server.URL, viaGo.refresh)
+
+	require.Equal(t, http.StatusOK, goStatus, goBody)
+	assert.Equal(t, typescriptStatus, goStatus)
+	assert.JSONEq(t, typescriptBody, goBody)
+	access, refresh := sessionVersions(t, viaGo.session)
+	assert.Equal(t, []int64{beforeAccess + 1, beforeRefresh + 1}, []int64{access, refresh})
+	access, refresh = sessionVersions(t, viaTypeScript.session)
+	assert.Equal(t, []int64{beforeAccess + 1, beforeRefresh + 1}, []int64{access, refresh}, "Both routes must end the session the same way")
+}
+
+func TestUserSessions_LogoutOfAReusedTokenEndsTheSession(t *testing.T) {
+	server, _ := sessionsServer(t)
+	user := uuid.MustParse(stack.NodeJS().UserID())
+	viaTypeScript, viaGo := signIn(t), signIn(t)
+	_, current := sessionVersions(t, viaGo.session)
+	_, _ = goLogout(t, server.URL, refreshToken(t, infra.AuthSecret, user, viaGo.session, current+5, nil))
+	_, _ = typescriptLogout(t, refreshToken(t, infra.AuthSecret, user, viaTypeScript.session, current+5, nil))
+	assert.False(t, sessionExists(t, viaGo.session))
+	assert.False(t, sessionExists(t, viaTypeScript.session), "Both routes must treat a reused token the same way")
+}
+
+func TestUserSessions_LogoutWithinTheGraceWindowKeepsTheSession(t *testing.T) {
+	server, _ := sessionsServer(t)
+	ctx := context.Background()
+	user := uuid.MustParse(stack.NodeJS().UserID())
+	id := seedSession(t, user, "2020-05-01 00:00:00+00", "browser")
+	key := "refresh-token-grace:" + id.String()
+	require.NoError(t, memKeyStore.SetItem(ctx, key, "6"))
+
+	status, body := goLogout(t, server.URL, refreshToken(t, infra.AuthSecret, user, id, 6, nil))
+	require.Equal(t, http.StatusOK, status, body)
+	access, refresh := sessionVersions(t, id)
+	assert.Equal(t, []int64{5, 8}, []int64{access, refresh})
+	remembered, err := memKeyStore.GetItem(ctx, key)
+	require.NoError(t, err)
+	assert.Empty(t, remembered, "Logout must clear the grace window")
+}
+
+func TestUserSessions_LogoutOutsideTheGraceWindowEndsTheSession(t *testing.T) {
+	server, _ := sessionsServer(t)
+	user := uuid.MustParse(stack.NodeJS().UserID())
+	id := seedSession(t, user, "2020-05-02 00:00:00+00", "browser")
+	require.NoError(t, memKeyStore.SetItem(context.Background(), "refresh-token-grace:"+id.String(), "5"))
+	status, body := goLogout(t, server.URL, refreshToken(t, infra.AuthSecret, user, id, 6, nil))
+	require.Equal(t, http.StatusOK, status, body)
+	assert.False(t, sessionExists(t, id))
+}
+
+func TestUserSessions_LogoutIgnoresATokenThatProvesNothing(t *testing.T) {
+	server, _ := sessionsServer(t)
+	user := uuid.MustParse(stack.NodeJS().UserID())
+	id := seedSession(t, user, "2020-05-03 00:00:00+00", "browser")
+	foreign := seedUser(t)
+	for name, token := range map[string]string{
+		"empty":           "",
+		"garbage":         "not-a-token",
+		"wrong secret":    refreshToken(t, "another-secret-that-is-long-enough", user, id, 7, nil),
+		"wrong type":      refreshToken(t, infra.AuthSecret, user, id, 7, func(c jwt.MapClaims) { c["authTokenType"] = "accessToken" }),
+		"delegated":       refreshToken(t, infra.AuthSecret, user, id, 7, func(c jwt.MapClaims) { c["oauthClientId"] = "client" }),
+		"expired":         refreshToken(t, infra.AuthSecret, user, id, 7, func(c jwt.MapClaims) { c["exp"] = time.Now().Add(-time.Hour).Unix() }),
+		"another user":    refreshToken(t, infra.AuthSecret, foreign, id, 7, nil),
+		"unknown session": refreshToken(t, infra.AuthSecret, user, uuid.New(), 7, nil),
+	} {
+		status, body := goLogout(t, server.URL, token)
+		require.Equal(t, http.StatusOK, status, name+": "+body)
+		access, refresh := sessionVersions(t, id)
+		assert.Equal(t, []int64{4, 7}, []int64{access, refresh}, name)
+	}
 }

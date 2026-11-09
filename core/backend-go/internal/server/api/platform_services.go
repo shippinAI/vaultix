@@ -128,7 +128,7 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		}
 	}
 
-	userSessions, err := session.NewService(&session.Deps{DB: infra.DB})
+	userSessions, err := session.NewService(&session.Deps{DB: infra.DB, AuthSecret: infra.Config.AuthSecret, KeyStore: infra.KeyStore})
 	if err != nil {
 		return nil, fmt.Errorf("user sessions: %w", err)
 	}

@@ -63,6 +63,21 @@ describe("session dispatch", () => {
     expect(fetchMock.mock.calls[0][1]?.method).toBe("DELETE");
   });
 
+  it("sends only the refresh token on logout", async () => {
+    const fetchMock = respond(200, { message: "Successfully logged out" });
+    await dispatch.logout("the-token");
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(String(url)).toBe("http://127.0.0.1:4040/api/v1/auth/logout");
+    expect(init?.method).toBe("POST");
+    expect(init?.body).toBe(JSON.stringify({ refreshToken: "the-token" }));
+    expect(init?.headers).toEqual({ "content-type": "application/json" });
+  });
+
+  it("reports a logout the service could not finish", async () => {
+    respond(500, { error: "detail from the service" });
+    await expect(dispatch.logout("the-token")).rejects.toBeInstanceOf(InternalServerError);
+  });
+
   it.each([
     [400, BadRequestError],
     [401, UnauthorizedError],

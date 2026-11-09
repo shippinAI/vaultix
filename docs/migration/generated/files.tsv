@@ -147,10 +147,10 @@ core/backend-go/internal/server/api/platform/projects/cfg.yaml	core/backend-go/i
 core/backend-go/internal/server/api/platform/projects/gen.go	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	go	e43f6b69f4b41d824247555017cb1c0f25c77133	verified
 core/backend-go/internal/server/api/platform/projects/handler.go	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	go	52baf54f3002c973a8ada03c5eb483ac16a171e4	verified
 core/backend-go/internal/server/api/platform/projects/openapi.yml	core/backend-go/internal/server/api/platform/projects	secrets	Go-native	yml	b53a4afdec2c6b494366455739c677446fd62c28	verified
-core/backend-go/internal/server/api/platform/usersessions/handler.go	core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	go	5111ef0242f31d4d3384b5aa1acd6f188bdfb527	unread
-core/backend-go/internal/server/api/platform/usersessions/handler_test.go	core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	go	a9fd037afddd81f77011177fb1aeb229eb3696af	unread
+core/backend-go/internal/server/api/platform/usersessions/handler.go	core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	go	8c69b028f54e286587441e2aeaf3dab04e30b2c7	unread
+core/backend-go/internal/server/api/platform/usersessions/handler_test.go	core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	go	edfd585ec2fad110f40cb490d919c38781034c1c	unread
 core/backend-go/internal/server/api/platform_routes.go	core/backend-go/internal/server/api	foundation	Go-native	go	05e599e9133ab541411c94e110e8957387af36a4	authored
-core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	602d3066e94e9ff144fef25aab4122770ea5cb06	reviewed
+core/backend-go/internal/server/api/platform_services.go	core/backend-go/internal/server/api	foundation	Go-native	go	90e53c90663cdc204e18509e84573ff7584779bf	reviewed
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	yaml	35a2af5abac5d1521e932c47beea4844958ab6fa	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	eda488c30cc0d5bfb0bda66eb3a001288eecbb95	unread
 core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	go	7f25cb74462137dc98c154c2e43be71faa29044c	authored
@@ -233,7 +233,7 @@ core/backend-go/internal/services/auth/nomen/reauthentication_factor.go	core/bac
 core/backend-go/internal/services/auth/nomen/testdata/password-node-v1.json	core/backend-go/internal/services/auth	identity	Go-native	json	9a9c3fcc4d81e38ae1c093571e013259bb67fd6a	verified
 core/backend-go/internal/services/auth/nomen/totp.go	core/backend-go/internal/services/auth	identity	Go-native	go	9c18150d609f9f6913726ea55d9c61432e8d3b45	verified
 core/backend-go/internal/services/auth/nomen/totp_test.go	core/backend-go/internal/services/auth	identity	Go-native	go	069db5665782a5e010eabda522a785f00cc5e8b1	verified
-core/backend-go/internal/services/auth/session/service.go	core/backend-go/internal/services/auth	identity	Go-native	go	87e2b80effe8ef6e54f997a72337f6e06ff36476	unread
+core/backend-go/internal/services/auth/session/service.go	core/backend-go/internal/services/auth	identity	Go-native	go	400f264dc9650b6250dc054fc201bfac0d5355d9	unread
 core/backend-go/internal/services/kms/authentication_factor.go	core/backend-go/internal/services/kms	kms	Go-native	go	79fd4aa3d0d4d7b5d079f68e9300db6b0d406368	verified
 core/backend-go/internal/services/kms/authentication_factor_test.go	core/backend-go/internal/services/kms	kms	Go-native	go	ee0e497d94732ffdfb54a6680cc93c5a5f6ac354	verified
 core/backend-go/internal/services/kms/kms.go	core/backend-go/internal/services/kms	kms	Go-native	go	1313d02f49f1fab633022ab9ea8f7fa65609dcce	unread
@@ -332,7 +332,7 @@ core/backend-go/tests/platform/auth/reauthentication_test.go	core/backend-go/tes
 core/backend-go/tests/platform/auth/scoped_revocation_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4	verified
 core/backend-go/tests/platform/auth/totp_reauthentication_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	f6203e99bfb280aa43bdfd2499f47356f88b0ca0	verified
 core/backend-go/tests/platform/auth/usage_recovery_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	2b5ab0e39d3fdccc358580bb193ced31230a2827	authored
-core/backend-go/tests/platform/auth/usersessions_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	aa071bbc287ab0efae1de120250d2fa1381f1f75	unread
+core/backend-go/tests/platform/auth/usersessions_test.go	core/backend-go/tests/platform/auth	identity	Go-native	go	6b81f12d6390bea04700503103d49b55cd77974b	unread
 core/backend-go/tests/platform/bootstrap/bootstrap_test.go	core/backend-go/tests/platform/bootstrap	foundation	Go-native	go	2286ce2df00016cb92368996abd39b3941abe158	verified
 core/backend-go/tests/platform/externalkms/externalkms_test.go	core/backend-go/tests/platform/externalkms	kms	Go-native	go	c80d3e456982798c0fc5b0d8c258f870aed63168	unread
 core/backend-go/tests/platform/hsm/hsm_test.go	core/backend-go/tests/platform/hsm	kms	Go-native	go	b6802db6984e80cad8679070f62c82ddb891d511	unread
@@ -2381,7 +2381,7 @@ core/backend/src/server/routes/v1/app-connection-routers/winrm-connection-router
 core/backend/src/server/routes/v1/app-connection-routers/zabbix-connection-router.ts	core/backend/src/server/routes/v1/app-connection-routers	integrations	Go-domain-migration	ts	91028bbe0c16dd22bf3bf856e232b722c0488de8	unread
 core/backend/src/server/routes/v1/approval-policy-routers/approval-policy-endpoints.ts	core/backend/src/server/routes/v1/approval-policy-routers	authorization	Go-domain-migration	ts	ae54eed367bf3efe0248ba15d0221cfb32a7bf43	unread
 core/backend/src/server/routes/v1/approval-policy-routers/index.ts	core/backend/src/server/routes/v1/approval-policy-routers	authorization	Go-domain-migration	ts	00d2ccd3a8bc86628f736822e9b3e1fde4fe8738	unread
-core/backend/src/server/routes/v1/auth-router.ts	core/backend/src/server/routes/v1	identity	Go-domain-migration	ts	c660db3176bc70d0ba6751e5789cc252eaf5639c	authored
+core/backend/src/server/routes/v1/auth-router.ts	core/backend/src/server/routes/v1	identity	Go-domain-migration	ts	ec09899335f033484ab74a45f3b584809c004f1d	authored
 core/backend/src/server/routes/v1/bot-router.ts	core/backend/src/server/routes/v1	foundation	Go-domain-migration	ts	cdb19a993babb79bc6c36729a89e23863735dc33	unread
 core/backend/src/server/routes/v1/cert-manager-access-routers/groups-router.ts	core/backend/src/server/routes/v1/cert-manager-access-routers	pki	Go-domain-migration	ts	81e4604e0fed63c49960751063a716f8ff81416d	unread
 core/backend/src/server/routes/v1/cert-manager-access-routers/identities-router.ts	core/backend/src/server/routes/v1/cert-manager-access-routers	pki	Go-domain-migration	ts	9e92fb9781ecb6c519524ba5f42e3aab9205a20a	unread
@@ -2596,7 +2596,7 @@ core/backend/src/server/routes/v2/pki-templates-router.ts	core/backend/src/serve
 core/backend/src/server/routes/v2/secret-folder-router.ts	core/backend/src/server/routes/v2	secrets	Go-domain-migration	ts	96fcb6a8a33196650a01ac85ad66697d5e8c37b3	unread
 core/backend/src/server/routes/v2/secret-import-router.ts	core/backend/src/server/routes/v2	secrets	Go-domain-migration	ts	3e89014e809b988064ab67b59998e610e425fca9	unread
 core/backend/src/server/routes/v2/service-token-router.ts	core/backend/src/server/routes/v2	foundation	Go-domain-migration	ts	96be91a4d130fb35134bf510d032f9caa4c06ff2	unread
-core/backend/src/server/routes/v2/user-router.ts	core/backend/src/server/routes/v2	identity	Go-domain-migration	ts	e034cd5b7bf488899e3158b44e0af60929dff2db	unread
+core/backend/src/server/routes/v2/user-router.ts	core/backend/src/server/routes/v2	identity	Go-domain-migration	ts	38901c65976a9886b9fe7b2e49c25bc289179e57	unread
 core/backend/src/server/routes/v3/builtin-login-route.test.ts	core/backend/src/server/routes/v3	foundation	Go-domain-migration	ts	d0b236ca45cb99bea5c9cd15f8b96b4c17ce4e52	unread
 core/backend/src/server/routes/v3/deprecated-certificates-router.ts	core/backend/src/server/routes/v3	pki	Go-domain-migration	ts	d10966f95a83acc359b9e9b61e4568db9c96886b	unread
 core/backend/src/server/routes/v3/deprecated-secret-router.ts	core/backend/src/server/routes/v3	foundation	Go-domain-migration	ts	fb30467854533f8961059065b08151318bab90e4	unread
@@ -3195,8 +3195,8 @@ core/backend/src/services/auth-token/device-event-source.ts	core/backend/src/ser
 core/backend/src/services/auth-token/device-event-worker.spec.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	6e8ea6c0fac2b69018f1bcfa3a3162a8a24cc305	authored
 core/backend/src/services/auth-token/device-event-worker.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	f1ba669d21b57fcd82c361a41f905a0f0e2d2940	authored
 core/backend/src/services/auth-token/device-source-store.spec.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a	authored
-core/backend/src/services/auth-token/session-dispatch.test.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	83b02d58aee3d322632e06bd70bbe6c32fc8e63c	unread
-core/backend/src/services/auth-token/session-dispatch.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	a5b9f967acfbfe146f38bdb41d1271e06193f86f	unread
+core/backend/src/services/auth-token/session-dispatch.test.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	10bda279ddcdc688d45e84d89407266d9b0f705b	unread
+core/backend/src/services/auth-token/session-dispatch.ts	core/backend/src/services/auth-token	identity	Go-domain-migration	ts	3c1d21a6ad6f40586551b79bd3a87fc418f8e957	unread
 core/backend/src/services/auth/auth-dal.ts	core/backend/src/services/auth	identity	Go-domain-migration	ts	fdf6afbcbe69ae04a5c40413be0bc4b7a730d06e	unread
 core/backend/src/services/auth/auth-fns.test.ts	core/backend/src/services/auth	identity	Go-domain-migration	ts	8041f23f694fb11d2322245230e765273f2aa414	unread
 core/backend/src/services/auth/auth-fns.ts	core/backend/src/services/auth	identity	Go-domain-migration	ts	a18321f5ac92f80c5e4a1e74fb3a3a812fc7ff5c	unread
@@ -9845,8 +9845,8 @@ scripts/test-storybook-mcp.mjs	scripts	delivery	supporting-tooling-or-contract	m
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	verified
 scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
 scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1d688f5fd15107041d1d53c562ac82f677020765	authored
-scripts/test-user-sessions-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	2c0c6da1929e0b602dad22f29e78752ae3462588	unread
-scripts/test-user-sessions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	5379c2589c718249043bb88434a319bd1fdd38c9	unread
+scripts/test-user-sessions-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b7c421be3d179b80dc3fef65ba8c6b79c8ebdcef	unread
+scripts/test-user-sessions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c6be0ed41571c777d96ab8bc24f44d853dd1c993	unread
 scripts/test-vaultix-media.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	db70bd77cfa3acbd61c1614e38162763de0f8e05	authored
 scripts/test-vaultix-policy-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	ac19f03bedba7525496c890423936cdb7b96a857	authored
 scripts/test-vaultix-policy.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	39f51da59ac9d66bcbc20c2aded97445ac93a323	authored

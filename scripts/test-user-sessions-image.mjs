@@ -57,4 +57,22 @@ export async function testUserSessions({ origin, email, password, organizationId
   // The sign-in check, still in TypeScript, reports a session that no longer exists as 404.
   assert.equal((await call(sessions, { token: revoke })).status, 404, "A revoked session's token must stop working");
   assert.equal((await call(sessions)).status, 401, "Anonymous access must be refused");
+
+  const leaving = `session-proof-${randomUUID()}`;
+  const login = await fetch(`${origin}/api/v3/auth/login`, { method: "POST", signal: AbortSignal.timeout(20000),
+    headers: { "User-Agent": leaving, "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+  assert.equal(login.status, 200, "Sign-in must succeed");
+  const refresh = login.headers.getSetCookie().find(cookie => cookie.startsWith("jid="))?.split(";")[0];
+  assert.ok(refresh, "Sign-in must set the refresh cookie");
+  const { accessToken } = await login.json();
+  const before = (await call(sessions, { token: keep })).body.find(session => session.userAgent === leaving);
+  const logout = await fetch(`${origin}/api/v1/auth/logout`, { method: "POST", signal: AbortSignal.timeout(20000), headers: { Cookie: refresh } });
+  assert.equal(logout.status, 200, "Logout must succeed");
+  assert.deepEqual(await logout.json(), { message: "Successfully logged out" });
+  assert.ok(logout.headers.getSetCookie().some(cookie => /^jid=;/.test(cookie)), "Logout must clear the refresh cookie");
+  const ended = (await call(sessions, { token: keep })).body.find(session => session.userAgent === leaving);
+  assert.equal(ended.accessVersion, before.accessVersion + 1, "Logout must end the session's access tokens");
+  assert.equal(ended.refreshVersion, before.refreshVersion + 1, "Logout must end the session's refresh tokens");
+  const replay = await call("/api/v1/auth/checkAuth", { method: "POST", token: accessToken });
+  assert.equal(replay.status, 401, "An access token from before logout must stop working");
 }

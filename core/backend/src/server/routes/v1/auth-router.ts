@@ -6,8 +6,11 @@ import { getMinExpiresIn } from "@app/lib/fn";
 import { authRateLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode, AuthTokenType } from "@app/services/auth/auth-type";
+import { sessionDispatchFromConfig } from "@app/services/auth-token/session-dispatch";
 
 export const registerAuthRoutes = async (server: FastifyZodProvider) => {
+  const sessionDispatch = sessionDispatchFromConfig(getConfig());
+
   server.route({
     url: "/logout",
     method: "POST",
@@ -26,8 +29,12 @@ export const registerAuthRoutes = async (server: FastifyZodProvider) => {
       const appCfg = getConfig();
 
       try {
-        const { decodedToken } = await server.services.authToken.validateRefreshToken(req.cookies.jid);
-        await server.services.login.logout(decodedToken.userId, decodedToken.tokenVersionId);
+        if (sessionDispatch) {
+          await sessionDispatch.logout(req.cookies.jid);
+        } else {
+          const { decodedToken } = await server.services.authToken.validateRefreshToken(req.cookies.jid);
+          await server.services.login.logout(decodedToken.userId, decodedToken.tokenVersionId);
+        }
       } catch (err) {
         // If token validation fails (e.g. expired/malformed refresh token),
         // we still proceed to clear all session cookies below.

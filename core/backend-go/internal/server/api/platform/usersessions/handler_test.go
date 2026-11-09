@@ -32,6 +32,7 @@ type fakeSessions struct {
 	revokedBy uuid.UUID
 	revoked   uuid.UUID
 	allBy     uuid.UUID
+	logout    string
 }
 
 func (f *fakeSessions) List(_ context.Context, id uuid.UUID) ([]session.Session, error) {
@@ -46,6 +47,11 @@ func (f *fakeSessions) Revoke(_ context.Context, user, id uuid.UUID) error {
 
 func (f *fakeSessions) RevokeAll(_ context.Context, id uuid.UUID) error {
 	f.allBy = id
+	return f.err
+}
+
+func (f *fakeSessions) Logout(_ context.Context, token string) error {
+	f.logout = token
 	return f.err
 }
 
@@ -149,6 +155,38 @@ func TestOnlyAPersonsOrganizationSignInIsAccepted(t *testing.T) {
 			assert.Equal(t, uuid.Nil, sessions.allBy, name)
 		}
 	}
+}
+
+func post(sessions Sessions, body string) *httptest.ResponseRecorder {
+	router := chi.NewRouter()
+	NewHandler(sessions, statusWriter{}).Register(router, func(http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusTeapot) })
+	})
+	recorder := httptest.NewRecorder()
+	router.ServeHTTP(recorder, httptest.NewRequest(http.MethodPost, LogoutPath, strings.NewReader(body)))
+	return recorder
+}
+
+func TestLogoutNeedsNoBearerAndPassesTheToken(t *testing.T) {
+	sessions := &fakeSessions{}
+	recorder := post(sessions, `{"refreshToken":"the-token"}`)
+	require.Equal(t, http.StatusOK, recorder.Code)
+	assert.JSONEq(t, `{"message":"Successfully logged out"}`, recorder.Body.String())
+	assert.Equal(t, "the-token", sessions.logout)
+}
+
+func TestLogoutWithAnUnreadableBodyStillSucceeds(t *testing.T) {
+	for _, body := range []string{"", "not json", `{"refreshToken":7}`, strings.Repeat("x", maxLogoutBody+1)} {
+		sessions := &fakeSessions{}
+		assert.Equal(t, http.StatusOK, post(sessions, body).Code)
+		assert.Empty(t, sessions.logout)
+	}
+}
+
+func TestLogoutStoreFailureIsAServerError(t *testing.T) {
+	recorder := post(&fakeSessions{err: errors.New("database detail")}, `{"refreshToken":"the-token"}`)
+	assert.Equal(t, http.StatusInternalServerError, recorder.Code)
+	assert.NotContains(t, recorder.Body.String(), "database detail")
 }
 
 func TestStoreFailureIsAServerError(t *testing.T) {

@@ -42,11 +42,11 @@ core/backend-go/internal/libs/logutil	foundation	Go-native	1	fa1309ad3a8251693df
 core/backend-go/internal/libs/requestid	foundation	Go-native	1	a68779cad843e4d5a393b4b7a34f73fc3138c0367cb0aa7c4aedd624619ed44c	0	unassessed
 core/backend-go/internal/queue	foundation	Go-native	3	d6f8326ee560aede647a31934b32e3c4b6c5c4eea8fba9141562eb970604b9f0	2	unassessed
 core/backend-go/internal/server	foundation	Go-native	1	4a2ddcdfb3f2aac1c4717e56cfc2474b633e39b92b1eaa330be4549a629f8356	0	unassessed
-core/backend-go/internal/server/api	foundation	Go-native	3	a3ca889ff2355b85014e5b62433827050ec17c4c7c8def4b2ed9451a99fd123b	2	unassessed
+core/backend-go/internal/server/api	foundation	Go-native	3	bb61e6b948291a31ed50b7555b2d7132e40e9c266d62dd5d86ab33e46ebf3975	2	unassessed
 core/backend-go/internal/server/api	secrets	Go-native	2	a18285e2cb95b2c2b6b04d3f030a9a071ec87f815a535ffc20398714afd5ae7a	2	unassessed
 core/backend-go/internal/server/api/platform/deviceauth	foundation	Go-native	3	9bfeb9bd69da10e0df38f854840467f2e6091a5f2d4151a174698047745e91da	3	unassessed
 core/backend-go/internal/server/api/platform/projects	secrets	Go-native	4	533af5011e49d5b22a2a47b5e9661d6465e4079734bbd0332bba4b50aa5eb83c	3	unassessed
-core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	2	6078eea62f6963b3e33c8f2d06352348f3998b0e4713dd7731c8e0b6eff3a309	0	unassessed
+core/backend-go/internal/server/api/platform/usersessions	identity	Go-native	2	c159b274ff7cd6de5012b2f9bbe1392c4532dde303b65f1f1c092b053fd6bb8e	0	unassessed
 core/backend-go/internal/server/api/secretmanager/secret	secrets	Go-native	6	d23dfba45e923b46bdc336fa908921180663a71b449076de6166c7452f7a51c9	3	unassessed
 core/backend-go/internal/server/api/shared	foundation	Go-native	6	4c6c32be285ee2fc51cf3735092ef240cabd2d27cf8af6eba16c67f6848ae51e	0	unassessed
 core/backend-go/internal/server/api/templates	foundation	Go-native	1	34f212cfcb763b4b63499a9f8177c26ae1d579e7d75d7bd821c7610d5612f3c5	0	unassessed
@@ -55,7 +55,7 @@ core/backend-go/internal/server/api/vaultixref	foundation	Go-native	4	ec0179283e
 core/backend-go/internal/server/middlewares	foundation	Go-native	5	edea3ac3e6b94595f5738dff7adf9fdccefad45372ecc3e7f776185abf892341	0	unassessed
 core/backend-go/internal/services/assumeprivilege	authorization	Go-native	4	ab22c5f4550c23cbb4e957f88236bd5919c99dfd31476f68d49d5e70e1360e33	4	unassessed
 core/backend-go/internal/services/auditlog	audit	Go-native	8	b4bae840b2c54e1304b6fea62f8a75d772f879eb604df22834006b92d4437b84	5	unassessed
-core/backend-go/internal/services/auth	identity	Go-native	45	cb98774d6b28bac584a986cb1c456d7ed37db154ec1911192eed7c33b776e16f	42	unassessed
+core/backend-go/internal/services/auth	identity	Go-native	45	7e3ba3aca79b7c9a27ba681d5bdb1df3905b8e85d306c40cde7a0a2f6785729d	42	unassessed
 core/backend-go/internal/services/kms	kms	Go-native	5	a0a079e111a69bb8df065001dcbb07545bdd9b9e792a2f089c5e29fae96921f1	2	unassessed
 core/backend-go/internal/services/permission	authorization	Go-native	18	b1a296735870948ffe8ad8e38acf1496b496dd5afd079764ebf4b551bb982bc9	16	unassessed
 core/backend-go/internal/services/project	secrets	Go-native	1	25cb4a5a6c8136ea044ba31050ae87712cd1da84cfc891377088ddeadfa0169a	1	unassessed
@@ -68,7 +68,7 @@ core/backend-go/internal/vaultixpolicy/internal/compare	foundation	Go-native	1	e
 core/backend-go/tests/fixtures/deviceconsumer	foundation	Go-native	1	f02ffb7d9d1b21767b19dc73fd3a34444485081d2e39591634f0848d50d5e951	1	unassessed
 core/backend-go/tests/infra	foundation	Go-native	10	7b3026e5fead3fe0d5241ee0a830781f44b1917df03dc871d6ea0b24fc335798	3	unassessed
 core/backend-go/tests/platform/auth	authorization	Go-native	1	102070d44f359c2755a04f41f05b8fa7519d2fd8385c6d3314e03ae01832d611	1	unassessed
-core/backend-go/tests/platform/auth	identity	Go-native	16	cd0cfbe8d70549bfd5135f8c54bd3de6af5a5df7009d3b1ae62ed49072c2a0e5	15	unassessed
+core/backend-go/tests/platform/auth	identity	Go-native	16	0b0206459a38c1838bf2612d75995fd7a727cd196160a29adea2c0196e4d73f8	15	unassessed
 core/backend-go/tests/platform/bootstrap	foundation	Go-native	1	68d61e496f56d6ce19ac7f33283a6bd36738a102fbf8bf2cd87a4bfb14d73342	1	unassessed
 core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c5988bc3f73ca5fc3df24b6c0adef1eb943ac0ad7468419	0	unassessed
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
@@ -314,7 +314,7 @@ core/backend/src/server/routes/sanitizedSchema	foundation	Go-domain-migration	1	
 core/backend/src/server/routes/v1	authorization	Go-domain-migration	9	29202f0dd109a9f953aaffc428a8734a2ad36f1b2eb7581e3f2a052d55a80832	0	unassessed
 core/backend/src/server/routes/v1	automation	Go-domain-migration	1	740a07316c7a050498b9f0e0e7dfbd2c5982a806206874ec2982b8f59ad6e7f1	0	unassessed
 core/backend/src/server/routes/v1	foundation	Go-domain-migration	22	1b972bb8d7a0f99cd73fad3bacbef1126e2163d2a7fbf435215acb66fe7c1903	1	unassessed
-core/backend/src/server/routes/v1	identity	Go-domain-migration	24	cdd6105eca4b58a7ebdf282612bc6ae5f8b30dbf475dbdeb7435f5b4363fa29d	1	unassessed
+core/backend/src/server/routes/v1	identity	Go-domain-migration	24	67dc5adc343509cd11e6022bba1d1bec46ff28ca7a5d36b64f3a26ae1c95bdcb	1	unassessed
 core/backend/src/server/routes/v1	integrations	Go-domain-migration	4	ebf50c3e96ac435a84db43f9fafc57244ebf84bd207c5e70f3de420054be884e	0	unassessed
 core/backend/src/server/routes/v1	kms	Go-domain-migration	3	5d865cbebdcc646053f404eaadf7cc39474784671de02c20b7a0780d7cba7dc6	0	unassessed
 core/backend/src/server/routes/v1	pki	Go-domain-migration	18	c044de3ff14111b149ee06e3baa500b1bfaa92b1bf32fc77cb608177c4546d6c	0	unassessed
@@ -334,7 +334,7 @@ core/backend/src/server/routes/v1/signer-membership-routers	pki	Go-domain-migrat
 core/backend/src/server/routes/v1/signer-routers	pki	Go-domain-migration	8	2f068f2a19be14066c93e14b576a4a26d509ea891a67cacc8dff30b3b6efb423	0	unassessed
 core/backend/src/server/routes/v2	authorization	Go-domain-migration	1	6d85d85acc81dc0e6200ee219ff1d47863672854d0b8878ab54b3704f4b6f346	0	unassessed
 core/backend/src/server/routes/v2	foundation	Go-domain-migration	6	a7be41e1f5d7c37305890aaf037d5ddfc1a319d81605300b4490b923eac5f3d3	1	unassessed
-core/backend/src/server/routes/v2	identity	Go-domain-migration	6	0967367d128a8b5d2ce55df77db4b01547a10ee8ede436dca7a35b6bebcf0312	0	unassessed
+core/backend/src/server/routes/v2	identity	Go-domain-migration	6	3412993ab6d098cb53091d6d4408ecfb79833d002761abab640d3da3bf4c922e	0	unassessed
 core/backend/src/server/routes/v2	pki	Go-domain-migration	3	2918e417419ffc70486bad80b8162fbed723b8342ac8fbe90f4ab222772359b5	0	unassessed
 core/backend/src/server/routes/v2	secrets	Go-domain-migration	2	bdf0c93ffa53d397c75b37a7752d91c94f552949ad228b95a8a9210cf2ea82ec	0	unassessed
 core/backend/src/server/routes/v3	foundation	Go-domain-migration	5	824d3d780a71f7397e48d581635fdd7cc000c990747b451e2f97109306e01f7d	0	unassessed
@@ -356,7 +356,7 @@ core/backend/src/services/app-connection	pam	Go-domain-migration	5	826fd8d58850b
 core/backend/src/services/approval-policy	authorization	Go-domain-migration	16	8831bb69c8486be58449e15fbb5290f3c40bb01d585cc38bbf4c9e8b2f8741ea	0	unassessed
 core/backend/src/services/approval-policy	pam	Go-domain-migration	3	447acb8cd487aa6bb9430da4a5ce61c66f9e21d000a56602ac61a2ff5eca9a8f	0	unassessed
 core/backend/src/services/auth	identity	Go-domain-migration	14	6821b5c30e59f8f88153ba7d3cd41c0c031a3d9a9c39b59ed5cadf408b1b9ee5	2	unassessed
-core/backend/src/services/auth-token	identity	Go-domain-migration	22	a3963b60fbe2ec59b99346c02d13096840790516457f684dd963a1425bfbcf5c	18	unassessed
+core/backend/src/services/auth-token	identity	Go-domain-migration	22	edb3e3cc2f76871ab4a683af3644205fb3451195df404661c9f7c2369063a6b0	18	unassessed
 core/backend/src/services/cert-manager-export	pki	Go-domain-migration	2	3b3b0bdbdb6b385a96bde15a9a4b238cddca3354319cab411f0eb3b03c196b90	0	unassessed
 core/backend/src/services/cert-manager-instance	pki	Go-domain-migration	3	654a26bfe914234b6d627e0f434a99e0191eaf4972d9d93345c23da269988cec	0	unassessed
 core/backend/src/services/certificate	pki	Go-domain-migration	7	323ec6a41d882c2e1ba69855a039899a65a4ec8cba14ef250cecd8bfb4f2edae	0	unassessed
@@ -1095,7 +1095,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	134	75cc294e17b27bf74a3518ed2770bd30f4b276804b5cb98556899877d72c2da8	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	134	66706bfbc3975da5260b7e7f4cd47201d80a3440618ac074d6fa52df14a1c4e7	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
