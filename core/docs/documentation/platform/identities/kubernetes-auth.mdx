@@ -12,21 +12,21 @@ description: "Learn how to authenticate with vaultix in Kubernetes"
 ```mermaid
 sequenceDiagram
   participant Pod as Pod
-  participant Infis as vaultix
+  participant vaultix as vaultix
   participant KubernetesServer as K8s API Server
 
   Note over Pod: Step 1: Service Account JWT Token Retrieval
 
-  Note over Pod,Infis: Step 2: JWT Token Login Operation
-  Pod->>Infis: Send JWT token to /api/v1/auth/kubernetes-auth/login
-  Infis->>KubernetesServer: Forward JWT token for validation
-    KubernetesServer-->>Infis: Return identity info for JWT
+  Note over Pod,vaultix: Step 2: JWT Token Login Operation
+  Pod->>vaultix: Send JWT token to /api/v1/auth/kubernetes-auth/login
+  vaultix->>KubernetesServer: Forward JWT token for validation
+    KubernetesServer-->>vaultix: Return identity info for JWT
 
-  Note over Infis: Step 3: Identity Property Verification
-  Infis->>Pod: Return short-lived access token
+  Note over vaultix: Step 3: Identity Property Verification
+  vaultix->>Pod: Return short-lived access token
 
-  Note over Pod,Infis: Step 4: Access vaultix API with Token
-  Pod->>Infis: Make authenticated requests using the short-lived access token
+  Note over Pod,vaultix: Step 4: Access vaultix API with Token
+  Pod->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

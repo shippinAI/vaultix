@@ -27,18 +27,18 @@ Tokens issued through this flow are marked as delegated OAuth tokens. They are a
 sequenceDiagram
   participant App as External App
   participant Browser as User's Browser
-  participant Infis as vaultix
+  participant vaultix as vaultix
 
   App->>Browser: Redirect to /api/v1/oauth/authorize
-  Browser->>Infis: GET /authorize (client_id, redirect_uri, scope, PKCE)
-  Infis->>Browser: Show consent screen (login + MFA if required)
-  Browser->>Infis: User approves
-  Infis->>Browser: Redirect to redirect_uri with authorization code
+  Browser->>vaultix: GET /authorize (client_id, redirect_uri, scope, PKCE)
+  vaultix->>Browser: Show consent screen (login + MFA if required)
+  Browser->>vaultix: User approves
+  vaultix->>Browser: Redirect to redirect_uri with authorization code
   Browser->>App: Deliver authorization code
-  App->>Infis: POST /api/v1/oauth/token (code + client credentials + PKCE verifier)
-  Infis->>App: access_token + refresh_token + scope
-  App->>Infis: API request with access_token (e.g. GET /api/v4/secrets)
-  Infis->>App: Secrets (limited to user's permissions ∩ granted scopes)
+  App->>vaultix: POST /api/v1/oauth/token (code + client credentials + PKCE verifier)
+  vaultix->>App: access_token + refresh_token + scope
+  App->>vaultix: API request with access_token (e.g. GET /api/v4/secrets)
+  vaultix->>App: Secrets (limited to user's permissions ∩ granted scopes)
 ```
 
 ## Scopes

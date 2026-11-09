@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/vaultix/api/internal/services/secretmanager/environment"
+	"github.com/vaultix/api/internal/services/secretmanager/reference"
 	"github.com/vaultix/api/internal/services/secretmanager/secret"
 	"github.com/vaultix/api/internal/services/secretmanager/secretfolder"
 	"github.com/vaultix/api/internal/services/secretmanager/secretimport"
@@ -15,6 +16,7 @@ type SecretManagerServices struct {
 	SecretImport *secretimport.Service
 	Environment  *environment.Service
 	Secret       *secret.Service
+	Reference    *reference.Service
 }
 
 func newSecretManagerServices(ctx context.Context, infra *Infra, platform *PlatformServices) *SecretManagerServices {
@@ -34,6 +36,9 @@ func newSecretManagerServices(ctx context.Context, infra *Infra, platform *Platf
 		SecretImport: secretImportSvc,
 		Environment:  environmentSvc,
 		Secret:       secretSvc,
+		Reference: reference.NewService(ctx, infra.Logger, &reference.Deps{
+			DB: infra.DB, Permission: platform.Permission,
+		}),
 	}
 
 	return svc

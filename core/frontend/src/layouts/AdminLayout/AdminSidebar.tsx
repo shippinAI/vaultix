@@ -12,6 +12,7 @@ import {
   Lock,
   Mail,
   Plug,
+  Sparkles,
   Shield,
   ShieldCheck,
   User,
@@ -75,6 +76,7 @@ const adminNavItems: AdminNavItem[] = [
   { label: "Encryption", icon: Lock, link: "/admin/encryption" },
   { label: "Authentication", icon: ShieldCheck, link: "/admin/authentication" },
   { label: "Integrations", icon: Plug, link: "/admin/integrations" },
+  { label: "MCPL Workbench", icon: Sparkles, link: "/admin/mcpl" },
   { label: "Caching", icon: Database, link: "/admin/caching" },
   { label: "Environment Variables", icon: Key, link: "/admin/environment" }
 ];

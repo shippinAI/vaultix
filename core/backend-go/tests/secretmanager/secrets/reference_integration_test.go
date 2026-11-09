@@ -170,6 +170,50 @@ func TestReference_MetadataOnlyDifferential(t *testing.T) {
 		require.NoError(t, err)
 		require.Empty(t, page.References)
 	})
+	t.Run("legacy-read-forbid", func(t *testing.T) {
+		identity := node.CreateIdentity(t, "reference-legacy-forbid-"+uuid.NewString()[:8])
+		t.Cleanup(func() { node.DeleteIdentity(t, identity.ID) })
+		role := node.CreateCustomProjectRole(t, project.ID, "reference-legacy-forbid", "Reference Legacy Forbid", []infra.Permission{
+			{Subject: "secrets", Action: []string{"describeSecret", "readValue"}, Inverted: true, Conditions: map[string]any{"environment": project.EnvSlug}},
+		})
+		node.AddIdentityToProject(t, project.ID, identity.ID, []infra.RoleAssignment{{Role: "admin"}, {Role: role.Slug}})
+		token := node.GetIdentityAccessToken(t, identity.ID)
+		identityCtx := referenceContext(t, auth.ActorTypeIdentity, identity.ID)
+		q := reference.Query{ProjectID: project.ID, Environment: project.EnvSlug, SecretPath: "/", Limit: 50}
+		actual, err := svc.List(identityCtx, q)
+		require.NoError(t, err)
+		expected, status := existingReferences(t, token, q)
+		require.Equal(t, 200, status)
+		require.Equal(t, expected, actual)
+		require.Empty(t, actual.References)
+		encoded, err := json.Marshal(actual)
+		require.NoError(t, err)
+		require.NotContains(t, string(encoded), "CANARY_")
+	})
+	t.Run("all-tags", func(t *testing.T) {
+		prod := node.CreateTag(t, project.ID, "prod", "Prod", "#00ff00")
+		node.CreateSecret(t, project.ID, project.EnvSlug, "/", "ALL_TAGS", "CANARY_ALL", &infra.CreateSecretOpts{TagIDs: []string{publicTag.ID, prod.ID}})
+		node.CreateSecret(t, project.ID, project.EnvSlug, "/", "ONE_TAG", "CANARY_ONE", &infra.CreateSecretOpts{TagIDs: []string{publicTag.ID}})
+		identity := node.CreateIdentity(t, "reference-all-"+uuid.NewString()[:8])
+		t.Cleanup(func() { node.DeleteIdentity(t, identity.ID) })
+		role := node.CreateCustomProjectRole(t, project.ID, "reference-all", "Reference All", []infra.Permission{
+			{Subject: "secrets", Action: []string{"describeSecret"}, Conditions: map[string]any{"secretTags": map[string]any{"$all": []string{"public", "prod"}}}},
+		})
+		node.AddIdentityToProject(t, project.ID, identity.ID, infra.Role(role.Slug))
+		token := node.GetIdentityAccessToken(t, identity.ID)
+		identityCtx := referenceContext(t, auth.ActorTypeIdentity, identity.ID)
+		q := reference.Query{ProjectID: project.ID, Environment: project.EnvSlug, SecretPath: "/", Limit: 50}
+		actual, err := svc.List(identityCtx, q)
+		require.NoError(t, err)
+		expected, status := existingReferences(t, token, q)
+		require.Equal(t, 200, status)
+		require.Equal(t, expected, actual)
+		require.Len(t, actual.References, 1)
+		require.Equal(t, "ALL_TAGS", actual.References[0].Name)
+		encoded, err := json.Marshal(actual)
+		require.NoError(t, err)
+		require.NotContains(t, string(encoded), "CANARY_")
+	})
 	t.Run("wrong-tenant", func(t *testing.T) {
 		ctx := auth.WithIdentity(t.Context(), &auth.Identity{Actor: auth.ActorTypeUser, ActorID: uuid.MustParse(node.UserID()), OrgID: uuid.New(), AuthMode: auth.AuthModeJWT})
 		page, err := svc.List(ctx, reference.Query{ProjectID: project.ID, Environment: project.EnvSlug, SecretPath: "/", Limit: 50})

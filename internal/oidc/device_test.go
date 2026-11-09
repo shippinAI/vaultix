@@ -148,6 +148,21 @@ func TestMissingClientID(t *testing.T) {
 	}
 }
 
+type denyTransport struct{ t *testing.T }
+
+func (d denyTransport) RoundTrip(*http.Request) (*http.Response, error) {
+	d.t.Fatal("empty issuer made a network request")
+	return nil, errors.New("unreachable")
+}
+
+func TestEmptyIssuerDoesNotContactHostedIdP(t *testing.T) {
+	f := &Flow{ClientID: "vaultix-cli", HTTP: &http.Client{Transport: denyTransport{t}}}
+	_, err := f.RunSession(context.Background(), io.Discard)
+	if err == nil || !strings.Contains(err.Error(), "NOMEN_OIDC_ISSUER") {
+		t.Fatal(err)
+	}
+}
+
 func TestIssuerRedirectNotFollowed(t *testing.T) {
 	visited := false
 	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { visited = true }))

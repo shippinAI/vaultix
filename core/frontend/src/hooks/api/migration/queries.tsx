@@ -7,6 +7,8 @@ import {
   TDopplerConfig,
   TDopplerEnvironment,
   TDopplerProject,
+  TInfisicalEnvironment,
+  TInfisicalProject,
   VaultDatabaseRole,
   VaultKubernetesAuthRole,
   VaultKubernetesRole,
@@ -75,6 +77,18 @@ export const externalMigrationQueryKeys = {
     "doppler-configs",
     connectionId,
     projectSlug
+  ],
+  infisicalProjects: (connectionId?: string) => ["infisical-projects", connectionId],
+  infisicalEnvironments: (connectionId?: string, projectSlug?: string) => [
+    "infisical-environments",
+    connectionId,
+    projectSlug
+  ],
+  infisicalSecrets: (connectionId?: string, projectSlug?: string, environmentSlug?: string) => [
+    "infisical-secrets",
+    connectionId,
+    projectSlug,
+    environmentSlug
   ]
 };
 
@@ -361,5 +375,57 @@ export const useGetDopplerConfigs = (connectionId?: string, projectSlug?: string
       return data.configs;
     },
     enabled: !!connectionId && !!projectSlug
+  });
+};
+
+export const useGetInfisicalProjects = (connectionId?: string) => {
+  return useQuery({
+    queryKey: externalMigrationQueryKeys.infisicalProjects(connectionId),
+    queryFn: async () => {
+      const { data } = await apiRequest.get<{ projects: TInfisicalProject[] }>(
+        "/api/v3/external-migration/infisical/projects",
+        {
+          params: { connectionId }
+        }
+      );
+      return data.projects;
+    },
+    enabled: !!connectionId
+  });
+};
+
+export const useGetInfisicalEnvironments = (connectionId?: string, projectSlug?: string) => {
+  return useQuery({
+    queryKey: externalMigrationQueryKeys.infisicalEnvironments(connectionId, projectSlug),
+    queryFn: async () => {
+      const { data } = await apiRequest.get<{ environments: TInfisicalEnvironment[] }>(
+        "/api/v3/external-migration/infisical/environments",
+        {
+          params: { connectionId, projectSlug }
+        }
+      );
+      return data.environments;
+    },
+    enabled: !!connectionId && !!projectSlug
+  });
+};
+
+export const useGetInfisicalSecrets = (
+  connectionId?: string,
+  projectSlug?: string,
+  environmentSlug?: string
+) => {
+  return useQuery({
+    queryKey: externalMigrationQueryKeys.infisicalSecrets(connectionId, projectSlug, environmentSlug),
+    queryFn: async () => {
+      const { data } = await apiRequest.get<{ secrets: Array<{ key: string; value: string }> }>(
+        "/api/v3/external-migration/infisical/secrets",
+        {
+          params: { connectionId, projectSlug, environmentSlug }
+        }
+      );
+      return data.secrets;
+    },
+    enabled: !!connectionId && !!projectSlug && !!environmentSlug
   });
 };

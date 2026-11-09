@@ -14,25 +14,25 @@ sequenceDiagram
   participant Client as SPIRE Workload
   participant Agent as SPIRE Agent
   participant Server as SPIRE Server
-  participant Infis as vaultix
+  participant vaultix as vaultix
 
   Client->>Agent: Step 1: Request JWT-SVID
   Agent->>Server: Validate workload and fetch signing key
   Server-->>Agent: Return signing material
   Agent-->>Client: Return JWT-SVID with verifiable claims
 
-  Note over Client,Infis: Step 2: Login Operation
-  Client->>Infis: Send JWT-SVID to /api/v1/auth/oidc-auth/login
+  Note over Client,vaultix: Step 2: Login Operation
+  Client->>vaultix: Send JWT-SVID to /api/v1/auth/oidc-auth/login
 
-  Note over Infis,Server: Step 3: Query verification
-  Infis->>Server: Request JWT public key using OIDC Discovery
-  Server-->>Infis: Return public key
+  Note over vaultix,Server: Step 3: Query verification
+  vaultix->>Server: Request JWT public key using OIDC Discovery
+  Server-->>vaultix: Return public key
 
-  Note over Infis: Step 4: JWT validation
-  Infis->>Client: Return short-lived access token
+  Note over vaultix: Step 4: JWT validation
+  vaultix->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 5: Access vaultix API with Token
-  Client->>Infis: Make authenticated requests using the short-lived access token
+  Note over Client,vaultix: Step 5: Access vaultix API with Token
+  Client->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

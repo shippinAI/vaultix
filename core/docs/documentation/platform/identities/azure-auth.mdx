@@ -12,24 +12,24 @@ The following sequence diagram illustrates the Azure Auth workflow for authentic
 ```mermaid
 sequenceDiagram
   participant Client as Client
-  participant Infis as vaultix
+  participant vaultix as vaultix
   participant Azure as Azure AD OpenID
 
   Note over Client,Azure: Step 1: Instance Identity Token Retrieval
   Client->>Azure: Request managed identity access token
   Azure-->>Client: Return managed identity access token
 
-  Note over Client,Infis: Step 2: Identity Token Login Operation
-  Client->>Infis: Send managed identity access token to /api/v1/auth/azure-auth/login
-  Infis->>Azure: Request public key
-  Azure-->>Infis: Return public key
+  Note over Client,vaultix: Step 2: Identity Token Login Operation
+  Client->>vaultix: Send managed identity access token to /api/v1/auth/azure-auth/login
+  vaultixix->>Azure: Request public key
+  Azure-->>vaultixix: Return public key
 
-  Note over Infis: Step 3: Identity Token Verification
-  Note over Infis: Step 4: Identity Property Validation
-  Infis->>Client: Return short-lived access token
+  Note over vaultixix: Step 3: Identity Token Verification
+  Note over vaultix: Step 4: Identity Property Validation
+  vaultix->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 4: Access vaultix API with Token
-  Client->>Infis: Make authenticated requests using the short-lived access token
+  Note over Client,vaultix: Step 4: Access vaultix API with Token
+  Client->>vaultixix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

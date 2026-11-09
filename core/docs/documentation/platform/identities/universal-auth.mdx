@@ -13,16 +13,16 @@ The following sequence diagram illustrates the Universal Auth workflow for authe
 ```mermaid
 sequenceDiagram
   participant Client as Client
-  participant Infis as vaultix
+  participant vaultix as vaultix
 
-  Note over Client,Infis: Step 1: Login Operation
-  Client->>Infis: Send Client ID and Client Secret
+  Note over Client,vaultix: Step 1: Login Operation
+  Client->>vaultix: Send Client ID and Client Secret
 
-  Note over Infis: Step 2: Client ID and Client Secret validation
-  Infis->>Client: Return short-lived access token
+  Note over vaultix: Step 2: Client ID and Client Secret validation
+  vaultix->>Client: Return short-lived access token
 
-  Note over Client,Infis: Step 3: Access vaultix API with Token
-  Client->>Infis: Make authenticated requests using the short-lived access token
+  Note over Client,vaultix: Step 3: Access vaultix API with Token
+  Client->>vaultix: Make authenticated requests using the short-lived access token
 ```
 
 ## Concept

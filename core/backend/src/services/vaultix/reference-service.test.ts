@@ -48,6 +48,43 @@ describe("Vaultix reference authorization", () => {
     );
   });
 
+  test("describe-only results omit planted values, comments, and metadata", async () => {
+    const { service, findReferencePage } = fixture([
+      { action: ProjectPermissionSecretActions.DescribeSecret, subject: ProjectPermissionSub.Secrets }
+    ]);
+    findReferencePage.mockResolvedValue([
+      {
+        id: "1",
+        key: "ALLOWED",
+        version: 4,
+        tags: [],
+        createdAt: new Date(0),
+        updatedAt: new Date(0),
+        secretValue: "CANARY-VALUE",
+        comment: "CANARY-COMMENT",
+        metadata: "CANARY-META"
+      }
+    ]);
+    const result = await service.listReferences(actor, { ...query, limit: 10 });
+    expect(result.references).toEqual([
+      {
+        id: "1",
+        name: "ALLOWED",
+        version: 4,
+        createdAt: new Date(0),
+        updatedAt: new Date(0)
+      }
+    ]);
+    expect(JSON.stringify(result)).not.toContain("CANARY");
+  });
+
+  test("no describe or read permission does not load references", async () => {
+    const { service, findBySecretPath, findReferencePage } = fixture([]);
+    await expect(service.listReferences(actor, query)).rejects.toThrow();
+    expect(findBySecretPath).not.toHaveBeenCalled();
+    expect(findReferencePage).not.toHaveBeenCalled();
+  });
+
   test("write access alone cannot load even reference metadata", async () => {
     const { service, findBySecretPath, findReferencePage } = fixture([
       { action: ProjectPermissionSecretActions.Edit, subject: ProjectPermissionSub.Secrets }

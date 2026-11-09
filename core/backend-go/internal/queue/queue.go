@@ -136,6 +136,10 @@ func Enqueue[P any](ctx context.Context, s *Service, task Task[P], payload P, op
 		opt(options)
 	}
 
+	if err := ctx.Err(); err != nil {
+		return fmt.Errorf("enqueue task %s: %w", task.name, err)
+	}
+
 	data, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("marshal payload: %w", err)
@@ -144,7 +148,7 @@ func Enqueue[P any](ctx context.Context, s *Service, task Task[P], payload P, op
 	asynqOpts := buildAsynqOptions(options)
 	asynqTask := asynq.NewTask(task.name, data)
 
-	_, err = s.client.Enqueue(asynqTask, asynqOpts...)
+	_, err = s.client.EnqueueContext(ctx, asynqTask, asynqOpts...)
 	if err != nil {
 		return fmt.Errorf("enqueue task %s: %w", task.name, err)
 	}

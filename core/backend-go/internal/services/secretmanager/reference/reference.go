@@ -18,6 +18,11 @@ import (
 	permsecret "github.com/vaultix/api/internal/services/permission/secretmanager"
 )
 
+// PublicOwner is the owner when VAULTIX_REFERENCE_DISPATCH is unset.
+// The packaged image sets that dispatch to the native sidecar. This constant
+// is the code default, not the image owner.
+const PublicOwner = "typescript"
+
 type PermissionService interface {
 	GetProjectPermission(context.Context, *permission.GetProjectPermissionArgs) (*permission.GetProjectPermissionResult, error)
 }

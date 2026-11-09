@@ -605,6 +605,7 @@ const envSchema = z
     GO_SIDECAR_SHADOW_SAMPLE_RATE: z.coerce.number().min(0).max(100).default(10),
     GO_SIDECAR_BINARY_PATH: zpStr(z.string().optional()),
     GO_SIDECAR_SPAWN_ENABLED: zodStrBool.default("false"),
+    VAULTIX_REFERENCE_DISPATCH: z.enum(["typescript", "go"]).default("typescript"),
 
     /* INTERNAL ----------------------------------------------------------------------------- */
     INTERNAL_REGION: zpStr(z.enum(["us", "eu"]).optional())

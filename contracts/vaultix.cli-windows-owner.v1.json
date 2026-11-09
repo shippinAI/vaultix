@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.cli-windows-owner.v1.json",
+  "title": "Vaultix per-user Windows CLI ownership",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "platform",
+    "trustSha256",
+    "publisher",
+    "family"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "vaultix.cli-windows-owner.v1"
+    },
+    "platform": {
+      "const": "windows/amd64"
+    },
+    "trustSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192
+    },
+    "family": {
+      "type": "string",
+      "pattern": "^Vaultix\\.CLI_[a-z0-9]{13}$"
+    }
+  }
+}

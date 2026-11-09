@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vaultix.cloud/contracts/vaultix.cli-windows-state.v1.json",
+  "title": "Vaultix Windows prepared and registered release state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "active",
+    "pending",
+    "phase"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "vaultix.cli-windows-state.v1"
+    },
+    "active": {
+      "type": "string",
+      "pattern": "^(?:[a-f0-9]{64})?$"
+    },
+    "pending": {
+      "type": "string",
+      "pattern": "^(?:[a-f0-9]{64})?$"
+    },
+    "phase": {
+      "enum": [
+        "prepared",
+        "pending-activation",
+        "active"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "active"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "pending": {
+            "const": ""
+          },
+          "active": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "pending": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  ]
+}

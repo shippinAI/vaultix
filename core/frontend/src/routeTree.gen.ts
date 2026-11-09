@@ -49,6 +49,7 @@ import { Route as authProviderErrorPageRouteImport } from './pages/auth/Provider
 import { Route as adminWelcomePageRouteImport } from './pages/admin/WelcomePage/route'
 import { Route as adminSetupPageRouteImport } from './pages/admin/SetupPage/route'
 import { Route as userPersonalSettingsPageRouteImport } from './pages/user/PersonalSettingsPage/route'
+import { Route as adminMCPLWorkbenchPageRouteImport } from './pages/admin/MCPLWorkbenchPage/route'
 import { Route as adminIntegrationsPageRouteImport } from './pages/admin/IntegrationsPage/route'
 import { Route as adminEnvironmentPageRouteImport } from './pages/admin/EnvironmentPage/route'
 import { Route as adminEncryptionPageRouteImport } from './pages/admin/EncryptionPage/route'
@@ -664,6 +665,13 @@ const AuthenticateInjectOrgDetailsOrgLayoutOrganizationsOrgIdRoute =
     id: '/organizations/$orgId',
     path: '/organizations/$orgId',
     getParentRoute: () => organizationLayoutRoute,
+  } as any)
+
+const adminMCPLWorkbenchPageRouteRoute =
+  adminMCPLWorkbenchPageRouteImport.update({
+    id: '/mcpl',
+    path: '/mcpl',
+    getParentRoute: () => adminLayoutRoute,
   } as any)
 
 const adminIntegrationsPageRouteRoute = adminIntegrationsPageRouteImport.update(
@@ -2898,6 +2906,13 @@ declare module '@tanstack/react-router' {
       path: '/integrations'
       fullPath: '/admin/integrations'
       preLoaderRoute: typeof adminIntegrationsPageRouteImport
+      parentRoute: typeof adminLayoutImport
+    }
+    '/_authenticate/_inject-org-details/admin/_admin-layout/mcpl': {
+      id: '/_authenticate/_inject-org-details/admin/_admin-layout/mcpl'
+      path: '/mcpl'
+      fullPath: '/admin/mcpl'
+      preLoaderRoute: typeof adminMCPLWorkbenchPageRouteImport
       parentRoute: typeof adminLayoutImport
     }
     '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId': {
@@ -5628,6 +5643,7 @@ interface adminLayoutRouteChildren {
   adminEncryptionPageRouteRoute: typeof adminEncryptionPageRouteRoute
   adminEnvironmentPageRouteRoute: typeof adminEnvironmentPageRouteRoute
   adminIntegrationsPageRouteRoute: typeof adminIntegrationsPageRouteRoute
+  adminMCPLWorkbenchPageRouteRoute: typeof adminMCPLWorkbenchPageRouteRoute
   adminResourceOverviewPageRouteRoute: typeof adminResourceOverviewPageRouteRoute
 }
 
@@ -5640,6 +5656,7 @@ const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   adminEncryptionPageRouteRoute: adminEncryptionPageRouteRoute,
   adminEnvironmentPageRouteRoute: adminEnvironmentPageRouteRoute,
   adminIntegrationsPageRouteRoute: adminIntegrationsPageRouteRoute,
+  adminMCPLWorkbenchPageRouteRoute: adminMCPLWorkbenchPageRouteRoute,
   adminResourceOverviewPageRouteRoute: adminResourceOverviewPageRouteRoute,
 }
 
@@ -5867,6 +5884,7 @@ export interface FileRoutesByFullPath {
   '/admin/encryption': typeof adminEncryptionPageRouteRoute
   '/admin/environment': typeof adminEnvironmentPageRouteRoute
   '/admin/integrations': typeof adminIntegrationsPageRouteRoute
+  '/admin/mcpl': typeof adminMCPLWorkbenchPageRouteRoute
   '/organizations/$orgId': typeof AuthenticateInjectOrgDetailsOrgLayoutOrganizationsOrgIdRouteWithChildren
   '/organizations/$orgId/access-management': typeof organizationAccessManagementPageRouteRoute
   '/organizations/$orgId/audit-logs': typeof organizationAuditLogsPageRouteRoute
@@ -6141,6 +6159,7 @@ export interface FileRoutesByTo {
   '/admin/encryption': typeof adminEncryptionPageRouteRoute
   '/admin/environment': typeof adminEnvironmentPageRouteRoute
   '/admin/integrations': typeof adminIntegrationsPageRouteRoute
+  '/admin/mcpl': typeof adminMCPLWorkbenchPageRouteRoute
   '/organizations/$orgId': typeof AuthenticateInjectOrgDetailsOrgLayoutOrganizationsOrgIdRouteWithChildren
   '/organizations/$orgId/access-management': typeof organizationAccessManagementPageRouteRoute
   '/organizations/$orgId/audit-logs': typeof organizationAuditLogsPageRouteRoute
@@ -6404,6 +6423,7 @@ export interface FileRoutesById {
   '/_authenticate/_inject-org-details/admin/_admin-layout/encryption': typeof adminEncryptionPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/environment': typeof adminEnvironmentPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/integrations': typeof adminIntegrationsPageRouteRoute
+  '/_authenticate/_inject-org-details/admin/_admin-layout/mcpl': typeof adminMCPLWorkbenchPageRouteRoute
   '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId': typeof AuthenticateInjectOrgDetailsOrgLayoutOrganizationsOrgIdRouteWithChildren
   '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId/access-management': typeof organizationAccessManagementPageRouteRoute
   '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId/audit-logs': typeof organizationAuditLogsPageRouteRoute
@@ -6689,6 +6709,7 @@ export interface FileRouteTypes {
     | '/admin/encryption'
     | '/admin/environment'
     | '/admin/integrations'
+    | '/admin/mcpl'
     | '/organizations/$orgId'
     | '/organizations/$orgId/access-management'
     | '/organizations/$orgId/audit-logs'
@@ -6962,6 +6983,7 @@ export interface FileRouteTypes {
     | '/admin/encryption'
     | '/admin/environment'
     | '/admin/integrations'
+    | '/admin/mcpl'
     | '/organizations/$orgId'
     | '/organizations/$orgId/access-management'
     | '/organizations/$orgId/audit-logs'
@@ -7223,6 +7245,7 @@ export interface FileRouteTypes {
     | '/_authenticate/_inject-org-details/admin/_admin-layout/encryption'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/environment'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/integrations'
+    | '/_authenticate/_inject-org-details/admin/_admin-layout/mcpl'
     | '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId'
     | '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId/access-management'
     | '/_authenticate/_inject-org-details/_org-layout/organizations/$orgId/audit-logs'
@@ -7734,6 +7757,7 @@ export const routeTree = rootRoute
         "/_authenticate/_inject-org-details/admin/_admin-layout/encryption",
         "/_authenticate/_inject-org-details/admin/_admin-layout/environment",
         "/_authenticate/_inject-org-details/admin/_admin-layout/integrations",
+        "/_authenticate/_inject-org-details/admin/_admin-layout/mcpl",
         "/_authenticate/_inject-org-details/admin/_admin-layout/resources/overview"
       ]
     },
@@ -7771,6 +7795,10 @@ export const routeTree = rootRoute
     },
     "/_authenticate/_inject-org-details/admin/_admin-layout/integrations": {
       "filePath": "admin/IntegrationsPage/route.tsx",
+      "parent": "/_authenticate/_inject-org-details/admin/_admin-layout"
+    },
+    "/_authenticate/_inject-org-details/admin/_admin-layout/mcpl": {
+      "filePath": "admin/MCPLWorkbenchPage/route.tsx",
       "parent": "/_authenticate/_inject-org-details/admin/_admin-layout"
     },
     "/_authenticate/_inject-org-details/_org-layout/organizations/$orgId": {

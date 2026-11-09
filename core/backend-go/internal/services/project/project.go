@@ -15,11 +15,12 @@ import (
 
 // Project holds basic project details.
 type Project struct {
-	ID    string
-	Name  string
-	Slug  string
-	OrgID uuid.UUID
-	Type  string
+	ID                     string
+	Name                   string
+	Slug                   string
+	OrgID                  uuid.UUID
+	Type                   string
+	AuditLogsRetentionDays *int
 }
 
 // Deps holds the dependencies for the project service.
@@ -79,11 +80,28 @@ func (s *Service) ResolveProjectID(ctx context.Context, orgID uuid.UUID, workspa
 // --- Row types ---
 
 type projectRow struct {
-	ID    string           `db:"id"`
-	Name  string           `db:"name"`
-	Slug  string           `db:"slug"`
-	OrgID uuid.UUID        `db:"org_id"`
-	Type  sql.Null[string] `db:"type"`
+	ID                     string           `db:"id"`
+	Name                   string           `db:"name"`
+	Slug                   string           `db:"slug"`
+	OrgID                  uuid.UUID        `db:"org_id"`
+	Type                   sql.Null[string] `db:"type"`
+	AuditLogsRetentionDays sql.NullInt64    `db:"auditLogsRetentionDays"`
+}
+
+func (r projectRow) project() *Project {
+	projectType := ""
+	if r.Type.Valid {
+		projectType = r.Type.V
+	}
+	var retention *int
+	if r.AuditLogsRetentionDays.Valid {
+		days := int(r.AuditLogsRetentionDays.Int64)
+		retention = &days
+	}
+	return &Project{
+		ID: r.ID, Name: r.Name, Slug: r.Slug, OrgID: r.OrgID, Type: projectType,
+		AuditLogsRetentionDays: retention,
+	}
 }
 
 // --- Query methods ---
@@ -91,7 +109,7 @@ type projectRow struct {
 // findBySlug returns a project by its slug within an organization.
 func (s *Service) findBySlug(ctx context.Context, orgID uuid.UUID, slug string) (*Project, error) {
 	query := `
-		SELECT id, name, slug, "orgId", type
+		SELECT id, name, slug, "orgId", type, "auditLogsRetentionDays"
 		FROM projects
 		WHERE slug = @slug AND "orgId" = @orgID
 	`
@@ -99,32 +117,20 @@ func (s *Service) findBySlug(ctx context.Context, orgID uuid.UUID, slug string) 
 
 	row := s.db.Replica().QueryRow(ctx, query, args)
 	var r projectRow
-	err := row.Scan(&r.ID, &r.Name, &r.Slug, &r.OrgID, &r.Type)
+	err := row.Scan(&r.ID, &r.Name, &r.Slug, &r.OrgID, &r.Type, &r.AuditLogsRetentionDays)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-
-	projectType := ""
-	if r.Type.Valid {
-		projectType = r.Type.V
-	}
-
-	return &Project{
-		ID:    r.ID,
-		Name:  r.Name,
-		Slug:  r.Slug,
-		OrgID: r.OrgID,
-		Type:  projectType,
-	}, nil
+	return r.project(), nil
 }
 
 // findByID returns a project by its ID.
 func (s *Service) findByID(ctx context.Context, projectID string) (*Project, error) {
 	query := `
-		SELECT id, name, slug, "orgId", type
+		SELECT id, name, slug, "orgId", type, "auditLogsRetentionDays"
 		FROM projects
 		WHERE id = @projectID
 	`
@@ -132,24 +138,12 @@ func (s *Service) findByID(ctx context.Context, projectID string) (*Project, err
 
 	row := s.db.Replica().QueryRow(ctx, query, args)
 	var r projectRow
-	err := row.Scan(&r.ID, &r.Name, &r.Slug, &r.OrgID, &r.Type)
+	err := row.Scan(&r.ID, &r.Name, &r.Slug, &r.OrgID, &r.Type, &r.AuditLogsRetentionDays)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, err
 	}
-
-	projectType := ""
-	if r.Type.Valid {
-		projectType = r.Type.V
-	}
-
-	return &Project{
-		ID:    r.ID,
-		Name:  r.Name,
-		Slug:  r.Slug,
-		OrgID: r.OrgID,
-		Type:  projectType,
-	}, nil
+	return r.project(), nil
 }

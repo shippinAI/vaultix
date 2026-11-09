@@ -323,11 +323,34 @@ func TestKeyByAuthToken_ExtractsTokenFromBearerHeader(t *testing.T) {
 	assert.Equal(t, "my-secret-token", key)
 }
 
+func TestNativeLimiterStaysDisabledOutsideHostedProduction(t *testing.T) {
+	t.Parallel()
+	assert.False(t, NativeLimiterEnabled(false, true))
+	assert.False(t, NativeLimiterEnabled(true, false))
+	assert.True(t, NativeLimiterEnabled(true, true))
+
+	svc := NewService(context.Background(), slog.New(slog.NewTextHandler(io.Discard, nil)), &Deps{})
+	called := false
+	handler := svc.Middleware(PresetRead)(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		called = true
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/vaultix/secret-references", http.NoBody)
+	req.RemoteAddr = "203.0.113.10:443"
+	req.Header.Set("X-Real-IP", "198.51.100.7")
+	rec := httptest.NewRecorder()
+	handler.ServeHTTP(rec, req)
+	assert.True(t, called)
+	assert.Equal(t, http.StatusNoContent, rec.Code)
+}
+
 func TestKeyByAuthToken_FallsBackToIPWhenNoBearer(t *testing.T) {
 	t.Parallel()
 
 	req := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/test", http.NoBody)
 	req.RemoteAddr = "192.168.1.100:12345"
+	req.Header.Set("X-Real-IP", "198.51.100.7")
+	req.Header.Set("X-Forwarded-For", "198.51.100.7")
 
 	key, err := keyByAuthToken(req)
 

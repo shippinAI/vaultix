@@ -8,6 +8,7 @@ import { projectKeys } from "../projects";
 import {
   ExternalMigrationImportStatus,
   TImportDopplerSecretsDTO,
+  TImportInfisicalSecretsDTO,
   TImportVaultSecretsDTO
 } from "./types";
 
@@ -104,6 +105,30 @@ export const useImportDopplerSecrets = () => {
     mutationFn: async (dto) => {
       const { data } = await apiRequest.post<{ status: string; imported: number }>(
         "/api/v3/external-migration/doppler/import-secrets",
+        dto
+      );
+      return data;
+    },
+    onSuccess: (_, { targetProjectId, targetEnvironment, targetSecretPath }) => {
+      queryClient.invalidateQueries({ queryKey: dashboardKeys.all() });
+      queryClient.invalidateQueries({
+        queryKey: secretKeys.getProjectSecret({
+          projectId: targetProjectId,
+          environment: targetEnvironment,
+          secretPath: targetSecretPath
+        })
+      });
+    }
+  });
+};
+
+export const useImportInfisicalSecrets = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<{ status: string; imported: number }, Error, TImportInfisicalSecretsDTO>({
+    mutationFn: async (dto) => {
+      const { data } = await apiRequest.post<{ status: string; imported: number }>(
+        "/api/v3/external-migration/infisical/import-secrets",
         dto
       );
       return data;

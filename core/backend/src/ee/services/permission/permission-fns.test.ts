@@ -3,7 +3,11 @@ import { describe, expect, test } from "vitest";
 
 import { conditionsMatcher } from "@app/lib/casl";
 
-import { expandLegacyForbidActions, throwIfMissingSecretReadValueOrDescribePermission } from "./permission-fns";
+import {
+  expandLegacyForbidActions,
+  hasSecretReadValueOrDescribePermission,
+  throwIfMissingSecretReadValueOrDescribePermission
+} from "./permission-fns";
 import {
   ProjectPermissionActions,
   ProjectPermissionGroupActions,
@@ -209,6 +213,38 @@ describe("throwIfMissingSecretReadValueOrDescribePermission", () => {
     expect(() =>
       throwIfMissingSecretReadValueOrDescribePermission(ability, ProjectPermissionSecretActions.DescribeSecret)
     ).not.toThrow();
+  });
+
+  test("describe-only access cannot read secret values, and no access cannot describe or read", () => {
+    const describeOnly = buildAbility([
+      allow({
+        action: [ProjectPermissionSecretActions.DescribeSecret],
+        subject: ProjectPermissionSub.Secrets
+      })
+    ]);
+    const noAccess = buildAbility([]);
+    expect(() =>
+      throwIfMissingSecretReadValueOrDescribePermission(describeOnly, ProjectPermissionSecretActions.ReadValue, {
+        environment: "dev",
+        secretPath: "/"
+      })
+    ).toThrow();
+    expect(() =>
+      throwIfMissingSecretReadValueOrDescribePermission(describeOnly, ProjectPermissionSecretActions.DescribeSecret, {
+        environment: "dev",
+        secretPath: "/"
+      })
+    ).not.toThrow();
+    expect(() =>
+      throwIfMissingSecretReadValueOrDescribePermission(noAccess, ProjectPermissionSecretActions.DescribeSecret)
+    ).toThrow();
+    expect(() =>
+      throwIfMissingSecretReadValueOrDescribePermission(noAccess, ProjectPermissionSecretActions.ReadValue)
+    ).toThrow();
+    expect(hasSecretReadValueOrDescribePermission(describeOnly, ProjectPermissionSecretActions.ReadValue)).toBe(false);
+    expect(hasSecretReadValueOrDescribePermission(describeOnly, ProjectPermissionSecretActions.DescribeSecret)).toBe(
+      true
+    );
   });
 
   test("throws when the actor only has write actions on shared secrets", () => {

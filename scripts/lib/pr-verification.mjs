@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-export const repository = 'shippinAI/vaultix';
+export const repository = 'vaultix-cloud/vaultix';
 export const context = 'vaultix/verified-source';
 export const canonicalStages = [
   'source-inventory', 'migration-map', 'login-failure-policy', 'owned-source',
