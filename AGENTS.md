@@ -165,6 +165,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
 | Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
+| Provider import (Doppler, Infisical/Vaultix instances) | `docs/0117-provider-import.md` + `services/external-migration/provider-import.ts` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
 | Source API / Clyffy | `docs/0009-clyffy-specialist-boundary.md` |

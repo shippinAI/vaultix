@@ -7,10 +7,7 @@ import { TIdentityUaDALFactory } from "@app/services/identity-ua/identity-ua-dal
 
 import { AppConnection } from "../app-connection-enums";
 import { ExternalVaultixConnectionMethod } from "./external-vaultix-connection-enums";
-import {
-  TExternalVaultixConnection,
-  TExternalVaultixConnectionConfig
-} from "./external-vaultix-connection-types";
+import { TExternalVaultixConnection, TExternalVaultixConnectionConfig } from "./external-vaultix-connection-types";
 
 export type TRemoteProject = {
   id: string;
@@ -123,6 +120,61 @@ export const listProjects = async (connection: TExternalVaultixConnection): Prom
       message: "Unable to list projects from remote Vaultix",
       error: error as Error
     });
+  }
+};
+
+export type TRemoteSecret = {
+  secretKey: string;
+  secretValue: string;
+  secretComment: string;
+  // The remote identity may describe a secret without being allowed to read its value.
+  valueHidden: boolean;
+};
+
+// Shared secrets of one remote folder, as the remote instance's own list API returns them.
+// Values stay in server memory; callers decide what, if anything, to persist.
+export const listRemoteSecrets = async (
+  connection: TExternalVaultixConnection,
+  { projectId, environment, secretPath }: { projectId: string; environment: string; secretPath: string }
+): Promise<TRemoteSecret[]> => {
+  const baseUrl = getBaseUrl(connection);
+  const headers = await getAuthHeaders(connection);
+  try {
+    const { data } = await request.get<{
+      secrets: Array<{
+        secretKey: string;
+        secretValue?: string;
+        secretComment?: string;
+        secretValueHidden?: boolean;
+        type?: string;
+      }>;
+    }>(`${baseUrl}/api/v3/secrets/raw`, {
+      headers,
+      params: {
+        workspaceId: projectId,
+        environment,
+        secretPath,
+        recursive: false,
+        include_imports: false,
+        expandSecretReferences: false
+      }
+    });
+    return (data.secrets ?? [])
+      .filter((secret) => !secret.type || secret.type === "shared")
+      .map((secret) => ({
+        secretKey: secret.secretKey,
+        secretValue: secret.secretValue ?? "",
+        secretComment: secret.secretComment ?? "",
+        valueHidden: Boolean(secret.secretValueHidden)
+      }));
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      throw new BadRequestError({
+        message:
+          `Failed to read secrets from the remote instance: ${error.response?.status ?? ""} ${error.message || "Unknown error"}`.trim()
+      });
+    }
+    throw new BadRequestError({ message: "Unable to read secrets from the remote instance" });
   }
 };
 

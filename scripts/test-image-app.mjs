@@ -22,6 +22,7 @@ import { testCreateSecretRecovery } from "./test-create-secret-recovery.mjs";
 import { testDashboardSecretPaste } from "./test-dashboard-secret-paste.mjs";
 import { testDashboardSecretReferences } from "./test-dashboard-secret-references.mjs";
 import { testDashboardCreateWorkflow } from "./test-dashboard-create-workflow.mjs";
+import { testProviderImportUi } from "./test-provider-import-ui.mjs";
 import { testUpdatesClyffyWorkflow } from "./test-updates-clyffy-workflow.mjs";
 import { testProductGuidance } from "./test-product-guidance.mjs";
 
@@ -209,6 +210,7 @@ try {
       return { status: response.status, valueHidden: body.secret?.secretValueHidden === true, tagPresent: body.secret?.tags?.some(tag => tag.id === tagId) === true };
     }
   });
+  await testProviderImportUi({ page, expect, AxeBuilder, evidence });
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);

@@ -7,8 +7,7 @@ import {
   TDopplerConfig,
   TDopplerEnvironment,
   TDopplerProject,
-  TInfisicalEnvironment,
-  TInfisicalProject,
+  TImportProviderRuntime,
   VaultDatabaseRole,
   VaultKubernetesAuthRole,
   VaultKubernetesRole,
@@ -78,18 +77,7 @@ export const externalMigrationQueryKeys = {
     connectionId,
     projectSlug
   ],
-  infisicalProjects: (connectionId?: string) => ["infisical-projects", connectionId],
-  infisicalEnvironments: (connectionId?: string, projectSlug?: string) => [
-    "infisical-environments",
-    connectionId,
-    projectSlug
-  ],
-  infisicalSecrets: (connectionId?: string, projectSlug?: string, environmentSlug?: string) => [
-    "infisical-secrets",
-    connectionId,
-    projectSlug,
-    environmentSlug
-  ]
+  importProviders: (projectId?: string) => ["import-providers", projectId]
 };
 
 export const useHasCustomMigrationAvailable = (provider: ExternalMigrationProviders) => {
@@ -378,54 +366,18 @@ export const useGetDopplerConfigs = (connectionId?: string, projectSlug?: string
   });
 };
 
-export const useGetInfisicalProjects = (connectionId?: string) => {
+// The import providers this actor may use, with their real connections. projectId scopes
+// project-level connections; without it only organization connections are listed.
+export const useListImportProviders = (projectId?: string, options?: { enabled?: boolean }) => {
   return useQuery({
-    queryKey: externalMigrationQueryKeys.infisicalProjects(connectionId),
+    queryKey: externalMigrationQueryKeys.importProviders(projectId),
     queryFn: async () => {
-      const { data } = await apiRequest.get<{ projects: TInfisicalProject[] }>(
-        "/api/v3/external-migration/infisical/projects",
-        {
-          params: { connectionId }
-        }
+      const { data } = await apiRequest.get<{ providers: TImportProviderRuntime[] }>(
+        "/api/v3/external-migration/providers",
+        { params: projectId ? { projectId } : {} }
       );
-      return data.projects;
+      return data.providers;
     },
-    enabled: !!connectionId
-  });
-};
-
-export const useGetInfisicalEnvironments = (connectionId?: string, projectSlug?: string) => {
-  return useQuery({
-    queryKey: externalMigrationQueryKeys.infisicalEnvironments(connectionId, projectSlug),
-    queryFn: async () => {
-      const { data } = await apiRequest.get<{ environments: TInfisicalEnvironment[] }>(
-        "/api/v3/external-migration/infisical/environments",
-        {
-          params: { connectionId, projectSlug }
-        }
-      );
-      return data.environments;
-    },
-    enabled: !!connectionId && !!projectSlug
-  });
-};
-
-export const useGetInfisicalSecrets = (
-  connectionId?: string,
-  projectSlug?: string,
-  environmentSlug?: string
-) => {
-  return useQuery({
-    queryKey: externalMigrationQueryKeys.infisicalSecrets(connectionId, projectSlug, environmentSlug),
-    queryFn: async () => {
-      const { data } = await apiRequest.get<{ secrets: Array<{ key: string; value: string }> }>(
-        "/api/v3/external-migration/infisical/secrets",
-        {
-          params: { connectionId, projectSlug, environmentSlug }
-        }
-      );
-      return data.secrets;
-    },
-    enabled: !!connectionId && !!projectSlug && !!environmentSlug
+    enabled: options?.enabled ?? true
   });
 };

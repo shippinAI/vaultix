@@ -3797,7 +3797,8 @@ export const registerRoutes = async (
     secretService,
     auditLogService,
     gatewayV2Service,
-    gatewayPoolService
+    gatewayPoolService,
+    secretApprovalPolicyService
   });
 
   // setup the communication with license key server

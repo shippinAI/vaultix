@@ -1,9 +1,46 @@
 export enum ExternalMigrationProviders {
   Vault = "vault",
   EnvKey = "env-key",
-  Doppler = "doppler",
-  Infisical = "infisical"
+  Doppler = "doppler"
 }
+
+// Review → approve → import. ExternalVaultix is any instance speaking this API.
+export type TImportProviderId = "doppler" | "external-vaultix";
+
+export type TImportProviderRuntime = {
+  provider: TImportProviderId;
+  connections: Array<{ id: string; name: string }>;
+  unavailableReason: string | null;
+  lifecycle: Array<"review" | "approve" | "import">;
+  referenceSafe: true;
+};
+
+export type TProviderImportSpec = {
+  provider: TImportProviderId;
+  connectionId: string;
+  source: { project: string; environment: string; secretPath: string };
+  target: { projectId: string; environment: string; secretPath: string };
+};
+
+export type TImportKeyAction = "create" | "exists" | "denied" | "unreadable";
+
+// Names, counts and policy state only. A review never carries a value.
+export type TProviderImportReview = {
+  provider: TImportProviderId;
+  sourceCount: number;
+  createCount: number;
+  existingCount: number;
+  keys: Array<{ key: string; action: TImportKeyAction }>;
+  approvalRequired: boolean;
+  approvalPolicyName: string | null;
+};
+
+export type TProviderImportResult = {
+  status: ExternalMigrationImportStatus;
+  imported: number;
+  skipped: number;
+  approvalRequestId: string | null;
+};
 
 export type TDopplerProject = {
   id: string;
@@ -25,45 +62,6 @@ export type TDopplerConfig = {
   locked: boolean;
   environment: string;
   project: string;
-};
-
-export type TInfisicalProject = {
-  id: string;
-  slug: string;
-  name: string;
-  description?: string | null;
-};
-
-export type TInfisicalEnvironment = {
-  id: string;
-  slug: string;
-  name: string;
-  project: string;
-};
-
-export type TInfisicalSecret = {
-  key: string;
-  value: string;
-  environment: string;
-  project: string;
-};
-
-export type TImportDopplerSecretsDTO = {
-  connectionId: string;
-  dopplerProject: string;
-  dopplerEnvironment: string;
-  targetProjectId: string;
-  targetEnvironment: string;
-  targetSecretPath: string;
-};
-
-export type TImportInfisicalSecretsDTO = {
-  connectionId: string;
-  infisicalProject: string;
-  infisicalEnvironment: string;
-  targetProjectId: string;
-  targetEnvironment: string;
-  targetSecretPath: string;
 };
 
 export enum ExternalMigrationImportStatus {

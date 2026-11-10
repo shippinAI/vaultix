@@ -267,7 +267,7 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "4dada7fbb8db96f884fac117ccdef0a90f5db13b",
+      "blob": "e37435ed0cf20c8db69f86926b2c24fe05ace731",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
@@ -277,7 +277,8 @@
         "scripts/test-product-guidance.mjs",
         "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
         "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity.",
-        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2644,14 +2645,15 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "5ae3013ab7bfedf0918e4a7c83cf7378b6ebf345",
+      "blob": "0e3b1749dbd47e1bef37bc567e601abc81588ca3",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
-        "scripts/test-reference-commands.mjs"
+        "scripts/test-reference-commands.mjs",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2696,7 +2698,7 @@
     },
     {
       "path": "scripts/check-owned.sh",
-      "blob": "e7515d984080c839a8a24912e3a9fc698d3280ea",
+      "blob": "b3753eea23fa8432fc3b91e7d19abe0aaab074cd",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped customer-brand guard requires Vaultix title/artwork and owned canonical image, rejects retired customer names case-insensitively. Executed actual checkout plus isolated copied-source fixture accepting Vaultix/DevSCIF and rejecting four old-brand variants, then recovery. This is branding enforcement, not whole-product authorship or feature parity.",
@@ -2704,7 +2706,8 @@
         "scripts/test-owned-branding.mjs",
         "docs/delivery/implementation.md",
         "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
-        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree."
+        "Restored after a bulk rename made this guard forbid the product's own name, or corrected in the same integration. scripts/check-owned.sh and the panel tests pass on the combined tree.",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -4885,14 +4888,15 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "0972632ea13f4a84896b4f4ef77578a3fa87e0ce",
+      "blob": "06f4be837d9dfba0d1683b6741d061c01c26c36d",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
-        "scripts/test-reference-commands.mjs"
+        "scripts/test-reference-commands.mjs",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6316,7 +6320,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "41746700234d4bfadb7b9674a6d6f6663700fee5",
+      "blob": "612554e4a6f90102ca7e2a66a088fdf43b44ae30",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
@@ -6330,7 +6334,8 @@
         "scripts/test-early-access-migration.mjs",
         "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change.",
         "docs/0066-native-reference-reads.md",
-        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6699,13 +6704,14 @@
     },
     {
       "path": "core/frontend/src/pages/secret-manager/OverviewPage/OverviewPage.tsx",
-      "blob": "cb562ccf5e8a8b439410c3bd7ae85a67fb6b6931",
+      "blob": "106e819c1151ed5ed9278efbca519d6daae1dff8",
       "status": "authored",
       "decision": "modify",
       "scope": "Read the complete 4032-line module. Scope is only readable batch-mode badges in empty/populated views and removal of the nested tooltip button in the populated view. Preserve batch operations, imports, permissions and other existing workflows. Other inherited UI/copy and whole-module authorship remain open; no parity claim.",
       "evidence": [
         "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "scripts/test-updates-clyffy-workflow.mjs",
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {

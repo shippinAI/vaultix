@@ -29,7 +29,6 @@ import { TDigitalOceanConnection } from "./digital-ocean";
 import { TDNSMadeEasyConnection } from "./dns-made-easy-connection";
 import { TDopplerConnection } from "./doppler-connection";
 import { TExternalVaultixConnection } from "./external-vaultix-connection";
-import { TInfisicalConnection } from "./infisical-connection";
 import { TF5BigIpConnection } from "./f5-big-ip-connection";
 import { TFireworksConnection } from "./fireworks-connection";
 import { TFlyioConnection } from "./flyio-connection";
@@ -112,7 +111,6 @@ export * from "./digicert-connection";
 export * from "./dns-made-easy-connection";
 export * from "./doppler-connection";
 export * from "./external-vaultix-connection";
-export * from "./infisical-connection";
 export * from "./f5-big-ip-connection";
 export * from "./fireworks-connection";
 export * from "./flyio-connection";
@@ -232,7 +230,6 @@ export type TAppConnection =
   | TNetScalerConnection
   | TKempLoadMasterConnection
   | TDopplerConnection
-  | TInfisicalConnection
   | TOvhConnection
   | TDevinConnection
   | TOnaConnection

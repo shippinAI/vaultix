@@ -75,13 +75,7 @@ hits="$(rg -n -i --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!
   --glob '!**/components/vaultix/ProviderImportStudio.tsx' \
   --glob '!**/components/vaultix/mcpl-manifest.ts' \
   --glob '!**/helpers/appConnections.ts' \
-  --glob '!**/hooks/api/appConnections/enums.ts' \
-  --glob '!**/hooks/api/appConnections/types/app-options.ts' \
-  --glob '!**/hooks/api/appConnections/types/index.ts' \
-  --glob '!**/hooks/api/appConnections/types/infisical-connection.ts' \
-  --glob '!**/hooks/api/migration/mutations.tsx' \
-  --glob '!**/hooks/api/migration/queries.tsx' \
-  --glob '!**/hooks/api/migration/types.ts' \
+  --glob '!**/AppConnectionForm/ExternalVaultixConnectionForm.tsx' \
   -e '\binfisical\b' -e 'infisical\.com' -e 'support@infisical' \
   "$ROOT/core/frontend/src" "$ROOT/core/frontend/index.html" 2>/dev/null || true)"
 if [[ -n "$hits" ]]; then

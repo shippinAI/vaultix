@@ -44,6 +44,10 @@ and differences below are work items, not newly implemented features.
 | [vaultixical privileged access](https://vaultixical.com/platform/pam) | Temporary resource access through gateways, approvals, session recordings, command/query audit and session controls. | Prove grant/expiry/revocation for each server/database/cloud resource, recording integrity and redaction, reason/MFA enforcement and command restrictions. Broker credentials only at the authorized service boundary; verify failures and recovery. |
 | [vaultixical Agent Vault](https://vaultixical.com/platform/agent-vault) | The public product is a preview with service/method/path bundles, expiring sessions, proxy credential brokering and per-request audit. | Catalogue these separately from reference-only MCP. Existing `ee/services/agent-proxy-ca/` is a review starting point, not proof. Specify service authority, redirect/egress denial, revocation latency and response/log redaction. Any Mesh/Zuul work still requires the separate scope decision in AGENTS.md. |
 
+Importing from Doppler and from Infisical or Vaultix instances, with name-only review,
+approval and stale-review refusal, is specified with its evidence and gaps in
+[0117](0117-provider-import.md).
+
 Existing PKI/PAM/scanning modules and their current evidence are tracked in
 [0018](0018-hosted-capability-proof.md). Provider-level specifications, broader
 API documentation coverage and authorized observations are still needed before

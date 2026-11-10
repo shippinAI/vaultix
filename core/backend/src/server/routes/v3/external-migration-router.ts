@@ -2,6 +2,7 @@ import fastifyMultipart from "@fastify/multipart";
 import { z } from "zod";
 
 import { BadRequestError } from "@app/lib/errors";
+import { removeTrailingSlash } from "@app/lib/fn";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
@@ -11,9 +12,28 @@ import {
   ExternalMigrationImportStatus,
   VaultMappingType
 } from "@app/services/external-migration/external-migration-types";
+import { IMPORT_PROVIDERS, MAX_IMPORT_KEYS } from "@app/services/external-migration/provider-import";
 import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
 
 const MB25_IN_BYTES = 26214400;
+
+const ImportFolderPath = z.string().trim().min(1).max(1024).default("/").transform(removeTrailingSlash);
+
+const ProviderImportSpecSchema = z.object({
+  connectionId: z.string().uuid(),
+  source: z.object({
+    project: z.string().trim().min(1).max(256),
+    environment: z.string().trim().min(1).max(256),
+    secretPath: ImportFolderPath
+  }),
+  target: z.object({
+    projectId: z.string().trim().min(1).max(64),
+    environment: z.string().trim().min(1).max(64),
+    secretPath: ImportFolderPath
+  })
+});
+
+const ProviderParamsSchema = z.object({ provider: z.enum(IMPORT_PROVIDERS) });
 
 export const registerExternalMigrationRouter = async (server: FastifyZodProvider) => {
   await server.register(fastifyMultipart);
@@ -675,6 +695,110 @@ export const registerExternalMigrationRouter = async (server: FastifyZodProvider
           distinctId: getTelemetryDistinctId(req),
           organizationId: req.permission.orgId,
           properties: { sourcePlatform: "doppler" }
+        })
+        .catch(() => {});
+
+      return result;
+    }
+  });
+
+  // ─── Provider import lifecycle (review → approve → import) ──────────────────
+  // Responses carry key names, counts and policy state; values stay on the server.
+
+  server.route({
+    method: "GET",
+    url: "/providers",
+    config: { rateLimit: readLimit },
+    schema: {
+      operationId: "listImportProvidersV3",
+      querystring: z.object({ projectId: z.string().trim().min(1).max(64).optional() }),
+      response: {
+        200: z.object({
+          providers: z
+            .object({
+              provider: z.enum(IMPORT_PROVIDERS),
+              connections: z.object({ id: z.string(), name: z.string() }).array(),
+              unavailableReason: z.string().nullable(),
+              lifecycle: z.enum(["review", "approve", "import"]).array(),
+              referenceSafe: z.literal(true)
+            })
+            .array()
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const providers = await server.services.migration.listImportProviders({
+        actor: req.permission,
+        projectId: req.query.projectId
+      });
+      return { providers };
+    }
+  });
+
+  server.route({
+    method: "POST",
+    url: "/providers/:provider/review",
+    config: { rateLimit: readLimit },
+    schema: {
+      operationId: "reviewProviderImportV3",
+      params: ProviderParamsSchema,
+      body: ProviderImportSpecSchema,
+      response: {
+        200: z.object({
+          provider: z.enum(IMPORT_PROVIDERS),
+          sourceCount: z.number(),
+          createCount: z.number(),
+          existingCount: z.number(),
+          keys: z.object({ key: z.string(), action: z.enum(["create", "exists", "denied", "unreadable"]) }).array(),
+          approvalRequired: z.boolean(),
+          approvalPolicyName: z.string().nullable()
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) =>
+      server.services.migration.reviewProviderImport({
+        provider: req.params.provider,
+        ...req.body,
+        actor: req.permission
+      })
+  });
+
+  server.route({
+    method: "POST",
+    url: "/providers/:provider/import",
+    config: { rateLimit: writeLimit },
+    schema: {
+      operationId: "importProviderSecretsV3",
+      params: ProviderParamsSchema,
+      body: ProviderImportSpecSchema.extend({
+        keys: z.string().trim().min(1).max(512).array().min(1).max(MAX_IMPORT_KEYS)
+      }),
+      response: {
+        200: z.object({
+          status: z.nativeEnum(ExternalMigrationImportStatus),
+          imported: z.number(),
+          skipped: z.number(),
+          approvalRequestId: z.string().nullable()
+        })
+      }
+    },
+    onRequest: verifyAuth([AuthMode.JWT]),
+    handler: async (req) => {
+      const result = await server.services.migration.importProviderSecrets({
+        provider: req.params.provider,
+        ...req.body,
+        actor: req.permission,
+        auditLogInfo: req.auditLogInfo
+      });
+
+      void server.services.telemetry
+        .sendPostHogEvents({
+          event: PostHogEventTypes.ExternalMigrationCreated,
+          distinctId: getTelemetryDistinctId(req),
+          organizationId: req.permission.orgId,
+          properties: { sourcePlatform: req.params.provider }
         })
         .catch(() => {});
 

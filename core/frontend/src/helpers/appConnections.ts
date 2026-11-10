@@ -66,7 +66,6 @@ import { DigitalOceanConnectionMethod } from "@app/hooks/api/appConnections/type
 import { DNSMadeEasyConnectionMethod } from "@app/hooks/api/appConnections/types/dns-made-easy-connection";
 import { DopplerConnectionMethod } from "@app/hooks/api/appConnections/types/doppler-connection";
 import { ExternalVaultixConnectionMethod } from "@app/hooks/api/appConnections/types/external-vaultix-connection";
-import { InfisicalConnectionMethod } from "@app/hooks/api/appConnections/types/infisical-connection";
 import { F5BigIpConnectionMethod } from "@app/hooks/api/appConnections/types/f5-big-ip-connection";
 import { FireworksConnectionMethod } from "@app/hooks/api/appConnections/types/fireworks-connection";
 import { GoDaddyConnectionMethod } from "@app/hooks/api/appConnections/types/godaddy-connection";
@@ -479,23 +478,18 @@ export const APP_CONNECTION_MAP: Record<
     category: "CERTIFICATES",
     description: "Issue certificates via Venafi Trust Protection Platform."
   },
+  // One connection type for every instance speaking this API, with a machine identity.
   [AppConnection.ExternalVaultix]: {
-    name: "Vaultix",
-    image: "Vaultix.png",
+    name: "Infisical or Vaultix",
+    image: "Infisical.png",
     category: "SECRET MANAGER",
-    description: "Connect to another Vaultix instance."
+    description: "Infisical Cloud, self-hosted Infisical, or another Vaultix instance."
   },
   [AppConnection.Doppler]: {
     name: "Doppler",
     image: "Doppler.png",
     category: "SECRET MANAGER",
     description: "Project and config access for Doppler."
-  },
-  [AppConnection.Infisical]: {
-    name: "Infisical",
-    image: "Infisical.png",
-    category: "SECRET MANAGER",
-    description: "Project and environment access for Infisical."
   },
   [AppConnection.NetScaler]: {
     name: "NetScaler",
@@ -685,7 +679,6 @@ export const getAppConnectionMethodDetails = (method: TAppConnection["method"]) 
     case CircleCIConnectionMethod.ApiToken:
     case TravisCIConnectionMethod.ApiToken:
     case DopplerConnectionMethod.ApiToken:
-    case InfisicalConnectionMethod.ApiToken:
     case RundeckConnectionMethod.ApiToken:
       return { name: "API Token", icon: faKey };
     case VenafiConnectionMethod.ApiKey:

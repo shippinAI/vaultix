@@ -1,57 +1,78 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ProviderImportStudio } from "./ProviderImportStudio";
+import { type ProviderCardModel, ProviderImportStudio } from "./ProviderImportStudio";
+
+// Fixture states for review only. In the product, cards come from
+// GET /api/v3/external-migration/providers and a live read of each provider.
+const lifecycle: ProviderCardModel["runtime"]["lifecycle"] = ["review", "approve", "import"];
+
+const connected: ProviderCardModel[] = [
+  {
+    runtime: {
+      provider: "doppler",
+      connections: [{ id: "c1", name: "Doppler production" }],
+      unavailableReason: null,
+      lifecycle,
+      referenceSafe: true
+    },
+    source: { state: "ready", projectCount: 4 }
+  },
+  {
+    runtime: {
+      provider: "external-vaultix",
+      connections: [
+        { id: "c2", name: "Infisical Cloud" },
+        { id: "c3", name: "Self-hosted" }
+      ],
+      unavailableReason: null,
+      lifecycle,
+      referenceSafe: true
+    },
+    source: { state: "ready", projectCount: 12 }
+  }
+];
 
 const meta = {
   title: "Vaultix/Provider Import Studio",
   component: ProviderImportStudio,
-  parameters: {
-    layout: "fullscreen"
-  },
-  tags: ["autodocs"]
+  parameters: { layout: "fullscreen" },
+  tags: ["autodocs"],
+  args: { cards: connected, scope: "storybook", onReview: () => {}, onConnect: () => {} }
 } satisfies Meta<typeof ProviderImportStudio>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => (
-    <ProviderImportStudio
-      providers={[
-        {
-          id: "doppler",
-          name: "Doppler",
-          provider: "doppler",
-          status: "connected",
-          description: "Secrets and environments from your hosted Doppler workspace.",
-          lastSync: "2 minutes ago",
-          projectCount: 5,
-          environmentCount: 12,
-          capabilities: ["Project import", "Env mapping", "Approval gate"]
-        },
-        {
-          id: "infisical",
-          name: "Infisical",
-          provider: "infisical",
-          status: "needs-review",
-          description: "Import project metadata and values with scoped review before apply.",
-          lastSync: "18 minutes ago",
-          projectCount: 3,
-          environmentCount: 8,
-          capabilities: ["Project import", "Value preview", "Scoped policies"]
-        },
-        {
-          id: "local-ai",
-          name: "Local AI Sandbox",
-          provider: "local-ai",
-          status: "sandbox",
-          description: "Use a sandboxed local model to test the safest secret-handling patterns.",
-          lastSync: "Ready",
-          projectCount: 1,
-          environmentCount: 3,
-          capabilities: ["Dry run", "Reference-only", "Prompt isolation"]
-        }
-      ]}
-    />
-  )
+export const Connected: Story = {};
+
+export const NotConnected: Story = {
+  args: {
+    cards: connected.map((card) => ({
+      runtime: { ...card.runtime, connections: [] },
+      source: { state: "none" }
+    }))
+  }
+};
+
+export const ProviderError: Story = {
+  args: {
+    cards: [
+      connected[0],
+      {
+        ...connected[1],
+        source: { state: "error", message: "Failed to list projects from remote Vaultix: 401" }
+      }
+    ]
+  }
+};
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+    cards: connected.map((card) => ({ ...card, source: { state: "loading" } }))
+  }
+};
+
+export const NoDestination: Story = {
+  args: { reviewBlockedReason: "Open a project's secrets to choose where the import goes." }
 };

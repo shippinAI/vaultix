@@ -131,6 +131,19 @@ export enum ExternalMigrationImportStatus {
   ApprovalRequired = "approval-required"
 }
 
+export type TProviderImportSpecDTO = {
+  provider: string;
+  connectionId: string;
+  source: { project: string; environment: string; secretPath: string };
+  target: { projectId: string; environment: string; secretPath: string };
+  actor: OrgServiceActor;
+};
+
+export type TProviderImportDTO = TProviderImportSpecDTO & {
+  keys: string[];
+  auditLogInfo: AuditLogInfo;
+};
+
 export type TImportDopplerSecretsDTO = {
   connectionId: string;
   dopplerProject: string;

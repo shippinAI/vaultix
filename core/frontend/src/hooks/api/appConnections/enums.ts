@@ -59,7 +59,6 @@ export enum AppConnection {
   VenafiTpp = "venafi-tpp",
   ExternalVaultix = "external-vaultix",
   Doppler = "doppler",
-  Infisical = "infisical",
   NetScaler = "netscaler",
   KempLoadMaster = "kemp-loadmaster",
   Anthropic = "anthropic",

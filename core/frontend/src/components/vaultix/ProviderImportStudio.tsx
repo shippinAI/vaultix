@@ -1,322 +1,309 @@
-import { useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Globe2, ShieldCheck, Sparkles, Wifi } from "lucide-react";
+import {
+  CheckCircle2,
+  CircleAlert,
+  CircleDashed,
+  Info,
+  Loader2,
+  PlugZap,
+  ShieldCheck
+} from "lucide-react";
 
-import { Button } from "@app/components/v3/generic/Button/Button";
+import { Badge, Button, Tooltip, TooltipContent, TooltipTrigger } from "@app/components/v3";
+import type { TImportProviderId, TImportProviderRuntime } from "@app/hooks/api/migration/types";
 
-export type ProviderImportLifecycleStep = "preview" | "approve" | "import" | "complete";
+import { vaultixActionTrigger } from "./action-trigger";
+import { IMPORT_LIFECYCLE_HELP, IMPORT_PROVIDER_DETAILS } from "./mcpl-manifest";
 
-export type ProviderImportDefinition = {
-  id: string;
-  name: string;
-  provider: "doppler" | "infisical" | "vaultix" | "local-ai";
-  status: "connected" | "needs-review" | "sandbox";
-  description: string;
-  lastSync: string;
-  projectCount: number;
-  environmentCount: number;
-  capabilities: readonly string[];
-  lifecycle?: readonly ProviderImportLifecycleStep[];
-  importPolicy?: {
-    previewRequired: boolean;
-    approvalRequired: boolean;
-    referenceSafe: boolean;
-    syncMode: "dry-run" | "review" | "approved";
-  };
+// What the provider itself reports through the first usable connection.
+export type ProviderSourceState =
+  | { state: "none" }
+  | { state: "loading" }
+  | { state: "ready"; projectCount: number }
+  | { state: "error"; message: string };
+
+export type ProviderCardModel = {
+  runtime: TImportProviderRuntime;
+  source: ProviderSourceState;
 };
 
 export type ProviderImportStudioProps = {
-  providers?: readonly ProviderImportDefinition[];
-  onConnect?: (provider: ProviderImportDefinition) => void;
-  onPreview?: (provider: ProviderImportDefinition) => void;
-  onImport?: (provider: ProviderImportDefinition) => void;
+  cards: readonly ProviderCardModel[];
+  isLoading?: boolean;
+  loadError?: string | null;
+  // Set when this view has no destination folder, e.g. the instance workbench.
+  reviewBlockedReason?: string | null;
+  scope: string;
+  onReview?: (provider: TImportProviderId) => void;
+  onConnect?: (provider: TImportProviderId) => void;
 };
 
-const statusStyles = {
-  connected: "border-success/25 bg-success/10 text-success",
-  "needs-review": "border-warning/25 bg-warning/10 text-warning",
-  sandbox: "border-sub-org/25 bg-sub-org/10 text-sub-org"
-} as const;
+const lifecycleTitles = { review: "Review", approve: "Approve", import: "Import" } as const;
 
-const providerIconStyles = {
-  doppler: "border-warning/25 bg-warning/10 text-warning",
-  infisical: "border-info/25 bg-info/10 text-info",
-  vaultix: "border-project/25 bg-project/10 text-project",
-  "local-ai": "border-sub-org/25 bg-sub-org/10 text-sub-org"
-} as const;
+const HelpTip = ({ label, help }: { label: string; help: string }) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <button
+        type="button"
+        className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-2 py-1 text-[11px] text-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
+      >
+        {label}
+        <Info className="size-3" aria-hidden="true" />
+      </button>
+    </TooltipTrigger>
+    <TooltipContent className="max-w-xs">{help}</TooltipContent>
+  </Tooltip>
+);
 
-const lifecycleTitles: Record<ProviderImportLifecycleStep, string> = {
-  preview: "Review imports",
-  approve: "Approve mapping",
-  import: "Apply reference-safe sync",
-  complete: "Finalize and audit"
+const connectionStatus = (card: ProviderCardModel) => {
+  const { runtime, source } = card;
+  if (runtime.unavailableReason)
+    return {
+      variant: "neutral" as const,
+      icon: CircleAlert,
+      label: "Unavailable",
+      help: runtime.unavailableReason
+    };
+  if (!runtime.connections.length)
+    return {
+      variant: "neutral" as const,
+      icon: CircleDashed,
+      label: "Not connected",
+      help: "Add a connection in Organization › App Connections, then come back to review an import."
+    };
+  if (source.state === "error")
+    return {
+      variant: "danger" as const,
+      icon: CircleAlert,
+      label: "Needs attention",
+      help: source.message
+    };
+  const count = runtime.connections.length;
+  return {
+    variant: "success" as const,
+    icon: CheckCircle2,
+    label: count === 1 ? "Connected" : `${count} connections`,
+    help: runtime.connections.map((connection) => connection.name).join(", ")
+  };
 };
 
-const defaultProviders: readonly ProviderImportDefinition[] = [
-  {
-    id: "doppler",
-    name: "Doppler",
-    provider: "doppler",
-    status: "connected",
-    description: "Secrets and environments from your hosted Doppler workspace.",
-    lastSync: "2 minutes ago",
-    projectCount: 5,
-    environmentCount: 12,
-    capabilities: ["Project import", "Env mapping", "Approval gate"],
-    lifecycle: ["preview", "approve", "import"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "review"
-    }
-  },
-  {
-    id: "infisical",
-    name: "Infisical",
-    provider: "infisical",
-    status: "needs-review",
-    description: "Import project metadata and values with scoped review before apply.",
-    lastSync: "18 minutes ago",
-    projectCount: 3,
-    environmentCount: 8,
-    capabilities: ["Project import", "Value preview", "Scoped policies"],
-    lifecycle: ["preview", "approve", "import", "complete"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "review"
-    }
-  },
-  {
-    id: "local-ai",
-    name: "Local AI Sandbox",
-    provider: "local-ai",
-    status: "sandbox",
-    description: "Use a sandboxed local model to test the safest secret-handling patterns.",
-    lastSync: "Ready",
-    projectCount: 1,
-    environmentCount: 3,
-    capabilities: ["Dry run", "Reference-only", "Prompt isolation"],
-    lifecycle: ["preview", "approve", "import"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "dry-run"
-    }
-  }
-] as const satisfies readonly ProviderImportDefinition[];
+const sourceLine = (card: ProviderCardModel) => {
+  const { source } = card;
+  if (source.state === "loading") return "Checking the provider…";
+  if (source.state === "ready")
+    return `${source.projectCount} ${source.projectCount === 1 ? "project" : "projects"} reachable`;
+  if (source.state === "error") return "The provider didn't answer";
+  return "No source yet";
+};
 
-export const ProviderImportStudio = ({
-  providers = defaultProviders,
-  onConnect,
-  onPreview,
-  onImport
-}: ProviderImportStudioProps) => {
-  const [selectedProviderId, setSelectedProviderId] = useState<string>(providers[0]?.id ?? "");
-  const [currentStep, setCurrentStep] = useState<ProviderImportLifecycleStep>("preview");
-
-  const connectedCount = providers.filter((provider) => provider.status === "connected").length;
-  const reviewCount = providers.filter((provider) => provider.status === "needs-review").length;
-
-  const selectedProvider = useMemo(
-    () => providers.find((provider) => provider.id === selectedProviderId) ?? providers[0],
-    [providers, selectedProviderId]
-  );
-
-  const lifecycleSteps = selectedProvider?.lifecycle ?? ["preview", "approve", "import"];
-
-  const handlePreview = (provider: ProviderImportDefinition) => {
-    setSelectedProviderId(provider.id);
-    setCurrentStep("preview");
-    onPreview?.(provider);
-  };
-
-  const handleConnect = (provider: ProviderImportDefinition) => {
-    setSelectedProviderId(provider.id);
-    setCurrentStep("approve");
-    onConnect?.(provider);
-  };
-
-  const handleImport = (provider: ProviderImportDefinition) => {
-    setSelectedProviderId(provider.id);
-    setCurrentStep("import");
-    onImport?.(provider);
-  };
+const ProviderCard = ({
+  card,
+  reviewBlockedReason,
+  scope,
+  onReview,
+  onConnect
+}: {
+  card: ProviderCardModel;
+  reviewBlockedReason?: string | null;
+  scope: string;
+  onReview?: (provider: TImportProviderId) => void;
+  onConnect?: (provider: TImportProviderId) => void;
+}) => {
+  const details = IMPORT_PROVIDER_DETAILS[card.runtime.provider];
+  const status = connectionStatus(card);
+  const StatusIcon = status.icon;
+  let reviewDisabledReason: string | null = reviewBlockedReason ?? null;
+  if (card.runtime.unavailableReason) reviewDisabledReason = card.runtime.unavailableReason;
+  else if (!card.runtime.connections.length)
+    reviewDisabledReason = `Connect ${details.name} first.`;
+  const headingId = `provider-card-${card.runtime.provider}`;
 
   return (
-    <section className="w-full rounded-lg border border-border bg-card p-4 text-foreground">
-      <div className="flex flex-col gap-4 border-b border-border pb-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Import layer</p>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">Provider import studio</h2>
+    <article
+      aria-labelledby={headingId}
+      className="flex min-h-[300px] flex-col rounded-md border border-border bg-container p-4"
+      data-provider={card.runtime.provider}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-md border border-border bg-foreground/80 p-1.5">
+            <img src={details.image} alt="" className="size-full object-contain" />
+          </div>
+          <div>
+            <h3 id={headingId} className="text-lg font-semibold text-foreground">
+              {details.name}
+            </h3>
+            <p className="text-xs text-muted">{details.sourceShape}</p>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outline" size="sm">
-            <Globe2 className="size-3.5" />
-            Review sync health
-          </Button>
-          <Button type="button" variant="project" size="sm">
-            <Sparkles className="size-3.5" />
-            Run dry run
-          </Button>
-        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Badge variant={status.variant} asChild>
+              <button type="button" aria-label={`${details.name} status: ${status.label}`}>
+                <StatusIcon />
+                {status.label}
+              </button>
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">{status.help}</TooltipContent>
+        </Tooltip>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-md border border-border bg-container p-3">
-          <p className="text-xs uppercase tracking-[0.12em] text-muted">Connected</p>
-          <p className="mt-2 text-2xl font-semibold text-foreground">{connectedCount}</p>
-        </div>
-        <div className="rounded-md border border-border bg-container p-3">
-          <p className="text-xs uppercase tracking-[0.12em] text-muted">Needs review</p>
-          <p className="mt-2 text-2xl font-semibold text-foreground">{reviewCount}</p>
-        </div>
-        <div className="rounded-md border border-border bg-container p-3">
-          <p className="text-xs uppercase tracking-[0.12em] text-muted">Protected</p>
-          <p className="mt-2 text-2xl font-semibold text-foreground">Reference-only</p>
-        </div>
+      <div className="mt-4 flex-1">
+        <p className="text-sm text-foreground">{details.summary}</p>
+        <p className="mt-1 text-xs leading-relaxed text-muted">{details.worksWith}</p>
+        <p className="mt-3 flex items-center gap-2 text-sm text-foreground" aria-live="polite">
+          {card.source.state === "loading" && (
+            <Loader2
+              className="size-3.5 animate-spin motion-reduce:animate-none"
+              aria-hidden="true"
+            />
+          )}
+          {sourceLine(card)}
+        </p>
       </div>
 
-      <div className="mt-5 grid gap-4 xl:grid-cols-3">
-        {providers.map((provider) => (
-          <article
-            key={provider.id}
-            className={`flex min-h-[260px] flex-col rounded-md border bg-container p-4 ${
-              selectedProvider?.id === provider.id ? "border-project/30" : "border-border"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div
-                className={`inline-flex rounded-md border p-2 ${providerIconStyles[provider.provider]}`}
-              >
-                <Wifi className="size-4" aria-hidden="true" />
-              </div>
-              <span
-                className={`rounded-full border px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] ${statusStyles[provider.status]}`}
-              >
-                {provider.status}
-              </span>
-            </div>
+      <div className="mt-4 flex flex-wrap gap-2" aria-label={`${details.name} capabilities`}>
+        {details.capabilities.map((capability) => (
+          <HelpTip key={capability.label} label={capability.label} help={capability.help} />
+        ))}
+      </div>
 
-            <div className="mt-4 flex-1">
-              <h3 className="text-xl font-semibold text-foreground">{provider.name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{provider.description}</p>
-
-              <dl className="mt-4 space-y-2 text-sm text-foreground">
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-muted">Last sync</dt>
-                  <dd>{provider.lastSync}</dd>
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-muted">Projects</dt>
-                  <dd>{provider.projectCount}</dd>
-                </div>
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-muted">Environments</dt>
-                  <dd>{provider.environmentCount}</dd>
-                </div>
-              </dl>
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {provider.capabilities.map((capability) => (
-                <span
-                  key={capability}
-                  className="rounded-full border border-border bg-card px-2 py-1 text-[10px] uppercase tracking-[0.08em] text-muted"
+      <ol className="mt-4 grid grid-cols-3 gap-2" aria-label="Import lifecycle">
+        {card.runtime.lifecycle.map((step, index) => (
+          <li key={step}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="w-full rounded-md border border-border bg-card px-2 py-1.5 text-left focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                  {capability}
-                </span>
-              ))}
-            </div>
+                  <span className="block text-[10px] tracking-[0.12em] text-muted uppercase">
+                    Step {index + 1}
+                  </span>
+                  <span className="block text-sm text-foreground">{lifecycleTitles[step]}</span>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">{IMPORT_LIFECYCLE_HELP[step]}</TooltipContent>
+            </Tooltip>
+          </li>
+        ))}
+      </ol>
 
-            <div className="mt-4 flex gap-2 border-t border-border pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => handlePreview(provider)}
-              >
-                Preview
-              </Button>
+      <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => onConnect?.(card.runtime.provider)}
+          isDisabled={!onConnect}
+          {...vaultixActionTrigger(`${details.actionId}.connect`, {
+            scope,
+            target: card.runtime.provider
+          })}
+        >
+          <PlugZap className="size-3.5" aria-hidden="true" />
+          {card.runtime.connections.length ? "Manage connections" : "Connect"}
+        </Button>
+        <Tooltip open={reviewDisabledReason ? undefined : false}>
+          <TooltipTrigger asChild>
+            <span className="ml-auto">
               <Button
                 type="button"
                 variant="project"
                 size="sm"
-                onClick={() => handleConnect(provider)}
+                isDisabled={Boolean(reviewDisabledReason) || !onReview}
+                onClick={() => onReview?.(card.runtime.provider)}
+                {...vaultixActionTrigger(`${details.actionId}.review`, {
+                  scope,
+                  target: card.runtime.provider
+                })}
               >
-                Connect
+                Review import
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="ml-auto"
-                onClick={() => handleImport(provider)}
-              >
-                Import
-                <ArrowRight className="size-3.5" />
-              </Button>
-            </div>
-          </article>
-        ))}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">{reviewDisabledReason}</TooltipContent>
+        </Tooltip>
+      </div>
+    </article>
+  );
+};
+
+export const ProviderImportStudio = ({
+  cards,
+  isLoading,
+  loadError,
+  reviewBlockedReason,
+  scope,
+  onReview,
+  onConnect
+}: ProviderImportStudioProps) => {
+  const connected = cards.filter((card) => card.runtime.connections.length > 0).length;
+  const connections = cards.reduce((sum, card) => sum + card.runtime.connections.length, 0);
+
+  return (
+    <section
+      aria-labelledby="provider-import-heading"
+      className="w-full rounded-lg border border-border bg-card p-4 text-foreground"
+    >
+      <div className="flex flex-col gap-3 border-b border-border pb-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">Import</p>
+          <h2 id="provider-import-heading" className="mt-1 text-xl font-semibold text-foreground">
+            Bring secrets from another provider
+          </h2>
+        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Badge variant="success" asChild>
+              <button type="button">
+                <ShieldCheck />
+                Values stay on the server
+              </button>
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            Vaultix reads the provider on the server. Review shows secret names only, and values go
+            straight into encrypted storage. They never reach this page, chat or AI context.
+          </TooltipContent>
+        </Tooltip>
       </div>
 
-      {selectedProvider && (
-        <div className="mt-5 rounded-md border border-border bg-container p-4">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <ShieldCheck className="size-4 text-success" aria-hidden="true" />
-              {selectedProvider.name} import flow
-            </div>
-            <span className="text-xs uppercase tracking-[0.12em] text-muted">
-              {selectedProvider.importPolicy?.syncMode ?? "review"}
-            </span>
-          </div>
-
-          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-            {lifecycleSteps.map((step, index) => {
-              const isActive = step === currentStep;
-              const isDone = lifecycleSteps.indexOf(currentStep) >= index;
-
-              return (
-                <div
-                  key={step}
-                  className={`rounded-md border p-3 ${
-                    isActive
-                      ? "border-project/30 bg-project/10"
-                      : isDone
-                        ? "border-success/20 bg-success/5"
-                        : "border-border bg-card"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 text-[10px] uppercase tracking-[0.12em] text-muted">
-                    <span>Step {index + 1}</span>
-                    {isDone && <CheckCircle2 className="size-3.5 text-success" aria-hidden="true" />}
-                  </div>
-                  <p className="mt-2 text-sm font-medium text-foreground">{lifecycleTitles[step]}</p>
-                </div>
-              );
-            })}
-          </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-md border border-border bg-container p-3">
+          <dt className="text-xs tracking-[0.12em] text-muted uppercase">Providers connected</dt>
+          <dd className="mt-1 text-2xl font-semibold text-foreground">
+            {isLoading ? "…" : `${connected} of ${cards.length}`}
+          </dd>
         </div>
+        <div className="rounded-md border border-border bg-container p-3">
+          <dt className="text-xs tracking-[0.12em] text-muted uppercase">Usable connections</dt>
+          <dd className="mt-1 text-2xl font-semibold text-foreground">
+            {isLoading ? "…" : connections}
+          </dd>
+        </div>
+      </dl>
+
+      {loadError && (
+        <p
+          role="alert"
+          className="mt-4 rounded-md border border-danger/30 bg-danger/10 p-3 text-sm"
+        >
+          {loadError}
+        </p>
       )}
 
-      <div className="mt-5 rounded-md border border-border bg-container p-4">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <ShieldCheck className="size-4 text-success" aria-hidden="true" />
-          Secure import contract
-        </div>
-        <p className="mt-2 text-sm leading-relaxed text-muted">
-          Imports are previewed, mapped to Vaultix projects and environments, and applied only after
-          approval. Sensitive values never appear in chat or general AI context unless a scoped
-          secret reference is explicitly approved.
-        </p>
-        <div className="mt-3 flex items-center gap-2 text-sm text-success">
-          <CheckCircle2 className="size-4" aria-hidden="true" />
-          Reference-only execution remains the default safety model.
-        </div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        {cards.map((card) => (
+          <ProviderCard
+            key={card.runtime.provider}
+            card={card}
+            reviewBlockedReason={reviewBlockedReason}
+            scope={scope}
+            onReview={onReview}
+            onConnect={onConnect}
+          />
+        ))}
       </div>
     </section>
   );

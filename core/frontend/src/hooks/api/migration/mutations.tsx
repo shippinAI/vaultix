@@ -7,9 +7,10 @@ import { secretKeys } from "@app/hooks/api/secrets/queries";
 import { projectKeys } from "../projects";
 import {
   ExternalMigrationImportStatus,
-  TImportDopplerSecretsDTO,
-  TImportInfisicalSecretsDTO,
-  TImportVaultSecretsDTO
+  TImportVaultSecretsDTO,
+  TProviderImportResult,
+  TProviderImportReview,
+  TProviderImportSpec
 } from "./types";
 
 export const useImportEnvKey = () => {
@@ -98,48 +99,37 @@ export const useImportVaultSecrets = () => {
   });
 };
 
-export const useImportDopplerSecrets = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation<{ status: string; imported: number }, Error, TImportDopplerSecretsDTO>({
-    mutationFn: async (dto) => {
-      const { data } = await apiRequest.post<{ status: string; imported: number }>(
-        "/api/v3/external-migration/doppler/import-secrets",
-        dto
+// Review reads the source on the server and returns key names, counts and policy state.
+export const useReviewProviderImport = () =>
+  useMutation<TProviderImportReview, Error, TProviderImportSpec>({
+    mutationFn: async ({ provider, ...spec }) => {
+      const { data } = await apiRequest.post<TProviderImportReview>(
+        `/api/v3/external-migration/providers/${provider}/review`,
+        spec
       );
       return data;
-    },
-    onSuccess: (_, { targetProjectId, targetEnvironment, targetSecretPath }) => {
-      queryClient.invalidateQueries({ queryKey: dashboardKeys.all() });
-      queryClient.invalidateQueries({
-        queryKey: secretKeys.getProjectSecret({
-          projectId: targetProjectId,
-          environment: targetEnvironment,
-          secretPath: targetSecretPath
-        })
-      });
     }
   });
-};
 
-export const useImportInfisicalSecrets = () => {
+// Writes exactly the approved keys, or opens a change request when the folder has a policy.
+export const useImportProviderSecrets = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<{ status: string; imported: number }, Error, TImportInfisicalSecretsDTO>({
-    mutationFn: async (dto) => {
-      const { data } = await apiRequest.post<{ status: string; imported: number }>(
-        "/api/v3/external-migration/infisical/import-secrets",
-        dto
+  return useMutation<TProviderImportResult, Error, TProviderImportSpec & { keys: string[] }>({
+    mutationFn: async ({ provider, ...body }) => {
+      const { data } = await apiRequest.post<TProviderImportResult>(
+        `/api/v3/external-migration/providers/${provider}/import`,
+        body
       );
       return data;
     },
-    onSuccess: (_, { targetProjectId, targetEnvironment, targetSecretPath }) => {
+    onSuccess: (_, { target }) => {
       queryClient.invalidateQueries({ queryKey: dashboardKeys.all() });
       queryClient.invalidateQueries({
         queryKey: secretKeys.getProjectSecret({
-          projectId: targetProjectId,
-          environment: targetEnvironment,
-          secretPath: targetSecretPath
+          projectId: target.projectId,
+          environment: target.environment,
+          secretPath: target.secretPath
         })
       });
     }

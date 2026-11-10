@@ -6,6 +6,7 @@ import {
   FolderIcon,
   HexagonIcon,
   ImportIcon,
+  PlugZapIcon,
   PlusIcon,
   RefreshCwIcon,
   UploadIcon
@@ -26,8 +27,14 @@ import {
   TooltipContent,
   TooltipTrigger
 } from "@app/components/v3";
+import { vaultixActionTrigger } from "@app/components/vaultix/action-trigger";
+import {
+  IMPORT_PROVIDER_DETAILS,
+  IMPORT_PROVIDER_ORDER
+} from "@app/components/vaultix/mcpl-manifest";
 import { ProjectPermissionActions, ProjectPermissionSub } from "@app/context";
 import { ProjectPermissionProxiedServiceActions } from "@app/context/ProjectPermissionContext/types";
+import type { TImportProviderId } from "@app/hooks/api/migration/types";
 
 type Props = {
   onAddSecret: () => void;
@@ -40,7 +47,8 @@ type Props = {
   onImportSecrets: () => void;
   onReplicateSecrets: () => void;
   onImportFromVault: () => void;
-  onImportFromDoppler: () => void;
+  // null opens the provider cards; a provider opens its import directly.
+  onImportFromProvider: (provider: TImportProviderId | null) => void;
   isDyanmicSecretAvailable: boolean;
   isSecretRotationAvailable: boolean;
   isHoneyTokenAvailable: boolean;
@@ -48,7 +56,7 @@ type Props = {
   isSecretImportAvailable: boolean;
   isSingleEnvSelected: boolean;
   hasVaultConnection: boolean;
-  hasDopplerConnection: boolean;
+  importProviderConnections: Partial<Record<TImportProviderId, number>>;
 };
 
 export function AddResourceButtons({
@@ -62,7 +70,7 @@ export function AddResourceButtons({
   onImportSecrets,
   onReplicateSecrets,
   onImportFromVault,
-  onImportFromDoppler,
+  onImportFromProvider,
   isDyanmicSecretAvailable,
   isSecretRotationAvailable,
   isHoneyTokenAvailable,
@@ -70,7 +78,7 @@ export function AddResourceButtons({
   isSecretImportAvailable,
   isSingleEnvSelected,
   hasVaultConnection,
-  hasDopplerConnection
+  importProviderConnections
 }: Props) {
   return (
     <ButtonGroup>
@@ -94,7 +102,7 @@ export function AddResourceButtons({
       </ProjectPermissionCan>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <IconButton variant="project">
+          <IconButton variant="project" aria-label="More ways to add">
             <ChevronDown />
           </IconButton>
         </DropdownMenuTrigger>
@@ -241,12 +249,8 @@ export function AddResourceButtons({
               </Tooltip>
             )}
           </ProjectPermissionCan>
-          {(hasVaultConnection || hasDopplerConnection) && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>IMPORT FROM</DropdownMenuLabel>
-            </>
-          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>IMPORT FROM</DropdownMenuLabel>
           {hasVaultConnection && (
             <ProjectPermissionCan
               I={ProjectPermissionActions.Create}
@@ -289,50 +293,63 @@ export function AddResourceButtons({
               }}
             </ProjectPermissionCan>
           )}
-          {hasDopplerConnection && (
-            <ProjectPermissionCan
-              I={ProjectPermissionActions.Create}
-              a={ProjectPermissionSub.Secrets}
-            >
-              {(isAllowed) => {
-                let dopplerImportTooltip: string;
-                if (!hasDopplerConnection) {
-                  dopplerImportTooltip = "No Doppler connection found";
-                } else if (!isSingleEnvSelected) {
-                  dopplerImportTooltip = "Select a single environment to import from Doppler";
-                } else {
-                  dopplerImportTooltip = "Access Restricted";
-                }
-
-                return (
-                  <Tooltip
-                    open={
-                      !isAllowed || !isSingleEnvSelected || !hasDopplerConnection
-                        ? undefined
-                        : false
-                    }
-                  >
-                    <TooltipTrigger className="block w-full">
-                      <DropdownMenuItem
-                        onClick={onImportFromDoppler}
-                        isDisabled={!isAllowed || !isSingleEnvSelected || !hasDopplerConnection}
-                      >
-                        <div className="flex w-4.5 justify-center rounded-full bg-foreground/75">
-                          <img
-                            src="/images/integrations/Doppler.png"
-                            alt="Doppler"
-                            className="mt-0.5 h-4 w-4"
-                          />
-                        </div>
-                        Add from Doppler
-                      </DropdownMenuItem>
-                    </TooltipTrigger>
-                    <TooltipContent side="left">{dopplerImportTooltip}</TooltipContent>
-                  </Tooltip>
-                );
-              }}
-            </ProjectPermissionCan>
-          )}
+          <ProjectPermissionCan
+            I={ProjectPermissionActions.Create}
+            a={ProjectPermissionSub.Secrets}
+          >
+            {(isAllowed) => (
+              <>
+                {IMPORT_PROVIDER_ORDER.filter(
+                  (provider) => (importProviderConnections[provider] ?? 0) > 0
+                ).map((provider) => {
+                  const details = IMPORT_PROVIDER_DETAILS[provider];
+                  let tooltip: string | null = null;
+                  if (!isSingleEnvSelected)
+                    tooltip = `Select a single environment to import from ${details.name}`;
+                  else if (!isAllowed) tooltip = "Access Restricted";
+                  return (
+                    <Tooltip key={provider} open={tooltip ? undefined : false}>
+                      <TooltipTrigger className="block w-full">
+                        <DropdownMenuItem
+                          onClick={() => onImportFromProvider(provider)}
+                          isDisabled={Boolean(tooltip)}
+                          {...vaultixActionTrigger(details.actionId, {
+                            scope: "secrets-overview",
+                            target: provider
+                          })}
+                        >
+                          <div className="flex w-4.5 justify-center rounded-full bg-foreground/75">
+                            <img src={details.image} alt="" className="mt-0.5 h-4 w-4" />
+                          </div>
+                          Add from {details.name}
+                        </DropdownMenuItem>
+                      </TooltipTrigger>
+                      <TooltipContent side="left">{tooltip}</TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+                <Tooltip open={!isSingleEnvSelected || !isAllowed ? undefined : false}>
+                  <TooltipTrigger className="block w-full">
+                    <DropdownMenuItem
+                      onClick={() => onImportFromProvider(null)}
+                      isDisabled={!isSingleEnvSelected || !isAllowed}
+                      {...vaultixActionTrigger("vaultix.ui.connect.import.providers", {
+                        scope: "secrets-overview"
+                      })}
+                    >
+                      <PlugZapIcon className="text-muted" />
+                      Browse import providers…
+                    </DropdownMenuItem>
+                  </TooltipTrigger>
+                  <TooltipContent side="left">
+                    {!isSingleEnvSelected
+                      ? "Select a single environment to import into"
+                      : "Access Restricted"}
+                  </TooltipContent>
+                </Tooltip>
+              </>
+            )}
+          </ProjectPermissionCan>
         </DropdownMenuContent>
       </DropdownMenu>
     </ButtonGroup>

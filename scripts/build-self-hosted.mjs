@@ -95,6 +95,7 @@ try {
   node("encrypted-recovery", "scripts/test-encrypted-recovery.mjs", report.imageId);
   node("tenant-isolation", "scripts/test-tenant-isolation.mjs", report.imageId);
   node("proxy-boundary", "scripts/test-proxy-boundary.mjs", report.imageId);
+  node("provider-import", "scripts/test-provider-import-image.mjs", report.imageId);
   for (const cache of ["dragonfly", "redis"]) node(`admission-${cache}`, "scripts/test-production-admission.mjs", report.imageId, cache);
   if (mode === "--capabilities") {
     step("native-test-image", "docker", ["build", "-f", dockerfile, "--target", "go-builder", "-t", "vaultix:verify-go", context]);

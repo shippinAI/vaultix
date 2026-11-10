@@ -1,3 +1,5 @@
+import type { TImportProviderId, TImportProviderRuntime } from "@app/hooks/api/migration/types";
+
 export type McplDomain =
   | "public"
   | "auth"
@@ -10,16 +12,14 @@ export type McplDomain =
   | "operate";
 
 export type McplSurface = "public" | "auth" | "tenant";
-export type McplStatus = "ready" | "watching" | "review" | "experimental";
-export type McplProvider = "doppler" | "infisical" | "vaultix" | "local-ai";
-export type McplImportLifecycle = "preview" | "approve" | "import" | "complete";
-
-export type McplImportPolicy = {
-  previewRequired: boolean;
-  approvalRequired: boolean;
-  referenceSafe: boolean;
-  syncMode: "dry-run" | "review" | "approved";
-};
+export type McplStatus =
+  | "ready"
+  | "watching"
+  | "review"
+  | "experimental"
+  | "needs-connection"
+  | "unavailable";
+export type McplProvider = TImportProviderId | "local-ai";
 
 export type McplAction = {
   id: string;
@@ -41,24 +41,84 @@ export type McplWorkbenchModule = {
   description: string;
 };
 
-export type McplProviderRuntime = {
-  id: string;
+// Static descriptions of each import provider. Counts, connections and status are runtime
+// state from GET /api/v3/external-migration/providers, never written here.
+export type ImportProviderDetails = {
+  id: TImportProviderId;
   name: string;
-  provider: McplProvider;
-  status: "connected" | "needs-review" | "sandbox";
-  description: string;
-  lastSync: string;
-  projectCount: number;
-  environmentCount: number;
-  capabilities: readonly string[];
-  lifecycle: readonly McplImportLifecycle[];
-  importPolicy: McplImportPolicy;
+  image: string;
+  summary: string;
+  worksWith: string;
+  sourceShape: string;
+  projectLabel: string;
+  environmentLabel: string;
+  capabilities: ReadonlyArray<{ label: string; help: string }>;
+  actionId: string;
 };
 
-export type McplRuntimeRegistry = {
-  actions: readonly McplAction[];
-  modules: readonly McplWorkbenchModule[];
-  providers: readonly McplProviderRuntime[];
+export const IMPORT_PROVIDER_DETAILS: Record<TImportProviderId, ImportProviderDetails> = {
+  doppler: {
+    id: "doppler",
+    name: "Doppler",
+    image: "/images/integrations/Doppler.png",
+    summary: "Bring a Doppler config into a Vaultix folder.",
+    worksWith: "Doppler workspaces through a service or personal API token.",
+    sourceShape: "Project → config",
+    projectLabel: "Doppler project",
+    environmentLabel: "Doppler config",
+    capabilities: [
+      { label: "Configs and branches", help: "Pick any root or branch config in a project." },
+      {
+        label: "Name-only review",
+        help: "You review secret names before anything is written. Values never reach your browser."
+      },
+      {
+        label: "Approval policies",
+        help: "If the destination folder has an approval policy, the import becomes a change request."
+      }
+    ],
+    actionId: "vaultix.ui.connect.doppler.import"
+  },
+  "external-vaultix": {
+    id: "external-vaultix",
+    name: "Infisical",
+    image: "/images/integrations/Infisical.png",
+    summary: "Bring an Infisical folder into a Vaultix folder.",
+    worksWith:
+      "Infisical Cloud, self-hosted Infisical, or another Vaultix instance, with a machine identity.",
+    sourceShape: "Project → environment → folder",
+    projectLabel: "Source project",
+    environmentLabel: "Source environment",
+    capabilities: [
+      {
+        label: "Any folder",
+        help: "Import one folder at a time from any environment you can read."
+      },
+      {
+        label: "Name-only review",
+        help: "You review secret names before anything is written. Values never reach your browser."
+      },
+      {
+        label: "Unreadable values refused",
+        help: "If the machine identity can't read a value, that secret is shown as unreadable and never imported."
+      },
+      {
+        label: "Approval policies",
+        help: "If the destination folder has an approval policy, the import becomes a change request."
+      }
+    ],
+    actionId: "vaultix.ui.connect.external-vaultix.import"
+  }
+};
+
+export const IMPORT_PROVIDER_ORDER: readonly TImportProviderId[] = ["doppler", "external-vaultix"];
+
+export const IMPORT_LIFECYCLE_HELP: Record<"review" | "approve" | "import", string> = {
+  review:
+    "Vaultix reads the source on the server and shows which secret names are new, already exist or can't be imported.",
+  approve: "You choose exactly which names to bring over. Nothing is written until you confirm.",
+  import:
+    "Vaultix writes only the names you approved, or opens a change request if the folder has an approval policy."
 };
 
 export const MCPL_ACTIONS = [
@@ -103,26 +163,26 @@ export const MCPL_ACTIONS = [
     domain: "connect",
     title: "Import from Doppler",
     description:
-      "Dry-run a project import, map Vaultix workspaces and environments, then apply only after approval.",
+      "Review names from a Doppler config, approve the selection, then import or open a change request.",
     surface: "tenant",
     status: "watching",
     owner: "Clyffy",
     provider: "doppler",
     tags: ["import", "doppler", "connect"],
-    actionLabel: "Import project"
+    actionLabel: "Open connections"
   },
   {
-    id: "vaultix.ui.connect.infisical.import",
+    id: "vaultix.ui.connect.external-vaultix.import",
     domain: "connect",
     title: "Import from Infisical",
     description:
-      "Mirror the same importer contract for Infisical and preserve a reviewable receipt for each environment.",
+      "Review names from an Infisical or Vaultix folder, approve the selection, then import or open a change request.",
     surface: "tenant",
     status: "watching",
     owner: "Clyffy",
-    provider: "infisical",
+    provider: "external-vaultix",
     tags: ["import", "infisical", "connect"],
-    actionLabel: "Import project"
+    actionLabel: "Open connections"
   },
   {
     id: "vaultix.ui.secrets.reference.load",
@@ -175,63 +235,6 @@ export const MCPL_ACTIONS = [
   }
 ] as const satisfies readonly McplAction[];
 
-export const MCPL_PROVIDER_ADAPTERS: readonly McplProviderRuntime[] = [
-  {
-    id: "doppler",
-    name: "Doppler",
-    provider: "doppler",
-    status: "connected",
-    description: "Secrets and environments from your hosted Doppler workspace.",
-    lastSync: "2 minutes ago",
-    projectCount: 5,
-    environmentCount: 12,
-    capabilities: ["Project import", "Env mapping", "Approval gate"],
-    lifecycle: ["preview", "approve", "import"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "review"
-    }
-  },
-  {
-    id: "infisical",
-    name: "Infisical",
-    provider: "infisical",
-    status: "needs-review",
-    description: "Import project metadata and values with scoped review before apply.",
-    lastSync: "18 minutes ago",
-    projectCount: 3,
-    environmentCount: 8,
-    capabilities: ["Project import", "Value preview", "Scoped policies"],
-    lifecycle: ["preview", "approve", "import", "complete"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "review"
-    }
-  },
-  {
-    id: "local-ai",
-    name: "Local AI Sandbox",
-    provider: "local-ai",
-    status: "sandbox",
-    description: "Use a sandboxed local model to test the safest secret-handling patterns.",
-    lastSync: "Ready",
-    projectCount: 1,
-    environmentCount: 3,
-    capabilities: ["Dry run", "Reference-only", "Prompt isolation"],
-    lifecycle: ["preview", "approve", "import"],
-    importPolicy: {
-      previewRequired: true,
-      approvalRequired: true,
-      referenceSafe: true,
-      syncMode: "dry-run"
-    }
-  }
-] as const satisfies readonly McplProviderRuntime[];
-
 export const DEFAULT_MCPL_MODULES: readonly McplWorkbenchModule[] = [
   {
     id: "public",
@@ -283,15 +286,21 @@ export const DEFAULT_MCPL_MODULES: readonly McplWorkbenchModule[] = [
   }
 ] as const satisfies readonly McplWorkbenchModule[];
 
-export const createMcplRuntimeRegistry = ({
-  actions = MCPL_ACTIONS,
-  modules = DEFAULT_MCPL_MODULES,
-  providers = MCPL_PROVIDER_ADAPTERS
-}: Partial<McplRuntimeRegistry> = {}): McplRuntimeRegistry => ({
-  actions: [...actions],
-  modules: [...modules],
-  providers: [...providers]
-});
+// Provider actions take their status from the server's provider runtime: ready with a usable
+// connection, needs-connection without one, unavailable when the actor may not use connections.
+// Without runtime (still loading) the manifest status stands.
+export const resolveMcplActions = (
+  actions: readonly McplAction[],
+  providers?: readonly TImportProviderRuntime[]
+): McplAction[] =>
+  actions.map((action) => {
+    const runtime = providers?.find((provider) => provider.provider === action.provider);
+    if (!runtime) return action;
+    let status: McplStatus = "ready";
+    if (runtime.unavailableReason) status = "unavailable";
+    else if (!runtime.connections.length) status = "needs-connection";
+    return { ...action, status };
+  });
 
 export const MCPL_DOMAIN_ORDER: readonly McplDomain[] = [
   "public",

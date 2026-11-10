@@ -131,8 +131,10 @@ export const ExternalVaultixConnectionForm = ({ appConnection, onSubmit }: Props
                     <Info />
                   </TooltipTrigger>
                   <TooltipContent className="max-w-sm">
-                    The base URL of the external Vaultix instance (e.g.,
-                    https://vaultix.shippin.cloud)
+                    The base URL of the instance: https://app.infisical.com for Infisical Cloud
+                    (US), https://eu.infisical.com (EU), your self-hosted Infisical URL, or another
+                    Vaultix instance. The machine identity needs read access to the projects you
+                    import from.
                   </TooltipContent>
                 </Tooltip>
               </FieldLabel>
@@ -140,7 +142,7 @@ export const ExternalVaultixConnectionForm = ({ appConnection, onSubmit }: Props
                 id="instance-url"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                placeholder="https://vaultix.shippin.cloud"
+                placeholder="https://app.infisical.com"
                 isError={Boolean(error)}
               />
               <FieldError errors={[error]} />

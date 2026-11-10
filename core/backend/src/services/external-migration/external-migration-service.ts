@@ -1,4 +1,6 @@
-import { OrganizationActionScope, OrgMembershipRole } from "@app/db/schemas";
+import { ForbiddenError, subject } from "@casl/ability";
+
+import { ActionProjectType, OrganizationActionScope, OrgMembershipRole } from "@app/db/schemas";
 import {
   AuditLogInfo,
   EventType,
@@ -12,6 +14,8 @@ import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gatewa
 import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
 import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { TSecretApprovalPolicyServiceFactory } from "@app/ee/services/secret-approval-policy/secret-approval-policy-service";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { GatewayVersion } from "@app/lib/gateway/types";
@@ -20,6 +24,7 @@ import { OrgServiceActor } from "@app/lib/types";
 import { AppConnection } from "../app-connection/app-connection-enums";
 import { TAppConnectionServiceFactory } from "../app-connection/app-connection-service";
 import { TDopplerConnection } from "../app-connection/doppler";
+import { listRemoteSecrets, TExternalVaultixConnection } from "../app-connection/external-vaultix";
 import {
   convertVaultValueToString,
   getHCVaultAuthMounts,
@@ -39,7 +44,11 @@ import {
   THCVaultConnection
 } from "../app-connection/hc-vault";
 import { TSecretServiceFactory } from "../secret/secret-service";
-import { SecretProtectionType } from "../secret/secret-types";
+import {
+  PersonalOverridesBehavior,
+  SecretImportReferencesBehavior,
+  SecretProtectionType
+} from "../secret/secret-types";
 import { TUserDALFactory } from "../user/user-dal";
 import {
   decryptEnvKeyDataFn,
@@ -59,8 +68,19 @@ import {
   THasCustomVaultMigrationDTO,
   TImportDopplerSecretsDTO,
   TImportEnvKeyDataDTO,
-  TImportVaultDataDTO
+  TImportVaultDataDTO,
+  TProviderImportDTO,
+  TProviderImportSpecDTO
 } from "./external-migration-types";
+import {
+  findStaleApprovedKeys,
+  IMPORT_LIFECYCLE,
+  IMPORT_PROVIDERS,
+  isImportProvider,
+  planProviderImport,
+  TImportProvider,
+  TImportSourceSecret
+} from "./provider-import";
 
 type TExternalMigrationServiceFactoryDep = {
   permissionService: TPermissionServiceFactory;
@@ -69,8 +89,9 @@ type TExternalMigrationServiceFactoryDep = {
   externalMigrationQueue: TExternalMigrationQueueFactory;
   appConnectionService: Pick<
     TAppConnectionServiceFactory,
-    "connectAppConnectionById" | "validateAppConnectionUsageById"
+    "connectAppConnectionById" | "validateAppConnectionUsageById" | "listAvailableAppConnectionsForUser"
   >;
+  secretApprovalPolicyService: Pick<TSecretApprovalPolicyServiceFactory, "getSecretApprovalPolicy">;
   userDAL: Pick<TUserDALFactory, "findById">;
   gatewayService: Pick<TGatewayServiceFactory, "fnGetGatewayClientTlsByGatewayId">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
@@ -95,7 +116,8 @@ export const externalMigrationServiceFactory = ({
   gatewayPoolService,
   secretService,
   auditLogService,
-  appConnectionService
+  appConnectionService,
+  secretApprovalPolicyService
 }: TExternalMigrationServiceFactoryDep) => {
   const getGatewayDetails = async (connection: THCVaultConnection) => {
     let gatewayDetails: TGatewayDetails | undefined;
@@ -703,6 +725,224 @@ export const externalMigrationServiceFactory = ({
     return { status: ExternalMigrationImportStatus.Imported, imported: Object.keys(dopplerSecrets).length };
   };
 
+  // ─── Provider import lifecycle: review → approve → import ───────────────────
+  // Source values are read on the server and handed straight to the secret service. Review and
+  // import responses carry key names, counts and policy state only.
+
+  const listImportProviders = async ({ actor, projectId }: { actor: OrgServiceActor; projectId?: string }) =>
+    Promise.all(
+      IMPORT_PROVIDERS.map(async (provider) => {
+        let connections: Array<{ id: string; name: string }> = [];
+        let unavailableReason: string | null = null;
+        try {
+          const available = await appConnectionService.listAvailableAppConnectionsForUser(provider, actor, projectId);
+          connections = available.map((connection) => ({ id: connection.id, name: connection.name }));
+        } catch (error) {
+          if (!(error instanceof ForbiddenError) && !(error instanceof ForbiddenRequestError)) throw error;
+          unavailableReason = "You don't have permission to use app connections here.";
+        }
+        return {
+          provider,
+          connections,
+          unavailableReason,
+          lifecycle: [...IMPORT_LIFECYCLE],
+          referenceSafe: true as const
+        };
+      })
+    );
+
+  const assertImportProvider = (provider: string): TImportProvider => {
+    if (!isImportProvider(provider))
+      throw new BadRequestError({ message: `Unsupported import provider '${provider}'` });
+    return provider;
+  };
+
+  const readImportSource = async (
+    provider: TImportProvider,
+    connectionId: string,
+    { source, target, actor }: Pick<TProviderImportSpecDTO, "source" | "target" | "actor">
+  ): Promise<TImportSourceSecret[]> => {
+    // Checks the connection is this provider's and usable from the destination project.
+    const connection = await appConnectionService.validateAppConnectionUsageById(
+      provider,
+      { connectionId, projectId: target.projectId },
+      actor
+    );
+    if (provider === AppConnection.Doppler) {
+      const secrets = await getDopplerSecrets(connection as TDopplerConnection, source.project, source.environment);
+      return Object.entries(secrets).map(([secretKey, secretValue]) => ({ secretKey, secretValue }));
+    }
+    return listRemoteSecrets(connection as TExternalVaultixConnection, {
+      projectId: source.project,
+      environment: source.environment,
+      secretPath: source.secretPath
+    });
+  };
+
+  const inspectImportTarget = async ({ target, actor }: Pick<TProviderImportSpecDTO, "target" | "actor">) => {
+    const { permission } = await permissionService.getProjectPermission({
+      actor: actor.type,
+      actorId: actor.id,
+      projectId: target.projectId,
+      actorAuthMethod: actor.authMethod,
+      actorOrgId: actor.orgId,
+      actionProjectType: ActionProjectType.SecretManager
+    });
+    const [{ secrets }, policy] = await Promise.all([
+      secretService.getSecretsRaw({
+        projectId: target.projectId,
+        environment: target.environment,
+        path: target.secretPath,
+        actor: actor.type,
+        actorId: actor.id,
+        actorOrgId: actor.orgId,
+        actorAuthMethod: actor.authMethod,
+        viewSecretValue: false,
+        throwOnMissingReadValuePermission: false,
+        personalOverridesBehavior: PersonalOverridesBehavior.NeverInclude,
+        secretImportReferencesBehavior: SecretImportReferencesBehavior.Relative,
+        includeImports: false,
+        expandSecretReferences: false,
+        recursive: false
+      }),
+      secretApprovalPolicyService.getSecretApprovalPolicy(target.projectId, target.environment, target.secretPath)
+    ]);
+    return {
+      existingKeys: secrets.map((secret) => secret.secretKey),
+      canCreate: (secretName: string) =>
+        permission.can(
+          ProjectPermissionSecretActions.Create,
+          subject(ProjectPermissionSub.Secrets, {
+            environment: target.environment,
+            secretPath: target.secretPath,
+            secretName,
+            secretTags: []
+          })
+        ),
+      policy
+    };
+  };
+
+  const reviewProviderImport = async ({ provider, connectionId, source, target, actor }: TProviderImportSpecDTO) => {
+    const importProvider = assertImportProvider(provider);
+    const [sourceSecrets, destination] = await Promise.all([
+      readImportSource(importProvider, connectionId, { source, target, actor }),
+      inspectImportTarget({ target, actor })
+    ]);
+    const plan = planProviderImport({
+      source: sourceSecrets,
+      existingKeys: destination.existingKeys,
+      canCreate: destination.canCreate
+    });
+    return {
+      provider: importProvider,
+      ...plan,
+      approvalRequired: Boolean(destination.policy),
+      approvalPolicyName: destination.policy?.name ?? null
+    };
+  };
+
+  const importProviderSecrets = async ({
+    provider,
+    connectionId,
+    source,
+    target,
+    actor,
+    keys,
+    auditLogInfo
+  }: TProviderImportDTO) => {
+    const importProvider = assertImportProvider(provider);
+    const [sourceSecrets, destination] = await Promise.all([
+      readImportSource(importProvider, connectionId, { source, target, actor }),
+      inspectImportTarget({ target, actor })
+    ]);
+    const plan = planProviderImport({
+      source: sourceSecrets,
+      existingKeys: destination.existingKeys,
+      canCreate: destination.canCreate
+    });
+
+    const stale = findStaleApprovedKeys(plan, keys);
+    if (stale.length) {
+      const listed = stale.slice(0, 10).join(", ");
+      throw new BadRequestError({
+        name: "StaleImportReview",
+        message: `The source or destination changed since review: ${listed}${stale.length > 10 ? ", …" : ""}. Review the import again.`
+      });
+    }
+
+    const approved = new Set(keys);
+    const toImport = new Map<string, TImportSourceSecret>();
+    for (const secret of sourceSecrets) {
+      if (approved.has(secret.secretKey) && !toImport.has(secret.secretKey)) toImport.set(secret.secretKey, secret);
+    }
+    const skipped = plan.createCount - toImport.size;
+
+    const operation = await secretService.createManySecretsRaw({
+      actorId: actor.id,
+      actor: actor.type,
+      actorAuthMethod: actor.authMethod,
+      actorOrgId: actor.orgId,
+      projectId: target.projectId,
+      environment: target.environment,
+      secretPath: target.secretPath,
+      secrets: [...toImport.values()].map((secret) => ({
+        secretKey: secret.secretKey,
+        secretValue: secret.secretValue,
+        secretComment: secret.secretComment || undefined
+      }))
+    });
+
+    if (operation.type === SecretProtectionType.Approval) {
+      await auditLogService.createAuditLog({
+        projectId: target.projectId,
+        ...auditLogInfo,
+        event: {
+          type: EventType.SECRET_APPROVAL_REQUEST,
+          metadata: {
+            committedBy: operation.approval.committerUserId,
+            secretApprovalRequestId: operation.approval.id,
+            secretApprovalRequestSlug: operation.approval.slug,
+            secretPath: target.secretPath,
+            environment: target.environment,
+            secrets: [...toImport.keys()].map((secretKey) => ({ secretKey })),
+            eventType: SecretApprovalEvent.CreateMany
+          }
+        }
+      });
+      return {
+        status: ExternalMigrationImportStatus.ApprovalRequired,
+        imported: 0,
+        skipped,
+        approvalRequestId: operation.approval.id
+      };
+    }
+
+    await auditLogService.createAuditLog({
+      projectId: target.projectId,
+      ...auditLogInfo,
+      event: {
+        type: EventType.CREATE_SECRETS,
+        metadata: {
+          environment: target.environment,
+          secretPath: target.secretPath,
+          secrets: operation.secrets.map((secret) => ({
+            secretId: secret.id,
+            secretKey: secret.secretKey,
+            secretVersion: secret.version
+          }))
+        }
+      }
+    });
+
+    return {
+      status: ExternalMigrationImportStatus.Imported,
+      imported: operation.secrets.length,
+      skipped,
+      approvalRequestId: null
+    };
+  };
+
   return {
     importEnvKeyData,
     importVaultData,
@@ -722,6 +962,10 @@ export const externalMigrationServiceFactory = ({
     getDopplerProjects,
     getDopplerEnvironments,
     getDopplerConfigs,
-    importDopplerSecrets
+    importDopplerSecrets,
+
+    listImportProviders,
+    reviewProviderImport,
+    importProviderSecrets
   };
 };
