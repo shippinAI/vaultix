@@ -19,10 +19,12 @@ type TNamingClient = {
 
 export const inheritedIndexTable = (tableName: string) => inheritedByCurrent.get(tableName) ?? tableName;
 
-// Transaction clients inherit from the connection's client, so migrations get this too.
+// knex builds each transaction's client from the dialect's prototype, not from the connection's
+// client, so the naming is applied once to the PostgreSQL client prototype reached through a
+// real connection. Every connection and transaction then names indexes the same way.
 export const useInheritedIndexNames = (db: Knex) => {
-  const client = db.client as unknown as TNamingClient;
-  if (client.vxInheritedIndexNames) return db;
+  const client = Object.getPrototypeOf(db.client) as TNamingClient;
+  if (Object.prototype.hasOwnProperty.call(client, "vxInheritedIndexNames")) return db;
   client.vxInheritedIndexNames = true;
   const create = client.tableCompiler;
   // A plain function keeps `this` as the calling client, including a transaction's client.

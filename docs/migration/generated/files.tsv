@@ -1294,8 +1294,8 @@ core/backend/src/db/seeds/2-org.ts	core/backend/src/db/seeds	foundation	Go-domai
 core/backend/src/db/seeds/3-project.ts	core/backend/src/db/seeds	foundation	Go-domain-migration	ts	6ce92545aff4c77cdadd7b3e5cf1140ed5d4559b	unread
 core/backend/src/db/seeds/4-project-v3.ts	core/backend/src/db/seeds	foundation	Go-domain-migration	ts	920497a82b2b53890b554e22778aea4de4826533	unread
 core/backend/src/db/seeds/5-machine-identity.ts	core/backend/src/db/seeds	identity	Go-domain-migration	ts	4e4e3eb7fd7d11783c7c39729dde10bdaec2739e	unread
-core/backend/src/db/table-namespace-index-names.ts	core/backend/src/db	foundation	Go-domain-migration	ts	9020c931dbe17cc0203076de7670ca1ac6cb7aaf	unread
-core/backend/src/db/table-namespace-rename.ts	core/backend/src/db	foundation	Go-domain-migration	ts	a208bd94e8a049a317fba7ddc0790761f22af023	unread
+core/backend/src/db/table-namespace-index-names.ts	core/backend/src/db	foundation	Go-domain-migration	ts	f708c9f960437f09789d9739b3e2e7ab597ccf77	unread
+core/backend/src/db/table-namespace-rename.ts	core/backend/src/db	foundation	Go-domain-migration	ts	0b312fc2d16fa767dfd1f7d2caae2547ba145464	unread
 core/backend/src/db/table-namespaces.ts	core/backend/src/db	foundation	Go-domain-migration	ts	d5d9f87d7e665d8078d3d132a06e94823b4d0213	unread
 core/backend/src/db/utils.ts	core/backend/src/db	foundation	Go-domain-migration	ts	670ba36d6b094d71336eafa414e8a61047826e9a	unread
 core/backend/src/ee/routes/est/certificate-est-router.ts	core/backend/src/ee/routes/est	pki	Go-domain-migration	ts	0b45e4204c9fbd3720c72bf44792853c6269dd81	unread

@@ -75,6 +75,9 @@ data-access code, so freezing them on the inherited names would break fresh inst
 5. **Columns keep their names.** Junction tables named their foreign-key columns after the
    tables they join (`secret_tagsId`, `secrets_v2Id`); those stay, through
    `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike.
+   Automatically named primary keys (`<table>_pkey`) follow their table, so both stores have
+   `vx_…_pkey`. The handful of indexes a migration names explicitly from `TableName` keep
+   the spelling they were created with; nothing later refers to them by name.
 6. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
    inherited table name appears in SQL or a database call in TypeScript, Go, scripts or the
    CLI. Both checks are canonical build stages.

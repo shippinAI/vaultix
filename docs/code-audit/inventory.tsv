@@ -1333,8 +1333,8 @@ core/backend/src/db/seeds/2-org.ts	3f89a863ffeacd4ba0e1cd0a6edc059cc3864b06	prod
 core/backend/src/db/seeds/3-project.ts	6ce92545aff4c77cdadd7b3e5cf1140ed5d4559b	product-code	unread
 core/backend/src/db/seeds/4-project-v3.ts	920497a82b2b53890b554e22778aea4de4826533	product-code	unread
 core/backend/src/db/seeds/5-machine-identity.ts	4e4e3eb7fd7d11783c7c39729dde10bdaec2739e	product-code	unread
-core/backend/src/db/table-namespace-index-names.ts	9020c931dbe17cc0203076de7670ca1ac6cb7aaf	product-code	unread
-core/backend/src/db/table-namespace-rename.ts	a208bd94e8a049a317fba7ddc0790761f22af023	product-code	unread
+core/backend/src/db/table-namespace-index-names.ts	f708c9f960437f09789d9739b3e2e7ab597ccf77	product-code	unread
+core/backend/src/db/table-namespace-rename.ts	0b312fc2d16fa767dfd1f7d2caae2547ba145464	product-code	unread
 core/backend/src/db/table-namespaces.ts	d5d9f87d7e665d8078d3d132a06e94823b4d0213	product-code	unread
 core/backend/src/db/utils.ts	670ba36d6b094d71336eafa414e8a61047826e9a	product-code	unread
 core/backend/src/ee/routes/est/certificate-est-router.ts	0b45e4204c9fbd3720c72bf44792853c6269dd81	product-code	unread
@@ -12025,7 +12025,7 @@ docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e2890383
 docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/0117-provider-import.md	9c0a44c3b890aa6d68df944b283ce663aa8b03b8	documentation	unread
 docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	unread
-docs/0119-schema-and-api-namespaces.md	39575bd0b17580cbf96dd5ed77150285ffd8f2bb	documentation	unread
+docs/0119-schema-and-api-namespaces.md	0b5f54fac7708e4777103aa6223cf3651fdd7be8	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -12050,7 +12050,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	a2d5fc5a8c1841039fd9ffcda167499b72c13e3a	generated	unread
-docs/capabilities/generated/source-map.tsv	dfed757442ea697cc53aa88556dc702e02e4e6d8	generated	unread
+docs/capabilities/generated/source-map.tsv	71732f37569b06104805d89ae7ad4d3e30e33670	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12062,8 +12062,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	ce22d7ddec06f90db3d9bf4cd32993ac4f54f8c9	generated	unread
-docs/migration/generated/modules.tsv	36022b74adb0fb97b535aeab2bd1bc8de2cf5b2a	generated	unread
+docs/migration/generated/files.tsv	b917ab9027dc9a58b8f71a9c05dff6a37a584986	generated	unread
+docs/migration/generated/modules.tsv	b63641d5aca9da6b5c6248109866919189300e46	generated	unread
 docs/migration/generated/summary.json	9c2c6ffb5d1fd373dc48ac5a8acf14a91876740c	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread

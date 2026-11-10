@@ -42,6 +42,22 @@ const moveTables = async (db: Knex, pairs: ReadonlyArray<readonly [string, strin
         // eslint-disable-next-line no-await-in-loop
         await tx.raw("ALTER TABLE ?? RENAME TO ??", [legacy, current]);
         renamed.push([legacy, current]);
+        // knex names a primary key <table>_pkey from the current table name, so a fresh store has
+        // the new spelling; an automatically named key follows its table here to match it.
+        const legacyKey = `${legacy}_pkey`.slice(0, MAX_IDENTIFIER);
+        // eslint-disable-next-line no-await-in-loop
+        const { rows: keys } = await tx.raw<{ rows: Array<{ conname: string }> }>(
+          "SELECT conname FROM pg_constraint WHERE conrelid = ?::regclass AND contype = 'p' AND conname = ?",
+          [current, legacyKey]
+        );
+        if (keys.length) {
+          // eslint-disable-next-line no-await-in-loop
+          await tx.raw("ALTER TABLE ?? RENAME CONSTRAINT ?? TO ??", [
+            current,
+            legacyKey,
+            `${current}_pkey`.slice(0, MAX_IDENTIFIER)
+          ]);
+        }
         for (const child of rows.filter((row) => row.parent === legacy && row.relname.startsWith(`${legacy}_`))) {
           const next = `${current}${child.relname.slice(legacy.length)}`;
           if (next.length > MAX_IDENTIFIER)
