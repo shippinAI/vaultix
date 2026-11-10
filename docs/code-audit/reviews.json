@@ -6409,13 +6409,14 @@
     },
     {
       "path": "scripts/test-device-worker-image.mjs",
-      "blob": "5ff8191c849f79bd25f626ad4d201922406a3c1c",
+      "blob": "f478946e5c79cf67e9cc4c6a56a21fd1b766be70",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-worker.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed so quoted catalog lookups ('public.x'::regclass, to_regclass, relname) use vx_ names and the guard covers them (docs/0119). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10525,7 +10526,7 @@
     },
     {
       "path": "scripts/test-server-migration.mjs",
-      "blob": "e1058aa6fc97b3f85bb31ea7f6626fba17b99dc3",
+      "blob": "252c09a39be4e248b8806450917b6e6a06c0044a",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
@@ -10536,7 +10537,8 @@
         "Second independent review found two scenarios weaker than their names; both now do what they claim. Adds Ctrl-C, recreated dependencies, last resort and fresh volume scenarios. 28 checks passed on a development CLI with cleanup.",
         "internal/platform/ingress_test.go",
         "scripts/test-server-lifecycle.mjs",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed so quoted catalog lookups ('public.x'::regclass, to_regclass, relname) use vx_ names and the guard covers them (docs/0119). The changed sections were authored; the whole file was not re-read."
       ]
     },
     {

@@ -41,8 +41,8 @@ try {
  phase='all profile and independent replicas';const all=app('all','all');await h.ready(all);const ids=[seed(),seed(),seed()];for(const id of ids)await accepted(id);report.checks.push('Standard and all replicas consume distinct database claims without duplicate accepted effects');stop(standard);
  phase='busy-pool shutdown';
  const lock=h.container(name+'-lock','postgres:16.6-alpine',['psql','-X','-v','ON_ERROR_STOP=1','-c',"BEGIN; LOCK TABLE vx_auth_device_session_events IN ACCESS EXCLUSIVE MODE; SELECT pg_sleep(60); ROLLBACK;"],{PGHOST:dbName,PGUSER:'vaultix',PGDATABASE:'vaultix',PGPASSWORD:password,PGAPPNAME:'vaultix-worker-lock'});
- await h.waitFor(()=>h.sql(db,"SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='vaultix-worker-lock' AND l.relation='vaultix_device_session_events'::regclass AND l.granted")!=='0','fixture lock');
- await h.waitFor(()=>h.sql(db,"SELECT count(*) FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%vaultix_device_session_events%' AND application_name<>'vaultix-worker-lock'")!=='0','worker blocked query');
+ await h.waitFor(()=>h.sql(db,"SELECT count(*) FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid WHERE a.application_name='vaultix-worker-lock' AND l.relation='vx_auth_device_session_events'::regclass AND l.granted")!=='0','fixture lock');
+ await h.waitFor(()=>h.sql(db,"SELECT count(*) FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%vx_auth_device_session_events%' AND application_name<>'vaultix-worker-lock'")!=='0','worker blocked query');
  stop(all);report.checks.push('Actual application shuts down without SIGKILL while worker database claims are blocked');h.output(['stop','-t','5',lock]);
  phase='restart recovery';const final=seed();h.output(['start',all]);await h.ready(all);await accepted(final);assert.equal((await h.request(all,'/api/v1/admin/config')).config.initialized,true);stop(all);report.checks.push('Restart resumes pending source work and preserves the initialized owner');
  report.passed=true;

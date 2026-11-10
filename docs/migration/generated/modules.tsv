@@ -92,7 +92,7 @@ core/backend/e2e-test	foundation	Go-domain-migration	3	8d3b69aa0e62d34987b07cfe2
 core/backend/e2e-test/mocks	foundation	Go-domain-migration	1	8a81ae86e2f35d171d4e4cfcf4e55e660164b8a0e52220d241369f5eae70e666	1	unassessed
 core/backend/e2e-test/mocks	kms	Go-domain-migration	1	20a6f4286a0cad374c225f84161a14aa5c05dc69cc979acadc78510fa17fb086	0	unassessed
 core/backend/e2e-test/routes/v1	authorization	Go-domain-migration	2	dbbe4f50cb1fb9bb0d73b8d21f790403af67af1755596f31a354732c2f965d8d	0	unassessed
-core/backend/e2e-test/routes/v1	foundation	Go-domain-migration	6	39f492e54b2b33f3144251ca79a4ec5e7e3ea37f936f80622c6ae4d444816c43	1	unassessed
+core/backend/e2e-test/routes/v1	foundation	Go-domain-migration	6	a623cea9b828a8268970bf222c6b3b5b852d40ec5d666a35a17e172f348486f8	1	unassessed
 core/backend/e2e-test/routes/v1	identity	Go-domain-migration	10	2a7cb2ca2760c079649b6203bdcc14824993fb69046f46e51c84c0ed29dd9ff3	2	unassessed
 core/backend/e2e-test/routes/v1	integrations	Go-domain-migration	1	c8e7fd6cee23108b91316c648fd5f5da751d173ea71d643c16daaf32bc372d02	0	unassessed
 core/backend/e2e-test/routes/v1	secrets	Go-domain-migration	4	98c7d34cfc5e363b8b74a6cc0e41be01c47432ed971b1a3f60c1a111a613e08d	0	unassessed
@@ -118,7 +118,7 @@ core/backend/src/db/manual-migrations	audit	Go-domain-migration	1	a456acef5c86ca
 core/backend/src/db/migrations	audit	Go-domain-migration	12	12b0963d58aabfb3a61325d660560be454fb28132b919caecc059500f5d77a7d	0	unassessed
 core/backend/src/db/migrations	authorization	Go-domain-migration	44	062e053e97cd74072db6a52c971d903d5d0e66c404a93b8680b11fefa4d80aa8	0	unassessed
 core/backend/src/db/migrations	automation	Go-domain-migration	13	f5b1fa8eba11b014fd01d563709813637456835b5d808c6785a8247e877dfa63	0	unassessed
-core/backend/src/db/migrations	foundation	Go-domain-migration	205	cc2d853a946e6c885be2a443fb4dec4d01d22b35d3d687c9da30939a1d0a06ef	5	unassessed
+core/backend/src/db/migrations	foundation	Go-domain-migration	205	4aa549f8104a0a5097c1ae60f5d9ffa5160df500c9e45af5d2235e1afb2a6e67	5	unassessed
 core/backend/src/db/migrations	identity	Go-domain-migration	67	e75d571b8b976f859f16e672d5dcec77c7b7effdbcfe34e077f70e7dab23e433	3	unassessed
 core/backend/src/db/migrations	integrations	Go-domain-migration	25	1fe133c4be036ae4200d93e37e756b0e70ce9297d10ecc1a515f46870383508f	0	unassessed
 core/backend/src/db/migrations	kms	Go-domain-migration	21	35fa1ff3fa22574d338d843d19f8c1a82eaf5c0e36762663beefdb9aeb592330	0	unassessed
@@ -1097,9 +1097,9 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	139	f6b929ab645f1728c7da47e19a71fac50548ce639ecd24de83185d4595d7ad19	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	139	be3c6bddf13989661672fafefa500fb1720fe02e22369ab39b827c197d2638ca	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
-scripts/lib	delivery	supporting-tooling-or-contract	14	a4baa74ae5aa265b97061341317d4492d55f26639301d9cd11654dcd79dfb422	10	unassessed
+scripts/lib	delivery	supporting-tooling-or-contract	14	0f4b18620591b8653953610ed5a6bcee65e243c7cc6c817373f63db6f98fb1b9	10	unassessed

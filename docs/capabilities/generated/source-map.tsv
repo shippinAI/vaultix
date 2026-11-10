@@ -419,7 +419,7 @@ core/backend/e2e-test/routes/v1/secret-import.spec.ts	secrets	secrets	core/backe
 core/backend/e2e-test/routes/v1/secret-replication.spec.ts	connect	integrations	core/backend/e2e-test/routes/v1	a44e920bc4b422564c5cc3c83b083266e4cbd3c7	unread
 core/backend/e2e-test/routes/v1/status.spec.ts	operate	foundation	core/backend/e2e-test/routes/v1	fefb51ad33b92fbbd3d8ea52f27424587d5bc305	unread
 core/backend/e2e-test/routes/v1/user-activation.spec.ts	access	identity	core/backend/e2e-test/routes/v1	075a170910f1a2e6d47cd927df1e896f17c51cde	unread
-core/backend/e2e-test/routes/v1/vaultix-references.spec.ts	operate	foundation	core/backend/e2e-test/routes/v1	50e1f864b71ea392ac37a3e3c5f03d5ee2536796	unread
+core/backend/e2e-test/routes/v1/vaultix-references.spec.ts	operate	foundation	core/backend/e2e-test/routes/v1	1e2013c14b3b1ea20fa85142ac6bf6b2835d23cb	unread
 core/backend/e2e-test/routes/v2/secret-folder.spec.ts	secrets	secrets	core/backend/e2e-test/routes/v2	033d184378bf0461bfbe1a4f745f8a42a834efd0	unread
 core/backend/e2e-test/routes/v2/service-token.spec.ts	operate	foundation	core/backend/e2e-test/routes/v2	47ae3241030a90e87abd41b8be9c3e13a3e3a0cc	unread
 core/backend/e2e-test/routes/v3/auth-email-login.spec.ts	access	identity	core/backend/e2e-test/routes/v3	63f9cce0614f7d9aef01dd18504c059b8e170bbc	unread
@@ -866,7 +866,7 @@ core/backend/src/db/migrations/20260330172252_rename-vault-to-external-migration
 core/backend/src/db/migrations/20260401124650_certificate-inventory-views.ts	pki	pki	core/backend/src/db/migrations	261954af4752bd032dcd5b35efc8722110e2cbfd	unread
 core/backend/src/db/migrations/20260402150445_secret-folders-env-id-index.ts	operate	foundation	core/backend/src/db/migrations	f4c57c573d876481a1cc6eaa56ac3d75b05e8b1e	unread
 core/backend/src/db/migrations/20260402160741_add-revoke-fields-to-access-approval-requests.ts	access	authorization	core/backend/src/db/migrations	4b04533f0e087c30ece051348cbf03bd48c38347	unread
-core/backend/src/db/migrations/20260404140728_username-merge.ts	operate	foundation	core/backend/src/db/migrations	572a45b686a1950afd7ff9329e6e0e2cea98315b	unread
+core/backend/src/db/migrations/20260404140728_username-merge.ts	operate	foundation	core/backend/src/db/migrations	c6943e19f47c1e357b49be2b89c7cebc18c43bf3	unread
 core/backend/src/db/migrations/20260404140729_seed-email-domains-from-sso.ts	operate	foundation	core/backend/src/db/migrations	15912dfd9e7a686b599e2fd56e435e7a8c727fcc	unread
 core/backend/src/db/migrations/20260407000001_pam-session-event-batches.ts	pam	pam	core/backend/src/db/migrations	3fb679596feca9b0857e39178404aed7e7a1a673	unread
 core/backend/src/db/migrations/20260407010004_migrate-vercel-secret-syncs-to-new-destination-schema-format.ts	connect	integrations	core/backend/src/db/migrations	646e7905efee17a2dc912f46fa6013552377b520	unread
@@ -9757,7 +9757,7 @@ scripts/go-test-evidence.mjs	operate	delivery	scripts	d7a3809998aa57ddc40200e763
 scripts/lib/ai-journal.mjs	operate	delivery	scripts/lib	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	operate	delivery	scripts/lib	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	operate	delivery	scripts/lib	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	reviewed
-scripts/lib/legacy-table-references.mjs	operate	delivery	scripts/lib	3e9f5dfbb4565e7232b4fae41756f570f17d25ea	unread
+scripts/lib/legacy-table-references.mjs	operate	delivery	scripts/lib	94921d033e6786f2f8ad931338ee81076ffcf165	unread
 scripts/lib/pr-verification.mjs	operate	delivery	scripts/lib	7d7244495ef40e210eb193bebc42fd82b2a86f8e	authored
 scripts/lib/release-bundle.mjs	operate	delivery	scripts/lib	8a962bce0527b818cf0ae0deeb0d47574091e7ee	reviewed
 scripts/lib/release-preparation.mjs	operate	delivery	scripts/lib	c4610e04c1c2cbb3797a1a999f58d308d5729493	reviewed
@@ -9809,7 +9809,7 @@ scripts/test-dashboard-secret-paste.mjs	operate	delivery	scripts	3b814c46cb485d5
 scripts/test-dashboard-secret-references.mjs	operate	delivery	scripts	a5a68d08436bf3956709fc37273e75e95423a325	verified
 scripts/test-device-grant-migration.mjs	operate	delivery	scripts	da6c3f380905a0f9bf42cebe6274a36ca7dbee25	verified
 scripts/test-device-http.mjs	operate	delivery	scripts	fdb3a1099dd3571328e27eca2d32141f45f6e21b	authored
-scripts/test-device-worker-image.mjs	operate	delivery	scripts	5ff8191c849f79bd25f626ad4d201922406a3c1c	authored
+scripts/test-device-worker-image.mjs	operate	delivery	scripts	f478946e5c79cf67e9cc4c6a56a21fd1b766be70	authored
 scripts/test-domain-workbench.mjs	operate	delivery	scripts	b71236d476a41be955d8586b55a1e350e3e59e2e	unread
 scripts/test-eager-upload.mjs	operate	delivery	scripts	f2804898e58be014fac8ca27f1bed3b89cd649fe	verified
 scripts/test-early-access-migration.mjs	operate	delivery	scripts	0aa9a589c9658620b7bf00088d8909ca379af398	reviewed
@@ -9857,7 +9857,7 @@ scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e46
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
 scripts/test-self-hosted-build.mjs	operate	delivery	scripts	4fe9110742f7657b3575cb22439857500bddec80	authored
 scripts/test-server-lifecycle.mjs	operate	delivery	scripts	6324df77654e8e2dbdc5c7eaca260423343e0ed3	reviewed
-scripts/test-server-migration.mjs	operate	delivery	scripts	e1058aa6fc97b3f85bb31ea7f6626fba17b99dc3	reviewed
+scripts/test-server-migration.mjs	operate	delivery	scripts	252c09a39be4e248b8806450917b6e6a06c0044a	reviewed
 scripts/test-setup-code.mjs	operate	delivery	scripts	a93ba408e2103d86568280fe0ded77f2a222dc67	unread
 scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified
 scripts/test-storybook-mcp.mjs	operate	delivery	scripts	fd8f1e8179459550d1665c0f65a13a5bbaa3eb54	unread

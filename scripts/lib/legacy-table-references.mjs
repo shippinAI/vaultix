@@ -33,7 +33,11 @@ export const sqlRules = names => {
     // CREATE INDEX … ON name (…) / USING …; CREATE TRIGGER … ON name FOR …
     new RegExp(`(\\bON\\s+(?:public\\.)?"?)(${n})("?)(?=\\s*(?:\\(|USING\\b|FOR\\b|$))`, "gm"),
     // name."column", name.id, name.*, name%ROWTYPE
-    new RegExp(`((?<![A-Za-z0-9_.$]))(${n})(%ROWTYPE|\\."[A-Za-z]|\\.(?:id|\\*)\\b)`, "g")
+    new RegExp(`((?<![A-Za-z0-9_.$]))(${n})(%ROWTYPE|\\."[A-Za-z]|\\.(?:id|\\*)\\b)`, "g"),
+    // 'public.name'::regclass
+    new RegExp(`('(?:public\\.)?"?)(${n})("?'\\s*::\\s*regclass)`, "g"),
+    // to_regclass('name'), relname = 'name', table_name = 'name', tablename = 'name'
+    new RegExp(`((?:to_regclass\\s*\\(\\s*|\\b(?:relname|table_name|tablename)\\s*=\\s*)'(?:public\\.)?)(${n})(')`, "g")
   ];
 };
 

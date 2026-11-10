@@ -81,10 +81,10 @@ export async function up(knex: Knex): Promise<void> {
         ON a.attrelid = c.conrelid
        AND a.attnum = ANY(c.conkey)
     WHERE c.contype = 'f'
-      AND c.confrelid = 'public.users'::regclass
+      AND c.confrelid = 'public.${TableName.Users}'::regclass
       AND c.confkey = ARRAY(
           SELECT attnum FROM pg_attribute
-          WHERE attrelid = 'public.users'::regclass AND attname = 'id'
+          WHERE attrelid = 'public.${TableName.Users}'::regclass AND attname = 'id'
       )
   `);
     const userFkReferences = fkRefs.rows as { table_name: string; column_name: string }[];

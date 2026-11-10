@@ -60,7 +60,7 @@ describe("native Vaultix reference boundary", () => {
       const response = await testServer.inject({ url: `/api/v1/vaultix/secret-references?${new URLSearchParams(scope)}`, headers: headers() });
       expect(response.statusCode).toBe(200);
     } finally { testDb.removeListener("query", record); }
-    const reads = queries.filter((sql) => /select/i.test(sql) && sql.includes('"secrets_v2"'));
+    const reads = queries.filter((sql) => /select/i.test(sql) && sql.includes('"vx_secrets_secrets"'));
     expect(reads.length).toBeGreaterThan(0);
     reads.forEach((sql) => expect(sql).not.toMatch(/encryptedValue|encryptedComment|resource_metadata|select\s+\*/i));
   });

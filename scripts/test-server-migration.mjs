@@ -298,7 +298,7 @@ try {
   assert.equal(inspect(priorContainer).State.Running, false, 'Nothing may write while the store is replaced');
   assert.equal(tableExists('vaultix_lifecycle_partial'), true, 'Nothing is swapped until the copy is proven');
   const copies = databases().filter(name => name.startsWith('vaultix-restore-'));
-  assert.equal(copies.length, 1); assert.equal(tableExists('secrets_v2', copies[0]), true, 'The kill should leave a restored copy that was never swapped');
+  assert.equal(copies.length, 1); assert.equal(tableExists('vx_secrets_secrets', copies[0]), true, 'The kill should leave a restored copy that was never swapped');
   recreateDependencies();
   output(['start', priorContainer]);
   const recoveredLive = cli(['recover']);
