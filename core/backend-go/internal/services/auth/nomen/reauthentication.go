@@ -221,9 +221,9 @@ func (s *PasswordReauthentication) authenticate(ctx context.Context, intent Iden
 		}
 		var attempts int
 		err = tx.QueryRow(ctx, `INSERT INTO vx_auth_reauth_attempts ("userId",attempts) VALUES($1,1)
-   ON CONFLICT ("userId") DO UPDATE SET attempts=CASE WHEN vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN 1 ELSE vaultix_identity_reauth_attempts.attempts+1 END,
+   ON CONFLICT ("userId") DO UPDATE SET attempts=CASE WHEN vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN 1 ELSE vx_auth_reauth_attempts.attempts+1 END,
    "windowStartedAt"=CASE WHEN vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN clock_timestamp() ELSE vx_auth_reauth_attempts."windowStartedAt" END
-   WHERE vaultix_identity_reauth_attempts.attempts<5 OR vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes'
+   WHERE vx_auth_reauth_attempts.attempts<5 OR vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes'
    RETURNING attempts`, actor.ActorID).Scan(&attempts)
 		if errors.Is(err, pgx.ErrNoRows) {
 			return ErrReauthenticationAttempts

@@ -43,9 +43,9 @@ test("real session store preserves browser reuse, all-session revocation and gua
   });
   try {
     const existing = await db("vx_auth_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion");
-    if (!(await db.schema.hasColumn("auth_token_sessions", "sessionType"))) await db.transaction(up);
-    if (!(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext"))) await db.transaction(contextUp);
-    if (!(await db.schema.hasColumn("vaultix_device_session_events", "preparationStatus")))
+    if (!(await db.schema.hasColumn("vx_auth_sessions", "sessionType"))) await db.transaction(up);
+    if (!(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext"))) await db.transaction(contextUp);
+    if (!(await db.schema.hasColumn("vx_auth_device_session_events", "preparationStatus")))
       await db.transaction(deliveryUp);
     expect(await db("vx_auth_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion")).toEqual(
       existing
@@ -91,7 +91,7 @@ test("real session store preserves browser reuse, all-session revocation and gua
     await db.transaction(deliveryDown);
     await db.transaction(contextDown);
     await db.transaction(down);
-    expect(await db.schema.hasColumn("auth_token_sessions", "sessionType")).toBe(false);
+    expect(await db.schema.hasColumn("vx_auth_sessions", "sessionType")).toBe(false);
     expect((await dal.findOneTokenSession({ id: replacement?.id }))?.id).toBe(replacement?.id);
     await db.transaction(up);
     await db.transaction(contextUp);

@@ -189,7 +189,7 @@ func (s *Service) resolveEncryptionKey(ctx context.Context) error {
 	if s.fipsEnabledEnv {
 		superAdminConfig, err := s.findSuperAdminConfig(ctx)
 		if err != nil {
-			return fmt.Errorf("failed to query super_admin config for FIPS mode: %w", err)
+			return fmt.Errorf("failed to query vx_operate_instance_config for FIPS mode: %w", err)
 		}
 		fipsEnabled = superAdminConfig != nil && superAdminConfig.FipsEnabled
 	}
@@ -482,7 +482,7 @@ func (s *Service) findSuperAdminConfig(ctx context.Context) (*superAdminConfigRo
 		return nil, nil
 	}
 	if err != nil {
-		return nil, fmt.Errorf("finding super_admin config: %w", err)
+		return nil, fmt.Errorf("finding vx_operate_instance_config: %w", err)
 	}
 	return &cfg, nil
 }
@@ -573,7 +573,7 @@ func (s *Service) createKmsKeyWithInternal(ctx context.Context, tx pgx.Tx, orgID
 	var kmsKeyID uuid.UUID
 	err := tx.QueryRow(ctx, insertKeyQuery, keyArgs).Scan(&kmsKeyID)
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("inserting kms_keys: %w", err)
+		return uuid.Nil, fmt.Errorf("inserting vx_kms_keys: %w", err)
 	}
 
 	// Insert internal_kms
@@ -587,7 +587,7 @@ func (s *Service) createKmsKeyWithInternal(ctx context.Context, tx pgx.Tx, orgID
 	}
 
 	if _, err := tx.Exec(ctx, insertInternalQuery, internalArgs); err != nil {
-		return uuid.Nil, fmt.Errorf("inserting internal_kms: %w", err)
+		return uuid.Nil, fmt.Errorf("inserting vx_kms_internal: %w", err)
 	}
 
 	return kmsKeyID, nil

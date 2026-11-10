@@ -2,6 +2,7 @@ import type { Knex } from "knex";
 import { validate as isUuid } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { TableName } from "@app/db/schemas";
 import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
 import { RecordedOperation } from "@app/lib/recorded-operation";
 
@@ -126,7 +127,7 @@ export const deviceEventRecipientDALFactory = (db: TDbClient) => {
     // Account security notices remain available to a locked account. They do not
     // grant that account a session or access to an organization's resources.
     const execute = async (connection: Knex) =>
-      connection("users")
+      connection(TableName.Users)
         .where({ id: audience.userId, isAccepted: true, isGhost: false })
         .first<DeviceNoticeRecipient>("id as userId", "email", connection.raw('?::uuid AS "orgId"', [audience.orgId]));
     if (tx) return execute(tx);

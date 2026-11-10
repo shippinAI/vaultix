@@ -46,11 +46,11 @@ func restrictedReferenceDB(t *testing.T) referenceDB {
 		require.NoError(t, err)
 	})
 	for _, grant := range []string{
-		`SELECT (id, key, version, "createdAt", "updatedAt", "folderId", type, "userId") ON secrets_v2`,
-		`SELECT ("secrets_v2Id", "secret_tagsId") ON secret_v2_tag_junction`,
-		`SELECT (id, slug) ON secret_tags`,
-		`SELECT (id, "envId", "parentId", name) ON secret_folders`,
-		`SELECT (id, slug, "projectId", "deleteAfter") ON project_environments`,
+		`SELECT (id, key, version, "createdAt", "updatedAt", "folderId", type, "userId") ON vx_secrets_secrets`,
+		`SELECT ("secrets_v2Id", "secret_tagsId") ON vx_secrets_tag_junction`,
+		`SELECT (id, slug) ON vx_secrets_tags`,
+		`SELECT (id, "envId", "parentId", name) ON vx_secrets_folders`,
+		`SELECT (id, slug, "projectId", "deleteAfter") ON vx_workspace_environments`,
 	} {
 		_, err := stack.DB().Primary().Exec(ctx, "GRANT "+grant+" TO "+quoted)
 		require.NoError(t, err)

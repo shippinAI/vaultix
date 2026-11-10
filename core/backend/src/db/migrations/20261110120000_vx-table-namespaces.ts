@@ -1,14 +1,19 @@
 import { Knex } from "knex";
 
-import { renameLegacyTables, restoreLegacyTables } from "../table-namespace-rename";
+import { renameLegacyTables } from "../table-namespace-rename";
 
-// docs/0119: every inherited table name becomes vx_<group>_<entity>. Startup already moves an
-// inherited store before pending migrations run; this migration records the change in the
-// migration set (so `vaultix server upgrade` rehearses it) and covers direct knex runs.
+// docs/0119: every inherited table name becomes vx_<group>_<entity>. The migration source already
+// moves TableName tables before each migration; this migration moves the tables raw-SQL migrations
+// created under inherited names, and records the change so `vaultix server upgrade` rehearses it.
 export async function up(knex: Knex): Promise<void> {
   await renameLegacyTables(knex, undefined, "all");
 }
 
-export async function down(knex: Knex): Promise<void> {
-  await restoreLegacyTables(knex);
+// Every earlier migration now names its tables with vx_ names, so restoring inherited names here
+// would leave their down steps pointing at tables that no longer exist. Going back across this
+// change means restoring the pre-upgrade checkpoint with `vaultix server rollback`.
+export async function down(): Promise<void> {
+  throw new Error(
+    "The vx_ table namespace migration is not reversible with knex. Restore the pre-upgrade checkpoint with `vaultix server rollback` (docs/0119)."
+  );
 }

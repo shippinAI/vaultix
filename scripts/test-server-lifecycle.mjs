@@ -3,11 +3,12 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createHash, randomBytes } from 'node:crypto';
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { createDisposableImageHarness } from './lib/disposable-image.mjs';
+import { literalObjectNames } from './lib/table-namespaces.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(resolve(root, '.ai/package.json'));
@@ -112,6 +113,21 @@ try {
   const secretsTable = () => h.sql(database.Id, "SELECT CASE WHEN to_regclass('public.vx_secrets_secrets') IS NOT NULL THEN 'vx_secrets_secrets' ELSE 'secrets_v2' END;");
   const canaryCipher = () => h.sql(database.Id, `SELECT encode("encryptedValue",'hex') FROM ${secretsTable()} WHERE key='LIFECYCLE_CANARY';`);
   const legacyTables = () => Number(h.sql(database.Id, "SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE c.relkind IN ('r','p') AND c.relname NOT LIKE 'vx\\_%' AND c.relname NOT LIKE 'vaultix\\_migrations%';"));
+  // Generated constraint, index and sequence names follow their renamed table unless a historical
+  // migration spells them out, and every updatedAt trigger carries its table's current name.
+  const inherited = JSON.parse(readFileSync(resolve(root, 'docs/schema/table-namespaces.json'))).tables.map(table => table.legacy);
+  const migrations = resolve(root, 'core/backend/src/db/migrations');
+  const spelledOut = literalObjectNames(inherited, readdirSync(migrations).filter(file => file.endsWith('.ts')).map(file => readFileSync(resolve(migrations, file), 'utf8')));
+  const textArray = names => `ARRAY[${names.map(name => `'${name}'`).join(',')}]::text[]`;
+  const strandedNames = () => h.sql(database.Id, `WITH inherited(name) AS (SELECT unnest(${textArray(inherited)})),
+    objects(name) AS (
+      SELECT c.conname FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace AND n.nspname='public'
+      UNION SELECT c.relname FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE c.relkind IN ('i','I','S'))
+    SELECT coalesce(string_agg(o.name, ',' ORDER BY o.name), '') FROM objects o
+    WHERE o.name ~ '_(pkey|key|fkey|check|idx|seq|excl)[0-9]*$' AND length(o.name) < 63
+      AND o.name <> ALL(${textArray(spelledOut)})
+      AND EXISTS (SELECT 1 FROM inherited i WHERE left(o.name, length(i.name) + 1) = i.name || '_');`);
+  const strandedTriggers = () => h.sql(database.Id, "SELECT coalesce(string_agg(t.tgname, ',' ORDER BY t.tgname), '') FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE NOT t.tgisinternal AND t.tgname LIKE '%\\_updatedAt' AND t.tgname <> c.relname || '_updatedAt';");
   const cipher = canaryCipher();
   assert.ok(cipher && !cipher.includes(canary));
   phase = 'invalid image receipt';
@@ -201,7 +217,9 @@ try {
   assert.ok(canaryCipher() === cipher, 'Encrypted row changed');
   if (secretsTable() === 'vx_secrets_secrets') {
     assert.equal(legacyTables(), 0, 'Every table, partitions included, moves to its vx_ name');
-    check('the upgraded store has no table left on an inherited name');
+    assert.equal(strandedNames(), '', 'Generated names follow their renamed table');
+    assert.equal(strandedTriggers(), '', 'updatedAt triggers carry their table name');
+    check('the upgraded store has no table, generated name or updatedAt trigger left on an inherited name');
   }
   await api(path, { status: 401 });
   await api('/api/v1/admin/signup', { method: 'POST', body: { email, password, firstName: 'Duplicate' }, status: 400 });

@@ -107,7 +107,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
       provenance: { authMethod: "email" }
     });
   const events = (sessionId: string) =>
-    db<Event>("vaultix_device_session_events").where({ sessionId }).orderBy("createdAt").select("*");
+    db<Event>("vx_auth_device_session_events").where({ sessionId }).orderBy("createdAt").select("*");
 
   beforeAll(async () => {
     if (!process.env.VAULTIX_SESSION_TEST_DATABASE || !process.env.VAULTIX_SESSION_TEST_ORG) {
@@ -116,7 +116,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     orgId = process.env.VAULTIX_SESSION_TEST_ORG;
     db = connect();
     peer = connect();
-    if (await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")) await db.transaction(down);
+    if (await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")) await db.transaction(down);
     const userId = await createUser();
     legacy = { userId, sessionId: await createSession(userId) };
     await record(legacy.userId, legacy.sessionId, "issued");
@@ -285,9 +285,9 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     await db("vx_auth_users").whereIn("id", users).delete();
     await db("vx_auth_device_session_events").whereIn("userId", users).delete();
     await db.transaction(down);
-    expect(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")).toBe(false);
+    expect(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")).toBe(false);
     await db.transaction(up);
-    expect(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")).toBe(true);
+    expect(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")).toBe(true);
     expect(await db("vx_auth_sessions").where({ sessionType: "browser" }).select("id", "userId")).toEqual(before);
   });
 });

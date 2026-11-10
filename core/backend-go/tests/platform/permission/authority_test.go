@@ -47,9 +47,9 @@ func copyPermissionPool(t *testing.T, source *pgxpool.Pool) *pgxpool.Pool {
 		_, err := stack.DB().Primary().Exec(ctx, "DROP SCHEMA "+schema+" CASCADE")
 		require.NoError(t, err)
 	})
-	for _, table := range []string{"projects", "organizations", "memberships", "membership_roles", "roles",
-		"groups", "user_group_membership", "identity_group_membership", "additional_privileges",
-		"identity_metadata", "users", "identities", "service_tokens"} {
+	for _, table := range []string{"vx_workspace_projects", "vx_workspace_organizations", "vx_workspace_memberships", "vx_workspace_membership_roles", "vx_workspace_roles",
+		"vx_workspace_groups", "vx_workspace_user_group_memberships", "vx_identity_group_memberships", "vx_workspace_additional_privileges",
+		"vx_identity_metadata", "vx_auth_users", "vx_identity_identities", "vx_identity_service_tokens"} {
 		name := pgx.Identifier{table}.Sanitize()
 		_, err := source.Exec(ctx, "CREATE TABLE "+schema+"."+name+" AS SELECT * FROM "+name)
 		require.NoError(t, err)
@@ -156,9 +156,9 @@ func TestPermissionAuthority_StaleReplicaCannotRestoreAccess(t *testing.T) {
 					}},
 				)
 			} else {
-				column, linkTable, linkColumn, nameTable, nameColumn := "actorUserId", "user_group_membership", "userId", "users", "username"
+				column, linkTable, linkColumn, nameTable, nameColumn := "actorUserId", "vx_workspace_user_group_memberships", "userId", "vx_auth_users", "username"
 				if actor.Actor == auth.ActorTypeIdentity {
-					column, linkTable, linkColumn, nameTable, nameColumn = "actorIdentityId", "identity_group_membership", "identityId", "identities", "name"
+					column, linkTable, linkColumn, nameTable, nameColumn = "actorIdentityId", "vx_identity_group_memberships", "identityId", "vx_identity_identities", "name"
 				}
 				membership := `SELECT id FROM vx_workspace_memberships WHERE "scopeProjectId" = $1 AND "` + column + `" = $2`
 				roleWhere := ` WHERE "membershipId" IN (` + membership + `)`

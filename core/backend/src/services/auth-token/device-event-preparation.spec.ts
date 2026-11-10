@@ -40,7 +40,7 @@ describe.sequential("device event preparation through the real store and mail re
   let subjectId: string;
   const users: string[] = [];
   const organizations: string[] = [];
-  const storedDeliveries = () => db<StoredDelivery>("vaultix_device_event_deliveries");
+  const storedDeliveries = () => db<StoredDelivery>("vx_auth_device_event_deliveries");
   const newUser = async (email = true) => {
     const id = randomUUID();
     await db("vx_auth_users").insert({

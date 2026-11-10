@@ -15,8 +15,9 @@ import {
   PreparedDeviceDelivery
 } from "./device-event-delivery-types";
 
-const EVENTS = "vaultix_device_session_events";
-const DELIVERIES = "vaultix_device_event_deliveries";
+// Created by raw-SQL migrations and renamed to vx_ names (docs/0119).
+const EVENTS = "vx_auth_device_session_events";
+const DELIVERIES = "vx_auth_device_event_deliveries";
 const LEASE_SECONDS = 60;
 const MAX_ATTEMPTS = 12;
 const batchSize = (limit: number) => {

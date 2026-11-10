@@ -54,9 +54,9 @@ func copyAuthorityPool(t *testing.T) *pgxpool.Pool {
 		require.NoError(t, err)
 	})
 	for _, table := range []string{
-		"auth_token_sessions", "users", "organizations", "projects", "identities",
-		"identity_access_tokens", "identity_access_token_revocations", "service_tokens",
-		"memberships", "groups", "user_group_membership", "identity_group_membership", "identity_universal_auths",
+		"vx_auth_sessions", "vx_auth_users", "vx_workspace_organizations", "vx_workspace_projects", "vx_identity_identities",
+		"vx_identity_access_tokens", "vx_identity_access_token_revocations", "vx_identity_service_tokens",
+		"vx_workspace_memberships", "vx_workspace_groups", "vx_workspace_user_group_memberships", "vx_identity_group_memberships", "vx_identity_universal_auths",
 	} {
 		_, err := stack.DB().Primary().Exec(ctx, "CREATE TABLE "+pgx.Identifier{schema, table}.Sanitize()+
 			" AS SELECT * FROM "+pgx.Identifier{"public", table}.Sanitize())
@@ -223,8 +223,8 @@ func TestAuthenticationAuthority_GroupRevocationUsesPrimary(t *testing.T) {
 		name, id, column, table, link string
 		paths                         []string
 	}{
-		{"user", tokens.userID, "actorUserId", "user_group_membership", "userId", []string{"user", "user-unified"}},
-		{"identity", tokens.identityID, "actorIdentityId", "identity_group_membership", "identityId", []string{"identity", "identity-unified"}},
+		{"user", tokens.userID, "actorUserId", "vx_workspace_user_group_memberships", "userId", []string{"user", "user-unified"}},
+		{"identity", tokens.identityID, "actorIdentityId", "vx_identity_group_memberships", "identityId", []string{"identity", "identity-unified"}},
 	} {
 		for _, revoke := range []string{"group-link", "group-membership"} {
 			t.Run(actor.name+"-"+revoke, func(t *testing.T) {

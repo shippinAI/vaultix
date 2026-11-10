@@ -26,8 +26,8 @@ func TestAuthenticationMembership_DirectPrecedence(t *testing.T) {
 		name, id, column, table, link string
 		paths                         []string
 	}{
-		{"user", tokens.userID, "actorUserId", "user_group_membership", "userId", []string{"user", "user-unified"}},
-		{"identity", tokens.identityID, "actorIdentityId", "identity_group_membership", "identityId", []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
+		{"user", tokens.userID, "actorUserId", "vx_workspace_user_group_memberships", "userId", []string{"user", "user-unified"}},
+		{"identity", tokens.identityID, "actorIdentityId", "vx_identity_group_memberships", "identityId", []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
 	} {
 		for _, scenario := range []struct {
 			name, directKind, status, groupKind string

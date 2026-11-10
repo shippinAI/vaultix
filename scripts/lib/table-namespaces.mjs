@@ -250,6 +250,23 @@ export function namespaceTables(legacyNames) {
     if (seen.has(row.name)) collisions.push([seen.get(row.name), row.legacy, row.name]);
     seen.set(row.name, row.legacy);
   }
-  const tooLong = rows.filter(row => row.name.length > 63).map(row => row.name);
+  // The name and its `<name>_updatedAt` trigger both fit PostgreSQL's 63-character identifiers.
+  const tooLong = rows.filter(row => `${row.name}_updatedAt`.length > 63).map(row => row.name);
   return { rows, unplaced, collisions, tooLong };
+}
+
+// Names shaped like the ones PostgreSQL generates (<table>_<columns>_<label>) that historical
+// migrations spell out, either because they chose them (t.index(cols, "certificates_caid_idx"))
+// or because they drop or rename them. When their table is renamed these keep their spelling,
+// exactly as they read on a fresh store; other generated names follow the table (docs/0119).
+const GENERATED_NAME = /(?<![A-Za-z0-9_}$])([a-z][A-Za-z0-9_]*_(?:pkey|key|fkey|check|idx|seq|excl)\d*)(?![A-Za-z0-9_])/g;
+
+export function literalObjectNames(legacyNames, sources) {
+  const names = new Set();
+  for (const source of sources) {
+    for (const [, name] of source.matchAll(GENERATED_NAME)) {
+      if (legacyNames.some(legacy => name.startsWith(`${legacy}_`))) names.add(name);
+    }
+  }
+  return [...names].sort();
 }

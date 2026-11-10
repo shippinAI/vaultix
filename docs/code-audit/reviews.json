@@ -2269,7 +2269,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/authority_test.go",
-      "blob": "c5cc1957d92b93fb40c989708814423cfa2e3417",
+      "blob": "a5ac9e85521a812b5d90611d569c8aa7e02499ef",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete fixture authored/read. Actual issuer credentials plus explicitly signed legacy/sub-org fixtures operate on isolated PostgreSQL schema snapshots. Valid and primary-only denied controls precede frozen-replica comparisons; checks cover user/identity/service paths, group-only membership removal/deactivation, primary failure without fallback, sub-org ancestry and current service-project tenant. Schema copies omit constraints and do not prove physical replication, issuer HTTP replica behavior, group APIs or Nomen. No operator data or clocks are changed; cleanup owns only generated fixture schemas/pools. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
@@ -2289,12 +2289,13 @@
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
         "scripts/prove-device-api-image.mjs",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/membership_precedence_test.go",
-      "blob": "60f3008425c193501a163553fe917df3902adea0",
+      "blob": "6646648a3847306c3950c38dbc8c3c24e60d4ba7",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete authored fixture read. Both actor types and dedicated/unified user/current/legacy identity paths exercise 13 policy scenarios on isolated schema snapshots with valid controls and no replica reads. Snapshot insertion order reproduces baseline differences but does not guarantee production plans; constraints are not copied. A separate real issuer invitation/group-link/deactivate/reactivate sequence uses explicit accepted-user/session/JWT fixtures and verifies HTTP/native outcomes while the group remains active. Initial zero-UUID fixture failure is recorded and corrected by omitting absent optional scope; this is not a real sign-in, machine lifecycle, Nomen or scale proof.",
@@ -2313,7 +2314,8 @@
         ".cache/membership-image-dragonfly.log",
         ".cache/membership-image-redis.log",
         ".cache/app-image-proof-UAkQBx/workflow-result.json",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -3782,7 +3784,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/authority_test.go",
-      "blob": "49530b5af5458b6f929b352ef1e8cd4fbbb635d1",
+      "blob": "1eb2024854222f914426354aa43fc12015bfa9b9",
       "status": "verified",
       "decision": "retain",
       "scope": "Authored complete disposable PostgreSQL authority matrix: real API seeds, isolated primary/frozen schema copies, primary-only controls, role/group/template/service revocation, enforcement, failure, cancellation and recovery. Fixture scope is not physical replication or management API parity.",
@@ -3793,7 +3795,8 @@
         ".cache/native-permission-authority/.cache/go-proof-pBYTBb/result.json",
         ".cache/native-permission-authority/.cache/native-unit-vet.json",
         ".cache/native-permission-authority/.cache/lint-result.json",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -4234,7 +4237,7 @@
     },
     {
       "path": "core/backend-go/tests/secretmanager/secrets/reference_integration_test.go",
-      "blob": "87d8e4fa1f5620bf95e0afdc559dc542b57b5dc2",
+      "blob": "69bc4a73236a4f189cb24723e4dce762898c4446",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
@@ -4244,7 +4247,8 @@
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
         "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
         "docs/0117-assistant-reference-boundary.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -5315,13 +5319,14 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/reauthentication.go",
-      "blob": "c984e1b016bc2fa53344dd58e36033cd1e3e0b80",
+      "blob": "0c1ba0b809b9c5af78a8e72888a497ebaba7531c",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete producer/consumer read and native password-plus-TOTP implementation. Current required-method, factor, session and credential checks; shared attempt budget; atomic step/proof/provenance writes. Public mounting and full method matrix remain open. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
         "docs/auth/nomen-totp-proof.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -5857,14 +5862,15 @@
     },
     {
       "path": "core/backend/src/services/auth-token/auth-session-store.spec.ts",
-      "blob": "fae8d454dd274561d8fdb518b3d5b63e6f2e370a",
+      "blob": "c18ac65d8e22431b4e4ea2200e0bd84678b98909",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-event-delivery.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -5974,13 +5980,14 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-source-store.spec.ts",
-      "blob": "80142ce8a1c0831b29d2cd33f1ecf86d8224d3be",
+      "blob": "b646338029114b89f1d62c189a8741aff462eb6b",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -6038,7 +6045,7 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-delivery-dal.ts",
-      "blob": "9681f3982989a956623528ea1746f50a1999be39",
+      "blob": "5f26fe6f3d602b59528fe54cff4ff06c117b69c1",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
@@ -6046,18 +6053,20 @@
         "docs/auth/device-event-delivery.md",
         "docs/auth/device-event-dispatch.md",
         "docs/auth/device-event-worker.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
       "path": "core/backend/src/services/auth-token/device-delivery-store.spec.ts",
-      "blob": "d221f5ceac993117e75190ebcd0c680ba6425dff",
+      "blob": "5ed14fd33596f6bd935f87fad93d8c71126a7d37",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -6143,14 +6152,15 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-recipient-dal.ts",
-      "blob": "ca400e03043f8cb7ae9af5ba02c69303f4fbfbfc",
+      "blob": "16ff49d80776953e2419a36af50b6d6559f9c98c",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
         "docs/auth/device-event-worker.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -6188,13 +6198,14 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-preparation.spec.ts",
-      "blob": "60eef30129dc3ffb2a5b8972560b557bbfea387d",
+      "blob": "1de7a4d5f254070dde4acd712d9976188e97b0d6",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -6377,13 +6388,14 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-worker.spec.ts",
-      "blob": "5129c7a2de6cebd0425ecb1dc7326a3928d26cdd",
+      "blob": "f54c13ee05e19cd0621191af6dc5942e2188dc29",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-worker.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {
@@ -9549,7 +9561,7 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "6324df77654e8e2dbdc5c7eaca260423343e0ed3",
+      "blob": "f6631941276604e4c6f757ab6a3f968caab2e95d",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
@@ -9566,7 +9578,8 @@
         "internal/platform/ingress_test.go",
         "scripts/release-publication.test.mjs",
         "docs/releases-and-updates.md",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling."
       ]
     },
     {

@@ -261,7 +261,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
     const dependencies = await owners();
     const [claim] = await dependencies.deliveries.claimPreparation(1);
     const lock = await observer.transaction();
-    await lock("vaultix_device_session_events").where({ id: eventId }).forUpdate().first();
+    await lock("vx_auth_device_session_events").where({ id: eventId }).forUpdate().first();
     const abort = new AbortController();
     const timer = setTimeout(() => abort.abort(), 100);
     try {

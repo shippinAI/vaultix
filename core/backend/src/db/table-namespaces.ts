@@ -314,3 +314,30 @@ export const LEGACY_TABLE_RENAMES: ReadonlyArray<readonly [legacy: string, curre
   ["vaultix_totp_replays", "vx_auth_totp_replays", "raw"],
   ["pam_revamp_backup", "vx_pam_legacy_revamp_backup", "raw"]
 ];
+
+// Generated-looking object names historical migrations spell out. They keep their spelling when
+// their table is renamed, as on a fresh store; PostgreSQL-generated names follow the table.
+export const LITERAL_OBJECT_NAMES: ReadonlySet<string> = new Set([
+  "certificate_authority_secret_hsmconnectorid_idx",
+  "certificate_requests_acme_order_id_fkey",
+  "certificate_requests_acme_order_id_idx",
+  "certificate_requests_applicationid_idx",
+  "certificate_requests_caid_idx",
+  "certificate_requests_certificate_id_created_at_idx",
+  "certificate_requests_profileid_idx",
+  "certificates_caid_idx",
+  "certificates_digicert_order_idx",
+  "certificates_hsmconnectorid_idx",
+  "gateways_v2_capabilities_gin_idx",
+  "internal_certificate_authorities_serialNumber_key",
+  "pki_alert_history_alert_id_triggered_at_idx",
+  "pki_certificate_profiles_enrollmentType_check",
+  "pki_certificate_profiles_enrollment_type_check",
+  "pki_signer_certificate_issuance_jobs_status_nextPollAt_idx",
+  "projects_orgid_type_idx",
+  "resource_metadata_org_id_key_idx",
+  "resource_metadata_secret_id_idx",
+  "resource_token_auths_pkey",
+  "vaultix_identity_binding_events_binding_idx",
+  "vaultix_identity_bindings_user_idx"
+]);

@@ -12,8 +12,8 @@ import { userNotificationDALFactory } from "@app/services/notification/user-noti
 import { deviceEventDeliveryDALFactory } from "./device-event-delivery-dal";
 import { DeviceDeliveryDestination, PreparedDeviceDelivery } from "./device-event-delivery-types";
 
-const EVENTS = "vaultix_device_session_events";
-const DELIVERIES = "vaultix_device_event_deliveries";
+const EVENTS = "vx_auth_device_session_events";
+const DELIVERIES = "vx_auth_device_event_deliveries";
 
 describe.sequential("durable device delivery in the canonical PostgreSQL store", () => {
   let db: TDbClient;
