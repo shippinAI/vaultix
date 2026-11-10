@@ -14,6 +14,7 @@ import { AuthMethod, AuthTokenType } from "@app/services/auth/auth-type";
 import { buildClickHouseFromConfig } from "@app/lib/config/clickhouse";
 import { mockSmtpServer } from "./mocks/smtp";
 import { initDbConnection } from "@app/db";
+import { NamespacedMigrationSource } from "@app/db/namespaced-migration-source";
 import { queueServiceFactory } from "@app/queue";
 import { keyStoreFactory } from "@app/keystore/keystore";
 import { keyValueStoreDALFactory } from "@app/keystore/key-value-store-dal";
@@ -64,9 +65,9 @@ export default {
       await db.raw("DROP SCHEMA IF EXISTS public CASCADE");
       await db.schema.createSchemaIfNotExists("public");
 
+      // The same migration source as startup and the knex command line (docs/0119).
       await db.migrate.latest({
-        directory: path.join(__dirname, "../src/db/migrations"),
-        extension: "ts",
+        migrationSource: new NamespacedMigrationSource(path.join(__dirname, "../src/db/migrations"), [".ts"]),
         tableName: "vaultix_migrations"
       });
 

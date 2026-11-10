@@ -1,5 +1,7 @@
 import knex, { Knex } from "knex";
 
+import { useInheritedIndexNames } from "./table-namespace-index-names";
+
 const parseSslConfig = (dbConnectionUri: string, dbRootCert?: string) => {
   let modifiedDbConnectionUri = dbConnectionUri;
   let sslConfig: { rejectUnauthorized: boolean; ca: string } | boolean = dbRootCert
@@ -91,6 +93,8 @@ export const initDbConnection = ({
       tableName: "vaultix_migrations"
     }
   });
+  // Automatic index and constraint names follow the inherited table names (docs/0119).
+  useInheritedIndexNames(db);
 
   readReplicaDbs = readReplicas.map((el) => {
     const replicaDbCertificate = el.dbRootCert || dbRootCert;
@@ -147,6 +151,7 @@ export const initAuditLogDbConnection = ({
     },
     pool
   });
+  useInheritedIndexNames(db);
 
   // we add these overrides so that auditLogDb and the primary DB are interchangeable
   db.primaryNode = () => {

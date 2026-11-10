@@ -446,7 +446,7 @@ core/backend/e2e-test/testUtils/folders.ts	secrets	secrets	core/backend/e2e-test
 core/backend/e2e-test/testUtils/saml-config.ts	access	identity	core/backend/e2e-test/testUtils	68a98afb584302ebdef0b95d80941ca1cc91dea6	unread
 core/backend/e2e-test/testUtils/secret-imports.ts	secrets	secrets	core/backend/e2e-test/testUtils	370a8dfb8717c297866e837dba3bd2f42c5173c6	unread
 core/backend/e2e-test/testUtils/secrets.ts	secrets	secrets	core/backend/e2e-test/testUtils	68e813442c41d9e14ea568508d1f58463ca871e0	unread
-core/backend/e2e-test/vitest-environment-knex.ts	operate	foundation	core/backend/e2e-test	6c95f69c5da9e9e971d11952410f30c2236eb6d8	unread
+core/backend/e2e-test/vitest-environment-knex.ts	operate	foundation	core/backend/e2e-test	030ceaf74c6388f047932f3ae1835b4a718646c5	unread
 core/backend/nodejs.fips.cnf	operate	foundation	core/backend	47d4a3fe3ca3b5b992affe3a065802c0bbbd8a93	unread
 core/backend/nodemon.json	operate	foundation	core/backend	2542bca4dca5d74d7ac9c3d61913388e39eb3514	unread
 core/backend/package.json	operate	foundation	core/backend	efbd3c0ba01e78edfea3a8095e313b5710f61921	reviewed
@@ -472,14 +472,14 @@ core/backend/src/@types/pg-cursor.d.ts	operate	foundation	core/backend/src/@type
 core/backend/src/auto-start-migrations-fns.test.ts	operate	foundation	core/backend/src	f6cae0353abee67ae7d76107194dd35c83903ee4	unread
 core/backend/src/auto-start-migrations-fns.ts	operate	foundation	core/backend/src	8e7b24b1d9ca819cfce75198b0eac0f4ade5850e	unread
 core/backend/src/auto-start-migrations.test.ts	operate	foundation	core/backend/src	8a2e3e43bf9963f39671c32ea7b1af0d4661f716	unread
-core/backend/src/auto-start-migrations.ts	operate	foundation	core/backend/src	2d2d85b667c7f8075b5efdf7c3d8770b757f7e53	unread
+core/backend/src/auto-start-migrations.ts	operate	foundation	core/backend/src	350cddb6abb42340dcadf104047a275d85a7775b	unread
 core/backend/src/db/analytics-views.ts	operate	foundation	core/backend/src/db	676564940243fcfdc5dc8a8d1498e84637ceb003	reviewed
-core/backend/src/db/auditlog-knexfile.ts	governance	audit	core/backend/src/db	d926a59378e4beff59e04a310244a832512788dc	unread
+core/backend/src/db/auditlog-knexfile.ts	governance	audit	core/backend/src/db	3dfa15409475f700b45682b811ea5b28d6a84db6	unread
 core/backend/src/db/clickhouse-migration-runner.ts	operate	foundation	core/backend/src/db	c7ec278459b14140253235b2ba9ca61218aead29	unread
 core/backend/src/db/index.ts	operate	foundation	core/backend/src/db	abebdf65a8a399f6e0b9b17fa2475b8db9b7e0af	unread
-core/backend/src/db/instance.ts	operate	foundation	core/backend/src/db	a2d25c5762aa78bdfbccf9127a7908b765430b52	unread
+core/backend/src/db/instance.ts	operate	foundation	core/backend/src/db	24182395e290102ef029f76edce1181b9574157f	unread
 core/backend/src/db/junction-columns.ts	operate	foundation	core/backend/src/db	60eee9228c12ff7c64d1c0536d363e562ec0b5e0	unread
-core/backend/src/db/knexfile.ts	operate	foundation	core/backend/src/db	fc6f25f18e3dc9ea37420b0497d9b561aa0bdee3	unread
+core/backend/src/db/knexfile.ts	operate	foundation	core/backend/src/db	be36561826a9d4a68cb9a172a80de3108ec61c29	unread
 core/backend/src/db/manual-migrations/partition-audit-logs.ts	governance	audit	core/backend/src/db/manual-migrations	e48efd4b99ef9a708b701be74d5df0bd527480d7	unread
 core/backend/src/db/migrations/20231128072457_user.ts	operate	foundation	core/backend/src/db/migrations	cf9742ab9936dbbd82d85f8c5de4572370f466db	unread
 core/backend/src/db/migrations/20231128092347_user-encryption-key.ts	operate	foundation	core/backend/src/db/migrations	2ac292e88452481f7767b316fad7774aa51a7f99	unread
@@ -826,7 +826,7 @@ core/backend/src/db/migrations/20260127212335_add-default-ttl-to-certificate-pro
 core/backend/src/db/migrations/20260129181800_add-encrypted-config-to-pki-alert-channels.ts	pki	pki	core/backend/src/db/migrations	ff3d80101ca4baefbb88ee3757a3d4ffc2763666	unread
 core/backend/src/db/migrations/20260202042111_add-pki-alert-history-composite-index.ts	pki	pki	core/backend/src/db/migrations	84285597f16d79c98eab5aec731746beb1e16093	unread
 core/backend/src/db/migrations/20260202131558_secret-approval-requests-secrets-internal-metadata.ts	access	authorization	core/backend/src/db/migrations	c534bc694cc049ae119f50fe0fee30790d2a4ad4	unread
-core/backend/src/db/migrations/20260203141935_durable-queue.ts	operate	foundation	core/backend/src/db/migrations	8d8aa517f98d8aab813502b8f18ac8f7650f997d	unread
+core/backend/src/db/migrations/20260203141935_durable-queue.ts	operate	foundation	core/backend/src/db/migrations	48b866152d68e8d0dc041406d3bd89c62f6736b3	unread
 core/backend/src/db/migrations/20260205012343_add-pki-discovery-tables.ts	pki	pki	core/backend/src/db/migrations	e984bf570e10022ade722b65c0dc4bbb14738002	unread
 core/backend/src/db/migrations/20260205204147_redact-secret-version-values.ts	operate	foundation	core/backend/src/db/migrations	d03740559c44d1e33c50d63ac6e2de3200f90bf5	unread
 core/backend/src/db/migrations/20260206001358_windows-server-pam-resource.ts	pam	pam	core/backend/src/db/migrations	fbd371b7715df5d7784d42b8297a8406ddc8b269	unread
@@ -860,7 +860,7 @@ core/backend/src/db/migrations/20260323000000_access-approval-request-expiration
 core/backend/src/db/migrations/20260324152230_add-gateway-last-health-check-status.ts	pam	pam	core/backend/src/db/migrations	19fd9e69e178701877a6116ca2fc9f810b3191c9	unread
 core/backend/src/db/migrations/20260325200000_secret-sharing-allow-external-emails.ts	operate	foundation	core/backend/src/db/migrations	f61fb37f503f689ae6ddb559b8e30c182c2cb240	unread
 core/backend/src/db/migrations/20260325201236_add-scep-enrollment.ts	pki	pki	core/backend/src/db/migrations	4406c781b04d25a68731095f1465a77367b7adc3	unread
-core/backend/src/db/migrations/20260327210655_drop-queue-persistence.ts	operate	foundation	core/backend/src/db/migrations	c027069518e62213dfae22ce668eb3dc82f6de29	unread
+core/backend/src/db/migrations/20260327210655_drop-queue-persistence.ts	operate	foundation	core/backend/src/db/migrations	8fb5023d1a60272172cf772e587aad1e21ef94a5	unread
 core/backend/src/db/migrations/20260330072924_auth-revamp.ts	operate	foundation	core/backend/src/db/migrations	728d52be8dc1234873b331877f020629d37f12c4	unread
 core/backend/src/db/migrations/20260330172252_rename-vault-to-external-migration-config.ts	operate	foundation	core/backend/src/db/migrations	b91e97c9fa8dd26debf6272fef81bb7c2013a38e	unread
 core/backend/src/db/migrations/20260401124650_certificate-inventory-views.ts	pki	pki	core/backend/src/db/migrations	261954af4752bd032dcd5b35efc8722110e2cbfd	unread
@@ -998,6 +998,7 @@ core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	operate	foundatio
 core/backend/src/db/migrations/utils/env-config.ts	operate	foundation	core/backend/src/db/migrations/utils	31fd1c9dcf98143a1020afc6970c51f5a953624f	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	operate	foundation	core/backend/src/db/migrations/utils	8e5c5866218fc533b2cff6de743e3237bc486b29	unread
 core/backend/src/db/migrations/utils/services.ts	operate	foundation	core/backend/src/db/migrations/utils	7eaf1c908d1ded9574cae2da9bae04bf225759d5	unread
+core/backend/src/db/namespaced-migration-source.ts	operate	foundation	core/backend/src/db	126f1aef6b776835793edcd6de7e571e92398805	unread
 core/backend/src/db/rename-migrations-to-mjs.ts	operate	foundation	core/backend/src/db	059898441f106a5ea7d877ecf4408dabaff8790a	unread
 core/backend/src/db/run-clickhouse-migrations.ts	operate	foundation	core/backend/src/db	585763897a0fd3830d1b74a6a46823b01924c801	unread
 core/backend/src/db/sanitized-schema.ts	operate	foundation	core/backend/src/db	f09e7342a47db291786cce095ecf4322899ed9e9	reviewed
@@ -1293,6 +1294,7 @@ core/backend/src/db/seeds/2-org.ts	operate	foundation	core/backend/src/db/seeds	
 core/backend/src/db/seeds/3-project.ts	operate	foundation	core/backend/src/db/seeds	6ce92545aff4c77cdadd7b3e5cf1140ed5d4559b	unread
 core/backend/src/db/seeds/4-project-v3.ts	operate	foundation	core/backend/src/db/seeds	920497a82b2b53890b554e22778aea4de4826533	unread
 core/backend/src/db/seeds/5-machine-identity.ts	access	identity	core/backend/src/db/seeds	4e4e3eb7fd7d11783c7c39729dde10bdaec2739e	unread
+core/backend/src/db/table-namespace-index-names.ts	operate	foundation	core/backend/src/db	9020c931dbe17cc0203076de7670ca1ac6cb7aaf	unread
 core/backend/src/db/table-namespace-rename.ts	operate	foundation	core/backend/src/db	a208bd94e8a049a317fba7ddc0790761f22af023	unread
 core/backend/src/db/table-namespaces.ts	operate	foundation	core/backend/src/db	d5d9f87d7e665d8078d3d132a06e94823b4d0213	unread
 core/backend/src/db/utils.ts	operate	foundation	core/backend/src/db	670ba36d6b094d71336eafa414e8a61047826e9a	unread
@@ -9738,7 +9740,7 @@ scripts/check-org-mfa-ui.mjs	operate	delivery	scripts	ec7ca020b9d7a9c423a124b35c
 scripts/check-owned-dependency-image.mjs	operate	delivery	scripts	71e6500c3e34d39a378a380d02e7c555b887f493	reviewed
 scripts/check-owned.sh	operate	delivery	scripts	b3753eea23fa8432fc3b91e7d19abe0aaab074cd	verified
 scripts/check-recorded-media.mjs	operate	delivery	scripts	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	reviewed
-scripts/check-table-namespaces.mjs	operate	delivery	scripts	c2aad7a2bda4581271626ef3e9fd0ab8d59f8568	unread
+scripts/check-table-namespaces.mjs	operate	delivery	scripts	1c443edfdea70f69615b8cd47b890a967df2c844	unread
 scripts/check-ui-action-standard.mjs	operate	delivery	scripts	7aaa4f7b50ae29e45a17246c137f9aee536c4709	unread
 scripts/check-ui-benchmark-receipt.mjs	operate	delivery	scripts	bfc623a29e24f6f1d47996d2b2589817721df519	unread
 scripts/check-ui-loading.mjs	operate	delivery	scripts	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	verified

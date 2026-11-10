@@ -40,7 +40,6 @@ for (const { path, rel } of sourceFiles(root, ["core/backend/src", "core/backend
   for (const hit of findReferences(readFileSync(path, "utf8"), legacy)) {
     if (migration && raw.has(hit.name)) continue;
     if (hit.kind === "literal" && (!dbCall.test(hit.text) || columnWords.test(hit.text))) continue;
-    if (migration && hit.kind === "literal" && hit.name === "queue_jobs") continue;
     failures.push(`${rel}:${hit.line} ${hit.name}: ${hit.text.slice(0, 120)}`);
   }
 }

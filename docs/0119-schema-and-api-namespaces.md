@@ -56,18 +56,25 @@ data-access code, so freezing them on the inherited names would break fresh inst
 2. **Every migration uses the new names** through `TableName`, so a fresh database gets
    `vx_` tables from the start. Raw SQL inside migrations was rewritten to match. The 12
    raw-SQL tables are still created under their inherited names and renamed afterwards.
-3. **An existing store moves first.** On start, inside the migration lock and before any
-   pending migration, `renameLegacyTables` renames the `TableName` tables in one
-   transaction. It is idempotent and refuses if both an inherited and a `vx_` table exist.
-   Partitions are renamed with their parent. Functions whose bodies name a renamed table
-   are recreated with the new name.
+3. **An existing store moves first.** Every migration path (startup, both knexfiles, which
+   `vaultix server upgrade` runs, and the e2e environment) uses
+   `NamespacedMigrationSource`: knex's file list and order, with two steps in front of each
+   migration. `renameLegacyTables` renames any `TableName` table still on its inherited
+   name, in one transaction; it is idempotent and refuses if both an inherited and a `vx_`
+   table exist. Partitions are renamed with their parent, and functions whose bodies name a
+   renamed table are recreated with the new name. A store several migrations behind
+   therefore upgrades the same way on every path.
+   The other step keeps automatic index, unique and foreign-key names on the inherited
+   table name (`table-namespace-index-names.ts`). PostgreSQL cuts identifiers at 63
+   characters, and the longer `vx_` names made two constraints collide on a fresh store;
+   with inherited names a fresh store gets exactly the constraint names an upgraded one
+   keeps.
 4. **The namespace migration** (`20261110120000_vx-table-namespaces`) then renames the raw
    tables, records the change in the migration set (so `vaultix server upgrade` rehearses
    it on a restored copy), and its `down` reverses everything.
 5. **Columns keep their names.** Junction tables named their foreign-key columns after the
    tables they join (`secret_tagsId`, `secrets_v2Id`); those stay, through
-   `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike. Index and
-   constraint names keep their old spelling.
+   `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike.
 6. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
    inherited table name appears in SQL or a database call in TypeScript, Go, scripts or the
    CLI. Both checks are canonical build stages.

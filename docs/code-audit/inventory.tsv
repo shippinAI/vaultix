@@ -484,7 +484,7 @@ core/backend/e2e-test/testUtils/folders.ts	a5484a22e6def93a3db1efaaa9a1b4c5dee6f
 core/backend/e2e-test/testUtils/saml-config.ts	68a98afb584302ebdef0b95d80941ca1cc91dea6	test	unread
 core/backend/e2e-test/testUtils/secret-imports.ts	370a8dfb8717c297866e837dba3bd2f42c5173c6	test	unread
 core/backend/e2e-test/testUtils/secrets.ts	68e813442c41d9e14ea568508d1f58463ca871e0	test	unread
-core/backend/e2e-test/vitest-environment-knex.ts	6c95f69c5da9e9e971d11952410f30c2236eb6d8	test	unread
+core/backend/e2e-test/vitest-environment-knex.ts	030ceaf74c6388f047932f3ae1835b4a718646c5	test	unread
 core/backend/nodejs.fips.cnf	47d4a3fe3ca3b5b992affe3a065802c0bbbd8a93	product-code	unread
 core/backend/nodemon.json	2542bca4dca5d74d7ac9c3d61913388e39eb3514	product-code	unread
 core/backend/package-lock.json	887f8f939bf2377d95e52e69f7e5212a00444141	dependency-lock	unread
@@ -511,14 +511,14 @@ core/backend/src/@types/pg-cursor.d.ts	11415e9fae77428ab57143de7b029de63072c330	
 core/backend/src/auto-start-migrations-fns.test.ts	f6cae0353abee67ae7d76107194dd35c83903ee4	test	unread
 core/backend/src/auto-start-migrations-fns.ts	8e7b24b1d9ca819cfce75198b0eac0f4ade5850e	product-code	unread
 core/backend/src/auto-start-migrations.test.ts	8a2e3e43bf9963f39671c32ea7b1af0d4661f716	test	unread
-core/backend/src/auto-start-migrations.ts	2d2d85b667c7f8075b5efdf7c3d8770b757f7e53	product-code	unread
+core/backend/src/auto-start-migrations.ts	350cddb6abb42340dcadf104047a275d85a7775b	product-code	unread
 core/backend/src/db/analytics-views.ts	676564940243fcfdc5dc8a8d1498e84637ceb003	product-code	reviewed
-core/backend/src/db/auditlog-knexfile.ts	d926a59378e4beff59e04a310244a832512788dc	product-code	unread
+core/backend/src/db/auditlog-knexfile.ts	3dfa15409475f700b45682b811ea5b28d6a84db6	product-code	unread
 core/backend/src/db/clickhouse-migration-runner.ts	c7ec278459b14140253235b2ba9ca61218aead29	product-code	unread
 core/backend/src/db/index.ts	abebdf65a8a399f6e0b9b17fa2475b8db9b7e0af	product-code	unread
-core/backend/src/db/instance.ts	a2d25c5762aa78bdfbccf9127a7908b765430b52	product-code	unread
+core/backend/src/db/instance.ts	24182395e290102ef029f76edce1181b9574157f	product-code	unread
 core/backend/src/db/junction-columns.ts	60eee9228c12ff7c64d1c0536d363e562ec0b5e0	product-code	unread
-core/backend/src/db/knexfile.ts	fc6f25f18e3dc9ea37420b0497d9b561aa0bdee3	product-code	unread
+core/backend/src/db/knexfile.ts	be36561826a9d4a68cb9a172a80de3108ec61c29	product-code	unread
 core/backend/src/db/manual-migrations/partition-audit-logs.ts	e48efd4b99ef9a708b701be74d5df0bd527480d7	product-code	unread
 core/backend/src/db/migrations/20231128072457_user.ts	cf9742ab9936dbbd82d85f8c5de4572370f466db	product-code	unread
 core/backend/src/db/migrations/20231128092347_user-encryption-key.ts	2ac292e88452481f7767b316fad7774aa51a7f99	product-code	unread
@@ -865,7 +865,7 @@ core/backend/src/db/migrations/20260127212335_add-default-ttl-to-certificate-pro
 core/backend/src/db/migrations/20260129181800_add-encrypted-config-to-pki-alert-channels.ts	ff3d80101ca4baefbb88ee3757a3d4ffc2763666	product-code	unread
 core/backend/src/db/migrations/20260202042111_add-pki-alert-history-composite-index.ts	84285597f16d79c98eab5aec731746beb1e16093	product-code	unread
 core/backend/src/db/migrations/20260202131558_secret-approval-requests-secrets-internal-metadata.ts	c534bc694cc049ae119f50fe0fee30790d2a4ad4	product-code	unread
-core/backend/src/db/migrations/20260203141935_durable-queue.ts	8d8aa517f98d8aab813502b8f18ac8f7650f997d	product-code	unread
+core/backend/src/db/migrations/20260203141935_durable-queue.ts	48b866152d68e8d0dc041406d3bd89c62f6736b3	product-code	unread
 core/backend/src/db/migrations/20260205012343_add-pki-discovery-tables.ts	e984bf570e10022ade722b65c0dc4bbb14738002	product-code	unread
 core/backend/src/db/migrations/20260205204147_redact-secret-version-values.ts	d03740559c44d1e33c50d63ac6e2de3200f90bf5	product-code	unread
 core/backend/src/db/migrations/20260206001358_windows-server-pam-resource.ts	fbd371b7715df5d7784d42b8297a8406ddc8b269	product-code	unread
@@ -899,7 +899,7 @@ core/backend/src/db/migrations/20260323000000_access-approval-request-expiration
 core/backend/src/db/migrations/20260324152230_add-gateway-last-health-check-status.ts	19fd9e69e178701877a6116ca2fc9f810b3191c9	product-code	unread
 core/backend/src/db/migrations/20260325200000_secret-sharing-allow-external-emails.ts	f61fb37f503f689ae6ddb559b8e30c182c2cb240	product-code	unread
 core/backend/src/db/migrations/20260325201236_add-scep-enrollment.ts	4406c781b04d25a68731095f1465a77367b7adc3	product-code	unread
-core/backend/src/db/migrations/20260327210655_drop-queue-persistence.ts	c027069518e62213dfae22ce668eb3dc82f6de29	product-code	unread
+core/backend/src/db/migrations/20260327210655_drop-queue-persistence.ts	8fb5023d1a60272172cf772e587aad1e21ef94a5	product-code	unread
 core/backend/src/db/migrations/20260330072924_auth-revamp.ts	728d52be8dc1234873b331877f020629d37f12c4	product-code	unread
 core/backend/src/db/migrations/20260330172252_rename-vault-to-external-migration-config.ts	b91e97c9fa8dd26debf6272fef81bb7c2013a38e	product-code	unread
 core/backend/src/db/migrations/20260401124650_certificate-inventory-views.ts	261954af4752bd032dcd5b35efc8722110e2cbfd	product-code	unread
@@ -1037,6 +1037,7 @@ core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	93985ca7671297822
 core/backend/src/db/migrations/utils/env-config.ts	31fd1c9dcf98143a1020afc6970c51f5a953624f	product-code	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	8e5c5866218fc533b2cff6de743e3237bc486b29	product-code	unread
 core/backend/src/db/migrations/utils/services.ts	7eaf1c908d1ded9574cae2da9bae04bf225759d5	product-code	unread
+core/backend/src/db/namespaced-migration-source.ts	126f1aef6b776835793edcd6de7e571e92398805	product-code	unread
 core/backend/src/db/rename-migrations-to-mjs.ts	059898441f106a5ea7d877ecf4408dabaff8790a	product-code	unread
 core/backend/src/db/run-clickhouse-migrations.ts	585763897a0fd3830d1b74a6a46823b01924c801	product-code	unread
 core/backend/src/db/sanitized-schema.ts	f09e7342a47db291786cce095ecf4322899ed9e9	product-code	reviewed
@@ -1332,6 +1333,7 @@ core/backend/src/db/seeds/2-org.ts	3f89a863ffeacd4ba0e1cd0a6edc059cc3864b06	prod
 core/backend/src/db/seeds/3-project.ts	6ce92545aff4c77cdadd7b3e5cf1140ed5d4559b	product-code	unread
 core/backend/src/db/seeds/4-project-v3.ts	920497a82b2b53890b554e22778aea4de4826533	product-code	unread
 core/backend/src/db/seeds/5-machine-identity.ts	4e4e3eb7fd7d11783c7c39729dde10bdaec2739e	product-code	unread
+core/backend/src/db/table-namespace-index-names.ts	9020c931dbe17cc0203076de7670ca1ac6cb7aaf	product-code	unread
 core/backend/src/db/table-namespace-rename.ts	a208bd94e8a049a317fba7ddc0790761f22af023	product-code	unread
 core/backend/src/db/table-namespaces.ts	d5d9f87d7e665d8078d3d132a06e94823b4d0213	product-code	unread
 core/backend/src/db/utils.ts	670ba36d6b094d71336eafa414e8a61047826e9a	product-code	unread
@@ -12023,7 +12025,7 @@ docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e2890383
 docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/0117-provider-import.md	9c0a44c3b890aa6d68df944b283ce663aa8b03b8	documentation	unread
 docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	unread
-docs/0119-schema-and-api-namespaces.md	f165292176d0a5717018686b10645ab726dd2d6e	documentation	unread
+docs/0119-schema-and-api-namespaces.md	39575bd0b17580cbf96dd5ed77150285ffd8f2bb	documentation	unread
 docs/auth/authority-review.json	1a4ffbe4b4265817f40ec81464f1c78a47416495	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -12047,8 +12049,8 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	d80683ce04add17e703db0031d5730916e138234	generated	unread
-docs/capabilities/generated/source-map.tsv	3766d4bc80ba46cae68b81fd636d88d0facda252	generated	unread
+docs/capabilities/generated/catalog.json	a2d5fc5a8c1841039fd9ffcda167499b72c13e3a	generated	unread
+docs/capabilities/generated/source-map.tsv	dfed757442ea697cc53aa88556dc702e02e4e6d8	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12060,9 +12062,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	c81ec374aef3ffdf88e65f33d6890157a0f41ed8	generated	unread
-docs/migration/generated/modules.tsv	8b3758a448c137f6eddc5e5890394b740e3f37fe	generated	unread
-docs/migration/generated/summary.json	80d2b404d556a65c505b30a497238de3f90c2a85	generated	unread
+docs/migration/generated/files.tsv	ce22d7ddec06f90db3d9bf4cd32993ac4f54f8c9	generated	unread
+docs/migration/generated/modules.tsv	36022b74adb0fb97b535aeab2bd1bc8de2cf5b2a	generated	unread
+docs/migration/generated/summary.json	9c2c6ffb5d1fd373dc48ac5a8acf14a91876740c	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
 docs/plan/naming.md	f09d20487a49d57c77f369d9dacac613b4540d43	documentation	unread
@@ -12258,7 +12260,7 @@ scripts/check-org-mfa-ui.mjs	ec7ca020b9d7a9c423a124b35cde0569a8747dfb	build-and-
 scripts/check-owned-dependency-image.mjs	71e6500c3e34d39a378a380d02e7c555b887f493	build-and-operations	reviewed
 scripts/check-owned.sh	b3753eea23fa8432fc3b91e7d19abe0aaab074cd	build-and-operations	verified
 scripts/check-recorded-media.mjs	6e68e801b2e609c1ea5b9a10da5cdc87ac2288a0	build-and-operations	reviewed
-scripts/check-table-namespaces.mjs	c2aad7a2bda4581271626ef3e9fd0ab8d59f8568	build-and-operations	unread
+scripts/check-table-namespaces.mjs	1c443edfdea70f69615b8cd47b890a967df2c844	build-and-operations	unread
 scripts/check-ui-action-standard.mjs	7aaa4f7b50ae29e45a17246c137f9aee536c4709	build-and-operations	unread
 scripts/check-ui-benchmark-receipt.mjs	bfc623a29e24f6f1d47996d2b2589817721df519	build-and-operations	unread
 scripts/check-ui-loading.mjs	25dd6a7baba24cbfc56eebe75f601f5f8eac8deb	build-and-operations	verified
