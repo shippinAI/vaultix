@@ -162,7 +162,11 @@ const ProviderCard = ({
         </p>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2" aria-label={`${details.name} capabilities`}>
+      <div
+        role="group"
+        className="mt-4 flex flex-wrap gap-2"
+        aria-label={`${details.name} capabilities`}
+      >
         {details.capabilities.map((capability) => (
           <HelpTip key={capability.label} label={capability.label} help={capability.help} />
         ))}

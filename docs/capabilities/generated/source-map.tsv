@@ -5489,9 +5489,9 @@ core/frontend/src/components/vaultix/MCPLActionBoard.stories.tsx	ai	ai	core/fron
 core/frontend/src/components/vaultix/MCPLActionBoard.tsx	ai	ai	core/frontend/src/components/vaultix	2c850422ee6de010df9f935bb86c751c011052c3	unread
 core/frontend/src/components/vaultix/MCPLWorkbench.stories.tsx	ai	ai	core/frontend/src/components/vaultix	9bfd11dc340d80a4115eaf3d821526f85ad0cd60	unread
 core/frontend/src/components/vaultix/MCPLWorkbench.tsx	ai	ai	core/frontend/src/components/vaultix	816801c2b3a3c487d84e439dd1bc6b92c5625521	unread
-core/frontend/src/components/vaultix/ProviderImportDialog.tsx	ai	ai	core/frontend/src/components/vaultix	f82571a088bcb1e772b84a73c99956da7019807b	unread
+core/frontend/src/components/vaultix/ProviderImportDialog.tsx	ai	ai	core/frontend/src/components/vaultix	2553e7fd43bfa236046dc593297abd66bf80a224	unread
 core/frontend/src/components/vaultix/ProviderImportStudio.stories.tsx	ai	ai	core/frontend/src/components/vaultix	8e35aa095932a13e2cd739a6e61c7086778b10e0	unread
-core/frontend/src/components/vaultix/ProviderImportStudio.tsx	ai	ai	core/frontend/src/components/vaultix	96aff2fadd0ca884c25e39d590f3759e41fa1134	unread
+core/frontend/src/components/vaultix/ProviderImportStudio.tsx	ai	ai	core/frontend/src/components/vaultix	30ac8089aca85d27f9f9c0707c52d1f382bc7a5e	unread
 core/frontend/src/components/vaultix/ReferenceTeaching.tsx	ai	ai	core/frontend/src/components/vaultix	b0e226c2aa5f8d82c04a2c94ec027552755dc0c0	reviewed
 core/frontend/src/components/vaultix/ReferenceWorkspace.tsx	ai	ai	core/frontend/src/components/vaultix	2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72	reviewed
 core/frontend/src/components/vaultix/VaultixAmbientBackground.stories.tsx	ai	ai	core/frontend/src/components/vaultix	1397321d1d5625f81d53d66d509cb20e75738bda	unread
@@ -9833,7 +9833,7 @@ scripts/test-product-guidance.mjs	operate	delivery	scripts	2cf39791d9af8696484ea
 scripts/test-production-admission.mjs	operate	delivery	scripts	938354dca96cbfaa75e5d693aed14592ce7bf11d	verified
 scripts/test-project-role-refresh.mjs	operate	delivery	scripts	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	verified
 scripts/test-provider-import-image.mjs	operate	delivery	scripts	76fc1395c74f2d5c3896005dc384df7c96bf7f1c	unread
-scripts/test-provider-import-ui.mjs	operate	delivery	scripts	8205ddfc3549ccdf5046731fc5f62796025843ca	unread
+scripts/test-provider-import-ui.mjs	operate	delivery	scripts	6bc6e10a7c5ed585aa0f226d331ffeb2a5611a50	unread
 scripts/test-proxy-boundary.mjs	operate	delivery	scripts	31abb675903176cfdabe2db161bcbbd62ed27351	verified
 scripts/test-public-experience.mjs	operate	delivery	scripts	bfe4bf4aa5b5e52e7b9d19bb02fff609bc0ea60e	reviewed
 scripts/test-publication.mjs	operate	delivery	scripts	61bcaf66f94f6bdae0374e236849f1889b68d1ca	verified

@@ -269,7 +269,15 @@ export const ProviderImportDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl" showCloseButton>
+      <DialogContent
+        className="max-w-3xl"
+        showCloseButton
+        // Focus the dialog itself so opening it does not pop a tooltip on the first control.
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          (event.target as HTMLElement | null)?.focus();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>
             {details ? `Import from ${details.name}` : "Import from another provider"}

@@ -7851,9 +7851,9 @@ core/frontend/src/components/vaultix/MCPLActionBoard.stories.tsx	0413558100b32c9
 core/frontend/src/components/vaultix/MCPLActionBoard.tsx	2c850422ee6de010df9f935bb86c751c011052c3	product-code	unread
 core/frontend/src/components/vaultix/MCPLWorkbench.stories.tsx	9bfd11dc340d80a4115eaf3d821526f85ad0cd60	product-code	unread
 core/frontend/src/components/vaultix/MCPLWorkbench.tsx	816801c2b3a3c487d84e439dd1bc6b92c5625521	product-code	unread
-core/frontend/src/components/vaultix/ProviderImportDialog.tsx	f82571a088bcb1e772b84a73c99956da7019807b	product-code	unread
+core/frontend/src/components/vaultix/ProviderImportDialog.tsx	2553e7fd43bfa236046dc593297abd66bf80a224	product-code	unread
 core/frontend/src/components/vaultix/ProviderImportStudio.stories.tsx	8e35aa095932a13e2cd739a6e61c7086778b10e0	product-code	unread
-core/frontend/src/components/vaultix/ProviderImportStudio.tsx	96aff2fadd0ca884c25e39d590f3759e41fa1134	product-code	unread
+core/frontend/src/components/vaultix/ProviderImportStudio.tsx	30ac8089aca85d27f9f9c0707c52d1f382bc7a5e	product-code	unread
 core/frontend/src/components/vaultix/ReferenceTeaching.tsx	b0e226c2aa5f8d82c04a2c94ec027552755dc0c0	product-code	reviewed
 core/frontend/src/components/vaultix/ReferenceWorkspace.tsx	2d900c6f92ffda1c68b632ecbd1df93c1f3e3e72	product-code	reviewed
 core/frontend/src/components/vaultix/VaultixAmbientBackground.stories.tsx	1397321d1d5625f81d53d66d509cb20e75738bda	product-code	unread
@@ -12039,7 +12039,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	ce43227a6345a2e8c10333aa4141ce476bbfc6ef	generated	unread
-docs/capabilities/generated/source-map.tsv	678241426212e51bcf67c26db9a32b0f1c445bfb	generated	unread
+docs/capabilities/generated/source-map.tsv	374b93ab10724e39858729138bc6ea231ed14c07	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12051,8 +12051,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	e4af60255336b4ba81ca0edc5b972f4791506da2	generated	unread
-docs/migration/generated/modules.tsv	c8e96ba7191f1335533eac7646c6cd1500764424	generated	unread
+docs/migration/generated/files.tsv	d89fd1867ef39483aaf07f22d88bb6f50415d4b2	generated	unread
+docs/migration/generated/modules.tsv	3ec618a2e68ad68ca4bf7979f6950d94db4d48a9	generated	unread
 docs/migration/generated/summary.json	d363c42b55ef5224fe7c0fa5ccd92e7b525fe0a8	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12351,7 +12351,7 @@ scripts/test-product-guidance.mjs	2cf39791d9af8696484eae899707c2271a22adda	build
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified
 scripts/test-provider-import-image.mjs	76fc1395c74f2d5c3896005dc384df7c96bf7f1c	build-and-operations	unread
-scripts/test-provider-import-ui.mjs	8205ddfc3549ccdf5046731fc5f62796025843ca	build-and-operations	unread
+scripts/test-provider-import-ui.mjs	6bc6e10a7c5ed585aa0f226d331ffeb2a5611a50	build-and-operations	unread
 scripts/test-proxy-boundary.mjs	31abb675903176cfdabe2db161bcbbd62ed27351	build-and-operations	verified
 scripts/test-public-experience.mjs	bfe4bf4aa5b5e52e7b9d19bb02fff609bc0ea60e	build-and-operations	reviewed
 scripts/test-publication.mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	build-and-operations	verified

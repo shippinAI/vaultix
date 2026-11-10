@@ -35,13 +35,16 @@ export async function testProviderImportUi({ page, expect, AxeBuilder, evidence,
   await expect(dialog.getByText("0 of 2", { exact: true })).toBeVisible();
   record("Cards render the server runtime: both providers, not connected, review disabled");
 
+  // Opening focuses the dialog itself, so no tooltip pops on its own.
+  await expect(dialog).toBeFocused();
+  await expect(page.getByRole("tooltip")).toHaveCount(0);
   await dialog.getByRole("button", { name: "Name-only review", exact: true }).first().focus();
-  await expect(page.getByRole("tooltip")).toContainText("Values never reach your browser");
+  await expect(page.getByRole("tooltip", { name: /Values never reach your browser/ })).toHaveCount(1);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("tooltip")).toHaveCount(0);
   await expect(dialog).toBeVisible();
   await dialog.getByRole("button", { name: /^Step 1\s*Review$/ }).first().focus();
-  await expect(page.getByRole("tooltip")).toContainText("names");
+  await expect(page.getByRole("tooltip", { name: /secret names are new/ })).toHaveCount(1);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("tooltip")).toHaveCount(0);
   await expect(dialog).toBeVisible();
