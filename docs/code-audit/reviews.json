@@ -267,7 +267,7 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "e37435ed0cf20c8db69f86926b2c24fe05ace731",
+      "blob": "0d52536a5c78a086067f01674ac758526a243703",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
@@ -278,7 +278,8 @@
         "core/frontend/src/pages/organization/ProjectsPage/components/ProjectProductCard.stories.tsx",
         "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity.",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
-        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed to open provider import from the environment dashboard and mount the dialog only while open. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6704,14 +6705,15 @@
     },
     {
       "path": "core/frontend/src/pages/secret-manager/OverviewPage/OverviewPage.tsx",
-      "blob": "106e819c1151ed5ed9278efbca519d6daae1dff8",
+      "blob": "c49b979291b1d87e01e5f347493e0875c8c3a5f1",
       "status": "authored",
       "decision": "modify",
       "scope": "Read the complete 4032-line module. Scope is only readable batch-mode badges in empty/populated views and removal of the nested tooltip button in the populated view. Preserve batch operations, imports, permissions and other existing workflows. Other inherited UI/copy and whole-module authorship remain open; no parity claim.",
       "evidence": [
         "docs/releases-and-updates.md",
         "scripts/test-updates-clyffy-workflow.mjs",
-        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed to open provider import from the environment dashboard and mount the dialog only while open. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {

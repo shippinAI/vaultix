@@ -210,7 +210,12 @@ try {
       return { status: response.status, valueHidden: body.secret?.secretValueHidden === true, tagPresent: body.secret?.tags?.some(tag => tag.id === tagId) === true };
     }
   });
-  await testProviderImportUi({ page, expect, AxeBuilder, evidence });
+  await testProviderImportUi({ page, expect, AxeBuilder, evidence,
+    readProviders: async () => {
+      const response = await fetch(`${origin}/api/v3/external-migration/providers?projectId=${project.id}`, { headers: { Authorization: `Bearer ${selected.token}` } });
+      return { status: response.status, body: await response.json() };
+    }
+  });
   const unauthenticatedProject = await fetch(`${origin}/api/v1/projects/${project.id}`);
   assert.equal(unauthenticatedProject.status, 401, "Project API must deny unauthenticated reads.");
   await page.goto(origin);

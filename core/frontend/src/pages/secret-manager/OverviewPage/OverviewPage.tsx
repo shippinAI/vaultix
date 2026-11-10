@@ -3872,9 +3872,10 @@ const OverviewPageContent = () => {
         appConnections={vaultAppConnections}
         onImport={handleVaultImport}
       />
-      {singleEnvSlug && (
+      {/* Mounted only while open: the cards read the provider live. */}
+      {singleEnvSlug && popUp.importFromProvider.isOpen && (
         <ProviderImportDialog
-          isOpen={popUp.importFromProvider.isOpen}
+          isOpen
           onOpenChange={(isOpen) => handlePopUpToggle("importFromProvider", isOpen)}
           projectId={projectId}
           environment={singleEnvSlug}

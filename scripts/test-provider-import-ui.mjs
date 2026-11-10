@@ -4,25 +4,24 @@ import { resolve } from "node:path";
 
 // Packaged secrets overview: the provider cards load the server's provider runtime, explain
 // themselves through keyboard-reachable tooltips, refuse review without a connection and pass axe.
-export async function testProviderImportUi({ page, expect, AxeBuilder, evidence }) {
+export async function testProviderImportUi({ page, expect, AxeBuilder, evidence, readProviders }) {
   const checks = [];
   const record = name => {
     checks.push(name);
     writeFileSync(resolve(evidence, "provider-import-ui.json"), JSON.stringify({
-      scope: "Packaged secrets overview provider cards against the real provider runtime of a fresh instance (no connections)",
+      scope: "Packaged environment dashboard provider cards against the real provider runtime of a fresh instance (no connections)",
       completedChecks: checks
     }, null, 2));
   };
 
-  const runtimeResponse = page.waitForResponse(response =>
-    new URL(response.url()).pathname === "/api/v3/external-migration/providers" && response.request().method() === "GET");
-  await page.getByRole("button", { name: "More ways to add", exact: true }).click();
-  await page.getByRole("menuitem", { name: /Browse import providers/ }).click();
-  const runtime = await runtimeResponse;
-  assert.equal(runtime.status(), 200, "Provider runtime must load");
-  const { providers } = await runtime.json();
-  assert.deepEqual(providers.map(provider => [provider.provider, provider.connections.length]),
+  // The overview already loaded this runtime for its menu; the cards reuse that query.
+  const runtime = await readProviders();
+  assert.equal(runtime.status, 200, "Provider runtime must load");
+  assert.deepEqual(runtime.body.providers.map(provider => [provider.provider, provider.connections.length]),
     [["doppler", 0], ["external-vaultix", 0]], "A fresh instance has both providers and no connections");
+  // The environment dashboard's add menu; the project overview offers the same dialog.
+  await page.getByRole("button", { name: "add-folder-or-import", exact: true }).click();
+  await page.getByRole("button", { name: "Import from another provider", exact: true }).click();
 
   const dialog = page.getByRole("dialog", { name: "Import from another provider" });
   await expect(dialog).toBeVisible();
@@ -39,10 +38,12 @@ export async function testProviderImportUi({ page, expect, AxeBuilder, evidence 
   await dialog.getByRole("button", { name: "Name-only review", exact: true }).first().focus();
   await expect(page.getByRole("tooltip")).toContainText("Values never reach your browser");
   await page.keyboard.press("Escape");
+  await expect(page.getByRole("tooltip")).toHaveCount(0);
   await expect(dialog).toBeVisible();
   await dialog.getByRole("button", { name: /^Step 1\s*Review$/ }).first().focus();
   await expect(page.getByRole("tooltip")).toContainText("names");
   await page.keyboard.press("Escape");
+  await expect(page.getByRole("tooltip")).toHaveCount(0);
   await expect(dialog).toBeVisible();
   record("Capability and lifecycle tooltips open from the keyboard and Escape keeps the dialog");
 

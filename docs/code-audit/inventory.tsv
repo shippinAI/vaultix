@@ -10323,7 +10323,7 @@ core/frontend/src/pages/secret-manager/IntegrationsListPage/components/index.ts	
 core/frontend/src/pages/secret-manager/IntegrationsListPage/components/json/frameworkIntegrations.json	7f01f90a0dca253856ebf37548281c603a96037a	product-code	unread
 core/frontend/src/pages/secret-manager/IntegrationsListPage/components/json/infrastructureIntegrations.json	b5c05d993fbe7fe88084190b47b406d532335a8a	product-code	unread
 core/frontend/src/pages/secret-manager/IntegrationsListPage/route.tsx	8c8c13ec503662234aca72fd8d5a110d37b0c0f5	product-code	unread
-core/frontend/src/pages/secret-manager/OverviewPage/OverviewPage.tsx	106e819c1151ed5ed9278efbca519d6daae1dff8	product-code	authored
+core/frontend/src/pages/secret-manager/OverviewPage/OverviewPage.tsx	c49b979291b1d87e01e5f347493e0875c8c3a5f1	product-code	authored
 core/frontend/src/pages/secret-manager/OverviewPage/components/AddResourceButtons/AddResourceButtons.tsx	8b47519303e0646836f2aed114b99b14e95a9e6f	product-code	unread
 core/frontend/src/pages/secret-manager/OverviewPage/components/AddResourceButtons/index.ts	e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	product-code	unread
 core/frontend/src/pages/secret-manager/OverviewPage/components/CreateSecretForm/CreateSecretForm.tsx	fe22a7cadd981bf946eda538b193f0b972ae3d23	product-code	verified
@@ -10449,7 +10449,7 @@ core/frontend/src/pages/secret-manager/SecretApprovalsPage/route.tsx	098e13dcc29
 core/frontend/src/pages/secret-manager/SecretDashboardPage/SecretDashboardPage.tsx	d3a642fdae7bafe581c480af1bb555347cc0cfd5	product-code	unread
 core/frontend/src/pages/secret-manager/SecretDashboardPage/SecretMainPage.store.tsx	0c62bcaf322753bb16a26bb2857d75a956bc02c0	product-code	unread
 core/frontend/src/pages/secret-manager/SecretDashboardPage/SecretMainPage.types.ts	979f8de42d13e89ba87a91990aa55892ee1cd7fc	product-code	unread
-core/frontend/src/pages/secret-manager/SecretDashboardPage/components/ActionBar/ActionBar.tsx	293a1f57e9df1807672a75fe93a78cb5ce718901	product-code	unread
+core/frontend/src/pages/secret-manager/SecretDashboardPage/components/ActionBar/ActionBar.tsx	dc41ccc5e06e71ea17762b17cf5f3cc1b5efacb1	product-code	unread
 core/frontend/src/pages/secret-manager/SecretDashboardPage/components/ActionBar/CreateDynamicSecretForm/AwsElastiCacheInputForm.tsx	84a3ba0cddadc658092bd284f2a580a1bf2335e1	product-code	unread
 core/frontend/src/pages/secret-manager/SecretDashboardPage/components/ActionBar/CreateDynamicSecretForm/AwsIamInputForm.tsx	152a6a3ef7b6358f780fbe5cfee521ddf05741f1	product-code	unread
 core/frontend/src/pages/secret-manager/SecretDashboardPage/components/ActionBar/CreateDynamicSecretForm/AwsMemoryDbInputForm.tsx	cdcf6719ccdd7423fc071afdcc074fa7506a6a9a	product-code	unread
@@ -12039,7 +12039,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	ce43227a6345a2e8c10333aa4141ce476bbfc6ef	generated	unread
-docs/capabilities/generated/source-map.tsv	ad708fd1b9dfdb9fa9d11fe3f0d5192488dc5a0b	generated	unread
+docs/capabilities/generated/source-map.tsv	678241426212e51bcf67c26db9a32b0f1c445bfb	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12051,8 +12051,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	ded3c71962e3823d3286a81dcd65fc8e64da354e	generated	unread
-docs/migration/generated/modules.tsv	a84ee0f1875cea4adfdea9551de177fb1fe337c1	generated	unread
+docs/migration/generated/files.tsv	e4af60255336b4ba81ca0edc5b972f4791506da2	generated	unread
+docs/migration/generated/modules.tsv	c8e96ba7191f1335533eac7646c6cd1500764424	generated	unread
 docs/migration/generated/summary.json	d363c42b55ef5224fe7c0fa5ccd92e7b525fe0a8	generated	unread
 docs/migration/workstreams.json	6662bf5dd2d5f42f56126e1790d45a8d413c42c8	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12326,7 +12326,7 @@ scripts/test-go-test-evidence.mjs	b5583de0e3990833d120e86e707545c3a491a1e1	build
 scripts/test-guidance-contract.mjs	aab4dea89720043c0e1ac7d45641ff9b44cadf85	build-and-operations	verified
 scripts/test-guided-interactions.mjs	623c7244b9ef6e616eaea467805e8dfe4971fcc0	build-and-operations	verified
 scripts/test-identity-policy-startup.mjs	0b987ad6360d321ac5126d81634a38abfa98a504	build-and-operations	verified
-scripts/test-image-app.mjs	e37435ed0cf20c8db69f86926b2c24fe05ace731	build-and-operations	reviewed
+scripts/test-image-app.mjs	0d52536a5c78a086067f01674ac758526a243703	build-and-operations	reviewed
 scripts/test-invite-only-access.mjs	cecf13427d4681354e192cf0ef86c02e6dffef46	build-and-operations	reviewed
 scripts/test-learning-content.mjs	f1bd3786eea1aa2dda6482b645f0f4c6a080b98d	build-and-operations	verified
 scripts/test-login-failure.mjs	09e59d34dad9500333a4ca70c02307a769d2c755	build-and-operations	verified
@@ -12351,7 +12351,7 @@ scripts/test-product-guidance.mjs	2cf39791d9af8696484eae899707c2271a22adda	build
 scripts/test-production-admission.mjs	938354dca96cbfaa75e5d693aed14592ce7bf11d	build-and-operations	verified
 scripts/test-project-role-refresh.mjs	a8bcb4723e68a3f473fb64e7004beaaf2dfc4537	build-and-operations	verified
 scripts/test-provider-import-image.mjs	76fc1395c74f2d5c3896005dc384df7c96bf7f1c	build-and-operations	unread
-scripts/test-provider-import-ui.mjs	e386454bd8bcc562f0ef54da7e1c8fa4f3bbe50f	build-and-operations	unread
+scripts/test-provider-import-ui.mjs	8205ddfc3549ccdf5046731fc5f62796025843ca	build-and-operations	unread
 scripts/test-proxy-boundary.mjs	31abb675903176cfdabe2db161bcbbd62ed27351	build-and-operations	verified
 scripts/test-public-experience.mjs	bfe4bf4aa5b5e52e7b9d19bb02fff609bc0ea60e	build-and-operations	reviewed
 scripts/test-publication.mjs	61bcaf66f94f6bdae0374e236849f1889b68d1ca	build-and-operations	verified

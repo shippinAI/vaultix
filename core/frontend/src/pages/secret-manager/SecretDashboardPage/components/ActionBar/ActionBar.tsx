@@ -18,6 +18,7 @@ import {
   faKey,
   faLock,
   faPaste,
+  faPlug,
   faPlus,
   faRotate,
   faTrash
@@ -59,6 +60,7 @@ import {
   DialogTitle,
   SelectedActionBar
 } from "@app/components/v3";
+import { ProviderImportDialog } from "@app/components/vaultix/ProviderImportDialog";
 import {
   ProjectPermissionActions,
   ProjectPermissionDynamicSecretActions,
@@ -183,7 +185,8 @@ export const ActionBar = ({
     "replicateFolder",
     "confirmUpload",
     "requestAccess",
-    "importFromVault"
+    "importFromVault",
+    "importFromProvider"
   ] as const);
   const isProtectedBranch = Boolean(protectedBranchPolicyName);
   const { subscription } = useSubscription();
@@ -1155,6 +1158,23 @@ export const ActionBar = ({
                     )}
                   </ProjectPermissionCan>
                 )}
+                <ProjectPermissionCan I={ProjectPermissionActions.Create} a={vaultSecretSubject}>
+                  {(isAllowed) => (
+                    <Button
+                      leftIcon={<FontAwesomeIcon icon={faPlug} className="pr-2" />}
+                      onClick={() => {
+                        handlePopUpOpen("importFromProvider");
+                        handlePopUpClose("misc");
+                      }}
+                      isDisabled={!isAllowed}
+                      variant="outline_bg"
+                      className="h-10 text-left"
+                      isFullWidth
+                    >
+                      Import from another provider
+                    </Button>
+                  )}
+                </ProjectPermissionCan>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -1376,6 +1396,16 @@ export const ActionBar = ({
         appConnections={vaultAppConnections}
         onImport={handleVaultImport}
       />
+      {/* Mounted only while open: the cards read the provider live. */}
+      {popUp.importFromProvider.isOpen && (
+        <ProviderImportDialog
+          isOpen
+          onOpenChange={(isOpen) => handlePopUpToggle("importFromProvider", isOpen)}
+          projectId={projectId}
+          environment={environment}
+          secretPath={secretPath || "/"}
+        />
+      )}
     </>
   );
 };
