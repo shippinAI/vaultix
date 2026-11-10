@@ -103,6 +103,8 @@ export type TServerConfig = {
   paramsFolderSecretDetectionEnabled?: boolean;
   isOfflineUsageReportsEnabled?: boolean;
   earlyAccessRequestsEnabled?: boolean;
+  // True while the instance is uninitialized and was installed with a one-time setup code.
+  setupCodeRequired?: boolean;
 };
 
 export type TUpdateServerConfigDTO = {
@@ -125,6 +127,7 @@ export type TCreateAdminUserDTO = {
   firstName: string;
   lastName?: string;
   organizationName?: string;
+  setupCode?: string;
 };
 
 export type AdminGetOrganizationsFilters = {

@@ -2,7 +2,7 @@
 
 Status: adopted for execution. Package 01 did not rename files. `docs/plan/canonical-ids.json` is still not created. Duplicate `0110` and `0112` filenames stay until a later alias index.
 
-Prefer names and folders that already exist. Do not mass-rename. A new id is an alias until the old path has no remaining readers.
+Prefer names and folders that already exist. Do not mass-rename, except the table and API namespaces the owner decided on 2026-11-10 ([0119](../0119-schema-and-api-namespaces.md)). A new id is an alias until the old path has no remaining readers.
 
 ## Single sources of truth
 
@@ -17,7 +17,8 @@ Prefer names and folders that already exist. Do not mass-rename. A new id is an 
 | Native contract | `contracts/vaultix.core.v1.json`, after it matches the router | The panel contract |
 | Panel overlay | `contracts/shippin.vaultix.panel.v1.json` and `panel/` | The product entry |
 | CLI | `cmd/vaultix` and `internal/` | A second CLI tree |
-| Encrypted store | PostgreSQL used by `core/backend` | `panel/internal/vault`, `leftover/`, or a new table prefix scheme |
+| Encrypted store | PostgreSQL used by `core/backend`, with `vx_<group>_<entity>` tables per [0119](../0119-schema-and-api-namespaces.md) | `panel/internal/vault`, `leftover/`, or any other table naming |
+| Vaultix API | `/api/vx/v1/<domain>/` per [0119](../0119-schema-and-api-namespaces.md); inherited prefixes stay until each domain's replacement is tested | A new prefix outside `/api/vx/` |
 | Authorship ledger | `docs/code-audit/reviews.json` | Proof that a use case is migrated |
 | Migration discovery | `docs/migration/generated/summary.json` | A migrated-module count. The file says no module is marked migrated |
 | This plan | `vaultix-action-plan.md` and `vaultix-traceability.json` in the artifacts store | A percentage of completion |

@@ -23,6 +23,7 @@ import { verifySuperAdmin } from "@app/server/plugins/auth/superAdmin";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode } from "@app/services/auth/auth-type";
 import { RootKeyEncryptionStrategy } from "@app/services/kms/kms-types";
+import { assertSetupCode, isSetupCodeRequired } from "@app/services/super-admin/setup-code";
 import { isSuperAdmin } from "@app/services/super-admin/super-admin-fns";
 import { getServerCfg } from "@app/services/super-admin/super-admin-service";
 import { CacheType, LoginMethod } from "@app/services/super-admin/super-admin-types";
@@ -63,6 +64,8 @@ const SanitizedSuperAdminSchema = z.object({
   isOfflineUsageReportsEnabled: z.boolean().optional(),
   isCrossProjectSecretSharingEnabled: z.boolean().optional(),
   earlyAccessRequestsEnabled: z.boolean().optional(),
+  // True while the instance is uninitialized and was installed with a one-time setup code.
+  setupCodeRequired: z.boolean().optional(),
   // Always returned
   defaultAuthOrgSlug: z.string().nullable(),
   defaultAuthOrgAuthEnforced: z.boolean().nullish(),
@@ -117,7 +120,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
             isPublicSecretSharingDisabled: serverEnvs.DISABLE_PUBLIC_SECRET_SHARING,
             licenseServerV2Enabled: serverEnvs.LICENSE_SERVER_V2_MODE === "on",
             isCrossProjectSecretSharingEnabled: plan.crossProjectSecretSharing,
-            latestAvailableVersion
+            latestAvailableVersion,
+            setupCodeRequired: isSetupCodeRequired(serverEnvs.VAULTIX_SETUP_CODE, config.initialized)
           }
         };
       }
@@ -646,7 +650,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
         password: PasswordPolicySchema,
         firstName: z.string().trim().min(1),
         lastName: z.string().trim().optional(),
-        organizationName: GenericResourceNameSchema.optional()
+        organizationName: GenericResourceNameSchema.optional(),
+        setupCode: z.string().trim().max(128).optional()
       }),
       response: {
         200: z.object({
@@ -662,8 +667,10 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
       const appCfg = getConfig();
       const serverCfg = await getServerCfg();
       if (serverCfg.initialized) throw new BadRequestError({ message: "Admin account has already been set up" });
+      const { setupCode, ...signup } = req.body;
+      assertSetupCode(appCfg.VAULTIX_SETUP_CODE, setupCode);
       const { user, token, organization } = await server.services.superAdmin.adminSignUp({
-        ...req.body,
+        ...signup,
         ip: req.realIp,
         userAgent: req.headers["user-agent"] || ""
       });
@@ -811,7 +818,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
       body: z.object({
         email: z.string().email().trim().min(1),
         password: z.string().trim().min(1),
-        organization: z.string().trim().min(1)
+        organization: z.string().trim().min(1),
+        setupCode: z.string().trim().max(128).optional()
       }),
       response: {
         200: z.object({
@@ -842,9 +850,13 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
       }
     },
     handler: async (req) => {
+      const { setupCode, ...bootstrap } = req.body;
+      // An initialized instance is still refused by bootstrapInstance, code or not.
+      const serverCfg = await getServerCfg();
+      if (!serverCfg.initialized) assertSetupCode(getConfig().VAULTIX_SETUP_CODE, setupCode);
       const { user, organization, machineIdentity } = await server.services.superAdmin.bootstrapInstance({
-        ...req.body,
-        organizationName: req.body.organization
+        ...bootstrap,
+        organizationName: bootstrap.organization
       });
 
       await server.services.telemetry.sendPostHogEvents({

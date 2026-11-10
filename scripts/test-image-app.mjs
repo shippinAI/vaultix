@@ -212,7 +212,7 @@ try {
   });
   await testProviderImportUi({ page, expect, AxeBuilder, evidence,
     readProviders: async () => {
-      const response = await fetch(`${origin}/api/v3/external-migration/providers?projectId=${project.id}`, { headers: { Authorization: `Bearer ${selected.token}` } });
+      const response = await fetch(`${origin}/api/vx/v1/connect/imports/providers?projectId=${project.id}`, { headers: { Authorization: `Bearer ${selected.token}` } });
       return { status: response.status, body: await response.json() };
     }
   });

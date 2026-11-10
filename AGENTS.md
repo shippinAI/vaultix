@@ -10,6 +10,11 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+Pre-release (2026-11-10): Vaultix is pre-release; no instance is production. Read
+`docs/0118-pre-release.md`. Deploying or installing for anyone follows
+`INSTALL-FOR-AI.md`. The only credential that may pass through chat is the one-time
+first-owner setup code; everything else in that table never does.
+
 Invite-only access (2026-11-02): read `docs/0110-invite-only-instance.md` for
 what closed signup means on one instance. It is not CLOUD-01 or public enrollment.
 Early-access requests (2026-11-02): read `docs/0112-early-access-requests.md`. The
@@ -157,6 +162,9 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 
 | Task | Read |
 | --- | --- |
+| Deploy, install, upgrade an instance (any AI) | `INSTALL-FOR-AI.md` + `docs/0109-native-install-and-upgrade.md` |
+| Pre-release rules, credentials in chat | `docs/0118-pre-release.md` |
+| Table names, new API routes (`vx_` tables, `/api/vx/v1/<domain>`) | `docs/0119-schema-and-api-namespaces.md` + `scripts/lib/table-namespaces.mjs` |
 | Identity / login / sessions | `docs/0074-built-in-and-federated-identity.md` + existing auth consumers |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |

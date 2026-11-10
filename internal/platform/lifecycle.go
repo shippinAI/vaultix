@@ -51,6 +51,9 @@ type Result struct {
 	Ready            bool     `json:"ready"`
 	RecoveryRequired bool     `json:"recoveryRequired"`
 	Message          string   `json:"message"`
+	// Present only while the running application still requires the first-owner code.
+	SetupCode string `json:"setupCode,omitempty"`
+	SetupURL  string `json:"setupUrl,omitempty"`
 }
 
 func Execute(ctx context.Context, action string, o Options, progress io.Writer) (Result, error) {
@@ -130,6 +133,9 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 		result = Result{Instance: instance, Operation: s, RecoveryRequired: s != nil && s.Phase != "ready"}
 		if s != nil && s.Phase == "ready" {
 			result.Ready = d.healthy(ctx, s.Candidate.Image) == nil
+		}
+		if result.Ready {
+			withSetupCode(ctx, d, root, &result)
 		}
 		return result, nil
 	}
@@ -321,6 +327,7 @@ func Execute(ctx context.Context, action string, o Options, progress io.Writer) 
 	result.Ready = true
 	result.RecoveryRequired = false
 	result.Message = completionMessage(s)
+	withSetupCode(ctx, d, root, &result)
 	return result, nil
 }
 
@@ -374,7 +381,7 @@ func initialize(root string, i Instance, environment string, adopt bool) error {
 		}
 	} else {
 		text := string(deployment.EnvironmentExample)
-		for key, value := range map[string]string{"ENCRYPTION_KEY": randomHex(16), "AUTH_SECRET": randomHex(32), "VAULTIX_ENC_KEY": randomHex(32), "POSTGRES_PASSWORD": randomHex(32), "SITE_URL": i.SiteURL, "VAULTIX_PUBLIC_HOST": strings.TrimPrefix(strings.TrimPrefix(i.SiteURL, "https://"), "http://")} {
+		for key, value := range map[string]string{"ENCRYPTION_KEY": randomHex(16), "AUTH_SECRET": randomHex(32), "VAULTIX_ENC_KEY": randomHex(32), "POSTGRES_PASSWORD": randomHex(32), setupCodeKey: newSetupCode(), "SITE_URL": i.SiteURL, "VAULTIX_PUBLIC_HOST": strings.TrimPrefix(strings.TrimPrefix(i.SiteURL, "https://"), "http://")} {
 			lines := strings.Split(text, "\n")
 			for n, line := range lines {
 				if strings.HasPrefix(line, key+"=") {

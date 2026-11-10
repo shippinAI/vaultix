@@ -373,7 +373,7 @@ export const useListImportProviders = (projectId?: string, options?: { enabled?:
     queryKey: externalMigrationQueryKeys.importProviders(projectId),
     queryFn: async () => {
       const { data } = await apiRequest.get<{ providers: TImportProviderRuntime[] }>(
-        "/api/v3/external-migration/providers",
+        "/api/vx/v1/connect/imports/providers",
         { params: projectId ? { projectId } : {} }
       );
       return data.providers;

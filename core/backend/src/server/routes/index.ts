@@ -547,6 +547,7 @@ import { registerV2Routes } from "./v2";
 import { registerV3Routes } from "./v3";
 import { registerV4Routes } from "./v4";
 import { registerVaultixRouter } from "./vaultix-router";
+import { registerVxRoutes } from "./vx";
 
 const histogram = monitorEventLoopDelay({ resolution: 20 });
 histogram.enable();
@@ -4252,6 +4253,7 @@ export const registerRoutes = async (
     { prefix: "/api/v3" }
   );
   await server.register(registerV4Routes, { prefix: "/api/v4" });
+  await server.register(registerVxRoutes, { prefix: "/api/vx/v1" });
 
   // Note: This is a special route for BDD tests. It's only available in development mode and only for BDD tests.
   // This route should NEVER BE ENABLED IN PRODUCTION!

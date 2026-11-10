@@ -701,10 +701,12 @@ export const registerExternalMigrationRouter = async (server: FastifyZodProvider
       return result;
     }
   });
+};
 
-  // ─── Provider import lifecycle (review → approve → import) ──────────────────
-  // Responses carry key names, counts and policy state; values stay on the server.
-
+// ─── Provider import lifecycle (review → approve → import) ──────────────────
+// Vaultix API: mounted at /api/vx/v1/connect/imports (docs/0119). Responses carry key
+// names, counts and policy state; values stay on the server.
+export const registerProviderImportRouter = async (server: FastifyZodProvider) => {
   server.route({
     method: "GET",
     url: "/providers",
@@ -738,7 +740,7 @@ export const registerExternalMigrationRouter = async (server: FastifyZodProvider
 
   server.route({
     method: "POST",
-    url: "/providers/:provider/review",
+    url: "/:provider/review",
     config: { rateLimit: readLimit },
     schema: {
       operationId: "reviewProviderImportV3",
@@ -767,7 +769,7 @@ export const registerExternalMigrationRouter = async (server: FastifyZodProvider
 
   server.route({
     method: "POST",
-    url: "/providers/:provider/import",
+    url: "/:provider/import",
     config: { rateLimit: writeLimit },
     schema: {
       operationId: "importProviderSecretsV3",

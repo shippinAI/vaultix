@@ -104,7 +104,7 @@ export const useReviewProviderImport = () =>
   useMutation<TProviderImportReview, Error, TProviderImportSpec>({
     mutationFn: async ({ provider, ...spec }) => {
       const { data } = await apiRequest.post<TProviderImportReview>(
-        `/api/v3/external-migration/providers/${provider}/review`,
+        `/api/vx/v1/connect/imports/${provider}/review`,
         spec
       );
       return data;
@@ -118,7 +118,7 @@ export const useImportProviderSecrets = () => {
   return useMutation<TProviderImportResult, Error, TProviderImportSpec & { keys: string[] }>({
     mutationFn: async ({ provider, ...body }) => {
       const { data } = await apiRequest.post<TProviderImportResult>(
-        `/api/v3/external-migration/providers/${provider}/import`,
+        `/api/vx/v1/connect/imports/${provider}/import`,
         body
       );
       return data;

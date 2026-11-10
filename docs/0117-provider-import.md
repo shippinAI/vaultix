@@ -26,12 +26,16 @@ UI state, chat or AI context carries one.
 
 ## Contract
 
-`/api/v3/external-migration`, signed-in users only:
+`/api/vx/v1/connect/imports`, the Vaultix API ([0119](0119-schema-and-api-namespaces.md)),
+signed-in users only:
 
 - `GET /providers?projectId=` — the provider runtime: each provider's usable
   connections (`listAvailableAppConnectionsForUser`), `unavailableReason`, lifecycle.
-- `POST /providers/:provider/review` — body `{connectionId, source, target}`.
-- `POST /providers/:provider/import` — the same body plus `keys` (1–5000).
+- `POST /:provider/review` — body `{connectionId, source, target}`.
+- `POST /:provider/import` — the same body plus `keys` (1–5000).
+
+These routes first shipped on 2026-11-09 under `/api/v3/external-migration/providers`
+and moved on 2026-11-10, before any client outside this repository used them.
 
 `provider` is `doppler` or `external-vaultix` (the existing instance connection:
 instance URL plus a machine identity with Universal Auth). Doppler sources are a

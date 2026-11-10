@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { type ProviderCardModel, ProviderImportStudio } from "./ProviderImportStudio";
 
 // Fixture states for review only. In the product, cards come from
-// GET /api/v3/external-migration/providers and a live read of each provider.
+// GET /api/vx/v1/connect/imports/providers and a live read of each provider.
 const lifecycle: ProviderCardModel["runtime"]["lifecycle"] = ["review", "approve", "import"];
 
 const connected: ProviderCardModel[] = [

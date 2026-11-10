@@ -2,6 +2,11 @@
 
 **Secrets you own. Built for Secrets and AI.**
 
+> **Pre-release.** Vaultix is not production software yet. Do not store production
+> secrets in it. The database layout and API are still changing. See
+> [pre-release rules](docs/0118-pre-release.md). AI agents deploying Vaultix follow
+> [INSTALL-FOR-AI.md](INSTALL-FOR-AI.md), including what may and may not be pasted in chat.
+
 Vaultix is developed in place in `core/`: the secrets engine, its UI, and its
 API ship together in the locally built Vaultix image. Owner: AngryVibes LLC.
 Host: shippin.ai.
@@ -46,6 +51,10 @@ native UI migration are **in progress**, not release claims.
 The current delivery priority is **self-hosted Vaultix on the owner's hardware**.
 Builds and verification run locally; GitHub Actions and GHCR are optional.
 See [self-hosted builds and review](docs/0048-self-hosted-builds.md).
+
+Step-by-step deployment, written for AI agents and usable by people:
+[INSTALL-FOR-AI.md](INSTALL-FOR-AI.md). A fresh install prints a one-time setup code;
+the first owner needs it to create their account.
 
 For managed installation and updates, use the compiled
 [`vaultix server` lifecycle](docs/0109-native-install-and-upgrade.md), including

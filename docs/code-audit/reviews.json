@@ -267,7 +267,7 @@
     },
     {
       "path": "scripts/test-image-app.mjs",
-      "blob": "0d52536a5c78a086067f01674ac758526a243703",
+      "blob": "9795c86f10567c901a913deb3e7c5f4234b6f733",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete real-image application consumer. Add five-product guidance acceptance after actual sign-in; existing setup, recovery, project/secret mutations, authorization and navigation assertions retained.",
@@ -279,7 +279,8 @@
         "Current packet local and canonical-image results are separate verification receipts; this source review alone does not establish parity.",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
-        "2026-11-10: changed to open provider import from the environment dashboard and mount the dialog only while open. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed to open provider import from the environment dashboard and mount the dialog only while open. The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -1911,7 +1912,7 @@
     },
     {
       "path": "core/backend/src/lib/config/env.ts",
-      "blob": "cc5466bc95c6ea1503aca329a3c31ffc3f9784bc",
+      "blob": "610d72e0482df1cffe7b53f0ad4efcef857a3197",
       "status": "verified",
       "decision": "modify",
       "scope": "Existing schema review retained. Proxy field and readers traced; this packet changes only the proxy-policy comment, not schema validation, keys, defaults or overrides. Other inherited configuration findings remain open. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. Adds VAULTIX_REFERENCE_DISPATCH, default typescript.",
@@ -1926,7 +1927,8 @@
         "scripts/test-tenant-isolation.mjs",
         "scripts/test-invite-only-access.mjs",
         "docs/0066-native-reference-reads.md",
-        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store."
+        "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2234,14 +2236,15 @@
     },
     {
       "path": "README.md",
-      "blob": "e049c6470e6d71f145c78a4b56014a2ce5c50428",
+      "blob": "a9d02c3d08c8c697153d2f6e516a4598c91744e7",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete changed module read for scoped CLI run correction. Online sync errors now stop before workload execution; explicit offline mode retains cache consumption with a notice. Tests use child-start markers and independent canary hashes; original behavior fails the new control. Packaged image proof remains required. No human device-login, full CLI parity or target-bound AI delivery claim.",
       "evidence": [
         "internal/cli/run_cmds_test.go",
         "scripts/test-cli-headless.mjs",
-        "docs/0075-usable-secrets-and-update-delivery.md"
+        "docs/0075-usable-secrets-and-update-delivery.md",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2646,7 +2649,7 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "0e3b1749dbd47e1bef37bc567e601abc81588ca3",
+      "blob": "5765c4a9856e38842f85d18d1e02a5fada222d3a",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
@@ -2654,7 +2657,8 @@
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
         "scripts/test-reference-commands.mjs",
-        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2871,7 +2875,7 @@
     },
     {
       "path": "core/frontend/src/pages/admin/SignUpPage/SignUpPage.tsx",
-      "blob": "fa7d86d8aa306269a682f8ca326bcfa5c8968a9b",
+      "blob": "c43b66591dde5002f60b43924984262f1ad61d86",
       "status": "verified",
       "decision": "modify",
       "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
@@ -2879,12 +2883,13 @@
         "docs/0050-organization-first-setup.md",
         ".cache/self-hosted-build-ueBbJX/result.json",
         ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        ".cache/app-image-proof-5NZO8A/workflow-result.json",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/frontend/src/pages/admin/SignUpPage/components/AdminSignUpForm.tsx",
-      "blob": "c2b8e9566ab57361ba0f01400e2e36d2f1e0216d",
+      "blob": "65cc6856df3c0f8ccd4bd06ab859767d3f0774d1",
       "status": "verified",
       "decision": "modify",
       "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. 0050 follow-up: readable progress, immediately available confirmation, named four-guide smoke contract, settled animation accessibility scans and explicit completion-failure diagnostics. Exact final image acceptance remains pending. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
@@ -2893,7 +2898,8 @@
         ".cache/app-image-proof-aHs5qE/onboarding-result.json (334c7592 candidate; before final confirmation/progress changes)",
         ".cache/self-hosted-build-ueBbJX/result.json",
         ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        ".cache/app-image-proof-5NZO8A/workflow-result.json",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -3432,7 +3438,7 @@
     },
     {
       "path": "compose/self.env.example",
-      "blob": "9481d556836e1b505d725e2368e143abd3d3d7e8",
+      "blob": "ca102713f9546c0ff93a3176b2a91e3c846727e7",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Scoped proxy-authority repair in 0058: no implicit forwarding trust; one resolved address; explicit proxy compatibility; original store and API surface retained. In-process and packaged acceptance have distinct scopes; no distributed quota or public edge readiness claim. Combined ca373ed6 canonical image passes all thirteen local application gates; exact evidence and remaining limits are recorded in 0058.",
@@ -3442,7 +3448,8 @@
         ".cache/trusted-proxy/.cache/unit-proof-jdfjad/test-results.json",
         ".cache/trusted-proxy/.cache/proxy-boundary-LonwDr/result.json",
         ".cache/trusted-proxy/.cache/self-hosted-build-6POFsH/result.json",
-        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json"
+        ".cache/trusted-proxy/.cache/unit-proof-5DRW0R/test-results.json",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -4889,7 +4896,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "06f4be837d9dfba0d1683b6741d061c01c26c36d",
+      "blob": "93af2ef3cc291a7584206559f3846b95d90ddb0c",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
@@ -4897,7 +4904,8 @@
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
         "scripts/test-reference-commands.mjs",
-        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6321,7 +6329,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "612554e4a6f90102ca7e2a66a088fdf43b44ae30",
+      "blob": "df9a375d2ec55c995caa3ac6388cacd2814c4708",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
@@ -6336,7 +6344,8 @@
         "Wires findUserOrganizationIds and reissueOrganizationInvitation into the early-access service. No other change.",
         "docs/0066-native-reference-reads.md",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
-        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -9397,7 +9406,7 @@
     },
     {
       "path": "internal/platform/lifecycle.go",
-      "blob": "88b2b494ffaddd40d028fa1084be98da6467a585",
+      "blob": "d2fa3e16259a23345da82cc5e7a70e69cb8bc699",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
@@ -9409,7 +9418,8 @@
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
         "Second independent review traced every phase and kill point. Time limit before the rehearsal returns the previous application; rollback rebinds recreated dependencies; restoring stops an application started by hand; newest verified checkpoint carried on upgrades. TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit fails with the guard removed.",
-        "internal/platform/ingress_test.go"
+        "internal/platform/ingress_test.go",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10080,14 +10090,15 @@
     },
     {
       "path": "core/backend/src/server/routes/v1/admin-router.ts",
-      "blob": "d1c3601d7c5127b5b13fb5249fe11c962c48df24",
+      "blob": "887d624a0c10920d0dad2cef02ecd2b563aff7dc",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10200,14 +10211,15 @@
     },
     {
       "path": "core/frontend/src/hooks/api/admin/types.ts",
-      "blob": "56a27d096679f2bbcaca118f4ca9f106c6a29068",
+      "blob": "02670d18da62ab4367a1d833f4419cd83c15ffd4",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {

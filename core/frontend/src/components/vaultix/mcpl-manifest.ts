@@ -42,7 +42,7 @@ export type McplWorkbenchModule = {
 };
 
 // Static descriptions of each import provider. Counts, connections and status are runtime
-// state from GET /api/v3/external-migration/providers, never written here.
+// state from GET /api/vx/v1/connect/imports/providers, never written here.
 export type ImportProviderDetails = {
   id: TImportProviderId;
   name: string;

@@ -158,7 +158,7 @@ try {
     const scope = { connectionId: appConnection.id,
       source: { project: source.project.id, environment: "dev", secretPath: "/app" },
       target: { projectId: target.project.id, environment: "dev", secretPath: "/" } };
-    const route = path => `/api/v3/external-migration${path}`;
+    const route = path => `/api/vx/v1/connect/imports${path.replace(/^\/providers\/(?=[a-z-]+\/)/, "/")}`;
 
     phase = "provider runtime";
     const runtime = await target.api(route(`/providers?projectId=${target.project.id}`), { token: target.token });

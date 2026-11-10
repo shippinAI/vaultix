@@ -39,7 +39,9 @@ export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSign
     setError,
     watch
   } = useForm<AdminSignUpFormData>({
-    resolver: zodResolver(createAdminSignUpSchema(config.passwordPolicy)),
+    resolver: zodResolver(
+      createAdminSignUpSchema(config.passwordPolicy, Boolean(config.setupCodeRequired))
+    ),
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: defaultValues ?? {
@@ -47,7 +49,8 @@ export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSign
       lastName: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      setupCode: ""
     }
   });
 
@@ -81,6 +84,27 @@ export const AdminSignUpForm = ({ defaultValues, onContinue, onBack }: AdminSign
   return (
     <form className="flex flex-col gap-4" noValidate onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
+        {config.setupCodeRequired ? (
+          <Field data-invalid={showDangerState && Boolean(errors.setupCode)}>
+            <FieldLabel htmlFor="admin-signup-setup-code">Setup code</FieldLabel>
+            <Input
+              variant="outlined"
+              {...register("setupCode")}
+              id="admin-signup-setup-code"
+              autoComplete="one-time-code"
+              spellCheck={false}
+              aria-describedby="admin-signup-setup-code-help"
+              isError={showDangerState && Boolean(errors.setupCode)}
+            />
+            <p id="admin-signup-setup-code-help" className="text-sm text-muted">
+              Printed by <code>vaultix server install</code>. It works once: after this account
+              exists, it no longer opens setup.
+            </p>
+            {showDangerState && errors.setupCode ? (
+              <FieldError>{errors.setupCode.message}</FieldError>
+            ) : null}
+          </Field>
+        ) : null}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field data-invalid={showDangerState && Boolean(errors.firstName)}>
             <FieldLabel htmlFor="admin-signup-first-name">First Name</FieldLabel>

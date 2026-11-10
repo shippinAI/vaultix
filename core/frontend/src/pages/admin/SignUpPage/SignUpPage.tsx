@@ -72,7 +72,8 @@ export const SignUpPage = () => {
           password: values.password,
           firstName: values.firstName,
           lastName: values.lastName || undefined,
-          organizationName
+          organizationName,
+          setupCode: values.setupCode || undefined
         });
         organizationId = result.organization.id;
         // Unmount the password form immediately. Completion retries must never create another owner.
