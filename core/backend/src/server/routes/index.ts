@@ -547,6 +547,7 @@ import { registerV2Routes } from "./v2";
 import { registerV3Routes } from "./v3";
 import { registerV4Routes } from "./v4";
 import { registerVaultixRouter } from "./vaultix-router";
+import type { TVaultixReferenceOptions } from "./vaultix-shared";
 import { registerVxRoutes } from "./vx";
 
 const histogram = monitorEventLoopDelay({ resolution: 20 });
@@ -4207,8 +4208,8 @@ export const registerRoutes = async (
 
   // register routes for v1
   const nativeReferenceDispatch = envConfig.VAULTIX_REFERENCE_DISPATCH === "go";
-  await server.register(registerVaultixRouter, {
-    prefix: "/api/v1/vaultix",
+  // The main Vaultix MCP and the warp points (docs/0120) share these handlers and this audit.
+  const vaultixReferenceOptions: TVaultixReferenceOptions = {
     references: nativeReferenceDispatch
       ? undefined
       : vaultixReferenceServiceFactory({
@@ -4230,7 +4231,8 @@ export const registerRoutes = async (
             }
           });
         }
-  });
+  };
+  await server.register(registerVaultixRouter, { prefix: "/api/v1/vaultix", ...vaultixReferenceOptions });
   await server.register(
     async (v1Server) => {
       await v1Server.register(registerV1EERoutes);
@@ -4253,7 +4255,7 @@ export const registerRoutes = async (
     { prefix: "/api/v3" }
   );
   await server.register(registerV4Routes, { prefix: "/api/v4" });
-  await server.register(registerVxRoutes, { prefix: "/api/vx/v1" });
+  await server.register(registerVxRoutes, { prefix: "/api/vx/v1", vaultix: vaultixReferenceOptions });
 
   // Note: This is a special route for BDD tests. It's only available in development mode and only for BDD tests.
   // This route should NEVER BE ENABLED IN PRODUCTION!

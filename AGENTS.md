@@ -165,6 +165,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Deploy, install, upgrade an instance (any AI) | `INSTALL-FOR-AI.md` + `docs/0109-native-install-and-upgrade.md` |
 | Pre-release rules, credentials in chat | `docs/0118-pre-release.md` |
 | Table names, new API routes (`vx_` tables, `/api/vx/v1/<domain>`) | `docs/0119-schema-and-api-namespaces.md` + `scripts/lib/table-namespaces.mjs` |
+| MCPL, MCP warp points, new MCP tools, AI sign-in options | `docs/0120-mcpl-framework.md` + `core/backend/src/services/vaultix/warp-points.ts` |
 | Identity / login / sessions | `docs/0074-built-in-and-federated-identity.md` + existing auth consumers |
 | Engine | `docs/0011-owned-engine.md` + `core/` |
 | Whole-tree authorship / product domains | `docs/0021-product-authorship-review.md` + `docs/code-audit/` |
@@ -173,7 +174,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Native interactions / guided teaching | `docs/0024-interaction-and-teaching-system.md` |
 | Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
-| Provider import (Doppler, Infisical/Vaultix instances) | `docs/0117-provider-import.md` + `services/external-migration/provider-import.ts` |
+| Provider import (Doppler, Infisical/Vaultix instances) | `docs/0121-provider-import.md` + `services/external-migration/provider-import.ts` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
 | Source API / Clyffy | `docs/0009-clyffy-specialist-boundary.md` |

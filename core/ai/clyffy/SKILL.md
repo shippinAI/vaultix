@@ -12,6 +12,10 @@ description: Help a developer configure Vaultix using secret references and the 
    Use `vaultix.guidance.get` to teach the same reference and connection lessons
    as native contextual help. Reading a lesson does not control the UI or prove
    that an operation completed.
+   `vaultix.warp.list` lists the warp points: one MCP per domain on the same
+   host, each with only that domain's tools. `vaultix.auth.options.get` explains
+   how you sign in (machine identity, headless CLI, or the user's session) and
+   which of those are available. Credentials never go through chat.
 2. Identify the application, project, environment, and required secret names.
    Ask only for missing metadata. Never ask for a key's value.
 3. Explain one action at a time, using the authored setup steps. The human

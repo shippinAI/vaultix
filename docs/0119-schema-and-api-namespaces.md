@@ -6,8 +6,8 @@ table prefix scheme, and its "do not mass-rename" rule for tables and the API.
 Pre-release ([0118](0118-pre-release.md)) is what makes a breaking rename acceptable now.
 
 Vaultix evolved from an inherited engine. Its tables and HTTP API still carry that
-engine's names and layout. Both now move to Vaultix's own structure, grouped by the
-same product domains the MCPL runtime uses.
+engine's names and layout. Both now move to Vaultix's own structure: tables by storage
+group, the API by the canonical product domains that MCPL uses ([0120](0120-mcpl-framework.md)).
 
 ## Tables: `vx_<group>_<entity>`
 
@@ -70,18 +70,26 @@ data-access code, so freezing them on the inherited names would break fresh inst
    with inherited names a fresh store gets exactly the constraint names an upgraded one
    keeps.
 4. **The namespace migration** (`20261110120000_vx-table-namespaces`) then renames the raw
-   tables, records the change in the migration set (so `vaultix server upgrade` rehearses
-   it on a restored copy), and its `down` reverses everything.
+   tables and records the change in the migration set, so `vaultix server upgrade` rehearses
+   it on a restored copy. Its `down` refuses: every earlier migration now names `vx_` tables,
+   so going back means restoring the checkpoint (below).
 5. **Columns keep their names.** Junction tables named their foreign-key columns after the
    tables they join (`secret_tagsId`, `secrets_v2Id`); those stay, through
    `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike.
-   Automatically named primary keys (`<table>_pkey`) follow their table, so both stores have
-   `vx_…_pkey`. The handful of indexes a migration names explicitly from `TableName` keep
-   the spelling they were created with; nothing later refers to them by name.
-6. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
+6. **Generated names follow their table.** Names PostgreSQL generated from a table's name
+   (`_pkey`, `_key`, `_fkey`, `_check`, `_excl`, `_idx`, `_seq`) and the `<table>_updatedAt`
+   trigger are renamed with it, using PostgreSQL's own truncation rule, so an upgraded store has
+   the names a fresh store gets. Names a historical migration spells out
+   (`t.index(cols, "certificates_caid_idx")`, or a constraint it later drops) keep their
+   spelling on both; the generator lists them from the migrations as `LITERAL_OBJECT_NAMES`.
+   Two migrations that dropped a generated constraint by its inherited spelling now drop it under
+   either spelling; before, a fresh store silently kept the old `enrollmentType` check and the
+   internal CA `serialNumber` key. A name already cut at 63 characters cannot be rebuilt and
+   keeps its spelling. Every `vx_` name leaves room for its `_updatedAt` trigger.
+7. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
    inherited table name appears in SQL or a database call in TypeScript, Go, scripts or the
    CLI. Both checks are canonical build stages.
-7. **The upgrade tool reads either side.** `vaultix server`'s encrypted-row fingerprint
+8. **The upgrade tool reads either side.** `vaultix server`'s encrypted-row fingerprint
    finds `vx_secrets_secrets` or `secrets_v2`, so a checkpoint taken before the rename
    compares with the migrated copy after it.
 
@@ -101,17 +109,26 @@ not valid across it.
 - `node scripts/build-self-hosted.mjs --capabilities`: Go integration and backend unit and
   integration suites against the renamed schema.
 - `scripts/test-server-lifecycle.mjs` with a pre-rename baseline: install, upgrade across
-  the rename (no table left on an inherited name, encrypted rows unchanged) and rollback.
+  the rename (no table, generated name or `updatedAt` trigger left on an inherited name;
+  encrypted rows unchanged) and rollback.
 
 ## API: `/api/vx/v1/<domain>/…`
 
-The Vaultix API gets its own root, grouped by the MCPL domains: `public`, `auth`,
-`identity`, `workspace`, `secrets`, `policy`, `connect`, `ai` and `operate`, plus the
-product areas `pki`, `kms`, `pam` and `scan`. One router per domain owns its routes,
-its MCP tools and its catalog entries, so the UI, MCP and API use the same actions.
+The Vaultix API gets its own root, grouped by the 15 canonical domains of
+`docs/interaction/workflows.json`: `public`, `auth`, `workspace`, `secrets`, `access`,
+`automation`, `connect`, `pki`, `kms`, `pam`, `detect`, `ai`, `governance`, `operate` and
+`experience`. One router per domain owns its routes, its MCP warp point
+(`/api/vx/v1/<domain>/mcp`) and its catalog entries, so the UI, MCP and API use the same
+actions ([0120](0120-mcpl-framework.md)). An earlier draft of this section listed the table
+groups instead; table groups are storage, and `scripts/warp-points.test.mjs` now rejects a
+router under any name outside the canonical list.
+
+Where a storage group and a domain differ: `identity` tables (machine identities) belong to
+`access`; `policy` tables to `automation` (approvals) and `access` (access requests); `net`
+tables to `connect`; `scan` tables to `detect`; audit logs in `operate` tables to `governance`.
 
 - New Vaultix routes go under `/api/vx/v1/<domain>/`. The provider import added in
-  [0117](0117-provider-import.md) is the first to move:
+  [0121](0121-provider-import.md) is the first to move:
   `/api/vx/v1/connect/imports/providers`, `…/:provider/review` and `…/:provider/import`.
 - Inherited routes (`/api/v1`–`/api/v4`) and the earlier native prefix
   `/api/v1/vaultix/*` keep working until each domain's replacement exists and a test

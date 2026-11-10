@@ -22,7 +22,8 @@ const mapPath = resolve(root, "docs/schema/table-namespaces.json");
 const renamesPath = resolve(root, "core/backend/src/db/table-namespaces.ts");
 const migrationsPath = resolve(root, "core/backend/src/db/migrations");
 
-const read = path => readFileSync(path, "utf8").replace(/^﻿/, "");
+// A Windows checkout may carry CRLF; the comparison is about content, not line endings.
+const read = path => readFileSync(path, "utf8").replace(/^﻿/, "").replace(/\r\n/g, "\n");
 const enumRange = text => {
   const start = text.indexOf("export enum TableName {");
   assert.ok(start >= 0, "TableName enum not found");

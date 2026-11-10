@@ -46,7 +46,7 @@ and differences below are work items, not newly implemented features.
 
 Importing from Doppler and from Infisical or Vaultix instances, with name-only review,
 approval and stale-review refusal, is specified with its evidence and gaps in
-[0117](0117-provider-import.md).
+[0121](0121-provider-import.md).
 
 Existing PKI/PAM/scanning modules and their current evidence are tracked in
 [0018](0018-hosted-capability-proof.md). Provider-level specifications, broader

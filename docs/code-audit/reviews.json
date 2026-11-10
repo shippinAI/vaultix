@@ -2662,7 +2662,7 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "3ad98fe94fd444438cb93273be0437212d40268b",
+      "blob": "0bd316f16c945f2a68b33b0d56c35ea11b5fc6ec",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
@@ -2672,7 +2672,8 @@
         "scripts/test-reference-commands.mjs",
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -3128,7 +3129,7 @@
     },
     {
       "path": "core/backend/src/services/vaultix/catalog.ts",
-      "blob": "3992d11de54500d9c3522e106d34bf8e808f2950",
+      "blob": "a48d23d15db2a39938d645116fd96fd3cc6405f5",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read for 0067. Scoped protected CLI login, issuer/device flow validation, instance-bound credential storage, metadata-only local MCP transport and additive connection guidance. Existing encrypted store/domain authorization unchanged. Live Nomen mapping/renewal and whole-product parity remain unaccepted.  Scoped final evidence: 16 canonical gates, 67 root unit/race tests, eight CLI/image checks and repeated editor insertion pass. No live Nomen mapping/renewal, full protocol conformance, all-consumer editor or whole-product parity claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
@@ -3143,7 +3144,8 @@
         ".cache/headless-ai-login/.cache/cli-headless-c564od/result.json",
         ".cache/headless-ai-login/.cache/self-hosted-build-3vAWhA/result.json",
         ".cache/headless-ai-login/.cache/cli-headless-Yr4WVu/result.json",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -3340,7 +3342,7 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.ts",
-      "blob": "7ae714e629379b71c15f31c74fa03339297be6d5",
+      "blob": "c793eafa28082a9eedf91e4de5eef78c2f731749",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim.",
@@ -3348,7 +3350,8 @@
         "docs/0112-real-codex-acceptance.md",
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
-        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts"
+        "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -3367,7 +3370,7 @@
     },
     {
       "path": "core/backend/src/server/routes/vaultix-router.ts",
-      "blob": "3b58eb694d2cc3a0b6687f44ef7f8b6ca3503e1a",
+      "blob": "4abc7e9efece3e8c1bf4541f1cac1d27f00beaa3",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed modules reviewed. Native MCP Apps reference/guide presentation shares existing source actions and validators; exact packaged resource, cache-backed actor/org/method-bound negotiation, no credential/value transport, and text compatibility. Independent browser, denial/expiry/quota/cache and artifact integrity checks are scoped evidence; actual host/manual accessibility and whole-product parity remain open. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session. HTTP and MCP reference actions can dispatch to the native sidecar without copying actor headers.",
@@ -3378,7 +3381,8 @@
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
         "core/backend/src/services/vaultix/mcp-session-cache.test.ts",
         "docs/0117-assistant-reference-boundary.md",
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -4923,7 +4927,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "93af2ef3cc291a7584206559f3846b95d90ddb0c",
+      "blob": "d2e30a1ffe1be3f366403477c0519bd6500c1b7e",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
@@ -4932,7 +4936,8 @@
         "scripts/ui-action-standard.test.mjs",
         "scripts/test-reference-commands.mjs",
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
-        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -6400,7 +6405,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "df9a375d2ec55c995caa3ac6388cacd2814c4708",
+      "blob": "04030e236aee1e9b71a650d0699eec605042de2d",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
@@ -6416,7 +6421,8 @@
         "docs/0066-native-reference-reads.md",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
-        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -6458,7 +6464,7 @@
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy.go",
-      "blob": "fe4038610c6c6055e9336485b761448325ce01f8",
+      "blob": "c5b2c2422089866befbb2e29ac30e7bcfec35986",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
@@ -6468,12 +6474,13 @@
         "scripts/prove-device-api-image.mjs",
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
       "path": "core/backend-go/internal/config/device_access_policy_test.go",
-      "blob": "f948beefa7e1b99bdc0f2dbd7002e21392e79fc0",
+      "blob": "a692ff72bc5bf0128c98fac32b11429a3beef4c4",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
@@ -6483,7 +6490,8 @@
         "scripts/prove-device-api-image.mjs",
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {
@@ -10486,7 +10494,7 @@
     },
     {
       "path": "core/backend/src/services/vaultix/mcp.test.ts",
-      "blob": "f5d318cdba17848df304d2168d656ca186ad3724",
+      "blob": "911807a9bd762bcef49f6c8b24fadcd06a7f2337",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Complete module and core HTTP consumer read. Accept optional object-valued MCP request metadata independently of method parameters; preserve strict pagination/resource/action input and existing authorization. Tests cover metadata-compatible discovery/resource reads and forged authorization metadata. Exact image and installed Codex acceptance remain separate; no whole-product or graphical client claim. Revision 8fff3cd0 adds config-driven built-in and SSO discovery, removes the empty-issuer hosted fallback, and records loopback database/CLI checks in docs/0117. Those checks are not a packaged image receipt or a live Nomen session.",
@@ -10495,7 +10503,8 @@
         "scripts/test-codex-client.mjs",
         "core/backend/src/services/vaultix/mcp.test.ts",
         "core/backend/src/server/routes/vaultix-mcp-app-router.test.ts",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
       ]
     },
     {

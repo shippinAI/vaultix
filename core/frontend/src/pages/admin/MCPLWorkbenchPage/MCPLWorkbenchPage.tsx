@@ -18,12 +18,12 @@ const ACTION_DESTINATIONS: Partial<
   Record<string, "landing" | "connections" | "projects" | "audit" | "sso">
 > = {
   "vaultix.ui.public.help.rehearsal": "landing",
-  "vaultix.ui.auth.keys.manage": "connections",
-  "vaultix.ui.identity.session.policy": "sso",
+  "vaultix.ui.connect.credentials.manage": "connections",
+  "vaultix.ui.access.session.policy": "sso",
   "vaultix.ui.connect.doppler.import": "connections",
   "vaultix.ui.connect.external-vaultix.import": "connections",
   "vaultix.ui.secrets.reference.load": "projects",
-  "vaultix.ui.operate.audits.review": "audit"
+  "vaultix.ui.governance.audits.review": "audit"
 };
 
 export const MCPLWorkbenchPage = () => {

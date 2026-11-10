@@ -1,30 +1,67 @@
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
+  BadgeCheck,
   Cpu,
   FolderKey,
   KeyRound,
+  Lock,
+  Radar,
+  ScrollText,
+  ServerCog,
   ShieldCheck,
   Sparkles,
+  Timer,
+  UsersRound,
   Waypoints
 } from "lucide-react";
 
 import { Button } from "@app/components/v3/generic/Button/Button";
 
 import { vaultixActionTrigger } from "./action-trigger";
-import { MCPL_ACTIONS, type McplAction, type McplDomain, type McplStatus } from "./mcpl-manifest";
+import {
+  MCPL_ACTIONS,
+  MCPL_DOMAIN_ORDER,
+  type McplAction,
+  type McplDomain,
+  type McplStatus
+} from "./mcpl-manifest";
 
 const domainStyles: Record<McplDomain | "all", string> = {
   all: "border-border bg-container text-foreground",
   public: "border-project/25 bg-project/10 text-project",
   auth: "border-info/25 bg-info/10 text-info",
-  identity: "border-violet-500/30 bg-violet-500/10 text-violet-200",
   workspace: "border-org/25 bg-org/10 text-org",
   secrets: "border-success/25 bg-success/10 text-success",
-  policy: "border-amber-500/30 bg-amber-500/10 text-amber-200",
+  access: "border-violet-500/30 bg-violet-500/10 text-violet-200",
+  automation: "border-info/25 bg-info/10 text-info",
   connect: "border-warning/25 bg-warning/10 text-warning",
+  pki: "border-org/25 bg-org/10 text-org",
+  kms: "border-success/25 bg-success/10 text-success",
+  pam: "border-danger/25 bg-danger/10 text-danger",
+  detect: "border-warning/25 bg-warning/10 text-warning",
   ai: "border-sub-org/25 bg-sub-org/10 text-sub-org",
-  operate: "border-danger/25 bg-danger/10 text-danger"
+  governance: "border-amber-500/30 bg-amber-500/10 text-amber-200",
+  operate: "border-danger/25 bg-danger/10 text-danger",
+  experience: "border-project/25 bg-project/10 text-project"
+};
+
+const domainLabels: Record<McplDomain, string> = {
+  public: "Public",
+  auth: "Sign-in",
+  workspace: "Workspace",
+  secrets: "Secrets",
+  access: "Access",
+  automation: "Automation",
+  connect: "Connect",
+  pki: "Certificates",
+  kms: "Keys",
+  pam: "Privileged access",
+  detect: "Detect",
+  ai: "AI",
+  governance: "Governance",
+  operate: "Operate",
+  experience: "Guidance"
 };
 
 const statusStyles: Record<McplStatus, string> = {
@@ -48,26 +85,20 @@ const statusLabels: Record<McplStatus, string> = {
 const domainIcons: Record<McplDomain, typeof Sparkles> = {
   public: Sparkles,
   auth: KeyRound,
-  identity: ShieldCheck,
   workspace: Waypoints,
   secrets: FolderKey,
-  policy: ShieldCheck,
+  access: UsersRound,
+  automation: Timer,
   connect: ArrowRight,
+  pki: BadgeCheck,
+  kms: Lock,
+  pam: ShieldCheck,
+  detect: Radar,
   ai: Cpu,
-  operate: ShieldCheck
+  governance: ScrollText,
+  operate: ServerCog,
+  experience: Sparkles
 };
-
-const domainTabs: Array<{ value: McplDomain | "all"; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "public", label: "Public" },
-  { value: "auth", label: "Auth" },
-  { value: "identity", label: "Identity" },
-  { value: "connect", label: "Connect" },
-  { value: "secrets", label: "Secrets" },
-  { value: "policy", label: "Policy" },
-  { value: "ai", label: "AI" },
-  { value: "operate", label: "Operate" }
-];
 
 export type MCPLActionBoardProps = {
   actions?: readonly McplAction[];
@@ -94,6 +125,16 @@ export const MCPLActionBoard = ({
   );
 
   const visibleCount = visibleActions.length;
+  // A tab for each domain that has actions here, in the canonical domain order.
+  const domainTabs = useMemo(
+    () => [
+      { value: "all" as const, label: "All" },
+      ...MCPL_DOMAIN_ORDER.filter((domain) =>
+        actions.some((action) => action.domain === domain)
+      ).map((domain) => ({ value: domain, label: domainLabels[domain] }))
+    ],
+    [actions]
+  );
 
   return (
     <section className="w-full rounded-lg border border-border bg-card p-4 text-foreground shadow-sm">

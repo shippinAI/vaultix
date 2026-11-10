@@ -142,5 +142,6 @@ Report to the owner:
 | Install, upgrade, recovery and rollback | [docs/0109](docs/0109-native-install-and-upgrade.md) |
 | Self-hosted build and verification | [docs/0048](docs/0048-self-hosted-builds.md) |
 | Built-in and federated identity | [docs/0074](docs/0074-built-in-and-federated-identity.md) |
-| Importing from Doppler or Infisical | [docs/0117](docs/0117-provider-import.md) |
+| Importing from Doppler or Infisical | [docs/0121](docs/0121-provider-import.md) |
 | AI assistant (Clyffy) and MCP | [core/ai/README.md](core/ai/README.md) |
+| MCP warp points and how an AI client signs in | [docs/0120](docs/0120-mcpl-framework.md); on a running instance, `vaultix.auth.options.get` on `POST /api/v1/vaultix/mcp` |

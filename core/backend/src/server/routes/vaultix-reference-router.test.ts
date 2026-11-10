@@ -103,6 +103,8 @@ describe("Vaultix shared reference actions", () => {
     }>();
     const { tools } = listed;
     expect(tools.map((tool) => tool.name)).toEqual([
+      "vaultix.warp.list",
+      "vaultix.auth.options.get",
       "vaultix.guidance.get",
       "vaultix.catalog.get",
       "vaultix.configure.show",

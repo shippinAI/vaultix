@@ -1,15 +1,27 @@
 import type { TImportProviderId, TImportProviderRuntime } from "@app/hooks/api/migration/types";
 
-export type McplDomain =
-  | "public"
-  | "auth"
-  | "identity"
-  | "workspace"
-  | "secrets"
-  | "policy"
-  | "connect"
-  | "ai"
-  | "operate";
+// The canonical interaction domains (docs/interaction/workflows.json), the same IDs and order as the
+// MCP warp points (core/backend/src/services/vaultix/warp-points.ts, docs/0120).
+// scripts/warp-points.test.mjs keeps all three identical.
+export const MCPL_DOMAIN_ORDER = [
+  "public",
+  "auth",
+  "workspace",
+  "secrets",
+  "access",
+  "automation",
+  "connect",
+  "pki",
+  "kms",
+  "pam",
+  "detect",
+  "ai",
+  "governance",
+  "operate",
+  "experience"
+] as const;
+
+export type McplDomain = (typeof MCPL_DOMAIN_ORDER)[number];
 
 export type McplSurface = "public" | "auth" | "tenant";
 export type McplStatus =
@@ -136,24 +148,24 @@ export const MCPL_ACTIONS = [
     actionLabel: "Open rehearsal"
   },
   {
-    id: "vaultix.ui.auth.keys.manage",
-    domain: "auth",
-    title: "Manage provider keys",
+    id: "vaultix.ui.connect.credentials.manage",
+    domain: "connect",
+    title: "Manage provider connections",
     description:
       "Review provider credentials, scopes, and enablement state from the admin boundary while keeping values out of chat.",
-    surface: "auth",
+    surface: "tenant",
     status: "ready",
     owner: "Admin",
     tags: ["keys", "admin", "security"],
     actionLabel: "Open admin"
   },
   {
-    id: "vaultix.ui.identity.session.policy",
-    domain: "identity",
+    id: "vaultix.ui.access.session.policy",
+    domain: "access",
     title: "Identity and session policy",
     description:
       "Review SSO, membership and session provenance evidence before a tenant is allowed to request provider imports.",
-    surface: "auth",
+    surface: "tenant",
     status: "ready",
     owner: "Vaultix",
     tags: ["identity", "sso", "policy"],
@@ -198,8 +210,8 @@ export const MCPL_ACTIONS = [
     actionLabel: "Load names"
   },
   {
-    id: "vaultix.ui.policy.enterprise.guardrails",
-    domain: "policy",
+    id: "vaultix.ui.governance.policy.guardrails",
+    domain: "governance",
     title: "Enterprise policy guardrails",
     description:
       "Apply tenancy boundaries, approval routing and security policy before an AI or operator can import secrets.",
@@ -223,8 +235,8 @@ export const MCPL_ACTIONS = [
     actionLabel: "Launch sandbox"
   },
   {
-    id: "vaultix.ui.operate.audits.review",
-    domain: "operate",
+    id: "vaultix.ui.governance.audits.review",
+    domain: "governance",
     title: "Review action receipts",
     description:
       "Validate approvals, retries, provider access and environment changes with a clear event receipt model.",
@@ -244,22 +256,16 @@ export const DEFAULT_MCPL_MODULES: readonly McplWorkbenchModule[] = [
     description: "Landing flows and guided onboarding"
   },
   {
-    id: "auth",
-    label: "Auth admin",
+    id: "access",
+    label: "Access policy",
     enabled: true,
-    description: "Provider keys and credential policy"
-  },
-  {
-    id: "identity",
-    label: "Identity policy",
-    enabled: true,
-    description: "Session provenance and enterprise identity gates"
+    description: "SSO, membership and session provenance"
   },
   {
     id: "connect",
     label: "Connectors",
     enabled: true,
-    description: "Doppler, Infisical, provider imports"
+    description: "Provider connections and imports from Doppler and Infisical"
   },
   {
     id: "secrets",
@@ -268,22 +274,16 @@ export const DEFAULT_MCPL_MODULES: readonly McplWorkbenchModule[] = [
     description: "References, env mapping and value handling"
   },
   {
-    id: "policy",
-    label: "Enterprise policy",
+    id: "governance",
+    label: "Governance",
     enabled: true,
-    description: "Approval routing and security guardrails"
+    description: "Policy guardrails, audit and action receipts"
   },
   {
     id: "ai",
     label: "AI sandbox",
     enabled: false,
     description: "Local AI and controlled sandbox execution"
-  },
-  {
-    id: "operate",
-    label: "Operations",
-    enabled: true,
-    description: "Receipts, audits and review flows"
   }
 ] as const satisfies readonly McplWorkbenchModule[];
 
@@ -302,15 +302,3 @@ export const resolveMcplActions = (
     else if (!runtime.connections.length) status = "needs-connection";
     return { ...action, status };
   });
-
-export const MCPL_DOMAIN_ORDER: readonly McplDomain[] = [
-  "public",
-  "auth",
-  "identity",
-  "connect",
-  "secrets",
-  "policy",
-  "ai",
-  "operate",
-  "workspace"
-];

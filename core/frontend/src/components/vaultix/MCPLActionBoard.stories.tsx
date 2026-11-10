@@ -29,9 +29,9 @@ export const ConnectorsOnly: Story = {
   }
 };
 
-export const AIAndOperations: Story = {
+export const AIAndGovernance: Story = {
   args: {
     initialDomain: "ai",
-    actions: MCPL_ACTIONS.filter((action) => action.domain === "ai" || action.domain === "operate")
+    actions: MCPL_ACTIONS.filter((action) => action.domain === "ai" || action.domain === "governance")
   }
 };

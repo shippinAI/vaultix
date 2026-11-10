@@ -11,7 +11,8 @@ func TestDeviceAccessPolicy_StrictRollout(t *testing.T) {
 	policy, err := ParseDeviceAccessPolicy("", "")
 	require.NoError(t, err)
 	require.False(t, policy.Enabled)
-	require.Equal(t, 15*time.Minute, policy.Lifetime)
+	// Off by default; once enabled, a delegated session lasts at least the next hour (docs/0120).
+	require.Equal(t, time.Hour, policy.Lifetime)
 	for _, test := range []struct {
 		enabled, seconds string
 		valid            bool

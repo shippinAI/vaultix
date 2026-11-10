@@ -1,17 +1,8 @@
-import { ForbiddenError } from "@casl/ability";
 import rateLimit from "@fastify/rate-limit";
 import type { FastifyInstance, FastifyRequest } from "fastify";
-import jwt from "jsonwebtoken";
 
 import { getConfig } from "@app/lib/config/env";
-import {
-  BadRequestError,
-  ForbiddenRequestError,
-  NotFoundError,
-  RateLimitError,
-  UnauthorizedError
-} from "@app/lib/errors";
-import { ActorType, AuthMode } from "@app/services/auth/auth-type";
+import { BadRequestError, UnauthorizedError } from "@app/lib/errors";
 import { getVaultixAuthConfig } from "@app/services/vaultix/auth-config";
 import {
   buildVaultixLearningMemory,
@@ -27,88 +18,29 @@ import { handleVaultixMcp } from "@app/services/vaultix/mcp";
 import { loadMcpAppResource, McpAppResource, requestsMcpApp } from "@app/services/vaultix/mcp-app-resource";
 import { anonymousMcpSessionRule } from "@app/services/vaultix/mcp-session-contract";
 import { createMcpSessionService, McpSessionBinding, McpSessionError } from "@app/services/vaultix/mcp-session-service";
-import { createVaultixReferenceDispatch } from "@app/services/vaultix/reference-dispatch";
-import { parseReferenceQuery, referenceTools } from "@app/services/vaultix/reference-input";
-import type { VaultixReferenceService } from "@app/services/vaultix/reference-service";
+import { referenceTools } from "@app/services/vaultix/reference-input";
+
+import {
+  canReadVaultix as canRead,
+  createReferenceActions,
+  guardVaultixRequest,
+  isDeniedAction,
+  TVaultixReferenceOptions,
+  vaultixErrorHandler
+} from "./vaultix-shared";
 
 export const registerVaultixRouter = async (
   server: FastifyInstance,
-  options: {
-    appResource?: () => Promise<McpAppResource | undefined>;
-    references?: VaultixReferenceService;
-    referenceDispatch?: ReturnType<typeof createVaultixReferenceDispatch>;
-    auditReferences?: (
-      request: FastifyRequest,
-      scope: { projectId: string; environment: string; secretPath: string; count: number }
-    ) => Promise<void>;
-  }
+  options: TVaultixReferenceOptions & { appResource?: () => Promise<McpAppResource | undefined> }
 ) => {
   const appResource = (options.appResource ?? loadMcpAppResource)();
-  const canRead = (request: FastifyRequest) =>
-    Boolean(
-      request.auth &&
-        [AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN].includes(request.auth.authMode) &&
-        [ActorType.USER, ActorType.IDENTITY].includes(request.permission?.type) &&
-        request.permission?.orgId
-    );
-  const runAction = async (
-    request: FastifyRequest,
-    name: string,
-    input: unknown,
-    dispatch: "http" | "mcp" = "http"
-  ) => {
-    if (!canRead(request)) throw new UnauthorizedError();
-    if (!options.references && !options.referenceDispatch) throw new NotFoundError({});
-    const actor = {
-      actor: request.permission.type,
-      actorId: request.permission.id,
-      actorOrgId: request.permission.orgId,
-      actorAuthMethod: request.permission.authMethod
-    };
-    if (name === "vaultix.projects.list") {
-      if (!input || typeof input !== "object" || Array.isArray(input) || Object.keys(input).length)
-        throw new BadRequestError({ message: "This action accepts no arguments." });
-      if (options.referenceDispatch) return options.referenceDispatch.listProjects(request, dispatch);
-      return options.references?.listProjects(actor);
-    }
-    const query = parseReferenceQuery(input);
-    if (options.referenceDispatch) return options.referenceDispatch.listReferences(request, query, dispatch);
-    if (!options.references) throw new NotFoundError({});
-    const result = await options.references.listReferences(actor, query);
-    await options.auditReferences?.(request, { ...query, count: result.references.length });
-    return result;
-  };
+  const runAction = createReferenceActions(options);
   // Production inherits the shared cache-backed limiter. Development and isolated
   // route tests retain local limits without registering a second production budget.
   if (!server.hasDecorator("rateLimit")) {
     await server.register(rateLimit, { max: 120, timeWindow: "1 minute" });
   }
-  server.setErrorHandler((error, _request, reply) => {
-    const code =
-      error instanceof Error && "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : 500;
-    let status = code >= 400 && code < 500 ? code : 500;
-    if (error instanceof McpSessionError) status = error.statusCode;
-    else if (error instanceof UnauthorizedError || error instanceof jwt.JsonWebTokenError) status = 401;
-    else if (error instanceof BadRequestError) status = 400;
-    else if (error instanceof RateLimitError) status = 429;
-    else if (
-      error instanceof NotFoundError ||
-      error instanceof ForbiddenRequestError ||
-      error instanceof ForbiddenError
-    )
-      status = 404;
-    if (status === 500)
-      server.log.error({ errorType: error instanceof Error ? error.name : "Unknown" }, "Vaultix request failed");
-    const messages: Record<number, string> = {
-      401: "Sign in to access your vault.",
-      404: "This resource is unavailable.",
-      429: "Too many requests. Wait for the Retry-After interval and try again.",
-      500: "Vaultix could not complete the request.",
-      503: "Vaultix MCP is temporarily unavailable. Retry when the service recovers."
-    };
-    if (error instanceof McpSessionError && status === 429) void reply.header("Retry-After", "3600");
-    return reply.code(status).send({ error: messages[status] ?? "Invalid Vaultix request." });
-  });
+  server.setErrorHandler(vaultixErrorHandler(server));
 
   const sessionBinding = (request: FastifyRequest): McpSessionBinding => {
     if (!canRead(request)) throw new UnauthorizedError();
@@ -126,17 +58,8 @@ export const registerVaultixRouter = async (
   };
 
   server.addHook("onRequest", async (request, reply) => {
-    void reply.header("Cache-Control", "no-store");
-    if (request.headers.origin) {
-      let origin: URL;
-      try {
-        origin = new URL(request.headers.origin);
-      } catch {
-        return reply.code(403).send({ error: "Invalid request origin." });
-      }
-      if (origin.host !== request.headers.host)
-        return reply.code(403).send({ error: "Cross-origin Vaultix requests are not allowed." });
-    }
+    const rejected = guardVaultixRequest(request, reply);
+    if (rejected) return rejected;
     if (
       !request.routeOptions.url?.endsWith("/secret-references") &&
       Object.keys((request.query ?? {}) as object).length
@@ -314,16 +237,7 @@ export const registerVaultixRouter = async (
       ).catch((error: unknown) => {
         // HTTP 404 is reserved for expired/mismatched MCP sessions. A denied
         // domain action is a tool result, not a request to reinitialize/replay.
-        if (
-          sessionId === undefined ||
-          !(
-            error instanceof BadRequestError ||
-            error instanceof NotFoundError ||
-            error instanceof ForbiddenRequestError ||
-            error instanceof ForbiddenError
-          )
-        )
-          throw error;
+        if (sessionId === undefined || !isDeniedAction(error)) throw error;
         return {
           jsonrpc: "2.0",
           id: (request.body as { id: string | number }).id,
