@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       issuer text COLLATE "C" NOT NULL CHECK (octet_length(issuer) BETWEEN 1 AND 2048 AND issuer LIKE 'https://%'),
       subject text COLLATE "C" NOT NULL CHECK (octet_length(subject) BETWEEN 1 AND 255 AND subject !~ '[^ -~]' AND btrim(subject) <> ''),
-      "userId" uuid REFERENCES users(id) ON DELETE SET NULL,
+      "userId" uuid REFERENCES vx_auth_users(id) ON DELETE SET NULL,
       "createdAt" timestamptz NOT NULL DEFAULT clock_timestamp(),
       "revokedAt" timestamptz,
       "proofId" uuid NOT NULL,
@@ -17,11 +17,11 @@ export async function up(knex: Knex): Promise<void> {
     CREATE INDEX vaultix_identity_bindings_user_idx ON vaultix_identity_bindings ("userId") WHERE "userId" IS NOT NULL;
 
     CREATE TABLE vaultix_identity_link_challenges (
-      "userId" uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      "userId" uuid PRIMARY KEY REFERENCES vx_auth_users(id) ON DELETE CASCADE,
       id uuid NOT NULL UNIQUE,
       digest bytea NOT NULL UNIQUE CHECK (octet_length(digest) = 32),
       issuer text COLLATE "C" NOT NULL CHECK (octet_length(issuer) BETWEEN 1 AND 2048),
-      "sessionId" uuid NOT NULL REFERENCES auth_token_sessions(id) ON DELETE CASCADE,
+      "sessionId" uuid NOT NULL REFERENCES vx_auth_sessions(id) ON DELETE CASCADE,
       "accessVersion" bigint NOT NULL,
       "createdAt" timestamptz NOT NULL DEFAULT clock_timestamp(),
       "expiresAt" timestamptz NOT NULL,

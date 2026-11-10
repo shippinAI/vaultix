@@ -251,7 +251,7 @@ func (s *Service) FindByFolderIds(
 
 		for i := range filters.MetadataFilter {
 			idx := strconv.Itoa(i)
-			where.Add(`EXISTS (SELECT 1 FROM resource_metadata metaSub WHERE metaSub."secretId" = secret.id AND metaSub.key = @metaKey` + idx + " AND metaSub.value = @metaValue" + idx + " AND metaSub.value IS NOT NULL)")
+			where.Add(`EXISTS (SELECT 1 FROM vx_identity_resource_metadata metaSub WHERE metaSub."secretId" = secret.id AND metaSub.key = @metaKey` + idx + " AND metaSub.value = @metaValue" + idx + " AND metaSub.value IS NOT NULL)")
 		}
 	}
 
@@ -279,14 +279,14 @@ func (s *Service) FindByFolderIds(
 			rotationMapping."rotationId",
 			reminder.message AS reminder_note, reminder."repeatDays" AS reminder_repeat_days,
 			recipient.id AS recipient_id, recipientUser.id AS recipient_user_id, recipientUser.username AS recipient_username, recipientUser.email AS recipient_email
-		FROM secrets_v2 secret
-		LEFT JOIN secret_v2_tag_junction tagJunction ON secret.id = tagJunction."secrets_v2Id"
-		LEFT JOIN secret_tags tag ON tagJunction."secret_tagsId" = tag.id
-		LEFT JOIN resource_metadata meta ON secret.id = meta."secretId"
-		LEFT JOIN secret_rotation_v2_secret_mappings rotationMapping ON secret.id = rotationMapping."secretId"
-		LEFT JOIN reminders reminder ON secret.id = reminder."secretId"
-		LEFT JOIN reminders_recipients recipient ON reminder.id = recipient."reminderId"
-		LEFT JOIN users recipientUser ON recipient."userId" = recipientUser.id
+		FROM vx_secrets_secrets secret
+		LEFT JOIN vx_secrets_tag_junction tagJunction ON secret.id = tagJunction."secrets_v2Id"
+		LEFT JOIN vx_secrets_tags tag ON tagJunction."secret_tagsId" = tag.id
+		LEFT JOIN vx_identity_resource_metadata meta ON secret.id = meta."secretId"
+		LEFT JOIN vx_secrets_rotation_secret_mappings rotationMapping ON secret.id = rotationMapping."secretId"
+		LEFT JOIN vx_secrets_reminders reminder ON secret.id = reminder."secretId"
+		LEFT JOIN vx_secrets_reminder_recipients recipient ON reminder.id = recipient."reminderId"
+		LEFT JOIN vx_auth_users recipientUser ON recipient."userId" = recipientUser.id
 		WHERE ` + where.String() + `
 		ORDER BY ` + orderBy + limitClause
 
@@ -364,14 +364,14 @@ func (s *Service) FindByKey(
 			rotationMapping."rotationId",
 			reminder.message AS reminder_note, reminder."repeatDays" AS reminder_repeat_days,
 			recipient.id AS recipient_id, recipientUser.id AS recipient_user_id, recipientUser.username AS recipient_username, recipientUser.email AS recipient_email
-		FROM secrets_v2 secret
-		LEFT JOIN secret_v2_tag_junction tagJunction ON secret.id = tagJunction."secrets_v2Id"
-		LEFT JOIN secret_tags tag ON tagJunction."secret_tagsId" = tag.id
-		LEFT JOIN resource_metadata meta ON secret.id = meta."secretId"
-		LEFT JOIN secret_rotation_v2_secret_mappings rotationMapping ON secret.id = rotationMapping."secretId"
-		LEFT JOIN reminders reminder ON secret.id = reminder."secretId"
-		LEFT JOIN reminders_recipients recipient ON reminder.id = recipient."reminderId"
-		LEFT JOIN users recipientUser ON recipient."userId" = recipientUser.id
+		FROM vx_secrets_secrets secret
+		LEFT JOIN vx_secrets_tag_junction tagJunction ON secret.id = tagJunction."secrets_v2Id"
+		LEFT JOIN vx_secrets_tags tag ON tagJunction."secret_tagsId" = tag.id
+		LEFT JOIN vx_identity_resource_metadata meta ON secret.id = meta."secretId"
+		LEFT JOIN vx_secrets_rotation_secret_mappings rotationMapping ON secret.id = rotationMapping."secretId"
+		LEFT JOIN vx_secrets_reminders reminder ON secret.id = reminder."secretId"
+		LEFT JOIN vx_secrets_reminder_recipients recipient ON reminder.id = recipient."reminderId"
+		LEFT JOIN vx_auth_users recipientUser ON recipient."userId" = recipientUser.id
 		WHERE ` + where.String() + `
 		ORDER BY meta."createdAt" ASC NULLS FIRST, meta.id ASC NULLS FIRST, tag."createdAt" ASC NULLS FIRST, tag.id ASC NULLS FIRST`
 

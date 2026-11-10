@@ -206,21 +206,21 @@ try {
   const foreignOrg = randomUUID();
   h.sql(
     db,
-    `INSERT INTO organizations(id,name,slug) VALUES('${foreignOrg}','Foreign fixture','${foreignOrg}'); UPDATE projects SET "orgId"='${foreignOrg}' WHERE id='${project.id}'`,
+    `INSERT INTO vx_workspace_organizations(id,name,slug) VALUES('${foreignOrg}','Foreign fixture','${foreignOrg}'); UPDATE vx_workspace_projects SET "orgId"='${foreignOrg}' WHERE id='${project.id}'`,
   );
   native(app, session.access, 403);
   h.sql(
     db,
-    `UPDATE projects SET "orgId"='${owner.organization.id}' WHERE id='${project.id}'`,
+    `UPDATE vx_workspace_projects SET "orgId"='${owner.organization.id}' WHERE id='${project.id}'`,
   );
   native(app, session.access, 200);
   report.checks.push(
     "Moving the actual project to another tenant denies the same device credential; restoring ownership restores authorized access",
   );
   phase = "current account restriction";
-  h.sql(db, `UPDATE users SET "isLocked"=true WHERE id='${session.userId}'`);
+  h.sql(db, `UPDATE vx_auth_users SET "isLocked"=true WHERE id='${session.userId}'`);
   native(app, session.access, 401);
-  h.sql(db, `UPDATE users SET "isLocked"=false WHERE id='${session.userId}'`);
+  h.sql(db, `UPDATE vx_auth_users SET "isLocked"=false WHERE id='${session.userId}'`);
   native(app, session.access, 200);
   report.checks.push(
     "Current account lock denies access immediately and recovery revalidates the primary store",
@@ -259,7 +259,7 @@ try {
     "Disabled device admission rejects the same credential while preserving browser access",
   );
   phase = "canonical session revocation";
-  h.sql(db, `DELETE FROM auth_token_sessions WHERE id='${session.sessionId}'`);
+  h.sql(db, `DELETE FROM vx_auth_sessions WHERE id='${session.sessionId}'`);
   native(app, session.access, 401);
   native(app, token, 200);
   report.checks.push(

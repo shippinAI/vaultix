@@ -47,7 +47,7 @@ describe.sequential("recorded audit cancellation and durable fanout in PostgreSQ
     await db<TAuditLogStreamOutboxRow>(TableName.AuditLogStreamOutbox).whereIn("orgId", organizations).delete();
     await db(TableName.AuditLog).whereIn("orgId", organizations).delete();
     await db(TableName.AuditLogStream).whereIn("orgId", organizations).delete();
-    await db("organizations").whereIn("id", organizations).delete();
+    await db("vx_workspace_organizations").whereIn("id", organizations).delete();
     organizations.length = 0;
   };
   beforeAll(() => {
@@ -74,7 +74,9 @@ describe.sequential("recorded audit cancellation and durable fanout in PostgreSQ
     orgId = randomUUID();
     foreignOrg = randomUUID();
     organizations.push(orgId, foreignOrg);
-    await db("organizations").insert(organizations.map((id) => ({ id, name: "Recorded audit proof", slug: id })));
+    await db("vx_workspace_organizations").insert(
+      organizations.map((id) => ({ id, name: "Recorded audit proof", slug: id }))
+    );
     log = {
       id: randomUUID(),
       orgId,
@@ -212,7 +214,7 @@ describe.sequential("recorded audit cancellation and durable fanout in PostgreSQ
             withRecordedTransaction(db, op, async (tx) => {
               pid = (await tx.raw<{ rows: { pid: number }[] }>("SELECT pg_backend_pid() as pid")).rows[0].pid;
               await tx(TableName.AuditLog).insert(log);
-              await tx("organizations").where({ id: foreignOrg }).update({ name: "must roll back" });
+              await tx("vx_workspace_organizations").where({ id: foreignOrg }).update({ name: "must roll back" });
             })
           )
         ).rejects.toThrow();

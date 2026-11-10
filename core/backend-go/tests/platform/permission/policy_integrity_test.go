@@ -30,10 +30,10 @@ func TestPolicyIntegrity_MalformedRoleCannotDropDenials(t *testing.T) {
 			// combined read action. Deny both to constrain the admin's grants.
 			valid := `[[["read","readValue"],"secrets",{"environment":"prod"},true]]`
 			db, service := newPermissionAuthority(t, func(pool *pgxpool.Pool) {
-				permissionExec(t, pool, `INSERT INTO roles (id, slug, permissions) VALUES ($1, 'integrity-denial', $2)`, roleID, valid)
+				permissionExec(t, pool, `INSERT INTO vx_workspace_roles (id, slug, permissions) VALUES ($1, 'integrity-denial', $2)`, roleID, valid)
 				// Keep the existing admin role and add a scoped explicit denial.
-				permissionExec(t, pool, `INSERT INTO membership_roles (id, role, "customRoleId", "membershipId", "isTemporary", "createdAt", "updatedAt")
-					SELECT $3, 'custom', $4, id, false, now(), now() FROM memberships WHERE "scopeProjectId" = $1 AND "`+column+`" = $2`,
+				permissionExec(t, pool, `INSERT INTO vx_workspace_membership_roles (id, role, "customRoleId", "membershipId", "isTemporary", "createdAt", "updatedAt")
+					SELECT $3, 'custom', $4, id, false, now(), now() FROM vx_workspace_memberships WHERE "scopeProjectId" = $1 AND "`+column+`" = $2`,
 					actor.ProjectID, actor.ActorID, uuid.New(), roleID)
 			})
 			assertScoped := func() {
@@ -46,16 +46,16 @@ func TestPolicyIntegrity_MalformedRoleCannotDropDenials(t *testing.T) {
 			}
 			assertScoped()
 			for _, malformed := range []string{`[["readValue","secrets",42,true]]`, `[["readValue","secrets",{},"deny"]]`} {
-				permissionExec(t, db.primary, `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, malformed)
+				permissionExec(t, db.primary, `UPDATE vx_workspace_roles SET permissions = $2 WHERE id = $1`, roleID, malformed)
 				result, err := service.GetProjectPermission(context.Background(), &actor)
 				require.Error(t, err, "malformed denial must invalidate the complete authority, including other grants")
 				require.Nil(t, result)
-				permissionExec(t, db.primary, `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, valid)
+				permissionExec(t, db.primary, `UPDATE vx_workspace_roles SET permissions = $2 WHERE id = $1`, roleID, valid)
 				assertScoped()
 			}
 			// PostgreSQL rejects non-JSON before a role can be persisted. Verify
 			// that boundary and that rejection leaves the valid denial intact.
-			_, err := db.primary.Exec(context.Background(), `UPDATE roles SET permissions = $2 WHERE id = $1`, roleID, `not json`)
+			_, err := db.primary.Exec(context.Background(), `UPDATE vx_workspace_roles SET permissions = $2 WHERE id = $1`, roleID, `not json`)
 			var jsonError *pgconn.PgError
 			require.ErrorAs(t, err, &jsonError)
 			require.Equal(t, "22P02", jsonError.Code)

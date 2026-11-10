@@ -79,6 +79,8 @@ try {
   step("ui-command-compatibility", process.execPath, ["--experimental-strip-types", "scripts/test-reference-commands.mjs"]);
   step("login-failure-policy", process.execPath, ["--experimental-strip-types", "scripts/test-login-failure.mjs"]);
   step("owned-source", bash, ["scripts/check-owned.sh"]);
+  node("table-namespace-map", "scripts/map-table-namespaces.mjs", "--check");
+  node("table-namespace-references", "scripts/check-table-namespaces.mjs");
   // Archive committed source without operator-specific line-ending conversion.
   // Ignored credentials, build output and local dependencies cannot enter it.
   step("source-archive", "git", ["-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive", "--format=tar", `--output=${resolve(evidence, "source.tar")}`, revision, "core"]);

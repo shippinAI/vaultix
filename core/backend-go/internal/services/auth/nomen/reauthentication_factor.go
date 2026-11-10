@@ -55,10 +55,10 @@ func validTOTPCode(code string) bool {
 
 func consumeTOTPStep(ctx context.Context, tx pgx.Tx, factor uuid.UUID, step int64) error {
 	var accepted int64
-	err := tx.QueryRow(ctx, `INSERT INTO vaultix_totp_replays ("factorId","lastStep") SELECT $1,$2::bigint
+	err := tx.QueryRow(ctx, `INSERT INTO vx_auth_totp_replays ("factorId","lastStep") SELECT $1,$2::bigint
  WHERE abs($2::bigint-floor(extract(epoch FROM clock_timestamp())/30)::bigint)<=1
  ON CONFLICT ("factorId") DO UPDATE SET "lastStep"=EXCLUDED."lastStep"
- WHERE vaultix_totp_replays."lastStep"<EXCLUDED."lastStep" RETURNING "lastStep"`, factor, step).Scan(&accepted)
+ WHERE vx_auth_totp_replays."lastStep"<EXCLUDED."lastStep" RETURNING "lastStep"`, factor, step).Scan(&accepted)
 	return err
 }
 
@@ -70,7 +70,7 @@ func (s *PasswordReauthentication) proofCredential(ctx context.Context, tx pgx.T
 	var factor uuid.UUID
 	var factorDigest []byte
 	err := tx.QueryRow(ctx, `SELECT COALESCE(factor."factorId",'00000000-0000-0000-0000-000000000000'::uuid),factor."factorDigest"
- FROM vaultix_identity_reauth_proofs proof LEFT JOIN vaultix_identity_reauth_totp factor ON factor."userId"=proof."userId" AND factor."proofId"=proof.id AND factor."schemaVersion"=1
+ FROM vx_auth_reauth_proofs proof LEFT JOIN vx_auth_reauth_totp factor ON factor."userId"=proof."userId" AND factor."proofId"=proof.id AND factor."schemaVersion"=1
  WHERE proof."userId"=$1 AND proof."schemaVersion"=1 AND (($2::bytea IS NOT NULL AND proof.digest=$2) OR proof.id=$3)`, actor.ActorID, digest, proofID).Scan(&factor, &factorDigest)
 	if err != nil {
 		return nil, err

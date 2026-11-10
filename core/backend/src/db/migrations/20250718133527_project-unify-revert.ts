@@ -35,34 +35,34 @@ SELECT DISTINCT
   CASE WHEN p."defaultProduct" != 'kms' AND kk.kms_exists IS NOT NULL THEN true ELSE false END AS "needsKms",
   CASE WHEN p."defaultProduct" != 'ssh' AND sc.ssh_exists IS NOT NULL THEN true ELSE false END AS "needsSsh"
 
-FROM projects p
+FROM vx_workspace_projects p
 LEFT JOIN (
   SELECT DISTINCT e."projectId", 1 as secret_exists
-  FROM secrets_v2 s
-  JOIN secret_folders sf ON sf.id = s."folderId"
-  JOIN project_environments e ON e.id = sf."envId"
+  FROM vx_secrets_secrets s
+  JOIN vx_secrets_folders sf ON sf.id = s."folderId"
+  JOIN vx_workspace_environments e ON e.id = sf."envId"
 ) s ON s."projectId" = p.id AND p."defaultProduct" != 'secret-manager'
 
 LEFT JOIN (
   SELECT DISTINCT "projectId", 1 as ca_exists
-  FROM certificate_authorities
+  FROM vx_pki_certificate_authorities
 ) ca ON ca."projectId" = p.id AND p."defaultProduct" != 'cert-manager'
 
 LEFT JOIN (
   SELECT DISTINCT "projectId", 1 as ssds_exists
-  FROM secret_scanning_data_sources
+  FROM vx_scan_data_sources
 ) ssds ON ssds."projectId" = p.id AND p."defaultProduct" != 'secret-scanning'
 
 LEFT JOIN (
   SELECT DISTINCT "projectId", 1 as kms_exists
-  FROM kms_keys
+  FROM vx_kms_keys
   WHERE "isReserved" = false
 ) kk ON kk."projectId" = p.id AND p."defaultProduct" != 'kms'
 
 LEFT JOIN (
   SELECT DISTINCT sca."projectId", 1 as ssh_exists
-  FROM ssh_certificates sc
-  JOIN ssh_certificate_authorities sca ON sca.id = sc."sshCaId"
+  FROM vx_pki_ssh_certificates sc
+  JOIN vx_pki_ssh_certificate_authorities sca ON sca.id = sc."sshCaId"
 ) sc ON sc."projectId" = p.id AND p."defaultProduct" != 'ssh'
 
 WHERE p."defaultProduct" IS NOT NULL

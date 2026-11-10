@@ -193,10 +193,10 @@ export const totpServiceFactory = ({ totpConfigDAL, kmsService, userDAL, keyStor
           throw new ForbiddenRequestError({ message: "Invalid TOTP" });
         }
         const consumed = await tx.raw<{ rows: { lastStep: string }[] }>(
-          `INSERT INTO vaultix_totp_replays ("factorId","lastStep") SELECT ?,?::bigint
+          `INSERT INTO vx_auth_totp_replays ("factorId","lastStep") SELECT ?,?::bigint
          WHERE abs(?::bigint-floor(extract(epoch FROM clock_timestamp())/30)::bigint)<=1
          ON CONFLICT ("factorId") DO UPDATE SET "lastStep"=EXCLUDED."lastStep"
-         WHERE vaultix_totp_replays."lastStep"<EXCLUDED."lastStep" RETURNING "lastStep"`,
+         WHERE vx_auth_totp_replays."lastStep"<EXCLUDED."lastStep" RETURNING "lastStep"`,
           [totpConfig.id, step, step]
         );
         if (consumed.rows.length !== 1) {

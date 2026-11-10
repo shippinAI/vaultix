@@ -2,10 +2,10 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
-    ALTER TABLE auth_token_sessions ADD COLUMN "sessionType" varchar(16) NOT NULL DEFAULT 'browser'
+    ALTER TABLE vx_auth_sessions ADD COLUMN "sessionType" varchar(16) NOT NULL DEFAULT 'browser'
       CHECK ("sessionType" IN ('browser','device-v1'));
     CREATE TABLE vaultix_device_sessions (
-      "sessionId" uuid PRIMARY KEY REFERENCES auth_token_sessions(id) ON DELETE CASCADE,
+      "sessionId" uuid PRIMARY KEY REFERENCES vx_auth_sessions(id) ON DELETE CASCADE,
       "schemaVersion" integer NOT NULL DEFAULT 1 CHECK ("schemaVersion"=1),
       "clientId" varchar(64) NOT NULL CHECK ("clientId"='vaultix-cli'),
       resource varchar(2048) NOT NULL,
@@ -36,15 +36,15 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(`
-    LOCK TABLE auth_token_sessions, vaultix_device_sessions, vaultix_device_session_events IN ACCESS EXCLUSIVE MODE;
+    LOCK TABLE vx_auth_sessions, vaultix_device_sessions, vaultix_device_session_events IN ACCESS EXCLUSIVE MODE;
     DO $body$ BEGIN
-      IF EXISTS (SELECT 1 FROM auth_token_sessions WHERE "sessionType"='device-v1')
+      IF EXISTS (SELECT 1 FROM vx_auth_sessions WHERE "sessionType"='device-v1')
         OR EXISTS (SELECT 1 FROM vaultix_device_session_events) THEN
         RAISE EXCEPTION 'Device session or security event state exists; retain this additive migration during binary rollback';
       END IF;
     END $body$;
     DROP TABLE vaultix_device_session_events;
     DROP TABLE vaultix_device_sessions;
-    ALTER TABLE auth_token_sessions DROP COLUMN "sessionType";
+    ALTER TABLE vx_auth_sessions DROP COLUMN "sessionType";
   `);
 }

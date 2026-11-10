@@ -62,7 +62,7 @@ func restrictedReferenceDB(t *testing.T) referenceDB {
 	require.NoError(t, err)
 	t.Cleanup(pool.Close)
 	require.NoError(t, pool.Ping(ctx))
-	_, err = pool.Exec(ctx, `SELECT * FROM secrets_v2 LIMIT 1`)
+	_, err = pool.Exec(ctx, `SELECT * FROM vx_secrets_secrets LIMIT 1`)
 	require.Error(t, err, "fixture must deny broad/value-bearing secret queries")
 	return referenceDB{primary: pool}
 }
@@ -164,7 +164,7 @@ func TestReference_MetadataOnlyDifferential(t *testing.T) {
 		}
 		// Revoke the tag in the real primary; the reference reader must not reuse
 		// stale metadata to authorize the formerly visible name.
-		_, err := stack.DB().Primary().Exec(t.Context(), `DELETE FROM secret_v2_tag_junction WHERE "secret_tagsId" = $1`, publicTag.ID)
+		_, err := stack.DB().Primary().Exec(t.Context(), `DELETE FROM vx_secrets_tag_junction WHERE "secret_tagsId" = $1`, publicTag.ID)
 		require.NoError(t, err)
 		page, err := svc.List(identityCtx, reference.Query{ProjectID: project.ID, Environment: project.EnvSlug, SecretPath: "/", Limit: 50})
 		require.NoError(t, err)

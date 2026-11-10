@@ -1,17 +1,21 @@
 import { Knex } from "knex";
 
+import { junctionColumnFor } from "./junction-columns";
 import { TableName } from "./schemas";
 
 interface PgTriggerResult {
   rows: Array<{ exists: boolean }>;
 }
+// Foreign-key columns keep the names they had before the vx_ table names (docs/0119).
 export const createJunctionTable = (knex: Knex, tableName: TableName, table1Name: TableName, table2Name: TableName) =>
   knex.schema.createTable(tableName, (table) => {
+    const column1 = junctionColumnFor(table1Name);
+    const column2 = junctionColumnFor(table2Name);
     table.uuid("id", { primaryKey: true }).defaultTo(knex.fn.uuid());
-    table.uuid(`${table1Name}Id`).unsigned().notNullable(); // Foreign key for table1
-    table.uuid(`${table2Name}Id`).unsigned().notNullable(); // Foreign key for table2
-    table.foreign(`${table1Name}Id`).references("id").inTable(table1Name).onDelete("CASCADE");
-    table.foreign(`${table2Name}Id`).references("id").inTable(table2Name).onDelete("CASCADE");
+    table.uuid(column1).unsigned().notNullable(); // Foreign key for table1
+    table.uuid(column2).unsigned().notNullable(); // Foreign key for table2
+    table.foreign(column1).references("id").inTable(table1Name).onDelete("CASCADE");
+    table.foreign(column2).references("id").inTable(table2Name).onDelete("CASCADE");
   });
 
 // one time logic

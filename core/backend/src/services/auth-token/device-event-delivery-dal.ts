@@ -326,7 +326,7 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
         WITH candidates AS (
           SELECT d.id FROM ${DELIVERIES} d JOIN ${EVENTS} e ON e.id=d."eventId"
           WHERE e."preparationStatus"='prepared' AND e."preparedAt"<clock_timestamp()-?*interval '1 day'
-            AND NOT EXISTS (SELECT 1 FROM vaultix_device_sessions s WHERE s."sessionId"=e."sessionId")
+            AND NOT EXISTS (SELECT 1 FROM vx_auth_device_sessions s WHERE s."sessionId"=e."sessionId")
             AND NOT EXISTS (SELECT 1 FROM ${DELIVERIES} pending WHERE pending."eventId"=e.id
               AND (pending.status NOT IN ('delivered','disabled','not-applicable','expired')
                 OR pending."settledAt">=clock_timestamp()-?*interval '1 day'))
@@ -340,7 +340,7 @@ export const deviceEventDeliveryDALFactory = (db: TDbClient) => {
       WITH candidates AS (
         SELECT e.id FROM ${EVENTS} e WHERE e."preparationStatus"='prepared'
           AND e."preparedAt"<clock_timestamp()-?*interval '1 day'
-          AND NOT EXISTS (SELECT 1 FROM vaultix_device_sessions s WHERE s."sessionId"=e."sessionId")
+          AND NOT EXISTS (SELECT 1 FROM vx_auth_device_sessions s WHERE s."sessionId"=e."sessionId")
           AND NOT EXISTS (SELECT 1 FROM ${DELIVERIES} d WHERE d."eventId"=e.id)
         ORDER BY e."preparedAt",e.id LIMIT ? FOR UPDATE OF e SKIP LOCKED
       ) DELETE FROM ${EVENTS} e USING candidates c WHERE e.id=c.id RETURNING e.id

@@ -101,13 +101,13 @@ func newLinkingAccount(t *testing.T) (context.Context, *auth.Identity) {
 	t.Helper()
 	ctx := context.Background()
 	userID, sessionID := uuid.New(), uuid.New()
-	_, err := stack.DB().Primary().Exec(ctx, `INSERT INTO users(id,username,email,"isAccepted","createdAt","updatedAt") VALUES($1,$2,$2,true,NOW(),NOW())`, userID, userID.String()+"@example.test")
+	_, err := stack.DB().Primary().Exec(ctx, `INSERT INTO vx_auth_users(id,username,email,"isAccepted","createdAt","updatedAt") VALUES($1,$2,$2,true,NOW(),NOW())`, userID, userID.String()+"@example.test")
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM users WHERE id=$1`, userID)
+		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_users WHERE id=$1`, userID)
 		require.NoError(t, err)
 	})
-	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO auth_token_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES($1,$2,1,1,'127.0.0.1','binding-fixture',NOW(),NOW(),NOW())`, sessionID, userID)
+	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vx_auth_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES($1,$2,1,1,'127.0.0.1','binding-fixture',NOW(),NOW(),NOW())`, sessionID, userID)
 	require.NoError(t, err)
 	token := signUserJWT(t, infra.AuthSecret, func(c *apiauth.UserJWTClaims) {
 		c.UserID = userID
@@ -145,7 +145,7 @@ func TestNomenBinding_LifecycleAndDeletionTombstone(t *testing.T) {
 	sameID, err := f.service.CompleteLink(ctx, next.Code, "fixture-access-canary")
 	require.NoError(t, err)
 	require.Equal(t, id, sameID)
-	_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM users WHERE id=$1`, user.ActorID)
+	_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM vx_auth_users WHERE id=$1`, user.ActorID)
 	require.NoError(t, err)
 	_, err = f.service.Resolve(ctx, f.subject)
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)
@@ -155,19 +155,19 @@ func TestNomenBinding_LifecycleAndDeletionTombstone(t *testing.T) {
 	require.ErrorIs(t, err, nomen.ErrBindingConflict)
 	var owner *uuid.UUID
 	var revoked bool
-	err = stack.DB().Primary().QueryRow(ctx, `SELECT "userId","revokedAt" IS NOT NULL FROM vaultix_identity_bindings WHERE id=$1`, id).Scan(&owner, &revoked)
+	err = stack.DB().Primary().QueryRow(ctx, `SELECT "userId","revokedAt" IS NOT NULL FROM vx_auth_identity_bindings WHERE id=$1`, id).Scan(&owner, &revoked)
 	require.NoError(t, err)
 	require.Nil(t, owner)
 	require.True(t, revoked)
 	var actions []string
-	err = stack.DB().Primary().QueryRow(ctx, `SELECT array_agg(action ORDER BY id) FROM vaultix_identity_binding_events WHERE "bindingId"=$1`, id).Scan(&actions)
+	err = stack.DB().Primary().QueryRow(ctx, `SELECT array_agg(action ORDER BY id) FROM vx_auth_identity_binding_events WHERE "bindingId"=$1`, id).Scan(&actions)
 	require.NoError(t, err)
 	require.Equal(t, []string{"linked", "revoked", "relinked", "user-deleted"}, actions)
-	for _, query := range []string{`UPDATE vaultix_identity_bindings SET "userId"=$2 WHERE id=$1`, `UPDATE vaultix_identity_binding_events SET "userId"=$2 WHERE "bindingId"=$1`} {
+	for _, query := range []string{`UPDATE vx_auth_identity_bindings SET "userId"=$2 WHERE id=$1`, `UPDATE vx_auth_identity_binding_events SET "userId"=$2 WHERE "bindingId"=$1`} {
 		_, err = stack.DB().Primary().Exec(ctx, query, id, other.ActorID)
 		require.Error(t, err)
 	}
-	_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM vaultix_identity_bindings WHERE id=$1`, id)
+	_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM vx_auth_identity_bindings WHERE id=$1`, id)
 	require.Error(t, err)
 	require.NotContains(t, f.logs.String(), "canary")
 	require.NotContains(t, f.logs.String(), f.subject)
@@ -204,7 +204,7 @@ func TestNomenBinding_ConcurrentClaimAndReplay(t *testing.T) {
 	require.EqualValues(t, 1, success.Load())
 	require.EqualValues(t, 11, denied.Load())
 	var count int
-	err = stack.DB().Primary().QueryRow(ctx, `SELECT count(*) FROM vaultix_identity_bindings WHERE issuer=$1 AND subject=$2`, f.issuer, f.subject).Scan(&count)
+	err = stack.DB().Primary().QueryRow(ctx, `SELECT count(*) FROM vx_auth_identity_bindings WHERE issuer=$1 AND subject=$2`, f.issuer, f.subject).Scan(&count)
 	require.NoError(t, err)
 	require.Equal(t, 1, count)
 }
@@ -226,19 +226,19 @@ func TestNomenBinding_IntentAndAccountDenials(t *testing.T) {
 			case "superseded":
 				_, err = f.service.BeginLink(ctx, "fixture-stepup")
 			case "expired":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vaultix_identity_link_challenges SET "createdAt"=NOW()-interval '6 minutes',"expiresAt"=NOW()-interval '1 minute' WHERE "userId"=$1`, user.ActorID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_identity_link_challenges SET "createdAt"=NOW()-interval '6 minutes',"expiresAt"=NOW()-interval '1 minute' WHERE "userId"=$1`, user.ActorID)
 			case "session-version":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE auth_token_sessions SET "accessVersion"=2 WHERE id=$1`, user.TokenVersionID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_sessions SET "accessVersion"=2 WHERE id=$1`, user.TokenVersionID)
 			case "session-delete":
-				_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM auth_token_sessions WHERE id=$1`, user.TokenVersionID)
+				_, err = stack.DB().Primary().Exec(ctx, `DELETE FROM vx_auth_sessions WHERE id=$1`, user.TokenVersionID)
 			case "locked":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isLocked"=true WHERE id=$1`, user.ActorID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=$1`, user.ActorID)
 			case "temporary-lock":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "temporaryLockDateEnd"=NOW()+interval '1 hour' WHERE id=$1`, user.ActorID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "temporaryLockDateEnd"=NOW()+interval '1 hour' WHERE id=$1`, user.ActorID)
 			case "unaccepted":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isAccepted"=false WHERE id=$1`, user.ActorID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isAccepted"=false WHERE id=$1`, user.ActorID)
 			case "ghost":
-				_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isGhost"=true WHERE id=$1`, user.ActorID)
+				_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isGhost"=true WHERE id=$1`, user.ActorID)
 			}
 			require.NoError(t, err)
 			_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
@@ -256,21 +256,21 @@ func TestNomenBinding_ProviderAndAuditFailureRecovery(t *testing.T) {
 	_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
 	require.ErrorIs(t, err, nomen.ErrUnavailable)
 	f.unavailable.Store(false)
-	_, err = stack.DB().Primary().Exec(ctx, `ALTER TABLE vaultix_identity_binding_events ADD CONSTRAINT fixture_binding_audit_failure CHECK (false) NOT VALID`)
+	_, err = stack.DB().Primary().Exec(ctx, `ALTER TABLE vx_auth_identity_binding_events ADD CONSTRAINT fixture_binding_audit_failure CHECK (false) NOT VALID`)
 	require.NoError(t, err)
 	_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
 	require.ErrorIs(t, err, nomen.ErrBindingUnavailable)
-	_, dropErr := stack.DB().Primary().Exec(ctx, `ALTER TABLE vaultix_identity_binding_events DROP CONSTRAINT fixture_binding_audit_failure`)
+	_, dropErr := stack.DB().Primary().Exec(ctx, `ALTER TABLE vx_auth_identity_binding_events DROP CONSTRAINT fixture_binding_audit_failure`)
 	require.NoError(t, dropErr)
 	_, err = f.service.Resolve(ctx, f.subject)
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)
 	_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
 	require.NoError(t, err)
-	_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isLocked"=true WHERE id=$1`, user.ActorID)
+	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=$1`, user.ActorID)
 	require.NoError(t, err)
 	_, err = f.service.Resolve(ctx, f.subject)
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)
-	_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isLocked"=false WHERE id=$1`, user.ActorID)
+	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=false WHERE id=$1`, user.ActorID)
 	require.NoError(t, err)
 	_, err = f.service.Resolve(ctx, f.subject)
 	require.NoError(t, err)
@@ -292,7 +292,7 @@ func TestNomenBinding_OneConnectionAndRestrictionDuringProviderIO(t *testing.T) 
 	f.beforeResponse = func() {
 		requestCtx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		_, err := pool.Exec(requestCtx, `UPDATE users SET "isLocked"=true WHERE id=$1`, user.ActorID)
+		_, err := pool.Exec(requestCtx, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=$1`, user.ActorID)
 		if err != nil {
 			t.Error("provider I/O held a database connection")
 		}
@@ -300,7 +300,7 @@ func TestNomenBinding_OneConnectionAndRestrictionDuringProviderIO(t *testing.T) 
 	_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)
 	f.beforeResponse = nil
-	_, err = pool.Exec(ctx, `UPDATE users SET "isLocked"=false WHERE id=$1`, user.ActorID)
+	_, err = pool.Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=false WHERE id=$1`, user.ActorID)
 	require.NoError(t, err)
 	_, err = f.service.CompleteLink(ctx, intent.Code, "fixture-access-canary")
 	require.NoError(t, err)

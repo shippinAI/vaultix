@@ -2,7 +2,8 @@ import { Knex } from "knex";
 
 import { TableName } from "../schemas";
 
-const SIGNER_CERTIFICATE_ISSUANCE_JOBS_TABLE = "pki_signer_certificate_issuance_jobs";
+// Later migrations name this table through TableName, so it is created under that name (docs/0119).
+const SIGNER_CERTIFICATE_ISSUANCE_JOBS_TABLE = TableName.PkiSignerCertificateIssuanceJobs;
 
 export async function up(knex: Knex): Promise<void> {
   const hasCaId = await knex.schema.hasColumn(TableName.PkiSigners, "caId");

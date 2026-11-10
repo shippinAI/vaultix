@@ -174,12 +174,12 @@ func (s *Service) readPage(ctx context.Context, folderID uuid.UUID, offset, limi
 	rows, err := s.db.Primary().Query(ctx, `
 		WITH page AS (
 			SELECT id, key, version, "createdAt", "updatedAt"
-			FROM secrets_v2 WHERE "folderId" = @folderID AND type = 'shared' AND "userId" IS NULL
+			FROM vx_secrets_secrets WHERE "folderId" = @folderID AND type = 'shared' AND "userId" IS NULL
 			ORDER BY key, id OFFSET @offset LIMIT @limit
 		)
 		SELECT page.id, page.key, page.version, page."createdAt", page."updatedAt",
-			ARRAY(SELECT tag.slug FROM secret_v2_tag_junction junction
-				JOIN secret_tags tag ON tag.id = junction."secret_tagsId"
+			ARRAY(SELECT tag.slug FROM vx_secrets_tag_junction junction
+				JOIN vx_secrets_tags tag ON tag.id = junction."secret_tagsId"
 				WHERE junction."secrets_v2Id" = page.id ORDER BY tag.slug)
 		FROM page ORDER BY page.key, page.id`, pgx.NamedArgs{"folderID": folderID, "offset": offset, "limit": limit})
 	if err != nil {

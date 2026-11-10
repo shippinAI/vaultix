@@ -35,7 +35,7 @@ function appEnv(db, cache, encryptionKey = key) {
     ENCRYPTION_KEY: encryptionKey, ROOT_ENCRYPTION_KEY: "", AUTH_SECRET: auth,
     SITE_URL: "http://127.0.0.1:8200", TELEMETRY_ENABLED: "false", DISABLE_UPDATE_CHECK: "true" };
 }
-const encryptedRows = db => sql(db, `SELECT id || ':' || encode("encryptedValue", 'hex') FROM secrets_v2 ORDER BY id;`);
+const encryptedRows = db => sql(db, `SELECT id || ':' || encode("encryptedValue", 'hex') FROM vx_secrets_secrets ORDER BY id;`);
 let dump;
 try {
   phase = "disposable services";
@@ -91,7 +91,7 @@ try {
   docker(["exec", "-i", targetDb, "pg_restore", "-U", "vaultix", "-d", "vaultix", "--exit-on-error", "--single-transaction", "--no-owner", "--no-acl"], { input: dump });
   report.timingsMs.restore = Date.now() - restoreStart;
   assert.ok(encryptedRows(targetDb) === before, "Restored ciphertext differs from snapshot");
-  assert.equal(sql(targetDb, "SELECT count(*) FROM secrets_v2 WHERE key='AFTER_BACKUP';"), "0");
+  assert.equal(sql(targetDb, "SELECT count(*) FROM vx_secrets_secrets WHERE key='AFTER_BACKUP';"), "0");
   check("separate empty database restores exact ciphertext and snapshot boundary");
 
   for (const [name, suppliedKey, diagnostic] of [["missing-key", "", ["Root KMS encryption strategy is set to software. Please set the ENCRYPTION_KEY environment variable and restart your deployment."]], ["wrong-key", randomBytes(16).toString("hex"), ["Unsupported state or unable to authenticate data"]]]) {

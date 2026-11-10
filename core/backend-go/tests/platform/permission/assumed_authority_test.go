@@ -151,7 +151,7 @@ func TestAssumedAuthority_ApplicationGrants(t *testing.T) {
 			for _, name := range []string{"valid", "no-cookie", "malformed", "missing-expiry", "missing-issued-at", "wrong-session", "wrong-requester", "unsupported-target", "expired", "disabled", "no-bearer", "other-project", "requester-role-revoked", "requester-membership-removed", "target-membership-removed", "target-role-granted", "sso-enabled", "tenant-changed", "primary-unavailable"} {
 				t.Run(name, func(t *testing.T) {
 					db, svc := newPermissionAuthority(t, func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `UPDATE membership_roles SET role='no-access' WHERE "membershipId" IN (SELECT id FROM memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2)`, actors[0].ProjectID, target.id)
+						permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET role='no-access' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2)`, actors[0].ProjectID, target.id)
 					})
 					valid := assumedOutcome{status: http.StatusNoContent, assumed: true, argumentsPreserved: true}
 					assert.Equal(t, valid, assumedRequest(t, svc, actors[0].ProjectID, issued, true, true), "valid before mutation")
@@ -200,19 +200,19 @@ func TestAssumedAuthority_ApplicationGrants(t *testing.T) {
 						project = otherProject.ID
 						expected.describe = true
 					case "requester-role-revoked":
-						permissionExec(t, db.primary, `UPDATE membership_roles SET role='no-access' WHERE "membershipId" IN (SELECT id FROM memberships WHERE "scopeProjectId"=$1 AND "actorUserId"=$2)`, project, actors[0].ActorID)
+						permissionExec(t, db.primary, `UPDATE vx_workspace_membership_roles SET role='no-access' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND "actorUserId"=$2)`, project, actors[0].ActorID)
 						expected.assumed = false
 						expected.cleared = true
 					case "requester-membership-removed":
-						permissionExec(t, db.primary, `DELETE FROM memberships WHERE "scopeProjectId"=$1 AND "actorUserId"=$2`, project, actors[0].ActorID)
+						permissionExec(t, db.primary, `DELETE FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND "actorUserId"=$2`, project, actors[0].ActorID)
 						expected.assumed = false
 						expected.cleared = true
 						expected.status = 403
 					case "target-membership-removed":
-						permissionExec(t, db.primary, `DELETE FROM memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2`, project, target.id)
+						permissionExec(t, db.primary, `DELETE FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2`, project, target.id)
 						expected.status = 403
 					case "target-role-granted":
-						permissionExec(t, db.primary, `UPDATE membership_roles SET role='viewer' WHERE "membershipId" IN (SELECT id FROM memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2)`, project, target.id)
+						permissionExec(t, db.primary, `UPDATE vx_workspace_membership_roles SET role='viewer' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND "`+target.column+`"=$2)`, project, target.id)
 						expected.describe = true
 					case "sso-enabled":
 						setSSOPolicy(t, db.primary, actors[0].ActorOrgID, true, false, false)
@@ -220,7 +220,7 @@ func TestAssumedAuthority_ApplicationGrants(t *testing.T) {
 						expected.cleared = true
 						expected.status = 403
 					case "tenant-changed":
-						permissionExec(t, db.primary, `UPDATE projects SET "orgId"=$2 WHERE id=$1`, project, uuid.New())
+						permissionExec(t, db.primary, `UPDATE vx_workspace_projects SET "orgId"=$2 WHERE id=$1`, project, uuid.New())
 						expected.assumed = false
 						expected.cleared = true
 						expected.status = 403
@@ -302,14 +302,14 @@ func TestAssumedAuthority_RevokedSession(t *testing.T) {
 	session, ok := claims["tokenVersionId"].(string)
 	require.True(t, ok)
 	var version int
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT "accessVersion" FROM auth_token_sessions WHERE id=$1`, session).Scan(&version))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT "accessVersion" FROM vx_auth_sessions WHERE id=$1`, session).Scan(&version))
 	restore := func() {
-		permissionExec(t, stack.DB().Primary(), `UPDATE auth_token_sessions SET "accessVersion"=$2 WHERE id=$1`, session, version)
+		permissionExec(t, stack.DB().Primary(), `UPDATE vx_auth_sessions SET "accessVersion"=$2 WHERE id=$1`, session, version)
 	}
 	t.Cleanup(restore)
 	// Mutate only the disposable issuer session. This is database revocation
 	// evidence, not a claim about the logout UI or a live Nomen issuer.
-	permissionExec(t, stack.DB().Primary(), `UPDATE auth_token_sessions SET "accessVersion"=$2 WHERE id=$1`, session, version+1)
+	permissionExec(t, stack.DB().Primary(), `UPDATE vx_auth_sessions SET "accessVersion"=$2 WHERE id=$1`, session, version+1)
 	require.Equal(t, assumedOutcome{status: 401}, assumedRequest(t, service, actors[0].ProjectID, grant, true, true))
 	restore()
 	require.Equal(t, valid, assumedRequest(t, service, actors[0].ProjectID, grant, true, true))

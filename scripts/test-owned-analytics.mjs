@@ -23,7 +23,7 @@ const denial = (statement) => {
 let started = false;
 try {
   for (const bad of [null, {}, {tables:[]}, {tables:[{name:'bad',source:'public.users',columns:['*']}]},
-    {tables:[{name:'bad',source:'public.users; DROP TABLE users',columns:['id']}]},
+    {tables:[{name:'bad',source:'public.users; DROP TABLE vx_auth_users',columns:['id']}]},
     {tables:[{name:'bad',source:'public.users',columns:['id','id']}]},
     {tables:[{name:'bad',source:'public.users',columns:['id'],where:'true'}]}]) {
     assert.throws(() => buildAnalyticsViewStatements(bad,'analytics'));

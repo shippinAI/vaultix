@@ -321,14 +321,15 @@
     },
     {
       "path": "docs/migration/workstreams.json",
-      "blob": "6662bf5dd2d5f42f56126e1790d45a8d413c42c8",
+      "blob": "d89a4b8b88d6ec4aab0e35a8fe595da1c090997d",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete workstream DAG and first-match rules; classify the new interaction ledger under native UI ownership. No migration state or acceptance gate is promoted.",
       "evidence": [
         "docs/0114-domain-scripted-ui-standard.md",
         "scripts/ui-action-standard.test.mjs",
-        "scripts/test-reference-commands.mjs"
+        "scripts/test-reference-commands.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -984,7 +985,7 @@
     },
     {
       "path": "core/backend-go/tests/infra/nodejs.go",
-      "blob": "1649ad2508d78eb0082cc94478f513fb25521e0b",
+      "blob": "12465fc9cafc17457fff765ff50bfdcb6a8fcf30",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Canonical locally inspected issuer artifact receives the explicit identity fixture policy before startup. Other bootstrap/project/provider helpers are retained; their raw failure messages require the existing safe evidence collector and are not newly audited as secret-safe logs. Reference dispatch parity tests cover the 60-per-IP route budget and the ingress dispatch header.",
@@ -1003,7 +1004,8 @@
         ".cache/identity-policy-proof-oAErwy/result.json",
         ".cache/dropzone-proof-YuxurI/result.json",
         ".cache/app-image-proof-zMKCF4/workflow-result.json",
-        ".cache/lifetime-runtime-artifact-comparison.json"
+        ".cache/lifetime-runtime-artifact-comparison.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -1032,13 +1034,14 @@
     },
     {
       "path": "core/backend-go/internal/ee/services/license/license.go",
-      "blob": "d78249903967e3c848d2efac7edfd2d4fec2fc0f",
+      "blob": "f8bae1f906fc5a97405701e3064b87ed857d3044",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read with included-feature constructor test. Removes an uncalled background entitlement-sync starter and constants; preserves included features, existing public methods and inherited tests. Historical private initialization/offline helpers still require their own retirement decision; this is not complete license-domain migration.",
       "evidence": [
         "docs/0032-native-toolchains.md",
-        ".cache/go1273-backend-unit-release.jsonl"
+        ".cache/go1273-backend-unit-release.jsonl",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -1285,7 +1288,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/authenticator.go",
-      "blob": "4a14c284622709697e0cd053e604c553fed53dd3",
+      "blob": "bda80abfbe85cc4cf36df7ff0679b138601c63f8",
       "status": "authored",
       "decision": "modify",
       "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
@@ -1293,7 +1296,8 @@
         "docs/auth/nomen-reauthentication.md",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -1495,7 +1499,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/apiauthenticator_test.go",
-      "blob": "4dda10bb509cca5f657d6189b7c707b832276f49",
+      "blob": "bad7254bf0c27fd1e73ddf9c445277d296aec200",
       "status": "authored",
       "decision": "modify",
       "scope": "Prior complete fixture review retained; TestMain now supplies a two-hour issuer/native policy and relative elapsed-grace anchor, with explicit constructor dependencies and failure cleanup. Existing user/identity/service-token assertions are retained. This does not establish Nomen ownership or external topology. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
@@ -1524,12 +1528,13 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/claims_format_test.go",
-      "blob": "98ef59cc825bba533eeb57f0382ed6d205b3534b",
+      "blob": "9bed5dc48d48995415e6851925754c27533ed002",
       "status": "verified",
       "decision": "modify",
       "scope": "New real API-issued zero-budget credential test observes lazy token persistence, HTTP acceptance and both Go validation entry points without resigning the issued token. Separate signed historical fixtures require each incomplete lifetime payload to honor a revoked legacy row. Baselines reproduce rejection of the real credential and three incorrect legacy accepts; both real cache suites now pass.",
@@ -1544,7 +1549,8 @@
         ".cache/go-proof-teQVEL/result.json",
         ".cache/app-image-proof-iVxZeL/workflow-result.json",
         ".cache/claims-image-smoke-dragonfly.log",
-        ".cache/claims-image-smoke-redis.log"
+        ".cache/claims-image-smoke-redis.log",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -1872,7 +1878,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/apiauth/revocation.go",
-      "blob": "a41d178d9d78cc65fabbcf7abecb20b935b45bb4",
+      "blob": "107545013e74f3df6ea0dde23bff5f2b883328a1",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored native revocation evaluation and primary-only PostgreSQL reader against the existing table. Equality UNION ALL arms bind identity and active expiry; SQL-null scope remains distinct from explicit empty scope. Exact-token denial, strict identity/scoped issuance boundaries, timestamp fallback, duplicate markers and plain denial messages preserve the traced issuer contract. Closed-primary errors cannot fall back to a replica; topology/failover/load acceptance remains open.",
@@ -1887,12 +1893,13 @@
         ".cache/go-proof-10RYK1/result.json",
         ".cache/app-image-proof-5PJBz6/workflow-result.json",
         ".cache/revocation-image-dragonfly.log",
-        ".cache/revocation-image-redis.log"
+        ".cache/revocation-image-redis.log",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/scoped_revocation_test.go",
-      "blob": "f8d8bfe7fd0e3dc58363b0e40274ede1b058e2c4",
+      "blob": "0c73fc95a67f5ac1d4053f74b99d31e8dd25dc13",
       "status": "verified",
       "decision": "modify",
       "scope": "Authored real API-issued two-client-secret lifecycle: both initially valid, authorized revoke of one, HTTP/native/unified denial and unaffected-secret acceptance. Old-production baseline fails the native denials. Separate signed/DB fixtures cover complete and legacy payloads, each scope, exact/identity markers, expiry, other-identity isolation and collision/time boundaries. Fixtures never print tokens or client-secret values.",
@@ -1907,7 +1914,8 @@
         ".cache/go-proof-10RYK1/result.json",
         ".cache/app-image-proof-5PJBz6/workflow-result.json",
         ".cache/revocation-image-dragonfly.log",
-        ".cache/revocation-image-redis.log"
+        ".cache/revocation-image-redis.log",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2069,7 +2077,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/lifetime_policy_test.go",
-      "blob": "b05946d0092da1f3f68e62a38814151ed58ffb51",
+      "blob": "53e2e99c1f981601988ddcfc1b81918f73635a12",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file authored/read. Real universal-auth issuance with zero budgets demonstrates actual maximum-age expiry/counter retention; native missing-counter recovery matches issuer TTL and consumes one use. Separately signed historical-format DB-backed fixtures deny missing expiry through HTTP and both native entry points after configured grace, with a valid expiring control. These are isolated fixtures, not real historical/operator credentials. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
@@ -2087,7 +2095,8 @@
         ".cache/lifetime-runtime-artifact-comparison.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2260,7 +2269,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/authority_test.go",
-      "blob": "460a94c1e947fae872e89ad77c239050a1141c33",
+      "blob": "c5cc1957d92b93fb40c989708814423cfa2e3417",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete fixture authored/read. Actual issuer credentials plus explicitly signed legacy/sub-org fixtures operate on isolated PostgreSQL schema snapshots. Valid and primary-only denied controls precede frozen-replica comparisons; checks cover user/identity/service paths, group-only membership removal/deactivation, primary failure without fallback, sub-org ancestry and current service-project tenant. Schema copies omit constraints and do not prove physical replication, issuer HTTP replica behavior, group APIs or Nomen. No operator data or clocks are changed; cleanup owns only generated fixture schemas/pools. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
@@ -2279,12 +2288,13 @@
         ".cache/app-image-proof-vLGe70/workflow-result.json",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/membership_precedence_test.go",
-      "blob": "568393176eefbb2d972bd17d0c598ae64c42d3c9",
+      "blob": "60f3008425c193501a163553fe917df3902adea0",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete authored fixture read. Both actor types and dedicated/unified user/current/legacy identity paths exercise 13 policy scenarios on isolated schema snapshots with valid controls and no replica reads. Snapshot insertion order reproduces baseline differences but does not guarantee production plans; constraints are not copied. A separate real issuer invitation/group-link/deactivate/reactivate sequence uses explicit accepted-user/session/JWT fixtures and verifies HTTP/native outcomes while the group remains active. Initial zero-UUID fixture failure is recorded and corrected by omitting absent optional scope; this is not a real sign-in, machine lifecycle, Nomen or scale proof.",
@@ -2302,7 +2312,8 @@
         ".cache/go-proof-x2Dwce/result.json",
         ".cache/membership-image-dragonfly.log",
         ".cache/membership-image-redis.log",
-        ".cache/app-image-proof-UAkQBx/workflow-result.json"
+        ".cache/app-image-proof-UAkQBx/workflow-result.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2649,7 +2660,7 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "5765c4a9856e38842f85d18d1e02a5fada222d3a",
+      "blob": "3ad98fe94fd444438cb93273be0437212d40268b",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
@@ -2658,7 +2669,8 @@
         "scripts/ui-action-standard.test.mjs",
         "scripts/test-reference-commands.mjs",
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
-        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -2979,7 +2991,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/projects/projects_test.go",
-      "blob": "d0da91674b456a9921add9d8a3a8f40a034f26e3",
+      "blob": "e4d2d9878599efcbe4cb1d2402cbe4c4ffe78d6c",
       "status": "verified",
       "decision": "modify",
       "scope": "Organization-first setup correction described in 0050. Touched flow read and authored in place; generated Go response types regenerated from OpenAPI. Browser/image acceptance pending for this exact revision; no whole-product or enterprise parity claim. Accepted 0050 scope on source 86c256df: actual owner/org creation, custom-password sign-in, two completion failures and refresh recovery, catalog help and preserved project workflow. Canonical image plus both cache suites passed. Full current super-admin service reread; other administration workflows, machine-bootstrap policy convergence, concurrent first-owner creation, manual assistive technology and enterprise parity remain open. This verification is scoped, not whole-module migration completion.",
@@ -2987,7 +2999,8 @@
         "docs/0050-organization-first-setup.md",
         ".cache/self-hosted-build-ueBbJX/result.json",
         ".cache/app-image-proof-5NZO8A/onboarding-result.json",
-        ".cache/app-image-proof-5NZO8A/workflow-result.json"
+        ".cache/app-image-proof-5NZO8A/workflow-result.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -3253,7 +3266,7 @@
     },
     {
       "path": "scripts/test-encrypted-recovery.mjs",
-      "blob": "292d31f56f92316c80e6fa2d28b60f1890712021",
+      "blob": "3a7b326cd6d518a02c6b6d4c792972be4a360582",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete new harness authored and read. Own disposable internal network, track created container IDs before starting, preserve operator resources, in-memory fixture credentials/archive, bounded command/HTTP operations and redacted failure receipts. Real API fixture, truncated-restore rollback, ciphertext/snapshot comparison, missing/wrong-key refusal, fresh login/decryption and denied requests. Same-version software-key fixture only; committed-image verification follows. Committed canonical image f1656cc1 passes all nine real recovery checks and owned-resource cleanup. Redacted receipt includes explicit excluded cloud requirements. No operator data or runtime source changed. Read complete recovery runner and extract only shared disposable test infrastructure; retain nine real encrypted restore/failure/authorization checks. Repeated real-image recovery passes with successful cleanup after extraction.",
@@ -3263,7 +3276,8 @@
         ".cache/encrypted-recovery/.cache/encrypted-recovery-e2i2ni/result.json",
         "docs/0056-machine-tenant-isolation.md",
         ".cache/tenant-isolation/.cache/self-hosted-fixtures-6H6P4l/result.json",
-        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json"
+        ".cache/tenant-isolation/.cache/encrypted-recovery-ljTYn7/result.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -3754,7 +3768,7 @@
     },
     {
       "path": "core/backend-go/internal/services/permission/permission.go",
-      "blob": "b2fa739add5cc7a6a399b2ddf4ef66fc247151e0",
+      "blob": "f5b4daa64db9a84a4d2997027114a9083a15a250",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete consumer modules and relevant rule/subject contracts read. Consumers import internal Vaultix policy directly with no external module alias. Existing action/subject names, built-in roles, reference/assumed authority and persisted role contracts retained. Custom-role decoding rejects malformed tuple constraints; real consumer tests cover denied authority and valid scoped recovery. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required.",
@@ -3762,12 +3776,13 @@
         "docs/0078-vaultix-policy-ownership.md",
         "core/backend-go/tests/platform/permission/policy_integrity_test.go",
         "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs"
+        "scripts/test-vaultix-policy-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/permission/authority_test.go",
-      "blob": "953d4a9291dd85c8a0fd72fcbc119bfe6d11a057",
+      "blob": "49530b5af5458b6f929b352ef1e8cd4fbbb635d1",
       "status": "verified",
       "decision": "retain",
       "scope": "Authored complete disposable PostgreSQL authority matrix: real API seeds, isolated primary/frozen schema copies, primary-only controls, role/group/template/service revocation, enforcement, failure, cancellation and recovery. Fixture scope is not physical replication or management API parity.",
@@ -3777,7 +3792,8 @@
         ".cache/native-permission-authority/.cache/go-proof-mRjjMA/result.json",
         ".cache/native-permission-authority/.cache/go-proof-pBYTBb/result.json",
         ".cache/native-permission-authority/.cache/native-unit-vet.json",
-        ".cache/native-permission-authority/.cache/lint-result.json"
+        ".cache/native-permission-authority/.cache/lint-result.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -3866,7 +3882,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/sso_test.go",
-      "blob": "ccea6d15093fd2360271aeb94a012d2c63f2fb9f",
+      "blob": "e6a937b28654e56e1901f4685ab75c21ae5c5ad4",
       "status": "verified",
       "decision": "replace",
       "scope": "Author real-PostgreSQL permission method, bypass, revocation, failure and non-user compatibility matrix using explicit copied-schema fixtures. Fixtures are not management API or physical replica evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
@@ -3877,7 +3893,8 @@
         ".cache/native-sso-policy/.cache/lint-image-final.json",
         ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
         ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
-        ".cache/native-sso-policy/.cache/casl-image-final.json"
+        ".cache/native-sso-policy/.cache/casl-image-final.json",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -3967,7 +3984,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/assumed_authority_test.go",
-      "blob": "ac02fe6564979badb4ae19d9c4b001254f509d90",
+      "blob": "c4da99ce9eee37bcee68233d693337b94f012e49",
       "status": "authored",
       "decision": "modify",
       "scope": "Author bidirectional application/native grant interoperability with real sessions and native middleware/domain composition. Prove no-access targets, argument immutability, revocation, malformed/fallback/disabled cases, tenant/project boundaries, session invalidation and primary failure/recovery. Copied-schema and signed-claim fixtures are labelled; HTTP probe is not a production route. No secret reads or token receipts. Scoped committed-image acceptance is recorded in 0063; full feature migration remains open. Current device API integration: Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
@@ -3978,7 +3995,8 @@
         "Native unit/race 673; full integrations 653 per cache with eight provider skips; vet and lint pass. See 0063 for exact receipts and fixture boundaries.",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -4158,7 +4176,7 @@
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/reference.go",
-      "blob": "cfd5a59d6d022924e466fa23b8a59cdb15e9db7d",
+      "blob": "f5884f5cbb5729a29b20fdc329e0e39ca21891af",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file authored/read. Mandatory trusted user or machine context, bounded query, native project authority and primary-only metadata SQL. Physical pagination precedes row authorization; values, ciphertext, personal overrides, comments, custom metadata and imported records are excluded. UTC millisecond response formatting; fail closed on missing authority/query failure. Not wired to production yet. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until HTTP/MCP, error shape, self-hosted rate-limit parity, and audit retention pass together. PublicOwner remains the unset-dispatch default. The packaged image selects the native sidecar.",
@@ -4167,12 +4185,13 @@
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
         "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/folder.go",
-      "blob": "a12ca9e34f84ed333913cdab179ace28bbffb8a6",
+      "blob": "da7b62ef57d2d75bf70ab04cea3bba1c71ef9fdd",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file authored/read. Parameterized primary recursive query resolves only the requested folder path within the selected active environment. Missing folders and query failures refuse. No new table, ciphertext access or fallback replica. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
@@ -4180,12 +4199,13 @@
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/internal/services/secretmanager/reference/projects.go",
-      "blob": "3a23ff25f52b9c9b615d09ef1db20afc856c33bc",
+      "blob": "3f0b71d30d32ad556e35af55b14d3fc54ecf44f5",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file authored/read. Primary metadata listing with direct/group membership, selected tenant, active projects/environments and Secrets Manager product filter. Deterministic ties, duplicate collapse and empty arrays. Project discovery does not authorize reference reads. Existing unpaginated compatibility contract and transport/session acceptance remain explicit. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
@@ -4193,7 +4213,8 @@
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -4213,7 +4234,7 @@
     },
     {
       "path": "core/backend-go/tests/secretmanager/secrets/reference_integration_test.go",
-      "blob": "4888aec604367cb9c40f03df8a3337760c68c069",
+      "blob": "87d8e4fa1f5620bf95e0afdc559dc542b57b5dc2",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete test file authored/read. Disposable real canonical application and PostgreSQL differential; restricted metadata SQL role denies broad secret SELECT. Shared/personal/import/canary fixtures, path and pagination, tag filtering/revocation, wrong tenant, describe/legacy/value-only behavior, unavailable primary and cancellation. Trusted native contexts are service fixtures; no native HTTP ownership claim. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open. Product $all tag containment matches CASL. Public reference ownership stays TypeScript until the last-matching rule decision. Project rules expand legacy secret forbids and place forbids after allows, matching the served TypeScript builder.",
@@ -4222,12 +4243,13 @@
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
         "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
-        "docs/0117-assistant-reference-boundary.md"
+        "docs/0117-assistant-reference-boundary.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/secretmanager/secrets/reference_projects_test.go",
-      "blob": "a41ef9fdbb91eb8f59165c855f6991ed5f4cf0ec",
+      "blob": "61ec818ab52c0a072a6eaa26eef2bdd8e7b06031",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete test file authored/read. Real application comparison for user/machine direct and group discovery, no-access membership visibility, duplicate removal, deleted project/environment and other product exclusion, canceled requests and removed group links. SQL mutations are labelled disposable fixtures; transport issuer/org enforcement and cross-tenant corrupt group links remain separate acceptance. Scoped immutable acceptance is recorded in 0066; HTTP/MCP ownership and confirmed operator/rule-order gaps remain open.",
@@ -4235,7 +4257,8 @@
         "docs/0066-native-reference-reads.md",
         "Runtime source 5dfd65bde8cc4b5613632f32c2eee450ad5918bf",
         "Canonical image sha256:c8a83c185c5a7a32c3ffa2455815ff16fd716a73c2599c85b53d5c92a402ee5c",
-        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit."
+        "0066: unit/race 726; native integration 688 per cache with eight provider skips; lint/vet and 16 image gates pass. Scope and confirmed cutover gaps remain explicit.",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5196,32 +5219,35 @@
     },
     {
       "path": "core/backend/src/db/migrations/20261030220000_vaultix-identity-bindings.ts",
-      "blob": "08881fcf3fe43057f64235c88cbd014fea92d963",
+      "blob": "b17c53def16958d8a47b3c57cb9bf7a8ec6d434d",
       "status": "verified",
       "decision": "modify",
       "scope": "Fully authored/read binding persistence and fixture acceptance: real PostgreSQL concurrency/replay/revocation/deletion/audit rollback, native race/lint and canonical old/new migration compatibility passed. Fresh authentication remains a mandatory fixture-only dependency; no public linking, actor, tenant or parity claim.",
       "evidence": [
-        "docs/auth/nomen-binding-lifecycle.md"
+        "docs/auth/nomen-binding-lifecycle.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/bindings.go",
-      "blob": "c3717aa1e4e7ff9bf9234dcb0c6a709fe58f9475",
+      "blob": "7121622cc0db506fc574fc761d910011a0b6a2ca",
       "status": "verified",
       "decision": "modify",
       "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-reauthentication.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/nomen_binding_test.go",
-      "blob": "5f5cbec926e13babfa2fecac41338799902e898b",
+      "blob": "1402172c6783ddb8951cce15e6d2939e12d2be32",
       "status": "verified",
       "decision": "modify",
       "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-reauthentication.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5289,32 +5315,35 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/reauthentication.go",
-      "blob": "5e4457a78e1866adc8f7f029abe331f2d1c4ac27",
+      "blob": "c984e1b016bc2fa53344dd58e36033cd1e3e0b80",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete producer/consumer read and native password-plus-TOTP implementation. Current required-method, factor, session and credential checks; shared attempt budget; atomic step/proof/provenance writes. Public mounting and full method matrix remain open. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/reauthentication_test.go",
-      "blob": "cabc60f0bb5b37bb4f47e26b1d2ce9a44ea869f5",
+      "blob": "678423b05def29c89692e5873adc2eec1d9b8ecf",
       "status": "verified",
       "decision": "modify",
       "scope": "Existing accepted password regression assertions preserved. Two constructor calls explicitly supply absent factor dependencies for password-only compatibility; updated constructor usage requires current regression/lint evidence. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/db/migrations/20261031001000_vaultix-identity-reauthentication.ts",
-      "blob": "d590cbd01a3692820c5599f251c898902c096a3b",
+      "blob": "378c74c4442dba7f7656055aa26011105746293c",
       "status": "verified",
       "decision": "modify",
       "scope": "Verified scoped native password reauthentication, proof consumption, signed claim-presence propagation and additive migration changes against the final canonical image. 797 internal race outcomes, 745 integration outcomes (eight provider skips), 16 application gates, five migration checks and independent guard mutations. Existing unrelated methods and whole-module/product parity are not newly claimed; required factors/SSO/public consumers remain open.",
       "evidence": [
-        "docs/auth/nomen-reauthentication.md"
+        "docs/auth/nomen-reauthentication.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5329,12 +5358,13 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/nomen/reauthentication_factor.go",
-      "blob": "fa88ed7c55615a49039cde397b5aa4586de73544",
+      "blob": "3b8d613ad4e8fd631bd90503ad8a5e3a6e65eda4",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete new helper. Narrow crypto/cache interfaces, domain-separated factor policy digest, monotonic PostgreSQL step consumption and proof-UUID-bound factor provenance. No external I/O inside the binding transaction. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5379,32 +5409,35 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/totp_reauthentication_test.go",
-      "blob": "f6203e99bfb280aa43bdfd2499f47356f88b0ca0",
+      "blob": "abdfe781e58b12e4e6ce8e27ce9ed616350b2dec",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete real Node enrollment/native KMS/Go proof and binding integration fixtures. Cross-runtime cache-loss replay, current factor/method/root policy, provider-time change, link/revoke, failure recovery, concurrent code and pool-one probes. TLS provider and seeded pending MFA sessions remain fixtures. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/services/totp/totp-service.ts",
-      "blob": "86ce4f441ccfa67020fbf4a0d51cd53950d31ec2",
+      "blob": "9378b6ca21cae47a56e421d09a9aecff0268c799",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete existing module read. Authentication verification now uses highest matching step and shared durable replay with user-before-factor locks; SQL failure retains cache claim and exposes recovery guidance. Registration now passes tx to all DAL calls; delete locks user first. Existing enrollment ceremony is retained, not claimed as a complete native factor lifecycle. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/db/migrations/20261031010000_vaultix-totp-reauthentication.ts",
-      "blob": "b2a428273b34318dfb868e34ff6557008e3409c2",
+      "blob": "1da6309e53426cd50ab02c2a8ead4cb8c3bb18f6",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete additive replay/proof-factor schema. Original factor/proof ciphertext/schema retained; account/factor deletion cascades bounded state; nonempty down refuses security-state erasure. Scoped canonical/native/migration checks passed as recorded in nomen-totp-proof.md; no complete identity or public activation claim.",
       "evidence": [
-        "docs/auth/nomen-totp-proof.md"
+        "docs/auth/nomen-totp-proof.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5533,12 +5566,13 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/service.go",
-      "blob": "573d26eb8d6071db0af6fc0b0919a7473892607e",
+      "blob": "63001518a9dc72d6bb207049b1bc41fe156a11ca",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device grant component: complete source authorship and scoped unit/race, real PostgreSQL lifecycle/atomic rollback/concurrency, canonical image and actual additive migration/binary rollback checks. Corrected expiry fixtures retain schema and assertions; mutation catches removed final expiry guard. Policy/session collaborators are limited fixtures. Production policy/session issuance, public routes, discovery, browser approval, CLI default, refresh, provider acceptance and whole identity parity remain open.",
       "evidence": [
-        "docs/auth/device-authorization-engine.md"
+        "docs/auth/device-authorization-engine.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5553,22 +5587,24 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_authorization_test.go",
-      "blob": "2c4ae3ecae9218727e3b5ff2450d448daa54b5d1",
+      "blob": "4283b4a8d7938c9299a7bb89de9bb3de2bcb18cf",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device grant component: complete source authorship and scoped unit/race, real PostgreSQL lifecycle/atomic rollback/concurrency, canonical image and actual additive migration/binary rollback checks. Corrected expiry fixtures retain schema and assertions; mutation catches removed final expiry guard. Policy/session collaborators are limited fixtures. Production policy/session issuance, public routes, discovery, browser approval, CLI default, refresh, provider acceptance and whole identity parity remain open.",
       "evidence": [
-        "docs/auth/device-authorization-engine.md"
+        "docs/auth/device-authorization-engine.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/db/migrations/20261031030000_vaultix-device-authorizations.ts",
-      "blob": "f35f64c063d2436b57ffcdcbdcd2a5e7d2f4a11d",
+      "blob": "585544893dd8c2b7ee7d87e56841151d2b0dc1f5",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device grant component: complete source authorship and scoped unit/race, real PostgreSQL lifecycle/atomic rollback/concurrency, canonical image and actual additive migration/binary rollback checks. Corrected expiry fixtures retain schema and assertions; mutation catches removed final expiry guard. Policy/session collaborators are limited fixtures. Production policy/session issuance, public routes, discovery, browser approval, CLI default, refresh, provider acceptance and whole identity parity remain open.",
       "evidence": [
-        "docs/auth/device-authorization-engine.md"
+        "docs/auth/device-authorization-engine.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5583,32 +5619,35 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/authority.go",
-      "blob": "84330a0ef17f49b976e01c185f2aaab0ecc801a7",
+      "blob": "606e6155c6b4bd9fbb27ca70e06c46f275581af8",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device approval authority: complete authored source, real PostgreSQL account/session/tenant/group/MFA/SSO and stale-policy tests through grant approval/redemption, canonical-image regression, native race suites and pinned lint. Actual bypass distinguished from capability possession. Mutation proves digest guard rejects changed roles. Session issuer remains a transactional fixture; public HTTP/discovery, usable device sessions/refresh, audit delivery, UI/CLI and external provider acceptance remain open.",
       "evidence": [
-        "docs/auth/device-approval-authority.md"
+        "docs/auth/device-approval-authority.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/internal/services/auth/device/authority_query.go",
-      "blob": "2b0c6fbfd22de8f3533ad4bcedf2e35c10c6e26c",
+      "blob": "c3563adac748282199d7cf255a083875ca0c907d",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device approval authority: complete authored source, real PostgreSQL account/session/tenant/group/MFA/SSO and stale-policy tests through grant approval/redemption, canonical-image regression, native race suites and pinned lint. Actual bypass distinguished from capability possession. Mutation proves digest guard rejects changed roles. Session issuer remains a transactional fixture; public HTTP/discovery, usable device sessions/refresh, audit delivery, UI/CLI and external provider acceptance remain open.",
       "evidence": [
-        "docs/auth/device-approval-authority.md"
+        "docs/auth/device-approval-authority.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_authority_test.go",
-      "blob": "41ccfac8d2c133e5ecdaf6a84199b9876d384aa5",
+      "blob": "412eae0c3e2a2c3421b1345e47e9d2e030e29ccc",
       "status": "verified",
       "decision": "modify",
       "scope": "Native device approval authority: complete authored source, real PostgreSQL account/session/tenant/group/MFA/SSO and stale-policy tests through grant approval/redemption, canonical-image regression, native race suites and pinned lint. Actual bypass distinguished from capability possession. Mutation proves digest guard rejects changed roles. Session issuer remains a transactional fixture; public HTTP/discovery, usable device sessions/refresh, audit delivery, UI/CLI and external provider acceptance remain open.",
       "evidence": [
-        "docs/auth/device-approval-authority.md"
+        "docs/auth/device-approval-authority.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5771,7 +5810,7 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/sessions.go",
-      "blob": "11673fa82b0bd65fc88493fe958c0f241f1277bf",
+      "blob": "cd0414e8e05d1b0fadfc6626363d545c3ddee866",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
@@ -5779,7 +5818,8 @@
         "docs/auth/device-session-lifecycle.md",
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5794,34 +5834,37 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_sessions_test.go",
-      "blob": "e2bf6c103d2f532ff871ca91370a3926885ecc00",
+      "blob": "6abbf44802c1275758369f5ce08133b483e176aa",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/db/migrations/20261031160000_vaultix-device-sessions.ts",
-      "blob": "20733eaff891b56bd62375f6b82256205bd9cf3a",
+      "blob": "b43bedd733efe60aaec0782757efcd85c35464ad",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored dedicated canonical device session issuance/rotation/reuse/revocation, primary policy validation and durable security-event persistence; browser reuse isolation retains all-session revocation. Exact scope: 901 unit/race and 25 device-session integration/race outcomes; clean Go/TS lint and full backend type check; real one-connection TS store/migration/old-binary restart; canonical image 16 gates plus native audit persistence. API consumers, public headless login, event/notification delivery, performance/retention and whole identity parity remain open.",
       "evidence": [
-        "docs/auth/device-session-lifecycle.md"
+        "docs/auth/device-session-lifecycle.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/services/auth-token/auth-session-store.spec.ts",
-      "blob": "a90ed211a8cd8155f968d1879278386f8ffa15d9",
+      "blob": "fae8d454dd274561d8fdb518b3d5b63e6f2e370a",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
         "docs/auth/device-session-lifecycle.md",
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5909,52 +5952,57 @@
     },
     {
       "path": "scripts/verify-delivery-destination-store.mjs",
-      "blob": "52b4863a3c03173764e0afaf57b7962ca3a4e975",
+      "blob": "0480831d000c45eee68f17aca90b2b04098d08a0",
       "status": "authored",
       "decision": "modify",
       "scope": "Prepared security mail now owns its per-attempt TCP socket through Nodemailer getSocket, preserving TLS/authentication handling while enforcing a 30-second total deadline, 10-second connection deadline and caller cancellation. Pre-aborted requests connect nowhere; uncertain active sends are never reported accepted or safely retryable. Existing browser/template interfaces retained. 122 unit outcomes and 16 real PostgreSQL/SMTP/TLS scenarios, full TypeScript check and changed-file lint pass. Full worker integration, concurrency/shutdown policy, provenance, operations and public CLI/device flow remain open; canonical image passed all 16 gates plus four fresh native audit checks and all 16 destination scenarios. A disposable mutation proved the actual socket-close assertion detects missing destruction.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/db/migrations/20261031190000_vaultix-device-event-context.ts",
-      "blob": "32ef2512459c4295a66849a931782492cc53e607",
+      "blob": "1f5ef44dd62198ef32b398b708838b68655f83eb",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/services/auth-token/device-source-store.spec.ts",
-      "blob": "e4543716ba0d5c8ceb733b54cc3ed7d2b67dcf2a",
+      "blob": "80142ce8a1c0831b29d2cd33f1ecf86d8224d3be",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "scripts/verify-device-source-store.mjs",
-      "blob": "7361fbd97ddb8662d004238eb614028aa0add100",
+      "blob": "98af830a8769af8a178d26b6e8fbff235e4beee8",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored immutable versioned session-origin source context and transactional canonical/account-cascade deletion capture. Verified 11 real PostgreSQL source scenarios, existing session compatibility/migration/binary rollback, 901 native unit/race outcomes, 25 native session integration/race outcomes, 132 native secret-service outcomes, clean Go/TS lint and full TypeScript check. Exact canonical image passed 16 gates, four native audit checks and destination compatibility. Legacy uncertainty remains explicit; worker delivery, current-request provenance, recipient preparation, public APIs/CLI and full identity parity remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "scripts/verify-device-session-store.mjs",
-      "blob": "7c20620882155e39c3fe3ee910804c58714ea095",
+      "blob": "f0e117b3b457bf41accadcddddf2ee597bd34fdf",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -5990,34 +6038,37 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-delivery-dal.ts",
-      "blob": "b3ed825405a839cfa18f60d3c617f0c456a921ac",
+      "blob": "9681f3982989a956623528ea1746f50a1999be39",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open. Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-delivery.md",
         "docs/auth/device-event-dispatch.md",
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/services/auth-token/device-delivery-store.spec.ts",
-      "blob": "688957b3e630d24b4023dfe493733a9434deefd2",
+      "blob": "d221f5ceac993117e75190ebcd0c680ba6425dff",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "scripts/verify-device-delivery-store.mjs",
-      "blob": "4d501af3a8a9440006d7cc3febf680db24971eff",
+      "blob": "388bb59be6349cb87d515d6cd5640b9f865a8e4e",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored additive primary-database preparation/delivery state with immutable bounded pages, fenced leases, backoff/uncertainty and bounded retention. Verified 14 real store cases, actual notification atomicity, canonical browser/session compatibility, full TS check/lint; exact image passed 16 gates, 25 native session integration/race outcomes, 11 source-capture cases, four native audit checks, three destination cases and real migration-history upgrade/rollback/reupgrade preserving unknown work. Actual preparer/dispatcher/registration/operations, current-request provenance, API consumers and public login remain open.",
       "evidence": [
-        "docs/auth/device-event-delivery.md"
+        "docs/auth/device-event-delivery.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6092,23 +6143,25 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-recipient-dal.ts",
-      "blob": "7e606aa5d4990a1fe35fc8f7deb2415618b14c9b",
+      "blob": "ca400e03043f8cb7ae9af5ba02c69303f4fbfbfc",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-preparation.md",
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-recipient.spec.ts",
-      "blob": "5cf4fa25f4f8bda11afcac1cbfd5033605809e5d",
+      "blob": "b3628e2183315d8818539dc824d853702aa06e40",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
-        "docs/auth/device-event-preparation.md"
+        "docs/auth/device-event-preparation.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6135,22 +6188,24 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-preparation.spec.ts",
-      "blob": "06ece181c47c03828b5b07863cdef9667e5136d2",
+      "blob": "60eef30129dc3ffb2a5b8972560b557bbfea387d",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
-        "docs/auth/device-event-preparation.md"
+        "docs/auth/device-event-preparation.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "scripts/verify-device-event-preparation.mjs",
-      "blob": "168f59e2524a4602f31d9b68de4baee2834343fc",
+      "blob": "c7c173daa22349e516ff514575ebf9dc9a8ad1f9",
       "status": "authored",
       "decision": "modify",
       "scope": "Authored bounded primary recipient resolution and immutable device source preparation. 21 real PostgreSQL/renderer cases, full backend/frontend types and changed-file lint pass. No dispatcher is registered; full delivery, operations and public CLI/federation remain open. canonical image passed all 16 gates, four native audit checks, 21 preparation scenarios and 16 existing destination scenarios.",
       "evidence": [
-        "docs/auth/device-event-preparation.md"
+        "docs/auth/device-event-preparation.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6227,24 +6282,26 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-dispatch.spec.ts",
-      "blob": "2dd68762fba383f5f8eda505a680de7434aaa5db",
+      "blob": "c52c73754c8da90916b6c230b841d70004bfb4e7",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open.",
       "evidence": [
-        "docs/auth/device-event-dispatch.md"
+        "docs/auth/device-event-dispatch.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
       "path": "scripts/verify-device-event-dispatch.mjs",
-      "blob": "f478c08ab10ec2b45006b796f25e0d4b423fb49d",
+      "blob": "c1434900461d17ab1fd42b896f619b6184ab868c",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device-event dispatch authorship: immutable source binding, strict persisted payloads, transactional notices, current recipient checks and bounded SMTP attempts. 56 real-store/delivery cases, source-binding negative control, backend types and lint passed. Canonical image passed all 16 gates, 56 dispatch/store/preparation cases, 16 destination compatibility cases and four native audit checks. Worker registration, bounded audit drain, operations and public CLI remain open. Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical image passed all 16 gates, 88 recorded-audit/dispatch/preparation cases, 16 destination compatibility cases and four native audit checks. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open. Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
         "docs/auth/device-event-dispatch.md",
         "docs/auth/recorded-audit-acceptance.md",
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6299,12 +6356,13 @@
     },
     {
       "path": "core/backend/src/ee/services/audit-log/audit-recorded-cancellation.spec.ts",
-      "blob": "b402b0df327f4c4ece2636635f90c6376027fa4f",
+      "blob": "7df3cc74f838fc8567c33a578812a069a43e92fe",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped recorded-audit acceptance authorship: cancellation-aware one-connection PostgreSQL transactions, ClickHouse abort propagation and durable filtered fanout pages. All 88 integration cases, 122 audit/SMTP units, two negative controls and backend static checks passed. Canonical image passed all 16 gates, 88 recorded-audit/dispatch/preparation cases, 16 destination compatibility cases and four native audit checks. Worker scheduling, source/preparation cancellation, full shutdown, operator repair and public login remain open.",
       "evidence": [
-        "docs/auth/recorded-audit-acceptance.md"
+        "docs/auth/recorded-audit-acceptance.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6319,12 +6377,13 @@
     },
     {
       "path": "core/backend/src/services/auth-token/device-event-worker.spec.ts",
-      "blob": "6e8ea6c0fac2b69018f1bcfa3a3162a8a24cc305",
+      "blob": "5129c7a2de6cebd0425ecb1dc7326a3928d26cdd",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6350,12 +6409,13 @@
     },
     {
       "path": "scripts/test-device-worker-image.mjs",
-      "blob": "59a2f26139654e900cf3de122a08c5796c93c7b9",
+      "blob": "5ff8191c849f79bd25f626ad4d201922406a3c1c",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open.",
       "evidence": [
-        "docs/auth/device-event-worker.md"
+        "docs/auth/device-event-worker.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6439,14 +6499,15 @@
     },
     {
       "path": "core/backend-go/internal/services/auth/device/access.go",
-      "blob": "1b79717ff809bec0417a20fd3f7051affb3a42bd",
+      "blob": "1dbca6ceed4cf3069e82288c1cd3c9d53cb00993",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -6463,14 +6524,15 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-      "blob": "07041e4f0e463769d0bf5f90d62ba331f6b93f93",
+      "blob": "3189e7ddd5844693c442b284db2907245ebcdac2",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read. Device consumer fixtures and explicit optional-dependency initialization preserve existing assertions. Actual image and final compatibility verification pending; method fixtures do not establish live federation.",
       "evidence": [
         "docs/auth/device-api-consumers.md",
         "core/backend-go/tests/platform/auth/device_api_consumer_test.go",
-        "scripts/prove-device-api-image.mjs"
+        "scripts/prove-device-api-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -7946,7 +8008,7 @@
     },
     {
       "path": "scripts/test-owned-analytics.mjs",
-      "blob": "696b6f84c4f2190a1951ab551090fa3d93b9b504",
+      "blob": "d9110781358f70eadaf0280e86298c60eba63c3b",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read/authored for removal of aliased runtime dependencies: owned analytics SQL, direct LDAP integration, native Go QUIC transport, packaging or acceptance. Scope and provider/platform limits are explicit in docs/0077-owned-runtime-dependencies.md. This is not whole-product parity or a completed Go domain migration.",
@@ -7955,7 +8017,8 @@
         "scripts/test-owned-dependencies.mjs",
         "scripts/test-owned-ldap.mjs",
         "scripts/test-owned-quic.mjs",
-        "scripts/test-owned-analytics.mjs"
+        "scripts/test-owned-analytics.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -8701,7 +8764,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/policy_integrity_test.go",
-      "blob": "c80a610ee089b2ec6f7a53e6a9ed27fe9ede5d2f",
+      "blob": "dc16c0cb1972569bd0351ceb0aa64c3d7a6a7739",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete new database-backed policy integrity test read. Reject the complete project authority when any custom role tuple fails decoding, preserving explicit denials across multiple roles. Fixture constrains both supported read actions, checks user and machine identity membership against primary state and repairs policy to prove recovery. Real native image acceptance remains required. PostgreSQL JSON syntax rejection is asserted at the database boundary with SQLSTATE 22P02 and preserved-denial verification; malformed valid JSON remains a resolver-denial test.",
@@ -8709,7 +8772,8 @@
         "docs/0078-vaultix-policy-ownership.md",
         "core/backend-go/tests/platform/permission/policy_integrity_test.go",
         "scripts/test-vaultix-policy.mjs",
-        "scripts/test-vaultix-policy-image.mjs"
+        "scripts/test-vaultix-policy-image.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -9374,7 +9438,7 @@
     },
     {
       "path": "internal/platform/docker.go",
-      "blob": "c29c7c2ab439d2ab20ca9543838d0cfe405017bb",
+      "blob": "befb69d8a20d7e3edaf19ec4a39eb22759d637d1",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
@@ -9388,7 +9452,8 @@
         ".cache/lifecycle-acceptance-mNMlg6/result.json",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "internal/platform/ingress_test.go"
+        "internal/platform/ingress_test.go",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -9483,7 +9548,7 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "68fc68a2db39078eb6dc058f92fb8f2977cc89d7",
+      "blob": "6324df77654e8e2dbdc5c7eaca260423343e0ed3",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
@@ -9499,7 +9564,8 @@
         "scripts/test-server-migration.mjs",
         "internal/platform/ingress_test.go",
         "scripts/release-publication.test.mjs",
-        "docs/releases-and-updates.md"
+        "docs/releases-and-updates.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10041,14 +10107,15 @@
     },
     {
       "path": "core/backend/src/db/migrations/20261102120000_vaultix-early-access-requests.ts",
-      "blob": "23f9007df7922744ec27a93e0ba09824ffe212a4",
+      "blob": "b8061dee8ab4e081018e9fac4eb1041ad525da49",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10065,14 +10132,15 @@
     },
     {
       "path": "core/backend/src/db/schemas/models.ts",
-      "blob": "decbcb6ccf60d4c66960c389db5c0d50483028b0",
+      "blob": "617a58ef82792ac728c53291172603c3d45ef232",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
       "evidence": [
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
-        "scripts/test-early-access-migration.mjs"
+        "scripts/test-early-access-migration.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10431,14 +10499,15 @@
     },
     {
       "path": "internal/platform/schema.go",
-      "blob": "6d82584accc962a847b17c045616099fd71b7f48",
+      "blob": "f85ca70d118f6adf12578fd4d73fd71cbbc87c83",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
       "evidence": [
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/schema_test.go",
-        "scripts/test-server-migration.mjs"
+        "scripts/test-server-migration.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10456,7 +10525,7 @@
     },
     {
       "path": "scripts/test-server-migration.mjs",
-      "blob": "abcd6b3ccc840b5ea3e9075d41fd8cfbe67b8883",
+      "blob": "e1058aa6fc97b3f85bb31ea7f6626fba17b99dc3",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
@@ -10466,7 +10535,8 @@
         "scripts/test-server-migration.mjs",
         "Second independent review found two scenarios weaker than their names; both now do what they claim. Adds Ctrl-C, recreated dependencies, last resort and fresh volume scenarios. 28 checks passed on a development CLI with cleanup.",
         "internal/platform/ingress_test.go",
-        "scripts/test-server-lifecycle.mjs"
+        "scripts/test-server-lifecycle.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10521,14 +10591,15 @@
     },
     {
       "path": "core/backend-go/tests/platform/auth/device_http_test.go",
-      "blob": "67225b1117d2357437c268c082dc8137364c4992",
+      "blob": "b3ca8a4dcf478134580f81c2a0cbd5c1b9e6da4f",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
       "evidence": [
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
-        "scripts/test-device-http.mjs"
+        "scripts/test-device-http.mjs",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {
@@ -10855,12 +10926,13 @@
     },
     {
       "path": "core/backend-go/internal/services/project/project.go",
-      "blob": "c3b76f9d22297f15c71d614031b1234ff23d4b0a",
+      "blob": "5f6ac727d9ff88e8cbfdb5adb42a4b6821b28e7b",
       "status": "authored",
       "decision": "modify",
       "scope": "Loads nullable project audit retention for the reference audit cap. The rest of project lookup was not re-reviewed.",
       "evidence": [
-        "docs/0066-native-reference-reads.md"
+        "docs/0066-native-reference-reads.md",
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
       ]
     },
     {

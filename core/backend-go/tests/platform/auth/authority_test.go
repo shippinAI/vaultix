@@ -102,7 +102,7 @@ func newAuthorityTokens(t *testing.T) authorityTokens {
 	t.Cleanup(func() { node.DeleteIdentity(t, identity.ID) })
 	token := node.GetIdentityAccessToken(t, identity.ID)
 	tokenID := uuid.NewString()
-	_, err := stack.DB().Primary().Exec(context.Background(), `INSERT INTO identity_access_tokens
+	_, err := stack.DB().Primary().Exec(context.Background(), `INSERT INTO vx_identity_access_tokens
 		(id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 		"accessTokenNumUses", "accessTokenNumUsesLimit", "accessTokenLastRenewedAt", "authMethod", "createdAt", "updatedAt")
 		VALUES ($1, $2, false, 3600, 7200, 0, 0, NOW(), 'universal-auth', NOW(), NOW())`, tokenID, identity.ID)
@@ -145,18 +145,18 @@ func TestAuthenticationAuthority_StaleReplicaCannotRestoreAccess(t *testing.T) {
 		args        []any
 		paths       []string
 	}{
-		{"session-version", `UPDATE auth_token_sessions SET "accessVersion" = "accessVersion" + 1 WHERE "userId" = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"session-deleted", `DELETE FROM auth_token_sessions WHERE "userId" = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"user-locked", `UPDATE users SET "isLocked" = true WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"user-temporarily-locked", `UPDATE users SET "temporaryLockDateEnd" = NOW() + interval '1 hour' WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"user-unaccepted", `UPDATE users SET "isAccepted" = false WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"user-membership", `UPDATE memberships SET "isActive" = false WHERE "actorUserId" = $1 AND scope = 'organization'`, []any{tokens.userID}, []string{"user", "user-unified"}},
-		{"identity-membership", `UPDATE memberships SET "isActive" = false WHERE "actorIdentityId" = $1 AND scope = 'organization'`, []any{tokens.identityID}, []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
-		{"organization-deleted", `DELETE FROM organizations WHERE id = $1`, []any{tokens.orgID}, []string{"user", "user-unified", "legacy", "legacy-unified", "service"}},
-		{"legacy-revoked", `UPDATE identity_access_tokens SET "isAccessTokenRevoked" = true WHERE id = $1`, []any{tokens.tokenID}, []string{"legacy", "legacy-unified"}},
-		{"trusted-ip-restricted", `UPDATE identity_universal_auths SET "accessTokenTrustedIps" = '[{"ipAddress":"192.0.2.1","type":"ipv4"}]'::jsonb WHERE "identityId" = $1`, []any{tokens.identityID}, []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
-		{"service-token-deleted", `DELETE FROM service_tokens WHERE id = $1`, []any{tokens.serviceID}, []string{"service"}},
-		{"service-project-deleted", `DELETE FROM projects WHERE id = $1`, []any{tokens.projectID}, []string{"service"}},
+		{"session-version", `UPDATE vx_auth_sessions SET "accessVersion" = "accessVersion" + 1 WHERE "userId" = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"session-deleted", `DELETE FROM vx_auth_sessions WHERE "userId" = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"user-locked", `UPDATE vx_auth_users SET "isLocked" = true WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"user-temporarily-locked", `UPDATE vx_auth_users SET "temporaryLockDateEnd" = NOW() + interval '1 hour' WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"user-unaccepted", `UPDATE vx_auth_users SET "isAccepted" = false WHERE id = $1`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"user-membership", `UPDATE vx_workspace_memberships SET "isActive" = false WHERE "actorUserId" = $1 AND scope = 'organization'`, []any{tokens.userID}, []string{"user", "user-unified"}},
+		{"identity-membership", `UPDATE vx_workspace_memberships SET "isActive" = false WHERE "actorIdentityId" = $1 AND scope = 'organization'`, []any{tokens.identityID}, []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
+		{"organization-deleted", `DELETE FROM vx_workspace_organizations WHERE id = $1`, []any{tokens.orgID}, []string{"user", "user-unified", "legacy", "legacy-unified", "service"}},
+		{"legacy-revoked", `UPDATE vx_identity_access_tokens SET "isAccessTokenRevoked" = true WHERE id = $1`, []any{tokens.tokenID}, []string{"legacy", "legacy-unified"}},
+		{"trusted-ip-restricted", `UPDATE vx_identity_universal_auths SET "accessTokenTrustedIps" = '[{"ipAddress":"192.0.2.1","type":"ipv4"}]'::jsonb WHERE "identityId" = $1`, []any{tokens.identityID}, []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
+		{"service-token-deleted", `DELETE FROM vx_identity_service_tokens WHERE id = $1`, []any{tokens.serviceID}, []string{"service"}},
+		{"service-project-deleted", `DELETE FROM vx_workspace_projects WHERE id = $1`, []any{tokens.projectID}, []string{"service"}},
 	} {
 		t.Run(scenario.name, func(t *testing.T) {
 			db, validator := newAuthorityValidator(t)
@@ -231,15 +231,15 @@ func TestAuthenticationAuthority_GroupRevocationUsesPrimary(t *testing.T) {
 				db, validator := newAuthorityValidator(t)
 				groupID, membershipID := uuid.New(), uuid.New()
 				for _, pool := range []*pgxpool.Pool{db.primary, db.replica} {
-					_, err := pool.Exec(ctx, `DELETE FROM memberships WHERE `+pgx.Identifier{actor.column}.Sanitize()+` = $1 AND scope = 'organization'`, actor.id)
+					_, err := pool.Exec(ctx, `DELETE FROM vx_workspace_memberships WHERE `+pgx.Identifier{actor.column}.Sanitize()+` = $1 AND scope = 'organization'`, actor.id)
 					require.NoError(t, err)
 					_, err = pool.Exec(ctx, "DELETE FROM "+pgx.Identifier{actor.table}.Sanitize()+" WHERE "+pgx.Identifier{actor.link}.Sanitize()+" = $1", actor.id)
 					require.NoError(t, err)
-					_, err = pool.Exec(ctx, `INSERT INTO groups (id, name) VALUES ($1, 'authority-group-fixture')`, groupID)
+					_, err = pool.Exec(ctx, `INSERT INTO vx_workspace_groups (id, name) VALUES ($1, 'authority-group-fixture')`, groupID)
 					require.NoError(t, err)
 					_, err = pool.Exec(ctx, "INSERT INTO "+pgx.Identifier{actor.table}.Sanitize()+" (id, \"groupId\", "+pgx.Identifier{actor.link}.Sanitize()+") VALUES ($1, $2, $3)", uuid.New(), groupID, actor.id)
 					require.NoError(t, err)
-					_, err = pool.Exec(ctx, `INSERT INTO memberships (id, "actorGroupId", scope, "scopeOrgId", "isActive", status)
+					_, err = pool.Exec(ctx, `INSERT INTO vx_workspace_memberships (id, "actorGroupId", scope, "scopeOrgId", "isActive", status)
 						VALUES ($1, $2, 'organization', $3, true, 'accepted')`, membershipID, groupID, tokens.orgID)
 					require.NoError(t, err)
 				}
@@ -252,7 +252,7 @@ func TestAuthenticationAuthority_GroupRevocationUsesPrimary(t *testing.T) {
 					_, err := db.primary.Exec(ctx, "DELETE FROM "+pgx.Identifier{actor.table}.Sanitize()+" WHERE \"groupId\" = $1", groupID)
 					require.NoError(t, err)
 				} else {
-					_, err := db.primary.Exec(ctx, `UPDATE memberships SET "isActive" = false WHERE id = $1`, membershipID)
+					_, err := db.primary.Exec(ctx, `UPDATE vx_workspace_memberships SET "isActive" = false WHERE id = $1`, membershipID)
 					require.NoError(t, err)
 				}
 				for _, path := range actor.paths {
@@ -283,10 +283,10 @@ func TestAuthenticationAuthority_OrganizationHierarchyUsesPrimary(t *testing.T) 
 	tokens.user, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(infra.AuthSecret))
 	require.NoError(t, err)
 	for _, pool := range []*pgxpool.Pool{db.primary, db.replica} {
-		_, err := pool.Exec(ctx, `INSERT INTO organizations (id, name, "rootOrgId", "parentOrgId")
+		_, err := pool.Exec(ctx, `INSERT INTO vx_workspace_organizations (id, name, "rootOrgId", "parentOrgId")
 			VALUES ($1, 'authority-child-fixture', $2, $2)`, subOrgID, tokens.orgID)
 		require.NoError(t, err)
-		_, err = pool.Exec(ctx, `INSERT INTO memberships (id, "actorUserId", scope, "scopeOrgId", "isActive", status)
+		_, err = pool.Exec(ctx, `INSERT INTO vx_workspace_memberships (id, "actorUserId", scope, "scopeOrgId", "isActive", status)
 			VALUES ($1, $2, 'organization', $3, true, 'accepted')`, uuid.New(), tokens.userID, subOrgID)
 		require.NoError(t, err)
 	}
@@ -295,7 +295,7 @@ func TestAuthenticationAuthority_OrganizationHierarchyUsesPrimary(t *testing.T) 
 		require.NoError(t, err)
 		require.Equal(t, subOrgID, identity.OrgID)
 	}
-	_, err = db.primary.Exec(ctx, `UPDATE organizations SET "rootOrgId" = $1 WHERE id = $2`, uuid.New(), subOrgID)
+	_, err = db.primary.Exec(ctx, `UPDATE vx_workspace_organizations SET "rootOrgId" = $1 WHERE id = $2`, uuid.New(), subOrgID)
 	require.NoError(t, err)
 	for _, path := range []string{"user", "user-unified"} {
 		t.Run(path, func(t *testing.T) {
@@ -317,10 +317,10 @@ func TestAuthenticationAuthority_ServiceProjectTenantUsesPrimary(t *testing.T) {
 	require.Equal(t, tokens.orgID, identity.OrgID.String())
 	currentOrgID := uuid.New()
 	for _, pool := range []*pgxpool.Pool{db.primary, db.replica} {
-		_, err := pool.Exec(ctx, `INSERT INTO organizations (id, name) VALUES ($1, 'authority-tenant-fixture')`, currentOrgID)
+		_, err := pool.Exec(ctx, `INSERT INTO vx_workspace_organizations (id, name) VALUES ($1, 'authority-tenant-fixture')`, currentOrgID)
 		require.NoError(t, err)
 	}
-	_, err = db.primary.Exec(ctx, `UPDATE projects SET "orgId" = $1 WHERE id = $2`, currentOrgID, tokens.projectID)
+	_, err = db.primary.Exec(ctx, `UPDATE vx_workspace_projects SET "orgId" = $1 WHERE id = $2`, currentOrgID, tokens.projectID)
 	require.NoError(t, err)
 	db.primaryReads, db.replicaReads = 0, 0
 	identity, err = tokens.validate(ctx, validator, "service")

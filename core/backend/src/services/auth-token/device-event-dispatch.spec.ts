@@ -78,21 +78,21 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   });
   const newUser = async () => {
     const id = randomUUID();
-    await db("users").insert({ id, username: id, email: `${id}@vaultix.invalid`, isAccepted: true });
+    await db("vx_auth_users").insert({ id, username: id, email: `${id}@vaultix.invalid`, isAccepted: true });
     users.push(id);
     return id;
   };
   const admin = async () => {
     const userId = await newUser();
     const id = randomUUID();
-    await db("memberships").insert({
+    await db("vx_workspace_memberships").insert({
       id,
       scope: "organization",
       scopeOrgId: orgId,
       actorUserId: userId,
       status: "accepted"
     });
-    await db("membership_roles").insert({ membershipId: id, role: "admin" });
+    await db("vx_workspace_membership_roles").insert({ membershipId: id, role: "admin" });
     return { userId, id };
   };
   const prepare = async (
@@ -100,7 +100,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   ) => {
     const id = randomUUID();
     const sessionId = randomUUID();
-    await db("auth_token_sessions").insert({
+    await db("vx_auth_sessions").insert({
       id: sessionId,
       userId: subjectId,
       ip: "192.0.2.81",
@@ -116,7 +116,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
       rootOrgId: orgId,
       clientId: "vaultix-cli"
     };
-    await db("vaultix_device_sessions").insert({
+    await db("vx_auth_device_sessions").insert({
       sessionId,
       clientId: "vaultix-cli",
       resource: "https://vaultix.invalid",
@@ -126,7 +126,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + 3600000)
     });
-    await db("vaultix_device_session_events").insert({
+    await db("vx_auth_device_session_events").insert({
       id,
       sessionId,
       userId: subjectId,
@@ -156,7 +156,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
     return found;
   };
   const state = (claim: DeviceDeliveryClaim) =>
-    db("vaultix_device_event_deliveries")
+    db("vx_auth_device_event_deliveries")
       .where({ id: claim.id })
       .first<{ status: string; outcome: Record<string, string> }>();
   const fanout = vi.fn().mockResolvedValue(undefined);
@@ -198,7 +198,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
     });
   };
   const retry = async (claim: DeviceDeliveryClaim) => {
-    await db("vaultix_device_event_deliveries")
+    await db("vx_auth_device_event_deliveries")
       .where({ id: claim.id })
       .update({ status: "pending", leaseToken: null, leaseUntil: null, nextAttemptAt: db.raw("clock_timestamp()") });
     return claimOf(await deviceEventDeliveryDALFactory(db).claimDeliveries(100), claim.destination, claim.recipientId);
@@ -206,12 +206,12 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   const cleanup = async () => {
     if (orgs.length) await db(TableName.AuditLog).whereIn("orgId", orgs).delete();
     if (users.length) {
-      await db("users").whereIn("id", users).delete();
-      await db("vaultix_device_session_events").whereIn("userId", users).delete();
+      await db("vx_auth_users").whereIn("id", users).delete();
+      await db("vx_auth_device_session_events").whereIn("userId", users).delete();
       users.length = 0;
     }
     if (orgs.length) {
-      await db("organizations").whereIn("id", orgs).delete();
+      await db("vx_workspace_organizations").whereIn("id", orgs).delete();
       orgs.length = 0;
     }
   };
@@ -248,7 +248,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
     config.SITE_URL = "https://original.vaultix.invalid";
     config.DISABLE_AUDIT_LOG_GENERATION = false;
     orgId = randomUUID();
-    await db("organizations").insert({ id: orgId, name: "Vaultix dispatch", slug: orgId });
+    await db("vx_workspace_organizations").insert({ id: orgId, name: "Vaultix dispatch", slug: orgId });
     orgs.push(orgId);
     subjectId = await newUser();
   });
@@ -273,7 +273,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
       expect(await worker.dispatch(row)).toBe(true);
     }
     expect(
-      await db("vaultix_device_event_deliveries")
+      await db("vx_auth_device_event_deliveries")
         .whereIn(
           "id",
           rows.map((r) => r.id)
@@ -330,7 +330,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
     const member = await admin();
     const rows = await prepare({ bypass: true });
     const worker = await dispatcher();
-    await db("memberships").where({ id: member.id }).update({ isActive: false });
+    await db("vx_workspace_memberships").where({ id: member.id }).update({ isActive: false });
     for (const kind of ["notification", "email"] as const) {
       const row = claimOf(rows, kind, member.userId); // eslint-disable-next-line no-await-in-loop
       await worker.dispatch(row); // eslint-disable-next-line no-await-in-loop
@@ -342,7 +342,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   test("changed email is never a redirect while the locked subject still receives an in-app security notice", async () => {
     const rows = await prepare();
     const worker = await dispatcher();
-    await db("users").where({ id: subjectId }).update({ email: "replacement@vaultix.invalid", isLocked: true });
+    await db("vx_auth_users").where({ id: subjectId }).update({ email: "replacement@vaultix.invalid", isLocked: true });
     await worker.dispatch(claimOf(rows, "email"));
     await worker.dispatch(claimOf(rows, "notification"));
     expect((await state(claimOf(rows, "email")))?.status).toBe("not-applicable");
@@ -372,7 +372,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   );
   test("stale lease cannot cause an external effect or acknowledge another worker", async () => {
     const row = claimOf(await prepare(), "email");
-    await db("vaultix_device_event_deliveries").where({ id: row.id }).update({ leaseToken: randomUUID() });
+    await db("vx_auth_device_event_deliveries").where({ id: row.id }).update({ leaseToken: randomUUID() });
     expect(await (await dispatcher()).dispatch(row)).toBe(false);
     expect((await state(row))?.status).toBe("processing");
     expect(received).toHaveLength(0);
@@ -415,7 +415,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
   );
   test("insufficient remaining database lease prevents SMTP from starting", async () => {
     const row = claimOf(await prepare(), "email");
-    await db("vaultix_device_event_deliveries")
+    await db("vx_auth_device_event_deliveries")
       .where({ id: row.id })
       .update({ leaseUntil: db.raw("clock_timestamp()+interval '800 milliseconds'") });
     await (await dispatcher()).dispatch(row);
@@ -464,7 +464,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
     expect((await state(row))?.status).toBe("unknown");
     expect(received).toHaveLength(1);
     await vi.waitFor(() => expect(sockets.size).toBe(0));
-    await db("vaultix_device_event_deliveries")
+    await db("vx_auth_device_event_deliveries")
       .where({ id: row.id })
       .update({ nextAttemptAt: db.raw("clock_timestamp()") });
     expect((await deviceEventDeliveryDALFactory(db).claimDeliveries(100)).some((c) => c.id === row.id)).toBe(false);

@@ -44,26 +44,54 @@ characters; the generator refuses either.
 
 ### How the rename is carried out
 
-1. **Historical migrations are frozen.** They keep creating the inherited names, read
-   from a snapshot `LegacyTableName`, so a fresh database and an upgraded one follow
-   the same path. A migration's past behavior never changes.
-2. **One rename migration** moves every table that still has its inherited name to
-   its `vx_` name with `ALTER TABLE … RENAME`. It is idempotent and transactional.
-   Rows, columns, indexes, foreign keys and triggers move with the table; constraint
-   and index names keep their old spelling for now.
-3. **One source of names per language.** TypeScript uses the generated `TableName`
-   values. Go uses generated constants. SQL text in both is rewritten to the new names,
-   and a guard fails the build if an inherited table name appears in SQL again.
-4. **Upgrade path.** The rename is a changed migration set, so
-   `vaultix server upgrade` rehearses it on a restored copy of the live database,
-   with no network, before touching the live one ([0109](0109-native-install-and-upgrade.md)).
-5. **Acceptance.** The full canonical build, the Go and backend capability suites
-   (`node scripts/build-self-hosted.mjs --capabilities`) and the server-migration
-   rehearsal against a store created before the rename.
+The real store was inventoried first (278 tables, 486 partitions, 9 functions whose bodies
+name tables). That changed the plan: about 20 historical migrations call service and
+data-access code, so freezing them on the inherited names would break fresh installs.
 
-Things to check during execution, before claiming the rename complete: partitioned
-audit-log tables and their partition maintenance, database functions or triggers whose
-bodies name a table, raw SQL in scripts and tests, and the knex migration table itself.
+1. **One map, frozen as history.** `docs/schema/table-namespaces.json` (312 rows: the 300
+   `TableName` entries and 12 tables that raw-SQL migrations create) records each inherited
+   name and its `vx_` name. `node scripts/map-table-namespaces.mjs --check` proves the map
+   follows the rules, `TableName` matches it, and the runtime list
+   `core/backend/src/db/table-namespaces.ts` is current.
+2. **Every migration uses the new names** through `TableName`, so a fresh database gets
+   `vx_` tables from the start. Raw SQL inside migrations was rewritten to match. The 12
+   raw-SQL tables are still created under their inherited names and renamed afterwards.
+3. **An existing store moves first.** On start, inside the migration lock and before any
+   pending migration, `renameLegacyTables` renames the `TableName` tables in one
+   transaction. It is idempotent and refuses if both an inherited and a `vx_` table exist.
+   Partitions are renamed with their parent. Functions whose bodies name a renamed table
+   are recreated with the new name.
+4. **The namespace migration** (`20261110120000_vx-table-namespaces`) then renames the raw
+   tables, records the change in the migration set (so `vaultix server upgrade` rehearses
+   it on a restored copy), and its `down` reverses everything.
+5. **Columns keep their names.** Junction tables named their foreign-key columns after the
+   tables they join (`secret_tagsId`, `secrets_v2Id`); those stay, through
+   `core/backend/src/db/junction-columns.ts`, on fresh and upgraded stores alike. Index and
+   constraint names keep their old spelling.
+6. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
+   inherited table name appears in SQL or a database call in TypeScript, Go, scripts or the
+   CLI. Both checks are canonical build stages.
+7. **The upgrade tool reads either side.** `vaultix server`'s encrypted-row fingerprint
+   finds `vx_secrets_secrets` or `secrets_v2`, so a checkpoint taken before the rename
+   compares with the migrated copy after it.
+
+### Rollback across the rename
+
+An older binary cannot run on a renamed store. Rolling back across this change means
+`vaultix server rollback` restores the pre-upgrade database from its checkpoint, which is
+already the designed path for a changed migration set, and writes made after the upgrade
+are lost (`--discard-writes`). The historical tests that run an older binary on an advanced
+store (`verify-device-*-rollback`) and the per-migration upgrade tests pinned to older
+images (`test-{device-grant,early-access,nomen-binding}-migration`) predate this and are
+not valid across it.
+
+### Acceptance
+
+- The canonical build on a fresh store, with both namespace checks.
+- `node scripts/build-self-hosted.mjs --capabilities`: Go integration and backend unit and
+  integration suites against the renamed schema.
+- `scripts/test-server-lifecycle.mjs` with a pre-rename baseline: install, upgrade across
+  the rename (no table left on an inherited name, encrypted rows unchanged) and rollback.
 
 ## API: `/api/vx/v1/<domain>/…`
 

@@ -230,13 +230,13 @@ func TestValidateJWT_UserToken_StaleAccessVersion(t *testing.T) {
 
 	// Insert a session with access_version = 5
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 5, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": userID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -257,25 +257,25 @@ func TestValidateJWT_UserToken_UserLocked(t *testing.T) {
 	lockedUserID := uuid.New()
 	testEmail := "locked-" + uuid.New().String() + "@test.com"
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO users (id, email, username, "isAccepted", "isLocked", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_users (id, email, username, "isAccepted", "isLocked", "createdAt", "updatedAt")
 		VALUES (@userID, @email, @username, true, true, NOW(), NOW())
 	`, pgx.NamedArgs{"userID": lockedUserID, "email": testEmail, "username": testEmail})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM users WHERE id = @userID`,
+			`DELETE FROM vx_auth_users WHERE id = @userID`,
 			pgx.NamedArgs{"userID": lockedUserID})
 	})
 
 	sessionID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 1, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": lockedUserID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -296,25 +296,25 @@ func TestValidateJWT_UserToken_UserTemporarilyLocked(t *testing.T) {
 	testEmail := "templocked-" + uuid.New().String() + "@test.com"
 	lockEnd := time.Now().Add(time.Hour)
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO users (id, email, username, "isAccepted", "temporaryLockDateEnd", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_users (id, email, username, "isAccepted", "temporaryLockDateEnd", "createdAt", "updatedAt")
 		VALUES (@userID, @email, @username, true, @lockEnd, NOW(), NOW())
 	`, pgx.NamedArgs{"userID": tempLockedUserID, "email": testEmail, "username": testEmail, "lockEnd": lockEnd})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM users WHERE id = @userID`,
+			`DELETE FROM vx_auth_users WHERE id = @userID`,
 			pgx.NamedArgs{"userID": tempLockedUserID})
 	})
 
 	sessionID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 1, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": tempLockedUserID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -334,25 +334,25 @@ func TestValidateJWT_UserToken_UserNotAccepted(t *testing.T) {
 	notAcceptedUserID := uuid.New()
 	testEmail := "notaccepted-" + uuid.New().String() + "@test.com"
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO users (id, email, username, "isAccepted", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_users (id, email, username, "isAccepted", "createdAt", "updatedAt")
 		VALUES (@userID, @email, @username, false, NOW(), NOW())
 	`, pgx.NamedArgs{"userID": notAcceptedUserID, "email": testEmail, "username": testEmail})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM users WHERE id = @userID`,
+			`DELETE FROM vx_auth_users WHERE id = @userID`,
 			pgx.NamedArgs{"userID": notAcceptedUserID})
 	})
 
 	sessionID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 1, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": notAcceptedUserID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -725,7 +725,7 @@ func TestValidateIdentityAccessToken_LegacyRevoked(t *testing.T) {
 	identityID := uuid.MustParse(identity.ID)
 
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO identity_access_tokens (
+		INSERT INTO vx_identity_access_tokens (
 			id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 			"accessTokenNumUses", "accessTokenNumUsesLimit", "authMethod", "createdAt", "updatedAt"
 		) VALUES (
@@ -735,7 +735,7 @@ func TestValidateIdentityAccessToken_LegacyRevoked(t *testing.T) {
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM identity_access_tokens WHERE id = @tokenID`,
+			`DELETE FROM vx_identity_access_tokens WHERE id = @tokenID`,
 			pgx.NamedArgs{"tokenID": tokenID})
 	})
 
@@ -836,25 +836,25 @@ func TestValidateJWT_UserToken_NotMemberOfOrg(t *testing.T) {
 	newUserID := uuid.New()
 	testEmail := "notmember-" + uuid.New().String() + "@test.com"
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO users (id, email, username, "isAccepted", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_users (id, email, username, "isAccepted", "createdAt", "updatedAt")
 		VALUES (@userID, @email, @username, true, NOW(), NOW())
 	`, pgx.NamedArgs{"userID": newUserID, "email": testEmail, "username": testEmail})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM users WHERE id = @userID`,
+			`DELETE FROM vx_auth_users WHERE id = @userID`,
 			pgx.NamedArgs{"userID": newUserID})
 	})
 
 	sessionID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 1, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": newUserID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -880,13 +880,13 @@ func TestValidateJWT_UserToken_OrgMembershipInactive(t *testing.T) {
 	userID := uuid.New()
 	testEmail := "inactive-member-" + uuid.New().String()[:8] + "@test.com"
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO users (id, email, username, "isAccepted", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_users (id, email, username, "isAccepted", "createdAt", "updatedAt")
 		VALUES (@userID, @email, @username, true, NOW(), NOW())
 	`, pgx.NamedArgs{"userID": userID, "email": testEmail, "username": testEmail})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM users WHERE id = @userID`,
+			`DELETE FROM vx_auth_users WHERE id = @userID`,
 			pgx.NamedArgs{"userID": userID})
 	})
 
@@ -894,26 +894,26 @@ func TestValidateJWT_UserToken_OrgMembershipInactive(t *testing.T) {
 	orgID := uuid.MustParse(stack.NodeJS().OrgID())
 	membershipID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO memberships (id, "actorUserId", scope, "scopeOrgId", "isActive", status, "createdAt", "updatedAt")
+		INSERT INTO vx_workspace_memberships (id, "actorUserId", scope, "scopeOrgId", "isActive", status, "createdAt", "updatedAt")
 		VALUES (@membershipID, @userID, 'organization', @orgID, false, 'accepted', NOW(), NOW())
 	`, pgx.NamedArgs{"membershipID": membershipID, "userID": userID, "orgID": orgID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM memberships WHERE id = @membershipID`,
+			`DELETE FROM vx_workspace_memberships WHERE id = @membershipID`,
 			pgx.NamedArgs{"membershipID": membershipID})
 	})
 
 	// Create session
 	sessionID := uuid.New()
 	_, err = stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO auth_token_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
+		INSERT INTO vx_auth_sessions (id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES (@sessionID, @userID, 1, 1, '127.0.0.1', 'test', NOW(), NOW(), NOW())
 	`, pgx.NamedArgs{"sessionID": sessionID, "userID": userID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM auth_token_sessions WHERE id = @sessionID`,
+			`DELETE FROM vx_auth_sessions WHERE id = @sessionID`,
 			pgx.NamedArgs{"sessionID": sessionID})
 	})
 
@@ -948,7 +948,7 @@ func TestValidateIdentityAccessToken_NotMemberOfOrg(t *testing.T) {
 
 	// Remove the identity from the org membership
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		DELETE FROM memberships
+		DELETE FROM vx_workspace_memberships
 		WHERE "actorIdentityId" = @identityID
 	`, pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)})
 	require.NoError(t, err)
@@ -975,14 +975,14 @@ func TestValidateIdentityAccessToken_OrgMembershipInactive(t *testing.T) {
 
 	// Deactivate the org membership
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		UPDATE memberships
+		UPDATE vx_workspace_memberships
 		SET "isActive" = false
 		WHERE "actorIdentityId" = @identityID AND scope = 'organization'
 	`, pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)})
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`UPDATE memberships SET "isActive" = true WHERE "actorIdentityId" = @identityID`,
+			`UPDATE vx_workspace_memberships SET "isActive" = true WHERE "actorIdentityId" = @identityID`,
 			pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)})
 	})
 
@@ -1015,7 +1015,7 @@ func TestValidateIdentityAccessToken_IPBlocked(t *testing.T) {
 	// Use proper JSON format matching what vaultix stores.
 	// No "prefix" field means exact IP match; "prefix":0 would mean /0 (all IPs).
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		UPDATE identity_universal_auths
+		UPDATE vx_identity_universal_auths
 		SET "accessTokenTrustedIps" = '[{"ipAddress":"10.0.0.1","type":"ipv4"}]'::jsonb
 		WHERE "identityId" = @identityID
 	`, pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)})
@@ -1024,7 +1024,7 @@ func TestValidateIdentityAccessToken_IPBlocked(t *testing.T) {
 	// Verify the update took effect
 	var storedIPs string
 	err = stack.DB().Primary().QueryRow(context.Background(), `
-		SELECT "accessTokenTrustedIps"::text FROM identity_universal_auths WHERE "identityId" = @identityID
+		SELECT "accessTokenTrustedIps"::text FROM vx_identity_universal_auths WHERE "identityId" = @identityID
 	`, pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)}).Scan(&storedIPs)
 	require.NoError(t, err)
 	require.Contains(t, storedIPs, "10.0.0.1", "DB should have the updated IP")
@@ -1055,7 +1055,7 @@ func TestValidateIdentityAccessToken_IPAllowed(t *testing.T) {
 
 	// Update the trusted IPs to allow a specific CIDR
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		UPDATE identity_universal_auths
+		UPDATE vx_identity_universal_auths
 		SET "accessTokenTrustedIps" = '[{"ipAddress":"192.168.0.0","prefix":16}]'
 		WHERE "identityId" = @identityID
 	`, pgx.NamedArgs{"identityID": uuid.MustParse(identity.ID)})
@@ -1104,7 +1104,7 @@ func TestValidateServiceToken_ProjectNotFound(t *testing.T) {
 	// Delete the project (this should cascade delete the service token too,
 	// but let's manually delete just the project row to simulate orphaned token)
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		DELETE FROM projects WHERE id = @projectID
+		DELETE FROM vx_workspace_projects WHERE id = @projectID
 	`, pgx.NamedArgs{"projectID": proj.ID})
 	require.NoError(t, err)
 
@@ -1135,7 +1135,7 @@ func TestValidateIdentityAccessToken_LegacyTTLExpired(t *testing.T) {
 
 	// Insert a legacy token with expired TTL (created 2 hours ago, TTL 1 hour)
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO identity_access_tokens (
+		INSERT INTO vx_identity_access_tokens (
 			id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 			"accessTokenNumUses", "accessTokenNumUsesLimit", "accessTokenLastRenewedAt",
 			"authMethod", "createdAt", "updatedAt"
@@ -1152,7 +1152,7 @@ func TestValidateIdentityAccessToken_LegacyTTLExpired(t *testing.T) {
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM identity_access_tokens WHERE id = @tokenID`,
+			`DELETE FROM vx_identity_access_tokens WHERE id = @tokenID`,
 			pgx.NamedArgs{"tokenID": tokenID})
 	})
 
@@ -1189,7 +1189,7 @@ func TestValidateIdentityAccessToken_LegacyMaxTTLExpired(t *testing.T) {
 
 	// Insert a legacy token with expired maxTTL (created 3 hours ago, maxTTL 2 hours)
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO identity_access_tokens (
+		INSERT INTO vx_identity_access_tokens (
 			id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 			"accessTokenNumUses", "accessTokenNumUsesLimit", "accessTokenLastRenewedAt",
 			"authMethod", "createdAt", "updatedAt"
@@ -1206,7 +1206,7 @@ func TestValidateIdentityAccessToken_LegacyMaxTTLExpired(t *testing.T) {
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM identity_access_tokens WHERE id = @tokenID`,
+			`DELETE FROM vx_identity_access_tokens WHERE id = @tokenID`,
 			pgx.NamedArgs{"tokenID": tokenID})
 	})
 
@@ -1241,7 +1241,7 @@ func TestValidateIdentityAccessToken_LegacyUsageLimitReached(t *testing.T) {
 
 	// Insert a legacy token with usage limit reached
 	_, err := stack.DB().Primary().Exec(context.Background(), `
-		INSERT INTO identity_access_tokens (
+		INSERT INTO vx_identity_access_tokens (
 			id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 			"accessTokenNumUses", "accessTokenNumUsesLimit", "authMethod", "createdAt", "updatedAt"
 		) VALUES (
@@ -1255,7 +1255,7 @@ func TestValidateIdentityAccessToken_LegacyUsageLimitReached(t *testing.T) {
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		_, _ = stack.DB().Primary().Exec(context.Background(),
-			`DELETE FROM identity_access_tokens WHERE id = @tokenID`,
+			`DELETE FROM vx_identity_access_tokens WHERE id = @tokenID`,
 			pgx.NamedArgs{"tokenID": tokenID})
 	})
 

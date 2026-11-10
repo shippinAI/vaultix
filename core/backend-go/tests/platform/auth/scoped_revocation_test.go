@@ -141,14 +141,14 @@ func TestValidateIdentityAccessToken_ScopedMarkerFixtures(t *testing.T) {
 						}
 					} else {
 						_, err := stack.DB().Primary().Exec(ctx, `
-							INSERT INTO identity_access_tokens (
+							INSERT INTO vx_identity_access_tokens (
 								id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 								"accessTokenNumUses", "accessTokenNumUsesLimit", "authMethod", "createdAt", "updatedAt"
 							) VALUES (@tokenID, @identityID, false, 3600, 7200, 0, 0, 'universal-auth', NOW(), NOW())
 						`, pgx.NamedArgs{"tokenID": tokenID, "identityID": identity.ID})
 						require.NoError(t, err)
 						t.Cleanup(func() {
-							_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM identity_access_tokens WHERE id = $1`, tokenID)
+							_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM vx_identity_access_tokens WHERE id = $1`, tokenID)
 							require.NoError(t, err)
 						})
 					}
@@ -176,13 +176,13 @@ func TestValidateIdentityAccessToken_ScopedMarkerFixtures(t *testing.T) {
 						expiresAt = time.Now().Add(-time.Minute)
 					}
 					_, err = stack.DB().Primary().Exec(ctx, `
-						INSERT INTO identity_access_token_revocations (id, "identityId", scope, "revokedAt", "expiresAt")
+						INSERT INTO vx_identity_access_token_revocations (id, "identityId", scope, "revokedAt", "expiresAt")
 						VALUES (@id, @identityID, @scope, @revokedAt, @expiresAt)
 					`, pgx.NamedArgs{"id": markerID, "identityID": markerIdentity, "scope": scope,
 						"revokedAt": issuedAt.Add(tc.boundary), "expiresAt": expiresAt})
 					require.NoError(t, err)
 					t.Cleanup(func() {
-						_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM identity_access_token_revocations WHERE id = $1`, markerID)
+						_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM vx_identity_access_token_revocations WHERE id = $1`, markerID)
 						require.NoError(t, err)
 					})
 					_, err = authenticator.ValidateIdentityAccessToken(ctx, token, "")

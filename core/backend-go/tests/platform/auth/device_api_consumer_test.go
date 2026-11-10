@@ -69,7 +69,7 @@ func TestDeviceConsumer_RealActorAndExclusiveAdmission(t *testing.T) {
 			approver.AuthMethod = auth.ActorAuthMethod(method)
 			f, a, pool := deviceConsumer(t)
 			_, session := issueSession(t, f, ctx, approver)
-			devicePolicyExec(t, `UPDATE users SET username='current-user',email='current@vaultix.invalid' WHERE id=@user`, pgx.NamedArgs{"user": approver.ActorID})
+			devicePolicyExec(t, `UPDATE vx_auth_users SET username='current-user',email='current@vaultix.invalid' WHERE id=@user`, pgx.NamedArgs{"user": approver.ActorID})
 			actor, mode, err := a.ValidateJWTToken(ctx, session.AccessToken, "")
 			require.NoError(t, err)
 			require.Equal(t, auth.AuthModeDeviceAccess, mode)
@@ -100,19 +100,19 @@ func TestDeviceConsumer_RealActorAndExclusiveAdmission(t *testing.T) {
 
 func TestDeviceConsumer_LiveRestrictionsDenyWithoutCache(t *testing.T) {
 	changes := map[string]string{
-		"locked":          `UPDATE users SET "isLocked"=true WHERE id=@user`,
-		"temporary-lock":  `UPDATE users SET "temporaryLockDateEnd"=clock_timestamp()+interval '1 hour' WHERE id=@user`,
-		"unaccepted":      `UPDATE users SET "isAccepted"=false WHERE id=@user`,
-		"ghost":           `UPDATE users SET "isGhost"=true WHERE id=@user`,
-		"session-version": `UPDATE auth_token_sessions SET "accessVersion"="accessVersion"+1 WHERE id=@session`,
-		"deleted-session": `DELETE FROM auth_token_sessions WHERE id=@session`,
-		"inactive":        `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user`,
-		"pending":         `UPDATE memberships SET status='invited' WHERE "actorUserId"=@user`,
-		"no-membership":   `DELETE FROM memberships WHERE "actorUserId"=@user`,
-		"mfa":             `UPDATE organizations SET "enforceMfa"=true WHERE id=@org`,
-		"sso":             `UPDATE organizations SET "authEnforced"=true WHERE id=@org`,
-		"expired":         `UPDATE vaultix_device_sessions SET "createdAt"=clock_timestamp()-interval '2 days',"expiresAt"=clock_timestamp()-interval '1 second' WHERE "sessionId"=@session`,
-		"deleted-account": `DELETE FROM users WHERE id=@user`,
+		"locked":          `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@user`,
+		"temporary-lock":  `UPDATE vx_auth_users SET "temporaryLockDateEnd"=clock_timestamp()+interval '1 hour' WHERE id=@user`,
+		"unaccepted":      `UPDATE vx_auth_users SET "isAccepted"=false WHERE id=@user`,
+		"ghost":           `UPDATE vx_auth_users SET "isGhost"=true WHERE id=@user`,
+		"session-version": `UPDATE vx_auth_sessions SET "accessVersion"="accessVersion"+1 WHERE id=@session`,
+		"deleted-session": `DELETE FROM vx_auth_sessions WHERE id=@session`,
+		"inactive":        `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user`,
+		"pending":         `UPDATE vx_workspace_memberships SET status='invited' WHERE "actorUserId"=@user`,
+		"no-membership":   `DELETE FROM vx_workspace_memberships WHERE "actorUserId"=@user`,
+		"mfa":             `UPDATE vx_workspace_organizations SET "enforceMfa"=true WHERE id=@org`,
+		"sso":             `UPDATE vx_workspace_organizations SET "authEnforced"=true WHERE id=@org`,
+		"expired":         `UPDATE vx_auth_device_sessions SET "createdAt"=clock_timestamp()-interval '2 days',"expiresAt"=clock_timestamp()-interval '1 second' WHERE "sessionId"=@session`,
+		"deleted-account": `DELETE FROM vx_auth_users WHERE id=@user`,
 	}
 	for name, query := range changes {
 		t.Run(name, func(t *testing.T) {

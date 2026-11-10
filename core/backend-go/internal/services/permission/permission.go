@@ -555,14 +555,14 @@ func (s *Service) getPermission(ctx context.Context, params *getPermissionParams
 	var groupSubquery string
 	if params.ActorType == auth.ActorTypeUser {
 		groupSubquery = `
-			SELECT grp.id FROM groups grp
-			INNER JOIN user_group_membership ugm ON ugm."groupId" = grp.id
+			SELECT grp.id FROM vx_workspace_groups grp
+			INNER JOIN vx_workspace_user_group_memberships ugm ON ugm."groupId" = grp.id
 			WHERE ugm."userId" = @actorID
 		`
 	} else {
 		groupSubquery = `
-			SELECT grp.id FROM groups grp
-			INNER JOIN identity_group_membership igm ON igm."groupId" = grp.id
+			SELECT grp.id FROM vx_workspace_groups grp
+			INNER JOIN vx_identity_group_memberships igm ON igm."groupId" = grp.id
 			WHERE igm."identityId" = @actorID
 		`
 	}
@@ -631,12 +631,12 @@ func (s *Service) getPermission(ctx context.Context, params *getPermissionParams
 			identityMeta.id AS meta_id,
 			identityMeta.key AS meta_key,
 			identityMeta.value AS meta_value
-		FROM memberships membership
-		INNER JOIN membership_roles memberRole ON membership.id = memberRole."membershipId"
-		INNER JOIN organizations org ON membership."scopeOrgId" = org.id
-		LEFT JOIN roles customRole ON memberRole."customRoleId" = customRole.id
-		LEFT JOIN additional_privileges addlPriv ON ` + apJoinCond.String() + `
-		LEFT JOIN identity_metadata identityMeta ON ` + metaJoinCond.String() + `
+		FROM vx_workspace_memberships membership
+		INNER JOIN vx_workspace_membership_roles memberRole ON membership.id = memberRole."membershipId"
+		INNER JOIN vx_workspace_organizations org ON membership."scopeOrgId" = org.id
+		LEFT JOIN vx_workspace_roles customRole ON memberRole."customRoleId" = customRole.id
+		LEFT JOIN vx_workspace_additional_privileges addlPriv ON ` + apJoinCond.String() + `
+		LEFT JOIN vx_identity_metadata identityMeta ON ` + metaJoinCond.String() + `
 		WHERE ` + where.String()
 
 	args := pgx.NamedArgs{
@@ -741,7 +741,7 @@ func (s *Service) getPermission(ctx context.Context, params *getPermissionParams
 func (s *Service) findProjectByID(ctx context.Context, projectID string) (*projectDetail, error) {
 	query := `
 		SELECT id, name, slug, "orgId", type, "enforceEncryptedSecretManagerSecretMetadata"
-		FROM projects
+		FROM vx_workspace_projects
 		WHERE id = @projectID
 	`
 	args := pgx.NamedArgs{"projectID": projectID}
@@ -773,7 +773,7 @@ func (s *Service) findProjectByID(ctx context.Context, projectID string) (*proje
 
 // findUserUsername returns the username for a user by ID.
 func (s *Service) findUserUsername(ctx context.Context, userID uuid.UUID) (string, error) {
-	query := `SELECT username FROM users WHERE id = @userID`
+	query := `SELECT username FROM vx_auth_users WHERE id = @userID`
 	args := pgx.NamedArgs{"userID": userID}
 
 	var username string
@@ -786,7 +786,7 @@ func (s *Service) findUserUsername(ctx context.Context, userID uuid.UUID) (strin
 
 // findIdentityName returns the name for an identity by ID.
 func (s *Service) findIdentityName(ctx context.Context, identityID uuid.UUID) (string, error) {
-	query := `SELECT name FROM identities WHERE id = @identityID`
+	query := `SELECT name FROM vx_identity_identities WHERE id = @identityID`
 	args := pgx.NamedArgs{"identityID": identityID}
 
 	var name string
@@ -801,7 +801,7 @@ func (s *Service) findIdentityName(ctx context.Context, identityID uuid.UUID) (s
 func (s *Service) findServiceTokenByID(ctx context.Context, tokenID string) (*serviceTokenDetail, error) {
 	query := `
 		SELECT id, "projectId", "expiresAt", scopes, permissions
-		FROM service_tokens
+		FROM vx_identity_service_tokens
 		WHERE id = @tokenID
 	`
 	args := pgx.NamedArgs{"tokenID": tokenID}

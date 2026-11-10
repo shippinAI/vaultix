@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { TableName } from "@app/db/schemas";
 import { TSecretRotationsV2 } from "@app/db/schemas/secret-rotations-v2";
 import { DatabaseError } from "@app/lib/errors";
@@ -239,11 +240,11 @@ export const secretRotationV2DALFactory = (
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)

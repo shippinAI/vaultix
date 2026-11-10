@@ -22,7 +22,7 @@ try {
  const app=h.container(name+'-app',h.artifact.id,[],{DB_CONNECTION_URI:connection,VAULTIX_CACHE_PROVIDER:'redis',VAULTIX_CACHE_URL:`redis://${cacheName}:6379`,ENCRYPTION_KEY:randomBytes(16).toString('hex'),AUTH_SECRET:randomBytes(32).toString('hex'),SITE_URL:'http://127.0.0.1:8200',TELEMETRY_ENABLED:'false',DISABLE_UPDATE_CHECK:'true'});
  await h.ready(app);phase='existing built-in owner';
  const owner=await h.request(app,'/api/v1/admin/signup',{method:'POST',body:{email:name+'@vaultix.invalid',password:'Vx9!'+randomBytes(24).toString('hex'),firstName:'Store',organizationName:'Store verification'}});
- const user=h.sql(db,`SELECT id FROM users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
+ const user=h.sql(db,`SELECT id FROM vx_auth_users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
  h.output(['stop',app]);phase='real audit and notification destinations';
  const test=h.container(name+'-test',runner,['sleep','600'],{VAULTIX_SESSION_TEST_DATABASE:connection,VAULTIX_SESSION_TEST_USER:user,VAULTIX_SESSION_TEST_ORG:owner.organization.id});
  h.output(['cp',resolve('core/backend/src'),test+':/app/']);

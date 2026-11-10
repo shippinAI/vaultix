@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { validate as uuidValidate } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { SecretsSchema, SecretType, TableName, TSecrets, TSecretsUpdate } from "@app/db/schemas";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";
 import { ormify, selectAllTableCols, sqlNestRelationships } from "@app/lib/knex";
@@ -117,8 +118,12 @@ export const secretDALFactory = (db: TDbClient) => {
         .where((bd) => {
           void bd.whereNull("userId").orWhere({ userId: userId || null });
         })
-        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${TableName.Secret}Id`)
-        .leftJoin(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${JunctionColumn.Secret}`)
+        .leftJoin(
+          TableName.SecretTag,
+          `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .select(selectAllTableCols(TableName.Secret))
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))
@@ -150,8 +155,8 @@ export const secretDALFactory = (db: TDbClient) => {
   const getSecretTags = async (secretId: string, tx?: Knex) => {
     try {
       const tags = await (tx || db.replicaNode())(TableName.JnSecretTag)
-        .join(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
-        .where({ [`${TableName.Secret}Id` as const]: secretId })
+        .join(TableName.SecretTag, `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`, `${TableName.SecretTag}.id`)
+        .where({ [JunctionColumn.Secret]: secretId })
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))
         .select(db.ref("slug").withSchema(TableName.SecretTag).as("tagSlug"));
@@ -179,8 +184,12 @@ export const secretDALFactory = (db: TDbClient) => {
       const secrets = await (tx || db.replicaNode())(TableName.Secret)
         .whereIn(`${TableName.Secret}.id` as "id", filter.secretIds)
         .where("type", filter.type)
-        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${TableName.Secret}Id`)
-        .leftJoin(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${JunctionColumn.Secret}`)
+        .leftJoin(
+          TableName.SecretTag,
+          `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .select(selectAllTableCols(TableName.Secret))
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))
@@ -223,8 +232,12 @@ export const secretDALFactory = (db: TDbClient) => {
         .where((bd) => {
           void bd.whereNull("userId").orWhere({ userId: userId || null });
         })
-        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${TableName.Secret}Id`)
-        .leftJoin(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${JunctionColumn.Secret}`)
+        .leftJoin(
+          TableName.SecretTag,
+          `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .select(selectAllTableCols(TableName.Secret))
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))
@@ -355,8 +368,12 @@ export const secretDALFactory = (db: TDbClient) => {
     try {
       const rawDocs = await (tx || db.replicaNode())(TableName.Secret)
         .where(filter)
-        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${TableName.Secret}Id`)
-        .leftJoin(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${JunctionColumn.Secret}`)
+        .leftJoin(
+          TableName.SecretTag,
+          `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .select(selectAllTableCols(TableName.Secret))
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))

@@ -77,7 +77,7 @@ func revocationDenyMessage(markers []revocationRow, token *identityRevocationCon
 func (a *ApiAuthenticator) findActiveRevocationsForToken(ctx context.Context, token *identityRevocationContext) ([]revocationRow, error) {
 	query := `
 		SELECT id, "revokedAt", "createdAt", scope
-		FROM identity_access_token_revocations
+		FROM vx_identity_access_token_revocations
 		WHERE "expiresAt" > NOW()
 		  AND "identityId" = @identityID
 		  AND id IN (@tokenID, @identityIDStr)
@@ -98,7 +98,7 @@ func (a *ApiAuthenticator) findActiveRevocationsForToken(ctx context.Context, to
 		query += `
 			UNION ALL
 			SELECT id, "revokedAt", "createdAt", scope
-			FROM identity_access_token_revocations
+			FROM vx_identity_access_token_revocations
 			WHERE "expiresAt" > NOW()
 			  AND "identityId" = @identityID
 			  AND scope IS NOT NULL AND scope = ANY(@scopes::text[])

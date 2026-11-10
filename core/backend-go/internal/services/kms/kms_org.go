@@ -24,7 +24,7 @@ type orgKmsInfo struct {
 func (s *Service) findOrgKmsInfo(ctx context.Context, q pg.Querier, orgID uuid.UUID) (*orgKmsInfo, error) {
 	query := `
 		SELECT id, "kmsDefaultKeyId", "kmsEncryptedDataKey"
-		FROM organizations
+		FROM vx_workspace_organizations
 		WHERE id = @orgID
 	`
 	row := q.QueryRow(ctx, query, pgx.NamedArgs{"orgID": orgID})
@@ -113,7 +113,7 @@ func (s *Service) ensureOrgDataKey(ctx context.Context, orgID uuid.UUID) (dataKe
 			return nil, err
 		}
 
-		updateQuery := `UPDATE organizations SET "kmsDefaultKeyId" = @keyID WHERE id = @orgID`
+		updateQuery := `UPDATE vx_workspace_organizations SET "kmsDefaultKeyId" = @keyID WHERE id = @orgID`
 		if _, err := tx.Exec(ctx, updateQuery, pgx.NamedArgs{"keyID": createdID, "orgID": orgID}); err != nil {
 			return nil, fmt.Errorf("updating org default key: %w", err)
 		}
@@ -149,7 +149,7 @@ func (s *Service) ensureOrgDataKey(ctx context.Context, orgID uuid.UUID) (dataKe
 			return nil, fmt.Errorf("encrypting data key: %w", err)
 		}
 
-		updateQuery := `UPDATE organizations SET "kmsEncryptedDataKey" = @dataKey WHERE id = @orgID`
+		updateQuery := `UPDATE vx_workspace_organizations SET "kmsEncryptedDataKey" = @dataKey WHERE id = @orgID`
 		if _, err := tx.Exec(ctx, updateQuery, pgx.NamedArgs{"dataKey": encryptedDataKey, "orgID": orgID}); err != nil {
 			return nil, fmt.Errorf("setting org encrypted data key: %w", err)
 		}

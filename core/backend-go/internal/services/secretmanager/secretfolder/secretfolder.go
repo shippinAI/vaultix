@@ -62,8 +62,8 @@ func (s *Service) getFolders(ctx context.Context, projectID string, envIDs []uui
 
 	query := `
 		SELECT folder.id, folder.name, folder."parentId", folder."envId", env.slug
-		FROM secret_folders folder
-		INNER JOIN project_environments env ON folder."envId" = env.id
+		FROM vx_secrets_folders folder
+		INNER JOIN vx_workspace_environments env ON folder."envId" = env.id
 		WHERE ` + where.String()
 
 	rows, err := s.db.Replica().Query(ctx, query, args)

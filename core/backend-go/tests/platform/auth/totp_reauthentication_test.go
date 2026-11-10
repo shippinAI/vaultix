@@ -86,7 +86,7 @@ func newTOTPAccount(t *testing.T) *totpAccount {
 	require.Equal(t, http.StatusOK, response.StatusCode(), "real TOTP enrollment verification")
 	var factor uuid.UUID
 	var encrypted []byte
-	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT id,"encryptedSecret" FROM totp_configs WHERE "userId"=$1 AND "isVerified" IS TRUE`, actor.ActorID).Scan(&factor, &encrypted))
+	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT id,"encryptedSecret" FROM vx_auth_totp_configs WHERE "userId"=$1 AND "isVerified" IS TRUE`, actor.ActorID).Scan(&factor, &encrypted))
 	crypto, err := kms.NewService(ctx, infra.NopLogger(), &kms.Deps{DB: stack.DB(), Config: stack.Config(), HSM: nil, ExternalKms: nil})
 	require.NoError(t, err)
 	require.NoError(t, crypto.Start(ctx, false))
@@ -97,7 +97,7 @@ func newTOTPAccount(t *testing.T) *totpAccount {
 	clear(plaintext)
 	client := stack.Redis().Client()
 	t.Cleanup(func() { require.NoError(t, client.Close()) })
-	_, err = stack.DB().Primary().Exec(ctx, `UPDATE users SET "isMfaEnabled"=true,"selectedMfaMethod"='totp' WHERE id=$1`, actor.ActorID)
+	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isMfaEnabled"=true,"selectedMfaMethod"='totp' WHERE id=$1`, actor.ActorID)
 	require.NoError(t, err)
 	return &totpAccount{ctx: ctx, actor: actor, token: token, secret: secret, factor: factor, crypto: crypto, store: keystore.NewKeyStore(client)}
 }
@@ -177,7 +177,7 @@ func TestTOTPReauthentication_RealEnrollmentLinkAndCrossRuntimeReplay(t *testing
 				require.ErrorIs(t, err, nomen.ErrLinkDenied, "native must reject Node-consumed code after cache loss")
 			}
 			var consumed int64
-			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT "lastStep" FROM vaultix_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&consumed))
+			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT "lastStep" FROM vx_auth_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&consumed))
 			require.Positive(t, consumed)
 			a.forgetCode(t, code)
 			_, err := producer.AuthenticateTOTP(a.ctx, intent, reauthPassword, code)
@@ -206,32 +206,32 @@ func TestTOTPReauthentication_CurrentFactorAndMethod(t *testing.T) {
 			expected := nomen.ErrLinkDenied
 			switch scenario {
 			case "unverified":
-				query = `UPDATE totp_configs SET "isVerified"=false WHERE "userId"=$1`
+				query = `UPDATE vx_auth_totp_configs SET "isVerified"=false WHERE "userId"=$1`
 			case "deleted":
-				query = `DELETE FROM totp_configs WHERE "userId"=$1`
+				query = `DELETE FROM vx_auth_totp_configs WHERE "userId"=$1`
 				expected = nomen.ErrReauthenticationMethod
 			case "deleted-mfa-disabled":
-				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE users SET "isMfaEnabled"=false WHERE id=$1`, id)
+				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_users SET "isMfaEnabled"=false WHERE id=$1`, id)
 				require.NoError(t, err)
-				query = `DELETE FROM totp_configs WHERE "userId"=$1`
+				query = `DELETE FROM vx_auth_totp_configs WHERE "userId"=$1`
 			case "changed", "changed-after-provider":
-				query = `UPDATE totp_configs SET "encryptedSecret"="encryptedSecret"||decode('00','hex') WHERE "userId"=$1`
+				query = `UPDATE vx_auth_totp_configs SET "encryptedSecret"="encryptedSecret"||decode('00','hex') WHERE "userId"=$1`
 			case "user-email":
-				query = `UPDATE users SET "selectedMfaMethod"='email' WHERE id=$1`
+				query = `UPDATE vx_auth_users SET "selectedMfaMethod"='email' WHERE id=$1`
 				expected = nomen.ErrReauthenticationMethod
 			case "org-email":
-				query = `UPDATE organizations SET "enforceMfa"=true,"selectedMfaMethod"='email' WHERE id=$1`
+				query = `UPDATE vx_workspace_organizations SET "enforceMfa"=true,"selectedMfaMethod"='email' WHERE id=$1`
 				id = a.actor.OrgID
 				expected = nomen.ErrReauthenticationMethod
 			case "org-totp-overrides-user":
-				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE users SET "selectedMfaMethod"='email' WHERE id=$1`, id)
+				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_users SET "selectedMfaMethod"='email' WHERE id=$1`, id)
 				require.NoError(t, err)
-				query = `UPDATE organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=$1`
+				query = `UPDATE vx_workspace_organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=$1`
 				id = a.actor.OrgID
 			case "missing-provenance":
-				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE users SET "isMfaEnabled"=false WHERE id=$1`, id)
+				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_users SET "isMfaEnabled"=false WHERE id=$1`, id)
 				require.NoError(t, err)
-				query = `DELETE FROM vaultix_identity_reauth_totp WHERE "userId"=$1`
+				query = `DELETE FROM vx_auth_reauth_totp WHERE "userId"=$1`
 			case "other-user":
 				a.ctx, _ = newReauthenticationAccount(t)
 			}
@@ -283,22 +283,22 @@ func TestTOTPReauthentication_FailureRecovery(t *testing.T) {
 			step := time.Now().Unix() / 30
 			code := totpCode(t, a.secret, step)
 			if failure == "database" {
-				_, err := stack.DB().Primary().Exec(a.ctx, `ALTER TABLE vaultix_identity_reauth_proofs ADD CONSTRAINT fixture_totp_failure CHECK(false) NOT VALID`)
+				_, err := stack.DB().Primary().Exec(a.ctx, `ALTER TABLE vx_auth_reauth_proofs ADD CONSTRAINT fixture_totp_failure CHECK(false) NOT VALID`)
 				require.NoError(t, err)
 				t.Cleanup(func() {
-					_, err := stack.DB().Primary().Exec(context.Background(), `ALTER TABLE vaultix_identity_reauth_proofs DROP CONSTRAINT IF EXISTS fixture_totp_failure`)
+					_, err := stack.DB().Primary().Exec(context.Background(), `ALTER TABLE vx_auth_reauth_proofs DROP CONSTRAINT IF EXISTS fixture_totp_failure`)
 					require.NoError(t, err)
 				})
 			}
 			_, err := producer.AuthenticateTOTP(a.ctx, intent, reauthPassword, code)
 			require.ErrorIs(t, err, nomen.ErrBindingUnavailable)
 			var count int
-			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vaultix_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&count))
+			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vx_auth_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&count))
 			require.Zero(t, count, "failed proof must roll back durable code consumption")
-			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vaultix_identity_reauth_proofs WHERE "userId"=$1`, a.actor.ActorID).Scan(&count))
+			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vx_auth_reauth_proofs WHERE "userId"=$1`, a.actor.ActorID).Scan(&count))
 			require.Zero(t, count)
 			if failure == "database" {
-				_, err = stack.DB().Primary().Exec(a.ctx, `ALTER TABLE vaultix_identity_reauth_proofs DROP CONSTRAINT fixture_totp_failure`)
+				_, err = stack.DB().Primary().Exec(a.ctx, `ALTER TABLE vx_auth_reauth_proofs DROP CONSTRAINT fixture_totp_failure`)
 				require.NoError(t, err)
 				_, err = producer.AuthenticateTOTP(a.ctx, intent, reauthPassword, code)
 				require.ErrorIs(t, err, nomen.ErrLinkDenied, "failed SQL must retain the cross-runtime cache claim")
@@ -388,13 +388,13 @@ func TestTOTPReauthentication_IssuanceDenials(t *testing.T) {
 			case "invalid-code":
 				code = "abcdef"
 			case "unverified-factor":
-				_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE totp_configs SET "isVerified"=false WHERE id=$1`, a.factor)
+				_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_totp_configs SET "isVerified"=false WHERE id=$1`, a.factor)
 				require.NoError(t, err)
 			case "federated-session":
 				a.actor.AuthMethod = "oidc"
 				expected = nomen.ErrReauthenticationMethod
 			case "required-email":
-				_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE users SET "selectedMfaMethod"='email' WHERE id=$1`, a.actor.ActorID)
+				_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_users SET "selectedMfaMethod"='email' WHERE id=$1`, a.actor.ActorID)
 				require.NoError(t, err)
 				expected = nomen.ErrReauthenticationMethod
 			case "closed-kms":
@@ -404,9 +404,9 @@ func TestTOTPReauthentication_IssuanceDenials(t *testing.T) {
 			_, err := producer.AuthenticateTOTP(a.ctx, intent, password, code)
 			require.ErrorIs(t, err, expected)
 			var count int
-			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vaultix_identity_reauth_proofs WHERE "userId"=$1`, a.actor.ActorID).Scan(&count))
+			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vx_auth_reauth_proofs WHERE "userId"=$1`, a.actor.ActorID).Scan(&count))
 			require.Zero(t, count)
-			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vaultix_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&count))
+			require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT count(*) FROM vx_auth_totp_replays WHERE "factorId"=$1`, a.factor).Scan(&count))
 			require.Zero(t, count)
 		})
 	}
@@ -418,14 +418,14 @@ func TestTOTPReauthentication_RootAndSelectedPolicy(t *testing.T) {
 			a := newTOTPAccount(t)
 			child := reauthenticationOrganization(t, a.actor.ActorID, a.actor.OrgID)
 			a.ctx, a.actor = reauthenticationContext(t, a.actor.ActorID, a.actor.TokenVersionID, child, a.actor.OrgID, 1)
-			_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=$1 OR id=$2`, child, a.actor.RootOrgID)
+			_, err := stack.DB().Primary().Exec(a.ctx, `UPDATE vx_workspace_organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=$1 OR id=$2`, child, a.actor.RootOrgID)
 			require.NoError(t, err)
 			if scenario != "both-totp" {
 				id := a.actor.RootOrgID
 				if scenario == "selected-email" {
 					id = child
 				}
-				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE organizations SET "selectedMfaMethod"='email' WHERE id=$1`, id)
+				_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE vx_workspace_organizations SET "selectedMfaMethod"='email' WHERE id=$1`, id)
 				require.NoError(t, err)
 			}
 			fixture, producer, intent := newTOTPProducer(t, a, stack.DB(), a.crypto, a.store)
@@ -449,14 +449,14 @@ func TestTOTPReauthentication_LegacyProofUUIDDoesNotInheritFactor(t *testing.T) 
 	var proofID uuid.UUID
 	var digest []byte
 	var step int64
-	require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT "proofId","factorDigest",step FROM vaultix_identity_reauth_totp WHERE "userId"=$1`, a.actor.ActorID).Scan(&proofID, &digest, &step))
-	_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE users SET "isMfaEnabled"=false WHERE id=$1`, a.actor.ActorID)
+	require.NoError(t, stack.DB().Primary().QueryRow(a.ctx, `SELECT "proofId","factorDigest",step FROM vx_auth_reauth_totp WHERE "userId"=$1`, a.actor.ActorID).Scan(&proofID, &digest, &step))
+	_, err = stack.DB().Primary().Exec(a.ctx, `UPDATE vx_auth_users SET "isMfaEnabled"=false WHERE id=$1`, a.actor.ActorID)
 	require.NoError(t, err)
 	passwordProof, err := producer.Authenticate(a.ctx, intent, reauthPassword)
 	require.NoError(t, err)
 	// Restore the stale metadata an older password producer leaves behind when
 	// replacing only the original proof row. It must not change the new method.
-	_, err = stack.DB().Primary().Exec(a.ctx, `INSERT INTO vaultix_identity_reauth_totp("userId","proofId","factorId","factorDigest",step) VALUES($1,$2,$3,$4,$5)`, a.actor.ActorID, proofID, a.factor, digest, step)
+	_, err = stack.DB().Primary().Exec(a.ctx, `INSERT INTO vx_auth_reauth_totp("userId","proofId","factorId","factorDigest",step) VALUES($1,$2,$3,$4,$5)`, a.actor.ActorID, proofID, a.factor, digest, step)
 	require.NoError(t, err)
 	_, err = fixture.service.BeginLink(a.ctx, oldProof.Code)
 	require.ErrorIs(t, err, nomen.ErrLinkDenied)

@@ -58,7 +58,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
   const users: string[] = [];
   const orgs: string[] = [];
   const state = () =>
-    db("vaultix_device_event_deliveries")
+    db("vx_auth_device_event_deliveries")
       .where({ orgId })
       .select<
         { id: string; destination: string; status: string; attempts: number }[]
@@ -74,7 +74,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
       rootOrgId: orgId,
       clientId: "vaultix-cli"
     };
-    await db("auth_token_sessions").insert({
+    await db("vx_auth_sessions").insert({
       id: sessionId,
       userId,
       ip: "192.0.2.19",
@@ -82,7 +82,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
       sessionType: "device-v1",
       lastUsed: new Date()
     });
-    await db("vaultix_device_sessions").insert({
+    await db("vx_auth_device_sessions").insert({
       sessionId,
       clientId: "vaultix-cli",
       resource: "https://vaultix.invalid",
@@ -92,7 +92,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + 3600000)
     });
-    await db("vaultix_device_session_events").insert({ id, sessionId, userId, orgId, action: "issued", provenance });
+    await db("vx_auth_device_session_events").insert({ id, sessionId, userId, orgId, action: "issued", provenance });
     return id;
   };
   const owners = async (connection = db, smtp = smtpServiceFactory({}), afterNotice?: () => Promise<void>) => {
@@ -150,12 +150,12 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
     await Promise.all(workers.splice(0).map((entry) => entry.stop()));
     if (orgs.length) await db(TableName.AuditLog).whereIn("orgId", orgs).delete();
     if (users.length) {
-      await db("users").whereIn("id", users).delete();
-      await db("vaultix_device_session_events").whereIn("userId", users).delete();
+      await db("vx_auth_users").whereIn("id", users).delete();
+      await db("vx_auth_device_session_events").whereIn("userId", users).delete();
       users.length = 0;
     }
     if (orgs.length) {
-      await db("organizations").whereIn("id", orgs).delete();
+      await db("vx_workspace_organizations").whereIn("id", orgs).delete();
       orgs.length = 0;
     }
   };
@@ -182,8 +182,13 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
     userId = randomUUID();
     orgs.push(orgId);
     users.push(userId);
-    await db("organizations").insert({ id: orgId, name: "Worker fixture", slug: orgId });
-    await db("users").insert({ id: userId, username: userId, email: `${userId}@vaultix.invalid`, isAccepted: true });
+    await db("vx_workspace_organizations").insert({ id: orgId, name: "Worker fixture", slug: orgId });
+    await db("vx_auth_users").insert({
+      id: userId,
+      username: userId,
+      email: `${userId}@vaultix.invalid`,
+      isAccepted: true
+    });
   });
   afterAll(async () => {
     await cleanup();
@@ -267,7 +272,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
     }
     expect(await state()).toEqual([]);
     expect(
-      (await db("vaultix_device_session_events").where({ id: eventId }).first<{ preparationStatus: string }>())
+      (await db("vx_auth_device_session_events").where({ id: eventId }).first<{ preparationStatus: string }>())
         ?.preparationStatus
     ).toBe("preparing");
     expect(await dependencies.preparation.prepare(claim)).toBe(true);
@@ -318,7 +323,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
       await running.stop();
       expect(running.status().enabled).toBe(false);
       expect(
-        (await db("vaultix_device_session_events").where({ id: eventId }).first<{ preparationAttempts: number }>())
+        (await db("vx_auth_device_session_events").where({ id: eventId }).first<{ preparationAttempts: number }>())
           ?.preparationAttempts
       ).toBe(0);
       expect(await state()).toEqual([]);
@@ -349,7 +354,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
       await waitFor(() => prepareMail.mock.calls.length === 1);
       await delay(1100);
       expect(
-        (await db("vaultix_device_session_events").where({ id: waitingEvent }).first<{ preparationAttempts: number }>())
+        (await db("vx_auth_device_session_events").where({ id: waitingEvent }).first<{ preparationAttempts: number }>())
           ?.preparationAttempts
       ).toBe(0);
       let stopped = false;
@@ -371,16 +376,16 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
     expect(prepareMail).toHaveBeenCalledTimes(1);
     expect(await state()).toEqual([]);
     expect(
-      (await db("vaultix_device_session_events").where({ id: eventId }).first<{ preparationStatus: string }>())
+      (await db("vx_auth_device_session_events").where({ id: eventId }).first<{ preparationStatus: string }>())
         ?.preparationStatus
     ).toBe("pending");
-    await db("vaultix_device_session_events")
+    await db("vx_auth_device_session_events")
       .where({ id: eventId })
       .update({ preparationNextAt: db.raw("clock_timestamp()") });
     const restarted = worker(await owners());
     restarted.start();
     try {
-      await waitFor(async () => (await db("vaultix_device_event_deliveries").where({ eventId })).length === 3);
+      await waitFor(async () => (await db("vx_auth_device_event_deliveries").where({ eventId })).length === 3);
     } finally {
       await restarted.stop();
     }

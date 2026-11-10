@@ -25,7 +25,7 @@ type projectKmsInfo struct {
 func (s *Service) findProjectKmsInfo(ctx context.Context, q pg.Querier, projectID string) (*projectKmsInfo, error) {
 	query := `
 		SELECT id, "orgId", "kmsSecretManagerKeyId", "kmsSecretManagerEncryptedDataKey"
-		FROM projects
+		FROM vx_workspace_projects
 		WHERE id = @projectID
 	`
 	row := q.QueryRow(ctx, query, pgx.NamedArgs{"projectID": projectID})
@@ -114,7 +114,7 @@ func (s *Service) ensureProjectDataKey(ctx context.Context, projectID string) (d
 			return nil, err
 		}
 
-		updateQuery := `UPDATE projects SET "kmsSecretManagerKeyId" = @keyID WHERE id = @projectID`
+		updateQuery := `UPDATE vx_workspace_projects SET "kmsSecretManagerKeyId" = @keyID WHERE id = @projectID`
 		if _, err := tx.Exec(ctx, updateQuery, pgx.NamedArgs{"keyID": createdID, "projectID": projectID}); err != nil {
 			return nil, fmt.Errorf("updating project KMS key: %w", err)
 		}
@@ -150,7 +150,7 @@ func (s *Service) ensureProjectDataKey(ctx context.Context, projectID string) (d
 			return nil, fmt.Errorf("encrypting data key: %w", err)
 		}
 
-		updateQuery := `UPDATE projects SET "kmsSecretManagerEncryptedDataKey" = @dataKey WHERE id = @projectID`
+		updateQuery := `UPDATE vx_workspace_projects SET "kmsSecretManagerEncryptedDataKey" = @dataKey WHERE id = @projectID`
 		if _, err := tx.Exec(ctx, updateQuery, pgx.NamedArgs{"dataKey": encryptedDataKey, "projectID": projectID}); err != nil {
 			return nil, fmt.Errorf("setting project encrypted data key: %w", err)
 		}

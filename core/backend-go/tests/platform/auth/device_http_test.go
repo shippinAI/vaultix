@@ -81,7 +81,7 @@ func TestDeviceHTTP_RealBrowserGrantRenewalAndRevocation(t *testing.T) {
 	info, err := f.grant.service.Inspect(t.Context(), code)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
 	})
 	review := url.Values{"user_code": {code}}
 	deviceHTTPPost(t, base, "/inspect", "", origin, review, 401)
@@ -108,8 +108,8 @@ func TestDeviceHTTP_RealBrowserGrantRenewalAndRevocation(t *testing.T) {
 	require.Equal(t, stack.NodeJS().UserID(), actor.ActorID.String())
 	require.Equal(t, stack.NodeJS().OrgID(), actor.OrgID.String())
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
-		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
 	})
 	deviceHTTPPost(t, base, "/decision", access, origin, review, 401)
 	replayed := deviceHTTPPost(t, base, "/token", "", "", poll, 400)
@@ -150,7 +150,7 @@ func TestDeviceHTTP_CancellationAndDeniedApproval(t *testing.T) {
 			info, err := f.grant.service.Inspect(context.Background(), code)
 			require.NoError(t, err)
 			t.Cleanup(func() {
-				devicePolicyExec(t, `DELETE FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
+				devicePolicyExec(t, `DELETE FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
 			})
 			switch outcome {
 			case "cancel":
@@ -160,7 +160,7 @@ func TestDeviceHTTP_CancellationAndDeniedApproval(t *testing.T) {
 			case "deny":
 				deviceHTTPPost(t, base, "/decision", browser, deviceRequest().Resource, url.Values{"user_code": {code}, "decision": {"deny"}}, 200)
 			case "locked":
-				devicePolicyExec(t, `UPDATE users SET "isLocked"=true WHERE id=@id`, pgx.NamedArgs{"id": actor.ActorID})
+				devicePolicyExec(t, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@id`, pgx.NamedArgs{"id": actor.ActorID})
 				deviceHTTPPost(t, base, "/decision", browser, deviceRequest().Resource, url.Values{"user_code": {code}, "decision": {"approve"}}, 401)
 				return
 			}
@@ -180,7 +180,7 @@ func TestDeviceHTTP_RefreshReuseRevokesIssuedSession(t *testing.T) {
 	info, err := f.grant.service.Inspect(t.Context(), code)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": info.ID})
 	})
 	deviceHTTPPost(t, base, "/decision", stack.NodeJS().UserToken(), deviceRequest().Resource, url.Values{"user_code": {code}, "decision": {"approve"}}, 200)
 	time.Sleep(5 * time.Second)
@@ -191,8 +191,8 @@ func TestDeviceHTTP_RefreshReuseRevokesIssuedSession(t *testing.T) {
 	actor, err := a.ValidateDeviceAccess(t.Context(), deviceField(t, issued, "access_token"))
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
-		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
 	})
 	renew := deviceForm()
 	renew.Set("grant_type", "refresh_token")
@@ -203,6 +203,6 @@ func TestDeviceHTTP_RefreshReuseRevokesIssuedSession(t *testing.T) {
 	_, err = a.ValidateDeviceAccess(t.Context(), deviceField(t, rotated, "access_token"))
 	require.Error(t, err)
 	var reason string
-	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT action FROM vaultix_device_session_events WHERE "sessionId"=@id AND action='reuse'`, pgx.NamedArgs{"id": actor.TokenVersionID}).Scan(&reason))
+	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT action FROM vx_auth_device_session_events WHERE "sessionId"=@id AND action='reuse'`, pgx.NamedArgs{"id": actor.TokenVersionID}).Scan(&reason))
 	require.Equal(t, "reuse", reason)
 }

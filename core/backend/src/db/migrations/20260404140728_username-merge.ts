@@ -69,7 +69,7 @@ export async function up(knex: Knex): Promise<void> {
     // For verified+accepted duplicates, we reassign FK references to the winner before deleting.
     // ============================================================
 
-    // Get all FK references to users.id once (used when merging verified+accepted duplicates)
+    // Get all FK references to vx_auth_users.id once (used when merging verified+accepted duplicates)
     log("Step 3: fetching FK references...");
     t = Date.now();
     const fkRefs = await knex.raw(`

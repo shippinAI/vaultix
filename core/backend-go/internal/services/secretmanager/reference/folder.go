@@ -15,12 +15,12 @@ func (s *Service) findFolder(ctx context.Context, query Query, segments []string
 	err := s.db.Primary().QueryRow(ctx, `
 		WITH RECURSIVE path AS (
 			SELECT folder.id, folder."envId", 0 AS depth
-			FROM secret_folders folder JOIN project_environments env ON env.id = folder."envId"
+			FROM vx_secrets_folders folder JOIN vx_workspace_environments env ON env.id = folder."envId"
 			WHERE env."projectId" = @projectID AND env.slug = @environment AND env."deleteAfter" IS NULL
 				AND folder."parentId" IS NULL
 			UNION ALL
 			SELECT child.id, child."envId", path.depth + 1
-			FROM path JOIN secret_folders child ON child."parentId" = path.id AND child."envId" = path."envId"
+			FROM path JOIN vx_secrets_folders child ON child."parentId" = path.id AND child."envId" = path."envId"
 			WHERE path.depth < cardinality(@segments::text[]) AND child.name = (@segments::text[])[path.depth + 1]
 		)
 		SELECT id FROM path WHERE depth = cardinality(@segments::text[]) LIMIT 1`,

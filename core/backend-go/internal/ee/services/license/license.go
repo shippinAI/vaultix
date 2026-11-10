@@ -297,7 +297,7 @@ type orgDetails struct {
 // findRootOrgDetails resolves the root org for the given orgID and returns its customer ID.
 // If the org has a rootOrgId, the root org is returned instead.
 func (s *Service) findRootOrgDetails(ctx context.Context, orgID string) (*orgDetails, error) {
-	query := `SELECT id, customer_id, root_org_id FROM organizations WHERE id = @orgID`
+	query := `SELECT id, customer_id, root_org_id FROM vx_workspace_organizations WHERE id = @orgID`
 	args := pgx.NamedArgs{"orgID": orgID}
 
 	row := s.db.Primary().QueryRow(ctx, query, args)

@@ -39,15 +39,15 @@ func devicePolicyExec(t *testing.T, query string, args ...any) {
 
 func deviceRole(t *testing.T, actor *auth.Identity, role string) {
 	t.Helper()
-	devicePolicyExec(t, `INSERT INTO membership_roles(id,"membershipId",role)
- SELECT @id,id,@role FROM memberships WHERE "actorUserId"=@user AND "scopeOrgId"=@org AND scope='organization'`,
+	devicePolicyExec(t, `INSERT INTO vx_workspace_membership_roles(id,"membershipId",role)
+ SELECT @id,id,@role FROM vx_workspace_memberships WHERE "actorUserId"=@user AND "scopeOrgId"=@org AND scope='organization'`,
 		pgx.NamedArgs{"id": uuid.New(), "role": role, "user": actor.ActorID, "org": actor.RootOrgID})
 }
 
 func deviceApproval(t *testing.T, id uuid.UUID) device.Approval {
 	t.Helper()
 	var raw []byte
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT approval FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": id}).Scan(&raw))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT approval FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": id}).Scan(&raw))
 	var approval device.Approval
 	require.NoError(t, json.Unmarshal(raw, &approval))
 	return approval
@@ -85,23 +85,23 @@ func TestDeviceAuthority_CurrentAccountAndTenant(t *testing.T) {
 			var query string
 			switch scenario {
 			case "locked":
-				query = `UPDATE users SET "isLocked"=true WHERE id=@user`
+				query = `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@user`
 			case "temporary-lock":
-				query = `UPDATE users SET "temporaryLockDateEnd"=clock_timestamp()+interval '1 hour' WHERE id=@user`
+				query = `UPDATE vx_auth_users SET "temporaryLockDateEnd"=clock_timestamp()+interval '1 hour' WHERE id=@user`
 			case "ghost":
-				query = `UPDATE users SET "isGhost"=true WHERE id=@user`
+				query = `UPDATE vx_auth_users SET "isGhost"=true WHERE id=@user`
 			case "unaccepted":
-				query = `UPDATE users SET "isAccepted"=false WHERE id=@user`
+				query = `UPDATE vx_auth_users SET "isAccepted"=false WHERE id=@user`
 			case "session-version":
-				query = `UPDATE auth_token_sessions SET "accessVersion"=2 WHERE id=@session`
+				query = `UPDATE vx_auth_sessions SET "accessVersion"=2 WHERE id=@session`
 			case "deleted-session":
-				query = `DELETE FROM auth_token_sessions WHERE id=@session`
+				query = `DELETE FROM vx_auth_sessions WHERE id=@session`
 			case "inactive":
-				query = `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user`
+				query = `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user`
 			case "pending":
-				query = `UPDATE memberships SET status='invited' WHERE "actorUserId"=@user`
+				query = `UPDATE vx_workspace_memberships SET status='invited' WHERE "actorUserId"=@user`
 			case "no-membership":
-				query = `DELETE FROM memberships WHERE "actorUserId"=@user`
+				query = `DELETE FROM vx_workspace_memberships WHERE "actorUserId"=@user`
 			case "wrong-root":
 				actor.RootOrgID = uuid.New()
 			case "wrong-org":
@@ -109,14 +109,14 @@ func TestDeviceAuthority_CurrentAccountAndTenant(t *testing.T) {
 			case "unknown-method":
 				actor.AuthMethod = "unverified-method"
 			case "mfa-required":
-				query = `UPDATE organizations SET "enforceMfa"=true WHERE id=@org`
+				query = `UPDATE vx_workspace_organizations SET "enforceMfa"=true WHERE id=@org`
 			case "wrong-mfa":
-				query = `UPDATE organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=@org`
+				query = `UPDATE vx_workspace_organizations SET "enforceMfa"=true,"selectedMfaMethod"='totp' WHERE id=@org`
 				actor.IsMfaVerified, actor.MfaMethod = true, "email"
 			case "unknown-mfa":
 				actor.IsMfaVerified, actor.MfaMethod = true, "unverified-factor"
 			case "unverified-email":
-				query = `UPDATE users SET "isEmailVerified"=false WHERE id=@user`
+				query = `UPDATE vx_auth_users SET "isEmailVerified"=false WHERE id=@user`
 				actor.IsMfaVerified, actor.MfaMethod = true, "email"
 			}
 			if query != "" {
@@ -138,14 +138,14 @@ func TestDeviceAuthority_RevocationBetweenApprovalAndRedemption(t *testing.T) {
 			grant := startDevice(t, f)
 			require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
 			queries := map[string]string{
-				"lock":              `UPDATE users SET "isLocked"=true WHERE id=@user`,
-				"session-version":   `UPDATE auth_token_sessions SET "accessVersion"=2 WHERE id=@session`,
-				"inactive":          `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user`,
-				"remove-membership": `DELETE FROM memberships WHERE "actorUserId"=@user`,
-				"sso-enforced":      `UPDATE organizations SET "authEnforced"=true WHERE id=@org`,
-				"mfa-enforced":      `UPDATE organizations SET "enforceMfa"=true WHERE id=@org`,
-				"token-lifetime":    `UPDATE organizations SET "userTokenExpiration"='15m' WHERE id=@org`,
-				"role-changed":      `UPDATE membership_roles SET role='admin' WHERE "membershipId" IN (SELECT id FROM memberships WHERE "actorUserId"=@user)`,
+				"lock":              `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@user`,
+				"session-version":   `UPDATE vx_auth_sessions SET "accessVersion"=2 WHERE id=@session`,
+				"inactive":          `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user`,
+				"remove-membership": `DELETE FROM vx_workspace_memberships WHERE "actorUserId"=@user`,
+				"sso-enforced":      `UPDATE vx_workspace_organizations SET "authEnforced"=true WHERE id=@org`,
+				"mfa-enforced":      `UPDATE vx_workspace_organizations SET "enforceMfa"=true WHERE id=@org`,
+				"token-lifetime":    `UPDATE vx_workspace_organizations SET "userTokenExpiration"='15m' WHERE id=@org`,
+				"role-changed":      `UPDATE vx_workspace_membership_roles SET role='admin' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE "actorUserId"=@user)`,
 			}
 			devicePolicyExec(t, queries[scenario], pgx.NamedArgs{"user": actor.ActorID, "session": actor.TokenVersionID, "org": actor.OrgID})
 			devicePollReady(t, grant.ID)
@@ -178,7 +178,7 @@ func TestDeviceAuthority_MethodEnforcementAndBypass(t *testing.T) {
 			ctx, actor := newReauthenticationAccount(t)
 			actor.AuthMethod = auth.ActorAuthMethod(scenario.method)
 			deviceRole(t, actor, scenario.role)
-			devicePolicyExec(t, `UPDATE organizations SET "authEnforced"=@saml,"googleSsoAuthEnforced"=@google,"bypassOrgAuthEnabled"=@bypass WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "saml": !scenario.google, "google": scenario.google, "bypass": scenario.bypass})
+			devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "authEnforced"=@saml,"googleSsoAuthEnforced"=@google,"bypassOrgAuthEnabled"=@bypass WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "saml": !scenario.google, "google": scenario.google, "bypass": scenario.bypass})
 			f := nativeDeviceFixture(t, stack.DB())
 			grant := startDevice(t, f)
 			err := f.service.Approve(ctx, grant.UserCode, actor)
@@ -200,7 +200,7 @@ func TestDeviceAuthority_CustomDenyAndExpiredRole(t *testing.T) {
 		t.Run(scenario, func(t *testing.T) {
 			ctx, actor := newReauthenticationAccount(t)
 			deviceRole(t, actor, "admin")
-			devicePolicyExec(t, `UPDATE organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
+			devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
 			rules := `[["bypass-sso-enforcement","sso",0,1]]`
 			if scenario == "custom-allow" {
 				rules = `[["bypass-sso-enforcement","sso"]]`
@@ -210,17 +210,17 @@ func TestDeviceAuthority_CustomDenyAndExpiredRole(t *testing.T) {
 			}
 			switch scenario {
 			case "expired":
-				devicePolicyExec(t, `UPDATE membership_roles SET "isTemporary"=true,"temporaryAccessEndTime"=clock_timestamp()-interval '1 second' WHERE "membershipId" IN (SELECT id FROM memberships WHERE "actorUserId"=@user)`, pgx.NamedArgs{"user": actor.ActorID})
+				devicePolicyExec(t, `UPDATE vx_workspace_membership_roles SET "isTemporary"=true,"temporaryAccessEndTime"=clock_timestamp()-interval '1 second' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE "actorUserId"=@user)`, pgx.NamedArgs{"user": actor.ActorID})
 			case "additional-deny":
-				devicePolicyExec(t, `INSERT INTO additional_privileges(id,name,"actorUserId","orgId",permissions) VALUES(@id,'device-fixture',@user,@org,@rules)`, pgx.NamedArgs{"id": uuid.New(), "user": actor.ActorID, "org": actor.OrgID, "rules": rules})
+				devicePolicyExec(t, `INSERT INTO vx_workspace_additional_privileges(id,name,"actorUserId","orgId",permissions) VALUES(@id,'device-fixture',@user,@org,@rules)`, pgx.NamedArgs{"id": uuid.New(), "user": actor.ActorID, "org": actor.OrgID, "rules": rules})
 			default:
 				role := uuid.New()
-				devicePolicyExec(t, `INSERT INTO roles(id,name,slug,"orgId",permissions) VALUES(@id,'Device fixture','device-fixture',@org,@rules)`, pgx.NamedArgs{"id": role, "org": actor.OrgID, "rules": rules})
+				devicePolicyExec(t, `INSERT INTO vx_workspace_roles(id,name,slug,"orgId",permissions) VALUES(@id,'Device fixture','device-fixture',@org,@rules)`, pgx.NamedArgs{"id": role, "org": actor.OrgID, "rules": rules})
 				t.Cleanup(func() {
-					devicePolicyExec(t, `DELETE FROM membership_roles WHERE "customRoleId"=@id`, pgx.NamedArgs{"id": role})
-					devicePolicyExec(t, `DELETE FROM roles WHERE id=@id`, pgx.NamedArgs{"id": role})
+					devicePolicyExec(t, `DELETE FROM vx_workspace_membership_roles WHERE "customRoleId"=@id`, pgx.NamedArgs{"id": role})
+					devicePolicyExec(t, `DELETE FROM vx_workspace_roles WHERE id=@id`, pgx.NamedArgs{"id": role})
 				})
-				devicePolicyExec(t, `INSERT INTO membership_roles(id,"membershipId",role,"customRoleId") SELECT @id,id,'custom',@role FROM memberships WHERE "actorUserId"=@user AND scope='organization'`, pgx.NamedArgs{"id": uuid.New(), "role": role, "user": actor.ActorID})
+				devicePolicyExec(t, `INSERT INTO vx_workspace_membership_roles(id,"membershipId",role,"customRoleId") SELECT @id,id,'custom',@role FROM vx_workspace_memberships WHERE "actorUserId"=@user AND scope='organization'`, pgx.NamedArgs{"id": uuid.New(), "role": role, "user": actor.ActorID})
 			}
 			f := nativeDeviceFixture(t, stack.DB())
 			grant := startDevice(t, f)
@@ -237,27 +237,27 @@ func TestDeviceAuthority_CustomDenyAndExpiredRole(t *testing.T) {
 func TestDeviceAuthority_GroupsAndDirectPrecedence(t *testing.T) {
 	ctx, actor := newReauthenticationAccount(t)
 	group, membership := uuid.New(), uuid.New()
-	devicePolicyExec(t, `INSERT INTO groups(id,name,slug,"orgId") VALUES(@id,'Device fixture',@slug,@org)`, pgx.NamedArgs{"id": group, "slug": group.String(), "org": actor.OrgID})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_groups(id,name,slug,"orgId") VALUES(@id,'Device fixture',@slug,@org)`, pgx.NamedArgs{"id": group, "slug": group.String(), "org": actor.OrgID})
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM memberships WHERE "actorGroupId"=@id`, pgx.NamedArgs{"id": group})
-		devicePolicyExec(t, `DELETE FROM user_group_membership WHERE "groupId"=@id`, pgx.NamedArgs{"id": group})
-		devicePolicyExec(t, `DELETE FROM groups WHERE id=@id`, pgx.NamedArgs{"id": group})
+		devicePolicyExec(t, `DELETE FROM vx_workspace_memberships WHERE "actorGroupId"=@id`, pgx.NamedArgs{"id": group})
+		devicePolicyExec(t, `DELETE FROM vx_workspace_user_group_memberships WHERE "groupId"=@id`, pgx.NamedArgs{"id": group})
+		devicePolicyExec(t, `DELETE FROM vx_workspace_groups WHERE id=@id`, pgx.NamedArgs{"id": group})
 	})
-	devicePolicyExec(t, `INSERT INTO user_group_membership("userId","groupId") VALUES(@user,@group)`, pgx.NamedArgs{"user": actor.ActorID, "group": group})
-	devicePolicyExec(t, `INSERT INTO memberships(id,scope,"scopeOrgId","actorGroupId","isActive") VALUES(@id,'organization',@org,@group,true)`, pgx.NamedArgs{"id": membership, "org": actor.OrgID, "group": group})
-	devicePolicyExec(t, `INSERT INTO membership_roles(id,"membershipId",role) VALUES(@id,@member,'admin')`, pgx.NamedArgs{"id": uuid.New(), "member": membership})
-	devicePolicyExec(t, `UPDATE organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_user_group_memberships("userId","groupId") VALUES(@user,@group)`, pgx.NamedArgs{"user": actor.ActorID, "group": group})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_memberships(id,scope,"scopeOrgId","actorGroupId","isActive") VALUES(@id,'organization',@org,@group,true)`, pgx.NamedArgs{"id": membership, "org": actor.OrgID, "group": group})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_membership_roles(id,"membershipId",role) VALUES(@id,@member,'admin')`, pgx.NamedArgs{"id": uuid.New(), "member": membership})
+	devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
 	f := nativeDeviceFixture(t, stack.DB())
-	devicePolicyExec(t, `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	denied := startDevice(t, f)
 	require.ErrorIs(t, f.service.Approve(ctx, denied.UserCode, actor), device.ErrDenied)
-	devicePolicyExec(t, `UPDATE memberships SET "isActive"=true,status='invited' WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `UPDATE vx_workspace_memberships SET "isActive"=true,status='invited' WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	require.ErrorIs(t, f.service.Approve(ctx, denied.UserCode, actor), device.ErrDenied)
-	devicePolicyExec(t, `DELETE FROM memberships WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `DELETE FROM vx_workspace_memberships WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	grant := startDevice(t, f)
 	require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
 	require.True(t, deviceApproval(t, grant.ID).SSOBypass)
-	devicePolicyExec(t, `DELETE FROM user_group_membership WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `DELETE FROM vx_workspace_user_group_memberships WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	devicePollReady(t, grant.ID)
 	_, err := f.service.Poll(ctx, deviceRequest(), grant.DeviceCode)
 	require.ErrorIs(t, err, device.ErrDenied)
@@ -267,28 +267,28 @@ func TestDeviceAuthority_GroupsAndDirectPrecedence(t *testing.T) {
 func TestDeviceAuthority_RootAndSubOrganization(t *testing.T) {
 	ctx, actor := newReauthenticationAccount(t)
 	child := uuid.New()
-	devicePolicyExec(t, `INSERT INTO organizations(id,name,slug,"rootOrgId","parentOrgId","enforceMfa","selectedMfaMethod") VALUES(@id,'device-child',@slug,@root,@root,true,'totp')`, pgx.NamedArgs{"id": child, "slug": child.String(), "root": actor.RootOrgID})
-	t.Cleanup(func() { devicePolicyExec(t, `DELETE FROM organizations WHERE id=@id`, pgx.NamedArgs{"id": child}) })
-	devicePolicyExec(t, `INSERT INTO memberships(id,scope,"scopeOrgId","actorUserId",status) VALUES(@id,'organization',@org,@user,'accepted')`, pgx.NamedArgs{"id": uuid.New(), "org": child, "user": actor.ActorID})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_organizations(id,name,slug,"rootOrgId","parentOrgId","enforceMfa","selectedMfaMethod") VALUES(@id,'device-child',@slug,@root,@root,true,'totp')`, pgx.NamedArgs{"id": child, "slug": child.String(), "root": actor.RootOrgID})
+	t.Cleanup(func() { devicePolicyExec(t, `DELETE FROM vx_workspace_organizations WHERE id=@id`, pgx.NamedArgs{"id": child}) })
+	devicePolicyExec(t, `INSERT INTO vx_workspace_memberships(id,scope,"scopeOrgId","actorUserId",status) VALUES(@id,'organization',@org,@user,'accepted')`, pgx.NamedArgs{"id": uuid.New(), "org": child, "user": actor.ActorID})
 	actor.OrgID = child
-	devicePolicyExec(t, `UPDATE organizations SET "enforceMfa"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.RootOrgID})
+	devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "enforceMfa"=true WHERE id=@org`, pgx.NamedArgs{"org": actor.RootOrgID})
 	actor.IsMfaVerified, actor.MfaMethod = true, "email"
 	f := nativeDeviceFixture(t, stack.DB())
 	grant := startDevice(t, f)
 	require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
-	devicePolicyExec(t, `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user AND "scopeOrgId"=@root`, pgx.NamedArgs{"user": actor.ActorID, "root": actor.RootOrgID})
+	devicePolicyExec(t, `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user AND "scopeOrgId"=@root`, pgx.NamedArgs{"user": actor.ActorID, "root": actor.RootOrgID})
 	devicePollReady(t, grant.ID)
 	_, err := f.service.Poll(ctx, deviceRequest(), grant.DeviceCode)
 	require.ErrorIs(t, err, device.ErrDenied)
-	devicePolicyExec(t, `UPDATE memberships SET "isActive"=true WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
-	devicePolicyExec(t, `UPDATE organizations SET "authEnforced"=true WHERE id=@org`, pgx.NamedArgs{"org": child})
+	devicePolicyExec(t, `UPDATE vx_workspace_memberships SET "isActive"=true WHERE "actorUserId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "authEnforced"=true WHERE id=@org`, pgx.NamedArgs{"org": child})
 	grant = startDevice(t, f)
 	require.ErrorIs(t, f.service.Approve(ctx, grant.UserCode, actor), device.ErrDenied)
 	deviceRole(t, actor, "admin")
-	devicePolicyExec(t, `UPDATE organizations SET "bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": child})
+	devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "bypassOrgAuthEnabled"=true WHERE id=@org`, pgx.NamedArgs{"org": child})
 	// Root administration does not grant the child's organization capability.
 	require.ErrorIs(t, f.service.Approve(ctx, grant.UserCode, actor), device.ErrDenied)
-	devicePolicyExec(t, `INSERT INTO membership_roles(id,"membershipId",role) SELECT @id,id,'admin' FROM memberships WHERE "actorUserId"=@user AND "scopeOrgId"=@org AND scope='organization'`, pgx.NamedArgs{"id": uuid.New(), "user": actor.ActorID, "org": child})
+	devicePolicyExec(t, `INSERT INTO vx_workspace_membership_roles(id,"membershipId",role) SELECT @id,id,'admin' FROM vx_workspace_memberships WHERE "actorUserId"=@user AND "scopeOrgId"=@org AND scope='organization'`, pgx.NamedArgs{"id": uuid.New(), "user": actor.ActorID, "org": child})
 	require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
 	require.True(t, deviceApproval(t, grant.ID).SSOBypass)
 }
@@ -297,20 +297,20 @@ func TestDeviceAuthority_FactorLifecycleAndRootMFAOverride(t *testing.T) {
 	for _, method := range []string{"email", "totp", "webauthn"} {
 		t.Run(method, func(t *testing.T) {
 			ctx, actor := newReauthenticationAccount(t)
-			devicePolicyExec(t, `UPDATE users SET "isMfaEnabled"=true,"selectedMfaMethod"='totp' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
-			devicePolicyExec(t, `UPDATE organizations SET "enforceMfa"=true,"selectedMfaMethod"=@method WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "method": method})
+			devicePolicyExec(t, `UPDATE vx_auth_users SET "isMfaEnabled"=true,"selectedMfaMethod"='totp' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
+			devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "enforceMfa"=true,"selectedMfaMethod"=@method WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "method": method})
 			factor := uuid.New()
 			switch method {
 			case "totp":
-				devicePolicyExec(t, `INSERT INTO totp_configs(id,"userId","isVerified","encryptedSecret") VALUES(@id,@user,true,@secret)`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "secret": []byte("encrypted-fixture-only")})
+				devicePolicyExec(t, `INSERT INTO vx_auth_totp_configs(id,"userId","isVerified","encryptedSecret") VALUES(@id,@user,true,@secret)`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "secret": []byte("encrypted-fixture-only")})
 			case "webauthn":
-				devicePolicyExec(t, `INSERT INTO webauthn_credentials(id,"userId","credentialId","publicKey") VALUES(@id,@user,@credential,'fixture-public-key')`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "credential": factor.String()})
+				devicePolicyExec(t, `INSERT INTO vx_auth_webauthn_credentials(id,"userId","credentialId","publicKey") VALUES(@id,@user,@credential,'fixture-public-key')`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "credential": factor.String()})
 			}
 			actor.IsMfaVerified, actor.MfaMethod = true, method
 			f := nativeDeviceFixture(t, stack.DB())
 			grant := startDevice(t, f)
 			require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
-			devicePolicyExec(t, `UPDATE users SET "firstName"='profile-change' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
+			devicePolicyExec(t, `UPDATE vx_auth_users SET "firstName"='profile-change' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
 			devicePollReady(t, grant.ID)
 			_, err := f.service.Poll(ctx, deviceRequest(), grant.DeviceCode)
 			require.NoError(t, err)
@@ -318,11 +318,11 @@ func TestDeviceAuthority_FactorLifecycleAndRootMFAOverride(t *testing.T) {
 			require.NoError(t, f.service.Approve(ctx, grant.UserCode, actor))
 			switch method {
 			case "email":
-				devicePolicyExec(t, `UPDATE users SET "isEmailVerified"=false WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
+				devicePolicyExec(t, `UPDATE vx_auth_users SET "isEmailVerified"=false WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
 			case "totp":
-				devicePolicyExec(t, `UPDATE totp_configs SET "encryptedSecret"=@secret WHERE id=@id`, pgx.NamedArgs{"id": factor, "secret": []byte("replaced-encrypted-fixture")})
+				devicePolicyExec(t, `UPDATE vx_auth_totp_configs SET "encryptedSecret"=@secret WHERE id=@id`, pgx.NamedArgs{"id": factor, "secret": []byte("replaced-encrypted-fixture")})
 			case "webauthn":
-				devicePolicyExec(t, `DELETE FROM webauthn_credentials WHERE id=@id`, pgx.NamedArgs{"id": factor})
+				devicePolicyExec(t, `DELETE FROM vx_auth_webauthn_credentials WHERE id=@id`, pgx.NamedArgs{"id": factor})
 			}
 			devicePollReady(t, grant.ID)
 			_, err = f.service.Poll(ctx, deviceRequest(), grant.DeviceCode)
@@ -365,7 +365,7 @@ func TestDeviceAuthority_LockedAccountDeadlineAndRecovery(t *testing.T) {
 	tx, err := stack.DB().Primary().Begin(ctx)
 	require.NoError(t, err)
 	defer tx.Rollback(ctx)
-	_, err = tx.Exec(ctx, `UPDATE users SET "isLocked"=true WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	_, err = tx.Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	require.NoError(t, err)
 	limited, cancel := context.WithTimeout(ctx, 100*time.Millisecond)
 	defer cancel()

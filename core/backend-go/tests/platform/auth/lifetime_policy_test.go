@@ -105,14 +105,14 @@ func TestValidateIdentityAccessToken_LegacyExpirationGrace(t *testing.T) {
 	tokenID := uuid.NewString()
 	ctx := context.Background()
 	_, err = stack.DB().Primary().Exec(ctx, `
-		INSERT INTO identity_access_tokens (
+		INSERT INTO vx_identity_access_tokens (
 			id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 			"accessTokenNumUses", "accessTokenNumUsesLimit", "authMethod", "createdAt", "updatedAt"
 		) VALUES (@tokenID, @identityID, false, 3600, 7200, 0, 0, 'universal-auth', NOW(), NOW())
 	`, pgx.NamedArgs{"tokenID": tokenID, "identityID": identity.ID})
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM identity_access_tokens WHERE id = $1`, tokenID)
+		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM vx_identity_access_tokens WHERE id = $1`, tokenID)
 		require.NoError(t, err)
 	})
 	claims := jwt.MapClaims{

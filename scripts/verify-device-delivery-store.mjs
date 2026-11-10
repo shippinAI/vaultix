@@ -23,7 +23,7 @@ try {
  await h.ready(app);phase='existing built-in owner';
  const fixturePassword='Vx9!'+[...randomBytes(24)].map(byte=>byte.toString(16).padStart(2,'0')).join('-');
  const owner=await h.request(app,'/api/v1/admin/signup',{method:'POST',body:{email:name+'@vaultix.invalid',password:fixturePassword,firstName:'Store',organizationName:'Store verification'}});
- const user=h.sql(db,`SELECT id FROM users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
+ const user=h.sql(db,`SELECT id FROM vx_auth_users WHERE email='${name}@vaultix.invalid'`);assert.match(user,/^[a-f0-9-]{36}$/);
  h.output(['stop',app]);phase='durable preparation, claims and delivery acknowledgments';
  const test=h.container(name+'-test',runner,['sleep','600'],{VAULTIX_SESSION_TEST_DATABASE:connection,VAULTIX_SESSION_TEST_USER:user,VAULTIX_SESSION_TEST_ORG:owner.organization.id});
  h.output(['cp',resolve('core/backend/src'),test+':/app/']);

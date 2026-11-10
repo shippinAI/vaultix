@@ -42,11 +42,11 @@ func sessionsServer(t *testing.T) (*httptest.Server, *session.Service) {
 func seedSession(t *testing.T, userID uuid.UUID, lastUsed, kind string) uuid.UUID {
 	t.Helper()
 	id := uuid.New()
-	_, err := stack.DB().Primary().Exec(context.Background(), `INSERT INTO auth_token_sessions(id,"userId",ip,"userAgent","accessVersion","refreshVersion","lastUsed","createdAt","updatedAt","sessionType")
+	_, err := stack.DB().Primary().Exec(context.Background(), `INSERT INTO vx_auth_sessions(id,"userId",ip,"userAgent","accessVersion","refreshVersion","lastUsed","createdAt","updatedAt","sessionType")
  VALUES(@id,@user,'203.0.113.7',NULL,4,7,@used::timestamptz,@used::timestamptz,@used::timestamptz,@kind)`, pgx.NamedArgs{"id": id, "user": userID, "used": lastUsed, "kind": kind})
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM auth_token_sessions WHERE id = @id`, pgx.NamedArgs{"id": id})
+		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_sessions WHERE id = @id`, pgx.NamedArgs{"id": id})
 	})
 	return id
 }
@@ -55,10 +55,10 @@ func seedUser(t *testing.T) uuid.UUID {
 	t.Helper()
 	var id uuid.UUID
 	name := "sessions-" + uuid.NewString() + "@vaultix.invalid"
-	err := stack.DB().Primary().QueryRow(context.Background(), `INSERT INTO users(username,email) VALUES(@name,@name) RETURNING id`, pgx.NamedArgs{"name": name}).Scan(&id)
+	err := stack.DB().Primary().QueryRow(context.Background(), `INSERT INTO vx_auth_users(username,email) VALUES(@name,@name) RETURNING id`, pgx.NamedArgs{"name": name}).Scan(&id)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM users WHERE id = @id`, pgx.NamedArgs{"id": id})
+		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_users WHERE id = @id`, pgx.NamedArgs{"id": id})
 	})
 	return id
 }
@@ -66,7 +66,7 @@ func seedUser(t *testing.T) uuid.UUID {
 func sessionExists(t *testing.T, id uuid.UUID) bool {
 	t.Helper()
 	var exists bool
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT EXISTS(SELECT 1 FROM auth_token_sessions WHERE id = @id)`, pgx.NamedArgs{"id": id}).Scan(&exists))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT EXISTS(SELECT 1 FROM vx_auth_sessions WHERE id = @id)`, pgx.NamedArgs{"id": id}).Scan(&exists))
 	return exists
 }
 
@@ -205,7 +205,7 @@ func signIn(t *testing.T) browserSignIn {
 	_, _, err = jwt.NewParser().ParseUnverified(login.AccessToken, claims)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM auth_token_sessions WHERE id = @id`, pgx.NamedArgs{"id": claims.TokenVersionID})
+		_, _ = stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_sessions WHERE id = @id`, pgx.NamedArgs{"id": claims.TokenVersionID})
 	})
 	for _, cookie := range response.Cookies() {
 		if cookie.Name == "jid" {
@@ -219,7 +219,7 @@ func signIn(t *testing.T) browserSignIn {
 func sessionVersions(t *testing.T, id uuid.UUID) (int64, int64) {
 	t.Helper()
 	var access, refresh int64
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT "accessVersion", "refreshVersion" FROM auth_token_sessions WHERE id = @id`, pgx.NamedArgs{"id": id}).Scan(&access, &refresh))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT "accessVersion", "refreshVersion" FROM vx_auth_sessions WHERE id = @id`, pgx.NamedArgs{"id": id}).Scan(&access, &refresh))
 	return access, refresh
 }
 

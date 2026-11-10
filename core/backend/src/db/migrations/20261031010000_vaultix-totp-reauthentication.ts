@@ -3,14 +3,14 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
     CREATE TABLE vaultix_totp_replays (
-      "factorId" uuid PRIMARY KEY REFERENCES totp_configs(id) ON DELETE CASCADE,
+      "factorId" uuid PRIMARY KEY REFERENCES vx_auth_totp_configs(id) ON DELETE CASCADE,
       "lastStep" bigint NOT NULL CHECK ("lastStep" >= 0)
     );
     CREATE TABLE vaultix_identity_reauth_totp (
-      "userId" uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      "userId" uuid PRIMARY KEY REFERENCES vx_auth_users(id) ON DELETE CASCADE,
       "schemaVersion" integer NOT NULL DEFAULT 1 CHECK ("schemaVersion" = 1),
       "proofId" uuid NOT NULL UNIQUE,
-      "factorId" uuid NOT NULL REFERENCES totp_configs(id) ON DELETE CASCADE,
+      "factorId" uuid NOT NULL REFERENCES vx_auth_totp_configs(id) ON DELETE CASCADE,
       "factorDigest" bytea NOT NULL CHECK (octet_length("factorDigest") = 32),
       step bigint NOT NULL CHECK (step >= 0)
     );

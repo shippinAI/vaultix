@@ -113,7 +113,7 @@ func (s *Sessions) IssueDeviceSession(ctx context.Context, tx pgx.Tx, approval *
 	}
 	var now time.Time
 	var policies []string
-	err := tx.QueryRow(ctx, `SELECT clock_timestamp(),array_agg(COALESCE("userTokenExpiration",'')) FROM organizations WHERE id IN (@org,@root)`, pgx.NamedArgs{"org": approval.OrgID, "root": approval.RootOrgID}).Scan(&now, &policies)
+	err := tx.QueryRow(ctx, `SELECT clock_timestamp(),array_agg(COALESCE("userTokenExpiration",'')) FROM vx_workspace_organizations WHERE id IN (@org,@root)`, pgx.NamedArgs{"org": approval.OrgID, "root": approval.RootOrgID}).Scan(&now, &policies)
 	if err != nil {
 		return Session{}, s.failure(ctx, "lifetime", err)
 	}
@@ -132,7 +132,7 @@ func (s *Sessions) IssueDeviceSession(ctx context.Context, tx pgx.Tx, approval *
 	if err != nil {
 		return Session{}, err
 	}
-	_, err = tx.Exec(ctx, `INSERT INTO auth_token_sessions(id,"userId",ip,"userAgent","accessVersion","refreshVersion","lastUsed","createdAt","updatedAt","sessionType")
+	_, err = tx.Exec(ctx, `INSERT INTO vx_auth_sessions(id,"userId",ip,"userAgent","accessVersion","refreshVersion","lastUsed","createdAt","updatedAt","sessionType")
  VALUES(@id,@user,@ip,@agent,1,1,@now,@now,@now,'device-v1')`, pgx.NamedArgs{"id": issued.SessionID, "user": issued.UserID, "ip": info.IPAddress, "agent": info.UserAgent, "now": now})
 	if err != nil {
 		return Session{}, s.failure(ctx, "issue", err)
@@ -141,7 +141,7 @@ func (s *Sessions) IssueDeviceSession(ctx context.Context, tx pgx.Tx, approval *
 	if err != nil {
 		return Session{}, ErrUnavailable
 	}
-	_, err = tx.Exec(ctx, `INSERT INTO vaultix_device_sessions("sessionId","clientId",resource,scope,approval,"refreshDigest","createdAt","expiresAt")
+	_, err = tx.Exec(ctx, `INSERT INTO vx_auth_device_sessions("sessionId","clientId",resource,scope,approval,"refreshDigest","createdAt","expiresAt")
  VALUES(@id,@client,@resource,@scope,@approval,@digest,@now,@expires)`, pgx.NamedArgs{"id": issued.SessionID, "client": client, "resource": resource, "scope": scope, "approval": encoded, "digest": digest[:], "now": now, "expires": expires})
 	if err != nil {
 		return Session{}, s.failure(ctx, "metadata", err)
@@ -190,13 +190,13 @@ func (s *AccessVerifier) load(ctx context.Context, tx pgx.Tx, user, id uuid.UUID
 	// Account deletion cascades to sessions. Every lifecycle operation uses the
 	// same user-before-session row lock order, including refresh-reuse revocation.
 	var locked uuid.UUID
-	if err := tx.QueryRow(ctx, `SELECT id FROM users WHERE id=@user FOR UPDATE`, pgx.NamedArgs{"user": user}).Scan(&locked); err != nil {
+	if err := tx.QueryRow(ctx, `SELECT id FROM vx_auth_users WHERE id=@user FOR UPDATE`, pgx.NamedArgs{"user": user}).Scan(&locked); err != nil {
 		return nil, s.failure(ctx, "account", err)
 	}
 	row := &storedSession{}
 	var encoded []byte
 	err := tx.QueryRow(ctx, `SELECT sessions."refreshVersion",sessions."accessVersion",metadata.approval,metadata."refreshDigest",metadata."expiresAt",clock_timestamp()
- FROM auth_token_sessions sessions JOIN vaultix_device_sessions metadata ON metadata."sessionId"=sessions.id
+ FROM vx_auth_sessions sessions JOIN vx_auth_device_sessions metadata ON metadata."sessionId"=sessions.id
  WHERE sessions.id=@id AND sessions."userId"=@user AND sessions."sessionType"='device-v1'
  AND metadata."schemaVersion"=1 AND metadata."clientId"=@client AND metadata.resource=@resource AND metadata.scope=@scope
  FOR UPDATE OF sessions,metadata`, pgx.NamedArgs{"id": id, "user": user, "client": ClientID, "resource": s.credentials.resource, "scope": Scope}).Scan(&row.generation, &row.accessVersion, &encoded, &row.digest, &row.expires, &row.now)
@@ -225,7 +225,7 @@ func (s *Sessions) record(ctx context.Context, tx pgx.Tx, approval *Approval, ac
 	if err != nil {
 		return ErrUnavailable
 	}
-	_, err = tx.Exec(ctx, `INSERT INTO vaultix_device_session_events(id,"sessionId","userId","orgId",action,provenance)
+	_, err = tx.Exec(ctx, `INSERT INTO vx_auth_device_session_events(id,"sessionId","userId","orgId",action,provenance)
  VALUES(@id,@session,@user,@org,@action,@provenance)`, pgx.NamedArgs{"id": uuid.New(), "session": approval.SessionID, "user": approval.UserID, "org": approval.OrgID, "action": action, "provenance": encoded})
 	if err != nil {
 		return s.failure(ctx, "security-event", err)
@@ -237,7 +237,7 @@ func (s *Sessions) revoke(ctx context.Context, tx pgx.Tx, row *storedSession, ac
 	if err := s.record(ctx, tx, &row.approval, action); err != nil {
 		return err
 	}
-	_, err := tx.Exec(ctx, `DELETE FROM auth_token_sessions WHERE id=@id AND "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"id": row.approval.SessionID, "user": row.approval.UserID})
+	_, err := tx.Exec(ctx, `DELETE FROM vx_auth_sessions WHERE id=@id AND "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"id": row.approval.SessionID, "user": row.approval.UserID})
 	if err != nil {
 		return s.failure(ctx, "revoke", err)
 	}
@@ -292,11 +292,11 @@ func (s *Sessions) Renew(ctx context.Context, request Request, token string) (Se
 	if err != nil {
 		return Session{}, err
 	}
-	_, err = tx.Exec(ctx, `UPDATE auth_token_sessions SET "refreshVersion"="refreshVersion"+1,"lastUsed"=@now,"updatedAt"=@now WHERE id=@id`, pgx.NamedArgs{"id": identity.SessionID, "now": row.now})
+	_, err = tx.Exec(ctx, `UPDATE vx_auth_sessions SET "refreshVersion"="refreshVersion"+1,"lastUsed"=@now,"updatedAt"=@now WHERE id=@id`, pgx.NamedArgs{"id": identity.SessionID, "now": row.now})
 	if err != nil {
 		return Session{}, s.failure(ctx, "rotate", err)
 	}
-	_, err = tx.Exec(ctx, `UPDATE vaultix_device_sessions SET "refreshDigest"=@digest WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID, "digest": newDigest[:]})
+	_, err = tx.Exec(ctx, `UPDATE vx_auth_device_sessions SET "refreshDigest"=@digest WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID, "digest": newDigest[:]})
 	if err != nil {
 		return Session{}, s.failure(ctx, "rotate", err)
 	}

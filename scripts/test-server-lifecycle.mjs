@@ -108,7 +108,11 @@ try {
   const { project: workspace } = await api('/api/v1/projects', { method: 'POST', token, body: { projectName: 'Preserved project' } });
   const scope = { projectId: workspace.id, environment: 'dev', secretPath: '/' };
   await api('/api/v4/secrets/LIFECYCLE_CANARY', { method: 'POST', token, body: { ...scope, secretValue: canary } });
-  const cipher = h.sql(database.Id, 'SELECT encode("encryptedValue",\'hex\') FROM secrets_v2 WHERE key=\'LIFECYCLE_CANARY\';');
+  // The baseline may predate the vx_ table names (docs/0119); upgrade and rollback cross them.
+  const secretsTable = () => h.sql(database.Id, "SELECT CASE WHEN to_regclass('public.vx_secrets_secrets') IS NOT NULL THEN 'vx_secrets_secrets' ELSE 'secrets_v2' END;");
+  const canaryCipher = () => h.sql(database.Id, `SELECT encode("encryptedValue",'hex') FROM ${secretsTable()} WHERE key='LIFECYCLE_CANARY';`);
+  const legacyTables = () => Number(h.sql(database.Id, "SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE c.relkind IN ('r','p') AND c.relname NOT LIKE 'vx\\_%' AND c.relname NOT LIKE 'vaultix\\_migrations%';"));
+  const cipher = canaryCipher();
   assert.ok(cipher && !cipher.includes(canary));
   phase = 'invalid image receipt';
   const counterfeit = { ...candidate, revision: 'f'.repeat(40), image: 'vaultix:' + 'f'.repeat(40) };
@@ -194,7 +198,11 @@ try {
   const path = '/api/v4/secrets/LIFECYCLE_CANARY?' + new URLSearchParams({ ...scope, viewSecretValue: 'true' });
   const secret = await api(path, { token: selected.token });
   assert.ok(secret.secret.secretValue === canary, 'Existing canary no longer decrypts');
-  assert.ok(h.sql(database.Id, 'SELECT encode("encryptedValue",\'hex\') FROM secrets_v2 WHERE key=\'LIFECYCLE_CANARY\';') === cipher, 'Encrypted row changed');
+  assert.ok(canaryCipher() === cipher, 'Encrypted row changed');
+  if (secretsTable() === 'vx_secrets_secrets') {
+    assert.equal(legacyTables(), 0, 'Every table, partitions included, moves to its vx_ name');
+    check('the upgraded store has no table left on an inherited name');
+  }
   await api(path, { status: 401 });
   await api('/api/v1/admin/signup', { method: 'POST', body: { email, password, firstName: 'Duplicate' }, status: 400 });
   await api('/api/v4/secrets/AFTER_UPGRADE', { method: 'POST', token: selected.token, body: { ...scope, secretValue: canary } });
@@ -204,7 +212,7 @@ try {
   assert.ok(rolledBack.ready); assert.equal(inspect(app()).Image, baseline.imageId);
   proxyReachable();
   assert.equal(inspect(service('db')).Id, database.Id); assert.equal(inspect(service('cache')).Id, cache.Id);
-  assert.ok(h.sql(database.Id, 'SELECT encode("encryptedValue",\'hex\') FROM secrets_v2 WHERE key=\'LIFECYCLE_CANARY\';') === cipher);
+  assert.ok(canaryCipher() === cipher);
   assert.ok(cli(['upgrade', '--from-build', '/proof/candidate.json']).ready);
   proxyReachable();
   check('adopted instance retains both listeners and external HTTP reachability after interrupted recovery, rollback and a subsequent upgrade');

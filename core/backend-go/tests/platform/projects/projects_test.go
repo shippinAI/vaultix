@@ -69,7 +69,7 @@ func TestGetHealth_ReturnsOK(t *testing.T) {
 func TestCreateProject_DoesNotReportAnUnpersistedSuccess(t *testing.T) {
 	router := newProjectsRouter(t)
 	var before int
-	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT count(*) FROM projects`).Scan(&before))
+	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT count(*) FROM vx_workspace_projects`).Scan(&before))
 
 	body := `{"name":"my-new-project","orgId":"` + stack.NodeJS().OrgID() + `"}`
 	ctx := auth.WithIdentity(t.Context(), &auth.Identity{
@@ -90,14 +90,14 @@ func TestCreateProject_DoesNotReportAnUnpersistedSuccess(t *testing.T) {
 	assert.Contains(t, resp.ErrorData, "POST /api/v1/projects")
 	assert.NotContains(t, rec.Body.String(), "generated-id")
 	var after int
-	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT count(*) FROM projects`).Scan(&after))
+	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT count(*) FROM vx_workspace_projects`).Scan(&after))
 	assert.Equal(t, before, after)
 }
 
 func TestCreateProject_ExistingWorkflowPersistsProject(t *testing.T) {
 	created := stack.NodeJS().CreateProject(t, "preserved-project-create")
 	var orgID string
-	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT "orgId" FROM projects WHERE id = $1`, created.ID).Scan(&orgID))
+	require.NoError(t, stack.DB().Primary().QueryRow(t.Context(), `SELECT "orgId" FROM vx_workspace_projects WHERE id = $1`, created.ID).Scan(&orgID))
 	assert.Equal(t, stack.NodeJS().OrgID(), orgID)
 }
 

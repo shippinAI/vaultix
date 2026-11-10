@@ -256,9 +256,9 @@ func (s *Service) decryptInternalKmsKey(ctx context.Context, kmsKeyID uuid.UUID)
 			internalKms."encryptedKey" AS internal_encrypted_key,
 			internalKms."encryptionAlgorithm" AS internal_encryption_algorithm,
 			externalKms.id AS external_kms_id
-		FROM kms_keys kmsKey
-		LEFT JOIN internal_kms internalKms ON internalKms."kmsKeyId" = kmsKey.id
-		LEFT JOIN external_kms externalKms ON externalKms."kmsKeyId" = kmsKey.id
+		FROM vx_kms_keys kmsKey
+		LEFT JOIN vx_kms_internal internalKms ON internalKms."kmsKeyId" = kmsKey.id
+		LEFT JOIN vx_kms_external externalKms ON externalKms."kmsKeyId" = kmsKey.id
 		WHERE kmsKey.id = @kmsKeyID
 	`
 	row := s.db.Replica().QueryRow(ctx, query, pgx.NamedArgs{"kmsKeyID": kmsKeyID})
@@ -310,9 +310,9 @@ func (s *Service) decryptWithKmsKey(ctx context.Context, kmsKeyID uuid.UUID, cip
 			externalKms.id AS external_kms_id,
 			externalKms.provider,
 			externalKms."encryptedProviderInputs"
-		FROM kms_keys kmsKey
-		LEFT JOIN internal_kms internalKms ON internalKms."kmsKeyId" = kmsKey.id
-		LEFT JOIN external_kms externalKms ON externalKms."kmsKeyId" = kmsKey.id
+		FROM vx_kms_keys kmsKey
+		LEFT JOIN vx_kms_internal internalKms ON internalKms."kmsKeyId" = kmsKey.id
+		LEFT JOIN vx_kms_external externalKms ON externalKms."kmsKeyId" = kmsKey.id
 		WHERE kmsKey.id = @kmsKeyID
 	`
 	row := s.db.Replica().QueryRow(ctx, query, pgx.NamedArgs{"kmsKeyID": kmsKeyID})
@@ -472,7 +472,7 @@ type kmsRootConfigRow struct {
 
 // findSuperAdminConfig returns the super_admin config row if it exists.
 func (s *Service) findSuperAdminConfig(ctx context.Context) (*superAdminConfigRow, error) {
-	query := `SELECT "fipsEnabled" FROM super_admin WHERE id = @id`
+	query := `SELECT "fipsEnabled" FROM vx_operate_instance_config WHERE id = @id`
 	args := pgx.NamedArgs{"id": superAdminConfigUUID}
 
 	row := s.db.Replica().QueryRow(ctx, query, args)
@@ -498,7 +498,7 @@ func (s *Service) findOrCreateRootConfig(ctx context.Context, hsmConfigured bool
 		return nil, fmt.Errorf("acquiring advisory lock: %w", err)
 	}
 
-	query := `SELECT id, "encryptedRootKey", "encryptionStrategy" FROM kms_root_config WHERE id = @id`
+	query := `SELECT id, "encryptedRootKey", "encryptionStrategy" FROM vx_kms_root_config WHERE id = @id`
 	row := tx.QueryRow(ctx, query, pgx.NamedArgs{"id": KmsRootConfigUUID})
 
 	var existing kmsRootConfigRow
@@ -533,7 +533,7 @@ func (s *Service) findOrCreateRootConfig(ctx context.Context, hsmConfigured bool
 	}
 
 	insertQuery := `
-		INSERT INTO kms_root_config (id, "encryptedRootKey", "encryptionStrategy")
+		INSERT INTO vx_kms_root_config (id, "encryptedRootKey", "encryptionStrategy")
 		VALUES (@id, @encryptedRootKey, @encryptionStrategy)
 		RETURNING id, "encryptedRootKey", "encryptionStrategy"
 	`
@@ -561,7 +561,7 @@ func (s *Service) createKmsKeyWithInternal(ctx context.Context, tx pgx.Tx, orgID
 
 	// Insert kms_keys
 	insertKeyQuery := `
-		INSERT INTO kms_keys (name, "orgId", "isReserved", "keyUsage")
+		INSERT INTO vx_kms_keys (name, "orgId", "isReserved", "keyUsage")
 		VALUES (@name, @orgID, true, 'encrypt-decrypt')
 		RETURNING id
 	`
@@ -578,7 +578,7 @@ func (s *Service) createKmsKeyWithInternal(ctx context.Context, tx pgx.Tx, orgID
 
 	// Insert internal_kms
 	insertInternalQuery := `
-		INSERT INTO internal_kms ("encryptedKey", "encryptionAlgorithm", version, "kmsKeyId")
+		INSERT INTO vx_kms_internal ("encryptedKey", "encryptionAlgorithm", version, "kmsKeyId")
 		VALUES (@encryptedKey, 'aes-256-gcm', 1, @kmsKeyID)
 	`
 	internalArgs := pgx.NamedArgs{

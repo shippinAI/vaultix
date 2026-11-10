@@ -483,9 +483,18 @@ func (d *Docker) withRestoredCopy(ctx context.Context, s *State, key []byte, use
 
 func (d *Docker) restoreProbe(ctx context.Context, s *State, key []byte) error {
 	return d.withRestoredCopy(ctx, s, key, func(probe, user, db string) error {
-		const query = "SELECT count(*) FROM vaultix_migrations; " + secretsQuery
+		// The live store and its restored copy share one schema; name its secrets table once.
+		raw, err := d.psql(ctx, s.Database, user, db, secretsTableQuery)
+		if err != nil {
+			return err
+		}
+		table := strings.TrimSpace(string(raw))
+		if table != "vx_secrets_secrets" && table != "secrets_v2" {
+			return errors.New("cannot identify the secrets table")
+		}
+		query := "SELECT count(*) FROM vaultix_migrations; " + secretsQuery(table)
 		original := sha256.New()
-		err := d.stream(ctx, nil, original, "exec", s.Database, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
+		err = d.stream(ctx, nil, original, "exec", s.Database, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", query)
 		if err != nil {
 			return err
 		}

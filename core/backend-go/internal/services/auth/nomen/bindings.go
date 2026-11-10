@@ -123,7 +123,7 @@ func (s *BindingService) BeginLink(ctx context.Context, proof string) (*LinkChal
 			return err
 		}
 		return tx.QueryRow(ctx, `
-   INSERT INTO vaultix_identity_link_challenges ("userId",id,digest,issuer,"sessionId","accessVersion","createdAt","expiresAt")
+   INSERT INTO vx_auth_identity_link_challenges ("userId",id,digest,issuer,"sessionId","accessVersion","createdAt","expiresAt")
    VALUES ($1,$2,$3,$4,$5,$6,statement_timestamp(),LEAST(statement_timestamp()+interval '5 minutes',$7))
    ON CONFLICT ("userId") DO UPDATE SET id=EXCLUDED.id,digest=EXCLUDED.digest,issuer=EXCLUDED.issuer,
     "sessionId"=EXCLUDED."sessionId","accessVersion"=EXCLUDED."accessVersion","createdAt"=EXCLUDED."createdAt","expiresAt"=EXCLUDED."expiresAt"
@@ -150,7 +150,7 @@ func (s *BindingService) CompleteLink(ctx context.Context, code, accessToken str
 	digest := sha256.Sum256([]byte(code))
 	var version int64
 	var proofID uuid.UUID
-	err = s.db.Primary().QueryRow(ctx, `SELECT "accessVersion",id FROM vaultix_identity_link_challenges
+	err = s.db.Primary().QueryRow(ctx, `SELECT "accessVersion",id FROM vx_auth_identity_link_challenges
   WHERE "userId"=$1 AND "sessionId"=$2 AND issuer=$3 AND digest=$4 AND "expiresAt">clock_timestamp()`, actor.ActorID, actor.TokenVersionID, s.issuer, digest[:]).Scan(&version, &proofID)
 	if err != nil {
 		return uuid.Nil, s.failure(ctx, err)
@@ -176,7 +176,7 @@ func (s *BindingService) CompleteLink(ctx context.Context, code, accessToken str
 			return ErrLinkDenied
 		}
 		// The second check serializes replay/supersession and expiry during provider I/O.
-		tag, err := tx.Exec(ctx, `DELETE FROM vaultix_identity_link_challenges WHERE "userId"=$1 AND id=$2
+		tag, err := tx.Exec(ctx, `DELETE FROM vx_auth_identity_link_challenges WHERE "userId"=$1 AND id=$2
    AND digest=$3 AND "sessionId"=$4 AND "expiresAt">clock_timestamp()`, actor.ActorID, proofID, digest[:], actor.TokenVersionID)
 		if err != nil {
 			return err
@@ -185,7 +185,7 @@ func (s *BindingService) CompleteLink(ctx context.Context, code, accessToken str
 			return ErrLinkDenied
 		}
 		var inserted uuid.UUID
-		err = tx.QueryRow(ctx, `INSERT INTO vaultix_identity_bindings (issuer,subject,"userId","proofId","sessionId")
+		err = tx.QueryRow(ctx, `INSERT INTO vx_auth_identity_bindings (issuer,subject,"userId","proofId","sessionId")
    VALUES ($1,$2,$3,$4,$5) ON CONFLICT (issuer,subject) DO NOTHING RETURNING id`, s.issuer, claims.Subject, actor.ActorID, proofID, actor.TokenVersionID).Scan(&inserted)
 		if err == nil {
 			bindingID = inserted
@@ -195,7 +195,7 @@ func (s *BindingService) CompleteLink(ctx context.Context, code, accessToken str
 			return err
 		}
 		// A deleted account's NULL ownership is a permanent tombstone, never claimable.
-		err = tx.QueryRow(ctx, `UPDATE vaultix_identity_bindings SET "revokedAt"=NULL,"proofId"=$1,"sessionId"=$2
+		err = tx.QueryRow(ctx, `UPDATE vx_auth_identity_bindings SET "revokedAt"=NULL,"proofId"=$1,"sessionId"=$2
    WHERE issuer=$3 AND subject=$4 AND "userId"=$5 RETURNING id`, proofID, actor.TokenVersionID, s.issuer, claims.Subject, actor.ActorID).Scan(&bindingID)
 		if errors.Is(err, pgx.ErrNoRows) {
 			return ErrBindingConflict
@@ -226,7 +226,7 @@ func (s *BindingService) Revoke(ctx context.Context, bindingID uuid.UUID, proof 
 		if err := lockAccount(ctx, tx, actor, authorization.AccessVersion); err != nil {
 			return err
 		}
-		tag, err := tx.Exec(ctx, `UPDATE vaultix_identity_bindings SET "revokedAt"=COALESCE("revokedAt",clock_timestamp()),"proofId"=$1,"sessionId"=$2
+		tag, err := tx.Exec(ctx, `UPDATE vx_auth_identity_bindings SET "revokedAt"=COALESCE("revokedAt",clock_timestamp()),"proofId"=$1,"sessionId"=$2
    WHERE id=$3 AND "userId"=$4 AND issuer=$5`, authorization.ProofID, actor.TokenVersionID, bindingID, actor.ActorID, s.issuer)
 		if err != nil {
 			return err
@@ -249,7 +249,7 @@ func (s *BindingService) Resolve(ctx context.Context, subject string) (uuid.UUID
 		return uuid.Nil, ErrLinkDenied
 	}
 	var userID uuid.UUID
-	err := s.db.Primary().QueryRow(ctx, `SELECT b."userId" FROM vaultix_identity_bindings b JOIN users u ON u.id=b."userId"
+	err := s.db.Primary().QueryRow(ctx, `SELECT b."userId" FROM vx_auth_identity_bindings b JOIN vx_auth_users u ON u.id=b."userId"
   WHERE b.issuer=$1 AND b.subject=$2 AND b."revokedAt" IS NULL AND u."isAccepted" IS TRUE
    AND u."isGhost" IS FALSE AND u."isLocked" IS NOT TRUE
    AND (u."temporaryLockDateEnd" IS NULL OR u."temporaryLockDateEnd"<=clock_timestamp())`, s.issuer, subject).Scan(&userID)
@@ -265,7 +265,7 @@ func lockAccount(ctx context.Context, tx pgx.Tx, actor *auth.Identity, version i
 	}
 	var active bool
 	err := tx.QueryRow(ctx, `SELECT "isAccepted" IS TRUE AND "isGhost" IS FALSE AND "isLocked" IS NOT TRUE
-  AND ("temporaryLockDateEnd" IS NULL OR "temporaryLockDateEnd"<=clock_timestamp()) FROM users WHERE id=$1 FOR UPDATE`, actor.ActorID).Scan(&active)
+  AND ("temporaryLockDateEnd" IS NULL OR "temporaryLockDateEnd"<=clock_timestamp()) FROM vx_auth_users WHERE id=$1 FOR UPDATE`, actor.ActorID).Scan(&active)
 	if err != nil {
 		return err
 	}
@@ -273,7 +273,7 @@ func lockAccount(ctx context.Context, tx pgx.Tx, actor *auth.Identity, version i
 		return ErrLinkDenied
 	}
 	var currentVersion int64
-	err = tx.QueryRow(ctx, `SELECT "accessVersion" FROM auth_token_sessions WHERE id=$1 AND "userId"=$2 FOR UPDATE`, actor.TokenVersionID, actor.ActorID).Scan(&currentVersion)
+	err = tx.QueryRow(ctx, `SELECT "accessVersion" FROM vx_auth_sessions WHERE id=$1 AND "userId"=$2 FOR UPDATE`, actor.TokenVersionID, actor.ActorID).Scan(&currentVersion)
 	if err != nil {
 		return err
 	}

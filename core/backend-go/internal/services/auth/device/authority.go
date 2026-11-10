@@ -108,14 +108,14 @@ func (a *NativeAuthority) check(ctx context.Context, tx pgx.Tx, approval *Approv
 	// Account deletion cascades to sessions/grants. Preserve user-before-session
 	// row order; the grant owner deliberately holds only an advisory lock here.
 	var user uuid.UUID
-	err = tx.QueryRow(ctx, `SELECT id FROM users WHERE id=@user AND "isAccepted"=true
+	err = tx.QueryRow(ctx, `SELECT id FROM vx_auth_users WHERE id=@user AND "isAccepted"=true
  AND "isGhost"=false AND "isLocked" IS NOT TRUE
  AND ("temporaryLockDateEnd" IS NULL OR "temporaryLockDateEnd"<=clock_timestamp()) FOR UPDATE`, args).Scan(&user)
 	if err != nil {
 		return [32]byte{}, false, a.failure(ctx, "account", err)
 	}
 	var session uuid.UUID
-	err = tx.QueryRow(ctx, `SELECT id FROM auth_token_sessions
+	err = tx.QueryRow(ctx, `SELECT id FROM vx_auth_sessions
  WHERE id=@session AND "userId"=@user AND "accessVersion"=@version FOR UPDATE`, args).Scan(&session)
 	if err != nil {
 		return [32]byte{}, false, a.failure(ctx, "session", err)

@@ -119,14 +119,14 @@ func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, ac
 	}
 	var encoded, userMethod string
 	var passwordAllowed, mfaEnabled bool
-	err := tx.QueryRow(ctx, `SELECT COALESCE("hashedPassword",''),COALESCE('email'=ANY("authMethods"),false) AND "isEmailVerified" IS TRUE,"isMfaEnabled" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM users WHERE id=$1`, actor.ActorID).Scan(&encoded, &passwordAllowed, &mfaEnabled, &userMethod)
+	err := tx.QueryRow(ctx, `SELECT COALESCE("hashedPassword",''),COALESCE('email'=ANY("authMethods"),false) AND "isEmailVerified" IS TRUE,"isMfaEnabled" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM vx_auth_users WHERE id=$1`, actor.ActorID).Scan(&encoded, &passwordAllowed, &mfaEnabled, &userMethod)
 	if err != nil {
 		return nil, err
 	}
 	if !passwordAllowed || encoded == "" || actor.AuthMethod != "email" {
 		return nil, ErrReauthenticationMethod
 	}
-	rows, err := tx.Query(ctx, `SELECT id,COALESCE("rootOrgId",id),"enforceMfa" IS TRUE,"authEnforced" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM organizations WHERE id=$1 OR id=$2 ORDER BY id FOR SHARE`, actor.OrgID, actor.RootOrgID)
+	rows, err := tx.Query(ctx, `SELECT id,COALESCE("rootOrgId",id),"enforceMfa" IS TRUE,"authEnforced" IS TRUE,COALESCE("selectedMfaMethod",'email') FROM vx_workspace_organizations WHERE id=$1 OR id=$2 ORDER BY id FOR SHARE`, actor.OrgID, actor.RootOrgID)
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +161,7 @@ func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, ac
 		return nil, ErrReauthenticationMethod
 	}
 	var emailEnabled, fipsEnabled bool
-	err = tx.QueryRow(ctx, `SELECT "enabledLoginMethods" IS NULL OR 'email'=ANY("enabledLoginMethods"),"fipsEnabled" FROM super_admin WHERE initialized IS TRUE ORDER BY id LIMIT 1 FOR SHARE`).Scan(&emailEnabled, &fipsEnabled)
+	err = tx.QueryRow(ctx, `SELECT "enabledLoginMethods" IS NULL OR 'email'=ANY("enabledLoginMethods"),"fipsEnabled" FROM vx_operate_instance_config WHERE initialized IS TRUE ORDER BY id LIMIT 1 FOR SHARE`).Scan(&emailEnabled, &fipsEnabled)
 	if err != nil {
 		return nil, err
 	}
@@ -170,7 +170,7 @@ func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, ac
 	}
 	if intent.Action == IdentityRevoke {
 		var owned bool
-		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM vaultix_identity_bindings WHERE id=$1 AND "userId"=$2 AND issuer=$3)`, intent.BindingID, actor.ActorID, s.issuer).Scan(&owned)
+		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM vx_auth_identity_bindings WHERE id=$1 AND "userId"=$2 AND issuer=$3)`, intent.BindingID, actor.ActorID, s.issuer).Scan(&owned)
 		if err != nil {
 			return nil, err
 		}
@@ -180,7 +180,7 @@ func (s *PasswordReauthentication) credential(ctx context.Context, tx pgx.Tx, ac
 	}
 	credential := &reauthenticationCredential{password: encoded}
 	if useTOTP {
-		err = tx.QueryRow(ctx, `SELECT id,"encryptedSecret" FROM totp_configs WHERE "userId"=$1 AND "isVerified" IS TRUE FOR SHARE`, actor.ActorID).Scan(&credential.factorID, &credential.encryptedFactor)
+		err = tx.QueryRow(ctx, `SELECT id,"encryptedSecret" FROM vx_auth_totp_configs WHERE "userId"=$1 AND "isVerified" IS TRUE FOR SHARE`, actor.ActorID).Scan(&credential.factorID, &credential.encryptedFactor)
 		if err != nil {
 			return nil, err
 		}
@@ -220,10 +220,10 @@ func (s *PasswordReauthentication) authenticate(ctx context.Context, intent Iden
 			return err
 		}
 		var attempts int
-		err = tx.QueryRow(ctx, `INSERT INTO vaultix_identity_reauth_attempts ("userId",attempts) VALUES($1,1)
-   ON CONFLICT ("userId") DO UPDATE SET attempts=CASE WHEN vaultix_identity_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN 1 ELSE vaultix_identity_reauth_attempts.attempts+1 END,
-   "windowStartedAt"=CASE WHEN vaultix_identity_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN clock_timestamp() ELSE vaultix_identity_reauth_attempts."windowStartedAt" END
-   WHERE vaultix_identity_reauth_attempts.attempts<5 OR vaultix_identity_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes'
+		err = tx.QueryRow(ctx, `INSERT INTO vx_auth_reauth_attempts ("userId",attempts) VALUES($1,1)
+   ON CONFLICT ("userId") DO UPDATE SET attempts=CASE WHEN vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN 1 ELSE vaultix_identity_reauth_attempts.attempts+1 END,
+   "windowStartedAt"=CASE WHEN vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes' THEN clock_timestamp() ELSE vx_auth_reauth_attempts."windowStartedAt" END
+   WHERE vaultix_identity_reauth_attempts.attempts<5 OR vx_auth_reauth_attempts."windowStartedAt"<=clock_timestamp()-interval '5 minutes'
    RETURNING attempts`, actor.ActorID).Scan(&attempts)
 		if errors.Is(err, pgx.ErrNoRows) {
 			return ErrReauthenticationAttempts
@@ -282,7 +282,7 @@ func (s *PasswordReauthentication) authenticate(ctx context.Context, intent Iden
 		if intent.BindingID != uuid.Nil {
 			target = &intent.BindingID
 		}
-		err = tx.QueryRow(ctx, `INSERT INTO vaultix_identity_reauth_proofs ("userId",id,digest,issuer,action,"bindingId","sessionId","accessVersion","orgId","policyDigest","authenticatedAt","expiresAt")
+		err = tx.QueryRow(ctx, `INSERT INTO vx_auth_reauth_proofs ("userId",id,digest,issuer,action,"bindingId","sessionId","accessVersion","orgId","policyDigest","authenticatedAt","expiresAt")
    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,statement_timestamp(),statement_timestamp()+interval '5 minutes')
    ON CONFLICT ("userId") DO UPDATE SET id=EXCLUDED.id,digest=EXCLUDED.digest,issuer=EXCLUDED.issuer,action=EXCLUDED.action,"bindingId"=EXCLUDED."bindingId","sessionId"=EXCLUDED."sessionId","accessVersion"=EXCLUDED."accessVersion","orgId"=EXCLUDED."orgId","policyDigest"=EXCLUDED."policyDigest","consumedAt"=NULL,"authenticatedAt"=EXCLUDED."authenticatedAt","expiresAt"=EXCLUDED."expiresAt"
    RETURNING "expiresAt"`, actor.ActorID, proofID, digest[:], s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&expires)
@@ -290,9 +290,9 @@ func (s *PasswordReauthentication) authenticate(ctx context.Context, intent Iden
 			return err
 		}
 		if useTOTP {
-			_, err = tx.Exec(ctx, `INSERT INTO vaultix_identity_reauth_totp ("userId","proofId","factorId","factorDigest",step) VALUES($1,$2,$3,$4,$5) ON CONFLICT ("userId") DO UPDATE SET "proofId"=EXCLUDED."proofId","factorId"=EXCLUDED."factorId","factorDigest"=EXCLUDED."factorDigest",step=EXCLUDED.step`, actor.ActorID, proofID, current.factorID, current.factorDigest[:], step)
+			_, err = tx.Exec(ctx, `INSERT INTO vx_auth_reauth_totp ("userId","proofId","factorId","factorDigest",step) VALUES($1,$2,$3,$4,$5) ON CONFLICT ("userId") DO UPDATE SET "proofId"=EXCLUDED."proofId","factorId"=EXCLUDED."factorId","factorDigest"=EXCLUDED."factorDigest",step=EXCLUDED.step`, actor.ActorID, proofID, current.factorID, current.factorDigest[:], step)
 		} else {
-			_, err = tx.Exec(ctx, `DELETE FROM vaultix_identity_reauth_totp WHERE "userId"=$1`, actor.ActorID)
+			_, err = tx.Exec(ctx, `DELETE FROM vx_auth_reauth_totp WHERE "userId"=$1`, actor.ActorID)
 		}
 		return err
 	})
@@ -328,7 +328,7 @@ func (s *PasswordReauthentication) VerifyIdentityAction(ctx context.Context, tx 
 	if intent.BindingID != uuid.Nil {
 		target = &intent.BindingID
 	}
-	err = tx.QueryRow(ctx, `UPDATE vaultix_identity_reauth_proofs SET "consumedAt"=clock_timestamp() WHERE "userId"=$1 AND "schemaVersion"=1 AND digest=$2 AND issuer=$3 AND action=$4 AND "bindingId" IS NOT DISTINCT FROM $5::uuid AND "sessionId"=$6 AND "accessVersion"=$7 AND "orgId"=$8 AND "policyDigest"=$9 AND "authenticatedAt"<=clock_timestamp() AND "expiresAt">clock_timestamp() AND "consumedAt" IS NULL
+	err = tx.QueryRow(ctx, `UPDATE vx_auth_reauth_proofs SET "consumedAt"=clock_timestamp() WHERE "userId"=$1 AND "schemaVersion"=1 AND digest=$2 AND issuer=$3 AND action=$4 AND "bindingId" IS NOT DISTINCT FROM $5::uuid AND "sessionId"=$6 AND "accessVersion"=$7 AND "orgId"=$8 AND "policyDigest"=$9 AND "authenticatedAt"<=clock_timestamp() AND "expiresAt">clock_timestamp() AND "consumedAt" IS NULL
    RETURNING id,"accessVersion","authenticatedAt"`, actor.ActorID, digest[:], s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&authorization.ProofID, &authorization.AccessVersion, &authorization.AuthenticatedAt)
 	if err != nil {
 		return nil, s.failure(ctx, err)
@@ -354,7 +354,7 @@ func (s *PasswordReauthentication) ValidateIdentityAction(ctx context.Context, t
 		target = &intent.BindingID
 	}
 	var valid bool
-	err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM vaultix_identity_reauth_proofs WHERE "userId"=$1 AND id=$2 AND "schemaVersion"=1 AND issuer=$3 AND action=$4 AND "bindingId" IS NOT DISTINCT FROM $5::uuid AND "sessionId"=$6 AND "accessVersion"=$7 AND "orgId"=$8 AND "policyDigest"=$9 AND "authenticatedAt"<=clock_timestamp() AND "expiresAt">clock_timestamp() AND "consumedAt" IS NOT NULL)`, actor.ActorID, proofID, s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&valid)
+	err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM vx_auth_reauth_proofs WHERE "userId"=$1 AND id=$2 AND "schemaVersion"=1 AND issuer=$3 AND action=$4 AND "bindingId" IS NOT DISTINCT FROM $5::uuid AND "sessionId"=$6 AND "accessVersion"=$7 AND "orgId"=$8 AND "policyDigest"=$9 AND "authenticatedAt"<=clock_timestamp() AND "expiresAt">clock_timestamp() AND "consumedAt" IS NOT NULL)`, actor.ActorID, proofID, s.issuer, intent.Action, target, actor.TokenVersionID, *actor.SessionAccessVersion, actor.OrgID, policy[:]).Scan(&valid)
 	if err != nil {
 		return s.failure(ctx, err)
 	}
