@@ -511,7 +511,7 @@ core/frontend/public	ui	React-TypeScript	2	120a1997f8a5c085ed810fd212231fbe45778
 core/frontend/public/fonts	ui	React-TypeScript	3	b53a3b64bc572bb7c2b8c06f92cf21f37c24f2752b47d1ad0add513a7c4b150d	0	unassessed
 core/frontend/public/images	ui	React-TypeScript	14	e120213ad201caeb8ad41d2d8f77e2c24fbd2e3707e663e97d723d7594427604	0	unassessed
 core/frontend/public/images/integrations	ai	React-TypeScript	1	c5e664eee23955215bce50432fd0e2ee84ecf56c08f5202cdd9698dadf3819a3	0	unassessed
-core/frontend/public/images/integrations	integrations	React-TypeScript	147	6b0b4e6474dfedee22d2cf72336c315c77a7d923bb9bf812d7800b204372e1aa	0	unassessed
+core/frontend/public/images/integrations	integrations	React-TypeScript	147	361d78e45fa8bfdc45a133c3f9326fad3afb902eb8ca331496fa146ab796b7f7	0	unassessed
 core/frontend/public/images/integrations	pam	React-TypeScript	2	e70bb7acb15cca0721ae9bcc42c07d276d1b1d0040e7b86d5534cca929075320	0	unassessed
 core/frontend/public/images/secretRotation	automation	React-TypeScript	6	dbd09662d432c17b75ef1cd14298ccab3e970f661186ae811d1fa3600d7bc433	0	unassessed
 core/frontend/public/images/sso	identity	React-TypeScript	1	63f1ffc4f8d46b2f3decaf55861b0595463776764a132d36f47bcffdd7b1e02d	0	unassessed
@@ -626,7 +626,7 @@ core/frontend/src/components/v3/platform/PasswordGenerator	ui	React-TypeScript	2
 core/frontend/src/components/v3/platform/SecretInput	secrets	React-TypeScript	4	78504f0e25f3eb067294f34ce6ddc88cce912579e940bb63b182fd6c3ea93a30	1	unassessed
 core/frontend/src/components/v3/platform/SecretPathInput	secrets	React-TypeScript	2	cdc4cae7467d31fe5a1d5377c1de509c94ea8c4ea05008dcaa0da952eb35285d	0	unassessed
 core/frontend/src/components/v3/platform/VerificationCode	ui	React-TypeScript	6	e5b964fd1accb099aea1481eb006f878c8084b0c7c452306978d0e9b03bcf845	0	unassessed
-core/frontend/src/components/vaultix	ai	React-TypeScript	23	99751ef1ff59568a9ae888b73888d8c695864f30bbafa39ad6d318f3f1f70571	11	unassessed
+core/frontend/src/components/vaultix	ai	React-TypeScript	23	d134718843e3683bc704ffc0eb5bad9b16e4a3e58255f54027adb31475da9c4b	11	unassessed
 core/frontend/src/config	ui	React-TypeScript	2	e3890d31163aeaaa19def7fd2b6bf7ec31064f8739fcd2712cf398bc49a39961	1	unassessed
 core/frontend/src/const	ui	React-TypeScript	2	b7359f9953be2fd79c36a629caad384833eb1dd9e2e91619d9f24f84a8734367	0	unassessed
 core/frontend/src/consts	pam	React-TypeScript	1	d7235b0d911f8850790bf58a8346ae86bedcfdb984f1c64fdacf906017c6ac80	0	unassessed
@@ -643,7 +643,7 @@ core/frontend/src/helpers	audit	React-TypeScript	1	edc374d8affa28df5a8f11886ad24
 core/frontend/src/helpers	authorization	React-TypeScript	3	9f31b0f0ec109284e26e8a68e02f0f5a2324f56b7a813ceaa007c1a8d1ff582f	0	unassessed
 core/frontend/src/helpers	automation	React-TypeScript	1	bb5e0df9573df3be1b82129ad3ecc1ecbe401f462619afedc065f28f54913ba8	0	unassessed
 core/frontend/src/helpers	identity	React-TypeScript	3	8a754ca2781a28120073f8e8bea53bdef0e846576e433ef07514dda193762f03	0	unassessed
-core/frontend/src/helpers	integrations	React-TypeScript	2	e9f186346da32cbc8867c14920b7f2dc004f10a69d4fcfdd8469887abf2833aa	0	unassessed
+core/frontend/src/helpers	integrations	React-TypeScript	2	901fe25b4cb14b30d7aa74bcf964e67441946bbdc4262d41f2ee213525202091	0	unassessed
 core/frontend/src/helpers	kms	React-TypeScript	1	98645030db4dc662a1ebc407e7d30475404d83dcf756f2fe3a35bfccac979f7e	0	unassessed
 core/frontend/src/helpers	pki	React-TypeScript	2	80f1027b134f6b2dc69cbc7f5171aa5b06f6c7908c5aca4fea492cb8e1134244	0	unassessed
 core/frontend/src/helpers	scanning	React-TypeScript	2	51872e783038828d0b59d0e7cf8a3ff7711aa4ebb99d212133022571e3cd078c	0	unassessed

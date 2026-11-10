@@ -242,7 +242,7 @@ export const SECRET_SYNC_MAP: Record<
   },
   [SecretSync.ExternalVaultix]: {
     name: "Vaultix",
-    image: "Vaultix.png",
+    image: "VaultixInstance.svg",
     category: "SECRETS",
     description: "Secrets in another Vaultix instance."
   },

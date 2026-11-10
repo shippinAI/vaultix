@@ -4372,7 +4372,6 @@ core/frontend/public/images/integrations/Hasura.svg	core/frontend/public/images/
 core/frontend/public/images/integrations/Heroku.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	c0720a254fb9bcedd06e88829dea137959b5cba1	unread
 core/frontend/public/images/integrations/Humanitec.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	7f763d359a6b149b5a5c29f609ddc27c2ca3c24e	unread
 core/frontend/public/images/integrations/IBM.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	7fafbb6c3b04eca8178b7a8e278dbf60c88bdb48	unread
-core/frontend/public/images/integrations/Infisical.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 core/frontend/public/images/integrations/Jenkins.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	9df069a185c3b4b4c589bbf3c9a0e6366cbb8502	unread
 core/frontend/public/images/integrations/Jira.svg	core/frontend/public/images/integrations	integrations	React-TypeScript	svg	1bb91673666175c804a7c4e41f0f32d968c2b149	unread
 core/frontend/public/images/integrations/Kemp LoadMaster.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	f09f90356bbff0c272958db2d29bb94a5caed985	unread
@@ -4448,6 +4447,7 @@ core/frontend/public/images/integrations/Travis CI.png	core/frontend/public/imag
 core/frontend/public/images/integrations/TriggerDev.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	f612d076dff509680c41a682c2e3536e7c6ed6b5	unread
 core/frontend/public/images/integrations/Twilio.svg	core/frontend/public/images/integrations	integrations	React-TypeScript	svg	33198b8196313c835a10bb54f7f2130336afb6c4	unread
 core/frontend/public/images/integrations/Vault.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	3cba8d11d87eae2934598c5dbac9794c210e96f3	unread
+core/frontend/public/images/integrations/VaultixInstance.svg	core/frontend/public/images/integrations	integrations	React-TypeScript	svg	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 core/frontend/public/images/integrations/Venafi.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	527cafb7cc65499c658a337b65b54d3c04b0d887	unread
 core/frontend/public/images/integrations/Vercel.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	7bdcd2a193951952ea9221bb1dd3a9ded13f6b5e	unread
 core/frontend/public/images/integrations/Vite.png	core/frontend/public/images/integrations	integrations	React-TypeScript	png	394614b0f9da6599cb8a94975ffadd0a4d6d6aaa	unread
@@ -5499,7 +5499,7 @@ core/frontend/src/components/vaultix/VaultixAmbientBackground.tsx	core/frontend/
 core/frontend/src/components/vaultix/WorkflowHelp.tsx	core/frontend/src/components/vaultix	ai	React-TypeScript	tsx	b4ece18b90f940ab9d25f884511fcdf930511fd3	reviewed
 core/frontend/src/components/vaultix/action-trigger.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	445e689d856ded612a183ee5cebe54d21c672721	unread
 core/frontend/src/components/vaultix/guidance-state.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c414fea8fac7297c3222426d130ba218195a5e36	verified
-core/frontend/src/components/vaultix/mcpl-manifest.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	c567908aaf439b53e80e5edfd0fd5ed76a8b921d	unread
+core/frontend/src/components/vaultix/mcpl-manifest.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	eef0a861c57ee54e064fac4dd6a44e1036f4229d	unread
 core/frontend/src/components/vaultix/reference-commands.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	22eb18884cd649fa0206ae55ba684ee764d50304	reviewed
 core/frontend/src/components/vaultix/reference-teaching.css	core/frontend/src/components/vaultix	ai	React-TypeScript	css	ecba2e63cc8074be6811fc42b34c633e7bc45c8a	reviewed
 core/frontend/src/components/vaultix/use-provider-import-runtime.ts	core/frontend/src/components/vaultix	ai	React-TypeScript	ts	7ab379cf5c375609e3a9094e71ab8d1fc76115a6	unread
@@ -5530,7 +5530,7 @@ core/frontend/src/context/UserContext/UserContext.tsx	core/frontend/src/context/
 core/frontend/src/context/UserContext/index.tsx	core/frontend/src/context/UserContext	identity	React-TypeScript	tsx	c425b807395cd1332207a3e6bbcde24858b3ae2b	unread
 core/frontend/src/context/index.tsx	core/frontend/src/context	ui	React-TypeScript	tsx	a5c3efe691b2dac0082214de25d502f8ea891135	unread
 core/frontend/src/global.d.ts	core/frontend/src	ui	React-TypeScript	ts	d34eb0ec0eecb027b4514bd55fbe387f8087704d	unread
-core/frontend/src/helpers/appConnections.ts	core/frontend/src/helpers	integrations	React-TypeScript	ts	ff9c112acc16160773820be69a54d9351cf634fe	unread
+core/frontend/src/helpers/appConnections.ts	core/frontend/src/helpers	integrations	React-TypeScript	ts	4c074679223a5bdcc313ec771d029b19bbc5ed62	unread
 core/frontend/src/helpers/auditLogStreams.ts	core/frontend/src/helpers	audit	React-TypeScript	ts	148deae6bff390decf6beafb21839fb5aa0896c8	unread
 core/frontend/src/helpers/certManagerActiveProject.ts	core/frontend/src/helpers	pki	React-TypeScript	ts	bcbb64d39ef468a1b50b8cf1593c20228f39e2c0	unread
 core/frontend/src/helpers/datetime.ts	core/frontend/src/helpers	ui	React-TypeScript	ts	74e272b89705f8f24eae4b476d1858c497714a93	unread
@@ -5555,7 +5555,7 @@ core/frontend/src/helpers/reverseTruncate.ts	core/frontend/src/helpers	ui	React-
 core/frontend/src/helpers/roles.ts	core/frontend/src/helpers	authorization	React-TypeScript	ts	0a3c201afe6aa6c866810cfcfecb763a2a9c88a3	unread
 core/frontend/src/helpers/secretRotationsV2.ts	core/frontend/src/helpers	automation	React-TypeScript	ts	9377dc0ffec1c77525a301fbeb3223a000aa31e4	unread
 core/frontend/src/helpers/secretScanningV2.ts	core/frontend/src/helpers	scanning	React-TypeScript	ts	ee52266110c5aed18ec6cf140c0bc2a2fecebdf4	unread
-core/frontend/src/helpers/secretSyncs.ts	core/frontend/src/helpers	integrations	React-TypeScript	ts	edfd0c3faf9d389fdf15bf9092108533de07f29e	unread
+core/frontend/src/helpers/secretSyncs.ts	core/frontend/src/helpers	integrations	React-TypeScript	ts	c5b478ecd5d593cd469e2591671e60839fa300c4	unread
 core/frontend/src/helpers/sessionStorage.ts	core/frontend/src/helpers	ui	React-TypeScript	ts	187e58e637412faf8ed829aaac686d100a08f7bc	unread
 core/frontend/src/helpers/smb.ts	core/frontend/src/helpers	ui	React-TypeScript	ts	353babe146c4850ba166f786e069c72fd5e50adb	unread
 core/frontend/src/helpers/string.ts	core/frontend/src/helpers	ui	React-TypeScript	ts	ff12afced48a5393696f0ea61cccda30dfb7fbcf	unread

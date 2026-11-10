@@ -481,7 +481,7 @@ export const APP_CONNECTION_MAP: Record<
   // One connection type for every instance speaking this API, with a machine identity.
   [AppConnection.ExternalVaultix]: {
     name: "Infisical or Vaultix",
-    image: "Infisical.png",
+    image: "VaultixInstance.svg",
     category: "SECRET MANAGER",
     description: "Infisical Cloud, self-hosted Infisical, or another Vaultix instance."
   },

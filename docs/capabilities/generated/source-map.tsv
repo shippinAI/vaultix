@@ -4372,7 +4372,6 @@ core/frontend/public/images/integrations/Hasura.svg	connect	integrations	core/fr
 core/frontend/public/images/integrations/Heroku.png	connect	integrations	core/frontend/public/images/integrations	c0720a254fb9bcedd06e88829dea137959b5cba1	unread
 core/frontend/public/images/integrations/Humanitec.png	connect	integrations	core/frontend/public/images/integrations	7f763d359a6b149b5a5c29f609ddc27c2ca3c24e	unread
 core/frontend/public/images/integrations/IBM.png	connect	integrations	core/frontend/public/images/integrations	7fafbb6c3b04eca8178b7a8e278dbf60c88bdb48	unread
-core/frontend/public/images/integrations/Infisical.png	connect	integrations	core/frontend/public/images/integrations	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 core/frontend/public/images/integrations/Jenkins.png	connect	integrations	core/frontend/public/images/integrations	9df069a185c3b4b4c589bbf3c9a0e6366cbb8502	unread
 core/frontend/public/images/integrations/Jira.svg	connect	integrations	core/frontend/public/images/integrations	1bb91673666175c804a7c4e41f0f32d968c2b149	unread
 core/frontend/public/images/integrations/Kemp LoadMaster.png	connect	integrations	core/frontend/public/images/integrations	f09f90356bbff0c272958db2d29bb94a5caed985	unread
@@ -4448,6 +4447,7 @@ core/frontend/public/images/integrations/Travis CI.png	connect	integrations	core
 core/frontend/public/images/integrations/TriggerDev.png	connect	integrations	core/frontend/public/images/integrations	f612d076dff509680c41a682c2e3536e7c6ed6b5	unread
 core/frontend/public/images/integrations/Twilio.svg	connect	integrations	core/frontend/public/images/integrations	33198b8196313c835a10bb54f7f2130336afb6c4	unread
 core/frontend/public/images/integrations/Vault.png	connect	integrations	core/frontend/public/images/integrations	3cba8d11d87eae2934598c5dbac9794c210e96f3	unread
+core/frontend/public/images/integrations/VaultixInstance.svg	connect	integrations	core/frontend/public/images/integrations	689fadcd1aaf21b4c0f1b203696cb72f82c50a65	unread
 core/frontend/public/images/integrations/Venafi.png	connect	integrations	core/frontend/public/images/integrations	527cafb7cc65499c658a337b65b54d3c04b0d887	unread
 core/frontend/public/images/integrations/Vercel.png	connect	integrations	core/frontend/public/images/integrations	7bdcd2a193951952ea9221bb1dd3a9ded13f6b5e	unread
 core/frontend/public/images/integrations/Vite.png	connect	integrations	core/frontend/public/images/integrations	394614b0f9da6599cb8a94975ffadd0a4d6d6aaa	unread
@@ -5499,7 +5499,7 @@ core/frontend/src/components/vaultix/VaultixAmbientBackground.tsx	ai	ai	core/fro
 core/frontend/src/components/vaultix/WorkflowHelp.tsx	ai	ai	core/frontend/src/components/vaultix	b4ece18b90f940ab9d25f884511fcdf930511fd3	reviewed
 core/frontend/src/components/vaultix/action-trigger.ts	ai	ai	core/frontend/src/components/vaultix	445e689d856ded612a183ee5cebe54d21c672721	unread
 core/frontend/src/components/vaultix/guidance-state.ts	ai	ai	core/frontend/src/components/vaultix	c414fea8fac7297c3222426d130ba218195a5e36	verified
-core/frontend/src/components/vaultix/mcpl-manifest.ts	ai	ai	core/frontend/src/components/vaultix	c567908aaf439b53e80e5edfd0fd5ed76a8b921d	unread
+core/frontend/src/components/vaultix/mcpl-manifest.ts	ai	ai	core/frontend/src/components/vaultix	eef0a861c57ee54e064fac4dd6a44e1036f4229d	unread
 core/frontend/src/components/vaultix/reference-commands.ts	ai	ai	core/frontend/src/components/vaultix	22eb18884cd649fa0206ae55ba684ee764d50304	reviewed
 core/frontend/src/components/vaultix/reference-teaching.css	ai	ai	core/frontend/src/components/vaultix	ecba2e63cc8074be6811fc42b34c633e7bc45c8a	reviewed
 core/frontend/src/components/vaultix/use-provider-import-runtime.ts	ai	ai	core/frontend/src/components/vaultix	7ab379cf5c375609e3a9094e71ab8d1fc76115a6	unread
@@ -5530,7 +5530,7 @@ core/frontend/src/context/UserContext/UserContext.tsx	access	identity	core/front
 core/frontend/src/context/UserContext/index.tsx	access	identity	core/frontend/src/context/UserContext	c425b807395cd1332207a3e6bbcde24858b3ae2b	unread
 core/frontend/src/context/index.tsx	experience	ui	core/frontend/src/context	a5c3efe691b2dac0082214de25d502f8ea891135	unread
 core/frontend/src/global.d.ts	experience	ui	core/frontend/src	d34eb0ec0eecb027b4514bd55fbe387f8087704d	unread
-core/frontend/src/helpers/appConnections.ts	connect	integrations	core/frontend/src/helpers	ff9c112acc16160773820be69a54d9351cf634fe	unread
+core/frontend/src/helpers/appConnections.ts	connect	integrations	core/frontend/src/helpers	4c074679223a5bdcc313ec771d029b19bbc5ed62	unread
 core/frontend/src/helpers/auditLogStreams.ts	governance	audit	core/frontend/src/helpers	148deae6bff390decf6beafb21839fb5aa0896c8	unread
 core/frontend/src/helpers/certManagerActiveProject.ts	pki	pki	core/frontend/src/helpers	bcbb64d39ef468a1b50b8cf1593c20228f39e2c0	unread
 core/frontend/src/helpers/datetime.ts	experience	ui	core/frontend/src/helpers	74e272b89705f8f24eae4b476d1858c497714a93	unread
@@ -5555,7 +5555,7 @@ core/frontend/src/helpers/reverseTruncate.ts	experience	ui	core/frontend/src/hel
 core/frontend/src/helpers/roles.ts	access	authorization	core/frontend/src/helpers	0a3c201afe6aa6c866810cfcfecb763a2a9c88a3	unread
 core/frontend/src/helpers/secretRotationsV2.ts	automation	automation	core/frontend/src/helpers	9377dc0ffec1c77525a301fbeb3223a000aa31e4	unread
 core/frontend/src/helpers/secretScanningV2.ts	detect	scanning	core/frontend/src/helpers	ee52266110c5aed18ec6cf140c0bc2a2fecebdf4	unread
-core/frontend/src/helpers/secretSyncs.ts	connect	integrations	core/frontend/src/helpers	edfd0c3faf9d389fdf15bf9092108533de07f29e	unread
+core/frontend/src/helpers/secretSyncs.ts	connect	integrations	core/frontend/src/helpers	c5b478ecd5d593cd469e2591671e60839fa300c4	unread
 core/frontend/src/helpers/sessionStorage.ts	experience	ui	core/frontend/src/helpers	187e58e637412faf8ed829aaac686d100a08f7bc	unread
 core/frontend/src/helpers/smb.ts	experience	ui	core/frontend/src/helpers	353babe146c4850ba166f786e069c72fd5e50adb	unread
 core/frontend/src/helpers/string.ts	experience	ui	core/frontend/src/helpers	ff12afced48a5393696f0ea61cccda30dfb7fbcf	unread
