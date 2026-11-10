@@ -3889,7 +3889,7 @@
     },
     {
       "path": "core/backend-go/tests/platform/permission/sso_test.go",
-      "blob": "e6a937b28654e56e1901f4685ab75c21ae5c5ad4",
+      "blob": "0aca9be7eb9c61ea33c9e7f1d24bebf3600ec30e",
       "status": "verified",
       "decision": "replace",
       "scope": "Author real-PostgreSQL permission method, bypass, revocation, failure and non-user compatibility matrix using explicit copied-schema fixtures. Fixtures are not management API or physical replica evidence. Scoped committed-image acceptance passed as recorded in 0062; this does not establish provider/issuer, complete authorization or native cutover parity.",
@@ -3901,7 +3901,8 @@
         ".cache/native-sso-policy/.cache/go-proof-gCMrmS/result.json",
         ".cache/native-sso-policy/.cache/go-proof-j8tVmu/result.json",
         ".cache/native-sso-policy/.cache/casl-image-final.json",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: a table's row type carries the table's vx_ name, so NULL::<table> casts use it; the namespace guard now flags ::<inherited table> casts."
       ]
     },
     {

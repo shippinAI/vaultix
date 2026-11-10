@@ -343,7 +343,7 @@ core/backend-go/tests/platform/permission/authority_test.go	core/backend-go/test
 core/backend-go/tests/platform/permission/permission_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	97e18f136f943ec6b65a3bd0b18d2f8b5edfe29c	authored
 core/backend-go/tests/platform/permission/policy_integrity_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	dc16c0cb1972569bd0351ceb0aa64c3d7a6a7739	authored
 core/backend-go/tests/platform/permission/sso_session_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	fd96dfd84137957003824b4d051c8dec9bcb0823	authored
-core/backend-go/tests/platform/permission/sso_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	e6a937b28654e56e1901f4685ab75c21ae5c5ad4	verified
+core/backend-go/tests/platform/permission/sso_test.go	core/backend-go/tests/platform/permission	authorization	Go-native	go	0aca9be7eb9c61ea33c9e7f1d24bebf3600ec30e	verified
 core/backend-go/tests/platform/projects/projects_test.go	core/backend-go/tests/platform/projects	secrets	Go-native	go	e4d2d9878599efcbe4cb1d2402cbe4c4ffe78d6c	verified
 core/backend-go/tests/platform/ratelimit/ratelimit_test.go	core/backend-go/tests/platform/ratelimit	foundation	Go-native	go	e0b33da24234dcb80063a8b7e32e85dbcde951b3	unread
 core/backend-go/tests/secretmanager/secrets/get_secret_by_name_integration_test.go	core/backend-go/tests/secretmanager/secrets	integrations	Go-native	go	34d149097ddbbc9fc5028ed66f17713c136faf1c	unread
@@ -9764,7 +9764,7 @@ scripts/go-test-evidence.mjs	scripts	delivery	supporting-tooling-or-contract	mjs
 scripts/lib/ai-journal.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	reviewed
 scripts/lib/disposable-image.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	reviewed
-scripts/lib/legacy-table-references.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	94921d033e6786f2f8ad931338ee81076ffcf165	unread
+scripts/lib/legacy-table-references.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	e0e687070b8a0ae4ce262172208790be3b4e21e0	unread
 scripts/lib/pr-verification.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	7d7244495ef40e210eb193bebc42fd82b2a86f8e	authored
 scripts/lib/release-bundle.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	8a962bce0527b818cf0ae0deeb0d47574091e7ee	reviewed
 scripts/lib/release-preparation.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	c4610e04c1c2cbb3797a1a999f58d308d5729493	reviewed

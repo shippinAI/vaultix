@@ -74,7 +74,7 @@ core/backend-go/tests/platform/externalkms	kms	Go-native	1	f889903a5e187c3d5c598
 core/backend-go/tests/platform/hsm	kms	Go-native	1	c2dcf9a456640191b2ce78640546094024c6394e5591e903a7c534c108ebb8ed	0	unassessed
 core/backend-go/tests/platform/keystore	kms	Go-native	1	09b3c8bf5c894b4c54109d5583c17e52ed209377102c91fb9a5da6835a6af553	1	unassessed
 core/backend-go/tests/platform/kms	kms	Go-native	1	dad019b33467b87a930df9e6376113ce737b79670d4af67baf474568df30060d	0	unassessed
-core/backend-go/tests/platform/permission	authorization	Go-native	6	e3fb1ff44e319dff72d0676b5562ba19b28dc060dd18174d97bcf50c8afcfe41	6	unassessed
+core/backend-go/tests/platform/permission	authorization	Go-native	6	999c621c10a4580f3c76348a1238a37b51b023892bd19a86575706c06e437893	6	unassessed
 core/backend-go/tests/platform/projects	secrets	Go-native	1	62b4ccf6648851d079fed42046a80a513d701b8776d5c4012d8fd05fc32334e3	1	unassessed
 core/backend-go/tests/platform/ratelimit	foundation	Go-native	1	d3427e178075238ea9adc595f476c762d267d111b9a79bd045b6a686f19bad15	0	unassessed
 core/backend-go/tests/secretmanager/secrets	authorization	Go-native	2	4161e3204197f430824b8869b359f1851839cd871e30fe247a95cecee4328063	0	unassessed
@@ -1102,4 +1102,4 @@ scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbe
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
-scripts/lib	delivery	supporting-tooling-or-contract	14	8c4f8e38c9b513c53db6c50e8b9667a8692205bfc98f7eb3e2d83ab68dd84b00	10	unassessed
+scripts/lib	delivery	supporting-tooling-or-contract	14	e4403e24b02286adcae094c9f0046dc9d8e161bb663c7ac18db74557984d3731	10	unassessed

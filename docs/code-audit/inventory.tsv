@@ -378,7 +378,7 @@ core/backend-go/tests/platform/permission/authority_test.go	1eb2024854222f914426
 core/backend-go/tests/platform/permission/permission_test.go	97e18f136f943ec6b65a3bd0b18d2f8b5edfe29c	test	authored
 core/backend-go/tests/platform/permission/policy_integrity_test.go	dc16c0cb1972569bd0351ceb0aa64c3d7a6a7739	test	authored
 core/backend-go/tests/platform/permission/sso_session_test.go	fd96dfd84137957003824b4d051c8dec9bcb0823	test	authored
-core/backend-go/tests/platform/permission/sso_test.go	e6a937b28654e56e1901f4685ab75c21ae5c5ad4	test	verified
+core/backend-go/tests/platform/permission/sso_test.go	0aca9be7eb9c61ea33c9e7f1d24bebf3600ec30e	test	verified
 core/backend-go/tests/platform/projects/projects_test.go	e4d2d9878599efcbe4cb1d2402cbe4c4ffe78d6c	test	verified
 core/backend-go/tests/platform/ratelimit/ratelimit_test.go	e0b33da24234dcb80063a8b7e32e85dbcde951b3	test	unread
 core/backend-go/tests/secretmanager/secrets/get_secret_by_name_integration_test.go	34d149097ddbbc9fc5028ed66f17713c136faf1c	test	unread
@@ -12058,7 +12058,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	316fdf6d54557cfe32981043a7eefb09092e03fc	generated	unread
-docs/capabilities/generated/source-map.tsv	8d39c2420b4ae7d9aad14d4c07dc83d8b592ac53	generated	unread
+docs/capabilities/generated/source-map.tsv	0a4afd1381e14d08bde8f4953afed6255e91b76c	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12070,8 +12070,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	947f14d416500a1d14029d4fd475006932a72387	generated	unread
-docs/migration/generated/modules.tsv	9c4410626cef58a41daa812cca45f8d46ef5879d	generated	unread
+docs/migration/generated/files.tsv	d8263a13d40f89d49731802d612bac00f7f4c3b6	generated	unread
+docs/migration/generated/modules.tsv	3daf7cade1e234c7ce51041b7abbd79228f969f2	generated	unread
 docs/migration/generated/summary.json	f7df23afa9c99c95ead9e4bc3e9e3fb9b88454d2	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12286,7 +12286,7 @@ scripts/go-test-evidence.mjs	d7a3809998aa57ddc40200e7630217d82d9d541f	build-and-
 scripts/lib/ai-journal.mjs	d22d234a23e1aa2a6f21666a814510aba3f55ccb	build-and-operations	reviewed
 scripts/lib/disposable-image.mjs	f8aa39ca705df1c28038e3a41373afa981c444d7	build-and-operations	reviewed
 scripts/lib/ldap-consumer-fixture.mjs	462baf6a8b4f8eeeaf720fa11250c2dfa91c7484	build-and-operations	reviewed
-scripts/lib/legacy-table-references.mjs	94921d033e6786f2f8ad931338ee81076ffcf165	build-and-operations	unread
+scripts/lib/legacy-table-references.mjs	e0e687070b8a0ae4ce262172208790be3b4e21e0	build-and-operations	unread
 scripts/lib/pr-verification.mjs	7d7244495ef40e210eb193bebc42fd82b2a86f8e	build-and-operations	authored
 scripts/lib/release-bundle.mjs	8a962bce0527b818cf0ae0deeb0d47574091e7ee	build-and-operations	reviewed
 scripts/lib/release-preparation.mjs	c4610e04c1c2cbb3797a1a999f58d308d5729493	build-and-operations	reviewed

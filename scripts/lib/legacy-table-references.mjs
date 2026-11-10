@@ -36,6 +36,8 @@ export const sqlRules = names => {
     new RegExp(`((?<![A-Za-z0-9_.$]))(${n})(%ROWTYPE|\\."[A-Za-z]|\\.(?:id|\\*)\\b)`, "g"),
     // 'public.name'::regclass
     new RegExp(`('(?:public\\.)?"?)(${n})("?'\\s*::\\s*regclass)`, "g"),
+    // A table's row type: NULL::name, value::name[], jsonb_populate_record(NULL::"name", …)
+    new RegExp(`(::\\s*(?:public\\.)?"?)(${n})("?)(?![A-Za-z0-9_])`, "g"),
     // to_regclass('name'), relname = 'name', table_name = 'name', tablename = 'name'
     new RegExp(`((?:to_regclass\\s*\\(\\s*|\\b(?:relname|table_name|tablename)\\s*=\\s*)'(?:public\\.)?)(${n})(')`, "g")
   ];

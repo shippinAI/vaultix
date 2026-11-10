@@ -137,7 +137,7 @@ func TestSSOEnforcement_BypassAuthority(t *testing.T) {
 					status = 403
 				case "root-admin", "child-admin-only":
 					child := uuid.New()
-					permissionExec(t, pool, `INSERT INTO vx_workspace_organizations SELECT (jsonb_populate_record(NULL::organizations,to_jsonb(o)||jsonb_build_object('id',$2::text,'rootOrgId',o.id))).* FROM vx_workspace_organizations o WHERE id=$1`, user.ActorOrgID, child)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_organizations SELECT (jsonb_populate_record(NULL::vx_workspace_organizations,to_jsonb(o)||jsonb_build_object('id',$2::text,'rootOrgId',o.id))).* FROM vx_workspace_organizations o WHERE id=$1`, user.ActorOrgID, child)
 					permissionExec(t, pool, `UPDATE vx_workspace_projects SET "orgId"=$2 WHERE id=$1`, user.ProjectID, child)
 					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "scopeOrgId"=$2 WHERE "scopeProjectId"=$1`, user.ProjectID, child)
 					membership := uuid.New()
