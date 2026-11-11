@@ -1,9 +1,25 @@
 import { readVaultixTool, specialistInstructions, vaultixTools } from "./catalog";
 import { parseLearningContext } from "./learning-input";
 import { describeMcpAppResource, mcpAppExtension, mcpAppMimeType, McpAppResource } from "./mcp-app-resource";
+import { MAIN_MCP_TOOLS } from "./warp-points";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+// Which MCP this is: the main MCP or one warp point (docs/0120). It names the server, gives its
+// instructions, and limits the guidance tools it lists and answers. Domain actions come in
+// separately with their own handlers.
+export type TMcpSurface = {
+  serverName: string;
+  instructions: string;
+  guidance: ReadonlyArray<string>;
+};
+
+export const mainMcpSurface: TMcpSurface = {
+  serverName: "vaultix-clyffy",
+  instructions: specialistInstructions,
+  guidance: vaultixTools.map((tool) => tool.name).filter((name) => MAIN_MCP_TOOLS.includes(name))
+};
 
 export const handleVaultixMcp = (
   body: unknown,
@@ -12,7 +28,8 @@ export const handleVaultixMcp = (
     names: string[];
     call: (name: string, args: unknown) => Promise<unknown>;
   },
-  app?: McpAppResource
+  app?: McpAppResource,
+  surface: TMcpSurface = mainMcpSurface
 ) => {
   const validId =
     isRecord(body) &&
@@ -53,8 +70,8 @@ export const handleVaultixMcp = (
               }
             : {})
         },
-        serverInfo: { name: "vaultix-clyffy", version: "1.0.0" },
-        instructions: specialistInstructions
+        serverInfo: { name: surface.serverName, version: "1.0.0" },
+        instructions: surface.instructions
       });
     case "ping":
       return result({});
@@ -62,7 +79,7 @@ export const handleVaultixMcp = (
       if (Object.keys(params).length) return error(-32602, "This tool list has no pagination parameters.");
       return result({
         tools: [
-          ...vaultixTools,
+          ...vaultixTools.filter((tool) => surface.guidance.includes(tool.name)),
           ...(actions?.tools ?? []).map((tool) =>
             app && isRecord(tool)
               ? { ...tool, _meta: { ui: { resourceUri: app.uri, visibility: ["model", "app"] } } }
@@ -92,6 +109,7 @@ export const handleVaultixMcp = (
           result({ content: [{ type: "text", text: JSON.stringify(data) }], isError: false })
         );
       }
+      if (!surface.guidance.includes(params.name)) return error(-32602, "Unknown Vaultix tool.");
       if (params.name === "vaultix.learning.profile.get") {
         const context = parseLearningContext(params.arguments === undefined ? {} : params.arguments);
         if (!context) {

@@ -22,8 +22,38 @@ export const TABLE_GROUPS = {
   public: "Public, pre-sign-in surfaces such as early-access requests"
 };
 
+// Tables created by raw SQL that the TypeScript TableName list never named. The knex
+// migration bookkeeping tables (vaultix_migrations*) are infrastructure and keep their names.
+export const RAW_LEGACY_TABLES = [
+  "vaultix_device_authorizations",
+  "vaultix_device_sessions",
+  "vaultix_device_session_events",
+  "vaultix_device_event_deliveries",
+  "vaultix_identity_bindings",
+  "vaultix_identity_binding_events",
+  "vaultix_identity_link_challenges",
+  "vaultix_identity_reauth_attempts",
+  "vaultix_identity_reauth_proofs",
+  "vaultix_identity_reauth_totp",
+  "vaultix_totp_replays",
+  "pam_revamp_backup"
+];
+
 // Explicit placements. Everything else is placed by GROUP_RULES below.
 const EXPLICIT = {
+  vaultix_device_authorizations: ["auth", "device_authorizations"],
+  vaultix_device_sessions: ["auth", "device_sessions"],
+  vaultix_device_session_events: ["auth", "device_session_events"],
+  vaultix_device_event_deliveries: ["auth", "device_event_deliveries"],
+  vaultix_identity_bindings: ["auth", "identity_bindings"],
+  vaultix_identity_binding_events: ["auth", "identity_binding_events"],
+  vaultix_identity_link_challenges: ["auth", "identity_link_challenges"],
+  vaultix_identity_reauth_attempts: ["auth", "reauth_attempts"],
+  vaultix_identity_reauth_proofs: ["auth", "reauth_proofs"],
+  vaultix_identity_reauth_totp: ["auth", "reauth_totp"],
+  vaultix_totp_replays: ["auth", "totp_replays"],
+  pam_revamp_backup: ["pam", "legacy_revamp_backup"],
+
   users: ["auth", "users"],
   user_aliases: ["auth", "user_aliases"],
   user_encryption_keys: ["auth", "user_encryption_keys"],
@@ -220,6 +250,23 @@ export function namespaceTables(legacyNames) {
     if (seen.has(row.name)) collisions.push([seen.get(row.name), row.legacy, row.name]);
     seen.set(row.name, row.legacy);
   }
-  const tooLong = rows.filter(row => row.name.length > 63).map(row => row.name);
+  // The name and its `<name>_updatedAt` trigger both fit PostgreSQL's 63-character identifiers.
+  const tooLong = rows.filter(row => `${row.name}_updatedAt`.length > 63).map(row => row.name);
   return { rows, unplaced, collisions, tooLong };
+}
+
+// Names shaped like the ones PostgreSQL generates (<table>_<columns>_<label>) that historical
+// migrations spell out, either because they chose them (t.index(cols, "certificates_caid_idx"))
+// or because they drop or rename them. When their table is renamed these keep their spelling,
+// exactly as they read on a fresh store; other generated names follow the table (docs/0119).
+const GENERATED_NAME = /(?<![A-Za-z0-9_}$])([a-z][A-Za-z0-9_]*_(?:pkey|key|fkey|check|idx|seq|excl)\d*)(?![A-Za-z0-9_])/g;
+
+export function literalObjectNames(legacyNames, sources) {
+  const names = new Set();
+  for (const source of sources) {
+    for (const [, name] of source.matchAll(GENERATED_NAME)) {
+      if (legacyNames.some(legacy => name.startsWith(`${legacy}_`))) names.add(name);
+    }
+  }
+  return [...names].sort();
 }

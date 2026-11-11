@@ -39,7 +39,7 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 func (s *Service) GetBySlug(ctx context.Context, projectID, slug string) (*Environment, error) {
 	query := `
 		SELECT id, slug, name, "projectId", position
-		FROM project_environments
+		FROM vx_workspace_environments
 		WHERE "projectId" = @projectID AND slug = @slug AND "deleteAfter" IS NULL
 		LIMIT 1
 	`
@@ -62,7 +62,7 @@ func (s *Service) GetBySlug(ctx context.Context, projectID, slug string) (*Envir
 func (s *Service) GetByID(ctx context.Context, envID uuid.UUID) (*Environment, error) {
 	query := `
 		SELECT id, slug, name, "projectId", position
-		FROM project_environments
+		FROM vx_workspace_environments
 		WHERE id = @envID AND "deleteAfter" IS NULL
 		LIMIT 1
 	`
@@ -85,7 +85,7 @@ func (s *Service) GetByID(ctx context.Context, envID uuid.UUID) (*Environment, e
 func (s *Service) GetAllByProjectID(ctx context.Context, projectID string) ([]Environment, error) {
 	query := `
 		SELECT id, slug, name, "projectId", position
-		FROM project_environments
+		FROM vx_workspace_environments
 		WHERE "projectId" = @projectID AND "deleteAfter" IS NULL
 		ORDER BY position ASC
 	`

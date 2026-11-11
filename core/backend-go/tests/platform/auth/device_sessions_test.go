@@ -53,8 +53,8 @@ func issueSession(t *testing.T, f *sessionFixture, ctx context.Context, actor *a
 	result, err := f.grant.service.Poll(sessionHTTP(ctx), deviceRequest(), grant.DeviceCode)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
-		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	return grant, result
 }
@@ -83,15 +83,15 @@ func TestDeviceSessions_IssueRotateAndIndependentBrowser(t *testing.T) {
 			require.Equal(t, method, identity.AuthMethod)
 			require.Equal(t, "consumed", deviceState(t, grant.ID))
 			var stored string
-			require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT row_to_json(metadata)::text FROM vaultix_device_sessions metadata WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}).Scan(&stored))
+			require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT row_to_json(metadata)::text FROM vx_auth_device_sessions metadata WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}).Scan(&stored))
 			require.NotContains(t, stored, first.AccessToken)
 			require.NotContains(t, stored, first.RefreshToken)
-			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id AND action='issued' AND "auditDeliveredAt" IS NULL AND "notificationDeliveredAt" IS NULL`, pgx.NamedArgs{"id": identity.SessionID}))
-			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id
+			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id AND action='issued' AND "auditDeliveredAt" IS NULL AND "notificationDeliveredAt" IS NULL`, pgx.NamedArgs{"id": identity.SessionID}))
+			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id
  AND "sourceContext"->>'basis'='session-creation' AND "sourceContext"->'subject'->>'id'=@user
  AND "sourceContext"->'organization'->>'id'=@org AND NOT ("sourceContext" ?| ARRAY['approval','refreshDigest','hashedPassword','policyDigest'])`, pgx.NamedArgs{"id": identity.SessionID, "user": actor.ActorID.String(), "org": actor.OrgID.String()}))
-			devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
-			require.Equal(t, 0, sessionCount(t, `SELECT count(*) FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}))
+			devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+			require.Equal(t, 0, sessionCount(t, `SELECT count(*) FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}))
 			_, err = f.sessions.ValidateAccess(ctx, first.AccessToken)
 			require.NoError(t, err)
 			second, err := f.sessions.Renew(ctx, deviceRequest(), first.RefreshToken)
@@ -100,12 +100,12 @@ func TestDeviceSessions_IssueRotateAndIndependentBrowser(t *testing.T) {
 			locator, err := f.credentials.VerifyRefresh(second.RefreshToken)
 			require.NoError(t, err)
 			require.EqualValues(t, 2, locator.Generation)
-			require.Equal(t, 2, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}))
+			require.Equal(t, 2, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}))
 			require.NoError(t, f.sessions.Revoke(ctx, deviceRequest(), second.RefreshToken))
 			require.NoError(t, f.sessions.Revoke(ctx, deviceRequest(), second.RefreshToken))
 			_, err = f.sessions.ValidateAccess(ctx, second.AccessToken)
 			require.Error(t, err)
-			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id AND action='revoked'`, pgx.NamedArgs{"id": identity.SessionID}))
+			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id AND action='revoked'`, pgx.NamedArgs{"id": identity.SessionID}))
 			require.NotContains(t, f.grant.logs.String(), first.RefreshToken)
 		})
 	}
@@ -143,7 +143,7 @@ func TestDeviceSessions_ForgeryAndReuse(t *testing.T) {
 	require.ErrorIs(t, err, device.ErrInvalidCredential)
 	_, err = f.sessions.ValidateAccess(ctx, second.AccessToken)
 	require.ErrorIs(t, err, device.ErrInvalidCredential)
-	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id AND action='reuse'`, pgx.NamedArgs{"id": locator.SessionID}))
+	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id AND action='reuse'`, pgx.NamedArgs{"id": locator.SessionID}))
 }
 
 func TestDeviceSessions_CurrentPolicyAndCanonicalRevocation(t *testing.T) {
@@ -155,17 +155,17 @@ func TestDeviceSessions_CurrentPolicyAndCanonicalRevocation(t *testing.T) {
 			id, err := f.credentials.VerifyRefresh(session.RefreshToken)
 			require.NoError(t, err)
 			queries := map[string]string{
-				"locked":          `UPDATE users SET "isLocked"=true WHERE id=@user`,
-				"ghost":           `UPDATE users SET "isGhost"=true WHERE id=@user`,
-				"session-version": `UPDATE auth_token_sessions SET "accessVersion"="accessVersion"+1 WHERE id=@id`,
-				"refresh-version": `UPDATE auth_token_sessions SET "refreshVersion"="refreshVersion"+1,"accessVersion"="accessVersion"+1 WHERE id=@id`,
-				"deleted-session": `DELETE FROM auth_token_sessions WHERE id=@id`,
-				"inactive":        `UPDATE memberships SET "isActive"=false WHERE "actorUserId"=@user`,
-				"no-membership":   `DELETE FROM memberships WHERE "actorUserId"=@user`,
-				"mfa":             `UPDATE organizations SET "enforceMfa"=true WHERE id=@org`,
-				"sso":             `UPDATE organizations SET "authEnforced"=true WHERE id=@org`,
-				"lifetime":        `UPDATE organizations SET "userTokenExpiration"='1m' WHERE id=@org`,
-				"expired":         `UPDATE vaultix_device_sessions SET "createdAt"=clock_timestamp()-interval '2 days',"expiresAt"=clock_timestamp()-interval '1 second' WHERE "sessionId"=@id`,
+				"locked":          `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@user`,
+				"ghost":           `UPDATE vx_auth_users SET "isGhost"=true WHERE id=@user`,
+				"session-version": `UPDATE vx_auth_sessions SET "accessVersion"="accessVersion"+1 WHERE id=@id`,
+				"refresh-version": `UPDATE vx_auth_sessions SET "refreshVersion"="refreshVersion"+1,"accessVersion"="accessVersion"+1 WHERE id=@id`,
+				"deleted-session": `DELETE FROM vx_auth_sessions WHERE id=@id`,
+				"inactive":        `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorUserId"=@user`,
+				"no-membership":   `DELETE FROM vx_workspace_memberships WHERE "actorUserId"=@user`,
+				"mfa":             `UPDATE vx_workspace_organizations SET "enforceMfa"=true WHERE id=@org`,
+				"sso":             `UPDATE vx_workspace_organizations SET "authEnforced"=true WHERE id=@org`,
+				"lifetime":        `UPDATE vx_workspace_organizations SET "userTokenExpiration"='1m' WHERE id=@org`,
+				"expired":         `UPDATE vx_auth_device_sessions SET "createdAt"=clock_timestamp()-interval '2 days',"expiresAt"=clock_timestamp()-interval '1 second' WHERE "sessionId"=@id`,
 			}
 			devicePolicyExec(t, queries[scenario], pgx.NamedArgs{"user": actor.ActorID, "id": id.SessionID, "org": actor.OrgID})
 			_, err = f.sessions.ValidateAccess(ctx, session.AccessToken)
@@ -207,8 +207,8 @@ func TestDeviceSessions_ConcurrentRefreshAndRedemption(t *testing.T) {
 	require.EqualValues(t, 1, wins.Load())
 	first := <-results
 	t.Cleanup(func() {
-		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
-		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	wins.Store(0)
 	start = make(chan struct{})
@@ -234,7 +234,7 @@ func TestDeviceSessions_ConcurrentRefreshAndRedemption(t *testing.T) {
 	rotated := <-results
 	_, err := f.sessions.ValidateAccess(ctx, rotated.AccessToken)
 	require.Error(t, err)
-	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user AND action='reuse'`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "userId"=@user AND action='reuse'`, pgx.NamedArgs{"user": actor.ActorID}))
 }
 
 func TestDeviceSessions_EventFailureRollsBackAndOneConnection(t *testing.T) {
@@ -251,24 +251,24 @@ func TestDeviceSessions_EventFailureRollsBackAndOneConnection(t *testing.T) {
 	devicePollReady(t, grant.ID)
 	constraint := "session_event_fixture_" + strings.ReplaceAll(uuid.NewString(), "-", "")
 	block := func() {
-		devicePolicyExec(t, `ALTER TABLE vaultix_device_session_events ADD CONSTRAINT `+constraint+` CHECK ("userId"<>'`+actor.ActorID.String()+`'::uuid) NOT VALID`)
+		devicePolicyExec(t, `ALTER TABLE vx_auth_device_session_events ADD CONSTRAINT `+constraint+` CHECK ("userId"<>'`+actor.ActorID.String()+`'::uuid) NOT VALID`)
 	}
 	unblock := func() {
-		devicePolicyExec(t, `ALTER TABLE vaultix_device_session_events DROP CONSTRAINT IF EXISTS `+constraint)
+		devicePolicyExec(t, `ALTER TABLE vx_auth_device_session_events DROP CONSTRAINT IF EXISTS `+constraint)
 	}
 	t.Cleanup(unblock)
 	block()
 	_, err = f.grant.service.Poll(sessionHTTP(ctx), deviceRequest(), grant.DeviceCode)
 	require.ErrorIs(t, err, device.ErrUnavailable)
 	require.Equal(t, "approved", deviceState(t, grant.ID))
-	require.Equal(t, 0, sessionCount(t, `SELECT count(*) FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 0, sessionCount(t, `SELECT count(*) FROM vx_auth_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID}))
 	unblock()
 	first, err := f.grant.service.Poll(sessionHTTP(ctx), deviceRequest(), grant.DeviceCode)
 	require.NoError(t, err)
 	t.Cleanup(func() {
 		unblock()
-		devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
-		devicePolicyExec(t, `DELETE FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE "userId"=@user AND "sessionType"='device-v1'`, pgx.NamedArgs{"user": actor.ActorID})
+		devicePolicyExec(t, `DELETE FROM vx_auth_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	})
 	block()
 	_, err = f.sessions.Renew(ctx, deviceRequest(), first.RefreshToken)
@@ -286,14 +286,14 @@ func TestDeviceSessions_EventFailureRollsBackAndOneConnection(t *testing.T) {
 
 func TestDeviceSessions_LifetimeAndTenantClaimBinding(t *testing.T) {
 	ctx, actor := newReauthenticationAccount(t)
-	devicePolicyExec(t, `UPDATE organizations SET "userTokenExpiration"='1m' WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
+	devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "userTokenExpiration"='1m' WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID})
 	f := newSessionFixture(t, stack.DB())
 	_, session := issueSession(t, f, ctx, actor)
 	require.Equal(t, time.Minute, session.ExpiresIn)
 	identity, err := f.credentials.VerifyAccess(session.AccessToken, time.Now())
 	require.NoError(t, err)
 	var seconds float64
-	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT extract(epoch FROM "expiresAt"-"createdAt") FROM vaultix_device_sessions WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}).Scan(&seconds))
+	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT extract(epoch FROM "expiresAt"-"createdAt") FROM vx_auth_device_sessions WHERE "sessionId"=@id`, pgx.NamedArgs{"id": identity.SessionID}).Scan(&seconds))
 	require.Equal(t, float64(60), seconds)
 	identity.OrgID = uuid.New()
 	wrong, err := f.credentials.IssueAccess(&identity, time.Now(), time.Now().Add(30*time.Second))
@@ -313,13 +313,13 @@ func TestDeviceSessions_FactorReplacementAndBypassProvenance(t *testing.T) {
 		t.Run(method, func(t *testing.T) {
 			ctx, actor := newReauthenticationAccount(t)
 			deviceRole(t, actor, "admin")
-			devicePolicyExec(t, `UPDATE organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true,"enforceMfa"=true,"selectedMfaMethod"=@method WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "method": method})
+			devicePolicyExec(t, `UPDATE vx_workspace_organizations SET "authEnforced"=true,"bypassOrgAuthEnabled"=true,"enforceMfa"=true,"selectedMfaMethod"=@method WHERE id=@org`, pgx.NamedArgs{"org": actor.OrgID, "method": method})
 			factor := uuid.New()
 			switch method {
 			case "totp":
-				devicePolicyExec(t, `INSERT INTO totp_configs(id,"userId","isVerified","encryptedSecret") VALUES(@id,@user,true,@secret)`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "secret": []byte("public-encrypted-fixture")})
+				devicePolicyExec(t, `INSERT INTO vx_auth_totp_configs(id,"userId","isVerified","encryptedSecret") VALUES(@id,@user,true,@secret)`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "secret": []byte("public-encrypted-fixture")})
 			case "webauthn":
-				devicePolicyExec(t, `INSERT INTO webauthn_credentials(id,"userId","credentialId","publicKey") VALUES(@id,@user,@credential,'fixture-key')`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "credential": factor.String()})
+				devicePolicyExec(t, `INSERT INTO vx_auth_webauthn_credentials(id,"userId","credentialId","publicKey") VALUES(@id,@user,@credential,'fixture-key')`, pgx.NamedArgs{"id": factor, "user": actor.ActorID, "credential": factor.String()})
 			}
 			actor.IsMfaVerified, actor.MfaMethod = true, method
 			f := newSessionFixture(t, stack.DB())
@@ -328,14 +328,14 @@ func TestDeviceSessions_FactorReplacementAndBypassProvenance(t *testing.T) {
 			require.NoError(t, err)
 			require.True(t, identity.SSOBypass)
 			require.Equal(t, method, identity.MFAMethod)
-			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "sessionId"=@id AND provenance->>'ssoBypass'='true' AND "notificationDeliveredAt" IS NULL`, pgx.NamedArgs{"id": identity.SessionID}))
+			require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "sessionId"=@id AND provenance->>'ssoBypass'='true' AND "notificationDeliveredAt" IS NULL`, pgx.NamedArgs{"id": identity.SessionID}))
 			switch method {
 			case "email":
-				devicePolicyExec(t, `UPDATE users SET email='changed-device-fixture@vaultix.invalid' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
+				devicePolicyExec(t, `UPDATE vx_auth_users SET email='changed-device-fixture@vaultix.invalid' WHERE id=@user`, pgx.NamedArgs{"user": actor.ActorID})
 			case "totp":
-				devicePolicyExec(t, `UPDATE totp_configs SET "encryptedSecret"=@secret WHERE id=@id`, pgx.NamedArgs{"id": factor, "secret": []byte("replacement-public-fixture")})
+				devicePolicyExec(t, `UPDATE vx_auth_totp_configs SET "encryptedSecret"=@secret WHERE id=@id`, pgx.NamedArgs{"id": factor, "secret": []byte("replacement-public-fixture")})
 			case "webauthn":
-				devicePolicyExec(t, `DELETE FROM webauthn_credentials WHERE id=@id`, pgx.NamedArgs{"id": factor})
+				devicePolicyExec(t, `DELETE FROM vx_auth_webauthn_credentials WHERE id=@id`, pgx.NamedArgs{"id": factor})
 			}
 			_, err = f.sessions.ValidateAccess(ctx, session.AccessToken)
 			require.Error(t, err)
@@ -353,13 +353,13 @@ func TestDeviceSessions_SeparateFamiliesAndCanonicalLogout(t *testing.T) {
 	require.NoError(t, f.sessions.Revoke(ctx, deviceRequest(), first.RefreshToken))
 	_, err := f.sessions.ValidateAccess(ctx, second.AccessToken)
 	require.NoError(t, err)
-	devicePolicyExec(t, `DELETE FROM auth_token_sessions WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
+	devicePolicyExec(t, `DELETE FROM vx_auth_sessions WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID})
 	_, err = f.sessions.ValidateAccess(ctx, second.AccessToken)
 	require.Error(t, err)
 	_, err = f.sessions.Renew(ctx, deviceRequest(), second.RefreshToken)
 	require.Error(t, err)
-	require.Equal(t, 4, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID}))
-	require.Equal(t, 2, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user AND action='revoked'`, pgx.NamedArgs{"user": actor.ActorID}))
-	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vaultix_device_session_events WHERE "userId"=@user
+	require.Equal(t, 4, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "userId"=@user`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 2, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "userId"=@user AND action='revoked'`, pgx.NamedArgs{"user": actor.ActorID}))
+	require.Equal(t, 1, sessionCount(t, `SELECT count(*) FROM vx_auth_device_session_events WHERE "userId"=@user
  AND action='revoked' AND provenance->>'termination'='canonical-delete' AND provenance->>'initiator'='unattributed'`, pgx.NamedArgs{"user": actor.ActorID}))
 }

@@ -12,8 +12,8 @@ import { userNotificationDALFactory } from "@app/services/notification/user-noti
 import { deviceEventDeliveryDALFactory } from "./device-event-delivery-dal";
 import { DeviceDeliveryDestination, PreparedDeviceDelivery } from "./device-event-delivery-types";
 
-const EVENTS = "vaultix_device_session_events";
-const DELIVERIES = "vaultix_device_event_deliveries";
+const EVENTS = "vx_auth_device_session_events";
+const DELIVERIES = "vx_auth_device_event_deliveries";
 
 describe.sequential("durable device delivery in the canonical PostgreSQL store", () => {
   let db: TDbClient;
@@ -35,7 +35,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
   };
   const cleanup = async () => {
     await db(TableName.UserNotifications).whereIn("userId", users).delete();
-    await db("users").whereIn("id", users).delete();
+    await db("vx_auth_users").whereIn("id", users).delete();
     await db(EVENTS).whereIn("userId", users).delete();
   };
   const event = async () => {
@@ -43,13 +43,13 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
     const sessionId = randomUUID();
     const id = randomUUID();
     users.push(userId);
-    await db("users").insert({
+    await db("vx_auth_users").insert({
       id: userId,
       username: `delivery-${userId}`,
       email: `${userId}@vaultix.invalid`,
       isAccepted: true
     });
-    await db("auth_token_sessions").insert({
+    await db("vx_auth_sessions").insert({
       id: sessionId,
       userId,
       ip: "192.0.2.40",
@@ -57,7 +57,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
       sessionType: "device-v1",
       lastUsed: new Date()
     });
-    await db("vaultix_device_sessions").insert({
+    await db("vx_auth_device_sessions").insert({
       sessionId,
       clientId: "vaultix-cli",
       resource: "https://vaultix.invalid",
@@ -292,7 +292,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
     expect(await dal.settleDelivery(secondClaims.find((row) => row.destination === "audit")!, "disabled")).toBe(true);
     expect(await dal.failDelivery(uncertain, "uncertain")).toBe(true);
     expect(await dal.claimDeliveries()).toEqual([]);
-    await db("auth_token_sessions").whereIn("userId", users).delete();
+    await db("vx_auth_sessions").whereIn("userId", users).delete();
     await db(EVENTS)
       .whereIn("userId", users)
       .update({ preparedAt: db.raw("clock_timestamp()-interval '40 days'") });
@@ -354,7 +354,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
     expect(second.attempts).toBe(2);
     await db(DELIVERIES).where({ id: second.id }).update({ attempts: 12 });
     expect(await dal.failDelivery(second, "retryable")).toBe(true);
-    await db("auth_token_sessions").where({ id: source.sessionId }).delete();
+    await db("vx_auth_sessions").where({ id: source.sessionId }).delete();
     await db(EVENTS)
       .where({ id: source.id })
       .update({ preparedAt: db.raw("clock_timestamp()-interval '40 days'") });
@@ -443,7 +443,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
       .update({ preparedAt: db.raw("clock_timestamp()-interval '40 days'") });
     await db(DELIVERIES).update({ settledAt: db.raw("clock_timestamp()-interval '40 days'") });
     expect(await dal.pruneSettled(30)).toEqual({ events: 0, deliveries: 0 });
-    await db("auth_token_sessions")
+    await db("vx_auth_sessions")
       .whereIn(
         "id",
         sources.slice(0, 2).map((row) => row.sessionId)
@@ -455,7 +455,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
     const unresolved = await event();
     const [pending] = await dal.claimPreparation();
     await dal.failPreparation(pending, "unresolved");
-    await db("auth_token_sessions").where({ id: unresolved.sessionId }).delete();
+    await db("vx_auth_sessions").where({ id: unresolved.sessionId }).delete();
     expect(await dal.pruneSettled(30)).toEqual({ events: 0, deliveries: 0 });
     expect(await db(EVENTS).where({ id: unresolved.id })).toHaveLength(1);
   });
@@ -464,11 +464,11 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
     await prepared();
     await expect(db.transaction(down)).rejects.toThrow("retain the additive schema");
     await cleanup();
-    const ownerSessions = await db("auth_token_sessions").where("sessionType", "browser").select("id");
+    const ownerSessions = await db("vx_auth_sessions").where("sessionType", "browser").select("id");
     await db.transaction(down);
     expect(await db.schema.hasTable(DELIVERIES)).toBe(false);
     await db.transaction(up);
-    expect(await db("auth_token_sessions").where("sessionType", "browser").select("id")).toEqual(ownerSessions);
+    expect(await db("vx_auth_sessions").where("sessionType", "browser").select("id")).toEqual(ownerSessions);
   });
 
   test("bounds recipient deletion before pruning a fully settled source event", async () => {
@@ -488,7 +488,7 @@ describe.sequential("durable device delivery in the canonical PostgreSQL store",
       // eslint-disable-next-line no-await-in-loop
       await dal.settleDelivery(row, "delivered");
     }
-    await db("auth_token_sessions").where({ id: source.sessionId }).delete();
+    await db("vx_auth_sessions").where({ id: source.sessionId }).delete();
     await db(EVENTS)
       .where({ id: source.id })
       .update({ preparedAt: db.raw("clock_timestamp()-interval '40 days'") });

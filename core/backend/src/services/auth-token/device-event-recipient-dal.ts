@@ -2,6 +2,7 @@ import type { Knex } from "knex";
 import { validate as isUuid } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { TableName } from "@app/db/schemas";
 import { withRecordedTransaction } from "@app/lib/knex/recorded-transaction";
 import { RecordedOperation } from "@app/lib/recorded-operation";
 
@@ -42,17 +43,17 @@ export const deviceEventRecipientDALFactory = (db: TDbClient) => {
     const execute = async (connection: Knex) => {
       const result = await connection.raw<{ rows: DeviceNoticeRecipient[] }>(
         `WITH scope AS MATERIALIZED (
-          SELECT selected.id, root.id AS root_id FROM organizations selected
-          JOIN organizations root ON root.id=COALESCE(selected."rootOrgId",selected.id)
+          SELECT selected.id, root.id AS root_id FROM vx_workspace_organizations selected
+          JOIN vx_workspace_organizations root ON root.id=COALESCE(selected."rootOrgId",selected.id)
           WHERE selected.id=?::uuid AND root.id=?::uuid
             AND COALESCE(root."rootOrgId",root.id)=root.id
         ), stamp AS MATERIALIZED (SELECT clock_timestamp() AS now),
         admin_memberships AS MATERIALIZED (
           SELECT m."actorUserId",m."actorGroupId",m."scopeOrgId",s.root_id
-          FROM memberships m CROSS JOIN scope s CROSS JOIN stamp
+          FROM vx_workspace_memberships m CROSS JOIN scope s CROSS JOIN stamp
           WHERE m.scope='organization' AND m."scopeOrgId" IN (s.id,s.root_id)
             AND m."isActive" AND (m.status IS NULL OR m.status='accepted')
-            AND EXISTS (SELECT 1 FROM membership_roles r WHERE r."membershipId"=m.id
+            AND EXISTS (SELECT 1 FROM vx_workspace_membership_roles r WHERE r."membershipId"=m.id
               AND r.role='admin' AND (NOT r."isTemporary" OR
                 (r."temporaryAccessStartTime"<=stamp.now AND r."temporaryAccessEndTime">stamp.now)))
         ), candidates AS (
@@ -60,18 +61,18 @@ export const deviceEventRecipientDALFactory = (db: TDbClient) => {
           FROM admin_memberships m WHERE m."actorUserId" IS NOT NULL
           UNION
           SELECT ug."userId",m."scopeOrgId",m.root_id FROM admin_memberships m
-          JOIN groups g ON g.id=m."actorGroupId" AND g."orgId"=m.root_id
-          JOIN user_group_membership ug ON ug."groupId"=g.id AND NOT ug."isPending"
+          JOIN vx_workspace_groups g ON g.id=m."actorGroupId" AND g."orgId"=m.root_id
+          JOIN vx_workspace_user_group_memberships ug ON ug."groupId"=g.id AND NOT ug."isPending"
         ), eligible AS (
-          SELECT c.user_id,c.org_id,u.email FROM candidates c JOIN users u ON u.id=c.user_id
+          SELECT c.user_id,c.org_id,u.email FROM candidates c JOIN vx_auth_users u ON u.id=c.user_id
           WHERE u."isAccepted" AND NOT u."isGhost" AND c.user_id<>?::uuid
             AND (?::uuid IS NULL OR c.user_id>?::uuid)
             AND (?::uuid IS NULL OR c.user_id=?::uuid)
-            AND NOT EXISTS (SELECT 1 FROM memberships direct
+            AND NOT EXISTS (SELECT 1 FROM vx_workspace_memberships direct
               WHERE direct.scope='organization' AND direct."scopeOrgId"=c.org_id
                 AND direct."actorUserId"=c.user_id
                 AND (NOT direct."isActive" OR (direct.status IS NOT NULL AND direct.status<>'accepted')))
-            AND (c.root_id=?::uuid OR EXISTS (SELECT 1 FROM memberships root_member
+            AND (c.root_id=?::uuid OR EXISTS (SELECT 1 FROM vx_workspace_memberships root_member
               WHERE root_member.scope='organization' AND root_member."scopeOrgId"=c.root_id
                 AND root_member."actorUserId"=c.user_id AND root_member."isActive"
                 AND (root_member.status IS NULL OR root_member.status='accepted')))
@@ -126,7 +127,7 @@ export const deviceEventRecipientDALFactory = (db: TDbClient) => {
     // Account security notices remain available to a locked account. They do not
     // grant that account a session or access to an organization's resources.
     const execute = async (connection: Knex) =>
-      connection("users")
+      connection(TableName.Users)
         .where({ id: audience.userId, isAccepted: true, isGhost: false })
         .first<DeviceNoticeRecipient>("id as userId", "email", connection.raw('?::uuid AS "orgId"', [audience.orgId]));
     if (tx) return execute(tx);

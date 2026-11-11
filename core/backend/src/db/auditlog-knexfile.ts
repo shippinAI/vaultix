@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import type { Knex } from "knex";
 import path from "path";
 
+import { NamespacedMigrationSource } from "./namespaced-migration-source";
+
 // Update with your config settings. .
 dotenv.config({
   path: path.join(__dirname, "../../../.env.migration")
@@ -20,6 +22,12 @@ if (!process.env.AUDIT_LOGS_DB_CONNECTION_URI && !process.env.AUDIT_LOGS_DB_HOST
 }
 
 console.info("Executing migration on audit log database...");
+
+// The same migration source as startup and the application knexfile (docs/0119).
+const migrations: Knex.MigratorConfig = {
+  tableName: "vaultix_migrations",
+  migrationSource: new NamespacedMigrationSource(path.join(__dirname, "migrations"))
+};
 
 export default {
   development: {
@@ -45,9 +53,7 @@ export default {
     seeds: {
       directory: "./seeds"
     },
-    migrations: {
-      tableName: "vaultix_migrations"
-    }
+    migrations
   },
   production: {
     client: "postgres",
@@ -69,8 +75,6 @@ export default {
       min: 2,
       max: 10
     },
-    migrations: {
-      tableName: "vaultix_migrations"
-    }
+    migrations
   }
 } as Knex.Config;

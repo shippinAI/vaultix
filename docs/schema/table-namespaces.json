@@ -1,0 +1,1894 @@
+{
+  "description": "Inherited table name to Vaultix vx_<group>_<entity> name (docs/0119). Frozen history: rows are never removed.",
+  "prefix": "vx",
+  "groups": {
+    "auth": "People signing in: users, sessions, MFA, SSO configuration, API keys",
+    "identity": "Machine identities and their authentication methods",
+    "workspace": "Organizations, projects, environments, memberships, roles and groups",
+    "secrets": "Secrets, folders, versions, snapshots, imports, tags, rotation and dynamic secrets",
+    "policy": "Approval policies and requests, access requests and validation rules",
+    "connect": "App connections, syncs, integrations, webhooks, migrations and proxied services",
+    "net": "Gateways, relays and resource authentication for network access",
+    "pki": "Certificate authorities, certificates, profiles, enrollment and SSH certificates",
+    "kms": "Key management, external KMS, HSM and KMIP",
+    "pam": "Privileged access management",
+    "scan": "Secret scanning",
+    "ai": "AI and MCP servers, endpoints and activity",
+    "operate": "Audit logs, notifications, alerts, queues and instance configuration",
+    "public": "Public, pre-sign-in surfaces such as early-access requests"
+  },
+  "tables": [
+    {
+      "legacy": "users",
+      "name": "vx_auth_users",
+      "group": "auth",
+      "tableNameKey": "Users"
+    },
+    {
+      "legacy": "email_domains",
+      "name": "vx_auth_email_domains",
+      "group": "auth",
+      "tableNameKey": "EmailDomains"
+    },
+    {
+      "legacy": "ssh_host_groups",
+      "name": "vx_pki_ssh_host_groups",
+      "group": "pki",
+      "tableNameKey": "SshHostGroup"
+    },
+    {
+      "legacy": "ssh_host_group_memberships",
+      "name": "vx_pki_ssh_host_group_memberships",
+      "group": "pki",
+      "tableNameKey": "SshHostGroupMembership"
+    },
+    {
+      "legacy": "ssh_hosts",
+      "name": "vx_pki_ssh_hosts",
+      "group": "pki",
+      "tableNameKey": "SshHost"
+    },
+    {
+      "legacy": "ssh_host_login_users",
+      "name": "vx_pki_ssh_host_login_users",
+      "group": "pki",
+      "tableNameKey": "SshHostLoginUser"
+    },
+    {
+      "legacy": "ssh_host_login_user_mappings",
+      "name": "vx_pki_ssh_host_login_user_mappings",
+      "group": "pki",
+      "tableNameKey": "SshHostLoginUserMapping"
+    },
+    {
+      "legacy": "ssh_certificate_authorities",
+      "name": "vx_pki_ssh_certificate_authorities",
+      "group": "pki",
+      "tableNameKey": "SshCertificateAuthority"
+    },
+    {
+      "legacy": "ssh_certificate_authority_secrets",
+      "name": "vx_pki_ssh_certificate_authority_secrets",
+      "group": "pki",
+      "tableNameKey": "SshCertificateAuthoritySecret"
+    },
+    {
+      "legacy": "ssh_certificate_templates",
+      "name": "vx_pki_ssh_certificate_templates",
+      "group": "pki",
+      "tableNameKey": "SshCertificateTemplate"
+    },
+    {
+      "legacy": "ssh_certificates",
+      "name": "vx_pki_ssh_certificates",
+      "group": "pki",
+      "tableNameKey": "SshCertificate"
+    },
+    {
+      "legacy": "ssh_certificate_bodies",
+      "name": "vx_pki_ssh_certificate_bodies",
+      "group": "pki",
+      "tableNameKey": "SshCertificateBody"
+    },
+    {
+      "legacy": "certificate_authorities",
+      "name": "vx_pki_certificate_authorities",
+      "group": "pki",
+      "tableNameKey": "CertificateAuthority"
+    },
+    {
+      "legacy": "external_certificate_authorities",
+      "name": "vx_pki_external_certificate_authorities",
+      "group": "pki",
+      "tableNameKey": "ExternalCertificateAuthority"
+    },
+    {
+      "legacy": "internal_certificate_authorities",
+      "name": "vx_pki_internal_certificate_authorities",
+      "group": "pki",
+      "tableNameKey": "InternalCertificateAuthority"
+    },
+    {
+      "legacy": "certificate_template_est_configs",
+      "name": "vx_pki_certificate_template_est_configs",
+      "group": "pki",
+      "tableNameKey": "CertificateTemplateEstConfig"
+    },
+    {
+      "legacy": "certificate_authority_certs",
+      "name": "vx_pki_certificate_authority_certs",
+      "group": "pki",
+      "tableNameKey": "CertificateAuthorityCert"
+    },
+    {
+      "legacy": "certificate_authority_secret",
+      "name": "vx_pki_certificate_authority_secret",
+      "group": "pki",
+      "tableNameKey": "CertificateAuthoritySecret"
+    },
+    {
+      "legacy": "certificate_authority_crl",
+      "name": "vx_pki_certificate_authority_crl",
+      "group": "pki",
+      "tableNameKey": "CertificateAuthorityCrl"
+    },
+    {
+      "legacy": "certificates",
+      "name": "vx_pki_certificates",
+      "group": "pki",
+      "tableNameKey": "Certificate"
+    },
+    {
+      "legacy": "certificate_bodies",
+      "name": "vx_pki_certificate_bodies",
+      "group": "pki",
+      "tableNameKey": "CertificateBody"
+    },
+    {
+      "legacy": "certificate_requests",
+      "name": "vx_pki_certificate_requests",
+      "group": "pki",
+      "tableNameKey": "CertificateRequests"
+    },
+    {
+      "legacy": "certificate_secrets",
+      "name": "vx_pki_certificate_secrets",
+      "group": "pki",
+      "tableNameKey": "CertificateSecret"
+    },
+    {
+      "legacy": "certificate_templates",
+      "name": "vx_pki_certificate_templates",
+      "group": "pki",
+      "tableNameKey": "CertificateTemplate"
+    },
+    {
+      "legacy": "pki_certificate_templates_v2",
+      "name": "vx_pki_certificate_templates_v2",
+      "group": "pki",
+      "tableNameKey": "PkiCertificateTemplateV2"
+    },
+    {
+      "legacy": "pki_certificate_policies",
+      "name": "vx_pki_certificate_policies",
+      "group": "pki",
+      "tableNameKey": "PkiCertificatePolicy"
+    },
+    {
+      "legacy": "pki_certificate_profiles",
+      "name": "vx_pki_certificate_profiles",
+      "group": "pki",
+      "tableNameKey": "PkiCertificateProfile"
+    },
+    {
+      "legacy": "pki_applications",
+      "name": "vx_pki_applications",
+      "group": "pki",
+      "tableNameKey": "PkiApplication"
+    },
+    {
+      "legacy": "pki_application_profiles",
+      "name": "vx_pki_application_profiles",
+      "group": "pki",
+      "tableNameKey": "PkiApplicationProfile"
+    },
+    {
+      "legacy": "pki_est_enrollment_configs",
+      "name": "vx_pki_est_enrollment_configs",
+      "group": "pki",
+      "tableNameKey": "PkiEstEnrollmentConfig"
+    },
+    {
+      "legacy": "pki_api_enrollment_configs",
+      "name": "vx_pki_api_enrollment_configs",
+      "group": "pki",
+      "tableNameKey": "PkiApiEnrollmentConfig"
+    },
+    {
+      "legacy": "pki_acme_enrollment_configs",
+      "name": "vx_pki_acme_enrollment_configs",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeEnrollmentConfig"
+    },
+    {
+      "legacy": "pki_scep_enrollment_configs",
+      "name": "vx_pki_scep_enrollment_configs",
+      "group": "pki",
+      "tableNameKey": "PkiScepEnrollmentConfig"
+    },
+    {
+      "legacy": "pki_scep_transactions",
+      "name": "vx_pki_scep_transactions",
+      "group": "pki",
+      "tableNameKey": "PkiScepTransaction"
+    },
+    {
+      "legacy": "pki_scep_dynamic_challenges",
+      "name": "vx_pki_scep_dynamic_challenges",
+      "group": "pki",
+      "tableNameKey": "PkiScepDynamicChallenge"
+    },
+    {
+      "legacy": "pki_subscribers",
+      "name": "vx_pki_subscribers",
+      "group": "pki",
+      "tableNameKey": "PkiSubscriber"
+    },
+    {
+      "legacy": "pki_alerts",
+      "name": "vx_pki_alerts",
+      "group": "pki",
+      "tableNameKey": "PkiAlert"
+    },
+    {
+      "legacy": "pki_alerts_v2",
+      "name": "vx_pki_alerts_v2",
+      "group": "pki",
+      "tableNameKey": "PkiAlertsV2"
+    },
+    {
+      "legacy": "pki_alert_channels",
+      "name": "vx_pki_alert_channels",
+      "group": "pki",
+      "tableNameKey": "PkiAlertChannels"
+    },
+    {
+      "legacy": "pki_alert_history",
+      "name": "vx_pki_alert_history",
+      "group": "pki",
+      "tableNameKey": "PkiAlertHistory"
+    },
+    {
+      "legacy": "pki_alert_history_certificate",
+      "name": "vx_pki_alert_history_certificate",
+      "group": "pki",
+      "tableNameKey": "PkiAlertHistoryCertificate"
+    },
+    {
+      "legacy": "pki_collections",
+      "name": "vx_pki_collections",
+      "group": "pki",
+      "tableNameKey": "PkiCollection"
+    },
+    {
+      "legacy": "pki_collection_items",
+      "name": "vx_pki_collection_items",
+      "group": "pki",
+      "tableNameKey": "PkiCollectionItem"
+    },
+    {
+      "legacy": "alerts",
+      "name": "vx_operate_alerts",
+      "group": "operate",
+      "tableNameKey": "Alert"
+    },
+    {
+      "legacy": "alert_channels",
+      "name": "vx_operate_alert_channels",
+      "group": "operate",
+      "tableNameKey": "AlertChannel"
+    },
+    {
+      "legacy": "alert_channel_recipients",
+      "name": "vx_operate_alert_channel_recipients",
+      "group": "operate",
+      "tableNameKey": "AlertChannelRecipient"
+    },
+    {
+      "legacy": "alert_channel_memberships",
+      "name": "vx_operate_alert_channel_memberships",
+      "group": "operate",
+      "tableNameKey": "AlertChannelMembership"
+    },
+    {
+      "legacy": "alert_history",
+      "name": "vx_operate_alert_history",
+      "group": "operate",
+      "tableNameKey": "AlertHistory"
+    },
+    {
+      "legacy": "alert_history_target",
+      "name": "vx_operate_alert_history_targets",
+      "group": "operate",
+      "tableNameKey": "AlertHistoryTarget"
+    },
+    {
+      "legacy": "groups",
+      "name": "vx_workspace_groups",
+      "group": "workspace",
+      "tableNameKey": "Groups"
+    },
+    {
+      "legacy": "group_project_memberships",
+      "name": "vx_workspace_group_project_memberships",
+      "group": "workspace",
+      "tableNameKey": "GroupProjectMembership"
+    },
+    {
+      "legacy": "group_project_membership_roles",
+      "name": "vx_workspace_group_project_membership_roles",
+      "group": "workspace",
+      "tableNameKey": "GroupProjectMembershipRole"
+    },
+    {
+      "legacy": "external_group_org_role_mappings",
+      "name": "vx_auth_external_group_role_mappings",
+      "group": "auth",
+      "tableNameKey": "ExternalGroupOrgRoleMapping"
+    },
+    {
+      "legacy": "user_group_membership",
+      "name": "vx_workspace_user_group_memberships",
+      "group": "workspace",
+      "tableNameKey": "UserGroupMembership"
+    },
+    {
+      "legacy": "identity_group_membership",
+      "name": "vx_identity_group_memberships",
+      "group": "identity",
+      "tableNameKey": "IdentityGroupMembership"
+    },
+    {
+      "legacy": "user_aliases",
+      "name": "vx_auth_user_aliases",
+      "group": "auth",
+      "tableNameKey": "UserAliases"
+    },
+    {
+      "legacy": "user_encryption_keys",
+      "name": "vx_auth_user_encryption_keys",
+      "group": "auth",
+      "tableNameKey": "UserEncryptionKey"
+    },
+    {
+      "legacy": "auth_tokens",
+      "name": "vx_auth_tokens",
+      "group": "auth",
+      "tableNameKey": "AuthTokens"
+    },
+    {
+      "legacy": "auth_token_sessions",
+      "name": "vx_auth_sessions",
+      "group": "auth",
+      "tableNameKey": "AuthTokenSession"
+    },
+    {
+      "legacy": "backup_private_key",
+      "name": "vx_auth_backup_private_keys",
+      "group": "auth",
+      "tableNameKey": "BackupPrivateKey"
+    },
+    {
+      "legacy": "organizations",
+      "name": "vx_workspace_organizations",
+      "group": "workspace",
+      "tableNameKey": "Organization"
+    },
+    {
+      "legacy": "org_memberships",
+      "name": "vx_workspace_org_memberships",
+      "group": "workspace",
+      "tableNameKey": "OrgMembership"
+    },
+    {
+      "legacy": "org_roles",
+      "name": "vx_workspace_org_roles",
+      "group": "workspace",
+      "tableNameKey": "OrgRoles"
+    },
+    {
+      "legacy": "org_bots",
+      "name": "vx_workspace_org_bots",
+      "group": "workspace",
+      "tableNameKey": "OrgBot"
+    },
+    {
+      "legacy": "incident_contacts",
+      "name": "vx_workspace_incident_contacts",
+      "group": "workspace",
+      "tableNameKey": "IncidentContact"
+    },
+    {
+      "legacy": "user_actions",
+      "name": "vx_auth_user_actions",
+      "group": "auth",
+      "tableNameKey": "UserAction"
+    },
+    {
+      "legacy": "user_secret_activation",
+      "name": "vx_auth_user_secret_activation",
+      "group": "auth",
+      "tableNameKey": "UserSecretActivation"
+    },
+    {
+      "legacy": "signup_onboarding_responses",
+      "name": "vx_auth_signup_onboarding_responses",
+      "group": "auth",
+      "tableNameKey": "SignupOnboardingResponse"
+    },
+    {
+      "legacy": "super_admin",
+      "name": "vx_operate_instance_config",
+      "group": "operate",
+      "tableNameKey": "SuperAdmin"
+    },
+    {
+      "legacy": "rate_limit",
+      "name": "vx_operate_rate_limits",
+      "group": "operate",
+      "tableNameKey": "RateLimit"
+    },
+    {
+      "legacy": "project_ssh_configs",
+      "name": "vx_pki_ssh_project_configs",
+      "group": "pki",
+      "tableNameKey": "ProjectSshConfig"
+    },
+    {
+      "legacy": "projects",
+      "name": "vx_workspace_projects",
+      "group": "workspace",
+      "tableNameKey": "Project"
+    },
+    {
+      "legacy": "project_bots",
+      "name": "vx_workspace_project_bots",
+      "group": "workspace",
+      "tableNameKey": "ProjectBot"
+    },
+    {
+      "legacy": "project_environments",
+      "name": "vx_workspace_environments",
+      "group": "workspace",
+      "tableNameKey": "Environment"
+    },
+    {
+      "legacy": "project_memberships",
+      "name": "vx_workspace_project_memberships",
+      "group": "workspace",
+      "tableNameKey": "ProjectMembership"
+    },
+    {
+      "legacy": "project_roles",
+      "name": "vx_workspace_project_roles",
+      "group": "workspace",
+      "tableNameKey": "ProjectRoles"
+    },
+    {
+      "legacy": "project_user_additional_privilege",
+      "name": "vx_workspace_project_user_additional_privileges",
+      "group": "workspace",
+      "tableNameKey": "ProjectUserAdditionalPrivilege"
+    },
+    {
+      "legacy": "project_user_membership_roles",
+      "name": "vx_workspace_project_user_membership_roles",
+      "group": "workspace",
+      "tableNameKey": "ProjectUserMembershipRole"
+    },
+    {
+      "legacy": "project_keys",
+      "name": "vx_workspace_project_keys",
+      "group": "workspace",
+      "tableNameKey": "ProjectKeys"
+    },
+    {
+      "legacy": "project_templates",
+      "name": "vx_workspace_project_templates",
+      "group": "workspace",
+      "tableNameKey": "ProjectTemplates"
+    },
+    {
+      "legacy": "project_template_user_memberships",
+      "name": "vx_workspace_project_template_user_memberships",
+      "group": "workspace",
+      "tableNameKey": "ProjectTemplateUserMembership"
+    },
+    {
+      "legacy": "project_template_group_memberships",
+      "name": "vx_workspace_project_template_group_memberships",
+      "group": "workspace",
+      "tableNameKey": "ProjectTemplateGroupMembership"
+    },
+    {
+      "legacy": "project_template_identity_memberships",
+      "name": "vx_workspace_project_template_identity_memberships",
+      "group": "workspace",
+      "tableNameKey": "ProjectTemplateIdentityMembership"
+    },
+    {
+      "legacy": "secrets",
+      "name": "vx_secrets_legacy_secrets",
+      "group": "secrets",
+      "tableNameKey": "Secret"
+    },
+    {
+      "legacy": "secret_references",
+      "name": "vx_secrets_legacy_references",
+      "group": "secrets",
+      "tableNameKey": "SecretReference"
+    },
+    {
+      "legacy": "secret_sharing",
+      "name": "vx_secrets_shares",
+      "group": "secrets",
+      "tableNameKey": "SecretSharing"
+    },
+    {
+      "legacy": "organization_assets",
+      "name": "vx_workspace_org_assets",
+      "group": "workspace",
+      "tableNameKey": "OrganizationAsset"
+    },
+    {
+      "legacy": "secret_blind_indexes",
+      "name": "vx_secrets_legacy_blind_indexes",
+      "group": "secrets",
+      "tableNameKey": "SecretBlindIndex"
+    },
+    {
+      "legacy": "secret_versions",
+      "name": "vx_secrets_legacy_versions",
+      "group": "secrets",
+      "tableNameKey": "SecretVersion"
+    },
+    {
+      "legacy": "secret_folders",
+      "name": "vx_secrets_folders",
+      "group": "secrets",
+      "tableNameKey": "SecretFolder"
+    },
+    {
+      "legacy": "secret_folder_versions",
+      "name": "vx_secrets_folder_versions",
+      "group": "secrets",
+      "tableNameKey": "SecretFolderVersion"
+    },
+    {
+      "legacy": "secret_imports",
+      "name": "vx_secrets_imports",
+      "group": "secrets",
+      "tableNameKey": "SecretImport"
+    },
+    {
+      "legacy": "project_folder_grants",
+      "name": "vx_secrets_folder_grants",
+      "group": "secrets",
+      "tableNameKey": "ProjectFolderGrant"
+    },
+    {
+      "legacy": "secret_snapshots",
+      "name": "vx_secrets_snapshots",
+      "group": "secrets",
+      "tableNameKey": "Snapshot"
+    },
+    {
+      "legacy": "secret_snapshot_secrets",
+      "name": "vx_secrets_legacy_snapshot_secrets",
+      "group": "secrets",
+      "tableNameKey": "SnapshotSecret"
+    },
+    {
+      "legacy": "secret_snapshot_folders",
+      "name": "vx_secrets_snapshot_folders",
+      "group": "secrets",
+      "tableNameKey": "SnapshotFolder"
+    },
+    {
+      "legacy": "secret_tags",
+      "name": "vx_secrets_tags",
+      "group": "secrets",
+      "tableNameKey": "SecretTag"
+    },
+    {
+      "legacy": "integrations",
+      "name": "vx_connect_legacy_integrations",
+      "group": "connect",
+      "tableNameKey": "Integration"
+    },
+    {
+      "legacy": "integration_auths",
+      "name": "vx_connect_legacy_integration_auths",
+      "group": "connect",
+      "tableNameKey": "IntegrationAuth"
+    },
+    {
+      "legacy": "service_tokens",
+      "name": "vx_identity_service_tokens",
+      "group": "identity",
+      "tableNameKey": "ServiceToken"
+    },
+    {
+      "legacy": "webhooks",
+      "name": "vx_connect_webhooks",
+      "group": "connect",
+      "tableNameKey": "Webhook"
+    },
+    {
+      "legacy": "identities",
+      "name": "vx_identity_identities",
+      "group": "identity",
+      "tableNameKey": "Identity"
+    },
+    {
+      "legacy": "identity_access_tokens",
+      "name": "vx_identity_access_tokens",
+      "group": "identity",
+      "tableNameKey": "IdentityAccessToken"
+    },
+    {
+      "legacy": "identity_access_token_revocations",
+      "name": "vx_identity_access_token_revocations",
+      "group": "identity",
+      "tableNameKey": "IdentityAccessTokenRevocation"
+    },
+    {
+      "legacy": "identity_token_auths",
+      "name": "vx_identity_token_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityTokenAuth"
+    },
+    {
+      "legacy": "identity_universal_auths",
+      "name": "vx_identity_universal_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityUniversalAuth"
+    },
+    {
+      "legacy": "identity_kubernetes_auths",
+      "name": "vx_identity_kubernetes_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityKubernetesAuth"
+    },
+    {
+      "legacy": "identity_gcp_auths",
+      "name": "vx_identity_gcp_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityGcpAuth"
+    },
+    {
+      "legacy": "identity_azure_auths",
+      "name": "vx_identity_azure_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityAzureAuth"
+    },
+    {
+      "legacy": "identity_ua_client_secrets",
+      "name": "vx_identity_ua_client_secrets",
+      "group": "identity",
+      "tableNameKey": "IdentityUaClientSecret"
+    },
+    {
+      "legacy": "identity_alicloud_auths",
+      "name": "vx_identity_alicloud_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityAliCloudAuth"
+    },
+    {
+      "legacy": "identity_aws_auths",
+      "name": "vx_identity_aws_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityAwsAuth"
+    },
+    {
+      "legacy": "identity_oci_auths",
+      "name": "vx_identity_oci_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityOciAuth"
+    },
+    {
+      "legacy": "identity_oidc_auths",
+      "name": "vx_identity_oidc_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityOidcAuth"
+    },
+    {
+      "legacy": "identity_jwt_auths",
+      "name": "vx_identity_jwt_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityJwtAuth"
+    },
+    {
+      "legacy": "identity_ldap_auths",
+      "name": "vx_identity_ldap_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityLdapAuth"
+    },
+    {
+      "legacy": "identity_tls_cert_auths",
+      "name": "vx_identity_tls_cert_auths",
+      "group": "identity",
+      "tableNameKey": "IdentityTlsCertAuth"
+    },
+    {
+      "legacy": "identity_spiffe_auths",
+      "name": "vx_identity_spiffe_auths",
+      "group": "identity",
+      "tableNameKey": "IdentitySpiffeAuth"
+    },
+    {
+      "legacy": "identity_org_memberships",
+      "name": "vx_identity_org_memberships",
+      "group": "identity",
+      "tableNameKey": "IdentityOrgMembership"
+    },
+    {
+      "legacy": "identity_project_memberships",
+      "name": "vx_identity_project_memberships",
+      "group": "identity",
+      "tableNameKey": "IdentityProjectMembership"
+    },
+    {
+      "legacy": "identity_project_membership_role",
+      "name": "vx_identity_project_membership_role",
+      "group": "identity",
+      "tableNameKey": "IdentityProjectMembershipRole"
+    },
+    {
+      "legacy": "identity_project_additional_privilege",
+      "name": "vx_identity_project_additional_privilege",
+      "group": "identity",
+      "tableNameKey": "IdentityProjectAdditionalPrivilege"
+    },
+    {
+      "legacy": "identity_auth_templates",
+      "name": "vx_identity_auth_templates",
+      "group": "identity",
+      "tableNameKey": "IdentityAuthTemplate"
+    },
+    {
+      "legacy": "identity_metadata",
+      "name": "vx_identity_metadata",
+      "group": "identity",
+      "tableNameKey": "IdentityMetadata"
+    },
+    {
+      "legacy": "resource_metadata",
+      "name": "vx_identity_resource_metadata",
+      "group": "identity",
+      "tableNameKey": "ResourceMetadata"
+    },
+    {
+      "legacy": "scim_tokens",
+      "name": "vx_auth_scim_tokens",
+      "group": "auth",
+      "tableNameKey": "ScimToken"
+    },
+    {
+      "legacy": "access_approval_policies",
+      "name": "vx_policy_access_approval_policies",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalPolicy"
+    },
+    {
+      "legacy": "access_approval_policies_approvers",
+      "name": "vx_policy_access_approval_policies_approvers",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalPolicyApprover"
+    },
+    {
+      "legacy": "access_approval_policies_bypassers",
+      "name": "vx_policy_access_approval_policies_bypassers",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalPolicyBypasser"
+    },
+    {
+      "legacy": "access_approval_requests",
+      "name": "vx_policy_access_approval_requests",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalRequest"
+    },
+    {
+      "legacy": "access_approval_requests_reviewers",
+      "name": "vx_policy_access_approval_requests_reviewers",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalRequestReviewer"
+    },
+    {
+      "legacy": "access_approval_policies_environments",
+      "name": "vx_policy_access_approval_policies_environments",
+      "group": "policy",
+      "tableNameKey": "AccessApprovalPolicyEnvironment"
+    },
+    {
+      "legacy": "project_access_requests",
+      "name": "vx_policy_access_requests",
+      "group": "policy",
+      "tableNameKey": "ProjectAccessRequest"
+    },
+    {
+      "legacy": "secret_approval_policies",
+      "name": "vx_policy_secret_approval_policies",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalPolicy"
+    },
+    {
+      "legacy": "secret_approval_policies_approvers",
+      "name": "vx_policy_secret_approval_policies_approvers",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalPolicyApprover"
+    },
+    {
+      "legacy": "secret_approval_policies_bypassers",
+      "name": "vx_policy_secret_approval_policies_bypassers",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalPolicyBypasser"
+    },
+    {
+      "legacy": "secret_approval_requests",
+      "name": "vx_policy_secret_approval_requests",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequest"
+    },
+    {
+      "legacy": "secret_approval_requests_reviewers",
+      "name": "vx_policy_secret_approval_requests_reviewers",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequestReviewer"
+    },
+    {
+      "legacy": "secret_approval_requests_secrets",
+      "name": "vx_policy_secret_approval_requests_secrets",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequestSecret"
+    },
+    {
+      "legacy": "secret_approval_request_secret_tags",
+      "name": "vx_policy_secret_approval_request_secret_tags",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequestSecretTag"
+    },
+    {
+      "legacy": "secret_approval_policies_environments",
+      "name": "vx_policy_secret_approval_policies_environments",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalPolicyEnvironment"
+    },
+    {
+      "legacy": "saml_configs",
+      "name": "vx_auth_saml_configs",
+      "group": "auth",
+      "tableNameKey": "SamlConfig"
+    },
+    {
+      "legacy": "ldap_configs",
+      "name": "vx_auth_ldap_configs",
+      "group": "auth",
+      "tableNameKey": "LdapConfig"
+    },
+    {
+      "legacy": "oidc_configs",
+      "name": "vx_auth_oidc_configs",
+      "group": "auth",
+      "tableNameKey": "OidcConfig"
+    },
+    {
+      "legacy": "ldap_group_maps",
+      "name": "vx_auth_ldap_group_maps",
+      "group": "auth",
+      "tableNameKey": "LdapGroupMap"
+    },
+    {
+      "legacy": "audit_logs",
+      "name": "vx_operate_audit_logs",
+      "group": "operate",
+      "tableNameKey": "AuditLog"
+    },
+    {
+      "legacy": "audit_log_streams",
+      "name": "vx_operate_audit_log_streams",
+      "group": "operate",
+      "tableNameKey": "AuditLogStream"
+    },
+    {
+      "legacy": "audit_log_stream_outbox",
+      "name": "vx_operate_audit_log_stream_outbox",
+      "group": "operate",
+      "tableNameKey": "AuditLogStreamOutbox"
+    },
+    {
+      "legacy": "git_app_install_sessions",
+      "name": "vx_connect_git_app_install_sessions",
+      "group": "connect",
+      "tableNameKey": "GitAppInstallSession"
+    },
+    {
+      "legacy": "git_app_org",
+      "name": "vx_connect_git_app_org",
+      "group": "connect",
+      "tableNameKey": "GitAppOrg"
+    },
+    {
+      "legacy": "secret_scanning_git_risks",
+      "name": "vx_scan_git_risks",
+      "group": "scan",
+      "tableNameKey": "SecretScanningGitRisk"
+    },
+    {
+      "legacy": "trusted_ips",
+      "name": "vx_auth_trusted_ips",
+      "group": "auth",
+      "tableNameKey": "TrustedIps"
+    },
+    {
+      "legacy": "dynamic_secrets",
+      "name": "vx_secrets_dynamic_secrets",
+      "group": "secrets",
+      "tableNameKey": "DynamicSecret"
+    },
+    {
+      "legacy": "dynamic_secret_leases",
+      "name": "vx_secrets_dynamic_secret_leases",
+      "group": "secrets",
+      "tableNameKey": "DynamicSecretLease"
+    },
+    {
+      "legacy": "secrets_v2",
+      "name": "vx_secrets_secrets",
+      "group": "secrets",
+      "tableNameKey": "SecretV2"
+    },
+    {
+      "legacy": "secret_references_v2",
+      "name": "vx_secrets_references",
+      "group": "secrets",
+      "tableNameKey": "SecretReferenceV2"
+    },
+    {
+      "legacy": "secret_versions_v2",
+      "name": "vx_secrets_versions",
+      "group": "secrets",
+      "tableNameKey": "SecretVersionV2"
+    },
+    {
+      "legacy": "secret_approval_requests_secrets_v2",
+      "name": "vx_policy_secret_approval_requests_secrets_v2",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequestSecretV2"
+    },
+    {
+      "legacy": "secret_approval_request_secret_tags_v2",
+      "name": "vx_policy_secret_approval_request_secret_tags_v2",
+      "group": "policy",
+      "tableNameKey": "SecretApprovalRequestSecretTagV2"
+    },
+    {
+      "legacy": "secret_snapshot_secrets_v2",
+      "name": "vx_secrets_snapshot_secrets",
+      "group": "secrets",
+      "tableNameKey": "SnapshotSecretV2"
+    },
+    {
+      "legacy": "project_split_backfill_ids",
+      "name": "vx_workspace_project_split_backfill_ids",
+      "group": "workspace",
+      "tableNameKey": "ProjectSplitBackfillIds"
+    },
+    {
+      "legacy": "user_notifications",
+      "name": "vx_operate_notifications",
+      "group": "operate",
+      "tableNameKey": "UserNotifications"
+    },
+    {
+      "legacy": "scim_events",
+      "name": "vx_auth_scim_events",
+      "group": "auth",
+      "tableNameKey": "ScimEvents"
+    },
+    {
+      "legacy": "org_gateway_config",
+      "name": "vx_net_legacy_gateway_configs",
+      "group": "net",
+      "tableNameKey": "OrgGatewayConfig"
+    },
+    {
+      "legacy": "gateways",
+      "name": "vx_net_legacy_gateways",
+      "group": "net",
+      "tableNameKey": "Gateway"
+    },
+    {
+      "legacy": "project_gateways",
+      "name": "vx_net_project_gateways",
+      "group": "net",
+      "tableNameKey": "ProjectGateway"
+    },
+    {
+      "legacy": "secret_v2_tag_junction",
+      "name": "vx_secrets_tag_junction",
+      "group": "secrets",
+      "tableNameKey": "SecretV2JnTag"
+    },
+    {
+      "legacy": "secret_tag_junction",
+      "name": "vx_secrets_legacy_tag_junction",
+      "group": "secrets",
+      "tableNameKey": "JnSecretTag"
+    },
+    {
+      "legacy": "secret_version_tag_junction",
+      "name": "vx_secrets_legacy_version_tag_junction",
+      "group": "secrets",
+      "tableNameKey": "SecretVersionTag"
+    },
+    {
+      "legacy": "secret_version_v2_tag_junction",
+      "name": "vx_secrets_version_tag_junction",
+      "group": "secrets",
+      "tableNameKey": "SecretVersionV2Tag"
+    },
+    {
+      "legacy": "kms_root_config",
+      "name": "vx_kms_root_config",
+      "group": "kms",
+      "tableNameKey": "KmsServerRootConfig"
+    },
+    {
+      "legacy": "kms_keys",
+      "name": "vx_kms_keys",
+      "group": "kms",
+      "tableNameKey": "KmsKey"
+    },
+    {
+      "legacy": "external_kms",
+      "name": "vx_kms_external",
+      "group": "kms",
+      "tableNameKey": "ExternalKms"
+    },
+    {
+      "legacy": "internal_kms",
+      "name": "vx_kms_internal",
+      "group": "kms",
+      "tableNameKey": "InternalKms"
+    },
+    {
+      "legacy": "internal_kms_key_version",
+      "name": "vx_kms_internal_key_versions",
+      "group": "kms",
+      "tableNameKey": "InternalKmsKeyVersion"
+    },
+    {
+      "legacy": "totp_configs",
+      "name": "vx_auth_totp_configs",
+      "group": "auth",
+      "tableNameKey": "TotpConfig"
+    },
+    {
+      "legacy": "webauthn_credentials",
+      "name": "vx_auth_webauthn_credentials",
+      "group": "auth",
+      "tableNameKey": "WebAuthnCredential"
+    },
+    {
+      "legacy": "user_mfa_recovery_codes",
+      "name": "vx_auth_mfa_recovery_codes",
+      "group": "auth",
+      "tableNameKey": "UserMfaRecoveryCode"
+    },
+    {
+      "legacy": "kms_key_versions",
+      "name": "vx_kms_key_versions",
+      "group": "kms",
+      "tableNameKey": "KmsKeyVersion"
+    },
+    {
+      "legacy": "workflow_integrations",
+      "name": "vx_connect_workflow_integrations",
+      "group": "connect",
+      "tableNameKey": "WorkflowIntegrations"
+    },
+    {
+      "legacy": "vaultix_early_access_requests",
+      "name": "vx_public_early_access_requests",
+      "group": "public",
+      "tableNameKey": "VaultixEarlyAccessRequests"
+    },
+    {
+      "legacy": "slack_integrations",
+      "name": "vx_connect_slack_integrations",
+      "group": "connect",
+      "tableNameKey": "SlackIntegrations"
+    },
+    {
+      "legacy": "project_slack_configs",
+      "name": "vx_connect_slack_project_configs",
+      "group": "connect",
+      "tableNameKey": "ProjectSlackConfigs"
+    },
+    {
+      "legacy": "app_connections",
+      "name": "vx_connect_app_connections",
+      "group": "connect",
+      "tableNameKey": "AppConnection"
+    },
+    {
+      "legacy": "app_connection_credential_rotations",
+      "name": "vx_connect_app_connection_credential_rotations",
+      "group": "connect",
+      "tableNameKey": "AppConnectionCredentialRotation"
+    },
+    {
+      "legacy": "hsm_connectors",
+      "name": "vx_kms_hsm_connectors",
+      "group": "kms",
+      "tableNameKey": "HsmConnector"
+    },
+    {
+      "legacy": "secret_syncs",
+      "name": "vx_connect_secret_syncs",
+      "group": "connect",
+      "tableNameKey": "SecretSync"
+    },
+    {
+      "legacy": "pki_syncs",
+      "name": "vx_connect_pki_syncs",
+      "group": "connect",
+      "tableNameKey": "PkiSync"
+    },
+    {
+      "legacy": "certificate_syncs",
+      "name": "vx_connect_certificate_syncs",
+      "group": "connect",
+      "tableNameKey": "CertificateSync"
+    },
+    {
+      "legacy": "kmip_clients",
+      "name": "vx_kms_kmip_clients",
+      "group": "kms",
+      "tableNameKey": "KmipClient"
+    },
+    {
+      "legacy": "kmip_org_configs",
+      "name": "vx_kms_kmip_org_configs",
+      "group": "kms",
+      "tableNameKey": "KmipOrgConfig"
+    },
+    {
+      "legacy": "kmip_org_server_certificates",
+      "name": "vx_kms_kmip_org_server_certificates",
+      "group": "kms",
+      "tableNameKey": "KmipOrgServerCertificates"
+    },
+    {
+      "legacy": "kmip_client_certificates",
+      "name": "vx_kms_kmip_client_certificates",
+      "group": "kms",
+      "tableNameKey": "KmipClientCertificates"
+    },
+    {
+      "legacy": "kmip_servers",
+      "name": "vx_kms_kmip_servers",
+      "group": "kms",
+      "tableNameKey": "KmipServer"
+    },
+    {
+      "legacy": "secret_rotations_v2",
+      "name": "vx_secrets_rotations",
+      "group": "secrets",
+      "tableNameKey": "SecretRotationV2"
+    },
+    {
+      "legacy": "secret_rotation_v2_secret_mappings",
+      "name": "vx_secrets_rotation_secret_mappings",
+      "group": "secrets",
+      "tableNameKey": "SecretRotationV2SecretMapping"
+    },
+    {
+      "legacy": "microsoft_teams_integrations",
+      "name": "vx_connect_teams_integrations",
+      "group": "connect",
+      "tableNameKey": "MicrosoftTeamsIntegrations"
+    },
+    {
+      "legacy": "project_microsoft_teams_configs",
+      "name": "vx_connect_teams_project_configs",
+      "group": "connect",
+      "tableNameKey": "ProjectMicrosoftTeamsConfigs"
+    },
+    {
+      "legacy": "secret_reminder_recipients",
+      "name": "vx_secrets_legacy_reminder_recipients",
+      "group": "secrets",
+      "tableNameKey": "SecretReminderRecipients"
+    },
+    {
+      "legacy": "github_org_sync_configs",
+      "name": "vx_connect_github_org_sync_configs",
+      "group": "connect",
+      "tableNameKey": "GithubOrgSyncConfig"
+    },
+    {
+      "legacy": "github_apps",
+      "name": "vx_connect_github_apps",
+      "group": "connect",
+      "tableNameKey": "GitHubApp"
+    },
+    {
+      "legacy": "github_app_connections",
+      "name": "vx_connect_github_app_connections",
+      "group": "connect",
+      "tableNameKey": "GitHubAppConnection"
+    },
+    {
+      "legacy": "folder_commits",
+      "name": "vx_secrets_folder_commits",
+      "group": "secrets",
+      "tableNameKey": "FolderCommit"
+    },
+    {
+      "legacy": "folder_commit_changes",
+      "name": "vx_secrets_folder_commit_changes",
+      "group": "secrets",
+      "tableNameKey": "FolderCommitChanges"
+    },
+    {
+      "legacy": "folder_checkpoints",
+      "name": "vx_secrets_folder_checkpoints",
+      "group": "secrets",
+      "tableNameKey": "FolderCheckpoint"
+    },
+    {
+      "legacy": "folder_checkpoint_resources",
+      "name": "vx_secrets_folder_checkpoint_resources",
+      "group": "secrets",
+      "tableNameKey": "FolderCheckpointResources"
+    },
+    {
+      "legacy": "folder_tree_checkpoints",
+      "name": "vx_secrets_folder_tree_checkpoints",
+      "group": "secrets",
+      "tableNameKey": "FolderTreeCheckpoint"
+    },
+    {
+      "legacy": "folder_tree_checkpoint_resources",
+      "name": "vx_secrets_folder_tree_checkpoint_resources",
+      "group": "secrets",
+      "tableNameKey": "FolderTreeCheckpointResources"
+    },
+    {
+      "legacy": "secret_scanning_data_sources",
+      "name": "vx_scan_data_sources",
+      "group": "scan",
+      "tableNameKey": "SecretScanningDataSource"
+    },
+    {
+      "legacy": "secret_scanning_resources",
+      "name": "vx_scan_resources",
+      "group": "scan",
+      "tableNameKey": "SecretScanningResource"
+    },
+    {
+      "legacy": "secret_scanning_scans",
+      "name": "vx_scan_scans",
+      "group": "scan",
+      "tableNameKey": "SecretScanningScan"
+    },
+    {
+      "legacy": "secret_scanning_findings",
+      "name": "vx_scan_findings",
+      "group": "scan",
+      "tableNameKey": "SecretScanningFinding"
+    },
+    {
+      "legacy": "secret_scanning_configs",
+      "name": "vx_scan_configs",
+      "group": "scan",
+      "tableNameKey": "SecretScanningConfig"
+    },
+    {
+      "legacy": "memberships",
+      "name": "vx_workspace_memberships",
+      "group": "workspace",
+      "tableNameKey": "Membership"
+    },
+    {
+      "legacy": "membership_roles",
+      "name": "vx_workspace_membership_roles",
+      "group": "workspace",
+      "tableNameKey": "MembershipRole"
+    },
+    {
+      "legacy": "roles",
+      "name": "vx_workspace_roles",
+      "group": "workspace",
+      "tableNameKey": "Role"
+    },
+    {
+      "legacy": "additional_privileges",
+      "name": "vx_workspace_additional_privileges",
+      "group": "workspace",
+      "tableNameKey": "AdditionalPrivilege"
+    },
+    {
+      "legacy": "namespaces",
+      "name": "vx_workspace_namespaces",
+      "group": "workspace",
+      "tableNameKey": "Namespace"
+    },
+    {
+      "legacy": "reminders",
+      "name": "vx_secrets_reminders",
+      "group": "secrets",
+      "tableNameKey": "Reminder"
+    },
+    {
+      "legacy": "reminders_recipients",
+      "name": "vx_secrets_reminder_recipients",
+      "group": "secrets",
+      "tableNameKey": "ReminderRecipient"
+    },
+    {
+      "legacy": "instance_relay_config",
+      "name": "vx_net_instance_relay_configs",
+      "group": "net",
+      "tableNameKey": "InstanceRelayConfig"
+    },
+    {
+      "legacy": "org_relay_config",
+      "name": "vx_net_org_relay_configs",
+      "group": "net",
+      "tableNameKey": "OrgRelayConfig"
+    },
+    {
+      "legacy": "org_gateway_config_v2",
+      "name": "vx_net_gateway_configs",
+      "group": "net",
+      "tableNameKey": "OrgGatewayConfigV2"
+    },
+    {
+      "legacy": "relays",
+      "name": "vx_net_relays",
+      "group": "net",
+      "tableNameKey": "Relay"
+    },
+    {
+      "legacy": "gateways_v2",
+      "name": "vx_net_gateways",
+      "group": "net",
+      "tableNameKey": "GatewayV2"
+    },
+    {
+      "legacy": "resource_auth_methods",
+      "name": "vx_net_resource_auth_methods",
+      "group": "net",
+      "tableNameKey": "ResourceAuthMethod"
+    },
+    {
+      "legacy": "resource_aws_auths",
+      "name": "vx_net_resource_aws_auths",
+      "group": "net",
+      "tableNameKey": "ResourceAwsAuth"
+    },
+    {
+      "legacy": "resource_token_auths",
+      "name": "vx_net_resource_token_auths",
+      "group": "net",
+      "tableNameKey": "ResourceTokenAuth"
+    },
+    {
+      "legacy": "gateway_pools",
+      "name": "vx_net_gateway_pools",
+      "group": "net",
+      "tableNameKey": "GatewayPool"
+    },
+    {
+      "legacy": "gateway_pool_memberships",
+      "name": "vx_net_gateway_pool_memberships",
+      "group": "net",
+      "tableNameKey": "GatewayPoolMembership"
+    },
+    {
+      "legacy": "key_value_store",
+      "name": "vx_operate_key_value_store",
+      "group": "operate",
+      "tableNameKey": "KeyValueStore"
+    },
+    {
+      "legacy": "pam_account_templates",
+      "name": "vx_pam_account_templates",
+      "group": "pam",
+      "tableNameKey": "PamAccountTemplate"
+    },
+    {
+      "legacy": "pam_folders",
+      "name": "vx_pam_folders",
+      "group": "pam",
+      "tableNameKey": "PamFolder"
+    },
+    {
+      "legacy": "pam_folder_notification_configs",
+      "name": "vx_pam_folder_notification_configs",
+      "group": "pam",
+      "tableNameKey": "PamFolderNotificationConfig"
+    },
+    {
+      "legacy": "pam_resources",
+      "name": "vx_pam_resources",
+      "group": "pam",
+      "tableNameKey": "PamResource"
+    },
+    {
+      "legacy": "pam_accounts",
+      "name": "vx_pam_accounts",
+      "group": "pam",
+      "tableNameKey": "PamAccount"
+    },
+    {
+      "legacy": "pam_sessions",
+      "name": "vx_pam_sessions",
+      "group": "pam",
+      "tableNameKey": "PamSession"
+    },
+    {
+      "legacy": "pam_session_event_batches",
+      "name": "vx_pam_session_event_batches",
+      "group": "pam",
+      "tableNameKey": "PamSessionEventBatch"
+    },
+    {
+      "legacy": "pam_session_event_chunks",
+      "name": "vx_pam_session_event_chunks",
+      "group": "pam",
+      "tableNameKey": "PamSessionEventChunk"
+    },
+    {
+      "legacy": "pam_project_recording_configs",
+      "name": "vx_pam_project_recording_configs",
+      "group": "pam",
+      "tableNameKey": "PamProjectRecordingConfig"
+    },
+    {
+      "legacy": "pam_discovery_sources",
+      "name": "vx_pam_discovery_sources",
+      "group": "pam",
+      "tableNameKey": "PamDiscoverySource"
+    },
+    {
+      "legacy": "pam_discovery_source_runs",
+      "name": "vx_pam_discovery_source_runs",
+      "group": "pam",
+      "tableNameKey": "PamDiscoverySourceRun"
+    },
+    {
+      "legacy": "pam_discovered_accounts",
+      "name": "vx_pam_discovered_accounts",
+      "group": "pam",
+      "tableNameKey": "PamDiscoveredAccount"
+    },
+    {
+      "legacy": "pam_discovery_source_resources",
+      "name": "vx_pam_discovery_source_resources",
+      "group": "pam",
+      "tableNameKey": "PamDiscoverySourceResource"
+    },
+    {
+      "legacy": "pam_discovery_source_accounts",
+      "name": "vx_pam_discovery_source_accounts",
+      "group": "pam",
+      "tableNameKey": "PamDiscoverySourceAccount"
+    },
+    {
+      "legacy": "pam_discovery_source_dependencies",
+      "name": "vx_pam_discovery_source_dependencies",
+      "group": "pam",
+      "tableNameKey": "PamDiscoverySourceDependency"
+    },
+    {
+      "legacy": "pam_account_dependencies",
+      "name": "vx_pam_account_dependencies",
+      "group": "pam",
+      "tableNameKey": "PamAccountDependency"
+    },
+    {
+      "legacy": "pam_resource_rotation_rules",
+      "name": "vx_pam_resource_rotation_rules",
+      "group": "pam",
+      "tableNameKey": "PamResourceRotationRule"
+    },
+    {
+      "legacy": "pam_resource_favorites",
+      "name": "vx_pam_resource_favorites",
+      "group": "pam",
+      "tableNameKey": "PamResourceFavorite"
+    },
+    {
+      "legacy": "pam_domains",
+      "name": "vx_pam_domains",
+      "group": "pam",
+      "tableNameKey": "PamDomain"
+    },
+    {
+      "legacy": "pam_account_policies",
+      "name": "vx_pam_account_policies",
+      "group": "pam",
+      "tableNameKey": "PamAccountPolicy"
+    },
+    {
+      "legacy": "vault_external_migration_configs",
+      "name": "vx_connect_vault_migration_configs",
+      "group": "connect",
+      "tableNameKey": "VaultExternalMigrationConfig"
+    },
+    {
+      "legacy": "external_migration_configs",
+      "name": "vx_connect_migration_configs",
+      "group": "connect",
+      "tableNameKey": "ExternalMigrationConfig"
+    },
+    {
+      "legacy": "pki_acme_accounts",
+      "name": "vx_pki_acme_accounts",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeAccount"
+    },
+    {
+      "legacy": "pki_acme_orders",
+      "name": "vx_pki_acme_orders",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeOrder"
+    },
+    {
+      "legacy": "pki_acme_order_auths",
+      "name": "vx_pki_acme_order_auths",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeOrderAuth"
+    },
+    {
+      "legacy": "pki_acme_auths",
+      "name": "vx_pki_acme_auths",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeAuth"
+    },
+    {
+      "legacy": "pki_acme_challenges",
+      "name": "vx_pki_acme_challenges",
+      "group": "pki",
+      "tableNameKey": "PkiAcmeChallenge"
+    },
+    {
+      "legacy": "pki_discovery_configs",
+      "name": "vx_pki_discovery_configs",
+      "group": "pki",
+      "tableNameKey": "PkiDiscoveryConfig"
+    },
+    {
+      "legacy": "pki_certificate_installations",
+      "name": "vx_pki_certificate_installations",
+      "group": "pki",
+      "tableNameKey": "PkiCertificateInstallation"
+    },
+    {
+      "legacy": "pki_discovery_installations",
+      "name": "vx_pki_discovery_installations",
+      "group": "pki",
+      "tableNameKey": "PkiDiscoveryInstallation"
+    },
+    {
+      "legacy": "pki_certificate_installation_certs",
+      "name": "vx_pki_certificate_installation_certs",
+      "group": "pki",
+      "tableNameKey": "PkiCertificateInstallationCert"
+    },
+    {
+      "legacy": "pki_discovery_scan_history",
+      "name": "vx_pki_discovery_scan_history",
+      "group": "pki",
+      "tableNameKey": "PkiDiscoveryScanHistory"
+    },
+    {
+      "legacy": "certificate_cleanup_configs",
+      "name": "vx_pki_certificate_cleanup_configs",
+      "group": "pki",
+      "tableNameKey": "CertificateCleanupConfig"
+    },
+    {
+      "legacy": "certificate_inventory_views",
+      "name": "vx_pki_certificate_inventory_views",
+      "group": "pki",
+      "tableNameKey": "CertificateInventoryView"
+    },
+    {
+      "legacy": "ai_mcp_servers",
+      "name": "vx_ai_mcp_servers",
+      "group": "ai",
+      "tableNameKey": "AiMcpServer"
+    },
+    {
+      "legacy": "ai_mcp_server_tools",
+      "name": "vx_ai_mcp_server_tools",
+      "group": "ai",
+      "tableNameKey": "AiMcpServerTool"
+    },
+    {
+      "legacy": "ai_mcp_server_user_credentials",
+      "name": "vx_ai_mcp_server_user_credentials",
+      "group": "ai",
+      "tableNameKey": "AiMcpServerUserCredential"
+    },
+    {
+      "legacy": "ai_mcp_endpoints",
+      "name": "vx_ai_mcp_endpoints",
+      "group": "ai",
+      "tableNameKey": "AiMcpEndpoint"
+    },
+    {
+      "legacy": "ai_mcp_endpoint_servers",
+      "name": "vx_ai_mcp_endpoint_servers",
+      "group": "ai",
+      "tableNameKey": "AiMcpEndpointServer"
+    },
+    {
+      "legacy": "ai_mcp_endpoint_server_tools",
+      "name": "vx_ai_mcp_endpoint_server_tools",
+      "group": "ai",
+      "tableNameKey": "AiMcpEndpointServerTool"
+    },
+    {
+      "legacy": "ai_mcp_activity_logs",
+      "name": "vx_ai_mcp_activity_logs",
+      "group": "ai",
+      "tableNameKey": "AiMcpActivityLog"
+    },
+    {
+      "legacy": "approval_policies",
+      "name": "vx_policy_approval_policies",
+      "group": "policy",
+      "tableNameKey": "ApprovalPolicies"
+    },
+    {
+      "legacy": "approval_policy_steps",
+      "name": "vx_policy_approval_policy_steps",
+      "group": "policy",
+      "tableNameKey": "ApprovalPolicySteps"
+    },
+    {
+      "legacy": "approval_policy_step_approvers",
+      "name": "vx_policy_approval_policy_step_approvers",
+      "group": "policy",
+      "tableNameKey": "ApprovalPolicyStepApprovers"
+    },
+    {
+      "legacy": "approval_policy_bypassers",
+      "name": "vx_policy_approval_policy_bypassers",
+      "group": "policy",
+      "tableNameKey": "ApprovalPolicyBypassers"
+    },
+    {
+      "legacy": "approval_requests",
+      "name": "vx_policy_approval_requests",
+      "group": "policy",
+      "tableNameKey": "ApprovalRequests"
+    },
+    {
+      "legacy": "approval_request_steps",
+      "name": "vx_policy_approval_request_steps",
+      "group": "policy",
+      "tableNameKey": "ApprovalRequestSteps"
+    },
+    {
+      "legacy": "approval_request_step_eligible_approvers",
+      "name": "vx_policy_approval_request_step_eligible_approvers",
+      "group": "policy",
+      "tableNameKey": "ApprovalRequestStepEligibleApprovers"
+    },
+    {
+      "legacy": "approval_request_approvals",
+      "name": "vx_policy_approval_request_approvals",
+      "group": "policy",
+      "tableNameKey": "ApprovalRequestApprovals"
+    },
+    {
+      "legacy": "approval_request_grants",
+      "name": "vx_policy_approval_request_grants",
+      "group": "policy",
+      "tableNameKey": "ApprovalRequestGrants"
+    },
+    {
+      "legacy": "pki_signers",
+      "name": "vx_pki_signers",
+      "group": "pki",
+      "tableNameKey": "PkiSigners"
+    },
+    {
+      "legacy": "pki_signer_certificate_issuance_jobs",
+      "name": "vx_pki_signer_certificate_issuance_jobs",
+      "group": "pki",
+      "tableNameKey": "PkiSignerCertificateIssuanceJobs"
+    },
+    {
+      "legacy": "pki_signing_operations",
+      "name": "vx_pki_signing_operations",
+      "group": "pki",
+      "tableNameKey": "PkiSigningOperations"
+    },
+    {
+      "legacy": "ca_signing_configs",
+      "name": "vx_pki_ca_signing_configs",
+      "group": "pki",
+      "tableNameKey": "CaSigningConfig"
+    },
+    {
+      "legacy": "secret_validation_rules",
+      "name": "vx_policy_secret_validation_rules",
+      "group": "policy",
+      "tableNameKey": "SecretValidationRule"
+    },
+    {
+      "legacy": "oauth_clients",
+      "name": "vx_auth_oauth_clients",
+      "group": "auth",
+      "tableNameKey": "OauthClient"
+    },
+    {
+      "legacy": "honey_token_configs",
+      "name": "vx_secrets_honey_token_configs",
+      "group": "secrets",
+      "tableNameKey": "HoneyTokenConfig"
+    },
+    {
+      "legacy": "honey_tokens",
+      "name": "vx_secrets_honey_tokens",
+      "group": "secrets",
+      "tableNameKey": "HoneyToken"
+    },
+    {
+      "legacy": "honey_token_events",
+      "name": "vx_secrets_honey_token_events",
+      "group": "secrets",
+      "tableNameKey": "HoneyTokenEvent"
+    },
+    {
+      "legacy": "honey_token_secret_mappings",
+      "name": "vx_secrets_honey_token_secret_mappings",
+      "group": "secrets",
+      "tableNameKey": "HoneyTokenSecretMapping"
+    },
+    {
+      "legacy": "audit_reports",
+      "name": "vx_operate_audit_reports",
+      "group": "operate",
+      "tableNameKey": "AuditReport"
+    },
+    {
+      "legacy": "org_agent_proxy_config",
+      "name": "vx_connect_agent_proxy_configs",
+      "group": "connect",
+      "tableNameKey": "OrgAgentProxyConfig"
+    },
+    {
+      "legacy": "proxied_services",
+      "name": "vx_connect_proxied_services",
+      "group": "connect",
+      "tableNameKey": "ProxiedService"
+    },
+    {
+      "legacy": "proxied_service_credentials",
+      "name": "vx_connect_proxied_service_credentials",
+      "group": "connect",
+      "tableNameKey": "ProxiedServiceCredential"
+    },
+    {
+      "legacy": "queue_jobs",
+      "name": "vx_operate_queue_jobs",
+      "group": "operate",
+      "tableNameKey": "DeprecatedDurableQueueJobs"
+    },
+    {
+      "legacy": "secret_rotations",
+      "name": "vx_secrets_legacy_rotations",
+      "group": "secrets",
+      "tableNameKey": "DeprecatedSecretRotationV1"
+    },
+    {
+      "legacy": "secret_rotation_outputs",
+      "name": "vx_secrets_legacy_rotation_outputs",
+      "group": "secrets",
+      "tableNameKey": "DeprecatedSecretRotationOutput"
+    },
+    {
+      "legacy": "secret_rotation_output_v2",
+      "name": "vx_secrets_legacy_rotation_outputs_v2",
+      "group": "secrets",
+      "tableNameKey": "DeprecatedSecretRotationOutputV2"
+    },
+    {
+      "legacy": "api_keys",
+      "name": "vx_auth_api_keys",
+      "group": "auth",
+      "tableNameKey": "DeprecatedApiKey"
+    },
+    {
+      "legacy": "vaultix_device_authorizations",
+      "name": "vx_auth_device_authorizations",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_device_sessions",
+      "name": "vx_auth_device_sessions",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_device_session_events",
+      "name": "vx_auth_device_session_events",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_device_event_deliveries",
+      "name": "vx_auth_device_event_deliveries",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_bindings",
+      "name": "vx_auth_identity_bindings",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_binding_events",
+      "name": "vx_auth_identity_binding_events",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_link_challenges",
+      "name": "vx_auth_identity_link_challenges",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_reauth_attempts",
+      "name": "vx_auth_reauth_attempts",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_reauth_proofs",
+      "name": "vx_auth_reauth_proofs",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_identity_reauth_totp",
+      "name": "vx_auth_reauth_totp",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "vaultix_totp_replays",
+      "name": "vx_auth_totp_replays",
+      "group": "auth",
+      "tableNameKey": null
+    },
+    {
+      "legacy": "pam_revamp_backup",
+      "name": "vx_pam_legacy_revamp_backup",
+      "group": "pam",
+      "tableNameKey": null
+    }
+  ]
+}

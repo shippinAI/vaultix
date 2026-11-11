@@ -77,7 +77,7 @@ func (s *Service) Start(ctx context.Context, request Request) (Grant, error) {
 		return Grant{}, s.unavailable(ctx, "cleanup")
 	}
 	var count int
-	if err = tx.QueryRow(ctx, `SELECT count(*) FROM (SELECT id FROM vaultix_device_authorizations LIMIT @limit) bounded`, pgx.NamedArgs{"limit": s.maxOutstanding}).Scan(&count); err != nil {
+	if err = tx.QueryRow(ctx, `SELECT count(*) FROM (SELECT id FROM vx_auth_device_authorizations LIMIT @limit) bounded`, pgx.NamedArgs{"limit": s.maxOutstanding}).Scan(&count); err != nil {
 		return Grant{}, s.unavailable(ctx, "admission")
 	}
 	if count >= s.maxOutstanding {
@@ -87,7 +87,7 @@ func (s *Service) Start(ctx context.Context, request Request) (Grant, error) {
 		return Grant{}, ErrUnavailable
 	}
 	err = tx.QueryRow(ctx, `WITH stamp AS (SELECT clock_timestamp() AS now)
- INSERT INTO vaultix_device_authorizations (id,"deviceDigest","userCodeDigest","clientId",resource,scope,"createdAt","expiresAt","nextPollAt")
+ INSERT INTO vx_auth_device_authorizations (id,"deviceDigest","userCodeDigest","clientId",resource,scope,"createdAt","expiresAt","nextPollAt")
  SELECT @id,@device,@user,@client,@resource,@scope,now,now+interval '10 minutes',now+interval '5 seconds' FROM stamp RETURNING "expiresAt"`,
 		pgx.NamedArgs{"id": grant.ID, "device": deviceDigest, "user": userDigest, "client": ClientID, "resource": s.resource, "scope": Scope}).Scan(&grant.ExpiresAt)
 	if err != nil {
@@ -117,7 +117,7 @@ func (s *Service) load(ctx context.Context, tx pgx.Tx, kind string, digest []byt
 		column = `"userCodeDigest"`
 	}
 	var id uuid.UUID
-	err := tx.QueryRow(ctx, `SELECT id FROM vaultix_device_authorizations WHERE `+column+`=@digest AND "clientId"=@client AND resource=@resource AND scope=@scope AND "schemaVersion"=1`, pgx.NamedArgs{"digest": digest, "client": ClientID, "resource": s.resource, "scope": Scope}).Scan(&id)
+	err := tx.QueryRow(ctx, `SELECT id FROM vx_auth_device_authorizations WHERE `+column+`=@digest AND "clientId"=@client AND resource=@resource AND scope=@scope AND "schemaVersion"=1`, pgx.NamedArgs{"digest": digest, "client": ClientID, "resource": s.resource, "scope": Scope}).Scan(&id)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, ErrInvalidGrant
 	}
@@ -135,7 +135,7 @@ func (s *Service) load(ctx context.Context, tx pgx.Tx, kind string, digest []byt
 	grant := &storedGrant{id: id}
 	err = tx.QueryRow(ctx, `SELECT status,"expiresAt","nextPollAt","intervalSeconds",approval,
  COALESCE("userId",'00000000-0000-0000-0000-000000000000'),COALESCE("sessionId",'00000000-0000-0000-0000-000000000000'),clock_timestamp()
- FROM vaultix_device_authorizations WHERE id=@id AND "schemaVersion"=1 AND `+column+`=@digest AND "clientId"=@client AND resource=@resource AND scope=@scope`, pgx.NamedArgs{"id": id, "digest": digest, "client": ClientID, "resource": s.resource, "scope": Scope}).Scan(&grant.status, &grant.expiresAt, &grant.nextPollAt, &grant.interval, &grant.approval, &grant.userID, &grant.sessionID, &grant.now)
+ FROM vx_auth_device_authorizations WHERE id=@id AND "schemaVersion"=1 AND `+column+`=@digest AND "clientId"=@client AND resource=@resource AND scope=@scope`, pgx.NamedArgs{"id": id, "digest": digest, "client": ClientID, "resource": s.resource, "scope": Scope}).Scan(&grant.status, &grant.expiresAt, &grant.nextPollAt, &grant.interval, &grant.approval, &grant.userID, &grant.sessionID, &grant.now)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, ErrInvalidGrant
 	}
@@ -212,7 +212,7 @@ func (s *Service) Approve(ctx context.Context, userCode string, actor *auth.Iden
 	if err != nil || len(encoded) > 2048 {
 		return ErrDenied
 	}
-	result, err := tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET status='approved',"userId"=@user,"sessionId"=@session,approval=@approval
+	result, err := tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET status='approved',"userId"=@user,"sessionId"=@session,approval=@approval
  WHERE id=@id AND status='pending' AND "expiresAt">clock_timestamp()`, pgx.NamedArgs{"id": grant.id, "user": approval.UserID, "session": approval.SessionID, "approval": encoded})
 	if err != nil {
 		return s.unavailable(ctx, "approve")
@@ -256,7 +256,7 @@ func (s *Service) deny(ctx context.Context, kind string, digest []byte) error {
 	if grant.status != "pending" && (kind != "device-code" || grant.status != "approved") {
 		return ErrInvalidGrant
 	}
-	result, err := tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET status='denied',approval=NULL,"userId"=NULL,"sessionId"=NULL WHERE id=@id AND status=@status AND "expiresAt">clock_timestamp()`, pgx.NamedArgs{"id": grant.id, "status": grant.status})
+	result, err := tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET status='denied',approval=NULL,"userId"=NULL,"sessionId"=NULL WHERE id=@id AND status=@status AND "expiresAt">clock_timestamp()`, pgx.NamedArgs{"id": grant.id, "status": grant.status})
 	if err != nil {
 		return s.unavailable(ctx, "deny")
 	}
@@ -289,12 +289,12 @@ func (s *Service) Poll(ctx context.Context, request Request, deviceCode string) 
 		return Session{}, ErrInvalidGrant
 	}
 	if grant.nextPollAt.After(grant.now) {
-		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET "intervalSeconds"=LEAST("intervalSeconds"+5,60),
+		_, err = tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET "intervalSeconds"=LEAST("intervalSeconds"+5,60),
  "nextPollAt"=clock_timestamp()+make_interval(secs=>LEAST("intervalSeconds"+5,60)) WHERE id=@id`, pgx.NamedArgs{"id": grant.id})
 		return Session{}, s.commitProtocol(ctx, tx, err, ErrSlowDown)
 	}
 	if grant.status == "pending" {
-		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET "nextPollAt"=clock_timestamp()+make_interval(secs=>"intervalSeconds") WHERE id=@id`, pgx.NamedArgs{"id": grant.id})
+		_, err = tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET "nextPollAt"=clock_timestamp()+make_interval(secs=>"intervalSeconds") WHERE id=@id`, pgx.NamedArgs{"id": grant.id})
 		return Session{}, s.commitProtocol(ctx, tx, err, ErrPending)
 	}
 	var approval Approval
@@ -309,7 +309,7 @@ func (s *Service) Poll(ctx context.Context, request Request, deviceCode string) 
 		if errors.Is(err, ErrUnavailable) {
 			return Session{}, ErrUnavailable
 		}
-		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET status='denied',approval=NULL,"userId"=NULL,"sessionId"=NULL WHERE id=@id`, pgx.NamedArgs{"id": grant.id})
+		_, err = tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET status='denied',approval=NULL,"userId"=NULL,"sessionId"=NULL WHERE id=@id`, pgx.NamedArgs{"id": grant.id})
 		return Session{}, s.commitProtocol(ctx, tx, err, ErrDenied)
 	}
 	if checked != approval {
@@ -322,7 +322,7 @@ func (s *Service) Poll(ctx context.Context, request Request, deviceCode string) 
 	if checked != approval {
 		return Session{}, ErrDenied
 	}
-	result, err := tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET status='consumed'
+	result, err := tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET status='consumed'
  WHERE id=@id AND status='approved' AND approval=@approval AND "expiresAt">clock_timestamp()`, pgx.NamedArgs{"id": grant.id, "approval": grant.approval})
 	if err != nil {
 		return Session{}, s.unavailable(ctx, "consume")
@@ -347,9 +347,9 @@ func (s *Service) commitProtocol(ctx context.Context, tx pgx.Tx, updateError, pr
 }
 
 func cleanup(ctx context.Context, tx pgx.Tx) (int64, error) {
-	result, err := tx.Exec(ctx, `WITH expired AS (SELECT id FROM vaultix_device_authorizations
+	result, err := tx.Exec(ctx, `WITH expired AS (SELECT id FROM vx_auth_device_authorizations
  WHERE "expiresAt"<=clock_timestamp() ORDER BY "expiresAt",id LIMIT @limit FOR UPDATE SKIP LOCKED)
- DELETE FROM vaultix_device_authorizations grants USING expired WHERE grants.id=expired.id`, pgx.NamedArgs{"limit": cleanupBatch})
+ DELETE FROM vx_auth_device_authorizations grants USING expired WHERE grants.id=expired.id`, pgx.NamedArgs{"limit": cleanupBatch})
 	return result.RowsAffected(), err
 }
 

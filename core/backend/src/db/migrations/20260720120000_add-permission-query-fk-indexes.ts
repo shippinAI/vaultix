@@ -3,7 +3,7 @@ import { Knex } from "knex";
 import { TableName } from "../schemas";
 
 // getPermissionFingerprint (and its siblings getPermission / getProjectUserPermissions /
-// getProjectIdentityPermissions) LEFT JOIN identity_metadata and additional_privileges on their
+// getProjectIdentityPermissions) LEFT JOIN vx_identity_metadata and additional_privileges on their
 // FK columns. Postgres does not auto-index FK columns, and neither table has ever had an index on
 // any of them, so each join degrades to a seq scan.
 //

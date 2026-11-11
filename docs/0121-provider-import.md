@@ -1,4 +1,4 @@
-# 0117 — Provider import: review, approve, import
+# 0121 — Provider import: review, approve, import
 
 Status: implemented 2026-11-09 for Doppler and for instances speaking the Vaultix API
 (Infisical Cloud, self-hosted Infisical, another Vaultix). Extends

@@ -69,7 +69,7 @@ export async function up(knex: Knex): Promise<void> {
     // For verified+accepted duplicates, we reassign FK references to the winner before deleting.
     // ============================================================
 
-    // Get all FK references to users.id once (used when merging verified+accepted duplicates)
+    // Get all FK references to vx_auth_users.id once (used when merging verified+accepted duplicates)
     log("Step 3: fetching FK references...");
     t = Date.now();
     const fkRefs = await knex.raw(`
@@ -81,10 +81,10 @@ export async function up(knex: Knex): Promise<void> {
         ON a.attrelid = c.conrelid
        AND a.attnum = ANY(c.conkey)
     WHERE c.contype = 'f'
-      AND c.confrelid = 'public.users'::regclass
+      AND c.confrelid = 'public.${TableName.Users}'::regclass
       AND c.confkey = ARRAY(
           SELECT attnum FROM pg_attribute
-          WHERE attrelid = 'public.users'::regclass AND attname = 'id'
+          WHERE attrelid = 'public.${TableName.Users}'::regclass AND attname = 'id'
       )
   `);
     const userFkReferences = fkRefs.rows as { table_name: string; column_name: string }[];

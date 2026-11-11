@@ -110,7 +110,7 @@ func (r projectRow) project() *Project {
 func (s *Service) findBySlug(ctx context.Context, orgID uuid.UUID, slug string) (*Project, error) {
 	query := `
 		SELECT id, name, slug, "orgId", type, "auditLogsRetentionDays"
-		FROM projects
+		FROM vx_workspace_projects
 		WHERE slug = @slug AND "orgId" = @orgID
 	`
 	args := pgx.NamedArgs{"slug": slug, "orgID": orgID}
@@ -131,7 +131,7 @@ func (s *Service) findBySlug(ctx context.Context, orgID uuid.UUID, slug string) 
 func (s *Service) findByID(ctx context.Context, projectID string) (*Project, error) {
 	query := `
 		SELECT id, name, slug, "orgId", type, "auditLogsRetentionDays"
-		FROM projects
+		FROM vx_workspace_projects
 		WHERE id = @projectID
 	`
 	args := pgx.NamedArgs{"projectID": projectID}

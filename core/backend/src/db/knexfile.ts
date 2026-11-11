@@ -7,6 +7,7 @@ import path from "path";
 import { initLogger } from "@app/lib/logger";
 
 import { DbApplicationName } from "./instance";
+import { NamespacedMigrationSource } from "./namespaced-migration-source";
 
 // Update with your config settings. .
 dotenv.config({
@@ -17,6 +18,14 @@ dotenv.config({
 });
 
 initLogger();
+
+// The knex command line (which `vaultix server upgrade` runs) uses the same migration source as
+// startup: knex's file order, with the vx_ table steps in front (docs/0119). knex ignores a
+// migrationSource next to directory or loadExtensions, so neither is set here.
+const migrations: Knex.MigratorConfig = {
+  tableName: "vaultix_migrations",
+  migrationSource: new NamespacedMigrationSource(path.join(__dirname, "migrations"))
+};
 
 export default {
   development: {
@@ -43,10 +52,7 @@ export default {
     seeds: {
       directory: "./seeds"
     },
-    migrations: {
-      tableName: "vaultix_migrations",
-      loadExtensions: [".mjs", ".ts"]
-    }
+    migrations
   },
   production: {
     client: "postgres",
@@ -69,9 +75,6 @@ export default {
       min: 2,
       max: 10
     },
-    migrations: {
-      tableName: "vaultix_migrations",
-      loadExtensions: [".mjs", ".ts"]
-    }
+    migrations
   }
 } as Knex.Config;

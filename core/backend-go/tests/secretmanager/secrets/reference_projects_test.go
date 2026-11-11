@@ -68,16 +68,16 @@ func TestReference_ProjectMembershipDifferential(t *testing.T) {
 
 	// Disposable fixture mutations exercise the existing store without claiming
 	// that a new membership/deletion API has been implemented.
-	_, err = stack.DB().Primary().Exec(t.Context(), `DELETE FROM memberships WHERE "scopeProjectId"=$1 AND ("actorUserId"=$2 OR "actorIdentityId"=$3)`, project.ID, node.UserID(), identity.ID)
+	_, err = stack.DB().Primary().Exec(t.Context(), `DELETE FROM vx_workspace_memberships WHERE "scopeProjectId"=$1 AND ("actorUserId"=$2 OR "actorIdentityId"=$3)`, project.ID, node.UserID(), identity.ID)
 	require.NoError(t, err)
 	t.Run("user-group-only", func(t *testing.T) { check(t, userCtx, node.UserToken(), true) })
 	t.Run("identity-group-only", func(t *testing.T) { check(t, identityCtx, token, true) })
 
 	t.Run("deleted-environments", func(t *testing.T) {
-		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE project_environments SET "deleteAfter"=NOW()+interval '1 day' WHERE "projectId"=$1`, project.ID)
+		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE vx_workspace_environments SET "deleteAfter"=NOW()+interval '1 day' WHERE "projectId"=$1`, project.ID)
 		require.NoError(t, err)
 		t.Cleanup(func() {
-			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE project_environments SET "deleteAfter"=NULL WHERE "projectId"=$1`, project.ID)
+			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE vx_workspace_environments SET "deleteAfter"=NULL WHERE "projectId"=$1`, project.ID)
 			require.NoError(t, err)
 		})
 		check(t, identityCtx, token, true)
@@ -88,19 +88,19 @@ func TestReference_ProjectMembershipDifferential(t *testing.T) {
 		require.Empty(t, page.Projects[0].Environments)
 	})
 	t.Run("deleted-project", func(t *testing.T) {
-		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE projects SET "deleteAfter"=NOW()+interval '1 day' WHERE id=$1`, project.ID)
+		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE vx_workspace_projects SET "deleteAfter"=NOW()+interval '1 day' WHERE id=$1`, project.ID)
 		require.NoError(t, err)
 		t.Cleanup(func() {
-			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE projects SET "deleteAfter"=NULL WHERE id=$1`, project.ID)
+			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE vx_workspace_projects SET "deleteAfter"=NULL WHERE id=$1`, project.ID)
 			require.NoError(t, err)
 		})
 		check(t, identityCtx, token, false)
 	})
 	t.Run("other-product", func(t *testing.T) {
-		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE projects SET type='certificate-manager' WHERE id=$1`, project.ID)
+		_, err := stack.DB().Primary().Exec(t.Context(), `UPDATE vx_workspace_projects SET type='certificate-manager' WHERE id=$1`, project.ID)
 		require.NoError(t, err)
 		t.Cleanup(func() {
-			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE projects SET type='secret-manager' WHERE id=$1`, project.ID)
+			_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE vx_workspace_projects SET type='secret-manager' WHERE id=$1`, project.ID)
 			require.NoError(t, err)
 		})
 		check(t, identityCtx, token, false)
@@ -119,7 +119,7 @@ func TestReference_ProjectMembershipDifferential(t *testing.T) {
 		require.Error(t, err)
 		require.Nil(t, page)
 	})
-	_, err = stack.DB().Primary().Exec(t.Context(), `DELETE FROM identity_group_membership WHERE "groupId"=$1 AND "identityId"=$2`, group.ID, identity.ID)
+	_, err = stack.DB().Primary().Exec(t.Context(), `DELETE FROM vx_identity_group_memberships WHERE "groupId"=$1 AND "identityId"=$2`, group.ID, identity.ID)
 	require.NoError(t, err)
 	t.Run("group-membership-revoked", func(t *testing.T) { check(t, identityCtx, token, false) })
 }

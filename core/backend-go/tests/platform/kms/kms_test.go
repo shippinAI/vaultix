@@ -102,8 +102,8 @@ func TestConcurrentFirstAccess_CreatesExactlyOneProjectKey(t *testing.T) {
 	// Verify: exactly ONE kms_keys row for this project
 	var kmsKeyCount int
 	err := stack.DB().Replica().QueryRow(ctx, `
-		SELECT COUNT(*) FROM kms_keys k
-		JOIN projects p ON p."kmsSecretManagerKeyId" = k.id
+		SELECT COUNT(*) FROM vx_kms_keys k
+		JOIN vx_workspace_projects p ON p."kmsSecretManagerKeyId" = k.id
 		WHERE p.id = @projectID
 	`, pgx.NamedArgs{"projectID": proj.ID}).Scan(&kmsKeyCount)
 	require.NoError(t, err)
@@ -126,7 +126,7 @@ func TestCompatibility_GoDecryptsNodeEncryptedSecret(t *testing.T) {
 	var encryptedValue []byte
 	err := stack.DB().Replica().QueryRow(ctx, `
 		SELECT "encryptedValue"
-		FROM secrets_v2
+		FROM vx_secrets_secrets
 		WHERE id = @secretID
 	`, pgx.NamedArgs{"secretID": secret.ID}).Scan(&encryptedValue)
 	require.NoError(t, err)
@@ -161,11 +161,11 @@ func TestCompatibility_NodeDecryptsGoEncryptedSecret(t *testing.T) {
 
 	// Update the secret's encrypted value directly in secrets_v2
 	result, err := stack.DB().Primary().Exec(ctx, `
-		UPDATE secrets_v2
+		UPDATE vx_secrets_secrets
 		SET "encryptedValue" = @encryptedValue
 		WHERE key = 'GO_SECRET' AND "folderId" IN (
-			SELECT id FROM secret_folders WHERE "envId" IN (
-				SELECT id FROM project_environments WHERE "projectId" = @projectID AND slug = 'dev'
+			SELECT id FROM vx_secrets_folders WHERE "envId" IN (
+				SELECT id FROM vx_workspace_environments WHERE "projectId" = @projectID AND slug = 'dev'
 			) AND name = 'root'
 		)
 	`, pgx.NamedArgs{
@@ -297,7 +297,7 @@ func setupExternalKmsForProject(t *testing.T, svc *kms.Service, mock *externalkm
 
 	// Get org ID from project
 	var orgID uuid.UUID
-	err := stack.DB().Replica().QueryRow(ctx, `SELECT "orgId" FROM projects WHERE id = @id`,
+	err := stack.DB().Replica().QueryRow(ctx, `SELECT "orgId" FROM vx_workspace_projects WHERE id = @id`,
 		pgx.NamedArgs{"id": proj.ID}).Scan(&orgID)
 	require.NoError(t, err)
 
@@ -317,7 +317,7 @@ func setupExternalKmsForProject(t *testing.T, svc *kms.Service, mock *externalkm
 	// Create external KMS key in database
 	var kmsKeyID uuid.UUID
 	err = stack.DB().Primary().QueryRow(ctx, `
-		INSERT INTO kms_keys (name, "orgId", "isReserved", "keyUsage")
+		INSERT INTO vx_kms_keys (name, "orgId", "isReserved", "keyUsage")
 		VALUES (@name, @orgID, false, 'encrypt-decrypt')
 		RETURNING id
 	`, pgx.NamedArgs{"name": "test-external-kms", "orgID": orgID}).Scan(&kmsKeyID)
@@ -325,7 +325,7 @@ func setupExternalKmsForProject(t *testing.T, svc *kms.Service, mock *externalkm
 
 	// Create external_kms record
 	_, err = stack.DB().Primary().Exec(ctx, `
-		INSERT INTO external_kms (id, provider, "encryptedProviderInputs", "kmsKeyId")
+		INSERT INTO vx_kms_external (id, provider, "encryptedProviderInputs", "kmsKeyId")
 		VALUES (gen_random_uuid(), 'aws', @encryptedConfig, @kmsKeyID)
 	`, pgx.NamedArgs{"encryptedConfig": encryptedConfig, "kmsKeyID": kmsKeyID})
 	require.NoError(t, err)
@@ -341,7 +341,7 @@ func setupExternalKmsForProject(t *testing.T, svc *kms.Service, mock *externalkm
 
 	// Update project to use external KMS and set the encrypted data key
 	_, err = stack.DB().Primary().Exec(ctx, `
-		UPDATE projects
+		UPDATE vx_workspace_projects
 		SET "kmsSecretManagerKeyId" = @kmsKeyID,
 		    "kmsSecretManagerEncryptedDataKey" = @encryptedDataKey
 		WHERE id = @projectID

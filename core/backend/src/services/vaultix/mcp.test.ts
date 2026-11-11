@@ -44,6 +44,8 @@ describe("Clyffy native MCP", () => {
       call("tools/list") as { result: { tools: { name: string; annotations: { readOnlyHint: boolean } }[] } }
     ).result.tools;
     expect(names.map((tool) => tool.name)).toEqual([
+      "vaultix.warp.list",
+      "vaultix.auth.options.get",
       "vaultix.guidance.get",
       "vaultix.catalog.get",
       "vaultix.configure.show",
@@ -58,6 +60,84 @@ describe("Clyffy native MCP", () => {
     expect(connections).toContain("panel MCP is not the connector");
     expect(connections).toContain("Grok bot");
     expect(connections).not.toMatch(/Bearer\s+[A-Za-z0-9]/);
+  });
+
+  test("the main MCP lists every warp point and explains sign-in without credentials", () => {
+    const read = (name: string) =>
+      JSON.parse(
+        (call("tools/call", { name, arguments: {} }) as { result: { content: { text: string }[] } }).result.content[0]
+          .text
+      ) as Record<string, unknown>;
+    const warp = read("vaultix.warp.list") as {
+      main: string;
+      points: { domain: string; status: string; endpoint: string | null; tools: { name: string }[] }[];
+    };
+    expect(warp.main).toBe("/api/v1/vaultix/mcp");
+    expect(warp.points.map((point) => point.domain)).toEqual([
+      "public",
+      "auth",
+      "workspace",
+      "secrets",
+      "access",
+      "automation",
+      "connect",
+      "pki",
+      "kms",
+      "pam",
+      "detect",
+      "ai",
+      "governance",
+      "operate",
+      "experience"
+    ]);
+    for (const point of warp.points) {
+      expect(point.endpoint).toBe(point.status === "live" ? `/api/vx/v1/${point.domain}/mcp` : null);
+      expect(point.status === "live").toBe(point.tools.length > 0);
+    }
+    // Each tool belongs to exactly one domain.
+    const owned = warp.points.flatMap((point) => point.tools.map((tool) => tool.name));
+    expect(new Set(owned).size).toBe(owned.length);
+
+    const options = read("vaultix.auth.options.get") as { options: { id: string; status: string }[] };
+    expect(options.options.map((option) => [option.id, option.status])).toEqual([
+      ["machine-identity", "available"],
+      ["headless-cli", "available"],
+      ["user-session", "not-available"]
+    ]);
+    const text = JSON.stringify(options);
+    expect(text).toContain("vaultix login --universal");
+    expect(text).toContain("vaultix login --token");
+    expect(text).toContain("60 minutes");
+    expect(text).not.toMatch(/Bearer\s+[A-Za-z0-9]/);
+  });
+
+  test("a warp point surface lists and answers only its own guidance tools", () => {
+    const surface = { serverName: "vaultix-auth", instructions: "Auth only.", guidance: ["vaultix.auth.options.get"] };
+    const listed = handleVaultixMcp({ jsonrpc: "2.0", id: 1, method: "tools/list" }, undefined, undefined, surface) as {
+      result: { tools: { name: string }[] };
+    };
+    expect(listed.result.tools.map((tool) => tool.name)).toEqual(["vaultix.auth.options.get"]);
+    expect(
+      handleVaultixMcp(
+        { jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "vaultix.catalog.get", arguments: {} } },
+        undefined,
+        undefined,
+        surface
+      )
+    ).toMatchObject({ error: { message: "Unknown Vaultix tool." } });
+    expect(
+      handleVaultixMcp(
+        {
+          jsonrpc: "2.0",
+          id: 3,
+          method: "initialize",
+          params: { protocolVersion: "2025-11-25", clientInfo: { name: "codex", version: "1" }, capabilities: {} }
+        },
+        undefined,
+        undefined,
+        surface
+      )
+    ).toMatchObject({ result: { serverInfo: { name: "vaultix-auth" }, instructions: "Auth only." } });
   });
 
   test("accepts protocol metadata independently of tool and pagination parameters", () => {

@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { TableName } from "@app/db/schemas";
 import { DatabaseError } from "@app/lib/errors";
 import { ormify, selectAllTableCols } from "@app/lib/knex";
@@ -25,9 +26,9 @@ export const secretTagDALFactory = (db: TDbClient) => {
   const deleteTagsManySecret = async (projectId: string, secretIds: string[], tx?: Knex) => {
     try {
       const tags = await (tx || db)(TableName.JnSecretTag)
-        .join(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .join(TableName.SecretTag, `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`, `${TableName.SecretTag}.id`)
         .where("projectId", projectId)
-        .whereIn(`${TableName.Secret}Id`, secretIds)
+        .whereIn(JunctionColumn.Secret, secretIds)
         .delete()
         .returning("*");
       return tags;
@@ -52,7 +53,7 @@ export const secretTagDALFactory = (db: TDbClient) => {
   const findSecretTagsByVersionId = async (versionId: string, tx?: Knex) => {
     try {
       const tags = await (tx || db.replicaNode())(TableName.SecretVersionV2Tag)
-        .where(`${TableName.SecretVersionV2Tag}.${TableName.SecretVersionV2}Id`, versionId)
+        .where(`${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretVersionV2}`, versionId)
         .select(selectAllTableCols(TableName.SecretVersionV2Tag));
       return tags;
     } catch (error) {
@@ -63,7 +64,7 @@ export const secretTagDALFactory = (db: TDbClient) => {
   const findSecretTagsBySecretId = async (secretId: string, tx?: Knex) => {
     try {
       const tags = await (tx || db.replicaNode())(TableName.SecretV2JnTag)
-        .where(`${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`, secretId)
+        .where(`${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`, secretId)
         .select(selectAllTableCols(TableName.SecretV2JnTag));
       return tags;
     } catch (error) {

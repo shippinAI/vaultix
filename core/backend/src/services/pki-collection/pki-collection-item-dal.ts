@@ -25,7 +25,7 @@ export const pkiCollectionItemDALFactory = (db: TDbClient) => {
       const query = db
         .replicaNode()(TableName.PkiCollectionItem)
         .select(
-          "pki_collection_items.*",
+          `${TableName.PkiCollectionItem}.*`,
           db.raw(
             `COALESCE("${TableName.InternalCertificateAuthority}"."notBefore", "${TableName.Certificate}"."notBefore") as "notBefore"`
           ),

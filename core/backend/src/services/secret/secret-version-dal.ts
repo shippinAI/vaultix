@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { SecretVersionsSchema, TableName, TSecretVersions, TSecretVersionsUpdate } from "@app/db/schemas";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";
 import { ormify, selectAllTableCols, sqlNestRelationships, TFindOpt } from "@app/lib/knex";
@@ -16,8 +17,12 @@ export const secretVersionDALFactory = (db: TDbClient) => {
       const query = (tx || db.replicaNode())(TableName.SecretVersion)
         .where(`${TableName.SecretVersion}.secretId`, secretId)
         .leftJoin(TableName.Secret, `${TableName.SecretVersion}.secretId`, `${TableName.Secret}.id`)
-        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${TableName.Secret}Id`)
-        .leftJoin(TableName.SecretTag, `${TableName.JnSecretTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .leftJoin(TableName.JnSecretTag, `${TableName.Secret}.id`, `${TableName.JnSecretTag}.${JunctionColumn.Secret}`)
+        .leftJoin(
+          TableName.SecretTag,
+          `${TableName.JnSecretTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .select(selectAllTableCols(TableName.SecretVersion))
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))

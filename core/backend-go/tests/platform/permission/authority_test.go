@@ -47,9 +47,9 @@ func copyPermissionPool(t *testing.T, source *pgxpool.Pool) *pgxpool.Pool {
 		_, err := stack.DB().Primary().Exec(ctx, "DROP SCHEMA "+schema+" CASCADE")
 		require.NoError(t, err)
 	})
-	for _, table := range []string{"projects", "organizations", "memberships", "membership_roles", "roles",
-		"groups", "user_group_membership", "identity_group_membership", "additional_privileges",
-		"identity_metadata", "users", "identities", "service_tokens"} {
+	for _, table := range []string{"vx_workspace_projects", "vx_workspace_organizations", "vx_workspace_memberships", "vx_workspace_membership_roles", "vx_workspace_roles",
+		"vx_workspace_groups", "vx_workspace_user_group_memberships", "vx_identity_group_memberships", "vx_workspace_additional_privileges",
+		"vx_identity_metadata", "vx_auth_users", "vx_identity_identities", "vx_identity_service_tokens"} {
 		name := pgx.Identifier{table}.Sanitize()
 		_, err := source.Exec(ctx, "CREATE TABLE "+schema+"."+name+" AS SELECT * FROM "+name)
 		require.NoError(t, err)
@@ -134,64 +134,64 @@ func TestPermissionAuthority_StaleReplicaCannotRestoreAccess(t *testing.T) {
 			}
 			cases := []scenario{
 				{name: "project-deleted", absent: true, change: func(pool *pgxpool.Pool) {
-					permissionExec(t, pool, `DELETE FROM projects WHERE id = $1`, actor.ProjectID)
+					permissionExec(t, pool, `DELETE FROM vx_workspace_projects WHERE id = $1`, actor.ProjectID)
 				}},
 				{name: "project-tenant", absent: true, change: func(pool *pgxpool.Pool) {
-					permissionExec(t, pool, `UPDATE projects SET "orgId" = $2 WHERE id = $1`, actor.ProjectID, uuid.New())
+					permissionExec(t, pool, `UPDATE vx_workspace_projects SET "orgId" = $2 WHERE id = $1`, actor.ProjectID, uuid.New())
 				}},
 				{name: "project-type", absent: true, change: func(pool *pgxpool.Pool) {
-					permissionExec(t, pool, `UPDATE projects SET type = 'kms' WHERE id = $1`, actor.ProjectID)
+					permissionExec(t, pool, `UPDATE vx_workspace_projects SET type = 'kms' WHERE id = $1`, actor.ProjectID)
 				}},
 			}
 			if actor.Actor == auth.ActorTypeService {
 				cases = append(cases,
 					scenario{name: "token-deleted", absent: true, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `DELETE FROM service_tokens WHERE id = $1`, actor.ActorID)
+						permissionExec(t, pool, `DELETE FROM vx_identity_service_tokens WHERE id = $1`, actor.ActorID)
 					}},
 					scenario{name: "token-scope", change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `UPDATE service_tokens SET scopes = '[]' WHERE id = $1`, actor.ActorID)
+						permissionExec(t, pool, `UPDATE vx_identity_service_tokens SET scopes = '[]' WHERE id = $1`, actor.ActorID)
 					}},
 					scenario{name: "token-permissions", change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `UPDATE service_tokens SET permissions = ARRAY['write'] WHERE id = $1`, actor.ActorID)
+						permissionExec(t, pool, `UPDATE vx_identity_service_tokens SET permissions = ARRAY['write'] WHERE id = $1`, actor.ActorID)
 					}},
 				)
 			} else {
-				column, linkTable, linkColumn, nameTable, nameColumn := "actorUserId", "user_group_membership", "userId", "users", "username"
+				column, linkTable, linkColumn, nameTable, nameColumn := "actorUserId", "vx_workspace_user_group_memberships", "userId", "vx_auth_users", "username"
 				if actor.Actor == auth.ActorTypeIdentity {
-					column, linkTable, linkColumn, nameTable, nameColumn = "actorIdentityId", "identity_group_membership", "identityId", "identities", "name"
+					column, linkTable, linkColumn, nameTable, nameColumn = "actorIdentityId", "vx_identity_group_memberships", "identityId", "vx_identity_identities", "name"
 				}
-				membership := `SELECT id FROM memberships WHERE "scopeProjectId" = $1 AND "` + column + `" = $2`
+				membership := `SELECT id FROM vx_workspace_memberships WHERE "scopeProjectId" = $1 AND "` + column + `" = $2`
 				roleWhere := ` WHERE "membershipId" IN (` + membership + `)`
 				roleUpdate := func(pool *pgxpool.Pool, set string) {
-					permissionExec(t, pool, `UPDATE membership_roles SET `+set+roleWhere, actor.ProjectID, actor.ActorID)
+					permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET `+set+roleWhere, actor.ProjectID, actor.ActorID)
 				}
 				custom := func(pool *pgxpool.Pool, rules string) {
 					roleID := uuid.New()
-					permissionExec(t, pool, `INSERT INTO roles (id, slug, permissions) VALUES ($1, 'authority-custom', $2)`, roleID, rules)
-					permissionExec(t, pool, `UPDATE membership_roles SET role = 'custom', "customRoleId" = $3`+roleWhere, actor.ProjectID, actor.ActorID, roleID)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_roles (id, slug, permissions) VALUES ($1, 'authority-custom', $2)`, roleID, rules)
+					permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET role = 'custom', "customRoleId" = $3`+roleWhere, actor.ProjectID, actor.ActorID, roleID)
 				}
 				group := func(pool *pgxpool.Pool) {
 					id := uuid.New()
-					permissionExec(t, pool, `INSERT INTO groups (id) VALUES ($1)`, id)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_groups (id) VALUES ($1)`, id)
 					permissionExec(t, pool, `INSERT INTO `+linkTable+` ("groupId", "`+linkColumn+`") VALUES ($1, $2)`, id, actor.ActorID)
-					permissionExec(t, pool, `UPDATE memberships SET "actorGroupId" = $3, "`+column+`" = NULL WHERE id IN (`+membership+`)`, actor.ProjectID, actor.ActorID, id)
+					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "actorGroupId" = $3, "`+column+`" = NULL WHERE id IN (`+membership+`)`, actor.ProjectID, actor.ActorID, id)
 				}
 				cases = append(cases,
 					scenario{name: "membership-deleted", absent: true, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `DELETE FROM memberships WHERE id IN (`+membership+`)`, actor.ProjectID, actor.ActorID)
+						permissionExec(t, pool, `DELETE FROM vx_workspace_memberships WHERE id IN (`+membership+`)`, actor.ProjectID, actor.ActorID)
 					}},
 					scenario{name: "role-removed", change: func(pool *pgxpool.Pool) { roleUpdate(pool, `role = 'no-access'`) }},
 					scenario{name: "temporary-role-shortened", change: func(pool *pgxpool.Pool) {
 						roleUpdate(pool, `"isTemporary" = true, "temporaryAccessEndTime" = NOW() - interval '1 second'`)
 					}},
 					scenario{name: "custom-role-revoked", prepare: func(pool *pgxpool.Pool) { custom(pool, `[["read","secrets"]]`) }, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `UPDATE roles SET permissions = '[]' WHERE slug = 'authority-custom'`)
+						permissionExec(t, pool, `UPDATE vx_workspace_roles SET permissions = '[]' WHERE slug = 'authority-custom'`)
 					}},
 					scenario{name: "group-link-removed", absent: true, prepare: group, change: func(pool *pgxpool.Pool) {
 						permissionExec(t, pool, `DELETE FROM `+linkTable+` WHERE "`+linkColumn+`" = $1`, actor.ActorID)
 					}},
 					scenario{name: "group-project-removed", absent: true, prepare: group, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `DELETE FROM memberships WHERE "scopeProjectId" = $1 AND "actorGroupId" IS NOT NULL`, actor.ProjectID)
+						permissionExec(t, pool, `DELETE FROM vx_workspace_memberships WHERE "scopeProjectId" = $1 AND "actorGroupId" IS NOT NULL`, actor.ProjectID)
 					}},
 					scenario{name: "name-template-changed", prepare: func(pool *pgxpool.Pool) {
 						permissionExec(t, pool, `UPDATE `+nameTable+` SET `+nameColumn+` = 'ALLOWED' WHERE id = $1`, actor.ActorID)
@@ -200,16 +200,16 @@ func TestPermissionAuthority_StaleReplicaCannotRestoreAccess(t *testing.T) {
 						permissionExec(t, pool, `UPDATE `+nameTable+` SET `+nameColumn+` = 'REVOKED' WHERE id = $1`, actor.ActorID)
 					}},
 					scenario{name: "metadata-template-changed", prepare: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `INSERT INTO identity_metadata (id, "`+linkColumn+`", "orgId", key, value) VALUES ($1, $2, $3, 'scope', 'ALLOWED')`, uuid.New(), actor.ActorID, actor.ActorOrgID)
+						permissionExec(t, pool, `INSERT INTO vx_identity_metadata (id, "`+linkColumn+`", "orgId", key, value) VALUES ($1, $2, $3, 'scope', 'ALLOWED')`, uuid.New(), actor.ActorID, actor.ActorOrgID)
 						custom(pool, `[["read","secrets",{"secretName":"{{identity.metadata.scope}}"}]]`)
 					}, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `UPDATE identity_metadata SET value = 'REVOKED' WHERE "`+linkColumn+`" = $1 AND key = 'scope'`, actor.ActorID)
+						permissionExec(t, pool, `UPDATE vx_identity_metadata SET value = 'REVOKED' WHERE "`+linkColumn+`" = $1 AND key = 'scope'`, actor.ActorID)
 					}},
 					scenario{name: "additional-grant-removed", prepare: func(pool *pgxpool.Pool) {
 						roleUpdate(pool, `role = 'no-access'`)
-						permissionExec(t, pool, `INSERT INTO additional_privileges (id, "`+column+`", "projectId", permissions) VALUES ($1, $2, $3, '[["read","secrets"]]')`, uuid.New(), actor.ActorID, actor.ProjectID)
+						permissionExec(t, pool, `INSERT INTO vx_workspace_additional_privileges (id, "`+column+`", "projectId", permissions) VALUES ($1, $2, $3, '[["read","secrets"]]')`, uuid.New(), actor.ActorID, actor.ProjectID)
 					}, change: func(pool *pgxpool.Pool) {
-						permissionExec(t, pool, `DELETE FROM additional_privileges WHERE "`+column+`" = $1 AND "projectId" = $2`, actor.ActorID, actor.ProjectID)
+						permissionExec(t, pool, `DELETE FROM vx_workspace_additional_privileges WHERE "`+column+`" = $1 AND "projectId" = $2`, actor.ActorID, actor.ProjectID)
 					}},
 				)
 			}
@@ -238,7 +238,7 @@ func TestPermissionAuthority_EnforcementAndAvailability(t *testing.T) {
 			result, err := svc.GetProjectPermission(context.Background(), &actor)
 			require.NoError(t, err)
 			require.False(t, result.HasProjectEnforcement("enforceEncryptedSecretManagerSecretMetadata"))
-			permissionExec(t, db.primary, `UPDATE projects SET "enforceEncryptedSecretManagerSecretMetadata" = true WHERE id = $1`, actor.ProjectID)
+			permissionExec(t, db.primary, `UPDATE vx_workspace_projects SET "enforceEncryptedSecretManagerSecretMetadata" = true WHERE id = $1`, actor.ProjectID)
 			result, err = svc.GetProjectPermission(context.Background(), &actor)
 			require.NoError(t, err)
 			require.True(t, result.HasProjectEnforcement("enforceEncryptedSecretManagerSecretMetadata"))

@@ -577,7 +577,7 @@ type membershipRow struct {
 func (a *ApiAuthenticator) findSessionByIDAndUserID(ctx context.Context, sessionID, userID uuid.UUID) (*sessionRow, error) {
 	query := `
 		SELECT "accessVersion", "userId"
-		FROM auth_token_sessions
+		FROM vx_auth_sessions
 		WHERE id = @sessionID AND "userId" = @userID
 	`
 	args := pgx.NamedArgs{"sessionID": sessionID, "userID": userID}
@@ -598,7 +598,7 @@ func (a *ApiAuthenticator) findSessionByIDAndUserID(ctx context.Context, session
 func (a *ApiAuthenticator) findUserByID(ctx context.Context, id uuid.UUID) (*userRow, error) {
 	query := `
 		SELECT id, email, username, "isAccepted", "superAdmin", "isLocked", "temporaryLockDateEnd"
-		FROM users
+		FROM vx_auth_users
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -619,7 +619,7 @@ func (a *ApiAuthenticator) findUserByID(ctx context.Context, id uuid.UUID) (*use
 func (a *ApiAuthenticator) findOrgByID(ctx context.Context, id uuid.UUID) (*orgRow, error) {
 	query := `
 		SELECT id, name, "rootOrgId", "parentOrgId"
-		FROM organizations
+		FROM vx_workspace_organizations
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -640,7 +640,7 @@ func (a *ApiAuthenticator) findOrgByID(ctx context.Context, id uuid.UUID) (*orgR
 func (a *ApiAuthenticator) findProjectByID(ctx context.Context, id string) (*projectRow, error) {
 	query := `
 		SELECT "orgId"
-		FROM projects
+		FROM vx_workspace_projects
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -675,8 +675,8 @@ func (a *ApiAuthenticator) findIdentityAccessTokenByID(ctx context.Context, id s
 			token."subOrganizationId",
 			identity."orgId" AS identity_org_id,
 			identity.name AS identity_name
-		FROM identity_access_tokens token
-		INNER JOIN identities identity ON token."identityId" = identity.id
+		FROM vx_identity_access_tokens token
+		INNER JOIN vx_identity_identities identity ON token."identityId" = identity.id
 		WHERE token.id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -712,7 +712,7 @@ func (a *ApiAuthenticator) findIdentityAccessTokenByID(ctx context.Context, id s
 func (a *ApiAuthenticator) findServiceTokenByID(ctx context.Context, id string) (*serviceTokenRow, error) {
 	query := `
 		SELECT id, name, "projectId", "expiresAt", "secretHash"
-		FROM service_tokens
+		FROM vx_identity_service_tokens
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -731,7 +731,7 @@ func (a *ApiAuthenticator) findServiceTokenByID(ctx context.Context, id string) 
 
 // deleteServiceTokenByID deletes the service token on primary. Used for expired tokens.
 func (a *ApiAuthenticator) deleteServiceTokenByID(ctx context.Context, id uuid.UUID) error {
-	query := `DELETE FROM service_tokens WHERE id = @id`
+	query := `DELETE FROM vx_identity_service_tokens WHERE id = @id`
 	args := pgx.NamedArgs{"id": id}
 	_, err := a.db.Primary().Exec(ctx, query, args)
 	return err
@@ -747,8 +747,8 @@ func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actor
 		actorCondition = `(
 			membership."actorUserId" = @actorID
 			OR membership."actorGroupId" IN (
-				SELECT grp.id FROM groups grp
-				INNER JOIN user_group_membership ugm ON ugm."groupId" = grp.id
+				SELECT grp.id FROM vx_workspace_groups grp
+				INNER JOIN vx_workspace_user_group_memberships ugm ON ugm."groupId" = grp.id
 				WHERE ugm."userId" = @actorID
 			)
 		)`
@@ -756,8 +756,8 @@ func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actor
 		actorCondition = `(
 			membership."actorIdentityId" = @actorID
 			OR membership."actorGroupId" IN (
-				SELECT grp.id FROM groups grp
-				INNER JOIN identity_group_membership igm ON igm."groupId" = grp.id
+				SELECT grp.id FROM vx_workspace_groups grp
+				INNER JOIN vx_identity_group_memberships igm ON igm."groupId" = grp.id
 				WHERE igm."identityId" = @actorID
 			)
 		)`
@@ -770,7 +770,7 @@ func (a *ApiAuthenticator) findEffectiveOrgMembership(ctx context.Context, actor
 
 	query := fmt.Sprintf(`
 		SELECT membership."isActive"
-		FROM memberships membership
+		FROM vx_workspace_memberships membership
 		WHERE membership.scope = 'organization'
 		  AND membership."scopeOrgId" = @orgID
 		  AND %s
@@ -803,31 +803,31 @@ func (a *ApiAuthenticator) findTrustedIPsByAuthMethod(ctx context.Context, ident
 	var tableName string
 	switch authMethod {
 	case auth.IdentityAuthMethodUniversal:
-		tableName = "identity_universal_auths"
+		tableName = "vx_identity_universal_auths"
 	case auth.IdentityAuthMethodKubernetes:
-		tableName = "identity_kubernetes_auths"
+		tableName = "vx_identity_kubernetes_auths"
 	case auth.IdentityAuthMethodGCP:
-		tableName = "identity_gcp_auths"
+		tableName = "vx_identity_gcp_auths"
 	case auth.IdentityAuthMethodAliCloud:
-		tableName = "identity_alicloud_auths"
+		tableName = "vx_identity_alicloud_auths"
 	case auth.IdentityAuthMethodAWS:
-		tableName = "identity_aws_auths"
+		tableName = "vx_identity_aws_auths"
 	case auth.IdentityAuthMethodAzure:
-		tableName = "identity_azure_auths"
+		tableName = "vx_identity_azure_auths"
 	case auth.IdentityAuthMethodToken:
-		tableName = "identity_token_auths"
+		tableName = "vx_identity_token_auths"
 	case auth.IdentityAuthMethodTLSCert:
-		tableName = "identity_tls_cert_auths"
+		tableName = "vx_identity_tls_cert_auths"
 	case auth.IdentityAuthMethodOCI:
-		tableName = "identity_oci_auths"
+		tableName = "vx_identity_oci_auths"
 	case auth.IdentityAuthMethodOIDC:
-		tableName = "identity_oidc_auths"
+		tableName = "vx_identity_oidc_auths"
 	case auth.IdentityAuthMethodJWT:
-		tableName = "identity_jwt_auths"
+		tableName = "vx_identity_jwt_auths"
 	case auth.IdentityAuthMethodLDAP:
-		tableName = "identity_ldap_auths"
+		tableName = "vx_identity_ldap_auths"
 	case auth.IdentityAuthMethodSPIFFE:
-		tableName = "identity_spiffe_auths"
+		tableName = "vx_identity_spiffe_auths"
 	default:
 		return nil, nil
 	}

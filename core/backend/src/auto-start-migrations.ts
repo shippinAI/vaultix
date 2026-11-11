@@ -12,6 +12,7 @@ import { applyJitter, delay } from "@app/lib/delay";
 
 import { getMigrationBootState } from "./auto-start-migrations-fns";
 import { ensureClickHouseSchema } from "./db/clickhouse-migration-runner";
+import { NamespacedMigrationSource } from "./db/namespaced-migration-source";
 import {
   acquireSanitizedSchemaLock,
   createSanitizedSchema,
@@ -36,6 +37,13 @@ const migrationConfig = {
   directory: path.join(__dirname, "./db/migrations"),
   loadExtensions: [".mjs", ".ts"],
   tableName: "vaultix_migrations"
+};
+
+// What knex runs: the same files and order, with the vx_ table steps in front (docs/0119).
+// knex ignores a migrationSource next to directory or loadExtensions, so this config has neither.
+const migrateOptions = {
+  tableName: migrationConfig.tableName,
+  migrationSource: new NamespacedMigrationSource(migrationConfig.directory, migrationConfig.loadExtensions)
 };
 
 const getImageVersionTag = (): string => {
@@ -536,7 +544,7 @@ export const runMigrations = async ({ applicationDb, auditLogDb, clickhouseClien
             });
           }
 
-          await auditLogDb.migrate.latest(migrationConfig);
+          await auditLogDb.migrate.latest(migrateOptions);
         });
         logger.info("Finished audit log migrations.");
       }
@@ -569,7 +577,7 @@ export const runMigrations = async ({ applicationDb, auditLogDb, clickhouseClien
       }
 
       if (generateSanitizedSchema) await dropSanitizedSchema({ db: applicationDb, logger });
-      await applicationDb.migrate.latest(migrationConfig);
+      await applicationDb.migrate.latest(migrateOptions);
     });
     logger.info("Finished application migrations.");
 

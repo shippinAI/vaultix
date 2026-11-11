@@ -17,9 +17,16 @@ import (
 
 var environmentKeyPattern = regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_]*$`)
 
+// The secrets table is vx_secrets_secrets after the table namespace migration
+// (docs/0119) and secrets_v2 before it. A checkpoint and its migrated or restored
+// copy can sit on either side, and the fingerprint covers the same rows on both.
+const secretsTableQuery = `SELECT CASE WHEN to_regclass('public.vx_secrets_secrets') IS NOT NULL THEN 'vx_secrets_secrets' ELSE 'secrets_v2' END;`
+
 // Stream ciphertext rows into a bounded-memory hash, not one database-sized
 // string_agg value. No decrypted values or database output reach diagnostics.
-const secretsQuery = `COPY (SELECT id, encode("encryptedValue",'hex') FROM secrets_v2 ORDER BY id) TO STDOUT;`
+func secretsQuery(table string) string {
+	return `COPY (SELECT id, encode("encryptedValue",'hex') FROM ` + table + ` ORDER BY id) TO STDOUT;`
+}
 
 type migrationManifest struct {
 	Set   string            `json:"set"`
@@ -176,8 +183,16 @@ func (d *Docker) migrationUnlocked(ctx context.Context, container, user, db stri
 }
 
 func (d *Docker) secretsFingerprint(ctx context.Context, container, user, db string) (string, error) {
+	raw, err := d.psql(ctx, container, user, db, secretsTableQuery)
+	if err != nil {
+		return "", err
+	}
+	table := strings.TrimSpace(string(raw))
+	if table != "vx_secrets_secrets" && table != "secrets_v2" {
+		return "", errors.New("cannot identify the secrets table")
+	}
 	h := sha256.New()
-	if err := d.stream(ctx, nil, h, "exec", container, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", secretsQuery); err != nil {
+	if err := d.stream(ctx, nil, h, "exec", container, "psql", "-X", "-v", "ON_ERROR_STOP=1", "-U", user, "-d", db, "-At", "-c", secretsQuery(table)); err != nil {
 		return "", err
 	}
 	return hex.EncodeToString(h.Sum(nil)), nil

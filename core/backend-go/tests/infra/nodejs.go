@@ -412,7 +412,7 @@ func (n *NodeJSService) InviteAndCreateUser(t *testing.T, email string) *UserSee
 	}
 	var userID string
 	err = n.db.Primary().QueryRow(context.Background(),
-		`SELECT id FROM users WHERE username = $1`, email).Scan(&userID)
+		`SELECT id FROM vx_auth_users WHERE username = $1`, email).Scan(&userID)
 	if err != nil {
 		t.Fatalf("infra.InviteAndCreateUser: query user ID: %v", err)
 	}
@@ -587,7 +587,7 @@ func (n *NodeJSService) CreateUserAdditionalPrivilege(t *testing.T, userID, proj
 	// Look up the user's project membership ID from the unified memberships table.
 	var membershipID string
 	err := n.db.Primary().QueryRow(context.Background(),
-		`SELECT id FROM memberships WHERE "actorUserId" = $1 AND "scopeProjectId" = $2 AND scope = 'project'`,
+		`SELECT id FROM vx_workspace_memberships WHERE "actorUserId" = $1 AND "scopeProjectId" = $2 AND scope = 'project'`,
 		userID, projectID).Scan(&membershipID)
 	if err != nil {
 		t.Fatalf("infra.CreateUserAdditionalPrivilege: query membership ID: %v", err)

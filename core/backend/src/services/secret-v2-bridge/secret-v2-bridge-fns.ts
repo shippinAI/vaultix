@@ -4,6 +4,7 @@ import { ForbiddenError, subject } from "@casl/ability";
 import { Knex } from "knex";
 import RE2 from "re2";
 
+import { JunctionColumn } from "@app/db/junction-columns";
 import {
   ActionProjectType,
   SecretType,
@@ -112,8 +113,8 @@ export const fnSecretBulkInsert = async ({
   const newSecretGroupedByKeyName = groupBy(newSecrets, (item) => item.key);
   const newSecretTags = inputSecrets.flatMap(({ tagIds: secretTags = [], key }) =>
     secretTags.map((tag) => ({
-      [`${TableName.SecretTag}Id` as const]: tag,
-      [`${TableName.SecretV2}Id` as const]: newSecretGroupedByKeyName[key][0].id
+      [JunctionColumn.SecretTag]: tag,
+      [JunctionColumn.SecretV2]: newSecretGroupedByKeyName[key][0].id
     }))
   );
 
@@ -200,8 +201,8 @@ export const fnSecretBulkInsert = async ({
     const secVersionsGroupBySecId = groupBy(secretVersions, (i) => i.secretId);
 
     const newSecretVersionTags = secTags.flatMap(({ secrets_v2Id, secret_tagsId }) => ({
-      [`${TableName.SecretVersionV2}Id` as const]: secVersionsGroupBySecId[secrets_v2Id][0].id,
-      [`${TableName.SecretTag}Id` as const]: secret_tagsId
+      [JunctionColumn.SecretVersionV2]: secVersionsGroupBySecId[secrets_v2Id][0].id,
+      [JunctionColumn.SecretTag]: secret_tagsId
     }));
 
     await secretVersionTagDAL.insertMany(newSecretVersionTags, tx);
@@ -324,16 +325,16 @@ export const fnSecretBulkUpdate = async ({
     );
     const newSecretTags = secsUpdatedTag.flatMap(({ tags: secretTags = [], secretId }) =>
       secretTags.map((tag) => ({
-        [`${TableName.SecretTag}Id` as const]: tag,
-        [`${TableName.SecretV2}Id` as const]: secretId
+        [JunctionColumn.SecretTag]: tag,
+        [JunctionColumn.SecretV2]: secretId
       }))
     );
     if (newSecretTags.length) {
       const secTags = await secretTagDAL.saveTagsToSecretV2(newSecretTags, tx);
       const secVersionsGroupBySecId = groupBy(secretVersions, (i) => i.secretId);
       const newSecretVersionTags = secTags.flatMap(({ secrets_v2Id, secret_tagsId }) => ({
-        [`${TableName.SecretVersionV2}Id` as const]: secVersionsGroupBySecId[secrets_v2Id][0].id,
-        [`${TableName.SecretTag}Id` as const]: secret_tagsId
+        [JunctionColumn.SecretVersionV2]: secVersionsGroupBySecId[secrets_v2Id][0].id,
+        [JunctionColumn.SecretTag]: secret_tagsId
       }));
       await secretVersionTagDAL.insertMany(newSecretVersionTags, tx);
     }

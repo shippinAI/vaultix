@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { validate as uuidValidate } from "uuid";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { ProjectType, SecretsV2Schema, SecretType, TableName, TSecretsV2, TSecretsV2Update } from "@app/db/schemas";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { applyJitter, utcDayStamp } from "@app/lib/dates";
@@ -80,11 +81,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(
@@ -168,11 +169,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)
@@ -423,11 +424,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)
@@ -484,8 +485,12 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
   const getSecretTags = async (secretId: string, tx?: Knex) => {
     try {
       const tags = await (tx || db.replicaNode())(TableName.SecretV2JnTag)
-        .join(TableName.SecretTag, `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
-        .where({ [`${TableName.SecretV2}Id` as const]: secretId })
+        .join(
+          TableName.SecretTag,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
+        .where({ [JunctionColumn.SecretV2]: secretId })
         .select(db.ref("id").withSchema(TableName.SecretTag).as("tagId"))
         .select(db.ref("color").withSchema(TableName.SecretTag).as("tagColor"))
         .select(db.ref("slug").withSchema(TableName.SecretTag).as("tagSlug"));
@@ -561,11 +566,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
           .leftJoin(
             TableName.SecretV2JnTag,
             `${TableName.SecretV2}.id`,
-            `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+            `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
           )
           .leftJoin(
             TableName.SecretTag,
-            `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+            `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
             `${TableName.SecretTag}.id`
           );
 
@@ -637,11 +642,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)
@@ -826,11 +831,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)
@@ -1177,11 +1182,11 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
 
@@ -1499,12 +1504,16 @@ export const secretV2BridgeDALFactory = ({ db, keyStore }: TSecretV2DalArg) => {
       if (!rows.length) return [];
       const tags = await db
         .replicaNode()(TableName.SecretV2JnTag)
-        .join(TableName.SecretTag, `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+        .join(
+          TableName.SecretTag,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
+          `${TableName.SecretTag}.id`
+        )
         .whereIn(
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`,
           rows.map((row) => row.id)
         )
-        .select(db.ref(`${TableName.SecretV2}Id`).withSchema(TableName.SecretV2JnTag).as("secretId"))
+        .select(db.ref(JunctionColumn.SecretV2).withSchema(TableName.SecretV2JnTag).as("secretId"))
         .select<{ secretId: string; slug: string }[]>(`${TableName.SecretTag}.slug`);
       return rows.map((row) => ({
         ...row,

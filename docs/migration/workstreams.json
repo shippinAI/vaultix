@@ -23,6 +23,7 @@
   "rules": [
     { "pattern": "^\\.ai/|^\\.agents/", "workstream": "foundation" },
     { "pattern": "^docs/capabilities/", "workstream": "foundation" },
+    { "pattern": "^docs/schema/", "workstream": "foundation" },
     { "pattern": "^go\\.mod$", "workstream": "cli" },
     { "pattern": "^branding/|^core/(company|img|docs|media)/|^docs/(references|interaction)/", "workstream": "ui" },
     { "pattern": "^core/[^/]+$|^core/(docker|docker-swarm|cloudformation|nginx|\\.husky|\\.greptile|upgrade-impact)/|^\\.gitignore$", "workstream": "delivery" },

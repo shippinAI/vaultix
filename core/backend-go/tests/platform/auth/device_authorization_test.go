@@ -55,11 +55,11 @@ func (f *deviceCollaborators) Revalidate(ctx context.Context, tx pgx.Tx, approva
 		return f.revalidateError
 	}
 	var user uuid.UUID
-	if err := tx.QueryRow(ctx, `SELECT id FROM users WHERE id=@id AND "isAccepted" AND NOT "isLocked" FOR UPDATE`, pgx.NamedArgs{"id": approval.UserID}).Scan(&user); err != nil {
+	if err := tx.QueryRow(ctx, `SELECT id FROM vx_auth_users WHERE id=@id AND "isAccepted" AND NOT "isLocked" FOR UPDATE`, pgx.NamedArgs{"id": approval.UserID}).Scan(&user); err != nil {
 		return device.ErrDenied
 	}
 	var version int64
-	if err := tx.QueryRow(ctx, `SELECT "accessVersion" FROM auth_token_sessions WHERE id=@id AND "userId"=@user FOR UPDATE`, pgx.NamedArgs{"id": approval.SessionID, "user": approval.UserID}).Scan(&version); err != nil || version != approval.AccessVersion {
+	if err := tx.QueryRow(ctx, `SELECT "accessVersion" FROM vx_auth_sessions WHERE id=@id AND "userId"=@user FOR UPDATE`, pgx.NamedArgs{"id": approval.SessionID, "user": approval.UserID}).Scan(&version); err != nil || version != approval.AccessVersion {
 		return device.ErrDenied
 	}
 	if f.mutateOnCheck {
@@ -72,12 +72,12 @@ func (f *deviceCollaborators) IssueDeviceSession(ctx context.Context, tx pgx.Tx,
 	if client != "vaultix-cli" || resource != "https://device.example.test" || scope != "vaultix:user" {
 		return device.Session{}, device.ErrDenied
 	}
-	_, err := tx.Exec(ctx, `INSERT INTO auth_token_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES(@id,@user,1,1,'127.0.0.1','device-transaction-fixture',NOW(),NOW(),NOW())`, pgx.NamedArgs{"id": uuid.New(), "user": approval.UserID})
+	_, err := tx.Exec(ctx, `INSERT INTO vx_auth_sessions(id,"userId","accessVersion","refreshVersion",ip,"userAgent","lastUsed","createdAt","updatedAt") VALUES(@id,@user,1,1,'127.0.0.1','device-transaction-fixture',NOW(),NOW(),NOW())`, pgx.NamedArgs{"id": uuid.New(), "user": approval.UserID})
 	if err != nil {
 		return device.Session{}, err
 	}
 	if f.expireOnIssue {
-		_, err = tx.Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE "userId"=@user`, pgx.NamedArgs{"user": approval.UserID})
+		_, err = tx.Exec(ctx, `UPDATE vx_auth_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE "userId"=@user`, pgx.NamedArgs{"user": approval.UserID})
 		if err != nil {
 			return device.Session{}, err
 		}
@@ -114,7 +114,7 @@ func startDevice(t *testing.T, f *deviceFixture) device.Grant {
 	grant, err := f.service.Start(context.Background(), deviceRequest())
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
+		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
 		require.NoError(t, err)
 	})
 	return grant
@@ -122,21 +122,21 @@ func startDevice(t *testing.T, f *deviceFixture) device.Grant {
 
 func devicePollReady(t *testing.T, id uuid.UUID) {
 	t.Helper()
-	_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE vaultix_device_authorizations SET "nextPollAt"=clock_timestamp()-interval '1 second' WHERE id=@id`, pgx.NamedArgs{"id": id})
+	_, err := stack.DB().Primary().Exec(context.Background(), `UPDATE vx_auth_device_authorizations SET "nextPollAt"=clock_timestamp()-interval '1 second' WHERE id=@id`, pgx.NamedArgs{"id": id})
 	require.NoError(t, err)
 }
 
 func deviceState(t *testing.T, id uuid.UUID) string {
 	t.Helper()
 	var state string
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT status FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": id}).Scan(&state))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT status FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": id}).Scan(&state))
 	return state
 }
 
 func deviceIssued(t *testing.T, user uuid.UUID) int {
 	t.Helper()
 	var count int
-	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT count(*) FROM auth_token_sessions WHERE "userId"=@user AND "userAgent"='device-transaction-fixture'`, pgx.NamedArgs{"user": user}).Scan(&count))
+	require.NoError(t, stack.DB().Primary().QueryRow(context.Background(), `SELECT count(*) FROM vx_auth_sessions WHERE "userId"=@user AND "userAgent"='device-transaction-fixture'`, pgx.NamedArgs{"user": user}).Scan(&count))
 	return count
 }
 
@@ -148,7 +148,7 @@ func TestDeviceAuthorization_LifecycleStorageAndPolling(t *testing.T) {
 	var stored string
 	var lifetime time.Duration
 	var seconds float64
-	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT row_to_json(grants)::text,extract(epoch FROM "expiresAt"-"createdAt") FROM vaultix_device_authorizations grants WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}).Scan(&stored, &seconds))
+	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT row_to_json(grants)::text,extract(epoch FROM "expiresAt"-"createdAt") FROM vx_auth_device_authorizations grants WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}).Scan(&stored, &seconds))
 	lifetime = time.Duration(seconds) * time.Second
 	require.Equal(t, 10*time.Minute, lifetime)
 	require.NotContains(t, stored, grant.DeviceCode)
@@ -161,7 +161,7 @@ func TestDeviceAuthorization_LifecycleStorageAndPolling(t *testing.T) {
 	require.ErrorIs(t, err, device.ErrSlowDown)
 	var interval int
 	var future bool
-	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT "intervalSeconds","nextPollAt">clock_timestamp()+interval '9 seconds' FROM vaultix_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}).Scan(&interval, &future))
+	require.NoError(t, stack.DB().Primary().QueryRow(ctx, `SELECT "intervalSeconds","nextPollAt">clock_timestamp()+interval '9 seconds' FROM vx_auth_device_authorizations WHERE id=@id`, pgx.NamedArgs{"id": grant.ID}).Scan(&interval, &future))
 	require.Equal(t, 10, interval)
 	require.True(t, future)
 	devicePollReady(t, grant.ID)
@@ -260,7 +260,7 @@ func TestDeviceAuthorization_DenialCancellationAndExpiry(t *testing.T) {
 				require.ErrorIs(t, f.service.Deny(ctx, grant.UserCode), device.ErrInvalidGrant)
 				require.NoError(t, f.service.Cancel(ctx, deviceRequest(), grant.DeviceCode))
 			case "expired":
-				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
+				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=@id`, pgx.NamedArgs{"id": grant.ID})
 				require.NoError(t, err)
 				require.ErrorIs(t, f.service.Approve(ctx, grant.UserCode, actor), device.ErrExpired)
 				expected = device.ErrExpired
@@ -301,12 +301,12 @@ func TestDeviceAuthorization_AtomicRollbackAndPolicyChanges(t *testing.T) {
 				expected = device.ErrDenied
 				state = "denied"
 			case "session-version":
-				_, err := stack.DB().Primary().Exec(ctx, `UPDATE auth_token_sessions SET "accessVersion"=2 WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
+				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_sessions SET "accessVersion"=2 WHERE id=@id`, pgx.NamedArgs{"id": actor.TokenVersionID})
 				require.NoError(t, err)
 				expected = device.ErrDenied
 				state = "denied"
 			case "locked":
-				_, err := stack.DB().Primary().Exec(ctx, `UPDATE users SET "isLocked"=true WHERE id=@id`, pgx.NamedArgs{"id": actor.ActorID})
+				_, err := stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isLocked"=true WHERE id=@id`, pgx.NamedArgs{"id": actor.ActorID})
 				require.NoError(t, err)
 				expected = device.ErrDenied
 				state = "denied"
@@ -438,20 +438,20 @@ func TestDeviceAuthorization_GlobalAdmissionAndBoundedCleanup(t *testing.T) {
 		ids = append(ids, grant.ID)
 	}
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vaultix_device_authorizations WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
+		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_device_authorizations WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
 		require.NoError(t, err)
 	})
 	require.Len(t, ids, 3)
-	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vaultix_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
+	_, err = stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_device_authorizations SET "createdAt"=clock_timestamp()-interval '10 minutes',"expiresAt"=clock_timestamp()-interval '1 minute' WHERE id=ANY(@ids)`, pgx.NamedArgs{"ids": ids})
 	require.NoError(t, err)
 	_ = startDevice(t, f) // Start reclaims expired slots before admission.
 	// Independent SQL creates 260 expired rows with distinct digests. Cleanup
 	// must be bounded even when the expiry backlog is larger than one batch.
-	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vaultix_device_authorizations(id,"deviceDigest","userCodeDigest","clientId",resource,scope,"createdAt","expiresAt","nextPollAt")
+	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vx_auth_device_authorizations(id,"deviceDigest","userCodeDigest","clientId",resource,scope,"createdAt","expiresAt","nextPollAt")
  SELECT gen_random_uuid(),decode(md5('device-fixture-'||num)||md5('device-fixture-'||num),'hex'),decode(md5('user-fixture-'||num)||md5('user-fixture-'||num),'hex'),'cleanup-fixture','https://cleanup.example.test','fixture',clock_timestamp()-interval '10 minutes',clock_timestamp()-interval '1 minute',clock_timestamp() FROM generate_series(1,260) num`)
 	require.NoError(t, err)
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vaultix_device_authorizations WHERE "clientId"='cleanup-fixture'`)
+		_, err := stack.DB().Primary().Exec(context.Background(), `DELETE FROM vx_auth_device_authorizations WHERE "clientId"='cleanup-fixture'`)
 		require.NoError(t, err)
 	})
 	for _, want := range []int64{128, 128, 4, 0} {

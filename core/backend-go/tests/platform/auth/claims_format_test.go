@@ -62,7 +62,7 @@ func TestValidateIdentityAccessToken_ExplicitZeroLifetimeClaims(t *testing.T) {
 	// Observe lazy persistence. Do not delete a row to manufacture this scenario.
 	var rows int
 	err = stack.DB().Primary().QueryRow(context.Background(),
-		`SELECT count(*) FROM identity_access_tokens WHERE id = $1`, tokenID).Scan(&rows)
+		`SELECT count(*) FROM vx_identity_access_tokens WHERE id = $1`, tokenID).Scan(&rows)
 	require.NoError(t, err)
 	require.Zero(t, rows)
 	r, err = node.Client().R().SetAuthToken(login.AccessToken).Get("/api/v1/identities/details")
@@ -86,7 +86,7 @@ func TestValidateIdentityAccessToken_IncompleteLifetimeClaimsUseLegacyConstraint
 		t.Run(missing, func(t *testing.T) {
 			tokenID := uuid.NewString()
 			_, err := stack.DB().Primary().Exec(context.Background(), `
-				INSERT INTO identity_access_tokens (
+				INSERT INTO vx_identity_access_tokens (
 					id, "identityId", "isAccessTokenRevoked", "accessTokenTTL", "accessTokenMaxTTL",
 					"accessTokenNumUses", "accessTokenNumUsesLimit", "authMethod", "createdAt", "updatedAt"
 				) VALUES (@tokenID, @identityID, true, 3600, 7200, 0, 0, 'universal-auth', NOW(), NOW())
@@ -94,7 +94,7 @@ func TestValidateIdentityAccessToken_IncompleteLifetimeClaimsUseLegacyConstraint
 			require.NoError(t, err)
 			t.Cleanup(func() {
 				_, _ = stack.DB().Primary().Exec(context.Background(),
-					`DELETE FROM identity_access_tokens WHERE id = $1`, tokenID)
+					`DELETE FROM vx_identity_access_tokens WHERE id = $1`, tokenID)
 			})
 			// A signed fixture deliberately models an incomplete historical payload.
 			// It must not bypass the legacy row's revocation flag just because some

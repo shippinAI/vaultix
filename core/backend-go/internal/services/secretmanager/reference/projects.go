@@ -43,19 +43,19 @@ func (s *Service) ListProjects(ctx context.Context) (*Projects, error) {
 	}
 	rows, err := s.db.Primary().Query(ctx, `
 		SELECT project.id, project.name, project.slug, env.id, env.name, env.slug
-		FROM projects project
-		LEFT JOIN project_environments env ON env."projectId" = project.id AND env."deleteAfter" IS NULL
+		FROM vx_workspace_projects project
+		LEFT JOIN vx_workspace_environments env ON env."projectId" = project.id AND env."deleteAfter" IS NULL
 		WHERE project."orgId" = @orgID AND project.type = 'secret-manager' AND project."deleteAfter" IS NULL
 			AND EXISTS (
-				SELECT 1 FROM memberships membership
+				SELECT 1 FROM vx_workspace_memberships membership
 				WHERE membership.scope = 'project' AND membership."scopeProjectId" = project.id AND (
 					(@isUser AND membership."actorUserId" = @actorID) OR
 					(NOT @isUser AND membership."actorIdentityId" = @actorID) OR
 					EXISTS (
-						SELECT 1 FROM groups actor_group
+						SELECT 1 FROM vx_workspace_groups actor_group
 						WHERE actor_group.id = membership."actorGroupId" AND actor_group."orgId" = @orgID AND (
-							(@isUser AND EXISTS (SELECT 1 FROM user_group_membership link WHERE link."groupId" = actor_group.id AND link."userId" = @actorID)) OR
-							(NOT @isUser AND EXISTS (SELECT 1 FROM identity_group_membership link WHERE link."groupId" = actor_group.id AND link."identityId" = @actorID))
+							(@isUser AND EXISTS (SELECT 1 FROM vx_workspace_user_group_memberships link WHERE link."groupId" = actor_group.id AND link."userId" = @actorID)) OR
+							(NOT @isUser AND EXISTS (SELECT 1 FROM vx_identity_group_memberships link WHERE link."groupId" = actor_group.id AND link."identityId" = @actorID))
 						)
 					)
 				)

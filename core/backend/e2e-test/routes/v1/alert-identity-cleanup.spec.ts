@@ -53,7 +53,9 @@ const createAlert = async (opts: { identityId: string; name: string; projectId?:
 };
 
 const alertRows = async (identityId: string) =>
-  testDb("alerts").where({ resourceType: RESOURCE_TYPE, resourceId: identityId }).select("id", "orgId", "projectId");
+  testDb("vx_operate_alerts")
+    .where({ resourceType: RESOURCE_TYPE, resourceId: identityId })
+    .select("id", "orgId", "projectId");
 
 describe("Alert cleanup on identity deletion", async () => {
   test("hard delete via the org identity route (identity-v2) reaps the identity's alerts", async () => {
@@ -71,8 +73,8 @@ describe("Alert cleanup on identity deletion", async () => {
 
     expect(await alertRows(identity.id)).toEqual([]);
     // The channel and its membership must go with the alert, not linger as orphans.
-    expect(await testDb("alert_channels").where({ id: alert.channels[0].id })).toEqual([]);
-    expect(await testDb("alert_channel_memberships").where({ alertId: alert.id })).toEqual([]);
+    expect(await testDb("vx_operate_alert_channels").where({ id: alert.channels[0].id })).toEqual([]);
+    expect(await testDb("vx_operate_alert_channel_memberships").where({ alertId: alert.id })).toEqual([]);
   });
 
   test("hard delete via the legacy v1 identity route reaps the identity's alerts", async () => {
@@ -97,10 +99,10 @@ describe("Alert cleanup on identity deletion", async () => {
 
     // A second org watching the same identity. Inserted directly: there is no API for creating an
     // alert in an org the caller's token is not scoped to.
-    const [otherOrg] = await testDb("organizations")
+    const [otherOrg] = await testDb("vx_workspace_organizations")
       .insert({ name: "alert-cleanup-other-org", slug: "alert-cleanup-other-org" })
       .returning("id");
-    await testDb("alerts").insert({
+    await testDb("vx_operate_alerts").insert({
       name: "cross-org-foreign",
       resourceType: RESOURCE_TYPE,
       resourceId: identity.id,
@@ -122,7 +124,7 @@ describe("Alert cleanup on identity deletion", async () => {
 
     expect(await alertRows(identity.id)).toEqual([]);
 
-    await testDb("organizations").where({ id: otherOrg.id }).delete();
+    await testDb("vx_workspace_organizations").where({ id: otherOrg.id }).delete();
   });
 
   test("removing a project membership reaps the project alert and spares the org alert", async () => {

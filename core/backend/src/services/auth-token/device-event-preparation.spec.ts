@@ -40,30 +40,35 @@ describe.sequential("device event preparation through the real store and mail re
   let subjectId: string;
   const users: string[] = [];
   const organizations: string[] = [];
-  const storedDeliveries = () => db<StoredDelivery>("vaultix_device_event_deliveries");
+  const storedDeliveries = () => db<StoredDelivery>("vx_auth_device_event_deliveries");
   const newUser = async (email = true) => {
     const id = randomUUID();
-    await db("users").insert({ id, username: id, email: email ? `${id}@vaultix.invalid` : null, isAccepted: true });
+    await db("vx_auth_users").insert({
+      id,
+      username: id,
+      email: email ? `${id}@vaultix.invalid` : null,
+      isAccepted: true
+    });
     users.push(id);
     return id;
   };
   const administrator = async (email = true) => {
     const id = await newUser(email);
     const membershipId = randomUUID();
-    await db("memberships").insert({
+    await db("vx_workspace_memberships").insert({
       id: membershipId,
       scope: "organization",
       scopeOrgId: orgId,
       actorUserId: id,
       status: "accepted"
     });
-    await db("membership_roles").insert({ membershipId, role: "admin" });
+    await db("vx_workspace_membership_roles").insert({ membershipId, role: "admin" });
     return id;
   };
   const source = async (action: DevicePreparationClaim["action"] = "issued", bypass = false) => {
     const sessionId = randomUUID();
     const id = randomUUID();
-    await db("auth_token_sessions").insert({
+    await db("vx_auth_sessions").insert({
       id: sessionId,
       userId: subjectId,
       ip: "192.0.2.71",
@@ -79,7 +84,7 @@ describe.sequential("device event preparation through the real store and mail re
       rootOrgId: orgId,
       clientId: "vaultix-cli"
     };
-    await db("vaultix_device_sessions").insert({
+    await db("vx_auth_device_sessions").insert({
       sessionId,
       clientId: "vaultix-cli",
       resource: "https://vaultix.invalid",
@@ -89,7 +94,7 @@ describe.sequential("device event preparation through the real store and mail re
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + 3600000)
     });
-    await db("vaultix_device_session_events").insert({ id, sessionId, userId: subjectId, orgId, action, provenance });
+    await db("vx_auth_device_session_events").insert({ id, sessionId, userId: subjectId, orgId, action, provenance });
     return { id, sessionId };
   };
   const owner = (enabled = true, retention = 365) =>
@@ -103,12 +108,12 @@ describe.sequential("device event preparation through the real store and mail re
     });
   const cleanup = async () => {
     if (users.length) {
-      await db("users").whereIn("id", users).delete();
-      await db("vaultix_device_session_events").whereIn("userId", users).delete();
+      await db("vx_auth_users").whereIn("id", users).delete();
+      await db("vx_auth_device_session_events").whereIn("userId", users).delete();
       users.length = 0;
     }
     if (organizations.length) {
-      await db("organizations").whereIn("id", organizations).delete();
+      await db("vx_workspace_organizations").whereIn("id", organizations).delete();
       organizations.length = 0;
     }
   };
@@ -128,7 +133,7 @@ describe.sequential("device event preparation through the real store and mail re
     await cleanup();
     config.SITE_URL = "https://original.vaultix.invalid";
     orgId = randomUUID();
-    await db("organizations").insert({ id: orgId, name: "Vaultix preparation", slug: orgId });
+    await db("vx_workspace_organizations").insert({ id: orgId, name: "Vaultix preparation", slug: orgId });
     organizations.push(orgId);
     subjectId = await newUser();
   });
@@ -167,7 +172,7 @@ describe.sequential("device event preparation through the real store and mail re
     if (!rendered?.payload.mail) throw new Error("Expected rendered administrator mail");
     expect(rendered.payload.mail.html).toContain("https://original.vaultix.invalid/organizations/");
     config.SITE_URL = "https://changed.vaultix.invalid";
-    await db("users")
+    await db("vx_auth_users")
       .where({ id: subjectId })
       .update({ email: "changed@vaultix.invalid", username: "Changed profile" });
     const [second] = await dal.claimPreparation(1);
@@ -226,7 +231,7 @@ describe.sequential("device event preparation through the real store and mail re
 
   test("canonical account deletion preserves context without inventing a deletion actor", async () => {
     const event = await source();
-    await db("users").where({ id: subjectId }).delete();
+    await db("vx_auth_users").where({ id: subjectId }).delete();
     const claims = await deviceEventDeliveryDALFactory(db).claimPreparation(10);
     const deletion = claims.find((claim) => claim.action === "revoked");
     expect(deletion).toBeDefined();
@@ -268,16 +273,16 @@ describe.sequential("device event preparation through the real store and mail re
       // eslint-disable-next-line no-await-in-loop
       await expect(owner().prepare(candidate)).rejects.toThrow("context is unresolved");
     }
-    expect(await db("vaultix_device_event_deliveries").where({ eventId: claim.id })).toEqual([]);
+    expect(await db("vx_auth_device_event_deliveries").where({ eventId: claim.id })).toEqual([]);
   });
 
   test("a lost preparation lease cannot commit rendered content", async () => {
     await source();
     const [claim] = await deviceEventDeliveryDALFactory(db).claimPreparation(1);
-    await db("vaultix_device_session_events")
+    await db("vx_auth_device_session_events")
       .where({ id: claim.id })
       .update({ preparationLeaseUntil: db.raw("clock_timestamp()-interval '1 second'") });
     expect(await owner().prepare(claim)).toBe(false);
-    expect(await db("vaultix_device_event_deliveries").where({ eventId: claim.id })).toEqual([]);
+    expect(await db("vx_auth_device_event_deliveries").where({ eventId: claim.id })).toEqual([]);
   });
 });

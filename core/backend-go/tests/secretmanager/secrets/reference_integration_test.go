@@ -46,11 +46,11 @@ func restrictedReferenceDB(t *testing.T) referenceDB {
 		require.NoError(t, err)
 	})
 	for _, grant := range []string{
-		`SELECT (id, key, version, "createdAt", "updatedAt", "folderId", type, "userId") ON secrets_v2`,
-		`SELECT ("secrets_v2Id", "secret_tagsId") ON secret_v2_tag_junction`,
-		`SELECT (id, slug) ON secret_tags`,
-		`SELECT (id, "envId", "parentId", name) ON secret_folders`,
-		`SELECT (id, slug, "projectId", "deleteAfter") ON project_environments`,
+		`SELECT (id, key, version, "createdAt", "updatedAt", "folderId", type, "userId") ON vx_secrets_secrets`,
+		`SELECT ("secrets_v2Id", "secret_tagsId") ON vx_secrets_tag_junction`,
+		`SELECT (id, slug) ON vx_secrets_tags`,
+		`SELECT (id, "envId", "parentId", name) ON vx_secrets_folders`,
+		`SELECT (id, slug, "projectId", "deleteAfter") ON vx_workspace_environments`,
 	} {
 		_, err := stack.DB().Primary().Exec(ctx, "GRANT "+grant+" TO "+quoted)
 		require.NoError(t, err)
@@ -62,7 +62,7 @@ func restrictedReferenceDB(t *testing.T) referenceDB {
 	require.NoError(t, err)
 	t.Cleanup(pool.Close)
 	require.NoError(t, pool.Ping(ctx))
-	_, err = pool.Exec(ctx, `SELECT * FROM secrets_v2 LIMIT 1`)
+	_, err = pool.Exec(ctx, `SELECT * FROM vx_secrets_secrets LIMIT 1`)
 	require.Error(t, err, "fixture must deny broad/value-bearing secret queries")
 	return referenceDB{primary: pool}
 }
@@ -164,7 +164,7 @@ func TestReference_MetadataOnlyDifferential(t *testing.T) {
 		}
 		// Revoke the tag in the real primary; the reference reader must not reuse
 		// stale metadata to authorize the formerly visible name.
-		_, err := stack.DB().Primary().Exec(t.Context(), `DELETE FROM secret_v2_tag_junction WHERE "secret_tagsId" = $1`, publicTag.ID)
+		_, err := stack.DB().Primary().Exec(t.Context(), `DELETE FROM vx_secrets_tag_junction WHERE "secret_tagsId" = $1`, publicTag.ID)
 		require.NoError(t, err)
 		page, err := svc.List(identityCtx, reference.Query{ProjectID: project.ID, Environment: project.EnvSlug, SecretPath: "/", Limit: 50})
 		require.NoError(t, err)

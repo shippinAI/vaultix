@@ -1,8 +1,9 @@
 import { Knex } from "knex";
 
+import { TableName } from "../schemas";
 import { createOnUpdateTrigger, dropOnUpdateTrigger } from "../utils";
 
-const QUEUE_JOBS_TABLE = "queue_jobs";
+const QUEUE_JOBS_TABLE = TableName.DeprecatedDurableQueueJobs;
 
 export async function up(knex: Knex): Promise<void> {
   const hasTable = await knex.schema.hasTable(QUEUE_JOBS_TABLE);

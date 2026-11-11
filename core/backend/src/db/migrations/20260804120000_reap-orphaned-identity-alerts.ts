@@ -9,7 +9,7 @@ import { AccessScope, TableName } from "../schemas";
 const IDENTITY_AUTHENTICATION_RESOURCE_TYPE = "identity.authentication";
 const BATCH_SIZE = 500;
 
-// alerts."resourceId" is a plain varchar with no FK (a provider's resourceType can point at any
+// vx_operate_alerts."resourceId" is a plain varchar with no FK (a provider's resourceType can point at any
 // table), so deleting an identity never cascaded to its alerts. Until the reap was wired into every
 // identity delete and detach path, three leaks accumulated:
 //
@@ -29,7 +29,7 @@ export async function up(knex: Knex): Promise<void> {
       .where(`${TableName.Alert}.resourceType`, IDENTITY_AUTHENTICATION_RESOURCE_TYPE)
       .whereNotNull(`${TableName.Alert}.resourceId`);
 
-  // The cast is on the identity side: "resourceId" is varchar and identities.id is uuid, so casting
+  // The cast is on the identity side: "resourceId" is varchar and vx_identity_identities.id is uuid, so casting
   // the varchar would throw on a non-uuid value instead of reaping the row it belongs to.
   const identityExists = (qb: Knex.QueryBuilder) => {
     void qb
@@ -53,8 +53,8 @@ export async function up(knex: Knex): Promise<void> {
     .select(`${TableName.Alert}.id`)) as { id: string }[];
 
   // 2. Identity still exists but no longer holds the membership the alert's scope needs. This mirrors
-  // the engine's own join (findExpiringUaClientSecrets): an org-scope membership in alerts."orgId" is
-  // required for every alert, plus a project-scope membership in alerts."projectId" when the alert is
+  // the engine's own join (findExpiringUaClientSecrets): an org-scope membership in vx_operate_alerts."orgId" is
+  // required for every alert, plus a project-scope membership in vx_operate_alerts."projectId" when the alert is
   // project-scoped. Without both, findDueTargets can never match the identity again. Requiring the
   // identity to exist keeps this set disjoint from sweep 1, so the two counts don't double-report.
   const outOfScopeAlerts = (await identityAlerts()

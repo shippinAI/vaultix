@@ -26,8 +26,8 @@ func TestAuthenticationMembership_DirectPrecedence(t *testing.T) {
 		name, id, column, table, link string
 		paths                         []string
 	}{
-		{"user", tokens.userID, "actorUserId", "user_group_membership", "userId", []string{"user", "user-unified"}},
-		{"identity", tokens.identityID, "actorIdentityId", "identity_group_membership", "identityId", []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
+		{"user", tokens.userID, "actorUserId", "vx_workspace_user_group_memberships", "userId", []string{"user", "user-unified"}},
+		{"identity", tokens.identityID, "actorIdentityId", "vx_identity_group_memberships", "identityId", []string{"identity", "identity-unified", "legacy", "legacy-unified"}},
 	} {
 		for _, scenario := range []struct {
 			name, directKind, status, groupKind string
@@ -54,7 +54,7 @@ func TestAuthenticationMembership_DirectPrecedence(t *testing.T) {
 					require.NoError(t, err, "unchanged valid control")
 					require.NotNil(t, identity)
 				}
-				_, err := db.primary.Exec(ctx, "DELETE FROM memberships WHERE "+pgx.Identifier{actor.column}.Sanitize()+" = $1", actor.id)
+				_, err := db.primary.Exec(ctx, "DELETE FROM vx_workspace_memberships WHERE "+pgx.Identifier{actor.column}.Sanitize()+" = $1", actor.id)
 				require.NoError(t, err)
 				_, err = db.primary.Exec(ctx, "DELETE FROM "+pgx.Identifier{actor.table}.Sanitize()+" WHERE "+pgx.Identifier{actor.link}.Sanitize()+" = $1", actor.id)
 				require.NoError(t, err)
@@ -64,11 +64,11 @@ func TestAuthenticationMembership_DirectPrecedence(t *testing.T) {
 					if scenario.groupKind == "unrelated" {
 						linkID = uuid.NewString()
 					}
-					_, err = db.primary.Exec(ctx, `INSERT INTO groups (id, name) VALUES ($1, 'membership-precedence-fixture')`, groupID)
+					_, err = db.primary.Exec(ctx, `INSERT INTO vx_workspace_groups (id, name) VALUES ($1, 'membership-precedence-fixture')`, groupID)
 					require.NoError(t, err)
 					_, err = db.primary.Exec(ctx, "INSERT INTO "+pgx.Identifier{actor.table}.Sanitize()+" (id, \"groupId\", "+pgx.Identifier{actor.link}.Sanitize()+") VALUES ($1, $2, $3)", uuid.New(), groupID, linkID)
 					require.NoError(t, err)
-					_, err = db.primary.Exec(ctx, `INSERT INTO memberships (id, "actorGroupId", scope, "scopeOrgId", "isActive", status)
+					_, err = db.primary.Exec(ctx, `INSERT INTO vx_workspace_memberships (id, "actorGroupId", scope, "scopeOrgId", "isActive", status)
 						VALUES ($1, $2, 'organization', $3, $4, 'accepted')`, uuid.New(), groupID, tokens.orgID, scenario.groupActive)
 					require.NoError(t, err)
 				}
@@ -84,7 +84,7 @@ func TestAuthenticationMembership_DirectPrecedence(t *testing.T) {
 					if scenario.status != "" {
 						status = scenario.status
 					}
-					_, err = db.primary.Exec(ctx, "INSERT INTO memberships (id, "+pgx.Identifier{actor.column}.Sanitize()+`, scope, "scopeOrgId", "isActive", status)
+					_, err = db.primary.Exec(ctx, "INSERT INTO vx_workspace_memberships (id, "+pgx.Identifier{actor.column}.Sanitize()+`, scope, "scopeOrgId", "isActive", status)
 						VALUES ($1, $2, $3, $4, $5, $6)`, uuid.New(), actor.id, scope, orgID, scenario.directActive, status)
 					require.NoError(t, err)
 				}
@@ -116,17 +116,17 @@ func TestAuthenticationMembership_UserLifecycle(t *testing.T) {
 	node := stack.NodeJS()
 	user := node.InviteAndCreateUser(t, "membership-"+uuid.NewString()+"@test.com")
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM users WHERE id = $1`, user.ID)
+		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM vx_auth_users WHERE id = $1`, user.ID)
 		require.NoError(t, err)
 	})
-	_, err := stack.DB().Primary().Exec(ctx, `UPDATE users SET "isAccepted" = true WHERE id = $1`, user.ID)
+	_, err := stack.DB().Primary().Exec(ctx, `UPDATE vx_auth_users SET "isAccepted" = true WHERE id = $1`, user.ID)
 	require.NoError(t, err)
 	var membershipID string
-	err = stack.DB().Primary().QueryRow(ctx, `UPDATE memberships SET status = 'accepted'
+	err = stack.DB().Primary().QueryRow(ctx, `UPDATE vx_workspace_memberships SET status = 'accepted'
 		WHERE "actorUserId" = $1 AND scope = 'organization' AND "scopeOrgId" = $2 RETURNING id`, user.ID, node.OrgID()).Scan(&membershipID)
 	require.NoError(t, err)
 	sessionID := uuid.New()
-	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO auth_token_sessions
+	_, err = stack.DB().Primary().Exec(ctx, `INSERT INTO vx_auth_sessions
 		(id, "userId", "accessVersion", "refreshVersion", ip, "userAgent", "lastUsed", "createdAt", "updatedAt")
 		VALUES ($1, $2, 1, 1, '127.0.0.1', 'membership-fixture', NOW(), NOW(), NOW())`, sessionID, user.ID)
 	require.NoError(t, err)
@@ -140,7 +140,7 @@ func TestAuthenticationMembership_UserLifecycle(t *testing.T) {
 	require.NoError(t, err)
 	group := node.CreateGroup(t, "membership-"+uuid.NewString()[:8])
 	t.Cleanup(func() {
-		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM groups WHERE id = $1`, group.ID)
+		_, err := stack.DB().Primary().Exec(ctx, `DELETE FROM vx_workspace_groups WHERE id = $1`, group.ID)
 		require.NoError(t, err)
 	})
 	node.AddUserToGroup(t, group.ID, user.Email)
@@ -156,8 +156,8 @@ func TestAuthenticationMembership_UserLifecycle(t *testing.T) {
 				require.Equal(t, http.StatusOK, r.StatusCode())
 			}
 			var groupActive bool
-			err := stack.DB().Primary().QueryRow(ctx, `SELECT m."isActive" FROM memberships m
-				JOIN user_group_membership link ON link."groupId" = m."actorGroupId"
+			err := stack.DB().Primary().QueryRow(ctx, `SELECT m."isActive" FROM vx_workspace_memberships m
+				JOIN vx_workspace_user_group_memberships link ON link."groupId" = m."actorGroupId"
 				WHERE m."actorGroupId" = $1 AND link."userId" = $2 AND m.scope = 'organization' AND m."scopeOrgId" = $3`,
 				group.ID, user.ID, node.OrgID()).Scan(&groupActive)
 			require.NoError(t, err)

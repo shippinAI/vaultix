@@ -36,7 +36,7 @@ func (s *AccessVerifier) AuthenticateAccess(ctx context.Context, token string) (
 		// The account/session locks and authority check remain held on this same
 		// connection. Display/profile fields never come from an unsigned locator.
 		err := tx.QueryRow(ctx, `SELECT COALESCE(u.email,''),COALESCE(u.username,''),COALESCE(u."superAdmin",false),
- o.name,COALESCE(o."parentOrgId",o.id) FROM users u CROSS JOIN organizations o
+ o.name,COALESCE(o."parentOrgId",o.id) FROM vx_auth_users u CROSS JOIN vx_workspace_organizations o
  WHERE u.id=@user AND o.id=@org AND COALESCE(o."rootOrgId",o.id)=@root`,
 			pgx.NamedArgs{"user": identity.UserID, "org": identity.OrgID, "root": identity.RootOrgID}).Scan(
 			&resolved.Email, &resolved.Username, &resolved.IsSuperAdmin, &resolved.OrgName, &resolved.ParentOrgID)

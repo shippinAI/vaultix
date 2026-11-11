@@ -974,7 +974,7 @@ func TestListSecrets_SoftDeletedEnvironment(t *testing.T) {
 	t.Run("environment row still exists in DB with softDeletedAt set", func(t *testing.T) {
 		var softDeletedAt *time.Time
 		err := stack.DB().Replica().QueryRow(context.Background(), `
-			SELECT "softDeletedAt" FROM project_environments WHERE id = @envID
+			SELECT "softDeletedAt" FROM vx_workspace_environments WHERE id = @envID
 		`, pgx.NamedArgs{"envID": customEnv.ID}).Scan(&softDeletedAt)
 
 		require.NoError(t, err, "environment row should still exist in database")

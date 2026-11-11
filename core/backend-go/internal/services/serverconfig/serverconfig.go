@@ -206,7 +206,7 @@ func (s *Service) findByID(ctx context.Context, id uuid.UUID) (*superAdminRow, e
 			"allowedSignUpDomain", "instanceId", "trustSamlEmails", "trustLdapEmails", "trustOidcEmails",
 			"defaultAuthOrgId", "enabledLoginMethods", "authConsentContent", "pageFrameContent",
 			"adminIdentityIds", "fipsEnabled"
-		FROM super_admin
+		FROM vx_operate_instance_config
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": id}
@@ -251,7 +251,7 @@ func (s *Service) findOrCreateConfig(ctx context.Context) (ServerConfig, error) 
 			"allowedSignUpDomain", "instanceId", "trustSamlEmails", "trustLdapEmails", "trustOidcEmails",
 			"defaultAuthOrgId", "enabledLoginMethods", "authConsentContent", "pageFrameContent",
 			"adminIdentityIds", "fipsEnabled"
-		FROM super_admin
+		FROM vx_operate_instance_config
 		WHERE id = @id
 	`
 	args := pgx.NamedArgs{"id": adminConfigDBUUID}
@@ -277,7 +277,7 @@ func (s *Service) findOrCreateConfig(ctx context.Context) (ServerConfig, error) 
 
 	// Create the initial config row.
 	insertQuery := `
-		INSERT INTO super_admin (id, initialized, "allowSignUp", "fipsEnabled")
+		INSERT INTO vx_operate_instance_config (id, initialized, "allowSignUp", "fipsEnabled")
 		VALUES (@id, false, true, false)
 		RETURNING
 			id, initialized, "allowSignUp", "createdAt", "updatedAt",

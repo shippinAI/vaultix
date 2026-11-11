@@ -3,10 +3,11 @@ import { Knex } from "knex";
 
 import { QueueJobs, QueueName } from "@app/queue";
 
+import { TableName } from "../schemas";
 import { createOnUpdateTrigger, dropOnUpdateTrigger } from "../utils";
 
 // Inlined because QueueJobsTable was removed when the queue_jobs table was dropped.
-const QueueJobsTable = "queue_jobs";
+const QueueJobsTable = TableName.DeprecatedDurableQueueJobs;
 
 interface MigrationConfig<TData> {
   pgBossQueueName: string;

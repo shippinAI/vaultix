@@ -17,7 +17,7 @@ import (
 
 func setSSOPolicy(t *testing.T, db *pgxpool.Pool, orgID uuid.UUID, saml, google, bypass bool) {
 	t.Helper()
-	permissionExec(t, db, `UPDATE organizations SET "authEnforced"=$2, "googleSsoAuthEnforced"=$3, "bypassOrgAuthEnabled"=$4 WHERE id=$1`, orgID, saml, google, bypass)
+	permissionExec(t, db, `UPDATE vx_workspace_organizations SET "authEnforced"=$2, "googleSsoAuthEnforced"=$3, "bypassOrgAuthEnabled"=$4 WHERE id=$1`, orgID, saml, google, bypass)
 }
 
 func assertSSOAccess(t *testing.T, svc *permission.Service, args *permission.GetProjectPermissionArgs, status int) {
@@ -74,17 +74,17 @@ func TestSSOEnforcement_BypassAuthority(t *testing.T) {
 			status := 0
 			db, svc := newPermissionAuthority(t, func(pool *pgxpool.Pool) {
 				setSSOPolicy(t, pool, user.ActorOrgID, true, false, true)
-				orgRoleWhere := ` WHERE "membershipId" IN (SELECT id FROM memberships WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2)`
+				orgRoleWhere := ` WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2)`
 				role := func(value string) {
-					permissionExec(t, pool, `UPDATE membership_roles SET role=$3`+orgRoleWhere, user.ActorOrgID, user.ActorID, value)
+					permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET role=$3`+orgRoleWhere, user.ActorOrgID, user.ActorID, value)
 				}
 				custom := func(rules string, keepAdmin bool) {
 					id := uuid.New()
-					permissionExec(t, pool, `INSERT INTO roles (id,slug,permissions) VALUES ($1,'sso-test',$2)`, id, rules)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_roles (id,slug,permissions) VALUES ($1,'sso-test',$2)`, id, rules)
 					if keepAdmin {
-						permissionExec(t, pool, `INSERT INTO membership_roles (id,"membershipId",role,"customRoleId") SELECT $3,id,'custom',$4 FROM memberships WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, uuid.New(), id)
+						permissionExec(t, pool, `INSERT INTO vx_workspace_membership_roles (id,"membershipId",role,"customRoleId") SELECT $3,id,'custom',$4 FROM vx_workspace_memberships WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, uuid.New(), id)
 					} else {
-						permissionExec(t, pool, `UPDATE membership_roles SET role='custom',"customRoleId"=$3`+orgRoleWhere, user.ActorOrgID, user.ActorID, id)
+						permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET role='custom',"customRoleId"=$3`+orgRoleWhere, user.ActorOrgID, user.ActorID, id)
 					}
 				}
 				switch name {
@@ -115,34 +115,34 @@ func TestSSOEnforcement_BypassAuthority(t *testing.T) {
 						end = "NOW() - interval '1 second'"
 						status = 403
 					}
-					permissionExec(t, pool, `UPDATE membership_roles SET "isTemporary"=true,"temporaryAccessEndTime"=`+end+orgRoleWhere, user.ActorOrgID, user.ActorID)
+					permissionExec(t, pool, `UPDATE vx_workspace_membership_roles SET "isTemporary"=true,"temporaryAccessEndTime"=`+end+orgRoleWhere, user.ActorOrgID, user.ActorID)
 				case "additional-grant", "expired-additional":
 					role("member")
-					permissionExec(t, pool, `INSERT INTO additional_privileges (id,"actorUserId","orgId",permissions,"isTemporary","temporaryAccessEndTime") VALUES ($1,$2,$3,'[["bypass-sso-enforcement","sso"]]',true,NOW()+interval '1 hour')`, uuid.New(), user.ActorID, user.ActorOrgID)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_additional_privileges (id,"actorUserId","orgId",permissions,"isTemporary","temporaryAccessEndTime") VALUES ($1,$2,$3,'[["bypass-sso-enforcement","sso"]]',true,NOW()+interval '1 hour')`, uuid.New(), user.ActorID, user.ActorOrgID)
 					if name == "expired-additional" {
-						permissionExec(t, pool, `UPDATE additional_privileges SET "temporaryAccessEndTime"=NOW()-interval '1 second' WHERE "actorUserId"=$1`, user.ActorID)
+						permissionExec(t, pool, `UPDATE vx_workspace_additional_privileges SET "temporaryAccessEndTime"=NOW()-interval '1 second' WHERE "actorUserId"=$1`, user.ActorID)
 						status = 403
 					}
 				case "group-admin", "inactive-group":
 					id := uuid.New()
-					permissionExec(t, pool, `INSERT INTO groups (id) VALUES ($1)`, id)
-					permissionExec(t, pool, `INSERT INTO user_group_membership ("groupId","userId") VALUES ($1,$2)`, id, user.ActorID)
-					permissionExec(t, pool, `UPDATE memberships SET "actorGroupId"=$3,"actorUserId"=NULL WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, id)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_groups (id) VALUES ($1)`, id)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_user_group_memberships ("groupId","userId") VALUES ($1,$2)`, id, user.ActorID)
+					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "actorGroupId"=$3,"actorUserId"=NULL WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, id)
 					if name == "inactive-group" {
-						permissionExec(t, pool, `UPDATE memberships SET "isActive"=false WHERE "actorGroupId"=$1`, id)
+						permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "isActive"=false WHERE "actorGroupId"=$1`, id)
 						status = 403
 					}
 				case "inactive-membership":
-					permissionExec(t, pool, `UPDATE memberships SET "isActive"=false WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID)
+					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "isActive"=false WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID)
 					status = 403
 				case "root-admin", "child-admin-only":
 					child := uuid.New()
-					permissionExec(t, pool, `INSERT INTO organizations SELECT (jsonb_populate_record(NULL::organizations,to_jsonb(o)||jsonb_build_object('id',$2::text,'rootOrgId',o.id))).* FROM organizations o WHERE id=$1`, user.ActorOrgID, child)
-					permissionExec(t, pool, `UPDATE projects SET "orgId"=$2 WHERE id=$1`, user.ProjectID, child)
-					permissionExec(t, pool, `UPDATE memberships SET "scopeOrgId"=$2 WHERE "scopeProjectId"=$1`, user.ProjectID, child)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_organizations SELECT (jsonb_populate_record(NULL::vx_workspace_organizations,to_jsonb(o)||jsonb_build_object('id',$2::text,'rootOrgId',o.id))).* FROM vx_workspace_organizations o WHERE id=$1`, user.ActorOrgID, child)
+					permissionExec(t, pool, `UPDATE vx_workspace_projects SET "orgId"=$2 WHERE id=$1`, user.ProjectID, child)
+					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "scopeOrgId"=$2 WHERE "scopeProjectId"=$1`, user.ProjectID, child)
 					membership := uuid.New()
-					permissionExec(t, pool, `INSERT INTO memberships (id,scope,"scopeOrgId","actorUserId","isActive") VALUES ($1,'organization',$2,$3,true)`, membership, child, user.ActorID)
-					permissionExec(t, pool, `INSERT INTO membership_roles (id,"membershipId",role) VALUES ($1,$2,'admin')`, uuid.New(), membership)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_memberships (id,scope,"scopeOrgId","actorUserId","isActive") VALUES ($1,'organization',$2,$3,true)`, membership, child, user.ActorID)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_membership_roles (id,"membershipId",role) VALUES ($1,$2,'admin')`, uuid.New(), membership)
 					if name == "child-admin-only" {
 						role("member")
 						status = 403
@@ -165,9 +165,9 @@ func TestSSOEnforcement_RevocationAndFailure(t *testing.T) {
 				setSSOPolicy(t, pool, user.ActorOrgID, name != "enforcement-enabled", false, name != "enforcement-enabled")
 				if name == "group-link-removed" {
 					id := uuid.New()
-					permissionExec(t, pool, `INSERT INTO groups (id) VALUES ($1)`, id)
-					permissionExec(t, pool, `INSERT INTO user_group_membership ("groupId","userId") VALUES ($1,$2)`, id, user.ActorID)
-					permissionExec(t, pool, `UPDATE memberships SET "actorGroupId"=$3,"actorUserId"=NULL WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, id)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_groups (id) VALUES ($1)`, id)
+					permissionExec(t, pool, `INSERT INTO vx_workspace_user_group_memberships ("groupId","userId") VALUES ($1,$2)`, id, user.ActorID)
+					permissionExec(t, pool, `UPDATE vx_workspace_memberships SET "actorGroupId"=$3,"actorUserId"=NULL WHERE scope='organization' AND "scopeOrgId"=$1 AND "actorUserId"=$2`, user.ActorOrgID, user.ActorID, id)
 				}
 			})
 			assertSSOAccess(t, svc, &user, 0)
@@ -177,11 +177,11 @@ func TestSSOEnforcement_RevocationAndFailure(t *testing.T) {
 			case "bypass-disabled":
 				setSSOPolicy(t, db.primary, user.ActorOrgID, true, false, false)
 			case "role-revoked":
-				permissionExec(t, db.primary, `UPDATE membership_roles SET role='member' WHERE "membershipId" IN (SELECT id FROM memberships WHERE scope='organization' AND "actorUserId"=$1)`, user.ActorID)
+				permissionExec(t, db.primary, `UPDATE vx_workspace_membership_roles SET role='member' WHERE "membershipId" IN (SELECT id FROM vx_workspace_memberships WHERE scope='organization' AND "actorUserId"=$1)`, user.ActorID)
 			case "membership-disabled":
-				permissionExec(t, db.primary, `UPDATE memberships SET "isActive"=false WHERE scope='organization' AND "actorUserId"=$1`, user.ActorID)
+				permissionExec(t, db.primary, `UPDATE vx_workspace_memberships SET "isActive"=false WHERE scope='organization' AND "actorUserId"=$1`, user.ActorID)
 			case "group-link-removed":
-				permissionExec(t, db.primary, `DELETE FROM user_group_membership WHERE "userId"=$1`, user.ActorID)
+				permissionExec(t, db.primary, `DELETE FROM vx_workspace_user_group_memberships WHERE "userId"=$1`, user.ActorID)
 			case "primary-failure":
 				db.primaryReads = 0
 				db.failAt = 3

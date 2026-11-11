@@ -16,13 +16,25 @@ describe.sequential("device security notice audiences in PostgreSQL", () => {
   const organizations: string[] = [];
   const organization = async (root?: string) => {
     const id = randomUUID();
-    await db("organizations").insert({ id, name: "Device audience", slug: id, rootOrgId: root, parentOrgId: root });
+    await db("vx_workspace_organizations").insert({
+      id,
+      name: "Device audience",
+      slug: id,
+      rootOrgId: root,
+      parentOrgId: root
+    });
     organizations.push(id);
     return id;
   };
   const user = async (overrides: Record<string, unknown> = {}) => {
     const id = randomUUID();
-    await db("users").insert({ id, username: id, email: `${id}@vaultix.invalid`, isAccepted: true, ...overrides });
+    await db("vx_auth_users").insert({
+      id,
+      username: id,
+      email: `${id}@vaultix.invalid`,
+      isAccepted: true,
+      ...overrides
+    });
     users.push(id);
     return id;
   };
@@ -34,7 +46,7 @@ describe.sequential("device security notice audiences in PostgreSQL", () => {
     roleOverrides: Record<string, unknown> = {}
   ) => {
     const id = randomUUID();
-    await db("memberships").insert({
+    await db("vx_workspace_memberships").insert({
       id,
       scope: "organization",
       scopeOrgId: scope,
@@ -42,25 +54,25 @@ describe.sequential("device security notice audiences in PostgreSQL", () => {
       status: "accepted",
       ...overrides
     });
-    await db("membership_roles").insert({ membershipId: id, role, ...roleOverrides });
+    await db("vx_workspace_membership_roles").insert({ membershipId: id, role, ...roleOverrides });
     return id;
   };
   const group = async (scope = orgId, owner = rootOrgId) => {
     const id = randomUUID();
-    await db("groups").insert({ id, orgId: owner, name: id, slug: id });
+    await db("vx_workspace_groups").insert({ id, orgId: owner, name: id, slug: id });
     await membership(scope, { actorGroupId: id });
     return id;
   };
   const join = (groupId: string, userId: string, isPending = false) =>
-    db("user_group_membership").insert({ groupId, userId, isPending });
+    db("vx_workspace_user_group_memberships").insert({ groupId, userId, isPending });
   const audience = () => ({ orgId, rootOrgId, subjectId });
   const cleanup = async () => {
     // Children precede their root; only rows created by this fixture are touched.
     for (const id of [...organizations].reverse()) {
       // eslint-disable-next-line no-await-in-loop
-      await db("organizations").where({ id }).delete();
+      await db("vx_workspace_organizations").where({ id }).delete();
     }
-    if (users.length) await db("users").whereIn("id", users).delete();
+    if (users.length) await db("vx_auth_users").whereIn("id", users).delete();
     organizations.length = 0;
     users.length = 0;
   };
@@ -241,9 +253,9 @@ describe.sequential("device security notice audiences in PostgreSQL", () => {
     expect((await dal.findRecipient(request))?.email).toBe(`${id}@vaultix.invalid`);
     await expect(
       db.transaction(async (tx) => {
-        await tx("users").where({ id }).update({ email: "changed@vaultix.invalid" });
+        await tx("vx_auth_users").where({ id }).update({ email: "changed@vaultix.invalid" });
         expect((await dal.findRecipient(request, tx))?.email).toBe("changed@vaultix.invalid");
-        await tx("memberships").where({ id: member }).update({ isActive: false });
+        await tx("vx_workspace_memberships").where({ id: member }).update({ isActive: false });
         expect(await dal.findRecipient(request, tx)).toBeUndefined();
         throw new Error("fixture rollback");
       })
@@ -258,10 +270,10 @@ describe.sequential("device security notice audiences in PostgreSQL", () => {
     await membership(rootOrgId, { actorUserId: ghost });
     const dal = deviceEventRecipientDALFactory(db);
     expect((await dal.listAdministrators(audience())).recipients).toEqual([]);
-    await db("users").where({ id: subjectId }).update({ isLocked: true });
+    await db("vx_auth_users").where({ id: subjectId }).update({ isLocked: true });
     expect((await dal.findRecipient({ ...audience(), userId: subjectId, kind: "subject" }))?.userId).toBe(subjectId);
     expect(await dal.findRecipient({ ...audience(), userId: ghost, kind: "subject" })).toBeUndefined();
-    await db("users").where({ id: subjectId }).delete();
+    await db("vx_auth_users").where({ id: subjectId }).delete();
     expect(await dal.findRecipient({ ...audience(), userId: subjectId, kind: "subject" })).toBeUndefined();
   });
 

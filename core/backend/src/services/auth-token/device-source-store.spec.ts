@@ -53,7 +53,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
   const createUser = async () => {
     const id = randomUUID();
     users.push(id);
-    await db("users").insert({
+    await db("vx_auth_users").insert({
       id,
       username: `source-${id}`,
       email: `${id}@vaultix.invalid`,
@@ -66,7 +66,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
   const createSession = async (userId: string, method = "email") => {
     const sessionId = randomUUID();
     await db.transaction(async (tx) => {
-      await tx("auth_token_sessions").insert({
+      await tx("vx_auth_sessions").insert({
         id: sessionId,
         userId,
         ip: "192.0.2.21",
@@ -74,7 +74,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
         sessionType: "device-v1",
         lastUsed: new Date()
       });
-      await tx("vaultix_device_sessions").insert({
+      await tx("vx_auth_device_sessions").insert({
         sessionId,
         clientId: "vaultix-cli",
         resource: "https://vaultix.invalid",
@@ -98,7 +98,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     return sessionId;
   };
   const record = (userId: string, sessionId: string, action: string, organizationId = orgId) =>
-    db("vaultix_device_session_events").insert({
+    db("vx_auth_device_session_events").insert({
       id: randomUUID(),
       sessionId,
       userId,
@@ -107,7 +107,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
       provenance: { authMethod: "email" }
     });
   const events = (sessionId: string) =>
-    db<Event>("vaultix_device_session_events").where({ sessionId }).orderBy("createdAt").select("*");
+    db<Event>("vx_auth_device_session_events").where({ sessionId }).orderBy("createdAt").select("*");
 
   beforeAll(async () => {
     if (!process.env.VAULTIX_SESSION_TEST_DATABASE || !process.env.VAULTIX_SESSION_TEST_ORG) {
@@ -116,7 +116,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     orgId = process.env.VAULTIX_SESSION_TEST_ORG;
     db = connect();
     peer = connect();
-    if (await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")) await db.transaction(down);
+    if (await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")) await db.transaction(down);
     const userId = await createUser();
     legacy = { userId, sessionId: await createSession(userId) };
     await record(legacy.userId, legacy.sessionId, "issued");
@@ -128,8 +128,8 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
   afterAll(async () => {
     try {
       if (db) {
-        await db("users").whereIn("id", users).delete();
-        await db("vaultix_device_session_events").whereIn("userId", users).delete();
+        await db("vx_auth_users").whereIn("id", users).delete();
+        await db("vx_auth_device_session_events").whereIn("userId", users).delete();
       }
     } finally {
       await peer?.destroy();
@@ -139,7 +139,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
 
   test("preserves legacy uncertainty and labels later capture without rewriting historical events", async () => {
     expect((await events(legacy.sessionId))[0]?.sourceContext).toBeNull();
-    await db("vaultix_device_sessions")
+    await db("vx_auth_device_sessions")
       .where({ sessionId: legacy.sessionId })
       .update({ refreshDigest: randomBytes(32) });
     await record(legacy.userId, legacy.sessionId, "rotated");
@@ -176,8 +176,8 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
       "subject",
       "version"
     ]);
-    await db("users").where({ id: userId }).update({ firstName: "Changed subject" });
-    await db("vaultix_device_sessions")
+    await db("vx_auth_users").where({ id: userId }).update({ firstName: "Changed subject" });
+    await db("vx_auth_device_sessions")
       .where({ sessionId })
       .update({ refreshDigest: randomBytes(32) });
     await service(db).revokeMySessionById(userId, sessionId);
@@ -210,10 +210,10 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     const secondSession = await createSession(secondUser, "okta-saml");
     await userDALFactory(db).deleteById(firstUser);
     await userDALFactory(db).delete({ $in: { id: [secondUser] } });
-    expect(await db("users").whereIn("id", [firstUser, secondUser])).toEqual([]);
+    expect(await db("vx_auth_users").whereIn("id", [firstUser, secondUser])).toEqual([]);
     expect((await events(firstSession))[0]?.sourceContext?.subject.id).toBe(firstUser);
     expect((await events(secondSession))[0]?.sourceContext?.subject.id).toBe(secondUser);
-    expect(await db("vaultix_device_sessions").whereIn("sessionId", [firstSession, secondSession])).toEqual([]);
+    expect(await db("vx_auth_device_sessions").whereIn("sessionId", [firstSession, secondSession])).toEqual([]);
   });
 
   test("concurrent single-connection canonical revocation records one fact and leaves browsers outside this stream", async () => {
@@ -222,8 +222,8 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     await tokenDALFactory(db).insertTokenSession(userId, "192.0.2.25", "browser-proof");
     await Promise.all([service(db).revokeMySessionById(userId, sessionId), service(peer).revokeAllMySessions(userId)]);
     expect((await events(sessionId)).map((row) => row.action)).toEqual(["revoked"]);
-    expect(await db("auth_token_sessions").where({ userId })).toEqual([]);
-    expect(await db("vaultix_device_session_events").where({ userId }).count("*").first()).toMatchObject({
+    expect(await db("vx_auth_sessions").where({ userId })).toEqual([]);
+    expect(await db("vx_auth_device_session_events").where({ userId }).count("*").first()).toMatchObject({
       count: "1"
     });
   });
@@ -232,16 +232,16 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     const userId = await createUser();
     const sessionId = await createSession(userId);
     await db.raw(
-      "ALTER TABLE vaultix_device_session_events ADD CONSTRAINT source_test_failure CHECK (action <> 'revoked') NOT VALID"
+      "ALTER TABLE vx_auth_device_session_events ADD CONSTRAINT source_test_failure CHECK (action <> 'revoked') NOT VALID"
     );
     try {
       await expect(service(db).revokeMySessionById(userId, sessionId)).rejects.toThrow();
       expect(await tokenDALFactory(db).findOneTokenSession({ id: sessionId })).toBeDefined();
       await expect(userDALFactory(db).deleteById(userId)).rejects.toThrow();
-      expect(await db("users").where({ id: userId }).first()).toBeDefined();
+      expect(await db("vx_auth_users").where({ id: userId }).first()).toBeDefined();
       expect(await events(sessionId)).toEqual([]);
     } finally {
-      await db.raw("ALTER TABLE vaultix_device_session_events DROP CONSTRAINT source_test_failure");
+      await db.raw("ALTER TABLE vx_auth_device_session_events DROP CONSTRAINT source_test_failure");
     }
     await expect(
       db.transaction(async (tx) => {
@@ -261,7 +261,7 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
     await expect(record(userId, sessionId, "issued", randomUUID())).rejects.toThrow();
     await expect(record(randomUUID(), sessionId, "issued")).rejects.toThrow();
     await record(userId, sessionId, "issued");
-    await db("vaultix_device_session_events").insert({
+    await db("vx_auth_device_session_events").insert({
       id: randomUUID(),
       sessionId,
       userId,
@@ -271,23 +271,23 @@ describe.sequential("device source capture in the canonical PostgreSQL store", (
       sourceContext: { version: 1, subject: { id: randomUUID() } }
     });
     expect((await events(sessionId))[1]?.sourceContext?.subject.id).toBe(userId);
-    await expect(db("vaultix_device_sessions").where({ sessionId }).update({ sourceContext: {} })).rejects.toThrow();
-    await expect(db("vaultix_device_session_events").where({ sessionId }).update({ provenance: {} })).rejects.toThrow();
+    await expect(db("vx_auth_device_sessions").where({ sessionId }).update({ sourceContext: {} })).rejects.toThrow();
+    await expect(db("vx_auth_device_session_events").where({ sessionId }).update({ provenance: {} })).rejects.toThrow();
     await expect(
-      db("vaultix_device_session_events").where({ sessionId }).update({ orgId: randomUUID() })
+      db("vx_auth_device_session_events").where({ sessionId }).update({ orgId: randomUUID() })
     ).rejects.toThrow();
-    await db("vaultix_device_session_events").where({ sessionId }).update({ auditDeliveredAt: new Date() });
+    await db("vx_auth_device_session_events").where({ sessionId }).update({ auditDeliveredAt: new Date() });
     expect((await events(sessionId))[0]?.sourceContext?.subject.id).toBe(userId);
   });
 
   test("empty source-state schema rollback and reapplication preserve existing browser sessions", async () => {
-    const before = await db("auth_token_sessions").where({ sessionType: "browser" }).select("id", "userId");
-    await db("users").whereIn("id", users).delete();
-    await db("vaultix_device_session_events").whereIn("userId", users).delete();
+    const before = await db("vx_auth_sessions").where({ sessionType: "browser" }).select("id", "userId");
+    await db("vx_auth_users").whereIn("id", users).delete();
+    await db("vx_auth_device_session_events").whereIn("userId", users).delete();
     await db.transaction(down);
-    expect(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")).toBe(false);
+    expect(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")).toBe(false);
     await db.transaction(up);
-    expect(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext")).toBe(true);
-    expect(await db("auth_token_sessions").where({ sessionType: "browser" }).select("id", "userId")).toEqual(before);
+    expect(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext")).toBe(true);
+    expect(await db("vx_auth_sessions").where({ sessionType: "browser" }).select("id", "userId")).toEqual(before);
   });
 });

@@ -42,19 +42,19 @@ test("real session store preserves browser reuse, all-session revocation and gua
     keyStore: {} as never
   });
   try {
-    const existing = await db("auth_token_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion");
-    if (!(await db.schema.hasColumn("auth_token_sessions", "sessionType"))) await db.transaction(up);
-    if (!(await db.schema.hasColumn("vaultix_device_sessions", "sourceContext"))) await db.transaction(contextUp);
-    if (!(await db.schema.hasColumn("vaultix_device_session_events", "preparationStatus")))
+    const existing = await db("vx_auth_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion");
+    if (!(await db.schema.hasColumn("vx_auth_sessions", "sessionType"))) await db.transaction(up);
+    if (!(await db.schema.hasColumn("vx_auth_device_sessions", "sourceContext"))) await db.transaction(contextUp);
+    if (!(await db.schema.hasColumn("vx_auth_device_session_events", "preparationStatus")))
       await db.transaction(deliveryUp);
-    expect(await db("auth_token_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion")).toEqual(
+    expect(await db("vx_auth_sessions").where({ userId }).select("id", "accessVersion", "refreshVersion")).toEqual(
       existing
     );
-    await db("auth_token_sessions").insert([
+    await db("vx_auth_sessions").insert([
       { ...filter, id: deviceId, lastUsed: new Date(), sessionType: "device-v1" },
       { ...filter, id: browserId, lastUsed: new Date(), sessionType: "browser" }
     ]);
-    await db("vaultix_device_sessions").insert({
+    await db("vx_auth_device_sessions").insert({
       sessionId: deviceId,
       clientId: "vaultix-cli",
       resource: "https://vaultix.invalid",
@@ -81,17 +81,17 @@ test("real session store preserves browser reuse, all-session revocation and gua
     await service.revokeMySessionById(userId, deviceId);
     expect(await dal.findOneTokenSession({ id: deviceId })).toBeUndefined();
     expect((await dal.findOneTokenSession({ id: replacement?.id }))?.id).toBe(replacement?.id);
-    const records = await db("vaultix_device_session_events")
+    const records = await db("vx_auth_device_session_events")
       .where({ sessionId: deviceId })
       .select("action", "userId", "orgId");
     expect(records).toEqual([{ action: "revoked", userId, orgId }]);
     await expect(db.transaction(contextDown)).rejects.toThrow();
     await expect(db.transaction(down)).rejects.toThrow();
-    await db("vaultix_device_session_events").where({ sessionId: deviceId }).delete();
+    await db("vx_auth_device_session_events").where({ sessionId: deviceId }).delete();
     await db.transaction(deliveryDown);
     await db.transaction(contextDown);
     await db.transaction(down);
-    expect(await db.schema.hasColumn("auth_token_sessions", "sessionType")).toBe(false);
+    expect(await db.schema.hasColumn("vx_auth_sessions", "sessionType")).toBe(false);
     expect((await dal.findOneTokenSession({ id: replacement?.id }))?.id).toBe(replacement?.id);
     await db.transaction(up);
     await db.transaction(contextUp);

@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import {
   SecretApprovalRequestsSecretsSchema,
   SecretApprovalRequestsSecretsV2Schema,
@@ -69,12 +70,12 @@ export const secretApprovalRequestSecretDALFactory = (db: TDbClient) => {
         )
         .leftJoin(
           TableName.SecretVersionTag,
-          `${TableName.SecretVersionTag}.${TableName.SecretVersion}Id`,
+          `${TableName.SecretVersionTag}.${JunctionColumn.SecretVersion}`,
           `${TableName.SecretVersion}.id`
         )
         .leftJoin<TSecretTags>(
           db.ref(TableName.SecretTag).as("secVerTag"),
-          `${TableName.SecretVersionTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretVersionTag}.${JunctionColumn.SecretTag}`,
           db.ref("id").withSchema("secVerTag")
         )
         .select(selectAllTableCols(TableName.SecretApprovalRequestSecret))
@@ -248,12 +249,12 @@ export const secretApprovalRequestSecretDALFactory = (db: TDbClient) => {
         )
         .leftJoin(
           TableName.SecretVersionV2Tag,
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretVersionV2}Id`,
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretVersionV2}`,
           `${TableName.SecretVersionV2}.id`
         )
         .leftJoin<TSecretTags>(
           db.ref(TableName.SecretTag).as("secVerTag"),
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretTag}`,
           db.ref("id").withSchema("secVerTag")
         )
         .leftJoin(TableName.ResourceMetadata, `${TableName.SecretV2}.id`, `${TableName.ResourceMetadata}.secretId`)

@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import { SecretType, TableName } from "@app/db/schemas";
 import { DatabaseError } from "@app/lib/errors";
 import { ormify, sqlNestRelationships } from "@app/lib/knex";
@@ -48,8 +49,12 @@ export const resourceMetadataDALFactory = (db: TDbClient) => {
         return void subQuery
           .select(db.raw("1"))
           .from(TableName.SecretV2JnTag)
-          .join(TableName.SecretTag, `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
-          .whereRaw(`??.?? = ??.??`, [TableName.SecretV2JnTag, `${TableName.SecretV2}Id`, TableName.SecretV2, "id"])
+          .join(
+            TableName.SecretTag,
+            `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
+            `${TableName.SecretTag}.id`
+          )
+          .whereRaw(`??.?? = ??.??`, [TableName.SecretV2JnTag, JunctionColumn.SecretV2, TableName.SecretV2, "id"])
           .whereIn(`${TableName.SecretTag}.slug`, tagSlugs);
       });
     }
@@ -71,9 +76,13 @@ export const resourceMetadataDALFactory = (db: TDbClient) => {
       .leftJoin(
         TableName.SecretV2JnTag,
         `${TableName.SecretV2}.id`,
-        `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+        `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
       )
-      .leftJoin(TableName.SecretTag, `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`, `${TableName.SecretTag}.id`)
+      .leftJoin(
+        TableName.SecretTag,
+        `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
+        `${TableName.SecretTag}.id`
+      )
       .whereIn(`${TableName.ResourceMetadata}.secretId`, secretIds)
       .where(applyMetadataMatch)
       .select(

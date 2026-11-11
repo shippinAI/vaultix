@@ -26,7 +26,9 @@ func ParseDeviceAuthorizationEnabled(value string, access DeviceAccessPolicy) (b
 }
 
 func ParseDeviceAccessPolicy(enabled, seconds string) (DeviceAccessPolicy, error) {
-	policy := DeviceAccessPolicy{Lifetime: 15 * time.Minute}
+	// Delegated access lasts at least the next hour by default, so an AI the user approved can
+	// finish a working session (docs/0120). Operators may shorten or lengthen it.
+	policy := DeviceAccessPolicy{Lifetime: time.Hour}
 	if enabled != "" {
 		value, err := strconv.ParseBool(enabled)
 		if err != nil {

@@ -3,6 +3,7 @@ import { Knex } from "knex";
 import { dropConstraintIfExists } from "@app/db/migrations/utils/dropConstraintIfExists";
 
 import { TableName } from "../schemas";
+import { makeObjectName } from "../table-namespace-names";
 import { createOnUpdateTrigger, dropOnUpdateTrigger } from "../utils";
 
 // Notice: the old constraint name is "enrollmentType_check" instead of "enrollment_type_check"
@@ -36,6 +37,12 @@ export async function up(knex: Knex): Promise<void> {
   }
 
   await dropConstraintIfExists(TableName.PkiCertificateProfile, OLD_ENROLLMENT_TYPE_CHECK_CONSTRAINT, knex);
+  // A store created under vx_ table names (docs/0119) has PostgreSQL's name for the same check.
+  await dropConstraintIfExists(
+    TableName.PkiCertificateProfile,
+    makeObjectName(TableName.PkiCertificateProfile, "enrollmentType", "check"),
+    knex
+  );
   if (await knex.schema.hasColumn(TableName.PkiCertificateProfile, "enrollmentType")) {
     // Notice: it's okay to use `.checkIn(...).alter();` here because the constraint name is all lowercase.
     await knex.schema.alterTable(TableName.PkiCertificateProfile, (t) => {

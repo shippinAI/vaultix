@@ -76,7 +76,7 @@ func (s *Service) Logout(ctx context.Context, refreshToken string) error {
 	}
 	args := pgx.NamedArgs{"id": claims.TokenVersionID, "user": claims.UserID}
 	var current int64
-	err = s.db.Primary().QueryRow(ctx, `SELECT "refreshVersion" FROM auth_token_sessions WHERE id = @id AND "userId" = @user`, args).Scan(&current)
+	err = s.db.Primary().QueryRow(ctx, `SELECT "refreshVersion" FROM vx_auth_sessions WHERE id = @id AND "userId" = @user`, args).Scan(&current)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil
 	}
@@ -91,13 +91,13 @@ func (s *Service) Logout(ctx context.Context, refreshToken string) error {
 		}
 		if !accepted {
 			// An old token outside the grace window may be stolen, so the session ends.
-			if _, err := s.db.Primary().Exec(ctx, `DELETE FROM auth_token_sessions WHERE id = @id AND "userId" = @user`, args); err != nil {
+			if _, err := s.db.Primary().Exec(ctx, `DELETE FROM vx_auth_sessions WHERE id = @id AND "userId" = @user`, args); err != nil {
 				return fmt.Errorf("revoke reused session: %w", err)
 			}
 			return s.clearGrace(ctx, key)
 		}
 	}
-	if _, err := s.db.Primary().Exec(ctx, `UPDATE auth_token_sessions SET "accessVersion" = "accessVersion" + 1, "refreshVersion" = "refreshVersion" + 1 WHERE id = @id AND "userId" = @user`, args); err != nil {
+	if _, err := s.db.Primary().Exec(ctx, `UPDATE vx_auth_sessions SET "accessVersion" = "accessVersion" + 1, "refreshVersion" = "refreshVersion" + 1 WHERE id = @id AND "userId" = @user`, args); err != nil {
 		return fmt.Errorf("end session: %w", err)
 	}
 	return s.clearGrace(ctx, key)
@@ -127,7 +127,7 @@ func (s *Service) clearGrace(ctx context.Context, key string) error {
 // List returns the user's sessions, most recently used first.
 func (s *Service) List(ctx context.Context, userID uuid.UUID) ([]Session, error) {
 	rows, err := s.db.Replica().Query(ctx, `SELECT id, ip, "userAgent", "refreshVersion", "accessVersion", "lastUsed", "createdAt", "updatedAt", "userId"
- FROM auth_token_sessions WHERE "userId" = @user ORDER BY "lastUsed" DESC`, pgx.NamedArgs{"user": userID})
+ FROM vx_auth_sessions WHERE "userId" = @user ORDER BY "lastUsed" DESC`, pgx.NamedArgs{"user": userID})
 	if err != nil {
 		return nil, fmt.Errorf("list sessions: %w", err)
 	}
@@ -141,7 +141,7 @@ func (s *Service) List(ctx context.Context, userID uuid.UUID) ([]Session, error)
 // Revoke removes one of the user's sessions. An ID the user does not own, or
 // one already gone, changes nothing and is not an error.
 func (s *Service) Revoke(ctx context.Context, userID, sessionID uuid.UUID) error {
-	_, err := s.db.Primary().Exec(ctx, `DELETE FROM auth_token_sessions WHERE "userId" = @user AND id = @id`, pgx.NamedArgs{"user": userID, "id": sessionID})
+	_, err := s.db.Primary().Exec(ctx, `DELETE FROM vx_auth_sessions WHERE "userId" = @user AND id = @id`, pgx.NamedArgs{"user": userID, "id": sessionID})
 	if err != nil {
 		return fmt.Errorf("revoke session: %w", err)
 	}
@@ -150,7 +150,7 @@ func (s *Service) Revoke(ctx context.Context, userID, sessionID uuid.UUID) error
 
 // RevokeAll removes every session the user has, including the calling one.
 func (s *Service) RevokeAll(ctx context.Context, userID uuid.UUID) error {
-	_, err := s.db.Primary().Exec(ctx, `DELETE FROM auth_token_sessions WHERE "userId" = @user`, pgx.NamedArgs{"user": userID})
+	_, err := s.db.Primary().Exec(ctx, `DELETE FROM vx_auth_sessions WHERE "userId" = @user`, pgx.NamedArgs{"user": userID})
 	if err != nil {
 		return fmt.Errorf("revoke sessions: %w", err)
 	}

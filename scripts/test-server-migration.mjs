@@ -172,7 +172,7 @@ try {
   const sameSet = derive('same-set', {}, ['LABEL vaultix.lifecycle.test=same-set'], forward);
   derive('later', { '29990102000000_lifecycle-later.mjs': migration("await knex.raw('CREATE TABLE vaultix_lifecycle_later (id int)');") }, [], forward);
   derive('failing', { '29990101000000_lifecycle-failing.mjs': migration("throw new Error('lifecycle test refusal');") });
-  derive('rewrites', { '29990101000000_lifecycle-rewrites.mjs': migration(`await knex.raw(\`UPDATE secrets_v2 SET "encryptedValue" = "encryptedValue" || '\\\\x00'::bytea\`);`) });
+  derive('rewrites', { '29990101000000_lifecycle-rewrites.mjs': migration(`await knex.raw(\`UPDATE vx_secrets_secrets SET "encryptedValue" = "encryptedValue" || '\\\\x00'::bytea\`);`) });
   derive('altered', { [lastMigration]: Buffer.concat([lastBytes, Buffer.from('\n// altered by the lifecycle test\n')]), [FORWARD]: forwardFile });
   derive('partial', { '29990101000000_lifecycle-partial.mjs': migration("await knex.raw('CREATE TABLE vaultix_lifecycle_partial (id int); INSERT INTO vaultix_lifecycle_partial VALUES (1);');"), '29990101000001_lifecycle-live-only.mjs': liveOnly });
   const unbootable = derive('unbootable', { '29990101000000_lifecycle-unbootable.mjs': migration("await knex.raw('CREATE TABLE vaultix_lifecycle_unbootable (id int)');") }, ['CMD ["/bin/false"]']);
@@ -191,7 +191,7 @@ try {
   const { project: workspace } = await api('/api/v1/projects', { method: 'POST', token, body: { projectName: 'Preserved project' } });
   const scope = { projectId: workspace.id, environment: 'dev', secretPath: '/' };
   await api('/api/v4/secrets/MIGRATION_CANARY', { method: 'POST', token, body: { ...scope, secretValue: canary } });
-  const cipherQuery = 'SELECT encode("encryptedValue",\'hex\') FROM secrets_v2 WHERE key=\'MIGRATION_CANARY\';';
+  const cipherQuery = 'SELECT encode("encryptedValue",\'hex\') FROM vx_secrets_secrets WHERE key=\'MIGRATION_CANARY\';';
   const cipher = sql(cipherQuery);
   assert.ok(cipher && !cipher.includes(canary));
   const baseApplied = appliedCount();
@@ -298,7 +298,7 @@ try {
   assert.equal(inspect(priorContainer).State.Running, false, 'Nothing may write while the store is replaced');
   assert.equal(tableExists('vaultix_lifecycle_partial'), true, 'Nothing is swapped until the copy is proven');
   const copies = databases().filter(name => name.startsWith('vaultix-restore-'));
-  assert.equal(copies.length, 1); assert.equal(tableExists('secrets_v2', copies[0]), true, 'The kill should leave a restored copy that was never swapped');
+  assert.equal(copies.length, 1); assert.equal(tableExists('vx_secrets_secrets', copies[0]), true, 'The kill should leave a restored copy that was never swapped');
   recreateDependencies();
   output(['start', priorContainer]);
   const recoveredLive = cli(['recover']);
@@ -417,15 +417,15 @@ try {
   const swapped = databases().filter(name => name.startsWith('vaultix-replaced-') && name !== retainedLive && tableExists('vaultix_lifecycle_forward', name));
   assert.equal(swapped.length, 1);
   // As an application started by hand might write after the swap and before the retry.
-  sql("CREATE TEMP TABLE written AS SELECT * FROM secrets_v2 WHERE key='MIGRATION_CANARY'; UPDATE written SET id=gen_random_uuid(), key='WRITTEN_AFTER_SWAP'; INSERT INTO secrets_v2 SELECT * FROM written;");
+  sql("CREATE TEMP TABLE written AS SELECT * FROM vx_secrets_secrets WHERE key='MIGRATION_CANARY'; UPDATE written SET id=gen_random_uuid(), key='WRITTEN_AFTER_SWAP'; INSERT INTO vx_secrets_secrets SELECT * FROM written;");
   const restored = cli(['recover']);
   report.measurements.rollbackSeconds = Math.round((Date.now() - started) / 1000);
   assert.ok(restored.ready && restored.operation.revertedFrom === 'ready');
   assert.equal(restored.operation.retainedDatabase, swapped[0]);
   assert.equal(tableExists('vaultix_lifecycle_forward', swapped[0]), true, 'A repeated swap would have lost this');
-  assert.equal(sql("SELECT count(*) FROM secrets_v2 WHERE key='WRITTEN_AFTER_SWAP';"), '1', 'A retry must not refuse or remove what was written after the swap');
-  sql("DELETE FROM secrets_v2 WHERE key='WRITTEN_AFTER_SWAP';");
-  assert.ok(sqlIn(swapped[0], "SELECT count(*) FROM secrets_v2 WHERE key='AFTER_UPGRADE';") === '1', 'Writes after the checkpoint stay in the retained database');
+  assert.equal(sql("SELECT count(*) FROM vx_secrets_secrets WHERE key='WRITTEN_AFTER_SWAP';"), '1', 'A retry must not refuse or remove what was written after the swap');
+  sql("DELETE FROM vx_secrets_secrets WHERE key='WRITTEN_AFTER_SWAP';");
+  assert.ok(sqlIn(swapped[0], "SELECT count(*) FROM vx_secrets_secrets WHERE key='AFTER_UPGRADE';") === '1', 'Writes after the checkpoint stay in the retained database');
   assertOnCandidate();
   const afterRestore = await assertPreserved();
   await api(secretPath('AFTER_UPGRADE'), { token: afterRestore, status: 404 });

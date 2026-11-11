@@ -50,9 +50,9 @@ func (s *Service) LoadProjectImports(ctx context.Context, projectID string) (*Im
 func (s *Service) getImportsByProjectID(ctx context.Context, projectID string) ([]importRow, error) {
 	query := `
 		SELECT imp.id, imp."importPath", imp."importEnv", imp.position, imp."folderId", imp."isReplication", imp."isReserved"
-		FROM secret_imports imp
-		INNER JOIN secret_folders folder ON imp."folderId" = folder.id
-		INNER JOIN project_environments env ON folder."envId" = env.id
+		FROM vx_secrets_imports imp
+		INNER JOIN vx_secrets_folders folder ON imp."folderId" = folder.id
+		INNER JOIN vx_workspace_environments env ON folder."envId" = env.id
 		WHERE env."projectId" = @projectID AND env."deleteAfter" IS NULL
 		ORDER BY imp."folderId" ASC, imp.position ASC
 	`

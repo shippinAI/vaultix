@@ -28,13 +28,13 @@ export async function up(knex: Knex): Promise<void> {
   //
   //   - Single-method resources (one method active per resource at a time):
   //       CREATE UNIQUE INDEX one_method_per_<resource>
-  //         ON resource_auth_methods (<resource>Id)
+  //         ON vx_net_resource_auth_methods (<resource>Id)
   //         WHERE <resource>Id IS NOT NULL;
   //
   //   - Multi-method resources (multiple methods may be active at once, but each
   //     method must appear at most once per resource):
   //       CREATE UNIQUE INDEX no_duplicate_method_per_<resource>
-  //         ON resource_auth_methods (<resource>Id, method)
+  //         ON vx_net_resource_auth_methods (<resource>Id, method)
   //         WHERE <resource>Id IS NOT NULL;
   //
   // Both shapes coexist peacefully on this table — they activate on different rows

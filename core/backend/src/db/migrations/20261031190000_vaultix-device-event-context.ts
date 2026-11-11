@@ -23,8 +23,8 @@ export async function up(knex: Knex): Promise<void> {
           'firstName',u."firstName",'lastName',u."lastName"),
         'organization',jsonb_build_object('id',o.id,'name',o.name),
         'sessionOrigin',jsonb_build_object('ip',s.ip,'userAgent',s."userAgent",'createdAt',s."createdAt")
-      ) FROM auth_token_sessions s JOIN users u ON u.id=s."userId"
-        JOIN organizations o ON o.id=org_id WHERE s.id=session_id
+      ) FROM vx_auth_sessions s JOIN vx_auth_users u ON u.id=s."userId"
+        JOIN vx_workspace_organizations o ON o.id=org_id WHERE s.id=session_id
     $body$;
 
     CREATE FUNCTION vaultix_capture_device_session_context() RETURNS trigger LANGUAGE plpgsql AS $body$
@@ -41,7 +41,7 @@ export async function up(knex: Knex): Promise<void> {
           RETURN NEW;
         END IF;
       END IF;
-      SELECT "userId" INTO subject_id FROM auth_token_sessions WHERE id=NEW."sessionId";
+      SELECT "userId" INTO subject_id FROM vx_auth_sessions WHERE id=NEW."sessionId";
       IF subject_id IS NULL OR subject_id::text IS DISTINCT FROM NEW.approval->>'userId' THEN
         RAISE EXCEPTION 'Device session source identity does not match its canonical session';
       END IF;
@@ -108,7 +108,7 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw(`
-    LOCK TABLE auth_token_sessions, vaultix_device_sessions, vaultix_device_session_events IN ACCESS EXCLUSIVE MODE;
+    LOCK TABLE vx_auth_sessions, vaultix_device_sessions, vaultix_device_session_events IN ACCESS EXCLUSIVE MODE;
     DO $body$ BEGIN
       IF EXISTS (SELECT 1 FROM vaultix_device_sessions)
         OR EXISTS (SELECT 1 FROM vaultix_device_session_events) THEN

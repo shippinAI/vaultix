@@ -29,8 +29,8 @@ try {
  report.checks.push('Actual native binary authorizes the built-in session and reads the empty project');
  phase='native audit persisted by real consumer';
  const where=`"orgId"='${owner.organization.id}' AND "projectId"='${project.id}' AND "eventType"='get-secrets'`;
- await h.waitFor(()=>{report.observedListEvents=Number(h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${where}`));return report.observedListEvents===1},'native event persistence',90000);
- assert.equal(h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${where} AND actor='user' AND "actorMetadata"::jsonb->>'userId' IS NOT NULL AND "eventMetadata"::jsonb->>'environment'='dev'`),'1');
+ await h.waitFor(()=>{report.observedListEvents=Number(h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${where}`));return report.observedListEvents===1},'native event persistence',90000);
+ assert.equal(h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${where} AND actor='user' AND "actorMetadata"::jsonb->>'userId' IS NOT NULL AND "eventMetadata"::jsonb->>'environment'='dev'`),'1');
  report.checks.push('Native event persisted through the real queue and shared consumer with actor, project and event metadata');
  phase='native individual read and redacted audit';
  const canary=randomBytes(24).toString('hex');
@@ -38,14 +38,14 @@ try {
  const one=h.docker(['exec','-i',app,'node','-e',runner],{input:JSON.stringify({projectId:project.id,token,name:'AUDIT_PROOF'})});
  const single=JSON.parse(one.stdout.toString());assert.equal(single.status,200);assert.equal(single.found,true);
  const singleWhere=where.replace("'get-secrets'","'get-secret'");
- await h.waitFor(()=>h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${singleWhere}`)==='1','individual event persistence',90000);
- assert.equal(h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${singleWhere} AND position('${canary}' in "eventMetadata"::text)>0`),'0');
- assert.equal(h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${singleWhere} AND "eventMetadata"::jsonb->'secretMetadata' @> '[{"key":"encrypted","value":"*****","isEncrypted":true}]'::jsonb`),'1');
+ await h.waitFor(()=>h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${singleWhere}`)==='1','individual event persistence',90000);
+ assert.equal(h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${singleWhere} AND position('${canary}' in "eventMetadata"::text)>0`),'0');
+ assert.equal(h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${singleWhere} AND "eventMetadata"::jsonb->'secretMetadata' @> '[{"key":"encrypted","value":"*****","isEncrypted":true}]'::jsonb`),'1');
  report.checks.push('Individual native read persists audit with encrypted metadata redacted and secret-value canary absent');
  phase='unauthenticated native read denial';
  const denial=h.docker(['exec','-i',app,'node','-e',runner],{input:JSON.stringify({projectId:project.id,name:'AUDIT_PROOF'})});
  assert.equal(JSON.parse(denial.stdout.toString()).status,401);
- assert.equal(h.sql(db,`SELECT count(*) FROM audit_logs WHERE ${singleWhere}`),'1');
+ assert.equal(h.sql(db,`SELECT count(*) FROM vx_operate_audit_logs WHERE ${singleWhere}`),'1');
  report.checks.push('Unauthenticated native read is denied without a successful-read audit');
  report.passed=true;
 } catch(error){report.failure={phase,message:error.code==='ERR_ASSERTION'?error.message:'Native audit image proof failed; raw diagnostics withheld.',cause:error.message?.startsWith('Timed out:')?'timeout':undefined};process.exitCode=1;}

@@ -2,6 +2,7 @@
 import { Knex } from "knex";
 
 import { TDbClient } from "@app/db";
+import { JunctionColumn } from "@app/db/junction-columns";
 import {
   AccessScope,
   SecretVersionsV2Schema,
@@ -50,11 +51,11 @@ export const secretVersionV2BridgeDALFactory = (db: TDbClient) => {
         .leftJoin(
           TableName.SecretV2JnTag,
           `${TableName.SecretV2}.id`,
-          `${TableName.SecretV2JnTag}.${TableName.SecretV2}Id`
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretV2JnTag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretV2JnTag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .select(selectAllTableCols(TableName.SecretVersionV2))
@@ -312,11 +313,11 @@ export const secretVersionV2BridgeDALFactory = (db: TDbClient) => {
         .leftJoin(
           TableName.SecretVersionV2Tag,
           `${TableName.SecretVersionV2}.id`,
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretVersionV2}Id`
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretVersionV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .where((qb) => {
@@ -495,11 +496,11 @@ export const secretVersionV2BridgeDALFactory = (db: TDbClient) => {
         .leftJoin(
           TableName.SecretVersionV2Tag,
           `${TableName.SecretVersionV2}.id`,
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretVersionV2}Id`
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretVersionV2}`
         )
         .leftJoin(
           TableName.SecretTag,
-          `${TableName.SecretVersionV2Tag}.${TableName.SecretTag}Id`,
+          `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretTag}`,
           `${TableName.SecretTag}.id`
         )
         .select(selectAllTableCols(TableName.SecretVersionV2))
@@ -519,11 +520,11 @@ export const secretVersionV2BridgeDALFactory = (db: TDbClient) => {
           .leftJoin(
             TableName.SecretVersionV2Tag,
             `${TableName.SecretVersionV2}.id`,
-            `${TableName.SecretVersionV2Tag}.${TableName.SecretVersionV2}Id`
+            `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretVersionV2}`
           )
           .leftJoin(
             TableName.SecretTag,
-            `${TableName.SecretVersionV2Tag}.${TableName.SecretTag}Id`,
+            `${TableName.SecretVersionV2Tag}.${JunctionColumn.SecretTag}`,
             `${TableName.SecretTag}.id`
           )
           .select(selectAllTableCols(TableName.SecretVersionV2))
