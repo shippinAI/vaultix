@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2696ebc263ef70ac1198b8cda74868884cadc635	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	9be9bbac89c574038e2e08337ea977ab9171008b	product-code	reviewed
-AGENTS.md	9de825ec7f6bb09966221bec041717ca1ec507f3	documentation	reviewed
+AGENTS.md	13c992415ca642ff6975c7f22efc58bb4f6fcd19	documentation	reviewed
 INSTALL-FOR-AI.md	92049aa4b355eb5a369dcc2f9e234d9caf9a3a8c	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -11921,6 +11921,7 @@ docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	
 docs/0119-schema-and-api-namespaces.md	ff95a93fe7005d7c2c2ff4b145337746ae0087c8	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
+docs/0122-completion-plan.md	c3c28ef91fc83c9c50464976884fa18bc1eb7adf	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread

@@ -4973,7 +4973,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "9de825ec7f6bb09966221bec041717ca1ec507f3",
+      "blob": "13c992415ca642ff6975c7f22efc58bb4f6fcd19",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
@@ -4984,7 +4984,8 @@
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
         "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: completion plan for what remains, in order."
       ]
     },
     {
