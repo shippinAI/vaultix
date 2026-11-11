@@ -40,7 +40,7 @@ contracts/vaultix.cli-install.v1.json	contracts	foundation	supporting-tooling-or
 contracts/vaultix.cli-windows-owner.v1.json	contracts	foundation	supporting-tooling-or-contract	json	2c0ba4fffaae3e9b6f55bdceb1cf1e8160df2d2c	unread
 contracts/vaultix.cli-windows-state.v1.json	contracts	foundation	supporting-tooling-or-contract	json	d948b1d0616618b95a9a91179e96c46fb7ca26de	unread
 contracts/vaultix.core.v1.json	contracts	foundation	supporting-tooling-or-contract	json	72268240c51b177051bf1596b4f099e07a098b66	unread
-contracts/vaultix.instance-operation.v1.json	contracts	foundation	supporting-tooling-or-contract	json	849920565dbd188f10a7bb5e9734edf1ec26fa7d	reviewed
+contracts/vaultix.instance-operation.v1.json	contracts	foundation	supporting-tooling-or-contract	json	935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9	reviewed
 contracts/vaultix.instance.v2.json	contracts	foundation	supporting-tooling-or-contract	json	dd298b9d189e5f387e40e7bba151355aa4e94490	reviewed
 contracts/vaultix.mesh-knowledge-personas.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	1cc7d55978e9e0ebaad919a4ff38eef32977eaf7	unread
 contracts/vaultix.mesh-knowledge-trigger.v1.schema.json	contracts	foundation	supporting-tooling-or-contract	json	79ae3945ef6562734b757c8302c0b9899dbd8207	unread

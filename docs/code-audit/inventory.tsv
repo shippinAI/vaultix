@@ -59,7 +59,7 @@ contracts/vaultix.cli-install.v1.json	c1ae6aa282d068ad632077970155450dc18ba238	p
 contracts/vaultix.cli-windows-owner.v1.json	2c0ba4fffaae3e9b6f55bdceb1cf1e8160df2d2c	product-code	unread
 contracts/vaultix.cli-windows-state.v1.json	d948b1d0616618b95a9a91179e96c46fb7ca26de	product-code	unread
 contracts/vaultix.core.v1.json	72268240c51b177051bf1596b4f099e07a098b66	product-code	unread
-contracts/vaultix.instance-operation.v1.json	849920565dbd188f10a7bb5e9734edf1ec26fa7d	product-code	reviewed
+contracts/vaultix.instance-operation.v1.json	935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9	product-code	reviewed
 contracts/vaultix.instance.v2.json	dd298b9d189e5f387e40e7bba151355aa4e94490	product-code	reviewed
 contracts/vaultix.mesh-knowledge-personas.v1.schema.json	1cc7d55978e9e0ebaad919a4ff38eef32977eaf7	product-code	unread
 contracts/vaultix.mesh-knowledge-trigger.v1.schema.json	79ae3945ef6562734b757c8302c0b9899dbd8207	product-code	unread
@@ -12058,7 +12058,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	316fdf6d54557cfe32981043a7eefb09092e03fc	generated	unread
-docs/capabilities/generated/source-map.tsv	d1609a6915f3254a476bbff3ca3a32e595c1edd5	generated	unread
+docs/capabilities/generated/source-map.tsv	5f963588833d3b318daa9b7f7e5f9373ea74d7ee	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12070,8 +12070,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	33e1a3dab7bff58e17d18b6831393aa95707cbc9	generated	unread
-docs/migration/generated/modules.tsv	1deea39715579a1b0197b3b9cb9dfbfd47b9377b	generated	unread
+docs/migration/generated/files.tsv	15d445f3aaef3d064b23ba87fd905eb1bdef80ce	generated	unread
+docs/migration/generated/modules.tsv	f3c3d6e920c90586b8845e38094cc0f398d12779	generated	unread
 docs/migration/generated/summary.json	f7df23afa9c99c95ead9e4bc3e9e3fb9b88454d2	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread

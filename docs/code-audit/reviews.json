@@ -9396,7 +9396,7 @@
     },
     {
       "path": "contracts/vaultix.instance-operation.v1.json",
-      "blob": "849920565dbd188f10a7bb5e9734edf1ec26fa7d",
+      "blob": "935fa7c6fc5551e37d5d7d1f8f91254faddfb0d9",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained.",
@@ -9407,7 +9407,8 @@
         "scripts/verify-pull-request.mjs",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "internal/platform/ingress_test.go"
+        "internal/platform/ingress_test.go",
+        "Reviewed for docs/0118: the single-instance lifecycle result contract includes the optional first-owner setupCode and setupUrl the CLI returns."
       ]
     },
     {

@@ -40,6 +40,16 @@
     },
     "message": {
       "type": "string"
+    },
+    "setupCode": {
+      "description": "The one-time first-owner code. Present only while the running application still requires it (docs/0118).",
+      "type": "string",
+      "minLength": 1
+    },
+    "setupUrl": {
+      "description": "Where the first owner signs up. Present only together with setupCode.",
+      "type": "string",
+      "minLength": 1
     }
   },
   "$defs": {
