@@ -4108,7 +4108,7 @@ core/backend/src/services/secret-sync/zabbix/zabbix-sync-types.ts	9640394d93bada
 core/backend/src/services/secret-tag/secret-tag-dal.ts	20e898468eeb61fc579491527ffa1e7d444b54ab	product-code	unread
 core/backend/src/services/secret-tag/secret-tag-service.ts	da123053e294bca0f9700e8d827b3f4d8576cfd9	product-code	unread
 core/backend/src/services/secret-tag/secret-tag-types.ts	ede0c55a32593ee91d424679daa6ff1f4265fd4f	product-code	unread
-core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	8db0a4ebf27bc60440ce2b0f98db8c616f827115	test	unread
+core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	9efeb659cd5bd0abb92ffe7f399255885a0b277d	test	unread
 core/backend/src/services/secret-v2-bridge/secret-raw-describe-boundary.test.ts	221321ee69cd8176b2f4b5a9e28c0896f8397af0	test	unread
 core/backend/src/services/secret-v2-bridge/secret-reference-fns.ts	dcb66024373d12f0d3f7ec5d9ccefedd80eebe5b	product-code	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-dal.ts	312cd3ff545e42f0c2b1b81873945484f4913c0a	product-code	unread
@@ -12058,7 +12058,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	316fdf6d54557cfe32981043a7eefb09092e03fc	generated	unread
-docs/capabilities/generated/source-map.tsv	0a4afd1381e14d08bde8f4953afed6255e91b76c	generated	unread
+docs/capabilities/generated/source-map.tsv	d1609a6915f3254a476bbff3ca3a32e595c1edd5	generated	unread
 docs/capabilities/generated/surface-map.tsv	e95c45f79e978a3efa0331b88f49520bd1d3095d	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -12070,8 +12070,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	d8263a13d40f89d49731802d612bac00f7f4c3b6	generated	unread
-docs/migration/generated/modules.tsv	3daf7cade1e234c7ce51041b7abbd79228f969f2	generated	unread
+docs/migration/generated/files.tsv	33e1a3dab7bff58e17d18b6831393aa95707cbc9	generated	unread
+docs/migration/generated/modules.tsv	1deea39715579a1b0197b3b9cb9dfbfd47b9377b	generated	unread
 docs/migration/generated/summary.json	f7df23afa9c99c95ead9e4bc3e9e3fb9b88454d2	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	edc7842f9dd500fa2054e1d33e90f9818657bb03	documentation	unread
@@ -12391,7 +12391,7 @@ scripts/test-setup-code.mjs	a93ba408e2103d86568280fe0ded77f2a222dc67	build-and-o
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified
 scripts/test-storybook-mcp.mjs	fd8f1e8179459550d1665c0f65a13a5bbaa3eb54	build-and-operations	unread
 scripts/test-tenant-isolation.mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	build-and-operations	verified
-scripts/test-unit-core.mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	build-and-operations	unread
+scripts/test-unit-core.mjs	019e085caa000962c49b57136abb2632896aaf50	build-and-operations	unread
 scripts/test-updates-clyffy-workflow.mjs	1d688f5fd15107041d1d53c562ac82f677020765	build-and-operations	authored
 scripts/test-user-sessions-image.mjs	b7c421be3d179b80dc3fef65ba8c6b79c8ebdcef	build-and-operations	unread
 scripts/test-user-sessions.mjs	c6be0ed41571c777d96ab8bc24f44d853dd1c993	build-and-operations	unread

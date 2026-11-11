@@ -457,7 +457,7 @@ core/backend/src/services/secret-reminder-recipients	automation	Go-domain-migrat
 core/backend/src/services/secret-sharing	secrets	Go-domain-migration	3	741a3784bbb04e4618bf3baea9390673175b355e5c0b6e241cc79c1ad7382bd8	0	unassessed
 core/backend/src/services/secret-sync	integrations	Go-domain-migration	246	c499bc85de01b8152421fb55768636f1507ec2ffe0a960456e001cc0f40e0669	0	unassessed
 core/backend/src/services/secret-tag	secrets	Go-domain-migration	3	8527770045afa95d2e7e817ab17e5324dc897709ca28332d8f967d6da6417e3a	0	unassessed
-core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	9	7a20d2edb6ca0d9b27003ca14d2b685b7905735da136a4d210ded13964f6f197	0	unassessed
+core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	9	b89f5169e6cebe2a4cccdfd9f51117b49be3b24587fd635d86bab63155c6c0a7	0	unassessed
 core/backend/src/services/secret-validation-rule	secrets	Go-domain-migration	7	e6830861c5457166035b65ec551f85e35e054da604a29811b1fb588b82c895ab	0	unassessed
 core/backend/src/services/service-token	foundation	Go-domain-migration	4	62867362fbb8f711c817cf78f0a601114a38cf6c802595f3f2ffcc9c923239b3	0	unassessed
 core/backend/src/services/signer	pki	Go-domain-migration	13	f6c4506fa5e31914dd56c0f82933715b24a9806ea7482d5d834a081dd47b46bb	0	unassessed
@@ -1097,7 +1097,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	75547cd97f14c
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	6b5a5de8ab831c100ec30f08442786e4512ceb15030104c9b42f0c3d00743264	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	140	aa192d9468121f1ef9d0784ecb20d08d77c001405ccc3ca43c26307308155fc8	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	140	9ab870548e8f325f33e68fc61e70c056d89524372a32dcb06001a68ee7c75c5b	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed

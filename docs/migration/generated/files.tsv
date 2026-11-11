@@ -4067,7 +4067,7 @@ core/backend/src/services/secret-sync/zabbix/zabbix-sync-types.ts	core/backend/s
 core/backend/src/services/secret-tag/secret-tag-dal.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	20e898468eeb61fc579491527ffa1e7d444b54ab	unread
 core/backend/src/services/secret-tag/secret-tag-service.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	da123053e294bca0f9700e8d827b3f4d8576cfd9	unread
 core/backend/src/services/secret-tag/secret-tag-types.ts	core/backend/src/services/secret-tag	secrets	Go-domain-migration	ts	ede0c55a32593ee91d424679daa6ff1f4265fd4f	unread
-core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	8db0a4ebf27bc60440ce2b0f98db8c616f827115	unread
+core/backend/src/services/secret-v2-bridge/secret-lifecycle-characterization.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	9efeb659cd5bd0abb92ffe7f399255885a0b277d	unread
 core/backend/src/services/secret-v2-bridge/secret-raw-describe-boundary.test.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	221321ee69cd8176b2f4b5a9e28c0896f8397af0	unread
 core/backend/src/services/secret-v2-bridge/secret-reference-fns.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	dcb66024373d12f0d3f7ec5d9ccefedd80eebe5b	unread
 core/backend/src/services/secret-v2-bridge/secret-v2-bridge-dal.ts	core/backend/src/services/secret-v2-bridge	secrets	Go-domain-migration	ts	312cd3ff545e42f0c2b1b81873945484f4913c0a	unread
@@ -9869,7 +9869,7 @@ scripts/test-setup-code.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	
 scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified
 scripts/test-storybook-mcp.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	fd8f1e8179459550d1665c0f65a13a5bbaa3eb54	unread
 scripts/test-tenant-isolation.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c753c55dcbefdbdb48a27781426c71b2ced94b77	verified
-scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	96850bff8842953f0e0d08ca0e77cbdb62f0c023	unread
+scripts/test-unit-core.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	019e085caa000962c49b57136abb2632896aaf50	unread
 scripts/test-updates-clyffy-workflow.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1d688f5fd15107041d1d53c562ac82f677020765	authored
 scripts/test-user-sessions-image.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	b7c421be3d179b80dc3fef65ba8c6b79c8ebdcef	unread
 scripts/test-user-sessions.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	c6be0ed41571c777d96ab8bc24f44d853dd1c993	unread

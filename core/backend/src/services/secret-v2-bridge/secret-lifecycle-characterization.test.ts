@@ -612,6 +612,8 @@ describe("current TypeScript secret lifecycle", () => {
   test("core MCP tools do not change secrets", () => {
     const names = [...vaultixTools, ...referenceTools].map((tool) => tool.name);
     expect(names).toEqual([
+      "vaultix.warp.list",
+      "vaultix.auth.options.get",
       "vaultix.guidance.get",
       "vaultix.catalog.get",
       "vaultix.configure.show",
