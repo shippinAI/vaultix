@@ -184,7 +184,7 @@ Token detection logic in `inject-identity.ts` checks `x-api-key` header first, t
 
 ### Permission System (CASL)
 
-Uses CASL (`@casl/ability`) with MongoDB-style rules. Permission logic lives in `src/services/permission/`:
+Uses CASL (`@casl/ability`) with MongoDB-style rules. Permission logic lives in `src/shippin/services/permission/`:
 - `permission-service.ts` — factory that builds CASL abilities from user/identity roles
 - `project-permission.ts` — defines project-level permission actions and subjects
 - `org-permission.ts` — defines org-level permission actions and subjects
@@ -251,7 +251,7 @@ Queue handler factories (e.g., `src/services/secret/secret-queue.ts`) follow the
 
 `queueService.start(name, handler, opts)` accepts `concurrency` (per-worker parallelism ceiling) and BullMQ's `limiter: { max, duration }` (fleet-wide throughput cap, coordinated via Redis). Use both to **rate-shape DB-heavy background work** so a large backlog drains as an even plateau instead of a burst — see `src/services/project/project-cleanup-queue.ts`. The cron cadence must not be the pacer; load is bounded by `concurrency × per-job cost`, and the limiter caps steady throughput.
 
-**`QUEUE_WORKER_PROFILE` gates the consumer, never the producer.** Whenever workers are enabled, `start()` creates the BullMQ `Queue` for every queue and only skips creating the `Worker` when the queue isn't in this pod's profile. This invariant is what makes splitting the fleet by profile safe: a pod that doesn't consume a queue must still be able to enqueue onto it, since `queue()` silently no-ops on an uninitialized queue (`await q?.add(...)`) and would otherwise drop every job destined for another profile's worker. `QUEUE_WORKERS_ENABLED=false` is the one exception and is deliberately absolute — it returns before the `Queue` is created (`src/queue/queue-service.ts:786`), so such a pod neither consumes *nor* produces, and both `queue()` and `upsertJobScheduler` are no-ops or throw. Code that schedules work at boot must branch on that flag rather than swallowing the failure, so a genuine Redis/BullMQ error still surfaces (see `src/services/audit-log/audit-log-queue.ts`).
+**`QUEUE_WORKER_PROFILE` gates the consumer, never the producer.** Whenever workers are enabled, `start()` creates the BullMQ `Queue` for every queue and only skips creating the `Worker` when the queue isn't in this pod's profile. This invariant is what makes splitting the fleet by profile safe: a pod that doesn't consume a queue must still be able to enqueue onto it, since `queue()` silently no-ops on an uninitialized queue (`await q?.add(...)`) and would otherwise drop every job destined for another profile's worker. `QUEUE_WORKERS_ENABLED=false` is the one exception and is deliberately absolute — it returns before the `Queue` is created (`src/queue/queue-service.ts:786`), so such a pod neither consumes *nor* produces, and both `queue()` and `upsertJobScheduler` are no-ops or throw. Code that schedules work at boot must branch on that flag rather than swallowing the failure, so a genuine Redis/BullMQ error still surfaces (see `src/shippin/services/audit-log/audit-log-queue.ts`).
 
 ### Scheduled Jobs (Cron Manager)
 
@@ -295,7 +295,7 @@ Recurring work runs through the cron manager in `src/lib/cron/cron-job.ts` (`cro
 - One-shot or event-triggered work (enqueued from a request handler or another job) → BullMQ queue + worker.
 - A cron handler that fans out per-tenant work typically *enqueues BullMQ jobs* for each unit of work rather than doing the work inline — keep the cron tick fast and let the queue worker handle parallelism and retries for the actual payload.
 
-See `src/services/health-alert/health-alert-queue.ts` for a minimal example, `src/services/resource-cleanup/resource-cleanup-queue.ts` for a service with multiple registrations, and `src/services/secret-rotation-v2/secret-rotation-v2-queue.ts` for a cron-tick that fans out into a BullMQ queue.
+See `src/services/health-alert/health-alert-queue.ts` for a minimal example, `src/services/resource-cleanup/resource-cleanup-queue.ts` for a service with multiple registrations, and `src/shippin/services/secret-rotation-v2/secret-rotation-v2-queue.ts` for a cron-tick that fans out into a BullMQ queue.
 
 ### Alerting (shared module — reuse it, don't fork it)
 
@@ -373,13 +373,13 @@ Note that `logger.ts` also has a `redactedKeys` list applied to structured-objec
 
 ### Enterprise (EE) Features
 
-Enterprise code lives in `src/`:
-- `src/services/` — 60+ service modules (access approval, audit log, dynamic secrets, external KMS, gateway, KMIP, LDAP, OIDC, PAM, PKI, SAML, SCIM, secret approval/rotation/replication, etc.)
-- `src/routes/v1/` — 63 EE route files; `src/routes/v2/` — 10 v2 route files
+Enterprise code lives in `src/shippin/`:
+- `src/shippin/services/` — 60+ service modules (access approval, audit log, dynamic secrets, external KMS, gateway, KMIP, LDAP, OIDC, PAM, PKI, SAML, SCIM, secret approval/rotation/replication, etc.)
+- `src/shippin/routes/v1/` — 63 EE route files; `src/shippin/routes/v2/` — 10 v2 route files
 
-EE routes register before community routes so they can override/extend endpoints. Feature gating via license service (`src/services/license/license-service.ts`) which validates online/offline licenses, caches feature sets in keystore with 5-minute TTL, and exposes `getPlan()` to check feature availability.
+EE routes register before community routes so they can override/extend endpoints. Feature gating via license service (`src/shippin/services/license/license-service.ts`) which validates online/offline licenses, caches feature sets in keystore with 5-minute TTL, and exposes `getPlan()` to check feature availability.
 
-**PAM**: Before working on any `pam-*` service or router, read [`src/services/pam/CLAUDE.md`](src/services/pam/CLAUDE.md) for a high-level map of the PAM backend — module layout, permission model, and non-obvious invariants. It is intentionally a concept map, not a spec: read the referenced code for implementation detail. If you add a feature, keep any addition there brief (a concept or invariant, not code mechanics).
+**PAM**: Before working on any `pam-*` service or router, read [`src/shippin/services/pam/CLAUDE.md`](src/shippin/services/pam/CLAUDE.md) for a high-level map of the PAM backend — module layout, permission model, and non-obvious invariants. It is intentionally a concept map, not a spec: read the referenced code for implementation detail. If you add a feature, keep any addition there brief (a concept or invariant, not code mechanics).
 
 ### Server Plugins
 
@@ -416,10 +416,10 @@ Migrations in `src/db/migrations/`. Auto-generated Zod schemas in `src/db/schema
 
 ## Wiring a New Feature (Checklist)
 
-1. Create service module in `src/services/<name>/` (or `src/services/<name>/` for EE) with DAL, service, and types files
+1. Create service module in `src/services/<name>/` (or `src/shippin/services/<name>/` for EE) with DAL, service, and types files
 2. If adding DB tables: create migration via `npm run migration:new`, run it, then `npm run generate:schema`
 3. Wire in `src/server/routes/index.ts`: instantiate DAL → instantiate service → add to `server.decorate("services", {...})`
-4. Create router in `src/server/routes/v<N>/` (or `src/routes/v<N>/` for EE) and register it
+4. Create router in `src/server/routes/v<N>/` (or `src/shippin/routes/v<N>/` for EE) and register it
 5. Review the whole change against [`CODE_QUALITY.md`](CODE_QUALITY.md)
 6. Run `make reviewable-api` to verify lint + types
 

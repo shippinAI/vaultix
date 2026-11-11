@@ -213,7 +213,7 @@ sequence above; the deployment remains usable while that work proceeds.
 ## Serving permission semantics, 2026-11-09
 
 The project permission builder in
-`core/backend/src/services/permission/permission-service.ts` sorts allows
+`core/backend/src/shippin/services/permission/permission-service.ts` sorts allows
 before forbids and expands a forbid of `describeSecret` or `readValue` so it
 also forbids the legacy `read` action. CASL then uses the last matching rule,
 so a matching forbid wins. That is the behavior served by

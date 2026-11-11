@@ -107,13 +107,13 @@
       "purpose": "TS metadata domain consumer"
     },
     {
-      "path": "core/backend/src/services/oidc/oidc-config-service.ts",
+      "path": "core/backend/src/shippin/services/oidc/oidc-config-service.ts",
       "blob": "0fcad7517a9c4c15699c744ec838c500dcd23a4a",
       "read": "complete",
       "purpose": "Organization OIDC strategy, alias lookup, existing enrollment"
     },
     {
-      "path": "core/backend/src/routes/v1/oidc-router.ts",
+      "path": "core/backend/src/shippin/routes/v1/oidc-router.ts",
       "blob": "c8459f4dada4c100efcd65d162151f8ec8ed531d",
       "read": "complete",
       "purpose": "Browser session/callback and configuration consumers"
@@ -209,7 +209,7 @@
       "purpose": "Delegated local issuer claims only"
     },
     {
-      "path": "core/backend/src/services/permission/permission-service.ts",
+      "path": "core/backend/src/shippin/services/permission/permission-service.ts",
       "blob": "1a5539c8a8457c660cb64b6043e1c7b949eabe4f",
       "read": [
         [

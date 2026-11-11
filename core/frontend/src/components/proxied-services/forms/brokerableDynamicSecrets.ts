@@ -6,7 +6,7 @@ type TBrokerableDynamicSecret = {
 
 // Dynamic-secret providers a proxied service can broker over HTTP, with the eligible output fields.
 // A provider not listed can't be brokered; a field not listed is hidden (e.g. metadata).
-// keep in sync with backend/src/services/proxied-service/proxied-service-brokerable-outputs.ts
+// keep in sync with backend/src/shippin/services/proxied-service/proxied-service-brokerable-outputs.ts
 export const BROKERABLE_DYNAMIC_SECRETS: Partial<
   Record<DynamicSecretProviders, TBrokerableDynamicSecret>
 > = {

@@ -147,7 +147,7 @@ export enum PamApproverType {
   Group = "group"
 }
 
-// Mirrors PamNotificationEvent in backend/src/services/pam/pam-enums.ts
+// Mirrors PamNotificationEvent in backend/src/shippin/services/pam/pam-enums.ts
 export enum PamNotificationEvent {
   AccessRequested = "access-requested",
   AccessRequestApproved = "access-request-approved",

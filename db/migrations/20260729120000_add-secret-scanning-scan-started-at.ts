@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 
-import { SecretScanningScanStatus } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SecretScanningScanStatus } from "@app/shippin/services/secret-scanning-v2/secret-scanning-v2-enums";
 
 import { TableName } from "../schemas";
 

@@ -4,7 +4,7 @@ import { ScepChallengeType } from "@app/hooks/api/certificateProfiles/types";
 /**
  * Mirror of backend's `ResourcePermissionSub` for type-safe `permission.can(...)` checks
  * on the application's resource ability. Keep in sync with
- * `backend/src/services/permission/resource-permission.ts`.
+ * `backend/src/shippin/services/permission/resource-permission.ts`.
  */
 export enum PkiApplicationResourceSub {
   Application = "certificate-application",

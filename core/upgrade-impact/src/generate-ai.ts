@@ -278,8 +278,8 @@ const categorizeChangedFile = (file: string, index: BundleIndex): FileCategory =
   if (index.configFiles.has(file)) return "config";
   if (index.deploymentFiles.has(file)) return "deployment";
   if (index.selfHostingDocs.has(file)) return "selfHostingDocs";
-  if (file.startsWith("backend/src/services/") || file.startsWith("backend/src/services/")) return "backendService";
-  if (file.startsWith("backend/src/server/") || file.startsWith("backend/src/routes/")) return "api";
+  if (file.startsWith("backend/src/services/") || file.startsWith("backend/src/shippin/services/")) return "backendService";
+  if (file.startsWith("backend/src/server/") || file.startsWith("backend/src/shippin/routes/")) return "api";
   if (file.startsWith("frontend/")) return "frontend";
   if (file.startsWith("docs/")) return "docs";
   return "other";

@@ -47,7 +47,6 @@ UI	connect	/organizations/$orgId/app-connections/
 UI	connect	/organizations/$orgId/app-connections/$appConnection/oauth/callback
 UI	connect	/organizations/$orgId/app-connections/github/manifest/callback
 UI	governance	/organizations/$orgId/audit-logs
-UI	workspace	/organizations/$orgId/billing
 UI	access	/organizations/$orgId/groups/$groupId
 UI	access	/organizations/$orgId/identities/$identityId
 UI	connect	/organizations/$orgId/integrations

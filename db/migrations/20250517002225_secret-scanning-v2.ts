@@ -5,7 +5,7 @@ import { createOnUpdateTrigger, dropOnUpdateTrigger } from "@app/db/utils";
 import {
   SecretScanningFindingStatus,
   SecretScanningScanStatus
-} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/shippin/services/secret-scanning-v2/secret-scanning-v2-enums";
 
 export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable(TableName.SecretScanningDataSource))) {

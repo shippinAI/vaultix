@@ -66,7 +66,7 @@ open = enforces.
 
 ## Upstream `ee/` we will not copy
 
-Checked out on the host at `/opt/vaultix/upstream/vaultix` (`v0.162.19`). LICENSE still carves out any `ee/` tree. Actual modules under `backend/src/services/` (and a smaller Go set under `backend-go/internal/`):
+Checked out on the host at `/opt/vaultix/upstream/vaultix` (`v0.162.19`). LICENSE still carves out any `shippin/` tree. Actual modules under `backend/src/shippin/services/` (and a smaller Go set under `backend-go/internal/shippin/`):
 
 SAML, SCIM, LDAP, OIDC add-on, license, access-approval, secret-approval, secret-rotation-v2, dynamic-secret, audit-log-stream, pit (point-in-time), gateway/gateway-v2, hsm, kmip, pam-*, pki-*, trusted-ip, rate-limit, honey-token, insights, sub-org.
 

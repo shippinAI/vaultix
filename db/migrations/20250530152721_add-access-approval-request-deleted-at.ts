@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 
-import { ApprovalStatus } from "@app/services/secret-approval-request/secret-approval-request-types";
+import { ApprovalStatus } from "@app/shippin/services/secret-approval-request/secret-approval-request-types";
 
 import { TableName } from "../schemas";
 

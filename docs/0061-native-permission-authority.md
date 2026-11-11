@@ -119,7 +119,7 @@ passing rerun is not a diagnosis or repair of it.
 
 Full lint is **not clean**: both the baseline and candidate immutable Go images
 report the same three existing `goimports` findings in `internal/database/redis/redis.go`,
-`internal/services/hsm/hsm.go` and `internal/libs/bootstrap/bootstrap.go`.
+`internal/shippin/services/hsm/hsm.go` and `internal/libs/bootstrap/bootstrap.go`.
 There are no findings in the changed permission source/test. Exact compared
 output and normalized baseline-source identity are in
 `.cache/native-permission-authority/.cache/lint-result.json`. These findings

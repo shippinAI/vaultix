@@ -28,10 +28,10 @@ The directory does not imply a paid feature entitlement.
 | Account profile, security and recovery | `core/backend/src/server/routes/v1/user-router.ts`, `v2/user-router.ts` | Present; complete recovery/factor acceptance remains tracked in 0074. |
 | Email MFA, TOTP, passkeys and recovery codes | Existing auth, user and factor services under `core/backend/src/services/` | Present; not all factor lifecycle paths have current complete native acceptance. |
 | Application sessions and revocation | `core/backend/src/services/auth-token/`, `core/backend-go/internal/services/auth/apiauth/` | Present; browser, workload and device credential families remain separate. |
-| Organization OIDC federation | `core/backend/src/routes/v1/oidc-router.ts` | Present; enabled provider must pass its own issuer, audience, linkage and logout tests. |
-| Organization SAML federation | `core/backend/src/routes/v1/saml-router.ts` | Present; signed assertion, organization and method policy must remain enforced. |
-| LDAP directory login | `core/backend/src/routes/v1/ldap-router.ts` | Present; live directory configuration and acceptance required. |
-| SCIM provisioning | `core/backend/src/routes/v1/scim-router.ts` | Present; provisioning/deprovisioning and tenant controls retain separate acceptance. |
+| Organization OIDC federation | `core/backend/src/shippin/routes/v1/oidc-router.ts` | Present; enabled provider must pass its own issuer, audience, linkage and logout tests. |
+| Organization SAML federation | `core/backend/src/shippin/routes/v1/saml-router.ts` | Present; signed assertion, organization and method policy must remain enforced. |
+| LDAP directory login | `core/backend/src/shippin/routes/v1/ldap-router.ts` | Present; live directory configuration and acceptance required. |
+| SCIM provisioning | `core/backend/src/shippin/routes/v1/scim-router.ts` | Present; provisioning/deprovisioning and tenant controls retain separate acceptance. |
 | Users, groups, roles and tenant membership | Existing organization, membership and permission services | Present; free software availability never bypasses authorization. |
 | Machine identity lifecycle and memberships | `core/backend/src/server/routes/v1/identity-router.ts`, `v2/identity-router.ts`, organization/project identity routers | Present; creation, assignment, expiry and revocation remain existing source actions. |
 | Universal machine authentication | `core/backend/src/server/routes/v1/identity-universal-auth-router.ts` | Present; native CLI accepts client ID/secret through stdin and verifies access before saving. |
@@ -47,7 +47,7 @@ The directory does not imply a paid feature entitlement.
 | LDAP workload authentication | `core/backend/src/server/routes/v1/identity-ldap-auth-router.ts` | Present; distinct from human directory login. |
 | SPIFFE workload authentication | `core/backend/src/server/routes/v1/identity-spiffe-auth-router.ts` | Present; trust-domain and identity acceptance remain required. |
 | TLS certificate workload authentication | `core/backend/src/server/routes/v1/identity-tls-cert-auth-router.ts` | Present; trusted ingress and certificate verification remain required. |
-| Machine authentication templates | `core/backend/src/routes/v1/identity-template-router.ts` | Present; templates do not grant extra authority. |
+| Machine authentication templates | `core/backend/src/shippin/routes/v1/identity-template-router.ts` | Present; templates do not grant extra authority. |
 | Delegated OAuth clients | `core/backend/src/server/routes/v1/oauth-router.ts` | Present confidential-client authorization code/refresh flow; delegated scope is not a full user session or public device grant. |
 | Nomen verification and explicit account linking | `core/backend-go/internal/services/auth/nomen/` | Native components and scoped fixture evidence exist; live integration and one-application consolidation remain unfinished. |
 | Human remote device authorization | `core/backend-go/internal/services/auth/device/` | Existing native grant, policy and dedicated session owner; HTTP integration is the current change. |

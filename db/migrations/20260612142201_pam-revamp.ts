@@ -2,8 +2,8 @@
 import slugify from "@sindresorhus/slugify";
 import { Knex } from "knex";
 
-import { PamProductRole, PamResourceRole } from "@app/services/pam/pam-enums";
-import { DEFAULT_ACCOUNT_TEMPLATES } from "@app/services/pam-project/pam-project-bootstrap";
+import { PamProductRole, PamResourceRole } from "@app/shippin/services/pam/pam-enums";
+import { DEFAULT_ACCOUNT_TEMPLATES } from "@app/shippin/services/pam-project/pam-project-bootstrap";
 import { inMemoryKeyStore } from "@app/keystore/memory";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { initLogger, logger } from "@app/lib/logger";

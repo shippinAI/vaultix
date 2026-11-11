@@ -77,7 +77,7 @@ export const startSamlLogin = async (page: Page): Promise<void> => {
 // ACS URL gamma exposes for the configured SAML provider. The IdP-initiated
 // flow needs this baked into the SAMLResponse since there's no AuthnRequest
 // to read it from. Mirrors `${appCfg.SITE_URL}/api/v1/sso/saml2/${configId}`
-// in backend/src/routes/v1/saml-router.ts:85.
+// in backend/src/shippin/routes/v1/saml-router.ts:85.
 export const gammaSamlAcsUrl = (): string =>
   `${GAMMA_BASE_URL}/api/v1/sso/saml2/${SAML_CONFIG_ID}`;
 

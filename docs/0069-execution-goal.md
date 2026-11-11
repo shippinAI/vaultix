@@ -95,7 +95,7 @@ settings workflow; it does not replace AUTH-03/04 or imply DevSCIF acceptance.
 AUTH-02 starting paths: `core/backend/src/server/plugins/auth/inject-identity.ts`,
 `core/backend-go/internal/services/auth/apiauth/`,
 `core/backend-go/internal/services/permission/`,
-`core/backend/src/services/oidc/`, `core/backend/src/db/schemas/user-aliases.ts`,
+`core/backend/src/shippin/services/oidc/`, `core/backend/src/db/schemas/user-aliases.ts`,
 `core/backend/src/server/routes/vaultix-router.ts`, `internal/oidc/` and
 `internal/cli/`. Trace their DALs, migrations, callers and tests before edits;
 this path list is discovery, not a completed review.
