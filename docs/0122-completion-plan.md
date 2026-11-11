@@ -123,12 +123,28 @@ while the person watches, with denial and takeover proven.
 
 ## Stage 4b — The signal fabric, outcome receipts, the rehearsal demo and the hosted agent
 
-Specified in [0123](0123-signal-fabric.md). Today none of it runs: UI action attributes are read
-only by tests, lessons send nothing, "Clyffy" in the app calls no model, A2UI streams exist only in
-the optional panel, and there is no demo. Build in this order, each proven on the image before the
-next: signals with the value canary, passive hints with more/less/none and thumbs, server-backed
-receipts on every catalog write action, the rehearsal demo, then the hosted agent answering from
-signals with A2UI in the core app. This comes before the commercial control plane.
+Specified in [0123](0123-signal-fabric.md) and [0124](0124-ai-personas-and-machine-loops.md).
+This comes before the commercial control plane.
+
+Done on 2026-11-11, proven on the image with a stand-in model
+(`scripts/test-assistant-image.mjs`):
+
+- Admin > AI Assistant manages providers (Anthropic, Bedrock, Vertex, OpenAI, OpenAI-compatible)
+  with encrypted keys and recorded connection tests.
+- Personas: defaults in `core/ai/personas`, administrator overrides and custom specialists.
+- Routing by mention, page or Clyffy; each persona uses its domains' warp points, read-only, as
+  the person.
+- Chat in the Clyffy panel fed by value-free action and page signals, with a canary check.
+
+Still to build, each proven on the image before the next:
+
+- Passive hints with more/less/none and thumbs.
+- Server-backed receipts on every catalog write action.
+- The rehearsal demo.
+- A2UI answers rendered in the core app.
+- The guard reviewing write actions once approvals exist.
+- The rest of 0124 in its order.
+- A run against a real provider with the owner's key.
 
 ## Stage 4c — Infisical and Doppler coverage, proven
 
@@ -191,7 +207,7 @@ stage and gets a per-domain ledger of its own.
 | License: open source or BSL | Any public release; likely alongside the Nomen merge |
 | Nomen merge: scope and which identity code survives | Stage 7's identity domain |
 | The instance owner's recovery sign-in on vaultix.cloud while passwords are off, so an outage at Nomen or Google cannot lock the operator out | Stage 3 |
-| The hosted model provider for the in-app agent, and changing the AGENTS.md local-Codex-only rule | Stage 4b's agent |
+| Which provider and key vaultix.cloud's assistant uses (all kinds are managed in Admin > AI Assistant) | Turning the assistant on for vaultix.cloud |
 | Which Infisical/Doppler gaps to build versus leave out (Terraform, Kubernetes operator, inheritance, typed values) | Stage 4c |
 | Production host, SMTP, privacy notice | Inviting anyone (and restore branch protection first) |
 

@@ -353,3 +353,9 @@ secrets, _ := pgx.CollectRows(rows, pgx.RowToStructByName[Secret])
 ## Vaultix runtime
 
 The image entrypoint is cmd/vaultix/main.go. Every software feature is included on every deployment.
+
+The in-app assistant lives in `internal/services/assistant` (providers, model adapters, personas,
+routing, agent loop) and `internal/server/api/assistant` (`/api/vx/v1/ai/*`, forwarded by the
+TypeScript ingress). Default personas are read from `VAULTIX_AI_DIR/personas`. The agent is an
+MCP client of the instance's own warp points with the person's bearer, so it can never do more
+than that person; it is offered read-only tools only. Provider credentials use `kms.RootCipher`.

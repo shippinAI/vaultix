@@ -39,21 +39,37 @@ const forward = (timeoutMs: number) => async (request: FastifyRequest, reply: Fa
 };
 
 export const registerAssistantRouter = async (server: FastifyZodProvider) => {
+  // Test, reset and delete carry no body, and clients often still send a JSON content type.
+  // Inside this router an empty JSON body is no body; Go validates everything else.
+  server.removeContentTypeParser("application/json");
+  server.addContentTypeParser("application/json", { parseAs: "string" }, (_request, body, done) => {
+    const text = typeof body === "string" ? body : body.toString("utf8");
+    if (text.trim() === "") {
+      done(null, undefined);
+      return;
+    }
+    try {
+      done(null, JSON.parse(text) as unknown);
+    } catch {
+      done(Object.assign(new Error("The request body is not valid JSON."), { statusCode: 400 }), undefined);
+    }
+  });
   const auth = verifyAuth([AuthMode.JWT]);
-  const routes: { method: "GET" | "POST" | "PATCH" | "DELETE"; url: string; timeoutMs: number; bodyLimit?: number }[] = [
-    { method: "GET", url: "/assistant", timeoutMs: 15_000 },
-    { method: "POST", url: "/messages", timeoutMs: 120_000, bodyLimit: 256 * 1024 },
-    { method: "GET", url: "/providers", timeoutMs: 15_000 },
-    { method: "POST", url: "/providers", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
-    { method: "PATCH", url: "/providers/:providerId", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
-    { method: "DELETE", url: "/providers/:providerId", timeoutMs: 15_000 },
-    { method: "POST", url: "/providers/:providerId/test", timeoutMs: 60_000, bodyLimit: 1024 },
-    { method: "GET", url: "/personas", timeoutMs: 15_000 },
-    { method: "POST", url: "/personas", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
-    { method: "PATCH", url: "/personas/:slug", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
-    { method: "DELETE", url: "/personas/:slug", timeoutMs: 15_000 },
-    { method: "POST", url: "/personas/:slug/reset", timeoutMs: 15_000, bodyLimit: 1024 }
-  ];
+  const routes: { method: "GET" | "POST" | "PATCH" | "DELETE"; url: string; timeoutMs: number; bodyLimit?: number }[] =
+    [
+      { method: "GET", url: "/assistant", timeoutMs: 15_000 },
+      { method: "POST", url: "/messages", timeoutMs: 120_000, bodyLimit: 256 * 1024 },
+      { method: "GET", url: "/providers", timeoutMs: 15_000 },
+      { method: "POST", url: "/providers", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
+      { method: "PATCH", url: "/providers/:providerId", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
+      { method: "DELETE", url: "/providers/:providerId", timeoutMs: 15_000 },
+      { method: "POST", url: "/providers/:providerId/test", timeoutMs: 60_000, bodyLimit: 1024 },
+      { method: "GET", url: "/personas", timeoutMs: 15_000 },
+      { method: "POST", url: "/personas", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
+      { method: "PATCH", url: "/personas/:slug", timeoutMs: 15_000, bodyLimit: 32 * 1024 },
+      { method: "DELETE", url: "/personas/:slug", timeoutMs: 15_000 },
+      { method: "POST", url: "/personas/:slug/reset", timeoutMs: 15_000, bodyLimit: 1024 }
+    ];
   for (const route of routes) {
     server.route({
       method: route.method,

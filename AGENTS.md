@@ -109,8 +109,10 @@ Software features are included for every Vaultix deployment. Permissions, approv
 switches still apply. Entitlement tests alone do not establish enterprise parity.
 Dragonfly is the default cache; Redis and ElastiCache are explicit alternatives.
 The native core UI/API is the product entry point. The panel is optional legacy
-work, not a second secrets store. Clyffy uses the user's local Codex sign-in;
-never collect their subscription credentials or inject values into the AI process.
+work, not a second secrets store. In-app Clyffy runs on the AI providers and personas an
+instance administrator manages (`docs/0124`); a person's own AI client connects through
+`vaultix mcp` with their own sign-in. Never collect anyone's subscription credentials, and
+never put a secret value or a redeem handle into any AI process.
 
 **Do not assume chat context.** Load the folder for the task.
 
@@ -183,6 +185,7 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Domain UI events / scripted MCP workflows | `docs/0114-domain-scripted-ui-standard.md` + `docs/interaction/` + `.agents/skills/domain-ui-actions/SKILL.md` |
 | Enterprise capability convergence | `docs/0023-capability-convergence.md` |
 | Signal fabric, outcome receipts, rehearsal demo, hosted agent | `docs/0123-signal-fabric.md` + `core/frontend/src/components/vaultix/` |
+| AI providers, personas and specialists, value requests, inject/redeem, local endpoint | `docs/0124-ai-personas-and-machine-loops.md` + `core/ai/personas/` + `core/backend-go/internal/services/assistant/` |
 | Provider import (Doppler, Infisical/Vaultix instances) | `docs/0121-provider-import.md` + `services/external-migration/provider-import.ts` |
 | Estate / Nomen sibling | `nomen/Nomen/docs/product/estate.md` (sibling tree; do not edit it from here) |
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |

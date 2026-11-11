@@ -1,7 +1,11 @@
 # Vaultix for AI coding tools
 
-Clyffy is Vaultix's secrets specialist. Its guidance runs in your own Codex
-client. Sign in with ChatGPT through `codex login`; your subscription's limits
+Vaultix has two ways to work with AI. Inside the app, Clyffy and its specialists run on the
+providers an instance administrator sets under Admin > AI Assistant; their default personas are
+the files in [`personas/`](personas/). Outside the app, your own AI client connects as described
+below. Both see names and references only, never secret values.
+
+In your own client, Clyffy's guidance runs in Codex. Sign in with ChatGPT through `codex login`; your subscription's limits
 apply. Vaultix does not receive your ChatGPT session or an OpenAI API key.
 
 Vaultix authorization is separate from your model sign-in. With a Vaultix CLI
