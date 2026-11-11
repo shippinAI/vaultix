@@ -8,12 +8,12 @@ import {
   TemporaryPermissionMode,
   TMembershipRolesInsert
 } from "@app/db/schemas";
-import { TEmailDomainDALFactory } from "@app/services/email-domain/email-domain-dal";
-import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TOidcConfigDALFactory } from "@app/services/oidc/oidc-config-dal";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { TSamlConfigDALFactory } from "@app/services/saml-config/saml-config-dal";
+import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
+import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TOidcConfigDALFactory } from "@app/shippin/services/oidc/oidc-config-dal";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { TSamlConfigDALFactory } from "@app/shippin/services/saml-config/saml-config-dal";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";
 import { ms } from "@app/lib/ms";

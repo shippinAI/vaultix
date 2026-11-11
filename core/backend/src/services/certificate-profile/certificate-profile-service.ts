@@ -2,21 +2,21 @@ import { ForbiddenError, subject } from "@casl/ability";
 import * as x509 from "@peculiar/x509";
 
 import { ActionProjectType, ResourceType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
   ProjectPermissionCertificateProfileActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import {
   ResourcePermissionApplicationActions,
   ResourcePermissionCertificateActions,
   ResourcePermissionSub
-} from "@app/services/permission/resource-permission";
-import { buildUrl } from "@app/services/pki-acme/pki-acme-fns";
-import { ScepChallengeType } from "@app/services/pki-scep/challenge";
-import { TScepDynamicChallengeDALFactory } from "@app/services/pki-scep/pki-scep-dynamic-challenge-dal";
-import { generateAndEncryptScepRaCertificate, resolveScepRaSigning } from "@app/services/pki-scep/pki-scep-fns";
+} from "@app/shippin/services/permission/resource-permission";
+import { buildUrl } from "@app/shippin/services/pki-acme/pki-acme-fns";
+import { ScepChallengeType } from "@app/shippin/services/pki-scep/challenge";
+import { TScepDynamicChallengeDALFactory } from "@app/shippin/services/pki-scep/pki-scep-dynamic-challenge-dal";
+import { generateAndEncryptScepRaCertificate, resolveScepRaSigning } from "@app/shippin/services/pki-scep/pki-scep-fns";
 import { getProcessedPermissionRules } from "@app/lib/casl/permission-filter-utils";
 import { extractX509CertFromChain } from "@app/lib/certificates/extract-certificate";
 import { getConfig } from "@app/lib/config/env";

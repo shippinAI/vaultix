@@ -2,8 +2,8 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import https from "https";
 import RE2 from "re2";
 
-import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { verifyHostInputValidity } from "@app/shippin/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";
 import { GatewayProxyProtocol } from "@app/lib/gateway";

@@ -5,7 +5,7 @@
 import { ForbiddenError } from "@casl/ability";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import type { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 
 import { ActorType, AuthMethod } from "../auth/auth-type";

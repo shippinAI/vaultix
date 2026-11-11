@@ -1,7 +1,7 @@
 import RE2 from "re2";
 
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { BadRequestError } from "@app/lib/errors";
 import { ADCS_DISPOSITION_ISSUED, AdcsEnrollResult, describeAdcsDisposition } from "@app/lib/gateway-v2/adcs-rpc";
 import { logger } from "@app/lib/logger";

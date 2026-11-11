@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 
-import { getRateLimiterConfig } from "@app/services/rate-limit/rate-limit-service";
+import { getRateLimiterConfig } from "@app/shippin/services/rate-limit/rate-limit-service";
 import { getConfig } from "@app/lib/config/env";
 
 export const injectRateLimits = fp(async (server) => {

@@ -30,9 +30,9 @@ import path from "node:path";
 import knexLib from "knex";
 import promptSync from "prompt-sync";
 
-import { initializeHsmModule } from "@app/services/hsm/hsm-fns";
-import { hsmServiceFactory } from "@app/services/hsm/hsm-service";
-import { SamlProviders } from "@app/services/saml-config/saml-config-types";
+import { initializeHsmModule } from "@app/shippin/services/hsm/hsm-fns";
+import { hsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
+import { SamlProviders } from "@app/shippin/services/saml-config/saml-config-types";
 import { inMemoryKeyStore } from "@app/keystore/memory";
 import { getConfig, getHsmConfig, initEnvConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";

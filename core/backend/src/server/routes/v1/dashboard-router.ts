@@ -4,9 +4,9 @@ import { z } from "zod";
 
 import { SecretFoldersSchema, SecretImportsSchema, SecretType } from "@app/db/schemas";
 import { RemindersSchema } from "@app/db/schemas/reminders";
-import { EventType, UserAgentType } from "@app/services/audit-log/audit-log-types";
-import { ProjectPermissionSecretActions } from "@app/services/permission/project-permission";
-import { SecretRotationV2Schema } from "@app/services/secret-rotation-v2/secret-rotation-v2-union-schema";
+import { EventType, UserAgentType } from "@app/shippin/services/audit-log/audit-log-types";
+import { ProjectPermissionSecretActions } from "@app/shippin/services/permission/project-permission";
+import { SecretRotationV2Schema } from "@app/shippin/services/secret-rotation-v2/secret-rotation-v2-union-schema";
 import { DASHBOARD } from "@app/lib/api-docs";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { prefixWithSlash, removeTrailingSlash } from "@app/lib/fn";

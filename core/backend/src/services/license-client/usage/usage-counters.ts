@@ -1,4 +1,4 @@
-import { TLicenseDALFactory } from "@app/services/license/license-dal";
+import { TLicenseDALFactory } from "@app/shippin/services/license/license-dal";
 
 import { TFeatureCounterFn, TLimitFeatureDescriptor } from "../feature";
 import {

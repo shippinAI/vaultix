@@ -1,14 +1,14 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionSecretActions,
   ProjectPermissionSecretSyncActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { DatabaseErrorCode } from "@app/lib/error-codes";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";

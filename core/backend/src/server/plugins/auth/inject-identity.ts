@@ -4,7 +4,7 @@ import fp from "fastify-plugin";
 import type { JwtPayload } from "jsonwebtoken";
 
 import { TServiceTokens, TUsers } from "@app/db/schemas";
-import { TScimTokenJwtPayload } from "@app/services/scim/scim-types";
+import { TScimTokenJwtPayload } from "@app/shippin/services/scim/scim-types";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto";
 import { BadRequestError, UnauthorizedError } from "@app/lib/errors";

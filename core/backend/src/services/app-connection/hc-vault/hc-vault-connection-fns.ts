@@ -1,11 +1,11 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import https from "https";
 
-import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TGatewayV2ConnectionDetails } from "@app/services/gateway-v2/gateway-v2-types";
+import { verifyHostInputValidity } from "@app/shippin/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TGatewayV2ConnectionDetails } from "@app/shippin/services/gateway-v2/gateway-v2-types";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";
 import { removeTrailingSlash } from "@app/lib/fn";

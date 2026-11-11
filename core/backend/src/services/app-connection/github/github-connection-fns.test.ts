@@ -29,7 +29,7 @@ vi.mock("@app/lib/gateway", () => ({
   GatewayProxyProtocol: { Tcp: "tcp", Http: "http" }
 }));
 vi.mock("@app/lib/gateway-v2/gateway-v2", () => ({ withGatewayV2Proxy: vi.fn() }));
-vi.mock("@app/services/dynamic-secret/dynamic-secret-fns", () => ({
+vi.mock("@app/shippin/services/dynamic-secret/dynamic-secret-fns", () => ({
   verifyHostInputValidity: vi.fn(async () => ["host"])
 }));
 vi.mock("@app/services/app-connection/app-connection-fns", () => ({ getAppConnectionMethodName: vi.fn() }));

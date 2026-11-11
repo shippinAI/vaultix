@@ -1,8 +1,8 @@
 import { Knex } from "knex";
 
 import { AccessScope, ProjectMembershipRole, TemporaryPermissionMode, TMembershipRolesInsert } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";

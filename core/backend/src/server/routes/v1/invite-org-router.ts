@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { AccessScope, OrgMembershipRole, ProjectMembershipRole } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
-import { PamProductRole } from "@app/services/pam/pam-enums";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
+import { PamProductRole } from "@app/shippin/services/pam/pam-enums";
 import { unique } from "@app/lib/fn";
 import { logger } from "@app/lib/logger";
 import { sanitizeEmail } from "@app/lib/validator";

@@ -3,18 +3,18 @@ import {
   ChefConnectionMethod,
   getChefConnectionListItem,
   validateChefConnectionCredentials
-} from "@app/services/app-connections/chef";
+} from "@app/shippin/services/app-connections/chef";
 import {
   getOCIConnectionListItem,
   OCIConnectionMethod,
   validateOCIConnectionCredentials
-} from "@app/services/app-connections/oci";
-import { getOracleDBConnectionListItem, OracleDBConnectionMethod } from "@app/services/app-connections/oracledb";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { SECRET_ROTATION_CONNECTION_MAP } from "@app/services/secret-rotation-v2/secret-rotation-v2-maps";
-import { SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP } from "@app/services/secret-scanning-v2/secret-scanning-v2-maps";
+} from "@app/shippin/services/app-connections/oci";
+import { getOracleDBConnectionListItem, OracleDBConnectionMethod } from "@app/shippin/services/app-connections/oracledb";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { SECRET_ROTATION_CONNECTION_MAP } from "@app/shippin/services/secret-rotation-v2/secret-rotation-v2-maps";
+import { SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP } from "@app/shippin/services/secret-scanning-v2/secret-scanning-v2-maps";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError } from "@app/lib/errors";

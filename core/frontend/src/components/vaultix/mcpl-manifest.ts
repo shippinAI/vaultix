@@ -81,7 +81,7 @@ export const IMPORT_PROVIDER_DETAILS: Record<TImportProviderId, ImportProviderDe
   },
   "external-vaultix": {
     id: "external-vaultix",
-    name: Infisical"",
+    name: "Infisical",
     // A neutral instance mark; no third-party logo ships for this provider.
     image: "/images/integrations/VaultixInstance.svg",
     summary: "Bring an Infisical folder into a Vaultix folder.",

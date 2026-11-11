@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { TGatewayV2ConnectionDetails } from "@app/services/gateway-v2/gateway-v2-types";
+import { TGatewayV2ConnectionDetails } from "@app/shippin/services/gateway-v2/gateway-v2-types";
 import { GatewayVersion, TGatewayV1RelayDetails } from "@app/lib/gateway/types";
 import { DiscriminativePick } from "@app/lib/types";
 

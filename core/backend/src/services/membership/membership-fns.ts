@@ -1,5 +1,5 @@
 import { AccessScope, ProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { BadRequestError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";

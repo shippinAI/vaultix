@@ -8,16 +8,16 @@ import {
   ResourceMembershipRole,
   ResourceType
 } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionApplicationActions,
   ProjectPermissionCertificateProfileActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import {
   ResourcePermissionApplicationActions,
   ResourcePermissionSub
-} from "@app/services/permission/resource-permission";
+} from "@app/shippin/services/permission/resource-permission";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";
 
 import { TApprovalPolicyDALFactory } from "../approval-policy/approval-policy-dal";

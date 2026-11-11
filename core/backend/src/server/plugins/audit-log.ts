@@ -1,7 +1,7 @@
 import { requestContext } from "@fastify/request-context";
 import fp from "fastify-plugin";
 
-import { UserAgentType } from "@app/services/audit-log/audit-log-types";
+import { UserAgentType } from "@app/shippin/services/audit-log/audit-log-types";
 import { BadRequestError } from "@app/lib/errors";
 import { RequestContextKey } from "@app/lib/request-context/request-context-keys";
 import { ActorType } from "@app/services/auth/auth-type";

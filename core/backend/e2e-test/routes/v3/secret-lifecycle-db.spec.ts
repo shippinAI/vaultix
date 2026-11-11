@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { OrgMembershipRole, SecretType, TableName } from "@app/db/schemas";
 import { seedData1 } from "@app/db/seed-data";
-import { ApproverType } from "@app/services/access-approval-policy/access-approval-policy-types";
+import { ApproverType } from "@app/shippin/services/access-approval-policy/access-approval-policy-types";
 
 import { createFolder, deleteFolder } from "../../testUtils/folders";
 

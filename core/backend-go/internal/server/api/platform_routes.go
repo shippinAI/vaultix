@@ -9,7 +9,7 @@ import (
 	"github.com/vaultix-cloud/api/internal/server/api/platform/usersessions"
 	"github.com/vaultix-cloud/api/internal/server/api/shared"
 	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
-	"github.com/vaultix-cloud/api/internal/services/ratelimit"
+	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
 )
 
 // RegisterPlatformRoutes initializes platform handlers and registers their routes.

@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/services/license/license-types";
+import { TFeatureSet } from "@app/shippin/services/license/license-types";
 import { TEnvConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";
 import { recordLicenseDualReadDiff, recordLicenseDualReadError } from "@app/lib/telemetry/metrics";

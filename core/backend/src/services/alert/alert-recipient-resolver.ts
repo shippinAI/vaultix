@@ -1,4 +1,4 @@
-import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
 import { logger } from "@app/lib/logger";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
 import { TProjectDALFactory } from "@app/services/project/project-dal";

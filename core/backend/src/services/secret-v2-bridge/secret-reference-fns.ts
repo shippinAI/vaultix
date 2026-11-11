@@ -2,7 +2,7 @@ import path from "node:path";
 
 import RE2 from "re2";
 
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { ForbiddenRequestError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 

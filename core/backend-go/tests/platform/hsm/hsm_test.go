@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix-cloud/api/internal/services/hsm"
+	"github.com/vaultix-cloud/api/internal/shippin/services/hsm"
 	"github.com/vaultix-cloud/api/tests/infra"
 )
 

@@ -20,7 +20,7 @@ import (
 	"github.com/vaultix-cloud/api/internal/queue"
 	"github.com/vaultix-cloud/api/internal/server"
 	"github.com/vaultix-cloud/api/internal/server/api"
-	"github.com/vaultix-cloud/api/internal/services/hsm"
+	"github.com/vaultix-cloud/api/internal/shippin/services/hsm"
 	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 

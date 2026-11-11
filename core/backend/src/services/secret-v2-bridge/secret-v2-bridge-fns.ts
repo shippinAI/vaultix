@@ -13,12 +13,12 @@ import {
   TSecretsV2,
   TSecretVersionsV2
 } from "@app/db/schemas";
-import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/services/permission/permission-fns";
-import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/shippin/services/permission/permission-fns";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import {
   InternalMetadataType,
   TInternalMetadata
-} from "@app/services/secret-approval-request/secret-approval-request-types";
+} from "@app/shippin/services/secret-approval-request/secret-approval-request-types";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";
 import { logger } from "@app/lib/logger";

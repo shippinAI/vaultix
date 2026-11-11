@@ -7,7 +7,7 @@ import {
   projectMemberPermissions,
   projectNoAccessPermissions,
   projectViewerPermission
-} from "@app/services/permission/default-roles";
+} from "@app/shippin/services/permission/default-roles";
 import { TGetPredefinedRolesDTO } from "@app/services/project-role/project-role-types";
 
 export const getPredefinedRoles = ({ projectId, projectType, roleFilter }: TGetPredefinedRolesDTO) => {

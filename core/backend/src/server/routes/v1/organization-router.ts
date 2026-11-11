@@ -10,7 +10,7 @@ import {
   OrgMembershipStatus,
   OrgRolesSchema
 } from "@app/db/schemas";
-import { EventType, UserAgentType } from "@app/services/audit-log/audit-log-types";
+import { EventType, UserAgentType } from "@app/shippin/services/audit-log/audit-log-types";
 import { KeyStorePrefixes, KeyStoreTtls } from "@app/keystore/keystore";
 import { ApiDocsTags, AUDIT_LOGS, ORGANIZATIONS } from "@app/lib/api-docs";
 import { getLastMidnightDateISO, removeTrailingSlash } from "@app/lib/fn";

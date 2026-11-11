@@ -13,21 +13,21 @@ import {
   SecretType,
   TableName
 } from "@app/db/schemas";
-import { TIdentityGroupMembershipDALFactory } from "@app/services/group/identity-group-membership-dal";
-import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TIdentityGroupMembershipDALFactory } from "@app/shippin/services/group/identity-group-membership-dal";
+import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission,
   validateSecretMovePermissions
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
-import { ProjectEvents, TProjectEventPayload } from "@app/services/project-events/project-events-types";
-import { TSecretApprovalPolicyServiceFactory } from "@app/services/secret-approval-policy/secret-approval-policy-service";
-import { TSecretApprovalRequestDALFactory } from "@app/services/secret-approval-request/secret-approval-request-dal";
-import { TSecretApprovalRequestSecretDALFactory } from "@app/services/secret-approval-request/secret-approval-request-secret-dal";
-import { TSecretApprovalRequestServiceFactory } from "@app/services/secret-approval-request/secret-approval-request-service";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
+import { ProjectEvents, TProjectEventPayload } from "@app/shippin/services/project-events/project-events-types";
+import { TSecretApprovalPolicyServiceFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-service";
+import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
+import { TSecretApprovalRequestSecretDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-secret-dal";
+import { TSecretApprovalRequestServiceFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-service";
 import { getConfig } from "@app/lib/config/env";
 import { buildSecretBlindIndexFromName, SymmetricKeySize } from "@app/lib/crypto";
 import { crypto } from "@app/lib/crypto/cryptography";

@@ -8,22 +8,22 @@ import {
   TemporaryPermissionMode,
   TMembershipRolesInsert
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   OrgPermissionAdminConsoleAction,
   OrgPermissionIdentityActions,
   OrgPermissionSubjects
-} from "@app/services/permission/org-permission";
+} from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
   validatePrivilegeChangeOperation
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   isCustomProjectRole,
   ProjectPermissionIdentityActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError, PermissionBoundaryError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";

@@ -11,9 +11,9 @@ import {
   TSuperAdminUpdate,
   TUsers
 } from "@app/db/schemas";
-import { TEmailDomainDALFactory } from "@app/services/email-domain/email-domain-dal";
-import { EmailDomainStatus } from "@app/services/email-domain/email-domain-types";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
+import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { KeyStorePrefixes, KeyStoreTtls, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCache } from "@app/lib/cache/with-cache";
 import {

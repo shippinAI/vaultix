@@ -16,7 +16,7 @@ import (
 	"go.uber.org/goleak"
 
 	"github.com/vaultix-cloud/api/internal/services/auth"
-	"github.com/vaultix-cloud/api/internal/services/ratelimit"
+	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
 	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 	"github.com/vaultix-cloud/api/tests/infra"
 )

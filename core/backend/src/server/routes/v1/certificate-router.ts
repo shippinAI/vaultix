@@ -3,7 +3,7 @@ import RE2 from "re2";
 import { z } from "zod";
 
 import { CertificatesSchema } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { ApiDocsTags, CERTIFICATES } from "@app/lib/api-docs";
 import { NotFoundError } from "@app/lib/errors";
 import { ms } from "@app/lib/ms";

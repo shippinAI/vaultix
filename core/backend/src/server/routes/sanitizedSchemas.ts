@@ -15,11 +15,11 @@ import {
   SecretTagsSchema,
   UsersSchema
 } from "@app/db/schemas";
-import { ProjectPermissionActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { ProjectPermissionActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import {
   SanitizedProxiedServiceBaseSchema,
   SanitizedProxiedServiceCredentialSchema
-} from "@app/services/proxied-service/proxied-service-schemas";
+} from "@app/shippin/services/proxied-service/proxied-service-schemas";
 import { ResourceMetadataNonEncryptionSchema } from "@app/services/resource-metadata/resource-metadata-schema";
 
 import { UnpackedPermissionSchema } from "./sanitizedSchema/permission";

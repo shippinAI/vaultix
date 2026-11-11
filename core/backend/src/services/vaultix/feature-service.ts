@@ -1,7 +1,7 @@
 import { OrganizationActionScope } from "@app/db/schemas/models";
-import type { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { InstanceType } from "@app/services/license/license-types";
-import type { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import type { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { InstanceType } from "@app/shippin/services/license/license-types";
+import type { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { BadRequestError } from "@app/lib/errors";
 
 import { getVaultixFeatures } from "./features";

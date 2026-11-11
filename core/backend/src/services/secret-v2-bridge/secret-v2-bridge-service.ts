@@ -10,24 +10,24 @@ import {
   TableName,
   TSecretsV2
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionDALFactory } from "@app/services/permission/permission-dal";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionDALFactory } from "@app/shippin/services/permission/permission-dal";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCommitsActions,
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
-import { ProjectEvents } from "@app/services/project-events/project-events-types";
-import { TSecretApprovalPolicyServiceFactory } from "@app/services/secret-approval-policy/secret-approval-policy-service";
-import { TSecretApprovalRequestDALFactory } from "@app/services/secret-approval-request/secret-approval-request-dal";
-import { TSecretApprovalRequestSecretDALFactory } from "@app/services/secret-approval-request/secret-approval-request-secret-dal";
-import { scanSecretPolicyViolations } from "@app/services/secret-scanning-v2/secret-scanning-v2-fns";
+} from "@app/shippin/services/permission/project-permission";
+import { ProjectEvents } from "@app/shippin/services/project-events/project-events-types";
+import { TSecretApprovalPolicyServiceFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-service";
+import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
+import { TSecretApprovalRequestSecretDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-secret-dal";
+import { scanSecretPolicyViolations } from "@app/shippin/services/secret-scanning-v2/secret-scanning-v2-fns";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCache } from "@app/lib/cache/with-cache";
 import { generateCacheKeyFromBuffer, generateCacheKeyFromData } from "@app/lib/crypto/cache";

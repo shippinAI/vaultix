@@ -6,8 +6,8 @@ import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from "vit
 
 import { TDbClient } from "@app/db";
 import { TableName } from "@app/db/schemas";
-import { auditLogDALFactory } from "@app/services/audit-log/audit-log-dal";
-import { auditLogQueueServiceFactory } from "@app/services/audit-log/audit-log-queue";
+import { auditLogDALFactory } from "@app/shippin/services/audit-log/audit-log-dal";
+import { auditLogQueueServiceFactory } from "@app/shippin/services/audit-log/audit-log-queue";
 import { userNotificationDALFactory } from "@app/services/notification/user-notification-dal";
 import { smtpServiceFactory } from "@app/services/smtp/smtp-service";
 

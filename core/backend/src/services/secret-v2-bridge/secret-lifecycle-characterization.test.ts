@@ -3,12 +3,12 @@ import fastifyRequestContext, { requestContext } from "@fastify/request-context"
 import fastify from "fastify";
 
 import { ActionProjectType, SecretType } from "@app/db/schemas";
-import { permissionServiceFactory } from "@app/services/permission/permission-service";
+import { permissionServiceFactory } from "@app/shippin/services/permission/permission-service";
 import {
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { conditionsMatcher } from "@app/lib/casl";
 import { ForbiddenRequestError } from "@app/lib/errors";
 import { RequestContextKey } from "@app/lib/request-context/request-context-keys";

@@ -3,8 +3,8 @@ import { pipeline } from "stream/promises";
 import { z } from "zod";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { getSSEHeaders } from "@app/services/project-events/project-events-sse-service";
-import { ProjectEventRegisterSchema } from "@app/services/project-events/project-events-types";
+import { getSSEHeaders } from "@app/shippin/services/project-events/project-events-sse-service";
+import { ProjectEventRegisterSchema } from "@app/shippin/services/project-events/project-events-types";
 import { ApiDocsTags, EventSubscriptions } from "@app/lib/api-docs";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

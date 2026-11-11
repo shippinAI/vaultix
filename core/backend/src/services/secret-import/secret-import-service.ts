@@ -3,19 +3,19 @@ import path from "node:path";
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType, TableName } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionActions,
   ProjectPermissionSecretActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
-import { ProjectEvents } from "@app/services/project-events/project-events-types";
-import { getReplicationFolderName } from "@app/services/secret-replication/secret-replication-service";
+} from "@app/shippin/services/permission/project-permission";
+import { ProjectEvents } from "@app/shippin/services/project-events/project-events-types";
+import { getReplicationFolderName } from "@app/shippin/services/secret-replication/secret-replication-service";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";

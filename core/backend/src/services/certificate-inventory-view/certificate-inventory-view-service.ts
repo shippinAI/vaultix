@@ -4,9 +4,9 @@ import { ActionProjectType, ResourceType } from "@app/db/schemas";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";
 import { TProjectPermission } from "@app/lib/types";
 
-import { TPermissionServiceFactory } from "../../services/permission/permission-service-types";
-import { ProjectPermissionActions, ProjectPermissionSub } from "../../services/permission/project-permission";
-import { ResourcePermissionSub } from "../../services/permission/resource-permission";
+import { TPermissionServiceFactory } from "../../shippin/services/permission/permission-service-types";
+import { ProjectPermissionActions, ProjectPermissionSub } from "../../shippin/services/permission/project-permission";
+import { ResourcePermissionSub } from "../../shippin/services/permission/resource-permission";
 import { NON_PQC_KEY_ALGORITHMS, PQC_KEY_ALGORITHMS } from "../certificate/certificate-dal";
 import { TCertificateInventoryViewDALFactory } from "./certificate-inventory-view-dal";
 import {

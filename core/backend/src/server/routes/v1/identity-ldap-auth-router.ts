@@ -15,8 +15,8 @@ import { z } from "zod";
 
 import { IdentityAuthMethod } from "@app/db/schemas";
 import { IdentityLdapAuthsSchema } from "@app/db/schemas/identity-ldap-auths";
-import { EventType } from "@app/services/audit-log/audit-log-types";
-import { isValidLdapFilter } from "@app/services/ldap-config/ldap-fns";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
+import { isValidLdapFilter } from "@app/shippin/services/ldap-config/ldap-fns";
 import { ApiDocsTags, LDAP_AUTH } from "@app/lib/api-docs";
 import { getConfig } from "@app/lib/config/env";
 import { UnauthorizedError } from "@app/lib/errors";

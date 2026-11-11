@@ -2,7 +2,7 @@ import { Knex } from "knex";
 import { z } from "zod";
 
 import { TCertificates } from "@app/db/schemas";
-import { TCertificateAuthorityCrlDALFactory } from "@app/services/certificate-authority-crl/certificate-authority-crl-dal";
+import { TCertificateAuthorityCrlDALFactory } from "@app/shippin/services/certificate-authority-crl/certificate-authority-crl-dal";
 import { TProjectPermission } from "@app/lib/types";
 import { ActorAuthMethod, ActorType } from "@app/services/auth/auth-type";
 import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";

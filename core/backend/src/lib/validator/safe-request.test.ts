@@ -52,7 +52,7 @@ vi.mock("@app/lib/config/env", () => ({
   getConfig: () => configState
 }));
 
-vi.mock("@app/services/dynamic-secret/dynamic-secret-fns", () => ({
+vi.mock("@app/shippin/services/dynamic-secret/dynamic-secret-fns", () => ({
   verifyHostInputValidity: verifyHostInputValidityMock
 }));
 

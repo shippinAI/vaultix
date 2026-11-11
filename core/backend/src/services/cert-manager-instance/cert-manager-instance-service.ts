@@ -2,8 +2,8 @@ import { ForbiddenError } from "@casl/ability";
 
 import { TDbClient } from "@app/db";
 import { OrganizationActionScope, ProjectType, TableName } from "@app/db/schemas";
-import { OrgPermissionCertManagerActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { OrgPermissionCertManagerActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { ActorType } from "@app/services/auth/auth-type";
 import { TOrgDALFactory } from "@app/services/org/org-dal";

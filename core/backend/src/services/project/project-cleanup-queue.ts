@@ -1,7 +1,7 @@
 import opentelemetry from "@opentelemetry/api";
 
 import { AccessScope } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
+import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";

@@ -2,8 +2,8 @@ import { ForbiddenError } from "@casl/ability";
 import picomatch from "picomatch";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { NotFoundError } from "@app/lib/errors";
 import { TProjectEnvDALFactory } from "@app/services/project-env/project-env-dal";
 

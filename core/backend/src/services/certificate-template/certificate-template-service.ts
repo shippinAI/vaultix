@@ -2,12 +2,12 @@ import { ForbiddenError, subject } from "@casl/ability";
 import * as x509 from "@peculiar/x509";
 
 import { ActionProjectType, TCertificateTemplateEstConfigsUpdate } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionPkiTemplateActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { extractX509CertFromChain } from "@app/lib/certificates/extract-certificate";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";

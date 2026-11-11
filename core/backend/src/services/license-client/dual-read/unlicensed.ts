@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/services/license/license-types";
+import { TFeatureSet } from "@app/shippin/services/license/license-types";
 
 import { TEntitlementsResponse } from "../license-client-types";
 

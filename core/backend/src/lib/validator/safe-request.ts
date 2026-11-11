@@ -7,7 +7,7 @@ import { LookupFunction } from "node:net";
 import { AxiosRequestConfig } from "axios";
 import { isIP } from "net";
 
-import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { verifyHostInputValidity } from "@app/shippin/services/dynamic-secret/dynamic-secret-fns";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
 import { logger } from "@app/lib/logger";

@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 
-import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
 
 import { TAlertChannelRecipientDALFactory } from "./alert-channel-recipient-dal";
 import { AlertPrincipalType } from "./alert-types";

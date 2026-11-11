@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { openApiHidden } from "@app/server/lib/schemas";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

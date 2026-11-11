@@ -3,8 +3,8 @@ import https from "node:https";
 import axios, { AxiosInstance, isAxiosError } from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { BadRequestError } from "@app/lib/errors";
 import { GatewayProxyProtocol, withGatewayProxy } from "@app/lib/gateway";
 import { withGatewayV2Proxy } from "@app/lib/gateway-v2/gateway-v2";

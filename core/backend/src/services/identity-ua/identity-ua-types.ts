@@ -1,4 +1,4 @@
-import { UserAgentType } from "@app/services/audit-log/audit-log-types";
+import { UserAgentType } from "@app/shippin/services/audit-log/audit-log-types";
 import { TProjectPermission } from "@app/lib/types";
 
 export const MAX_UA_CLIENT_SECRET_TTL_SECONDS = 315_360_000; // 10 years

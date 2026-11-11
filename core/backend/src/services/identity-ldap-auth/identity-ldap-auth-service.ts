@@ -4,20 +4,20 @@ import { requestContext } from "@fastify/request-context";
 import slugify from "@sindresorhus/slugify";
 
 import { AccessScope, ActionProjectType, IdentityAuthMethod, OrganizationActionScope } from "@app/db/schemas";
-import { TIdentityAuthTemplateDALFactory } from "@app/services/identity-auth-template";
-import { testLDAPConfig } from "@app/services/ldap-config/ldap-fns";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TIdentityAuthTemplateDALFactory } from "@app/shippin/services/identity-auth-template";
+import { testLDAPConfig } from "@app/shippin/services/ldap-config/ldap-fns";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   OrgPermissionIdentityActions,
   OrgPermissionMachineIdentityAuthTemplateActions,
   OrgPermissionSubjects
-} from "@app/services/permission/org-permission";
+} from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
   validatePrivilegeChangeOperation
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import {

@@ -2,8 +2,8 @@ import { packRules } from "@casl/ability/extra";
 import { requestContext } from "@fastify/request-context";
 
 import { AccessScope, ActionProjectType, OrganizationActionScope, TableName } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { RequestContextKey } from "@app/lib/request-context/request-context-keys";

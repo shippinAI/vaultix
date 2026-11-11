@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix-cloud/api/internal/services/externalkms"
+	"github.com/vaultix-cloud/api/internal/shippin/services/externalkms"
 	"github.com/vaultix-cloud/api/tests/infra"
 )
 

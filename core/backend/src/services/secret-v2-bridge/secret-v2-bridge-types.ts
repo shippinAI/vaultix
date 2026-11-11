@@ -2,11 +2,11 @@ import { MongoAbility } from "@casl/ability";
 import { Knex } from "knex";
 
 import { SecretType, TSecretsV2, TSecretsV2Insert, TSecretsV2Update } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionSecretActions, ProjectPermissionSet } from "@app/services/permission/project-permission";
-import { TSecretApprovalPolicyServiceFactory } from "@app/services/secret-approval-policy/secret-approval-policy-service";
-import { TSecretApprovalRequestDALFactory } from "@app/services/secret-approval-request/secret-approval-request-dal";
-import { TSecretApprovalRequestSecretDALFactory } from "@app/services/secret-approval-request/secret-approval-request-secret-dal";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions, ProjectPermissionSet } from "@app/shippin/services/permission/project-permission";
+import { TSecretApprovalPolicyServiceFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-service";
+import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
+import { TSecretApprovalRequestSecretDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-secret-dal";
 import { OrderByDirection, TProjectPermission } from "@app/lib/types";
 import { ActorAuthMethod, ActorType } from "@app/services/auth/auth-type";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";

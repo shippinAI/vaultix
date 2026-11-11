@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { Attribute, Change, Client } from "ldapts";
 
-import { generatePassword } from "@app/services/secret-rotation-v2/shared/utils";
+import { generatePassword } from "@app/shippin/services/secret-rotation-v2/shared/utils";
 import { BadRequestError } from "@app/lib/errors";
 import { resolveDirectoryPrincipal } from "@app/lib/ldap/directory";
 import { logger } from "@app/lib/logger";

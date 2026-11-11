@@ -1,15 +1,15 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { AccessScope, OrganizationActionScope, OrgMembershipStatus } from "@app/db/schemas";
-import { TEmailDomainDALFactory } from "@app/services/email-domain/email-domain-dal";
-import { EmailDomainStatus } from "@app/services/email-domain/email-domain-types";
-import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TOidcConfigDALFactory } from "@app/services/oidc/oidc-config-dal";
-import { OrgPermissionActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
-import { assertPermissionBoundary } from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { TSamlConfigDALFactory } from "@app/services/saml-config/saml-config-dal";
+import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
+import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
+import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TOidcConfigDALFactory } from "@app/shippin/services/oidc/oidc-config-dal";
+import { OrgPermissionActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
+import { assertPermissionBoundary } from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { TSamlConfigDALFactory } from "@app/shippin/services/saml-config/saml-config-dal";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError, ForbiddenRequestError, InternalServerError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";

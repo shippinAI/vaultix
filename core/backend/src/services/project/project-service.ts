@@ -15,14 +15,14 @@ import {
   TProjectEnvironments,
   TProjects
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   OrgPermissionActions,
   OrgPermissionProjectActions,
   OrgPermissionSubjects
-} from "@app/services/permission/org-permission";
-import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/org-permission";
+import { throwIfMissingSecretReadValueOrDescribePermission } from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionActions,
   ProjectPermissionCertificateActions,
@@ -33,15 +33,15 @@ import {
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import {
   ResourcePermissionCertificateActions,
   ResourcePermissionSub
-} from "@app/services/permission/resource-permission";
+} from "@app/shippin/services/permission/resource-permission";
 import {
   VaultixProjectTemplate,
   TProjectTemplateServiceFactory
-} from "@app/services/project-template/project-template-types";
+} from "@app/shippin/services/project-template/project-template-types";
 import { KeyStorePrefixes, KeyStoreTtls, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCache } from "@app/lib/cache/with-cache";
 import { getProcessedPermissionRules } from "@app/lib/casl/permission-filter-utils";
@@ -58,7 +58,7 @@ import { PamIdentities, SecretIdentities } from "@app/services/license-client";
 import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TPkiSubscriberDALFactory } from "@app/services/pki-subscriber/pki-subscriber-dal";
 
-import { TGroupDALFactory } from "../../services/group/group-dal";
+import { TGroupDALFactory } from "../../shippin/services/group/group-dal";
 import { ActorAuthMethod, ActorType } from "../auth/auth-type";
 import { TCertificateDALFactory } from "../certificate/certificate-dal";
 import { TCertificateAuthorityDALFactory } from "../certificate-authority/certificate-authority-dal";

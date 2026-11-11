@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { PkiApplicationsSchema } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

@@ -15,7 +15,7 @@ import {
   TUserGroupMembershipInsert,
   TUsersInsert
 } from "@app/db/schemas";
-import { licenseDALFactory } from "@app/services/license/license-dal";
+import { licenseDALFactory } from "@app/shippin/services/license/license-dal";
 
 declare const testDb: Knex;
 

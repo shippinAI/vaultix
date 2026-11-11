@@ -1,9 +1,9 @@
 import RE2 from "re2";
 import { z, ZodSchema } from "zod";
 
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { BadRequestError } from "@app/lib/errors";
 import { TAppConnectionDALFactory } from "@app/services/app-connection/app-connection-dal";
 import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";

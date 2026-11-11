@@ -17,9 +17,9 @@ import {
   TSecrets,
   TSecretVersions
 } from "@app/db/schemas";
-import { TSecretApprovalRequestDALFactory } from "@app/services/secret-approval-request/secret-approval-request-dal";
-import { TSecretApprovalRequestSecretDALFactory } from "@app/services/secret-approval-request/secret-approval-request-secret-dal";
-import { RequestState } from "@app/services/secret-approval-request/secret-approval-request-types";
+import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
+import { TSecretApprovalRequestSecretDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-secret-dal";
+import { RequestState } from "@app/shippin/services/secret-approval-request/secret-approval-request-types";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import {
   decryptIntegrationAuths,

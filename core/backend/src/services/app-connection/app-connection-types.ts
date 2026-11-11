@@ -3,20 +3,20 @@ import {
   TChefConnectionConfig,
   TChefConnectionInput,
   TValidateChefConnectionCredentialsSchema
-} from "@app/services/app-connections/chef";
+} from "@app/shippin/services/app-connections/chef";
 import {
   TOCIConnection,
   TOCIConnectionConfig,
   TOCIConnectionInput,
   TValidateOCIConnectionCredentialsSchema
-} from "@app/services/app-connections/oci";
+} from "@app/shippin/services/app-connections/oci";
 import {
   TOracleDBConnection,
   TOracleDBConnectionInput,
   TValidateOracleDBConnectionCredentialsSchema
-} from "@app/services/app-connections/oracledb";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+} from "@app/shippin/services/app-connections/oracledb";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { TAppConnectionDALFactory } from "@app/services/app-connection/app-connection-dal";
 import { TSqlConnectionConfig } from "@app/services/app-connection/shared/sql/sql-connection-types";
 import { SecretSync } from "@app/services/secret-sync/secret-sync-enums";

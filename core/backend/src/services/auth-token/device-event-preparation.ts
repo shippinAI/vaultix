@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 
-import { EventType, TAuditLogStreamEntry } from "@app/services/audit-log/audit-log-types";
+import { EventType, TAuditLogStreamEntry } from "@app/shippin/services/audit-log/audit-log-types";
 import { RecordedOperation, runRecordedOperation } from "@app/lib/recorded-operation";
 import { ActorType } from "@app/services/auth/auth-type";
 import { NotificationType } from "@app/services/notification/notification-types";

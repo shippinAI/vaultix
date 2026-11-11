@@ -3,7 +3,7 @@ import fastifyMultipart from "@fastify/multipart";
 import { fileTypeFromBuffer } from "file-type";
 import { z } from "zod";
 
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { ApiDocsTags, SECRET_SHARING } from "@app/lib/api-docs";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";

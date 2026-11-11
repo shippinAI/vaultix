@@ -11,8 +11,8 @@
 //   * A SCIM sync is triggered at the end (provider save), provisioning the group into Vaultix.
 //
 // Run: `make seed-dev-saml` / `npm run seed-saml`. See sso.md.
-import { EmailDomainStatus } from "@app/services/email-domain/email-domain-types";
-import { SamlProviders } from "@app/services/saml-config/saml-config-types";
+import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
+import { SamlProviders } from "@app/shippin/services/saml-config/saml-config-types";
 import { inMemoryKeyStore } from "@app/keystore/memory";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { initLogger, logger } from "@app/lib/logger";

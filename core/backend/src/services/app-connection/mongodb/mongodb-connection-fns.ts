@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import RE2 from "re2";
 
-import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { verifyHostInputValidity } from "@app/shippin/services/dynamic-secret/dynamic-secret-fns";
 import { BadRequestError } from "@app/lib/errors";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 

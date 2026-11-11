@@ -1,17 +1,17 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { AccessScope, ActionProjectType, ProjectMembershipRole, ProjectType } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
 import {
   constructPermissionErrorMessage,
   validatePrivilegeChangeOperation
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   isCustomProjectRole,
   ProjectPermissionGroupActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { BadRequestError, InternalServerError, PermissionBoundaryError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";

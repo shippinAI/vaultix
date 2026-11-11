@@ -1,4 +1,4 @@
-import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 
 import { applyOauthScopeToProjectRules, isValidOauthScope, OauthScope, parseOauthScopeString } from "./oauth-scope";
 

@@ -7,10 +7,10 @@ import { randomUUID } from "crypto";
 import RE2 from "re2";
 
 import { TCertificates } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";

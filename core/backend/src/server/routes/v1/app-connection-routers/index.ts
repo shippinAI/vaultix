@@ -1,6 +1,6 @@
-import { registerChefConnectionRouter } from "@app/routes/v1/app-connection-routers/chef-connection-router";
-import { registerOCIConnectionRouter } from "@app/routes/v1/app-connection-routers/oci-connection-router";
-import { registerOracleDBConnectionRouter } from "@app/routes/v1/app-connection-routers/oracledb-connection-router";
+import { registerChefConnectionRouter } from "@app/shippin/routes/v1/app-connection-routers/chef-connection-router";
+import { registerOCIConnectionRouter } from "@app/shippin/routes/v1/app-connection-routers/oci-connection-router";
+import { registerOracleDBConnectionRouter } from "@app/shippin/routes/v1/app-connection-routers/oracledb-connection-router";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 
 import { registerOnePassConnectionRouter } from "./1password-connection-router";

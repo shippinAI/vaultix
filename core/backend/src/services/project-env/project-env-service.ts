@@ -1,11 +1,11 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TAccessApprovalPolicyEnvironmentDALFactory } from "@app/services/access-approval-policy/access-approval-policy-environment-dal";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
-import { TSecretApprovalPolicyEnvironmentDALFactory } from "@app/services/secret-approval-policy/secret-approval-policy-environment-dal";
+import { TAccessApprovalPolicyEnvironmentDALFactory } from "@app/shippin/services/access-approval-policy/access-approval-policy-environment-dal";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
+import { TSecretApprovalPolicyEnvironmentDALFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-environment-dal";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

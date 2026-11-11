@@ -12,11 +12,11 @@ import (
 	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
 	"github.com/vaultix-cloud/api/internal/services/auth/device"
 	"github.com/vaultix-cloud/api/internal/services/auth/session"
-	"github.com/vaultix-cloud/api/internal/services/externalkms"
+	"github.com/vaultix-cloud/api/internal/shippin/services/externalkms"
 	"github.com/vaultix-cloud/api/internal/services/kms"
 	"github.com/vaultix-cloud/api/internal/services/permission"
 	"github.com/vaultix-cloud/api/internal/services/project"
-	"github.com/vaultix-cloud/api/internal/services/ratelimit"
+	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
 	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 

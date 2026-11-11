@@ -5,12 +5,12 @@ import "./lib/telemetry/instrumentation";
 import axios from "axios";
 import dotenv from "dotenv";
 
-import { initializeHsmModule } from "@app/services/hsm/hsm-fns";
+import { initializeHsmModule } from "@app/shippin/services/hsm/hsm-fns";
 import { keyValueStoreDALFactory } from "@app/keystore/key-value-store-dal";
 
 import { runMigrations } from "./auto-start-migrations";
 import { initAuditLogDbConnection, initDbConnection } from "./db";
-import { hsmServiceFactory } from "./services/hsm/hsm-service";
+import { hsmServiceFactory } from "./shippin/services/hsm/hsm-service";
 import { keyStoreFactory } from "./keystore/keystore";
 import { buildClickHouseFromConfig } from "./lib/config/clickhouse";
 import { formatSmtpConfig, getDatabaseCredentials, getHsmConfig, initEnvConfig } from "./lib/config/env";

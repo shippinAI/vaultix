@@ -15,8 +15,8 @@ import {
   SortDirection
 } from "@app/db/schemas";
 import { ProjectMicrosoftTeamsConfigsSchema } from "@app/db/schemas/project-microsoft-teams-configs";
-import { EventType } from "@app/services/audit-log/audit-log-types";
-import { VaultixProjectTemplate } from "@app/services/project-template/project-template-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
+import { VaultixProjectTemplate } from "@app/shippin/services/project-template/project-template-types";
 import { ApiDocsTags, PROJECTS } from "@app/lib/api-docs";
 import { CharacterType, characterValidator } from "@app/lib/validator/validate-string";
 import { re2Validator } from "@app/lib/zod";

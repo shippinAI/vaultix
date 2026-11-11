@@ -4,11 +4,11 @@ import { Job } from "bullmq";
 import { randomUUID } from "crypto";
 
 import { ProjectMembershipRole, SecretType } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";

@@ -2,8 +2,8 @@ import { AxiosRequestConfig } from "axios";
 import crypto from "crypto";
 import https from "https";
 
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";
 import { GatewayProxyProtocol } from "@app/lib/gateway";

@@ -1,9 +1,9 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType, ProjectMembershipRole, ResourceType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
-import { ResourcePermissionSub } from "@app/services/permission/resource-permission";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
+import { ResourcePermissionSub } from "@app/shippin/services/permission/resource-permission";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";

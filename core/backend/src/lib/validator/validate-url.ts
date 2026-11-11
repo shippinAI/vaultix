@@ -3,7 +3,7 @@ import dns from "node:dns/promises";
 import { isIP } from "net";
 import RE2 from "re2";
 
-import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { verifyHostInputValidity } from "@app/shippin/services/dynamic-secret/dynamic-secret-fns";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
 

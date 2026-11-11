@@ -15,7 +15,7 @@ import fastify from "fastify";
 import { Cluster, Redis } from "ioredis";
 import { Knex } from "knex";
 
-import { THsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { THsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig, IS_PACKAGED, TEnvConfig } from "@app/lib/config/env";
 import { CustomLogger } from "@app/lib/logger/logger";

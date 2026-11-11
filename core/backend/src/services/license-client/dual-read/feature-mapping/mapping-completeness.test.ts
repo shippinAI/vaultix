@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { getDefaultOnPremFeatures } from "@app/services/license/license-fns";
+import { getDefaultOnPremFeatures } from "@app/shippin/services/license/license-fns";
 
 import { EXCLUDED_FIELDS, FEATURE_MAPPINGS } from "./index";
 

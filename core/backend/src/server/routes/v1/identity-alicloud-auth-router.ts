@@ -2,7 +2,7 @@ import RE2 from "re2";
 import { z } from "zod";
 
 import { IdentityAlicloudAuthsSchema, IdentityAuthMethod } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { ALICLOUD_AUTH, ApiDocsTags } from "@app/lib/api-docs";
 import { UnauthorizedError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

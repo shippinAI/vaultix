@@ -1,8 +1,8 @@
 import picomatch from "picomatch";
 import RE2 from "re2";
 
-import { DynamicSecretProviders } from "@app/services/dynamic-secret/providers/models";
-import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { DynamicSecretProviders } from "@app/shippin/services/dynamic-secret/providers/models";
+import { SecretRotation } from "@app/shippin/services/secret-rotation-v2/secret-rotation-v2-enums";
 import { BadRequestError } from "@app/lib/errors";
 
 import { MAX_PREVENT_VALUE_REUSE_VERSIONS } from "./secret-validation-rule-schemas";

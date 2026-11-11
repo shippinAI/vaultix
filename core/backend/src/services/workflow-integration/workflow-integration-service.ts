@@ -1,8 +1,8 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { OrganizationActionScope } from "@app/db/schemas";
-import { OrgPermissionActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { OrgPermissionActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 
 import { TWorkflowIntegrationDALFactory } from "./workflow-integration-dal";
 import { TGetWorkflowIntegrationsByOrg } from "./workflow-integration-types";

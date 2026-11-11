@@ -4,7 +4,7 @@ import knex from "knex";
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { TDbClient } from "@app/db";
-import { EventType, TAuditLogStreamEntry } from "@app/services/audit-log/audit-log-types";
+import { EventType, TAuditLogStreamEntry } from "@app/shippin/services/audit-log/audit-log-types";
 import { ActorType } from "@app/services/auth/auth-type";
 import { PreparedRecordedMail } from "@app/services/smtp/smtp-recorded-payload";
 import { smtpServiceFactory } from "@app/services/smtp/smtp-service";

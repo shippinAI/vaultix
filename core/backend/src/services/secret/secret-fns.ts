@@ -12,9 +12,9 @@ import {
   TSecretFolders,
   TSecrets
 } from "@app/db/schemas";
-import { hasSecretReadValueOrDescribePermission } from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionSecretActions } from "@app/services/permission/project-permission";
+import { hasSecretReadValueOrDescribePermission } from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions } from "@app/shippin/services/permission/project-permission";
 import { getConfig } from "@app/lib/config/env";
 import { buildSecretBlindIndexFromName } from "@app/lib/crypto";
 import { crypto, SymmetricKeySize } from "@app/lib/crypto/cryptography";

@@ -1,7 +1,7 @@
-import { TAuditLogDALFactory } from "@app/services/audit-log/audit-log-dal";
-import { TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
-import { TScepTransactionDALFactory } from "@app/services/pki-scep/pki-scep-transaction-dal";
-import { TScimServiceFactory } from "@app/services/scim/scim-types";
+import { TAuditLogDALFactory } from "@app/shippin/services/audit-log/audit-log-dal";
+import { TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
+import { TScepTransactionDALFactory } from "@app/shippin/services/pki-scep/pki-scep-transaction-dal";
+import { TScimServiceFactory } from "@app/shippin/services/scim/scim-types";
 import { TKeyValueStoreDALFactory } from "@app/keystore/key-value-store-dal";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";

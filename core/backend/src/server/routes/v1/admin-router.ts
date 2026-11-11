@@ -8,8 +8,8 @@ import {
   OrgMembershipsSchema,
   OrgMembershipStatus
 } from "@app/db/schemas";
-import { getLicenseKeyConfig } from "@app/services/license/license-fns";
-import { LicenseType } from "@app/services/license/license-types";
+import { getLicenseKeyConfig } from "@app/shippin/services/license/license-fns";
+import { LicenseType } from "@app/shippin/services/license/license-types";
 import { getConfig, overridableKeys } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError } from "@app/lib/errors";

@@ -12,25 +12,25 @@ import {
   OrganizationActionScope,
   TIdentityKubernetesAuthsUpdate
 } from "@app/db/schemas";
-import { TGatewayDALFactory } from "@app/services/gateway/gateway-dal";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayPoolDALFactory } from "@app/services/gateway-pool/gateway-pool-dal";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TGatewayDALFactory } from "@app/shippin/services/gateway/gateway-dal";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayPoolDALFactory } from "@app/shippin/services/gateway-pool/gateway-pool-dal";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   OrgPermissionGatewayActions,
   OrgPermissionGatewayPoolActions,
   OrgPermissionIdentityActions,
   OrgPermissionSubjects
-} from "@app/services/permission/org-permission";
+} from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
   validatePrivilegeChangeOperation
-} from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
 import {

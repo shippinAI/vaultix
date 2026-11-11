@@ -8,7 +8,7 @@ import fastifyPlugin from "fastify-plugin";
 import jwt from "jsonwebtoken";
 import { ZodError } from "zod";
 
-import { AcmeError } from "@app/services/pki-acme/pki-acme-errors";
+import { AcmeError } from "@app/shippin/services/pki-acme/pki-acme-errors";
 import { getConfig } from "@app/lib/config/env";
 import {
   BadRequestError,

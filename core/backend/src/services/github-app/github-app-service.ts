@@ -2,23 +2,23 @@ import { ForbiddenError } from "@casl/ability";
 import { AxiosError, AxiosRequestConfig } from "axios";
 
 import { ActionProjectType, OrganizationActionScope } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
-import { TGatewayDALFactory } from "@app/services/gateway/gateway-dal";
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
+import { TGatewayDALFactory } from "@app/shippin/services/gateway/gateway-dal";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import {
   OrgPermissionAppConnectionActions,
   OrgPermissionGatewayActions,
   OrgPermissionSubjects
-} from "@app/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+} from "@app/shippin/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionAppConnectionActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto";

@@ -6,7 +6,7 @@ import {
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 import { conditionsMatcher, PermissionConditionOperators } from "@app/lib/casl";
 import { crypto } from "@app/lib/crypto";
 

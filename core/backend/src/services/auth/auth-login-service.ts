@@ -8,10 +8,10 @@ import {
   TUsers,
   UserDeviceSchema
 } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
-import { OrgPermissionSsoActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
-import { isAuthMethodSaml } from "@app/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
+import { OrgPermissionSsoActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
+import { isAuthMethodSaml } from "@app/shippin/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { getConfig } from "@app/lib/config/env";
 import { crypto, generateSrpServerKey, srpCheckClientProof } from "@app/lib/crypto";
 import { getUserPrivateKey } from "@app/lib/crypto/srp";

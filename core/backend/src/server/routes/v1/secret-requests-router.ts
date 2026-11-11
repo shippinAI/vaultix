@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { SecretSharingSchema } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { NotFoundError } from "@app/lib/errors";
 import { ms } from "@app/lib/ms";
 import { SecretSharingAccessType } from "@app/lib/types";

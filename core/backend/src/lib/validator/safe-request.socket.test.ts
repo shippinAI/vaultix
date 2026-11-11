@@ -31,7 +31,7 @@ vi.mock("@app/lib/config/env", () => ({
 }));
 
 // Don't let the internal-infra guard reject our loopback test server.
-vi.mock("@app/services/dynamic-secret/dynamic-secret-fns", () => ({
+vi.mock("@app/shippin/services/dynamic-secret/dynamic-secret-fns", () => ({
   verifyHostInputValidity: vi.fn(async () => undefined)
 }));
 

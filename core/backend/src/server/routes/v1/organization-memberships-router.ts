@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { AccessScope, GroupsSchema, TemporaryPermissionMode } from "@app/db/schemas";
-import { EventType } from "@app/services/audit-log/audit-log-types";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { ms } from "@app/lib/ms";
 import { OrderByDirection } from "@app/lib/types";

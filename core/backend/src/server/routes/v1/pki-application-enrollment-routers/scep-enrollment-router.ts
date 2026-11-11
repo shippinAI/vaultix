@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { EventType } from "@app/services/audit-log/audit-log-types";
-import { ScepChallengeType } from "@app/services/pki-scep/challenge";
+import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
+import { ScepChallengeType } from "@app/shippin/services/pki-scep/challenge";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { writeLimit } from "@app/server/config/rateLimiter";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";

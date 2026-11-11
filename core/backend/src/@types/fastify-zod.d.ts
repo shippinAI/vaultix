@@ -2,7 +2,7 @@ import { FastifyInstance, RawReplyDefaultExpression, RawRequestDefaultExpression
 import type { Cluster, Redis } from "ioredis";
 import type { Knex } from "knex";
 
-import { THsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { THsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
 import { CustomLogger } from "@app/lib/logger/logger";
 import { ZodTypeProvider } from "@app/server/plugins/fastify-zod";
 import { TKmsRootConfigDALFactory } from "@app/services/kms/kms-root-config-dal";

@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 
-import { initializeHsmModule } from "@app/services/hsm/hsm-fns";
-import { hsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { initializeHsmModule } from "@app/shippin/services/hsm/hsm-fns";
+import { hsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
 import { getHsmConfig, initEnvConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { initLogger, logger } from "@app/lib/logger";

@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import handlebars from "handlebars";
 
-import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { CHEF_SYNC_LIST_OPTION, ChefSyncFns } from "@app/services/secret-sync/chef";
-import { OCI_VAULT_SYNC_LIST_OPTION, OCIVaultSyncFns } from "@app/services/secret-sync/oci-vault";
+import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { CHEF_SYNC_LIST_OPTION, ChefSyncFns } from "@app/shippin/services/secret-sync/chef";
+import { OCI_VAULT_SYNC_LIST_OPTION, OCIVaultSyncFns } from "@app/shippin/services/secret-sync/oci-vault";
 import { BadRequestError } from "@app/lib/errors";
 import {
   AWS_PARAMETER_STORE_SYNC_LIST_OPTION,

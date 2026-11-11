@@ -1,13 +1,13 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType, ResourceType, TCertificateSyncs } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
-import { ProjectPermissionPkiSyncActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
+import { ProjectPermissionPkiSyncActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import {
   ResourcePermissionPkiSyncActions,
   ResourcePermissionSub
-} from "@app/services/permission/resource-permission";
+} from "@app/shippin/services/permission/resource-permission";
 import { getProcessedPermissionRules } from "@app/lib/casl/permission-filter-utils";
 import { BadRequestError, DatabaseError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { OrgServiceActor } from "@app/lib/types";

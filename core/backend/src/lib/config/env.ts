@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { THsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { THsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { initializePqcSupport } from "@app/lib/crypto/pqc";
 import { QueueWorkerProfile } from "@app/lib/types";

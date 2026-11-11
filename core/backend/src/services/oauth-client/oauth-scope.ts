@@ -2,7 +2,7 @@ import {
   ProjectPermissionActions,
   ProjectPermissionSecretActions,
   ProjectPermissionSub
-} from "@app/services/permission/project-permission";
+} from "@app/shippin/services/permission/project-permission";
 
 // Coarse, named OAuth delegation scopes. A delegated OAuth access token can never do more than the
 // underlying user; scopes only *narrow* that ability (effective = userPermissions ∩ grantedScopes).
