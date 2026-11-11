@@ -210,6 +210,20 @@ func (s *Service) resolveEncryptionKey(ctx context.Context) error {
 	return nil
 }
 
+// RootCipher encrypts settings that belong to the whole instance, such as the
+// AI provider credentials an instance administrator manages. Organization and
+// project data must use their own data keys instead.
+func (s *Service) RootCipher() (*CipherPair, error) {
+	rootKey := s.getRootKey()
+	if len(rootKey) == 0 {
+		return nil, fmt.Errorf("KMS: root key not loaded")
+	}
+	return &CipherPair{
+		encrypt: func(plaintext []byte) ([]byte, error) { return cipher.SymmetricEncrypt(plaintext, rootKey) },
+		decrypt: func(blob []byte) ([]byte, error) { return cipher.SymmetricDecrypt(blob, rootKey) },
+	}, nil
+}
+
 // --- internal helpers ---
 
 func (s *Service) getRootKey() []byte {

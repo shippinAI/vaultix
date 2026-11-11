@@ -89,6 +89,24 @@ func TestActNeverEchoesValue(t *testing.T) {
 	}
 }
 
+func TestActRefusesValueActionsOverMCP(t *testing.T) {
+	s := &Server{Ops: fakeOps{}, User: "jessay"}
+	for _, action := range []map[string]any{
+		{"actionId": "vaultix.store-key", "inputs": map[string]any{"projectId": "b1", "environment": "dev", "name": "API_KEY", "value": "sk-super-secret"}},
+		{"actionId": "vaultix.inject", "inputs": map[string]any{"projectId": "b1", "environment": "dev", "name": "API_KEY"}},
+	} {
+		res := rpc(t, s, "tools/call", map[string]any{"name": "vaultix.source.act", "arguments": action})
+		raw, _ := json.Marshal(res)
+		result := res["result"].(map[string]any)
+		if result["isError"] != true || !strings.Contains(string(raw), "only in the Vaultix UI") {
+			t.Fatalf("%v ran over MCP: %s", action["actionId"], raw)
+		}
+		if strings.Contains(string(raw), "handle-1") || strings.Contains(string(raw), "sk-super-secret") {
+			t.Fatalf("%v leaked a handle or value: %s", action["actionId"], raw)
+		}
+	}
+}
+
 func TestConfigureShowIsA2UI(t *testing.T) {
 	s := &Server{}
 	res := rpc(t, s, "tools/call", map[string]any{

@@ -875,7 +875,7 @@
     },
     {
       "path": "core/Dockerfile.standalone-vaultix",
-      "blob": "841ef98051c0659ad7c5f7fcb1ea281e83315ad9",
+      "blob": "dff02dbeafc5b29cb8e6aee1303d862cb4fde615",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical Dockerfile and build consumers. Persist npm download caches across the three npm ci stages and Go compiler cache across native builds. Keep go mod download inside the builder image for existing offline test consumers; preserve lockfiles, toolchain pins, dependency scripts, final non-root runtime and all image verification. Exact candidate build remains pending. Packaged runtime sets VAULTIX_REFERENCE_DISPATCH=go and spawns the loopback sidecar.",
@@ -885,7 +885,8 @@
         "https://docs.docker.com/build/cache/optimize/",
         "docs/0066-native-reference-reads.md",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -1798,7 +1799,7 @@
     },
     {
       "path": "core/backend-go/internal/config/config.go",
-      "blob": "96bfd8ee711102ce6d7c7789f638b7b23f0d1336",
+      "blob": "bbe5da797cba4b1170211da60b3652b94b9c061c",
       "status": "reviewed",
       "decision": "modify",
       "scope": "The complete configuration file was read in 0039 and this change reviewed in context. Native loading now requires validated identity lifetime policy before constructing services. Other optional parsing, cloud derivation and compatibility aliases remain inherited investigation items; this scope is not whole-configuration parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
@@ -1821,7 +1822,8 @@
         "docs/0113-vaultix-identity-execution.md",
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -1836,7 +1838,7 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_services.go",
-      "blob": "339a6fe2134ac50ec3eaa3ddeff80c3f98872582",
+      "blob": "ef0a44448d402f185148dd7606c9c06510764a1e",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Authored native audit envelope, pre-enqueue identity, shared storage/fanout routing and restored native read callers with explicit shadow process policy. Exact scope: 888 unit/race and 132 secrets integration/race outcomes; zero Go/TypeScript lint issues; 14 producer/real-cache and 39 consumer/launcher outcomes. Canonical image passed 16 gates plus real native list/get audit persistence, encrypted-metadata redaction and anonymous denial. Excludes durable issuance outbox, live ClickHouse/external sinks, complete secrets/audit authorship or parity. Current device API integration: Complete file read. Dedicated device credential mode, opt-in route admission and same-primary-transaction actor hydration integrate existing session authority. Browser and workload validators remain distinct. Disabled-by-default rollout gate; public TypeScript/metadata/MCP/CLI flow is still unfinished. Canonical image verification pending. Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate. NativeLimiterEnabled keeps the self-hosted Go limiter disabled; public Vaultix budgets stay on TypeScript.",
@@ -1851,7 +1853,8 @@
         "docs/0066-native-reference-reads.md",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
         "Moves logout to the Go session owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -2670,7 +2673,7 @@
     },
     {
       "path": "scripts/build-self-hosted.mjs",
-      "blob": "0bd316f16c945f2a68b33b0d56c35ea11b5fc6ec",
+      "blob": "d5061953edf59710be4e2886d2985b2cc37bcbeb",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete canonical build/acceptance orchestration; insert offline action-contract and existing-reference compatibility gates before image construction. Existing image gates unchanged; current candidate image acceptance remains pending.",
@@ -2681,7 +2684,8 @@
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
-        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access."
+        "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -6500,7 +6504,7 @@
     },
     {
       "path": "core/backend/src/server/routes/index.ts",
-      "blob": "5e67b8f9ec1c5e7c179b408c5b239f5174e67957",
+      "blob": "8f9434ef753c5e0e2a40ceef3b9e60e93f9edb52",
       "status": "authored",
       "decision": "modify",
       "scope": "Scoped device worker lifecycle authorship: actual source/recipient cancellation, whole preparation/dispatch operation contexts, two bounded execution slots, standard/all profile registration, real shutdown drain and retained safe SMTP dispositions. All 111 integration scenarios, three negative controls, full backend types and changed-file lint passed. Canonical image passed all 16 gates, 111 integration scenarios, six actual worker/profile/shutdown/restart checks, 16 destination compatibility scenarios and four native audit checks. Authorized repair, request provenance, public device/API/approval/CLI flow and live federation remain open. CLOUD-01-INVITE-ONLY: read/authored this scoped invite-only boundary change. Closed signup reserves organization creation for instance administrators, unconfigured mail stays out of logs outside development, telemetry is opt-in and the status flag is corrected. No public enrollment, CLOUD-01 acceptance, native identity migration or whole-file authorship claim. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim. Go dispatch waits for the sidecar and skips the TypeScript reference audit.",
@@ -6518,7 +6522,8 @@
         "2026-11-10: changed by the provider import change (review, approve and import for Doppler and Infisical or Vaultix instances). The changed sections were authored; the whole file was not re-read.",
         "2026-11-10: changed for the pre-release setup code, the /api/vx/v1 route move, and the pre-release and namespace documents. The changed sections were authored; the whole file was not re-read.",
         "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -6697,7 +6702,7 @@
     },
     {
       "path": "core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx",
-      "blob": "398f64604f6175d210891a9638ab764d3dc9e663",
+      "blob": "5b025e78f152928bf270422a5294b490c4b99e77",
       "status": "authored",
       "decision": "modify",
       "scope": "Full module read; scope limited to toolbar Clyffy launcher, update entry, mobile wrapping and owned release destination. Existing navigation, billing and account workflows retained; not whole-navbar authorship or accessibility acceptance. CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -6707,7 +6712,8 @@
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -6793,13 +6799,14 @@
     },
     {
       "path": "core/frontend/src/components/vaultix/ClyffyWorkspace.tsx",
-      "blob": "1c979e901c5cd579822b92e13e2f84d01e773fb9",
+      "blob": "0e71ef42e697f5128f69395dfcb49bf88df515fe",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed module read/authored for scoped owned release discovery or authenticated Clyffy reference workspace. Preserve authorization, metadata-only AI and existing workflows. Canonical image acceptance pending; not full product parity or embedded MCP Apps support.",
       "evidence": [
         "docs/releases-and-updates.md",
-        "scripts/test-updates-clyffy-workflow.mjs"
+        "scripts/test-updates-clyffy-workflow.mjs",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -10503,7 +10510,7 @@
     },
     {
       "path": "core/frontend/src/layouts/AdminLayout/AdminSidebar.tsx",
-      "blob": "4cb2b74fe000c67053603966319ad89e19453394",
+      "blob": "a0a5da0093df6c7abc5d127ae0c9df91a80cef0d",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -10511,7 +10518,8 @@
         "docs/0112-early-access-requests.md",
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
-        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content."
+        "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -10591,7 +10599,7 @@
     },
     {
       "path": "core/frontend/src/routes.ts",
-      "blob": "7822713748af6de66cf6eea167136f99bf5e8048",
+      "blob": "9f5cbc52a8e3cd117a0371d4bf665d3007c56fb5",
       "status": "authored",
       "decision": "modify",
       "scope": "CLOUD-01-EARLY-ACCESS: read/authored this scoped early-access request change. The landing form is off by default, requests are reviewed by instance administrators, an invite creates the organization and records the decision in one transaction, and the invitation link is returned only when mail cannot deliver it. No public enrollment, CLOUD-01 acceptance, native domain migration or whole-file authorship claim.",
@@ -10600,7 +10608,8 @@
         "scripts/test-early-access.mjs",
         "scripts/test-early-access-migration.mjs",
         "Record moved to this content while integrating PRs 24, 28, 29 and 30 on 2026-11-09 at the owner's direction. This content was not re-read for the move; the earlier evidence describes the earlier content.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {
@@ -10747,7 +10756,7 @@
     },
     {
       "path": "core/backend-go/internal/server/api/platform_routes.go",
-      "blob": "fe9c9d5496bcbce43f42811e63e5246864aed6db",
+      "blob": "0e9d348878dd0de71022a1efa402c1c858afc58c",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete file read/authoring for the native device HTTP protocol and explicit Vaultix capability register. Native grant/session authority is retained; no new account store or full public CLI claim. HTTP inputs, browser origin/actor admission, durable cache limiting, protocol errors and disabled rollout are reviewed. Current browser UI, external ingress, default CLI, MCP device consumers and live providers remain unaccepted. Existing scope evidence is historical, not proof of this changed candidate.",
@@ -10756,7 +10765,8 @@
         "core/backend-go/tests/platform/auth/device_http_test.go",
         "scripts/test-device-http.mjs",
         "Wires user session listing and revocation to the Go owner behind VAULTIX_SESSION_DISPATCH. Read in full. scripts/test-user-sessions.mjs compares both routes against a real store.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant providers, personas, routing, signal fabric and chat; panel MCP refuses value actions."
       ]
     },
     {

@@ -3,19 +3,24 @@ package api
 import (
 	"context"
 	"fmt"
+	"log/slog"
+	"net/http"
+	"strings"
 	"time"
 
+	assistanthttp "github.com/vaultix-cloud/api/internal/server/api/assistant"
 	"github.com/vaultix-cloud/api/internal/server/api/platform/deviceauth"
 	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/assistant"
 	"github.com/vaultix-cloud/api/internal/services/assumeprivilege"
 	"github.com/vaultix-cloud/api/internal/services/auditlog"
 	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
 	"github.com/vaultix-cloud/api/internal/services/auth/device"
 	"github.com/vaultix-cloud/api/internal/services/auth/session"
-	"github.com/vaultix-cloud/api/internal/shippin/services/externalkms"
 	"github.com/vaultix-cloud/api/internal/services/kms"
 	"github.com/vaultix-cloud/api/internal/services/permission"
 	"github.com/vaultix-cloud/api/internal/services/project"
+	"github.com/vaultix-cloud/api/internal/shippin/services/externalkms"
 	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
 )
 
@@ -30,6 +35,7 @@ type PlatformServices struct {
 	AuditLog            *auditlog.Service
 	AssumePrivilege     *assumeprivilege.Service
 	RateLimit           *ratelimit.Service
+	Assistant           *assistanthttp.Handler
 }
 
 func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, error) {
@@ -143,8 +149,26 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	auditLogQueueHandler.Register(infra.Queue)
 
 	rateLimitSvc := ratelimit.NewService(ctx, infra.Logger, &ratelimit.Deps{
-		Redis:      infra.Redis,
-		IsEnabled:  ratelimit.NativeLimiterEnabled(infra.Config.IsCloud, infra.Config.IsProductionMode),
+		Redis:     infra.Redis,
+		IsEnabled: ratelimit.NativeLimiterEnabled(infra.Config.IsCloud, infra.Config.IsProductionMode),
+	})
+
+	defaultPersonas, err := assistant.LoadDefaultPersonas(infra.Config.AIDir)
+	if err != nil {
+		// The rest of the service still runs; the assistant answers that no persona is on.
+		infra.Logger.Error("assistant personas could not be loaded", slog.String("dir", infra.Config.AIDir), slog.String("error", err.Error()))
+	}
+	assistantHandler := assistanthttp.NewHandler(&assistanthttp.Deps{
+		Personas: assistant.NewPersonas(ctx, infra.Logger, &assistant.PersonasDeps{DB: infra.DB, Defaults: defaultPersonas}),
+		Providers: assistant.NewStore(ctx, infra.Logger, &assistant.StoreDeps{
+			DB:     infra.DB,
+			Cipher: func() (assistant.Cipher, error) { return kmsSvc.RootCipher() },
+		}),
+		Agent: assistant.NewAgent(infra.Logger, &assistant.MCPClient{
+			BaseURL: strings.TrimRight(infra.Config.CoreURL, "/"),
+			Client:  &http.Client{Timeout: 30 * time.Second},
+		}),
+		Errors: shared.NewErrorHandler(infra.Logger),
 	})
 
 	svc := &PlatformServices{
@@ -157,6 +181,7 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		AuditLog:            auditLogSvc,
 		AssumePrivilege:     assumePrivilegeSvc,
 		RateLimit:           rateLimitSvc,
+		Assistant:           assistantHandler,
 	}
 
 	return svc, nil

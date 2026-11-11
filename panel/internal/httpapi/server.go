@@ -469,17 +469,20 @@ func (s *Server) redeemInject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	handle := r.PathValue("handle")
+	// The handle is the only credential here, so record who presented it. Binding
+	// the handle to a workload identity is the native redeem (docs/0124).
+	holder := "inject-handle@" + r.RemoteAddr
 	out, err := s.Vault.ConsumeInject(r.Context(), handle)
 	if err != nil {
 		code := http.StatusNotFound
 		if errors.Is(err, vault.ErrExpired) || errors.Is(err, vault.ErrConsumed) {
 			code = http.StatusGone
 		}
-		s.Audit.Record("", "secret.redeem", handle[:min(8, len(handle))], false, errText(err))
+		s.Audit.Record(holder, "secret.redeem", handle[:min(8, len(handle))], false, errText(err))
 		fail(w, code, err.Error())
 		return
 	}
-	s.Audit.Record("", "secret.redeem", out.BoxID+"/"+out.Env+"/"+out.Name, true, "consumed")
+	s.Audit.Record(holder, "secret.redeem", out.BoxID+"/"+out.Env+"/"+out.Name, true, "consumed")
 	writeJSON(w, http.StatusOK, out)
 }
 

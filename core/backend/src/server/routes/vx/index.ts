@@ -1,5 +1,6 @@
 import { registerProviderImportRouter } from "../v3/external-migration-router";
 import type { TVaultixReferenceOptions } from "../vaultix-shared";
+import { registerAssistantRouter } from "./assistant-router";
 import { registerWarpPointRouter } from "./warp-point-router";
 
 // The Vaultix API, /api/vx/v1/<domain>/…, grouped by the canonical interaction domains (docs/0119,
@@ -7,5 +8,6 @@ import { registerWarpPointRouter } from "./warp-point-router";
 // every domain's MCP warp point is /api/vx/v1/<domain>/mcp.
 export const registerVxRoutes = async (server: FastifyZodProvider, options: { vaultix: TVaultixReferenceOptions }) => {
   await server.register(registerProviderImportRouter, { prefix: "/connect/imports" });
+  await server.register(registerAssistantRouter, { prefix: "/ai" });
   await server.register(registerWarpPointRouter, options.vaultix);
 };

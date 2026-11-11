@@ -3994,7 +3994,9 @@ export const registerRoutes = async (
         DB_CONNECTION_URI: envConfig.DB_CONNECTION_URI,
         REDIS_URL: envConfig.REDIS_URL || "",
         ENCRYPTION_KEY: envConfig.ENCRYPTION_KEY || "",
-        AUTH_SECRET: envConfig.AUTH_SECRET || ""
+        AUTH_SECRET: envConfig.AUTH_SECRET || "",
+        // The assistant calls this instance's own MCP tools over loopback (docs/0123).
+        VAULTIX_CORE_URL: `http://127.0.0.1:${envConfig.PORT}`
       }
     });
   }

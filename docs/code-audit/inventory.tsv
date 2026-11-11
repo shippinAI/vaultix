@@ -90,13 +90,18 @@ core/CODE_OF_CONDUCT.md	7a773d6d0f115fbfd47b4240e72861e321802dc2	documentation	u
 core/CONTRIBUTING.md	0c2fc30187752dde7d94e4ae1baa0aaabf42f6b7	documentation	unread
 core/DESIGN.md	4449f1abb499082344d09afa37e27f8974f24685	documentation	reviewed
 core/Dockerfile.ghcr	816f39991163321588f4dfb05efd55ac4c3da840	build-and-operations	reviewed
-core/Dockerfile.standalone-vaultix	841ef98051c0659ad7c5f7fcb1ea281e83315ad9	build-and-operations	reviewed
+core/Dockerfile.standalone-vaultix	dff02dbeafc5b29cb8e6aee1303d862cb4fde615	build-and-operations	reviewed
 core/Makefile	8883f0a6ec0960388ed87115468c0ab315051c29	product-code	unread
 core/PIN	17f95aab1bf33bd56ee24308b78a97652fc555b2	product-code	unread
 core/README.md	f5b6a8d06c55ddaca45309cef767a52a3881a345	documentation	unread
 core/SECURITY.md	2dd962dcda0380142c16bce8c8ee4bb878e48362	documentation	unread
 core/ai/README.md	dbdea701ebd02a104631b1a16870746a04e0343e	documentation	unread
 core/ai/clyffy/SKILL.md	8317349421da2c98bfaac5b80ad1389d55712ace	documentation	unread
+core/ai/personas/access/PERSONA.md	a2d2362f9e048c16a256fddc22fe92fced9be0c1	documentation	unread
+core/ai/personas/clyffy/PERSONA.md	0a65c3a140a9cd5560ef82a1272882752ebd4f6d	documentation	unread
+core/ai/personas/operate/PERSONA.md	bcb56449d754a5c0983c1741a2f5474689eb279d	documentation	unread
+core/ai/personas/secrets/PERSONA.md	1cdc99aade3cf78fe5707e8368274af1e86f8d26	documentation	unread
+core/ai/personas/security/PERSONA.md	2c87b9b31d2448e46a977259170449901027a6b6	documentation	unread
 core/backend-go/.air.toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	product-code	unread
 core/backend-go/.gitignore	1953d2dbc5719468dea12b55ecf8d559dc11dde5	product-code	unread
 core/backend-go/.golangci.yml	4a07a37f352f4797fef0136502632830e8086bd6	build-and-operations	unread
@@ -110,7 +115,7 @@ core/backend-go/docker-compose.test.yml	c911ead89183eddc44df2d1660e6e7edcff71d14
 core/backend-go/docker-test/Dockerfile	d54fa479d1b6a22d868a01742be9e3210c96cc47	build-and-operations	authored
 core/backend-go/go.mod	2041d716d9ae8dd417e478b23ca0f6191483fd0e	product-code	authored
 core/backend-go/go.sum	5c5aad3b544c0a846b55e573728e12531a62e5b6	dependency-lock	unread
-core/backend-go/internal/config/config.go	96bfd8ee711102ce6d7c7789f638b7b23f0d1336	product-code	reviewed
+core/backend-go/internal/config/config.go	bbe5da797cba4b1170211da60b3652b94b9c061c	product-code	reviewed
 core/backend-go/internal/config/device_access_policy.go	c5b2c2422089866befbb2e29ac30e7bcfec35986	product-code	reviewed
 core/backend-go/internal/config/device_access_policy_test.go	a692ff72bc5bf0128c98fac32b11429a3beef4c4	test	reviewed
 core/backend-go/internal/config/identity_policy.go	5fe1feaefc1acb984d393637bb7e86f65a63b15b	product-code	verified
@@ -154,6 +159,8 @@ core/backend-go/internal/queue/enqueue_test.go	28332a94cc3307072ef49800181fc423a
 core/backend-go/internal/queue/queue.go	69c014c64aa668ac1a08140b09b6bc905d9aa06c	product-code	authored
 core/backend-go/internal/queue/tasks.go	c0ddc230abd3d79e6c592f7868e5848ae0ecd9a2	product-code	unread
 core/backend-go/internal/server/api/api.go	7238c8a3ea6455b1b4de33da5f834681f14d335b	product-code	unread
+core/backend-go/internal/server/api/assistant/handler.go	6bf63521e5863f302464119797b1feb1d6de2b78	product-code	unread
+core/backend-go/internal/server/api/assistant/handler_test.go	7cbc200d0afab961a1d6a52e633d527e28a2152f	test	unread
 core/backend-go/internal/server/api/platform/deviceauth/handler.go	ca2c606020a806a2e8f9d558f0577f00451f6802	product-code	authored
 core/backend-go/internal/server/api/platform/deviceauth/handler_test.go	4c70a3c3ccc91ebee579a292848c640560d36356	test	authored
 core/backend-go/internal/server/api/platform/deviceauth/limiter.go	57c6e25e16f23187d6653a8e8e8e6bd0621064e7	product-code	authored
@@ -163,8 +170,8 @@ core/backend-go/internal/server/api/platform/projects/handler.go	3adaf3f4f717568
 core/backend-go/internal/server/api/platform/projects/openapi.yml	b53a4afdec2c6b494366455739c677446fd62c28	build-and-operations	verified
 core/backend-go/internal/server/api/platform/usersessions/handler.go	3dfd3d192d10caf261da6abde4677e3d3ffda222	product-code	unread
 core/backend-go/internal/server/api/platform/usersessions/handler_test.go	28bc242fa88161ae6f30e4f1482ca4125c9677ef	test	unread
-core/backend-go/internal/server/api/platform_routes.go	fe9c9d5496bcbce43f42811e63e5246864aed6db	product-code	authored
-core/backend-go/internal/server/api/platform_services.go	339a6fe2134ac50ec3eaa3ddeff80c3f98872582	product-code	reviewed
+core/backend-go/internal/server/api/platform_routes.go	0e9d348878dd0de71022a1efa402c1c858afc58c	product-code	authored
+core/backend-go/internal/server/api/platform_services.go	ef0a44448d402f185148dd7606c9c06510764a1e	product-code	reviewed
 core/backend-go/internal/server/api/secretmanager/secret/cfg.yaml	bd84487eb82b19de03d4b30417064e4505d18c3e	build-and-operations	unread
 core/backend-go/internal/server/api/secretmanager/secret/gen.go	5e6aa8d53fbe98354b8a74d08b59f12076873502	product-code	unread
 core/backend-go/internal/server/api/secretmanager/secret/get_secret_by_name.go	0006dfe1b2f6b4a528197b39af90cb74705012f4	product-code	authored
@@ -191,6 +198,12 @@ core/backend-go/internal/server/middlewares/security.go	ce0b314be11f918640726ca0
 core/backend-go/internal/server/middlewares/timeout.go	1f03ed7bb83c6a94f85d981bc6f95c165fc8381c	product-code	unread
 core/backend-go/internal/server/middlewares/timeout_test.go	be84cf43d05a3531cabfa612f8804a69182432ba	test	unread
 core/backend-go/internal/server/server.go	4fb3b70b336a5fa31c157262844ec9e246aa2ad4	product-code	unread
+core/backend-go/internal/services/assistant/agent.go	5356e8cb37a960e8ac7d09a6a9e549f6e8d6f289	product-code	unread
+core/backend-go/internal/services/assistant/agent_test.go	daa66feecd0e1264a4fc43500d64eb27c9b0c164	test	unread
+core/backend-go/internal/services/assistant/model.go	d6a2ca4aada1e9e1d4275273c16b0b18053853e4	product-code	unread
+core/backend-go/internal/services/assistant/model_test.go	fbe3706f65818ed7e13348db7fd8cd037cda5e35	test	unread
+core/backend-go/internal/services/assistant/persona.go	f3d0fc2bee1cd7de2f8e22833b37436d7528bab6	product-code	unread
+core/backend-go/internal/services/assistant/provider.go	f8d60de9ac58818deeab1ecafa5676326a8200e5	product-code	unread
 core/backend-go/internal/services/assumeprivilege/claim_boundary_test.go	8c9dbbb09b17ea2e7462a5ca5a7a6d6fe46ff8bb	test	verified
 core/backend-go/internal/services/assumeprivilege/service.go	170f0b005d41250b28e16274ddf8e36bb487c2d9	product-code	verified
 core/backend-go/internal/services/assumeprivilege/service_test.go	ebf4af0a7bf565178eab089e5da8b49f94b4618f	test	authored
@@ -250,7 +263,7 @@ core/backend-go/internal/services/auth/nomen/totp_test.go	069db5665782a5e010eabd
 core/backend-go/internal/services/auth/session/service.go	94fc7b2f1db8b726dc53e0fd9d3422ff3cd41880	product-code	unread
 core/backend-go/internal/services/kms/authentication_factor.go	58455f956b8edfd76efdc396f27430f901594d42	product-code	verified
 core/backend-go/internal/services/kms/authentication_factor_test.go	ee0e497d94732ffdfb54a6680cc93c5a5f6ac354	test	verified
-core/backend-go/internal/services/kms/kms.go	c7829ca7ac4c923518721e5afac78d6d725219f7	product-code	unread
+core/backend-go/internal/services/kms/kms.go	ace5a7dea6c553d4bb79bb954067e43e143e58e3	product-code	unread
 core/backend-go/internal/services/kms/kms_org.go	33f369d395b453d62e65abd595a3118f0c27d2fe	product-code	unread
 core/backend-go/internal/services/kms/kms_project.go	1dd69ff327f63660b910bc930dd5d935e84b400e	product-code	unread
 core/backend-go/internal/services/permission/array_operators_test.go	8619b17bdf873306622ae817e4bcecad6b34e067	test	authored
@@ -1024,6 +1037,7 @@ core/backend/src/db/migrations/20261031190000_vaultix-device-event-context.ts	1f
 core/backend/src/db/migrations/20261031200000_vaultix-device-event-delivery.ts	000cc37c76c7627a26f5e599a486a6bf8f11652a	product-code	authored
 core/backend/src/db/migrations/20261102120000_vaultix-early-access-requests.ts	b8061dee8ab4e081018e9fac4eb1041ad525da49	product-code	authored
 core/backend/src/db/migrations/20261110120000_vx-table-namespaces.ts	610751a0e59f7321dfdffe6111550fa1ed150f3c	product-code	unread
+core/backend/src/db/migrations/20261111120000_vx-ai-providers.ts	e912326fb117ab6ac4c6e00bc0525ff02ad2b3a1	product-code	unread
 core/backend/src/db/migrations/utils/dropConstraintIfExists.ts	93985ca767129782226d4b0620ac084132e5a21e	product-code	unread
 core/backend/src/db/migrations/utils/env-config.ts	025c55a8d24817f3f9e22a7f15004e91ff3d7aef	product-code	unread
 core/backend/src/db/migrations/utils/ring-buffer.ts	8e5c5866218fc533b2cff6de743e3237bc486b29	product-code	unread
@@ -1545,7 +1559,7 @@ core/backend/src/server/plugins/swagger.ts	bac29bd238b1bddf04d492134cfc3a97801c2
 core/backend/src/server/routes/bdd/bdd-nock-router.dev.ts	c5f6001f5586916623884563c6b5eaafdf65ae17	product-code	unread
 core/backend/src/server/routes/bdd/bdd-nock-router.ts	90f2ed00c62b0b74ac9f7f6f4d6834a5001e2ad3	product-code	unread
 core/backend/src/server/routes/early-access-router.ts	f4c9626832568cba727d1e04882905b02160c62f	product-code	authored
-core/backend/src/server/routes/index.ts	5e67b8f9ec1c5e7c179b408c5b239f5174e67957	product-code	authored
+core/backend/src/server/routes/index.ts	8f9434ef753c5e0e2a40ceef3b9e60e93f9edb52	product-code	authored
 core/backend/src/server/routes/mfa-step-up-fns.ts	bbb188347747e61f33ec65724ef655e57f8707d9	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/directory-config.ts	61be4d9cf681e33683e8cc29df9ae3ba20c7fe5c	product-code	unread
 core/backend/src/server/routes/sanitizedSchema/identitiy-additional-privilege.ts	0feb1ba55c197387eb6926e023b5ce807979ce8c	product-code	unread
@@ -1875,7 +1889,8 @@ core/backend/src/server/routes/vaultix-router.test.ts	254c25a5c96d70bb5f95a4c9a6
 core/backend/src/server/routes/vaultix-router.ts	4abc7e9efece3e8c1bf4541f1cac1d27f00beaa3	product-code	authored
 core/backend/src/server/routes/vaultix-shared.ts	c7444b3efd8cff88ed27327659ad0a23dac612bc	product-code	unread
 core/backend/src/server/routes/vaultix-updates-router.test.ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	test	authored
-core/backend/src/server/routes/vx/index.ts	84e40dd42ee7377f51d6dcf39bd5618d0b4b5c49	product-code	unread
+core/backend/src/server/routes/vx/assistant-router.ts	884e58294fa3978f3c258508603c9e195a57d094	product-code	unread
+core/backend/src/server/routes/vx/index.ts	3733b7f878f905bc2f3bd407f61dcc563cfe1c93	product-code	unread
 core/backend/src/server/routes/vx/warp-point-router.test.ts	ce9c5c6a7f30920fa28360f83458c933beeedc16	test	unread
 core/backend/src/server/routes/vx/warp-point-router.ts	5b8dc905408668b3aafaf51d03d4455eb61c3158	product-code	unread
 core/backend/src/services/access-token-queue/access-token-queue.ts	bb1fefef60093c8a23fc03ffa46b1592cb59ca1a	product-code	unread
@@ -7801,8 +7816,9 @@ core/frontend/src/components/v3/platform/VerificationCode/index.ts	59a9177c11f38
 core/frontend/src/components/v3/platform/VerificationCode/useClientResendDelay.ts	7dc383afd83ec0728beaa65f348c4e55d36532db	product-code	unread
 core/frontend/src/components/v3/platform/index.ts	4b3f876dc93a3aa083723106718a50cf4e119e9b	product-code	unread
 core/frontend/src/components/v3/utils/index.ts	365058cebd7d2bdb327ca1c081b16e4937e11050	product-code	unread
+core/frontend/src/components/vaultix/AssistantChat.tsx	f8fdc35fea46efa563a0ec0fe6fb888e01f1ebfa	product-code	unread
 core/frontend/src/components/vaultix/ClyffyLauncher.tsx	76fb2c2273f1be48093bc1525e9624a60ab6a8d3	product-code	authored
-core/frontend/src/components/vaultix/ClyffyWorkspace.tsx	1c979e901c5cd579822b92e13e2f84d01e773fb9	product-code	authored
+core/frontend/src/components/vaultix/ClyffyWorkspace.tsx	0e71ef42e697f5128f69395dfcb49bf88df515fe	product-code	authored
 core/frontend/src/components/vaultix/GuidedHelp.tsx	7713be99a2fa7ef83231c5ce828f4f0b65b5fcc7	product-code	authored
 core/frontend/src/components/vaultix/GuidedHelpView.tsx	621bdfb0c4d6c5e635792adc191d21636379e483	product-code	authored
 core/frontend/src/components/vaultix/LearningSignals.tsx	c96413823868c64849a7919a8807b9c91d69a4b9	product-code	authored
@@ -7823,6 +7839,7 @@ core/frontend/src/components/vaultix/guidance-state.ts	c414fea8fac7297c3222426d1
 core/frontend/src/components/vaultix/mcpl-manifest.ts	34e823e765d785ffa018eda743775cd5a6ab2459	product-code	unread
 core/frontend/src/components/vaultix/reference-commands.ts	22eb18884cd649fa0206ae55ba684ee764d50304	product-code	reviewed
 core/frontend/src/components/vaultix/reference-teaching.css	ecba2e63cc8074be6811fc42b34c633e7bc45c8a	product-code	reviewed
+core/frontend/src/components/vaultix/signal-fabric.ts	429a3abbaa6537e93ddbed69fd685466b40cc806	product-code	unread
 core/frontend/src/components/vaultix/use-provider-import-runtime.ts	7ab379cf5c375609e3a9094e71ab8d1fc76115a6	product-code	unread
 core/frontend/src/config/env.ts	ecfaa46e4e4c0f4af13f8ee1e3354025414f5cba	product-code	unread
 core/frontend/src/config/request.ts	d92f49340e71d66bc8f931683646bdc6a3d25a46	product-code	reviewed
@@ -8178,6 +8195,9 @@ core/frontend/src/hooks/api/approvalRequests/index.tsx	eb788a4ec5ddf9db45593005a
 core/frontend/src/hooks/api/approvalRequests/mutations.tsx	e4c73c91f5bf58f8323194352ce2c68b7bbffe1c	product-code	unread
 core/frontend/src/hooks/api/approvalRequests/queries.tsx	7b4290af7ae34438fc13d8119204042e76ac0ee4	product-code	unread
 core/frontend/src/hooks/api/approvalRequests/types.ts	d62987afcbb9f89f7534bf3123803948484f51d8	product-code	unread
+core/frontend/src/hooks/api/assistant/index.ts	2c1906d3698e4639f57e8b42bbe3338b2e186eb2	product-code	unread
+core/frontend/src/hooks/api/assistant/queries.ts	14911b29e98bd5cea0c256c163dbfe8d01c9ba62	product-code	unread
+core/frontend/src/hooks/api/assistant/types.ts	4d6cc7d82868858bb204167c74893a3919418a08	product-code	unread
 core/frontend/src/hooks/api/assumePrivileges/index.tsx	ab4b122c5b70944e663182b274e9b1958ad95ab6	product-code	unread
 core/frontend/src/hooks/api/assumePrivileges/mutations.tsx	20bd329b720670685cc988ff558dcbda5c0c0df9	product-code	verified
 core/frontend/src/hooks/api/assumePrivileges/types.ts	07e14d5180c906a73b33a6678c9c63048e2003b1	product-code	unread
@@ -8731,7 +8751,7 @@ core/frontend/src/hooks/utils/secrets-overview.tsx	246b0a0dd13c66243f686cb29a27a
 core/frontend/src/index.css	03ccaf7b46d5fa859534ba7f8707fa7b37af594e	product-code	authored
 core/frontend/src/layouts/AdminLayout/AdminLayout.tsx	d3f1872b589a607ebfab4c8a184fd556e0908e92	product-code	unread
 core/frontend/src/layouts/AdminLayout/AdminNavBar.tsx	bc44f45b5fdd73d8433697259ad6d947132db386	product-code	authored
-core/frontend/src/layouts/AdminLayout/AdminSidebar.tsx	4cb2b74fe000c67053603966319ad89e19453394	product-code	authored
+core/frontend/src/layouts/AdminLayout/AdminSidebar.tsx	a0a5da0093df6c7abc5d127ae0c9df91a80cef0d	product-code	authored
 core/frontend/src/layouts/AdminLayout/SignupDisabledBanner/SignupDisabledBanner.tsx	0b042b1bbb99bfa6c5171ce1bc84cb5928a1f613	product-code	unread
 core/frontend/src/layouts/AdminLayout/SignupDisabledBanner/index.ts	e7132e6860c3f7329fad9f1aeb2aa37dd0070721	product-code	unread
 core/frontend/src/layouts/AdminLayout/index.tsx	1a136d62f9564326c197a5620660f6226b525b8c	product-code	unread
@@ -8744,7 +8764,7 @@ core/frontend/src/layouts/OrganizationLayout/components/InsecureConnectionBanner
 core/frontend/src/layouts/OrganizationLayout/components/InsecureConnectionBanner/index.tsx	a09b3576431c7e07fd829f70f92586657dc284d1	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/MenuIconButton.tsx	515b7f4ea8141622266e67f2f5e2be5d2fc61a90	product-code	authored
 core/frontend/src/layouts/OrganizationLayout/components/MenuIconButton/index.tsx	6655c70912afa9312d8a21f2c5b63f0e42f2f66f	product-code	unread
-core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	398f64604f6175d210891a9638ab764d3dc9e663	product-code	authored
+core/frontend/src/layouts/OrganizationLayout/components/NavBar/Navbar.tsx	5b025e78f152928bf270422a5294b490c4b99e77	product-code	authored
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/Notification.tsx	ef7f2b65ca45f1a926b98a5f318824f9cc1eb15a	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/NotificationDropdown.tsx	77c1fe1794b7f3a99fb5600afa02e1d112915b32	product-code	unread
 core/frontend/src/layouts/OrganizationLayout/components/NavBar/VersionBadge.tsx	b067fdfdbbef130b449f65d0b3eebefb33d9e266	product-code	authored
@@ -8824,6 +8844,12 @@ core/frontend/src/pages/MfaSessionPage/route.tsx	a66b02443e5221d577abf3105c9a68d
 core/frontend/src/pages/VaultixConnections.tsx	db7767af8f280c6876138800916baa6a087a30c3	product-code	verified
 core/frontend/src/pages/VaultixHome.tsx	9083db027a6348d1769b23fdc5f2f57f0fc6558d	product-code	reviewed
 core/frontend/src/pages/VaultixReferences.tsx	a7de0655179f7eadce8db6b13d4001df81a0c2c4	product-code	reviewed
+core/frontend/src/pages/admin/AIAssistantPage/AIAssistantPage.tsx	805c7c611b21ed0361bc143ce079e1782a45f10a	product-code	unread
+core/frontend/src/pages/admin/AIAssistantPage/components/PersonaDialog.tsx	724855415be72e63bb39b5bb0360e49e085edcea	product-code	unread
+core/frontend/src/pages/admin/AIAssistantPage/components/PersonasSection.tsx	4f83cdcdd86c0dbf345d22489d9a2ad2994c3202	product-code	unread
+core/frontend/src/pages/admin/AIAssistantPage/components/ProviderDialog.tsx	b2014828dabf9c4a01c8d1fab31dffe3800246cc	product-code	unread
+core/frontend/src/pages/admin/AIAssistantPage/components/ProvidersSection.tsx	682e85861e4517d9003b2b0269d965a63ded205f	product-code	unread
+core/frontend/src/pages/admin/AIAssistantPage/route.tsx	e59391168193cfa2fd546d0ca7fbbf10144e75d3	product-code	unread
 core/frontend/src/pages/admin/AccessManagementPage/AccessManagementPage.tsx	be28cbe724ba46aac4a7d0b30872fd054d9369e5	product-code	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/AddServerAdminModal.tsx	a066f0e7412c31745aaded3efef6361ac9dd21dc	product-code	unread
 core/frontend/src/pages/admin/AccessManagementPage/components/ServerAdminsTable.tsx	c8d9fe1829278e702db2e00ea5965bb8e200a29e	product-code	unread
@@ -10824,8 +10850,8 @@ core/frontend/src/pages/user/PersonalSettingsPage/components/UserNameSection/ind
 core/frontend/src/pages/user/PersonalSettingsPage/route.tsx	b4316901e97ee91ee11673890f9193388549a08e	product-code	unread
 core/frontend/src/pages/user/layout.tsx	df4adc790cdc9442782147ab1908d77235189258	product-code	unread
 core/frontend/src/pages/vaultix-home/VaultixWorkspaceCards.tsx	7a5b9211f10100999503f5266f87ce4423c033e3	product-code	reviewed
-core/frontend/src/routeTree.gen.ts	17c3fe85ff90d72b507aba0df35512fdc3cf0442	generated	unread
-core/frontend/src/routes.ts	7822713748af6de66cf6eea167136f99bf5e8048	product-code	authored
+core/frontend/src/routeTree.gen.ts	df1165329aeb9c10e7f2a5698540b269f065dde7	generated	unread
+core/frontend/src/routes.ts	9f5cbc52a8e3cd117a0371d4bf665d3007c56fb5	product-code	authored
 core/frontend/src/theme.css	860f0ed3397628358b1fe857675ea98789c78e9f	product-code	authored
 core/frontend/src/translation.tsx	58d71d3831e57a85ed192cdc71315f2efa560610	product-code	unread
 core/frontend/src/types/index.ts	ce14b6acdd179677c3397663050159b4148a5a2e	product-code	unread
@@ -11923,6 +11949,7 @@ docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentati
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
 docs/0122-completion-plan.md	d53b78ca4739c11f0a3d796cabb3c3eca5af4ca7	documentation	unread
 docs/0123-signal-fabric.md	314cf9ea630dfc0c8fdf3a25b153aa792572405f	documentation	unread
+docs/0124-ai-personas-and-machine-loops.md	989e42110c9503a9213be07683e0ba45765378f0	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11946,8 +11973,8 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	9d52b0df7b2d55682ae310f899ed867e8cd214ad	generated	unread
-docs/capabilities/generated/source-map.tsv	a5f06654f760b519e39e19db8f428e6e25ccbf05	generated	unread
+docs/capabilities/generated/catalog.json	9385d05ffa8aabe0fc6b2d7eaf91b93f8ce70231	generated	unread
+docs/capabilities/generated/source-map.tsv	556631ca576f3823c4abe9c617f1643fe884e40e	generated	unread
 docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -11959,9 +11986,9 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	9705d2c487a40a00759f8ca89b610574f39b91da	generated	unread
-docs/migration/generated/modules.tsv	ea8ef16a612554249a8d66e44aede4a5cc10eb40	generated	unread
-docs/migration/generated/summary.json	55e410f7f6dcdeb70f66044e89b38ff33baec9f0	generated	unread
+docs/migration/generated/files.tsv	80ec838695f75708c65a70f9cff64f5f616497ff	generated	unread
+docs/migration/generated/modules.tsv	d05a8d688b7166acebbb32fab7dfcf2062ca0b41	generated	unread
+docs/migration/generated/summary.json	a64f5ec365b62903068fc309a3f2db1bc293ef96	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
 docs/plan/naming.md	7e1d25b3b4806f01bab10485b53faf9d2892e4c8	documentation	unread
@@ -12069,7 +12096,7 @@ panel/internal/deploy/info_test.go	d67e101c145ebb1776dea35889ad2b0dd71a8f2d	test
 panel/internal/httpapi/manager_api.go	8e505d8e70ac22f1c499de79079563e984c413ba	product-code	unread
 panel/internal/httpapi/runtime_api.go	83c6cab975f2bf76114e84fa17813fd6d66f4a66	product-code	unread
 panel/internal/httpapi/runtime_api_test.go	3b63a6d380a14bd78cd97c110f1796fd1381ce0c	test	unread
-panel/internal/httpapi/server.go	f6ea8332ca9357ce13042500ea4b84cb73b29e73	product-code	unread
+panel/internal/httpapi/server.go	6ca908f3cef2a1b22398356c471ce4b61935e3a6	product-code	unread
 panel/internal/httpapi/server_test.go	64e24610d82603b91b46914fdc4a4be700dec5f8	test	unread
 panel/internal/httpapi/source_api.go	51ef9bfe83a1faeca7c95a4ea80e22d541c29805	product-code	unread
 panel/internal/httpapi/source_api_test.go	6f867a7a0da7d289c35dce9cd1f2f6d5df5c9f94	test	unread
@@ -12081,8 +12108,8 @@ panel/internal/instances/instances.go	cb4f082779b2345a828d692746370b00e86db90e	p
 panel/internal/instances/instances_test.go	a332e8a1b79f54e4cb778a27fd097fc2d1783e0b	test	unread
 panel/internal/manager/manager.go	2179f8f9fb19b51c7829198ce37b9505f4f39897	product-code	unread
 panel/internal/manager/manager_test.go	877b2908ce6fd4db85c3712768b39560b818f088	test	unread
-panel/internal/mcp/server.go	07ba72d2e963cd282e23f662d0fbea00f130858a	product-code	unread
-panel/internal/mcp/server_test.go	f8ac85aa95c0a520bc4029b6bbc8182efc7c79e5	test	unread
+panel/internal/mcp/server.go	a1a65edecae3e9a89103e23a9bb547763c07ad35	product-code	unread
+panel/internal/mcp/server_test.go	6d9a8932b28426182c6e853b006a4efa611f848a	test	unread
 panel/internal/nomen/verify.go	5d85e106e6d7a34f3a3582862fd7e2efaffd7bdd	product-code	unread
 panel/internal/nomen/verify_test.go	49c3ccb31ff60214f84618376c61ec9b91580e93	test	unread
 panel/internal/pinauth/pinauth.go	bf4582352944e2da8feb31283bf7a66559479b84	product-code	unread
@@ -12129,7 +12156,7 @@ scripts/ai-journal.test.mjs	091d95b9c26ee7de8ceccff9a74fb6d1cab6dcf1	test	review
 scripts/audit-codebase.mjs	ca636d78d12d3735f613209704194207e919466d	build-and-operations	verified
 scripts/backup.sh	0092b74619f940ad91e4a00a638deeeb780f5ae2	build-and-operations	unread
 scripts/build-cli.mjs	653033a13da81dc2be8a8966cf8c3773262d9dd7	build-and-operations	reviewed
-scripts/build-self-hosted.mjs	0bd316f16c945f2a68b33b0d56c35ea11b5fc6ec	build-and-operations	reviewed
+scripts/build-self-hosted.mjs	d5061953edf59710be4e2886d2985b2cc37bcbeb	build-and-operations	reviewed
 scripts/build-storybook.mjs	fad842232d7c2b450161da3a4cadf49eb9a630d8	build-and-operations	unread
 scripts/build-ui-report.mjs	0f3906b5fed289660cfefddf462444fc756d9598	build-and-operations	authored
 scripts/check-auth-authority.mjs	1de9724f1416f8f617093ba56db85c15a81b0d6c	build-and-operations	unread
@@ -12192,6 +12219,7 @@ scripts/sign-release.mjs	306c88e1d4b9c98c893f52791c8c8a6e5fb51a25	build-and-oper
 scripts/smoke-image.sh	d4af9bd9e34654fb334be2b45edc128b842d3fad	build-and-operations	verified
 scripts/test-api-request-errors.mjs	930660062217b4797619f36773c7ccca9dcadb4a	build-and-operations	verified
 scripts/test-app-entry.mjs	237e4a90cbc3a723138189c6b4de0db446c0659b	build-and-operations	unread
+scripts/test-assistant-image.mjs	b77da1162e0921de4e3f29e3f6354f9189f47021	build-and-operations	unread
 scripts/test-assumed-privilege-workflow.mjs	a75751b83e3a25055bb11d2d4f98507b4a5d0efa	build-and-operations	verified
 scripts/test-capability-explorer.mjs	3327ea1a2699a32d8c9fd4ad488a1107259318e4	build-and-operations	verified
 scripts/test-capability-map.mjs	4a6ea95546b08d6801b428a67753c1be6dea8cbd	build-and-operations	verified

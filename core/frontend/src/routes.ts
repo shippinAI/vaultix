@@ -13,6 +13,7 @@ const adminRoute = route("/admin", [
     route("/environment", "admin/EnvironmentPage/route.tsx"),
     route("/integrations", "admin/IntegrationsPage/route.tsx"),
     route("/mcpl", "admin/MCPLWorkbenchPage/route.tsx"),
+    route("/ai-assistant", "admin/AIAssistantPage/route.tsx"),
     route("/caching", "admin/CachingPage/route.tsx"),
     route("/resources/overview", "admin/ResourceOverviewPage/route.tsx"),
     route("/early-access", "admin/EarlyAccessPage/route.tsx"),

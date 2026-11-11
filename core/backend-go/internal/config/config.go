@@ -33,7 +33,12 @@ type Config struct {
 	DeviceAccessPolicy         DeviceAccessPolicy
 	DeviceAuthorizationEnabled bool
 	// Server
-	VaultixPlatformVersion                 string
+	VaultixPlatformVersion string
+	// CoreURL is this instance's own application over loopback. The assistant calls
+	// the instance's MCP tools there with the signed-in person's session.
+	CoreURL string
+	// AIDir holds the default assistant personas, <AIDir>/personas/<slug>/PERSONA.md.
+	AIDir                                  string
 	KubernetesAutoFetchServiceAccountToken bool
 	NodeEnv                                NodeEnv
 	Port                                   int
@@ -395,6 +400,8 @@ func LoadConfig() (*Config, error) {
 	l.
 		// Server
 		Optional(&cfg.VaultixPlatformVersion, "VAULTIX_PLATFORM_VERSION", "").
+		Optional(&cfg.CoreURL, "VAULTIX_CORE_URL", "http://127.0.0.1:8080").
+		Optional(&cfg.AIDir, "VAULTIX_AI_DIR", "ai").
 		OptionalBool(&cfg.KubernetesAutoFetchServiceAccountToken, "KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN", false).
 		OptionalInt(&cfg.Port, "PORT", 4040).
 		Optional(&cfg.Host, "HOST", "0.0.0.0").

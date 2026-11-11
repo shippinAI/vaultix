@@ -97,6 +97,26 @@ func Tools() []Tool {
 	}
 }
 
+// handsValues reports whether an action takes a secret value as input or hands
+// out something that unlocks one, such as an inject redeem handle. An AI client
+// never holds either (AGENTS.md: references, never values).
+func handsValues(actionID string) bool {
+	for _, action := range source.Manifest() {
+		if action.ID != actionID {
+			continue
+		}
+		if action.Capability == "vaultix.secret.inject" {
+			return true
+		}
+		for _, input := range action.Inputs {
+			if input.Secret {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func (s *Server) Handle(ctx context.Context, raw []byte) Response {
 	var req Request
 	if err := json.Unmarshal(raw, &req); err != nil {
@@ -190,6 +210,9 @@ func (s *Server) exec(ctx context.Context, name string, args map[string]any) (an
 			return nil, fmt.Errorf("vaultix engine not configured")
 		}
 		actionID, _ := args["actionId"].(string)
+		if handsValues(actionID) {
+			return nil, fmt.Errorf("%s takes or hands over a secret value, so it runs only in the Vaultix UI, never through an AI client", actionID)
+		}
 		actor := source.ActorClyffy
 		if a, _ := args["actor"].(string); a == string(source.ActorOperator) {
 			actor = source.ActorOperator

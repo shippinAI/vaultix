@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useMatchRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Bot,
   Building,
   ChevronLeft,
   ChevronRight,
@@ -12,9 +13,9 @@ import {
   Lock,
   Mail,
   Plug,
-  Sparkles,
   Shield,
   ShieldCheck,
+  Sparkles,
   User,
   UserPlus
 } from "lucide-react";
@@ -76,6 +77,7 @@ const adminNavItems: AdminNavItem[] = [
   { label: "Encryption", icon: Lock, link: "/admin/encryption" },
   { label: "Authentication", icon: ShieldCheck, link: "/admin/authentication" },
   { label: "Integrations", icon: Plug, link: "/admin/integrations" },
+  { label: "AI Assistant", icon: Bot, link: "/admin/ai-assistant" },
   { label: "MCPL Workbench", icon: Sparkles, link: "/admin/mcpl" },
   { label: "Caching", icon: Database, link: "/admin/caching" },
   { label: "Environment Variables", icon: Key, link: "/admin/environment" }

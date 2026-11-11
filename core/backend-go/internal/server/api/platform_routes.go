@@ -24,6 +24,9 @@ func RegisterPlatformRoutes(router chi.Router, logger *slog.Logger, svc *Platfor
 		apiauth.WithAssumePrivilege(false),
 	))
 
+	// People only: the agent reaches tools with the person's own session.
+	svc.Assistant.Register(router, svc.ApiAuthenticator.RequireAuth(apiauth.WithAuthModes(apiauth.JWTAuth)))
+
 	projectsHandler := projects.NewHandler(&projects.Deps{
 		Logger:     l,
 		Permission: svc.Permission,

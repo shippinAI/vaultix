@@ -56,6 +56,7 @@ import { Route as adminEncryptionPageRouteImport } from './pages/admin/Encryptio
 import { Route as adminEarlyAccessPageRouteImport } from './pages/admin/EarlyAccessPage/route'
 import { Route as adminCachingPageRouteImport } from './pages/admin/CachingPage/route'
 import { Route as adminAuthenticationPageRouteImport } from './pages/admin/AuthenticationPage/route'
+import { Route as adminAIAssistantPageRouteImport } from './pages/admin/AIAssistantPage/route'
 import { Route as adminAccessManagementPageRouteImport } from './pages/admin/AccessManagementPage/route'
 import { Route as adminGeneralPageRouteImport } from './pages/admin/GeneralPage/route'
 import { Route as redirectsSettingsOauthCallbackRedirectImport } from './pages/redirects/settings-oauth-callback-redirect'
@@ -711,6 +712,12 @@ const adminAuthenticationPageRouteRoute =
     path: '/authentication',
     getParentRoute: () => adminLayoutRoute,
   } as any)
+
+const adminAIAssistantPageRouteRoute = adminAIAssistantPageRouteImport.update({
+  id: '/ai-assistant',
+  path: '/ai-assistant',
+  getParentRoute: () => adminLayoutRoute,
+} as any)
 
 const adminAccessManagementPageRouteRoute =
   adminAccessManagementPageRouteImport.update({
@@ -2855,6 +2862,13 @@ declare module '@tanstack/react-router' {
       path: '/access-management'
       fullPath: '/admin/access-management'
       preLoaderRoute: typeof adminAccessManagementPageRouteImport
+      parentRoute: typeof adminLayoutImport
+    }
+    '/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant': {
+      id: '/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant'
+      path: '/ai-assistant'
+      fullPath: '/admin/ai-assistant'
+      preLoaderRoute: typeof adminAIAssistantPageRouteImport
       parentRoute: typeof adminLayoutImport
     }
     '/_authenticate/_inject-org-details/admin/_admin-layout/authentication': {
@@ -5619,6 +5633,7 @@ const organizationLayoutRouteWithChildren =
 interface adminLayoutRouteChildren {
   adminGeneralPageRouteRoute: typeof adminGeneralPageRouteRoute
   adminAccessManagementPageRouteRoute: typeof adminAccessManagementPageRouteRoute
+  adminAIAssistantPageRouteRoute: typeof adminAIAssistantPageRouteRoute
   adminAuthenticationPageRouteRoute: typeof adminAuthenticationPageRouteRoute
   adminCachingPageRouteRoute: typeof adminCachingPageRouteRoute
   adminEarlyAccessPageRouteRoute: typeof adminEarlyAccessPageRouteRoute
@@ -5632,6 +5647,7 @@ interface adminLayoutRouteChildren {
 const adminLayoutRouteChildren: adminLayoutRouteChildren = {
   adminGeneralPageRouteRoute: adminGeneralPageRouteRoute,
   adminAccessManagementPageRouteRoute: adminAccessManagementPageRouteRoute,
+  adminAIAssistantPageRouteRoute: adminAIAssistantPageRouteRoute,
   adminAuthenticationPageRouteRoute: adminAuthenticationPageRouteRoute,
   adminCachingPageRouteRoute: adminCachingPageRouteRoute,
   adminEarlyAccessPageRouteRoute: adminEarlyAccessPageRouteRoute,
@@ -5860,6 +5876,7 @@ export interface FileRoutesByFullPath {
   '/pam/access': typeof redirectsPamAccessRedirectRoute
   '/admin/': typeof adminGeneralPageRouteRoute
   '/admin/access-management': typeof adminAccessManagementPageRouteRoute
+  '/admin/ai-assistant': typeof adminAIAssistantPageRouteRoute
   '/admin/authentication': typeof adminAuthenticationPageRouteRoute
   '/admin/caching': typeof adminCachingPageRouteRoute
   '/admin/early-access': typeof adminEarlyAccessPageRouteRoute
@@ -6134,6 +6151,7 @@ export interface FileRoutesByTo {
   '/integrations': typeof AuthenticateInjectOrgDetailsOrgLayoutIntegrationsRouteWithChildren
   '/pam/access': typeof redirectsPamAccessRedirectRoute
   '/admin/access-management': typeof adminAccessManagementPageRouteRoute
+  '/admin/ai-assistant': typeof adminAIAssistantPageRouteRoute
   '/admin/authentication': typeof adminAuthenticationPageRouteRoute
   '/admin/caching': typeof adminCachingPageRouteRoute
   '/admin/early-access': typeof adminEarlyAccessPageRouteRoute
@@ -6397,6 +6415,7 @@ export interface FileRoutesById {
   '/_authenticate/_inject-org-details/pam/access': typeof redirectsPamAccessRedirectRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/': typeof adminGeneralPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/access-management': typeof adminAccessManagementPageRouteRoute
+  '/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant': typeof adminAIAssistantPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/authentication': typeof adminAuthenticationPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/caching': typeof adminCachingPageRouteRoute
   '/_authenticate/_inject-org-details/admin/_admin-layout/early-access': typeof adminEarlyAccessPageRouteRoute
@@ -6682,6 +6701,7 @@ export interface FileRouteTypes {
     | '/pam/access'
     | '/admin/'
     | '/admin/access-management'
+    | '/admin/ai-assistant'
     | '/admin/authentication'
     | '/admin/caching'
     | '/admin/early-access'
@@ -6955,6 +6975,7 @@ export interface FileRouteTypes {
     | '/integrations'
     | '/pam/access'
     | '/admin/access-management'
+    | '/admin/ai-assistant'
     | '/admin/authentication'
     | '/admin/caching'
     | '/admin/early-access'
@@ -7216,6 +7237,7 @@ export interface FileRouteTypes {
     | '/_authenticate/_inject-org-details/pam/access'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/access-management'
+    | '/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/authentication'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/caching'
     | '/_authenticate/_inject-org-details/admin/_admin-layout/early-access'
@@ -7727,6 +7749,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticate/_inject-org-details/admin/_admin-layout/",
         "/_authenticate/_inject-org-details/admin/_admin-layout/access-management",
+        "/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant",
         "/_authenticate/_inject-org-details/admin/_admin-layout/authentication",
         "/_authenticate/_inject-org-details/admin/_admin-layout/caching",
         "/_authenticate/_inject-org-details/admin/_admin-layout/early-access",
@@ -7747,6 +7770,10 @@ export const routeTree = rootRoute
     },
     "/_authenticate/_inject-org-details/admin/_admin-layout/access-management": {
       "filePath": "admin/AccessManagementPage/route.tsx",
+      "parent": "/_authenticate/_inject-org-details/admin/_admin-layout"
+    },
+    "/_authenticate/_inject-org-details/admin/_admin-layout/ai-assistant": {
+      "filePath": "admin/AIAssistantPage/route.tsx",
       "parent": "/_authenticate/_inject-org-details/admin/_admin-layout"
     },
     "/_authenticate/_inject-org-details/admin/_admin-layout/authentication": {

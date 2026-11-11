@@ -60,6 +60,7 @@ import {
 } from "@app/components/v3";
 import { SidebarTrigger } from "@app/components/v3/generic/Sidebar";
 import { ClyffyLauncher } from "@app/components/vaultix/ClyffyLauncher";
+import { SignalFabric } from "@app/components/vaultix/signal-fabric";
 import { envConfig } from "@app/config/env";
 import {
   OrgPermissionActions,
@@ -145,7 +146,6 @@ export const Navbar = () => {
     enabled: Boolean(subscription.subOrganization),
     select: (data) => data.organizations
   });
-
 
   const { data: orgs } = useGetOrganizations();
   const navigate = useNavigate();
@@ -554,6 +554,7 @@ export const Navbar = () => {
       </div>
 
       {!isServerAdminPanel && <ClyffyLauncher key={currentOrg.id} />}
+      <SignalFabric />
       <VersionBadge />
       <Badge variant="info" className="mt-[3px] mr-3 hidden md:inline-flex">
         Software features included
