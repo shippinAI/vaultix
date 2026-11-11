@@ -10,6 +10,12 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+API changes (2026-11-11): Vaultix is evolving. When an API changes, update every caller (UI, CLI,
+MCP tools, scripts, tests, docs) in the same change and delete the old route: no aliases, shims or
+legacy paths. Update the capability-surface baseline in that commit on purpose. This supersedes the
+compatibility parts of 0026 and 0119. Stored data still migrates: accounts, secrets and keys survive
+every upgrade. Order of remaining work: `docs/0122-completion-plan.md`.
+
 License (2026-11-10): the license system is removed and no license is granted yet; the owner is weighing open source or BSL alongside the planned Nomen merge. Do not add license files, license keys, tiers or license checks. Third-party notices stay. Every software feature is included.
 
 Pre-release (2026-11-10): Vaultix is pre-release; no instance is production. Read

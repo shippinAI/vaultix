@@ -131,8 +131,7 @@ tables to `connect`; `scan` tables to `detect`; audit logs in `operate` tables t
 - New Vaultix routes go under `/api/vx/v1/<domain>/`. The provider import added in
   [0121](0121-provider-import.md) is the first to move:
   `/api/vx/v1/connect/imports/providers`, `…/:provider/review` and `…/:provider/import`.
-- Inherited routes (`/api/v1`–`/api/v4`) and the earlier native prefix
-  `/api/v1/vaultix/*` keep working until each domain's replacement exists and a test
-  covers its existing clients. Then they become aliases and are removed later.
+- When a domain moves, its inherited routes (`/api/v1`–`/api/v4`, `/api/v1/vaultix/*`) are deleted
+  in the same change and every caller moves with them. No aliases (AGENTS.md, 2026-11-11).
 - Route and operation names stay Vaultix names; inherited brand tokens never enter
   them (AGENTS.md).

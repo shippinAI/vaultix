@@ -14,7 +14,11 @@ Counts below were read from the code on branch `align-shippin` at `8e99945d`.
    commit, plus the stage's own checks. Failures get diagnosed, not retried until green.
 3. **No unchecked bulk edits.** A replace across the tree is a scripted change that is compiled and
    whose diff is classified before it is committed. Lockfiles and checksums are never in scope.
-4. **No claims ahead of evidence.** Anything missing stays listed as missing, in the docs and in
+4. **APIs change directly.** When an API changes, every caller (UI, CLI, MCP tools, scripts,
+   tests, docs) moves in the same change and the old route is deleted. No aliases, shims or legacy
+   paths. The capability-surface baseline is updated in that same commit, on purpose. Stored data is
+   different: accounts, secrets, keys and history must survive every upgrade.
+5. **No claims ahead of evidence.** Anything missing stays listed as missing, in the docs and in
    what the product tells an AI (`vaultix.auth.options.get`, `vaultix.warp.list`).
 
 ## Stage 1 — Land the current work
@@ -52,17 +56,48 @@ upgrade code checks.
 Done when: no license, tier, paywall or upgrade wording remains outside third-party notices and
 frozen migrations, and every feature is visibly on with no plan check in its path.
 
-## Stage 3 — AI sign-in, including riding the user's session
+## Stage 3 — Sign-in: shippin.ai by default, Google, and AI sessions
 
-Machine identity and headless CLI work today. The user's session does not: the Go service has the
-device flow (off by default, 60-minute access), but nothing else exists.
+Today: Admin → Authentication already switches instance-wide sign-in methods (email, Google,
+GitHub, GitLab, SAML, OIDC, LDAP). Google sign-in works only once a GCP OAuth client is configured,
+through settings or Admin → Environment, which stores it encrypted. First-owner setup turns on
+email only, on every deployment. The deployment's cloud flag is fixed off. shippin.ai (Nomen) is
+used only by the CLI's terminal login; the website has no shippin.ai sign-in.
 
-Build: the browser page where a person reviews and approves an AI, `vaultix login` support for the
-Vaultix device flow, MCP admission for delegated sessions, CLI renewal, then turn it on.
+How it should work:
 
-Done when: a real CLI and browser complete it on the image; the session lasts at least 60 minutes;
-denial, expiry and revocation all behave; another tenant's session is refused;
-`vaultix.auth.options.get` says "available".
+- **One codebase.** vaultix.cloud is this build plus deployment configuration, never a fork or a
+  private copy of the code. A deployment profile chosen at install (`cloud` or `self-hosted`)
+  decides the defaults; code does not branch on who runs it.
+- **shippin.ai is the front door on vaultix.cloud.** "Continue with shippin.ai" is an
+  instance-level sign-in method through Nomen, listed in Admin → Authentication beside the others.
+  Accounts link explicitly, never by matching email ([0074](0074-built-in-and-federated-identity.md)).
+- **Google comes through shippin.ai on vaultix.cloud.** The Google button sends the person to
+  Nomen with Google preselected, so there is one account system and vaultix.cloud holds no Google
+  credentials. Self-hosted instances can still use Google directly with their own OAuth client, or
+  sign in with shippin.ai.
+- **Defaults by profile.** Cloud: shippin.ai and Google on; built-in email kept for the owner's
+  recovery. Self-hosted: email on; shippin.ai and Google off until configured.
+- **Switching off.** The instance operator turns any method off in Admin → Authentication, and it
+  is refused on the server, not only hidden. Organizations can narrow further under their own
+  security settings but never turn on what the instance turned off.
+- **Secrets never sit in a repository.** OAuth client secrets go in the instance's encrypted
+  settings or the deployment's secret store. A private shippin operations repository may hold
+  deployment configuration and references; anything secret in it is encrypted (for example SOPS
+  with age keys kept outside git). The bootstrap secrets of vaultix.cloud itself (database
+  password, encryption key) live outside that instance.
+- **AI sessions.** The Go service has the device flow (off by default, 60-minute access). Still
+  needed: the browser page where a person approves an AI, `vaultix login` support for it, MCP
+  admission for delegated sessions, CLI renewal, then turning it on.
+
+Needed outside this repository: Google configured as an upstream provider in Nomen, and
+vaultix.cloud registered there as a client. Nomen is a sibling tree and is not edited from here.
+
+Done when, on the image: with the cloud profile, a new person signs in with Google through
+shippin.ai and lands in their organization; the operator turns Google off and the button disappears
+and the server refuses it; the self-hosted profile is unaffected; an AI rides a person's approved
+session for at least 60 minutes with denial, expiry and revocation proven; and
+`vaultix.auth.options.get` reports exactly what is available.
 
 ## Stage 4 — MCP warp points and AI-driven UI
 
@@ -72,6 +107,8 @@ Eight warp points are live and pass route tests. Missing:
 - `vaultix mcp` support for choosing a warp point, and `vaultix mcp config` output for it.
 - The MCPL workbench showing the warp points and their live status.
 - A published contract for `/api/vx/v1/<domain>/mcp`.
+- The tools that predate warp points leave the main MCP for their warp points (rule 4); the main
+  MCP keeps discovery and sign-in options only.
 - **Triggers an AI can drive.** The UI has 16 named actions (5 local, 11 planned) and 2 planned
   scripts; 12 of 15 domains are unreviewed; the backend exposes no `vaultix.ui.*` command. Build per
   [0114](0114-domain-scripted-ui-standard.md): registered commands, the paired view, receipts.
@@ -111,8 +148,8 @@ Today: 5 route definitions under `/api/vx/v1` against about 1,570 inherited, 5 f
 against 1,146, and no module marked migrated across 9,782 mapped files.
 
 Per domain, in dependency order (foundation, identity, authorization, secrets, then the rest): the
-Go or Rust handler, the `/api/vx/v1` route, the UI and MCP moved onto it, the old path kept as an
-alias until nothing uses it, and the existing behavior proven preserved. This is by far the largest
+Go or Rust handler, the `/api/vx/v1` route, and every caller moved onto it in the same change, with
+the old route deleted (rule 4). The behavior is proven on the new route, not kept on the old one. This is by far the largest
 stage and gets a per-domain ledger of its own.
 
 ## Decisions only the owner can make
