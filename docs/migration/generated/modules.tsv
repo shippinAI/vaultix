@@ -562,7 +562,7 @@ core/e2e/helpers	foundation	supporting-tooling-or-contract	3	f5baac7c03bffc92f6a
 core/e2e/helpers	identity	supporting-tooling-or-contract	1	c2c1fd768a8d016aa952248b66e24a90f9bad81aee59a8e80feea95554cba1e7	0	unassessed
 core/e2e/tests	identity	supporting-tooling-or-contract	3	16dab45782b0746bdb798ac6fd24f2fabd165f24e0bec75beef075d34bf8d5d5	0	unassessed
 core/frontend	delivery	React-TypeScript	1	bb406210252a479ed5e401e013622aa62e0145fa65f183edf4b612390d2b511e	0	unassessed
-core/frontend	ui	React-TypeScript	14	ed3af31157ba2f9e781f1c21635c655194b547770199db3a5f8bd69fcf85ecb1	2	unassessed
+core/frontend	ui	React-TypeScript	14	e09f7d6690e21dac3f6ff12b39cf45fd5c97fa905b31fe68ef455ae60667d8cf	2	unassessed
 core/frontend/.storybook	ui	React-TypeScript	3	161bfa527e47fdfe8a820734d602402b6925476d94acef01053ee59d741615f5	0	unassessed
 core/frontend/.storybook/decorators	ui	React-TypeScript	3	e1d48c0df93d4c139ca098c17ff0a1aa4faf2819d615b0b5acbb3ec5bd75e3cb	0	unassessed
 core/frontend/public	ui	React-TypeScript	2	120a1997f8a5c085ed810fd212231fbe45778bc53cbcc192668b6003ff3ea0c2	0	unassessed

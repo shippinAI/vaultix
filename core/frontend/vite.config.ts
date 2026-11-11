@@ -69,6 +69,10 @@ export default defineConfig(({ mode }) => {
             ) {
               return "ui-runtime";
             }
+            // Icons are read at module load by navigation tables. Left to the bundler they can land
+            // in a chunk initialized by the top-level-await wrapper, and those tables then see
+            // undefined. As a leaf chunk they are always ready.
+            if (path.includes("/node_modules/lucide-react/")) return "icons";
             // D3 interaction primitives are shared by permission graphs. Their
             // imports must not drag the Recharts renderer into unrelated routes.
             if (path.includes("/node_modules/d3-")) return "d3";

@@ -434,7 +434,7 @@
     },
     {
       "path": "core/frontend/vite.config.ts",
-      "blob": "6524ef7859dba2c834ed1c7206052bc2b54a0472",
+      "blob": "912feb6b20b1c0c907a1ef39bf5af118a6d32910",
       "status": "reviewed",
       "decision": "modify",
       "scope": "WEB-ASSIST-01: reviewed the public-entry, shared reference controls, scripted teaching, media provenance or delivery changes in this file. Existing authorization and capability behavior is retained; this scoped review is not whole-product authorship or parity evidence.",
@@ -442,7 +442,8 @@
         "docs/0107-public-experience-and-recorded-workflow.md",
         "scripts/test-public-experience.mjs",
         "scripts/record-vaultix-workflow.mjs",
-        "scripts/test-image-app.mjs"
+        "scripts/test-image-app.mjs",
+        "Reviewed: lucide-react gets its own leaf chunk so navigation tables never read icons from a chunk initialized by the top-level-await wrapper."
       ]
     },
     {

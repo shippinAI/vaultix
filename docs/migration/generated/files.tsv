@@ -8530,7 +8530,7 @@ core/frontend/tsconfig.app.json	core/frontend	ui	React-TypeScript	json	1f6b29873
 core/frontend/tsconfig.json	core/frontend	ui	React-TypeScript	json	1ffef600d959ec9e396d5a260bd3f5b927b2cef8	unread
 core/frontend/tsconfig.node.json	core/frontend	ui	React-TypeScript	json	db0becc8b033a4a78144f4a3bb852082fe91cd62	unread
 core/frontend/tsr.config.json	core/frontend	ui	React-TypeScript	json	0d6a78fc9c0344297a0b88e0fce2d6bee21dcc1e	unread
-core/frontend/vite.config.ts	core/frontend	ui	React-TypeScript	ts	6524ef7859dba2c834ed1c7206052bc2b54a0472	reviewed
+core/frontend/vite.config.ts	core/frontend	ui	React-TypeScript	ts	912feb6b20b1c0c907a1ef39bf5af118a6d32910	reviewed
 core/frontend/vitest.config.ts	core/frontend	ui	React-TypeScript	ts	012ddacefc7209e0d930788833c249b35177f412	unread
 core/helm-charts/infisical-gateway/.helmignore	core/helm-charts/infisical-gateway	delivery	supporting-tooling-or-contract	build-config	0e8a0eb36f4ca2c939201c0d54b5d82a1ea34778	unread
 core/helm-charts/infisical-gateway/Chart.yaml	core/helm-charts/infisical-gateway	delivery	supporting-tooling-or-contract	yaml	86ce1622731d6ddecd57bcc42632918e3090bfbc	unread

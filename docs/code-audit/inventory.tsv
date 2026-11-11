@@ -10893,7 +10893,7 @@ core/frontend/tsconfig.app.json	1f6b29873ad50d0dbf6fae6d58c570149ab54f78	product
 core/frontend/tsconfig.json	1ffef600d959ec9e396d5a260bd3f5b927b2cef8	product-code	unread
 core/frontend/tsconfig.node.json	db0becc8b033a4a78144f4a3bb852082fe91cd62	product-code	unread
 core/frontend/tsr.config.json	0d6a78fc9c0344297a0b88e0fce2d6bee21dcc1e	product-code	unread
-core/frontend/vite.config.ts	6524ef7859dba2c834ed1c7206052bc2b54a0472	product-code	reviewed
+core/frontend/vite.config.ts	912feb6b20b1c0c907a1ef39bf5af118a6d32910	product-code	reviewed
 core/frontend/vitest.config.ts	012ddacefc7209e0d930788833c249b35177f412	product-code	unread
 core/helm-charts/README.md	d8d5da9de8c27850cfa67b57dfc488e217e0acd1	documentation	unread
 core/helm-charts/infisical-gateway/.helmignore	0e8a0eb36f4ca2c939201c0d54b5d82a1ea34778	product-code	unread
@@ -11945,7 +11945,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	9d52b0df7b2d55682ae310f899ed867e8cd214ad	generated	unread
-docs/capabilities/generated/source-map.tsv	e0db964e98d00a50d2bdc3820639a92ce5d61167	generated	unread
+docs/capabilities/generated/source-map.tsv	ba4a04059700d2f8986cddcd5151de6e01da1aef	generated	unread
 docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -11957,8 +11957,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	2852468bc1f62631c6eaa3ff32223a1481989a0e	generated	unread
-docs/migration/generated/modules.tsv	f7851aff0dfe013b84eb267a198aebd2c9cbfe61	generated	unread
+docs/migration/generated/files.tsv	119ef99aa696950c8b439ac7c97eff76804a4ecf	generated	unread
+docs/migration/generated/modules.tsv	8567848bf1cf523bb60daee8fffc9333a3c90a2c	generated	unread
 docs/migration/generated/summary.json	55e410f7f6dcdeb70f66044e89b38ff33baec9f0	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
