@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2696ebc263ef70ac1198b8cda74868884cadc635	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	9be9bbac89c574038e2e08337ea977ab9171008b	product-code	reviewed
-AGENTS.md	e9fd3a3d532a993ae335f65e6e191000e5dcfd0e	documentation	reviewed
+AGENTS.md	1facf82b5f91ce12868b1e3da5c69d3a71176617	documentation	reviewed
 INSTALL-FOR-AI.md	92049aa4b355eb5a369dcc2f9e234d9caf9a3a8c	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -11848,7 +11848,7 @@ docs/0019-hosted-dependency-triage.md	3b2e24babe5c8309c44582337f4cf34655262dd6	d
 docs/0020-devscif-native-workspace.md	a46250a69fd9fba07a52513e2954b7b4d7939236	documentation	unread
 docs/0021-product-authorship-review.md	21c659b3e73dd1c38d6c1409d14786b76933ffe3	documentation	unread
 docs/0022-accessibility-acceptance.md	a827ad272e3309633c56d0814974625ecda08011	documentation	unread
-docs/0023-capability-convergence.md	a0d8d523c5a7bd88c20bb26f8eb661856117c000	documentation	unread
+docs/0023-capability-convergence.md	9bbc8dd77a713ee9c37ea0a69866d317d0468753	documentation	unread
 docs/0024-interaction-and-teaching-system.md	7e0eced5c8bf69db04663793fbcc85cb105d7111	documentation	reviewed
 docs/0025-application-entry-and-artwork.md	7a239586019ca805ea6e4279b1612983c5e2da4f	documentation	reviewed
 docs/0026-capability-preservation.md	5a526daccb1c3887fce80de633875b3ab8a0a154	documentation	unread
@@ -11921,7 +11921,8 @@ docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	
 docs/0119-schema-and-api-namespaces.md	3b8db08055b927598cef23cefa152668590f2943	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
-docs/0122-completion-plan.md	28d348f73da4baff3f99a7909215028c98c39cb4	documentation	unread
+docs/0122-completion-plan.md	d53b78ca4739c11f0a3d796cabb3c3eca5af4ca7	documentation	unread
+docs/0123-signal-fabric.md	314cf9ea630dfc0c8fdf3a25b153aa792572405f	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread

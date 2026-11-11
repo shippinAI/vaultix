@@ -4973,7 +4973,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "e9fd3a3d532a993ae335f65e6e191000e5dcfd0e",
+      "blob": "1facf82b5f91ce12868b1e3da5c69d3a71176617",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
@@ -4986,7 +4986,8 @@
         "Reviewed for docs/0120: MCPL warp points, one MCP per canonical domain at /api/vx/v1/<domain>/mcp sharing the main MCP's handlers, sign-in options for AI clients, canonical domains in the MCPL manifest, and a 60-minute default for delegated device access.",
         "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
         "Reviewed: completion plan for what remains, in order.",
-        "Reviewed: sign-in plan (shippin.ai by default, Google through it on vaultix.cloud) and the owner's no-compatibility rule for API changes."
+        "Reviewed: sign-in plan (shippin.ai by default, Google through it on vaultix.cloud) and the owner's no-compatibility rule for API changes.",
+        "Reviewed: signal fabric, receipts and rehearsal demo spec; coverage gaps."
       ]
     },
     {

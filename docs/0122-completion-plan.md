@@ -121,6 +121,31 @@ Eight warp points are live and pass route tests. Missing:
 Done when: a named AI client connects to a warp point on the image, signs in, and moves the real UI
 while the person watches, with denial and takeover proven.
 
+## Stage 4b — The signal fabric, outcome receipts, the rehearsal demo and the hosted agent
+
+Specified in [0123](0123-signal-fabric.md). Today none of it runs: UI action attributes are read
+only by tests, lessons send nothing, "Clyffy" in the app calls no model, A2UI streams exist only in
+the optional panel, and there is no demo. Build in this order, each proven on the image before the
+next: signals with the value canary, passive hints with more/less/none and thumbs, server-backed
+receipts on every catalog write action, the rehearsal demo, then the hosted agent answering from
+signals with A2UI in the core app. This comes before the commercial control plane.
+
+## Stage 4c — Infisical and Doppler coverage, proven
+
+Coverage checked on 2026-11-11 against [0023](0023-capability-convergence.md):
+
+- **Missing entirely:** Terraform provider, Kubernetes operator, Doppler config inheritance, branch
+  configs, typed secret values. SSH certificates were removed on purpose (20260729 migration).
+- **Built with no test file:** secret sharing, webhooks, trusted IPs, sub-organizations,
+  honeytokens, KMIP, insights, every secret-sync provider, cloud machine-identity sign-in
+  (Kubernetes, AWS, GCP, Azure, OIDC, JWT).
+- **Tested but never proven on the image:** dynamic secrets, rotation, approval and access-request
+  review/apply, SCIM, audit streaming, external KMS, PKI issuance, PAM sessions, scanning, rollback.
+- **Different behavior:** several matching change policies select one; Doppler requires all.
+
+Each family gets a workflow proof on the image (positive, denied, cross-tenant, provider outage)
+before it is called covered. Outside providers need the owner's accounts, entered in the UI.
+
 ## Stage 5 — Updates from the admin panel
 
 None of this exists yet: no host agent, no update UI, `MAINTENANCE_MODE` is a static setting. The
@@ -137,7 +162,10 @@ freezes and shows it running, and a killed or failed update recovers or rolls ba
 
 ## Stage 6 — Recheck the import and cards against the original asks
 
-Provider import is on `main`. Walk the original list in the real app: Doppler and Infisical cards,
+Provider import is on `main` but not on vaultix.cloud, which runs fa69fa36 (2026-11-04) until the
+owner runs the upgrade. Then run it against a real Doppler workplace and a real Infisical server,
+approve and merge the change request it opens, and add folder recursion and metadata. Walk the
+original list in the real app: Doppler and Infisical cards,
 tooltips, popup modals, policy-aware review, approve and import, live registry state, and no secret
 values leaving the server. The AI-registered triggers part is delivered by Stage 4. Anything short
 of the ask gets fixed here.
@@ -163,6 +191,8 @@ stage and gets a per-domain ledger of its own.
 | License: open source or BSL | Any public release; likely alongside the Nomen merge |
 | Nomen merge: scope and which identity code survives | Stage 7's identity domain |
 | The instance owner's recovery sign-in on vaultix.cloud while passwords are off, so an outage at Nomen or Google cannot lock the operator out | Stage 3 |
+| The hosted model provider for the in-app agent, and changing the AGENTS.md local-Codex-only rule | Stage 4b's agent |
+| Which Infisical/Doppler gaps to build versus leave out (Terraform, Kubernetes operator, inheritance, typed values) | Stage 4c |
 | Production host, SMTP, privacy notice | Inviting anyone (and restore branch protection first) |
 
 The Nomen merge is a project of its own and needs its own plan. It is a sibling tree and is not
