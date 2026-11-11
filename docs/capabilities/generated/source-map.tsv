@@ -449,7 +449,7 @@ core/backend/scripts/create-backend-file.ts	operate	foundation	core/backend/scri
 core/backend/scripts/create-migration.ts	operate	foundation	core/backend/scripts	3e34b94139f03f1c051bd20db6f3539edbe803f2	unread
 core/backend/scripts/create-seed-file.ts	operate	foundation	core/backend/scripts	c79ea0846f8a8435cc7257bb11fc2cfb382cb17a	unread
 core/backend/scripts/export-assets.sh	operate	foundation	core/backend/scripts	9e5c644de017d2a3fb7ade57e916382abed65508	unread
-core/backend/scripts/generate-schema-types.ts	operate	foundation	core/backend/scripts	fb6d9ad9c0c7ac4ce570b1fd797cb860ef9e7807	unread
+core/backend/scripts/generate-schema-types.ts	operate	foundation	core/backend/scripts	ded1724b6f2f0d0461ddfa82cdef6d26908fea80	unread
 core/backend/scripts/local-headless-cli.ts	operate	foundation	core/backend/scripts	9e67596c0c5de898ef2ba784f8ec5afe361bb82b	unread
 core/backend/scripts/migrate-organization.ts	operate	foundation	core/backend/scripts	e4bc0ea9e80620ef8c717d8302b586f22df476aa	unread
 core/backend/scripts/patch-ldapts.mjs	access	identity	core/backend/scripts	b373bdd9a260de668bd38698ba973a6495a9e5b3	reviewed
@@ -994,7 +994,7 @@ core/backend/src/db/namespaced-migration-source.ts	operate	foundation	core/backe
 core/backend/src/db/rename-migrations-to-mjs.ts	operate	foundation	core/backend/src/db	059898441f106a5ea7d877ecf4408dabaff8790a	unread
 core/backend/src/db/run-clickhouse-migrations.ts	operate	foundation	core/backend/src/db	585763897a0fd3830d1b74a6a46823b01924c801	unread
 core/backend/src/db/sanitized-schema.ts	operate	foundation	core/backend/src/db	f09e7342a47db291786cce095ecf4322899ed9e9	reviewed
-core/backend/src/db/sanitized-schema.yaml	operate	foundation	core/backend/src/db	34c74cd20841cd98344c5443323f9a9233db5f69	unread
+core/backend/src/db/sanitized-schema.yaml	operate	foundation	core/backend/src/db	f639d0e2b1b502d28a17bdec33f4f31c808a3106	unread
 core/backend/src/db/schemas/access-approval-policies-approvers.ts	access	authorization	core/backend/src/db/schemas	34d4dbf08f6330e973c92a74824f4ae165cada95	unread
 core/backend/src/db/schemas/access-approval-policies-bypassers.ts	access	authorization	core/backend/src/db/schemas	278e4b41668eab07ed717ee83a821c150f3f5f3b	unread
 core/backend/src/db/schemas/access-approval-policies-environments.ts	access	authorization	core/backend/src/db/schemas	fa2a859c2ab4535059720122f911b6324e1e7daa	unread
@@ -1290,7 +1290,7 @@ core/backend/src/db/table-namespace-index-names.ts	operate	foundation	core/backe
 core/backend/src/db/table-namespace-names.test.ts	operate	foundation	core/backend/src/db	06f87fb68627ddd2d47b0d16f78e24c56b8884a7	unread
 core/backend/src/db/table-namespace-names.ts	operate	foundation	core/backend/src/db	a69972a64e084497e1e0cf48533774e00af80177	unread
 core/backend/src/db/table-namespace-rename.ts	operate	foundation	core/backend/src/db	879cd7ea1dd4fc923e4bd306a461828c49b90cd5	unread
-core/backend/src/db/table-namespaces.ts	operate	foundation	core/backend/src/db	d2a9f65dcd38d8a7adde64bec22b01c8be3bea1c	unread
+core/backend/src/db/table-namespaces.ts	operate	foundation	core/backend/src/db	414a3cfb9f8350a1afcd6a279232397445b62183	unread
 core/backend/src/db/utils.ts	operate	foundation	core/backend/src/db	670ba36d6b094d71336eafa414e8a61047826e9a	unread
 core/backend/src/keystore/key-value-store-dal.ts	kms	kms	core/backend/src/keystore	c3e71efc440eddf3eddba6154ff7f4754a980613	unread
 core/backend/src/keystore/keystore.ts	kms	kms	core/backend/src/keystore	44d961c38520db4b64d7f66289f1bc3d431c2ced	verified
@@ -9471,7 +9471,7 @@ docs/references/gaps-1.png	experience	ui	docs/references	2073c0d90fe961ebd72a776
 docs/references/gaps2.png	experience	ui	docs/references	c542f09d1973c67b2f1f81a4137b39c47006d655	unread
 docs/references/gaps3.png	experience	ui	docs/references	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	unread
 docs/references/gaps4.png	experience	ui	docs/references	1a381f561d212879c5490320e2ab4073d2b3bf17	unread
-docs/schema/table-namespaces.json	operate	foundation	docs/schema	d155fefe21cfe09fa4771e24693c5dc843875f4d	unread
+docs/schema/table-namespaces.json	operate	foundation	docs/schema	0be1c4b5fa77c763017cef08fa79befe1617c24d	unread
 go.mod	secrets	cli	.	87db0ab95720f70b168aa58a6ff980fb22778e81	reviewed
 internal/api/auth_test.go	secrets	cli	internal/api	daba0f16fa0b22711620a169dcd0865fc04bbaf3	verified
 internal/api/client.go	secrets	cli	internal/api	fa7f497157d648154efbe102c236f35e5f4de297	verified
@@ -9659,7 +9659,7 @@ scripts/lib/release-preparation.mjs	operate	delivery	scripts/lib	c4610e04c1c2cbb
 scripts/lib/release-producer-process.mjs	operate	delivery	scripts/lib	d14bd3f25f84b17968cba5a7f7264a6342aa99f2	reviewed
 scripts/lib/release-publication.mjs	operate	delivery	scripts/lib	4b69d157297c0e4641acc7d0b299b5215aa0c145	reviewed
 scripts/lib/release-version.mjs	operate	delivery	scripts/lib	b91a424b3bb026f975dc9756605ecad141dd2a77	authored
-scripts/lib/table-namespaces.mjs	operate	delivery	scripts/lib	46a9668cff3fd8f18c5f2debb12205c2c7e921d9	unread
+scripts/lib/table-namespaces.mjs	operate	delivery	scripts/lib	54f262906927c1049c911f15d89fbcb24298728b	unread
 scripts/lib/test-certificates.mjs	operate	delivery	scripts/lib	0b5127cc31337707e71f6ea669e45bcfb0c66046	reviewed
 scripts/lib/ui-action-standard.mjs	operate	delivery	scripts/lib	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	unread
 scripts/lib/ui-benchmark-receipt.mjs	operate	delivery	scripts/lib	a6171d6245aa73f31d28c6f4dc50f534557e0963	unread

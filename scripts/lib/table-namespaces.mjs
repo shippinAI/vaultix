@@ -36,7 +36,8 @@ export const RAW_LEGACY_TABLES = [
   "vaultix_identity_reauth_proofs",
   "vaultix_identity_reauth_totp",
   "vaultix_totp_replays",
-  "pam_revamp_backup"
+  "pam_revamp_backup",
+  "intermediate_certificate_requests"
 ];
 
 // Explicit placements. Everything else is placed by GROUP_RULES below.
@@ -53,6 +54,8 @@ const EXPLICIT = {
   vaultix_identity_reauth_totp: ["auth", "reauth_totp"],
   vaultix_totp_replays: ["auth", "totp_replays"],
   pam_revamp_backup: ["pam", "legacy_revamp_backup"],
+  // A partition of certificate_requests whose name does not start with its parent's.
+  intermediate_certificate_requests: ["pki", "certificate_requests_intermediate"],
 
   users: ["auth", "users"],
   user_aliases: ["auth", "user_aliases"],

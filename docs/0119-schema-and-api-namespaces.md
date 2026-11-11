@@ -48,13 +48,13 @@ The real store was inventoried first (278 tables, 486 partitions, 9 functions wh
 name tables). That changed the plan: about 20 historical migrations call service and
 data-access code, so freezing them on the inherited names would break fresh installs.
 
-1. **One map, frozen as history.** `docs/schema/table-namespaces.json` (312 rows: the 300
-   `TableName` entries and 12 tables that raw-SQL migrations create) records each inherited
+1. **One map, frozen as history.** `docs/schema/table-namespaces.json` (313 rows: the 300
+   `TableName` entries and 13 tables that raw-SQL migrations create) records each inherited
    name and its `vx_` name. `node scripts/map-table-namespaces.mjs --check` proves the map
    follows the rules, `TableName` matches it, and the runtime list
    `core/backend/src/db/table-namespaces.ts` is current.
 2. **Every migration uses the new names** through `TableName`, so a fresh database gets
-   `vx_` tables from the start. Raw SQL inside migrations was rewritten to match. The 12
+   `vx_` tables from the start. Raw SQL inside migrations was rewritten to match. The 13
    raw-SQL tables are still created under their inherited names and renamed afterwards.
 3. **An existing store moves first.** Every migration path (startup, both knexfiles, which
    `vaultix server upgrade` runs, and the e2e environment) uses

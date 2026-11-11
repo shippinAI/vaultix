@@ -464,8 +464,8 @@ tables:
       - syncMessage
       - lastSyncJobId
 
-  - name: intermediate_certificate_requests
-    source: public.intermediate_certificate_requests
+  - name: vx_pki_certificate_requests_intermediate
+    source: public.vx_pki_certificate_requests_intermediate
     columns:
       - id
       - createdAt

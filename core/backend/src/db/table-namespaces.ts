@@ -312,7 +312,8 @@ export const LEGACY_TABLE_RENAMES: ReadonlyArray<readonly [legacy: string, curre
   ["vaultix_identity_reauth_proofs", "vx_auth_reauth_proofs", "raw"],
   ["vaultix_identity_reauth_totp", "vx_auth_reauth_totp", "raw"],
   ["vaultix_totp_replays", "vx_auth_totp_replays", "raw"],
-  ["pam_revamp_backup", "vx_pam_legacy_revamp_backup", "raw"]
+  ["pam_revamp_backup", "vx_pam_legacy_revamp_backup", "raw"],
+  ["intermediate_certificate_requests", "vx_pki_certificate_requests_intermediate", "raw"]
 ];
 
 // Generated-looking object names historical migrations spell out. They keep their spelling when

@@ -105,13 +105,13 @@ core/backend/e2e-test/setup	foundation	Go-domain-migration	1	0ded8c52ef2fb955a8a
 core/backend/e2e-test/testUtils	foundation	Go-domain-migration	2	6a62bb76ae801e7fd96bf131efaeb8f1bf282847022fc0cf41ad3eb1402042d9	0	unassessed
 core/backend/e2e-test/testUtils	identity	Go-domain-migration	2	9f244afbd3744490df158a0566a3c8c78b57d3913cc1c12cd5ea8e802c32dc49	0	unassessed
 core/backend/e2e-test/testUtils	secrets	Go-domain-migration	3	30d45e9bb12ca00234c2c96410b92d1fa5683c3dfe8a29f7be7032c81bc6dd61	0	unassessed
-core/backend/scripts	foundation	Go-domain-migration	11	9a40be770c0110d1fff46211293c7d3b00dc181ef02823069d7c3e822f2d0d18	1	unassessed
+core/backend/scripts	foundation	Go-domain-migration	11	43e46d258f7368e9cf4ee6cb1ea3e5bbaa65050c70131be1266c8f745b4d5a28	1	unassessed
 core/backend/scripts	identity	Go-domain-migration	1	e1a5939390a90a401b102a78d02c76c94ce0dc9c32c5d8b20ac262c7136033a1	1	unassessed
 core/backend/scripts	pam	Go-domain-migration	1	dd290afaefe321d8de4b098ab862dfab0625efa7fdbf5618fad5c4d0633cdb67	1	unassessed
 core/backend/src	foundation	Go-domain-migration	5	dcbcdf909a6d647a3e675b5bec8c376b5850ed2aaed65acd9424e1febbaa726d	0	unassessed
 core/backend/src/@types	foundation	Go-domain-migration	6	c8c99ad905742720c9464f486d951895a8c5dd09d87a02b8419fa2c5f6a4152e	1	unassessed
 core/backend/src/db	audit	Go-domain-migration	1	c41f889f31c2e879d58473fc1b54378b88270f5f453bbe4c34868c21d01c88bb	0	unassessed
-core/backend/src/db	foundation	Go-domain-migration	19	3cf958eea3fd400cea66944b9c77fb8a884df9dad945ba32401b1560c23fd9d2	2	unassessed
+core/backend/src/db	foundation	Go-domain-migration	19	4cc9c126cb38eee0ca79fda35967dc6db1d11266ed39d684037c96885fa22fd5	2	unassessed
 core/backend/src/db	identity	Go-domain-migration	3	24e99be742afba62897cd55ec0b1e716a293caa5c5ef52bf9928ac58cfc16b90	0	unassessed
 core/backend/src/db/manual-migrations	audit	Go-domain-migration	1	a456acef5c86ca020919290efeb0674a0c7e9362077f7992280e2109c3203429	0	unassessed
 core/backend/src/db/migrations	audit	Go-domain-migration	12	72c2f52353103b935696b00e6528901e88a3ad915160470a946b04387ee9d514	0	unassessed
@@ -1121,7 +1121,7 @@ docs/capabilities	foundation	supporting-tooling-or-contract	4	97c287c288b8b955bc
 docs/interaction	ui	supporting-tooling-or-contract	4	cb9d697f3e6012969e13d6f4c223c64c9ae6b2849c01ed2c1c04a761305625cf	0	unassessed
 docs/migration	foundation	supporting-tooling-or-contract	1	1ef994466b64f3ca36b13bbbe240645ee7af7ced36a7b7bc1ce1a5f62b7a367c	1	unassessed
 docs/references	ui	supporting-tooling-or-contract	4	b78ca9ae57539d1ecf096b14b73fa6a04fa6c99b7e82567c3e48d2062bc5cea2	0	unassessed
-docs/schema	foundation	supporting-tooling-or-contract	1	84f36d2bd7c2af59410c4111669d4c49c2ac65493a92b2ef64743d4cfac92ece	0	unassessed
+docs/schema	foundation	supporting-tooling-or-contract	1	ea1eedf63936fca785c966106f1f6f592d1504230e74d0f76df9806781b26f61	0	unassessed
 internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	12	90b3d4aa2a9b1f67a1b0fa81a206cacacb744eed8cec69ab71020ec6785447ce	11	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	0820cbf30ba19e7bdfbc786b25bdc1585bd78a88905e4d7609633f3b0c9716ef	4	unassessed
@@ -1155,4 +1155,4 @@ scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbe
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
 scripts/fixtures/windows-package	delivery	supporting-tooling-or-contract	1	42ff52df9e3bb5c0f1352f65cd7ffc8849c7a11b7f151a3ac677938205f6bd36	1	unassessed
-scripts/lib	delivery	supporting-tooling-or-contract	14	9c91df917083292540bde9c93dffb31237a9e27ae91b60350181fb76c9a3a741	10	unassessed
+scripts/lib	delivery	supporting-tooling-or-contract	14	76db55cd15f5be5e3e192ef6302a9eadf5c96fc8817510132ffa7e68f3968d2d	10	unassessed

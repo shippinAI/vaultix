@@ -103,7 +103,7 @@ const main = async () => {
       !el.tableName.includes("scim_events_") &&
       !el.tableName.includes("active_locks") &&
       el.tableName !== "intermediate_audit_logs" &&
-      el.tableName !== "intermediate_certificate_requests"
+      el.tableName !== "vx_pki_certificate_requests_intermediate"
   );
 
   for (let i = 0; i < tables.length; i += 1) {

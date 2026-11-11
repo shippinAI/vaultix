@@ -1889,6 +1889,12 @@
       "name": "vx_pam_legacy_revamp_backup",
       "group": "pam",
       "tableNameKey": null
+    },
+    {
+      "legacy": "intermediate_certificate_requests",
+      "name": "vx_pki_certificate_requests_intermediate",
+      "group": "pki",
+      "tableNameKey": null
     }
   ]
 }

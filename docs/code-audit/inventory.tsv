@@ -487,7 +487,7 @@ core/backend/scripts/create-backend-file.ts	39e9c816c37b0501c0bca783bf715792735f
 core/backend/scripts/create-migration.ts	3e34b94139f03f1c051bd20db6f3539edbe803f2	product-code	unread
 core/backend/scripts/create-seed-file.ts	c79ea0846f8a8435cc7257bb11fc2cfb382cb17a	product-code	unread
 core/backend/scripts/export-assets.sh	9e5c644de017d2a3fb7ade57e916382abed65508	product-code	unread
-core/backend/scripts/generate-schema-types.ts	fb6d9ad9c0c7ac4ce570b1fd797cb860ef9e7807	product-code	unread
+core/backend/scripts/generate-schema-types.ts	ded1724b6f2f0d0461ddfa82cdef6d26908fea80	product-code	unread
 core/backend/scripts/local-headless-cli.ts	9e67596c0c5de898ef2ba784f8ec5afe361bb82b	product-code	unread
 core/backend/scripts/migrate-organization.ts	e4bc0ea9e80620ef8c717d8302b586f22df476aa	product-code	unread
 core/backend/scripts/patch-ldapts.mjs	b373bdd9a260de668bd38698ba973a6495a9e5b3	product-code	reviewed
@@ -1032,7 +1032,7 @@ core/backend/src/db/namespaced-migration-source.ts	a6bf4cde0cb3ecd0d3b9c6b6d3aa8
 core/backend/src/db/rename-migrations-to-mjs.ts	059898441f106a5ea7d877ecf4408dabaff8790a	product-code	unread
 core/backend/src/db/run-clickhouse-migrations.ts	585763897a0fd3830d1b74a6a46823b01924c801	product-code	unread
 core/backend/src/db/sanitized-schema.ts	f09e7342a47db291786cce095ecf4322899ed9e9	product-code	reviewed
-core/backend/src/db/sanitized-schema.yaml	34c74cd20841cd98344c5443323f9a9233db5f69	build-and-operations	unread
+core/backend/src/db/sanitized-schema.yaml	f639d0e2b1b502d28a17bdec33f4f31c808a3106	build-and-operations	unread
 core/backend/src/db/schemas/access-approval-policies-approvers.ts	34d4dbf08f6330e973c92a74824f4ae165cada95	product-code	unread
 core/backend/src/db/schemas/access-approval-policies-bypassers.ts	278e4b41668eab07ed717ee83a821c150f3f5f3b	product-code	unread
 core/backend/src/db/schemas/access-approval-policies-environments.ts	fa2a859c2ab4535059720122f911b6324e1e7daa	product-code	unread
@@ -1328,7 +1328,7 @@ core/backend/src/db/table-namespace-index-names.ts	874431cb293b16ed1922bd09230d4
 core/backend/src/db/table-namespace-names.test.ts	06f87fb68627ddd2d47b0d16f78e24c56b8884a7	test	unread
 core/backend/src/db/table-namespace-names.ts	a69972a64e084497e1e0cf48533774e00af80177	product-code	unread
 core/backend/src/db/table-namespace-rename.ts	879cd7ea1dd4fc923e4bd306a461828c49b90cd5	product-code	unread
-core/backend/src/db/table-namespaces.ts	d2a9f65dcd38d8a7adde64bec22b01c8be3bea1c	product-code	unread
+core/backend/src/db/table-namespaces.ts	414a3cfb9f8350a1afcd6a279232397445b62183	product-code	unread
 core/backend/src/db/utils.ts	670ba36d6b094d71336eafa414e8a61047826e9a	product-code	unread
 core/backend/src/keystore/key-value-store-dal.ts	c3e71efc440eddf3eddba6154ff7f4754a980613	product-code	unread
 core/backend/src/keystore/keystore.ts	44d961c38520db4b64d7f66289f1bc3d431c2ced	product-code	verified
@@ -11918,7 +11918,7 @@ docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
 docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	unread
-docs/0119-schema-and-api-namespaces.md	f1b3a31146d8be94feb4c396e988599195900f36	documentation	unread
+docs/0119-schema-and-api-namespaces.md	98f3902ef7290a25aced734ffc8ca89773c7a498	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
@@ -11945,7 +11945,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	9d52b0df7b2d55682ae310f899ed867e8cd214ad	generated	unread
-docs/capabilities/generated/source-map.tsv	21c3c422bbea24354bb0f0c44aedc7549340abbc	generated	unread
+docs/capabilities/generated/source-map.tsv	88107cfb915969fde64e3015e995501efd227a23	generated	unread
 docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -11957,8 +11957,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	aefa6c9f8e617b0f4d2a6c8ef5f99f0e66fb1ff1	generated	unread
-docs/migration/generated/modules.tsv	1930bff5a0de3bbe409dc52c2024bbfb47c0becd	generated	unread
+docs/migration/generated/files.tsv	4a7588eddc8fee8318ef7347b671a51bb85fc200	generated	unread
+docs/migration/generated/modules.tsv	c8c7ccc3e23461f06156132dabe70053911eaf62	generated	unread
 docs/migration/generated/summary.json	55e410f7f6dcdeb70f66044e89b38ff33baec9f0	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
@@ -11971,7 +11971,7 @@ docs/references/gaps2.png	c542f09d1973c67b2f1f81a4137b39c47006d655	asset	unread
 docs/references/gaps3.png	5e855832e12fe66c3919b2c9fcb3bc05279bf4ac	asset	unread
 docs/references/gaps4.png	1a381f561d212879c5490320e2ab4073d2b3bf17	asset	unread
 docs/releases-and-updates.md	dcd8862c76f4ef93814217093b7203b2ba102d20	documentation	reviewed
-docs/schema/table-namespaces.json	d155fefe21cfe09fa4771e24693c5dc843875f4d	product-code	unread
+docs/schema/table-namespaces.json	0be1c4b5fa77c763017cef08fa79befe1617c24d	product-code	unread
 go.mod	87db0ab95720f70b168aa58a6ff980fb22778e81	product-code	reviewed
 go.sum	07fa0c03ef0082d72b524995609f6f109592890c	dependency-lock	reviewed
 internal/api/auth_test.go	daba0f16fa0b22711620a169dcd0865fc04bbaf3	test	verified
@@ -12163,7 +12163,7 @@ scripts/lib/release-preparation.mjs	c4610e04c1c2cbb3797a1a999f58d308d5729493	bui
 scripts/lib/release-producer-process.mjs	d14bd3f25f84b17968cba5a7f7264a6342aa99f2	build-and-operations	reviewed
 scripts/lib/release-publication.mjs	4b69d157297c0e4641acc7d0b299b5215aa0c145	build-and-operations	reviewed
 scripts/lib/release-version.mjs	b91a424b3bb026f975dc9756605ecad141dd2a77	build-and-operations	authored
-scripts/lib/table-namespaces.mjs	46a9668cff3fd8f18c5f2debb12205c2c7e921d9	build-and-operations	unread
+scripts/lib/table-namespaces.mjs	54f262906927c1049c911f15d89fbcb24298728b	build-and-operations	unread
 scripts/lib/test-certificates.mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	build-and-operations	reviewed
 scripts/lib/ui-action-standard.mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	build-and-operations	unread
 scripts/lib/ui-benchmark-receipt.mjs	a6171d6245aa73f31d28c6f4dc50f534557e0963	build-and-operations	unread
