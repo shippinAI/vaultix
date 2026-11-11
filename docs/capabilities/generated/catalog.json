@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "1b08567bf7a6346d474988bbce841370526bd68c",
+  "baselineCommit": "fb272ad8654750a7322c7f0a10eee668aa6c6151",
   "scope": "Planning and structural discovery only; no new workflow, provider or compliance acceptance",
   "groups": [
     {
@@ -2537,85 +2537,85 @@
     "workspace": {
       "capabilities": 5,
       "ui": 14,
-      "api": 144,
+      "api": 145,
       "sourceFiles": 0
     },
     "secrets": {
       "capabilities": 11,
       "ui": 20,
-      "api": 55,
+      "api": 56,
       "sourceFiles": 682
     },
     "access": {
       "capabilities": 10,
       "ui": 53,
-      "api": 131,
+      "api": 133,
       "sourceFiles": 1411
     },
     "automation": {
       "capabilities": 6,
       "ui": 0,
-      "api": 296,
+      "api": 297,
       "sourceFiles": 560
     },
     "connect": {
       "capabilities": 5,
       "ui": 106,
-      "api": 1122,
+      "api": 1123,
       "sourceFiles": 2118
     },
     "pki": {
       "capabilities": 6,
       "ui": 37,
-      "api": 476,
+      "api": 477,
       "sourceFiles": 1210
     },
     "kms": {
       "capabilities": 5,
       "ui": 7,
-      "api": 18,
+      "api": 19,
       "sourceFiles": 202
     },
     "pam": {
       "capabilities": 5,
       "ui": 10,
-      "api": 0,
+      "api": 1,
       "sourceFiles": 741
     },
     "detect": {
       "capabilities": 4,
       "ui": 6,
-      "api": 37,
+      "api": 38,
       "sourceFiles": 230
     },
     "ai": {
       "capabilities": 10,
       "ui": 0,
-      "api": 9,
+      "api": 24,
       "sourceFiles": 59
     },
     "governance": {
       "capabilities": 5,
       "ui": 6,
-      "api": 1,
+      "api": 2,
       "sourceFiles": 182
     },
     "operate": {
       "capabilities": 8,
-      "ui": 12,
-      "api": 1,
+      "ui": 15,
+      "api": 2,
       "sourceFiles": 1518
     },
     "experience": {
       "capabilities": 6,
       "ui": 1,
-      "api": 0,
+      "api": 2,
       "sourceFiles": 891
     }
   },
   "coverage": {
-    "uiRoutes": 272,
-    "apiOperations": 2290,
+    "uiRoutes": 275,
+    "apiOperations": 2319,
     "sourceFiles": 9804,
     "providerEntries": 187,
     "capabilityRequirements": 86,

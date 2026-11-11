@@ -20,7 +20,7 @@ path	git_blob	kind	review_status
 .github/workflows/ghcr.yml	2696ebc263ef70ac1198b8cda74868884cadc635	build-and-operations	authored
 .github/workflows/owned.yml	a518913e14d87cd054146c26fd4b24b8479f4f1b	build-and-operations	authored
 .gitignore	9be9bbac89c574038e2e08337ea977ab9171008b	product-code	reviewed
-AGENTS.md	1facf82b5f91ce12868b1e3da5c69d3a71176617	documentation	reviewed
+AGENTS.md	d93551779a76f892f2eff3861510c866642b65bd	documentation	reviewed
 INSTALL-FOR-AI.md	92049aa4b355eb5a369dcc2f9e234d9caf9a3a8c	documentation	unread
 JOURNAL.md	745bd9a4b5c9d9a042d2fb98e0843335135f9964	documentation	reviewed
 NOTICE	f961337300aa4688eb9b718fa46f8be13fcd52a7	documentation	unread
@@ -51,7 +51,7 @@ compose/instances.json	b503980ffd2f92787b81675b7e043acf3658816c	build-and-operat
 compose/self.env.example	04293bf28414d883fef0ba035d99a88bd6d2d895	build-and-operations	verified
 compose/vaultix.yml	506614ac94daf7ceb56039a7d516846728c6da36	build-and-operations	reviewed
 contracts/shippin.vaultix.panel.v1.json	8b52697d4e4e60871eeef3fe126f0ffd5c837369	product-code	unread
-contracts/vaultix-capability-surface.v1.json	94f8a98435290e554f367dede33a56bcfe40749a	product-code	unread
+contracts/vaultix-capability-surface.v1.json	636fdeab18a5652cab6fdd011c98c7c98a1a45b6	product-code	unread
 contracts/vaultix.cli-acceptance.v1.json	8415634300d25cca9e4a59210d8ee4abcc9b172e	product-code	authored
 contracts/vaultix.cli-install-result.v1.json	f58c1eb145eab8f781cdab77ca15b3995567f18b	product-code	authored
 contracts/vaultix.cli-install-result.v2.json	22dd491bfb1aab1cd7a32cd4665f3ec15fb0f179	product-code	unread
@@ -95,7 +95,7 @@ core/Makefile	8883f0a6ec0960388ed87115468c0ab315051c29	product-code	unread
 core/PIN	17f95aab1bf33bd56ee24308b78a97652fc555b2	product-code	unread
 core/README.md	f5b6a8d06c55ddaca45309cef767a52a3881a345	documentation	unread
 core/SECURITY.md	2dd962dcda0380142c16bce8c8ee4bb878e48362	documentation	unread
-core/ai/README.md	dbdea701ebd02a104631b1a16870746a04e0343e	documentation	unread
+core/ai/README.md	1dbf3c61e2eaab362e8d9e2097281858fb44e00a	documentation	unread
 core/ai/clyffy/SKILL.md	8317349421da2c98bfaac5b80ad1389d55712ace	documentation	unread
 core/ai/personas/access/PERSONA.md	a2d2362f9e048c16a256fddc22fe92fced9be0c1	documentation	unread
 core/ai/personas/clyffy/PERSONA.md	0a65c3a140a9cd5560ef82a1272882752ebd4f6d	documentation	unread
@@ -105,7 +105,7 @@ core/ai/personas/security/PERSONA.md	2c87b9b31d2448e46a977259170449901027a6b6	do
 core/backend-go/.air.toml	55563b2f0f0be78e5a783ad1f75794d0e234b4c6	product-code	unread
 core/backend-go/.gitignore	1953d2dbc5719468dea12b55ecf8d559dc11dde5	product-code	unread
 core/backend-go/.golangci.yml	4a07a37f352f4797fef0136502632830e8086bd6	build-and-operations	unread
-core/backend-go/CLAUDE.md	956eb065c0be6c4194d6601548e51166c4b1feb7	documentation	authored
+core/backend-go/CLAUDE.md	653c5c6069d0cca6c6cebcd9886063b641e36540	documentation	authored
 core/backend-go/Dockerfile.dev	dbea760af22e44eb2263129aac411e29945d73ce	build-and-operations	authored
 core/backend-go/Dockerfile.dev.fips	974b3c03cf8283d70d66d3bc935e48b34291443c	build-and-operations	authored
 core/backend-go/Makefile	66d0b538363d3e06a1727f1a3ea47e394a84462f	product-code	authored
@@ -1889,7 +1889,7 @@ core/backend/src/server/routes/vaultix-router.test.ts	254c25a5c96d70bb5f95a4c9a6
 core/backend/src/server/routes/vaultix-router.ts	4abc7e9efece3e8c1bf4541f1cac1d27f00beaa3	product-code	authored
 core/backend/src/server/routes/vaultix-shared.ts	c7444b3efd8cff88ed27327659ad0a23dac612bc	product-code	unread
 core/backend/src/server/routes/vaultix-updates-router.test.ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	test	authored
-core/backend/src/server/routes/vx/assistant-router.ts	884e58294fa3978f3c258508603c9e195a57d094	product-code	unread
+core/backend/src/server/routes/vx/assistant-router.ts	206c90c4b1d56064104f51532959688c5ac65677	product-code	unread
 core/backend/src/server/routes/vx/index.ts	3733b7f878f905bc2f3bd407f61dcc563cfe1c93	product-code	unread
 core/backend/src/server/routes/vx/warp-point-router.test.ts	ce9c5c6a7f30920fa28360f83458c933beeedc16	test	unread
 core/backend/src/server/routes/vx/warp-point-router.ts	5b8dc905408668b3aafaf51d03d4455eb61c3158	product-code	unread
@@ -11947,9 +11947,9 @@ docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	
 docs/0119-schema-and-api-namespaces.md	3b8db08055b927598cef23cefa152668590f2943	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
-docs/0122-completion-plan.md	d53b78ca4739c11f0a3d796cabb3c3eca5af4ca7	documentation	unread
+docs/0122-completion-plan.md	26928622f463abdf76bedfebf80943e9933a752a	documentation	unread
 docs/0123-signal-fabric.md	314cf9ea630dfc0c8fdf3a25b153aa792572405f	documentation	unread
-docs/0124-ai-personas-and-machine-loops.md	989e42110c9503a9213be07683e0ba45765378f0	documentation	unread
+docs/0124-ai-personas-and-machine-loops.md	dfea7c824c8c5ec464b634cd8721080817c1e05f	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
 docs/auth/authority-review.schema.json	666418f1376435385aea1f98ad367999abff4e27	product-code	unread
 docs/auth/device-api-consumers.md	676d7222e052a2a29484750677ed36242a5dd752	documentation	unread
@@ -11973,9 +11973,9 @@ docs/capabilities/catalog.mjs	d5a9d21c2c2650417ecf9f0cabe598c13f1abbd7	product-c
 docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-code	verified
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
-docs/capabilities/generated/catalog.json	9385d05ffa8aabe0fc6b2d7eaf91b93f8ce70231	generated	unread
-docs/capabilities/generated/source-map.tsv	556631ca576f3823c4abe9c617f1643fe884e40e	generated	unread
-docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
+docs/capabilities/generated/catalog.json	5ba89e3a89975b6fb29bb3ccee77985052d1899c	generated	unread
+docs/capabilities/generated/source-map.tsv	6d28cf59ab06f03d8257f93204eed9b7efe86e08	generated	unread
+docs/capabilities/generated/surface-map.tsv	f7008b06d3cc68101d2665ed5c2008d8861a29ce	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
 docs/delivery/implementation.md	ca7304c778617e8b18c43a9a31aa9c9bf525e225	documentation	reviewed
@@ -11986,8 +11986,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	80ec838695f75708c65a70f9cff64f5f616497ff	generated	unread
-docs/migration/generated/modules.tsv	d05a8d688b7166acebbb32fab7dfcf2062ca0b41	generated	unread
+docs/migration/generated/files.tsv	4127fb3713a5848e93ac68affdc5b747bcf45b53	generated	unread
+docs/migration/generated/modules.tsv	1c64c6cdeb3a5de39b41276587b98f483abf6aee	generated	unread
 docs/migration/generated/summary.json	a64f5ec365b62903068fc309a3f2db1bc293ef96	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
@@ -12196,7 +12196,7 @@ scripts/lib/table-namespaces.mjs	54f262906927c1049c911f15d89fbcb24298728b	build-
 scripts/lib/test-certificates.mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	build-and-operations	reviewed
 scripts/lib/ui-action-standard.mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	build-and-operations	unread
 scripts/lib/ui-benchmark-receipt.mjs	a6171d6245aa73f31d28c6f4dc50f534557e0963	build-and-operations	unread
-scripts/map-capabilities.mjs	56130555dbb1eca19fd8e54c15702598966b95cc	build-and-operations	verified
+scripts/map-capabilities.mjs	39e98828c96d2d7ec250ec260ebdd4852c4c5cc9	build-and-operations	verified
 scripts/map-migration.mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	build-and-operations	verified
 scripts/map-table-namespaces.mjs	373dbf4bb051a7af307edfc77e5fbd0afe73be7b	build-and-operations	unread
 scripts/pr-verification.test.mjs	bc1d5e85cf758dae3c94f0cbaf55c06ec716987e	test	authored

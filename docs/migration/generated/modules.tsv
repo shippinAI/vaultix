@@ -8,7 +8,7 @@ branding	ui	supporting-tooling-or-contract	6	858ad62a2570814aa9953819f4854384258
 cmd/vaultix	cli	Go-client-Rust-injection-boundary	12	0bcea67ffae15106e093454a14f489131bfad2bb9b33fddc4159e6d91d316566	12	unassessed
 compose	delivery	supporting-tooling-or-contract	6	887c9e5c8dd7876b9cf76765d22f300580b16176df27ee3b2f3b4785e4e38b2a	4	unassessed
 contracts	automation	supporting-tooling-or-contract	6	105822e5cc478642e3aa55498b7204b5ceb627184840ed8f1d04191636c75ba3	5	unassessed
-contracts	foundation	supporting-tooling-or-contract	17	dfa5eb664877842347d2a21e886d2d5f2b53cfd0f5ac837bb0c9885b9994db1b	7	unassessed
+contracts	foundation	supporting-tooling-or-contract	17	339a01f7a54dc3452451f3294efd73c839739a35e9592af98785d97852dbb492	7	unassessed
 core	delivery	supporting-tooling-or-contract	26	7d0bafc523b0628d5661d41a8b16634c0688001e7c4facb61dbc498ac744f1eb	6	unassessed
 core/.greptile	delivery	supporting-tooling-or-contract	2	3608612865de3c63d8bc9dcf7785427d75c2b4606af67419eec437c9ea8785d6	0	unassessed
 core/.husky	delivery	supporting-tooling-or-contract	1	d4449fa923f40b42794bec6c7f7cbbd6f2de0b1a5905fb8f3db07fbdee174cc8	0	unassessed
@@ -246,7 +246,7 @@ core/backend/src/server/routes/v3	identity	Go-domain-migration	2	090f7bf6761902c
 core/backend/src/server/routes/v3	pki	Go-domain-migration	1	45d31562df7ee0c55f5c0704403090b792ba6e890a364de156081a5bb375a152	0	unassessed
 core/backend/src/server/routes/v4	foundation	Go-domain-migration	1	57c637530f8240345f1c636869d77eebd744190a9741219e99369beca3c9f1de	0	unassessed
 core/backend/src/server/routes/v4	secrets	Go-domain-migration	1	750bf3cc6be14f80233ab0e8211252afcf9c8a29b97ec32cb66a2c095611a6a6	0	unassessed
-core/backend/src/server/routes/vx	foundation	Go-domain-migration	4	25dc119ffb5ae92ef3923e90d5b13424c1eaac899aa87cf1557981fcbde68779	0	unassessed
+core/backend/src/server/routes/vx	foundation	Go-domain-migration	4	d85e98481068eca896e842ce25dcb9b34d964b4bbad23bc9b03bec2005a0b0fe	0	unassessed
 core/backend/src/services/access-token-queue	foundation	Go-domain-migration	1	8fa635eb8264f71fdaee587b78f4c02e0a319fb311364738a37f4a07cd75d11c	0	unassessed
 core/backend/src/services/account-recovery	identity	Go-domain-migration	1	bf93353670ef8c6b7aff7280072d3892973ed236cebad3de3e21437936acdff7	0	unassessed
 core/backend/src/services/additional-privilege	authorization	Go-domain-migration	5	ca2635173263ce8fe25d33db69a578b5bd147b8df5b64eebcabd9369147bf89d	0	unassessed
@@ -1154,7 +1154,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	4932e65c43ade
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	766d70d137175b7a45523e21c642a6b5d8058e056ad16c70d40d26faf2662eba	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	141	7e6e179b02136f448ab2f7347cd9d332a7cd8edb89bdddb1bb963695b91389e0	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	141	72a5539166c4283b2f2e1255a0cb317cf7c8d74f642cc6a80e36a5e3a73fd18d	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed

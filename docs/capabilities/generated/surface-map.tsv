@@ -5,11 +5,14 @@ UI	access	/account-recovery-reset
 UI	operate	/admin
 UI	operate	/admin/
 UI	operate	/admin/access-management
+UI	operate	/admin/ai-assistant
 UI	operate	/admin/authentication
 UI	operate	/admin/caching
+UI	operate	/admin/early-access
 UI	operate	/admin/encryption
 UI	operate	/admin/environment
 UI	operate	/admin/integrations
+UI	operate	/admin/mcpl
 UI	operate	/admin/resources/overview
 UI	operate	/admin/setup
 UI	operate	/admin/signup
@@ -564,6 +567,8 @@ API	secrets	DELETE /api/v3/secrets/raw/{secretName}
 API	secrets	DELETE /api/v3/secrets/tags/{secretName}
 API	secrets	DELETE /api/v4/secrets/batch
 API	secrets	DELETE /api/v4/secrets/{secretName}
+API	ai	DELETE /api/vx/v1/ai/personas/{slug}
+API	ai	DELETE /api/vx/v1/ai/providers/{providerId}
 API	access	GET /api/v1/additional-privilege/identity
 API	access	GET /api/v1/additional-privilege/identity/{privilegeSlug}
 API	connect	GET /api/v1/app-connections
@@ -1321,6 +1326,7 @@ API	access	GET /api/v1/sso/config
 API	access	GET /api/v1/sso/oidc/config
 API	workspace	GET /api/v1/sub-organizations
 API	ai	GET /api/v1/vaultix/ai/instructions
+API	ai	GET /api/v1/vaultix/auth/config
 API	ai	GET /api/v1/vaultix/catalog
 API	ai	GET /api/v1/vaultix/configure
 API	ai	GET /api/v1/vaultix/connections
@@ -1508,6 +1514,9 @@ API	secrets	GET /api/v4/secrets/id/{secretId}
 API	secrets	GET /api/v4/secrets/{secretName}
 API	secrets	GET /api/v4/secrets/{secretName}/reference-dependency-tree
 API	secrets	GET /api/v4/secrets/{secretName}/secret-reference-tree
+API	ai	GET /api/vx/v1/ai/assistant
+API	ai	GET /api/vx/v1/ai/personas
+API	ai	GET /api/vx/v1/ai/providers
 API	access	PATCH /api/v1/additional-privilege/identity
 API	connect	PATCH /api/v1/app-connections/1password/{connectionId}
 API	connect	PATCH /api/v1/app-connections/adcs/{connectionId}
@@ -1798,6 +1807,8 @@ API	secrets	PATCH /api/v3/secrets/batch/raw
 API	secrets	PATCH /api/v3/secrets/raw/{secretName}
 API	secrets	PATCH /api/v4/secrets/batch
 API	secrets	PATCH /api/v4/secrets/{secretName}
+API	ai	PATCH /api/vx/v1/ai/personas/{slug}
+API	ai	PATCH /api/vx/v1/ai/providers/{providerId}
 API	access	POST /api/v1/additional-privilege/identity/permanent
 API	access	POST /api/v1/additional-privilege/identity/temporary
 API	operate	POST /api/v1/admin/bootstrap
@@ -2401,6 +2412,7 @@ API	access	POST /api/v1/sso/config
 API	access	POST /api/v1/sso/oidc/config
 API	workspace	POST /api/v1/sub-organizations
 API	workspace	POST /api/v1/sub-organizations/{subOrgId}/memberships
+API	ai	POST /api/v1/vaultix/learning-context
 API	ai	POST /api/v1/vaultix/mcp
 API	workspace	POST /api/v1/workspace/{projectId}/tags
 API	workspace	POST /api/v1/workspace/{workspaceId}/environments
@@ -2554,6 +2566,26 @@ API	secrets	POST /api/v4/secrets/batch
 API	secrets	POST /api/v4/secrets/duplicate
 API	secrets	POST /api/v4/secrets/move
 API	secrets	POST /api/v4/secrets/{secretName}
+API	access	POST /api/vx/v1/access/mcp
+API	ai	POST /api/vx/v1/ai/mcp
+API	ai	POST /api/vx/v1/ai/messages
+API	ai	POST /api/vx/v1/ai/personas
+API	ai	POST /api/vx/v1/ai/personas/{slug}/reset
+API	ai	POST /api/vx/v1/ai/providers
+API	ai	POST /api/vx/v1/ai/providers/{providerId}/test
+API	access	POST /api/vx/v1/auth/mcp
+API	automation	POST /api/vx/v1/automation/mcp
+API	connect	POST /api/vx/v1/connect/mcp
+API	detect	POST /api/vx/v1/detect/mcp
+API	experience	POST /api/vx/v1/experience/mcp
+API	governance	POST /api/vx/v1/governance/mcp
+API	kms	POST /api/vx/v1/kms/mcp
+API	operate	POST /api/vx/v1/operate/mcp
+API	pam	POST /api/vx/v1/pam/mcp
+API	pki	POST /api/vx/v1/pki/mcp
+API	experience	POST /api/vx/v1/public/mcp
+API	secrets	POST /api/vx/v1/secrets/mcp
+API	workspace	POST /api/vx/v1/workspace/mcp
 API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/acme
 API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/api
 API	pki	PUT /api/v1/cert-manager/applications/{applicationId}/profiles/{profileId}/enrollment/est

@@ -32,7 +32,7 @@ compose/instances.json	compose	delivery	supporting-tooling-or-contract	json	b503
 compose/self.env.example	compose	delivery	supporting-tooling-or-contract	example	04293bf28414d883fef0ba035d99a88bd6d2d895	verified
 compose/vaultix.yml	compose	delivery	supporting-tooling-or-contract	yml	506614ac94daf7ceb56039a7d516846728c6da36	reviewed
 contracts/shippin.vaultix.panel.v1.json	contracts	foundation	supporting-tooling-or-contract	json	8b52697d4e4e60871eeef3fe126f0ffd5c837369	unread
-contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	94f8a98435290e554f367dede33a56bcfe40749a	unread
+contracts/vaultix-capability-surface.v1.json	contracts	foundation	supporting-tooling-or-contract	json	636fdeab18a5652cab6fdd011c98c7c98a1a45b6	unread
 contracts/vaultix.cli-acceptance.v1.json	contracts	foundation	supporting-tooling-or-contract	json	8415634300d25cca9e4a59210d8ee4abcc9b172e	authored
 contracts/vaultix.cli-install-result.v1.json	contracts	foundation	supporting-tooling-or-contract	json	f58c1eb145eab8f781cdab77ca15b3995567f18b	authored
 contracts/vaultix.cli-install-result.v2.json	contracts	foundation	supporting-tooling-or-contract	json	22dd491bfb1aab1cd7a32cd4665f3ec15fb0f179	unread
@@ -1845,7 +1845,7 @@ core/backend/src/server/routes/vaultix-router.test.ts	core/backend/src/server/ro
 core/backend/src/server/routes/vaultix-router.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	4abc7e9efece3e8c1bf4541f1cac1d27f00beaa3	authored
 core/backend/src/server/routes/vaultix-shared.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	c7444b3efd8cff88ed27327659ad0a23dac612bc	unread
 core/backend/src/server/routes/vaultix-updates-router.test.ts	core/backend/src/server/routes	foundation	Go-domain-migration	ts	dbd775f0456fae27b7e321b197d39d7ba54e1e17	authored
-core/backend/src/server/routes/vx/assistant-router.ts	core/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	884e58294fa3978f3c258508603c9e195a57d094	unread
+core/backend/src/server/routes/vx/assistant-router.ts	core/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	206c90c4b1d56064104f51532959688c5ac65677	unread
 core/backend/src/server/routes/vx/index.ts	core/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	3733b7f878f905bc2f3bd407f61dcc563cfe1c93	unread
 core/backend/src/server/routes/vx/warp-point-router.test.ts	core/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	ce9c5c6a7f30920fa28360f83458c933beeedc16	unread
 core/backend/src/server/routes/vx/warp-point-router.ts	core/backend/src/server/routes/vx	foundation	Go-domain-migration	ts	5b8dc905408668b3aafaf51d03d4455eb61c3158	unread
@@ -9684,7 +9684,7 @@ scripts/lib/table-namespaces.mjs	scripts/lib	delivery	supporting-tooling-or-cont
 scripts/lib/test-certificates.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	0b5127cc31337707e71f6ea669e45bcfb0c66046	reviewed
 scripts/lib/ui-action-standard.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	f1df50d2f430cf4379dcc6f23f2ce6d8681dd53a	unread
 scripts/lib/ui-benchmark-receipt.mjs	scripts/lib	delivery	supporting-tooling-or-contract	mjs	a6171d6245aa73f31d28c6f4dc50f534557e0963	unread
-scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	56130555dbb1eca19fd8e54c15702598966b95cc	verified
+scripts/map-capabilities.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	39e98828c96d2d7ec250ec260ebdd4852c4c5cc9	verified
 scripts/map-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0c2ca1073dca0f65e46b78a9d9fc0191bbc4f7d8	verified
 scripts/map-table-namespaces.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	373dbf4bb051a7af307edfc77e5fbd0afe73be7b	unread
 scripts/pr-verification.test.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	bc1d5e85cf758dae3c94f0cbaf55c06ec716987e	authored

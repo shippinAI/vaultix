@@ -15,24 +15,26 @@ instance's AI.
 
 | Area | State |
 | --- | --- |
-| AI providers | Go store, five adapters (Anthropic direct, Bedrock, Vertex, OpenAI, OpenAI-compatible), agent loop over the instance MCP with the person's session. Not yet released. |
-| Personas, specialists | Only a static instruction string (`services/vaultix/catalog.ts`), one skill file (`core/ai/clyffy/SKILL.md`) and the persona metadata scaffold in [0115](0115-mesh-knowledge-personas-and-scripted-event-benchmark.md). No registry, no routing, no handoff. |
+| AI providers | Built: Admin > AI Assistant; Go store with keys under the root key; five adapters (Anthropic direct, Bedrock, Vertex, OpenAI, OpenAI-compatible); recorded connection tests. Proven on the image with a stand-in model; no real provider run yet. |
+| Personas, specialists | Built: defaults in `core/ai/personas`, overrides and custom personas in `vx_ai_personas`, routing by mention, page or Clyffy, each persona on its domains' warp points, read-only. The guard does not act yet; there is nothing to approve. |
 | Domain tools | Warp points: one MCP per domain at `/api/vx/v1/<domain>/mcp`; 8 live, 7 planned. |
 | Values leaving the server | Native core has no inject or redeem. The CLI reads values through `GET /api/v3/secrets/raw`. Only the optional panel has inject/redeem. |
 | A person entering a value for someone else | Secret requests (`services/secret-sharing`): the value is stored encrypted under the root key, outside any project, and can be revealed repeatedly. |
 | Local endpoint | None. `vaultix daemon` is an outbound sync loop; `vaultix mcp` is stdio only. |
 | A person's own AI | `vaultix mcp` over stdio with the saved sign-in; names and references only. Riding the person's session (device flow) is built in Go but off and has no approval page. |
 
-### Wrong today, fixed in this work
+### Wrong in the existing code
 
-1. The panel's MCP returns the inject redeem handle to the model (`vaultix.source.act` puts it in
-   `Meta.handle`). An AI must never hold a handle that unlocks a value.
-2. The panel's `vaultix.store-key` action takes the secret value as an MCP argument. Values never
-   travel through an AI.
-3. The panel's redeem route is unauthenticated and records no actor.
-4. The CLI's `pull` and `run` read values with a GET, against "GET is metadata only".
-5. The hosted agent's instructions are one hard-coded prompt and its tools come from the main MCP;
-   both move to personas and warp points below.
+1. Fixed: the panel's MCP returned the inject redeem handle to the model. It now refuses any action
+   that hands out a handle.
+2. Fixed: the panel's `vaultix.store-key` took the secret value as an MCP argument. The MCP now
+   refuses any action with a secret input; it runs in the UI only.
+3. Partly fixed: the panel's redeem route is unauthenticated by design and recorded no actor; it
+   now records who presented the handle. Binding the handle to an identity is step 3 below.
+4. Open: the CLI's `pull` and `run` read values with a GET, against "GET is metadata only".
+   Step 3 below.
+5. Fixed: the hosted agent's instructions came from one hard-coded prompt; they now come from
+   personas, and its tools from warp points.
 
 ## Personas and specialists
 

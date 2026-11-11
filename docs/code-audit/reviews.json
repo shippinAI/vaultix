@@ -2864,7 +2864,7 @@
     },
     {
       "path": "scripts/map-capabilities.mjs",
-      "blob": "56130555dbb1eca19fd8e54c15702598966b95cc",
+      "blob": "39e98828c96d2d7ec250ec260ebdd4852c4c5cc9",
       "status": "verified",
       "decision": "modify",
       "scope": "Complete file read. Provider discovery now requires mapped source, so empty untracked historical directories cannot inflate a clean-checkout inventory. Existing UI/API baseline and capability requirements are unchanged; discovery remains separate from provider acceptance.",
@@ -2874,7 +2874,8 @@
         ".cache/atomic-first-owner/.cache/atomic-release-LFwbtz/result.json",
         "core/backend/e2e-test/routes/v1/first-owner-atomic.spec.ts",
         "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant docs, capability baseline and Vaultix API domains in the capability map."
       ]
     },
     {
@@ -4977,7 +4978,7 @@
     },
     {
       "path": "AGENTS.md",
-      "blob": "1facf82b5f91ce12868b1e3da5c69d3a71176617",
+      "blob": "d93551779a76f892f2eff3861510c866642b65bd",
       "status": "reviewed",
       "decision": "modify",
       "scope": "Read complete merged router including invite-only, early-access and lifecycle corrections. Add domain-event routing while preserving all authority and release boundaries.",
@@ -4991,7 +4992,8 @@
         "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
         "Reviewed: completion plan for what remains, in order.",
         "Reviewed: sign-in plan (shippin.ai by default, Google through it on vaultix.cloud) and the owner's no-compatibility rule for API changes.",
-        "Reviewed: signal fabric, receipts and rehearsal demo spec; coverage gaps."
+        "Reviewed: signal fabric, receipts and rehearsal demo spec; coverage gaps.",
+        "Reviewed: assistant docs, capability baseline captured from the image."
       ]
     },
     {
@@ -8863,7 +8865,7 @@
     },
     {
       "path": "core/backend-go/CLAUDE.md",
-      "blob": "956eb065c0be6c4194d6601548e51166c4b1feb7",
+      "blob": "653c5c6069d0cca6c6cebcd9886063b641e36540",
       "status": "authored",
       "decision": "modify",
       "scope": "Complete changed build/documentation/verification modules read. Remove the replacement module and nested dependency copy, package exact notices, keep manual-only workflows, and bind acceptance to committed canonical image and native PostgreSQL/cache tests. Documentation distinguishes absorption and source history from whole-product authorship.",
@@ -8872,7 +8874,8 @@
         "scripts/test-vaultix-policy.mjs",
         "scripts/test-vaultix-policy-image.mjs",
         "scripts/build-self-hosted.mjs",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed: assistant docs, capability baseline captured from the image."
       ]
     },
     {

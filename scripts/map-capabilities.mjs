@@ -63,8 +63,18 @@ const workstreamGroups = {
   "legacy-panel": "operate",
 };
 
+// The Vaultix API names its domain in the path (docs/0119): /api/vx/v1/<domain>/...
+const vxDomains = new Set(["public", "auth", "workspace", "secrets", "access", "automation", "connect", "pki", "kms",
+  "pam", "detect", "ai", "governance", "operate", "experience"]);
+
 export function apiGroup(operation) {
   const path = operation.split(" ")[1];
+  if (path?.startsWith("/api/vx/v1/")) {
+    const domain = path.split("/")[4];
+    assert.ok(vxDomains.has(domain), `Unclassified Vaultix API domain: ${operation}`);
+    // The capability map files sign-in under access and the public surface under experience.
+    return { auth: "access", public: "experience" }[domain] ?? domain;
+  }
   assert.match(path ?? "", /^\/api\/v\d+\//, `Unclassified API operation: ${operation}`);
   const family = path.split("/")[3];
   assert.ok(apiGroups[family], `Unclassified API family: ${family}`);
