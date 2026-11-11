@@ -4,7 +4,7 @@ import * as x509 from "@peculiar/x509";
 
 import { ActionProjectType, ProjectMembershipRole, ResourceType } from "@app/db/schemas";
 import { TCertificateAuthorityCrlDALFactory } from "@app/shippin/services/certificate-authority-crl/certificate-authority-crl-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
@@ -28,8 +28,6 @@ import { TCertificateAuthorityServiceFactory } from "@app/services/certificate-a
 import { TCertificateSyncDALFactory } from "@app/services/certificate-sync/certificate-sync-dal";
 import type { THsmConnectorServiceFactory } from "@app/services/hsm-connector/hsm-connector-service";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
-import { ActiveCerts } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TPkiAlertV2QueueServiceFactory } from "@app/services/pki-alert-v2/pki-alert-v2-queue";
 import { PkiAlertEventType } from "@app/services/pki-alert-v2/pki-alert-v2-types";
 import { TPkiApplicationDALFactory } from "@app/services/pki-application/pki-application-dal";
@@ -43,7 +41,6 @@ import { getProjectKmsCertificateKeyId } from "@app/services/project/project-fns
 import { TResourceMetadataDALFactory } from "@app/services/resource-metadata/resource-metadata-dal";
 
 import { expandInternalCa, getCaCertChain, rebuildCaCrl } from "../certificate-authority/certificate-authority-fns";
-import { validatePqcLicense } from "../certificate-common/certificate-utils";
 import {
   CertificateThumbprintAlgorithm,
   extractCertificateFields,
@@ -106,8 +103,7 @@ type TCertificateServiceFactoryDep = {
   certificateAuthorityService: Pick<TCertificateAuthorityServiceFactory, "revokeCertificate">;
   resourceMetadataDAL: Pick<TResourceMetadataDALFactory, "find">;
   pkiAlertV2Queue?: Pick<TPkiAlertV2QueueServiceFactory, "queueCertificateEvent">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   hsmConnectorService: Pick<THsmConnectorServiceFactory, "sign">;
 };
 
@@ -133,8 +129,7 @@ export const certificateServiceFactory = ({
   resourceMetadataDAL,
   pkiAlertV2Queue,
   pkiApplicationDAL,
-  licenseService,
-  usageMeteringService,
+  featureService,
   hsmConnectorService
 }: TCertificateServiceFactoryDep) => {
   const $canActOnCertViaApplication = async (
@@ -413,7 +408,6 @@ export const certificateServiceFactory = ({
       pkiSyncQueue
     });
 
-    usageMeteringService.emitForProject(cert.projectId, ActiveCerts.key);
 
     return {
       deletedCert
@@ -526,12 +520,6 @@ export const certificateServiceFactory = ({
     if (cert.status === CertStatus.REVOKED) throw new Error("Certificate already revoked");
 
     if (ca.internalCa) {
-      await validatePqcLicense({
-        keyAlgorithm: ca.internalCa.keyAlgorithm,
-        projectId: ca.projectId,
-        projectDAL,
-        licenseService
-      });
     }
 
     // Call the upstream CA first so we don't end up with a cert that's revoked locally but still
@@ -562,7 +550,6 @@ export const certificateServiceFactory = ({
       }
     );
 
-    usageMeteringService.emitForProject(ca.projectId, ActiveCerts.key);
 
     // Trigger auto sync for PKI syncs connected to this certificate
     await triggerAutoSyncForCertificate(cert.id, {
@@ -959,7 +946,6 @@ export const certificateServiceFactory = ({
       }
     });
 
-    usageMeteringService.emitForProject(projectId, ActiveCerts.key);
 
     return {
       certificate: certificatePem,

@@ -23,7 +23,6 @@
                          "vaultix.runtime.answer",
                          "vaultix.configure.show",
                          "vaultix.mcp.call",
-                         "vaultix.license.read",
                          "vaultix.instance.read",
                          "vaultix.manager.list",
                          "vaultix.manager.register"
@@ -41,11 +40,6 @@
                                    "method":  "GET",
                                    "path":  "/api/v1/vaultix/trust",
                                    "purpose":  "Public stamp: AngryVibes LLC / shippin.ai, trusts Nomen, vaultix_* tables"
-                               },
-                               {
-                                   "method":  "GET",
-                                   "path":  "/api/v1/vaultix/license",
-                                   "purpose":  "Vaultix included feature policy; tier names are compatibility metadata, not software paywalls."
                                },
                                {
                                    "method":  "GET",

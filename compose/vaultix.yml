@@ -30,8 +30,6 @@ services:
     environment:
       NODE_ENV: production
       TELEMETRY_ENABLED: "false"
-      LICENSE_SERVER_V2_MODE: "off"
-      LICENSE_SERVER_URL: ""
       SITE_URL: ${SITE_URL:-https://vaultix.shippin.cloud}
       SMTP_FROM_NAME: Vaultix
       SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-vaultix@shippin.cloud}
@@ -70,7 +68,6 @@ services:
       VAULTIX_SKU: ${VAULTIX_SKU:-self}
       VAULTIX_LABEL: ${VAULTIX_LABEL:-}
       VAULTIX_PUBLIC_HOST: ${VAULTIX_PUBLIC_HOST:-}
-      VAULTIX_LICENSE_TIER: ${VAULTIX_LICENSE_TIER:-community}
       NOMEN_OIDC_ISSUER: ${NOMEN_OIDC_ISSUER:-}
     ports:
       - "127.0.0.1:8201:8201"

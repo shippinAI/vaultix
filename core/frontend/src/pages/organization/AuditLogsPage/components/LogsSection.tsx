@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import {
   Alert,
   AlertDescription,
@@ -57,7 +56,7 @@ const LogsSectionComponent = ({
   project
 }: Props) => {
   const { subscription } = useSubscription();
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
   const { data: postgresStorageStatus } = useGetAuditLogPostgresStorageStatus();
 
   const AUDIT_LOG_ROW_WARNING_THRESHOLD = 350_000_000;
@@ -209,13 +208,6 @@ const LogsSectionComponent = ({
             timezone={timezone}
           />
         </CardContent>
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => {
-            handlePopUpToggle("upgradePlan", isOpen);
-          }}
-          text="Your current plan does not include access to audit logs. To unlock this feature, please upgrade to Vaultix Pro plan."
-        />
       </Card>
     );
 
@@ -292,13 +284,6 @@ const LogsSectionComponent = ({
           actor: logFilter?.actor
         }}
         timezone={timezone}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => {
-          handlePopUpToggle("upgradePlan", isOpen);
-        }}
-        text="Your current plan does not include access to audit logs. To unlock this feature, please upgrade to Vaultix Pro plan."
       />
     </div>
   );

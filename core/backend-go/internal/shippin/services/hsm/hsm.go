@@ -79,12 +79,7 @@ func (s *Service) Close() error {
 
 // StartService ensures the required AES and HMAC keys exist on the token,
 // then runs a self-test to validate the HSM is working correctly.
-// The licenseAllowsHSM parameter must be true, otherwise returns an error.
-func (s *Service) StartService(licenseAllowsHSM bool) error {
-	if !licenseAllowsHSM {
-		return fmt.Errorf("HSM: your license does not include HSM integration, please upgrade to the Enterprise plan")
-	}
-
+func (s *Service) StartService() error {
 	if err := s.ensureKeys(); err != nil {
 		return fmt.Errorf("HSM: ensuring keys: %w", err)
 	}

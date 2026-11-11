@@ -2,7 +2,7 @@ import { ForbiddenError } from "@casl/ability";
 import { join } from "path";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionSecretScanningConfigActions,
@@ -64,7 +64,7 @@ export type TSecretScanningV2ServiceFactoryDep = {
   appConnectionService: Pick<TAppConnectionServiceFactory, "validateAppConnectionUsageById">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "updateById">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission" | "getOrgPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   secretScanningV2Queue: Pick<
     TSecretScanningV2QueueServiceFactory,
     "queueDataSourceFullScan" | "queueResourceDiffScan"
@@ -78,7 +78,7 @@ export const secretScanningV2ServiceFactory = ({
   secretScanningV2DAL,
   permissionService,
   appConnectionService,
-  licenseService,
+  featureService,
   secretScanningV2Queue,
   appConnectionDAL,
   kmsService
@@ -87,7 +87,7 @@ export const secretScanningV2ServiceFactory = ({
     projectId: string,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -142,7 +142,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TFindSecretScanningDataSourceByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -183,7 +183,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, sourceName, projectId }: TFindSecretScanningDataSourceByNameDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -228,7 +228,7 @@ export const secretScanningV2ServiceFactory = ({
     payload: TCreateSecretScanningDataSourceDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -341,7 +341,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId, ...payload }: TUpdateSecretScanningDataSourceDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -419,7 +419,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TDeleteSecretScanningDataSourceDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -496,7 +496,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId, resourceId }: TTriggerSecretScanningDataSourceDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -560,7 +560,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TFindSecretScanningDataSourceByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -605,7 +605,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TFindSecretScanningDataSourceByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -648,7 +648,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TFindSecretScanningDataSourceByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -691,7 +691,7 @@ export const secretScanningV2ServiceFactory = ({
     { type, dataSourceId }: TFindSecretScanningDataSourceByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -731,7 +731,7 @@ export const secretScanningV2ServiceFactory = ({
   };
 
   const getSecretScanningUnresolvedFindingsCountByProjectId = async (projectId: string, actor: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -765,7 +765,7 @@ export const secretScanningV2ServiceFactory = ({
   };
 
   const listSecretScanningFindingsByProjectId = async (projectId: string, actor: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -798,7 +798,7 @@ export const secretScanningV2ServiceFactory = ({
     { findingId, remarks, status }: TUpdateSecretScanningFindingDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -836,7 +836,7 @@ export const secretScanningV2ServiceFactory = ({
   };
 
   const findSecretScanningConfigByProjectId = async (projectId: string, actor: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({
@@ -871,7 +871,7 @@ export const secretScanningV2ServiceFactory = ({
     { projectId, content }: TUpsertSecretScanningConfigDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretScanning)
       throw new BadRequestError({

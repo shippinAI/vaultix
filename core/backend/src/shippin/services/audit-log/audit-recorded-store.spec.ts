@@ -60,7 +60,7 @@ test("recorded audit retries after actual PostgreSQL persistence without duplica
           throw new Error("Pinned source must not be re-resolved");
         }
       },
-      licenseService: {
+      featureService: {
         getPlan: async () => {
           throw new Error("Pinned source must not be re-resolved");
         }

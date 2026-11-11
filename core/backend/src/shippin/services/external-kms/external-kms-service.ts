@@ -10,7 +10,7 @@ import { TKmsKeyDALFactory } from "@app/services/kms/kms-key-dal";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey, KmsKeyUsage } from "@app/services/kms/kms-types";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TExternalKmsDALFactory } from "./external-kms-dal";
@@ -37,7 +37,7 @@ type TExternalKmsServiceFactoryDep = {
   kmsService: Pick<TKmsServiceFactory, "getOrgKmsKeyId" | "createCipherPairWithDataKey">;
   kmsDAL: Pick<TKmsKeyDALFactory, "create" | "updateById" | "findById" | "deleteById" | "findOne">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TExternalKmsServiceFactory = ReturnType<typeof externalKmsServiceFactory>;
@@ -45,7 +45,7 @@ export type TExternalKmsServiceFactory = ReturnType<typeof externalKmsServiceFac
 export const externalKmsServiceFactory = ({
   externalKmsDAL,
   permissionService,
-  licenseService,
+  featureService,
   kmsService,
   kmsDAL
 }: TExternalKmsServiceFactoryDep) => {
@@ -68,7 +68,7 @@ export const externalKmsServiceFactory = ({
     });
 
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.Kms);
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.externalKms) {
       throw new BadRequestError({
         message: "Failed to create external KMS due to plan restriction. Upgrade to the Enterprise plan."
@@ -194,7 +194,7 @@ export const externalKmsServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Edit, OrgPermissionSubjects.Kms);
 
-    const plan = await licenseService.getPlan(kmsDoc.orgId);
+    const plan = await featureService.getPlan(kmsDoc.orgId);
     if (!plan.externalKms) {
       throw new BadRequestError({
         message: "Failed to update external KMS due to plan restriction. Upgrade to the Enterprise plan."

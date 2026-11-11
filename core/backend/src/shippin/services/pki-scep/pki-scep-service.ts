@@ -50,7 +50,7 @@ import { getProjectKmsCertificateKeyId } from "@app/services/project/project-fns
 
 import { EventType, TAuditLogServiceFactory } from "../audit-log/audit-log-types";
 import { convertRawCertsToPkcs7 } from "../certificate-est/certificate-est-fns";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { getScepValidationHandler, IScepValidationHandler, ScepChallengeType } from "./challenge";
 import { TScepDynamicChallengeDALFactory } from "./pki-scep-dynamic-challenge-dal";
 import {
@@ -91,7 +91,7 @@ type TPkiScepServiceFactoryDep = {
   kmsService: Pick<TKmsServiceFactory, "decryptWithKmsKey" | "generateKmsKey" | "createCipherPairWithDataKey">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "findById">;
   keyStore: Pick<TKeyStoreFactory, "getItem" | "setItemWithExpiry">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   certificatePolicyDAL: Pick<TCertificatePolicyDALFactory, "findById">;
   certificatePolicyService: Pick<TCertificatePolicyServiceFactory, "validateCertificateRequest">;
   certificateRequestService: Pick<TCertificateRequestServiceFactory, "createCertificateRequest">;
@@ -122,7 +122,7 @@ export const pkiScepServiceFactory = ({
   kmsService,
   appConnectionDAL,
   keyStore,
-  licenseService,
+  featureService,
   certificatePolicyDAL,
   certificatePolicyService,
   certificateRequestService,
@@ -183,7 +183,7 @@ export const pkiScepServiceFactory = ({
       throw new NotFoundError({ message: "Project not found" });
     }
 
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.pkiScep) {
       throw new BadRequestError({
         message: "Failed to perform SCEP operation due to plan restriction. Upgrade to the Enterprise plan."
@@ -1200,7 +1200,7 @@ export const pkiScepServiceFactory = ({
       throw new NotFoundError({ message: "Project not found" });
     }
 
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.pkiScep) {
       throw new BadRequestError({
         message: "Failed to generate SCEP challenge due to plan restriction. Upgrade to the Enterprise plan."

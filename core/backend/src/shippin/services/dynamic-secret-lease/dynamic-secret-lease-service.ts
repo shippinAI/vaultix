@@ -2,7 +2,7 @@ import { ForbiddenError, subject } from "@casl/ability";
 import RE2 from "re2";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionDynamicSecretActions,
@@ -41,7 +41,7 @@ type TDynamicSecretLeaseServiceFactoryDep = {
   dynamicSecretDAL: Pick<TDynamicSecretDALFactory, "findOne">;
   dynamicSecretProviders: Record<DynamicSecretProviders, TDynamicProviderFns>;
   dynamicSecretQueueService: TDynamicSecretLeaseQueueServiceFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   folderDAL: Pick<TSecretFolderDALFactory, "findBySecretPath">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
   projectDAL: Pick<TProjectDALFactory, "findProjectBySlug">;
@@ -59,7 +59,7 @@ export const dynamicSecretLeaseServiceFactory = ({
   permissionService,
   dynamicSecretQueueService,
   projectDAL,
-  licenseService,
+  featureService,
   kmsService,
   userDAL,
   identityDAL,
@@ -97,7 +97,7 @@ export const dynamicSecretLeaseServiceFactory = ({
       actionProjectType: ActionProjectType.SecretManager
     });
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan?.dynamicSecret) {
       throw new BadRequestError({
         message: "Failed to create lease due to plan restriction. Upgrade plan to create dynamic secret."
@@ -247,7 +247,7 @@ export const dynamicSecretLeaseServiceFactory = ({
       projectId
     });
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan?.dynamicSecret) {
       throw new BadRequestError({
         message: "Failed to renew lease due to plan restriction. Upgrade plan to create dynamic secret."

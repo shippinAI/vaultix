@@ -51,7 +51,6 @@
     "/organizations/$orgId/app-connections/$appConnection/oauth/callback",
     "/organizations/$orgId/app-connections/github/manifest/callback",
     "/organizations/$orgId/audit-logs",
-    "/organizations/$orgId/billing",
     "/organizations/$orgId/groups/$groupId",
     "/organizations/$orgId/identities/$identityId",
     "/organizations/$orgId/integrations",

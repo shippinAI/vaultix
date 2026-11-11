@@ -85,7 +85,7 @@ describe("GET /api/v3/secrets/raw describe-only boundary", () => {
     secretValidationRuleService: {} as never,
     projectFolderGrantDAL: {} as never,
     orgDAL: {} as never,
-    licenseService: {} as never
+    featureService: {} as never
   });
   const getBotKey = vi.fn(async () => ({ shouldUseSecretV2Bridge: true, botKey: "unused" }));
   const secrets = secretServiceFactory({
@@ -106,7 +106,7 @@ describe("GET /api/v3/secrets/raw describe-only boundary", () => {
     secretApprovalRequestSecretDAL: {} as never,
     secretV2BridgeService: bridge,
     secretApprovalRequestService: {} as never,
-    licenseService: {} as never,
+    featureService: {} as never,
     reminderService: {} as never,
     secretVersionV2DAL: {} as never,
     secretV2BridgeDAL: {} as never,

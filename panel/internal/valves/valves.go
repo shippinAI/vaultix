@@ -20,8 +20,6 @@ type State struct {
 	Name      string `json:"name"`
 	Label     string `json:"label"`
 	Enabled   bool   `json:"enabled"`
-	Licensed  bool   `json:"licensed"`
-	Requires  string `json:"requires"`
 	Detail    string `json:"detail"`
 }
 

@@ -78,11 +78,10 @@ const createService = ({
     identityDAL: {
       findById: vi.fn().mockResolvedValue({ orgId: ROOT_ORG_ID, projectId: null })
     } as never,
-    licenseService: { getPlan: vi.fn() } as never,
+    featureService: { getPlan: vi.fn() } as never,
     applicationMembershipCleanupService: { cleanupActorApplicationMemberships: vi.fn() } as never,
     projectDAL: { findById: vi.fn() } as never,
     keyStore: { getKeysByPattern: vi.fn(), getItem: vi.fn() } as never,
-    usageMeteringService: { emit: vi.fn(), emitForProject: vi.fn() } as never,
     alertService: { deleteAlertsForResource } as never,
     identityAccessTokenService: {
       insertOrgMembershipRevocationMarker,

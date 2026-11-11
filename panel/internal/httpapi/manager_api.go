@@ -14,7 +14,6 @@ func (s *Server) getTenant(w http.ResponseWriter, _ *http.Request) {
 func (s *Server) getInstance(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{
 		"instance": s.Deploy,
-		"license":  s.license(),
 	})
 }
 
@@ -38,7 +37,7 @@ func (s *Server) registerManaged(w http.ResponseWriter, r *http.Request, u strin
 	if !readJSON(w, r, &in) {
 		return
 	}
-	inst, err := s.Manager.Register(in.Label, in.SKU, string(s.license().Tier))
+	inst, err := s.Manager.Register(in.Label, in.SKU)
 	s.Audit.Record(u, "manager.register", in.Label, err == nil, errText(err))
 	if err != nil {
 		if err == manager.ErrBadLabel {

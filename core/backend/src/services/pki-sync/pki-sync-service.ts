@@ -1,7 +1,7 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType, ResourceType, TCertificateSyncs } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ProjectPermissionPkiSyncActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import {
@@ -89,7 +89,7 @@ type TPkiSyncServiceFactoryDep = {
   pkiSubscriberDAL: Pick<TPkiSubscriberDALFactory, "findById">;
   appConnectionService: Pick<TAppConnectionServiceFactory, "connectAppConnectionById">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission" | "getResourcePermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   pkiSyncQueue: Pick<
     TPkiSyncQueueFactory,
@@ -106,7 +106,7 @@ export const pkiSyncServiceFactory = ({
   pkiSubscriberDAL,
   appConnectionService,
   permissionService,
-  licenseService,
+  featureService,
   kmsService,
   pkiSyncQueue
 }: TPkiSyncServiceFactoryDep) => {
@@ -316,7 +316,7 @@ export const pkiSyncServiceFactory = ({
       });
     }
 
-    await enterprisePkiSyncCheck(licenseService, actor.orgId, destination);
+    await enterprisePkiSyncCheck(featureService, actor.orgId, destination);
 
     let subscriber;
     if (subscriberId) {

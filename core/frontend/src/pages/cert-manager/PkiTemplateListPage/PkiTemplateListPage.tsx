@@ -14,7 +14,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
@@ -316,12 +315,6 @@ export const PkiTemplateListPage = () => {
           preselectedTemplate={popUp.certificateFromTemplate.data}
         />
       </div>
-      <UpgradePlanModal
-        isOpen={popUp.estUpgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("estUpgradePlan", isOpen)}
-        text="Your current plan does not include access to configuring template enrollment methods. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature={popUp.estUpgradePlan.data?.isEnterpriseFeature}
-      />
     </>
   );
 };

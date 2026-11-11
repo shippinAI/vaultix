@@ -51,7 +51,7 @@ export const SignerKeyStep = ({
   minRsaKeyBits
 }: SignerKeyStepProps) => {
   const { subscription } = useSubscription();
-  const isHsmLicensed = Boolean(subscription?.hsm);
+  const isHsmIncluded = Boolean(subscription?.hsm);
   const { permission } = useProjectPermission();
   const canAttachHsm = permission.can(
     ProjectPermissionHsmConnectorActions.Attach,
@@ -115,11 +115,11 @@ export const SignerKeyStep = ({
                   <SelectItem value={CertKeySource.Vaultix} disabled={requiresHsm}>
                     Vaultix
                   </SelectItem>
-                  <SelectItem value={CertKeySource.Hsm} disabled={!isHsmLicensed || !canAttachHsm}>
+                  <SelectItem value={CertKeySource.Hsm} disabled={!isHsmIncluded || !canAttachHsm}>
                     <div className="flex items-center gap-2">
                       HSM
-                      {!isHsmLicensed && <Badge variant="info">Enterprise</Badge>}
-                      {isHsmLicensed && !canAttachHsm && (
+                      {!isHsmIncluded && <Badge variant="info">Enterprise</Badge>}
+                      {isHsmIncluded && !canAttachHsm && (
                         <Badge variant="warning">Permission required</Badge>
                       )}
                     </div>

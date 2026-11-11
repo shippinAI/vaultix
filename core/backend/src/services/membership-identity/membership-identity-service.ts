@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 
 import { AccessScope, ProjectMembershipRole, TemporaryPermissionMode, TMembershipRolesInsert } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
@@ -11,8 +11,6 @@ import { SearchResourceOperators } from "@app/lib/search-resource/search";
 import { TAlertServiceFactory } from "@app/services/alert/alert-service";
 import { IDENTITY_AUTHENTICATION_RESOURCE_TYPE } from "@app/services/alert/providers/identity-credential-alert-provider";
 import { getIdentityActiveLockoutAuthMethods } from "@app/services/identity/identity-fns";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 
 import { TAdditionalPrivilegeDALFactory } from "../additional-privilege/additional-privilege-dal";
 import { TIdentityDALFactory } from "../identity/identity-dal";
@@ -46,14 +44,13 @@ type TMembershipIdentityServiceFactoryDep = {
   orgDAL: Pick<TOrgDALFactory, "findById" | "findEffectiveOrgMembership">;
   additionalPrivilegeDAL: Pick<TAdditionalPrivilegeDALFactory, "delete">;
   identityDAL: Pick<TIdentityDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   applicationMembershipCleanupService: Pick<
     TApplicationMembershipCleanupServiceFactory,
     "cleanupActorApplicationMemberships"
   >;
   projectDAL: Pick<TProjectDALFactory, "findById">;
   keyStore: Pick<TKeyStoreFactory, "getKeysByPattern" | "getItem">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit" | "emitForProject">;
   alertService: Pick<TAlertServiceFactory, "deleteAlertsForResource">;
   identityAccessTokenService: Pick<
     TIdentityAccessTokenServiceFactory,
@@ -71,11 +68,10 @@ export const membershipIdentityServiceFactory = ({
   orgDAL,
   additionalPrivilegeDAL,
   identityDAL,
-  licenseService,
+  featureService,
   applicationMembershipCleanupService,
   projectDAL,
   keyStore,
-  usageMeteringService,
   alertService,
   identityAccessTokenService
 }: TMembershipIdentityServiceFactoryDep) => {
@@ -119,7 +115,7 @@ export const membershipIdentityServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -133,7 +129,7 @@ export const membershipIdentityServiceFactory = ({
     const customInputRoles = data.roles.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -228,8 +224,6 @@ export const membershipIdentityServiceFactory = ({
 
     // Adding an identity to a project changes the secret-manager and PAM identity meters (a direct member).
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     }
     return { membership };
   };
@@ -243,7 +237,7 @@ export const membershipIdentityServiceFactory = ({
     const customInputRoles = data.roles.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -272,7 +266,7 @@ export const membershipIdentityServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -476,11 +470,7 @@ export const membershipIdentityServiceFactory = ({
     // Removing an identity from a project drops a direct member; removing it from the org cascades its
     // project + group memberships. Either way the secret-manager and PAM identity meters change.
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     } else {
-      usageMeteringService.emit(scopeData.orgId, SecretIdentities.key);
-      usageMeteringService.emit(scopeData.orgId, PamIdentities.key);
     }
 
     if (needsRevocationBump && externalTx) {

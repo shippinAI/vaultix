@@ -5,7 +5,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import { DeleteActionModal, IconButton } from "@app/components/v2";
@@ -92,12 +91,6 @@ export const CertificateTemplatesSection = ({ caId }: Props) => {
             (popUp?.deleteCertificateTemplate?.data as { id: string })?.id
           )
         }
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-        text="Your current plan does not include access to managing template enrollment options for EST. To unlock this feature, please upgrade to Vaultix Enterprise plan."
       />
     </div>
   );

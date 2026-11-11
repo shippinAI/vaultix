@@ -58,17 +58,6 @@ else
   bad ".github/workflows/ghcr.yml missing"
 fi
 
-if grep -q 'default("")' "$ROOT/core/backend/src/lib/config/env.ts" \
-   && grep -q 'LICENSE_SERVER_V2_MODE: z.enum' "$ROOT/core/backend/src/lib/config/env.ts"; then
-  if grep -n 'LICENSE_SERVER_V2_MODE' "$ROOT/core/backend/src/lib/config/env.ts" | grep -q 'default("off")'; then
-    ok "license server default empty, v2 off"
-  else
-    bad "LICENSE_SERVER_V2_MODE is not default off"
-  fi
-else
-  bad "LICENSE_SERVER_URL default is not empty"
-fi
-
 # Customer chrome: no leftover vendor name in the live UI tree (not stories, not wasm).
 # The provider importer files have to name the provider they import from.
 hits="$(rg -n -i --glob '!*.stories.*' --glob '!**/ironrdp-decoder/**' --glob '!**/external-vaultix*' \

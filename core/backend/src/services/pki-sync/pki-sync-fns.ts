@@ -3,7 +3,7 @@ import { z, ZodSchema } from "zod";
 
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { BadRequestError } from "@app/lib/errors";
 import { TAppConnectionDALFactory } from "@app/services/app-connection/app-connection-dal";
 import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";
@@ -61,12 +61,12 @@ const PKI_SYNC_LIST_OPTIONS = {
 };
 
 export const enterprisePkiSyncCheck = async (
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">,
+  featureService: Pick<TFeatureServiceFactory, "getPlan">,
   orgId: string,
   pkiSyncDestination: PkiSync,
   errorMessage?: string
 ) => {
-  const plan = await licenseService.getPlan(orgId);
+  const plan = await featureService.getPlan(orgId);
 
   if (!plan.enterpriseCertificateSyncs && ENTERPRISE_PKI_SYNCS.includes(pkiSyncDestination)) {
     throw new BadRequestError({

@@ -2,7 +2,7 @@ import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
 import { TAccessApprovalPolicyEnvironmentDALFactory } from "@app/shippin/services/access-approval-policy/access-approval-policy-environment-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ProjectPermissionActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { TSecretApprovalPolicyEnvironmentDALFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-environment-dal";
@@ -27,7 +27,7 @@ type TProjectEnvServiceFactoryDep = {
   projectEnvDAL: TProjectEnvDALFactory;
   folderDAL: Pick<TSecretFolderDALFactory, "create">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   keyStore: Pick<TKeyStoreFactory, "acquireLock" | "setItemWithExpiry" | "getItem" | "waitTillReady" | "deleteItem">;
   accessApprovalPolicyEnvironmentDAL: Pick<TAccessApprovalPolicyEnvironmentDALFactory, "findAvailablePoliciesByEnvId">;
   secretApprovalPolicyEnvironmentDAL: Pick<TSecretApprovalPolicyEnvironmentDALFactory, "findAvailablePoliciesByEnvId">;
@@ -38,7 +38,7 @@ export type TProjectEnvServiceFactory = ReturnType<typeof projectEnvServiceFacto
 export const projectEnvServiceFactory = ({
   projectEnvDAL,
   permissionService,
-  licenseService,
+  featureService,
   keyStore,
   folderDAL,
   accessApprovalPolicyEnvironmentDAL,
@@ -96,7 +96,7 @@ export const projectEnvServiceFactory = ({
 
       // getProjectPermission above guarantees project existence and org membership,
       // so actorOrgId === project.orgId — no separate project lookup needed.
-      const plan = await licenseService.getPlan(actorOrgId);
+      const plan = await featureService.getPlan(actorOrgId);
       if (plan.environmentLimit !== null && envs.length >= plan.environmentLimit) {
         // case: limit imposed on number of environments allowed
         // case: number of environments used exceeds the number of environments allowed
@@ -201,7 +201,7 @@ export const projectEnvServiceFactory = ({
       const envs = await projectEnvDAL.find({ projectId });
       // getProjectPermission above guarantees project existence and org membership,
       // so actorOrgId === project.orgId — no separate project lookup needed.
-      const plan = await licenseService.getPlan(actorOrgId);
+      const plan = await featureService.getPlan(actorOrgId);
       if (plan.environmentLimit !== null && envs.length > plan.environmentLimit) {
         // case: limit imposed on number of environments allowed
         // case: number of environments used exceeds the number of environments allowed
@@ -403,7 +403,7 @@ export const projectEnvServiceFactory = ({
         const activeEnvs = await projectEnvDAL.find({ projectId }, { tx });
         // getProjectPermission above guarantees project existence and org membership,
         // so actorOrgId === project.orgId — no separate project lookup needed.
-        const plan = await licenseService.getPlan(actorOrgId);
+        const plan = await featureService.getPlan(actorOrgId);
         if (plan.environmentLimit !== null && activeEnvs.length >= plan.environmentLimit) {
           throw new BadRequestError({
             message:

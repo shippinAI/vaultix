@@ -2,13 +2,11 @@ import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 
 import { PageHeader } from "@app/components/v2";
-import { useGetServerConfig } from "@app/hooks/api/admin";
 
-import { GeneralPageForm, UsageReportSection } from "./components";
+import { GeneralPageForm } from "./components";
 
 export const GeneralPage = () => {
   const { t } = useTranslation();
-  const { data: serverConfig } = useGetServerConfig();
 
   return (
     <div className="h-full bg-background text-foreground">
@@ -24,7 +22,6 @@ export const GeneralPage = () => {
           />
           <div className="space-y-6">
             <GeneralPageForm />
-            {serverConfig?.isOfflineUsageReportsEnabled && <UsageReportSection />}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { ForbiddenError } from "@casl/ability";
 
 import { OrganizationActionScope } from "@app/db/schemas";
 import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionMachineIdentityAuthTemplateActions,
   OrgPermissionSubjects
@@ -32,7 +32,7 @@ type TIdentityAuthTemplateServiceFactoryDep = {
   identityLdapAuthDAL: TIdentityLdapAuthDALFactory;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey" | "encryptWithInputKey" | "decryptWithInputKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   auditLogService: Pick<TAuditLogServiceFactory, "createAuditLog">;
 };
 
@@ -43,12 +43,12 @@ export const identityAuthTemplateServiceFactory = ({
   identityLdapAuthDAL,
   permissionService,
   kmsService,
-  licenseService,
+  featureService,
   auditLogService
 }: TIdentityAuthTemplateServiceFactoryDep) => {
   // Plan check
   const $checkPlan = async (orgId: string) => {
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.machineIdentityAuthTemplates)
       throw new BadRequestError({
         message:

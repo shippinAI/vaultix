@@ -134,7 +134,7 @@ export const IdentityAuthTemplatesTable = ({ handlePopUpOpen, onEmptyStateChange
       return (
         <Empty className="border">
           <EmptyHeader>
-            <EmptyTitle>This feature has not been activated for your license.</EmptyTitle>
+            <EmptyTitle>This feature is not enabled on this instance.</EmptyTitle>
             <EmptyDescription>Contact us to learn more.</EmptyDescription>
           </EmptyHeader>
           <EmptyContent>

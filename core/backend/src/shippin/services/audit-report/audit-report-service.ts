@@ -1,7 +1,7 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ProjectPermissionInsightsActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { PgSqlLock } from "@app/keystore/keystore";
@@ -27,7 +27,7 @@ const MAX_EMAIL_RECIPIENTS = 20;
 
 type TAuditReportServiceFactoryDep = {
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   auditReportDAL: TAuditReportDALFactory;
   projectDAL: Pick<TProjectDALFactory, "findById">;
   projectBotService: Pick<TProjectBotServiceFactory, "getBotKey">;
@@ -39,7 +39,7 @@ export type TAuditReportServiceFactory = ReturnType<typeof auditReportServiceFac
 
 export const auditReportServiceFactory = ({
   permissionService,
-  licenseService,
+  featureService,
   auditReportDAL,
   projectDAL,
   projectBotService,
@@ -81,7 +81,7 @@ export const auditReportServiceFactory = ({
   };
 
   const generateReport = async (dto: TRequestAuditReportDTO, actor: TAuditReportServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.secretAccessInsights) {
       throw new BadRequestError({
         message: "Audit reports are not available on your plan. Please upgrade to access audit reports."
@@ -160,7 +160,7 @@ export const auditReportServiceFactory = ({
   };
 
   const listReports = async (dto: TListAuditReportsDTO, actor: TAuditReportServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.secretAccessInsights) {
       throw new BadRequestError({
         message: "Audit reports are not available on your plan. Please upgrade to access audit reports."
@@ -190,7 +190,7 @@ export const auditReportServiceFactory = ({
   };
 
   const getReportById = async (auditReportId: string, actor: TAuditReportServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.secretAccessInsights) {
       throw new BadRequestError({
         message: "Audit reports are not available on your plan. Please upgrade to access audit reports."

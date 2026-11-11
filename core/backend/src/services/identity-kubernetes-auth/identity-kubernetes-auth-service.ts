@@ -18,7 +18,7 @@ import { TGatewayPoolDALFactory } from "@app/shippin/services/gateway-pool/gatew
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionGatewayActions,
   OrgPermissionGatewayPoolActions,
@@ -90,7 +90,7 @@ type TIdentityKubernetesAuthServiceFactoryDep = {
   identityAccessTokenDAL: Pick<TIdentityAccessTokenDALFactory, "delete">;
   membershipIdentityDAL: Pick<TMembershipIdentityDALFactory, "findOne" | "update" | "getIdentityById">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   gatewayService: TGatewayServiceFactory;
   gatewayV2Service: TGatewayV2ServiceFactory;
@@ -118,7 +118,7 @@ export const identityKubernetesAuthServiceFactory = ({
   membershipIdentityDAL,
   identityAccessTokenDAL,
   permissionService,
-  licenseService,
+  featureService,
   gatewayService,
   gatewayV2Service,
   gatewayDAL,
@@ -855,7 +855,7 @@ export const identityKubernetesAuthServiceFactory = ({
         OrgPermissionSubjects.Identity
       );
     }
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&
@@ -1125,7 +1125,7 @@ export const identityKubernetesAuthServiceFactory = ({
       });
       ForbiddenError.from(permission).throwUnlessCan(OrgPermissionIdentityActions.Edit, OrgPermissionSubjects.Identity);
     }
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps?.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&

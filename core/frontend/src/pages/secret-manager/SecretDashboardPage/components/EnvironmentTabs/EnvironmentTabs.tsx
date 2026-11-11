@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "@tanstack/react-router";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
   Button,
@@ -226,11 +225,6 @@ export const EnvironmentTabs = ({ secretPath }: Props) => {
           <CompareEnvironments secretPath={secretPath} />
         </ModalContent>
       </Modal>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="Your current plan does not include access to adding custom environments. To unlock this feature, please upgrade to Vaultix Pro plan."
-      />
       <AddEnvironmentModal
         isOpen={popUp.createEnvironment.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("createEnvironment", isOpen)}

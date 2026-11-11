@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { Badge, Field, FieldError, FieldLabel, FilterableSelect } from "@app/components/v3";
 import { MAX_IDENTITY_ACCESS_TOKEN_TTL_FALLBACK } from "@app/helpers/identityAuthSchemas";
 import { IdentityAuthMethod } from "@app/hooks/api/identities";
@@ -201,7 +200,6 @@ const schema = z
 export type FormData = z.infer<typeof schema>;
 
 export const IdentityAuthMethodModalContent = ({
-  popUp,
   handlePopUpOpen,
   handlePopUpToggle,
   identity,
@@ -481,12 +479,6 @@ export const IdentityAuthMethodModalContent = ({
         }}
       />
       {selectedMethodItem?.render ? selectedMethodItem.render() : <div />}
-      <UpgradePlanModal
-        isOpen={popUp?.upgradePlan?.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={`Your current plan does not include access to ${popUp.upgradePlan.data?.featureName}. To unlock this feature, please upgrade to Vaultix ${popUp.upgradePlan.data?.isEnterpriseFeature ? "Enterprise" : "Pro"} plan.`}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-      />
     </>
   );
 };

@@ -12,7 +12,7 @@ import {
   THoneyTokenConfigByType,
   THoneyTokenTestConnectionResponseByType
 } from "../honey-token/honey-token-provider-types";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { THoneyTokenConfigDALFactory } from "./honey-token-config-dal";
 
@@ -20,7 +20,7 @@ export type THoneyTokenConfigServiceFactoryDep = {
   honeyTokenConfigDAL: THoneyTokenConfigDALFactory;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "findById">;
   appConnectionService: Pick<TAppConnectionServiceFactory, "validateAppConnectionUsageById">;
 };

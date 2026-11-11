@@ -205,12 +205,6 @@ type Config struct {
 	// Cross-project secret sharing
 	CrossProjectSecretSharing string
 
-	// License
-	LicenseServerURL  string
-	LicenseServerKey  string
-	LicenseKey        string
-	LicenseKeyOffline string
-
 	// Captcha
 	CaptchaSecret  string
 	CaptchaSiteKey string
@@ -571,12 +565,6 @@ func LoadConfig() (*Config, error) {
 		// Cross-project secret sharing
 		Optional(&cfg.CrossProjectSecretSharing, "CROSS_PROJECT_SECRET_SHARING_ORG_WHITELIST", "").
 
-		// License
-		Optional(&cfg.LicenseServerURL, "LICENSE_SERVER_URL", "https://portal.vaultix.com").
-		Optional(&cfg.LicenseServerKey, "LICENSE_SERVER_KEY", "").
-		Optional(&cfg.LicenseKey, "LICENSE_KEY", "").
-		Optional(&cfg.LicenseKeyOffline, "LICENSE_KEY_OFFLINE", "").
-
 		// Captcha
 		Optional(&cfg.CaptchaSecret, "CAPTCHA_SECRET", "").
 		Optional(&cfg.CaptchaSiteKey, "CAPTCHA_SITE_KEY", "").
@@ -761,7 +749,7 @@ func LoadConfig() (*Config, error) {
 	cfg.IsRedisConfigured = cfg.RedisURL != "" || cfg.RedisSentinelHosts != "" || cfg.RedisClusterHosts != ""
 	cfg.IsRedisSentinelMode = cfg.RedisSentinelHosts != ""
 	cfg.IsSmtpConfigured = cfg.SMTPHost != ""
-	cfg.IsCloud = cfg.LicenseServerKey != ""
+	cfg.IsCloud = false
 	cfg.IsClickHouseConfigured = cfg.ClickhouseURL != ""
 	cfg.IsSecondaryInstance = cfg.vaultixPrimaryInstanceURL != ""
 	cfg.IsHsmConfigured = cfg.HSMLibPath != "" && cfg.HSMPin != "" && cfg.HSMKeyLabel != ""

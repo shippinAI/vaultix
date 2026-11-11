@@ -10,7 +10,6 @@ import {
   SlidersHorizontal
 } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SubOrgIcon } from "@app/components/v3";
 import { useOrganization, useSubscription } from "@app/context";
 import { usePopUp } from "@app/hooks/usePopUp";
@@ -25,7 +24,7 @@ type OrgSettingsItem = OrgNavItem & { requiresFeature?: boolean };
 export const OrgSettingsSubmenuView = ({ onBack }: { onBack: () => void }) => {
   const { isSubOrganization } = useOrganization();
   const { subscription } = useSubscription();
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
 
   const items: OrgSettingsItem[] = [
     {
@@ -110,11 +109,6 @@ export const OrgSettingsSubmenuView = ({ onBack }: { onBack: () => void }) => {
             />
           ))}
       </SidebarMenu>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="You need to upgrade your plan to manage sub-organizations."
-      />
     </SidebarGroup>
   );
 };

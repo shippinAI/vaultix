@@ -12,7 +12,7 @@ import {
 import { getOracleDBConnectionListItem, OracleDBConnectionMethod } from "@app/shippin/services/app-connections/oracledb";
 import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { SECRET_ROTATION_CONNECTION_MAP } from "@app/shippin/services/secret-rotation-v2/secret-rotation-v2-maps";
 import { SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP } from "@app/shippin/services/secret-scanning-v2/secret-scanning-v2-maps";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
@@ -950,13 +950,13 @@ export const TRANSITION_CONNECTION_CREDENTIALS_TO_PLATFORM: Record<
 };
 
 export const enterpriseAppCheck = async (
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">,
+  featureService: Pick<TFeatureServiceFactory, "getPlan">,
   appConnection: AppConnection,
   orgId: string,
   errorMessage: string
 ) => {
   if (APP_CONNECTION_PLAN_MAP[appConnection] === AppConnectionPlanType.Enterprise) {
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.enterpriseAppConnections)
       throw new BadRequestError({
         message: errorMessage

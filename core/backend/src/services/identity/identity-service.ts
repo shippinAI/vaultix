@@ -1,8 +1,7 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { AccessScope, OrganizationActionScope, OrgMembershipRole, TableName, TRoles } from "@app/db/schemas";
-import { TLicenseDALFactory } from "@app/shippin/services/license/license-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionIdentityActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
@@ -16,8 +15,6 @@ import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 import { TAlertServiceFactory } from "@app/services/alert/alert-service";
 import { IDENTITY_AUTHENTICATION_RESOURCE_TYPE } from "@app/services/alert/providers/identity-credential-alert-provider";
 import { TIdentityProjectDALFactory } from "@app/services/identity-project/identity-project-dal";
-import { IdentitiesMeter, PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 
 import { TAdditionalPrivilegeDALFactory } from "../additional-privilege/additional-privilege-dal";
 import { ActorType } from "../auth/auth-type";
@@ -48,12 +45,10 @@ type TIdentityServiceFactoryDep = {
   membershipRoleDAL: TMembershipRoleDALFactory;
   identityProjectDAL: Pick<TIdentityProjectDALFactory, "findByIdentityId">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getOrgPermissionByRoles">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "updateSubscriptionOrgMemberCount">;
-  licenseDAL: Pick<TLicenseDALFactory, "countOrgUsersAndIdentities">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   keyStore: Pick<TKeyStoreFactory, "getKeysByPattern" | "getItem">;
   orgDAL: Pick<TOrgDALFactory, "findById" | "findEffectiveOrgMembership">;
   additionalPrivilegeDAL: Pick<TAdditionalPrivilegeDALFactory, "delete">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
   alertService: Pick<TAlertServiceFactory, "deleteAlertsForResource" | "deleteAlertsForDeletedResource">;
   identityAccessTokenService: Pick<
     TIdentityAccessTokenServiceFactory,
@@ -69,14 +64,12 @@ export const identityServiceFactory = ({
   identityOrgMembershipDAL,
   identityProjectDAL,
   permissionService,
-  licenseService,
-  licenseDAL,
+  featureService,
   keyStore,
   orgDAL,
   membershipIdentityDAL,
   membershipRoleDAL,
   additionalPrivilegeDAL,
-  usageMeteringService,
   alertService,
   identityAccessTokenService
 }: TIdentityServiceFactoryDep) => {
@@ -108,7 +101,7 @@ export const identityServiceFactory = ({
     );
     const isCustomRole = Boolean(rolePermissionDetails?.role);
     if (isCustomRole) {
-      const plan = await licenseService.getPlan(orgId);
+      const plan = await featureService.getPlan(orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -139,19 +132,6 @@ export const identityServiceFactory = ({
       // Acquire advisory lock to prevent race conditions when checking identity limits
       // This ensures that concurrent requests cannot bypass the identity limit check
       await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.CreateIdentity(orgId)]);
-
-      // Check identity limit inside the transaction after acquiring the lock
-      // We count directly from the database to get the accurate count, not the cached plan value
-      const plan = await licenseService.getPlan(orgId);
-      const isEnterpriseBypass = plan?.slug === "enterprise" && !plan?.enforceIdentityLimit;
-      if (!isEnterpriseBypass && plan?.identityLimit) {
-        const currentIdentityCount = await licenseDAL.countOrgUsersAndIdentities(orgId, tx);
-        if (currentIdentityCount >= plan.identityLimit) {
-          throw new BadRequestError({
-            message: "Failed to create identity due to identity limit reached. Upgrade plan to create more identities."
-          });
-        }
-      }
 
       const newIdentity = await identityDAL.create({ name, hasDeleteProtection, orgId }, tx);
       const membership = await membershipIdentityDAL.create(
@@ -195,8 +175,6 @@ export const identityServiceFactory = ({
         metadata: insertedMetadata
       };
     });
-    await licenseService.updateSubscriptionOrgMemberCount(orgId);
-    usageMeteringService.emit(orgId, IdentitiesMeter.key);
 
     return identity;
   };
@@ -241,7 +219,7 @@ export const identityServiceFactory = ({
 
       const isCustomRole = Boolean(rolePermissionDetails?.role);
       if (isCustomRole) {
-        const plan = await licenseService.getPlan(actorOrgId);
+        const plan = await featureService.getPlan(actorOrgId);
         if (!plan?.rbac)
           throw new BadRequestError({
             message:
@@ -399,10 +377,6 @@ export const identityServiceFactory = ({
         return identityDAL.deleteById(id, tx);
       });
       await identityAccessTokenService.bumpIdentityRevocationVersion({ identityId: id });
-      await licenseService.updateSubscriptionOrgMemberCount(identityOrgMembership.scopeOrgId);
-      usageMeteringService.emit(identityOrgMembership.scopeOrgId, IdentitiesMeter.key);
-      usageMeteringService.emit(identityOrgMembership.scopeOrgId, SecretIdentities.key);
-      usageMeteringService.emit(identityOrgMembership.scopeOrgId, PamIdentities.key);
       return { ...deletedIdentity, orgId: identityOrgMembership.scopeOrgId };
     }
 
@@ -450,11 +424,8 @@ export const identityServiceFactory = ({
     await identityAccessTokenService.bumpIdentityRevocationVersion({ identityId: id });
 
     const deletedIdentity = await requestMemoize(requestMemoKeys.identityFindById(id), () => identityDAL.findById(id));
-    usageMeteringService.emit(identityOrgMembership.scopeOrgId, IdentitiesMeter.key);
     // Deleting the identity cascades its project + group memberships, so the secret-manager and PAM
     // identity meters change too.
-    usageMeteringService.emit(identityOrgMembership.scopeOrgId, SecretIdentities.key);
-    usageMeteringService.emit(identityOrgMembership.scopeOrgId, PamIdentities.key);
     return { ...deletedIdentity, orgId: identityOrgMembership.scopeOrgId };
   };
 

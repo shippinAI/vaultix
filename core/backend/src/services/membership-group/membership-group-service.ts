@@ -10,7 +10,7 @@ import {
 import { TAccessApprovalPolicyApproverDALFactory } from "@app/shippin/services/access-approval-policy/access-approval-policy-approver-dal";
 import { TAccessApprovalPolicyDALFactory } from "@app/shippin/services/access-approval-policy/access-approval-policy-dal";
 import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { TSecretApprovalPolicyApproverDALFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-approver-dal";
 import { TSecretApprovalPolicyDALFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-dal";
@@ -18,8 +18,6 @@ import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";
 import { ms } from "@app/lib/ms";
 import { SearchResourceOperators } from "@app/lib/search-resource/search";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 
 import { TAlertChannelRecipientDALFactory } from "../alert/alert-channel-recipient-dal";
 import { TApplicationMembershipCleanupServiceFactory } from "../membership/application-membership-cleanup-service";
@@ -51,13 +49,12 @@ type TMembershipGroupServiceFactoryDep = {
   permissionService: TPermissionServiceFactory;
   orgDAL: TOrgDALFactory;
   groupDAL: Pick<TGroupDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   applicationMembershipCleanupService: Pick<
     TApplicationMembershipCleanupServiceFactory,
     "cleanupActorApplicationMemberships"
   >;
   projectDAL: Pick<TProjectDALFactory, "findById">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
 };
 
@@ -74,10 +71,9 @@ export const membershipGroupServiceFactory = ({
   orgDAL,
   permissionService,
   groupDAL,
-  licenseService,
+  featureService,
   applicationMembershipCleanupService,
   projectDAL,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TMembershipGroupServiceFactoryDep) => {
   const scopeFactory = {
@@ -120,7 +116,7 @@ export const membershipGroupServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -135,7 +131,7 @@ export const membershipGroupServiceFactory = ({
     const customInputRoles = data.roles.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -214,8 +210,6 @@ export const membershipGroupServiceFactory = ({
 
     // Assigning a group to a project brings the group's users + identities into it, changing the meters.
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     }
     return { membership, group };
   };
@@ -229,7 +223,7 @@ export const membershipGroupServiceFactory = ({
     const customInputRoles = data.roles.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -258,7 +252,7 @@ export const membershipGroupServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -436,8 +430,6 @@ export const membershipGroupServiceFactory = ({
 
     // Removing a group from a project drops its users + identities from it, changing the meters.
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     }
     return { membership: membershipDoc, group };
   };

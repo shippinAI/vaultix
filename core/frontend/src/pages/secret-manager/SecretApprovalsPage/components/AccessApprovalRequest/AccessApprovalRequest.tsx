@@ -17,7 +17,6 @@ import {
   TimerIcon
 } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import {
   Badge,
   Button,
@@ -842,11 +841,6 @@ export const AccessApprovalRequest = ({
         />
       )}
 
-      <UpgradePlanModal
-        text={popUp.upgradePlan.data?.text}
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={() => handlePopUpClose("upgradePlan")}
-      />
     </>
   );
 };

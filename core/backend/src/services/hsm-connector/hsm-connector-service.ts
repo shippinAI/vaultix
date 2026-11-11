@@ -5,7 +5,7 @@ import { TGatewayPoolDALFactory } from "@app/shippin/services/gateway-pool/gatew
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
@@ -45,7 +45,7 @@ export type THsmConnectorServiceFactoryDep = {
   gatewayPoolService: Pick<TGatewayPoolServiceFactory, "listHealthyGateways">;
   gatewayV2DAL: Pick<TGatewayV2DALFactory, "findById">;
   gatewayPoolDAL: Pick<TGatewayPoolDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type THsmConnectorServiceFactory = ReturnType<typeof hsmConnectorServiceFactory>;
@@ -58,7 +58,7 @@ export const hsmConnectorServiceFactory = ({
   gatewayPoolService,
   gatewayV2DAL,
   gatewayPoolDAL,
-  licenseService
+  featureService
 }: THsmConnectorServiceFactoryDep) => {
   const routing = hsmConnectorRoutingFactory({ gatewayV2Service, gatewayPoolService });
 
@@ -81,8 +81,8 @@ export const hsmConnectorServiceFactory = ({
     }
   };
 
-  const assertLicense = async (orgId: string) => {
-    const plan = await licenseService.getPlan(orgId);
+  const assertHsmIncluded = async (orgId: string) => {
+    const plan = await featureService.getPlan(orgId);
     if (!plan.hsm) {
       throw new BadRequestError({
         message: "Your plan does not include HSM support. Please upgrade to use HSM Connectors."
@@ -95,7 +95,7 @@ export const hsmConnectorServiceFactory = ({
     projectId: string,
     action: ProjectPermissionHsmConnectorActions
   ) => {
-    await assertLicense(actor.orgId);
+    await assertHsmIncluded(actor.orgId);
     const { permission } = await permissionService.getProjectPermission({
       actor: actor.type,
       actorId: actor.id,

@@ -110,7 +110,7 @@ describe("CertificateEstV3Service", () => {
     generateKmsKey: vi.fn()
   };
 
-  const mockLicenseService = {
+  const mockFeatureService = {
     getPlan: vi.fn()
   };
 
@@ -170,7 +170,7 @@ describe("CertificateEstV3Service", () => {
       certificateDAL: mockCertificateDAL,
       projectDAL: mockProjectDAL,
       kmsService: mockKmsService,
-      licenseService: mockLicenseService,
+      featureService: mockFeatureService,
       certificateProfileDAL: mockCertificateProfileDAL,
       estEnrollmentConfigDAL: mockEstEnrollmentConfigDAL,
       certificatePolicyDAL: mockCertificatePolicyDAL
@@ -179,7 +179,7 @@ describe("CertificateEstV3Service", () => {
     mockCertificateProfileDAL.findByIdWithConfigs.mockResolvedValue(mockProfile);
     mockEstEnrollmentConfigDAL.findById.mockResolvedValue(mockEstConfig);
     mockProjectDAL.findOne.mockResolvedValue(mockProject);
-    mockLicenseService.getPlan.mockResolvedValue(mockPlan);
+    mockFeatureService.getPlan.mockResolvedValue(mockPlan);
     mockCertificatePolicyDAL.findById.mockResolvedValue(mockPolicy);
     mockCertificateDAL.findOne.mockResolvedValue(null);
   });
@@ -277,7 +277,7 @@ describe("CertificateEstV3Service", () => {
     });
 
     it("should throw error when PKI EST is not available in plan", async () => {
-      mockLicenseService.getPlan.mockResolvedValue({ pkiEst: false });
+      mockFeatureService.getPlan.mockResolvedValue({ pkiEst: false });
 
       await expect(
         service.simpleEnrollByProfile({

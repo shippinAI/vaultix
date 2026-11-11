@@ -1,6 +1,5 @@
 import { PlusIcon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import { DeleteActionModal } from "@app/components/v2";
@@ -109,12 +108,6 @@ export const GroupsSection = () => {
         onDeleteApproved={() =>
           onRemoveGroupSubmit((popUp?.deleteGroup?.data as { id: string })?.id)
         }
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan?.data?.text}
-        isEnterpriseFeature={popUp.upgradePlan?.data?.isEnterpriseFeature}
       />
     </>
   );

@@ -85,7 +85,6 @@ export type TServerConfig = {
   invalidatingCache: boolean;
   envOverrides?: Record<string, string>;
   isPublicSecretSharingDisabled?: boolean;
-  licenseServerV2Enabled?: boolean;
   isCrossProjectSecretSharingEnabled?: boolean;
   // populated on self-hosted instances when a newer release than the running version exists
   latestAvailableVersion?: string | null;
@@ -101,7 +100,6 @@ export type TServerConfig = {
   isMigrationModeOn?: boolean;
   fipsEnabled?: boolean;
   paramsFolderSecretDetectionEnabled?: boolean;
-  isOfflineUsageReportsEnabled?: boolean;
   earlyAccessRequestsEnabled?: boolean;
   // True while the instance is uninitialized and was installed with a one-time setup code.
   setupCodeRequired?: boolean;

@@ -2,7 +2,7 @@ import path from "node:path";
 
 import RE2 from "re2";
 
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { ForbiddenRequestError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 
@@ -102,7 +102,7 @@ type TInterpolateSecretArg = {
   // Omit them for same-project-only expansion; cross-project refs then fail closed.
   actorOrgId?: string;
   orgDAL?: Pick<TOrgDALFactory, "findOrgById">;
-  licenseService?: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService?: Pick<TFeatureServiceFactory, "getPlan">;
   projectFolderGrantDAL?: Pick<TProjectFolderGrantDALFactory, "find">;
   projectDAL?: Pick<TProjectDALFactory, "find">;
   kmsService?: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
@@ -123,7 +123,7 @@ export const expandSecretReferencesFactory = ({
   userId,
   actorOrgId,
   orgDAL,
-  licenseService,
+  featureService,
   projectFolderGrantDAL,
   projectDAL,
   kmsService,
@@ -132,12 +132,12 @@ export const expandSecretReferencesFactory = ({
   const secretCache: Record<string, Record<string, { value: string; tags: string[]; exists: boolean }>> = {};
   let crossProjectAllowedCache: boolean | undefined;
   const hasCrossProjectConfig = Boolean(
-    actorOrgId && orgDAL && licenseService && projectFolderGrantDAL && projectDAL && kmsService
+    actorOrgId && orgDAL && featureService && projectFolderGrantDAL && projectDAL && kmsService
   );
   const checkCrossProjectAllowed = async () => {
-    if (!hasCrossProjectConfig || !actorOrgId || !orgDAL || !licenseService) return false;
+    if (!hasCrossProjectConfig || !actorOrgId || !orgDAL || !featureService) return false;
     if (crossProjectAllowedCache !== undefined) return crossProjectAllowedCache;
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     crossProjectAllowedCache = await isCrossProjectEnabled(actorOrgId, orgDAL, plan);
     return crossProjectAllowedCache;
   };

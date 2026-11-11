@@ -10,6 +10,8 @@ This file is the agent router. Specs live in `docs/`. Humans start at
 
 ## Current direction
 
+License (2026-11-10): the license system is removed and no license is granted yet; the owner is weighing open source or BSL alongside the planned Nomen merge. Do not add license files, license keys, tiers or license checks. Third-party notices stay. Every software feature is included.
+
 Pre-release (2026-11-10): Vaultix is pre-release; no instance is production. Read
 `docs/0118-pre-release.md`. Deploying or installing for anyone follows
 `INSTALL-FOR-AI.md`. The only credential that may pass through chat is the one-time
@@ -97,8 +99,7 @@ capabilities before offering it; record evidence and gaps in
 `docs/0018-hosted-capability-proof.md`.
 
 Read `docs/0016-native-vaultix.md` for the in-place core/UI/API migration.
-Software features are included for every Vaultix deployment. This supersedes
-the paid-tier rules in 0013. Permissions, approvals, and operational feature
+Software features are included for every Vaultix deployment. Permissions, approvals, and operational feature
 switches still apply. Entitlement tests alone do not establish enterprise parity.
 Dragonfly is the default cache; Redis and ElastiCache are explicit alternatives.
 The native core UI/API is the product entry point. The panel is optional legacy
@@ -179,7 +180,6 @@ the plan. Passing a schema or selected test is not whole-implementation proof.
 | Public API | `contracts/shippin.vaultix.panel.v1.json` |
 | Source API / Clyffy | `docs/0009-clyffy-specialist-boundary.md` |
 | A2UI / MCP / configure | `docs/0012-a2ui-mcp-configure.md` + `panel/internal/runtime` |
-| License / membership | `docs/0013-license-and-membership.md` + `panel/internal/license` |
 | Self vs hosted + manager | `docs/0014-skus-and-manager.md` |
 | Leftover dump | `leftover/README.md` |
 

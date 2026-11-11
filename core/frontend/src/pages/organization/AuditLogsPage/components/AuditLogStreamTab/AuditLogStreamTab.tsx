@@ -1,6 +1,5 @@
 import { PlusIcon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
   Button,
@@ -70,12 +69,6 @@ export const AuditLogStreamsTab = withPermission(
         <AddAuditLogStreamModal
           isOpen={popUp.auditLogStreamForm.isOpen}
           onOpenChange={(isOpen) => handlePopUpToggle("auditLogStreamForm", isOpen)}
-        />
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          text="Your current plan does not include access to audit log streams. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-          isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
         />
       </>
     );

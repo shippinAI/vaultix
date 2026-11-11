@@ -10,7 +10,6 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
 import { TtlFormLabel } from "@app/components/features";
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
@@ -79,9 +78,7 @@ export const IdentityRoleModify = ({ identityProjectMembership }: Props) => {
   );
   const { permission } = useProjectPermission();
   const {
-    popUp: upgradePlanPopUp,
     handlePopUpOpen: handleUpgradePlanPopUpOpen,
-    handlePopUpToggle: handleUpgradePlanPopUpToggle
   } = usePopUp(["upgradePlan"] as const);
   const isIdentityEditDisabled = permission.cannot(
     ProjectPermissionIdentityActions.Edit,
@@ -424,12 +421,6 @@ export const IdentityRoleModify = ({ identityProjectMembership }: Props) => {
           Save Roles
         </Button>
       </div>
-      <UpgradePlanModal
-        isOpen={upgradePlanPopUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handleUpgradePlanPopUpToggle("upgradePlan", isOpen)}
-        text="Assigning custom roles to machine identities can be unlocked if you upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature
-      />
     </form>
   );
 };

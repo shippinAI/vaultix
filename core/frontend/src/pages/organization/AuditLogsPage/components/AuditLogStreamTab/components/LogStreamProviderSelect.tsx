@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Loader2Icon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { AUDIT_LOG_STREAM_PROVIDER_MAP } from "@app/helpers/auditLogStreams";
 import { usePopUp } from "@app/hooks";
 import { useGetAuditLogStreamOptions } from "@app/hooks/api";
@@ -13,7 +12,7 @@ type Props = {
 };
 
 export const LogStreamProviderSelect = ({ onSelect }: Props) => {
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"]);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"]);
 
   const { isPending, data: logStreamOptions } = useGetAuditLogStreamOptions();
 
@@ -82,12 +81,6 @@ export const LogStreamProviderSelect = ({ onSelect }: Props) => {
           );
         })}
       </div>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="Your current plan does not include access to this audit log stream provider. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-      />
     </div>
   );
 };

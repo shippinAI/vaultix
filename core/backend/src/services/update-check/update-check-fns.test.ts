@@ -129,7 +129,6 @@ describe("isUpdateCheckEnabled", () => {
     isVaultixCloud: false,
     isCloud: false,
     isUpdateCheckDisabled: false,
-    hasOfflineLicense: false,
     platformVersion: "0.162.10"
   };
 
@@ -144,10 +143,6 @@ describe("isUpdateCheckEnabled", () => {
 
   test("disabled by the DISABLE_UPDATE_CHECK flag", () => {
     expect(isUpdateCheckEnabled({ ...connectedSelfHosted, isUpdateCheckDisabled: true })).toBe(false);
-  });
-
-  test("disabled when an offline license is configured", () => {
-    expect(isUpdateCheckEnabled({ ...connectedSelfHosted, hasOfflineLicense: true })).toBe(false);
   });
 
   test("disabled without a comparable platform version", () => {

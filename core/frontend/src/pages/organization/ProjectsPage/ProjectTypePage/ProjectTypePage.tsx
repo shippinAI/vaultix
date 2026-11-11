@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { OrgPermissionCan } from "@app/components/permissions";
 import { NewProjectModal } from "@app/components/projects";
 import { CertManagerNotConfiguredModal } from "@app/components/projects/CertManagerNotConfiguredModal";
@@ -244,11 +243,6 @@ const ProjectTypeContent = ({
         isOpen={popUp.addNewWs.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("addNewWs", isOpen)}
         projectType={projectType}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="You have reached the maximum number of projects allowed on your current plan. Upgrade to Vaultix Pro plan to add more projects."
       />
     </div>
   );

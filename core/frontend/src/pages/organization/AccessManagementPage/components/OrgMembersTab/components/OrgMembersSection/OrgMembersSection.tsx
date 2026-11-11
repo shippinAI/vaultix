@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { BanIcon, TrashIcon, UserPlusIcon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
@@ -307,12 +306,6 @@ export const OrgMembersSection = () => {
           </ul>
         </div>
       </DeleteActionModal>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan?.data?.text}
-        isEnterpriseFeature={popUp.upgradePlan?.data?.isEnterpriseFeature}
-      />
       <EmailServiceSetupModal
         isOpen={popUp.setUpEmail?.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("setUpEmail", isOpen)}

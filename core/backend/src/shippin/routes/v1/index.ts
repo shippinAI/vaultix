@@ -1,3 +1,4 @@
+import { registerPlanRouter } from "./plan-router";
 import { registerProjectTemplateRouter } from "@app/shippin/routes/v1/project-template-router";
 import { withRoutePrefix } from "@app/server/lib/with-route-prefix";
 import { injectCertManagerProjectId } from "@app/server/plugins/inject-cert-manager-project-id";
@@ -29,8 +30,6 @@ import { registerKmipRouter } from "./kmip-router";
 import { registerKmipServerRouter } from "./kmip-server-router";
 import { registerKmipSpecRouter } from "./kmip-spec-router";
 import { registerLdapRouter } from "./ldap-router";
-import { registerLicenseRouter } from "./license-router";
-import { registerLicenseV2Router } from "./license-v2-router";
 import { registerOidcRouter } from "./oidc-router";
 import { registerOrgRoleRouter } from "./org-role-router";
 import { registerPamRouters } from "./pam-routers";
@@ -58,8 +57,7 @@ export const registerV1EERoutes = async (server: FastifyZodProvider) => {
   // org role starts with organization
   await server.register(registerOrgRoleRouter, { prefix: "/organization" });
   await server.register(registerSubOrgRouter, { prefix: "/sub-organizations" });
-  await server.register(registerLicenseRouter, { prefix: "/organizations" });
-  await server.register(registerLicenseV2Router, { prefix: "/organizations" });
+  await server.register(registerPlanRouter, { prefix: "/organizations" });
   await server.register(registerEmailDomainRouter, { prefix: "/email-domains" });
 
   // depreciated in favour of vaultix workspace

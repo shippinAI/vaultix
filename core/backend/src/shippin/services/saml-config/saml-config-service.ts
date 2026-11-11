@@ -14,7 +14,6 @@ import {
   TSamlConfigsUpdate,
   TUsers
 } from "@app/db/schemas";
-import { throwOnPlanSeatLimitReached } from "@app/shippin/services/license/license-fns";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
@@ -28,7 +27,6 @@ import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TIdentityMetadataDALFactory } from "@app/services/identity/identity-metadata-dal";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipRoleDALFactory } from "@app/services/membership/membership-role-dal";
 import { TMembershipGroupDALFactory } from "@app/services/membership-group/membership-group-dal";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
@@ -51,7 +49,7 @@ import { findOrgIdByVerifiedDomain, verifyEmailDomainOwnership } from "../email-
 import { TGroupDALFactory } from "../group/group-dal";
 import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "../group/group-fns";
 import { TUserGroupMembershipDALFactory } from "../group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionSsoActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TSamlConfigDALFactory } from "./saml-config-dal";
@@ -81,7 +79,7 @@ type TSamlConfigServiceFactoryDep = {
   identityMetadataDAL: Pick<TIdentityMetadataDALFactory, "delete" | "insertMany" | "transaction">;
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "create">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "updateSubscriptionOrgMemberCount">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   tokenService: Pick<TAuthTokenServiceFactory, "createTokenForUser">;
   smtpService: Pick<TSmtpService, "sendMail">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
@@ -98,7 +96,6 @@ type TSamlConfigServiceFactoryDep = {
   loginService: Pick<TAuthLoginFactory, "processProviderCallback">;
   emailDomainDAL: Pick<TEmailDomainDALFactory, "findOne">;
   telemetryService: Pick<TTelemetryServiceFactory, "sendPostHogEvents">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export const samlConfigServiceFactory = ({
@@ -113,7 +110,7 @@ export const samlConfigServiceFactory = ({
   projectKeyDAL,
   alertChannelRecipientDAL,
   permissionService,
-  licenseService,
+  featureService,
   tokenService,
   smtpService,
   identityMetadataDAL,
@@ -123,7 +120,6 @@ export const samlConfigServiceFactory = ({
   loginService,
   emailDomainDAL,
   telemetryService,
-  usageMeteringService
 }: TSamlConfigServiceFactoryDep): TSamlConfigServiceFactory => {
   const parseSamlGroups = (groupsValue: string): string[] => {
     let samlGroups: string[] = [];
@@ -234,7 +230,6 @@ export const samlConfigServiceFactory = ({
               projectDAL,
               projectBotDAL,
               membershipGroupDAL,
-              usageMeteringService,
               tx: transaction
             });
           } catch (error) {
@@ -256,7 +251,6 @@ export const samlConfigServiceFactory = ({
                 userGroupMembershipDAL,
                 membershipGroupDAL,
                 projectKeyDAL,
-                usageMeteringService,
                 alertChannelRecipientDAL,
                 tx: transaction
               });
@@ -298,7 +292,7 @@ export const samlConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionSsoActions.Create, OrgPermissionSubjects.Sso);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.samlSSO)
       throw new BadRequestError({
         message:
@@ -372,7 +366,7 @@ export const samlConfigServiceFactory = ({
       actorOrgId
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionSsoActions.Edit, OrgPermissionSubjects.Sso);
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.samlSSO)
       throw new BadRequestError({
         message:
@@ -568,7 +562,7 @@ export const samlConfigServiceFactory = ({
     const samlConfig = await samlConfigDAL.findOne({ orgId });
     const groupsMetadata = metadata?.find(({ key }) => key === "groups");
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     const shouldSyncGroups = !!samlConfig?.enableGroupSync && !!plan.groups;
 
     let user: TUsers;
@@ -701,7 +695,6 @@ export const samlConfigServiceFactory = ({
         );
 
         if (!orgMembership) {
-          await throwOnPlanSeatLimitReached(licenseService, orgId, UserAliasType.SAML);
 
           const { role, roleId } = await getDefaultOrgMembershipRole(organization.defaultMembershipRole);
 
@@ -768,7 +761,6 @@ export const samlConfigServiceFactory = ({
         });
       }
     }
-    await licenseService.updateSubscriptionOrgMemberCount(organization.id);
 
     await samlConfigDAL.update({ orgId }, { lastUsed: new Date() });
 

@@ -4,7 +4,7 @@ import { retry } from "@octokit/plugin-retry";
 import { Octokit } from "@octokit/rest";
 
 import { TIntegrationAuths, TIntegrations } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { getConfig } from "@app/lib/config/env";
 import { crypto, SymmetricKeySize } from "@app/lib/crypto/cryptography";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
@@ -47,7 +47,7 @@ const getIntegrationSecretsV2 = async (
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">,
   projectFolderGrantDAL: Pick<TProjectFolderGrantDALFactory, "find">,
   orgDAL: Pick<TOrgDALFactory, "findOrgById">,
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">
+  featureService: Pick<TFeatureServiceFactory, "getPlan">
 ) => {
   const content: Record<string, boolean> = {};
   if (dto.depth > MAX_SYNC_SECRET_DEPTH) {
@@ -82,7 +82,7 @@ const getIntegrationSecretsV2 = async (
     projectFolderGrantDAL,
     actorOrgId: dto.actorOrgId,
     orgDAL,
-    licenseService,
+    featureService,
     kmsService
   });
 
@@ -301,7 +301,7 @@ export const deleteIntegrationSecrets = async ({
   kmsService,
   projectFolderGrantDAL,
   orgDAL,
-  licenseService,
+  featureService,
   actorOrgId
 }: {
   integration: Omit<TIntegrations, "envId"> & {
@@ -323,7 +323,7 @@ export const deleteIntegrationSecrets = async ({
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   projectFolderGrantDAL: Pick<TProjectFolderGrantDALFactory, "find">;
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   actorOrgId: string;
 }) => {
   const { shouldUseSecretV2Bridge, botKey } = await projectBotService.getBotKey(integration.projectId);
@@ -367,7 +367,7 @@ export const deleteIntegrationSecrets = async ({
         kmsService,
         projectFolderGrantDAL,
         orgDAL,
-        licenseService
+        featureService
       )
     : await getIntegrationSecretsV1(
         {

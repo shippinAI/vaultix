@@ -7,7 +7,7 @@ import {
   OrganizationActionScope,
   TableName
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionIdentityActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
@@ -64,7 +64,7 @@ type TIdentityTokenAuthServiceFactoryDep = {
     | "invalidateTrustedIpsCache"
   >;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   orgDAL: Pick<TOrgDALFactory, "findById" | "findOne" | "findEffectiveOrgMembership">;
 };
 
@@ -76,7 +76,7 @@ export const identityTokenAuthServiceFactory = ({
   identityAccessTokenDAL,
   identityAccessTokenService,
   permissionService,
-  licenseService,
+  featureService,
   orgDAL
 }: TIdentityTokenAuthServiceFactoryDep) => {
   const attachTokenAuth = async ({
@@ -144,7 +144,7 @@ export const identityTokenAuthServiceFactory = ({
       );
     }
 
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&
@@ -247,7 +247,7 @@ export const identityTokenAuthServiceFactory = ({
       ForbiddenError.from(permission).throwUnlessCan(OrgPermissionIdentityActions.Edit, OrgPermissionSubjects.Identity);
     }
 
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps?.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&

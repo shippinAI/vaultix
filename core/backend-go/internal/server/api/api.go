@@ -12,7 +12,6 @@ import (
 	"github.com/vaultix-cloud/api/internal/keystore"
 	"github.com/vaultix-cloud/api/internal/queue"
 	"github.com/vaultix-cloud/api/internal/services/kms"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 // Infra holds the external infrastructure dependencies.
@@ -22,7 +21,6 @@ type Infra struct {
 	DB       pg.DB
 	Redis    redis.UniversalClient
 	HSM      kms.HsmService
-	License  *license.Service
 	KeyStore keystore.KeyStore
 	Queue    *queue.Service
 }
@@ -50,7 +48,6 @@ func NewServices(ctx context.Context, infra *Infra) (*Services, func(), error) {
 
 	cleanup := func() {
 		platformSvc.KMS.Close()
-		platformSvc.License.Close()
 	}
 
 	return services, cleanup, nil

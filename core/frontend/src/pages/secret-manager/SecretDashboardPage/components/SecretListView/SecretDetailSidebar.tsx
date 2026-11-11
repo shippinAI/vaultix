@@ -18,7 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import { SecretReferenceTree } from "@app/components/secrets/SecretReferenceDetails";
@@ -351,13 +350,6 @@ export const SecretDetailSidebar = ({
 
   return (
     <>
-      <UpgradePlanModal
-        isOpen={popUp.secretAccessUpgradePlan.isOpen}
-        onOpenChange={(isUpgradeModalOpen) =>
-          handlePopUpToggle("secretAccessUpgradePlan", isUpgradeModalOpen)
-        }
-        text="Secret access analysis feature can be unlocked if you upgrade to Vaultix Pro plan."
-      />
       <Modal
         isOpen={popUp.secretReferenceTree.isOpen}
         onOpenChange={(isSecretRefOpen) =>

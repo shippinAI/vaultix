@@ -1,7 +1,6 @@
 import { faGlobe, faPencil, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
   EmptyState,
@@ -39,7 +38,7 @@ type Props = {
   handlePopUpToggle: (popUpName: keyof UsePopUpState<["upgradePlan"]>, state?: boolean) => void;
 };
 
-export const IPAllowlistTable = ({ popUp, handlePopUpOpen, handlePopUpToggle }: Props) => {
+export const IPAllowlistTable = ({ handlePopUpOpen }: Props) => {
   const { subscription } = useSubscription();
   const { currentProject } = useProject();
   const { data, isPending } = useGetTrustedIps(currentProject?.id ?? "");
@@ -156,11 +155,6 @@ export const IPAllowlistTable = ({ popUp, handlePopUpOpen, handlePopUpToggle }: 
           </TBody>
         </Table>
       </TableContainer>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="Your current plan does not include access to IP allowlisting. To unlock this feature, please upgrade to Vaultix Pro plan."
-      />
     </div>
   );
 };

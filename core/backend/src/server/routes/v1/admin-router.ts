@@ -8,8 +8,6 @@ import {
   OrgMembershipsSchema,
   OrgMembershipStatus
 } from "@app/db/schemas";
-import { getLicenseKeyConfig } from "@app/shippin/services/license/license-fns";
-import { LicenseType } from "@app/shippin/services/license/license-types";
 import { getConfig, overridableKeys } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError } from "@app/lib/errors";
@@ -58,10 +56,8 @@ const SanitizedSuperAdminSchema = z.object({
   isMigrationModeOn: z.boolean().optional(),
   isSecretScanningDisabled: z.boolean().optional(),
   isPublicSecretSharingDisabled: z.boolean().optional(),
-  licenseServerV2Enabled: z.boolean().optional(),
   kubernetesAutoFetchServiceAccountToken: z.boolean().optional(),
   paramsFolderSecretDetectionEnabled: z.boolean().optional(),
-  isOfflineUsageReportsEnabled: z.boolean().optional(),
   isCrossProjectSecretSharingEnabled: z.boolean().optional(),
   earlyAccessRequestsEnabled: z.boolean().optional(),
   // True while the instance is uninitialized and was installed with a one-time setup code.
@@ -92,14 +88,11 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
       const config = await getServerCfg();
       const serverEnvs = getConfig();
 
-      const licenseKeyConfig = getLicenseKeyConfig();
-      const hasOfflineLicense = licenseKeyConfig.isValid && licenseKeyConfig.type === LicenseType.Offline;
-
       const isSuperAdminUser = req.auth && isSuperAdmin(req.auth);
       const orgId = req.auth?.orgId ?? "";
 
       const latestAvailableVersion = await server.services.updateCheck.getAvailableUpdateVersion();
-      const plan = await server.services.license.getPlan(orgId);
+      const plan = await server.services.feature.getPlan(orgId);
 
       if (!isSuperAdminUser) {
         // Only return fields the frontend needs before authentication
@@ -118,7 +111,6 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
             authConsentContent: config.authConsentContent,
             pageFrameContent: config.pageFrameContent,
             isPublicSecretSharingDisabled: serverEnvs.DISABLE_PUBLIC_SECRET_SHARING,
-            licenseServerV2Enabled: serverEnvs.LICENSE_SERVER_V2_MODE === "on",
             isCrossProjectSecretSharingEnabled: plan.crossProjectSecretSharing,
             latestAvailableVersion,
             setupCodeRequired: isSetupCodeRequired(serverEnvs.VAULTIX_SETUP_CODE, config.initialized)
@@ -134,10 +126,8 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
           isMigrationModeOn: serverEnvs.MAINTENANCE_MODE,
           isSecretScanningDisabled: serverEnvs.DISABLE_SECRET_SCANNING,
           isPublicSecretSharingDisabled: serverEnvs.DISABLE_PUBLIC_SECRET_SHARING,
-          licenseServerV2Enabled: serverEnvs.LICENSE_SERVER_V2_MODE === "on",
           kubernetesAutoFetchServiceAccountToken: serverEnvs.KUBERNETES_AUTO_FETCH_SERVICE_ACCOUNT_TOKEN,
           paramsFolderSecretDetectionEnabled: serverEnvs.PARAMS_FOLDER_SECRET_DETECTION_ENABLED,
-          isOfflineUsageReportsEnabled: hasOfflineLicense,
           isCrossProjectSecretSharingEnabled: plan.crossProjectSecretSharing,
           latestAvailableVersion
         }
@@ -1083,37 +1073,6 @@ export const registerAdminRouter = async (server: FastifyZodProvider) => {
           ...organizationMembership,
           status: organizationMembership?.status || OrgMembershipStatus.Accepted
         }
-      };
-    }
-  });
-
-  server.route({
-    method: "POST",
-    url: "/usage-report/generate",
-    config: {
-      rateLimit: writeLimit
-    },
-    schema: {
-      response: {
-        200: z.object({
-          csvContent: z.string(),
-          signature: z.string(),
-          filename: z.string()
-        })
-      }
-    },
-    onRequest: (req, res, done) => {
-      verifyAuth([AuthMode.JWT, AuthMode.IDENTITY_ACCESS_TOKEN])(req, res, () => {
-        verifySuperAdmin(req, res, done);
-      });
-    },
-    handler: async () => {
-      const result = await server.services.offlineUsageReport.generateUsageReportCSV();
-
-      return {
-        csvContent: result.csvContent,
-        signature: result.signature,
-        filename: result.filename
       };
     }
   });

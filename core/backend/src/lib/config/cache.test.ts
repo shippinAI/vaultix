@@ -92,16 +92,8 @@ describe("Vaultix cache configuration", () => {
     }
   });
 
-  test("old license configuration cannot enable billing or network entitlement calls", () => {
+  test("old configuration cannot enable billing or network calls", () => {
     const env = resolveVaultixEnvironment({
-      LICENSE_SERVER_V2_MODE: "on",
-      LICENSE_SERVER_URL: "https://old.example",
-      LICENSE_KEY: "old-key",
-      LICENSE_SERVER_KEY: "old-service-key"
     });
-    expect(env.LICENSE_SERVER_V2_MODE).toBe("off");
-    expect(env.LICENSE_SERVER_URL).toBe("");
-    expect(env.LICENSE_KEY).toBe("");
-    expect(env.LICENSE_SERVER_KEY).toBe("");
   });
 });

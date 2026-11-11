@@ -3,7 +3,7 @@ import path from "node:path";
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType, TableName } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission
@@ -58,7 +58,7 @@ type TSecretImportServiceFactoryDep = {
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
   secretQueueService: Pick<TSecretQueueFactory, "syncSecrets" | "replicateSecrets">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
 };
 
@@ -76,7 +76,7 @@ export const secretImportServiceFactory = ({
   projectDAL,
   secretDAL,
   secretQueueService,
-  licenseService,
+  featureService,
   projectBotService,
   secretV2BridgeDAL,
   kmsService
@@ -92,7 +92,7 @@ export const secretImportServiceFactory = ({
     if (!crossProject.length) return imports.map((imp) => ({ ...imp, isAccessRevoked: false }));
 
     // If org-level toggle is disabled, strip cross-project imports entirely
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       return imports
         .filter((imp) => imp.importEnv.projectId === projectId)
@@ -154,7 +154,7 @@ export const secretImportServiceFactory = ({
     const isCrossProjectImport = sourceProjectId !== projectId;
 
     if (isCrossProjectImport) {
-      const plan = await licenseService.getPlan(actorOrgId);
+      const plan = await featureService.getPlan(actorOrgId);
       if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
         throw new ForbiddenRequestError({
           message: "Cross-project secret sharing is not enabled for this organization"
@@ -197,7 +197,7 @@ export const secretImportServiceFactory = ({
         });
       }
 
-      const plan = await licenseService.getPlan(actorOrgId);
+      const plan = await featureService.getPlan(actorOrgId);
       if (!plan.secretApproval) {
         throw new BadRequestError({
           message: "Failed to create secret replication due to plan restriction. Upgrade plan to create replication."
@@ -562,7 +562,7 @@ export const secretImportServiceFactory = ({
       subject(ProjectPermissionSub.SecretImports, { environment, secretPath })
     );
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message: "Failed to create secret replication due to plan restriction. Upgrade plan to create replication."
@@ -913,7 +913,7 @@ export const secretImportServiceFactory = ({
         projectFolderGrantDAL,
         actorOrgId,
         orgDAL,
-        licenseService,
+        featureService,
         kmsService
       });
 
@@ -1050,7 +1050,7 @@ export const secretImportServiceFactory = ({
     let crossProjItems = importedBy.filter((el) => el.projectSlug);
 
     if (crossProjItems.length) {
-      const plan = await licenseService.getPlan(actorOrgId);
+      const plan = await featureService.getPlan(actorOrgId);
       if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
         crossProjItems = [];
       } else {

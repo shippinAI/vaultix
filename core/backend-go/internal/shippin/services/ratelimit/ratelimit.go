@@ -7,11 +7,9 @@ import (
 	"time"
 
 	"github.com/go-chi/httprate"
-	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
 	"github.com/vaultix-cloud/api/internal/services/auth"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 const (
@@ -19,17 +17,10 @@ const (
 	defaultPrefixKey    = "httprate"
 )
 
-// LicenseService defines the interface for fetching organization plans.
-type LicenseService interface {
-	GetPlan(ctx context.Context, orgID string) (*license.FeatureSet, error)
-}
-
 // Service provides rate limiting middleware with plan-based dynamic limits.
 type Service struct {
 	counter    *RedisCounter
 	limiter    *httprate.RateLimiter
-	licenseSvc LicenseService
-	isCloud    bool
 	enabled    bool
 	logger     *slog.Logger
 }
@@ -37,8 +28,6 @@ type Service struct {
 // Deps holds the dependencies for the rate limit service.
 type Deps struct {
 	Redis      redis.UniversalClient
-	LicenseSvc LicenseService
-	IsCloud    bool
 	IsEnabled  bool
 }
 
@@ -79,8 +68,6 @@ func NewService(_ context.Context, logger *slog.Logger, deps *Deps) *Service {
 	return &Service{
 		counter:    counter,
 		limiter:    limiter,
-		licenseSvc: deps.LicenseSvc,
-		isCloud:    deps.IsCloud,
 		enabled:    true,
 		logger:     logger,
 	}
@@ -108,50 +95,15 @@ func (s *Service) GlobalMiddleware() func(http.Handler) http.Handler {
 	return s.limiter.Handler
 }
 
-// injectLimit returns middleware that sets the rate limit in context based on preset and plan.
+// injectLimit returns middleware that sets the rate limit in context for the preset.
 func (s *Service) injectLimit(preset Preset) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			limits := s.getLimitsForRequest(r)
-			limit := limits.Get(preset)
+			limit := DefaultLimits.Get(preset)
 
 			ctx := httprate.WithRequestLimit(r.Context(), limit)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
-	}
-}
-
-// getLimitsForRequest resolves rate limits for the current request.
-// For authenticated requests in cloud, it merges plan overrides with defaults.
-func (s *Service) getLimitsForRequest(r *http.Request) Limits {
-	identity, err := auth.IdentityFromContext(r.Context())
-	if err != nil || identity.OrgID == uuid.Nil {
-		return DefaultLimits
-	}
-
-	if !s.isCloud {
-		return DefaultLimits
-	}
-
-	plan, err := s.licenseSvc.GetPlan(r.Context(), identity.OrgID.String())
-	if err != nil {
-		s.logger.WarnContext(r.Context(), "failed to get plan for rate limiting",
-			slog.String("orgID", identity.OrgID.String()),
-			slog.Any("error", err),
-		)
-		return DefaultLimits
-	}
-
-	return Limits{
-		ReadLimit:             coalesce(plan.RateLimits.ReadLimit, DefaultLimits.ReadLimit),
-		WriteLimit:            coalesce(plan.RateLimits.WriteLimit, DefaultLimits.WriteLimit),
-		SecretsLimit:          coalesce(plan.RateLimits.SecretsLimit, DefaultLimits.SecretsLimit),
-		AuthRateLimit:         DefaultLimits.AuthRateLimit,
-		MfaRateLimit:          DefaultLimits.MfaRateLimit,
-		PublicEndpointLimit:   DefaultLimits.PublicEndpointLimit,
-		InviteUserRateLimit:   DefaultLimits.InviteUserRateLimit,
-		IdentityCreationLimit: DefaultLimits.IdentityCreationLimit,
-		ProjectCreationLimit:  DefaultLimits.ProjectCreationLimit,
 	}
 }
 
@@ -195,9 +147,3 @@ func noopMiddleware(next http.Handler) http.Handler {
 	return next
 }
 
-func coalesce(val, fallback int) int {
-	if val > 0 {
-		return val
-	}
-	return fallback
-}

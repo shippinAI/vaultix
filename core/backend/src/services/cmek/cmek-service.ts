@@ -1,7 +1,7 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ProjectPermissionCmekActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { AsymmetricKeyAlgorithm, isPqcKeyAlgorithm, SigningAlgorithm, signingService } from "@app/lib/crypto/sign";
@@ -35,7 +35,7 @@ type TCmekServiceFactoryDep = {
   kmsService: TKmsServiceFactory;
   kmsDAL: TKmsKeyDALFactory;
   permissionService: TPermissionServiceFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TCmekServiceFactory = ReturnType<typeof cmekServiceFactory>;
@@ -44,7 +44,7 @@ export const cmekServiceFactory = ({
   kmsService,
   kmsDAL,
   permissionService,
-  licenseService
+  featureService
 }: TCmekServiceFactoryDep) => {
   const createCmek = async ({ projectId, ...dto }: TCreateCmekDTO, actor: OrgServiceActor) => {
     const { permission } = await permissionService.getProjectPermission({
@@ -58,11 +58,11 @@ export const cmekServiceFactory = ({
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionCmekActions.Create, ProjectPermissionSub.Cmek);
 
     if (isPqcKeyAlgorithm(dto.encryptionAlgorithm as string)) {
-      const plan = await licenseService.getPlan(dto.orgId);
+      const plan = await featureService.getPlan(dto.orgId);
       if (!plan.kmsPqc) {
         throw new BadRequestError({
           message:
-            "Your license does not include PQC algorithms. Please upgrade to the Enterprise plan to use a PQC algorithm."
+            "PQC algorithms are not enabled on this instance."
         });
       }
     }
@@ -470,11 +470,11 @@ export const cmekServiceFactory = ({
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionCmekActions.Sign, ProjectPermissionSub.Cmek);
 
     if (isPqcKeyAlgorithm(key.encryptionAlgorithm)) {
-      const plan = await licenseService.getPlan(key.orgId);
+      const plan = await featureService.getPlan(key.orgId);
       if (!plan.kmsPqc) {
         throw new BadRequestError({
           message:
-            "Your license does not include PQC algorithms. Please upgrade to the Enterprise plan to use a PQC algorithm."
+            "PQC algorithms are not enabled on this instance."
         });
       }
     }
@@ -515,11 +515,11 @@ export const cmekServiceFactory = ({
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionCmekActions.Verify, ProjectPermissionSub.Cmek);
 
     if (isPqcKeyAlgorithm(key.encryptionAlgorithm)) {
-      const plan = await licenseService.getPlan(key.orgId);
+      const plan = await featureService.getPlan(key.orgId);
       if (!plan.kmsPqc) {
         throw new BadRequestError({
           message:
-            "Your license does not include PQC algorithms. Please upgrade to the Enterprise plan to use a PQC algorithm."
+            "PQC algorithms are not enabled on this instance."
         });
       }
     }
@@ -661,18 +661,18 @@ export const cmekServiceFactory = ({
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionCmekActions.Create, ProjectPermissionSub.Cmek);
 
     const hasPqcKeys = keys.some((entry) => isPqcKeyAlgorithm(entry.algorithm as string));
-    let pqcLicensed = true;
+    let pqcIncluded = true;
     if (hasPqcKeys) {
-      const plan = await licenseService.getPlan(actor.orgId);
-      pqcLicensed = !!plan.kmsPqc;
+      const plan = await featureService.getPlan(actor.orgId);
+      pqcIncluded = !!plan.kmsPqc;
     }
 
     const results = await Promise.allSettled(
       keys.map(async (entry): Promise<{ id: string; name: string }> => {
-        if (isPqcKeyAlgorithm(entry.algorithm as string) && !pqcLicensed) {
+        if (isPqcKeyAlgorithm(entry.algorithm as string) && !pqcIncluded) {
           throw new BadRequestError({
             message:
-              "Your license does not include PQC algorithms. Please upgrade to the Enterprise plan to use a PQC algorithm."
+              "PQC algorithms are not enabled on this instance."
           });
         }
         const imported = await kmsService.importKeyMaterial({

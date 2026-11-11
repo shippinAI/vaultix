@@ -38,7 +38,6 @@ export type TUpdateCheckGateInput = {
   isVaultixCloud: boolean;
   isCloud: boolean;
   isUpdateCheckDisabled: boolean;
-  hasOfflineLicense: boolean;
   platformVersion?: string;
 };
 
@@ -46,7 +45,6 @@ export const isUpdateCheckEnabled = (input: TUpdateCheckGateInput) =>
   !input.isVaultixCloud &&
   !input.isCloud &&
   !input.isUpdateCheckDisabled &&
-  !input.hasOfflineLicense &&
   Boolean(parseSemanticVersion(input.platformVersion));
 
 export const RELEASES_URL = "https://github.com/shippinAI/vaultix/releases";

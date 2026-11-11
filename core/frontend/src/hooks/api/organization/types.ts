@@ -108,17 +108,6 @@ export type TaxID = {
   value: string;
 };
 
-export type License = {
-  id: string;
-  customerId: string;
-  prefix: string;
-  licenseKey: string;
-  isActivated: boolean;
-  expiresAt: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 export type OrgPlanTableHead = {
   name: string;
 };

@@ -33,7 +33,6 @@ import {
   RevokeHoneyTokenModal,
   ViewHoneyTokenCredentialsModal
 } from "@app/components/honey-tokens";
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
@@ -3671,14 +3670,6 @@ const OverviewPageContent = () => {
           })
         }
       />
-      {subscription && (
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-          text={popUp.upgradePlan.data?.text}
-        />
-      )}
       <AddEnvironmentModal
         isOpen={popUp.createEnvironment.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("createEnvironment", isOpen)}

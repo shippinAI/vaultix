@@ -1,7 +1,6 @@
-import { Link } from "@tanstack/react-router";
 
 import { EmptyState } from "@app/components/v2";
-import { useOrganization, useProject, useSubscription } from "@app/context";
+import { useProject, useSubscription } from "@app/context";
 import { EventType } from "@app/hooks/api/auditLogs/enums";
 import { TIntegrationWithEnv } from "@app/hooks/api/integrations/types";
 import { LogsSection } from "@app/pages/organization/AuditLogsPage/components/LogsSection";
@@ -15,7 +14,6 @@ type Props = {
 
 export const IntegrationAuditLogsSection = ({ integration }: Props) => {
   const { subscription } = useSubscription();
-  const { currentOrg } = useOrganization();
   const { currentProject } = useProject();
 
   const auditLogsRetentionDays = subscription?.auditLogsRetentionDays ?? 30;
@@ -51,38 +49,7 @@ export const IntegrationAuditLogsSection = ({ integration }: Props) => {
         className="rounded-lg"
         title={
           <div>
-            <p>
-              Please{" "}
-              {subscription && subscription.slug !== null ? (
-                <Link
-                  to="/organizations/$orgId/billing"
-                  params={{ orgId: currentOrg.id }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <a
-                    className="cursor-pointer font-medium text-primary-500 transition-all hover:text-primary-600"
-                    target="_blank"
-                  >
-                    upgrade your subscription
-                  </a>
-                </Link>
-              ) : (
-                <a
-                  href="https://vaultix.shippin.cloud/scheduledemo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <a
-                    className="cursor-pointer font-medium text-primary-500 transition-all hover:text-primary-600"
-                    target="_blank"
-                  >
-                    upgrade your subscription
-                  </a>
-                </a>
-              )}{" "}
-              to view integration logs
-            </p>
+            <p>Audit logs are not enabled on this instance.</p>
           </div>
         }
       />

@@ -6,7 +6,7 @@ import slugify from "@sindresorhus/slugify";
 import { Knex } from "knex";
 
 import { ActionProjectType, TableName, TCertificateAuthorities, TCertificateTemplates } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
@@ -34,8 +34,6 @@ import { TCertificateBodyDALFactory } from "@app/services/certificate/certificat
 import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";
 import type { THsmConnectorServiceFactory } from "@app/services/hsm-connector/hsm-connector-service";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
-import { ActiveCerts } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TPkiCollectionDALFactory } from "@app/services/pki-collection/pki-collection-dal";
 import { TPkiCollectionItemDALFactory } from "@app/services/pki-collection/pki-collection-item-dal";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
@@ -61,7 +59,6 @@ import {
   PKI_TEXT_COLUMN_MAX_LENGTH,
   SUPPORTED_GENERAL_NAME_TYPES
 } from "../../certificate-common/certificate-constants";
-import { validatePqcLicense } from "../../certificate-common/certificate-utils";
 import { TCertificateTemplateDALFactory } from "../../certificate-template/certificate-template-dal";
 import { validateCertificateDetailsAgainstTemplate } from "../../certificate-template/certificate-template-fns";
 import { buildHsmCaSigner, buildLocalCaSigner, caKeyAlgorithmToHsmShape, TCaSigner } from "../ca-signer";
@@ -138,9 +135,8 @@ type TInternalCertificateAuthorityServiceFactoryDep = {
   projectDAL: Pick<TProjectDALFactory, "findOne" | "updateById" | "findById" | "transaction" | "findProjectBySlug">;
   kmsService: Pick<TKmsServiceFactory, "generateKmsKey" | "encryptWithKmsKey" | "decryptWithKmsKey">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   caSigningConfigDAL: Pick<TCaSigningConfigDALFactory, "findByCaId" | "create" | "deleteById" | "transaction">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
   hsmConnectorService: Pick<
     THsmConnectorServiceFactory,
     "generateKeyPair" | "sign" | "getPublicKey" | "assertAttachPermission"
@@ -164,14 +160,10 @@ export const internalCertificateAuthorityServiceFactory = ({
   projectDAL,
   kmsService,
   permissionService,
-  licenseService,
+  featureService,
   caSigningConfigDAL,
-  usageMeteringService,
   hsmConnectorService
 }: TInternalCertificateAuthorityServiceFactoryDep) => {
-  const $validatePqcLicense = (keyAlgorithm: string, projectId: string) =>
-    validatePqcLicense({ keyAlgorithm, projectId, projectDAL, licenseService });
-
   // Root CAs: only keyCertSign + cRLSign (they don't perform end-entity operations)
   const ROOT_CA_KEY_USAGES = x509.KeyUsageFlags.keyCertSign | x509.KeyUsageFlags.cRLSign;
   // PQC root CAs also need digitalSignature per FIPS 204/205
@@ -338,7 +330,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       });
     }
 
-    await $validatePqcLicense(keyAlgorithm, projectId);
 
     const dn = createDistinguishedName({
       commonName,
@@ -737,7 +728,6 @@ export const internalCertificateAuthorityServiceFactory = ({
     if (ca.internalCa.type === InternalCaType.ROOT)
       throw new BadRequestError({ message: "Root CA cannot generate CSR" });
 
-    await $validatePqcLicense(ca.internalCa.keyAlgorithm, ca.projectId);
 
     const { signer } = await getCaSigner({
       caId,
@@ -812,7 +802,6 @@ export const internalCertificateAuthorityServiceFactory = ({
 
     if (ca.status === CaStatus.DISABLED) throw new BadRequestError({ message: "CA is disabled" });
 
-    await $validatePqcLicense(ca.internalCa.keyAlgorithm, ca.projectId);
 
     // get latest CA certificate
     const caCert = await certificateAuthorityCertDAL.findById(ca.internalCa.activeCaCertId);
@@ -1388,7 +1377,6 @@ export const internalCertificateAuthorityServiceFactory = ({
     if (!ca.internalCa.activeCaCertId)
       throw new BadRequestError({ message: "CA does not have a certificate installed" });
 
-    await $validatePqcLicense(ca.internalCa.keyAlgorithm, ca.projectId);
 
     const caCert = await certificateAuthorityCertDAL.findById(ca.internalCa.activeCaCertId);
 
@@ -1717,8 +1705,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       subject(ProjectPermissionSub.CertificateAuthorities, { name: parentCa.name })
     );
 
-    await $validatePqcLicense(intermediateCa.internalCa.keyAlgorithm, intermediateCa.projectId);
-    await $validatePqcLicense(parentCa.internalCa.keyAlgorithm, parentCa.projectId);
 
     const { signer } = await getCaSigner({
       caId: intermediateCa.id,
@@ -1947,7 +1933,6 @@ export const internalCertificateAuthorityServiceFactory = ({
     const effectiveKeyAlgorithm =
       (keyAlgorithm as CertKeyAlgorithm) || (ca.internalCa.keyAlgorithm as CertKeyAlgorithm);
 
-    await $validatePqcLicense(effectiveKeyAlgorithm, ca.projectId);
 
     const keyGenAlg = keyAlgorithmToAlgCfg(effectiveKeyAlgorithm);
     const leafCryptoEngine = isPqcAlgorithm(effectiveKeyAlgorithm) ? getPqcCrypto() : crypto.nativeCrypto;
@@ -2231,7 +2216,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       cert = await certificateDAL.transaction(executeIssueCertOperations);
     }
 
-    usageMeteringService.emitForProject(ca.projectId, ActiveCerts.key);
 
     return {
       certificate: leafCert.toString("pem"),
@@ -2384,7 +2368,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       throw new BadRequestError({ message: "notAfter date is after CA certificate's notAfter date" });
     }
 
-    await $validatePqcLicense(ca.internalCa.keyAlgorithm, ca.projectId);
 
     if (signatureAlgorithm && ca.internalCa.keyAlgorithm) {
       $checkSignature(ca.internalCa.keyAlgorithm, $getSignatureKeyFamily(signatureAlgorithm), signatureAlgorithm);
@@ -2707,7 +2690,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       cert = await certificateDAL.transaction(persist);
     }
 
-    usageMeteringService.emitForProject(ca.projectId, ActiveCerts.key);
 
     return {
       certificate: leafCert,
@@ -2784,7 +2766,6 @@ export const internalCertificateAuthorityServiceFactory = ({
       subject(ProjectPermissionSub.CertificateAuthorities, { name: ca.name })
     );
 
-    await $validatePqcLicense(ca.internalCa.keyAlgorithm, ca.projectId);
 
     const notBeforeDate = new Date(notBefore);
     const notAfterDate = new Date(notAfter);

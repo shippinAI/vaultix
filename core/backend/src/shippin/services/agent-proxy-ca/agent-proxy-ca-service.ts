@@ -13,7 +13,7 @@ import {
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TOrgAgentProxyConfigDALFactory } from "./org-agent-proxy-config-dal";
 
@@ -22,7 +22,7 @@ export type TAgentProxyCaServiceFactory = ReturnType<typeof agentProxyCaServiceF
 type TAgentProxyCaServiceFactoryDep = {
   orgAgentProxyConfigDAL: TOrgAgentProxyConfigDALFactory;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
 };
 
@@ -34,18 +34,9 @@ const CLOCK_SKEW_MS = 5 * 60 * 1000;
 export const agentProxyCaServiceFactory = ({
   orgAgentProxyConfigDAL,
   kmsService,
-  licenseService,
+  featureService,
   permissionService
 }: TAgentProxyCaServiceFactoryDep) => {
-  const $checkLicense = async (orgId: string) => {
-    const plan = await licenseService.getPlan(orgId);
-    if (!plan.secretsBrokering) {
-      throw new BadRequestError({
-        message: "Failed to use secrets brokering due to plan restriction. Upgrade your plan to use the agent proxy."
-      });
-    }
-  };
-
   const $assertOrgMembership = async (actor: OrgServiceActor) => {
     await permissionService.getOrgPermission({
       actor: actor.type,
@@ -124,7 +115,6 @@ export const agentProxyCaServiceFactory = ({
   };
 
   const getRootCa = async (actor: OrgServiceActor) => {
-    await $checkLicense(actor.orgId);
     await $assertOrgMembership(actor);
 
     const { config, rootCaCert } = await $getOrgRootCa(actor.orgId);
@@ -139,7 +129,6 @@ export const agentProxyCaServiceFactory = ({
   };
 
   const signIntermediate = async (actor: OrgServiceActor, publicKeyPem: string) => {
-    await $checkLicense(actor.orgId);
     await $assertOrgMembership(actor);
 
     const { rootCaCert, rootCaPrivateKeyBuffer } = await $getOrgRootCa(actor.orgId);

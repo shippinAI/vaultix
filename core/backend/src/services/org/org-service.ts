@@ -15,7 +15,7 @@ import {
 import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
 import { TLdapConfigDALFactory } from "@app/shippin/services/ldap-config/ldap-config-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TOidcConfigDALFactory } from "@app/shippin/services/oidc/oidc-config-dal";
 import { bootstrapPamProject } from "@app/shippin/services/pam-project/pam-project-bootstrap";
 import {
@@ -38,8 +38,6 @@ import { logger } from "@app/lib/logger";
 import { alphaNumericNanoId } from "@app/lib/nanoid";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { getDefaultOrgMembershipRoleForUpdateOrg } from "@app/services/org/org-role-fns";
 import { TOrgMembershipDALFactory } from "@app/services/org-membership/org-membership-dal";
 import { TUserAliasDALFactory } from "@app/services/user-alias/user-alias-dal";
@@ -120,10 +118,7 @@ type TOrgServiceFactoryDep = {
   smtpService: TSmtpService;
   tokenService: TAuthTokenServiceFactory;
   permissionService: TPermissionServiceFactory;
-  licenseService: Pick<
-    TLicenseServiceFactory,
-    "getPlan" | "updateSubscriptionOrgMemberCount" | "generateOrgCustomerId" | "removeOrgCustomer"
-  >;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   projectBotService: Pick<TProjectBotServiceFactory, "getBotKey">;
   loginService: Pick<TAuthLoginFactory, "generateUserTokens">;
   reminderService: Pick<TReminderServiceFactory, "deleteReminderBySecretId">;
@@ -132,7 +127,6 @@ type TOrgServiceFactoryDep = {
   approvalPolicyDAL: Pick<TApprovalPolicyDALFactory, "deleteUserStepApproversInProjects">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
   certificatePolicyDAL: Pick<TCertificatePolicyDALFactory, "create">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TOrgServiceFactory = ReturnType<typeof orgServiceFactory>;
@@ -154,7 +148,7 @@ export const orgServiceFactory = ({
   projectKeyDAL,
   orgMembershipDAL,
   tokenService,
-  licenseService,
+  featureService,
   samlConfigDAL,
   oidcConfigDAL,
   ldapConfigDAL,
@@ -170,7 +164,6 @@ export const orgServiceFactory = ({
   approvalPolicyDAL,
   alertChannelRecipientDAL,
   certificatePolicyDAL,
-  usageMeteringService
 }: TOrgServiceFactoryDep) => {
   /*
    * Get organization details by the organization id
@@ -478,7 +471,7 @@ export const orgServiceFactory = ({
       );
     }
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     const currentOrg = await requestMemoize(requestMemoKeys.orgFindOrgById(actorOrgId), () =>
       orgDAL.findOrgById(actorOrgId)
     );
@@ -720,11 +713,8 @@ export const orgServiceFactory = ({
     { userId, userEmail, orgName }: { userId?: string; orgName: string; userEmail?: string | null },
     trx?: Knex
   ) => {
-    const customerId = await licenseService.generateOrgCustomerId(orgName, userEmail);
-    const createOrg = (tx: Knex) => createOrganizationInTransaction({ userId, orgName, customerId }, tx);
+    const createOrg = (tx: Knex) => createOrganizationInTransaction({ userId, orgName }, tx);
     const organization = await (trx ? createOrg(trx) : orgDAL.transaction(createOrg));
-    await licenseService.updateSubscriptionOrgMemberCount(organization.id, trx);
-    usageMeteringService.emit(organization.id, PamIdentities.key);
     return organization;
   };
 
@@ -792,9 +782,6 @@ export const orgServiceFactory = ({
 
       const deletedOrg = await orgDAL.deleteById(orgId, tx);
 
-      if (deletedOrg.customerId) {
-        await licenseService.removeOrgCustomer(deletedOrg.customerId);
-      }
 
       // Generate new tokens without the organization ID present
       const user = await userDAL.findById(userId, tx);
@@ -864,7 +851,7 @@ export const orgServiceFactory = ({
       const customRole = await roleDAL.findOne({ slug: role, orgId });
       if (!customRole) throw new BadRequestError({ name: "UpdateMembership", message: "Organization role not found" });
 
-      const plan = await licenseService.getPlan(orgId);
+      const plan = await featureService.getPlan(orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message: "Failed to assign custom role due to RBAC restriction. Upgrade plan to assign custom role to member."
@@ -1189,7 +1176,6 @@ export const orgServiceFactory = ({
       orgDAL,
       projectKeyDAL,
       userAliasDAL,
-      licenseService,
       userId,
       membershipUserDAL,
       membershipRoleDAL,
@@ -1200,8 +1186,6 @@ export const orgServiceFactory = ({
     });
 
     // Removing an org member cascades their project + group memberships, changing the identity meters.
-    usageMeteringService.emit(orgId, SecretIdentities.key);
-    usageMeteringService.emit(orgId, PamIdentities.key);
     return deletedMembership;
   };
 
@@ -1232,7 +1216,6 @@ export const orgServiceFactory = ({
       orgDAL,
       projectKeyDAL,
       userAliasDAL,
-      licenseService,
       userId,
       membershipUserDAL,
       membershipRoleDAL,
@@ -1243,8 +1226,6 @@ export const orgServiceFactory = ({
     });
 
     // Removing org members cascades their project + group memberships, changing the identity meters.
-    usageMeteringService.emit(orgId, SecretIdentities.key);
-    usageMeteringService.emit(orgId, PamIdentities.key);
     return deletedMemberships;
   };
 

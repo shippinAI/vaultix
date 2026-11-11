@@ -21,7 +21,7 @@ import { KmsDataKey } from "@app/services/kms/kms-types";
 
 import { THoneyTokenConfigDALFactory } from "../../honey-token-config/honey-token-config-dal";
 import { HoneyTokenConfigStatus } from "../../honey-token-config/honey-token-config-enums";
-import { TLicenseServiceFactory } from "../../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { HoneyTokenType } from "../honey-token-enums";
 import { AwsHoneyTokenConfigSchema } from "../honey-token-types";
 import {
@@ -36,7 +36,7 @@ import { AwsHoneyTokenDecryptedCredentialsSchema, TAwsHoneyTokenDecryptedCredent
 type TConfigProviderDep = {
   honeyTokenConfigDAL: THoneyTokenConfigDALFactory;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "findById">;
 };
 
@@ -169,7 +169,7 @@ export const parseAwsHoneyTokenDecryptedCredentials = (value: unknown): TAwsHone
 export const honeyTokenAwsConfigProviderFactory = ({
   honeyTokenConfigDAL,
   kmsService,
-  licenseService,
+  featureService,
   appConnectionDAL
 }: TConfigProviderDep) => {
   const upsertConfig = async ({
@@ -177,7 +177,7 @@ export const honeyTokenAwsConfigProviderFactory = ({
     connectionId,
     config
   }: TUpsertAwsHoneyTokenConfigInput): Promise<THoneyTokenConfigRecord> => {
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.honeyTokens) {
       throw new BadRequestError({
         message: "Failed to save honey token configuration due to plan restriction. Upgrade plan to use honey tokens."

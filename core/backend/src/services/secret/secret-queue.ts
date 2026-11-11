@@ -13,7 +13,7 @@ import {
   TSecretVersionsV2
 } from "@app/db/schemas";
 import { Actor, EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TProjectEventsService } from "@app/shippin/services/project-events/project-events-service";
 import { ProjectEvents, TProjectEventPayload } from "@app/shippin/services/project-events/project-events-types";
 import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
@@ -125,7 +125,7 @@ type TSecretQueueFactoryDep = {
   secretSyncQueue: Pick<TSecretSyncQueueFactory, "queueSecretSyncsSyncSecretsByPath">;
   reminderService: Pick<TReminderServiceFactory, "createReminderInternal" | "deleteReminderBySecretId">;
   projectEventsService: TProjectEventsService;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   telemetryService: Pick<TTelemetryServiceFactory, "sendPostHogEvents">;
   projectFolderGrantDAL: Pick<TProjectFolderGrantDALFactory, "find">;
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
@@ -191,7 +191,7 @@ export const secretQueueFactory = ({
   folderCommitService,
   reminderService,
   projectEventsService,
-  licenseService,
+  featureService,
   membershipUserDAL,
   membershipRoleDAL,
   telemetryService,
@@ -400,7 +400,7 @@ export const secretQueueFactory = ({
       canExpandValue: () => true,
       actorOrgId: dto.orgId,
       orgDAL,
-      licenseService,
+      featureService,
       projectFolderGrantDAL,
       projectDAL,
       kmsService
@@ -453,7 +453,7 @@ export const secretQueueFactory = ({
       projectFolderGrantDAL,
       actorOrgId: dto.orgId,
       orgDAL,
-      licenseService,
+      featureService,
       kmsService
     });
 
@@ -618,7 +618,7 @@ export const secretQueueFactory = ({
       `syncSecrets: syncing project secrets where [projectId=${dto.projectId}]  [environment=${dto.environmentSlug}] [path=${dto.secretPath}]`
     );
 
-    const plan = await licenseService.getPlan(dto.orgId);
+    const plan = await featureService.getPlan(dto.orgId);
 
     if (event && plan.eventSubscriptions) {
       for await (const singleEvent of event) {

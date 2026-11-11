@@ -3,8 +3,6 @@ import { Knex } from "knex";
 import { groupDALFactory } from "@app/shippin/services/group/group-dal";
 import { initializeHsmModule, isHsmActiveAndEnabled } from "@app/shippin/services/hsm/hsm-fns";
 import { hsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
-import { licenseDALFactory } from "@app/shippin/services/license/license-dal";
-import { licenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { permissionDALFactory } from "@app/shippin/services/permission/permission-dal";
 import { permissionServiceFactory } from "@app/shippin/services/permission/permission-service";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
@@ -29,7 +27,6 @@ type TDependencies = {
   envConfig: TMigrationEnvConfig;
   db: Knex;
   keyStore: TKeyStoreFactory;
-  skipHsmLicenseCheck?: boolean;
 };
 
 type THsmServiceDependencies = {
@@ -53,12 +50,10 @@ export const getMigrationHsmService = async ({ envConfig }: THsmServiceDependenc
 export const getMigrationEncryptionServices = async ({
   envConfig,
   db,
-  keyStore,
-  skipHsmLicenseCheck = true
+  keyStore
 }: TDependencies) => {
   // ----- DAL dependencies -----
   const orgDAL = orgDALFactory(db);
-  const licenseDAL = licenseDALFactory(db);
   const permissionDAL = permissionDALFactory(db);
   const projectDAL = projectDALFactory(db);
   const roleDAL = roleDALFactory(db);
@@ -85,23 +80,13 @@ export const getMigrationEncryptionServices = async ({
     groupDAL
   });
 
-  const licenseService = licenseServiceFactory({
-    permissionService,
-    orgDAL,
-    licenseDAL,
-    keyStore,
-    projectDAL,
-    envConfig
-  });
-
   // ----- HSM startup -----
 
   const { hsmService } = await getMigrationHsmService({ envConfig });
 
   const hsmStatus = await isHsmActiveAndEnabled({
     hsmService,
-    kmsRootConfigDAL,
-    licenseService: skipHsmLicenseCheck ? undefined : licenseService
+    kmsRootConfigDAL
   });
 
   // if the encryption strategy is software - user needs to provide an encryption key

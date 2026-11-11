@@ -13,7 +13,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
   Button,
@@ -340,12 +339,6 @@ export const KmipClientTable = () => {
           isOpen={popUp.displayKmipClientCert.isOpen}
           onOpenChange={(isOpen) => handlePopUpToggle("displayKmipClientCert", isOpen)}
           certificate={popUp.displayKmipClientCert.data}
-        />
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          text="Your current plan does not include access to KMIP. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-          isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
         />
       </div>
     </motion.div>

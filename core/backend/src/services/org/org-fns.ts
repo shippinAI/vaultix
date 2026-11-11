@@ -1,6 +1,5 @@
 import { AccessScope } from "@app/db/schemas";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
 import { BadRequestError } from "@app/lib/errors";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
 import { TProjectKeyDALFactory } from "@app/services/project-key/project-key-dal";
@@ -23,7 +22,6 @@ type TDeleteOrgMemberships = {
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "delete">;
   projectKeyDAL: Pick<TProjectKeyDALFactory, "find" | "delete">;
   userAliasDAL: Pick<TUserAliasDALFactory, "delete">;
-  licenseService: Pick<TLicenseServiceFactory, "updateSubscriptionOrgMemberCount">;
   userId?: string;
   additionalPrivilegeDAL: Pick<TAdditionalPrivilegeDALFactory, "delete">;
   approvalPolicyDAL: Pick<TApprovalPolicyDALFactory, "deleteUserStepApproversInProjects">;
@@ -36,7 +34,6 @@ export const deleteOrgMembershipsFn = async ({
   orgDAL,
   projectKeyDAL,
   userAliasDAL,
-  licenseService,
   userId,
   membershipUserDAL,
   userGroupMembershipDAL,
@@ -72,7 +69,6 @@ export const deleteOrgMembershipsFn = async ({
     }
 
     if (!membershipUserIds.length) {
-      await licenseService.updateSubscriptionOrgMemberCount(orgId);
       return orgMemberships;
     }
 
@@ -154,7 +150,6 @@ export const deleteOrgMembershipsFn = async ({
 
     await alertChannelRecipientDAL.pruneOutOfScopeRecipients({ userIds: membershipUserIds }, tx);
 
-    await licenseService.updateSubscriptionOrgMemberCount(orgId);
     return orgMemberships;
   });
 

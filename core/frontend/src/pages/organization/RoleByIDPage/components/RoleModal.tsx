@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import {
   Button,
@@ -46,9 +45,7 @@ export const RoleModal = ({ popUp, handlePopUpToggle }: Props) => {
   const orgId = currentOrg?.id || "";
   const { subscription } = useSubscription();
   const {
-    popUp: upgradePlanPopUp,
     handlePopUpOpen: handleUpgradePlanPopUpOpen,
-    handlePopUpToggle: handleUpgradePlanPopUpToggle
   } = usePopUp(["upgradePlan"] as const);
 
   const popupData = popUp?.role?.data as {
@@ -218,12 +215,6 @@ export const RoleModal = ({ popUp, handlePopUpToggle }: Props) => {
           </form>
         </DialogContent>
       </Dialog>
-      <UpgradePlanModal
-        isOpen={upgradePlanPopUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handleUpgradePlanPopUpToggle("upgradePlan", isOpen)}
-        text="Your current plan does not include custom roles. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature
-      />
     </>
   );
 };

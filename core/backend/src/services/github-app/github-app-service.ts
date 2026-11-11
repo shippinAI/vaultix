@@ -8,7 +8,7 @@ import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-se
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionAppConnectionActions,
   OrgPermissionGatewayActions,
@@ -58,7 +58,7 @@ type TGitHubAppServiceFactoryDep = {
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   keyStore: Pick<TKeyStoreFactory, "setItemWithExpiryNX" | "deleteItem">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   gatewayService: Pick<TGatewayServiceFactory, "fnGetGatewayClientTlsByGatewayId">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
   gatewayPoolService: Pick<
@@ -78,7 +78,7 @@ export const gitHubAppServiceFactory = ({
   permissionService,
   kmsService,
   keyStore,
-  licenseService,
+  featureService,
   gatewayService,
   gatewayV2Service,
   gatewayPoolService,
@@ -129,7 +129,7 @@ export const gitHubAppServiceFactory = ({
   // Lets the manifest exchange route through a gateway when the GitHub host (e.g. a private
   // GitHub Enterprise Server) isn't directly reachable from the Vaultix backend.
   const assertGatewayUsable = async (gatewayId: string, orgPermission: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.gateway) {
       throw new BadRequestError({
         message:

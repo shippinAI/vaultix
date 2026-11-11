@@ -92,7 +92,7 @@ const createHarness = async ({ clickhouse = false, streamsEnabled = false, queue
   const projectDAL = {
     findById: vi.fn<(id: string) => Promise<Record<string, unknown> | undefined>>(async () => undefined)
   };
-  const licenseService = {
+  const featureService = {
     getPlan: vi.fn<(orgId: string) => Promise<{ auditLogsRetentionDays: number }>>(async () => ({
       auditLogsRetentionDays: 30
     }))
@@ -112,7 +112,7 @@ const createHarness = async ({ clickhouse = false, streamsEnabled = false, queue
     auditLogDAL: auditLogDAL as never,
     queueService: queueService as never,
     projectDAL: projectDAL as never,
-    licenseService: licenseService as never,
+    featureService: featureService as never,
     auditLogStreamOutboxService: auditLogStreamOutboxService as never,
     clickhouseClient: clickhouseClient as never,
     keyStore: keyStore as never
@@ -125,7 +125,7 @@ const createHarness = async ({ clickhouse = false, streamsEnabled = false, queue
     release,
     auditLogDAL,
     projectDAL,
-    licenseService,
+    featureService,
     auditLogStreamOutboxService,
     clickhouseClient,
     consumer: startHandlers.get(QueueName.AuditLogClickHouseBatch)!
@@ -156,7 +156,7 @@ describe.each([false, true])("durable audit destination (ClickHouse=%s)", (click
       h.auditLogStreamOutboxService.enqueueForLogs.mock.invocationCallOrder[0]
     );
     expect(h.keyStore.streamAdd).not.toHaveBeenCalled();
-    expect(h.licenseService.getPlan).not.toHaveBeenCalled();
+    expect(h.featureService.getPlan).not.toHaveBeenCalled();
     expect(h.projectDAL.findById).not.toHaveBeenCalled();
   });
 
@@ -330,9 +330,9 @@ describe("audit-log-queue pushToLog", () => {
   });
 
   test("caps the TTL at the project-level retention when it is lower than the plan", async () => {
-    const { service, keyStore, projectDAL, licenseService } = await createHarness();
+    const { service, keyStore, projectDAL, featureService } = await createHarness();
     projectDAL.findById.mockResolvedValueOnce({ id: "p1", orgId: "org-1", name: "proj", auditLogsRetentionDays: 5 });
-    licenseService.getPlan.mockResolvedValueOnce({ auditLogsRetentionDays: 30 });
+    featureService.getPlan.mockResolvedValueOnce({ auditLogsRetentionDays: 30 });
 
     await service.pushToLog(dto({ orgId: undefined, projectId: "p1" }) as never);
 
@@ -359,8 +359,8 @@ describe("audit-log-queue pushToLog", () => {
   });
 
   test("drops (no streamAdd) when audit log retention is 0/unset", async () => {
-    const { service, keyStore, licenseService } = await createHarness();
-    licenseService.getPlan.mockResolvedValueOnce({ auditLogsRetentionDays: 0 });
+    const { service, keyStore, featureService } = await createHarness();
+    featureService.getPlan.mockResolvedValueOnce({ auditLogsRetentionDays: 0 });
 
     await service.pushToLog(dto({ orgId: "org-zero" }) as never);
 
@@ -375,8 +375,8 @@ describe("audit-log-queue pushToLog", () => {
   });
 
   test("never throws when a resolution lookup fails", async () => {
-    const { service, keyStore, licenseService } = await createHarness();
-    licenseService.getPlan.mockRejectedValueOnce(new Error("license service down"));
+    const { service, keyStore, featureService } = await createHarness();
+    featureService.getPlan.mockRejectedValueOnce(new Error("feature service down"));
 
     await expect(service.pushToLog(dto({ orgId: "o" }) as never)).resolves.toBeUndefined();
     expect(keyStore.streamAdd).not.toHaveBeenCalled();
@@ -395,13 +395,13 @@ describe("audit-log-queue unified consumer", () => {
   });
 
   test("does not perform any DB lookups while draining", async () => {
-    const { consumer, projectDAL, licenseService, keyStore } = await createHarness();
+    const { consumer, projectDAL, featureService, keyStore } = await createHarness();
     keyStore.streamCollect.mockResolvedValueOnce(collectResult([streamEntry({ projectId: "p1" })]));
 
     await consumer();
 
     expect(projectDAL.findById).not.toHaveBeenCalled();
-    expect(licenseService.getPlan).not.toHaveBeenCalled();
+    expect(featureService.getPlan).not.toHaveBeenCalled();
   });
 
   test("postgres branch inserts the resolved entry (null-normalized empties + projectName), then trims", async () => {

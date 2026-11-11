@@ -18,7 +18,7 @@ import { TSecretV2BridgeServiceFactory } from "@app/services/secret-v2-bridge/se
 
 import { TDynamicSecretDALFactory } from "../dynamic-secret/dynamic-secret-dal";
 import { DynamicSecretProviders } from "../dynamic-secret/providers/models";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { BROKERABLE_DYNAMIC_SECRETS } from "./proxied-service-brokerable-outputs";
 import { TProxiedServiceCredentialDALFactory } from "./proxied-service-credential-dal";
@@ -47,7 +47,7 @@ type TProxiedServiceServiceFactoryDep = {
   >;
   secretV2BridgeService: Pick<TSecretV2BridgeServiceFactory, "getSecrets">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   dynamicSecretDAL: Pick<TDynamicSecretDALFactory, "findWithMetadata">;
   projectDAL: Pick<TProjectDALFactory, "findById">;
   keyStore: Pick<TKeyStoreFactory, "setItemWithExpiryNX">;
@@ -81,20 +81,11 @@ export const proxiedServiceServiceFactory = ({
   folderDAL,
   secretV2BridgeService,
   permissionService,
-  licenseService,
+  featureService,
   dynamicSecretDAL,
   projectDAL,
   keyStore
 }: TProxiedServiceServiceFactoryDep) => {
-  const $checkLicense = async (orgId: string) => {
-    const plan = await licenseService.getPlan(orgId);
-    if (!plan.secretsBrokering) {
-      throw new BadRequestError({
-        message: "Failed to use secrets brokering due to plan restriction. Upgrade your plan to use proxied services."
-      });
-    }
-  };
-
   // Requires ReadValue (not just DescribeSecret) on each referenced secret: the proxy brokers the value on
   // the caller's behalf, so attaching a secret they can't read would let them exfiltrate it on the wire.
   const $assertReferencedSecretsReadable = async (
@@ -180,7 +171,7 @@ export const proxiedServiceServiceFactory = ({
     const dynamicCreds = credentials.filter((c) => Boolean(c.dynamicSecretName));
     if (!dynamicCreds.length) return;
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.dynamicSecret) {
       throw new BadRequestError({
         message:
@@ -252,7 +243,6 @@ export const proxiedServiceServiceFactory = ({
     { projectId, environment, secretPath, name, hostPattern, isEnabled, credentials }: TCreateProxiedServiceDTO,
     actor: OrgServiceActor
   ) => {
-    await $checkLicense(actor.orgId);
     const canonicalPath = prefixWithSlash(removeTrailingSlash(secretPath));
 
     const { permission } = await permissionService.getProjectPermission({
@@ -305,7 +295,6 @@ export const proxiedServiceServiceFactory = ({
   };
 
   const list = async ({ projectId, environment, secretPath }: TListProxiedServicesDTO, actor: OrgServiceActor) => {
-    await $checkLicense(actor.orgId);
     const canonicalPath = prefixWithSlash(removeTrailingSlash(secretPath));
 
     const { permission } = await permissionService.getProjectPermission({
@@ -363,7 +352,6 @@ export const proxiedServiceServiceFactory = ({
   };
 
   const getById = async ({ serviceId }: TGetProxiedServiceByIdDTO, actor: OrgServiceActor) => {
-    await $checkLicense(actor.orgId);
     const service = await proxiedServiceDAL.findByIdWithScope(serviceId);
     if (!service) {
       throw new NotFoundError({ message: `Proxied service with ID "${serviceId}" not found` });
@@ -404,7 +392,6 @@ export const proxiedServiceServiceFactory = ({
     { projectId, environment, secretPath, name }: TGetProxiedServiceByNameDTO,
     actor: OrgServiceActor
   ) => {
-    await $checkLicense(actor.orgId);
     const canonicalPath = prefixWithSlash(removeTrailingSlash(secretPath));
 
     const { permission } = await permissionService.getProjectPermission({
@@ -451,7 +438,6 @@ export const proxiedServiceServiceFactory = ({
     { serviceId, name, hostPattern, isEnabled, credentials }: TUpdateProxiedServiceDTO,
     actor: OrgServiceActor
   ) => {
-    await $checkLicense(actor.orgId);
     const service = await proxiedServiceDAL.findByIdWithScope(serviceId);
     if (!service) {
       throw new NotFoundError({ message: `Proxied service with ID "${serviceId}" not found` });
@@ -538,7 +524,6 @@ export const proxiedServiceServiceFactory = ({
   };
 
   const deleteById = async ({ serviceId }: TDeleteProxiedServiceDTO, actor: OrgServiceActor) => {
-    await $checkLicense(actor.orgId);
     const service = await proxiedServiceDAL.findByIdWithScope(serviceId);
     if (!service) {
       throw new NotFoundError({ message: `Proxied service with ID "${serviceId}" not found` });
@@ -570,7 +555,7 @@ export const proxiedServiceServiceFactory = ({
     { projectId, environments, secretPath, search }: TProxiedServiceDashboardCountDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.secretsBrokering) return 0;
 
     const { permission } = await permissionService.getProjectPermission({
@@ -607,7 +592,7 @@ export const proxiedServiceServiceFactory = ({
     { projectId, environments, secretPath, search, orderDirection, limit, offset }: TProxiedServiceDashboardListDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.secretsBrokering) return [];
 
     const { permission } = await permissionService.getProjectPermission({
@@ -657,7 +642,6 @@ export const proxiedServiceServiceFactory = ({
   };
 
   const reportUsage = async ({ serviceId }: TReportProxiedServiceUsageDTO, actor: OrgServiceActor) => {
-    await $checkLicense(actor.orgId);
     const service = await proxiedServiceDAL.findByIdWithScope(serviceId);
     if (!service) {
       throw new NotFoundError({ message: `Proxied service with ID "${serviceId}" not found` });

@@ -1,6 +1,5 @@
 import { UserCog } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
@@ -121,12 +120,6 @@ export const OrgScimSection = () => {
         popUp={popUp}
         handlePopUpOpen={handlePopUpOpen}
         handlePopUpToggle={handlePopUpToggle}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="Your current plan does not include access to SCIM Provisioning. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
       />
     </>
   );

@@ -5,7 +5,6 @@ import { CheckIcon, ClockAlertIcon, ClockIcon, EditIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { FormControl, Spinner } from "@app/components/v2";
 import {
@@ -227,9 +226,7 @@ const GroupRolesForm = ({ projectRoles, roles, groupId, onClose }: FormProps) =>
   const { currentProject } = useProject();
   const { subscription } = useSubscription();
   const {
-    popUp: upgradePlanPopUp,
     handlePopUpOpen: handleUpgradePlanPopUpOpen,
-    handlePopUpToggle: handleUpgradePlanPopUpToggle
   } = usePopUp(["upgradePlan"] as const);
 
   const userRolesGroupBySlug = groupBy(roles, ({ customRoleSlug, role }) => customRoleSlug || role);
@@ -377,12 +374,6 @@ const GroupRolesForm = ({ projectRoles, roles, groupId, onClose }: FormProps) =>
           Save
         </Button>
       </div>
-      <UpgradePlanModal
-        isOpen={upgradePlanPopUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handleUpgradePlanPopUpToggle("upgradePlan", isOpen)}
-        text="Assigning custom roles to groups can be unlocked if you upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature
-      />
     </form>
   );
 };

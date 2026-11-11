@@ -2,7 +2,6 @@ import { SetStateAction, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckIcon, ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
   Button,
@@ -113,11 +112,6 @@ export function EnvironmentSelect({ selectedEnvs, setSelectedEnvs, isDisabled }:
           });
           setSelectedEnvs([newEnv]);
         }}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(open) => handlePopUpToggle("upgradePlan", open)}
-        text="Your current plan does not include access to adding custom environments. To unlock this feature, please upgrade to Vaultix Pro plan."
       />
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <Tooltip open={isDisabled ? undefined : false}>

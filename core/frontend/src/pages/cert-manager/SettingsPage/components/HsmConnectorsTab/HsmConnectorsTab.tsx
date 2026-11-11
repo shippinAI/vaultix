@@ -13,7 +13,6 @@ import {
   Trash2Icon
 } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
@@ -68,14 +67,14 @@ export const HsmConnectorsTab = () => {
   const navigate = useNavigate();
   const { orgId, projectId } = useParams({ strict: false });
   const { subscription } = useSubscription();
-  const isLicensed = Boolean(subscription?.hsm);
+  const isHsmIncluded = Boolean(subscription?.hsm);
   const [addOpen, setAddOpen] = useState(false);
   const [testingId, setTestingId] = useState<string | null>(null);
   const [editing, setEditing] = useState<THsmConnector | null>(null);
   const [deleting, setDeleting] = useState<THsmConnector | null>(null);
   const [search, setSearch] = useState("");
   const [copiedId, , setCopiedId] = useTimedReset<string>({ initialState: "" });
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [, setUpgradeOpen] = useState(false);
 
   const openDetail = (connectorId: string) => {
     if (!orgId || !projectId) return;
@@ -86,11 +85,11 @@ export const HsmConnectorsTab = () => {
   };
 
   const { data: connectors = [], isPending } = useListHsmConnectors({
-    enabled: isLicensed
+    enabled: isHsmIncluded
   });
   const testMutation = useTestHsmConnector();
 
-  const { data: gateways = [] } = useQuery({ ...gatewaysQueryKeys.list(), enabled: isLicensed });
+  const { data: gateways = [] } = useQuery({ ...gatewaysQueryKeys.list(), enabled: isHsmIncluded });
   const { data: pools = [] } = useListGatewayPools();
 
   const filtered = useMemo(() => {
@@ -104,7 +103,7 @@ export const HsmConnectorsTab = () => {
     );
   }, [connectors, search]);
 
-  if (!isLicensed) {
+  if (!isHsmIncluded) {
     return (
       <div>
         <div className="rounded-md border border-yellow-500/30 bg-yellow-500/5 p-8 text-center">
@@ -116,11 +115,6 @@ export const HsmConnectorsTab = () => {
           </p>
           <Button onClick={() => setUpgradeOpen(true)}>Upgrade to Enterprise</Button>
         </div>
-        <UpgradePlanModal
-          isOpen={upgradeOpen}
-          onOpenChange={setUpgradeOpen}
-          text="To use HSM Connectors, upgrade to Vaultix's Enterprise plan."
-        />
       </div>
     );
   }

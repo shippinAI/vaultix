@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { FingerprintIcon, RefreshCwIcon } from "lucide-react";
 
 import { createNotification } from "@app/components/notifications";
@@ -12,7 +11,7 @@ import {
   CardHeader,
   CardTitle
 } from "@app/components/v3";
-import { useOrganization, useProject, useSubscription } from "@app/context";
+import { useProject, useSubscription } from "@app/context";
 import { ProjectPermissionSecretSyncActions } from "@app/context/ProjectPermissionContext/types";
 import { SECRET_SYNC_MAP } from "@app/helpers/secretSyncs";
 import { EventType } from "@app/hooks/api/auditLogs/enums";
@@ -32,7 +31,6 @@ type Props = {
 
 export const SecretSyncAuditLogsSection = ({ secretSync }: Props) => {
   const { subscription } = useSubscription();
-  const { currentOrg } = useOrganization();
   const { currentProject } = useProject();
 
   const triggerSyncSecrets = useTriggerSecretSyncSyncSecrets();
@@ -100,38 +98,7 @@ export const SecretSyncAuditLogsSection = ({ secretSync }: Props) => {
           <div className="flex h-full items-center justify-center rounded-lg bg-mineshaft-800 text-sm text-mineshaft-200">
             <div className="flex flex-col items-center gap-4 py-20">
               <FingerprintIcon className="size-8" />
-              <p>
-                Please{" "}
-                {subscription && subscription.slug !== null ? (
-                  <Link
-                    to="/organizations/$orgId/billing"
-                    params={{ orgId: currentOrg.id }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <a
-                      className="cursor-pointer underline transition-all hover:text-white"
-                      target="_blank"
-                    >
-                      upgrade your subscription
-                    </a>
-                  </Link>
-                ) : (
-                  <a
-                    href="https://vaultix.shippin.cloud/scheduledemo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <a
-                      className="cursor-pointer underline transition-all hover:text-white"
-                      target="_blank"
-                    >
-                      upgrade your subscription
-                    </a>
-                  </a>
-                )}{" "}
-                to view sync logs.
-              </p>
+              <p>Audit logs are not enabled on this instance.</p>
             </div>
           </div>
         )}

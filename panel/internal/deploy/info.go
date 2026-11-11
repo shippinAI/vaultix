@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"shippin.cloud/vaultix/panel/internal/license"
+	"shippin.cloud/vaultix/panel/internal/brand"
 )
 
 const (
@@ -58,7 +58,7 @@ func Load() Info {
 	}
 	return Info{
 		SKU: sku, Label: label, PublicHost: pub, Hub: hub,
-		Owner: license.Owner, Host: license.Host,
-		Product: license.Product, Stamp: license.Stamp,
+		Owner: brand.Owner, Host: brand.Host,
+		Product: brand.Product, Stamp: brand.Stamp,
 	}
 }

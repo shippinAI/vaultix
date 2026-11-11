@@ -1,6 +1,6 @@
 import RE2 from "re2";
 
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { isPqcAlgorithm } from "@app/lib/crypto/pqc";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
@@ -14,29 +14,6 @@ import {
   mapLegacyExtendedKeyUsageToStandard,
   mapLegacyKeyUsageToStandard
 } from "./certificate-constants";
-
-export const validatePqcLicense = async ({
-  keyAlgorithm,
-  projectId,
-  projectDAL,
-  licenseService
-}: {
-  keyAlgorithm: string;
-  projectId: string;
-  projectDAL: Pick<TProjectDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
-}) => {
-  if (!isPqcAlgorithm(keyAlgorithm)) return;
-  const project = await projectDAL.findById(projectId);
-  if (!project) throw new NotFoundError({ message: `Project with ID '${projectId}' not found` });
-  const plan = await licenseService.getPlan(project.orgId);
-  if (!plan.pkiPqc) {
-    throw new BadRequestError({
-      message:
-        "Your license does not include PQC algorithms. Please upgrade to the Enterprise plan to use a PQC algorithm."
-    });
-  }
-};
 
 interface CertificateRequestInput {
   keyUsages?: string[];

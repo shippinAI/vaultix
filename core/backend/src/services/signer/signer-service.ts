@@ -11,7 +11,7 @@ import {
   ResourceMembershipRole,
   ResourceType
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCodeSigningActions,
@@ -154,7 +154,7 @@ type TSignerServiceFactoryDep = {
     "create" | "find" | "delete" | "transaction" | "findResourceMembershipsForActor"
   >;
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "create" | "delete">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TSignerServiceFactory = ReturnType<typeof signerServiceFactory>;
@@ -278,7 +278,7 @@ export const signerServiceFactory = ({
   membershipDAL,
   membershipRoleDAL,
   hsmConnectorService,
-  licenseService
+  featureService
 }: TSignerServiceFactoryDep) => {
   const hsmCertIssuanceDeps = {
     certificateAuthorityDAL,
@@ -371,7 +371,7 @@ export const signerServiceFactory = ({
 
     // pkiCodeSigning is ignored when null (no restriction); only an explicit boolean gates the feature,
     // blocking creation when it is explicitly false.
-    const plan = await licenseService.getPlan(dto.actorOrgId);
+    const plan = await featureService.getPlan(dto.actorOrgId);
     if (typeof plan.pkiCodeSigning === "boolean" && !plan.pkiCodeSigning) {
       throw new BadRequestError({
         message: "Failed to create code signer due to plan restriction. Upgrade plan to access PKI code signing."

@@ -3,8 +3,8 @@ import { PostHog } from "posthog-node";
 
 import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
 import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
-import { InstanceType } from "@app/shippin/services/license/license-types";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
+import { InstanceType } from "@app/services/vaultix/feature-types";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
@@ -64,7 +64,7 @@ export type TTelemetryServiceFactoryDep = {
     TKeyStoreFactory,
     "incrementBy" | "deleteItemsByKeyIn" | "setItemWithExpiry" | "setItemWithExpiryNX" | "getKeysByPattern" | "getItems"
   >;
-  licenseService: Pick<TLicenseServiceFactory, "getInstanceType" | "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
   emailDomainDAL: Pick<TEmailDomainDALFactory, "find">;
 };
@@ -114,7 +114,7 @@ const getDeploymentType = (
 
 export const telemetryServiceFactory = ({
   keyStore,
-  licenseService,
+  featureService,
   orgDAL,
   emailDomainDAL
 }: TTelemetryServiceFactoryDep) => {
@@ -180,7 +180,7 @@ To opt into telemetry, set "TELEMETRY_ENABLED=true" and your own "POSTHOG_PROJEC
     lastName?: string,
     hubspotUtk?: string
   ) => {
-    const instanceType = licenseService.getInstanceType();
+    const instanceType = InstanceType.OnPrem as InstanceType;
     if (
       appCfg.isProductionMode &&
       instanceType === InstanceType.Cloud &&
@@ -237,7 +237,7 @@ To opt into telemetry, set "TELEMETRY_ENABLED=true" and your own "POSTHOG_PROJEC
       properties.name = orgName;
     }
 
-    const instanceType = licenseService.getInstanceType();
+    const instanceType = InstanceType.OnPrem as InstanceType;
     properties.is_cloud = instanceType === InstanceType.Cloud;
     properties.instance_type = instanceType;
     properties.deployment_type = getDeploymentType(instanceType, appCfg);
@@ -258,7 +258,7 @@ To opt into telemetry, set "TELEMETRY_ENABLED=true" and your own "POSTHOG_PROJEC
     }
 
     try {
-      const plan = await licenseService.getPlan(orgId);
+      const plan = await featureService.getPlan(orgId);
       properties.plan = plan.slug ?? "free";
       properties.seat_count = plan.membersUsed;
     } catch (error) {

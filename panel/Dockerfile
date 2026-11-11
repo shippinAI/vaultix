@@ -16,7 +16,6 @@ LABEL org.opencontainers.image.description="Shippin overlay: PIN, lessons, Clyff
 LABEL org.opencontainers.image.url="https://vaultix.cloud"
 LABEL org.opencontainers.image.source="https://github.com/shippinAI/vaultix"
 LABEL org.opencontainers.image.vendor="AngryVibes LLC"
-LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.revision="${VAULTIX_SOURCE_REVISION}"
 
 ENV VAULTIX_PANEL_LISTEN=":8201"

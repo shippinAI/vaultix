@@ -27,7 +27,6 @@ import {
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
@@ -1923,11 +1922,6 @@ export const SecretEditTableRow = ({
           )}
         </SheetContent>
       </Sheet>
-      <UpgradePlanModal
-        isOpen={popUp.accessInsightsUpgrade.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("accessInsightsUpgrade", isOpen)}
-        text="Secret access insights can be unlocked if you upgrade to Vaultix Pro plan."
-      />
 
       <AlertDialog
         open={popUp.editSecret.isOpen}

@@ -10,7 +10,7 @@ import {
   TableName,
   TSecretsV2
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionDALFactory } from "@app/shippin/services/permission/permission-dal";
 import {
   hasSecretReadValueOrDescribePermission,
@@ -176,7 +176,7 @@ type TSecretV2BridgeServiceFactoryDep = {
   secretValidationRuleService: Pick<TSecretValidationRuleServiceFactory, "validateSecrets">;
   projectFolderGrantDAL: Pick<TProjectFolderGrantDALFactory, "find">;
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TSecretV2BridgeServiceFactory = ReturnType<typeof secretV2BridgeServiceFactory>;
@@ -208,7 +208,7 @@ export const secretV2BridgeServiceFactory = ({
   secretValidationRuleService,
   projectFolderGrantDAL,
   orgDAL,
-  licenseService
+  featureService
 }: TSecretV2BridgeServiceFactoryDep) => {
   const $validateSecretReferences = async (
     projectId: string,
@@ -1562,7 +1562,7 @@ export const secretV2BridgeServiceFactory = ({
           : undefined,
       actorOrgId,
       orgDAL,
-      licenseService,
+      featureService,
       projectFolderGrantDAL,
       projectDAL,
       kmsService,
@@ -1710,7 +1710,7 @@ export const secretV2BridgeServiceFactory = ({
       projectFolderGrantDAL,
       actorOrgId,
       orgDAL,
-      licenseService,
+      featureService,
       kmsService
     });
 
@@ -1914,7 +1914,7 @@ export const secretV2BridgeServiceFactory = ({
       userId: secretType === SecretType.Personal && expandPersonalOverrides ? actorId : undefined,
       actorOrgId,
       orgDAL,
-      licenseService,
+      featureService,
       projectFolderGrantDAL,
       projectDAL,
       kmsService
@@ -1950,7 +1950,7 @@ export const secretV2BridgeServiceFactory = ({
         projectFolderGrantDAL,
         actorOrgId,
         orgDAL,
-        licenseService,
+        featureService,
         kmsService
       });
 
@@ -3255,7 +3255,7 @@ export const secretV2BridgeServiceFactory = ({
         }),
       actorOrgId,
       orgDAL,
-      licenseService,
+      featureService,
       projectFolderGrantDAL,
       projectDAL,
       kmsService

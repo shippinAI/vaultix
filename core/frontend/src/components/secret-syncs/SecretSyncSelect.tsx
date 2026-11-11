@@ -16,7 +16,6 @@ import { POPULAR_SECRET_SYNCS, SECRET_SYNC_MAP } from "@app/helpers/secretSyncs"
 import { usePopUp } from "@app/hooks";
 import { SecretSync, useSecretSyncOptions } from "@app/hooks/api/secretSyncs";
 
-import { UpgradePlanModal } from "../license/UpgradePlanModal";
 
 type Props = {
   onSelect: (destination: SecretSync) => void;
@@ -69,7 +68,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 export const SecretSyncSelect = ({ onSelect }: Props) => {
   const { subscription } = useSubscription();
   const { isPending, data: secretSyncOptions } = useSecretSyncOptions();
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
   const [search, setSearch] = useState("");
 
   const handleSelect = (option: SyncOption) => {
@@ -195,12 +194,6 @@ export const SecretSyncSelect = ({ onSelect }: Props) => {
         </>
       )}
 
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan.data?.text}
-      />
     </div>
   );
 };

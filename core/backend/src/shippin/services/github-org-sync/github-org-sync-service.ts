@@ -14,15 +14,13 @@ import { retryWithBackoff } from "@app/lib/retry";
 import { TAlertChannelRecipientDALFactory } from "@app/services/alert/alert-channel-recipient-dal";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipRoleDALFactory } from "@app/services/membership/membership-role-dal";
 import { TMembershipGroupDALFactory } from "@app/services/membership-group/membership-group-dal";
 import { TOrgMembershipDALFactory } from "@app/services/org-membership/org-membership-dal";
 
 import { TGroupDALFactory } from "../group/group-dal";
 import { TUserGroupMembershipDALFactory } from "../group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TGithubOrgSyncDALFactory } from "./github-org-sync-dal";
@@ -84,9 +82,8 @@ type TGithubOrgSyncServiceFactoryDep = {
   groupDAL: Pick<TGroupDALFactory, "insertMany" | "transaction" | "find">;
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "insertMany">;
   membershipGroupDAL: Pick<TMembershipGroupDALFactory, "insertMany">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   orgMembershipDAL: Pick<TOrgMembershipDALFactory, "findOrgMembershipById" | "findOrgMembershipsWithUsersByOrgId">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
 };
 
@@ -98,11 +95,10 @@ export const githubOrgSyncServiceFactory = ({
   kmsService,
   userGroupMembershipDAL,
   groupDAL,
-  licenseService,
+  featureService,
   orgMembershipDAL,
   membershipRoleDAL,
   membershipGroupDAL,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TGithubOrgSyncServiceFactoryDep) => {
   const createGithubOrgSync = async ({
@@ -121,7 +117,7 @@ export const githubOrgSyncServiceFactory = ({
     });
 
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.GithubOrgSync);
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.githubOrgSync) {
       throw new BadRequestError({
         message:
@@ -180,7 +176,7 @@ export const githubOrgSyncServiceFactory = ({
     });
 
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Edit, OrgPermissionSubjects.GithubOrgSync);
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.githubOrgSync) {
       throw new BadRequestError({
         message:
@@ -246,7 +242,7 @@ export const githubOrgSyncServiceFactory = ({
 
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Delete, OrgPermissionSubjects.GithubOrgSync);
 
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.githubOrgSync) {
       throw new BadRequestError({
         message:
@@ -433,8 +429,6 @@ export const githubOrgSyncServiceFactory = ({
       }
 
       // Group membership changes cascade into the group-expanded project identity meters.
-      usageMeteringService.emit(orgId, SecretIdentities.key);
-      usageMeteringService.emit(orgId, PamIdentities.key);
     }
   };
 
@@ -450,7 +444,7 @@ export const githubOrgSyncServiceFactory = ({
 
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Read, OrgPermissionSubjects.GithubOrgSync);
 
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.githubOrgSync) {
       throw new BadRequestError({
         message:
@@ -541,7 +535,7 @@ export const githubOrgSyncServiceFactory = ({
       OrgPermissionSubjects.GithubOrgSyncManual
     );
 
-    const plan = await licenseService.getPlan(orgPermission.orgId);
+    const plan = await featureService.getPlan(orgPermission.orgId);
     if (!plan.githubOrgSync) {
       throw new BadRequestError({
         message:
@@ -859,8 +853,6 @@ export const githubOrgSyncServiceFactory = ({
 
     if (createdTeams.size || updatedTeams.size) {
       // Team membership changes cascade into the group-expanded project identity meters.
-      usageMeteringService.emit(orgPermission.orgId, SecretIdentities.key);
-      usageMeteringService.emit(orgPermission.orgId, PamIdentities.key);
     }
 
     const syncDuration = Date.now() - startTime;

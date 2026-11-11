@@ -170,7 +170,7 @@ describe.sequential("device dispatch through primary PostgreSQL and actual SMTP"
           throw new Error("No mutable project lookup");
         }
       },
-      licenseService: {
+      featureService: {
         getPlan: async () => {
           throw new Error("No mutable retention lookup");
         }

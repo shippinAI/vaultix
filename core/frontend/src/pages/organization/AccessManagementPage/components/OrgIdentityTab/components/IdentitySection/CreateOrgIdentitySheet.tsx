@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { RoleOption } from "@app/components/roles";
 import {
@@ -56,9 +55,7 @@ const CreateOrgIdentityForm = ({ onClose }: { onClose: () => void }) => {
   const orgId = currentOrg?.id || "";
   const { subscription } = useSubscription();
   const {
-    popUp: upgradePlanPopUp,
     handlePopUpOpen: handleUpgradePlanPopUpOpen,
-    handlePopUpToggle: handleUpgradePlanPopUpToggle
   } = usePopUp(["upgradePlan"] as const);
 
   const { data: roles } = useGetOrgRoles(orgId);
@@ -173,12 +170,6 @@ const CreateOrgIdentityForm = ({ onClose }: { onClose: () => void }) => {
           Cancel
         </Button>
       </SheetFooter>
-      <UpgradePlanModal
-        isOpen={upgradePlanPopUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handleUpgradePlanPopUpToggle("upgradePlan", isOpen)}
-        text="Assigning custom roles to machine identities can be unlocked if you upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature
-      />
     </form>
   );
 };

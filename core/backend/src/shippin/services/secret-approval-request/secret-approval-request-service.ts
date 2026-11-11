@@ -73,7 +73,7 @@ import { TTelemetryServiceFactory } from "@app/services/telemetry/telemetry-serv
 import { PostHogEventTypes } from "@app/services/telemetry/telemetry-types";
 import { TUserDALFactory } from "@app/services/user/user-dal";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission
@@ -155,7 +155,7 @@ type TSecretApprovalRequestServiceFactoryDep = {
   secretVersionTagV2BridgeDAL: Pick<TSecretVersionV2TagDALFactory, "insertMany">;
   secretApprovalPolicyDAL: Pick<TSecretApprovalPolicyDALFactory, "findById">;
   projectSlackConfigDAL: Pick<TProjectSlackConfigDALFactory, "getIntegrationDetailsByProject">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   projectMicrosoftTeamsConfigDAL: Pick<TProjectMicrosoftTeamsConfigDALFactory, "getIntegrationDetailsByProject">;
   microsoftTeamsService: Pick<TMicrosoftTeamsServiceFactory, "sendNotification">;
   folderCommitService: Pick<TFolderCommitServiceFactory, "createCommit">;
@@ -187,7 +187,7 @@ export const secretApprovalRequestServiceFactory = ({
   secretV2BridgeDAL,
   secretVersionV2BridgeDAL,
   secretVersionTagV2BridgeDAL,
-  licenseService,
+  featureService,
   projectSlackConfigDAL,
   resourceMetadataDAL,
   projectMicrosoftTeamsConfigDAL,
@@ -481,7 +481,7 @@ export const secretApprovalRequestServiceFactory = ({
     actorAuthMethod,
     actorOrgId
   }: TReviewRequestDTO) => {
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:
@@ -565,7 +565,7 @@ export const secretApprovalRequestServiceFactory = ({
     }
     if (actor !== ActorType.USER) throw new BadRequestError({ message: "Must be a user" });
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:
@@ -622,7 +622,7 @@ export const secretApprovalRequestServiceFactory = ({
       throw new NotFoundError({ message: `Secret approval request with ID '${approvalId}' not found` });
     if (actor !== ActorType.USER) throw new BadRequestError({ message: "Must be a user" });
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:

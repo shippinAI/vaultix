@@ -3,7 +3,7 @@ import { ForbiddenError } from "@casl/ability";
 import { Knex } from "knex";
 
 import { AccessScope, ActionProjectType, ProjectMembershipRole, ProjectVersion, TableName } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { ProjectPermissionMemberActions, ProjectPermissionSub } from "@app/shippin/services/permission/project-permission";
 import { getConfig } from "@app/lib/config/env";
@@ -11,8 +11,6 @@ import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 
 import { TAccessApprovalPolicyApproverDALFactory } from "../../shippin/services/access-approval-policy/access-approval-policy-approver-dal";
 import { TAccessApprovalPolicyDALFactory } from "../../shippin/services/access-approval-policy/access-approval-policy-dal";
@@ -53,7 +51,7 @@ type TProjectMembershipServiceFactoryDep = {
   userGroupMembershipDAL: TUserGroupMembershipDALFactory;
   projectDAL: Pick<TProjectDALFactory, "findById" | "findProjectGhostUser" | "transaction" | "findProjectById">;
   projectKeyDAL: Pick<TProjectKeyDALFactory, "findLatestProjectKey" | "delete" | "insertMany">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   additionalPrivilegeDAL: Pick<TAdditionalPrivilegeDALFactory, "delete">;
   accessApprovalPolicyApproverDAL: Pick<TAccessApprovalPolicyApproverDALFactory, "find">;
   accessApprovalPolicyDAL: Pick<TAccessApprovalPolicyDALFactory, "find">;
@@ -66,7 +64,6 @@ type TProjectMembershipServiceFactoryDep = {
     TApplicationMembershipCleanupServiceFactory,
     "cleanupActorApplicationMemberships" | "cleanupUsersApplicationMemberships"
   >;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
 };
 
@@ -91,7 +88,6 @@ export const projectMembershipServiceFactory = ({
   userDAL,
   membershipRoleDAL,
   applicationMembershipCleanupService,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TProjectMembershipServiceFactoryDep) => {
   const checkUserApproverPolicies = async (
@@ -304,8 +300,6 @@ export const projectMembershipServiceFactory = ({
         }
       });
     }
-    usageMeteringService.emitForProject(projectId, SecretIdentities.key);
-    usageMeteringService.emitForProject(projectId, PamIdentities.key);
     return orgMembers;
   };
 
@@ -418,8 +412,6 @@ export const projectMembershipServiceFactory = ({
       ? await performDelete(externalTx)
       : await membershipUserDAL.transaction(performDelete);
 
-    usageMeteringService.emitForProject(projectId, SecretIdentities.key);
-    usageMeteringService.emitForProject(projectId, PamIdentities.key);
     return memberships;
   };
 
@@ -511,8 +503,6 @@ export const projectMembershipServiceFactory = ({
       throw new BadRequestError({ message: "Failed to leave project" });
     }
 
-    usageMeteringService.emitForProject(projectId, SecretIdentities.key);
-    usageMeteringService.emitForProject(projectId, PamIdentities.key);
     return deletedMembership;
   };
 

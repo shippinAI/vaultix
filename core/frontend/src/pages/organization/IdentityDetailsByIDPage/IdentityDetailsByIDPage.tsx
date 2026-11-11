@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { ChevronLeftIcon, EllipsisIcon } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import { DeleteActionModal, PageHeader } from "@app/components/v2";
@@ -239,12 +238,6 @@ const Page = () => {
         popUp={popUp}
         handlePopUpOpen={handlePopUpOpen}
         handlePopUpToggle={handlePopUpToggle}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={`Your current plan does not include access to ${popUp.upgradePlan.data?.featureName}. To unlock this feature, please upgrade to Vaultix ${popUp.upgradePlan.data?.isEnterpriseFeature ? "Enterprise" : "Pro"} plan.`}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
       />
       <DeleteActionModal
         isOpen={popUp.deleteIdentity.isOpen}

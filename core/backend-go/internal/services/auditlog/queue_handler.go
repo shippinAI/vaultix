@@ -11,17 +11,15 @@ import (
 
 	"github.com/vaultix-cloud/api/internal/queue"
 	"github.com/vaultix-cloud/api/internal/services/project"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 const auditLogStreamKey = "audit-log-stream"
 
+// Audit logs are kept for 365 days on every deployment unless a project asks for less.
+const includedAuditRetentionDays = 365
+
 type projectService interface {
 	GetByID(ctx context.Context, projectID string) (*project.Project, error)
-}
-
-type licenseService interface {
-	GetPlan(ctx context.Context, orgID string) (*license.FeatureSet, error)
 }
 
 type auditStream interface {
@@ -31,7 +29,6 @@ type auditStream interface {
 // QueueHandlerDeps holds dependencies for the audit log queue handler.
 type QueueHandlerDeps struct {
 	Project  projectService
-	License  licenseService
 	KeyStore auditStream
 }
 
@@ -40,14 +37,13 @@ type QueueHandlerDeps struct {
 type QueueHandler struct {
 	logger   *slog.Logger
 	project  projectService
-	license  licenseService
 	keyStore auditStream
 }
 
 func NewQueueHandler(_ context.Context, logger *slog.Logger, deps *QueueHandlerDeps) *QueueHandler {
 	return &QueueHandler{
 		logger:  logger.With(slog.String("queue_handler", "auditlog")),
-		project: deps.Project, license: deps.License, keyStore: deps.KeyStore,
+		project: deps.Project, keyStore: deps.KeyStore,
 	}
 }
 
@@ -83,27 +79,16 @@ func (h *QueueHandler) HandleAuditLog(ctx context.Context, task *queuedAuditLog)
 	if orgID == nil || *orgID == uuid.Nil {
 		return fmt.Errorf("missing audit organization")
 	}
-	plan, err := h.license.GetPlan(ctx, orgID.String())
-	if err != nil {
-		return fmt.Errorf("getting audit retention: %w", err)
-	}
-	if plan == nil {
-		return fmt.Errorf("missing audit retention policy")
-	}
-	retentionDays := int(plan.AuditLogsRetentionDays)
-	// A shorter project policy caps the plan. Zero or unset keeps the plan,
-	// matching the serving queue. The included self-hosted plan is 365 days.
+	retentionDays := includedAuditRetentionDays
+	// A shorter project policy caps it. Zero or unset keeps the included retention, matching the serving queue.
 	if projectRetention != nil && *projectRetention > 0 && *projectRetention < retentionDays {
 		retentionDays = *projectRetention
 	}
-	if retentionDays == 0 {
-		return nil
-	}
-
 	id, createdAt := task.ID, task.CreatedAt
 	if id == uuid.Nil && createdAt.IsZero() {
 		// Jobs from older binaries did not pin identity. Keep them deliverable;
 		// their worker retries retain the old at-least-once duplicate risk.
+		var err error
 		id, err = uuid.NewV7()
 		if err != nil {
 			return fmt.Errorf("generating legacy audit ID: %w", err)

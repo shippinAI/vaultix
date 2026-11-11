@@ -2,7 +2,7 @@ import { CronJob } from "cron";
 
 import { logger } from "@app/lib/logger";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TRateLimitDALFactory } from "./rate-limit-dal";
 import { RateLimitConfiguration, TRateLimit, TRateLimitServiceFactory } from "./rate-limit-types";
 
@@ -26,12 +26,12 @@ export const getRateLimiterConfig = () => {
 
 type TRateLimitServiceFactoryDep = {
   rateLimitDAL: TRateLimitDALFactory;
-  licenseService: Pick<TLicenseServiceFactory, "onPremFeatures">;
+  featureService: Pick<TFeatureServiceFactory, "onPremFeatures">;
 };
 
 export const rateLimitServiceFactory = ({
   rateLimitDAL,
-  licenseService
+  featureService
 }: TRateLimitServiceFactoryDep): TRateLimitServiceFactory => {
   const DEFAULT_RATE_LIMIT_CONFIG_ID = "00000000-0000-0000-0000-000000000000";
 
@@ -84,8 +84,8 @@ export const rateLimitServiceFactory = ({
   };
 
   const initializeBackgroundSync: TRateLimitServiceFactory["initializeBackgroundSync"] = async () => {
-    if (!licenseService.onPremFeatures.customRateLimits) {
-      logger.info("Current license does not support custom rate limit configuration");
+    if (!featureService.onPremFeatures.customRateLimits) {
+      logger.info("This instance does not use custom rate limit configuration");
       return;
     }
 

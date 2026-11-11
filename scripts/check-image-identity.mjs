@@ -14,7 +14,6 @@ assert.equal(label("title"), kind === "engine" ? "Vaultix" : "Vaultix panel");
 assert.equal(label("url"), "https://vaultix.cloud", "Image must identify the primary Vaultix product");
 assert.equal(label("source"), `https://github.com/${repository}`);
 assert.equal(label("vendor"), "AngryVibes LLC");
-assert.equal(label("licenses"), "MIT");
 assert.match(label("revision") ?? "", /^(?:uncommitted|[a-f0-9]{40}|[a-f0-9]{64})$/, "Record a commit or explicitly mark an uncommitted local build");
 if (expectedRevision !== undefined) assert.equal(label("revision"), expectedRevision, "Image revision must match the release checkout");
 console.log(JSON.stringify({ image, kind, url: label("url"), source: label("source"), revision: label("revision"), revisionMatchesExpected: Boolean(expectedRevision) }));

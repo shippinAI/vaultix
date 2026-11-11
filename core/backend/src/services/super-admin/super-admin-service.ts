@@ -13,7 +13,7 @@ import {
 } from "@app/db/schemas";
 import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
 import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { KeyStorePrefixes, KeyStoreTtls, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCache } from "@app/lib/cache/with-cache";
 import {
@@ -34,8 +34,6 @@ import { isDisposableEmail, sanitizeEmail, validateEmail } from "@app/lib/valida
 import { TAuthTokenServiceFactory } from "@app/services/auth-token/auth-token-service";
 import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TIdentityDALFactory } from "@app/services/identity/identity-dal";
-import { IdentitiesMeter, PamIdentities, SecretIdentities, UserIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { SmtpTemplates, TSmtpService } from "@app/services/smtp/smtp-service";
 
 import { TAlertChannelRecipientDALFactory } from "../alert/alert-channel-recipient-dal";
@@ -96,15 +94,11 @@ type TSuperAdminServiceFactoryDep = {
   kmsRootConfigDAL: TKmsRootConfigDALFactory;
   orgService: Pick<TOrgServiceFactory, "createOrganization" | "createOrganizationInTransaction">;
   keyStore: Pick<TKeyStoreFactory, "getItem" | "setItemWithExpiry" | "deleteItem" | "deleteItems">;
-  licenseService: Pick<
-    TLicenseServiceFactory,
-    "onPremFeatures" | "updateSubscriptionOrgMemberCount" | "generateOrgCustomerId" | "removeOrgCustomer"
-  >;
+  featureService: Pick<TFeatureServiceFactory, "onPremFeatures">;
   microsoftTeamsService: Pick<TMicrosoftTeamsServiceFactory, "initializeTeamsBot">;
   invalidateCacheQueue: TInvalidateCacheQueueFactory;
   smtpService: Pick<TSmtpService, "sendMail">;
   tokenService: TAuthTokenServiceFactory;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TSuperAdminServiceFactory = ReturnType<typeof superAdminServiceFactory>;
@@ -157,7 +151,7 @@ export const superAdminServiceFactory = ({
   keyStore,
   kmsRootConfigDAL,
   kmsService,
-  licenseService,
+  featureService,
   identityAccessTokenService,
   identityTokenAuthDAL,
   microsoftTeamsService,
@@ -167,7 +161,6 @@ export const superAdminServiceFactory = ({
   membershipIdentityDAL,
   membershipUserDAL,
   membershipRoleDAL,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TSuperAdminServiceFactoryDep) => {
   const initServerCfg = async () => {
@@ -551,11 +544,7 @@ export const superAdminServiceFactory = ({
       throw new BadRequestError({ message: "Instance has already been set up. Sign in to continue." });
 
     const hashedPassword = await crypto.hashing().createHash(password, getConfig().SALT_ROUNDS);
-    // Legacy cloud provisioning is external; never hold the database lock while contacting it.
-    const customerId = await licenseService.generateOrgCustomerId(orgName, email);
-    let created: Awaited<ReturnType<typeof create>>;
-    try {
-      created = await serverCfgDAL.transaction(async (tx) => {
+    const created = await serverCfgDAL.transaction(async (tx) => {
         await tx.raw("SELECT pg_advisory_xact_lock(?)", [PgSqlLock.SuperAdminInit]);
         const config = await serverCfgDAL.findById(ADMIN_CONFIG_DB_UUID, tx);
         if (!config)
@@ -563,7 +552,7 @@ export const superAdminServiceFactory = ({
         if (config.initialized) {
           throw new BadRequestError({ message: "Instance has already been set up. Sign in to continue." });
         }
-        const result = await create(tx, hashedPassword, customerId);
+        const result = await create(tx, hashedPassword);
         await serverCfgDAL.updateById(
           ADMIN_CONFIG_DB_UUID,
           {
@@ -575,19 +564,6 @@ export const superAdminServiceFactory = ({
         );
         return result;
       });
-    } catch (error) {
-      if (customerId) {
-        try {
-          await licenseService.removeOrgCustomer(customerId);
-        } catch {
-          logger.error(
-            { customerId },
-            "First-owner setup rolled back; external customer cleanup requires reconciliation"
-          );
-        }
-      }
-      throw error;
-    }
 
     // Creation is committed. Cache or reporting outages must not turn success into a retryable signup.
     try {
@@ -595,15 +571,6 @@ export const superAdminServiceFactory = ({
     } catch {
       logger.warn("First-owner setup committed; configuration cache invalidation failed");
     }
-    try {
-      await licenseService.updateSubscriptionOrgMemberCount(created.organizationId);
-    } catch {
-      logger.warn(
-        { orgId: created.organizationId },
-        "First-owner setup committed; membership reporting requires reconciliation"
-      );
-    }
-    usageMeteringService.emit(created.organizationId, PamIdentities.key);
     return created.response;
   };
 
@@ -760,10 +727,6 @@ export const superAdminServiceFactory = ({
   const emitUserDeletionMeterEvents = (orgMemberships: { scopeOrgId?: string | null }[]) => {
     const orgIds = [...new Set(orgMemberships.map((m) => m.scopeOrgId).filter((id): id is string => Boolean(id)))];
     orgIds.forEach((orgId) => {
-      usageMeteringService.emit(orgId, IdentitiesMeter.key);
-      usageMeteringService.emit(orgId, UserIdentities.key);
-      usageMeteringService.emit(orgId, SecretIdentities.key);
-      usageMeteringService.emit(orgId, PamIdentities.key);
     });
   };
 
@@ -925,7 +888,7 @@ export const superAdminServiceFactory = ({
       throw new BadRequestError({ message: "This endpoint is not supported for cloud instances" });
 
     const serverAdmin = await userDAL.findById(actor.id);
-    const plan = licenseService.onPremFeatures;
+    const plan = featureService.onPremFeatures;
 
     const isEmailInvalid = await isDisposableEmail(inviteAdminEmails);
     if (isEmailInvalid) {
@@ -1031,7 +994,6 @@ export const superAdminServiceFactory = ({
       return { organization: org, users };
     });
 
-    await licenseService.updateSubscriptionOrgMemberCount(organization.id);
 
     const invitations = await Promise.all(
       usersToEmail.flatMap(({ id: userId, email, isAccepted }) =>
@@ -1270,7 +1232,7 @@ export const superAdminServiceFactory = ({
   };
 
   const grantServerAdminAccessToUser = async (userId: string) => {
-    if (!licenseService.onPremFeatures?.instanceUserManagement) {
+    if (!featureService.onPremFeatures?.instanceUserManagement) {
       throw new BadRequestError({
         message: "Failed to grant server admin access to user due to plan restriction. Upgrade to Vaultix's Pro plan."
       });
@@ -1313,7 +1275,7 @@ export const superAdminServiceFactory = ({
   };
 
   const updateRootEncryptionStrategy = async (strategy: RootKeyEncryptionStrategy) => {
-    if (!licenseService.onPremFeatures.hsm) {
+    if (!featureService.onPremFeatures.hsm) {
       throw new BadRequestError({
         message: "Failed to update encryption strategy due to plan restriction. Upgrade to Vaultix's Enterprise plan."
       });
@@ -1379,7 +1341,7 @@ export const superAdminServiceFactory = ({
 
     const config = getConfig();
     if (!config.isCloud) {
-      const plan = licenseService.onPremFeatures;
+      const plan = featureService.onPremFeatures;
       const canEmailDomainVerification = plan.samlSSO || plan.ldap || plan.oidcSSO;
       if (!canEmailDomainVerification) {
         throw new BadRequestError({

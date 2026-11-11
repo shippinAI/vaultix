@@ -37,7 +37,7 @@ type Props = {
 
 export const KeyValidityStep = ({ form, hsmConnectorOptions, isHsmConnectorsLoading }: Props) => {
   const { subscription } = useSubscription();
-  const isHsmLicensed = Boolean(subscription?.hsm);
+  const isHsmIncluded = Boolean(subscription?.hsm);
   const { permission } = useProjectPermission();
   const canAttachHsm = permission.can(
     ProjectPermissionHsmConnectorActions.Attach,
@@ -79,11 +79,11 @@ export const KeyValidityStep = ({ form, hsmConnectorOptions, isHsmConnectorsLoad
                 </SelectTrigger>
                 <SelectContent position="popper">
                   <SelectItem value={CertKeySource.Vaultix}>Vaultix</SelectItem>
-                  <SelectItem value={CertKeySource.Hsm} disabled={!isHsmLicensed || !canAttachHsm}>
+                  <SelectItem value={CertKeySource.Hsm} disabled={!isHsmIncluded || !canAttachHsm}>
                     <div className="flex items-center gap-2">
                       HSM
-                      {!isHsmLicensed && <Badge variant="info">Enterprise</Badge>}
-                      {isHsmLicensed && !canAttachHsm && (
+                      {!isHsmIncluded && <Badge variant="info">Enterprise</Badge>}
+                      {isHsmIncluded && !canAttachHsm && (
                         <Badge variant="warning">Permission required</Badge>
                       )}
                     </div>

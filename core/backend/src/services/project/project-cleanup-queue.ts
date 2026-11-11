@@ -176,7 +176,6 @@ export const projectCleanupQueueFactory = ({
         return;
       }
 
-      await keyStore.deleteItem(KeyStorePrefixes.LicenseCloudPlan(project.orgId));
       await auditLogService.createAuditLog({
         orgId: project.orgId,
         projectId,

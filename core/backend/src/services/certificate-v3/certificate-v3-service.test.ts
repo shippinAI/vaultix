@@ -305,7 +305,7 @@ describe("CertificateV3Service", () => {
       apiEnrollmentConfigDAL: {
         findById: vi.fn().mockResolvedValue(undefined)
       },
-      licenseService: {
+      featureService: {
         getPlan: vi.fn().mockResolvedValue({ pkiPqc: true })
       },
       telemetryService: mockTelemetryService

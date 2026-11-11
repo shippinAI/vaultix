@@ -12,7 +12,6 @@ import {
 import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
 import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/shippin/services/group/group-fns";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { throwOnPlanSeatLimitReached } from "@app/shippin/services/license/license-fns";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
@@ -35,7 +34,6 @@ import { TAuthTokenServiceFactory } from "@app/services/auth-token/auth-token-se
 import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipRoleDALFactory } from "@app/services/membership/membership-role-dal";
 import { TMembershipGroupDALFactory } from "@app/services/membership-group/membership-group-dal";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
@@ -55,7 +53,7 @@ import { UserAliasType } from "@app/services/user-alias/user-alias-types";
 
 import { TEmailDomainDALFactory } from "../email-domain/email-domain-dal";
 import { verifyEmailDomainOwnership } from "../email-domain/email-domain-fns";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TLdapConfigDALFactory } from "./ldap-config-dal";
@@ -102,14 +100,13 @@ type TLdapConfigServiceFactoryDep = {
   >;
   userAliasDAL: Pick<TUserAliasDALFactory, "create" | "findOne" | "updateById">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "updateSubscriptionOrgMemberCount">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   tokenService: Pick<TAuthTokenServiceFactory, "createTokenForUser">;
   smtpService: Pick<TSmtpService, "sendMail">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   loginService: Pick<TAuthLoginFactory, "processProviderCallback">;
   emailDomainDAL: Pick<TEmailDomainDALFactory, "findOne">;
   telemetryService: Pick<TTelemetryServiceFactory, "sendPostHogEvents">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TLdapConfigServiceFactory = ReturnType<typeof ldapConfigServiceFactory>;
@@ -129,14 +126,13 @@ export const ldapConfigServiceFactory = ({
   userDAL,
   userAliasDAL,
   permissionService,
-  licenseService,
+  featureService,
   tokenService,
   smtpService,
   kmsService,
   loginService,
   emailDomainDAL,
   telemetryService,
-  usageMeteringService
 }: TLdapConfigServiceFactoryDep) => {
   const createLdapCfg = async ({
     actor,
@@ -167,7 +163,7 @@ export const ldapConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.Ldap);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.ldap)
       throw new BadRequestError({
         message:
@@ -325,7 +321,7 @@ export const ldapConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Edit, OrgPermissionSubjects.Ldap);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.ldap)
       throw new BadRequestError({
         message:
@@ -606,7 +602,6 @@ export const ldapConfigServiceFactory = ({
         );
 
         if (!orgMembership) {
-          await throwOnPlanSeatLimitReached(licenseService, orgId, UserAliasType.LDAP);
 
           const { role, roleId } = await getDefaultOrgMembershipRole(organization.defaultMembershipRole);
           const membership = await orgDAL.createMembership(
@@ -647,7 +642,6 @@ export const ldapConfigServiceFactory = ({
         });
       }
     }
-    await licenseService.updateSubscriptionOrgMemberCount(organization.id);
 
     let user = await userDAL.transaction(async (tx) => {
       const newUser = await userDAL.findOne({ id: userAlias.userId }, tx);
@@ -694,7 +688,6 @@ export const ldapConfigServiceFactory = ({
               projectDAL,
               projectBotDAL,
               membershipGroupDAL,
-              usageMeteringService,
               tx
             });
           }
@@ -717,7 +710,6 @@ export const ldapConfigServiceFactory = ({
               userGroupMembershipDAL,
               membershipGroupDAL,
               projectKeyDAL,
-              usageMeteringService,
               alertChannelRecipientDAL,
               tx
             });
@@ -873,7 +865,7 @@ export const ldapConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.Ldap);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.ldap)
       throw new BadRequestError({
         message: "Failed to create LDAP group map due to plan restriction. Upgrade plan to create LDAP group map."
@@ -946,7 +938,7 @@ export const ldapConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Delete, OrgPermissionSubjects.Ldap);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.ldap)
       throw new BadRequestError({
         message: "Failed to delete LDAP group map due to plan restriction. Upgrade plan to delete LDAP group map."
@@ -994,7 +986,7 @@ export const ldapConfigServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(OrgPermissionActions.Create, OrgPermissionSubjects.Ldap);
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.ldap)
       throw new BadRequestError({
         message: "Failed to test LDAP connection due to plan restriction. Upgrade plan to test the LDAP connection."

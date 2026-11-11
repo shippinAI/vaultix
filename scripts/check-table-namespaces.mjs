@@ -50,16 +50,14 @@ const notTables = [
   { file: /^core\/backend-go\/internal\/services\/auth\/apiauth\/authenticator\.go$/, text: 'db:"super_admin"' },
   // ClickHouse keeps its own audit_logs table in another database.
   {
-    file: /^core\/backend\/src\/(lib\/config\/env|db\/run-clickhouse-migrations|db\/clickhouse-migration-runner|auto-start-migrations|ee\/services\/audit-log\/audit-log-queue\.test)\.ts$/,
+    file: /^core\/backend\/src\/(lib\/config\/env|db\/run-clickhouse-migrations|db\/clickhouse-migration-runner|auto-start-migrations|shippin\/services\/audit-log\/audit-log-queue\.test)\.ts$/,
     text: /ClickHouse|CLICKHOUSE|DEFAULT_TABLE_NAME = "audit_logs"|default\("audit_logs"\)/
   },
   // An error category and metric names.
   { file: /^core\/backend\/src\/lib\/errors\/classify(\.test)?\.ts$/, text: "rate_limit" },
   { file: /^core\/backend\/src\/lib\/telemetry\/(metrics|telemetry-attributes)\.ts$/, text: "rate_limit." },
   // Datadog's API path.
-  { file: /^core\/backend\/src\/ee\/services\/secret-rotation-v2\/datadog-api-key\//, text: "api_keys" },
-  // License feature keys.
-  { file: /^core\/backend\/src\/services\/license-client\/dual-read\/feature-mapping\//, text: "v2Key:" },
+  { file: /^core\/backend\/src\/shippin\/services\/secret-rotation-v2\/datadog-api-key\//, text: "api_keys" },
   // Progress messages inside migrations.
   { file: /\/db\/migrations\//, text: /console\.(info|log)|\blog\(|^\s*"[^"]*",?\s*$/ }
 ];

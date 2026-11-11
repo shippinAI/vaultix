@@ -1,5 +1,5 @@
 import { AccessScope, ProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { BadRequestError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
@@ -9,14 +9,14 @@ import { TProjectDALFactory } from "@app/services/project/project-dal";
 // It is ignored when null (no restriction); an explicit boolean enforces it, blocking temporary role
 // assignment when false. No-op for org scope, non-Secret-Management projects, or permanent-only roles.
 export const assertSecretsTemporaryAccessAllowed = async ({
-  licenseService,
+  featureService,
   projectDAL,
   scope,
   projectId,
   orgId,
   roles
 }: {
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   projectDAL: Pick<TProjectDALFactory, "findById">;
   scope: AccessScope;
   projectId?: string;
@@ -37,7 +37,7 @@ export const assertSecretsTemporaryAccessAllowed = async ({
     return;
   }
 
-  const plan = await licenseService.getPlan(orgId);
+  const plan = await featureService.getPlan(orgId);
   if (typeof plan.secretsTemporaryAccess === "boolean" && !plan.secretsTemporaryAccess) {
     throw new BadRequestError({
       message: "Temporary access is not available on your current plan. Please upgrade to continue."

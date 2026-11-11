@@ -4,7 +4,6 @@ import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user
 import { OrderByDirection, TGenericPermission } from "@app/lib/types";
 import { TAlertChannelRecipientDALFactory } from "@app/services/alert/alert-channel-recipient-dal";
 import { TIdentityDALFactory } from "@app/services/identity/identity-dal";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipDALFactory } from "@app/services/membership/membership-dal";
 import { TMembershipGroupDALFactory } from "@app/services/membership-group/membership-group-dal";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
@@ -126,7 +125,6 @@ export type TAddUsersToGroupByUserIds = {
   tx?: Knex;
   shouldFailOnMissingMembers?: boolean;
   // Optional so SSO/SCIM callers can meter the secret-manager identity count when they sync groups.
-  usageMeteringService?: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TAddIdentitiesToGroup = {
@@ -135,7 +133,6 @@ export type TAddIdentitiesToGroup = {
   identityDAL: Pick<TIdentityDALFactory, "transaction">;
   identityGroupMembershipDAL: Pick<TIdentityGroupMembershipDALFactory, "find" | "insertMany">;
   membershipDAL: Pick<TMembershipDALFactory, "find">;
-  usageMeteringService?: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TRemoveUsersFromGroupByUserIds = {
@@ -147,7 +144,6 @@ export type TRemoveUsersFromGroupByUserIds = {
   projectKeyDAL: Pick<TProjectKeyDALFactory, "delete">;
   tx?: Knex;
   shouldFailOnMissingMembers?: boolean;
-  usageMeteringService?: Pick<TUsageMeteringServiceFactory, "emit">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
 };
 
@@ -158,7 +154,6 @@ export type TRemoveIdentitiesFromGroup = {
   membershipDAL: Pick<TMembershipDALFactory, "find">;
   identityGroupMembershipDAL: Pick<TIdentityGroupMembershipDALFactory, "find" | "delete">;
   membershipGroupDAL: Pick<TMembershipGroupDALFactory, "find">;
-  usageMeteringService?: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TConvertPendingGroupAdditionsToGroupMemberships = {

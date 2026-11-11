@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Loader2Icon, Search } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import {
   Empty,
   EmptyDescription,
@@ -69,7 +68,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 export const AppConnectionsSelect = ({ onSelect, projectType }: Props) => {
   const { subscription } = useSubscription();
   const { isPending, data: appConnectionOptions } = useAppConnectionOptions(projectType);
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
   const [search, setSearch] = useState("");
 
   const visibleOptions = useMemo(() => appConnectionOptions ?? [], [appConnectionOptions]);
@@ -216,12 +215,6 @@ export const AppConnectionsSelect = ({ onSelect, projectType }: Props) => {
         .
       </p>
 
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="All App Connections can be unlocked if you switch to Vaultix Enterprise plan."
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-      />
     </div>
   );
 };

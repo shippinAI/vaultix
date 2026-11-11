@@ -352,4 +352,4 @@ secrets, _ := pgx.CollectRows(rows, pgx.RowToStructByName[Secret])
 
 ## Vaultix runtime
 
-The image entrypoint is cmd/vaultix/main.go. The included feature policy is internal/shippin/services/license/included.go; NewService has no billing clients or background license synchronization. The Node launcher passes resolved cache aliases to the sidecar. The permission evaluator is maintained directly in internal/vaultixpolicy, with no nested module or replacement dependency. Its MIT notice and provenance ship in the image. Run node scripts/test-vaultix-policy.mjs from the repository root and the native image acceptance in docs/0078-vaultix-policy-ownership.md when changing this boundary.
+The image entrypoint is cmd/vaultix/main.go. Every software feature is included on every deployment.

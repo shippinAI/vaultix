@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import RE2 from "re2";
 
 import { ActionProjectType, ResourceType, TCertificates } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
@@ -98,8 +98,7 @@ import {
   convertKeyUsageArrayToLegacy,
   mapEnumsForValidation,
   normalizeDateForApi,
-  removeRootCaFromChain,
-  validatePqcLicense
+  removeRootCaFromChain
 } from "../certificate-common/certificate-utils";
 import { TCertificateRequest } from "../certificate-policy/certificate-policy-types";
 import { TCertificateRequestDALFactory } from "../certificate-request/certificate-request-dal";
@@ -177,7 +176,7 @@ type TCertificateV3ServiceFactoryDep = {
     "findAllByProfileId" | "findOneByApplicationAndProfile"
   >;
   apiEnrollmentConfigDAL: Pick<TApiEnrollmentConfigDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   telemetryService: Pick<TTelemetryServiceFactory, "sendPostHogEvents">;
 };
 
@@ -707,7 +706,7 @@ export const certificateV3ServiceFactory = ({
   pkiAlertV2Queue,
   pkiApplicationProfileDAL,
   apiEnrollmentConfigDAL,
-  licenseService,
+  featureService,
   telemetryService
 }: TCertificateV3ServiceFactoryDep) => {
   const $reportCertificateIssued = async ({
@@ -916,20 +915,8 @@ export const certificateV3ServiceFactory = ({
     );
 
     if (certificateRequest.keyAlgorithm) {
-      await validatePqcLicense({
-        keyAlgorithm: certificateRequest.keyAlgorithm,
-        projectId: profile.projectId,
-        projectDAL,
-        licenseService
-      });
     }
     if (certificateRequest.signatureAlgorithm) {
-      await validatePqcLicense({
-        keyAlgorithm: certificateRequest.signatureAlgorithm,
-        projectId: profile.projectId,
-        projectDAL,
-        licenseService
-      });
     }
 
     const approvalFactory = APPROVAL_POLICY_FACTORY_MAP[ApprovalPolicyType.CertRequest](ApprovalPolicyType.CertRequest);

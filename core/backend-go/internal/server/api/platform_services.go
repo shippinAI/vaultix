@@ -17,7 +17,6 @@ import (
 	"github.com/vaultix-cloud/api/internal/services/permission"
 	"github.com/vaultix-cloud/api/internal/services/project"
 	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 // PlatformServices holds platform-level services shared across handlers.
@@ -27,7 +26,6 @@ type PlatformServices struct {
 	UserSessions        *session.Service
 	Permission          *permission.Service
 	KMS                 *kms.Service
-	License             *license.Service
 	Project             *project.Service
 	AuditLog            *auditlog.Service
 	AssumePrivilege     *assumeprivilege.Service
@@ -140,15 +138,12 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 
 	auditLogQueueHandler := auditlog.NewQueueHandler(ctx, infra.Logger, &auditlog.QueueHandlerDeps{
 		Project:  projectSvc,
-		License:  infra.License,
 		KeyStore: infra.KeyStore,
 	})
 	auditLogQueueHandler.Register(infra.Queue)
 
 	rateLimitSvc := ratelimit.NewService(ctx, infra.Logger, &ratelimit.Deps{
 		Redis:      infra.Redis,
-		LicenseSvc: infra.License,
-		IsCloud:    infra.Config.IsCloud,
 		IsEnabled:  ratelimit.NativeLimiterEnabled(infra.Config.IsCloud, infra.Config.IsProductionMode),
 	})
 
@@ -158,7 +153,6 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 		UserSessions:        userSessions,
 		Permission:          permissionSvc,
 		KMS:                 kmsSvc,
-		License:             infra.License,
 		Project:             projectSvc,
 		AuditLog:            auditLogSvc,
 		AssumePrivilege:     assumePrivilegeSvc,

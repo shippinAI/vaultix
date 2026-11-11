@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { Link, linkOptions, useLocation, useParams } from "@tanstack/react-router";
 import { Check, ChevronsUpDown, Plus, Star } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { OrgPermissionCan } from "@app/components/permissions";
 import { NewProjectModal } from "@app/components/projects";
 import {
@@ -211,11 +210,6 @@ const ProjectSelectInner = () => {
           </Command>
         </PopoverContent>
       </Popover>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="You've reached the maximum number of projects available on the Free plan. Upgrade to the Vaultix Pro plan to create more projects."
-      />
       <NewProjectModal
         isOpen={popUp.addNewWs.isOpen}
         onOpenChange={(isOpen) => handlePopUpToggle("addNewWs", isOpen)}

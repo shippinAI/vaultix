@@ -64,7 +64,7 @@
       const stamp = document.getElementById("stamp");
       stamp.innerHTML = "<strong>" + me.instance.owner + "</strong> · " + me.instance.host +
         "<br>SKU " + me.instance.sku + (me.instance.hub ? " (hub)" : "") +
-        " · " + me.instance.publicHost + " · license " + me.license.tier;
+        " · " + me.instance.publicHost;
       await refresh();
     }
     async function refresh() {

@@ -20,16 +20,14 @@ describe("Vaultix feature service", () => {
       expect.objectContaining({ actorId: "user-1", actorOrgId: "org-1", orgId: "org-2" })
     );
   });
-  test("local entitlement reads need no external services or credentials", async () => {
+
+  test("every feature is included without external services or credentials", async () => {
     const service = vaultixFeatureServiceFactory({ permissionService: { getOrgPermission: vi.fn() } });
-    await service.init();
     expect(await service.getPlan("org-1")).toMatchObject({
       secretApproval: true,
       auditLogs: true,
       secretRotation: true
     });
-    expect(await service.initializeBackgroundSync()).toBeUndefined();
-    expect(service.getCustomerId()).toBeNull();
-    await expect(service.startOrgTrial({} as Parameters<typeof service.startOrgTrial>[0])).rejects.toThrow("included");
+    expect(service.onPremFeatures.hsm).toBe(true);
   });
 });

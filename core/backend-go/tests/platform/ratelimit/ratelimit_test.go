@@ -15,9 +15,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
-	"github.com/vaultix-cloud/api/internal/services/auth"
 	"github.com/vaultix-cloud/api/internal/shippin/services/ratelimit"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 	"github.com/vaultix-cloud/api/tests/infra"
 )
 
@@ -45,23 +43,10 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-type mockLicenseService struct {
-	getPlanFn func(ctx context.Context, orgID string) (*license.FeatureSet, error)
-}
-
-func (m *mockLicenseService) GetPlan(ctx context.Context, orgID string) (*license.FeatureSet, error) {
-	if m.getPlanFn != nil {
-		return m.getPlanFn(ctx, orgID)
-	}
-	return &license.FeatureSet{}, nil
-}
-
-func newTestService(t *testing.T, isCloud bool) *ratelimit.Service {
+func newTestService(t *testing.T) *ratelimit.Service {
 	t.Helper()
 	return ratelimit.NewService(context.Background(), infra.NopLogger(), &ratelimit.Deps{
 		Redis:      stack.Redis().Client(),
-		LicenseSvc: &mockLicenseService{},
-		IsCloud:    isCloud,
 		IsEnabled:  true,
 	})
 }
@@ -210,7 +195,7 @@ func TestRedisCounter_IncrementBy_IncrementsCorrectAmount(t *testing.T) {
 // ==========================================================================
 
 func TestRateLimitMiddleware_AllowsRequestsUnderLimit(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handlerCallCount := 0
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -235,7 +220,7 @@ func TestRateLimitMiddleware_AllowsRequestsUnderLimit(t *testing.T) {
 }
 
 func TestRateLimitMiddleware_BlocksAfterLimitExceeded(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -268,7 +253,7 @@ func TestRateLimitMiddleware_BlocksAfterLimitExceeded(t *testing.T) {
 }
 
 func TestRateLimitMiddleware_ReturnsRateLimitHeaders(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -290,7 +275,7 @@ func TestRateLimitMiddleware_ReturnsRateLimitHeaders(t *testing.T) {
 }
 
 func TestRateLimitMiddleware_DifferentIPsHaveIndependentLimits(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -327,53 +312,8 @@ func TestRateLimitMiddleware_DifferentIPsHaveIndependentLimits(t *testing.T) {
 	assert.Equal(t, ratelimit.DefaultLimits.MfaRateLimit, ip2SuccessCount)
 }
 
-func TestRateLimitMiddleware_UsesDynamicLimitFromPlan(t *testing.T) {
-	licenseSvc := &mockLicenseService{
-		getPlanFn: func(ctx context.Context, orgID string) (*license.FeatureSet, error) {
-			return &license.FeatureSet{
-				RateLimits: license.RateLimits{
-					SecretsLimit: 5,
-				},
-			}, nil
-		},
-	}
-
-	svc := ratelimit.NewService(context.Background(), infra.NopLogger(), &ratelimit.Deps{
-		Redis:      stack.Redis().Client(),
-		LicenseSvc: licenseSvc,
-		IsCloud:    true,
-		IsEnabled:  true,
-	})
-
-	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-
-	middleware := svc.Middleware(ratelimit.PresetSecrets)
-	wrappedHandler := middleware(handler)
-
-	identity := &auth.Identity{
-		OrgID: [16]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16},
-	}
-
-	successCount := 0
-	for i := 0; i < 10; i++ {
-		req := httptest.NewRequestWithContext(context.Background(), http.MethodGet, "/test", http.NoBody)
-		req = req.WithContext(auth.WithIdentity(req.Context(), identity))
-		req.RemoteAddr = "10.99.99.99:8080"
-		rec := httptest.NewRecorder()
-
-		wrappedHandler.ServeHTTP(rec, req)
-		if rec.Code == http.StatusOK {
-			successCount++
-		}
-	}
-
-	assert.Equal(t, 5, successCount, "should allow exactly 5 requests based on plan limit")
-}
-
 func TestRateLimitMiddleware_GlobalMiddleware_AppliesDefaultLimit(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -393,7 +333,7 @@ func TestRateLimitMiddleware_GlobalMiddleware_AppliesDefaultLimit(t *testing.T) 
 }
 
 func TestMfaMiddleware_KeysByAuthToken(t *testing.T) {
-	svc := newTestService(t, true)
+	svc := newTestService(t)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

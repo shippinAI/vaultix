@@ -5,7 +5,7 @@ import isEqual from "lodash.isequal";
 import { ActionProjectType, SecretType, TableName } from "@app/db/schemas";
 import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
 import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { hasSecretReadValueOrDescribePermission } from "@app/shippin/services/permission/permission-fns";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
@@ -142,7 +142,7 @@ export type TSecretRotationV2ServiceFactoryDep = {
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission" | "getOrgPermission">;
   projectBotService: Pick<TProjectBotServiceFactory, "getBotKey">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   auditLogService: Pick<TAuditLogServiceFactory, "createAuditLog">;
   keyStore: Pick<TKeyStoreFactory, "acquireLock" | "setItemWithExpiry" | "getItem">;
   folderDAL: Pick<
@@ -231,7 +231,7 @@ export const secretRotationV2ServiceFactory = ({
   permissionService,
   appConnectionService,
   projectBotService,
-  licenseService,
+  featureService,
   kmsService,
   auditLogService,
   secretQueueService,
@@ -363,7 +363,7 @@ export const secretRotationV2ServiceFactory = ({
     { projectId, type }: TListSecretRotationsV2ByProjectId,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -399,7 +399,7 @@ export const secretRotationV2ServiceFactory = ({
   };
 
   const findSecretRotationById = async ({ type, rotationId }: TFindSecretRotationV2ByIdDTO, actor: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -441,7 +441,7 @@ export const secretRotationV2ServiceFactory = ({
     { type, rotationId }: TFindSecretRotationV2ByIdDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -493,7 +493,7 @@ export const secretRotationV2ServiceFactory = ({
     { type, rotationName, secretPath, environment, projectId }: TFindSecretRotationV2ByNameDTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -554,7 +554,7 @@ export const secretRotationV2ServiceFactory = ({
     }: TCreateSecretRotationV2DTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -774,7 +774,7 @@ export const secretRotationV2ServiceFactory = ({
   };
 
   const updateSecretRotation = async (dto: TUpdateSecretRotationV2DTO, actor: OrgServiceActor) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -1031,7 +1031,7 @@ export const secretRotationV2ServiceFactory = ({
     { type, rotationId, destinationEnvironment, destinationSecretPath, overwriteDestination }: TMoveSecretRotationV2DTO,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -1545,7 +1545,7 @@ export const secretRotationV2ServiceFactory = ({
     { rotationId, type, auditLogInfo }: TRotateSecretRotationV2,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -1604,7 +1604,7 @@ export const secretRotationV2ServiceFactory = ({
     { rotationId, type, auditLogInfo }: TCheckSecretRotationV2Credentials,
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({
@@ -1953,7 +1953,7 @@ export const secretRotationV2ServiceFactory = ({
     },
     actor: OrgServiceActor
   ) => {
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (!plan.secretRotation)
       throw new BadRequestError({

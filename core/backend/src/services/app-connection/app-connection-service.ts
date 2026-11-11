@@ -12,7 +12,7 @@ import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-se
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionAppConnectionActions,
   OrgPermissionGatewayActions,
@@ -204,7 +204,7 @@ export type TAppConnectionServiceFactoryDep = {
   appConnectionDAL: TAppConnectionDALFactory;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   gatewayService: Pick<TGatewayServiceFactory, "fnGetGatewayClientTlsByGatewayId">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
   gatewayPoolService: Pick<
@@ -312,7 +312,7 @@ export const appConnectionServiceFactory = ({
   appConnectionDAL,
   permissionService,
   kmsService,
-  licenseService,
+  featureService,
   gatewayService,
   gatewayV2Service,
   gatewayPoolService,
@@ -551,7 +551,7 @@ export const appConnectionServiceFactory = ({
     }
 
     if (gatewayId) {
-      const plan = await licenseService.getPlan(actor.orgId);
+      const plan = await featureService.getPlan(actor.orgId);
       if (!plan.gateway) {
         throw new BadRequestError({
           message:
@@ -588,7 +588,7 @@ export const appConnectionServiceFactory = ({
     }
 
     await enterpriseAppCheck(
-      licenseService,
+      featureService,
       app,
       actor.orgId,
       "Failed to create app connection due to plan restriction. Upgrade plan to access enterprise app connections."
@@ -742,7 +742,7 @@ export const appConnectionServiceFactory = ({
     if (!appConnection) throw new NotFoundError({ message: `Could not find App Connection with ID ${connectionId}` });
 
     await enterpriseAppCheck(
-      licenseService,
+      featureService,
       appConnection.app as AppConnection,
       actor.orgId,
       "Failed to update app connection due to plan restriction. Upgrade plan to access enterprise app connections."
@@ -1140,7 +1140,7 @@ export const appConnectionServiceFactory = ({
     if (!appConnection) throw new NotFoundError({ message: `Could not find App Connection with ID ${connectionId}` });
 
     await enterpriseAppCheck(
-      licenseService,
+      featureService,
       app,
       actor.orgId,
       "Failed to connect app due to plan restriction. Upgrade plan to access enterprise app connections."
@@ -1369,7 +1369,7 @@ export const appConnectionServiceFactory = ({
     hcvault: hcVaultConnectionService(connectAppConnectionById, gatewayService, gatewayV2Service, gatewayPoolService),
     windmill: windmillConnectionService(connectAppConnectionById),
     teamcity: teamcityConnectionService(connectAppConnectionById),
-    oci: ociConnectionService(connectAppConnectionById, licenseService),
+    oci: ociConnectionService(connectAppConnectionById, featureService),
     onepass: onePassConnectionService(connectAppConnectionById),
     cloud66: cloud66ConnectionService(connectAppConnectionById),
     heroku: herokuConnectionService(connectAppConnectionById, appConnectionDAL, kmsService),
@@ -1398,7 +1398,7 @@ export const appConnectionServiceFactory = ({
     datadog: datadogConnectionService(connectAppConnectionById),
     openai: openaiConnectionService(connectAppConnectionById),
     laravelForge: laravelForgeConnectionService(connectAppConnectionById),
-    chef: chefConnectionService(connectAppConnectionById, licenseService, gatewayV2Service, gatewayPoolService),
+    chef: chefConnectionService(connectAppConnectionById, featureService, gatewayV2Service, gatewayPoolService),
     octopusDeploy: octopusDeployConnectionService(connectAppConnectionById),
     dbt: dbtConnectionService(connectAppConnectionById),
     circleci: circleciConnectionService(connectAppConnectionById),

@@ -2,7 +2,7 @@ import { ForbiddenError, subject } from "@casl/ability";
 import { requestContext } from "@fastify/request-context";
 
 import { AccessScope, ActionProjectType, IdentityAuthMethod, OrganizationActionScope } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionIdentityActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import {
   constructPermissionErrorMessage,
@@ -53,7 +53,7 @@ type TIdentityGcpAuthServiceFactoryDep = {
   membershipIdentityDAL: Pick<TMembershipIdentityDALFactory, "findOne" | "update" | "getIdentityById">;
   identityAccessTokenDAL: Pick<TIdentityAccessTokenDALFactory, "delete">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   orgDAL: Pick<TOrgDALFactory, "findById" | "findOne" | "findEffectiveOrgMembership">;
   identityAccessTokenService: Pick<
     TIdentityAccessTokenServiceFactory,
@@ -69,7 +69,7 @@ export const identityGcpAuthServiceFactory = ({
   membershipIdentityDAL,
   identityAccessTokenDAL,
   permissionService,
-  licenseService,
+  featureService,
   orgDAL,
   identityAccessTokenService
 }: TIdentityGcpAuthServiceFactoryDep) => {
@@ -368,7 +368,7 @@ export const identityGcpAuthServiceFactory = ({
         OrgPermissionSubjects.Identity
       );
     }
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&
@@ -474,7 +474,7 @@ export const identityGcpAuthServiceFactory = ({
       });
       ForbiddenError.from(permission).throwUnlessCan(OrgPermissionIdentityActions.Edit, OrgPermissionSubjects.Identity);
     }
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
     const reformattedAccessTokenTrustedIps = accessTokenTrustedIps?.map((accessTokenTrustedIp) => {
       if (
         !plan.ipAllowlisting &&

@@ -409,7 +409,6 @@ const organizationRoutes = route("/organizations/$orgId", [
   ]),
   route("/access-management", "organization/AccessManagementPage/route.tsx"),
   route("/audit-logs", "organization/AuditLogsPage/route.tsx"),
-  route("/billing", "organization/BillingPage/route.tsx"),
   route("/secret-sharing", "organization/SecretSharingPage/SecretSharingRedirectRoute.tsx"),
   route("/settings", [
     index("organization/SettingsPage/route.tsx"),

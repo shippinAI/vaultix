@@ -29,7 +29,6 @@ import { AxiosError } from "axios";
 import FileSaver from "file-saver";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification, type NotificationType } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import { CreateSecretRotationV2Modal } from "@app/components/secret-rotations-v2";
@@ -1307,14 +1306,6 @@ export const ActionBar = ({
         projectId={projectId}
         secretPath={secretPath}
       />
-      {subscription && (
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-          text={`Your current plan does not include access to ${popUp.upgradePlan.data?.featureName}. To unlock this feature, please upgrade to Vaultix ${popUp.upgradePlan.data?.isEnterpriseFeature ? "Enterprise" : "Pro"} plan.`}
-        />
-      )}
       <Modal
         isOpen={popUp?.confirmUpload?.isOpen}
         onOpenChange={(open) => handlePopUpToggle("confirmUpload", open)}

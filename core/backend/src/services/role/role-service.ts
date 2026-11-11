@@ -2,7 +2,7 @@ import { packRules } from "@casl/ability/extra";
 import { requestContext } from "@fastify/request-context";
 
 import { AccessScope, ActionProjectType, OrganizationActionScope, TableName } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
@@ -55,7 +55,7 @@ type TRoleServiceFactoryDep = {
   projectDAL: Pick<TProjectDALFactory, "findById">;
   externalGroupOrgRoleMappingDAL: Pick<TExternalGroupOrgRoleMappingDALFactory, "findOne">;
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "find">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TRoleServiceFactory = ReturnType<typeof roleServiceFactory>;
@@ -68,7 +68,7 @@ export const roleServiceFactory = ({
   userDAL,
   externalGroupOrgRoleMappingDAL,
   membershipRoleDAL,
-  licenseService
+  featureService
 }: TRoleServiceFactoryDep) => {
   const orgRoleFactory = newOrgRoleFactory({
     permissionService,
@@ -88,7 +88,7 @@ export const roleServiceFactory = ({
     const factory = scopeFactory[scopeData.scope];
     await factory.onCreateRoleGuard(dto);
 
-    const plan = await licenseService.getPlan(dto.permission.orgId);
+    const plan = await featureService.getPlan(dto.permission.orgId);
     if (!plan?.rbac) {
       throw new BadRequestError({
         message:
@@ -127,7 +127,7 @@ export const roleServiceFactory = ({
 
     await factory.onUpdateRoleGuard(dto);
 
-    const plan = await licenseService.getPlan(dto.permission.orgId);
+    const plan = await featureService.getPlan(dto.permission.orgId);
     if (!plan?.rbac) {
       throw new BadRequestError({
         message:

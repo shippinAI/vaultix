@@ -5,7 +5,6 @@ import { PlusIcon, TrashIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { RoleOption } from "@app/components/roles";
 import {
@@ -54,9 +53,7 @@ export const OrgIdentityModal = ({ popUp, handlePopUpToggle }: Props) => {
   const orgId = currentOrg?.id || "";
   const { subscription } = useSubscription();
   const {
-    popUp: upgradePlanPopUp,
     handlePopUpOpen: handleUpgradePlanPopUpOpen,
-    handlePopUpToggle: handleUpgradePlanPopUpToggle
   } = usePopUp(["upgradePlan"] as const);
 
   const { data: roles } = useGetOrgRoles(orgId);
@@ -296,12 +293,6 @@ export const OrgIdentityModal = ({ popUp, handlePopUpToggle }: Props) => {
           Update
         </Button>
       </div>
-      <UpgradePlanModal
-        isOpen={upgradePlanPopUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handleUpgradePlanPopUpToggle("upgradePlan", isOpen)}
-        text="Assigning custom roles to machine identities can be unlocked if you upgrade to Vaultix Enterprise plan."
-        isEnterpriseFeature
-      />
     </form>
   );
 };

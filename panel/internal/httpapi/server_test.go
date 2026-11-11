@@ -15,7 +15,6 @@ import (
 	"shippin.cloud/vaultix/panel/internal/audit"
 	"shippin.cloud/vaultix/panel/internal/deploy"
 	"shippin.cloud/vaultix/panel/internal/instances"
-	"shippin.cloud/vaultix/panel/internal/license"
 	"shippin.cloud/vaultix/panel/internal/manager"
 	"shippin.cloud/vaultix/panel/internal/pinauth"
 	"shippin.cloud/vaultix/panel/internal/store"
@@ -223,7 +222,7 @@ func newFixture(t *testing.T) *fixture {
 		t.Fatal(err)
 	}
 	info := deploy.Info{SKU: deploy.SKUSelf, PublicHost: "127.0.0.1:8201", Owner: "AngryVibes LLC", Host: "shippin.ai", Product: "vaultix", Stamp: "A SHIPPIN.AI SERVICE"}
-	_ = mgr.EnsureSelf(info, "community")
+	_ = mgr.EnsureSelf(info)
 	srv := &Server{
 		Store: st, Pins: pinauth.New(st), Registry: registry,
 		Audit:          audit.New(""),
@@ -498,9 +497,6 @@ func TestTrustPublic(t *testing.T) {
 	if strings.Contains(strings.ToLower(string(raw)), "infisical") {
 		t.Fatal("trust mentioned leftover brand")
 	}
-	if out["tier"] != string(license.Community) {
-		t.Fatalf("default tier: %v", out["tier"])
-	}
 	if out["sku"] != deploy.SKUSelf {
 		t.Fatalf("sku %v", out["sku"])
 	}
@@ -520,20 +516,6 @@ func TestManagerNamesInstance(t *testing.T) {
 	code, listed := f.call(t, "GET", "/api/v1/vaultix/manager/instances", "jessay", "", nil)
 	if code != http.StatusOK {
 		t.Fatalf("list: %d %v", code, listed)
-	}
-}
-
-func TestLicenseEndpointAngryVibes(t *testing.T) {
-	f := newFixture(t)
-	code, out := f.call(t, "GET", "/api/v1/vaultix/license", "", "", nil)
-	if code != http.StatusOK {
-		t.Fatalf("license: %d %v", code, out)
-	}
-	if out["owner"] != license.Owner || out["host"] != license.Host || out["product"] != license.Product {
-		t.Fatalf("%v", out)
-	}
-	if out["tier"] != string(license.Community) {
-		t.Fatalf("tier %v", out["tier"])
 	}
 }
 

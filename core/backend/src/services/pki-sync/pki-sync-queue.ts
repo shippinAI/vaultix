@@ -10,7 +10,7 @@ import { TCertificates } from "@app/db/schemas";
 import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-log/audit-log-types";
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";
@@ -67,7 +67,7 @@ type TPkiSyncQueueFactoryDep = {
   pkiSyncDAL: Pick<TPkiSyncDALFactory, "findById" | "find" | "updateById" | "deleteById" | "update">;
   auditLogService: Pick<TAuditLogServiceFactory, "createAuditLog">;
   projectDAL: TProjectDALFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   certificateDAL: TCertificateDALFactory;
   certificateBodyDAL: Pick<TCertificateBodyDALFactory, "findOne" | "create">;
   certificateSecretDAL: Pick<TCertificateSecretDALFactory, "findOne" | "create">;
@@ -105,7 +105,7 @@ export const pkiSyncQueueFactory = ({
   pkiSyncDAL,
   auditLogService,
   projectDAL,
-  licenseService,
+  featureService,
   certificateDAL,
   certificateBodyDAL,
   certificateSecretDAL,
@@ -418,7 +418,7 @@ export const pkiSyncQueueFactory = ({
     } = job;
 
     await enterprisePkiSyncCheck(
-      licenseService,
+      featureService,
       pkiSync.connection.orgId,
       pkiSync.destination,
       "Failed to sync certificates due to plan restriction. Upgrade plan to access enterprise PKI syncs."
@@ -796,7 +796,7 @@ export const pkiSyncQueueFactory = ({
     } = job;
 
     await enterprisePkiSyncCheck(
-      licenseService,
+      featureService,
       pkiSync.connection.orgId,
       pkiSync.destination,
       "Failed to remove certificates due to plan restriction. Upgrade plan to access enterprise PKI syncs."

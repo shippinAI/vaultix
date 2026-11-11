@@ -15,7 +15,7 @@ import {
   TProjectEnvironments,
   TProjects
 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionActions,
   OrgPermissionProjectActions,
@@ -54,8 +54,6 @@ import { alphaNumericNanoId } from "@app/lib/nanoid";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 import { OrgServiceActor, TProjectPermission } from "@app/lib/types";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TPkiSubscriberDALFactory } from "@app/services/pki-subscriber/pki-subscriber-dal";
 
 import { TGroupDALFactory } from "../../shippin/services/group/group-dal";
@@ -172,7 +170,7 @@ type TProjectServiceFactoryDep = {
   pkiAlertDAL: Pick<TPkiAlertDALFactory, "find">;
   pkiCollectionDAL: Pick<TPkiCollectionDALFactory, "find">;
   permissionService: TPermissionServiceFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "invalidateGetPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   smtpService: Pick<TSmtpService, "sendMail">;
   orgDAL: Pick<TOrgDALFactory, "findOne" | "findEffectiveOrgMembership">;
   keyStore: Pick<TKeyStoreFactory, "deleteItem" | "acquireLock" | "getItem" | "setItemWithExpiry" | "ttl">;
@@ -193,7 +191,6 @@ type TProjectServiceFactoryDep = {
     TProjectAccessRequestDALFactory,
     "upsertPendingRequest" | "findPendingForRequesterInOrg"
   >;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TProjectServiceFactory = ReturnType<typeof projectServiceFactory>;
@@ -218,7 +215,7 @@ export const projectServiceFactory = ({
   folderDAL,
   projectMembershipDAL,
   projectEnvDAL,
-  licenseService,
+  featureService,
   certificateAuthorityDAL,
   certificateDAL,
   certificateTemplateDAL,
@@ -242,7 +239,6 @@ export const projectServiceFactory = ({
   roleDAL,
   groupDAL,
   projectAccessRequestDAL,
-  usageMeteringService
 }: TProjectServiceFactoryDep) => {
   /*
    * Create workspace. Make user the admin
@@ -284,7 +280,7 @@ export const projectServiceFactory = ({
 
       // Check workspace limit inside the transaction after acquiring the lock
       // We count directly from the database to get the accurate count, not the cached plan value
-      const plan = await licenseService.getPlan(organization.id);
+      const plan = await featureService.getPlan(organization.id);
       if (plan.workspaceLimit !== null && type === ProjectType.SecretManager) {
         const currentProjectCount = await projectDAL.countOfBillableOrgProjects(organization.id, tx);
         if (currentProjectCount >= plan.workspaceLimit) {
@@ -712,7 +708,6 @@ export const projectServiceFactory = ({
 
       // no need to invalidate if there was no limit
       if (plan.workspaceLimit) {
-        await licenseService.invalidateGetPlan(organization.id);
       }
       return {
         ...project,
@@ -739,12 +734,9 @@ export const projectServiceFactory = ({
       };
     });
 
-    await keyStore.deleteItem(KeyStorePrefixes.LicenseCloudPlan(actorOrgId));
     // A new project seeds its creator (plus any template members/identities); emit so a new
     // secret-manager or PAM project's seats are metered. Org-scoped (not emitForProject) to avoid racing
     // the just-committed row; the counter filters by project type.
-    usageMeteringService.emit(results.orgId, SecretIdentities.key);
-    usageMeteringService.emit(results.orgId, PamIdentities.key);
     return results;
   };
 
@@ -825,10 +817,7 @@ export const projectServiceFactory = ({
 
       // refresh the cached plan so the freed workspace slot is reflected immediately
       // (countOfOrgProjects now excludes soft-deleted projects)
-      await keyStore.deleteItem(KeyStorePrefixes.LicenseCloudPlan(actorOrgId));
       // The soft-deleted project drops out of the meters' counts, so its members no longer count.
-      usageMeteringService.emit(project.orgId, SecretIdentities.key);
-      usageMeteringService.emit(project.orgId, PamIdentities.key);
       return { ...softDeletedProject, slug: project.slug };
     } finally {
       await lock.release();
@@ -1090,7 +1079,7 @@ export const projectServiceFactory = ({
       });
     }
 
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.auditLogs || auditLogsRetentionDays > plan.auditLogsRetentionDays) {
       throw new BadRequestError({
         message: "Failed to update audit logs retention due to plan limit reached. Upgrade plan to increase."
@@ -1710,7 +1699,7 @@ export const projectServiceFactory = ({
 
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Kms);
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.externalKms) {
       throw new BadRequestError({
         message: "Failed to get KMS backup due to plan restriction. Upgrade to the enterprise plan."
@@ -1740,7 +1729,7 @@ export const projectServiceFactory = ({
 
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.Kms);
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.externalKms) {
       throw new BadRequestError({
         message: "Failed to load KMS backup due to plan restriction. Upgrade to the enterprise plan."

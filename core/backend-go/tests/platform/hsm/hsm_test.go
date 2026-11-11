@@ -71,7 +71,7 @@ func setupHSM(t *testing.T) *hsm.Service {
 	require.NoError(t, err)
 	t.Cleanup(func() { svc.Close() })
 
-	require.NoError(t, svc.StartService(true))
+	require.NoError(t, svc.StartService())
 
 	return svc
 }

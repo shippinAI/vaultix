@@ -15,7 +15,7 @@ import { BadRequestError, RateLimitError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 import { TProjectEnvDALFactory } from "@app/services/project-env/project-env-dal";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TProjectEventsService } from "./project-events-service";
 import {
   TSSEClient,
@@ -75,7 +75,7 @@ export const getSSEHeaders = () =>
 type TProjectEventsSSEServiceFactoryDep = {
   projectEventsService: TProjectEventsService;
   permissionService: TPermissionServiceFactory;
-  licenseService: TLicenseServiceFactory;
+  featureService: TFeatureServiceFactory;
   keyStore: TKeyStoreFactory;
   projectEnvDAL: Pick<TProjectEnvDALFactory, "find">;
 };
@@ -83,7 +83,7 @@ type TProjectEventsSSEServiceFactoryDep = {
 export const projectEventsSSEServiceFactory = ({
   projectEventsService,
   permissionService,
-  licenseService,
+  featureService,
   keyStore,
   projectEnvDAL
 }: TProjectEventsSSEServiceFactoryDep) => {
@@ -312,7 +312,7 @@ export const projectEventsSSEServiceFactory = ({
     // Validate user has permission for all registered events (throws ForbiddenError if not)
     await validateRegisteredPermissions(permissionCache, opts.register, opts.projectId);
 
-    const plan = await licenseService.getPlan(opts.actorOrgId);
+    const plan = await featureService.getPlan(opts.actorOrgId);
     if (!plan.eventSubscriptions) {
       throw new BadRequestError({
         message: "Event subscriptions are not available on your current plan. Please upgrade to access this feature."

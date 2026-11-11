@@ -15,7 +15,7 @@ export const injectRateLimits = fp(async (server) => {
       return;
     }
 
-    const { rateLimits, customRateLimits } = await server.services.license.getPlan(req.auth.orgId);
+    const { rateLimits, customRateLimits } = await server.services.feature.getPlan(req.auth.orgId);
 
     if (customRateLimits && !appCfg.isCloud) {
       // we do this because for self-hosted/dedicated instances, we want custom rate limits to be based on admin configuration
@@ -24,7 +24,7 @@ export const injectRateLimits = fp(async (server) => {
       return;
     }
 
-    // we're using the null coalescing operator in order to handle outdated licenses
+    // we're using the null coalescing operator in order to handle missing values
     req.rateLimits = {
       readLimit: rateLimits?.readLimit ?? instanceRateLimiterConfig.readLimit,
       writeLimit: rateLimits?.writeLimit ?? instanceRateLimiterConfig.writeLimit,

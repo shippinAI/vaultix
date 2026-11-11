@@ -9,8 +9,7 @@ import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-
 import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
 import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/shippin/services/group/group-fns";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { throwOnPlanSeatLimitReached } from "@app/shippin/services/license/license-fns";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionSsoActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { getConfig } from "@app/lib/config/env";
@@ -41,7 +40,6 @@ import { TAuthTokenServiceFactory } from "@app/services/auth-token/auth-token-se
 import { TokenType } from "@app/services/auth-token/auth-token-types";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipRoleDALFactory } from "@app/services/membership/membership-role-dal";
 import { TMembershipGroupDALFactory } from "@app/services/membership-group/membership-group-dal";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
@@ -90,7 +88,7 @@ type TOidcConfigServiceFactoryDep = {
   >;
   membershipGroupDAL: Pick<TMembershipGroupDALFactory, "find">;
   membershipRoleDAL: Pick<TMembershipRoleDALFactory, "create">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan" | "updateSubscriptionOrgMemberCount">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   tokenService: Pick<TAuthTokenServiceFactory, "createTokenForUser">;
   smtpService: Pick<TSmtpService, "sendMail" | "verify">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
@@ -114,7 +112,6 @@ type TOidcConfigServiceFactoryDep = {
   loginService: Pick<TAuthLoginFactory, "processProviderCallback">;
   emailDomainDAL: Pick<TEmailDomainDALFactory, "findOne">;
   telemetryService: Pick<TTelemetryServiceFactory, "sendPostHogEvents">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
 };
 
 export type TOidcConfigServiceFactory = ReturnType<typeof oidcConfigServiceFactory>;
@@ -123,7 +120,7 @@ export const oidcConfigServiceFactory = ({
   orgDAL,
   userDAL,
   userAliasDAL,
-  licenseService,
+  featureService,
   permissionService,
   tokenService,
   smtpService,
@@ -141,7 +138,6 @@ export const oidcConfigServiceFactory = ({
   loginService,
   emailDomainDAL,
   telemetryService,
-  usageMeteringService
 }: TOidcConfigServiceFactoryDep) => {
   const getOidc = async (dto: TGetOidcCfgDTO) => {
     const oidcCfg = await oidcConfigDAL.findOne({
@@ -345,7 +341,6 @@ export const oidcConfigServiceFactory = ({
         );
 
         if (!orgMembership) {
-          await throwOnPlanSeatLimitReached(licenseService, orgId, UserAliasType.OIDC);
 
           const { role, roleId } = await getDefaultOrgMembershipRole(organization.defaultMembershipRole);
 
@@ -408,7 +403,6 @@ export const oidcConfigServiceFactory = ({
           projectKeyDAL,
           projectDAL,
           projectBotDAL,
-          usageMeteringService
         });
       }
 
@@ -439,7 +433,6 @@ export const oidcConfigServiceFactory = ({
           userGroupMembershipDAL,
           membershipGroupDAL,
           projectKeyDAL,
-          usageMeteringService,
           alertChannelRecipientDAL
         });
       }
@@ -464,7 +457,6 @@ export const oidcConfigServiceFactory = ({
       }
     }
 
-    await licenseService.updateSubscriptionOrgMemberCount(organization.id);
 
     await oidcConfigDAL.update({ orgId }, { lastUsed: new Date() });
 
@@ -544,7 +536,7 @@ export const oidcConfigServiceFactory = ({
       });
     }
 
-    const plan = await licenseService.getPlan(org.id);
+    const plan = await featureService.getPlan(org.id);
     if (!plan.oidcSSO)
       throw new BadRequestError({
         message:
@@ -652,7 +644,7 @@ export const oidcConfigServiceFactory = ({
       });
     }
 
-    const plan = await licenseService.getPlan(org.id);
+    const plan = await featureService.getPlan(org.id);
     if (!plan.oidcSSO)
       throw new BadRequestError({
         message:

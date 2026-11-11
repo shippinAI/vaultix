@@ -13,8 +13,6 @@ import { ms } from "@app/lib/ms";
 import { TApprovalPolicyDALFactory } from "@app/services/approval-policy/approval-policy-dal";
 import { ApprovalPolicyScope } from "@app/services/approval-policy/approval-policy-enums";
 import { TIdentityDALFactory } from "@app/services/identity/identity-dal";
-import { PamIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TMembershipDALFactory } from "@app/services/membership/membership-dal";
 import { TMembershipRoleDALFactory } from "@app/services/membership/membership-role-dal";
 import { TProjectAccessRequestDALFactory } from "@app/services/project/project-access-request-dal";
@@ -54,7 +52,6 @@ type TPamMembershipServiceFactoryDep = {
   groupDAL: Pick<TGroupDALFactory, "findById">;
   identityDAL: Pick<TIdentityDALFactory, "findById" | "find">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission" | "getResourcePermission">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
 };
 
 export type TPamMembershipServiceFactory = ReturnType<typeof pamMembershipServiceFactory>;
@@ -93,7 +90,6 @@ export const pamMembershipServiceFactory = ({
   groupDAL,
   identityDAL,
   permissionService,
-  usageMeteringService
 }: TPamMembershipServiceFactoryDep) => {
   // Shared helpers
 
@@ -358,7 +354,6 @@ export const pamMembershipServiceFactory = ({
     });
 
     // A new PAM project member (user/identity/group) changes the pam_identities meter.
-    usageMeteringService.emitForProject(projectId, PamIdentities.key);
     return result;
   };
 
@@ -456,7 +451,6 @@ export const pamMembershipServiceFactory = ({
 
     // Only re-meter when project members were actually added.
     if (memberships.length > 0) {
-      usageMeteringService.emitForProject(projectId, PamIdentities.key);
     }
 
     return { memberships, skipped, unresolved };
@@ -602,7 +596,6 @@ export const pamMembershipServiceFactory = ({
       };
     });
 
-    usageMeteringService.emitForProject(projectId, PamIdentities.key);
     return result;
   };
 

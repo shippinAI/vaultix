@@ -103,7 +103,7 @@ try {
   phase = 'existing identity and encrypted project';
   const password = `Vx9!${[...randomBytes(24)].map(v => v.toString(16).padStart(2, '0')).join('-')}`;
   const email = `${run}@vaultix.invalid`, canary = randomBytes(32).toString('hex'); sensitive.push(password, canary);
-  const owner = await api('/api/v1/admin/signup', { method: 'POST', body: { email, password, firstName: 'Lifecycle', organizationName: 'Lifecycle proof' } });
+  const owner = await api('/api/v1/admin/signup', { method: 'POST', body: { email, password, firstName: 'Lifecycle', organizationName: 'Lifecycle proof', ...(installed.setupCode ? { setupCode: installed.setupCode } : {}) } });
   const { token } = await api('/api/v3/auth/select-organization', { method: 'POST', token: owner.token, body: { organizationId: owner.organization.id } });
   sensitive.push(token, owner.token);
   const { project: workspace } = await api('/api/v1/projects', { method: 'POST', token, body: { projectName: 'Preserved project' } });

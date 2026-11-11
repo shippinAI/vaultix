@@ -18,7 +18,7 @@ import {
 import { JOB_SCHEDULER_PREFIX, QueueJobs, QueueName, TQueueServiceFactory } from "@app/queue";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TAuditLogDALFactory } from "./audit-log-dal";
 import { TAuditLogStreamEntry, TCreateAuditLogDTO } from "./audit-log-types";
 
@@ -27,7 +27,7 @@ type TAuditLogQueueServiceFactoryDep = {
   auditLogStreamOutboxService: Pick<TAuditLogStreamOutboxServiceFactory, "enqueueForLogs">;
   queueService: TQueueServiceFactory;
   projectDAL: Pick<TProjectDALFactory, "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   clickhouseClient: ClickHouseClient | null;
   keyStore: Pick<TKeyStoreFactory, "streamAdd" | "streamCollect" | "streamTrim" | "acquireLock">;
 };
@@ -78,7 +78,7 @@ export const auditLogQueueServiceFactory = async ({
   auditLogDAL,
   queueService,
   projectDAL,
-  licenseService,
+  featureService,
   auditLogStreamOutboxService,
   clickhouseClient,
   keyStore
@@ -110,7 +110,7 @@ export const auditLogQueueServiceFactory = async ({
     const orgId = data.orgId ?? project?.orgId;
     if (!orgId) return null;
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan?.auditLogsRetentionDays) return null;
 
     const ttlInDays =

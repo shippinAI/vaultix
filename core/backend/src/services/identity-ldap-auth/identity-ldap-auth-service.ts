@@ -6,7 +6,7 @@ import slugify from "@sindresorhus/slugify";
 import { AccessScope, ActionProjectType, IdentityAuthMethod, OrganizationActionScope } from "@app/db/schemas";
 import { TIdentityAuthTemplateDALFactory } from "@app/shippin/services/identity-auth-template";
 import { testLDAPConfig } from "@app/shippin/services/ldap-config/ldap-fns";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   OrgPermissionIdentityActions,
   OrgPermissionMachineIdentityAuthTemplateActions,
@@ -69,7 +69,7 @@ type TIdentityLdapAuthServiceFactoryDep = {
     "findOne" | "transaction" | "create" | "updateById" | "delete"
   >;
   membershipIdentityDAL: Pick<TMembershipIdentityDALFactory, "findOne" | "update" | "getIdentityById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
   kmsService: TKmsServiceFactory;
   identityDAL: Pick<TIdentityDALFactory, "findById" | "findOne">;
@@ -97,7 +97,7 @@ export const identityLdapAuthServiceFactory = ({
   identityDAL,
   identityLdapAuthDAL,
   membershipIdentityDAL,
-  licenseService,
+  featureService,
   permissionService,
   kmsService,
   identityAuthTemplateDAL,
@@ -193,7 +193,7 @@ export const identityLdapAuthServiceFactory = ({
     // If the identity is a sub-org identity, then the scope is always the org.id, and if it's a root org identity, then we need to resolve the scope if a organizationSlug is specified
     let subOrganizationId = isSubOrgIdentity ? org.id : null;
 
-    const plan = await licenseService.getPlan(identity.orgId);
+    const plan = await featureService.getPlan(identity.orgId);
     if (!plan.ldap) {
       throw new BadRequestError({
         message:
@@ -409,7 +409,7 @@ export const identityLdapAuthServiceFactory = ({
       );
     }
 
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
 
     if (!plan.ldap) {
       throw new BadRequestError({
@@ -614,7 +614,7 @@ export const identityLdapAuthServiceFactory = ({
       );
     }
 
-    const plan = await licenseService.getPlan(identityMembershipOrg.scopeOrgId);
+    const plan = await featureService.getPlan(identityMembershipOrg.scopeOrgId);
 
     if (!plan.ldap) {
       throw new BadRequestError({

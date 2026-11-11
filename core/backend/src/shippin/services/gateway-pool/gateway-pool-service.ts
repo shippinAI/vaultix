@@ -12,7 +12,7 @@ import { TDynamicSecretDALFactory } from "../dynamic-secret/dynamic-secret-dal";
 import { TGatewayV2DALFactory } from "../gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "../gateway-v2/gateway-v2-service";
 import { TGatewayV2ConnectionDetails } from "../gateway-v2/gateway-v2-types";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionGatewayPoolActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TPkiDiscoveryConfigDALFactory } from "../pki-discovery/pki-discovery-config-dal";
@@ -35,7 +35,7 @@ type TGatewayPoolServiceFactoryDep = {
   gatewayV2DAL: Pick<TGatewayV2DALFactory, "findById">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
   permissionService: TPermissionServiceFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   identityKubernetesAuthDAL: Pick<TIdentityKubernetesAuthDALFactory, "findByGatewayPoolId" | "countByGatewayPoolId">;
   pkiDiscoveryConfigDAL: Pick<TPkiDiscoveryConfigDALFactory, "findByGatewayPoolId" | "countByGatewayPoolId">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "findByGatewayPoolId" | "countByGatewayPoolId">;
@@ -50,7 +50,7 @@ export const gatewayPoolServiceFactory = ({
   gatewayV2DAL,
   gatewayV2Service,
   permissionService,
-  licenseService,
+  featureService,
   identityKubernetesAuthDAL,
   pkiDiscoveryConfigDAL,
   appConnectionDAL,
@@ -68,18 +68,8 @@ export const gatewayPoolServiceFactory = ({
     ForbiddenError.from(permission).throwUnlessCan(action, OrgPermissionSubjects.GatewayPool);
   };
 
-  const $checkLicense = async (orgId: string) => {
-    const plan = await licenseService.getPlan(orgId);
-    if (!plan.gatewayPool) {
-      throw new BadRequestError({
-        message: "Your current plan does not support gateway pools. Please upgrade to an Enterprise plan."
-      });
-    }
-  };
-
   const createGatewayPool = async ({ name, ...actor }: TCreateGatewayPoolDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.CreateGatewayPools);
-    await $checkLicense(actor.orgId);
 
     try {
       const pool = await gatewayPoolDAL.create({
@@ -102,7 +92,6 @@ export const gatewayPoolServiceFactory = ({
 
   const listGatewayPools = async (actor: TListGatewayPoolsDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.ListGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const pools = await gatewayPoolDAL.findByOrgIdWithDetails(actor.orgId);
 
@@ -146,7 +135,6 @@ export const gatewayPoolServiceFactory = ({
 
   const getGatewayPoolById = async ({ poolId, ...actor }: TGetGatewayPoolByIdDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.ListGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const pool = await gatewayPoolDAL.findByIdWithMembers(poolId, actor.orgId);
     if (!pool) {
@@ -158,7 +146,6 @@ export const gatewayPoolServiceFactory = ({
 
   const updateGatewayPool = async ({ poolId, name, ...actor }: TUpdateGatewayPoolDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.EditGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const existingPool = await gatewayPoolDAL.findById(poolId);
     if (!existingPool || existingPool.orgId !== actor.orgId) {
@@ -183,7 +170,6 @@ export const gatewayPoolServiceFactory = ({
 
   const deleteGatewayPool = async ({ poolId, ...actor }: TDeleteGatewayPoolDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.DeleteGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const existingPool = await gatewayPoolDAL.findById(poolId);
     if (!existingPool || existingPool.orgId !== actor.orgId) {
@@ -209,7 +195,6 @@ export const gatewayPoolServiceFactory = ({
 
   const addGatewayToPool = async ({ poolId, gatewayId, ...actor }: TAddGatewayToPoolDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.EditGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const pool = await gatewayPoolDAL.findById(poolId);
     if (!pool || pool.orgId !== actor.orgId) {
@@ -237,7 +222,6 @@ export const gatewayPoolServiceFactory = ({
 
   const removeGatewayFromPool = async ({ poolId, gatewayId, ...actor }: TRemoveGatewayFromPoolDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.EditGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const pool = await gatewayPoolDAL.findById(poolId);
     if (!pool || pool.orgId !== actor.orgId) {
@@ -295,7 +279,7 @@ export const gatewayPoolServiceFactory = ({
     });
   };
 
-  // Enforce license + RBAC + pool-belongs-to-org before a consumer attaches a pool. Does NOT require a healthy member.
+  // Enforce RBAC + pool-belongs-to-org before a consumer attaches a pool. Does NOT require a healthy member.
   const resolveAttachableGatewayFromPool = async ({
     poolId,
     orgId,
@@ -305,7 +289,6 @@ export const gatewayPoolServiceFactory = ({
     orgId: string;
     actor: Pick<OrgServiceActor, "type" | "id" | "authMethod" | "orgId">;
   }) => {
-    await $checkLicense(orgId);
 
     const { permission } = await permissionService.getOrgPermission({
       actor: actor.type,
@@ -344,7 +327,6 @@ export const gatewayPoolServiceFactory = ({
 
   const getConnectedResources = async ({ poolId, ...actor }: TGetGatewayPoolByIdDTO) => {
     await $checkPermission(actor, OrgPermissionGatewayPoolActions.ListGatewayPools);
-    await $checkLicense(actor.orgId);
 
     const pool = await gatewayPoolDAL.findById(poolId);
     if (!pool || pool.orgId !== actor.orgId) {

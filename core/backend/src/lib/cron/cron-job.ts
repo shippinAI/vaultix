@@ -40,7 +40,6 @@ export const CronJobName = {
   SignerIssuancePolling: "signer-issuance-polling",
   AuditLogStreamOutboxStaleClaimSweeper: "audit-log-stream-outbox-stale-claim-sweeper",
   AuditLogStreamOutboxCleanup: "audit-log-stream-outbox-cleanup",
-  LicenseUsageFlush: "license-usage-flush",
   PamCredentialRotationQueueRotations: "pam-credential-rotation-queue-rotations",
   DailyAlertProcessing: "daily-alert-processing",
   SecretScanningStuckScanReaper: "secret-scanning-stuck-scan-reaper",

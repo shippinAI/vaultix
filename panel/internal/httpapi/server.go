@@ -15,7 +15,7 @@ import (
 	"shippin.cloud/vaultix/panel/internal/core"
 	"shippin.cloud/vaultix/panel/internal/deploy"
 	"shippin.cloud/vaultix/panel/internal/instances"
-	"shippin.cloud/vaultix/panel/internal/license"
+	"shippin.cloud/vaultix/panel/internal/brand"
 	"shippin.cloud/vaultix/panel/internal/manager"
 	"shippin.cloud/vaultix/panel/internal/nomen"
 	"shippin.cloud/vaultix/panel/internal/pinauth"
@@ -42,7 +42,6 @@ type Server struct {
 	Audit          *audit.Log
 	Vault          vault.Engine
 	Nomen          *nomen.Verifier
-	License        license.Grant
 	Deploy         deploy.Info
 	Manager        *manager.Registry
 	IdentityHeader string
@@ -68,7 +67,6 @@ func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/v1/vaultix/health", s.health)
 	mux.HandleFunc("GET /api/v1/vaultix/trust", s.trust)
-	mux.HandleFunc("GET /api/v1/vaultix/license", s.getLicense)
 	mux.HandleFunc("GET /api/v1/vaultix/instance", s.getInstance)
 	mux.HandleFunc("GET /api/v1/vaultix/tenant", s.getTenant)
 	mux.HandleFunc("GET /api/v1/vaultix/manager/instances", s.withUser(s.listManaged))
@@ -118,7 +116,7 @@ func (s *Server) Handler() http.Handler {
 // ipGuard applies the IP-allowlist valve to every request. Closed => no-op.
 func (s *Server) ipGuard(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if s.license().Allows(license.FeatIPAllowlist) && !s.Valves.IPAllowlist.Allowed(r.RemoteAddr) {
+		if !s.Valves.IPAllowlist.Allowed(r.RemoteAddr) {
 			fail(w, http.StatusForbidden, "source network not allowed")
 			return
 		}
@@ -178,7 +176,7 @@ func (s *Server) elevated(h func(http.ResponseWriter, *http.Request, string)) ht
 			return
 		}
 		// Rate-cap valve (closed => no-op): ceiling sensitive actions per user.
-		if s.license().Allows(license.FeatRateCap) && !s.RateCap.Allow(u) {
+		if !s.RateCap.Allow(u) {
 			s.Audit.Record(u, "ratecap.blocked", r.URL.Path, false, "per-user rate cap")
 			fail(w, http.StatusTooManyRequests, "rate cap reached; try again shortly")
 			return
@@ -191,7 +189,7 @@ func (s *Server) elevated(h func(http.ResponseWriter, *http.Request, string)) ht
 // sensitive write actions are held for approval instead of applied. Closed
 // => false (apply immediately). Callers audit the hold.
 func (s *Server) approvalHeld(user, action, target string) bool {
-	if !s.license().Allows(license.FeatApproval) || !s.Valves.ApprovalGate.Required() {
+	if !s.Valves.ApprovalGate.Required() {
 		return false
 	}
 	s.Audit.Record(user, "approval.held", action+" "+target, true, "approval-gate valve open")
@@ -237,22 +235,16 @@ func (s *Server) health(w http.ResponseWriter, r *http.Request) {
 func (s *Server) trust(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, http.StatusOK, map[string]any{
 		"product": "Vaultix",
-		"owner":   license.Owner,
-		"host":    license.Host,
-		"stamp":   license.Stamp,
+		"owner":   brand.Owner,
+		"host":    brand.Host,
+		"stamp":   brand.Stamp,
 		"trusts":     "nomen",
 		"engine":     "core",
-		"tier":       s.license().Tier,
 		"sku":        s.Deploy.SKU,
 		"label":      s.Deploy.Label,
 		"publicHost": s.Deploy.PublicHost,
 		"hub":        s.Deploy.Hub,
 	})
-}
-
-func (s *Server) getLicense(w http.ResponseWriter, _ *http.Request) {
-	g := s.license()
-	writeJSON(w, http.StatusOK, g)
 }
 
 func (s *Server) localCore(ctx context.Context) (*core.Client, error) {
@@ -264,13 +256,6 @@ func (s *Server) localCore(ctx context.Context) (*core.Client, error) {
 		return nil, err
 	}
 	return c, nil
-}
-
-func (s *Server) license() license.Grant {
-	if s.License.Product == "" {
-		return license.CommunityGrant()
-	}
-	return s.License
 }
 
 func (s *Server) getLessons(w http.ResponseWriter, _ *http.Request, _ string) {
@@ -380,7 +365,7 @@ func (s *Server) putSecret(w http.ResponseWriter, r *http.Request, u string) {
 		return
 	}
 	// Access-policy valve (closed => allow): deny writes under blocked paths.
-	if s.license().Allows(license.FeatAccessPolicy) && !s.Valves.AccessPolicy.Allows(in.Path) {
+	if !s.Valves.AccessPolicy.Allows(in.Path) {
 		s.Audit.Record(u, "secret.put.denied", projectID+"/"+in.Environment+"/"+name, false, "access policy")
 		fail(w, http.StatusForbidden, "access policy denies this path")
 		return

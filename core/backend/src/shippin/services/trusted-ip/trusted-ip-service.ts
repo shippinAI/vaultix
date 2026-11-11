@@ -7,7 +7,7 @@ import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { ProjectPermissionActions, ProjectPermissionSub } from "../permission/project-permission";
 import { TTrustedIpDALFactory } from "./trusted-ip-dal";
@@ -16,14 +16,14 @@ import { TTrustedIpServiceFactory } from "./trusted-ip-types";
 type TTrustedIpServiceFactoryDep = {
   trustedIpDAL: TTrustedIpDALFactory;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   projectDAL: Pick<TProjectDALFactory, "findById">;
 };
 
 export const trustedIpServiceFactory = ({
   trustedIpDAL,
   permissionService,
-  licenseService,
+  featureService,
   projectDAL
 }: TTrustedIpServiceFactoryDep): TTrustedIpServiceFactory => {
   const listIpsByProjectId: TTrustedIpServiceFactory["listIpsByProjectId"] = async ({
@@ -71,7 +71,7 @@ export const trustedIpServiceFactory = ({
     const project = await requestMemoize(requestMemoKeys.projectFindById(projectId), () =>
       projectDAL.findById(projectId)
     );
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.ipAllowlisting)
       throw new BadRequestError({
         message: "Failed to add IP access range due to plan restriction. Upgrade plan to add IP access range."
@@ -119,7 +119,7 @@ export const trustedIpServiceFactory = ({
     const project = await requestMemoize(requestMemoKeys.projectFindById(projectId), () =>
       projectDAL.findById(projectId)
     );
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.ipAllowlisting)
       throw new BadRequestError({
         message: "Failed to add IP access range due to plan restriction. Upgrade plan to add IP access range."
@@ -167,7 +167,7 @@ export const trustedIpServiceFactory = ({
     const project = await requestMemoize(requestMemoKeys.projectFindById(projectId), () =>
       projectDAL.findById(projectId)
     );
-    const plan = await licenseService.getPlan(project.orgId);
+    const plan = await featureService.getPlan(project.orgId);
     if (!plan.ipAllowlisting)
       throw new BadRequestError({
         message: "Failed to add IP access range due to plan restriction. Upgrade plan to add IP access range."

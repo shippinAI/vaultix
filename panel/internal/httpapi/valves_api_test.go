@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"shippin.cloud/vaultix/panel/internal/license"
+	"shippin.cloud/vaultix/panel/internal/brand"
 	"shippin.cloud/vaultix/panel/internal/valves"
 )
 
@@ -14,7 +14,7 @@ func TestCapabilitiesServedAllClosedByDefault(t *testing.T) {
 	if code != http.StatusOK {
 		t.Fatalf("capabilities: %d %v", code, out)
 	}
-	if out["owner"] != license.Owner || out["tier"] != string(license.Community) {
+	if out["owner"] != brand.Owner {
 		t.Fatalf("capabilities stamp: %v", out)
 	}
 	vs, ok := out["valves"].([]any)
@@ -45,7 +45,6 @@ func TestApprovalGateClosedAppliesImmediately(t *testing.T) {
 
 func TestApprovalGateOpenHoldsWrite(t *testing.T) {
 	f := newFixture(t)
-	f.srv.License = license.Load("enterprise", "", "")
 	f.srv.Valves.ApprovalGate = valves.ApprovalGate{Enabled: true}
 	tok := f.elevate(t, "jessay")
 	code, box := f.call(t, "POST", "/api/v1/vaultix/projects", "jessay", tok, map[string]string{"name": "app"})
@@ -65,7 +64,6 @@ func TestApprovalGateOpenHoldsWrite(t *testing.T) {
 
 func TestAccessPolicyOpenDeniesPath(t *testing.T) {
 	f := newFixture(t)
-	f.srv.License = license.Load("enterprise", "", "")
 	f.srv.Valves.AccessPolicy = valves.AccessPolicy{Enabled: true, Deny: []string{"/prod"}}
 	tok := f.elevate(t, "jessay")
 	code, box := f.call(t, "POST", "/api/v1/vaultix/projects", "jessay", tok, map[string]string{"name": "app"})
@@ -82,7 +80,6 @@ func TestAccessPolicyOpenDeniesPath(t *testing.T) {
 
 func TestRateCapOpenGates(t *testing.T) {
 	f := newFixture(t)
-	f.srv.License = license.Load("membership", "", "member-1")
 	f.srv.RateCap = valves.NewRateCap(true, 1)
 	tok := f.elevate(t, "jessay")
 	id := f.seed(t, "jessay", "app", "dev", "K", "v")

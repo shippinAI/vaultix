@@ -11,7 +11,7 @@ import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 import { isValidEmailDomain } from "@app/lib/validator";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TEmailDomainDALFactory } from "./email-domain-dal";
 import {
   EmailDomainStatus,
@@ -27,7 +27,7 @@ type TEmailDomainServiceFactoryDep = {
     "create" | "find" | "findOne" | "findById" | "deleteById" | "updateById" | "transaction"
   >;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TEmailDomainServiceFactory = ReturnType<typeof emailDomainServiceFactory>;
@@ -39,7 +39,7 @@ const DNS_TXT_VALUE_PREFIX = "vaultix-domain-verification";
 export const emailDomainServiceFactory = ({
   emailDomainDAL,
   permissionService,
-  licenseService
+  featureService
 }: TEmailDomainServiceFactoryDep) => {
   const createEmailDomain = async ({
     domain,
@@ -62,7 +62,7 @@ export const emailDomainServiceFactory = ({
       OrgPermissionSubjects.EmailDomains
     );
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     const canEmailDomainVerification = plan.samlSSO || plan.ldap || plan.oidcSSO;
     if (!canEmailDomainVerification) {
       throw new BadRequestError({
@@ -143,7 +143,7 @@ export const emailDomainServiceFactory = ({
       OrgPermissionSubjects.EmailDomains
     );
 
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     const canEmailDomainVerification = plan.samlSSO || plan.ldap || plan.oidcSSO;
     if (!canEmailDomainVerification) {
       throw new BadRequestError({

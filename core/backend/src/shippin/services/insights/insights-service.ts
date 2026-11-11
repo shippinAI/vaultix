@@ -6,7 +6,7 @@ import { TAuditLogDALFactory } from "@app/shippin/services/audit-log/audit-log-d
 import { EventType } from "@app/shippin/services/audit-log/audit-log-types";
 import { TDynamicSecretDALFactory } from "@app/shippin/services/dynamic-secret/dynamic-secret-dal";
 import { THoneyTokenDALFactory } from "@app/shippin/services/honey-token/honey-token-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionHoneyTokenActions,
@@ -41,7 +41,7 @@ import {
 
 type TInsightsServiceFactoryDep = {
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   auditLogDAL: Pick<TAuditLogDALFactory, "countByDateAndActor" | "countByIpAddress" | "countByAuthMethod">;
   secretRotationV2DAL: Pick<
     TSecretRotationV2DALFactory,
@@ -75,11 +75,11 @@ const VALUE_EVENT_TYPES = [
 
 const checkInsightsPermission = async (
   permissionService: TInsightsServiceFactoryDep["permissionService"],
-  licenseService: TInsightsServiceFactoryDep["licenseService"],
+  featureService: TInsightsServiceFactoryDep["featureService"],
   projectId: string,
   actor: OrgServiceActor
 ) => {
-  const plan = await licenseService.getPlan(actor.orgId);
+  const plan = await featureService.getPlan(actor.orgId);
   if (!plan.secretAccessInsights) {
     throw new BadRequestError({
       message: "Failed to access insights due to plan restriction. Upgrade your plan to access insights."
@@ -102,7 +102,7 @@ const checkInsightsPermission = async (
 
 export const insightsServiceFactory = ({
   permissionService,
-  licenseService,
+  featureService,
   auditLogDAL,
   secretRotationV2DAL,
   reminderDAL,
@@ -140,7 +140,7 @@ export const insightsServiceFactory = ({
   };
 
   const getCalendar = async (dto: TGetInsightsCalendarDTO, actorDto: OrgServiceActor) => {
-    await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, `calendar:${dto.year}-${dto.month}`);
     return withCache({
@@ -181,7 +181,7 @@ export const insightsServiceFactory = ({
   };
 
   const getAccessVolume = async (dto: TGetAccessVolumeDTO, actorDto: OrgServiceActor) => {
-    await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, "access-volume");
     return withCache({
@@ -265,7 +265,7 @@ export const insightsServiceFactory = ({
   };
 
   // const getAccessLocations = async (dto: TGetAccessLocationsDTO, actorDto: OrgServiceActor) => {
-  //   await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+  //   await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
   //   const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, `access-locations:${dto.days}`);
   //   return withCache(cacheKey, async () => {
@@ -344,7 +344,7 @@ export const insightsServiceFactory = ({
   // };
 
   const getAuthMethodDistribution = async (dto: TGetAuthMethodDistributionDTO, actorDto: OrgServiceActor) => {
-    await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, `auth-methods:${dto.days}`);
     return withCache({
@@ -425,7 +425,7 @@ export const insightsServiceFactory = ({
   };
 
   const getSummary = async (dto: TGetInsightsSummaryDTO, actorDto: OrgServiceActor) => {
-    await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(
       dto.projectId,
@@ -517,7 +517,7 @@ export const insightsServiceFactory = ({
   };
 
   const getSecretsDuplication = async (dto: TGetSecretsDuplicationDTO, actorDto: OrgServiceActor) => {
-    await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, "secrets-duplication");
 
@@ -582,7 +582,7 @@ export const insightsServiceFactory = ({
   };
 
   const getCounts = async (dto: TGetInsightsCountsDTO, actorDto: OrgServiceActor) => {
-    const { permission } = await checkInsightsPermission(permissionService, licenseService, dto.projectId, actorDto);
+    const { permission } = await checkInsightsPermission(permissionService, featureService, dto.projectId, actorDto);
 
     const cacheKey = KeyStorePrefixes.InsightsCache(dto.projectId, "counts");
     const counts = await withCache({
@@ -593,8 +593,8 @@ export const insightsServiceFactory = ({
         const { shouldUseSecretV2Bridge } = await projectBotService.getBotKey(dto.projectId);
         if (!shouldUseSecretV2Bridge) throw new BadRequestError({ message: "Project version not supported" });
 
-        // Honey tokens are a separately licensed feature; return null when unavailable so the UI hides the stat.
-        const plan = await licenseService.getPlan(actorDto.orgId);
+        // Honey tokens are a separate feature; return null when unavailable so the UI hides the stat.
+        const plan = await featureService.getPlan(actorDto.orgId);
 
         const [secretCount, folderCount, dynamicSecretCount, secretRotationCount, honeyTokenCount] = await Promise.all([
           secretV2BridgeDAL.countByProject(dto.projectId),

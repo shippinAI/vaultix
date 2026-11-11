@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/shippin/services/license/license-types";
+import { TFeatureSet } from "@app/services/vaultix/feature-types";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 

@@ -8,7 +8,7 @@ import { EventType, TAuditLogServiceFactory } from "@app/shippin/services/audit-
 import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";
@@ -126,7 +126,7 @@ type TSecretSyncQueueFactoryDep = {
   secretVersionTagV2BridgeDAL: Pick<TSecretVersionV2TagDALFactory, "insertMany">;
   resourceMetadataDAL: Pick<TResourceMetadataDALFactory, "insertMany" | "delete">;
   folderCommitService: Pick<TFolderCommitServiceFactory, "createCommit">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   gatewayService: Pick<TGatewayServiceFactory, "fnGetGatewayClientTlsByGatewayId">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
   gatewayPoolService: Pick<TGatewayPoolServiceFactory, "resolveEffectiveGatewayId">;
@@ -180,7 +180,7 @@ export const secretSyncQueueFactory = ({
   secretVersionTagV2BridgeDAL,
   resourceMetadataDAL,
   folderCommitService,
-  licenseService,
+  featureService,
   gatewayService,
   gatewayV2Service,
   gatewayPoolService,
@@ -295,7 +295,7 @@ export const secretSyncQueueFactory = ({
       canExpandValue: () => true,
       actorOrgId,
       orgDAL,
-      licenseService,
+      featureService,
       projectFolderGrantDAL,
       projectDAL,
       kmsService
@@ -348,7 +348,7 @@ export const secretSyncQueueFactory = ({
         projectFolderGrantDAL,
         actorOrgId,
         orgDAL,
-        licenseService,
+        featureService,
         kmsService
       });
 
@@ -434,7 +434,7 @@ export const secretSyncQueueFactory = ({
     } = secretSync;
 
     await enterpriseSyncCheck(
-      licenseService,
+      featureService,
       destination,
       orgId,
       "Failed to import secrets due to plan restriction. Upgrade plan to access enterprise secret syncs."
@@ -534,7 +534,7 @@ export const secretSyncQueueFactory = ({
     } = job;
 
     await enterpriseSyncCheck(
-      licenseService,
+      featureService,
       secretSync.destination as SecretSync,
       secretSync.connection.orgId,
       "Failed to sync secrets due to plan restriction. Upgrade plan to access enterprise secret syncs."
@@ -833,7 +833,7 @@ export const secretSyncQueueFactory = ({
     } = job;
 
     await enterpriseSyncCheck(
-      licenseService,
+      featureService,
       secretSync.destination as SecretSync,
       secretSync.connection.orgId,
       "Failed to remove secrets due to plan restriction. Upgrade plan to access enterprise secret syncs."

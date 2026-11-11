@@ -13,8 +13,6 @@ import { TAlertChannelRecipientDALFactory } from "@app/services/alert/alert-chan
 import { AlertPrincipalType } from "@app/services/alert/alert-types";
 import { TAuthTokenServiceFactory } from "@app/services/auth-token/auth-token-service";
 import { TokenType } from "@app/services/auth-token/auth-token-types";
-import { IdentitiesMeter, PamIdentities, SecretIdentities, UserIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
 import { SmtpTemplates, TSmtpService } from "@app/services/smtp/smtp-service";
 
@@ -73,7 +71,6 @@ type TUserServiceFactoryDep = {
   totpConfigDAL: Pick<TTotpConfigDALFactory, "findOne">;
   webAuthnCredentialDAL: Pick<TWebAuthnCredentialDALFactory, "find">;
   mfaRecoveryCodeService: Pick<TMfaRecoveryCodeServiceFactory, "rotateRecoveryCodes" | "deleteRecoveryCodes">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "deleteByPrincipals">;
 };
 
@@ -91,7 +88,6 @@ export const userServiceFactory = ({
   totpConfigDAL,
   webAuthnCredentialDAL,
   mfaRecoveryCodeService,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TUserServiceFactoryDep) => {
   const sendEmailVerificationCode = async (token: string) => {
@@ -593,10 +589,6 @@ export const userServiceFactory = ({
     // Deleting the user cascades its org, project, and group memberships, so every identity meter changes.
     const orgIds = [...new Set(orgMemberships.map((m) => m.scopeOrgId).filter((id): id is string => Boolean(id)))];
     orgIds.forEach((orgId) => {
-      usageMeteringService.emit(orgId, IdentitiesMeter.key);
-      usageMeteringService.emit(orgId, UserIdentities.key);
-      usageMeteringService.emit(orgId, SecretIdentities.key);
-      usageMeteringService.emit(orgId, PamIdentities.key);
     });
 
     try {

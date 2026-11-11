@@ -1,5 +1,3 @@
-import { getLicenseKeyConfig } from "@app/shippin/services/license/license-fns";
-import { LicenseType } from "@app/shippin/services/license/license-types";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
@@ -29,16 +27,13 @@ export type TUpdateCheckServiceFactory = ReturnType<typeof updateCheckServiceFac
 
 export const updateCheckServiceFactory = ({ cronJob, keyStore }: TUpdateCheckServiceFactoryDep) => {
   const appCfg = getConfig();
-  const licenseKeyConfig = getLicenseKeyConfig();
-  const disabled =
-    appCfg.DISABLE_UPDATE_CHECK || Boolean(licenseKeyConfig.isValid && licenseKeyConfig.type === LicenseType.Offline);
+  const disabled = appCfg.DISABLE_UPDATE_CHECK;
   const managed = appCfg.VAULTIX_CLOUD || appCfg.isCloud;
   const current = parseSemanticVersion(appCfg.VAULTIX_PLATFORM_VERSION);
   const enabled = isUpdateCheckEnabled({
     isVaultixCloud: appCfg.VAULTIX_CLOUD,
     isCloud: appCfg.isCloud,
     isUpdateCheckDisabled: appCfg.DISABLE_UPDATE_CHECK,
-    hasOfflineLicense: disabled,
     platformVersion: appCfg.VAULTIX_PLATFORM_VERSION
   });
   const cacheKey = `${KeyStorePrefixes.UpdateCheckLatestVersion}:vaultix:v1`;

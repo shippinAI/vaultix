@@ -1,5 +1,5 @@
 import { OrgMembershipRole, TRoles } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { isCustomOrgRole } from "@app/services/org/org-role-fns";
 
@@ -10,14 +10,14 @@ export const constructGroupOrgMembershipRoleMappings = async ({
   mappingsDTO,
   orgId,
   roleDAL,
-  licenseService
+  featureService
 }: {
   mappingsDTO: TExternalGroupOrgMembershipRoleMappingDTO[];
   roleDAL: TRoleDALFactory;
-  licenseService: TLicenseServiceFactory;
+  featureService: TFeatureServiceFactory;
   orgId: string;
 }) => {
-  const plan = await licenseService.getPlan(orgId);
+  const plan = await featureService.getPlan(orgId);
 
   // prevent setting custom values if not in plan
   if (mappingsDTO.some((map) => isCustomOrgRole(map.roleSlug)) && !plan?.rbac)

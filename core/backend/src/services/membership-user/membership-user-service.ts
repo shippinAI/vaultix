@@ -10,7 +10,7 @@ import {
 } from "@app/db/schemas";
 import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TOidcConfigDALFactory } from "@app/shippin/services/oidc/oidc-config-dal";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { TSamlConfigDALFactory } from "@app/shippin/services/saml-config/saml-config-dal";
@@ -22,8 +22,6 @@ import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 import { SearchResourceOperators } from "@app/lib/search-resource/search";
 import { isDisposableEmail, sanitizeEmail, validateEmail } from "@app/lib/validator";
 import { TAlertChannelRecipientDALFactory } from "@app/services/alert/alert-channel-recipient-dal";
-import { PamIdentities, SecretIdentities } from "@app/services/license-client";
-import { TUsageMeteringServiceFactory } from "@app/services/license-client/usage";
 
 import { TAdditionalPrivilegeDALFactory } from "../additional-privilege/additional-privilege-dal";
 import { TApprovalPolicyDALFactory } from "../approval-policy/approval-policy-dal";
@@ -71,7 +69,7 @@ type TMembershipUserServiceFactoryDep = {
     | "getOrgPermissionByRoles"
     | "getResourcePermission"
   >;
-  licenseService: TLicenseServiceFactory;
+  featureService: TFeatureServiceFactory;
   projectKeyDAL: TProjectKeyDALFactory;
   userAliasDAL: TUserAliasDALFactory;
   smtpService: TSmtpService;
@@ -88,7 +86,6 @@ type TMembershipUserServiceFactoryDep = {
   emailDomainDAL: Pick<TEmailDomainDALFactory, "find">;
   oidcConfigDAL: Pick<TOidcConfigDALFactory, "findOne">;
   samlConfigDAL: Pick<TSamlConfigDALFactory, "findOne">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emit" | "emitForProject">;
   alertChannelRecipientDAL: Pick<TAlertChannelRecipientDALFactory, "pruneOutOfScopeRecipients">;
 };
 
@@ -103,7 +100,7 @@ export const membershipUserServiceFactory = ({
   orgDAL,
   projectKeyDAL,
   userAliasDAL,
-  licenseService,
+  featureService,
   smtpService,
   tokenService,
   userGroupMembershipDAL,
@@ -115,13 +112,12 @@ export const membershipUserServiceFactory = ({
   emailDomainDAL,
   oidcConfigDAL,
   samlConfigDAL,
-  usageMeteringService,
   alertChannelRecipientDAL
 }: TMembershipUserServiceFactoryDep) => {
   const scopeFactory = {
     [AccessScope.Organization]: newOrgMembershipUserFactory({
       permissionService,
-      licenseService,
+      featureService,
       smtpService,
       orgDAL,
       tokenService,
@@ -255,7 +251,7 @@ export const membershipUserServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -311,7 +307,7 @@ export const membershipUserServiceFactory = ({
     const customInputRoles = rolesToUse.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -374,8 +370,6 @@ export const membershipUserServiceFactory = ({
 
     // Adding a user to a project changes the secret-manager and PAM identity meters (a direct member).
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     }
     return { memberships: membershipDoc, signUpTokens };
   };
@@ -389,7 +383,7 @@ export const membershipUserServiceFactory = ({
     const customInputRoles = data.roles.filter((el) => factory.isCustomRole(el.role));
     const hasCustomRole = customInputRoles.length > 0;
     if (hasCustomRole) {
-      const plan = await licenseService.getPlan(scopeData.orgId);
+      const plan = await featureService.getPlan(scopeData.orgId);
       if (!plan?.rbac)
         throw new BadRequestError({
           message:
@@ -418,7 +412,7 @@ export const membershipUserServiceFactory = ({
     }
 
     await assertSecretsTemporaryAccessAllowed({
-      licenseService,
+      featureService,
       projectDAL,
       scope: scopeData.scope,
       projectId: scopeData.scope === AccessScope.Project ? scopeData.projectId : undefined,
@@ -549,7 +543,6 @@ export const membershipUserServiceFactory = ({
           orgDAL,
           projectKeyDAL,
           userAliasDAL,
-          licenseService,
           userId: dto.permission.id,
           membershipUserDAL,
           userGroupMembershipDAL,
@@ -597,11 +590,7 @@ export const membershipUserServiceFactory = ({
     // Removing a user from a project drops a direct member; removing them from the org cascades their
     // project + group memberships. Either way the secret-manager and PAM identity meters change.
     if (scopeData.scope === AccessScope.Project) {
-      usageMeteringService.emitForProject(scopeData.projectId, SecretIdentities.key);
-      usageMeteringService.emitForProject(scopeData.projectId, PamIdentities.key);
     } else {
-      usageMeteringService.emit(scopeData.orgId, SecretIdentities.key);
-      usageMeteringService.emit(scopeData.orgId, PamIdentities.key);
     }
     return { membership: membershipDoc };
   };

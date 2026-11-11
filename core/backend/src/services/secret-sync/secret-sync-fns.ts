@@ -4,7 +4,7 @@ import handlebars from "handlebars";
 import { TGatewayServiceFactory } from "@app/shippin/services/gateway/gateway-service";
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { CHEF_SYNC_LIST_OPTION, ChefSyncFns } from "@app/shippin/services/secret-sync/chef";
 import { OCI_VAULT_SYNC_LIST_OPTION, OCIVaultSyncFns } from "@app/shippin/services/secret-sync/oci-vault";
 import { BadRequestError } from "@app/lib/errors";
@@ -818,13 +818,13 @@ export const parseSyncErrorMessage = (err: unknown): string => {
 };
 
 export const enterpriseSyncCheck = async (
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">,
+  featureService: Pick<TFeatureServiceFactory, "getPlan">,
   secretSync: SecretSync,
   orgId: string,
   errorMessage: string
 ) => {
   if (SECRET_SYNC_PLAN_MAP[secretSync] === SecretSyncPlanType.Enterprise) {
-    const plan = await licenseService.getPlan(orgId);
+    const plan = await featureService.getPlan(orgId);
     if (!plan.enterpriseSecretSyncs)
       throw new BadRequestError({
         message: errorMessage

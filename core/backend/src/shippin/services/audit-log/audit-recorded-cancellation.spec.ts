@@ -133,7 +133,7 @@ describe.sequential("recorded audit cancellation and durable fanout in PostgreSQ
       auditLogStreamOutboxService: fanout,
       queueService: { start: () => {} } as never,
       projectDAL: {} as never,
-      licenseService: {} as never,
+      featureService: {} as never,
       clickhouseClient: clickhouseClient as never,
       keyStore: {} as never
     });

@@ -13,7 +13,7 @@ import { TUserDALFactory } from "@app/services/user/user-dal";
 
 import { approvalPolicyMembershipVerifierFactory } from "../access-approval-policy/access-approval-policy-fns";
 import { ApproverType, BypasserType } from "../access-approval-policy/access-approval-policy-types";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TSecretApprovalRequestDALFactory } from "../secret-approval-request/secret-approval-request-dal";
 import { RequestState } from "../secret-approval-request/secret-approval-request-types";
 import {
@@ -55,7 +55,7 @@ type TSecretApprovalPolicyServiceFactoryDep = {
   userDAL: Pick<TUserDALFactory, "find">;
   secretApprovalPolicyApproverDAL: TSecretApprovalPolicyApproverDALFactory;
   secretApprovalPolicyBypasserDAL: TSecretApprovalPolicyBypasserDALFactory;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   secretApprovalRequestDAL: Pick<TSecretApprovalRequestDALFactory, "update">;
   secretApprovalPolicyEnvironmentDAL: TSecretApprovalPolicyEnvironmentDALFactory;
 };
@@ -71,7 +71,7 @@ export const secretApprovalPolicyServiceFactory = ({
   projectEnvDAL,
   projectDAL,
   userDAL,
-  licenseService,
+  featureService,
   secretApprovalRequestDAL
 }: TSecretApprovalPolicyServiceFactoryDep) => {
   const { verifyProjectSubjectsMembership } = approvalPolicyMembershipVerifierFactory({ projectDAL });
@@ -143,7 +143,7 @@ export const secretApprovalPolicyServiceFactory = ({
       ProjectPermissionSub.SecretApproval
     );
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:
@@ -382,7 +382,7 @@ export const secretApprovalPolicyServiceFactory = ({
     });
     ForbiddenError.from(permission).throwUnlessCan(ProjectPermissionActions.Edit, ProjectPermissionSub.SecretApproval);
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:
@@ -574,7 +574,7 @@ export const secretApprovalPolicyServiceFactory = ({
       ProjectPermissionSub.SecretApproval
     );
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan.secretApproval) {
       throw new BadRequestError({
         message:

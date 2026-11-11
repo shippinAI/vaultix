@@ -4,7 +4,7 @@ import { AccessScope, OrganizationActionScope, OrgMembershipStatus } from "@app/
 import { TEmailDomainDALFactory } from "@app/shippin/services/email-domain/email-domain-dal";
 import { EmailDomainStatus } from "@app/shippin/services/email-domain/email-domain-types";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TOidcConfigDALFactory } from "@app/shippin/services/oidc/oidc-config-dal";
 import { OrgPermissionActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import { assertPermissionBoundary } from "@app/shippin/services/permission/permission-fns";
@@ -35,7 +35,7 @@ type TOrgMembershipUserScopeFactoryDep = {
   smtpService: Pick<TSmtpService, "sendMail">;
   orgDAL: Pick<TOrgDALFactory, "findById">;
   userGroupMembershipDAL: Pick<TUserGroupMembershipDALFactory, "delete">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   membershipUserDAL: Pick<TMembershipUserDALFactory, "find">;
   emailDomainDAL: Pick<TEmailDomainDALFactory, "find">;
   oidcConfigDAL: Pick<TOidcConfigDALFactory, "findOne">;
@@ -48,7 +48,7 @@ export const newOrgMembershipUserFactory = ({
   userDAL,
   orgDAL,
   smtpService,
-  licenseService,
+  featureService,
   membershipUserDAL,
   emailDomainDAL,
   oidcConfigDAL,
@@ -117,7 +117,7 @@ export const newOrgMembershipUserFactory = ({
       }
     }
 
-    const plan = await licenseService.getPlan(dto.permission.orgId);
+    const plan = await featureService.getPlan(dto.permission.orgId);
     const isEnterpriseBypass = plan?.slug === "enterprise" && !plan?.enforceIdentityLimit;
     if (!isEnterpriseBypass && plan?.identityLimit && plan.identitiesUsed >= plan.identityLimit) {
       // limit imposed on number of identities allowed / number of identities used exceeds the number of identities allowed

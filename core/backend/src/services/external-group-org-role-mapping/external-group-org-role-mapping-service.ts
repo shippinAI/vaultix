@@ -1,7 +1,7 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { OrganizationActionScope } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionActions, OrgPermissionSubjects } from "@app/shippin/services/permission/org-permission";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import { OrgServiceActor } from "@app/lib/types";
@@ -14,7 +14,7 @@ import { TExternalGroupOrgRoleMappingDALFactory } from "./external-group-org-rol
 type TExternalGroupOrgRoleMappingServiceFactoryDep = {
   externalGroupOrgRoleMappingDAL: TExternalGroupOrgRoleMappingDALFactory;
   permissionService: TPermissionServiceFactory;
-  licenseService: TLicenseServiceFactory;
+  featureService: TFeatureServiceFactory;
   roleDAL: TRoleDALFactory;
 };
 
@@ -22,7 +22,7 @@ export type TExternalGroupOrgRoleMappingServiceFactory = ReturnType<typeof exter
 
 export const externalGroupOrgRoleMappingServiceFactory = ({
   externalGroupOrgRoleMappingDAL,
-  licenseService,
+  featureService,
   permissionService,
   roleDAL
 }: TExternalGroupOrgRoleMappingServiceFactoryDep) => {
@@ -65,7 +65,7 @@ export const externalGroupOrgRoleMappingServiceFactory = ({
     const mappings = await constructGroupOrgMembershipRoleMappings({
       mappingsDTO: dto.mappings,
       roleDAL,
-      licenseService,
+      featureService,
       orgId: actor.orgId
     });
 

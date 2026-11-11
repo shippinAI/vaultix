@@ -5,7 +5,7 @@ import { RESOURCE_SCOPE, ResourceType, TApprovalRequestGrants } from "@app/db/sc
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
 import { TGroupDALFactory } from "@app/shippin/services/group/group-dal";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ResourcePermissionPamResourceActions,
@@ -140,7 +140,7 @@ type TPamAccessRequestServiceFactoryDep = {
   workflowIntegrationDAL: Pick<TWorkflowIntegrationDALFactory, "find">;
   slackIntegrationDAL: Pick<TSlackIntegrationDALFactory, "findByIdWithWorkflowIntegrationDetails">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TPamAccessRequestServiceFactory = ReturnType<typeof pamAccessRequestServiceFactory>;
@@ -172,7 +172,7 @@ export const pamAccessRequestServiceFactory = ({
   workflowIntegrationDAL,
   slackIntegrationDAL,
   kmsService,
-  licenseService
+  featureService
 }: TPamAccessRequestServiceFactoryDep) => {
   const findFolderPolicy = async (folderId: string) => {
     const policy = await approvalPolicyDAL.findOne({
@@ -228,7 +228,7 @@ export const pamAccessRequestServiceFactory = ({
     notification: TNotification;
   }) => {
     try {
-      const plan = await licenseService.getPlan(orgId);
+      const plan = await featureService.getPlan(orgId);
       if (!plan.pamSlackNotifications) return;
 
       const configs = await pamFolderNotificationConfigDAL.findByFolderIdWithIntegration(folderId);
@@ -482,7 +482,7 @@ export const pamAccessRequestServiceFactory = ({
     // policy branches below; several of those branches return early.
     if (notificationConfigs !== undefined) {
       if (notificationConfigs.length > 0) {
-        const plan = await licenseService.getPlan(ctx.actorOrgId);
+        const plan = await featureService.getPlan(ctx.actorOrgId);
         if (!plan.pamSlackNotifications) {
           throw new BadRequestError({
             message:

@@ -151,20 +151,6 @@ func Catalog() []Entry {
 			},
 		},
 		{
-			ID: "knowledge.glossary.license", Kind: KindGlossary,
-			Title: "License", Version: "1.0.0",
-			SourceDoc: "docs/0013-license-and-membership.md",
-			Body:      "A Vaultix license is issued by AngryVibes LLC on shippin.ai. Community is included. Membership and enterprise open extra valves. There is no leftover vendor license server.",
-			Triggers:  []Trigger{{Kind: "glossary-term", Term: "license"}},
-		},
-		{
-			ID: "knowledge.glossary.membership", Kind: KindGlossary,
-			Title: "Membership", Version: "1.0.0",
-			SourceDoc: "docs/0013-license-and-membership.md",
-			Body:      "shippin.ai membership is how a hosted operator activates membership-tier Vaultix features. Nomen says who the member is. Vaultix does not store the account.",
-			Triggers:  []Trigger{{Kind: "glossary-term", Term: "membership"}},
-		},
-		{
 			ID: "knowledge.drop.mcp-is-the-buttons", Kind: KindKnowledgeDrop,
 			Title: "MCP is the same buttons", Version: "1.0.0",
 			SourceDoc: "docs/0012-a2ui-mcp-configure.md",

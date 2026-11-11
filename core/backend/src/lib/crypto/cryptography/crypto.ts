@@ -11,7 +11,7 @@ import naclUtils from "tweetnacl-util";
 import { SecretEncryptionAlgo, SecretKeyEncoding } from "@app/db/schemas";
 import { isHsmActiveAndEnabled } from "@app/shippin/services/hsm/hsm-fns";
 import { THsmServiceFactory } from "@app/shippin/services/hsm/hsm-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TKmsRootConfigDALFactory } from "@app/services/kms/kms-root-config-dal";
 import { RootKeyEncryptionStrategy } from "@app/services/kms/kms-types";
 import { TSuperAdminDALFactory } from "@app/services/super-admin/super-admin-dal";
@@ -94,20 +94,6 @@ const cryptographyFactory = () => {
       $checkIsInitialized();
     }
     return $fipsEnabled;
-  };
-
-  const verifyFipsLicense = (licenseService: Pick<TLicenseServiceFactory, "onPremFeatures">) => {
-    const appCfg = getConfig();
-
-    if (
-      !appCfg.isDevelopmentMode &&
-      isFipsModeEnabled({ skipInitializationCheck: true }) &&
-      !licenseService.onPremFeatures?.fips
-    ) {
-      throw new CryptographyError({
-        message: "FIPS mode is enabled but your license does not include FIPS support. Please contact support."
-      });
-    }
   };
 
   const $setFipsModeEnabled = async (
@@ -439,7 +425,6 @@ const cryptographyFactory = () => {
   return {
     initialize,
     isFipsModeEnabled,
-    verifyFipsLicense,
     hashing,
     encryption,
     jwt,

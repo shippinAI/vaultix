@@ -273,7 +273,6 @@ LABEL org.opencontainers.image.url="https://vaultix.cloud"
 LABEL org.opencontainers.image.documentation="https://shippin.ai"
 LABEL org.opencontainers.image.source="https://github.com/shippinAI/vaultix"
 LABEL org.opencontainers.image.vendor="AngryVibes LLC"
-LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.base.name="node:22.22.0-trixie-slim"
 
 LABEL org.opencontainers.image.version="${VAULTIX_PLATFORM_VERSION}"
@@ -295,8 +294,6 @@ ENV ChrystokiConfigurationPath=/usr/safenet/lunaclient/
 WORKDIR /backend
 
 ENV TELEMETRY_ENABLED false
-ENV LICENSE_SERVER_URL=""
-ENV LICENSE_SERVER_V2_MODE=off
 
 EXPOSE 8080
 EXPOSE 443

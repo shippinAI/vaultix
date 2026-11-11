@@ -21,7 +21,6 @@ import (
 	"github.com/vaultix-cloud/api/internal/server"
 	"github.com/vaultix-cloud/api/internal/server/api"
 	"github.com/vaultix-cloud/api/internal/shippin/services/hsm"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 func main() {
@@ -78,14 +77,6 @@ func run(cfg *config.Config, logger *slog.Logger) error {
 	queueSvc := queue.NewService(ctx, logger, redisClient)
 	defer errutil.DeferErr(ctx, queueSvc.Close, "closing queue")
 
-	// Initialize License service early (needed for HSM license check).
-	licenseSvc := license.NewService(ctx, logger, &license.Deps{
-		Config:   cfg,
-		DB:       db,
-		KeyStore: ks,
-	})
-	defer licenseSvc.Close()
-
 	// Initialize HSM if configured.
 	var hsmSvc *hsm.Service
 	if cfg.IsHsmConfigured {
@@ -101,8 +92,7 @@ func run(cfg *config.Config, logger *slog.Logger) error {
 		}
 		defer errutil.DeferErr(ctx, hsmService.Close, "closing HSM")
 
-		features := licenseSvc.GetOnPremFeatures()
-		if err := hsmService.StartService(features.HSM); err != nil {
+		if err := hsmService.StartService(); err != nil {
 			logger.ErrorContext(ctx, "failed to start HSM service", slog.Any("error", err))
 			return err
 		}
@@ -116,7 +106,6 @@ func run(cfg *config.Config, logger *slog.Logger) error {
 		DB:       db,
 		Redis:    redisClient,
 		HSM:      hsmSvc,
-		License:  licenseSvc,
 		KeyStore: ks,
 		Queue:    queueSvc,
 	})

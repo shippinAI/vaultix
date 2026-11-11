@@ -112,7 +112,7 @@ describe.sequential("device worker lifecycle with primary PostgreSQL and actual 
           throw new Error("No project lookup");
         }
       },
-      licenseService: {
+      featureService: {
         getPlan: async () => {
           throw new Error("Retention is frozen before dispatch");
         }

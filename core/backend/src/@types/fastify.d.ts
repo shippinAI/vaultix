@@ -31,8 +31,7 @@ import { TKmipOperationServiceFactory } from "@app/shippin/services/kmip/kmip-op
 import { TKmipServiceFactory } from "@app/shippin/services/kmip/kmip-service";
 import { TKmipServerServiceFactory } from "@app/shippin/services/kmip-server/kmip-server-service";
 import { TLdapConfigServiceFactory } from "@app/shippin/services/ldap-config/ldap-config-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
-import { TLicenseV2ServiceFactory } from "@app/shippin/services/license-v2/license-v2-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TOidcConfigServiceFactory } from "@app/shippin/services/oidc/oidc-config-service";
 import { TPamAccessRequestServiceFactory } from "@app/shippin/services/pam-access-request/pam-access-request-service";
 import { TPamAccountServiceFactory } from "@app/shippin/services/pam-account/pam-account-service";
@@ -127,7 +126,6 @@ import { TIdentityUaServiceFactory } from "@app/services/identity-ua/identity-ua
 import { TScopedIdentityV2ServiceFactory } from "@app/services/identity-v2/identity-service";
 import { TIntegrationServiceFactory } from "@app/services/integration/integration-service";
 import { TIntegrationAuthServiceFactory } from "@app/services/integration-auth/integration-auth-service";
-import { TLicenseClientFactory } from "@app/services/license-client";
 import { TMembershipGroupServiceFactory } from "@app/services/membership-group/membership-group-service";
 import { TMembershipIdentityServiceFactory } from "@app/services/membership-identity/membership-identity-service";
 import { TMembershipUserServiceFactory } from "@app/services/membership-user/membership-user-service";
@@ -136,7 +134,6 @@ import { TMfaSessionServiceFactory } from "@app/services/mfa-session/mfa-session
 import { TMicrosoftTeamsServiceFactory } from "@app/services/microsoft-teams/microsoft-teams-service";
 import { TNotificationServiceFactory } from "@app/services/notification/notification-service";
 import { TOauthClientServiceFactory } from "@app/services/oauth-client/oauth-client-service";
-import { TOfflineUsageReportServiceFactory } from "@app/services/offline-usage-report/offline-usage-report-service";
 import { TOrgServiceFactory } from "@app/services/org/org-service";
 import { TOrgAdminServiceFactory } from "@app/services/org-admin/org-admin-service";
 import { TOrgProductStatsServiceFactory } from "@app/services/org-product-stats/org-product-stats-service";
@@ -371,9 +368,7 @@ declare module "fastify" {
       pkiInstallation: TPkiInstallationServiceFactory;
       pkiSigner: TSignerServiceFactory;
       secretScanning: TSecretScanningServiceFactory;
-      license: TLicenseServiceFactory;
-      licenseClient: TLicenseClientFactory;
-      licenseV2: TLicenseV2ServiceFactory;
+      feature: TFeatureServiceFactory;
       trustedIp: TTrustedIpServiceFactory;
       secretBlindIndex: TSecretBlindIndexServiceFactory;
       telemetry: TTelemetryServiceFactory;
@@ -433,7 +428,6 @@ declare module "fastify" {
       alert: TAlertServiceFactory;
       alertChannelTest: TAlertChannelTestServiceFactory;
       announcement: TAnnouncementServiceFactory;
-      offlineUsageReport: TOfflineUsageReportServiceFactory;
       orgProductStats: TOrgProductStatsServiceFactory;
       pamAccountTemplate: TPamAccountTemplateServiceFactory;
       pamFolder: TPamFolderServiceFactory;

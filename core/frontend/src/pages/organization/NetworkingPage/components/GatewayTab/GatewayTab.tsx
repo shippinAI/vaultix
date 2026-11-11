@@ -13,7 +13,6 @@ import {
   TrashIcon
 } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
@@ -550,12 +549,6 @@ export const GatewayTab = withPermission(
         <CreateGatewayPoolModal
           isOpen={popUp.createPool.isOpen}
           onToggle={(isOpen) => handlePopUpToggle("createPool", isOpen)}
-        />
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          text="Your current plan does not include access to gateway pools. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-          isEnterpriseFeature
         />
       </Card>
     );

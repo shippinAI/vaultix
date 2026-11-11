@@ -15,7 +15,7 @@ import {
 } from "@app/db/schemas";
 import { TIdentityGroupMembershipDALFactory } from "@app/shippin/services/group/identity-group-membership-dal";
 import { TUserGroupMembershipDALFactory } from "@app/shippin/services/group/user-group-membership-dal";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission,
@@ -142,7 +142,7 @@ type TSecretServiceFactoryDep = {
     TSecretApprovalRequestSecretDALFactory,
     "insertMany" | "insertApprovalSecretTags"
   >;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   reminderService: Pick<TReminderServiceFactory, "createReminder">;
   secretVersionV2DAL: Pick<TSecretVersionV2DALFactory, "findOne">;
   secretV2BridgeDAL: Pick<TSecretV2BridgeDALFactory, "invalidateSecretCacheByProjectId" | "find">;
@@ -172,7 +172,7 @@ export const secretServiceFactory = ({
   secretApprovalRequestSecretDAL,
   secretV2BridgeService,
   secretApprovalRequestService,
-  licenseService,
+  featureService,
   reminderService,
   secretVersionV2DAL,
   secretV2BridgeDAL,
@@ -1302,7 +1302,7 @@ export const secretServiceFactory = ({
 
   const getSecretAccessList = async (dto: TGetSecretAccessListDTO) => {
     const { environment, secretPath, secretName, projectId, includeAllEntities } = dto;
-    const plan = await licenseService.getPlan(dto.actorOrgId);
+    const plan = await featureService.getPlan(dto.actorOrgId);
     if (!plan.secretAccessInsights) {
       throw new BadRequestError({
         message: "Failed to fetch secret access list due to plan restriction. Upgrade your plan."
@@ -3812,7 +3812,7 @@ export const secretServiceFactory = ({
 
     if (secretRefMap.size === 0) return revokedSecretIds;
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       return revokedSecretIds;
     }

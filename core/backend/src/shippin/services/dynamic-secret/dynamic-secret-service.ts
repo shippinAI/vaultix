@@ -1,7 +1,7 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType, OrganizationActionScope } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionDynamicSecretActions,
@@ -38,7 +38,7 @@ type TDynamicSecretServiceFactoryDep = {
     TDynamicSecretLeaseQueueServiceFactory,
     "pruneDynamicSecret" | "unsetLeaseRevocation"
   >;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   folderDAL: Pick<
     TSecretFolderDALFactory,
     "findBySecretPath" | "findBySecretPathMultiEnv" | "findById" | "findSecretPathByFolderIds"
@@ -83,7 +83,7 @@ const getUpdatedFieldPaths = (
 export const dynamicSecretServiceFactory = ({
   dynamicSecretDAL,
   dynamicSecretLeaseDAL,
-  licenseService,
+  featureService,
   folderDAL,
   dynamicSecretProviders,
   permissionService,
@@ -129,7 +129,7 @@ export const dynamicSecretServiceFactory = ({
       subject(ProjectPermissionSub.DynamicSecrets, { environment: environmentSlug, secretPath: path, metadata })
     );
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan?.dynamicSecret) {
       throw new BadRequestError({
         message: "Failed to create dynamic secret due to plan restriction. Upgrade plan to create dynamic secret."
@@ -288,7 +288,7 @@ export const dynamicSecretServiceFactory = ({
       actionProjectType: ActionProjectType.SecretManager
     });
 
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!plan?.dynamicSecret) {
       throw new BadRequestError({
         message: "Failed to update dynamic secret due to plan restriction. Upgrade plan to create dynamic secret."

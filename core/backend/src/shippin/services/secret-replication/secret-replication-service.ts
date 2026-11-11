@@ -1,5 +1,5 @@
 import { SecretType, TSecrets, TSecretsV2 } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TSecretApprovalPolicyServiceFactory } from "@app/shippin/services/secret-approval-policy/secret-approval-policy-service";
 import { TSecretApprovalRequestDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-dal";
 import { TSecretApprovalRequestSecretDALFactory } from "@app/shippin/services/secret-approval-request/secret-approval-request-secret-dal";
@@ -95,7 +95,7 @@ type TSecretReplicationServiceFactoryDep = {
   folderCommitService: Pick<TFolderCommitServiceFactory, "createCommit">;
   projectFolderGrantDAL: Pick<TProjectFolderGrantDALFactory, "find">;
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TSecretReplicationServiceFactory = ReturnType<typeof secretReplicationServiceFactory>;
@@ -145,7 +145,7 @@ export const secretReplicationServiceFactory = ({
   folderCommitService,
   projectFolderGrantDAL,
   orgDAL,
-  licenseService,
+  featureService,
   resourceMetadataDAL
 }: TSecretReplicationServiceFactoryDep) => {
   const $getReplicatedSecrets = (
@@ -302,7 +302,7 @@ export const secretReplicationServiceFactory = ({
         projectFolderGrantDAL,
         actorOrgId: orgId,
         orgDAL,
-        licenseService,
+        featureService,
         kmsService
       });
       // secrets that gets replicated across imports

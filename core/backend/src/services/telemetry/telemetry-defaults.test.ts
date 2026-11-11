@@ -22,7 +22,7 @@ const required = {
 const service = () =>
   telemetryServiceFactory({
     keyStore: {},
-    licenseService: {}
+    featureService: {}
   } as unknown as Parameters<typeof telemetryServiceFactory>[0]);
 const load = (env: Record<string, string>) => {
   vi.stubEnv("TELEMETRY_ENABLED", env.TELEMETRY_ENABLED);

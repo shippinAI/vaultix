@@ -89,7 +89,7 @@ const build = (permission: MongoAbility<ProjectPermissionSet>, permissionError?:
     secretValidationRuleService: {} as never,
     projectFolderGrantDAL: {} as never,
     orgDAL: {} as never,
-    licenseService: {} as never
+    featureService: {} as never
   });
   return { service, decryptor, findByFolderIds, findBySecretPath };
 };

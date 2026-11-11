@@ -40,7 +40,7 @@ import { WebhookEvents } from "@app/services/webhook/webhook-types";
 import { EventType, TAuditLogServiceFactory } from "../audit-log/audit-log-types";
 import { THoneyTokenConfigDALFactory } from "../honey-token-config/honey-token-config-dal";
 import { HoneyTokenConfigStatus } from "../honey-token-config/honey-token-config-enums";
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { THoneyTokenDALFactory } from "./honey-token-dal";
 import { HoneyTokenEventType, HoneyTokenStatus, HoneyTokenType } from "./honey-token-enums";
@@ -86,7 +86,7 @@ export type THoneyTokenServiceFactoryDep = {
     "create" | "find" | "countByHoneyTokenId" | "findByHoneyTokenId"
   >;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey">;
   appConnectionDAL: Pick<TAppConnectionDALFactory, "findById">;
   appConnectionService: Pick<TAppConnectionServiceFactory, "validateAppConnectionUsageById">;
@@ -137,7 +137,7 @@ export const honeyTokenServiceFactory = ({
   honeyTokenConfigDAL,
   honeyTokenEventDAL,
   permissionService,
-  licenseService,
+  featureService,
   kmsService,
   appConnectionDAL,
   appConnectionService,
@@ -163,7 +163,7 @@ export const honeyTokenServiceFactory = ({
     honeyTokenConfigDAL,
     honeyTokenEventDAL,
     permissionService,
-    licenseService,
+    featureService,
     kmsService,
     appConnectionDAL,
     appConnectionService,
@@ -218,7 +218,7 @@ export const honeyTokenServiceFactory = ({
       throw new BadRequestError({ message: "Unsupported honey token type" });
     }
 
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
     if (!plan.honeyTokens) {
       throw new BadRequestError({
         message: "Failed to create honey token due to plan restriction. Upgrade plan to use honey tokens."
@@ -452,7 +452,7 @@ export const honeyTokenServiceFactory = ({
       })
     );
 
-    const updatePlan = await licenseService.getPlan(actor.orgId);
+    const updatePlan = await featureService.getPlan(actor.orgId);
     if (!updatePlan.honeyTokens) {
       throw new BadRequestError({
         message: "Failed to update honey token due to plan restriction. Upgrade plan to use honey tokens."
@@ -643,7 +643,7 @@ export const honeyTokenServiceFactory = ({
       })
     );
 
-    const revokePlan = await licenseService.getPlan(actor.orgId);
+    const revokePlan = await featureService.getPlan(actor.orgId);
     if (!revokePlan.honeyTokens) {
       throw new BadRequestError({
         message: "Failed to revoke honey token due to plan restriction. Upgrade plan to use honey tokens."
@@ -837,7 +837,7 @@ export const honeyTokenServiceFactory = ({
       ProjectPermissionSub.HoneyTokens
     );
 
-    const limitPlan = await licenseService.getPlan(actor.orgId);
+    const limitPlan = await featureService.getPlan(actor.orgId);
     if (!limitPlan.honeyTokens) {
       throw new BadRequestError({
         message: "Failed to access honey token limits due to plan restriction. Upgrade plan to use honey tokens."

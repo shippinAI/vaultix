@@ -155,7 +155,7 @@ describe("current TypeScript secret lifecycle", () => {
     secretValidationRuleService: { validateSecrets: vi.fn() } as never,
     projectFolderGrantDAL: {} as never,
     orgDAL: {} as never,
-    licenseService: {} as never
+    featureService: {} as never
   });
 
   beforeEach(() => {
@@ -287,7 +287,7 @@ describe("current TypeScript secret lifecycle", () => {
       secretValidationRuleService: {} as never,
       projectFolderGrantDAL: {} as never,
       orgDAL: {} as never,
-      licenseService: {} as never
+      featureService: {} as never
     });
     await expect(
       reading.getSecretByName({
@@ -350,7 +350,7 @@ describe("current TypeScript secret lifecycle", () => {
       secretValidationRuleService: {} as never,
       projectFolderGrantDAL: {} as never,
       orgDAL: {} as never,
-      licenseService: {} as never
+      featureService: {} as never
     });
     const hidden = await masked.getSecretByName({
       ...actor,
@@ -417,7 +417,7 @@ describe("current TypeScript secret lifecycle", () => {
       secretValidationRuleService: {} as never,
       projectFolderGrantDAL: {} as never,
       orgDAL: {} as never,
-      licenseService: {} as never
+      featureService: {} as never
     });
     const secret = await reading.getSecretByName({
       ...actor,
@@ -458,7 +458,7 @@ describe("current TypeScript secret lifecycle", () => {
       secretApprovalRequestSecretDAL: {} as never,
       secretV2BridgeService: { createSecret: innerCreate } as never,
       secretApprovalRequestService: { generateSecretApprovalRequestV2Bridge: generate } as never,
-      licenseService: {} as never,
+      featureService: {} as never,
       reminderService: {} as never,
       secretVersionV2DAL: {} as never,
       secretV2BridgeDAL: {} as never,

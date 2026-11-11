@@ -9,7 +9,6 @@ import {
   RefreshCwIcon
 } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { PageHeader } from "@app/components/v2";
 import {
   ProjectPermissionInsightsActions,
@@ -38,7 +37,7 @@ export const InsightsPage = withProjectPermission(
     const { subscription } = useSubscription();
     const { currentProject, projectId } = useProject();
     const { permission } = useProjectPermission();
-    const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+    const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
 
     const { data: counts } = useGetInsightsCounts(
       { projectId },
@@ -140,13 +139,6 @@ export const InsightsPage = withProjectPermission(
             <AuthMethodChart />
           </div>
         </div>
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => {
-            handlePopUpToggle("upgradePlan", isOpen);
-          }}
-          text="Your current plan does not include access to secret insights. To unlock this feature, please upgrade your Vaultix plan."
-        />
       </>
     );
   },

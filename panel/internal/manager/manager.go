@@ -19,7 +19,6 @@ type Instance struct {
 	Label      string `json:"label"`
 	SKU        string `json:"sku"`
 	PublicHost string `json:"publicHost"`
-	Tier       string `json:"tier"`
 	Self       bool   `json:"self"`
 	CreatedAt  string `json:"createdAt"`
 }
@@ -48,7 +47,7 @@ func Open(path string) (*Registry, error) {
 	return r, nil
 }
 
-func (r *Registry) EnsureSelf(info deploy.Info, tier string) error {
+func (r *Registry) EnsureSelf(info deploy.Info) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	id := "self"
@@ -60,14 +59,13 @@ func (r *Registry) EnsureSelf(info deploy.Info, tier string) error {
 			r.items[i].SKU = info.SKU
 			r.items[i].Label = info.Label
 			r.items[i].PublicHost = info.PublicHost
-			r.items[i].Tier = tier
 			r.items[i].ID = id
 			return r.saveLocked()
 		}
 	}
 	r.items = append([]Instance{{
 		ID: id, Label: info.Label, SKU: info.SKU,
-		PublicHost: info.PublicHost, Tier: tier, Self: true,
+		PublicHost: info.PublicHost, Self: true,
 		CreatedAt: time.Now().UTC().Format(time.RFC3339),
 	}}, r.items...)
 	return r.saveLocked()
@@ -81,7 +79,7 @@ func (r *Registry) List() []Instance {
 	return out
 }
 
-func (r *Registry) Register(label, sku, tier string) (Instance, error) {
+func (r *Registry) Register(label, sku string) (Instance, error) {
 	if !deploy.ValidLabel(label) {
 		return Instance{}, ErrBadLabel
 	}
@@ -93,7 +91,7 @@ func (r *Registry) Register(label, sku, tier string) (Instance, error) {
 		host = label + "." + deploy.HubHost
 	}
 	inst := Instance{
-		ID: label, Label: label, SKU: sku, PublicHost: host, Tier: tier,
+		ID: label, Label: label, SKU: sku, PublicHost: host,
 		CreatedAt: time.Now().UTC().Format(time.RFC3339),
 	}
 	r.mu.Lock()

@@ -53,7 +53,7 @@ const createService = ({
         .fn()
         .mockResolvedValue({ permission: createMongoAbility([{ action: "manage", subject: "all" }]) })
     } as never,
-    licenseService: { getPlan: vi.fn(), updateSubscriptionOrgMemberCount: vi.fn() } as never,
+    featureService: { getPlan: vi.fn(), updateSubscriptionOrgMemberCount: vi.fn() } as never,
     membershipIdentityDAL: {} as never,
     membershipRoleDAL: {} as never,
     identityMetadataDAL: { delete: vi.fn(), insertMany: vi.fn() } as never,
@@ -69,7 +69,6 @@ const createService = ({
     } as never,
     orgDAL: { findById: vi.fn() } as never,
     roleDAL: { find: vi.fn() } as never,
-    usageMeteringService: { emit: vi.fn(), emitForProject: vi.fn() } as never,
     alertService: { deleteAlertsForDeletedResource } as never
   });
 

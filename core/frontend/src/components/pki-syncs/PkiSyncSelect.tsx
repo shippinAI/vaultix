@@ -16,7 +16,6 @@ import { PKI_SYNC_MAP } from "@app/helpers/pkiSyncs";
 import { usePopUp } from "@app/hooks";
 import { PkiSync, usePkiSyncOptions } from "@app/hooks/api/pkiSyncs";
 
-import { UpgradePlanModal } from "../license/UpgradePlanModal";
 
 type Props = {
   onSelect: (destination: PkiSync) => void;
@@ -54,7 +53,7 @@ const SyncCard = ({ destination, onClick }: { destination: PkiSync; onClick: () 
 export const PkiSyncSelect = ({ onSelect }: Props) => {
   const { subscription } = useSubscription();
   const { isPending, data: pkiSyncOptions } = usePkiSyncOptions();
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
   const [search, setSearch] = useState("");
 
   const handleSelect = (destination: PkiSync, enterprise?: boolean) => {
@@ -148,12 +147,6 @@ export const PkiSyncSelect = ({ onSelect }: Props) => {
         .
       </p>
 
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-        text={popUp.upgradePlan.data?.text}
-      />
     </div>
   );
 };

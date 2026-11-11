@@ -20,7 +20,7 @@ import {
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";
 
-import { TLicenseServiceFactory } from "../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { OrgPermissionGatewayActions, OrgPermissionSubjects } from "../permission/org-permission";
 import { TPermissionServiceFactory } from "../permission/permission-service-types";
 import { TGatewayDALFactory } from "./gateway-dal";
@@ -36,7 +36,7 @@ import { TOrgGatewayConfigDALFactory } from "./org-gateway-config-dal";
 type TGatewayServiceFactoryDep = {
   gatewayDAL: TGatewayDALFactory;
   orgGatewayConfigDAL: Pick<TOrgGatewayConfigDALFactory, "findOne" | "create" | "transaction" | "findById">;
-  licenseService: Pick<TLicenseServiceFactory, "onPremFeatures" | "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "onPremFeatures" | "getPlan">;
   kmsService: Pick<TKmsServiceFactory, "createCipherPairWithDataKey" | "decryptWithRootKey">;
   permissionService: Pick<TPermissionServiceFactory, "getOrgPermission" | "getProjectPermission">;
   keyStore: Pick<TKeyStoreFactory, "getItem" | "setItemWithExpiry">;
@@ -50,21 +50,21 @@ const TURN_SERVER_CREDENTIALS_SCHEMA = z.object({
 
 export const gatewayServiceFactory = ({
   gatewayDAL,
-  licenseService,
+  featureService,
   kmsService,
   permissionService,
   orgGatewayConfigDAL,
   keyStore
 }: TGatewayServiceFactoryDep) => {
   const $validateOrgAccessToGateway = async (orgId: string, actorId: string, actorAuthMethod: ActorAuthMethod) => {
-    // if (!licenseService.onPremFeatures.gateway) {
+    // if (!featureService.onPremFeatures.gateway) {
     //   throw new BadRequestError({
     //     message:
     //       "Gateway handshake failed due to instance plan restrictions. Please upgrade your instance to Vaultix's Enterprise plan."
     //   });
     // }
-    const orgLicensePlan = await licenseService.getPlan(orgId);
-    if (!orgLicensePlan.gateway) {
+    const orgPlan = await featureService.getPlan(orgId);
+    if (!orgPlan.gateway) {
       throw new BadRequestError({
         message:
           "Gateway handshake failed due to organization plan restrictions. Please upgrade your instance to Vaultix's Enterprise plan."
@@ -572,8 +572,8 @@ export const gatewayServiceFactory = ({
 
     const orgGatewayConfig = await orgGatewayConfigDAL.findById(gateway.orgGatewayRootCaId);
 
-    const orgLicensePlan = await licenseService.getPlan(orgGatewayConfig.orgId);
-    if (!orgLicensePlan.gateway) {
+    const orgPlan = await featureService.getPlan(orgGatewayConfig.orgId);
+    if (!orgPlan.gateway) {
       throw new BadRequestError({
         message: "Please upgrade your instance to Vaultix's Enterprise plan to use gateways."
       });

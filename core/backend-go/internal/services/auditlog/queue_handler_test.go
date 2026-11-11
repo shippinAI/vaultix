@@ -14,7 +14,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/vaultix-cloud/api/internal/services/project"
-	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 type capturedStream struct {
@@ -28,15 +27,6 @@ func (s *capturedStream) StreamAdd(_ context.Context, stream, id string, fields 
 	}
 	s.entries = append(s.entries, fields["data"])
 	return "1-0", s.err
-}
-
-type auditPlan struct {
-	plan *license.FeatureSet
-	err  error
-}
-
-func (p auditPlan) GetPlan(context.Context, string) (*license.FeatureSet, error) {
-	return p.plan, p.err
 }
 
 type auditProject struct {
@@ -63,7 +53,7 @@ func auditFixture() *queuedAuditLog {
 
 func auditHandler(store *capturedStream) *QueueHandler {
 	return NewQueueHandler(context.Background(), slog.New(slog.NewTextHandler(io.Discard, nil)), &QueueHandlerDeps{
-		Project: nil, License: auditPlan{plan: &license.FeatureSet{AuditLogsRetentionDays: 30}}, KeyStore: store,
+		Project: nil, KeyStore: store,
 	})
 }
 
@@ -76,7 +66,7 @@ func TestAuditLog_IngestEnvelope(t *testing.T) {
 	require.NoError(t, json.Unmarshal([]byte(store.entries[0]), &entry))
 	require.Equal(t, task.ID.String(), entry["id"])
 	require.Equal(t, "2026-10-31T00:00:00Z", entry["createdAt"])
-	require.Equal(t, "2026-11-30T00:00:00Z", entry["expiresAt"])
+	require.Equal(t, "2027-10-31T00:00:00Z", entry["expiresAt"])
 	require.Equal(t, "user", entry["actor"].(map[string]any)["type"])
 	require.Equal(t, "get-secrets", entry["event"].(map[string]any)["type"])
 	require.NotContains(t, entry, "eventType")
@@ -124,7 +114,7 @@ func TestAuditLog_LegacyJobAndProject(t *testing.T) {
 }
 
 func TestAuditLog_FailuresAndRetention(t *testing.T) {
-	for _, name := range []string{"missing-event", "missing-org", "missing-policy", "policy-error", "missing-stream", "incomplete-id", "incomplete-time", "metadata-error", "project-error"} {
+	for _, name := range []string{"missing-event", "missing-org", "missing-stream", "incomplete-id", "incomplete-time", "metadata-error", "project-error"} {
 		t.Run(name, func(t *testing.T) {
 			store := &capturedStream{}
 			h, task := auditHandler(store), auditFixture()
@@ -133,10 +123,6 @@ func TestAuditLog_FailuresAndRetention(t *testing.T) {
 				task.Event.Metadata = nil
 			case "missing-org":
 				task.OrgID = nil
-			case "missing-policy":
-				h.license = auditPlan{}
-			case "policy-error":
-				h.license = auditPlan{err: errors.New("unavailable")}
 			case "missing-stream":
 				h.keyStore = nil
 			case "incomplete-id":
@@ -153,17 +139,11 @@ func TestAuditLog_FailuresAndRetention(t *testing.T) {
 			require.Empty(t, store.entries)
 		})
 	}
-	store := &capturedStream{}
-	h := auditHandler(store)
-	h.license = auditPlan{plan: &license.FeatureSet{AuditLogsRetentionDays: 0}}
-	require.NoError(t, h.HandleAuditLog(t.Context(), auditFixture()))
-	require.Empty(t, store.entries)
 }
 
 func TestAuditLog_ProjectRetentionCapsIncludedPlan(t *testing.T) {
 	store := &capturedStream{}
 	h := auditHandler(store)
-	h.license = auditPlan{plan: &license.FeatureSet{AuditLogsRetentionDays: 365}}
 	days := 5
 	task := auditFixture()
 	task.ProjectID = new("22222222-2222-4222-8222-222222222222")

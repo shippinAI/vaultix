@@ -16,9 +16,6 @@
 </h4>
 
 <h4 align="center">
-  <a href="https://github.com/vaultix-cloud/vaultix/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="vaultix is released under the MIT license." />
-  </a>
   <a href="https://github.com/vaultix-cloud/vaultix/releases">
     <img src="https://img.shields.io/github/v/release/vaultix/vaultix?label=Release&color=brightgreen" alt="Latest vaultix release" />
   </a>
@@ -145,7 +142,7 @@ Learn about vaultix's code scanning feature [here](https://vaultix.com/docs/cli/
 
 ## Open-source vs. paid
 
-This repo available under the [MIT expat license](https://github.com/vaultix-cloud/vaultix/blob/main/LICENSE), with the exception of the `ee` directory which will contain premium enterprise features requiring a vaultix license.
+Licensing is being decided. No license is granted at this time.
 
 If you are interested in managed vaultix Cloud of self-hosted Enterprise Offering, take a look at [our website](https://vaultix.com/) or [book a meeting with us](https://vaultix.cal.com/vlad/vaultix-demo).
 

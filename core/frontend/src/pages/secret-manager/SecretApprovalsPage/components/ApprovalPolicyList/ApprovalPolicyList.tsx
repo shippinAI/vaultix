@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon, FilterIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import {
   Button,
@@ -474,11 +473,6 @@ export const ApprovalPolicyList = ({ projectId }: IProps) => {
           policyId={popUp.deletePolicy.data.id}
         />
       )}
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text="Adding secret approval policies can be unlocked if you upgrade to Vaultix Pro plan."
-      />
     </>
   );
 };

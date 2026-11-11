@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AlertTriangleIcon, UserCogIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { Badge, Button as V3Button, Pagination, SelectedActionBar } from "@app/components/v3";
 import { useSubscription, useUser } from "@app/context";
@@ -498,11 +497,6 @@ export const UserIdentitiesTable = () => {
           deleteKey="confirm"
           onDeleteApproved={handleRemoveServerAdminAccess}
           buttonText="Remove Access"
-        />
-        <UpgradePlanModal
-          isOpen={popUp.upgradePlan.isOpen}
-          onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-          text={popUp.upgradePlan.data?.text}
         />
         <DeleteActionModal
           isOpen={popUp.removeUsers.isOpen}

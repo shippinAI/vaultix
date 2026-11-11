@@ -3,7 +3,7 @@ import { logger } from "@app/lib/logger";
 import { OrgServiceActor } from "@app/lib/types";
 
 import { AppConnection } from "../../../../services/app-connection/app-connection-enums";
-import { TLicenseServiceFactory } from "../../license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { listOCICompartments, listOCIVaultKeys, listOCIVaults } from "./oci-connection-fns";
 import { TOCIConnection } from "./oci-connection-types";
 
@@ -25,8 +25,8 @@ type TListOCIVaultKeysDTO = {
 };
 
 // Enterprise check
-export const checkPlan = async (licenseService: Pick<TLicenseServiceFactory, "getPlan">, orgId: string) => {
-  const plan = await licenseService.getPlan(orgId);
+export const checkPlan = async (featureService: Pick<TFeatureServiceFactory, "getPlan">, orgId: string) => {
+  const plan = await featureService.getPlan(orgId);
   if (!plan.enterpriseAppConnections)
     throw new BadRequestError({
       message:
@@ -36,10 +36,10 @@ export const checkPlan = async (licenseService: Pick<TLicenseServiceFactory, "ge
 
 export const ociConnectionService = (
   getAppConnection: TGetAppConnectionFunc,
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">
+  featureService: Pick<TFeatureServiceFactory, "getPlan">
 ) => {
   const listCompartments = async (connectionId: string, actor: OrgServiceActor) => {
-    await checkPlan(licenseService, actor.orgId);
+    await checkPlan(featureService, actor.orgId);
 
     const appConnection = await getAppConnection(AppConnection.OCI, connectionId, actor);
 
@@ -53,7 +53,7 @@ export const ociConnectionService = (
   };
 
   const listVaults = async ({ connectionId, compartmentOcid }: TListOCIVaultsDTO, actor: OrgServiceActor) => {
-    await checkPlan(licenseService, actor.orgId);
+    await checkPlan(featureService, actor.orgId);
 
     const appConnection = await getAppConnection(AppConnection.OCI, connectionId, actor);
 
@@ -70,7 +70,7 @@ export const ociConnectionService = (
     { connectionId, compartmentOcid, vaultOcid }: TListOCIVaultKeysDTO,
     actor: OrgServiceActor
   ) => {
-    await checkPlan(licenseService, actor.orgId);
+    await checkPlan(featureService, actor.orgId);
 
     const appConnection = await getAppConnection(AppConnection.OCI, connectionId, actor);
 

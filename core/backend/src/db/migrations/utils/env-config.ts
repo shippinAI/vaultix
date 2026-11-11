@@ -27,15 +27,6 @@ const envSchema = z
     HSM_KEY_LABEL: zpStr(z.string().optional()),
     HSM_SLOT: z.coerce.number().optional().default(0),
 
-    LICENSE_SERVER_URL: zpStr(z.string().optional().default("")),
-    LICENSE_SERVER_KEY: zpStr(z.string().optional()),
-    LICENSE_KEY: zpStr(z.string().optional()),
-    LICENSE_KEY_OFFLINE: zpStr(z.string().optional()),
-    LICENSE_SERVER_V2_MODE: z.enum(["off", "read-compare", "on"]).default("off"),
-    DISABLE_LICENSE_V1_CLOUD: z
-      .enum(["true", "false"])
-      .default("false")
-      .transform((val) => val === "true"),
     INTERNAL_REGION: zpStr(z.enum(["us", "eu"]).optional()),
 
     SITE_URL: zpStr(z.string().transform((val) => (val ? removeTrailingSlash(val) : val))).optional()

@@ -1,7 +1,7 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionProjectFolderGrantActions,
@@ -35,7 +35,7 @@ type TProjectFolderGrantServiceFactoryDep = {
   orgDAL: Pick<TOrgDALFactory, "findOrgById">;
   permissionService: Pick<TPermissionServiceFactory, "getProjectPermission">;
   secretV2BridgeDAL: Pick<TSecretV2BridgeDALFactory, "invalidateSecretCacheByProjectId">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export const projectFolderGrantServiceFactory = ({
@@ -45,7 +45,7 @@ export const projectFolderGrantServiceFactory = ({
   orgDAL,
   permissionService,
   secretV2BridgeDAL,
-  licenseService
+  featureService
 }: TProjectFolderGrantServiceFactoryDep) => {
   const createGrant = async ({
     actorId,
@@ -57,7 +57,7 @@ export const projectFolderGrantServiceFactory = ({
     secretPath,
     targetProjectId
   }: TCreateProjectFolderGrantDTO) => {
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       throw new ForbiddenRequestError({ message: "Cross-project secret sharing is not enabled for this organization" });
     }
@@ -116,7 +116,7 @@ export const projectFolderGrantServiceFactory = ({
     grantId,
     sourceProjectId
   }: TDeleteProjectFolderGrantDTO) => {
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       throw new ForbiddenRequestError({ message: "Cross-project secret sharing is not enabled for this organization" });
     }
@@ -160,7 +160,7 @@ export const projectFolderGrantServiceFactory = ({
     actorOrgId,
     sourceProjectId
   }: TListProjectFolderGrantsDTO) => {
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       return [];
     }
@@ -197,7 +197,7 @@ export const projectFolderGrantServiceFactory = ({
     actorOrgId,
     targetProjectId
   }: TListProjectFolderGrantsForTargetDTO) => {
-    const plan = await licenseService.getPlan(actorOrgId);
+    const plan = await featureService.getPlan(actorOrgId);
     if (!(await isCrossProjectEnabled(actorOrgId, orgDAL, plan))) {
       return [];
     }

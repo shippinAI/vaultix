@@ -2,7 +2,6 @@ import { useState } from "react";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { OrgPermissionCan } from "@app/components/permissions";
 import { Button } from "@app/components/v2";
 import { DocumentationLinkBadge } from "@app/components/v3";
@@ -67,12 +66,6 @@ export const ProjectTemplatesSection = () => {
               onComplete={(template) => setEditTemplate(template)}
               isOpen={popUp.addTemplate.isOpen}
               onOpenChange={(isOpen) => handlePopUpToggle("addTemplate", isOpen)}
-            />
-            <UpgradePlanModal
-              isOpen={popUp.upgradePlan.isOpen}
-              onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-              text="Your current plan does not include access to project templates. To unlock this feature, please upgrade to Vaultix Enterprise plan."
-              isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
             />
           </div>
         </div>

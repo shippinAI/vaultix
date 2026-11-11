@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AlertTriangle, Info, ShieldCheck } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
@@ -383,12 +382,6 @@ export const OrgGeneralAuthSection = ({
         </CardContent>
       </Card>
 
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={`Your current plan does not include access to ${popUp.upgradePlan.data?.featureName ?? "enforce SAML SSO"}. To unlock this feature, please upgrade to Vaultix ${popUp.upgradePlan.data?.isEnterpriseFeature ? "Enterprise" : "Pro"} plan.`}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
-      />
 
       <Dialog
         open={popUp.enforceSamlSsoConfirmation.isOpen}

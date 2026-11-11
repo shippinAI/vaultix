@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import { DeleteActionModal } from "@app/components/v2";
@@ -548,12 +547,6 @@ export const OrgRoleTable = () => {
         deleteKey={(popUp?.deleteRole?.data as TOrgRole)?.slug || ""}
         onClose={() => handlePopUpClose("deleteRole")}
         onDeleteApproved={handleRoleDelete}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan?.data?.text}
-        isEnterpriseFeature={popUp.upgradePlan?.data?.isEnterpriseFeature}
       />
       <DuplicateOrgRoleModal
         isOpen={popUp.duplicateRole.isOpen}

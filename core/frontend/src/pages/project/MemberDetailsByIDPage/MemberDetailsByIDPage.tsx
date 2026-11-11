@@ -7,7 +7,6 @@ import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { EllipsisIcon, InfoIcon, ShieldIcon } from "lucide-react";
 
 import { AssumePrivilegesModal } from "@app/components/assume-privileges";
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { ProjectPermissionCan } from "@app/components/permissions";
 import { DeleteActionModal, EmptyState, PageHeader, Spinner } from "@app/components/v2";
@@ -256,12 +255,6 @@ export const Page = () => {
             onOpenChange={(isOpen) => handlePopUpToggle("assumePrivileges", isOpen)}
             actorType={ActorType.USER}
             actorId={(popUp.assumePrivileges.data as { userId: string })?.userId}
-          />
-          <UpgradePlanModal
-            isOpen={popUp.upgradePlan.isOpen}
-            onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-            text={popUp.upgradePlan?.data?.text}
-            isEnterpriseFeature={popUp.upgradePlan?.data?.isEnterpriseFeature}
           />
           {isPermissionAuditOpen && (
             <MemberPermissionAuditSheet

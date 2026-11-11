@@ -30,7 +30,7 @@ export const certificateAuthorityCrlServiceFactory = ({
   certificateAuthorityCrlDAL,
   projectDAL,
   kmsService,
-  permissionService // licenseService
+  permissionService // featureService
 }: TCertificateAuthorityCrlServiceFactoryDep): TCertificateAuthorityCrlServiceFactory => {
   /**
    * Return CRL with id [crlId]

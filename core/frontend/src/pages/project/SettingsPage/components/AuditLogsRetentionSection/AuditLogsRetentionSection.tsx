@@ -2,7 +2,6 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import {
   Button,
@@ -33,7 +32,7 @@ export const AuditLogsRetentionSection = () => {
   const { currentProject } = useProject();
   const { hasProjectRole } = useProjectPermission();
   const { subscription } = useSubscription();
-  const { popUp, handlePopUpOpen, handlePopUpToggle } = usePopUp(["upgradePlan"] as const);
+  const { handlePopUpOpen } = usePopUp(["upgradePlan"] as const);
 
   const {
     control,
@@ -130,11 +129,6 @@ export const AuditLogsRetentionSection = () => {
           </form>
         </CardContent>
       </Card>
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan?.data?.text}
-      />
     </>
   );
 };

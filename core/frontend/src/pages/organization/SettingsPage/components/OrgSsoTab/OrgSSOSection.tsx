@@ -1,6 +1,5 @@
 import { AlertTriangle, ArrowLeftRight, Info, MoreHorizontal, Pencil } from "lucide-react";
 
-import { UpgradePlanModal } from "@app/components/license/UpgradePlanModal";
 import { createNotification } from "@app/components/notifications";
 import { OrgPermissionCan } from "@app/components/permissions";
 import {
@@ -260,12 +259,6 @@ export const OrgSSOSection = ({ onSwitchProvider }: Props): JSX.Element => {
         popUp={popUp}
         handlePopUpClose={handlePopUpClose}
         handlePopUpToggle={handlePopUpToggle}
-      />
-      <UpgradePlanModal
-        isOpen={popUp.upgradePlan.isOpen}
-        onOpenChange={(isOpen) => handlePopUpToggle("upgradePlan", isOpen)}
-        text={popUp.upgradePlan.data?.text}
-        isEnterpriseFeature={popUp.upgradePlan.data?.isEnterpriseFeature}
       />
     </>
   );

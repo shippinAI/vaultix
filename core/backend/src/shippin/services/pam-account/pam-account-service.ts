@@ -5,7 +5,7 @@ import { RESOURCE_SCOPE, ResourceType, TPamAccountTemplates } from "@app/db/sche
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2DALFactory } from "@app/shippin/services/gateway-v2/gateway-v2-dal";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ResourcePermissionPamResourceActions,
@@ -86,7 +86,7 @@ type TPamAccountServiceFactoryDep = {
     TPamAccessRequestServiceFactory,
     "getAccessStatusBatch" | "getFolderPolicyConfigured" | "cleanupAccountResources"
   >;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 const assertPasswordMeetsRequirements = (credentials: unknown, templateSettings: unknown) => {
@@ -144,7 +144,7 @@ export const pamAccountServiceFactory = (deps: TPamAccountServiceFactoryDep) => 
     kmsService,
     gatewayV2Service,
     gatewayPoolService,
-    licenseService
+    featureService
   } = deps;
 
   const getProjectCipher = async (projectId: string) =>
@@ -389,7 +389,7 @@ export const pamAccountServiceFactory = (deps: TPamAccountServiceFactoryDep) => 
       ResourcePermissionSub.PamResource
     );
 
-    const plan = await licenseService.getPlan(ctx.actorOrgId);
+    const plan = await featureService.getPlan(ctx.actorOrgId);
     if (typeof plan.pam === "boolean" && !plan.pam) {
       throw new BadRequestError({
         message: "PAM is not available on your current plan. Please upgrade to continue."

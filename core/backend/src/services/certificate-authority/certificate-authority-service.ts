@@ -3,7 +3,7 @@ import { ForbiddenError, subject } from "@casl/ability";
 import { ActionProjectType, TableName } from "@app/db/schemas";
 import { TGatewayPoolServiceFactory } from "@app/shippin/services/gateway-pool/gateway-pool-service";
 import { TGatewayV2ServiceFactory } from "@app/shippin/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/shippin/services/license/license-service";
+import { TFeatureServiceFactory } from "@app/services/vaultix/feature-service";
 import { TPermissionServiceFactory } from "@app/shippin/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
@@ -30,8 +30,6 @@ import {
 } from "../certificate-request/certificate-request-types";
 import type { THsmConnectorServiceFactory } from "../hsm-connector/hsm-connector-service";
 import { TKmsServiceFactory } from "../kms/kms-service";
-import { InternalCas } from "../license-client";
-import { TUsageMeteringServiceFactory } from "../license-client/usage";
 import { TPkiSubscriberDALFactory } from "../pki-subscriber/pki-subscriber-dal";
 import { TPkiSyncDALFactory } from "../pki-sync/pki-sync-dal";
 import { TPkiSyncQueueFactory } from "../pki-sync/pki-sync-queue";
@@ -156,10 +154,9 @@ type TCertificateAuthorityServiceFactoryDep = {
   resourceMetadataDAL: Pick<TResourceMetadataDALFactory, "find" | "insertMany">;
   gatewayV2Service: Pick<TGatewayV2ServiceFactory, "getPlatformConnectionDetailsByGatewayId">;
   gatewayPoolService: Pick<TGatewayPoolServiceFactory, "resolveEffectiveGatewayId">;
-  usageMeteringService: Pick<TUsageMeteringServiceFactory, "emitForProject">;
   hsmConnectorService: Pick<THsmConnectorServiceFactory, "assertAttachPermission">;
   certificateAuthoritySecretDAL: Pick<TCertificateAuthoritySecretDALFactory, "findOne">;
-  licenseService: Pick<TLicenseServiceFactory, "getPlan">;
+  featureService: Pick<TFeatureServiceFactory, "getPlan">;
 };
 
 export type TCertificateAuthorityServiceFactory = ReturnType<typeof certificateAuthorityServiceFactory>;
@@ -185,10 +182,9 @@ export const certificateAuthorityServiceFactory = ({
   resourceMetadataDAL,
   gatewayV2Service,
   gatewayPoolService,
-  usageMeteringService,
   hsmConnectorService,
   certificateAuthoritySecretDAL,
-  licenseService
+  featureService
 }: TCertificateAuthorityServiceFactoryDep) => {
   const acmeFns = AcmeCertificateAuthorityFns({
     appConnectionDAL,
@@ -318,7 +314,7 @@ export const certificateAuthorityServiceFactory = ({
       subject(ProjectPermissionSub.CertificateAuthorities, { name })
     );
 
-    const plan = await licenseService.getPlan(actor.orgId);
+    const plan = await featureService.getPlan(actor.orgId);
 
     if (typeof plan.certManager === "boolean" && !plan.certManager) {
       throw new BadRequestError({
@@ -363,7 +359,6 @@ export const certificateAuthorityServiceFactory = ({
         });
       }
 
-      usageMeteringService.emitForProject(projectId, InternalCas.key);
 
       return {
         id: ca.id,
@@ -896,7 +891,6 @@ export const certificateAuthorityServiceFactory = ({
     await certificateAuthorityDAL.deleteById(certificateAuthority.id);
 
     if (type === CaType.INTERNAL) {
-      usageMeteringService.emitForProject(certificateAuthority.projectId, InternalCas.key);
       return {
         id: certificateAuthority.id,
         type,
@@ -1128,7 +1122,6 @@ export const certificateAuthorityServiceFactory = ({
     await certificateAuthorityDAL.deleteById(certificateAuthority.id);
 
     if (type === CaType.INTERNAL) {
-      usageMeteringService.emitForProject(certificateAuthority.projectId, InternalCas.key);
       return {
         id: certificateAuthority.id,
         type,

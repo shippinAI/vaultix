@@ -17,7 +17,7 @@ import (
 	"shippin.cloud/vaultix/panel/internal/deploy"
 	"shippin.cloud/vaultix/panel/internal/httpapi"
 	"shippin.cloud/vaultix/panel/internal/instances"
-	"shippin.cloud/vaultix/panel/internal/license"
+	"shippin.cloud/vaultix/panel/internal/brand"
 	"shippin.cloud/vaultix/panel/internal/manager"
 	"shippin.cloud/vaultix/panel/internal/mcp"
 	"shippin.cloud/vaultix/panel/internal/nomen"
@@ -100,7 +100,6 @@ func main() {
 		}
 	}
 
-	lic := license.Load(os.Getenv("VAULTIX_LICENSE_TIER"), os.Getenv("VAULTIX_LICENSE_FILE"), os.Getenv("VAULTIX_LICENSE_SUBJECT"))
 	info := deploy.Load()
 	mgrPath := os.Getenv("VAULTIX_MANAGER_STATE")
 	if mgrPath == "" {
@@ -110,7 +109,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("manager: %v", err)
 	}
-	if err := mgr.EnsureSelf(info, string(lic.Tier)); err != nil {
+	if err := mgr.EnsureSelf(info); err != nil {
 		log.Fatalf("manager self: %v", err)
 	}
 
@@ -121,7 +120,6 @@ func main() {
 		Audit:          audit.New(auditPath),
 		Vault:          eng,
 		Nomen:          nomenV,
-		License:        lic,
 		Deploy:         info,
 		Manager:        mgr,
 		IdentityHeader: env("VAULTIX_PANEL_IDENTITY_HEADER", "X-Vaultix-Identity"),
@@ -132,15 +130,15 @@ func main() {
 		},
 		Meter: usage.Meter{
 			Plan:    usage.Unlimited(),
-			Enforce: lic.Open(license.FeatMeter, os.Getenv("VAULTIX_METER_ENFORCE") == "true"),
+			Enforce: os.Getenv("VAULTIX_METER_ENFORCE") == "true",
 		},
 		Valves: valves.Set{
-			IPAllowlist:  valves.NewIPAllowlist(lic.Open(license.FeatIPAllowlist, os.Getenv("VAULTIX_IP_ALLOWLIST") != ""), splitCSV(os.Getenv("VAULTIX_IP_ALLOWLIST"))),
-			ApprovalGate: valves.ApprovalGate{Enabled: lic.Open(license.FeatApproval, os.Getenv("VAULTIX_APPROVAL_GATE") == "true")},
-			AuditStream:  valves.AuditStream{Enabled: lic.Open(license.FeatAuditStream, os.Getenv("VAULTIX_AUDIT_STREAM_URL") != ""), Endpoint: os.Getenv("VAULTIX_AUDIT_STREAM_URL")},
-			AccessPolicy: valves.AccessPolicy{Enabled: lic.Open(license.FeatAccessPolicy, os.Getenv("VAULTIX_ACCESS_POLICY_DENY") != ""), Deny: splitCSV(os.Getenv("VAULTIX_ACCESS_POLICY_DENY"))},
+			IPAllowlist:  valves.NewIPAllowlist(os.Getenv("VAULTIX_IP_ALLOWLIST") != "", splitCSV(os.Getenv("VAULTIX_IP_ALLOWLIST"))),
+			ApprovalGate: valves.ApprovalGate{Enabled: os.Getenv("VAULTIX_APPROVAL_GATE") == "true"},
+			AuditStream:  valves.AuditStream{Enabled: os.Getenv("VAULTIX_AUDIT_STREAM_URL") != "", Endpoint: os.Getenv("VAULTIX_AUDIT_STREAM_URL")},
+			AccessPolicy: valves.AccessPolicy{Enabled: os.Getenv("VAULTIX_ACCESS_POLICY_DENY") != "", Deny: splitCSV(os.Getenv("VAULTIX_ACCESS_POLICY_DENY"))},
 		},
-		RateCap: valves.NewRateCap(lic.Open(license.FeatRateCap, os.Getenv("VAULTIX_RATE_CAP_PER_MIN") != ""), atoiOr0(os.Getenv("VAULTIX_RATE_CAP_PER_MIN"))),
+		RateCap: valves.NewRateCap(os.Getenv("VAULTIX_RATE_CAP_PER_MIN") != "", atoiOr0(os.Getenv("VAULTIX_RATE_CAP_PER_MIN"))),
 	}
 	if u := os.Getenv("VAULTIX_AUDIT_STREAM_URL"); u != "" && srv.Valves.AuditStream.Enabled {
 		srv.Audit = srv.Audit.WithStream(u)
@@ -152,7 +150,7 @@ func main() {
 		return
 	}
 
-	log.Printf("vaultix listening on %s (sku %s host %s, %s, tier %s)", listen, info.SKU, info.PublicHost, license.Owner, lic.Tier)
+	log.Printf("vaultix listening on %s (sku %s host %s, %s)", listen, info.SKU, info.PublicHost, brand.Owner)
 	log.Fatal(http.ListenAndServe(listen, srv.Handler()))
 }
 
