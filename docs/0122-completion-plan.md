@@ -56,7 +56,7 @@ upgrade code checks.
 Done when: no license, tier, paywall or upgrade wording remains outside third-party notices and
 frozen migrations, and every feature is visibly on with no plan check in its path.
 
-## Stage 3 — Sign-in: shippin.ai by default, Google, and AI sessions
+## Stage 3 — Sign-in: the built-in shippin.ai door, other doors, and AI sessions
 
 Today: Admin → Authentication already switches instance-wide sign-in methods (email, Google,
 GitHub, GitLab, SAML, OIDC, LDAP). Google sign-in works only once a GCP OAuth client is configured,
@@ -69,16 +69,19 @@ How it should work:
 - **One codebase.** vaultix.cloud is this build plus deployment configuration, never a fork or a
   private copy of the code. A deployment profile chosen at install (`cloud` or `self-hosted`)
   decides the defaults; code does not branch on who runs it.
-- **shippin.ai is the front door on vaultix.cloud.** "Continue with shippin.ai" is an
-  instance-level sign-in method through Nomen, listed in Admin → Authentication beside the others.
-  Accounts link explicitly, never by matching email ([0074](0074-built-in-and-federated-identity.md)).
-- **Google comes through shippin.ai on vaultix.cloud.** The Google button sends the person to
-  Nomen with Google preselected, so there is one account system and vaultix.cloud holds no Google
-  credentials. Self-hosted instances can still use Google directly with their own OAuth client, or
-  sign in with shippin.ai.
-- **Defaults by profile.** Cloud: shippin.ai and Google on; built-in email kept for the owner's
-  recovery. Self-hosted: email on; shippin.ai and Google off until configured.
-- **Switching off.** The instance operator turns any method off in Admin → Authentication, and it
+- **shippin.ai is the built-in door, not the only one.** "Continue with shippin.ai" through Nomen
+  is the door Vaultix ships, backed by Google so getting in is one click. It is an instance-level
+  sign-in method in Admin → Authentication beside the others. Accounts link explicitly, never by
+  matching email ([0074](0074-built-in-and-federated-identity.md)). On vaultix.cloud the Google
+  sign-in goes through it, so vaultix.cloud holds no Google credentials.
+- **Other doors stay open.** Identity providers connected in the admin panel (OIDC, SAML, LDAP,
+  GitHub, GitLab and the rest), and shippin.tech once it can connect.
+- **Username and password are earned, on vaultix.cloud.** They are not offered at first. They
+  become available once a third party is connected through the panel, or once shippin.tech is set
+  up to connect. Self-hosted instances keep built-in email and password from the start, since they
+  must work without Nomen.
+- **Defaults by profile.** Cloud: shippin.ai (Google) on, username and password off until earned.
+  Self-hosted: email and password on; shippin.ai and Google off until configured.
   is refused on the server, not only hidden. Organizations can narrow further under their own
   security settings but never turn on what the instance turned off.
 - **Secrets never sit in a repository.** OAuth client secrets go in the instance's encrypted
@@ -94,7 +97,8 @@ Needed outside this repository: Google configured as an upstream provider in Nom
 vaultix.cloud registered there as a client. Nomen is a sibling tree and is not edited from here.
 
 Done when, on the image: with the cloud profile, a new person signs in with Google through
-shippin.ai and lands in their organization; the operator turns Google off and the button disappears
+shippin.ai and lands in their organization; username and password stay unavailable until a third
+party is connected, then work; the operator turns Google off and the button disappears
 and the server refuses it; the self-hosted profile is unaffected; an AI rides a person's approved
 session for at least 60 minutes with denial, expiry and revocation proven; and
 `vaultix.auth.options.get` reports exactly what is available.
@@ -158,6 +162,7 @@ stage and gets a per-domain ledger of its own.
 | --- | --- |
 | License: open source or BSL | Any public release; likely alongside the Nomen merge |
 | Nomen merge: scope and which identity code survives | Stage 7's identity domain |
+| The instance owner's recovery sign-in on vaultix.cloud while passwords are off, so an outage at Nomen or Google cannot lock the operator out | Stage 3 |
 | Production host, SMTP, privacy notice | Inviting anyone (and restore branch protection first) |
 
 The Nomen merge is a project of its own and needs its own plan. It is a sibling tree and is not
