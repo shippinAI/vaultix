@@ -198,11 +198,11 @@ export function generate() {
   });
   const providerRoots = [
     ["Connection", "core/backend/src/services/app-connection"],
-    ["Connection extension", "core/backend/src/ee/services/app-connections"],
+    ["Connection extension", "core/backend/src/services/app-connections"],
     ["Sync", "core/backend/src/services/secret-sync"],
-    ["Sync extension", "core/backend/src/ee/services/secret-sync"],
-    ["Rotation", "core/backend/src/ee/services/secret-rotation-v2"],
-    ["Dynamic credentials", "core/backend/src/ee/services/dynamic-secret/providers"],
+    ["Sync extension", "core/backend/src/services/secret-sync"],
+    ["Rotation", "core/backend/src/services/secret-rotation-v2"],
+    ["Dynamic credentials", "core/backend/src/services/dynamic-secret/providers"],
   ];
   const providers = providerRoots
     .flatMap(([family, path]) => {

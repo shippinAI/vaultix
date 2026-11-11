@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   BaseCreateSecretRotationSchema,
   BaseSecretRotationSchema,
   BaseUpdateSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-schemas";
-import { PasswordRequirementsSchema } from "@app/ee/services/secret-rotation-v2/shared/general";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-schemas";
+import { PasswordRequirementsSchema } from "@app/services/secret-rotation-v2/shared/general";
 import { SecretRotations } from "@app/lib/api-docs";
 import { CharacterType, characterValidator } from "@app/lib/validator/validate-string";
 import { SecretNameSchema } from "@app/server/lib/schemas";

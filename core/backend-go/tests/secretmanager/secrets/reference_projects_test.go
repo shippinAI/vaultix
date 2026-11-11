@@ -9,9 +9,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/secretmanager/reference"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/reference"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 func TestReference_ProjectMembershipDifferential(t *testing.T) {

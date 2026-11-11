@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { HoneyTokenType } from "@app/ee/services/honey-token/honey-token-enums";
-import { AwsHoneyTokenConfigSchema } from "@app/ee/services/honey-token/honey-token-types";
+import { HoneyTokenType } from "@app/services/honey-token/honey-token-enums";
+import { AwsHoneyTokenConfigSchema } from "@app/services/honey-token/honey-token-types";
 
 import { registerHoneyTokenEndpoints } from "./honey-token-endpoints";
 

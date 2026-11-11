@@ -11,7 +11,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/vaultix/api/internal/gatewaytransport"
+	"github.com/vaultix-cloud/api/internal/gatewaytransport"
 )
 
 func main() {

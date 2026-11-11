@@ -14,11 +14,11 @@ import {
   ServiceActor,
   UnknownUserActor,
   UserActor
-} from "@app/ee/services/audit-log/audit-log-types";
-import { PamSessionEndReason } from "@app/ee/services/pam/pam-enums";
-import { ProxiedServiceSubstitutionSurface } from "@app/ee/services/proxied-service/proxied-service-enums";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/audit-log/audit-log-types";
+import { PamSessionEndReason } from "@app/services/pam/pam-enums";
+import { ProxiedServiceSubstitutionSurface } from "@app/services/proxied-service/proxied-service-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import { EnforcementLevel, SecretSharingAccessType } from "@app/lib/types";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 import { AuthMethod } from "@app/services/auth/auth-type";

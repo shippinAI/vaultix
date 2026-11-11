@@ -5,7 +5,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { BadRequestError } from "@app/lib/errors";
 import { changeWindowsPassword, SmbRpcConfig, verifyWindowsCredentials } from "@app/lib/smb-rpc";
 import {

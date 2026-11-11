@@ -1,4 +1,4 @@
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 
 import { PamAccountType } from "../pam/pam-enums";
 import { TActorContext } from "../pam/pam-permission";

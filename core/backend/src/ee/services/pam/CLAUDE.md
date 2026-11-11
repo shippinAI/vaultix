@@ -10,7 +10,7 @@ table) and let the code carry the detail.
 
 ## Module Layout
 
-All PAM services live under `backend/src/ee/services/pam-*/`:
+All PAM services live under `backend/src/services/pam-*/`:
 
 | Directory                          | Purpose                                                                                                                |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -26,7 +26,7 @@ All PAM services live under `backend/src/ee/services/pam-*/`:
 | `pam-access-request/`              | Folder approval config, access-request lifecycle, chat notifications                                                   |
 | `pam-discovery/`                   | Discovery sources → staged accounts for import                                                                         |
 
-Routes: `backend/src/ee/routes/v1/pam-routers/`. DI wiring: `backend/src/server/routes/index.ts` (narrow
+Routes: `backend/src/routes/v1/pam-routers/`. DI wiring: `backend/src/server/routes/index.ts` (narrow
 new deps with `Pick<>`).
 
 ## Permissions

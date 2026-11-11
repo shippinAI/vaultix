@@ -17,11 +17,11 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
-	"github.com/vaultix/api/internal/services/auth/nomen"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/services/auth/nomen"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // Generated independently by the canonical Node bcrypt implementation. Public fixture only.

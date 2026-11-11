@@ -10,7 +10,7 @@ description: "How to inject secrets from vaultix into GitHub Actions workflows u
 
 ## Concept
 
-The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) enables GitHub Actions workflows to fetch secrets from vaultix at runtime using [OpenID Connect (OIDC)](/documentation/platform/identities/oidc-auth/github) authentication with [machine identities](/documentation/platform/identities/machine-identities).
+The [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) enables GitHub Actions workflows to fetch secrets from vaultix at runtime using [OpenID Connect (OIDC)](/documentation/platform/identities/oidc-auth/github) authentication with [machine identities](/documentation/platform/identities/machine-identities).
 
 Instead of storing long-lived credentials in GitHub Secrets, workflows authenticate to vaultix using short-lived OIDC tokens issued by GitHub. This eliminates the need for static API keys or tokens while providing fine-grained access control based on repository, workflow, and execution context.
 
@@ -51,7 +51,7 @@ sequenceDiagram
 ```
 
 <Note>
-  In GitHub Actions, the [vaultix Secrets Action](https://github.com/vaultix/secrets-action) handles steps 1-2 and 5, automatically fetching secrets after authentication and injecting them as environment variables into your workflow.
+  In GitHub Actions, the [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) handles steps 1-2 and 5, automatically fetching secrets after authentication and injecting them as environment variables into your workflow.
 </Note>
 
 ## Workflow
@@ -60,7 +60,7 @@ A typical workflow for using vaultix with GitHub Actions consists of the followi
 
 1. Create a [machine identity](/documentation/platform/identities/machine-identities) in vaultix with OIDC authentication configured for your GitHub repository and workflow context.
 2. Add the machine identity to your vaultix project with appropriate permissions to access the required secrets.
-3. Configure your GitHub Actions workflow to use the [vaultix Secrets Action](https://github.com/vaultix/secrets-action) with OIDC authentication.
+3. Configure your GitHub Actions workflow to use the [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) with OIDC authentication.
 4. The workflow authenticates using GitHub's OIDC token, fetches secrets from vaultix, and exposes them as environment variables for the duration of the job.
 
 ## How It Works
@@ -73,7 +73,7 @@ At a high level, the flow looks like this:
    When a workflow starts, GitHub issues a short-lived OIDC token containing identity claims about the repository, workflow, and execution context.
 
 2. **Workflow Presents Its Identity**  
-   The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) sends this token to vaultix as proof of the workflow’s identity.
+   The [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) sends this token to vaultix as proof of the workflow’s identity.
 
 3. **vaultix Verifies Trust**  
    vaultix validates the token signature using GitHub’s OIDC provider and checks the token’s subject, audience, and claims against the configured [machine identity](/documentation/platform/identities/machine-identities).
@@ -216,7 +216,7 @@ jobs:
 
 **Permissions Block**: The `id-token: write` permission is **required** for OIDC authentication. Without it, GitHub won't issue an OIDC token for the workflow run.
 
-**vaultix Secrets Action**: The [vaultix Secrets Action](https://github.com/vaultix/secrets-action) step handles:
+**vaultix Secrets Action**: The [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) step handles:
 - Requesting the OIDC token from GitHub
 - Authenticating with vaultix using OIDC
 - Fetching secrets for the specified project and environment
@@ -285,4 +285,4 @@ If you prefer to **push secrets from vaultix to GitHub** (one-way sync), use [Gi
 - [OIDC Auth for GitHub Actions](/documentation/platform/identities/oidc-auth/github) - Detailed OIDC configuration guide
 - [Machine Identities Overview](/documentation/platform/identities/machine-identities) - Understanding machine identities
 - [GitHub Secret Syncs](../secret-syncs/github) - Syncing secrets to GitHub
-- [vaultix Secrets Action](https://github.com/vaultix/secrets-action) - Official GitHub Action repository
+- [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) - Official GitHub Action repository

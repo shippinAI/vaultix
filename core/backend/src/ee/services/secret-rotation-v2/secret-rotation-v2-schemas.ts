@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { SecretRotationsV2Schema } from "@app/db/schemas/secret-rotations-v2";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
-import { SECRET_ROTATION_CONNECTION_MAP } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-maps";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SECRET_ROTATION_CONNECTION_MAP } from "@app/services/secret-rotation-v2/secret-rotation-v2-maps";
 import { SecretRotations } from "@app/lib/api-docs";
 import { removeTrailingSlash } from "@app/lib/fn";
 import { slugSchema } from "@app/server/lib/schemas";

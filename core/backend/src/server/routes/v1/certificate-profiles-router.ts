@@ -2,8 +2,8 @@ import RE2 from "re2";
 import { z } from "zod";
 
 import { PkiCertificateProfilesSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { ScepChallengeType } from "@app/ee/services/pki-scep/challenge";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { ScepChallengeType } from "@app/services/pki-scep/challenge";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { openApiHidden } from "@app/server/lib/schemas";

@@ -1,18 +1,18 @@
 import { Job } from "bullmq";
 
-import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import { AuditLogInfo } from "@app/services/audit-log/audit-log-types";
 import {
   TChefSync,
   TChefSyncInput,
   TChefSyncListItem,
   TChefSyncWithCredentials
-} from "@app/ee/services/secret-sync/chef";
+} from "@app/services/secret-sync/chef";
 import {
   TOCIVaultSync,
   TOCIVaultSyncInput,
   TOCIVaultSyncListItem,
   TOCIVaultSyncWithCredentials
-} from "@app/ee/services/secret-sync/oci-vault";
+} from "@app/services/secret-sync/oci-vault";
 import { QueueJobs } from "@app/queue";
 import { ResourceMetadataDTO } from "@app/services/resource-metadata/resource-metadata-schema";
 import {

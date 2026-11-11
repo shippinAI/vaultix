@@ -1,7 +1,7 @@
 import picomatch from "picomatch";
 
 import { TWebhooks } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory, WebhookTriggeredEvent } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType, TAuditLogServiceFactory, WebhookTriggeredEvent } from "@app/services/audit-log/audit-log-types";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

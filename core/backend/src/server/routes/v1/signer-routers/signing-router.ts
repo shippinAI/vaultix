@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { SigningAlgorithm } from "@app/lib/crypto/sign/types";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

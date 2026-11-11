@@ -2,28 +2,28 @@ import { ForbiddenError } from "@casl/ability";
 import { join } from "path";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionSecretScanningConfigActions,
   ProjectPermissionSecretScanningDataSourceActions,
   ProjectPermissionSecretScanningFindingActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import {
   createTempFolder,
   deleteTempFolder,
   scanContentAndGetFindings,
   writeTextToFile
-} from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
-import { githubSecretScanningService } from "@app/ee/services/secret-scanning-v2/github/github-secret-scanning-service";
-import { SecretScanningFindingStatus } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
-import { SECRET_SCANNING_FACTORY_MAP } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-factory";
-import { listSecretScanningDataSourceOptions } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-fns";
+} from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
+import { githubSecretScanningService } from "@app/services/secret-scanning-v2/github/github-secret-scanning-service";
+import { SecretScanningFindingStatus } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SECRET_SCANNING_FACTORY_MAP } from "@app/services/secret-scanning-v2/secret-scanning-v2-factory";
+import { listSecretScanningDataSourceOptions } from "@app/services/secret-scanning-v2/secret-scanning-v2-fns";
 import {
   SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP,
   SECRET_SCANNING_DATA_SOURCE_NAME_MAP
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-maps";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-maps";
 import {
   TCreateSecretScanningDataSourceDTO,
   TDeleteSecretScanningDataSourceDTO,
@@ -42,7 +42,7 @@ import {
   TUpdateSecretScanningDataSourceDTO,
   TUpdateSecretScanningFindingDTO,
   TUpsertSecretScanningConfigDTO
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-types";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-types";
 import { DatabaseErrorCode } from "@app/lib/error-codes";
 import { BadRequestError, DatabaseError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

@@ -14,11 +14,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/server/api/platform/projects"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/server/api/platform/projects"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 var stack *infra.Stack

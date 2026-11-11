@@ -1,18 +1,18 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TGatewayPoolDALFactory } from "@app/ee/services/gateway-pool/gateway-pool-dal";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TGatewayPoolDALFactory } from "@app/services/gateway-pool/gateway-pool-dal";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
   ProjectPermissionCertificateAuthorityActions,
   ProjectPermissionHsmConnectorActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { HsmKeyAlgorithm } from "@app/services/signer/signer-enums";

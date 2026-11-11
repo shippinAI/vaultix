@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/keystore"
+	"github.com/vaultix-cloud/api/internal/keystore"
 )
 
 type missingCounterReadBarrier struct {

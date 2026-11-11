@@ -2,11 +2,11 @@ import { ForbiddenError } from "@casl/ability";
 import { packRules } from "@casl/ability/extra";
 
 import { OrganizationActionScope, ProjectMembershipRole, ProjectType, TProjectTemplates } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { OrgPermissionActions, OrgPermissionSubjects } from "@app/ee/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ProjectTemplateDefaultEnvironments } from "@app/ee/services/project-template/project-template-constants";
-import { getDefaultProjectTemplate } from "@app/ee/services/project-template/project-template-fns";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { OrgPermissionActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ProjectTemplateDefaultEnvironments } from "@app/services/project-template/project-template-constants";
+import { getDefaultProjectTemplate } from "@app/services/project-template/project-template-fns";
 import {
   TProjectTemplateEnvironment,
   TProjectTemplateGroup,
@@ -16,7 +16,7 @@ import {
   TProjectTemplateServiceFactory,
   TProjectTemplateUser,
   TUnpackedPermission
-} from "@app/ee/services/project-template/project-template-types";
+} from "@app/services/project-template/project-template-types";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { validateHandlebarTemplate } from "@app/lib/template/validate-handlebars";
 import { unpackPermissions } from "@app/server/routes/sanitizedSchema/permission";

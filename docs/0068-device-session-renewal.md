@@ -132,7 +132,7 @@ The implementation trace found two distinct existing boundaries. The TS
 `services/auth/apiauth/authenticator.go` verify application tokens and existing
 user sessions; the Go path also checks account locks and active organization
 membership. The existing browser OIDC service in
-`core/backend/src/ee/services/oidc/oidc-config-service.ts` uses a configured
+`core/backend/src/services/oidc/oidc-config-service.ts` uses a configured
 confidential client and looks up aliases by external subject, organization and
 OIDC alias type. That browser flow is not a public-device access-token verifier.
 These were dependency traces, not whole-module authorship acceptance.

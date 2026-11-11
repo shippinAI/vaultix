@@ -1,8 +1,8 @@
 import { FastifyRequest } from "fastify";
 import z from "zod";
 
-import { EventType, TCreateAuditLogDTO } from "@app/ee/services/audit-log/audit-log-types";
-import { PamProductRole, PamResourceRole } from "@app/ee/services/pam/pam-enums";
+import { EventType, TCreateAuditLogDTO } from "@app/services/audit-log/audit-log-types";
+import { PamProductRole, PamResourceRole } from "@app/services/pam/pam-enums";
 import { ApiDocsTags } from "@app/lib/api-docs/constants";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";

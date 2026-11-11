@@ -1,17 +1,17 @@
 import { z } from "zod";
 
-import { GitLabDataSourceScope } from "@app/ee/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
+import { GitLabDataSourceScope } from "@app/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
 import {
   SecretScanningDataSource,
   SecretScanningResource
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import {
   BaseCreateSecretScanningDataSourceSchema,
   BaseSecretScanningDataSourceSchema,
   BaseSecretScanningFindingSchema,
   BaseUpdateSecretScanningDataSourceSchema,
   GitRepositoryScanFindingDetailsSchema
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-schemas";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-schemas";
 import { SecretScanningDataSources } from "@app/lib/api-docs";
 import { GitLabProjectRegex } from "@app/lib/regex";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";

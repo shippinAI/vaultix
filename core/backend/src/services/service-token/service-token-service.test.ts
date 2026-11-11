@@ -6,7 +6,7 @@ import {
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { conditionsMatcher, PermissionConditionOperators } from "@app/lib/casl";
 import { crypto } from "@app/lib/crypto";
 

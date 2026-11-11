@@ -5,7 +5,7 @@ import { THoneyTokens } from "@app/db/schemas/honey-tokens";
 import {
   ProjectPermissionHoneyTokenActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { getConfig as getAppConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError, NotFoundError, UnauthorizedError } from "@app/lib/errors";

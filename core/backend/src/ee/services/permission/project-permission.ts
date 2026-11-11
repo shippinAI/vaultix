@@ -6,7 +6,7 @@ import { ProjectMembershipRole } from "@app/db/schemas";
 import {
   CASL_ACTION_SCHEMA_ENUM,
   CASL_ACTION_SCHEMA_NATIVE_ENUM
-} from "@app/ee/services/permission/permission-schemas";
+} from "@app/services/permission/permission-schemas";
 import { conditionsMatcher, PermissionConditionOperators } from "@app/lib/casl";
 import { UnpackedPermissionSchema } from "@app/server/routes/sanitizedSchema/permission";
 

@@ -18,7 +18,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-	"github.com/vaultix/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/database/pg"
 )
 
 // ProjectSeed contains IDs for a project created via the Node.js API.

@@ -417,7 +417,7 @@
                   "self-hosting/reference-architectures/google-cloud-run"
                 ]
               },
-              "self-hosting/ee",
+              "self-hosting",
               "self-hosting/faq"
             ]
           },
@@ -4316,7 +4316,7 @@
     "socials": {
       "x": "https://www.twitter.com/vaultix/",
       "linkedin": "https://www.linkedin.com/company/vaultix/",
-      "github": "https://github.com/vaultix/vaultix-cli",
+      "github": "https://github.com/vaultix-cloud/vaultix-cli",
       "slack": "https://vaultix.com/slack"
     },
     "links": [
@@ -4415,7 +4415,7 @@
         "items": [
           {
             "label": "Changelog",
-            "href": "https://github.com/vaultix/vaultix/releases"
+            "href": "https://github.com/vaultix-cloud/vaultix/releases"
           },
           {
             "label": "Status",
@@ -4423,7 +4423,7 @@
           },
           {
             "label": "Feedback & Requests",
-            "href": "https://github.com/vaultix/vaultix/issues"
+            "href": "https://github.com/vaultix-cloud/vaultix/issues"
           },
           {
             "label": "Trust of Center",

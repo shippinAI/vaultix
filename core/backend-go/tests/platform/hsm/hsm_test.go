@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/ee/services/hsm"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/services/hsm"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 var runner = infra.NewContainerTest(

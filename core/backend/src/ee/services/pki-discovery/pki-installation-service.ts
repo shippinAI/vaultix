@@ -1,11 +1,11 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionPkiCertificateInstallationActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { NotFoundError } from "@app/lib/errors";
 
 import { TPkiCertificateInstallationDALFactory } from "./pki-certificate-installation-dal";

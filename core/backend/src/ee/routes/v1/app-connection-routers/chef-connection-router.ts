@@ -4,7 +4,7 @@ import {
   CreateChefConnectionSchema,
   SanitizedChefConnectionSchema,
   UpdateChefConnectionSchema
-} from "@app/ee/services/app-connections/chef";
+} from "@app/services/app-connections/chef";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { registerAppConnectionEndpoints } from "@app/server/routes/v1/app-connection-routers/app-connection-endpoints";

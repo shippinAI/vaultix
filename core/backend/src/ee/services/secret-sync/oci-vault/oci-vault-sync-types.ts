@@ -1,7 +1,7 @@
 import { SimpleAuthenticationDetailsProvider } from "oci-common";
 import { z } from "zod";
 
-import { TOCIConnection } from "@app/ee/services/app-connections/oci";
+import { TOCIConnection } from "@app/services/app-connections/oci";
 
 import { CreateOCIVaultSyncSchema, OCIVaultSyncListItemSchema, OCIVaultSyncSchema } from "./oci-vault-sync-schemas";
 

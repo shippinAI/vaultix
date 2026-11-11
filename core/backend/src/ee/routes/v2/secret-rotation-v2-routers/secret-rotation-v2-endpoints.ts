@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
-import { SECRET_ROTATION_NAME_MAP } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-maps";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SECRET_ROTATION_NAME_MAP } from "@app/services/secret-rotation-v2/secret-rotation-v2-maps";
 import {
   TRotateAtUtc,
   TSecretRotationV2,
   TSecretRotationV2GeneratedCredentials,
   TSecretRotationV2Input
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { ApiDocsTags, SecretRotations } from "@app/lib/api-docs";
 import { startsWithVowel } from "@app/lib/fn";
 import { logger } from "@app/lib/logger";

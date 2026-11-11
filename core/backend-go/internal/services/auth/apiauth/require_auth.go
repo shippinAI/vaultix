@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/assumeprivilege"
-	"github.com/vaultix/api/internal/services/auditlog"
-	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/assumeprivilege"
+	"github.com/vaultix-cloud/api/internal/services/auditlog"
+	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
 // AuthMode identifies which authentication mechanisms are allowed for a route.

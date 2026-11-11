@@ -1,16 +1,16 @@
 import { z } from "zod";
 
 import { SecretScanningResourcesSchema, SecretScanningScansSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   SecretScanningDataSource,
   SecretScanningScanStatus
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
-import { SECRET_SCANNING_DATA_SOURCE_NAME_MAP } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-maps";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SECRET_SCANNING_DATA_SOURCE_NAME_MAP } from "@app/services/secret-scanning-v2/secret-scanning-v2-maps";
 import {
   TSecretScanningDataSource,
   TSecretScanningDataSourceInput
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-types";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-types";
 import { ApiDocsTags, SecretScanningDataSources } from "@app/lib/api-docs";
 import { startsWithVowel } from "@app/lib/fn";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

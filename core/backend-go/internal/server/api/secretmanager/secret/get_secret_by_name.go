@@ -6,13 +6,13 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/libs/fn"
-	"github.com/vaultix/api/internal/services/auditlog"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	permsecretsvc "github.com/vaultix/api/internal/services/permission/secretmanager"
-	secretsvc "github.com/vaultix/api/internal/services/secretmanager/secret"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/fn"
+	"github.com/vaultix-cloud/api/internal/services/auditlog"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	permsecretsvc "github.com/vaultix-cloud/api/internal/services/permission/secretmanager"
+	secretsvc "github.com/vaultix-cloud/api/internal/services/secretmanager/secret"
 )
 
 // getSecretByNameInternalOpts are the unified options for getting a secret by name.

@@ -38,7 +38,7 @@ func NewContainerTest(image, insideEnvVar, optInEnvVar string) *ContainerTestRun
 	}
 }
 
-// WithTestPath sets the Go test path (e.g., "./internal/ee/services/hsm/...").
+// WithTestPath sets the Go test path (e.g., "./internal/services/hsm/...").
 func (r *ContainerTestRunner) WithTestPath(path string) *ContainerTestRunner {
 	r.testPath = path
 	return r

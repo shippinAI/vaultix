@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 import { IdentityAuthTemplatesSchema } from "@app/db/schemas/identity-auth-templates";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   IdentityAuthTemplateMethod,
   TEMPLATE_SUCCESS_MESSAGES,
   TEMPLATE_VALIDATION_MESSAGES
-} from "@app/ee/services/identity-auth-template/identity-auth-template-enums";
+} from "@app/services/identity-auth-template/identity-auth-template-enums";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode } from "@app/services/auth/auth-type";

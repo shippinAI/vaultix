@@ -4,7 +4,7 @@ import {
   ProjectPermissionIdentityActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 
 import { SearchIdentitiesScope } from "./identity-types";
 

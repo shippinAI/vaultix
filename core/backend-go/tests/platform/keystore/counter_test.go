@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/keystore"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/keystore"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 var stack *infra.Stack

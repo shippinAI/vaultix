@@ -7,9 +7,9 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
 )
 
 // Compile-time check that Handler implements ServiceInterface.

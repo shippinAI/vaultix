@@ -3,8 +3,8 @@ import {
   DatadogApiKeyRotationGeneratedCredentialsSchema,
   DatadogApiKeyRotationSchema,
   UpdateDatadogApiKeyRotationSchema
-} from "@app/ee/services/secret-rotation-v2/datadog-api-key";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/datadog-api-key";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 
 import { registerSecretRotationEndpoints } from "./secret-rotation-v2-endpoints";
 

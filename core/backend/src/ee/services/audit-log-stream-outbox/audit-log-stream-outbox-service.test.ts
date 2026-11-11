@@ -26,8 +26,8 @@ vi.mock("@app/lib/logger", () => ({
 
 // Keep the real product-filter helpers (auditLogMatchesStreamFilter, resolveAuditLogProduct) so
 // the fanout filtering tests exercise actual behavior; only credential decryption is stubbed.
-vi.mock("@app/ee/services/audit-log-stream/audit-log-stream-fns", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@app/ee/services/audit-log-stream/audit-log-stream-fns")>()),
+vi.mock("@app/services/audit-log-stream/audit-log-stream-fns", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@app/services/audit-log-stream/audit-log-stream-fns")>()),
   decryptLogStreamCredentials: async () => ({})
 }));
 

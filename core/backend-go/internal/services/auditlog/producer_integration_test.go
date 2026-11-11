@@ -15,8 +15,8 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/config"
-	"github.com/vaultix/api/internal/queue"
+	"github.com/vaultix-cloud/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/queue"
 )
 
 // The boundary runner supplies a disposable cache. Never use an operator cache:

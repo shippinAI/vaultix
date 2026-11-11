@@ -6,7 +6,7 @@ import (
 
 	"github.com/bmatcuk/doublestar/v4"
 
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 )
 
 // opGlob implements the $glob operator for path matching.

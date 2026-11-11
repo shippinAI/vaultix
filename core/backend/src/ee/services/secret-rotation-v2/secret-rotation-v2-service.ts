@@ -3,28 +3,28 @@ import { Knex } from "knex";
 import isEqual from "lodash.isequal";
 
 import { ActionProjectType, SecretType, TableName } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-types";
-import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { hasSecretReadValueOrDescribePermission } from "@app/ee/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
+import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { hasSecretReadValueOrDescribePermission } from "@app/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionSecretActions,
   ProjectPermissionSecretRotationActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
-import { auth0ClientSecretRotationFactory } from "@app/ee/services/secret-rotation-v2/auth0-client-secret/auth0-client-secret-rotation-fns";
-import { azureClientSecretRotationFactory } from "@app/ee/services/secret-rotation-v2/azure-client-secret/azure-client-secret-rotation-fns";
-import { cloudflareApiTokenRotationFactory } from "@app/ee/services/secret-rotation-v2/cloudflare-api-token/cloudflare-api-token-rotation-fns";
-import { cloudflareR2AccessKeyRotationFactory } from "@app/ee/services/secret-rotation-v2/cloudflare-r2-access-key/cloudflare-r2-access-key-rotation-fns";
-import { convexAccessKeyRotationFactory } from "@app/ee/services/secret-rotation-v2/convex-access-key/convex-access-key-rotation-fns";
-import { databricksServicePrincipalSecretRotationFactory } from "@app/ee/services/secret-rotation-v2/databricks-service-principal-secret/databricks-service-principal-secret-rotation-fns";
-import { datadogApiKeyRotationFactory } from "@app/ee/services/secret-rotation-v2/datadog-api-key/datadog-api-key-rotation-fns";
-import { datadogApplicationKeySecretRotationFactory } from "@app/ee/services/secret-rotation-v2/datadog-application-key-secret/datadog-application-key-secret-rotation-fns";
-import { fireworksApiKeyRotationFactory } from "@app/ee/services/secret-rotation-v2/fireworks-api-key/fireworks-api-key-rotation-fns";
-import { ldapPasswordRotationFactory } from "@app/ee/services/secret-rotation-v2/ldap-password/ldap-password-rotation-fns";
-import { salesforceOauthCredentialsRotationFactory } from "@app/ee/services/secret-rotation-v2/salesforce-oauth-credentials/salesforce-oauth-credentials-rotation-fns";
-import { SecretRotation, SecretRotationStatus } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/permission/project-permission";
+import { auth0ClientSecretRotationFactory } from "@app/services/secret-rotation-v2/auth0-client-secret/auth0-client-secret-rotation-fns";
+import { azureClientSecretRotationFactory } from "@app/services/secret-rotation-v2/azure-client-secret/azure-client-secret-rotation-fns";
+import { cloudflareApiTokenRotationFactory } from "@app/services/secret-rotation-v2/cloudflare-api-token/cloudflare-api-token-rotation-fns";
+import { cloudflareR2AccessKeyRotationFactory } from "@app/services/secret-rotation-v2/cloudflare-r2-access-key/cloudflare-r2-access-key-rotation-fns";
+import { convexAccessKeyRotationFactory } from "@app/services/secret-rotation-v2/convex-access-key/convex-access-key-rotation-fns";
+import { databricksServicePrincipalSecretRotationFactory } from "@app/services/secret-rotation-v2/databricks-service-principal-secret/databricks-service-principal-secret-rotation-fns";
+import { datadogApiKeyRotationFactory } from "@app/services/secret-rotation-v2/datadog-api-key/datadog-api-key-rotation-fns";
+import { datadogApplicationKeySecretRotationFactory } from "@app/services/secret-rotation-v2/datadog-application-key-secret/datadog-application-key-secret-rotation-fns";
+import { fireworksApiKeyRotationFactory } from "@app/services/secret-rotation-v2/fireworks-api-key/fireworks-api-key-rotation-fns";
+import { ldapPasswordRotationFactory } from "@app/services/secret-rotation-v2/ldap-password/ldap-password-rotation-fns";
+import { salesforceOauthCredentialsRotationFactory } from "@app/services/secret-rotation-v2/salesforce-oauth-credentials/salesforce-oauth-credentials-rotation-fns";
+import { SecretRotation, SecretRotationStatus } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   calculateNextRotationAt,
   decryptSecretRotationCredentials,
@@ -36,11 +36,11 @@ import {
   listSecretRotationOptions,
   parseRotationErrorMessage,
   throwOnImmutableParameterUpdate
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-fns";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-fns";
 import {
   SECRET_ROTATION_CONNECTION_MAP,
   SECRET_ROTATION_NAME_MAP
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-maps";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-maps";
 import {
   TCheckSecretRotationV2Credentials,
   TCreateSecretRotationV2DTO,
@@ -62,9 +62,9 @@ import {
   TSecretRotationV2TemporaryParameters,
   TSecretRotationV2WithConnection,
   TUpdateSecretRotationV2DTO
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
-import { sqlCredentialsRotationFactory } from "@app/ee/services/secret-rotation-v2/shared/sql-credentials";
-import { snowflakeUserKeyPairRotationFactory } from "@app/ee/services/secret-rotation-v2/snowflake-user-key-pair/snowflake-user-key-pair-rotation-fns";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
+import { sqlCredentialsRotationFactory } from "@app/services/secret-rotation-v2/shared/sql-credentials";
+import { snowflakeUserKeyPairRotationFactory } from "@app/services/secret-rotation-v2/snowflake-user-key-pair/snowflake-user-key-pair-rotation-fns";
 import { KeyStorePrefixes, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { DatabaseErrorCode } from "@app/lib/error-codes";

@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 // ActorType identifies the kind of entity performing an action.

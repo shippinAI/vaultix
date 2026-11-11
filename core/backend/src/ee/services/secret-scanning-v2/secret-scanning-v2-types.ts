@@ -12,7 +12,7 @@ import {
   TBitbucketDataSourceWithConnection,
   TBitbucketFinding,
   TQueueBitbucketResourceDiffScan
-} from "@app/ee/services/secret-scanning-v2/bitbucket";
+} from "@app/services/secret-scanning-v2/bitbucket";
 import {
   TGitHubDataSource,
   TGitHubDataSourceInput,
@@ -20,7 +20,7 @@ import {
   TGitHubDataSourceWithConnection,
   TGitHubFinding,
   TQueueGitHubResourceDiffScan
-} from "@app/ee/services/secret-scanning-v2/github";
+} from "@app/services/secret-scanning-v2/github";
 import {
   TGitLabDataSource,
   TGitLabDataSourceCredentials,
@@ -29,13 +29,13 @@ import {
   TGitLabDataSourceWithConnection,
   TGitLabFinding,
   TQueueGitLabResourceDiffScan
-} from "@app/ee/services/secret-scanning-v2/gitlab";
-import { TSecretScanningV2DALFactory } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-dal";
+} from "@app/services/secret-scanning-v2/gitlab";
+import { TSecretScanningV2DALFactory } from "@app/services/secret-scanning-v2/secret-scanning-v2-dal";
 import {
   SecretScanningDataSource,
   SecretScanningFindingStatus,
   SecretScanningScanStatus
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import { TAppConnectionDALFactory } from "@app/services/app-connection/app-connection-dal";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 

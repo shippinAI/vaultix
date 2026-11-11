@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { AuditLogsSchema } from "@app/db/schemas";
-import { EventType, UserAgentType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType, UserAgentType } from "@app/services/audit-log/audit-log-types";
 import { KeyStorePrefixes, KeyStoreTtls } from "@app/keystore/keystore";
 import { AUDIT_LOGS } from "@app/lib/api-docs";
 import { getLastMidnightDateISO } from "@app/lib/fn";

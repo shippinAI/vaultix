@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
-	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix-cloud/api/internal/services/permission/project"
 )
 
 // roleWithPermissions pairs a role slug with its optional custom permissions JSON.

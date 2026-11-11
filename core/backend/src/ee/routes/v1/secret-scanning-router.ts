@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 import { GitAppOrgSchema, SecretScanningGitRisksSchema } from "@app/db/schemas";
-import { canUseSecretScanning } from "@app/ee/services/secret-scanning/secret-scanning-fns";
+import { canUseSecretScanning } from "@app/services/secret-scanning/secret-scanning-fns";
 import {
   SecretScanningResolvedStatus,
   SecretScanningRiskStatus
-} from "@app/ee/services/secret-scanning/secret-scanning-types";
+} from "@app/services/secret-scanning/secret-scanning-types";
 import { BadRequestError } from "@app/lib/errors";
 import { OrderByDirection } from "@app/lib/types";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

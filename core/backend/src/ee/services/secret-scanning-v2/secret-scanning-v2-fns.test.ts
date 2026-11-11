@@ -7,7 +7,7 @@ import {
   SecretScanningExecError,
   SecretScanningExecFailure,
   SecretScanningExecPhase
-} from "@app/ee/services/secret-scanning/secret-scanning-exec";
+} from "@app/services/secret-scanning/secret-scanning-exec";
 
 import {
   assertClonedRepositoryWithinSizeLimit,

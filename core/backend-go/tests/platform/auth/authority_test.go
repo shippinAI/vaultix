@@ -16,10 +16,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/keystore"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/keystore"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // Frozen schema copies model stale state, not a physical replication topology.

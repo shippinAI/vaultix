@@ -1,17 +1,17 @@
 import { join } from "path";
 
 import { ProjectMembershipRole, TSecretScanningFindings } from "@app/db/schemas";
-import { EventType, TAuditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
 import {
   createTempFolder,
   deleteTempFolder,
   writeTextToFile
-} from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
+} from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
 import {
   assertClonedRepositoryWithinSizeLimit,
   parseScanErrorMessage,
   scanGitRepositoryAndGetFindings
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-fns";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-fns";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig, SECRET_SCANNING_SCAN_OVERHEAD_MS } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";

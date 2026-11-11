@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { OrganizationActionScope, OrgMembershipRole, ProjectType, TableName } from "@app/db/schemas";
-import { TCertificateAuthorityCrlDALFactory } from "@app/ee/services/certificate-authority-crl/certificate-authority-crl-dal";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TCertificateAuthorityCrlDALFactory } from "@app/services/certificate-authority-crl/certificate-authority-crl-dal";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import { BadRequestError, ForbiddenRequestError, InternalServerError, NotFoundError } from "@app/lib/errors";
 import { alphaNumericNanoId } from "@app/lib/nanoid";
 import { ActorType } from "@app/services/auth/auth-type";

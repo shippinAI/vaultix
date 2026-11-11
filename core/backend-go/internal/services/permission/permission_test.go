@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
-	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix-cloud/api/internal/services/permission/project"
 )
 
 // ---- helpers ----

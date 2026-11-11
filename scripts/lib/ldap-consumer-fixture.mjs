@@ -12,7 +12,7 @@ export async function ldapConfigurationConsumer() {
   const directory=mkdtempSync(join(cache,'vaultix-ldap-'));
   const output=join(directory,'consumer.cjs');
   try {
-    const result=await build({stdin:{contents:`export {testLDAPConfig,searchGroups} from './src/ee/services/ldap-config/ldap-fns';
+    const result=await build({stdin:{contents:`export {testLDAPConfig,searchGroups} from './src/services/ldap-config/ldap-fns';
       export {buildReferralUrl,isLdapReferralError} from './src/services/app-connection/ldap/ldap-connection-fns';`,resolveDir:backend,loader:'ts'},
       absWorkingDir:backend,bundle:true,platform:'node',format:'cjs',packages:'external',write:false,
       plugins:[{name:'fixture-log-sink',setup(builder){

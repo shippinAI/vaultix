@@ -8,7 +8,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/config"
 )
 
 // maxRetries mirrors the Node.js ioredis reconnectOnError behavior.

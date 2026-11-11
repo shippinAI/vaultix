@@ -1,6 +1,6 @@
 package project
 
-import "github.com/vaultix/api/internal/vaultixpolicy"
+import "github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
 // --- Role constants (ProjectMembershipRole) ---
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { GroupsSchema, IdentitiesSchema, OrgMembershipRole, ProjectsSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   FilterMemberType,
   FilterReturnedMachineIdentities,
@@ -9,7 +9,7 @@ import {
   FilterReturnedUsers,
   GroupMembersOrderBy,
   GroupProjectsOrderBy
-} from "@app/ee/services/group/group-types";
+} from "@app/services/group/group-types";
 import { ApiDocsTags, GROUPS } from "@app/lib/api-docs";
 import { OrderByDirection } from "@app/lib/types";
 import { CharacterType, characterValidator } from "@app/lib/validator/validate-string";

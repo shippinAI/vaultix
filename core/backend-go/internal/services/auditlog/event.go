@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/queue"
+	"github.com/vaultix-cloud/api/internal/queue"
 )
 
 // TaskAuditLog is the typed task definition for audit log processing.

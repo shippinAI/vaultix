@@ -3,11 +3,11 @@ package api
 import (
 	"context"
 
-	"github.com/vaultix/api/internal/services/secretmanager/environment"
-	"github.com/vaultix/api/internal/services/secretmanager/reference"
-	"github.com/vaultix/api/internal/services/secretmanager/secret"
-	"github.com/vaultix/api/internal/services/secretmanager/secretfolder"
-	"github.com/vaultix/api/internal/services/secretmanager/secretimport"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/environment"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/reference"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secret"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretfolder"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretimport"
 )
 
 // SecretManagerServices holds secret manager services shared across handlers.

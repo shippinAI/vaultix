@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { OrganizationsSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { SubOrgOrderBy } from "@app/ee/services/sub-org/sub-org-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { SubOrgOrderBy } from "@app/services/sub-org/sub-org-types";
 import { ApiDocsTags, SUB_ORGANIZATIONS } from "@app/lib/api-docs";
 import { pick } from "@app/lib/fn";
 import { OrderByDirection } from "@app/lib/types";

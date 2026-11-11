@@ -1,8 +1,8 @@
 import { PushEvent } from "@octokit/webhooks-types";
 
-import { TSecretScanningV2DALFactory } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-dal";
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
-import { TSecretScanningV2QueueServiceFactory } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-queue";
+import { TSecretScanningV2DALFactory } from "@app/services/secret-scanning-v2/secret-scanning-v2-dal";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { TSecretScanningV2QueueServiceFactory } from "@app/services/secret-scanning-v2/secret-scanning-v2-queue";
 import { logger } from "@app/lib/logger";
 
 import { TGitHubDataSource } from "./github-secret-scanning-types";

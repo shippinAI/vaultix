@@ -1,8 +1,8 @@
 import { Knex } from "knex";
 import { z } from "zod";
 
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { PkiDiscoveryConfigsSchema, PkiDiscoveryScanHistorySchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   DEFAULT_TLS_PORTS,
   MAX_DOMAINS,
@@ -9,8 +9,8 @@ import {
   MAX_PORTS,
   MIN_CIDR_PREFIX,
   validateTargetConfig
-} from "@app/ee/services/pki-discovery/pki-discovery-fns";
-import { PkiDiscoveryType, TPkiDiscoveryTargetConfig } from "@app/ee/services/pki-discovery/pki-discovery-types";
+} from "@app/services/pki-discovery/pki-discovery-fns";
+import { PkiDiscoveryType, TPkiDiscoveryTargetConfig } from "@app/services/pki-discovery/pki-discovery-types";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { BadRequestError } from "@app/lib/errors";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

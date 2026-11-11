@@ -1,9 +1,9 @@
 package secretmanager
 
 import (
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
-	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix-cloud/api/internal/services/permission/project"
 )
 
 // SecretAccessChecker implements permission checks for secret operations.

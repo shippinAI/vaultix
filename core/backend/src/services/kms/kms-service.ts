@@ -3,16 +3,16 @@ import { Knex } from "knex";
 import { z } from "zod";
 
 import { KmsKeysSchema, TKmsRootConfig } from "@app/db/schemas";
-import { AwsKmsProviderFactory } from "@app/ee/services/external-kms/providers/aws-kms";
-import { GcpKmsProviderFactory } from "@app/ee/services/external-kms/providers/gcp-kms";
+import { AwsKmsProviderFactory } from "@app/services/external-kms/providers/aws-kms";
+import { GcpKmsProviderFactory } from "@app/services/external-kms/providers/gcp-kms";
 import {
   ExternalKmsAwsSchema,
   ExternalKmsGcpSchema,
   KmsProviders,
   TExternalKmsProviderFns
-} from "@app/ee/services/external-kms/providers/model";
-import { THsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
-import { THsmStatus } from "@app/ee/services/hsm/hsm-types";
+} from "@app/services/external-kms/providers/model";
+import { THsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { THsmStatus } from "@app/services/hsm/hsm-types";
 import { KeyStorePrefixes, PgSqlLock, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCache } from "@app/lib/cache/with-cache";
 import { TEnvConfig } from "@app/lib/config/env";

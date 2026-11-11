@@ -1,4 +1,4 @@
-module github.com/vaultix/api
+module github.com/vaultix-cloud/api
 
 go 1.27.3
 

@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { ProjectPermissionSecretActions } from "@app/ee/services/permission/project-permission";
+import { ProjectPermissionSecretActions } from "@app/services/permission/project-permission";
 import { RAW_SECRETS } from "@app/lib/api-docs";
 import { removeTrailingSlash } from "@app/lib/fn";
 import { readLimit } from "@app/server/config/rateLimiter";

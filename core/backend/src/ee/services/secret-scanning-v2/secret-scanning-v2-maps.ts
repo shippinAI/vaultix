@@ -1,4 +1,4 @@
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 
 export const SECRET_SCANNING_DATA_SOURCE_NAME_MAP: Record<SecretScanningDataSource, string> = {

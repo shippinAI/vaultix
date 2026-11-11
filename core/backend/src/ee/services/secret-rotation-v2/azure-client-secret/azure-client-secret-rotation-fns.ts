@@ -5,7 +5,7 @@ import {
   AzureAddPasswordResponse,
   TAzureClientSecretRotationGeneratedCredentials,
   TAzureClientSecretRotationWithConnection
-} from "@app/ee/services/secret-rotation-v2/azure-client-secret/azure-client-secret-rotation-types";
+} from "@app/services/secret-rotation-v2/azure-client-secret/azure-client-secret-rotation-types";
 import {
   TRotationFactory,
   TRotationFactoryCheckActiveCredentials,
@@ -13,7 +13,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";
 import { getAzureConnectionAccessToken } from "@app/services/app-connection/azure-client-secrets/azure-client-secrets-connection-fns";

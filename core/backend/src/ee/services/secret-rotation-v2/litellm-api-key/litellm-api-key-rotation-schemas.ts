@@ -4,13 +4,13 @@ import {
   LITELLM_ADDITIONAL_OPTIONS_MAX_KEYS,
   LITELLM_FORBIDDEN_KEY_OPTIONS,
   LITELLM_RESERVED_KEY_OPTIONS
-} from "@app/ee/services/secret-rotation-v2/litellm-api-key/litellm-api-key-rotation-constants";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/litellm-api-key/litellm-api-key-rotation-constants";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   BaseCreateSecretRotationSchema,
   BaseSecretRotationSchema,
   BaseUpdateSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-schemas";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-schemas";
 import { SecretRotations } from "@app/lib/api-docs";
 import { SecretNameSchema } from "@app/server/lib/schemas";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";

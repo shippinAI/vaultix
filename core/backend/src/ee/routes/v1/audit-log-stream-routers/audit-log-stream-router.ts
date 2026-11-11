@@ -3,27 +3,27 @@ import { z } from "zod";
 import {
   AzureProviderListItemSchema,
   SanitizedAzureProviderSchema
-} from "@app/ee/services/audit-log-stream/azure/azure-provider-schemas";
+} from "@app/services/audit-log-stream/azure/azure-provider-schemas";
 import {
   CriblProviderListItemSchema,
   SanitizedCriblProviderSchema
-} from "@app/ee/services/audit-log-stream/cribl/cribl-provider-schemas";
+} from "@app/services/audit-log-stream/cribl/cribl-provider-schemas";
 import {
   CustomProviderListItemSchema,
   SanitizedCustomProviderSchema
-} from "@app/ee/services/audit-log-stream/custom/custom-provider-schemas";
+} from "@app/services/audit-log-stream/custom/custom-provider-schemas";
 import {
   DatadogProviderListItemSchema,
   SanitizedDatadogProviderSchema
-} from "@app/ee/services/audit-log-stream/datadog/datadog-provider-schemas";
+} from "@app/services/audit-log-stream/datadog/datadog-provider-schemas";
 import {
   SanitizedSplunkProviderSchema,
   SplunkProviderListItemSchema
-} from "@app/ee/services/audit-log-stream/splunk/splunk-provider-schemas";
+} from "@app/services/audit-log-stream/splunk/splunk-provider-schemas";
 import {
   SanitizedSumoLogicProviderSchema,
   SumoLogicProviderListItemSchema
-} from "@app/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-schemas";
+} from "@app/services/audit-log-stream/sumo-logic/sumo-logic-provider-schemas";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode } from "@app/services/auth/auth-type";

@@ -8,8 +8,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 type importRow struct {

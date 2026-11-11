@@ -16,8 +16,8 @@ import {
   RawJwsPayloadSchema,
   RespondToAcmeChallengeBodySchema,
   RespondToAcmeChallengeResponseSchema
-} from "@app/ee/services/pki-acme/pki-acme-schemas";
-import type { TAcmeResponse, TAuthenciatedJwsPayload, TRawJwsPayload } from "@app/ee/services/pki-acme/pki-acme-types";
+} from "@app/services/pki-acme/pki-acme-schemas";
+import type { TAcmeResponse, TAuthenciatedJwsPayload, TRawJwsPayload } from "@app/services/pki-acme/pki-acme-types";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 

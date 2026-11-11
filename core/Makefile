@@ -86,7 +86,7 @@ seed-dev-saml:
 # Golang commands
 go-generate:
 	cd backend-go && \
-	goa gen github.com/vaultix/api/internal/server/design -o ./internal/server/
+	goa gen github.com/vaultix-cloud/api/internal/server/design -o ./internal/server/
 
 validate-upgrade-impact:
 	cd upgrade-impact && \

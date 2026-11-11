@@ -6,10 +6,10 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/kms"
-	"github.com/vaultix/api/internal/services/secretmanager/secretfolder"
-	"github.com/vaultix/api/internal/services/secretmanager/secretimport"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/kms"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretfolder"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretimport"
 )
 
 // GetSecretByNameOpts contains options for getting a single secret.

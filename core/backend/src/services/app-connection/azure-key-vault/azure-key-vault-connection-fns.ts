@@ -2,10 +2,10 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import https from "https";
 
-import { verifyHostInputValidity } from "@app/ee/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
 import { BadRequestError, InternalServerError, NotFoundError } from "@app/lib/errors";

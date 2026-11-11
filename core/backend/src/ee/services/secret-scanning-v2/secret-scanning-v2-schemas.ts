@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { SecretScanningDataSourcesSchema, SecretScanningFindingsSchema } from "@app/db/schemas";
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
-import { SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-maps";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SECRET_SCANNING_DATA_SOURCE_CONNECTION_MAP } from "@app/services/secret-scanning-v2/secret-scanning-v2-maps";
 import { SecretScanningDataSources } from "@app/lib/api-docs";
 import { slugSchema } from "@app/server/lib/schemas";
 

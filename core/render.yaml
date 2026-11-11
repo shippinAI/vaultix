@@ -5,7 +5,7 @@ services:
     dockerfilePath: ./Dockerfile.standalone-vaultix
     autoDeploy: false
     # healthCheckPath: /api/status
-    repo: https://github.com/vaultix/vaultix.git
+    repo: https://github.com/vaultix-cloud/vaultix.git
     envVars:
       - key: ENCRYPTION_KEY
         generateValue: true

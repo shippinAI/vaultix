@@ -1,4 +1,4 @@
-import { ExternalKmsAwsSchema, KmsProviders } from "@app/ee/services/external-kms/providers/model";
+import { ExternalKmsAwsSchema, KmsProviders } from "@app/services/external-kms/providers/model";
 
 import { registerExternalKmsEndpoints } from "./external-kms-endpoints";
 

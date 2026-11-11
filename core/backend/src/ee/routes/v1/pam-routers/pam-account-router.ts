@@ -1,21 +1,21 @@
 import z from "zod";
 
 import { PamAccountsSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { PamAccessStatus, PamAccountType } from "@app/ee/services/pam/pam-enums";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { PamAccessStatus, PamAccountType } from "@app/services/pam/pam-enums";
 import {
   ACCOUNT_TYPE_CONFIGS,
   buildPamAccountTypeMetadata,
   PamAccountAccessibilityIssue,
   PamAccountTypeMetadataSchema
-} from "@app/ee/services/pam-account/pam-account-schemas";
-import { ROTATION_STATUS } from "@app/ee/services/pam-account-rotation/pam-account-rotation-service";
+} from "@app/services/pam-account/pam-account-schemas";
+import { ROTATION_STATUS } from "@app/services/pam-account-rotation/pam-account-rotation-service";
 import {
   PamAccountSettingsOverridesSchema,
   PamTemplateSettingsSchema
-} from "@app/ee/services/pam-account-template/pam-account-template-schemas";
-import { SESSION_HANDLERS } from "@app/ee/services/pam-web-access/pam-session-handlers";
-import { PasswordRequirementsSchema } from "@app/ee/services/secret-rotation-v2/shared/general/password-requirements-schema";
+} from "@app/services/pam-account-template/pam-account-template-schemas";
+import { SESSION_HANDLERS } from "@app/services/pam-web-access/pam-session-handlers";
+import { PasswordRequirementsSchema } from "@app/services/secret-rotation-v2/shared/general/password-requirements-schema";
 import { ApiDocsTags } from "@app/lib/api-docs/constants";
 import { BadRequestError } from "@app/lib/errors";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

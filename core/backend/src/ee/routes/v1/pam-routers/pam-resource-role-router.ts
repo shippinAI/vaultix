@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { PamResourceRole } from "@app/ee/services/pam/pam-enums";
+import { PamResourceRole } from "@app/services/pam/pam-enums";
 import { ApiDocsTags } from "@app/lib/api-docs/constants";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

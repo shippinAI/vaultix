@@ -9,10 +9,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auditlog"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/secretmanager/reference"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auditlog"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/reference"
 )
 
 // Reader is the native reference service. Actor identity comes from the

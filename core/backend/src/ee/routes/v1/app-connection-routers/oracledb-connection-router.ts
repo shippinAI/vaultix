@@ -2,7 +2,7 @@ import {
   CreateOracleDBConnectionSchema,
   SanitizedOracleDBConnectionSchema,
   UpdateOracleDBConnectionSchema
-} from "@app/ee/services/app-connections/oracledb";
+} from "@app/services/app-connections/oracledb";
 import { registerAppConnectionEndpoints } from "@app/server/routes/v1/app-connection-routers/app-connection-endpoints";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 

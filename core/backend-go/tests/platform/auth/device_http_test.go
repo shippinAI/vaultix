@@ -17,8 +17,8 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/server/api/platform/deviceauth"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/server/api/platform/deviceauth"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
 )
 
 func deviceHTTP(t *testing.T) (*sessionFixture, *apiauth.ApiAuthenticator, string) {

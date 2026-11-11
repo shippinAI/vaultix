@@ -15,12 +15,12 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	"github.com/vaultix/api/internal/services/secretmanager/reference"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/reference"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // Reference data uses a role that cannot SELECT value/ciphertext columns. The

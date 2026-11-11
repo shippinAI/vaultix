@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/vaultix/api/internal/libs/crypto/cipher"
+	"github.com/vaultix-cloud/api/internal/libs/crypto/cipher"
 )
 
 // DecryptAuthenticationFactor reads the existing root-protected factor format.

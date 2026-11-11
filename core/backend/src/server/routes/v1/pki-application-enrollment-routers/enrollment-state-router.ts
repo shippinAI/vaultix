@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { ScepChallengeType } from "@app/ee/services/pki-scep/challenge";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { ScepChallengeType } from "@app/services/pki-scep/challenge";
 import { ApiDocsTags } from "@app/lib/api-docs";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

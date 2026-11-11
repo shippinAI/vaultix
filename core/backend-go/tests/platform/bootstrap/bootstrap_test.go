@@ -10,7 +10,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 var stack *infra.Stack

@@ -2,16 +2,16 @@ import { createMongoAbility, ForbiddenError, MongoAbility, MongoQuery, RawRuleOf
 import { packRules } from "@casl/ability/extra";
 
 import { RESOURCE_SCOPE, ResourceType, TPamAccountTemplates } from "@app/db/schemas";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ResourcePermissionPamResourceActions,
   ResourcePermissionSet,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/resource-permission";
 import { conditionsMatcher } from "@app/lib/casl";
 import { DatabaseErrorCode } from "@app/lib/error-codes";
 import { BadRequestError, DatabaseError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";

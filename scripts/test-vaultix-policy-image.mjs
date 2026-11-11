@@ -30,7 +30,7 @@ if(previous.length) {
   assert.ok(result.tests>0);
   assert.equal(result.events.filter(event=>event.action==='fail' || (event.test && event.action==='skip')).length,0);
   for(const pkg of ['internal/vaultixpolicy','internal/services/permission','tests/platform/permission','tests/secretmanager/secrets']) {
-   assert.ok(result.events.some(event=>event.package===`github.com/vaultix/api/${pkg}` && event.test && event.action==='pass'),`Missing native package evidence: ${pkg}`);
+   assert.ok(result.events.some(event=>event.package===`github.com/vaultix-cloud/api/${pkg}` && event.test && event.action==='pass'),`Missing native package evidence: ${pkg}`);
   }
  }
  console.log(JSON.stringify({passed:true,revision,imageId:report.imageId,evidence:path,reusedExactRevisionEvidence:true}));

@@ -1,4 +1,4 @@
-import { SnowflakeProvider } from "@app/ee/services/dynamic-secret/providers/snowflake";
+import { SnowflakeProvider } from "@app/services/dynamic-secret/providers/snowflake";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
 
 import { TGatewayServiceFactory } from "../../gateway/gateway-service";

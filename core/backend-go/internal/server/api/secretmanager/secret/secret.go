@@ -9,11 +9,11 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auditlog"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	secretsvc "github.com/vaultix/api/internal/services/secretmanager/secret"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auditlog"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	secretsvc "github.com/vaultix-cloud/api/internal/services/secretmanager/secret"
 )
 
 // Compile-time check that Handler implements ServiceInterface.

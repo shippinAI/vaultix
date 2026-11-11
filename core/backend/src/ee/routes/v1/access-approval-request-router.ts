@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { AccessApprovalRequestsReviewersSchema, AccessApprovalRequestsSchema } from "@app/db/schemas";
-import { ApprovalStatus } from "@app/ee/services/access-approval-request/access-approval-request-types";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { ApprovalStatus } from "@app/services/access-approval-request/access-approval-request-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import { ms } from "@app/lib/ms";
 import { writeLimit } from "@app/server/config/rateLimiter";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";

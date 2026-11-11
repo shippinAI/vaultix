@@ -11,17 +11,17 @@ import {
   SecretScanningExecError,
   SecretScanningExecFailure,
   SecretScanningExecPhase
-} from "@app/ee/services/secret-scanning/secret-scanning-exec";
+} from "@app/services/secret-scanning/secret-scanning-exec";
 import {
   createTempFolder,
   deleteTempFolder,
   readFindingsFile,
   writeTextToFile
-} from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
-import { SecretMatch } from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
-import { BITBUCKET_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/ee/services/secret-scanning-v2/bitbucket";
-import { GITHUB_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/ee/services/secret-scanning-v2/github";
-import { GITLAB_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/ee/services/secret-scanning-v2/gitlab";
+} from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
+import { SecretMatch } from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
+import { BITBUCKET_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/services/secret-scanning-v2/bitbucket";
+import { GITHUB_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/services/secret-scanning-v2/github";
+import { GITLAB_SECRET_SCANNING_DATA_SOURCE_LIST_OPTION } from "@app/services/secret-scanning-v2/gitlab";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto";
 import { BadRequestError } from "@app/lib/errors";

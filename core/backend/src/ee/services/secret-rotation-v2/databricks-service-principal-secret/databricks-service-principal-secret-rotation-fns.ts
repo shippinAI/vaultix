@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import {
   TDatabricksServicePrincipalSecretRotationGeneratedCredentials,
   TDatabricksServicePrincipalSecretRotationWithConnection
-} from "@app/ee/services/secret-rotation-v2/databricks-service-principal-secret/databricks-service-principal-secret-rotation-types";
+} from "@app/services/secret-rotation-v2/databricks-service-principal-secret/databricks-service-principal-secret-rotation-types";
 import {
   TRotationFactory,
   TRotationFactoryCheckActiveCredentials,
@@ -12,7 +12,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";
 import { removeTrailingSlash } from "@app/lib/fn";

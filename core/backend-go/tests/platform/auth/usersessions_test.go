@@ -20,11 +20,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/server/api/platform/usersessions"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
-	"github.com/vaultix/api/internal/services/auth/session"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/server/api/platform/usersessions"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/services/auth/session"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 func sessionsServer(t *testing.T) (*httptest.Server, *session.Service) {

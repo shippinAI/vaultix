@@ -9,10 +9,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/keystore"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
-	"github.com/vaultix/api/internal/services/permission"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/keystore"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 func TestSSOEnforcement_AuthenticatedEmailSession(t *testing.T) {

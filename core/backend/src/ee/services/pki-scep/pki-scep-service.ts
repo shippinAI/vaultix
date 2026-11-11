@@ -3,15 +3,15 @@ import * as x509 from "@peculiar/x509";
 import { randomBytes } from "crypto";
 
 import { ActionProjectType, ResourceType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateProfileActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import {
   ResourcePermissionApplicationEnrollmentActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/resource-permission";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { extractX509CertFromChain } from "@app/lib/certificates/extract-certificate";
 import { crypto } from "@app/lib/crypto/cryptography";

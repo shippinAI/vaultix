@@ -3,8 +3,8 @@ import {
   OpenAIServiceAccountRotationGeneratedCredentialsSchema,
   OpenAIServiceAccountRotationSchema,
   UpdateOpenAIServiceAccountRotationSchema
-} from "@app/ee/services/secret-rotation-v2/openai-service-account";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/openai-service-account";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 
 import { registerSecretRotationEndpoints } from "./secret-rotation-v2-endpoints";
 

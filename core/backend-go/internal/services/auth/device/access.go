@@ -6,8 +6,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
 type AccessVerifierDeps struct {

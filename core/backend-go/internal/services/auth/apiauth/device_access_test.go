@@ -13,9 +13,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/device"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/device"
 )
 
 type deviceAccessFunc func(context.Context, string) (*auth.Identity, error)

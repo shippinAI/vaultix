@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/vaultix/api/internal/ee/services/ratelimit"
-	"github.com/vaultix/api/internal/server/api/secretmanager/secret"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/server/api/vaultixref"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/server/api/secretmanager/secret"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/server/api/vaultixref"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/services/ratelimit"
 )
 
 // RegisterSecretManagerRoutes initializes secret manager handlers and registers their routes.

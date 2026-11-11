@@ -35,7 +35,7 @@ dbSchemaChanges:
         description: Adds heartbeatTTL and drops lastHealthCheckStatus
       - type: pr
         ref: "#6432"
-        url: https://github.com/vaultix/vaultix/pull/6432
+        url: https://github.com/vaultix-cloud/vaultix/pull/6432
         description: Gateway staleness timeout reduced to 5 minutes
 configChanges: []
 deploymentNotes: []

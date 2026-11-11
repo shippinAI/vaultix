@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   CreateWindowsLocalAccountRotationSchema,
   TWindowsLocalAccountRotation,
   UpdateWindowsLocalAccountRotationSchema,
   WindowsLocalAccountRotationGeneratedCredentialsSchema,
   WindowsLocalAccountRotationSchema
-} from "@app/ee/services/secret-rotation-v2/windows-local-account-rotation";
+} from "@app/services/secret-rotation-v2/windows-local-account-rotation";
 import { ApiDocsTags, SecretRotations } from "@app/lib/api-docs";
 import { writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

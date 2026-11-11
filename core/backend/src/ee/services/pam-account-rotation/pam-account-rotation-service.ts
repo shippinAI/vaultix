@@ -1,11 +1,11 @@
 import pLimit from "p-limit";
 
-import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ResourcePermissionPamResourceActions } from "@app/ee/services/permission/resource-permission";
-import { generatePassword } from "@app/ee/services/secret-rotation-v2/shared/utils";
+import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ResourcePermissionPamResourceActions } from "@app/services/permission/resource-permission";
+import { generatePassword } from "@app/services/secret-rotation-v2/shared/utils";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { WinRmRpcEndpoint } from "@app/lib/gateway-v2/winrm-rpc";

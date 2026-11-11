@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { LogProvider, StreamMode } from "@app/ee/services/audit-log-stream/audit-log-stream-enums";
-import { AuditLogStreamFiltersSchema } from "@app/ee/services/audit-log-stream/audit-log-stream-schemas";
-import { TAuditLogStream } from "@app/ee/services/audit-log-stream/audit-log-stream-types";
+import { LogProvider, StreamMode } from "@app/services/audit-log-stream/audit-log-stream-enums";
+import { AuditLogStreamFiltersSchema } from "@app/services/audit-log-stream/audit-log-stream-schemas";
+import { TAuditLogStream } from "@app/services/audit-log-stream/audit-log-stream-types";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

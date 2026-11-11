@@ -14,8 +14,8 @@ import {
   ServiceTokenScopes,
   TProjects
 } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { PamResourceRole } from "@app/ee/services/pam/pam-enums";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { PamResourceRole } from "@app/services/pam/pam-enums";
 import {
   applicationAdminPermissions,
   applicationAuditorPermissions,
@@ -35,8 +35,8 @@ import {
   signerAdminPermissions,
   signerAuditorPermissions,
   signerOperatorPermissions
-} from "@app/ee/services/permission/default-roles";
-import { ResourcePermissionSet } from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/default-roles";
+import { ResourcePermissionSet } from "@app/services/permission/resource-permission";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { withCacheFingerprint } from "@app/lib/cache/with-cache";
 import { conditionsMatcher } from "@app/lib/casl";

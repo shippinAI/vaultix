@@ -376,7 +376,7 @@ cross-tenant denial. Unit tests also cover name/tag-scoped reference access.
 | Machine identity and delegated scopes | `e2e-test/routes/v1/identity-access-token-redesign.spec.ts`, `oauth-scope.spec.ts` | Nomen subject mapping, revocation propagation and production workload credentials |
 | Environments and references | `e2e-test/routes/v1/project-env.spec.ts`, `v3/secret-reference.spec.ts` | Native authored workflows, external provider integration |
 | SCIM, groups, RBAC, SSO/MFA | `e2e-test/routes/v1/scim.spec.ts`; existing permission/auth suites | Nomen provisioning lifecycle, custom-role matrix, SAML/OIDC tenant isolation, IP allowlists |
-| Audit, streams, reports and insights | Existing `src/ee/services/audit-*` unit suites | Durable delivery, retention, export, tamper evidence and redaction under failure |
+| Audit, streams, reports and insights | Existing `src/services/audit-*` unit suites | Durable delivery, retention, export, tamper evidence and redaction under failure |
 | Rotation and dynamic leases | Existing rotation, dynamic-secret and lease services | Per-provider create/renew/revoke, retry, rollback, credential cleanup |
 | Secret/certificate sync and app connections | Existing source connector and sync services | Per-provider success/failure/recovery evidence; no blanket provider parity claim |
 | PKI, EST, ACME, SCEP, CRL and PQC | Existing PKI services and ACME/SCEP unit suites; PQC tools in standalone image | Issue/renew/revoke/validate across supported algorithms and clients |

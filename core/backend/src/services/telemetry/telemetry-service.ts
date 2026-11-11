@@ -1,10 +1,10 @@
 import { requestContext } from "@fastify/request-context";
 import { PostHog } from "posthog-node";
 
-import { TEmailDomainDALFactory } from "@app/ee/services/email-domain/email-domain-dal";
-import { EmailDomainStatus } from "@app/ee/services/email-domain/email-domain-types";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { InstanceType } from "@app/ee/services/license/license-types";
+import { TEmailDomainDALFactory } from "@app/services/email-domain/email-domain-dal";
+import { EmailDomainStatus } from "@app/services/email-domain/email-domain-types";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { InstanceType } from "@app/services/license/license-types";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";

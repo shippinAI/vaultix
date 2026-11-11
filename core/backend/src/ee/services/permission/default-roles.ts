@@ -39,7 +39,7 @@ import {
   ProjectPermissionSecretSyncActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import {
   ResourcePermissionApplicationActions,
   ResourcePermissionApplicationEnrollmentActions,
@@ -50,7 +50,7 @@ import {
   ResourcePermissionSet,
   ResourcePermissionSignerActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/resource-permission";
 
 const buildAdminPermissionRules = () => {
   const { can, rules } = new AbilityBuilder<MongoAbility<ProjectPermissionSet>>(createMongoAbility);

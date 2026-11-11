@@ -3,18 +3,18 @@ import { randomUUID } from "crypto";
 import RE2 from "re2";
 
 import { ActionProjectType, ResourceType, TCertificates } from "@app/db/schemas";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionCertificateActions,
   ProjectPermissionCertificateProfileActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import {
   ResourcePermissionCertificateActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
-import { TPkiAcmeAccountDALFactory } from "@app/ee/services/pki-acme/pki-acme-account-dal";
+} from "@app/services/permission/resource-permission";
+import { TPkiAcmeAccountDALFactory } from "@app/services/pki-acme/pki-acme-account-dal";
 import { BadRequestError, ForbiddenRequestError, InternalServerError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";
 import { ms } from "@app/lib/ms";

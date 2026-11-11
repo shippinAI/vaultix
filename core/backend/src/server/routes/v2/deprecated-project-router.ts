@@ -7,8 +7,8 @@ import {
   ProjectKeysSchema,
   ProjectType
 } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { VaultixProjectTemplate } from "@app/ee/services/project-template/project-template-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { VaultixProjectTemplate } from "@app/services/project-template/project-template-types";
 import { ApiDocsTags, PROJECTS } from "@app/lib/api-docs";
 import { projectCreationLimit, readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

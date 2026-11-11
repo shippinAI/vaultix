@@ -3,8 +3,8 @@ import dns from "node:dns/promises";
 import { ForbiddenError } from "@casl/ability";
 
 import { OrganizationActionScope } from "@app/db/schemas";
-import { OrgPermissionEmailDomainActions, OrgPermissionSubjects } from "@app/ee/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { OrgPermissionEmailDomainActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import { PgSqlLock } from "@app/keystore/keystore";
 import { crypto } from "@app/lib/crypto";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";

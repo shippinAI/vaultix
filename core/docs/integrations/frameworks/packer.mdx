@@ -23,7 +23,7 @@ First, specify the vaultix provider in your Packer configuration:
 packer {
   required_plugins {
     vaultix = {
-      source  = "github.com/vaultix/vaultix"
+      source  = "github.com/vaultix-cloud/vaultix"
       version = ">=0.0.1"
     }
   }
@@ -87,9 +87,9 @@ build {
 }
 ```
 
-The `local.secrets` object maps secret keys to [secret objects](https://github.com/vaultix/packer-plugin-vaultix/blob/main/docs/datasources/secrets.md#secret-object).
+The `local.secrets` object maps secret keys to [secret objects](https://github.com/vaultix-cloud/packer-plugin-vaultix/blob/main/docs/datasources/secrets.md#secret-object).
 
 See also:
-- [Packer Plugin Repository Example](https://github.com/vaultix/packer-plugin-vaultix/blob/main/example/build.pkr.hcl)
-- [Packer Plugin Repository Docs](https://github.com/vaultix/packer-plugin-vaultix/tree/main/docs)
+- [Packer Plugin Repository Example](https://github.com/vaultix-cloud/packer-plugin-vaultix/blob/main/example/build.pkr.hcl)
+- [Packer Plugin Repository Docs](https://github.com/vaultix-cloud/packer-plugin-vaultix/tree/main/docs)
 - [Machine Identity setup guide](/documentation/platform/identities/machine-identities)

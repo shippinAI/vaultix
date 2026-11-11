@@ -1,19 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
 
 import { ProjectMembershipRole } from "@app/db/schemas";
-import { TSecretRotationV2DALFactory } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-dal";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { TSecretRotationV2DALFactory } from "@app/services/secret-rotation-v2/secret-rotation-v2-dal";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   getNextUtcRotationInterval,
   getSecretRotationRotateSecretJobOptions,
   rotateSecretsFns
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-fns";
-import { SECRET_ROTATION_NAME_MAP } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-maps";
-import { TSecretRotationV2ServiceFactory } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-service";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-fns";
+import { SECRET_ROTATION_NAME_MAP } from "@app/services/secret-rotation-v2/secret-rotation-v2-maps";
+import { TSecretRotationV2ServiceFactory } from "@app/services/secret-rotation-v2/secret-rotation-v2-service";
 import {
   TSecretRotationRotateSecretsJobPayload,
   TSecretRotationSendNotificationJobPayload
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";
 import { logger } from "@app/lib/logger";

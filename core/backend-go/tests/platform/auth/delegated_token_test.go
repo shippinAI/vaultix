@@ -13,11 +13,11 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/keystore"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/keystore"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 func TestDelegatedToken_HTTPBoundaryPreservesFirstPartyAuthority(t *testing.T) {

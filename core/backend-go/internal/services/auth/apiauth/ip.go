@@ -5,7 +5,7 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 // TrustedIP represents a single trusted IP entry stored as JSON in the DB.

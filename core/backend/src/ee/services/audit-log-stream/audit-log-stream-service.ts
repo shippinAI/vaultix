@@ -6,7 +6,7 @@ import {
   decryptLogStreamCredentials,
   encryptLogStreamCredentials,
   listProviderOptions
-} from "@app/ee/services/audit-log-stream/audit-log-stream-fns";
+} from "@app/services/audit-log-stream/audit-log-stream-fns";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { OrgServiceActor } from "@app/lib/types";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";

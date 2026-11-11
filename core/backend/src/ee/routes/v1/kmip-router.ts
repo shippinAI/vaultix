@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import { KmipClientsSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { KmipPermission } from "@app/ee/services/kmip/kmip-enum";
-import { KmipClientOrderBy } from "@app/ee/services/kmip/kmip-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { KmipPermission } from "@app/services/kmip/kmip-enum";
+import { KmipClientOrderBy } from "@app/services/kmip/kmip-types";
 import { ms } from "@app/lib/ms";
 import { OrderByDirection } from "@app/lib/types";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";

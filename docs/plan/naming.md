@@ -52,7 +52,7 @@ These directories were present at `eb61496c`.
 | --- | --- | --- |
 | Core API and MCP | `core/backend/src/server/routes/vaultix-router.ts`, `core/backend/src/services/vaultix/` | Product guidance, reference tools, sessions |
 | Core secret engine | `core/backend/src/services/secret*`, `core/backend/src/server/routes/v3/` | Encrypted values and the raw API |
-| Permissions | `core/backend/src/ee/services/permission/` | Roles, including Viewer |
+| Permissions | `core/backend/src/services/permission/` | Roles, including Viewer |
 | Go services | `core/backend-go/internal/services/` | Device grants, Go reference reads, Go auth. Not the public owner yet |
 | Go entry | `core/backend-go/cmd/vaultix/` | Sidecar process |
 | UI | `core/frontend/src/pages/`, `core/frontend/src/hooks/api/vaultix/` | Application entry and reference browser |

@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 const (

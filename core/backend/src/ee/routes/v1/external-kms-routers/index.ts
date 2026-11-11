@@ -1,4 +1,4 @@
-import { KmsProviders } from "@app/ee/services/external-kms/providers/model";
+import { KmsProviders } from "@app/services/external-kms/providers/model";
 
 import { registerAwsKmsRouter } from "./aws-kms-router";
 import { registerGcpKmsRouter } from "./gcp-kms-router";

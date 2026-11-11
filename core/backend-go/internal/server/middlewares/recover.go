@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	"github.com/vaultix/api/internal/libs/requestid"
+	"github.com/vaultix-cloud/api/internal/libs/requestid"
 )
 
 // errorResponse matches the format used by shared.ErrorHandler.

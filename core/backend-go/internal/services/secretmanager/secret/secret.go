@@ -10,13 +10,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/database/pg/qb"
-	"github.com/vaultix/api/internal/database/pg/sqln"
-	"github.com/vaultix/api/internal/libs/fn"
-	"github.com/vaultix/api/internal/services/kms"
-	"github.com/vaultix/api/internal/services/secretmanager/secretfolder"
-	"github.com/vaultix/api/internal/services/secretmanager/secretimport"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/database/pg/qb"
+	"github.com/vaultix-cloud/api/internal/database/pg/sqln"
+	"github.com/vaultix-cloud/api/internal/libs/fn"
+	"github.com/vaultix-cloud/api/internal/services/kms"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretfolder"
+	"github.com/vaultix-cloud/api/internal/services/secretmanager/secretimport"
 )
 
 const secretValueHiddenMask = "<hidden-by-vaultix>"

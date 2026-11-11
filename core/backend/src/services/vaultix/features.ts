@@ -1,4 +1,4 @@
-import type { TFeatureSet } from "@app/ee/services/license/license-types";
+import type { TFeatureSet } from "@app/services/license/license-types";
 
 export const getVaultixFeatures = (): TFeatureSet => ({
   _id: null,

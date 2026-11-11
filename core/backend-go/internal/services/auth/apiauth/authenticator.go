@@ -15,12 +15,12 @@ import (
 	"github.com/jackc/pgx/v5"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/vaultix/api/internal/config"
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/keystore"
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/assumeprivilege"
-	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/keystore"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/assumeprivilege"
+	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
 // AssumePrivilegeVerifier is the interface for verifying assume privilege tokens.

@@ -2,18 +2,18 @@ import { ForbiddenError } from "@casl/ability";
 
 // import geoip from "geoip-lite";
 import { ActionProjectType, IdentityAuthMethod } from "@app/db/schemas";
-import { TAuditLogDALFactory } from "@app/ee/services/audit-log/audit-log-dal";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { TDynamicSecretDALFactory } from "@app/ee/services/dynamic-secret/dynamic-secret-dal";
-import { THoneyTokenDALFactory } from "@app/ee/services/honey-token/honey-token-dal";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TAuditLogDALFactory } from "@app/services/audit-log/audit-log-dal";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { TDynamicSecretDALFactory } from "@app/services/dynamic-secret/dynamic-secret-dal";
+import { THoneyTokenDALFactory } from "@app/services/honey-token/honey-token-dal";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ProjectPermissionHoneyTokenActions,
   ProjectPermissionInsightsActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
-import { TSecretRotationV2DALFactory } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-dal";
+} from "@app/services/permission/project-permission";
+import { TSecretRotationV2DALFactory } from "@app/services/secret-rotation-v2/secret-rotation-v2-dal";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getCacheTtl, withCache } from "@app/lib/cache/with-cache";
 import { BadRequestError } from "@app/lib/errors";

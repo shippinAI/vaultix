@@ -3,9 +3,9 @@ import { PushEvent } from "@octokit/webhooks-types";
 import { Probot } from "probot";
 import { z } from "zod";
 
-import { TBitbucketPushEvent } from "@app/ee/services/secret-scanning-v2/bitbucket/bitbucket-secret-scanning-types";
-import { TGitLabDataSourcePushEventPayload } from "@app/ee/services/secret-scanning-v2/gitlab";
-import { GitLabWebHookEvent } from "@app/ee/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
+import { TBitbucketPushEvent } from "@app/services/secret-scanning-v2/bitbucket/bitbucket-secret-scanning-types";
+import { TGitLabDataSourcePushEventPayload } from "@app/services/secret-scanning-v2/gitlab";
+import { GitLabWebHookEvent } from "@app/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";
 import { writeLimit } from "@app/server/config/rateLimiter";

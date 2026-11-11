@@ -2,14 +2,14 @@ import fs from "fs";
 import knex, { Knex } from "knex";
 import oracledb from "oracledb";
 
-import { verifyHostInputValidity } from "@app/ee/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 import {
   TSqlCredentialsRotationGeneratedCredentials,
   TSqlCredentialsRotationWithConnection
-} from "@app/ee/services/secret-rotation-v2/shared/sql-credentials/sql-credentials-rotation-types";
+} from "@app/services/secret-rotation-v2/shared/sql-credentials/sql-credentials-rotation-types";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError, DatabaseError } from "@app/lib/errors";
 import { GatewayProxyProtocol, withGatewayProxy } from "@app/lib/gateway";

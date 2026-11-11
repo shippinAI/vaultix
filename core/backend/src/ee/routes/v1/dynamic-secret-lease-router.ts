@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { DynamicSecretLeasesSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import { ApiDocsTags, DYNAMIC_SECRET_LEASES } from "@app/lib/api-docs";
 import { removeTrailingSlash } from "@app/lib/fn";
 import { ms } from "@app/lib/ms";

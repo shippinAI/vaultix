@@ -1,4 +1,4 @@
-import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
 
 import { applyOauthScopeToProjectRules, isValidOauthScope, OauthScope, parseOauthScopeString } from "./oauth-scope";
 

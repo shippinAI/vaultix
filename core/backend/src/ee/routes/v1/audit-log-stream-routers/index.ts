@@ -1,34 +1,34 @@
-import { LogProvider } from "@app/ee/services/audit-log-stream/audit-log-stream-enums";
+import { LogProvider } from "@app/services/audit-log-stream/audit-log-stream-enums";
 import {
   CreateAzureProviderLogStreamSchema,
   SanitizedAzureProviderSchema,
   UpdateAzureProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/azure/azure-provider-schemas";
+} from "@app/services/audit-log-stream/azure/azure-provider-schemas";
 import {
   CreateCriblProviderLogStreamSchema,
   SanitizedCriblProviderSchema,
   UpdateCriblProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/cribl/cribl-provider-schemas";
+} from "@app/services/audit-log-stream/cribl/cribl-provider-schemas";
 import {
   CreateCustomProviderLogStreamSchema,
   SanitizedCustomProviderSchema,
   UpdateCustomProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/custom/custom-provider-schemas";
+} from "@app/services/audit-log-stream/custom/custom-provider-schemas";
 import {
   CreateDatadogProviderLogStreamSchema,
   SanitizedDatadogProviderSchema,
   UpdateDatadogProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/datadog/datadog-provider-schemas";
+} from "@app/services/audit-log-stream/datadog/datadog-provider-schemas";
 import {
   CreateSplunkProviderLogStreamSchema,
   SanitizedSplunkProviderSchema,
   UpdateSplunkProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/splunk/splunk-provider-schemas";
+} from "@app/services/audit-log-stream/splunk/splunk-provider-schemas";
 import {
   CreateSumoLogicProviderLogStreamSchema,
   SanitizedSumoLogicProviderSchema,
   UpdateSumoLogicProviderLogStreamSchema
-} from "@app/ee/services/audit-log-stream/sumo-logic/sumo-logic-provider-schemas";
+} from "@app/services/audit-log-stream/sumo-logic/sumo-logic-provider-schemas";
 
 import { registerAuditLogStreamEndpoints } from "./audit-log-stream-endpoints";
 

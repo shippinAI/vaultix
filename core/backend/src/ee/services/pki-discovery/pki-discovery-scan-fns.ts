@@ -3,9 +3,9 @@ import net from "net";
 import pLimit from "p-limit";
 
 import { TCertificatesInsert, TPkiCertificateInstallationsInsert } from "@app/db/schemas";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 import { GatewayProxyProtocol } from "@app/lib/gateway/types";
 import { withGatewayV2Proxy } from "@app/lib/gateway-v2/gateway-v2";
 import { logger } from "@app/lib/logger";

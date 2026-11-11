@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-import { LdapPasswordRotationMethod } from "@app/ee/services/secret-rotation-v2/ldap-password/ldap-password-rotation-types";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { LdapPasswordRotationMethod } from "@app/services/secret-rotation-v2/ldap-password/ldap-password-rotation-types";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   BaseCreateSecretRotationSchema,
   BaseSecretRotationSchema,
   BaseUpdateSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-schemas";
-import { PasswordRequirementsSchema } from "@app/ee/services/secret-rotation-v2/shared/general";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-schemas";
+import { PasswordRequirementsSchema } from "@app/services/secret-rotation-v2/shared/general";
 import { SecretRotations } from "@app/lib/api-docs";
 import { DistinguishedNameRegex, UserPrincipalNameRegex } from "@app/lib/regex";
 import { SecretNameSchema } from "@app/server/lib/schemas";

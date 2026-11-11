@@ -13,8 +13,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/device"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/device"
 )
 
 type fixtureOwner struct {

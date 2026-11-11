@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock("@app/lib/config/env", () => ({ getConfig: () => mocks.config }));
 vi.mock("@app/lib/config/request", () => ({ request: { get: mocks.get } }));
 vi.mock("@app/lib/logger", () => ({ logger: { debug: vi.fn() } }));
-vi.mock("@app/ee/services/license/license-fns", () => ({ getLicenseKeyConfig: () => ({ isValid: false }) }));
+vi.mock("@app/services/license/license-fns", () => ({ getLicenseKeyConfig: () => ({ isValid: false }) }));
 vi.mock("@app/keystore/keystore", () => ({
   KeyStorePrefixes: { UpdateCheckLatestVersion: "update-check-latest-version" },
   KeyStoreTtls: { UpdateCheckLatestVersionInSeconds: 1209600 }

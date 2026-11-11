@@ -2,7 +2,7 @@ import { JWSHeaderParameters } from "jose";
 import { z } from "zod";
 
 import { TPkiAcmeChallenges } from "@app/db/schemas/pki-acme-challenges";
-import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import { AuditLogInfo } from "@app/services/audit-log/audit-log-types";
 
 import {
   AcmeOrderResourceSchema,

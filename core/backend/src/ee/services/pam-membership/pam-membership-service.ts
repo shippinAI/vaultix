@@ -2,12 +2,12 @@ import { ForbiddenError } from "@casl/ability";
 import { Knex } from "knex";
 
 import { AccessScope, ActionProjectType, RESOURCE_SCOPE, ResourceType, TemporaryPermissionMode } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ResourcePermissionPamResourceActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/resource-permission";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { ms } from "@app/lib/ms";
 import { TApprovalPolicyDALFactory } from "@app/services/approval-policy/approval-policy-dal";

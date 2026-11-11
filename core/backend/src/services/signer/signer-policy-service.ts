@@ -1,13 +1,13 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { RESOURCE_SCOPE, ResourceMembershipRole, ResourceType } from "@app/db/schemas";
-import { TIdentityGroupMembershipDALFactory } from "@app/ee/services/group/identity-group-membership-dal";
-import { TUserGroupMembershipDALFactory } from "@app/ee/services/group/user-group-membership-dal";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TIdentityGroupMembershipDALFactory } from "@app/services/group/identity-group-membership-dal";
+import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ResourcePermissionSignerActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
+} from "@app/services/permission/resource-permission";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { ms } from "@app/lib/ms";
 

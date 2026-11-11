@@ -5,14 +5,14 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import {
   CloudflareTokenPolicyEffect,
   createCloudflareToken,
   deleteCloudflareToken,
   revokeCloudflareTokens,
   verifyCloudflareToken
-} from "@app/ee/services/secret-rotation-v2/shared/cloudflare-token";
+} from "@app/services/secret-rotation-v2/shared/cloudflare-token";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

@@ -4,7 +4,7 @@ import { Knex } from "knex";
 
 import { AccessScope, TableName } from "@app/db/schemas";
 import { seedData1 } from "@app/db/seed-data";
-import { ApproverType } from "@app/ee/services/access-approval-policy/access-approval-policy-types";
+import { ApproverType } from "@app/services/access-approval-policy/access-approval-policy-types";
 
 const getDb = () => (globalThis as unknown as { testDb: Knex }).testDb;
 

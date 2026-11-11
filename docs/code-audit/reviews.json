@@ -1020,7 +1020,7 @@
       ]
     },
     {
-      "path": "core/backend-go/internal/ee/services/license/api.go",
+      "path": "core/backend-go/internal/shippin/services/license/api.go",
       "blob": "78633385d9648c3edbf527a9df86ac7578c59564",
       "status": "authored",
       "decision": "modify",
@@ -1031,7 +1031,7 @@
       ]
     },
     {
-      "path": "core/backend-go/internal/ee/services/license/license.go",
+      "path": "core/backend-go/internal/shippin/services/license/license.go",
       "blob": "d78249903967e3c848d2efac7edfd2d4fec2fc0f",
       "status": "authored",
       "decision": "modify",
@@ -4021,7 +4021,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/routes/v1/assume-privilege-router.ts",
+      "path": "core/backend/src/routes/v1/assume-privilege-router.ts",
       "blob": "9c0bf5b26bafd87c61091581db0959fc48622f16",
       "status": "verified",
       "decision": "modify",
@@ -4047,7 +4047,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/routes/v1/assume-privilege-router.test.ts",
+      "path": "core/backend/src/routes/v1/assume-privilege-router.test.ts",
       "blob": "ffd71ccb69e5caf55cab172f492fc90e7540e20d",
       "status": "verified",
       "decision": "modify",
@@ -5707,7 +5707,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-log-queue.ts",
+      "path": "core/backend/src/services/audit-log/audit-log-queue.ts",
       "blob": "1506b74bb73695b46f08355fcd7f97eef1940b7a",
       "status": "authored",
       "decision": "modify",
@@ -5719,7 +5719,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-log-queue.test.ts",
+      "path": "core/backend/src/services/audit-log/audit-log-queue.test.ts",
       "blob": "fa68108a1f21eb0ead5858a0776d717a09b1f48c",
       "status": "authored",
       "decision": "modify",
@@ -5730,7 +5730,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/fixtures/native-ingest-v1.json",
+      "path": "core/backend/src/services/audit-log/fixtures/native-ingest-v1.json",
       "blob": "61d7d6d766d6cb433f1bd7c6659eea97c04162dc",
       "status": "authored",
       "decision": "modify",
@@ -5825,7 +5825,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-recorded-store.spec.ts",
+      "path": "core/backend/src/services/audit-log/audit-recorded-store.spec.ts",
       "blob": "6de9fff70183db0e11f9523b054ee399850d8afb",
       "status": "authored",
       "decision": "modify",
@@ -6154,7 +6154,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-log-types.ts",
+      "path": "core/backend/src/services/audit-log/audit-log-types.ts",
       "blob": "cad23d076f978366ab400a98bd63c70145e686ce",
       "status": "reviewed",
       "decision": "modify",
@@ -6268,7 +6268,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-log-dal.ts",
+      "path": "core/backend/src/services/audit-log/audit-log-dal.ts",
       "blob": "9043f3ab7f53d13c1bf7bcfdfd1a71da15eb4686",
       "status": "authored",
       "decision": "modify",
@@ -6278,7 +6278,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-dal.ts",
+      "path": "core/backend/src/services/audit-log-stream-outbox/audit-log-stream-outbox-dal.ts",
       "blob": "d427f2fc63b316cb431e1186ad586c4c38c7755e",
       "status": "authored",
       "decision": "modify",
@@ -6288,7 +6288,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service.ts",
+      "path": "core/backend/src/services/audit-log-stream-outbox/audit-log-stream-outbox-service.ts",
       "blob": "7c0d6fb32c5e3790f1b38439834a057bfe0bd532",
       "status": "authored",
       "decision": "modify",
@@ -6298,7 +6298,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/audit-log/audit-recorded-cancellation.spec.ts",
+      "path": "core/backend/src/services/audit-log/audit-recorded-cancellation.spec.ts",
       "blob": "b402b0df327f4c4ece2636635f90c6376027fa4f",
       "status": "authored",
       "decision": "modify",
@@ -7278,7 +7278,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/ldap.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/ldap.ts",
       "blob": "57e974189aeaad6eda2e031a87503e308770876a",
       "status": "reviewed",
       "decision": "modify",
@@ -7292,7 +7292,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/ldap-config/ldap-fns.ts",
+      "path": "core/backend/src/services/ldap-config/ldap-fns.ts",
       "blob": "4533c3f2beded2c6a8ca5e0eb951d7bb4fc2a811",
       "status": "reviewed",
       "decision": "modify",
@@ -7306,7 +7306,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/pam-discovery/active-directory/active-directory-discovery-factory.ts",
+      "path": "core/backend/src/services/pam-discovery/active-directory/active-directory-discovery-factory.ts",
       "blob": "ca8f5ede561e2650489ba36982e78b19eeb6d44b",
       "status": "reviewed",
       "decision": "modify",
@@ -7320,7 +7320,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/pam-discovery/pam-discovery-fns.ts",
+      "path": "core/backend/src/services/pam-discovery/pam-discovery-fns.ts",
       "blob": "55bec8f11d4eb9316224551859d4bf884d7f288d",
       "status": "reviewed",
       "decision": "modify",
@@ -7334,7 +7334,7 @@
       ]
     },
     {
-      "path": "core/backend/src/ee/services/secret-rotation-v2/ldap-password/ldap-password-rotation-fns.ts",
+      "path": "core/backend/src/services/secret-rotation-v2/ldap-password/ldap-password-rotation-fns.ts",
       "blob": "d194896a14423d09f01441151e6bc7f9f9f8e371",
       "status": "reviewed",
       "decision": "modify",
@@ -10834,7 +10834,7 @@
       ]
     },
     {
-      "path": "core/backend-go/internal/ee/services/ratelimit/ratelimit.go",
+      "path": "core/backend-go/internal/services/ratelimit/ratelimit.go",
       "blob": "a707e838413cb6597565e15e43a0541540b57fc0",
       "status": "authored",
       "decision": "modify",
@@ -10844,7 +10844,7 @@
       ]
     },
     {
-      "path": "core/backend-go/internal/ee/services/ratelimit/ratelimit_test.go",
+      "path": "core/backend-go/internal/services/ratelimit/ratelimit_test.go",
       "blob": "e4bcb3894e1524bdc3e079d914d62bb2c00894c6",
       "status": "authored",
       "decision": "modify",

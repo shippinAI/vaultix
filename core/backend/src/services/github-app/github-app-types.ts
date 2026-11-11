@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import { AuditLogInfo } from "@app/services/audit-log/audit-log-types";
 import { OrgServiceActor } from "@app/lib/types";
 
 export type TInitiateGitHubManifestDTO = {

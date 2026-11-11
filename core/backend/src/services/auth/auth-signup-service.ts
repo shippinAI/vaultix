@@ -1,6 +1,6 @@
 import { AccessScope, OrgMembershipStatus, TSignupOnboardingResponsesUpdate } from "@app/db/schemas";
-import { TEmailDomainDALFactory } from "@app/ee/services/email-domain/email-domain-dal";
-import { findOrgIdByVerifiedDomain } from "@app/ee/services/email-domain/email-domain-fns";
+import { TEmailDomainDALFactory } from "@app/services/email-domain/email-domain-dal";
+import { findOrgIdByVerifiedDomain } from "@app/services/email-domain/email-domain-fns";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError, UnauthorizedError } from "@app/lib/errors";

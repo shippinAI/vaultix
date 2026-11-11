@@ -1,7 +1,7 @@
 package auditlog
 
 import (
-	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
 // AuditLogInfo holds the pre-built audit log context from an identity.

@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/ee/services/license/license-types";
+import { TFeatureSet } from "@app/services/license/license-types";
 
 import { TEntitlementsResponse } from "../license-client-types";
 import { FEATURE_MAPPINGS } from "./feature-mapping";

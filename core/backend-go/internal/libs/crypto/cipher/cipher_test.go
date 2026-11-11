@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"testing"
 
-	"github.com/vaultix/api/internal/libs/crypto/cipher"
+	"github.com/vaultix-cloud/api/internal/libs/crypto/cipher"
 )
 
 func TestSymmetricEncrypt_RoundTrip(t *testing.T) {

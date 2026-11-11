@@ -3,7 +3,7 @@ package sign_test
 import (
 	"testing"
 
-	"github.com/vaultix/api/internal/libs/crypto/sign"
+	"github.com/vaultix-cloud/api/internal/libs/crypto/sign"
 )
 
 func TestGeneratePrivateKey_RSA4096(t *testing.T) {

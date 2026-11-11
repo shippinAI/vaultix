@@ -8,7 +8,7 @@ const h=createDisposableImageHarness(process.argv[2],()=>phase);
 const runner=process.argv[3];assert.match(runner??'',/^sha256:[a-f0-9]{64}$/);
 mkdirSync('.cache',{recursive:true});const directory=mkdtempSync(resolve('.cache/device-preparation-store-'));
 const report={passed:false,artifact:h.artifact,runner,cases:[],sources:[]};
-const paths=["core/backend/src/services/auth-token/device-event-recipient-dal.ts","core/backend/src/services/auth-token/device-event-recipient.spec.ts","core/backend/src/services/auth-token/device-event-source.ts","core/backend/src/services/auth-token/device-event-preparation.ts","core/backend/src/services/auth-token/device-event-preparation.spec.ts","core/backend/src/ee/services/audit-log/audit-log-types.ts"];
+const paths=["core/backend/src/services/auth-token/device-event-recipient-dal.ts","core/backend/src/services/auth-token/device-event-recipient.spec.ts","core/backend/src/services/auth-token/device-event-source.ts","core/backend/src/services/auth-token/device-event-preparation.ts","core/backend/src/services/auth-token/device-event-preparation.spec.ts","core/backend/src/services/audit-log/audit-log-types.ts"];
 report.sources=paths.map(path=>({path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}));
 const name='vaultix-delivery-store-'+randomBytes(8).toString('hex');
 try {

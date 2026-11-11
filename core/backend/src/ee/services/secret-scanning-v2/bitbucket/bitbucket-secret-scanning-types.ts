@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import { TBitbucketConnection } from "@app/services/app-connection/bitbucket";
 
 import {

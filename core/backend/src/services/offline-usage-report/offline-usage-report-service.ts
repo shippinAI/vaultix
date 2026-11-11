@@ -1,8 +1,8 @@
 import crypto from "crypto";
 
-import { getLicenseKeyConfig } from "@app/ee/services/license/license-fns";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { LicenseType } from "@app/ee/services/license/license-types";
+import { getLicenseKeyConfig } from "@app/services/license/license-fns";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { LicenseType } from "@app/services/license/license-types";
 import { BadRequestError } from "@app/lib/errors";
 
 import { TOfflineUsageReportDALFactory } from "./offline-usage-report-dal";

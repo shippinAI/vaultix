@@ -1,11 +1,11 @@
 import {
   registerSecretRotationV2Router,
   SECRET_ROTATION_REGISTER_ROUTER_MAP
-} from "@app/ee/routes/v2/secret-rotation-v2-routers";
+} from "@app/routes/v2/secret-rotation-v2-routers";
 import {
   registerSecretScanningV2Router,
   SECRET_SCANNING_REGISTER_ROUTER_MAP
-} from "@app/ee/routes/v2/secret-scanning-v2-routers";
+} from "@app/routes/v2/secret-scanning-v2-routers";
 import { withRoutePrefix } from "@app/server/lib/with-route-prefix";
 
 import { registerDeprecatedProjectRoleRouter } from "./deprecated-project-role-router";

@@ -7,7 +7,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { resolveDirectoryPrincipal } from "@app/lib/ldap/directory";
 import { logger } from "@app/lib/logger";
 import { DistinguishedNameRegex } from "@app/lib/regex";

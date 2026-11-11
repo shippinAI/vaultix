@@ -39,7 +39,7 @@ vaultix/
 - **`docs/`** — Product documentation site. Has its own Dockerfile for building. Reference docs for up-to-date feature descriptions and API usage.
 - **`e2e/`** — Playwright suite that runs against a deployed environment (gamma) between deploy and prod promotion. Distinct from `backend/e2e-test/` (in-process Vitest). Failure blocks every prod-deploy job. Covers SCIM + SAML flows (SP-initiated, IdP-initiated, deactivation, response rejection) against a mock IdP we control — see [`e2e/CLAUDE.md`](e2e/CLAUDE.md) for the harness and the one-time gamma bootstrap.
 
-Enterprise features live in `backend/src/ee/` (services and routes), registered before community routes so they can override/extend them.
+Enterprise features live in `backend/src/` (services and routes), registered before community routes so they can override/extend them.
 
 ### Self-Hosted Deployment
 

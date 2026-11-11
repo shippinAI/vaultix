@@ -3,9 +3,9 @@ import RE2 from "re2";
 import { z } from "zod";
 
 import { ActionProjectType, OrganizationActionScope, ProjectType } from "@app/db/schemas";
-import { OrgPermissionIdentityActions, OrgPermissionSubjects } from "@app/ee/services/permission/org-permission";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { OrgPermissionIdentityActions, OrgPermissionSubjects } from "@app/services/permission/org-permission";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ProjectPermissionIdentityActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
 import { getConfig } from "@app/lib/config/env";
 import { ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 

@@ -6,16 +6,16 @@ import {
   EventType,
   SecretApprovalEvent,
   TAuditLogServiceFactory
-} from "@app/ee/services/audit-log/audit-log-types";
-import { verifyHostInputValidity } from "@app/ee/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayDALFactory } from "@app/ee/services/gateway/gateway-dal";
-import { TGatewayServiceFactory } from "@app/ee/services/gateway/gateway-service";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
-import { TSecretApprovalPolicyServiceFactory } from "@app/ee/services/secret-approval-policy/secret-approval-policy-service";
+} from "@app/services/audit-log/audit-log-types";
+import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayDALFactory } from "@app/services/gateway/gateway-dal";
+import { TGatewayServiceFactory } from "@app/services/gateway/gateway-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
+import { TSecretApprovalPolicyServiceFactory } from "@app/services/secret-approval-policy/secret-approval-policy-service";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { GatewayVersion } from "@app/lib/gateway/types";

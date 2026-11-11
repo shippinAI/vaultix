@@ -11,8 +11,8 @@ import (
 
 	"github.com/doordash-oss/oapi-codegen-dd/v3/pkg/runtime"
 	"github.com/go-chi/chi/v5"
-	"github.com/vaultix/api/internal/server/api/shared"
-	apivalidator "github.com/vaultix/api/internal/server/api/validator"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	apivalidator "github.com/vaultix-cloud/api/internal/server/api/validator"
 )
 
 // OapiErrorKind represents the type of error that occurred during request processing.

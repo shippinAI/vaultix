@@ -1,30 +1,30 @@
 import { ProjectType } from "@app/db/schemas";
-import { HoneyTokenType } from "@app/ee/services/honey-token/honey-token-enums";
-import { ScepChallengeType } from "@app/ee/services/pki-scep/challenge";
-import { ScepEnrollmentStatus } from "@app/ee/services/pki-scep/pki-scep-types";
+import { HoneyTokenType } from "@app/services/honey-token/honey-token-enums";
+import { ScepChallengeType } from "@app/services/pki-scep/challenge";
+import { ScepEnrollmentStatus } from "@app/services/pki-scep/pki-scep-types";
 import {
   TCreateProjectTemplateDTO,
   TUpdateProjectTemplateDTO
-} from "@app/ee/services/project-template/project-template-types";
-import { SecretRotation, SecretRotationStatus } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/project-template/project-template-types";
+import { SecretRotation, SecretRotationStatus } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   TCreateSecretRotationV2DTO,
   TDeleteSecretRotationV2DTO,
   TSecretRotationV2Raw,
   TUpdateSecretRotationV2DTO
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import {
   SecretScanningDataSource,
   SecretScanningScanStatus,
   SecretScanningScanType
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import {
   TCreateSecretScanningDataSourceDTO,
   TDeleteSecretScanningDataSourceDTO,
   TTriggerSecretScanningDataSourceDTO,
   TUpdateSecretScanningDataSourceDTO,
   TUpdateSecretScanningFindingDTO
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-types";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-types";
 import { SymmetricKeyAlgorithm } from "@app/lib/crypto/cipher";
 import { HmacAlgorithm } from "@app/lib/crypto/hmac";
 import { AsymmetricKeyAlgorithm, SigningAlgorithm } from "@app/lib/crypto/sign/types";

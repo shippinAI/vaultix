@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { registerAwsHoneyTokenRouter } from "@app/ee/routes/v1/honey-token-routers/aws-honey-token-router";
+import { registerAwsHoneyTokenRouter } from "@app/routes/v1/honey-token-routers/aws-honey-token-router";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 
 import { HoneyTokenType } from "../honey-token-enums";

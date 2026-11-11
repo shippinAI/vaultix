@@ -12,7 +12,7 @@ import RedisStore from "connect-redis";
 import { z } from "zod";
 
 import { OidcConfigsSchema } from "@app/db/schemas";
-import { OIDCConfigurationType, OIDCJWTSignatureAlgorithm } from "@app/ee/services/oidc/oidc-config-types";
+import { OIDCConfigurationType, OIDCJWTSignatureAlgorithm } from "@app/services/oidc/oidc-config-types";
 import { ApiDocsTags, OidcSSo } from "@app/lib/api-docs";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError } from "@app/lib/errors";

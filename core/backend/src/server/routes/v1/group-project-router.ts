@@ -8,8 +8,8 @@ import {
   ProjectUserMembershipRolesSchema,
   TemporaryPermissionMode
 } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { FilterReturnedUsers } from "@app/ee/services/group/group-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { FilterReturnedUsers } from "@app/services/group/group-types";
 import { ApiDocsTags, GROUPS, PROJECTS } from "@app/lib/api-docs";
 import { ms } from "@app/lib/ms";
 import { isUuidV4 } from "@app/lib/validator";

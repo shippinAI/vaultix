@@ -5,8 +5,8 @@ import path from "node:path";
 import RE2 from "re2";
 import { Client, SFTPWrapper } from "ssh2";
 
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
 import { logger } from "@app/lib/logger";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 import { SshConnectionMethod } from "@app/services/app-connection/ssh/ssh-connection-enums";

@@ -12,20 +12,20 @@ import {
 } from "bullmq";
 
 import { SecretEncryptionAlgo, SecretKeyEncoding } from "@app/db/schemas";
-import { TAuditLogStreamFlushJobData } from "@app/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-types";
+import { TAuditLogStreamFlushJobData } from "@app/services/audit-log-stream-outbox/audit-log-stream-outbox-types";
 import {
   TSecretRotationRotateSecretsJobPayload,
   TSecretRotationSendNotificationJobPayload
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import {
   TScanFullRepoEventPayload,
   TScanPushEventPayload
-} from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
+} from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
 import {
   TQueueSecretScanningDataSourceFullScan,
   TQueueSecretScanningResourceDiffScan,
   TQueueSecretScanningSendNotification
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-types";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-types";
 import { getConfig } from "@app/lib/config/env";
 import { buildRedisFromConfig, TRedisConfigKeys } from "@app/lib/config/redis";
 import { crypto } from "@app/lib/crypto";

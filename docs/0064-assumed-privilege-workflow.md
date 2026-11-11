@@ -138,6 +138,6 @@ enterprise/government certification or full capability parity.
 
 Reproduce the packaged checks with `node scripts/build-self-hosted.mjs` and the
 focused route tests with the backend unit command targeting
-`src/ee/routes/v1/assume-privilege-router.test.ts`. For native interoperability, run
+`src/routes/v1/assume-privilege-router.test.ts`. For native interoperability, run
 `go test -race -tags integration -run '^TestAssumedAuthority_' ./tests/platform/permission`
 in the verified Go stage against the canonical image, once for each cache.

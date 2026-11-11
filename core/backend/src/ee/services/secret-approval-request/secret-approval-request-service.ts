@@ -12,7 +12,7 @@ import {
   TSecretApprovalRequestsSecretsInsert,
   TSecretApprovalRequestsSecretsV2Insert
 } from "@app/db/schemas";
-import { Actor, Event, EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { Actor, Event, EventType } from "@app/services/audit-log/audit-log-types";
 import { AUDIT_LOG_SENSITIVE_VALUE } from "@app/lib/config/const";
 import { getConfig } from "@app/lib/config/env";
 import { crypto, SymmetricKeySize } from "@app/lib/crypto/cryptography";

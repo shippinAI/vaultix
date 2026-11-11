@@ -1,5 +1,5 @@
-import { registerGitLabSecretScanningRouter } from "@app/ee/routes/v2/secret-scanning-v2-routers/gitlab-secret-scanning-router";
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { registerGitLabSecretScanningRouter } from "@app/routes/v2/secret-scanning-v2-routers/gitlab-secret-scanning-router";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 
 import { registerBitbucketSecretScanningRouter } from "./bitbucket-secret-scanning-router";
 import { registerGitHubSecretScanningRouter } from "./github-secret-scanning-router";

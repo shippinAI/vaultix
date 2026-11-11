@@ -1,9 +1,9 @@
 package platform
 
 import (
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
-	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix-cloud/api/internal/services/permission/project"
 )
 
 // AssumePrivilegeChecker implements permission checks for assume privilege operations.

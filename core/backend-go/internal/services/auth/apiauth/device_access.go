@@ -5,9 +5,9 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/auth/device"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth/device"
 )
 
 func (a *ApiAuthenticator) ValidateDeviceAccess(ctx context.Context, token string) (*auth.Identity, error) {

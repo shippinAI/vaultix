@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud-cloud/api/internal/libs/errutil"
 )
 
 // ProviderType identifies the external KMS provider type.

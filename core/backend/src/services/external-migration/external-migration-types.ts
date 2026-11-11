@@ -1,4 +1,4 @@
-import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import { AuditLogInfo } from "@app/services/audit-log/audit-log-types";
 import { OrgServiceActor, TOrgPermission } from "@app/lib/types";
 
 import { ActorAuthMethod, ActorType } from "../auth/auth-type";

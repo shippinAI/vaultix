@@ -2,8 +2,8 @@ import { MongoAbility, subject } from "@casl/ability";
 import { Knex } from "knex";
 
 import { TSecretFolders } from "@app/db/schemas";
-import { TDynamicSecretDALFactory } from "@app/ee/services/dynamic-secret/dynamic-secret-dal";
-import { THoneyTokenDALFactory } from "@app/ee/services/honey-token/honey-token-dal";
+import { TDynamicSecretDALFactory } from "@app/services/dynamic-secret/dynamic-secret-dal";
+import { THoneyTokenDALFactory } from "@app/services/honey-token/honey-token-dal";
 import {
   ProjectPermissionActions,
   ProjectPermissionDynamicSecretActions,
@@ -11,9 +11,9 @@ import {
   ProjectPermissionSecretRotationActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
-import { TSecretApprovalPolicyServiceFactory } from "@app/ee/services/secret-approval-policy/secret-approval-policy-service";
-import { TSecretRotationV2DALFactory } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-dal";
+} from "@app/services/permission/project-permission";
+import { TSecretApprovalPolicyServiceFactory } from "@app/services/secret-approval-policy/secret-approval-policy-service";
+import { TSecretRotationV2DALFactory } from "@app/services/secret-rotation-v2/secret-rotation-v2-dal";
 import { BadRequestError, InternalServerError } from "@app/lib/errors";
 
 import { TSecretImportDALFactory } from "../secret-import/secret-import-dal";

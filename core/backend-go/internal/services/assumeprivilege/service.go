@@ -11,10 +11,10 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	"github.com/vaultix/api/internal/services/permission/platform"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/internal/services/permission/platform"
 )
 
 // Existing application-issued grants expire one hour after issuance.

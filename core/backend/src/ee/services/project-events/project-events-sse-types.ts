@@ -4,7 +4,7 @@ import { MongoAbility } from "@casl/ability";
 import { MongoQuery } from "@ucast/mongo2js";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { ProjectPermissionSet } from "@app/ee/services/permission/project-permission";
+import { ProjectPermissionSet } from "@app/services/permission/project-permission";
 import { ActorAuthMethod, ActorType } from "@app/services/auth/auth-type";
 
 import { ProjectEvents } from "./project-events-types";

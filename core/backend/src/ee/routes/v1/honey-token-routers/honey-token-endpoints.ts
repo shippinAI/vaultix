@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 import { HoneyTokenConfigsSchema } from "@app/db/schemas";
-import { HoneyTokenType } from "@app/ee/services/honey-token/honey-token-enums";
+import { HoneyTokenType } from "@app/services/honey-token/honey-token-enums";
 import {
   THoneyTokenConfigByType,
   THoneyTokenTestConnectionResponseByType
-} from "@app/ee/services/honey-token/honey-token-provider-types";
-import { HoneyTokenWebhookPayloadSchema } from "@app/ee/services/honey-token/honey-token-types";
+} from "@app/services/honey-token/honey-token-provider-types";
+import { HoneyTokenWebhookPayloadSchema } from "@app/services/honey-token/honey-token-types";
 import { BadRequestError } from "@app/lib/errors";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

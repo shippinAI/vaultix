@@ -1,5 +1,5 @@
 import { AccessScope } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
 import { NotFoundError } from "@app/lib/errors";
 
 import { TAdditionalPrivilegeDALFactory } from "../additional-privilege/additional-privilege-dal";

@@ -13,10 +13,10 @@ import {
   TMemberships,
   TUsers
 } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/ee/services/group/group-fns";
-import { TUserGroupMembershipDALFactory } from "@app/ee/services/group/user-group-membership-dal";
-import { TScimDALFactory } from "@app/ee/services/scim/scim-dal";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/services/group/group-fns";
+import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { TScimDALFactory } from "@app/services/scim/scim-dal";
 import { PgSqlLock } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto";

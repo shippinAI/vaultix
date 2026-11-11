@@ -3,8 +3,8 @@ import {
   Auth0ClientSecretRotationSchema,
   CreateAuth0ClientSecretRotationSchema,
   UpdateAuth0ClientSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/auth0-client-secret";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/auth0-client-secret";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 
 import { registerSecretRotationEndpoints } from "./secret-rotation-v2-endpoints";
 

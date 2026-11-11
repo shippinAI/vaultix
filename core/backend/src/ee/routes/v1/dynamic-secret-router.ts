@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { DynamicSecretLeasesSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { DynamicSecretProviderSchema } from "@app/ee/services/dynamic-secret/providers/models";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { DynamicSecretProviderSchema } from "@app/services/dynamic-secret/providers/models";
 import { ApiDocsTags, DYNAMIC_SECRETS } from "@app/lib/api-docs";
 import { removeTrailingSlash } from "@app/lib/fn";
 import { ms } from "@app/lib/ms";

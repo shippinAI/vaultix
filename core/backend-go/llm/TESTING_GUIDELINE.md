@@ -217,7 +217,7 @@ import (
 
 	"go.uber.org/goleak"
 
-	"github.com/vaultix/api/internal/testutil/infra"
+	"github.com/vaultix-cloud/api/internal/testutil/infra"
 )
 
 var stack *infra.Stack

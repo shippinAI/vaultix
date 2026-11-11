@@ -1,6 +1,6 @@
 import { TDbClient } from "@app/db";
 import { AccessScope, OrgMembershipRole, ProjectMembershipRole, TableName } from "@app/db/schemas";
-import { HEARTBEAT_BUFFER_SECONDS } from "@app/ee/services/gateway-v2/gateway-v2-constants";
+import { HEARTBEAT_BUFFER_SECONDS } from "@app/services/gateway-v2/gateway-v2-constants";
 import { DatabaseError } from "@app/lib/errors";
 
 const BUILT_IN_ROLE_SLUGS = [...Object.values(OrgMembershipRole), ...Object.values(ProjectMembershipRole)] as string[];

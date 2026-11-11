@@ -2,9 +2,9 @@ import { ActionProjectType, ProjectType } from "@app/db/schemas/models";
 import {
   hasSecretReadValueOrDescribePermission,
   throwIfMissingSecretReadValueOrDescribePermission
-} from "@app/ee/services/permission/permission-fns";
-import type { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ProjectPermissionSecretActions } from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/permission-fns";
+import type { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ProjectPermissionSecretActions } from "@app/services/permission/project-permission";
 import { NotFoundError } from "@app/lib/errors";
 import type { TProjectPermission } from "@app/lib/types";
 import type { TProjectServiceFactory } from "@app/services/project/project-service";

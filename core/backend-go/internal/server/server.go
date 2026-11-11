@@ -11,10 +11,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	chimw "github.com/go-chi/chi/v5/middleware"
 
-	"github.com/vaultix/api/internal/config"
-	"github.com/vaultix/api/internal/libs/requestid"
-	"github.com/vaultix/api/internal/server/api"
-	"github.com/vaultix/api/internal/server/middlewares"
+	"github.com/vaultix-cloud/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/libs/requestid"
+	"github.com/vaultix-cloud/api/internal/server/api"
+	"github.com/vaultix-cloud/api/internal/server/middlewares"
 )
 
 // Server is the HTTP server for the vaultix API.

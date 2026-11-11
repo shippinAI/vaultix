@@ -4,7 +4,7 @@ import {
   ProjectPermissionSecretActions,
   ProjectPermissionSet,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { conditionsMatcher } from "@app/lib/casl";
 import { ActorType } from "@app/services/auth/auth-type";
 

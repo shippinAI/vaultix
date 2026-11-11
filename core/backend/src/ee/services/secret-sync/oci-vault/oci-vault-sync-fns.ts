@@ -1,7 +1,7 @@
 import * as secrets from "oci-secrets";
 import * as vault from "oci-vault";
 
-import { getOCIProvider } from "@app/ee/services/app-connections/oci";
+import { getOCIProvider } from "@app/services/app-connections/oci";
 import {
   TCreateOCIVaultVariable,
   TDeleteOCIVaultVariable,
@@ -9,7 +9,7 @@ import {
   TOCIVaultSyncWithCredentials,
   TUnmarkOCIVaultVariableFromDeletion,
   TUpdateOCIVaultVariable
-} from "@app/ee/services/secret-sync/oci-vault/oci-vault-sync-types";
+} from "@app/services/secret-sync/oci-vault/oci-vault-sync-types";
 import { delay } from "@app/lib/delay";
 import { SecretSyncError } from "@app/services/secret-sync/secret-sync-errors";
 import { matchesSchema } from "@app/services/secret-sync/secret-sync-fns";

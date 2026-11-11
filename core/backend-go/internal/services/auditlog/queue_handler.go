@@ -9,9 +9,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/ee/services/license"
-	"github.com/vaultix/api/internal/queue"
-	"github.com/vaultix/api/internal/services/project"
+	"github.com/vaultix-cloud/api/internal/queue"
+	"github.com/vaultix-cloud/api/internal/services/project"
+	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 const auditLogStreamKey = "audit-log-stream"

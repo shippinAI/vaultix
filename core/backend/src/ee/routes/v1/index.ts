@@ -1,4 +1,4 @@
-import { registerProjectTemplateRouter } from "@app/ee/routes/v1/project-template-router";
+import { registerProjectTemplateRouter } from "@app/routes/v1/project-template-router";
 import { withRoutePrefix } from "@app/server/lib/with-route-prefix";
 import { injectCertManagerProjectId } from "@app/server/plugins/inject-cert-manager-project-id";
 

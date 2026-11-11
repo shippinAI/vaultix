@@ -1,11 +1,11 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { TListProjectGroupUsersDTO } from "@app/ee/services/group/group-types";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ProjectPermissionGroupActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { TListProjectGroupUsersDTO } from "@app/services/group/group-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ProjectPermissionGroupActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
 
-import { TGroupDALFactory } from "../../ee/services/group/group-dal";
+import { TGroupDALFactory } from "../../services/group/group-dal";
 
 type TGroupProjectServiceFactoryDep = {
   groupDAL: Pick<TGroupDALFactory, "findOne" | "findAllGroupPossibleUsers">;

@@ -13,8 +13,8 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 func TestValidateIdentityAccessToken_RealClientSecretRevocation(t *testing.T) {

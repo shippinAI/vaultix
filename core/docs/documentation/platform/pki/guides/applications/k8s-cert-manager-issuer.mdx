@@ -4,7 +4,7 @@ sidebarTitle: "Issue TLS Certificates in Kubernetes (vaultix Issuer)"
 description: "Issue and renew Kubernetes TLS certificates with the vaultix cert-manager external issuer, authenticating with a machine identity."
 ---
 
-Issue TLS certificates to your Kubernetes workloads using [cert-manager](https://cert-manager.io/) and the [vaultix Issuer](https://github.com/vaultix/vaultix-issuer), an [external issuer](https://cert-manager.io/docs/configuration/external/) for cert-manager. Certificates are signed by vaultix through a [PKI Application](/documentation/platform/pki/applications/overview) and [Certificate Profile](/documentation/platform/pki/settings/profiles), stored in Kubernetes Secrets (including the CA chain), and renewed automatically before expiration.
+Issue TLS certificates to your Kubernetes workloads using [cert-manager](https://cert-manager.io/) and the [vaultix Issuer](https://github.com/vaultix-cloud/vaultix-issuer), an [external issuer](https://cert-manager.io/docs/configuration/external/) for cert-manager. Certificates are signed by vaultix through a [PKI Application](/documentation/platform/pki/applications/overview) and [Certificate Profile](/documentation/platform/pki/settings/profiles), stored in Kubernetes Secrets (including the CA chain), and renewed automatically before expiration.
 
 <Info>
   This is the **vaultix Issuer** approach. If you would rather use the standard cert-manager ACME issuer with EAB credentials, see the [cert-manager (ACME) guide](/documentation/platform/pki/guides/applications/k8s-cert-manager-acme) instead.

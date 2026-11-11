@@ -1,12 +1,12 @@
 import { Knex } from "knex";
 
-import { groupDALFactory } from "@app/ee/services/group/group-dal";
-import { initializeHsmModule, isHsmActiveAndEnabled } from "@app/ee/services/hsm/hsm-fns";
-import { hsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
-import { licenseDALFactory } from "@app/ee/services/license/license-dal";
-import { licenseServiceFactory } from "@app/ee/services/license/license-service";
-import { permissionDALFactory } from "@app/ee/services/permission/permission-dal";
-import { permissionServiceFactory } from "@app/ee/services/permission/permission-service";
+import { groupDALFactory } from "@app/services/group/group-dal";
+import { initializeHsmModule, isHsmActiveAndEnabled } from "@app/services/hsm/hsm-fns";
+import { hsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { licenseDALFactory } from "@app/services/license/license-dal";
+import { licenseServiceFactory } from "@app/services/license/license-service";
+import { permissionDALFactory } from "@app/services/permission/permission-dal";
+import { permissionServiceFactory } from "@app/services/permission/permission-service";
 import { TKeyStoreFactory } from "@app/keystore/keystore";
 import { BadRequestError } from "@app/lib/errors";
 import { additionalPrivilegeDALFactory } from "@app/services/additional-privilege/additional-privilege-dal";

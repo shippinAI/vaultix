@@ -1,4 +1,4 @@
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 
 import { registerAuth0ClientSecretRotationRouter } from "./auth0-client-secret-rotation-router";
 import { registerAwsIamUserSecretRotationRouter } from "./aws-iam-user-secret-rotation-router";

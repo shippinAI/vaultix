@@ -1,19 +1,19 @@
 import { join } from "path";
 import { ProbotOctokit } from "probot";
 
-import { scanContentAndGetFindings } from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
-import { SecretMatch } from "@app/ee/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
+import { scanContentAndGetFindings } from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-fns";
+import { SecretMatch } from "@app/services/secret-scanning/secret-scanning-queue/secret-scanning-queue-types";
 import {
   SecretScanningDataSource,
   SecretScanningFindingSeverity,
   SecretScanningResource
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import {
   assertProviderRepositorySizeWithinLimit,
   cloneRepository,
   convertPatchLineToFileLineNumber,
   replaceNonChangesWithNewlines
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-fns";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-fns";
 import {
   TSecretScanningFactoryGetDiffScanFindingsPayload,
   TSecretScanningFactoryGetDiffScanResourcePayload,
@@ -23,7 +23,7 @@ import {
   TSecretScanningFactoryPostInitialization,
   TSecretScanningFactoryTeardown,
   TSecretScanningFactoryValidateConfigUpdate
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-types";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-types";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError } from "@app/lib/errors";
 import { titleCaseToCamelCase } from "@app/lib/fn";

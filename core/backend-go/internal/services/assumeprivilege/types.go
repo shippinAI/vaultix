@@ -3,7 +3,7 @@ package assumeprivilege
 import (
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/auth"
 )
 
 // AssumeProjectPrivilegesOpts holds the input for assuming project privileges.

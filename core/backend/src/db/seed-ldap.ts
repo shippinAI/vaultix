@@ -17,7 +17,7 @@
 import argon2, { argon2id } from "argon2";
 import jsrp from "jsrp";
 
-import { EmailDomainStatus } from "@app/ee/services/email-domain/email-domain-types";
+import { EmailDomainStatus } from "@app/services/email-domain/email-domain-types";
 import { inMemoryKeyStore } from "@app/keystore/memory";
 import { crypto, SymmetricKeySize } from "@app/lib/crypto/cryptography";
 import { initLogger, logger } from "@app/lib/logger";

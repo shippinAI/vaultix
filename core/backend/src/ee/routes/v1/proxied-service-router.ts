@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { ProxiedServiceCredentialRole } from "@app/ee/services/proxied-service/proxied-service-enums";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { ProxiedServiceCredentialRole } from "@app/services/proxied-service/proxied-service-enums";
 import {
   CredentialsArraySchema,
   hostPatternSchema,
   ProxiedServiceWithCanProxyAndLeaseAccessSchema,
   ProxiedServiceWithCredentialsSchema,
   SanitizedProxiedServiceBaseSchema
-} from "@app/ee/services/proxied-service/proxied-service-schemas";
+} from "@app/services/proxied-service/proxied-service-schemas";
 import { ApiDocsTags, PROXIED_SERVICES } from "@app/lib/api-docs";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

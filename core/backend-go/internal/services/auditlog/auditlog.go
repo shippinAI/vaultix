@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/vaultix/api/internal/config"
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/queue"
+	"github.com/vaultix-cloud/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/queue"
 )
 
 // Deps holds dependencies for the audit log service.

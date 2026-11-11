@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"regexp"
 
-	"github.com/vaultix/api/internal/vaultixpolicy/internal/compare"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy/internal/compare"
 )
 
 // DefaultFieldOps returns a fresh copy of the built-in field operators.

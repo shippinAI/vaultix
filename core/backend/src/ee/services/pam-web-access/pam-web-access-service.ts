@@ -2,14 +2,14 @@ import net from "node:net";
 
 import type WebSocket from "ws";
 
-import { AuditLogInfo, EventType, TAuditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-types";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { PamAccountType } from "@app/ee/services/pam/pam-enums";
-import { enforceMfa } from "@app/ee/services/pam/pam-mfa";
-import { resolveAccessControls } from "@app/ee/services/pam/pam-policies";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ResourcePermissionPamResourceActions } from "@app/ee/services/permission/resource-permission";
+import { AuditLogInfo, EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { PamAccountType } from "@app/services/pam/pam-enums";
+import { enforceMfa } from "@app/services/pam/pam-mfa";
+import { resolveAccessControls } from "@app/services/pam/pam-policies";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ResourcePermissionPamResourceActions } from "@app/services/permission/resource-permission";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { GatewayProxyProtocol } from "@app/lib/gateway/types";
 import { createGatewayConnection, createRelayConnection, setupRelayServer } from "@app/lib/gateway-v2/gateway-v2";

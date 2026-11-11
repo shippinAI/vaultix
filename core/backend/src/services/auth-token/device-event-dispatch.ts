@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 
 import type { Knex } from "knex";
 
-import { TAuditLogQueueServiceFactory } from "@app/ee/services/audit-log/audit-log-queue";
+import { TAuditLogQueueServiceFactory } from "@app/services/audit-log/audit-log-queue";
 import { RecordedOperation, runRecordedOperation } from "@app/lib/recorded-operation";
 import { TNotificationServiceFactory } from "@app/services/notification/notification-service";
 import { recordedMailboxMatches, RecordedMailError } from "@app/services/smtp/smtp-recorded-payload";

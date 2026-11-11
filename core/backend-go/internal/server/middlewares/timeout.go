@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vaultix/api/internal/libs/requestid"
+	"github.com/vaultix-cloud/api/internal/libs/requestid"
 )
 
 // Timeout returns middleware that cancels the request context after the given duration.

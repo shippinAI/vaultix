@@ -13,8 +13,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/ee/services/license"
-	"github.com/vaultix/api/internal/services/project"
+	"github.com/vaultix-cloud/api/internal/services/project"
+	"github.com/vaultix-cloud/api/internal/shippin/services/license"
 )
 
 type capturedStream struct {

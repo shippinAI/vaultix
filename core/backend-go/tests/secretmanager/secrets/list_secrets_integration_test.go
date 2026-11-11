@@ -16,10 +16,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/server/api/secretmanager/secret"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/server/api/secretmanager/secret"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // httpListSecretsV4 makes a direct HTTP GET request to /api/v4/secrets

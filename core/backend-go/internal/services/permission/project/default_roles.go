@@ -1,6 +1,6 @@
 package project
 
-import "github.com/vaultix/api/internal/vaultixpolicy"
+import "github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
 // ss is a shorthand for vaultixpolicy.StringOrSlice to keep rule definitions compact.
 func ss(vals ...string) vaultixpolicy.StringOrSlice { return vals }

@@ -10,7 +10,7 @@ import {
 import {
   SecretScanningFindingStatus,
   SecretScanningScanStatus
-} from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
+} from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
 import { DatabaseError } from "@app/lib/errors";
 import {
   buildFindFilter,

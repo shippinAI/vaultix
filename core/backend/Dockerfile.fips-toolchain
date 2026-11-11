@@ -120,7 +120,7 @@ WORKDIR /app
 
 LABEL org.opencontainers.image.title="vaultix backend FIPS test toolchain" \
       org.opencontainers.image.description="Internal CI build cache for vaultix's backend FIPS test image (Dockerfile.dev.fips). Not a supported or versioned public artifact: no support or compatibility guarantee, tags may change or be deleted without notice, and it is not the FIPS product image (that is vaultix/vaultix-fips). Do not depend on it outside vaultix CI and local development." \
-      org.opencontainers.image.source="https://github.com/vaultix/vaultix" \
+      org.opencontainers.image.source="https://github.com/vaultix-cloud/vaultix" \
       org.opencontainers.image.licenses="NOASSERTION" \
       com.vaultix.image.internal="true" \
       com.vaultix.image.supported="false" \

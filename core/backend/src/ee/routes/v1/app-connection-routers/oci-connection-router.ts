@@ -4,7 +4,7 @@ import {
   CreateOCIConnectionSchema,
   SanitizedOCIConnectionSchema,
   UpdateOCIConnectionSchema
-} from "@app/ee/services/app-connections/oci";
+} from "@app/services/app-connections/oci";
 import { readLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";

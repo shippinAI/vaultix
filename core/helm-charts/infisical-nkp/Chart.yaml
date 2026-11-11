@@ -6,7 +6,7 @@ version: 0.1.0
 appVersion: "v0.162.11"
 home: https://vaultix.com
 sources:
-  - https://github.com/vaultix/vaultix
+  - https://github.com/vaultix-cloud/vaultix
 maintainers:
   - name: vaultix
     url: https://vaultix.com

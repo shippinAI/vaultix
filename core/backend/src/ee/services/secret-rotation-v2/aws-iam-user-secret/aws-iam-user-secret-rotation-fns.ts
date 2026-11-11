@@ -10,7 +10,7 @@ import { GetCallerIdentityCommand, STSClient, STSServiceException } from "@aws-s
 import {
   TAwsIamUserSecretRotationGeneratedCredentials,
   TAwsIamUserSecretRotationWithConnection
-} from "@app/ee/services/secret-rotation-v2/aws-iam-user-secret/aws-iam-user-secret-rotation-types";
+} from "@app/services/secret-rotation-v2/aws-iam-user-secret/aws-iam-user-secret-rotation-types";
 import {
   TRotationFactory,
   TRotationFactoryCheckActiveCredentials,
@@ -18,7 +18,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { BadRequestError } from "@app/lib/errors";
 import { getAwsConnectionConfig } from "@app/services/app-connection/aws";
 

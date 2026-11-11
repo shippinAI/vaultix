@@ -2,7 +2,7 @@ import { ProjectType } from "@app/db/schemas";
 import {
   VaultixProjectTemplate,
   TUnpackedPermission
-} from "@app/ee/services/project-template/project-template-types";
+} from "@app/services/project-template/project-template-types";
 import { getPredefinedRoles } from "@app/services/project-role/project-role-fns";
 
 import { ProjectTemplateDefaultEnvironments } from "./project-template-constants";

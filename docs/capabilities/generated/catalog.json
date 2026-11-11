@@ -1413,19 +1413,19 @@
     {
       "family": "Connection extension",
       "name": "chef",
-      "path": "core/backend/src/ee/services/app-connections/chef",
+      "path": "core/backend/src/services/app-connections/chef",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Connection extension",
       "name": "oci",
-      "path": "core/backend/src/ee/services/app-connections/oci",
+      "path": "core/backend/src/services/app-connections/oci",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Connection extension",
       "name": "oracledb",
-      "path": "core/backend/src/ee/services/app-connections/oracledb",
+      "path": "core/backend/src/services/app-connections/oracledb",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
@@ -1917,343 +1917,343 @@
     {
       "family": "Dynamic credentials",
       "name": "aws-elasticache",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-elasticache.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/aws-elasticache.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "aws-iam",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-iam.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/aws-iam.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "aws-memorydb",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/aws-memorydb.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/aws-memorydb.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "azure-entra-id",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/azure-entra-id.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/azure-entra-id.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "azure-sql-database",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/azure-sql-database.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/azure-sql-database.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "cassandra",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/cassandra.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/cassandra.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "clickhouse",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/clickhouse.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/clickhouse.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "couchbase",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/couchbase.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/couchbase.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "elastic-search",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/elastic-search.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/elastic-search.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "gcp-iam",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/gcp-iam.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/gcp-iam.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "github",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/github.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/github.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "ibm-api-connect",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/ibm-api-connect.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/ibm-api-connect.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "kubernetes",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/kubernetes.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/kubernetes.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "ldap",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/ldap.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/ldap.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "milvus",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/milvus.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/milvus.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "mongo-atlas",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/mongo-atlas.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/mongo-atlas.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "mongo-db",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/mongo-db.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/mongo-db.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "rabbit-mq",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/rabbit-mq.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/rabbit-mq.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "redis",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/redis.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/redis.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "sap-ase",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/sap-ase.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/sap-ase.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "sap-hana",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/sap-hana.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/sap-hana.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "snowflake",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/snowflake.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/snowflake.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "sql-database",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/sql-database.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/sql-database.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "ssh",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/ssh.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/ssh.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "tailscale",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/tailscale.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/tailscale.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "totp",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/totp.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/totp.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Dynamic credentials",
       "name": "vertica",
-      "path": "core/backend/src/ee/services/dynamic-secret/providers/vertica.ts",
+      "path": "core/backend/src/services/dynamic-secret/providers/vertica.ts",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "auth0-client-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/auth0-client-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/auth0-client-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "aws-iam-user-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/aws-iam-user-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/aws-iam-user-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "azure-client-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/azure-client-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/azure-client-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "cloudflare-api-token",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/cloudflare-api-token",
+      "path": "core/backend/src/services/secret-rotation-v2/cloudflare-api-token",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "cloudflare-r2-access-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/cloudflare-r2-access-key",
+      "path": "core/backend/src/services/secret-rotation-v2/cloudflare-r2-access-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "convex-access-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/convex-access-key",
+      "path": "core/backend/src/services/secret-rotation-v2/convex-access-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "databricks-service-principal-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/databricks-service-principal-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/databricks-service-principal-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "datadog-api-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/datadog-api-key",
+      "path": "core/backend/src/services/secret-rotation-v2/datadog-api-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "datadog-application-key-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/datadog-application-key-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/datadog-application-key-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "dbt-service-token",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/dbt-service-token",
+      "path": "core/backend/src/services/secret-rotation-v2/dbt-service-token",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "fireworks-api-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/fireworks-api-key",
+      "path": "core/backend/src/services/secret-rotation-v2/fireworks-api-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "hp-ilo-rotation",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/hp-ilo-rotation",
+      "path": "core/backend/src/services/secret-rotation-v2/hp-ilo-rotation",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "ldap-password",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/ldap-password",
+      "path": "core/backend/src/services/secret-rotation-v2/ldap-password",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "litellm-api-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/litellm-api-key",
+      "path": "core/backend/src/services/secret-rotation-v2/litellm-api-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "mongodb-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/mongodb-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/mongodb-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "mssql-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/mssql-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/mssql-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "mysql-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/mysql-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/mysql-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "okta-client-secret",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/okta-client-secret",
+      "path": "core/backend/src/services/secret-rotation-v2/okta-client-secret",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "open-router-api-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/open-router-api-key",
+      "path": "core/backend/src/services/secret-rotation-v2/open-router-api-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "openai-service-account",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/openai-service-account",
+      "path": "core/backend/src/services/secret-rotation-v2/openai-service-account",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "oracledb-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/oracledb-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/oracledb-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "postgres-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/postgres-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/postgres-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "redis-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/redis-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/redis-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "salesforce-oauth-credentials",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/salesforce-oauth-credentials",
+      "path": "core/backend/src/services/secret-rotation-v2/salesforce-oauth-credentials",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "snowflake-user-key-pair",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/snowflake-user-key-pair",
+      "path": "core/backend/src/services/secret-rotation-v2/snowflake-user-key-pair",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "supabase-api-key",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/supabase-api-key",
+      "path": "core/backend/src/services/secret-rotation-v2/supabase-api-key",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "unix-linux-local-account-rotation",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/unix-linux-local-account-rotation",
+      "path": "core/backend/src/services/secret-rotation-v2/unix-linux-local-account-rotation",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Rotation",
       "name": "windows-local-account-rotation",
-      "path": "core/backend/src/ee/services/secret-rotation-v2/windows-local-account-rotation",
+      "path": "core/backend/src/services/secret-rotation-v2/windows-local-account-rotation",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Sync extension",
       "name": "chef",
-      "path": "core/backend/src/ee/services/secret-sync/chef",
+      "path": "core/backend/src/services/secret-sync/chef",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {
       "family": "Sync extension",
       "name": "oci-vault",
-      "path": "core/backend/src/ee/services/secret-sync/oci-vault",
+      "path": "core/backend/src/services/secret-sync/oci-vault",
       "evidence": "Discovered adapter; provider acceptance pending"
     },
     {

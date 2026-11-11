@@ -7,13 +7,13 @@ import {
   TemporaryPermissionMode,
   TMembershipRolesInsert
 } from "@app/db/schemas";
-import { TAccessApprovalPolicyApproverDALFactory } from "@app/ee/services/access-approval-policy/access-approval-policy-approver-dal";
-import { TAccessApprovalPolicyDALFactory } from "@app/ee/services/access-approval-policy/access-approval-policy-dal";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { TSecretApprovalPolicyApproverDALFactory } from "@app/ee/services/secret-approval-policy/secret-approval-policy-approver-dal";
-import { TSecretApprovalPolicyDALFactory } from "@app/ee/services/secret-approval-policy/secret-approval-policy-dal";
+import { TAccessApprovalPolicyApproverDALFactory } from "@app/services/access-approval-policy/access-approval-policy-approver-dal";
+import { TAccessApprovalPolicyDALFactory } from "@app/services/access-approval-policy/access-approval-policy-dal";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TSecretApprovalPolicyApproverDALFactory } from "@app/services/secret-approval-policy/secret-approval-policy-approver-dal";
+import { TSecretApprovalPolicyDALFactory } from "@app/services/secret-approval-policy/secret-approval-policy-dal";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { groupBy } from "@app/lib/fn";
 import { ms } from "@app/lib/ms";

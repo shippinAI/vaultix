@@ -14,8 +14,8 @@ import LdapStrategy from "passport-ldapauth";
 import { z } from "zod";
 
 import { LdapGroupMapsSchema } from "@app/db/schemas";
-import { TLDAPConfig } from "@app/ee/services/ldap-config/ldap-config-types";
-import { isValidLdapFilter, searchGroups } from "@app/ee/services/ldap-config/ldap-fns";
+import { TLDAPConfig } from "@app/services/ldap-config/ldap-config-types";
+import { isValidLdapFilter, searchGroups } from "@app/services/ldap-config/ldap-fns";
 import { ApiDocsTags, LdapSso } from "@app/lib/api-docs";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError } from "@app/lib/errors";

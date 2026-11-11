@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 )
 
 func TestCanDescribeSecrets_RequiresGrantAndPreservesRowChecks(t *testing.T) {

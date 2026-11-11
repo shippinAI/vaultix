@@ -9,10 +9,10 @@ import {
   TLdapConfigsUpdate,
   TUsers
 } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/ee/services/group/group-fns";
-import { TUserGroupMembershipDALFactory } from "@app/ee/services/group/user-group-membership-dal";
-import { throwOnPlanSeatLimitReached } from "@app/ee/services/license/license-fns";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { addUsersToGroupByUserIds, removeUsersFromGroupByUserIds } from "@app/services/group/group-fns";
+import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { throwOnPlanSeatLimitReached } from "@app/services/license/license-fns";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError, ForbiddenRequestError, NotFoundError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";

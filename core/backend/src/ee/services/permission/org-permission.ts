@@ -4,8 +4,8 @@ import { z } from "zod";
 import {
   CASL_ACTION_SCHEMA_ENUM,
   CASL_ACTION_SCHEMA_NATIVE_ENUM
-} from "@app/ee/services/permission/permission-schemas";
-import { PermissionConditionSchema } from "@app/ee/services/permission/permission-types";
+} from "@app/services/permission/permission-schemas";
+import { PermissionConditionSchema } from "@app/services/permission/permission-types";
 import { PermissionConditionOperators } from "@app/lib/casl";
 
 export enum OrgPermissionActions {

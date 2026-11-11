@@ -2,7 +2,7 @@ import { createMongoAbility, ForbiddenError, MongoAbility, RawRuleOf } from "@ca
 import { PackRule, packRules } from "@casl/ability/extra";
 
 import { ActionProjectType, ResourceType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import { ForbiddenRequestError } from "@app/lib/errors";
 import { ActorAuthMethod, ActorType } from "@app/services/auth/auth-type";
 import { TMembershipDALFactory } from "@app/services/membership/membership-dal";

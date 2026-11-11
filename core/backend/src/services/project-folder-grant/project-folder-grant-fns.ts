@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/ee/services/license/license-types";
+import { TFeatureSet } from "@app/services/license/license-types";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";
 

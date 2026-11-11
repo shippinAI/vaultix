@@ -1,5 +1,5 @@
 import { OrgMembershipStatus } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
 import { TOrgDALFactory } from "@app/services/org/org-dal";
 import { TProjectDALFactory } from "@app/services/project/project-dal";
 

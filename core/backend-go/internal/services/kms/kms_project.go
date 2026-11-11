@@ -9,10 +9,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/database/pg/pglock"
-	"github.com/vaultix/api/internal/libs/crypto/cipher"
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/database/pg/pglock"
+	"github.com/vaultix-cloud/api/internal/libs/crypto/cipher"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 type projectKmsInfo struct {

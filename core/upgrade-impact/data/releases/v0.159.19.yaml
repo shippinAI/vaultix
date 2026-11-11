@@ -21,7 +21,7 @@ breakingChanges:
         description: Route existed previously
       - type: pr
         ref: "#6085"
-        url: https://github.com/vaultix/vaultix/pull/6085
+        url: https://github.com/vaultix-cloud/vaultix/pull/6085
         description: Removes page and backend service
 dbSchemaChanges:
   - title: PAM domains migration

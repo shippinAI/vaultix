@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 import { ExternalKmsSchema, KmsKeysSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   KmsProviders,
   SanitizedExternalKmsAwsSchema,
   SanitizedExternalKmsGcpSchema,
   TExternalKmsInputSchema,
   TExternalKmsInputUpdateSchema
-} from "@app/ee/services/external-kms/providers/model";
+} from "@app/services/external-kms/providers/model";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { BadRequestError } from "@app/lib/errors";
 import { deterministicStringify } from "@app/lib/fn/object";

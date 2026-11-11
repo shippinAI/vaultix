@@ -131,7 +131,7 @@ In the following steps, we explore how to create and use identities to access th
 
         - Using `getIDToken()` from the Github Actions toolkit.
 
-        Below is an example of how a Github workflow can be configured to fetch secrets from vaultix using the [vaultix Secrets Action](https://github.com/vaultix/secrets-action) with OIDC Auth.
+        Below is an example of how a Github workflow can be configured to fetch secrets from vaultix using the [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) with OIDC Auth.
         ```yaml
         name: Manual workflow
 
@@ -157,7 +157,7 @@ In the following steps, we explore how to create and use identities to access th
         Preceding steps can then use the secret values injected onto the workflow's environment.
 
         <Tip>
-            We recommend using [vaultix Secrets Action](https://github.com/vaultix/secrets-action) to authenticate with vaultix using OIDC Auth as it handles the authentication process including the fetching of identity tokens for you.
+            We recommend using [vaultix Secrets Action](https://github.com/vaultix-cloud/secrets-action) to authenticate with vaultix using OIDC Auth as it handles the authentication process including the fetching of identity tokens for you.
         </Tip>
 
         <Note>

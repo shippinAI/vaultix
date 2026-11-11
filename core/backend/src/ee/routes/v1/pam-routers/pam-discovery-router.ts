@@ -1,18 +1,18 @@
 import { z } from "zod";
 
 import { PamDiscoverySourceRunsSchema, PamDiscoverySourcesSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { PamAccountType } from "@app/ee/services/pam/pam-enums";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { PamAccountType } from "@app/services/pam/pam-enums";
 import {
   PamDiscoveryImportStatus,
   PamDiscoveryRunStatus,
   PamDiscoverySchedule
-} from "@app/ee/services/pam-discovery/pam-discovery-enums";
+} from "@app/services/pam-discovery/pam-discovery-enums";
 import {
   buildPamDiscoveryTypeMetadata,
   DISCOVERY_TYPE_CONFIGS,
   PamDiscoveryTypeMetadataSchema
-} from "@app/ee/services/pam-discovery/pam-discovery-schemas";
+} from "@app/services/pam-discovery/pam-discovery-schemas";
 import { ApiDocsTags } from "@app/lib/api-docs/constants";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

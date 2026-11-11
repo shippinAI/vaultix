@@ -50,7 +50,7 @@ export default defineConfig({
     fileParallelism: false,
 
     alias: {
-      "./license-fns": path.resolve(__dirname, "./src/ee/services/license/__mocks__/license-fns")
+      "./license-fns": path.resolve(__dirname, "./src/services/license/__mocks__/license-fns")
     }
   },
   resolve: {

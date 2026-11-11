@@ -10,7 +10,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/config"
+	"github.com/vaultix-cloud/api/internal/config"
 )
 
 func testIdentityPolicy(t *testing.T) config.IdentityTokenPolicy {

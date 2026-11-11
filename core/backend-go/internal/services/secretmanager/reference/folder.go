@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
 )
 
 func (s *Service) findFolder(ctx context.Context, query Query, segments []string) (uuid.UUID, error) {

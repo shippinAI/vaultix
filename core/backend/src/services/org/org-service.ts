@@ -12,22 +12,22 @@ import {
   TOidcConfigs,
   TSamlConfigs
 } from "@app/db/schemas";
-import { TGroupDALFactory } from "@app/ee/services/group/group-dal";
-import { TUserGroupMembershipDALFactory } from "@app/ee/services/group/user-group-membership-dal";
-import { TLdapConfigDALFactory } from "@app/ee/services/ldap-config/ldap-config-dal";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TOidcConfigDALFactory } from "@app/ee/services/oidc/oidc-config-dal";
-import { bootstrapPamProject } from "@app/ee/services/pam-project/pam-project-bootstrap";
+import { TGroupDALFactory } from "@app/services/group/group-dal";
+import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
+import { TLdapConfigDALFactory } from "@app/services/ldap-config/ldap-config-dal";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TOidcConfigDALFactory } from "@app/services/oidc/oidc-config-dal";
+import { bootstrapPamProject } from "@app/services/pam-project/pam-project-bootstrap";
 import {
   OrgPermissionActions,
   OrgPermissionGroupActions,
   OrgPermissionSecretShareAction,
   OrgPermissionSsoActions,
   OrgPermissionSubjects
-} from "@app/ee/services/permission/org-permission";
-import { assertPermissionBoundary } from "@app/ee/services/permission/permission-fns";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { TSamlConfigDALFactory } from "@app/ee/services/saml-config/saml-config-dal";
+} from "@app/services/permission/org-permission";
+import { assertPermissionBoundary } from "@app/services/permission/permission-fns";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { TSamlConfigDALFactory } from "@app/services/saml-config/saml-config-dal";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { generateUserSrpKeys } from "@app/lib/crypto/srp";

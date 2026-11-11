@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/ee/services/externalkms"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/services/externalkms"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // Secret keys in vaultix /platform folder.

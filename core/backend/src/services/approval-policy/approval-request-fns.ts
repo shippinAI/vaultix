@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 
 import { TApprovalRequests } from "@app/db/schemas";
-import { TUserGroupMembershipDALFactory } from "@app/ee/services/group/user-group-membership-dal";
+import { TUserGroupMembershipDALFactory } from "@app/services/group/user-group-membership-dal";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";
 import { TNotificationServiceFactory } from "@app/services/notification/notification-service";

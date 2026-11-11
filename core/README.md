@@ -16,10 +16,10 @@
 </h4>
 
 <h4 align="center">
-  <a href="https://github.com/vaultix/vaultix/blob/main/LICENSE">
+  <a href="https://github.com/vaultix-cloud/vaultix/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="vaultix is released under the MIT license." />
   </a>
-  <a href="https://github.com/vaultix/vaultix/releases">
+  <a href="https://github.com/vaultix-cloud/vaultix/releases">
     <img src="https://img.shields.io/github/v/release/vaultix/vaultix?label=Release&color=brightgreen" alt="Latest vaultix release" />
   </a>
   <a href="https://cloudsmith.io/~vaultix/repos/">
@@ -53,7 +53,7 @@ Centralize your application secrets and configuration across every environment, 
 - **[vaultix Kubernetes Operator](https://vaultix.com/docs/documentation/guides/kubernetes-operator)**: Deliver secrets to your Kubernetes workloads and automatically reload deployments.
 - **[vaultix Agent](https://vaultix.com/docs/integrations/platforms/vaultix-agent)**: Inject secrets into applications without modifying any code logic.
 - **[Honey Tokens](https://vaultix.com/docs/documentation/platform/honey-tokens/overview)**: Plant decoy credentials alongside your real secrets that act as tripwires, instantly alerting your team the moment an attacker tries to use them.
-- **[Agent Vault](https://github.com/vaultix/agent-vault)**: Broker AI agent access to external APIs so agents never hold real credentials. Outbound requests route through a proxy that injects secrets before forwarding, eliminating credential exfiltration risk from prompt injection.
+- **[Agent Vault](https://github.com/vaultix-cloud/agent-vault)**: Broker AI agent access to external APIs so agents never hold real credentials. Outbound requests route through a proxy that injects secrets before forwarding, eliminating credential exfiltration risk from prompt injection.
 
 ### Certificate Management
 
@@ -93,7 +93,7 @@ Capabilities that span every vaultix product.
 - **[Audit logs](https://vaultix.com/docs/documentation/platform/audit-logs)**: Track every action taken on the platform, with optional [audit log streaming](https://vaultix.com/docs/documentation/platform/audit-log-streams/audit-log-streams) to external logging providers.
 - **[Gateway](https://vaultix.com/docs/documentation/platform/gateways/overview)**: Securely reach private network resources from vaultix without opening inbound connections to your environment.
 - **[Self-hosting](https://vaultix.com/docs/self-hosting/overview)**: Deploy vaultix on-prem or cloud with ease; keep data on your own infrastructure.
-- **[vaultix SDK](https://vaultix.com/docs/sdks/overview)**: Interact with vaultix via client SDKs ([Node](https://vaultix.com/docs/sdks/languages/node), [Python](https://github.com/vaultix/python-sdk-official?tab=readme-ov-file#vaultix-python-sdk), [Go](https://vaultix.com/docs/sdks/languages/go), [Ruby](https://vaultix.com/docs/sdks/languages/ruby), [Java](https://vaultix.com/docs/sdks/languages/java), [.NET](https://vaultix.com/docs/sdks/languages/dotnet))
+- **[vaultix SDK](https://vaultix.com/docs/sdks/overview)**: Interact with vaultix via client SDKs ([Node](https://vaultix.com/docs/sdks/languages/node), [Python](https://github.com/vaultix-cloud/python-sdk-official?tab=readme-ov-file#vaultix-python-sdk), [Go](https://vaultix.com/docs/sdks/languages/go), [Ruby](https://vaultix.com/docs/sdks/languages/ruby), [Java](https://vaultix.com/docs/sdks/languages/java), [.NET](https://vaultix.com/docs/sdks/languages/dotnet))
 - **[vaultix CLI](https://vaultix.com/docs/cli/overview)**: Interact with vaultix via CLI; useful for injecting secrets into local development and CI/CD pipelines.
 - **[vaultix API](https://vaultix.com/docs/api-reference/overview/introduction)**: Interact with vaultix via API.
 
@@ -112,13 +112,13 @@ To set up and run vaultix locally, make sure you have [Git](https://git-scm.com/
 **Linux/macOS:**
 
 ```console
-git clone https://github.com/vaultix/vaultix && cd "$(basename $_ .git)" && cp .env.example .env && docker compose -f docker-compose.prod.yml up
+git clone https://github.com/vaultix-cloud/vaultix && cd "$(basename $_ .git)" && cp .env.example .env && docker compose -f docker-compose.prod.yml up
 ```
 
 **Windows (Command Prompt):**
 
 ```console
-git clone https://github.com/vaultix/vaultix && cd vaultix && copy .env.example .env && docker compose -f docker-compose.prod.yml up
+git clone https://github.com/vaultix-cloud/vaultix && cd vaultix && copy .env.example .env && docker compose -f docker-compose.prod.yml up
 ```
 
 Once running, create an account at [http://localhost:80](http://localhost:80).
@@ -145,7 +145,7 @@ Learn about vaultix's code scanning feature [here](https://vaultix.com/docs/cli/
 
 ## Open-source vs. paid
 
-This repo available under the [MIT expat license](https://github.com/vaultix/vaultix/blob/main/LICENSE), with the exception of the `ee` directory which will contain premium enterprise features requiring a vaultix license.
+This repo available under the [MIT expat license](https://github.com/vaultix-cloud/vaultix/blob/main/LICENSE), with the exception of the `ee` directory which will contain premium enterprise features requiring a vaultix license.
 
 If you are interested in managed vaultix Cloud of self-hosted Enterprise Offering, take a look at [our website](https://vaultix.com/) or [book a meeting with us](https://vaultix.cal.com/vlad/vaultix-demo).
 

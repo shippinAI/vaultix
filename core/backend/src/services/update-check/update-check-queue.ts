@@ -1,5 +1,5 @@
-import { getLicenseKeyConfig } from "@app/ee/services/license/license-fns";
-import { LicenseType } from "@app/ee/services/license/license-types";
+import { getLicenseKeyConfig } from "@app/services/license/license-fns";
+import { LicenseType } from "@app/services/license/license-types";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";

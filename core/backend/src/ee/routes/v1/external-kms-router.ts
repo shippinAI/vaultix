@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 import { ExternalKmsSchema, KmsKeysSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   ExternalKmsGcpSchema,
   ExternalKmsInputSchema,
   ExternalKmsInputUpdateSchema,
   SanitizedExternalKmsAwsSchema
-} from "@app/ee/services/external-kms/providers/model";
+} from "@app/services/external-kms/providers/model";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";
 import { AuthMode } from "@app/services/auth/auth-type";

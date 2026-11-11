@@ -3,7 +3,7 @@ title: "Sigstore Cosign Integration"
 description: "Sign and verify container images and artifacts using vaultix KMS with Sigstore Cosign."
 ---
 
-vaultix KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosign) through the [sigstore-kms-vaultix](https://github.com/vaultix/sigstore-kms-vaultix) plugin, enabling you to sign and verify container images and artifacts using keys managed in vaultix.
+vaultix KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosign) through the [sigstore-kms-vaultix](https://github.com/vaultix-cloud/sigstore-kms-vaultix) plugin, enabling you to sign and verify container images and artifacts using keys managed in vaultix.
 
 ### KMS Plugin Capabilities
 
@@ -23,7 +23,7 @@ vaultix KMS integrates with [Sigstore Cosign](https://github.com/sigstore/cosign
     For the Sigstore library to invoke the plugin, the binary must be in your system's `PATH`.
 
     ```bash
-    git clone https://github.com/vaultix/sigstore-kms-vaultix.git
+    git clone https://github.com/vaultix-cloud/sigstore-kms-vaultix.git
     cd sigstore-kms-vaultix
     go build -o sigstore-kms-vaultix
     cp sigstore-kms-vaultix /usr/local/bin

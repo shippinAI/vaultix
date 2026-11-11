@@ -14,7 +14,7 @@ import { AuthenticateOptions } from "@node-saml/passport-saml/lib/types";
 import { FastifyRequest } from "fastify";
 import { z } from "zod";
 
-import { SamlProviders, TGetSamlCfgDTO } from "@app/ee/services/saml-config/saml-config-types";
+import { SamlProviders, TGetSamlCfgDTO } from "@app/services/saml-config/saml-config-types";
 import { ApiDocsTags, SamlSso } from "@app/lib/api-docs";
 import { getConfig } from "@app/lib/config/env";
 import { BadRequestError } from "@app/lib/errors";

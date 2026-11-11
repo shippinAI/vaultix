@@ -6,7 +6,7 @@ import {
   KmsGcpKeyFetchAuthType,
   KmsProviders,
   TExternalKmsGcpCredentialSchema
-} from "@app/ee/services/external-kms/providers/model";
+} from "@app/services/external-kms/providers/model";
 import { NotFoundError } from "@app/lib/errors";
 import { writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

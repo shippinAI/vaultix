@@ -11,11 +11,11 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	permsecret "github.com/vaultix/api/internal/services/permission/secretmanager"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	permsecret "github.com/vaultix-cloud/api/internal/services/permission/secretmanager"
 )
 
 // PublicOwner is the owner when VAULTIX_REFERENCE_DISPATCH is unset.

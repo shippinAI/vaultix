@@ -1,9 +1,9 @@
 import z from "zod";
 
 import { GatewaysV2Schema } from "@app/db/schemas";
-import { EventType, UserAgentType } from "@app/ee/services/audit-log/audit-log-types";
-import { validateAccountIds, validatePrincipalArns } from "@app/ee/services/resource-auth-method/aws-auth-validators";
-import { ResourceAuthMethodType } from "@app/ee/services/resource-auth-method/resource-auth-method-fns";
+import { EventType, UserAgentType } from "@app/services/audit-log/audit-log-types";
+import { validateAccountIds, validatePrincipalArns } from "@app/services/resource-auth-method/aws-auth-validators";
+import { ResourceAuthMethodType } from "@app/services/resource-auth-method/resource-auth-method-fns";
 import { ApiDocsTags, GATEWAYS } from "@app/lib/api-docs";
 import { UnauthorizedError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

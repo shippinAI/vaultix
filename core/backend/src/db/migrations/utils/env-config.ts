@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { THsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
+import { THsmServiceFactory } from "@app/services/hsm/hsm-service";
 import { crypto } from "@app/lib/crypto/cryptography";
 import { removeTrailingSlash } from "@app/lib/fn";
 import { zpStr } from "@app/lib/zod";

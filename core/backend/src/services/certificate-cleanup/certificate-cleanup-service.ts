@@ -1,5 +1,5 @@
 import { ActionProjectType, ProjectMembershipRole } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import { ForbiddenRequestError } from "@app/lib/errors";
 
 import { TCertificateCleanupConfigDALFactory } from "./certificate-cleanup-dal";

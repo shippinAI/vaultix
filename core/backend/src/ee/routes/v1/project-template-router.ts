@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import { ProjectMembershipRole, ProjectTemplatesSchema, ProjectType } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { ProjectPermissionV2Schema } from "@app/ee/services/permission/project-permission";
-import { isVaultixProjectTemplate } from "@app/ee/services/project-template/project-template-fns";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { ProjectPermissionV2Schema } from "@app/services/permission/project-permission";
+import { isVaultixProjectTemplate } from "@app/services/project-template/project-template-fns";
 import { ApiDocsTags, ProjectTemplates } from "@app/lib/api-docs";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

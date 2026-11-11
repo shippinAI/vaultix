@@ -1,9 +1,9 @@
 import z from "zod";
 
 import { PamAccountTemplatesSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { PamAccountType } from "@app/ee/services/pam/pam-enums";
-import { PamTemplateSettingsInputSchema } from "@app/ee/services/pam-account-template/pam-account-template-schemas";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { PamAccountType } from "@app/services/pam/pam-enums";
+import { PamTemplateSettingsInputSchema } from "@app/services/pam-account-template/pam-account-template-schemas";
 import { ApiDocsTags } from "@app/lib/api-docs/constants";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";

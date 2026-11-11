@@ -30,9 +30,9 @@ import path from "node:path";
 import knexLib from "knex";
 import promptSync from "prompt-sync";
 
-import { initializeHsmModule } from "@app/ee/services/hsm/hsm-fns";
-import { hsmServiceFactory } from "@app/ee/services/hsm/hsm-service";
-import { SamlProviders } from "@app/ee/services/saml-config/saml-config-types";
+import { initializeHsmModule } from "@app/services/hsm/hsm-fns";
+import { hsmServiceFactory } from "@app/services/hsm/hsm-service";
+import { SamlProviders } from "@app/services/saml-config/saml-config-types";
 import { inMemoryKeyStore } from "@app/keystore/memory";
 import { getConfig, getHsmConfig, initEnvConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto/cryptography";
@@ -60,7 +60,7 @@ const IDP_CERT_PATH = path.resolve(__dirname, "../../e2e/fixtures/idp-cert.pem")
 
 // Email domain the SCIM-provisioned test users live under. SCIM POST rejects
 // any email whose domain isn't a `verified` row in `email_domains` for the
-// org (backend/src/ee/services/email-domain/email-domain-fns.ts:29). Using a
+// org (backend/src/services/email-domain/email-domain-fns.ts:29). Using a
 // `.test` TLD (RFC 2606) avoids any collision with a real verified domain
 // that might already exist for vaultix's primary org.
 const E2E_EMAIL_DOMAIN = "vaultix-e2e.test";

@@ -131,4 +131,4 @@ formatters:
   settings:
     goimports:
       local-prefixes:
-        - github.com/vaultix/api
+        - github.com/vaultix-cloud/api

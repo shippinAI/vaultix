@@ -1,18 +1,18 @@
 import { ForbiddenError } from "@casl/ability";
 
 import { ResourceType } from "@app/db/schemas";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   ResourcePermissionApplicationActions,
   ResourcePermissionApplicationEnrollmentActions,
   ResourcePermissionSub
-} from "@app/ee/services/permission/resource-permission";
-import { ScepChallengeType } from "@app/ee/services/pki-scep/challenge";
+} from "@app/services/permission/resource-permission";
+import { ScepChallengeType } from "@app/services/pki-scep/challenge";
 import {
   generateAndEncryptScepRaCertificate,
   resolveCaType,
   resolveScepRaSigning
-} from "@app/ee/services/pki-scep/pki-scep-fns";
+} from "@app/services/pki-scep/pki-scep-fns";
 import { getConfig } from "@app/lib/config/env";
 import { crypto } from "@app/lib/crypto";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";

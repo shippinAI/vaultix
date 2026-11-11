@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 import { HoneyTokensSchema } from "@app/db/schemas";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { HoneyTokenType } from "@app/ee/services/honey-token/honey-token-enums";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { HoneyTokenType } from "@app/services/honey-token/honey-token-enums";
 import {
   HONEY_TOKEN_CREDENTIALS_RESPONSE_SCHEMA_MAP,
   HONEY_TOKEN_REGISTER_ROUTER_MAP
-} from "@app/ee/services/honey-token/honey-token-provider-fns";
+} from "@app/services/honey-token/honey-token-provider-fns";
 import { readLimit, writeLimit } from "@app/server/config/rateLimiter";
 import { slugSchema } from "@app/server/lib/schemas";
 import { getTelemetryDistinctId } from "@app/server/lib/telemetry";

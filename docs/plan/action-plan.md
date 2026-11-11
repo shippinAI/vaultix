@@ -76,7 +76,7 @@ Goal: an assistant can use the core connector with a credential that lists secre
 
 | Path | Change |
 | --- | --- |
-| `core/backend/src/ee/services/permission/` | Test a custom role that grants `secrets:describeSecret` and does not grant `secrets:readValue`. Do not edit the Viewer rule set |
+| `core/backend/src/services/permission/` | Test a custom role that grants `secrets:describeSecret` and does not grant `secrets:readValue`. Do not edit the Viewer rule set |
 | `core/backend/src/server/routes/v3/deprecated-secret-router.ts` and the raw service it calls | Assert that role is denied. Response body has no `secretValue` |
 | `core/backend/src/services/vaultix/reference-service.ts` | Same role can list references. Payload fields stay id, name, version, createdAt, updatedAt |
 | `core/backend/src/server/routes/vaultix-router.ts` | No new tools. Session behavior either documented or narrowed to match the contract |
@@ -187,7 +187,7 @@ Receipt: `internal/cli/login_mode_test.go` locks terminal SSO and non-interactiv
 
 ### authorization
 
-Authoritative files: `core/backend/src/ee/services/permission/default-roles.ts`, `permission-service.ts`, Go `internal/services/permission`.
+Authoritative files: `core/backend/src/services/permission/default-roles.ts`, `permission-service.ts`, Go `internal/services/permission`.
 
 Decisions: assistant least privilege is a custom role, not a Viewer edit, until Jesse says otherwise. Cross-tenant denial is an image test, not a unit-test claim.
 
@@ -287,7 +287,7 @@ Receipt: none from this audit beyond code presence. Capability evidence is `Not 
 
 ### integrations
 
-Authoritative files: `core/backend/src/services/app-connection/`, `core/backend/src/ee/routes/v1/app-connection-routers/`.
+Authoritative files: `core/backend/src/services/app-connection/`, `core/backend/src/routes/v1/app-connection-routers/`.
 
 Decisions: each provider is its own acceptance. The xAI template is a stored API key, not the Grok connector.
 
@@ -301,7 +301,7 @@ Receipt: many routers exist. No provider outage test was run.
 
 ### audit
 
-Authoritative files: `core/backend/src/ee/services/audit-log/`, Go audit producer tests if a slice moves.
+Authoritative files: `core/backend/src/services/audit-log/`, Go audit producer tests if a slice moves.
 
 Decisions: audit rows store actor and action, not secret values. High-cardinality tenant ids stay out of metric labels.
 
@@ -315,7 +315,7 @@ Receipt: live status said `auditLogStorageDisabled` false. That flag is not an e
 
 ### kms
 
-Authoritative files: `core/backend/src/services/kms/`, `core/backend/src/ee/services` HSM and external KMS modules.
+Authoritative files: `core/backend/src/services/kms/`, `core/backend/src/services` HSM and external KMS modules.
 
 Decisions: losing `ENCRYPTION_KEY` makes the database unreadable. Key custody is operator work. HSM connectors are not accepted.
 
@@ -329,7 +329,7 @@ Receipt: capability `K03` is existing and not accepted end to end.
 
 ### pki
 
-Authoritative files: `core/backend/src/ee` certificate and PKI services, `core/frontend/src/pages/cert-manager/`.
+Authoritative files: `core/backend/src` certificate and PKI services, `core/frontend/src/pages/cert-manager/`.
 
 Decisions: card and dashboard tests in old docs are not issuance proofs.
 
@@ -343,13 +343,13 @@ Receipt: none beyond code presence.
 
 ### pam
 
-Authoritative files: `core/backend/src/ee/services/pam/`, `core/wasm/` for the remote-desktop decoder.
+Authoritative files: `core/backend/src/services/pam/`, `core/wasm/` for the remote-desktop decoder.
 
 Decisions: PAM sessions are not MCP tools. Recordings must not flow into the assistant.
 
 Dependencies: approvals and audit.
 
-Constraints: read `core/backend/src/ee/services/pam/CLAUDE.md` before an edit. This plan does not expand it.
+Constraints: read `core/backend/src/services/pam/CLAUDE.md` before an edit. This plan does not expand it.
 
 Next task: `pam.sessions`.
 

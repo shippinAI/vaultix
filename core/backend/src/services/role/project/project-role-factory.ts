@@ -8,13 +8,13 @@ import {
   projectMemberPermissions,
   projectNoAccessPermissions,
   projectViewerPermission
-} from "@app/ee/services/permission/default-roles";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
+} from "@app/services/permission/default-roles";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
 import {
   isCustomProjectRole,
   ProjectPermissionActions,
   ProjectPermissionSub
-} from "@app/ee/services/permission/project-permission";
+} from "@app/services/permission/project-permission";
 import { BadRequestError } from "@app/lib/errors";
 import { requestMemoKeys } from "@app/lib/request-context/memo-keys";
 import { requestMemoize } from "@app/lib/request-context/request-memoizer";

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
 import { getConfig, TEnvConfig } from "@app/lib/config/env";
 import { request } from "@app/lib/config/request";
 import { BadRequestError } from "@app/lib/errors";

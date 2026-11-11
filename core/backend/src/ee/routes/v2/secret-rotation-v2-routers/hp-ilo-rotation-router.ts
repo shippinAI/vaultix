@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
+import { EventType } from "@app/services/audit-log/audit-log-types";
 import {
   CreateHpIloRotationSchema,
   HpIloRotationGeneratedCredentialsSchema,
   HpIloRotationSchema,
   THpIloRotation,
   UpdateHpIloRotationSchema
-} from "@app/ee/services/secret-rotation-v2/hp-ilo-rotation";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/hp-ilo-rotation";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import { ApiDocsTags, SecretRotations } from "@app/lib/api-docs";
 import { writeLimit } from "@app/server/config/rateLimiter";
 import { verifyAuth } from "@app/server/plugins/auth/verify-auth";

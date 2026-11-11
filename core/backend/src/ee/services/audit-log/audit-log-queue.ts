@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { v7 as uuidv7, validate as isUuid } from "uuid";
 
 import type { TAuditLogs } from "@app/db/schemas";
-import { TAuditLogStreamOutboxServiceFactory } from "@app/ee/services/audit-log-stream-outbox/audit-log-stream-outbox-service";
+import { TAuditLogStreamOutboxServiceFactory } from "@app/services/audit-log-stream-outbox/audit-log-stream-outbox-service";
 import { KeyStorePrefixes, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { logger } from "@app/lib/logger";

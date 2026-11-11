@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/vaultix/api/internal/ee/services/ratelimit"
-	"github.com/vaultix/api/internal/server/api/platform/projects"
-	"github.com/vaultix/api/internal/server/api/platform/usersessions"
-	"github.com/vaultix/api/internal/server/api/shared"
-	"github.com/vaultix/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/server/api/platform/projects"
+	"github.com/vaultix-cloud/api/internal/server/api/platform/usersessions"
+	"github.com/vaultix-cloud/api/internal/server/api/shared"
+	"github.com/vaultix-cloud/api/internal/services/auth/apiauth"
+	"github.com/vaultix-cloud/api/internal/services/ratelimit"
 )
 
 // RegisterPlatformRoutes initializes platform handlers and registers their routes.

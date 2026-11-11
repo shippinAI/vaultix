@@ -1,4 +1,4 @@
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";
 
 import { THpIloRotationListItem } from "./hp-ilo-rotation-types";

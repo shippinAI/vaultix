@@ -1,16 +1,16 @@
 import { z } from "zod";
 
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   BaseCreateSecretRotationSchema,
   BaseSecretRotationSchema,
   BaseUpdateSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-schemas";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-schemas";
 import {
   CloudflareTokenIpRestrictionSchema,
   CloudflareTokenNameSchema,
   CloudflareTokenPolicyEffect
-} from "@app/ee/services/secret-rotation-v2/shared/cloudflare-token";
+} from "@app/services/secret-rotation-v2/shared/cloudflare-token";
 import { SecretRotations } from "@app/lib/api-docs";
 import { SecretNameSchema } from "@app/server/lib/schemas";
 import { AppConnection } from "@app/services/app-connection/app-connection-enums";

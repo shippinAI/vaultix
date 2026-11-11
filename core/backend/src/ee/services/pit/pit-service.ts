@@ -2,8 +2,8 @@
 import { ForbiddenError, subject } from "@casl/ability";
 
 import { ActionProjectType } from "@app/db/schemas";
-import { Event, EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { ProjectPermissionCommitsActions, ProjectPermissionSub } from "@app/ee/services/permission/project-permission";
+import { Event, EventType } from "@app/services/audit-log/audit-log-types";
+import { ProjectPermissionCommitsActions, ProjectPermissionSub } from "@app/services/permission/project-permission";
 import { AUDIT_LOG_SENSITIVE_VALUE } from "@app/lib/config/const";
 import { BadRequestError, NotFoundError } from "@app/lib/errors";
 import { logger } from "@app/lib/logger";

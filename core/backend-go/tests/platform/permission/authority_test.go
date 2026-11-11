@@ -13,10 +13,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/require"
 
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission"
-	"github.com/vaultix/api/internal/services/permission/secretmanager"
-	"github.com/vaultix/api/tests/infra"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission"
+	"github.com/vaultix-cloud/api/internal/services/permission/secretmanager"
+	"github.com/vaultix-cloud/api/tests/infra"
 )
 
 // Two isolated schema copies model committed primary state and a frozen replica.

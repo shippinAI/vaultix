@@ -1,7 +1,7 @@
 import { createSecretV2, getSecretsV2 } from "e2e-test/testUtils/secrets";
 
 import { seedData1 } from "@app/db/seed-data";
-import { ApproverType } from "@app/ee/services/access-approval-policy/access-approval-policy-types";
+import { ApproverType } from "@app/services/access-approval-policy/access-approval-policy-types";
 
 const createFolder = async (dto: { path: string; name: string }) => {
   const res = await testServer.inject({

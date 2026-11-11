@@ -2,7 +2,7 @@ import { Knex } from "knex";
 
 import { TableName } from "@app/db/schemas";
 import { createOnUpdateTrigger, dropOnUpdateTrigger } from "@app/db/utils";
-import { AuditReportStatus } from "@app/ee/services/audit-report/audit-report-types";
+import { AuditReportStatus } from "@app/services/audit-report/audit-report-types";
 
 export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable(TableName.AuditReport))) {

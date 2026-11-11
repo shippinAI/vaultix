@@ -77,7 +77,7 @@ Resources:
           sh get-docker.sh
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-          git clone https://github.com/vaultix/vaultix.git
+          git clone https://github.com/vaultix-cloud/vaultix.git
           cd vaultix
 
           DOCUMENT_DB_CONNECTION_URL="mongodb://${DocumentDBUsername}:${DocumentDBPassword}@${DocumentDBCluster.Endpoint}:${DocumentDBCluster.Port}/vaultix?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"

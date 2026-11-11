@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 import {
   BaseCreateSecretRotationSchema,
   BaseSecretRotationSchema,
   BaseUpdateSecretRotationSchema
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-schemas";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-schemas";
 import { SecretRotations } from "@app/lib/api-docs";
 import { SecretNameSchema } from "@app/server/lib/schemas";
 import { AppConnection, AWSRegion } from "@app/services/app-connection/app-connection-enums";

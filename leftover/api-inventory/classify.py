@@ -14,8 +14,8 @@ of a captured OpenAPI spec as MIT-core or ee. Handles:
 
 Inputs:
   1. upstream checkout of the pinned tag (sparse ok; needs
-     backend/src/server/routes, backend/src/ee/routes, **/*enums.ts,
-     backend/src/ee/services/external-kms/providers)
+     backend/src/server/routes, backend/src/routes, **/*enums.ts,
+     backend/src/services/external-kms/providers)
   2. OpenAPI spec captured from a running core (capture-openapi.sh)
 
 Output TSV: method, path, tree (core|ee|unresolved), basis, tags, operationId

@@ -1,4 +1,4 @@
-import { TFeatureSet } from "@app/ee/services/license/license-types";
+import { TFeatureSet } from "@app/services/license/license-types";
 
 import { TFeatureValue } from "../feature";
 

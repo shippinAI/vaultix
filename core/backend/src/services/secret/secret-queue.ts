@@ -12,11 +12,11 @@ import {
   SecretType,
   TSecretVersionsV2
 } from "@app/db/schemas";
-import { Actor, EventType, TAuditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-types";
-import { TLicenseServiceFactory } from "@app/ee/services/license/license-service";
-import { TProjectEventsService } from "@app/ee/services/project-events/project-events-service";
-import { ProjectEvents, TProjectEventPayload } from "@app/ee/services/project-events/project-events-types";
-import { TSecretApprovalRequestDALFactory } from "@app/ee/services/secret-approval-request/secret-approval-request-dal";
+import { Actor, EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
+import { TLicenseServiceFactory } from "@app/services/license/license-service";
+import { TProjectEventsService } from "@app/services/project-events/project-events-service";
+import { ProjectEvents, TProjectEventPayload } from "@app/services/project-events/project-events-types";
+import { TSecretApprovalRequestDALFactory } from "@app/services/secret-approval-request/secret-approval-request-dal";
 import { KeyStorePrefixes, KeyStoreTtls, TKeyStoreFactory } from "@app/keystore/keystore";
 import { getConfig } from "@app/lib/config/env";
 import { crypto, SymmetricKeySize } from "@app/lib/crypto/cryptography";

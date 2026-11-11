@@ -1,7 +1,7 @@
 import type WebSocket from "ws";
 import { z } from "zod";
 
-import { AuditLogInfo } from "@app/ee/services/audit-log/audit-log-types";
+import { AuditLogInfo } from "@app/services/audit-log/audit-log-types";
 import { ProjectServiceActor } from "@app/lib/types";
 
 export enum SessionEndReason {

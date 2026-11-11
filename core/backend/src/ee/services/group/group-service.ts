@@ -10,7 +10,7 @@ import {
   TGroups,
   TRoles
 } from "@app/db/schemas";
-import { TOidcConfigDALFactory } from "@app/ee/services/oidc/oidc-config-dal";
+import { TOidcConfigDALFactory } from "@app/services/oidc/oidc-config-dal";
 import { DatabaseErrorCode } from "@app/lib/error-codes";
 import {
   BadRequestError,

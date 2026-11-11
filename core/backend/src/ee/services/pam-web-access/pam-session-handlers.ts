@@ -1,4 +1,4 @@
-import { PamAccountType } from "@app/ee/services/pam/pam-enums";
+import { PamAccountType } from "@app/services/pam/pam-enums";
 
 import { handleMysqlSession } from "./mysql/pam-mysql-session-handler";
 import { TSessionContext, TSessionHandlerResult } from "./pam-web-access-types";

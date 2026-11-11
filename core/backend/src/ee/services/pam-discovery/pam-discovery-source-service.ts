@@ -1,11 +1,11 @@
 import pLimit from "p-limit";
 
-import { EventType, TAuditLogServiceFactory } from "@app/ee/services/audit-log/audit-log-types";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2DALFactory } from "@app/ee/services/gateway-v2/gateway-v2-dal";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TPermissionServiceFactory } from "@app/ee/services/permission/permission-service-types";
-import { ResourcePermissionPamResourceActions } from "@app/ee/services/permission/resource-permission";
+import { EventType, TAuditLogServiceFactory } from "@app/services/audit-log/audit-log-types";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2DALFactory } from "@app/services/gateway-v2/gateway-v2-dal";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TPermissionServiceFactory } from "@app/services/permission/permission-service-types";
+import { ResourcePermissionPamResourceActions } from "@app/services/permission/resource-permission";
 import { getConfig } from "@app/lib/config/env";
 import { CronJobName, TCronJobFactory } from "@app/lib/cron/cron-job";
 import { DatabaseErrorCode } from "@app/lib/error-codes";

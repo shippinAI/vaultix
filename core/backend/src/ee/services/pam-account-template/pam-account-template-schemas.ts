@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { PasswordRequirementsSchema } from "@app/ee/services/secret-rotation-v2/shared/general/password-requirements-schema";
+import { PasswordRequirementsSchema } from "@app/services/secret-rotation-v2/shared/general/password-requirements-schema";
 import { AWSRegion } from "@app/services/app-connection/app-connection-enums";
 
 import { patternsStringSchema } from "../pam/pam-policies";

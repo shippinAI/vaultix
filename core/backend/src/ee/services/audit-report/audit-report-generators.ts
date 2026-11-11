@@ -1,10 +1,10 @@
 import picomatch from "picomatch";
 import { z } from "zod";
 
-import { TClickHouseAuditLogDALFactory } from "@app/ee/services/audit-log/audit-log-clickhouse-dal";
-import { TAuditLogDALFactory } from "@app/ee/services/audit-log/audit-log-dal";
-import { EventType } from "@app/ee/services/audit-log/audit-log-types";
-import { TSecretRotationV2DALFactory } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-dal";
+import { TClickHouseAuditLogDALFactory } from "@app/services/audit-log/audit-log-clickhouse-dal";
+import { TAuditLogDALFactory } from "@app/services/audit-log/audit-log-dal";
+import { EventType } from "@app/services/audit-log/audit-log-types";
+import { TSecretRotationV2DALFactory } from "@app/services/secret-rotation-v2/secret-rotation-v2-dal";
 import { getConfig } from "@app/lib/config/env";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
 import { KmsDataKey } from "@app/services/kms/kms-types";

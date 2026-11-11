@@ -11,15 +11,15 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 
-	"github.com/vaultix/api/internal/vaultixpolicy"
+	"github.com/vaultix-cloud/api/internal/vaultixpolicy"
 
-	"github.com/vaultix/api/internal/database/pg"
-	"github.com/vaultix/api/internal/database/pg/qb"
-	"github.com/vaultix/api/internal/database/pg/sqln"
-	"github.com/vaultix/api/internal/libs/errutil"
-	"github.com/vaultix/api/internal/libs/fn"
-	"github.com/vaultix/api/internal/services/auth"
-	"github.com/vaultix/api/internal/services/permission/project"
+	"github.com/vaultix-cloud/api/internal/database/pg"
+	"github.com/vaultix-cloud/api/internal/database/pg/qb"
+	"github.com/vaultix-cloud/api/internal/database/pg/sqln"
+	"github.com/vaultix-cloud/api/internal/libs/errutil"
+	"github.com/vaultix-cloud/api/internal/libs/fn"
+	"github.com/vaultix-cloud/api/internal/services/auth"
+	"github.com/vaultix-cloud/api/internal/services/permission/project"
 )
 
 // ActionProjectType scopes the permission check to a specific project type.

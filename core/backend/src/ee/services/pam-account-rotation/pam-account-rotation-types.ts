@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { PasswordRequirementsSchema } from "@app/ee/services/secret-rotation-v2/shared/general/password-requirements-schema";
+import { PasswordRequirementsSchema } from "@app/services/secret-rotation-v2/shared/general/password-requirements-schema";
 
 export type TGetPamAccountRotationDTO = {
   accountId: string;

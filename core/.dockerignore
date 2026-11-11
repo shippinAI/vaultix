@@ -11,7 +11,7 @@ helm-charts
 company
 backend/bdd
 backend/e2e-test
-backend/src/ee/**/*.test.ts
+backend/src/shipin/**/*.test.ts
 *.md
 !SHIPPIN.md
 img/vaultix_github*

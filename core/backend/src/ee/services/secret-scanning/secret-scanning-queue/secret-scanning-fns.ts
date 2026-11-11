@@ -10,7 +10,7 @@ import {
   getScannerProcessEnv,
   GIT_PROCESS_ENV,
   SecretScanningExecPhase
-} from "@app/ee/services/secret-scanning/secret-scanning-exec";
+} from "@app/services/secret-scanning/secret-scanning-exec";
 import { getConfig } from "@app/lib/config/env";
 
 import { SecretMatch } from "./secret-scanning-queue-types";

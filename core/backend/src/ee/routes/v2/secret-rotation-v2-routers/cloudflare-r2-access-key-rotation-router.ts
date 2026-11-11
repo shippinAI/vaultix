@@ -3,8 +3,8 @@ import {
   CloudflareR2AccessKeyRotationSchema,
   CreateCloudflareR2AccessKeyRotationSchema,
   UpdateCloudflareR2AccessKeyRotationSchema
-} from "@app/ee/services/secret-rotation-v2/cloudflare-r2-access-key";
-import { SecretRotation } from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-enums";
+} from "@app/services/secret-rotation-v2/cloudflare-r2-access-key";
+import { SecretRotation } from "@app/services/secret-rotation-v2/secret-rotation-v2-enums";
 
 import { registerSecretRotationEndpoints } from "./secret-rotation-v2-endpoints";
 

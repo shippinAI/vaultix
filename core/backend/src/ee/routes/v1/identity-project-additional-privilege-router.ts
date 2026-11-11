@@ -2,7 +2,7 @@ import slugify from "@sindresorhus/slugify";
 import { z } from "zod";
 
 import { AccessScope, TemporaryPermissionMode } from "@app/db/schemas";
-import { backfillPermissionV1SchemaToV2Schema } from "@app/ee/services/permission/project-permission";
+import { backfillPermissionV1SchemaToV2Schema } from "@app/services/permission/project-permission";
 import { ApiDocsTags, IDENTITY_ADDITIONAL_PRIVILEGE } from "@app/lib/api-docs";
 import { UnauthorizedError } from "@app/lib/errors";
 import { ms } from "@app/lib/ms";

@@ -8,7 +8,7 @@ import {
   TRotationFactoryIssueCredentials,
   TRotationFactoryRevokeCredentials,
   TRotationFactoryRotateCredentials
-} from "@app/ee/services/secret-rotation-v2/secret-rotation-v2-types";
+} from "@app/services/secret-rotation-v2/secret-rotation-v2-types";
 import { createMongoClient } from "@app/services/app-connection/mongodb/mongodb-connection-fns";
 
 import { DEFAULT_PASSWORD_REQUIREMENTS, generatePassword } from "../shared/utils";

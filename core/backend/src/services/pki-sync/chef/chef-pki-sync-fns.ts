@@ -6,10 +6,10 @@ import {
   listChefDataBagItems,
   removeChefDataBagItem,
   updateChefDataBagItem
-} from "@app/ee/services/app-connections/chef";
-import { TGatewayPoolServiceFactory } from "@app/ee/services/gateway-pool/gateway-pool-service";
-import { TGatewayV2ServiceFactory } from "@app/ee/services/gateway-v2/gateway-v2-service";
-import { TChefDataBagItemContent } from "@app/ee/services/secret-sync/chef";
+} from "@app/services/app-connections/chef";
+import { TGatewayPoolServiceFactory } from "@app/services/gateway-pool/gateway-pool-service";
+import { TGatewayV2ServiceFactory } from "@app/services/gateway-v2/gateway-v2-service";
+import { TChefDataBagItemContent } from "@app/services/secret-sync/chef";
 import { logger } from "@app/lib/logger";
 import { TCertificateDALFactory } from "@app/services/certificate/certificate-dal";
 import { TCertificateSyncDALFactory } from "@app/services/certificate-sync/certificate-sync-dal";

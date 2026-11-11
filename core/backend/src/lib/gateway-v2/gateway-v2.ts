@@ -4,8 +4,8 @@ import tls from "node:tls";
 import { isAxiosError } from "axios";
 import https from "https";
 
-import { verifyHostInputValidity } from "@app/ee/services/dynamic-secret/dynamic-secret-fns";
-import { TGatewayV2ConnectionDetails } from "@app/ee/services/gateway-v2/gateway-v2-types";
+import { verifyHostInputValidity } from "@app/services/dynamic-secret/dynamic-secret-fns";
+import { TGatewayV2ConnectionDetails } from "@app/services/gateway-v2/gateway-v2-types";
 import { splitPemChain } from "@app/services/certificate/certificate-fns";
 
 import { getConfig } from "../config/env";

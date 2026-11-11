@@ -1,7 +1,7 @@
-import { GitLabDataSourceScope } from "@app/ee/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
-import { TSecretScanningV2DALFactory } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-dal";
-import { SecretScanningDataSource } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-enums";
-import { TSecretScanningV2QueueServiceFactory } from "@app/ee/services/secret-scanning-v2/secret-scanning-v2-queue";
+import { GitLabDataSourceScope } from "@app/services/secret-scanning-v2/gitlab/gitlab-secret-scanning-enums";
+import { TSecretScanningV2DALFactory } from "@app/services/secret-scanning-v2/secret-scanning-v2-dal";
+import { SecretScanningDataSource } from "@app/services/secret-scanning-v2/secret-scanning-v2-enums";
+import { TSecretScanningV2QueueServiceFactory } from "@app/services/secret-scanning-v2/secret-scanning-v2-queue";
 import { crypto } from "@app/lib/crypto";
 import { logger } from "@app/lib/logger";
 import { TKmsServiceFactory } from "@app/services/kms/kms-service";
