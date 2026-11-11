@@ -1289,7 +1289,7 @@ core/backend/src/db/seeds/5-machine-identity.ts	core/backend/src/db/seeds	identi
 core/backend/src/db/table-namespace-index-names.ts	core/backend/src/db	foundation	Go-domain-migration	ts	874431cb293b16ed1922bd09230d4fa14fb551e7	unread
 core/backend/src/db/table-namespace-names.test.ts	core/backend/src/db	foundation	Go-domain-migration	ts	06f87fb68627ddd2d47b0d16f78e24c56b8884a7	unread
 core/backend/src/db/table-namespace-names.ts	core/backend/src/db	foundation	Go-domain-migration	ts	a69972a64e084497e1e0cf48533774e00af80177	unread
-core/backend/src/db/table-namespace-rename.ts	core/backend/src/db	foundation	Go-domain-migration	ts	879cd7ea1dd4fc923e4bd306a461828c49b90cd5	unread
+core/backend/src/db/table-namespace-rename.ts	core/backend/src/db	foundation	Go-domain-migration	ts	60923fe1bc0c1b021c43b8294b121b4afdd5c88e	unread
 core/backend/src/db/table-namespaces.ts	core/backend/src/db	foundation	Go-domain-migration	ts	414a3cfb9f8350a1afcd6a279232397445b62183	unread
 core/backend/src/db/utils.ts	core/backend/src/db	foundation	Go-domain-migration	ts	670ba36d6b094d71336eafa414e8a61047826e9a	unread
 core/backend/src/keystore/key-value-store-dal.ts	core/backend/src/keystore	kms	Go-domain-migration	ts	c3e71efc440eddf3eddba6154ff7f4754a980613	unread
@@ -9751,7 +9751,7 @@ scripts/test-release-download.mjs	scripts	delivery	supporting-tooling-or-contrac
 scripts/test-secret-dropzone.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	303254db93e9891bc8a2628977e0c0243476ce72	verified
 scripts/test-self-hosted-build.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	4fe9110742f7657b3575cb22439857500bddec80	authored
-scripts/test-server-lifecycle.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	0beb9faa5ebc16fa4a8f54eee63b6695f27a4b72	reviewed
+scripts/test-server-lifecycle.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	8f5b79e1221a28ee1651db0db3b5c85911ee157a	reviewed
 scripts/test-server-migration.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	f46ac5279528cf816fabe833f76e2d9b84c6ced6	reviewed
 scripts/test-setup-code.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	a93ba408e2103d86568280fe0ded77f2a222dc67	unread
 scripts/test-sso-policy-parity.mjs	scripts	delivery	supporting-tooling-or-contract	mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified

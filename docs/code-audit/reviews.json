@@ -9697,7 +9697,7 @@
     },
     {
       "path": "scripts/test-server-lifecycle.mjs",
-      "blob": "0beb9faa5ebc16fa4a8f54eee63b6695f27a4b72",
+      "blob": "8f5b79e1221a28ee1651db0db3b5c85911ee157a",
       "status": "reviewed",
       "decision": "modify",
       "scope": "OPS-04-INSTALL: read/authored this scoped native lifecycle, deployment contract, CLI integration or acceptance change. Install/adopt/upgrade/recovery preserve the same store and identity with immutable operation snapshots, private configuration, exact-image validation and isolated encrypted restore rehearsal. No arbitrary migration, fleet, full parity or production publication claim. Exact-commit acceptance is required separately. Follow-up preflight review preserves all operator environment settings against prior image defaults; supports URL, cluster and Sentinel cache forms and rejects omitted auth/policy/configuration values. Final review and real Linux development acceptance also cover configuration drift during checkpoint, phase-boundary fingerprint checks and actual running environment validation before reporting ready. Recovery correction: PostgreSQL initialization readiness is TCP-only; the deterministic delayed-init fixture rejects the old CLI and passes the fixed CLI with all existing scenarios. Docker errors expose only fixed operation names and exit codes, never raw stderr/arguments. OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Correct the disposable probe-only readiness fault guard so live rollback restore is tested; retain all negative controls and bound the external HTTP probe. Real container run passed 13 checks with retained failure receipts.",
@@ -9716,7 +9716,8 @@
         "docs/releases-and-updates.md",
         "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
         "Reviewed for docs/0119: generated constraint, index, sequence and updatedAt trigger names follow renamed tables except names historical migrations spell out; fresh stores drop the generated enrollmentType check and serialNumber key under their vx_ spelling.",
-        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service."
+        "Reviewed for AGENTS.md: the license system is removed, ee moved to shippin, every software feature stays included through the Vaultix feature service.",
+        "Reviewed for docs/0119: generated names built from a table's earlier name follow the vx_ form of that name, matching a fresh store."
       ]
     },
     {

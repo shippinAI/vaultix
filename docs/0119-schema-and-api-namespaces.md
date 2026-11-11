@@ -79,7 +79,7 @@ data-access code, so freezing them on the inherited names would break fresh inst
 6. **Generated names follow their table.** Names PostgreSQL generated from a table's name
    (`_pkey`, `_key`, `_fkey`, `_check`, `_excl`, `_idx`, `_seq`) and the `<table>_updatedAt`
    trigger are renamed with it, using PostgreSQL's own truncation rule, so an upgraded store has
-   the names a fresh store gets. Names a historical migration spells out
+   the names a fresh store gets. A generated name built from a table's earlier name, after an old migration renamed it, takes the `vx_` form of that name. Names a historical migration spells out
    (`t.index(cols, "certificates_caid_idx")`, or a constraint it later drops) keep their
    spelling on both; the generator lists them from the migrations as `LITERAL_OBJECT_NAMES`.
    Two migrations that dropped a generated constraint by its inherited spelling now drop it under

@@ -1327,7 +1327,7 @@ core/backend/src/db/seeds/5-machine-identity.ts	1dcfa5dcb4b22138dc39624fd2e1d105
 core/backend/src/db/table-namespace-index-names.ts	874431cb293b16ed1922bd09230d4fa14fb551e7	product-code	unread
 core/backend/src/db/table-namespace-names.test.ts	06f87fb68627ddd2d47b0d16f78e24c56b8884a7	test	unread
 core/backend/src/db/table-namespace-names.ts	a69972a64e084497e1e0cf48533774e00af80177	product-code	unread
-core/backend/src/db/table-namespace-rename.ts	879cd7ea1dd4fc923e4bd306a461828c49b90cd5	product-code	unread
+core/backend/src/db/table-namespace-rename.ts	60923fe1bc0c1b021c43b8294b121b4afdd5c88e	product-code	unread
 core/backend/src/db/table-namespaces.ts	414a3cfb9f8350a1afcd6a279232397445b62183	product-code	unread
 core/backend/src/db/utils.ts	670ba36d6b094d71336eafa414e8a61047826e9a	product-code	unread
 core/backend/src/keystore/key-value-store-dal.ts	c3e71efc440eddf3eddba6154ff7f4754a980613	product-code	unread
@@ -11918,7 +11918,7 @@ docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
 docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	unread
-docs/0119-schema-and-api-namespaces.md	98f3902ef7290a25aced734ffc8ca89773c7a498	documentation	unread
+docs/0119-schema-and-api-namespaces.md	ff95a93fe7005d7c2c2ff4b145337746ae0087c8	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
@@ -11945,7 +11945,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	9d52b0df7b2d55682ae310f899ed867e8cd214ad	generated	unread
-docs/capabilities/generated/source-map.tsv	88107cfb915969fde64e3015e995501efd227a23	generated	unread
+docs/capabilities/generated/source-map.tsv	a5f06654f760b519e39e19db8f428e6e25ccbf05	generated	unread
 docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -11957,8 +11957,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	4a7588eddc8fee8318ef7347b671a51bb85fc200	generated	unread
-docs/migration/generated/modules.tsv	c8c7ccc3e23461f06156132dabe70053911eaf62	generated	unread
+docs/migration/generated/files.tsv	9705d2c487a40a00759f8ca89b610574f39b91da	generated	unread
+docs/migration/generated/modules.tsv	ea8ef16a612554249a8d66e44aede4a5cc10eb40	generated	unread
 docs/migration/generated/summary.json	55e410f7f6dcdeb70f66044e89b38ff33baec9f0	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
@@ -12255,7 +12255,7 @@ scripts/test-release-download.mjs	9ab1b0494732b52dbdddb5cc07c00f69925683aa	build
 scripts/test-secret-dropzone.mjs	9ac4719d155ae860243e462ffde6467c95c4ae7d	build-and-operations	verified
 scripts/test-secret-paste.mjs	303254db93e9891bc8a2628977e0c0243476ce72	build-and-operations	verified
 scripts/test-self-hosted-build.mjs	4fe9110742f7657b3575cb22439857500bddec80	build-and-operations	authored
-scripts/test-server-lifecycle.mjs	0beb9faa5ebc16fa4a8f54eee63b6695f27a4b72	build-and-operations	reviewed
+scripts/test-server-lifecycle.mjs	8f5b79e1221a28ee1651db0db3b5c85911ee157a	build-and-operations	reviewed
 scripts/test-server-migration.mjs	f46ac5279528cf816fabe833f76e2d9b84c6ced6	build-and-operations	reviewed
 scripts/test-setup-code.mjs	a93ba408e2103d86568280fe0ded77f2a222dc67	build-and-operations	unread
 scripts/test-sso-policy-parity.mjs	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	build-and-operations	verified

@@ -33,11 +33,24 @@ const GENERATED_CONSTRAINT = /_((?:pkey|key|fkey|check|excl)\d*)$/;
 const GENERATED_INDEX = /_(idx\d*)$/;
 const GENERATED_SEQUENCE = /_(seq\d*)$/;
 
-const followName = (name: string, from: string, to: string, pattern: RegExp) => {
+const currentByLegacy = new Map(LEGACY_TABLE_RENAMES.map(([legacy, current]) => [legacy, current]));
+const legacyLongestFirst = [...currentByLegacy.keys()].sort((a, b) => b.length - a.length);
+
+// The inherited name a generated name was built from: the table's own or, for a table an old
+// migration renamed, the name it carried then. A fresh store has the vx_ form of that name.
+const nameSource = (name: string, from: string, to: string): TPair | undefined => {
+  if (name.startsWith(`${from}_`)) return [from, to];
+  const legacy = legacyLongestFirst.find((candidate) => name.startsWith(`${candidate}_`));
+  return legacy ? [legacy, currentByLegacy.get(legacy) as string] : undefined;
+};
+
+const followName = (name: string, table: string, renamed: string, pattern: RegExp) => {
   const label = name.match(pattern)?.[1];
-  if (!label || !name.startsWith(`${from}_`) || LITERAL_OBJECT_NAMES.has(name)) return undefined;
+  const source = nameSource(name, table, renamed);
+  if (!label || !source || LITERAL_OBJECT_NAMES.has(name)) return undefined;
   // A name cut at 63 characters cannot be reconstructed, so it keeps its spelling.
   if (name.length >= MAX_IDENTIFIER) return undefined;
+  const [from, to] = source;
   const middle = name.slice(from.length + 1, name.length - label.length - 1);
   const next = makeObjectName(to, middle || undefined, label);
   return next === name ? undefined : next;
@@ -80,12 +93,17 @@ const followGeneratedNames = async (tx: Knex, from: string, to: string) => {
     // eslint-disable-next-line no-await-in-loop
     if (next) await tx.raw("ALTER SEQUENCE ?? RENAME TO ??", [relname, next]);
   }
-  const trigger = `${from}_updatedAt`;
+  // Triggers cloned onto partitions take their name from the parent's.
   const { rows: triggers } = await tx.raw<{ rows: Array<{ tgname: string }> }>(
-    "SELECT tgname FROM pg_trigger WHERE tgrelid = quote_ident(?)::regclass AND tgname = ?",
-    [to, trigger]
+    "SELECT tgname FROM pg_trigger WHERE tgrelid = quote_ident(?)::regclass AND NOT tgisinternal AND tgparentid = 0 AND tgname LIKE '%\\_updatedAt'",
+    [to]
   );
-  if (triggers.length) await tx.raw("ALTER TRIGGER ?? ON ?? RENAME TO ??", [trigger, to, `${to}_updatedAt`]);
+  for (const { tgname } of triggers) {
+    const prefix = tgname.slice(0, -"_updatedAt".length);
+    const next = prefix === from ? to : currentByLegacy.get(prefix);
+    // eslint-disable-next-line no-await-in-loop
+    if (next) await tx.raw("ALTER TRIGGER ?? ON ?? RENAME TO ??", [tgname, to, `${next}_updatedAt`]);
+  }
 };
 
 const moveTables = async (db: Knex, pairs: ReadonlyArray<TPair>, logger?: TRenameLogger) => {

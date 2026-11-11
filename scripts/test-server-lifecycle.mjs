@@ -114,7 +114,7 @@ try {
   const canaryCipher = () => h.sql(database.Id, `SELECT encode("encryptedValue",'hex') FROM ${secretsTable()} WHERE key='LIFECYCLE_CANARY';`);
   const legacyTables = () => Number(h.sql(database.Id, "SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE c.relkind IN ('r','p') AND c.relname NOT LIKE 'vx\\_%' AND c.relname NOT LIKE 'vaultix\\_migrations%';"));
   // Generated constraint, index and sequence names follow their renamed table unless a historical
-  // migration spells them out, and every updatedAt trigger carries its table's current name.
+  // migration spells them out, and so do updatedAt triggers, including ones named after a table's earlier name.
   const inherited = JSON.parse(readFileSync(resolve(root, 'docs/schema/table-namespaces.json'))).tables.map(table => table.legacy);
   const migrations = resolve(root, 'core/backend/src/db/migrations');
   const spelledOut = literalObjectNames(inherited, readdirSync(migrations).filter(file => file.endsWith('.ts')).map(file => readFileSync(resolve(migrations, file), 'utf8')));
@@ -127,7 +127,7 @@ try {
     WHERE o.name ~ '_(pkey|key|fkey|check|idx|seq|excl)[0-9]*$' AND length(o.name) < 63
       AND o.name <> ALL(${textArray(spelledOut)})
       AND EXISTS (SELECT 1 FROM inherited i WHERE left(o.name, length(i.name) + 1) = i.name || '_');`);
-  const strandedTriggers = () => h.sql(database.Id, "SELECT coalesce(string_agg(t.tgname, ',' ORDER BY t.tgname), '') FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE NOT t.tgisinternal AND t.tgname LIKE '%\\_updatedAt' AND t.tgname <> c.relname || '_updatedAt';");
+  const strandedTriggers = () => h.sql(database.Id, `SELECT coalesce(string_agg(t.tgname, ',' ORDER BY t.tgname), '') FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace AND n.nspname='public' WHERE NOT t.tgisinternal AND t.tgname LIKE '%\\_updatedAt' AND left(t.tgname, length(t.tgname) - 10) = ANY(${textArray(inherited)});`);
   const cipher = canaryCipher();
   assert.ok(cipher && !cipher.includes(canary));
   phase = 'invalid image receipt';
@@ -218,7 +218,7 @@ try {
   if (secretsTable() === 'vx_secrets_secrets') {
     assert.equal(legacyTables(), 0, 'Every table, partitions included, moves to its vx_ name');
     assert.equal(strandedNames(), '', 'Generated names follow their renamed table');
-    assert.equal(strandedTriggers(), '', 'updatedAt triggers carry their table name');
+    assert.equal(strandedTriggers(), '', 'updatedAt triggers follow the table names they were built from');
     check('the upgraded store has no table, generated name or updatedAt trigger left on an inherited name');
   }
   await api(path, { status: 401 });

@@ -1289,7 +1289,7 @@ core/backend/src/db/seeds/5-machine-identity.ts	access	identity	core/backend/src
 core/backend/src/db/table-namespace-index-names.ts	operate	foundation	core/backend/src/db	874431cb293b16ed1922bd09230d4fa14fb551e7	unread
 core/backend/src/db/table-namespace-names.test.ts	operate	foundation	core/backend/src/db	06f87fb68627ddd2d47b0d16f78e24c56b8884a7	unread
 core/backend/src/db/table-namespace-names.ts	operate	foundation	core/backend/src/db	a69972a64e084497e1e0cf48533774e00af80177	unread
-core/backend/src/db/table-namespace-rename.ts	operate	foundation	core/backend/src/db	879cd7ea1dd4fc923e4bd306a461828c49b90cd5	unread
+core/backend/src/db/table-namespace-rename.ts	operate	foundation	core/backend/src/db	60923fe1bc0c1b021c43b8294b121b4afdd5c88e	unread
 core/backend/src/db/table-namespaces.ts	operate	foundation	core/backend/src/db	414a3cfb9f8350a1afcd6a279232397445b62183	unread
 core/backend/src/db/utils.ts	operate	foundation	core/backend/src/db	670ba36d6b094d71336eafa414e8a61047826e9a	unread
 core/backend/src/keystore/key-value-store-dal.ts	kms	kms	core/backend/src/keystore	c3e71efc440eddf3eddba6154ff7f4754a980613	unread
@@ -9751,7 +9751,7 @@ scripts/test-release-download.mjs	operate	delivery	scripts	9ab1b0494732b52dbdddb
 scripts/test-secret-dropzone.mjs	operate	delivery	scripts	9ac4719d155ae860243e462ffde6467c95c4ae7d	verified
 scripts/test-secret-paste.mjs	operate	delivery	scripts	303254db93e9891bc8a2628977e0c0243476ce72	verified
 scripts/test-self-hosted-build.mjs	operate	delivery	scripts	4fe9110742f7657b3575cb22439857500bddec80	authored
-scripts/test-server-lifecycle.mjs	operate	delivery	scripts	0beb9faa5ebc16fa4a8f54eee63b6695f27a4b72	reviewed
+scripts/test-server-lifecycle.mjs	operate	delivery	scripts	8f5b79e1221a28ee1651db0db3b5c85911ee157a	reviewed
 scripts/test-server-migration.mjs	operate	delivery	scripts	f46ac5279528cf816fabe833f76e2d9b84c6ced6	reviewed
 scripts/test-setup-code.mjs	operate	delivery	scripts	a93ba408e2103d86568280fe0ded77f2a222dc67	unread
 scripts/test-sso-policy-parity.mjs	operate	delivery	scripts	1aa51c0e3b1aa86608b326fbf01dbfec29ec22d0	verified

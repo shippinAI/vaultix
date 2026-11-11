@@ -111,7 +111,7 @@ core/backend/scripts	pam	Go-domain-migration	1	dd290afaefe321d8de4b098ab862dfab0
 core/backend/src	foundation	Go-domain-migration	5	dcbcdf909a6d647a3e675b5bec8c376b5850ed2aaed65acd9424e1febbaa726d	0	unassessed
 core/backend/src/@types	foundation	Go-domain-migration	6	c8c99ad905742720c9464f486d951895a8c5dd09d87a02b8419fa2c5f6a4152e	1	unassessed
 core/backend/src/db	audit	Go-domain-migration	1	c41f889f31c2e879d58473fc1b54378b88270f5f453bbe4c34868c21d01c88bb	0	unassessed
-core/backend/src/db	foundation	Go-domain-migration	19	4cc9c126cb38eee0ca79fda35967dc6db1d11266ed39d684037c96885fa22fd5	2	unassessed
+core/backend/src/db	foundation	Go-domain-migration	19	26bbc01217310b8966619072a63a7096c7bfde2baa5b0aceb3f71d66950f4063	2	unassessed
 core/backend/src/db	identity	Go-domain-migration	3	24e99be742afba62897cd55ec0b1e716a293caa5c5ef52bf9928ac58cfc16b90	0	unassessed
 core/backend/src/db/manual-migrations	audit	Go-domain-migration	1	a456acef5c86ca020919290efeb0674a0c7e9362077f7992280e2109c3203429	0	unassessed
 core/backend/src/db/migrations	audit	Go-domain-migration	12	72c2f52353103b935696b00e6528901e88a3ad915160470a946b04387ee9d514	0	unassessed
@@ -1150,7 +1150,7 @@ panel/internal/valves	legacy-panel	reconcile-into-native-product	2	4932e65c43ade
 panel/internal/vault	legacy-panel	reconcile-into-native-product	8	5e177e9fa09519e385fbeb78a7343ed47124b4c3ae90e96e9acdfc8b2168a396	0	unassessed
 panel/internal/viewport	legacy-panel	reconcile-into-native-product	11	766d70d137175b7a45523e21c642a6b5d8058e056ad16c70d40d26faf2662eba	0	unassessed
 schemas	foundation	supporting-tooling-or-contract	1	534be90812c40ddc241923daaf745576e8f7579142b0d8dda5f4ab290b370fde	0	unassessed
-scripts	delivery	supporting-tooling-or-contract	140	19bba238c862f2bad7f4736ac5aafec4afb7d1c2e638628a609ad8cb61c8741e	111	unassessed
+scripts	delivery	supporting-tooling-or-contract	140	ed93b8af3a274100c1e21356ccc9ca7171ab772a12c2bbbca68703dbb68ee6e8	111	unassessed
 scripts/fixtures	delivery	supporting-tooling-or-contract	3	1d2aff89334f56081fcbebbab47c6ff9f8f2ef514fd4bc927067e3d6fe619259	3	unassessed
 scripts/fixtures/quic-peer	delivery	supporting-tooling-or-contract	2	32b1436cd70744f42741ba84c1dbcd5387f5ed5626ec5b30d010423b3cafb9ca	2	unassessed
 scripts/fixtures/windows-install	delivery	supporting-tooling-or-contract	2	ec46359d82e85605c79c1f82b5dc1754d959eafcb99ee59868c36d43d5253d61	0	unassessed
