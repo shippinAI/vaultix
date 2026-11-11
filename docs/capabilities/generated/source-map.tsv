@@ -9506,8 +9506,8 @@ internal/platform/lock_unix.go	secrets	cli	internal/platform	6ab9c14c86790ceb639
 internal/platform/lock_windows.go	secrets	cli	internal/platform	242c118bcc4ab480c989a2c33af3012c0e601116	authored
 internal/platform/platform_test.go	secrets	cli	internal/platform	8863cf2d19ca4f07d5a9b41df9190303b13e2192	authored
 internal/platform/rollback.go	secrets	cli	internal/platform	e565db0b0acc3d9503d7335794c51b6cb0865aaf	authored
-internal/platform/schema.go	secrets	cli	internal/platform	f85ca70d118f6adf12578fd4d73fd71cbbc87c83	authored
-internal/platform/schema_test.go	secrets	cli	internal/platform	695c4ae105beb9b3014639f8efcc9cde798012e3	authored
+internal/platform/schema.go	secrets	cli	internal/platform	57ebcfef9a4680095ab7310053315456e7bb90e2	authored
+internal/platform/schema_test.go	secrets	cli	internal/platform	9b183729f75add2fcc66b4c4056df17d8165c55d	authored
 internal/platform/setup_code.go	secrets	cli	internal/platform	f61b03b4feaa7f1b3a5f64cc3b26fac71a3e6cac	unread
 internal/platform/types.go	secrets	cli	internal/platform	da54719864792dab4e7fa264cb9363dfc1ab1971	reviewed
 internal/release/bundle.go	secrets	cli	internal/release	6f7c0db275cc05652164b5442fe2cdba542c9719	authored

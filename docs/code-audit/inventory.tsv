@@ -11906,7 +11906,7 @@ docs/0077-owned-runtime-dependencies.md	881ec6f3e7dc3b17b0b5a613aa41826296aa736a
 docs/0078-vaultix-policy-ownership.md	cab7438e7d8a46e5f6298ae6f6dcc07be848b256	documentation	authored
 docs/0107-public-experience-and-recorded-workflow.md	e1d29d167f9e0ec2a0b3cc5e79e756d2dd36f8d0	documentation	reviewed
 docs/0108-platform-services-and-upgrades.md	06f30dba4c5486e77cdb9863ad2cb378279cf941	documentation	reviewed
-docs/0109-native-install-and-upgrade.md	d14798b6a13741ddf348644e3084febc6fea47c2	documentation	reviewed
+docs/0109-native-install-and-upgrade.md	680b1c56b27a0f943a557d78bef0c79b6a9a59ab	documentation	reviewed
 docs/0110-invite-only-instance.md	3caa91326e44113e75a4249f8942554a2e942f5f	documentation	unread
 docs/0110-verified-release-download.md	e4544efcc6e0613d008d89bb8b9d3fc371ccab7d	documentation	authored
 docs/0111-native-cli-installation.md	124b72effcae28e6748250bd2c33b8da01b9f8f5	documentation	authored
@@ -11918,7 +11918,7 @@ docs/0115-mesh-knowledge-personas-and-scripted-event-benchmark.md	c28782df64a320
 docs/0116-domain-mesh-and-ui-workbench.md	01cfa73b7ba2cf84fc1cc26b88e5d2e289038353	documentation	unread
 docs/0117-assistant-reference-boundary.md	247365b4bdfcaeb0198eb2e2e7fd36015a855cf8	documentation	unread
 docs/0118-pre-release.md	d83355f99074bf8a2f186e4b80bfc18814d18d1b	documentation	unread
-docs/0119-schema-and-api-namespaces.md	8b12e554efacc604307ce107ddcd0cf282cc1f55	documentation	unread
+docs/0119-schema-and-api-namespaces.md	f1b3a31146d8be94feb4c396e988599195900f36	documentation	unread
 docs/0120-mcpl-framework.md	1ad05cfa54daf5091079064bd9647065d7919d66	documentation	unread
 docs/0121-provider-import.md	49ad898ce21e6910e94ace0439c26aa3e09b2ea1	documentation	unread
 docs/auth/authority-review.json	9cc2b07986863670b55d05023b06338a0a4bc59f	product-code	unread
@@ -11945,7 +11945,7 @@ docs/capabilities/explorer.css	136bbc57d7afe0eee89bcf406c0571afd9e1c634	product-
 docs/capabilities/explorer.html	c579dacf8e759bafa29c058b9e08374ea908fc42	product-code	verified
 docs/capabilities/explorer.mjs	699fa26c919398b097895b3ee53cf01cb0721c86	product-code	verified
 docs/capabilities/generated/catalog.json	9d52b0df7b2d55682ae310f899ed867e8cd214ad	generated	unread
-docs/capabilities/generated/source-map.tsv	ba4a04059700d2f8986cddcd5151de6e01da1aef	generated	unread
+docs/capabilities/generated/source-map.tsv	21c3c422bbea24354bb0f0c44aedc7549340abbc	generated	unread
 docs/capabilities/generated/surface-map.tsv	8c14dcf19b4e29aadeef5aebeaac290179f646bf	generated	unread
 docs/capabilities/vaultix-capabilities.md	2921e43176626920f642ba82929a1893e1ebebf3	documentation	authored
 docs/delivery/acceptance.md	c6176b238bfd0dbf6ce13c0200b0d25cde30cd94	documentation	authored
@@ -11957,8 +11957,8 @@ docs/interaction/ui-benchmark-receipt.example.v1.json	b422b903ce3a62a189be2293ab
 docs/interaction/workflows.json	3bc88f68c9143bac8999977d049b5a46a6e1e0b7	product-code	unread
 docs/mcp-embedded-apps.md	21e2f44647d3a3d07f30c74371d3e6147fcb329f	documentation	authored
 docs/migration/README.md	d50481a9f543fb1a723b053acd249a919f75efe7	documentation	reviewed
-docs/migration/generated/files.tsv	119ef99aa696950c8b439ac7c97eff76804a4ecf	generated	unread
-docs/migration/generated/modules.tsv	8567848bf1cf523bb60daee8fffc9333a3c90a2c	generated	unread
+docs/migration/generated/files.tsv	aefa6c9f8e617b0f4d2a6c8ef5f99f0e66fb1ff1	generated	unread
+docs/migration/generated/modules.tsv	1930bff5a0de3bbe409dc52c2024bbfb47c0becd	generated	unread
 docs/migration/generated/summary.json	55e410f7f6dcdeb70f66044e89b38ff33baec9f0	generated	unread
 docs/migration/workstreams.json	d89a4b8b88d6ec4aab0e35a8fe595da1c090997d	product-code	reviewed
 docs/plan/action-plan.md	5ac363c0dfe79aa0ec60fa6fa894c67c625af31a	documentation	unread
@@ -12007,8 +12007,8 @@ internal/platform/lock_unix.go	6ab9c14c86790ceb639bfde8e33676393b6b0230	product-
 internal/platform/lock_windows.go	242c118bcc4ab480c989a2c33af3012c0e601116	product-code	authored
 internal/platform/platform_test.go	8863cf2d19ca4f07d5a9b41df9190303b13e2192	test	authored
 internal/platform/rollback.go	e565db0b0acc3d9503d7335794c51b6cb0865aaf	product-code	authored
-internal/platform/schema.go	f85ca70d118f6adf12578fd4d73fd71cbbc87c83	product-code	authored
-internal/platform/schema_test.go	695c4ae105beb9b3014639f8efcc9cde798012e3	test	authored
+internal/platform/schema.go	57ebcfef9a4680095ab7310053315456e7bb90e2	product-code	authored
+internal/platform/schema_test.go	9b183729f75add2fcc66b4c4056df17d8165c55d	test	authored
 internal/platform/setup_code.go	f61b03b4feaa7f1b3a5f64cc3b26fac71a3e6cac	product-code	unread
 internal/platform/types.go	da54719864792dab4e7fa264cb9363dfc1ab1971	product-code	reviewed
 internal/release/bundle.go	6f7c0db275cc05652164b5442fe2cdba542c9719	product-code	authored

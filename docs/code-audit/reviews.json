@@ -9538,7 +9538,7 @@
     },
     {
       "path": "docs/0109-native-install-and-upgrade.md",
-      "blob": "d14798b6a13741ddf348644e3084febc6fea47c2",
+      "blob": "680b1c56b27a0f943a557d78bef0c79b6a9a59ab",
       "status": "reviewed",
       "decision": "modify",
       "scope": "U02-ACQUIRE: scoped native release acquisition and its CLI/contract/docs/verification integration. Dedicated anonymous HTTPS policy, exact version/channel, existing signature authority, bounded streaming, no-replace publication, cancellation and expiry/replay checks. Existing credentials/checkpoints/instances remain unchanged. Native CLI installation, actual public publication and provider/cloud acceptance are not claimed. Documentation edits reconcile the shipped Go lifecycle owner with the earlier Node proposal. OPS-04-CHANGED-MIGRATIONS: updated only for the changed-migration path in docs/0109-native-install-and-upgrade.md. PROXY-UPGRADE: scoped change reviewed. Explicit IP/port listeners are persisted in versioned instance configuration, emitted on every image selection and compared exactly against runtime ports. Legacy loopback instance bytes and operation state remain supported. Local lifecycle acceptance uses a separate client via host ingress, explicit adoption, interrupted recovery and rollback; this is not VM 152 acceptance or signed release publication. The migration runner only registers the extended instance result schema; its existing fault scenarios are retained. Owner publication: signer-independent canonical signed bundle verification, acceptance receipt and CLI/image identity binding, exact merged tag, checked resumable draft assets, public staging without latest, and identical-byte stable promotion. Review covers native signature/channel consumers and the existing acceptance owner; fixture tests are not actual public release or VM acceptance.",
@@ -9555,7 +9555,8 @@
         "internal/platform/ingress_test.go",
         "scripts/test-server-lifecycle.mjs",
         "scripts/release-publication.test.mjs",
-        "docs/releases-and-updates.md"
+        "docs/releases-and-updates.md",
+        "Reviewed for docs/0119: the upgrade planner allows rewritten migration history only on the upgrade that crosses the table namespace migration."
       ]
     },
     {
@@ -10657,7 +10658,7 @@
     },
     {
       "path": "internal/platform/schema.go",
-      "blob": "f85ca70d118f6adf12578fd4d73fd71cbbc87c83",
+      "blob": "57ebcfef9a4680095ab7310053315456e7bb90e2",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
@@ -10665,12 +10666,13 @@
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read."
+        "2026-11-10: changed by the vx_ table namespace rename (docs/0119): table names, SQL text and junction column handling. The changed sections were authored; the whole file was not re-read.",
+        "Reviewed for docs/0119: the upgrade planner allows rewritten migration history only on the upgrade that crosses the table namespace migration."
       ]
     },
     {
       "path": "internal/platform/schema_test.go",
-      "blob": "695c4ae105beb9b3014639f8efcc9cde798012e3",
+      "blob": "9b183729f75add2fcc66b4c4056df17d8165c55d",
       "status": "authored",
       "decision": "modify",
       "scope": "OPS-04-CHANGED-MIGRATIONS: read/authored this scoped change to the native instance lifecycle. A changed migration set is planned against image files and the store's record, rehearsed on a restored copy with no network, applied by the same command and read back before the application starts, with an explicit rollback that restores beside the live database and swaps names atomically. No fleet orchestration, in-app console, semantic migration proof or whole-file authorship claim.",
@@ -10678,7 +10680,8 @@
         "docs/0109-native-install-and-upgrade.md",
         "internal/platform/schema_test.go",
         "scripts/test-server-migration.mjs",
-        "Adds TestASavedPlanCanAlwaysBeCancelled and TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit, and extends the replay and eligibility tests. go test ./internal/platform passes."
+        "Adds TestASavedPlanCanAlwaysBeCancelled and TestAdvanceOnlyReturnsThePreviousApplicationOnTheRehearsalTimeLimit, and extends the replay and eligibility tests. go test ./internal/platform passes.",
+        "Reviewed for docs/0119: the upgrade planner allows rewritten migration history only on the upgrade that crosses the table namespace migration."
       ]
     },
     {

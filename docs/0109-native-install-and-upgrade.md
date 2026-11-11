@@ -156,7 +156,7 @@ A plan lists the migrations it will apply in `operation.migration.pending` and
 changes nothing. The decision compares both images' migration files with the names
 recorded in the store. These are refused before the application stops:
 
-- A candidate that changes the bytes of a migration that already shipped.
+- A candidate that changes the bytes of a migration that already shipped. The one exception is the upgrade that crosses the table namespaces ([0119](0119-schema-and-api-namespaces.md)), which rewrites history on purpose; every later upgrade is held to this rule again.
 - A store holding a migration the candidate does not include, which is a downgrade.
 - A held migration lock, which needs investigation first.
 - `AUDIT_LOGS_DB_CONNECTION_URI`, because the checkpoint covers one database.

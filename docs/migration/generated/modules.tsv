@@ -1125,7 +1125,7 @@ docs/schema	foundation	supporting-tooling-or-contract	1	84f36d2bd7c2af59410c4111
 internal/api	cli	Go-client-Rust-injection-boundary	6	74236d29e87eec715ffacd4da9b303298ee2dd689405f5414c37b40363c894c1	4	unassessed
 internal/cli	cli	Go-client-Rust-injection-boundary	12	90b3d4aa2a9b1f67a1b0fa81a206cacacb744eed8cec69ab71020ec6785447ce	11	unassessed
 internal/oidc	cli	Go-client-Rust-injection-boundary	4	0820cbf30ba19e7bdfbc786b25bdc1585bd78a88905e4d7609633f3b0c9716ef	4	unassessed
-internal/platform	cli	Go-client-Rust-injection-boundary	15	cafced3be339cb7b07a3af76db1ee9b6d5eb68105535d2631213c0dc6ee6b794	14	unassessed
+internal/platform	cli	Go-client-Rust-injection-boundary	15	c85f80ba28449bf7dbc76eedf81bae00257fac8a49aa415be384334fc1c15842	14	unassessed
 internal/release	cli	Go-client-Rust-injection-boundary	23	fccd4184bd7dc47ef04d76cae7b1eb0cde2a4b81d481462d5ddf78a157a50c78	14	unassessed
 internal/store	cli	Go-client-Rust-injection-boundary	10	24b31a2f2dcad061bd96e3f2c576bb2f1aefb968abbeb929892e6fef631fa43e	9	unassessed
 internal/syncer	cli	Go-client-Rust-injection-boundary	3	1e640e59d0e84816c690d178fa54c9644a02cc2d7d9cfccd5720c514aa62e280	0	unassessed

@@ -28,6 +28,11 @@ func secretsQuery(table string) string {
 	return `COPY (SELECT id, encode("encryptedValue",'hex') FROM ` + table + ` ORDER BY id) TO STDOUT;`
 }
 
+// The table namespace migration (docs/0119) is the one deliberate rewrite of schema
+// history: every earlier migration now names vx_ tables through TableName. An upgrade
+// that crosses it may change shipped migration files. Past it, history is fixed again.
+const tableNamespaceMigration = "20261110120000_vx-table-namespaces.mjs"
+
 type migrationManifest struct {
 	Set   string            `json:"set"`
 	Files map[string]string `json:"files"`
@@ -67,13 +72,16 @@ func planMigration(prior, target migrationManifest, applied []string) (*Migratio
 	if prior.Set == target.Set {
 		return nil, nil
 	}
+	_, priorHasNamespaces := prior.Files[tableNamespaceMigration]
+	_, targetHasNamespaces := target.Files[tableNamespaceMigration]
+	crossesNamespaces := !priorHasNamespaces && targetHasNamespaces
 	shipped := make([]string, 0, len(prior.Files))
 	for name := range prior.Files {
 		shipped = append(shipped, name)
 	}
 	sort.Strings(shipped)
 	for _, name := range shipped {
-		if current, present := target.Files[name]; present && current != prior.Files[name] {
+		if current, present := target.Files[name]; present && current != prior.Files[name] && !crossesNamespaces {
 			return nil, fmt.Errorf("candidate changes migration %s, which already shipped; refusing to rewrite schema history", name)
 		}
 	}

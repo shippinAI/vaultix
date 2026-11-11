@@ -89,7 +89,8 @@ data-access code, so freezing them on the inherited names would break fresh inst
 7. **A guard keeps it that way.** `node scripts/check-table-namespaces.mjs` fails if an
    inherited table name appears in SQL or a database call in TypeScript, Go, scripts or the
    CLI. Both checks are canonical build stages.
-8. **The upgrade tool reads either side.** `vaultix server`'s encrypted-row fingerprint
+8. **The upgrade tool crosses it once.** `vaultix server upgrade` refuses a release that changes a shipped migration, except for the upgrade that first brings in the namespace migration. Later upgrades are held to the rule again.
+9. **The upgrade tool reads either side.** `vaultix server`'s encrypted-row fingerprint
    finds `vx_secrets_secrets` or `secrets_v2`, so a checkpoint taken before the rename
    compares with the migrated copy after it.
 

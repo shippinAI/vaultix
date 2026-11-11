@@ -202,6 +202,24 @@ func TestPlanMigration(t *testing.T) {
 	}
 }
 
+func TestPlanMigrationAllowsRewrittenHistoryOnlyAcrossTheTableNamespaces(t *testing.T) {
+	a, b, c := strings.Repeat("a", 64), strings.Repeat("b", 64), strings.Repeat("c", 64)
+	applied := []string{"001.mjs"}
+	before := manifest("1", map[string]string{"001.mjs": a})
+	crossing := manifest("2", map[string]string{"001.mjs": b, tableNamespaceMigration: c})
+	plan, err := planMigration(before, crossing, applied)
+	if err != nil || plan == nil || strings.Join(plan.Pending, ",") != tableNamespaceMigration {
+		t.Fatalf("crossing the namespaces must plan the rename: %+v %v", plan, err)
+	}
+	past := manifest("3", map[string]string{"001.mjs": a, tableNamespaceMigration: c})
+	if plan, err = planMigration(crossing, past, []string{"001.mjs", tableNamespaceMigration}); err == nil || plan != nil {
+		t.Fatalf("history is fixed again past the namespaces: %+v %v", plan, err)
+	}
+	if plan, err = planMigration(before, manifest("4", map[string]string{"001.mjs": b}), applied); err == nil || plan != nil {
+		t.Fatalf("a rewrite without the namespaces stays refused: %+v %v", plan, err)
+	}
+}
+
 func TestMigrationTopologyRefusesWhatTheCheckpointCannotCover(t *testing.T) {
 	if err := migrationTopology(map[string]string{"GENERATE_SANITIZED_SCHEMA": "false"}); err != nil {
 		t.Fatal(err)
