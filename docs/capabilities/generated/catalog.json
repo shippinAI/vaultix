@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "fb272ad8654750a7322c7f0a10eee668aa6c6151",
+  "baselineCommit": "01360ad5b0eb3bab81e12d58a1533c11d600ad79",
   "scope": "Planning and structural discovery only; no new workflow, provider or compliance acceptance",
   "groups": [
     {
@@ -2591,7 +2591,7 @@
     "ai": {
       "capabilities": 10,
       "ui": 0,
-      "api": 24,
+      "api": 29,
       "sourceFiles": 60
     },
     "governance": {
@@ -2615,7 +2615,7 @@
   },
   "coverage": {
     "uiRoutes": 275,
-    "apiOperations": 2319,
+    "apiOperations": 2324,
     "sourceFiles": 9810,
     "providerEntries": 187,
     "capabilityRequirements": 86,

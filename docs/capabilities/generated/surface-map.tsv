@@ -567,6 +567,7 @@ API	secrets	DELETE /api/v3/secrets/raw/{secretName}
 API	secrets	DELETE /api/v3/secrets/tags/{secretName}
 API	secrets	DELETE /api/v4/secrets/batch
 API	secrets	DELETE /api/v4/secrets/{secretName}
+API	ai	DELETE /api/vx/v1/ai/memories/{memoryId}
 API	ai	DELETE /api/vx/v1/ai/personas/{slug}
 API	ai	DELETE /api/vx/v1/ai/providers/{providerId}
 API	access	GET /api/v1/additional-privilege/identity
@@ -1515,8 +1516,10 @@ API	secrets	GET /api/v4/secrets/{secretName}
 API	secrets	GET /api/v4/secrets/{secretName}/reference-dependency-tree
 API	secrets	GET /api/v4/secrets/{secretName}/secret-reference-tree
 API	ai	GET /api/vx/v1/ai/assistant
+API	ai	GET /api/vx/v1/ai/memories
 API	ai	GET /api/vx/v1/ai/personas
 API	ai	GET /api/vx/v1/ai/providers
+API	ai	GET /api/vx/v1/ai/providers/{providerId}/models
 API	access	PATCH /api/v1/additional-privilege/identity
 API	connect	PATCH /api/v1/app-connections/1password/{connectionId}
 API	connect	PATCH /api/v1/app-connections/adcs/{connectionId}
@@ -1807,6 +1810,7 @@ API	secrets	PATCH /api/v3/secrets/batch/raw
 API	secrets	PATCH /api/v3/secrets/raw/{secretName}
 API	secrets	PATCH /api/v4/secrets/batch
 API	secrets	PATCH /api/v4/secrets/{secretName}
+API	ai	PATCH /api/vx/v1/ai/memories/{memoryId}
 API	ai	PATCH /api/vx/v1/ai/personas/{slug}
 API	ai	PATCH /api/vx/v1/ai/providers/{providerId}
 API	access	POST /api/v1/additional-privilege/identity/permanent
@@ -2568,6 +2572,7 @@ API	secrets	POST /api/v4/secrets/move
 API	secrets	POST /api/v4/secrets/{secretName}
 API	access	POST /api/vx/v1/access/mcp
 API	ai	POST /api/vx/v1/ai/mcp
+API	ai	POST /api/vx/v1/ai/memories
 API	ai	POST /api/vx/v1/ai/messages
 API	ai	POST /api/vx/v1/ai/personas
 API	ai	POST /api/vx/v1/ai/personas/{slug}/reset
