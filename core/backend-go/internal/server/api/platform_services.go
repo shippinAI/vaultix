@@ -160,6 +160,7 @@ func newPlatformServices(ctx context.Context, infra *Infra) (*PlatformServices, 
 	}
 	assistantHandler := assistanthttp.NewHandler(&assistanthttp.Deps{
 		Personas: assistant.NewPersonas(ctx, infra.Logger, &assistant.PersonasDeps{DB: infra.DB, Defaults: defaultPersonas}),
+		Memories: assistant.NewMemories(ctx, infra.Logger, infra.DB),
 		Providers: assistant.NewStore(ctx, infra.Logger, &assistant.StoreDeps{
 			DB:     infra.DB,
 			Cipher: func() (assistant.Cipher, error) { return kmsSvc.RootCipher() },

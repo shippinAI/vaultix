@@ -160,11 +160,21 @@ func NewModel(p *Provider, c *Credential, client *http.Client) (Model, error) {
 }
 
 func post(ctx context.Context, client *http.Client, url string, body []byte, prepare func(*http.Request) error) ([]byte, error) {
-	r, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))
+	return send(ctx, client, http.MethodPost, url, body, prepare)
+}
+
+func send(ctx context.Context, client *http.Client, method, url string, body []byte, prepare func(*http.Request) error) ([]byte, error) {
+	var reader io.Reader
+	if body != nil {
+		reader = bytes.NewReader(body)
+	}
+	r, err := http.NewRequestWithContext(ctx, method, url, reader)
 	if err != nil {
 		return nil, &ProviderError{Message: "The provider address is not valid."}
 	}
-	r.Header.Set("Content-Type", "application/json")
+	if body != nil {
+		r.Header.Set("Content-Type", "application/json")
+	}
 	r.Header.Set("Accept", "application/json")
 	if err := prepare(r); err != nil {
 		var providerErr *ProviderError

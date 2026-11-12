@@ -79,7 +79,11 @@ const ProviderRow = ({
           <span className="text-xs text-muted">{kindLabel(provider.kind)}</span>
         </div>
       </TableCell>
-      <TableCell className="font-mono text-xs">{provider.model}</TableCell>
+      <TableCell className="font-mono text-xs">
+        <div>{provider.model}</div>
+        {provider.fastModel && <div className="text-muted">fast: {provider.fastModel}</div>}
+        {provider.deepModel && <div className="text-muted">deep: {provider.deepModel}</div>}
+      </TableCell>
       <TableCell>
         <div className="flex flex-wrap gap-1">
           {provider.active && <Badge variant="info">In use</Badge>}
@@ -189,7 +193,7 @@ export const ProvidersSection = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Provider</TableHead>
-                <TableHead>Model</TableHead>
+                <TableHead>Models</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>

@@ -10,6 +10,9 @@ export type TAssistantProvider = {
   kind: TAssistantProviderKind;
   name: string;
   model: string;
+  // Empty means the tier runs on the standard model.
+  fastModel: string;
+  deepModel: string;
   baseUrl: string;
   region: string;
   cloudProject: string;
@@ -35,6 +38,8 @@ export type TAssistantProviderInput = {
   kind?: TAssistantProviderKind;
   name?: string;
   model?: string;
+  fastModel?: string;
+  deepModel?: string;
   baseUrl?: string;
   region?: string;
   cloudProject?: string;
@@ -49,6 +54,14 @@ export type TAssistantProviderTest = {
   testedAt: string;
 };
 
+export type TAssistantModelInfo = { id: string; name: string };
+
+export type TAssistantProviderModels = {
+  models: TAssistantModelInfo[];
+  listed: boolean;
+  message: string;
+};
+
 export type TAssistantPersonaRole = "router" | "specialist" | "guard";
 export type TAssistantPersonaTier = "fast" | "standard" | "deep";
 
@@ -59,6 +72,8 @@ export type TAssistantPersona = {
   role: TAssistantPersonaRole;
   domains: string[];
   tier: TAssistantPersonaTier;
+  // Empty means the provider's model for the tier.
+  model: string;
   description: string;
   instructions: string;
   providerId: string | null;
@@ -74,6 +89,7 @@ export type TAssistantPersonaInput = {
   role?: TAssistantPersonaRole;
   domains?: string[];
   tier?: TAssistantPersonaTier;
+  model?: string;
   description?: string;
   instructions?: string;
   providerId?: string;
@@ -107,10 +123,34 @@ export type TAssistantAction = {
   error?: string;
 };
 
+// A memory the assistant suggested. Nothing is saved until the person accepts it.
+export type TAssistantProposal = { content: string };
+
 export type TAssistantReply = {
   message: TAssistantMessage;
   actions: TAssistantAction[];
+  proposals: TAssistantProposal[];
   persona: { slug: string; name: string; role: TAssistantPersonaRole };
   routedBy: "mention" | "page" | "router" | "default";
   provider: { kind: TAssistantProviderKind; model: string; name: string };
+};
+
+export type TAssistantMemoryScope = "personal" | "instance";
+
+export type TAssistantMemory = {
+  id: string;
+  scope: TAssistantMemoryScope;
+  content: string;
+  // A persona's short name, or empty for every persona.
+  persona: string;
+  source: "person" | "assistant";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TAssistantMemoryInput = {
+  scope?: TAssistantMemoryScope;
+  content?: string;
+  persona?: string;
+  source?: "person" | "assistant";
 };

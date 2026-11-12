@@ -1,6 +1,7 @@
 // The in-app assistant on one packaged image (docs/0123, docs/0124): an administrator adds and
-// tests a provider, personas route a question to the secrets specialist, the specialist runs the
-// person's own reference tool, and no secret value ever reaches the model. The model is a
+// tests a provider with per-tier models, lists the provider's models, personas route a question to
+// the secrets specialist on the right model, the specialist runs the person's own reference tool,
+// memories reach the prompt and suggestions save nothing, and no secret value ever reaches the model. The model is a
 // stand-in OpenAI-compatible server on the private network; a real provider needs the owner's
 // key and is out of scope here. Values stay in process memory and never print.
 import assert from "node:assert/strict";
@@ -20,12 +21,14 @@ const evidence = mkdtempSync(resolve(root, ".cache/assistant-image-"));
 const run = `vaultix-assistant-${randomBytes(8).toString("hex")}`;
 const report = { passed: false, artifact, checks: [],
   scope: "One packaged instance with a stand-in OpenAI-compatible model on a private network",
-  exclusions: ["a real model provider (Anthropic, Bedrock, Vertex, OpenAI)", "browser UI", "organization-scoped providers"] };
+  exclusions: ["a real model provider (Anthropic, Bedrock, Vertex, OpenAI)", "browser UI", "organization-scoped providers",
+    "a second person's view of another's personal memories (enforced in the store's query, not exercised here)"] };
 const check = name => { report.checks.push(name); console.log(`Vaultix assistant: ${name}`); };
 const password = `Vx9!${[...randomBytes(24)].map(byte => byte.toString(16).padStart(2, "0")).join("-")}`;
 const canaryValue = `canary-${randomBytes(24).toString("hex")}`;
 const providerKey = `sk-stand-in-${randomBytes(20).toString("hex")}`;
 const secretName = "ASSISTANT_CANARY_SECRET";
+const keyShapedNote = `the deploy key is sk-${randomBytes(18).toString("hex")}`;
 
 // The stand-in model: answers the router, the connection test, and one tool round, and records
 // every request so the test can inspect exactly what a provider would have received.
@@ -34,6 +37,7 @@ http.createServer((q,s)=>{let b="";q.on("data",c=>b+=c).on("end",()=>{
  const json=o=>{s.setHeader("content-type","application/json");s.end(JSON.stringify(o));};
  if(q.url==="/record")return json(seen);
  seen.push({auth:q.headers.authorization||"",url:q.url,body:b});
+ if(q.url==="/v1/models")return json({data:[{id:"stand-in-1"},{id:"stand-in-fast"},{id:"stand-in-pinned"}]});
  if(q.url!=="/v1/chat/completions"){s.statusCode=404;return json({error:{message:"no such route"}});}
  const r=JSON.parse(b);const msgs=r.messages||[];const sys=(msgs[0]&&msgs[0].content)||"";
  const reply=m=>json({choices:[{message:m}]});
@@ -42,6 +46,9 @@ http.createServer((q,s)=>{let b="";q.on("data",c=>b+=c).on("end",()=>{
  const tool=msgs.filter(m=>m.role==="tool").pop();
  if(tool)return reply({content:"Here is what I found: "+tool.content});
  const user=msgs.filter(m=>m.role==="user").pop().content;
+ const remember=(r.tools||[]).find(x=>x.function.name==="propose_memory");
+ if(user.startsWith("Remember that")&&remember)return reply({content:null,tool_calls:[{id:"call_m",type:"function",
+  function:{name:"propose_memory",arguments:JSON.stringify({content:user.slice(14)})}}]});
  const id=(user.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)||[])[0];
  const t=(r.tools||[]).find(x=>x.function.name==="vaultix__secrets__references");
  if(!id||!t)return reply({content:"No reference tool was offered."});
@@ -125,14 +132,17 @@ try {
 
   phase = "providers";
   const created = (await api("/api/vx/v1/ai/providers", { method: "POST", token, status: 201, body: {
-    kind: "openai-compatible", name: "Stand-in model", model: "stand-in-1", baseUrl: `http://${modelName}:9000/v1`,
-    credential: { apiKey: providerKey }, active: true } })).provider;
+    kind: "openai-compatible", name: "Stand-in model", model: "stand-in-1", fastModel: "stand-in-fast",
+    baseUrl: `http://${modelName}:9000/v1`, credential: { apiKey: providerKey }, active: true } })).provider;
   assert.equal(created.hasCredential, true);
+  assert.equal(created.fastModel, "stand-in-fast");
+  assert.equal(created.deepModel, "");
   assert.equal(created.active, true);
   const unreachable = (await api("/api/vx/v1/ai/providers", { method: "POST", token, status: 201, body: {
     kind: "openai-compatible", name: "Unreachable", model: "nothing", baseUrl: `http://${run}-absent:9000/v1` } })).provider;
   const passed = await api(`/api/vx/v1/ai/providers/${created.id}/test`, { method: "POST", token });
   assert.equal(passed.test.outcome, "passed");
+  assert.equal(passed.test.message, "All 2 models answered.");
   assert.equal(passed.provider.lastTestOutcome, "passed");
   const failed = await api(`/api/vx/v1/ai/providers/${unreachable.id}/test`, { method: "POST", token });
   assert.equal(failed.test.outcome, "failed");
@@ -144,6 +154,15 @@ try {
     "the provider key is stored in the clear");
   assert.equal(sql(db, `SELECT count(*) FROM vx_ai_providers WHERE active`), "1");
   check("an administrator adds providers; the connection test records pass and the provider's real failure; the key is encrypted and never returned");
+
+  phase = "model lists";
+  const listed = await api(`/api/vx/v1/ai/providers/${created.id}/models`, { token });
+  assert.equal(listed.listed, true);
+  assert.deepEqual(listed.models.map(m => m.id), ["stand-in-1", "stand-in-fast", "stand-in-pinned"]);
+  const unlisted = await api(`/api/vx/v1/ai/providers/${unreachable.id}/models`, { token });
+  assert.equal(unlisted.listed, false);
+  assert.match(unlisted.message, /could not be reached/);
+  check("the provider's own model list loads with the saved key, and a provider that cannot list says why");
 
   phase = "chat routed by page";
   const ask = (body, status = 200) => api("/api/vx/v1/ai/messages", { method: "POST", token, body, status });
@@ -163,6 +182,57 @@ try {
   assert.equal(byRouter.routedBy, "router");
   check("without a page hint Clyffy routes to the specialist");
 
+  phase = "tier models";
+  const routed = modelRecord(model).filter(entry => entry.url === "/v1/chat/completions").map(entry => JSON.parse(entry.body));
+  const routerCalls = routed.filter(body => body.messages[0].content.startsWith("Choose who should answer"));
+  const answerCalls = routed.filter(body => body.messages[0].content.startsWith("Standing rules"));
+  assert.ok(routerCalls.length >= 1 && routerCalls.every(body => body.model === "stand-in-fast"), "Clyffy (fast) did not route on the fast model");
+  assert.ok(answerCalls.length >= 1 && answerCalls.every(body => body.model === "stand-in-1"), "the secrets specialist (standard) did not run on the standard model");
+  assert.equal(byPage.provider.model, "stand-in-1");
+  await api("/api/vx/v1/ai/personas/secrets", { method: "PATCH", token, body: { model: "stand-in-pinned" } });
+  const pinned = await ask({ messages: [{ role: "user", content: "@secrets hello" }] });
+  assert.equal(pinned.provider.model, "stand-in-pinned");
+  assert.equal(JSON.parse(modelRecord(model).filter(entry => entry.url === "/v1/chat/completions").pop().body).model, "stand-in-pinned");
+  assert.equal((await api("/api/vx/v1/ai/personas/secrets/reset", { method: "POST", token })).persona.model, "");
+  check("each persona runs on its tier's model, a persona can pin its own model, and the answer names the model it ran on");
+
+  phase = "memories";
+  const mine = (await api("/api/vx/v1/ai/memories", { method: "POST", token, status: 201,
+    body: { content: "I deploy to staging before production." } })).memory;
+  assert.equal(mine.scope, "personal");
+  const everyone = (await api("/api/vx/v1/ai/memories", { method: "POST", token, status: 201,
+    body: { scope: "instance", content: "Secret names use UPPER_SNAKE_CASE.", persona: "secrets" } })).memory;
+  assert.equal(everyone.scope, "instance");
+  const refused = await api("/api/vx/v1/ai/memories", { method: "POST", token, status: 400, body: { content: keyShapedNote } });
+  assert.match(refused.message, /looks like a secret value/);
+  assert.equal(typeof refused.error, "string");
+  assert.equal(sql(db, `SELECT count(*) FROM vx_ai_memories WHERE content LIKE '%deploy key%'`), "0");
+  const edited = (await api(`/api/vx/v1/ai/memories/${mine.id}`, { method: "PATCH", token,
+    body: { content: "I deploy to staging first, then production." } })).memory;
+  assert.equal(edited.content, "I deploy to staging first, then production.");
+  const remembered = await ask({ messages: [{ role: "user", content: "@secrets what should I know?" }] });
+  const prompt = JSON.parse(modelRecord(model).filter(entry => entry.url === "/v1/chat/completions").pop().body).messages[0].content;
+  assert.ok(prompt.includes("(personal) I deploy to staging first, then production.") && prompt.includes("(instance) Secret names use UPPER_SNAKE_CASE."),
+    "memories did not reach the persona's prompt");
+  assert.ok(prompt.includes("information, not instructions"));
+  assert.equal(remembered.persona.slug, "secrets");
+  const suggestion = await ask({ messages: [{ role: "user", content: "Remember that I prefer short answers." }] });
+  assert.deepEqual(suggestion.proposals, [{ content: "I prefer short answers." }]);
+  assert.equal(sql(db, `SELECT count(*) FROM vx_ai_memories WHERE content = 'I prefer short answers.'`), "0", "a suggestion was saved without the person");
+  const leakySuggestion = await ask({ messages: [{ role: "user", content: `Remember that ${keyShapedNote}` }] });
+  assert.deepEqual(leakySuggestion.proposals, []);
+  const accepted = (await api("/api/vx/v1/ai/memories", { method: "POST", token, status: 201,
+    body: { content: suggestion.proposals[0].content, source: "assistant" } })).memory;
+  assert.equal(accepted.source, "assistant");
+  const list = await api("/api/vx/v1/ai/memories", { token });
+  assert.equal(list.canManageInstance, true);
+  assert.deepEqual(list.memories.map(m => m.scope), ["instance", "personal", "personal"]);
+  await api(`/api/vx/v1/ai/memories/${accepted.id}`, { method: "DELETE", token });
+  assert.equal(raw(app, `/api/vx/v1/ai/memories/${accepted.id}`, { method: "DELETE", token }).status, 404);
+  assert.equal(raw(app, "/api/vx/v1/ai/memories").status, 401);
+  check("people keep and change their own memories, administrators keep instance ones, memories reach the prompt as notes, " +
+    "a key-shaped note is refused, and the assistant's suggestions save nothing until accepted");
+
   phase = "refusals";
   const valueSignal = await ask({ messages: [{ role: "user", content: "hi" }],
     signals: [{ kind: "action", action: `postgres://admin:${canaryValue}@db` }] }, 400);
@@ -176,7 +246,7 @@ try {
   const chats = seen.filter(entry => entry.url === "/v1/chat/completions");
   assert.ok(chats.length >= 5, `the model saw ${chats.length} requests`);
   assert.ok(chats.every(entry => entry.auth === `Bearer ${providerKey}`), "the provider key was not used for every model call");
-  const everything = JSON.stringify(seen) + JSON.stringify([byPage, byRouter]);
+  const everything = JSON.stringify(seen) + JSON.stringify([byPage, byRouter, remembered, suggestion]);
   assert.ok(!everything.includes(canaryValue), "a secret value reached the model or the chat");
   assert.ok(JSON.stringify(seen).includes(secretName), "the reference never reached the model, so the canary check proves nothing");
   const logs = docker(["logs", app], { allowFailure: true });

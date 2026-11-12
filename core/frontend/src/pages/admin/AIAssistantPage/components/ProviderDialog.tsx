@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { createNotification } from "@app/components/notifications";
@@ -26,6 +27,7 @@ import {
   TAssistantProvider,
   TAssistantProviderKind,
   useCreateAssistantProvider,
+  useGetAssistantProviderModels,
   useUpdateAssistantProvider
 } from "@app/hooks/api/assistant";
 
@@ -37,6 +39,11 @@ export const PROVIDER_KINDS: { kind: TAssistantProviderKind; label: string; mode
   { kind: "openai-compatible", label: "Your own server (vLLM, Ollama)", model: "" }
 ];
 
+// Offered before a provider is saved; once saved, the provider's own list replaces these.
+const KNOWN_MODELS: Partial<Record<TAssistantProviderKind, string[]>> = {
+  anthropic: ["claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5", "claude-fable-5-2"]
+};
+
 export const kindLabel = (kind: TAssistantProviderKind) =>
   PROVIDER_KINDS.find((entry) => entry.kind === kind)?.label ?? kind;
 
@@ -44,6 +51,8 @@ type FormValues = {
   kind: TAssistantProviderKind;
   name: string;
   model: string;
+  fastModel: string;
+  deepModel: string;
   baseUrl: string;
   region: string;
   cloudProject: string;
@@ -84,6 +93,8 @@ export const ProviderDialog = ({ provider, isOpen, onOpenChange }: Props) => {
   const createProvider = useCreateAssistantProvider();
   const updateProvider = useUpdateAssistantProvider();
   const editing = Boolean(provider);
+  const [loadModels, setLoadModels] = useState(false);
+  const listed = useGetAssistantProviderModels(provider?.id, loadModels);
   const {
     control,
     register,
@@ -96,6 +107,8 @@ export const ProviderDialog = ({ provider, isOpen, onOpenChange }: Props) => {
       kind: provider?.kind ?? "anthropic",
       name: provider?.name ?? "",
       model: provider?.model ?? "claude-sonnet-5-5",
+      fastModel: provider?.fastModel ?? "",
+      deepModel: provider?.deepModel ?? "",
       baseUrl: provider?.baseUrl ?? "",
       region: provider?.region ?? "",
       cloudProject: provider?.cloudProject ?? "",
@@ -111,14 +124,21 @@ export const ProviderDialog = ({ provider, isOpen, onOpenChange }: Props) => {
 
   const close = () => {
     reset();
+    setLoadModels(false);
     onOpenChange(false);
   };
+  const suggestions =
+    listed.data?.listed && listed.data.models.length > 0
+      ? listed.data.models.map((m) => m.id)
+      : (KNOWN_MODELS[kind] ?? []);
 
   const onSubmit = async (values: FormValues) => {
     const credential = credentialFor(values);
     const input = {
       name: values.name,
       model: values.model,
+      fastModel: values.fastModel,
+      deepModel: values.deepModel,
       baseUrl: values.baseUrl,
       region: values.region,
       cloudProject: values.cloudProject,
@@ -189,10 +209,17 @@ export const ProviderDialog = ({ provider, isOpen, onOpenChange }: Props) => {
               {...register("name")}
             />
           </Field>
+          <datalist id="ai-provider-model-options">
+            {suggestions.map((id) => (
+              <option key={id} value={id} />
+            ))}
+          </datalist>
           <Field>
-            <FieldLabel htmlFor="ai-provider-model">Model ID</FieldLabel>
+            <FieldLabel htmlFor="ai-provider-model">Standard model</FieldLabel>
             <Input
               id="ai-provider-model"
+              list="ai-provider-model-options"
+              autoComplete="off"
               placeholder={
                 kind === "bedrock"
                   ? "anthropic.claude-… or an inference profile ID"
@@ -200,7 +227,54 @@ export const ProviderDialog = ({ provider, isOpen, onOpenChange }: Props) => {
               }
               {...register("model")}
             />
+            <FieldDescription>
+              Personas marked standard run on this, and so does any tier left empty below.
+            </FieldDescription>
           </Field>
+          <div className="grid grid-cols-2 gap-4">
+            <Field>
+              <FieldLabel htmlFor="ai-provider-fast-model">Fast model (optional)</FieldLabel>
+              <Input
+                id="ai-provider-fast-model"
+                list="ai-provider-model-options"
+                autoComplete="off"
+                placeholder="Uses the standard model"
+                {...register("fastModel")}
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="ai-provider-deep-model">Deep model (optional)</FieldLabel>
+              <Input
+                id="ai-provider-deep-model"
+                list="ai-provider-model-options"
+                autoComplete="off"
+                placeholder="Uses the standard model"
+                {...register("deepModel")}
+              />
+            </Field>
+          </div>
+          {editing ? (
+            <div className="flex items-center gap-3 text-xs">
+              <Button
+                type="button"
+                size="xs"
+                variant="outline"
+                isPending={listed.isFetching}
+                onClick={() => (loadModels ? listed.refetch() : setLoadModels(true))}
+              >
+                Load models from {provider?.name}
+              </Button>
+              <span role="status" className="text-muted">
+                {listed.data?.listed &&
+                  `${listed.data.models.length} models listed with the saved key. Pick one in any model field.`}
+                {listed.data && !listed.data.listed && listed.data.message}
+              </span>
+            </div>
+          ) : (
+            <p className="text-xs text-muted">
+              After you add the provider, edit it to load the models its key can use.
+            </p>
+          )}
           {(kind === "openai-compatible" || kind === "anthropic" || kind === "openai") && (
             <Field>
               <FieldLabel htmlFor="ai-provider-base-url">

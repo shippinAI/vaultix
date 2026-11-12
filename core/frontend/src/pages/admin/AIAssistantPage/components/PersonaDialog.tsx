@@ -37,6 +37,7 @@ type FormValues = {
   name: string;
   role: TAssistantPersonaRole;
   tier: TAssistantPersonaTier;
+  model: string;
   domains: string[];
   description: string;
   instructions: string;
@@ -67,6 +68,7 @@ export const PersonaDialog = ({ persona, domains, providers, isOpen, onOpenChang
       name: persona?.name ?? "",
       role: persona?.role ?? "specialist",
       tier: persona?.tier ?? "standard",
+      model: persona?.model ?? "",
       domains: persona?.domains ?? [],
       description: persona?.description ?? "",
       instructions: persona?.instructions ?? "",
@@ -87,6 +89,7 @@ export const PersonaDialog = ({ persona, domains, providers, isOpen, onOpenChang
     const input = {
       name: values.name,
       tier: values.tier,
+      model: values.model,
       domains: values.domains,
       description: values.description,
       instructions: values.instructions,
@@ -212,7 +215,7 @@ export const PersonaDialog = ({ persona, domains, providers, isOpen, onOpenChang
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="ai-persona-tier">Model size hint</FieldLabel>
+              <FieldLabel htmlFor="ai-persona-tier">Model tier</FieldLabel>
               <Controller
                 control={control}
                 name="tier"
@@ -231,6 +234,26 @@ export const PersonaDialog = ({ persona, domains, providers, isOpen, onOpenChang
               />
             </Field>
           </div>
+          <datalist id="ai-persona-model-options">
+            {Array.from(
+              new Set(providers.flatMap((p) => [p.model, p.fastModel, p.deepModel]).filter(Boolean))
+            ).map((id) => (
+              <option key={id} value={id} />
+            ))}
+          </datalist>
+          <Field>
+            <FieldLabel htmlFor="ai-persona-model">Model (optional)</FieldLabel>
+            <Input
+              id="ai-persona-model"
+              list="ai-persona-model-options"
+              autoComplete="off"
+              placeholder="Leave empty to use the provider's model for this tier"
+              {...register("model")}
+            />
+            <FieldDescription>
+              Pins this persona to one model ID on the provider it runs on.
+            </FieldDescription>
+          </Field>
           <Field>
             <FieldLabel htmlFor="ai-persona-instructions">Instructions</FieldLabel>
             <TextArea id="ai-persona-instructions" rows={8} {...register("instructions")} />

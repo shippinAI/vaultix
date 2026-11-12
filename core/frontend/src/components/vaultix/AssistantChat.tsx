@@ -21,6 +21,7 @@ import {
   useSendAssistantMessage
 } from "@app/hooks/api/assistant";
 
+import { AssistantMemories, MemoryProposal } from "./AssistantMemories";
 import { readSignals } from "./signal-fabric";
 
 const ROUTED = {
@@ -67,6 +68,7 @@ export const AssistantChat = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [draft, setDraft] = useState("");
   const [persona, setPersona] = useState(AUTO);
+  const [showMemories, setShowMemories] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
   const nextId = useRef(0);
   const append = (entry: DistributiveOmit<Entry, "id">) => {
@@ -123,20 +125,36 @@ export const AssistantChat = () => {
     <section aria-label="Ask the Vaultix assistant" className="space-y-3">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-sm font-medium">Ask</h3>
-        <Select value={persona} onValueChange={setPersona}>
-          <SelectTrigger aria-label="Who answers" className="w-56">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={AUTO}>Let Clyffy choose</SelectItem>
-            {status.data.personas.map((entry) => (
-              <SelectItem key={entry.slug} value={entry.slug}>
-                {entry.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Button
+            size="xs"
+            variant="ghost"
+            aria-expanded={showMemories}
+            aria-controls="assistant-memories"
+            onClick={() => setShowMemories((open) => !open)}
+          >
+            Memories
+          </Button>
+          <Select value={persona} onValueChange={setPersona}>
+            <SelectTrigger aria-label="Who answers" className="w-56">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={AUTO}>Let Clyffy choose</SelectItem>
+              {status.data.personas.map((entry) => (
+                <SelectItem key={entry.slug} value={entry.slug}>
+                  {entry.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
+      {showMemories && (
+        <div id="assistant-memories" className="rounded-md border border-border p-3">
+          <AssistantMemories scope="personal" personas={status.data.personas} />
+        </div>
+      )}
       <div role="log" aria-live="polite" className="max-h-96 space-y-3 overflow-y-auto">
         {entries.map((entry) => (
           <div
@@ -150,7 +168,9 @@ export const AssistantChat = () => {
                 <Badge variant={entry.reply.persona.role === "router" ? "neutral" : "info"}>
                   {entry.reply.persona.name}
                 </Badge>
-                <span className="text-xs text-muted">{ROUTED[entry.reply.routedBy]}</span>
+                <span className="text-xs text-muted">
+                  {ROUTED[entry.reply.routedBy]} · {entry.reply.provider.model}
+                </span>
               </div>
             )}
             {entry.role === "error" ? (
@@ -161,6 +181,10 @@ export const AssistantChat = () => {
               <p className="whitespace-pre-wrap">{entry.content}</p>
             )}
             {entry.role === "assistant" && <Actions actions={entry.reply.actions} />}
+            {entry.role === "assistant" &&
+              (entry.reply.proposals ?? []).map((proposal) => (
+                <MemoryProposal key={proposal.content} content={proposal.content} />
+              ))}
           </div>
         ))}
         {send.isPending && (

@@ -359,3 +359,7 @@ routing, agent loop) and `internal/server/api/assistant` (`/api/vx/v1/ai/*`, for
 TypeScript ingress). Default personas are read from `VAULTIX_AI_DIR/personas`. The agent is an
 MCP client of the instance's own warp points with the person's bearer, so it can never do more
 than that person; it is offered read-only tools only. Provider credentials use `kms.RootCipher`.
+A persona's model is its pinned `model`, else its provider's model for its tier (`Provider.ModelFor`).
+Memories (`memory.go`, `vx_ai_memories`) reach the prompt as notes; `LooksLikeSecret` refuses
+credential-shaped text, and the built-in `propose_memory` tool only returns a suggestion the
+person accepts in the UI. It is the one tool that is not a warp-point action, and it writes nothing.

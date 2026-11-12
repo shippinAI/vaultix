@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@app/config/request";
 
 import {
+  TAssistantMemory,
+  TAssistantMemoryInput,
   TAssistantMessage,
   TAssistantPersona,
   TAssistantPersonaInput,
@@ -11,6 +13,7 @@ import {
   TAssistantProvider,
   TAssistantProviderInput,
   TAssistantProviderKind,
+  TAssistantProviderModels,
   TAssistantProviderTest,
   TAssistantReply,
   TAssistantSignal,
@@ -23,7 +26,9 @@ export const assistantKeys = {
   all: ["vaultix-assistant"] as const,
   status: () => [...assistantKeys.all, "status"] as const,
   providers: () => [...assistantKeys.all, "providers"] as const,
-  personas: () => [...assistantKeys.all, "personas"] as const
+  personas: () => [...assistantKeys.all, "personas"] as const,
+  providerModels: (id: string) => [...assistantKeys.all, "provider-models", id] as const,
+  memories: () => [...assistantKeys.all, "memories"] as const
 };
 
 export const useGetAssistantStatus = (enabled = true) =>
@@ -63,6 +68,80 @@ export const useGetAssistantPersonas = () =>
       return data;
     }
   });
+
+// Asks the provider live; only fetched when the administrator asks for it.
+export const useGetAssistantProviderModels = (id: string | undefined, enabled: boolean) =>
+  useQuery({
+    queryKey: assistantKeys.providerModels(id ?? ""),
+    enabled: enabled && Boolean(id),
+    staleTime: 0,
+    gcTime: 0,
+    queryFn: async () => {
+      const { data } = await apiRequest.get<TAssistantProviderModels>(
+        `${BASE_URL}/providers/${id}/models`
+      );
+      return data;
+    }
+  });
+
+export const useGetAssistantMemories = (enabled = true) =>
+  useQuery({
+    queryKey: assistantKeys.memories(),
+    enabled,
+    queryFn: async () => {
+      const { data } = await apiRequest.get<{
+        memories: TAssistantMemory[];
+        canManageInstance: boolean;
+      }>(`${BASE_URL}/memories`);
+      return data;
+    }
+  });
+
+const useInvalidateMemories = () => {
+  const queryClient = useQueryClient();
+  return () => queryClient.invalidateQueries({ queryKey: assistantKeys.memories() });
+};
+
+export const useCreateAssistantMemory = () => {
+  const invalidate = useInvalidateMemories();
+  return useMutation({
+    mutationFn: async (input: TAssistantMemoryInput) => {
+      const { data } = await apiRequest.post<{ memory: TAssistantMemory }>(
+        `${BASE_URL}/memories`,
+        input
+      );
+      return data.memory;
+    },
+    onSuccess: invalidate
+  });
+};
+
+export const useUpdateAssistantMemory = () => {
+  const invalidate = useInvalidateMemories();
+  return useMutation({
+    mutationFn: async ({ id, ...input }: TAssistantMemoryInput & { id: string }) => {
+      const { data } = await apiRequest.patch<{ memory: TAssistantMemory }>(
+        `${BASE_URL}/memories/${id}`,
+        input
+      );
+      return data.memory;
+    },
+    onSuccess: invalidate
+  });
+};
+
+export const useDeleteAssistantMemory = () => {
+  const invalidate = useInvalidateMemories();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await apiRequest.delete<{ memory: TAssistantMemory }>(
+        `${BASE_URL}/memories/${id}`
+      );
+      return data.memory;
+    },
+    onSuccess: invalidate
+  });
+};
 
 const useInvalidateAssistant = () => {
   const queryClient = useQueryClient();

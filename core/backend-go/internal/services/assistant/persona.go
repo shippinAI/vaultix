@@ -55,6 +55,7 @@ type Persona struct {
 	Role         Role       `json:"role"`
 	Domains      []string   `json:"domains"`
 	Tier         string     `json:"tier"`
+	Model        string     `json:"model"`
 	Description  string     `json:"description"`
 	Instructions string     `json:"instructions"`
 	ProviderID   *uuid.UUID `json:"providerId"`
@@ -71,6 +72,7 @@ type PersonaInput struct {
 	Role          *Role      `json:"role"`
 	Domains       []string   `json:"domains"`
 	Tier          *string    `json:"tier"`
+	Model         *string    `json:"model"`
 	Description   *string    `json:"description"`
 	Instructions  *string    `json:"instructions"`
 	ProviderID    *uuid.UUID `json:"providerId"`
@@ -170,6 +172,10 @@ func checkPersona(p *Persona) error {
 	if !slices.Contains(Tiers, p.Tier) {
 		return errutil.BadRequest("Tier '%s' is not fast, standard or deep.", p.Tier)
 	}
+	p.Model = strings.TrimSpace(p.Model)
+	if p.Model != "" && !validModel(p.Model) {
+		return errutil.BadRequest("Model '%s' is not a valid model ID.", p.Model)
+	}
 	if len(p.Domains) == 0 || len(p.Domains) > maxPersonaDomain {
 		return errutil.BadRequest("Give the persona 1 to %d domains.", maxPersonaDomain)
 	}
@@ -206,15 +212,15 @@ func NewPersonas(_ context.Context, logger *slog.Logger, deps *PersonasDeps) *Pe
 }
 
 type personaRow struct {
-	slug, name, role, tier, description, instructions string
-	domains                                           []string
-	providerID                                        *uuid.UUID
-	enabled, builtIn                                  bool
-	updatedAt                                         time.Time
+	slug, name, role, tier, model, description, instructions string
+	domains                                                  []string
+	providerID                                               *uuid.UUID
+	enabled, builtIn                                         bool
+	updatedAt                                                time.Time
 }
 
 func (s *Personas) rows(ctx context.Context) (map[string]personaRow, error) {
-	rows, err := s.db.Primary().Query(ctx, `SELECT slug, name, role, tier, description, instructions, domains,
+	rows, err := s.db.Primary().Query(ctx, `SELECT slug, name, role, tier, model, description, instructions, domains,
 		"providerId", enabled, "builtIn", "updatedAt" FROM vx_ai_personas WHERE "orgId" IS NULL`)
 	if err != nil {
 		return nil, errutil.DatabaseErr("Could not load AI personas.").WithErrf("assistant.personas: %w", err)
@@ -223,7 +229,7 @@ func (s *Personas) rows(ctx context.Context) (map[string]personaRow, error) {
 	out := map[string]personaRow{}
 	for rows.Next() {
 		var r personaRow
-		if err := rows.Scan(&r.slug, &r.name, &r.role, &r.tier, &r.description, &r.instructions, &r.domains,
+		if err := rows.Scan(&r.slug, &r.name, &r.role, &r.tier, &r.model, &r.description, &r.instructions, &r.domains,
 			&r.providerID, &r.enabled, &r.builtIn, &r.updatedAt); err != nil {
 			return nil, errutil.DatabaseErr("Could not load AI personas.").WithErrf("assistant.personas scan: %w", err)
 		}
@@ -238,7 +244,7 @@ func (s *Personas) rows(ctx context.Context) (map[string]personaRow, error) {
 func (r personaRow) persona(builtIn bool) Persona {
 	updated := r.updatedAt
 	return Persona{Slug: r.slug, ID: "vaultix.persona." + r.slug, Name: r.name, Role: Role(r.role), Domains: r.domains,
-		Tier: r.tier, Description: r.description, Instructions: r.instructions, ProviderID: r.providerID,
+		Tier: r.tier, Model: r.model, Description: r.description, Instructions: r.instructions, ProviderID: r.providerID,
 		Enabled: r.enabled, BuiltIn: builtIn, Customized: true, UpdatedAt: &updated}
 }
 
@@ -304,6 +310,9 @@ func apply(p *Persona, input *PersonaInput) {
 	if input.Tier != nil {
 		p.Tier = *input.Tier
 	}
+	if input.Model != nil {
+		p.Model = *input.Model
+	}
 	if input.Description != nil {
 		p.Description = *input.Description
 	}
@@ -333,12 +342,12 @@ func (s *Personas) save(ctx context.Context, p *Persona, builtIn bool) (*Persona
 		}
 	}
 	_, err := s.db.Primary().Exec(ctx, `INSERT INTO vx_ai_personas
-		(slug, name, role, tier, description, instructions, domains, "providerId", enabled, "builtIn")
-		VALUES (@slug, @name, @role, @tier, @description, @instructions, @domains, @providerId, @enabled, @builtIn)
-		ON CONFLICT (slug) WHERE "orgId" IS NULL DO UPDATE SET name = EXCLUDED.name, role = EXCLUDED.role, tier = EXCLUDED.tier,
+		(slug, name, role, tier, model, description, instructions, domains, "providerId", enabled, "builtIn")
+		VALUES (@slug, @name, @role, @tier, @model, @description, @instructions, @domains, @providerId, @enabled, @builtIn)
+		ON CONFLICT (slug) WHERE "orgId" IS NULL DO UPDATE SET name = EXCLUDED.name, role = EXCLUDED.role, tier = EXCLUDED.tier, model = EXCLUDED.model,
 		description = EXCLUDED.description, instructions = EXCLUDED.instructions, domains = EXCLUDED.domains,
 		"providerId" = EXCLUDED."providerId", enabled = EXCLUDED.enabled`, pgx.NamedArgs{
-		"slug": p.Slug, "name": p.Name, "role": string(p.Role), "tier": p.Tier, "description": p.Description,
+		"slug": p.Slug, "name": p.Name, "role": string(p.Role), "tier": p.Tier, "model": p.Model, "description": p.Description,
 		"instructions": p.Instructions, "domains": p.Domains, "providerId": p.ProviderID, "enabled": p.Enabled, "builtIn": builtIn,
 	})
 	if err != nil {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { PageHeader } from "@app/components/v2";
 
+import { MemoriesSection } from "./components/MemoriesSection";
 import { PersonasSection } from "./components/PersonasSection";
 import { ProvidersSection } from "./components/ProvidersSection";
 
@@ -22,6 +23,7 @@ export const AIAssistantPage = () => {
         />
         <ProvidersSection />
         <PersonasSection />
+        <MemoriesSection />
       </div>
     </div>
   );

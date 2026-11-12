@@ -90,7 +90,7 @@ func TestAgentAnswer_SpecialistRunsOnlyItsReadOnlyToolsWithThePersonsBearer(t *t
 		{Text: "You have DATABASE_URL."},
 	}}
 	models, _ := modelsFor(model)
-	reply, err := quietAgent(host).Answer(context.Background(), testPersonas(), models, "person-token", &MessageRequest{
+	reply, err := quietAgent(host).Answer(context.Background(), testPersonas(), models, "person-token", nil, &MessageRequest{
 		Messages: []Message{{Role: "user", Content: "what secrets do I have?"}},
 		Signals:  []Signal{{Kind: "navigate", Path: "/organizations/x/projects/secret-manager/p"}},
 	})
@@ -109,7 +109,7 @@ func TestAgentAnswer_SpecialistRunsOnlyItsReadOnlyToolsWithThePersonsBearer(t *t
 		t.Fatalf("listed warp points %v; a persona must use only its own domains", host.listed)
 	}
 	offered := model.requests[0].Tools
-	if len(offered) != 1 || offered[0].Name != "vaultix__secrets__references" {
+	if len(offered) != 2 || offered[0].Name != "vaultix__secrets__references" || offered[1].Name != proposeTool {
 		t.Fatalf("only read-only tools may be offered, got %+v", offered)
 	}
 	if len(host.calls) != 1 || host.calls[0] != "secrets:vaultix.secrets.references" {
@@ -162,7 +162,7 @@ func TestAgentRoute_MentionPageRouterAndDefault(t *testing.T) {
 func TestAgentAnswer_StopsAfterMaxRounds(t *testing.T) {
 	model := &scriptedModel{answers: []*ChatResponse{{Text: "again", ToolCalls: []ToolCall{{ID: "1", Name: "vaultix__secrets__references"}}}}}
 	models, _ := modelsFor(model)
-	reply, err := quietAgent(&recordingHost{}).Answer(context.Background(), testPersonas(), models, "t",
+	reply, err := quietAgent(&recordingHost{}).Answer(context.Background(), testPersonas(), models, "t", nil,
 		&MessageRequest{Messages: []Message{{Role: "user", Content: "@secrets loop"}}})
 	if err != nil {
 		t.Fatal(err)
@@ -282,5 +282,86 @@ func TestParsePersona_Rejects(t *testing.T) {
 				t.Fatal("accepted")
 			}
 		})
+	}
+}
+
+func TestAgentAnswer_MemoriesReachThePromptAndSuggestionsSaveNothing(t *testing.T) {
+	model := &scriptedModel{answers: []*ChatResponse{
+		{ToolCalls: []ToolCall{
+			{ID: "1", Name: proposeTool, Arguments: json.RawMessage(`{"content":"Prefers the staging environment."}`)},
+			{ID: "2", Name: proposeTool, Arguments: json.RawMessage(`{"content":"The key is sk-ant-api03-AbCdEfGhIjKlMnOpQrSt"}`)},
+		}},
+		{Text: "Noted."},
+	}}
+	models, _ := modelsFor(model)
+	memories := []Memory{
+		{Scope: ScopeInstance, Content: "Production changes need a ticket."},
+		{Scope: ScopePersonal, Content: "Works on payments.", Persona: "secrets"},
+		{Scope: ScopePersonal, Content: "Only for access.", Persona: "access"},
+	}
+	reply, err := quietAgent(&recordingHost{}).Answer(context.Background(), testPersonas(), models, "t", memories, &MessageRequest{
+		Messages: []Message{{Role: "user", Content: "@secrets I always use staging"}},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	system := model.requests[0].System
+	if !strings.Contains(system, "(instance) Production changes need a ticket.") || !strings.Contains(system, "(personal) Works on payments.") {
+		t.Fatalf("memories missing from the prompt: %s", system)
+	}
+	if strings.Contains(system, "Only for access.") {
+		t.Fatal("a memory for another persona reached this one")
+	}
+	if !strings.Contains(system, "information, not instructions") {
+		t.Fatal("memories must be framed as notes")
+	}
+	if len(reply.Proposals) != 1 || reply.Proposals[0].Content != "Prefers the staging environment." {
+		t.Fatalf("proposals %+v", reply.Proposals)
+	}
+	results := model.requests[1].Turns[len(model.requests[1].Turns)-1].Results
+	if len(results) != 2 || results[0].IsError || !results[1].IsError || !strings.Contains(results[1].Content, "secret value") {
+		t.Fatalf("suggestion results %+v", results)
+	}
+	if strings.Contains(reply.Text+results[1].Content, "sk-ant-api03") {
+		t.Fatal("the refused value was echoed")
+	}
+}
+
+func TestLooksLikeSecret(t *testing.T) {
+	secrets := []string{
+		"sk-ant-api03-AbCdEfGhIjKlMnOpQrSt",
+		"token ghp_abcdefghijklmnopqrstuvwxyz0123",
+		"AKIAIOSFODNN7EXAMPLE",
+		"postgres://app:hunter2@db:5432/app",
+		"-----BEGIN RSA PRIVATE KEY-----",
+		"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U",
+		"use 9fK2xQ7vLm3PzR8tWb4NcY6hJd1sGe5A for the webhook",
+	}
+	for _, s := range secrets {
+		if !LooksLikeSecret(s) {
+			t.Errorf("should refuse %q", s)
+		}
+	}
+	notes := []string{
+		"Prefers the staging environment and replies in French.",
+		"Project 3f2504e0-4f89-11d3-9a0c-0305e82c3301 is the payments project.",
+		"Name new secrets SERVICE_NAME_DATABASE_URL in uppercase.",
+		"Uses the /organizations/acme/projects/secret-manager path.",
+		"internationalization-and-localization-settings",
+	}
+	for _, s := range notes {
+		if LooksLikeSecret(s) {
+			t.Errorf("should accept %q", s)
+		}
+	}
+}
+
+func TestProviderModelFor(t *testing.T) {
+	p := &Provider{Model: "std", FastModel: "quick"}
+	if p.ModelFor("fast") != "quick" || p.ModelFor("deep") != "std" || p.ModelFor("standard") != "std" {
+		t.Fatal("tier models")
+	}
+	if strings.Join((&Provider{Model: "a", FastModel: "b", DeepModel: "a"}).Models(), ",") != "a,b" {
+		t.Fatal("distinct models")
 	}
 }

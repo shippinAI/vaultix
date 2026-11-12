@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -55,9 +56,17 @@ type Personas interface {
 	Delete(context.Context, string) (*assistant.Persona, error)
 }
 
+// Memories is the memory store.
+type Memories interface {
+	List(ctx context.Context, userID uuid.UUID) ([]assistant.Memory, error)
+	Create(ctx context.Context, userID uuid.UUID, admin bool, input *assistant.MemoryInput) (*assistant.Memory, error)
+	Update(ctx context.Context, userID uuid.UUID, admin bool, id uuid.UUID, input *assistant.MemoryInput) (*assistant.Memory, error)
+	Delete(ctx context.Context, userID uuid.UUID, admin bool, id uuid.UUID) (*assistant.Memory, error)
+}
+
 // Answerer routes and answers one chat turn.
 type Answerer interface {
-	Answer(ctx context.Context, personas []assistant.Persona, models assistant.ModelSource, bearer string, request *assistant.MessageRequest) (*assistant.Reply, error)
+	Answer(ctx context.Context, personas []assistant.Persona, models assistant.ModelSource, bearer string, memories []assistant.Memory, request *assistant.MessageRequest) (*assistant.Reply, error)
 }
 
 type ErrorWriter interface {
@@ -67,21 +76,25 @@ type ErrorWriter interface {
 type Deps struct {
 	Providers Providers
 	Personas  Personas
+	Memories  Memories
 	Agent     Answerer
 	Errors    ErrorWriter
-	// NewModel builds a model for a provider; tests replace it.
-	NewModel func(*assistant.Provider, *assistant.Credential) (assistant.Model, error)
-	Now      func() time.Time
+	// NewModel and ListModels reach a provider; tests replace them.
+	NewModel   func(*assistant.Provider, *assistant.Credential) (assistant.Model, error)
+	ListModels func(context.Context, *assistant.Provider, *assistant.Credential) ([]assistant.ModelInfo, error)
+	Now        func() time.Time
 }
 
 type Handler struct {
-	providers Providers
-	personas  Personas
-	agent     Answerer
-	errors    ErrorWriter
-	newModel  func(*assistant.Provider, *assistant.Credential) (assistant.Model, error)
-	now       func() time.Time
-	limiter   *limiter
+	providers  Providers
+	personas   Personas
+	memories   Memories
+	agent      Answerer
+	errors     ErrorWriter
+	newModel   func(*assistant.Provider, *assistant.Credential) (assistant.Model, error)
+	listModels func(context.Context, *assistant.Provider, *assistant.Credential) ([]assistant.ModelInfo, error)
+	now        func() time.Time
+	limiter    *limiter
 }
 
 func NewHandler(deps *Deps) *Handler {
@@ -91,12 +104,18 @@ func NewHandler(deps *Deps) *Handler {
 			return assistant.NewModel(p, c, nil)
 		}
 	}
+	listModels := deps.ListModels
+	if listModels == nil {
+		listModels = func(ctx context.Context, p *assistant.Provider, c *assistant.Credential) ([]assistant.ModelInfo, error) {
+			return assistant.ListModels(ctx, p, c, nil)
+		}
+	}
 	now := deps.Now
 	if now == nil {
 		now = time.Now
 	}
-	return &Handler{providers: deps.Providers, personas: deps.Personas, agent: deps.Agent, errors: deps.Errors,
-		newModel: newModel, now: now, limiter: &limiter{window: messageWindow, max: messagesPerUser, seen: map[uuid.UUID][]time.Time{}}}
+	return &Handler{providers: deps.Providers, personas: deps.Personas, memories: deps.Memories, agent: deps.Agent, errors: deps.Errors,
+		newModel: newModel, listModels: listModels, now: now, limiter: &limiter{window: messageWindow, max: messagesPerUser, seen: map[uuid.UUID][]time.Time{}}}
 }
 
 // Register mounts the routes. authenticate must accept a person's sign-in only.
@@ -105,11 +124,16 @@ func (h *Handler) Register(router chi.Router, authenticate func(http.Handler) ht
 		r.Use(authenticate)
 		r.Get(Prefix+"/assistant", h.status)
 		r.Post(Prefix+"/messages", h.message)
+		r.Get(Prefix+"/memories", h.signedIn(h.listMemories))
+		r.Post(Prefix+"/memories", h.signedIn(h.createMemory))
+		r.Patch(Prefix+"/memories/{memoryId}", h.signedIn(h.updateMemory))
+		r.Delete(Prefix+"/memories/{memoryId}", h.signedIn(h.removeMemory))
 		r.Get(Prefix+"/providers", h.admin(h.listProviders))
 		r.Post(Prefix+"/providers", h.admin(h.createProvider))
 		r.Patch(Prefix+"/providers/{providerId}", h.admin(h.updateProvider))
 		r.Delete(Prefix+"/providers/{providerId}", h.admin(h.removeProvider))
 		r.Post(Prefix+"/providers/{providerId}/test", h.admin(h.testProvider))
+		r.Get(Prefix+"/providers/{providerId}/models", h.admin(h.providerModels))
 		r.Get(Prefix+"/personas", h.admin(h.listPersonas))
 		r.Post(Prefix+"/personas", h.admin(h.createPersona))
 		r.Patch(Prefix+"/personas/{slug}", h.admin(h.updatePersona))
@@ -142,6 +166,20 @@ func (h *Handler) admin(next http.HandlerFunc) http.HandlerFunc {
 		ctx, cancel := context.WithTimeout(r.Context(), adminTimeout)
 		defer cancel()
 		next(w, r.WithContext(ctx))
+	}
+}
+
+// signedIn admits any person signed in to Vaultix and bounds the request.
+func (h *Handler) signedIn(next func(http.ResponseWriter, *http.Request, *auth.Identity)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		identity, err := person(r)
+		if err != nil {
+			h.errors.HandleError(w, r, http.StatusUnauthorized, err)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), adminTimeout)
+		defer cancel()
+		next(w, r.WithContext(ctx), identity)
 	}
 }
 
@@ -248,22 +286,7 @@ func (h *Handler) testProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	started := h.now()
-	passed, message := false, ""
-	model, err := h.newModel(provider, credential)
-	if err == nil {
-		var answer *assistant.ChatResponse
-		answer, err = model.Chat(ctx, &assistant.ChatRequest{System: "You are a connection test.", MaxTokens: 16,
-			Turns: []assistant.Turn{{Role: "user", Text: testPrompt}}})
-		if err == nil {
-			passed, message = true, "The model answered."
-			if strings.TrimSpace(answer.Text) == "" {
-				message = "The model answered with no text."
-			}
-		}
-	}
-	if err != nil {
-		message = failureMessage(err)
-	}
+	passed, message := h.testModels(ctx, provider, credential)
 	latency := h.now().Sub(started)
 	recorded, err := h.providers.RecordTest(ctx, id, passed, message, h.now().UTC())
 	if err != nil {
@@ -278,6 +301,64 @@ func (h *Handler) testProvider(w http.ResponseWriter, r *http.Request) {
 		"test":     map[string]any{"outcome": outcome, "message": message, "latencyMs": latency.Milliseconds(), "testedAt": recorded.LastTestedAt},
 		"provider": recorded,
 	})
+}
+
+// testModels asks every model the provider is configured with for one word.
+// The first failure names its model; a pass covers them all.
+func (h *Handler) testModels(ctx context.Context, provider *assistant.Provider, credential *assistant.Credential) (bool, string) {
+	models := provider.Models()
+	empty := 0
+	for _, id := range models {
+		configured := *provider
+		configured.Model = id
+		model, err := h.newModel(&configured, credential)
+		if err == nil {
+			var answer *assistant.ChatResponse
+			answer, err = model.Chat(ctx, &assistant.ChatRequest{System: "You are a connection test.", MaxTokens: 16,
+				Turns: []assistant.Turn{{Role: "user", Text: testPrompt}}})
+			if err == nil && strings.TrimSpace(answer.Text) == "" {
+				empty++
+			}
+		}
+		if err != nil {
+			if len(models) == 1 {
+				return false, failureMessage(err)
+			}
+			return false, id + ": " + failureMessage(err)
+		}
+	}
+	message := "The model answered."
+	if len(models) > 1 {
+		message = fmt.Sprintf("All %d models answered.", len(models))
+	}
+	if empty > 0 {
+		message += fmt.Sprintf(" %d answered with no text.", empty)
+	}
+	return true, message
+}
+
+// providerModels asks the provider which models its credential can use. A
+// provider that will not list them is a result the page shows, not an error.
+func (h *Handler) providerModels(w http.ResponseWriter, r *http.Request) {
+	id, err := providerID(r)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.WithoutCancel(r.Context()), testTimeout)
+	defer cancel()
+	provider, credential, err := h.providers.ProviderWithCredential(ctx, id)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusNotFound, err)
+		return
+	}
+	models, err := h.listModels(ctx, provider, credential)
+	if err != nil {
+		writeJSON(w, http.StatusOK, map[string]any{"models": []assistant.ModelInfo{}, "listed": false,
+			"message": "The provider did not list its models. " + failureMessage(err) + " You can still type any model ID it accepts."})
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"models": models, "listed": true, "message": ""})
 }
 
 func (h *Handler) listPersonas(w http.ResponseWriter, r *http.Request) {
@@ -359,11 +440,16 @@ func (h *Handler) models(ctx context.Context, persona *assistant.Persona) (assis
 	if provider == nil {
 		return nil, nil, errutil.BadRequest(unavailableModel)
 	}
-	model, err := h.newModel(provider, credential)
+	configured := *provider
+	configured.Model = persona.Model
+	if configured.Model == "" {
+		configured.Model = provider.ModelFor(persona.Tier)
+	}
+	model, err := h.newModel(&configured, credential)
 	if err != nil {
 		return nil, nil, errutil.InternalServer("The AI provider is not usable.").WithErr(err)
 	}
-	return model, provider, nil
+	return model, &configured, nil
 }
 
 type personaSummary struct {
@@ -438,7 +524,12 @@ func (h *Handler) message(w http.ResponseWriter, r *http.Request) {
 		h.errors.HandleError(w, r, http.StatusInternalServerError, err)
 		return
 	}
-	reply, err := h.agent.Answer(ctx, personas, h.models, bearer, &request)
+	memories, err := h.memories.List(ctx, identity.ActorID)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	reply, err := h.agent.Answer(ctx, personas, h.models, bearer, memories, &request)
 	if err != nil {
 		var providerErr *assistant.ProviderError
 		if errors.As(err, &providerErr) {
@@ -454,12 +545,77 @@ func (h *Handler) message(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, map[string]any{
-		"message":  assistant.Message{Role: "assistant", Content: reply.Text},
-		"actions":  reply.Actions,
-		"persona":  reply.Persona,
-		"routedBy": reply.RoutedBy,
-		"provider": map[string]any{"kind": reply.Provider.Kind, "model": reply.Provider.Model, "name": reply.Provider.Name},
+		"message":   assistant.Message{Role: "assistant", Content: reply.Text},
+		"actions":   reply.Actions,
+		"proposals": reply.Proposals,
+		"persona":   reply.Persona,
+		"routedBy":  reply.RoutedBy,
+		"provider":  map[string]any{"kind": reply.Provider.Kind, "model": reply.Provider.Model, "name": reply.Provider.Name},
 	})
+}
+
+func memoryID(r *http.Request) (uuid.UUID, error) {
+	id, err := uuid.Parse(chi.URLParam(r, "memoryId"))
+	if err != nil {
+		return uuid.Nil, errutil.BadRequest("Memory ID '%s' is not a valid ID.", chi.URLParam(r, "memoryId"))
+	}
+	return id, nil
+}
+
+func (h *Handler) listMemories(w http.ResponseWriter, r *http.Request, identity *auth.Identity) {
+	memories, err := h.memories.List(r.Context(), identity.ActorID)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusInternalServerError, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"memories": memories, "canManageInstance": identity.IsSuperAdmin})
+}
+
+func (h *Handler) createMemory(w http.ResponseWriter, r *http.Request, identity *auth.Identity) {
+	var input assistant.MemoryInput
+	if err := decode(r, maxAdminBody, &input); err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	memory, err := h.memories.Create(r.Context(), identity.ActorID, identity.IsSuperAdmin, &input)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	writeJSON(w, http.StatusCreated, map[string]any{"memory": memory})
+}
+
+func (h *Handler) updateMemory(w http.ResponseWriter, r *http.Request, identity *auth.Identity) {
+	id, err := memoryID(r)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	var input assistant.MemoryInput
+	if err := decode(r, maxAdminBody, &input); err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	memory, err := h.memories.Update(r.Context(), identity.ActorID, identity.IsSuperAdmin, id, &input)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"memory": memory})
+}
+
+func (h *Handler) removeMemory(w http.ResponseWriter, r *http.Request, identity *auth.Identity) {
+	id, err := memoryID(r)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	memory, err := h.memories.Delete(r.Context(), identity.ActorID, identity.IsSuperAdmin, id)
+	if err != nil {
+		h.errors.HandleError(w, r, http.StatusBadRequest, err)
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string]any{"memory": memory})
 }
 
 // limiter is a per-person sliding window. It is per process; the standalone

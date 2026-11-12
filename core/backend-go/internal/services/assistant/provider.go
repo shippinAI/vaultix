@@ -12,6 +12,7 @@ import (
 	"log/slog"
 	"net/url"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -62,6 +63,8 @@ type Provider struct {
 	Kind            Kind       `json:"kind"`
 	Name            string     `json:"name"`
 	Model           string     `json:"model"`
+	FastModel       string     `json:"fastModel"`
+	DeepModel       string     `json:"deepModel"`
 	BaseURL         string     `json:"baseUrl"`
 	Region          string     `json:"region"`
 	CloudProject    string     `json:"cloudProject"`
@@ -94,6 +97,8 @@ type ProviderInput struct {
 	Kind         *Kind       `json:"kind"`
 	Name         *string     `json:"name"`
 	Model        *string     `json:"model"`
+	FastModel    *string     `json:"fastModel"`
+	DeepModel    *string     `json:"deepModel"`
 	BaseURL      *string     `json:"baseUrl"`
 	Region       *string     `json:"region"`
 	CloudProject *string     `json:"cloudProject"`
@@ -126,14 +131,14 @@ func NewStore(_ context.Context, logger *slog.Logger, deps *StoreDeps) *Store {
 	return &Store{logger: logger.With(slog.String("service", "assistant-providers")), db: deps.DB, cipher: deps.Cipher}
 }
 
-const providerColumns = `id, kind, name, model, "baseUrl", region, "cloudProject", "encryptedCredential" IS NOT NULL,
+const providerColumns = `id, kind, name, model, "fastModel", "deepModel", "baseUrl", region, "cloudProject", "encryptedCredential" IS NOT NULL,
 	active, "lastTestedAt", "lastTestOutcome", "lastTestMessage", "createdAt", "updatedAt"`
 
 func scanProvider(row pgx.Row) (*Provider, error) {
 	var p Provider
 	var lastTestedAt *time.Time
 	var outcome, message *string
-	if err := row.Scan(&p.ID, &p.Kind, &p.Name, &p.Model, &p.BaseURL, &p.Region, &p.CloudProject, &p.HasCredential,
+	if err := row.Scan(&p.ID, &p.Kind, &p.Name, &p.Model, &p.FastModel, &p.DeepModel, &p.BaseURL, &p.Region, &p.CloudProject, &p.HasCredential,
 		&p.Active, &lastTestedAt, &outcome, &message, &p.CreatedAt, &p.UpdatedAt); err != nil {
 		return nil, err
 	}
@@ -258,7 +263,7 @@ func (s *Store) Create(ctx context.Context, input *ProviderInput) (*Provider, er
 		return nil, errutil.BadRequest("Choose a provider kind and give it a name and a model.")
 	}
 	p := &Provider{Kind: *input.Kind, Name: *input.Name, Model: *input.Model,
-		BaseURL: deref(input.BaseURL), Region: deref(input.Region), CloudProject: deref(input.CloudProject)}
+		FastModel: deref(input.FastModel), DeepModel: deref(input.DeepModel), BaseURL: deref(input.BaseURL), Region: deref(input.Region), CloudProject: deref(input.CloudProject)}
 	credential := input.Credential
 	if credential == nil {
 		credential = &Credential{}
@@ -290,11 +295,11 @@ func (s *Store) Create(ctx context.Context, input *ProviderInput) (*Provider, er
 		}
 	}
 	created, err := scanProvider(tx.QueryRow(ctx, `INSERT INTO vx_ai_providers
-		(kind, name, model, "baseUrl", region, "cloudProject", "encryptedCredential", active)
-		VALUES (@kind, @name, @model, @baseUrl, @region, @cloudProject, @credential, @active)
+		(kind, name, model, "fastModel", "deepModel", "baseUrl", region, "cloudProject", "encryptedCredential", active)
+		VALUES (@kind, @name, @model, @fastModel, @deepModel, @baseUrl, @region, @cloudProject, @credential, @active)
 		RETURNING `+providerColumns, pgx.NamedArgs{
-		"kind": p.Kind, "name": p.Name, "model": p.Model, "baseUrl": p.BaseURL, "region": p.Region,
-		"cloudProject": p.CloudProject, "credential": blob, "active": active,
+		"kind": p.Kind, "name": p.Name, "model": p.Model, "fastModel": p.FastModel, "deepModel": p.DeepModel,
+		"baseUrl": p.BaseURL, "region": p.Region, "cloudProject": p.CloudProject, "credential": blob, "active": active,
 	}))
 	if err != nil {
 		return nil, errutil.DatabaseErr("Could not save the AI provider.").WithErrf("assistant.Create insert: %w", err)
@@ -322,6 +327,12 @@ func (s *Store) Update(ctx context.Context, id uuid.UUID, input *ProviderInput) 
 	if input.Model != nil {
 		next.Model = *input.Model
 	}
+	if input.FastModel != nil {
+		next.FastModel = *input.FastModel
+	}
+	if input.DeepModel != nil {
+		next.DeepModel = *input.DeepModel
+	}
 	if input.BaseURL != nil {
 		next.BaseURL = *input.BaseURL
 	}
@@ -339,7 +350,7 @@ func (s *Store) Update(ctx context.Context, id uuid.UUID, input *ProviderInput) 
 	if err := normalize(&next, credential, replaced); err != nil {
 		return nil, err
 	}
-	reach := next.Model != current.Model || next.BaseURL != current.BaseURL || next.Region != current.Region ||
+	reach := next.Model != current.Model || next.FastModel != current.FastModel || next.DeepModel != current.DeepModel || next.BaseURL != current.BaseURL || next.Region != current.Region ||
 		next.CloudProject != current.CloudProject || replaced
 
 	var blob []byte
@@ -364,14 +375,14 @@ func (s *Store) Update(ctx context.Context, id uuid.UUID, input *ProviderInput) 
 		active = *input.Active
 	}
 	updated, err := scanProvider(tx.QueryRow(ctx, `UPDATE vx_ai_providers SET
-		name = @name, model = @model, "baseUrl" = @baseUrl, region = @region, "cloudProject" = @cloudProject,
+		name = @name, model = @model, "fastModel" = @fastModel, "deepModel" = @deepModel, "baseUrl" = @baseUrl, region = @region, "cloudProject" = @cloudProject,
 		"encryptedCredential" = CASE WHEN @replaced THEN @credential ELSE "encryptedCredential" END,
 		active = @active,
 		"lastTestedAt" = CASE WHEN @reach THEN NULL ELSE "lastTestedAt" END,
 		"lastTestOutcome" = CASE WHEN @reach THEN NULL ELSE "lastTestOutcome" END,
 		"lastTestMessage" = CASE WHEN @reach THEN NULL ELSE "lastTestMessage" END
 		WHERE id = @id AND "orgId" IS NULL RETURNING `+providerColumns, pgx.NamedArgs{
-		"id": id, "name": next.Name, "model": next.Model, "baseUrl": next.BaseURL, "region": next.Region,
+		"id": id, "name": next.Name, "model": next.Model, "fastModel": next.FastModel, "deepModel": next.DeepModel, "baseUrl": next.BaseURL, "region": next.Region,
 		"cloudProject": next.CloudProject, "replaced": replaced, "credential": blob, "active": active, "reach": reach,
 	}))
 	if errors.Is(err, pgx.ErrNoRows) {
@@ -429,6 +440,8 @@ func deref(s *string) string {
 func normalize(p *Provider, c *Credential, credentialChanged bool) error {
 	p.Name = strings.TrimSpace(p.Name)
 	p.Model = strings.TrimSpace(p.Model)
+	p.FastModel = strings.TrimSpace(p.FastModel)
+	p.DeepModel = strings.TrimSpace(p.DeepModel)
 	p.BaseURL = strings.TrimRight(strings.TrimSpace(p.BaseURL), "/")
 	p.Region = strings.TrimSpace(p.Region)
 	p.CloudProject = strings.TrimSpace(p.CloudProject)
@@ -448,8 +461,13 @@ func normalize(p *Provider, c *Credential, credentialChanged bool) error {
 	if p.Name == "" || len(p.Name) > maxNameLength {
 		return errutil.BadRequest("Give the provider a name of 1 to %d characters.", maxNameLength)
 	}
-	if p.Model == "" || len(p.Model) > maxModelLength || !modelPattern.MatchString(p.Model) {
+	if !validModel(p.Model) {
 		return errutil.BadRequest("Model '%s' is not a valid model ID.", p.Model)
+	}
+	for _, optional := range []string{p.FastModel, p.DeepModel} {
+		if optional != "" && !validModel(optional) {
+			return errutil.BadRequest("Model '%s' is not a valid model ID.", optional)
+		}
 	}
 	if p.BaseURL != "" {
 		if err := checkBaseURL(p.BaseURL); err != nil {
@@ -504,6 +522,33 @@ func normalize(p *Provider, c *Credential, credentialChanged bool) error {
 		*c = Credential{ServiceAccountJSON: c.ServiceAccountJSON}
 	}
 	return nil
+}
+
+func validModel(id string) bool {
+	return id != "" && len(id) <= maxModelLength && modelPattern.MatchString(id)
+}
+
+// ModelFor is the model a persona of this tier runs on: the tier's own model
+// when the administrator set one, otherwise the provider's standard model.
+func (p *Provider) ModelFor(tier string) string {
+	switch {
+	case tier == "fast" && p.FastModel != "":
+		return p.FastModel
+	case tier == "deep" && p.DeepModel != "":
+		return p.DeepModel
+	}
+	return p.Model
+}
+
+// Models lists the distinct models the provider is configured to run.
+func (p *Provider) Models() []string {
+	out := []string{p.Model}
+	for _, m := range []string{p.FastModel, p.DeepModel} {
+		if m != "" && !slices.Contains(out, m) {
+			out = append(out, m)
+		}
+	}
+	return out
 }
 
 func checkBaseURL(raw string) error {

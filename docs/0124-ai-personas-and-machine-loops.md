@@ -85,6 +85,12 @@ Admin → AI, one place for the instance:
 
 - **Providers**: add, test (a real call, with the result kept as the receipt), activate, remove.
   Keys are encrypted under the instance root key and never shown again.
+- **Models**: each provider has a standard model and optional fast and deep models. A persona runs
+  on its tier's model (Clyffy routes on the fast one), or on a model ID pinned on the persona.
+  "Load models" asks the provider which models the saved key can use (Anthropic and OpenAI model
+  lists, Bedrock inference profiles and foundation models, Vertex Model Garden, a compatible
+  server's `/models`); any ID the provider accepts can still be typed. The connection test calls
+  every configured model, and each answer names the model it ran on.
 - **Personas and specialists**: the defaults are listed and can be edited, given their own provider
   and model, disabled, or reset to the shipped text; they cannot be deleted. Administrators add
   custom personas and specialists under the same rules.
@@ -94,6 +100,28 @@ Admin → AI, one place for the instance:
 
 Storage: `vx_ai_providers` and `vx_ai_personas`, both with a nullable `orgId` so organizations can
 later bring their own provider and personas without a schema change. Instance rows come first.
+
+## Memories
+
+Short notes the assistant reads before it answers, in `vx_ai_memories`:
+
+- **Instance memories** are written by instance administrators (Admin → AI Assistant) and apply to
+  everyone, such as naming conventions or change rules.
+- **Personal memories** belong to one person, who adds, edits and forgets them from the assistant
+  panel. Nobody else sees them, administrators included.
+- A memory can apply to every persona or to one. At most 100 of each kind, 1,000 characters each.
+- **Never a value.** Text shaped like a credential (a known token format, a key block, a URL with a
+  password, a long random string) is refused, with the advice to store it as a secret and remember
+  its name.
+- **Notes, not instructions.** The prompt frames memories as information that never changes the
+  standing rules.
+- **Suggestions save nothing.** A persona may call `propose_memory` when the person states
+  something lasting. The suggestion appears under the answer with Remember and Dismiss, and is
+  saved only when the person accepts it. `propose_memory` is not an MCP action and writes nothing,
+  so the rule that models act only through the source actions still holds.
+
+Routes: `GET/POST /api/vx/v1/ai/memories` and `PATCH/DELETE /api/vx/v1/ai/memories/{memoryId}` for
+any signed-in person; another person's memory answers 404.
 
 ## Values only in the browser: value requests
 
@@ -141,7 +169,8 @@ Stage 3). New tools let the two work together:
 ## Order
 
 1. Personas registry (files and `vx_ai_personas`), routing and the guard over warp points; Admin →
-   AI with providers and personas; chat in the Clyffy panel; fixes 1–3 and 5 above.
+   AI with providers and personas; chat in the Clyffy panel; fixes 1–3 and 5 above. Done, with
+   per-tier models, provider model lists and memories (2026-11-11).
 2. Value requests with the handoff card and the MCP tool.
 3. Native inject and redeem; the CLI moves off the GET (fix 4).
 4. The local endpoint with app pairing.
